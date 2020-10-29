@@ -13,6 +13,9 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 @Dao
 public interface BoardDao extends GenericDao<Board> {
 
+    @Query("SELECT * FROM board WHERE accountId = :accountId and (deletedAt = 0 or deletedAt is null) and status <> 3 order by title asc")
+    LiveData<List<Board>> getBoardsForAccount(final long accountId);
+
     @Query("SELECT * FROM board WHERE accountId = :accountId and archived = 1 and (deletedAt = 0 or deletedAt is null) and status <> 3 order by title asc")
     LiveData<List<Board>> getArchivedBoardsForAccount(final long accountId);
 
@@ -52,7 +55,8 @@ public interface BoardDao extends GenericDao<Board> {
     @Query("SELECT b.* FROM board b JOIN stack s ON s.boardId = b.localId JOIN card c ON c.localId = :localCardId")
     Board getBoardByLocalCardIdDirectly(long localCardId);
 
-    @Query("SELECT b.* FROM board b JOIN stack s ON s.boardId = b.localId JOIN card c ON c.localId = :localCardId")
+    @Transaction
+    @Query("SELECT b.* FROM board b JOIN stack s ON s.boardId = b.localId JOIN card c ON c.localId = :localCardId and c.stackId = s.localId")
     FullBoard getFullBoardByLocalCardIdDirectly(long localCardId);
 
     @Transaction
@@ -72,4 +76,7 @@ public interface BoardDao extends GenericDao<Board> {
 
     @Query("SELECT count(*) FROM board WHERE accountId = :accountId and archived = 1 and (deletedAt = 0 or deletedAt is null) and status <> 3")
     LiveData<Integer> countArchivedBoards(long accountId);
+
+    @Query("SELECT * FROM board WHERE accountId = :accountId and title = :title")
+    Board getBoardForAccountByNameDirectly(long accountId, String title);
 }

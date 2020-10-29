@@ -16,6 +16,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.Px;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.widget.TextViewCompat;
 
@@ -27,6 +28,7 @@ import com.bumptech.glide.request.transition.Transition;
 import java.util.Date;
 import java.util.List;
 
+import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
@@ -38,13 +40,14 @@ public final class ViewUtil {
     }
 
     public static void addAvatar(@NonNull ImageView avatar, @NonNull String baseUrl, @NonNull String userId, @DrawableRes int errorResource) {
-        addAvatar(avatar, baseUrl, userId, DimensionUtil.dpToPx(avatar.getContext(), R.dimen.avatar_size), errorResource);
+        addAvatar(avatar, baseUrl, userId, DimensionUtil.INSTANCE.dpToPx(avatar.getContext(), R.dimen.avatar_size), errorResource);
     }
 
     public static void addAvatar(@NonNull ImageView avatar, @NonNull String baseUrl, @NonNull String userId, @Px int avatarSizeInPx, @DrawableRes int errorResource) {
         final String uri = baseUrl + "/index.php/avatar/" + Uri.encode(userId) + "/" + avatarSizeInPx;
         Glide.with(avatar.getContext())
                 .load(uri)
+                .placeholder(errorResource)
                 .error(errorResource)
                 .apply(RequestOptions.circleCropTransform())
                 .into(avatar);
@@ -69,12 +72,13 @@ public final class ViewUtil {
         }
 
         cardDueDate.setBackgroundResource(backgroundDrawable);
-        cardDueDate.setTextColor(context.getResources().getColor(textColor));
-        TextViewCompat.setCompoundDrawableTintList(cardDueDate, ColorStateList.valueOf(context.getResources().getColor(textColor)));
+        cardDueDate.setTextColor(ContextCompat.getColor(context, textColor));
+        TextViewCompat.setCompoundDrawableTintList(cardDueDate, ColorStateList.valueOf(ContextCompat.getColor(context, textColor)));
     }
 
     public static Drawable getTintedImageView(@NonNull Context context, @DrawableRes int imageId, @NonNull String color) {
-        final Drawable drawable = context.getResources().getDrawable(imageId);
+        final Drawable drawable = ContextCompat.getDrawable(context, imageId);
+        assert drawable != null;
         final Drawable wrapped = DrawableCompat.wrap(drawable).mutate();
         DrawableCompat.setTint(wrapped, Color.parseColor(color));
         return drawable;
@@ -118,7 +122,7 @@ public final class ViewUtil {
             Glide.with(context)
                     .asBitmap()
                     .placeholder(R.drawable.ic_person_grey600_24dp)
-                    .load(account.getUrl() + "/index.php/avatar/" + messageBuilder.subSequence(spanStart + 1, spanEnd).toString() + "/" + DimensionUtil.dpToPx(context, R.dimen.icon_size_details))
+                    .load(account.getUrl() + "/index.php/avatar/" + messageBuilder.subSequence(spanStart + 1, spanEnd).toString() + "/" + DimensionUtil.INSTANCE.dpToPx(context, R.dimen.icon_size_details))
                     .apply(RequestOptions.circleCropTransform())
                     .into(new CustomTarget<Bitmap>() {
                         @Override

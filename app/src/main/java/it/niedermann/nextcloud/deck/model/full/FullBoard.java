@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.model.full;
 
+import androidx.annotation.NonNull;
 import androidx.room.Embedded;
 import androidx.room.Ignore;
 import androidx.room.Relation;
@@ -29,6 +30,8 @@ public class FullBoard implements IRemoteEntity {
     @Relation(entity = Stack.class, parentColumn = "localId", entityColumn = "boardId")
     public List<Stack> stacks;
 
+    @Ignore
+    public List<User> users;
 
     public User getOwner() {
         return owner;
@@ -54,9 +57,17 @@ public class FullBoard implements IRemoteEntity {
         this.labels = labels;
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
     @Ignore
     @Override
-    public IRemoteEntity getEntity() {
+    public Board getEntity() {
         return board;
     }
 
@@ -102,6 +113,7 @@ public class FullBoard implements IRemoteEntity {
         return result;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "FullBoard{" +

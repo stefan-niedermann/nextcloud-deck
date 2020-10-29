@@ -1,0 +1,4 @@
+1.9.0
+
+- List widget (by @dan0xii) (#217)
+- Don't run multiple parallel synchronizations to avoid errors (#554)

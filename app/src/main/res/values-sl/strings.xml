@@ -38,6 +38,7 @@
     <string name="simple_disabled">onemogočeno</string>
     <string name="simple_copied">Kopirano!</string>
     <string name="simple_archive">Arhiv</string>
+    <string name="simple_unassigned">Nedodeljeno</string>
 
     <string name="edit_board">Uredi zbirko</string>
     <string name="archive_board">Arhiviraj zbirko</string>
@@ -70,9 +71,6 @@
     <string name="about_credits_tab_title">Zasluge</string>
     <string name="about_contribution_tab_title">Skupnost</string>
     <string name="about_license_tab_title">Dovoljenje</string>
-
-    <string name="copied_to_clipboard">Kopirano v odložišče</string>
-
     <string name="seconds_ago">pred nekaj sekundami</string>
     <string name="edit">Uredi</string>
     <string name="label_labels">Izbor oznak</string>
@@ -113,6 +111,7 @@
     <string name="no_lists_yet">Ni še dodanega seznama</string>
     <string name="do_you_want_to_save_your_changes">Ali želite shraniti spremembe?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Ali želite arhivirati vse naloge %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Ali želite arhivirati vse filtrirane naloge %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">S tem boste trajno izbrisali %1$d nalogo tega seznama.</item>
         <item quantity="two">S tem boste trajno izbrisali %1$d nalogi tega seznama.</item>
@@ -133,6 +132,7 @@
     <string name="delete_board_message">S tem dejanjem bo zbirka z vsemi paketi nalog in nalogami trajno izbrisana.</string>
     <string name="settings_theme_title">Temna tema</string>
     <string name="settings_branding_title">Prilagajanje oblikovanja</string>
+    <string name="settings_compact_title">Stisnjen pogled</string>
     <string name="settings_background_sync"> Usklajevanje v ozadju</string>
     <string name="pref_value_wifi_and_mobile">Usklajuj na Wi-Fi in mobilni povezavi</string>
     <string name="pref_value_wifi_only">Usklajuj le na Wi-Fi</string>
@@ -160,7 +160,6 @@
     <string name="maintenance_mode_explanation">Strežnik %1$s je trenutno v načinu vzdrževanja. Stopite v stik s skrbnikom, ali pa poskusite kasneje.</string>
     <string name="share_add_to_card">Dodaj k nalogi</string>
     <string name="share_success">Uspešno dodano %1$s v %2$s</string>
-    <string name="could_not_copy_to_clipboard">Predmeta ni mogoče kopirati v odložišče</string>
     <string name="add_comment">Dodaj opombo</string>
     <string name="card_edit_comments">Opombe</string>
     <string name="no_comments_yet">Ni še dodane nobene opombe</string>
@@ -220,7 +219,8 @@
 
     <string name="error_dialog_title">Ojoj, kaj pa zdaj? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Poskusite vsiliti končanje programa in ga ponovno zagnati. Morda je težava v neustrezni povezavi z okoljem Nextcloud</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">Če se težava še naprej pojavlja, poskusite počistiti podatke programa Nextcloud in Nextcloud Deck.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Če se težava še naprej pojavlja, poskusite počistiti podatke programa Nextcloud in Nextcloud Deck.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Nadgradnja podatkovne zbirke je spodletela. Pošljite poročilo o napaki in nato počistite shrambo za normalno uporabo programa.</string>
     <string name="error_dialog_tip_clear_storage">Shrambo je mogoče počistiti med podrobnostmi programa Shramba → Počisti shrambo.</string>
     <string name="error_dialog_tip_files_outdated">Program Nextcloud je očitno starejše različice. Posodobite jo prek Trgovine Play ali s posodabljalnikom F-Droid.</string>
     <string name="error_dialog_tip_files_force_stop">Kaže, da je nekaj narobe s programom Nextcloud. Poskusite vsiljeno zaustaviti programa Nextcloud in Nextcloud Deck.</string>
@@ -234,8 +234,11 @@
     <string name="error_dialog_we_need_info">Z ustrezno pomoč potrebujemo nekaj tehničnih podrobnosti sistema:</string>
     <string name="error_dialog_redirect">S strežnika je prejet odziv s kodo stanja HTTP 302, kar kaže na to, da program Deck ni nameščen, ali pa je napačno nastavljen. Napaka se pojavi tudi pri nekaterih določilih v datoteki .htaccess oziroma programih, kot je odjemalec OID.</string>
     <string name="error_dialog_version_not_parsable">Ni mogoče določiti različice strežnika, povezanega s programom Deck. Prepričajte se, da je nameščen in omogočen.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Račun v programu Nextcloud morda ni več overjen.</string>
+    <string name="error_dialog_user_not_found_in_database">Trenutno izbrani uporabnik nima ustreznih dovoljenj. Če uporabljate LDAP ima morda progam Nextcloud shranjen star ID uporabnika.</string>
     <string name="error_dialog_capabilities_not_parsable">Ni mogoče pridobiti podatkov o zmožnostih strežnika. Prepričajte se, da strežnik teče in da imajo programi dostop do okolja Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Priloge ni mogoče poslati. Souporabo omogočite na nek drug način, nam pa posredujte poročilo o hrošču.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Onemogočite vso optimizacijo porabe baterije za programa Nextcloud in Deck.</string>
     <string name="error_action_open_deck_info">Odpri podrobnosti programa</string>
     <string name="error_action_open_network">Nastavitve omrežja</string>
     <string name="error_action_server_logs">Dnevniki strežnika</string>
@@ -245,6 +248,7 @@
     <string name="info_box_version_not_supported">Različica strežnika %1$s ni podprta. Priporočljiva je posodobitev na različico %2$s.</string>
     <string name="share_link">Povezava za souporabo</string>
     <string name="archive_cards">Arhiviraj naloge</string>
+
     <string name="manage_accounts">Upravljanje z računi</string>
     <string name="manage_list">Upravljanje seznama</string>
     <string name="simple_reply">Odgovori</string>
@@ -259,4 +263,35 @@
         <item quantity="other">%1$d napak med pošiljanjem</item>
     </plurals>
     <string name="simple_report">Poročilo</string>
-    </resources>
+    <string name="error_action_open_battery_settings">Nastavitve baterije</string>
+    <string name="move_warning">Ni mogoče prenesti ne opomb ne prilog med premikanjem naloge v drugo zbirko.</string>
+    <string name="clone_board">Kloniraj zbirko</string>
+    <string name="cloning_board">Poteka kloniranje %1$s…</string>
+    <string name="successfully_cloned_board">Kloniranje %1$s je uspešno končano</string>
+    <string name="attachment_does_not_yet_exist">Priloga v Deck še ne obstaja</string>
+    <string name="card_does_not_yet_exist">Naloga v Deck še ne obstaja</string>
+
+    <string name="widget_stack_title">Seznam</string>
+    <string name="widget_stack_header_icon">Ikona glave gradnika</string>
+    <string name="widget_stack_placeholder_icon">Ikona ročnika gradnika</string>
+    <string name="select_stack">Izbor seznama</string>
+    <string name="project_type_deck_board">Zbirka Deck</string>
+    <string name="project_type_deck_card">Naloga Deck</string>
+    <string name="project_type_file">Datoteka</string>
+    <string name="projects_title">Projekti</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d  vir</item>
+        <item quantity="two">%1$d  vira</item>
+        <item quantity="few">%1$d  viri</item>
+        <item quantity="other">%1$d virov</item>
+    </plurals>
+    <string name="no_assigned_label">Ni dodeljene oznake</string>
+    <string name="single_card">Enojna naloga</string>
+    <string name="project_type_room">Klepetalnica</string>
+    <string name="simple_move">Premakni</string>
+    <string name="cannot_upload_files_without_permission">Brez ustreznih dovoljenj ni mogoče naložiti datoteke</string>
+    <string name="clone_cards">Kloniraj nalogo</string>
+    <string name="simple_clone">Kloniraj</string>
+    <string name="user_avatar">Podoba uporabnika</string>
+    <string name="simple_unassign">Odstrani</string>
+</resources>

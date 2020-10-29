@@ -12,8 +12,8 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
+import it.niedermann.nextcloud.deck.ui.card.AbstractCardViewHolder;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
-import it.niedermann.nextcloud.deck.ui.card.CardViewHolder;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -26,7 +26,7 @@ public class ArchivedCardsAdapter extends CardAdapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CardViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull AbstractCardViewHolder viewHolder, int position) {
         viewHolder.bind(cardList.get(position), account, boardRemoteId, hasEditPermission, R.menu.archived_card_menu, this, counterMaxValue, mainColor);
     }
 
@@ -45,7 +45,7 @@ public class ArchivedCardsAdapter extends CardAdapter {
             case R.id.action_card_delete: {
                 final WrappedLiveData<Void> liveData = syncManager.deleteCard(fullCard.getCard());
                 observeOnce(liveData, lifecycleOwner, (next) -> {
-                    if (liveData.hasError()) {
+                    if (liveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(liveData.getError())) {
                         ExceptionDialogFragment.newInstance(liveData.getError(), account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
                     }
                 });

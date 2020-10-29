@@ -14,7 +14,7 @@ public class FullStack implements IRemoteEntity {
     @Embedded
     public Stack stack;
 
-    @Relation(entity =  Card.class, parentColumn = "localId", entityColumn = "stackId")
+    @Relation(entity = Card.class, parentColumn = "localId", entityColumn = "stackId")
     public List<Card> cards;
 
 
@@ -36,7 +36,7 @@ public class FullStack implements IRemoteEntity {
 
     @Ignore
     @Override
-    public IRemoteEntity getEntity() {
+    public Stack getEntity() {
         return stack;
     }
 

@@ -83,11 +83,11 @@ public interface DeckAPI {
 
     @FormUrlEncoded
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/assignLabel")
-    Observable assignLabelToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("labelId") long labelId);
+    Observable<Void> assignLabelToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("labelId") long labelId);
 
     @FormUrlEncoded
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/removeLabel")
-    Observable unassignLabelFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("labelId") long labelId);
+    Observable<Void> unassignLabelFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("labelId") long labelId);
 
     @FormUrlEncoded
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/assignUser")

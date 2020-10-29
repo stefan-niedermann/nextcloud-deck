@@ -24,7 +24,7 @@
     <string name="simple_switch">Переключить</string>
     <string name="simple_filter">Фильтр</string>
     <string name="simple_overdue">Просроченные</string>
-    <string name="simple_clear">Отчистить</string>
+    <string name="simple_clear">Очистить</string>
     <string name="simple_discard">Отменить</string>
     <string name="simple_update">Обновить</string>
     <string name="simple_delete">Удалить</string>
@@ -34,10 +34,11 @@
     <string name="simple_manage">Управлять</string>
     <string name="simple_share">общий ресурс</string>
     <string name="simple_select">Выбрать</string>
-    <string name="simple_comment">Коментарий</string>
+    <string name="simple_comment">Комментарий</string>
     <string name="simple_disabled">отключено</string>
     <string name="simple_copied">Скопировано</string>
     <string name="simple_archive">Переместить в архив</string>
+    <string name="simple_unassigned">не назначен</string>
 
     <string name="edit_board">Редактировать доску</string>
     <string name="archive_board">Переместить доску в архив</string>
@@ -70,9 +71,6 @@
     <string name="about_credits_tab_title">Сообщество</string>
     <string name="about_contribution_tab_title">Участие</string>
     <string name="about_license_tab_title">Лицензия</string>
-
-    <string name="copied_to_clipboard">Скопировано в буфер</string>
-
     <string name="seconds_ago">менее минуты</string>
     <string name="edit">Править</string>
     <string name="label_labels">Выбор меток</string>
@@ -133,6 +131,7 @@
     <string name="delete_board_message">Это действие приведёт к удалению этой рабочей доски, всех списков и карточек.</string>
     <string name="settings_theme_title">Тёмное оформление</string>
     <string name="settings_branding_title">Брендирование</string>
+    <string name="settings_compact_title">компактный режим</string>
     <string name="settings_background_sync">Синхр. в фоновом режиме</string>
     <string name="pref_value_wifi_and_mobile">Синхр. по Wi-Fi и мобильной связи</string>
     <string name="pref_value_wifi_only">Синхр. только по Wi-Fi</string>
@@ -160,7 +159,6 @@
     <string name="maintenance_mode_explanation">Сервер %1$s в режиме обслуживания. Свяжитесь с вашим администратором или повторите попытку позже.</string>
     <string name="share_add_to_card">Добавить в карточку</string>
     <string name="share_success">%1$s добавлено в %2$s</string>
-    <string name="could_not_copy_to_clipboard">Не удалось скопировать в буфер обмена.</string>
     <string name="add_comment">Добавить комментарий</string>
     <string name="card_edit_comments">Комментарии</string>
     <string name="no_comments_yet">Пока никто не прокомментировал</string>
@@ -220,8 +218,7 @@
 
     <string name="error_dialog_title">О нет, что теперь? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Попробуйте принудительно закрыть приложение и запустить его снова. Это могло быть связано с некорректным подключением к приложению Nextcloud.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">Если проблема повторяется, попробуйте для её решения очистить хранилище приложений Nextcloud и Nextcloud Карточки.</string>
-    <string name="error_dialog_tip_database_upgrade_failed">Сбой обновления базы данных. Пожалуйста сообщите о проблеме и очистите хранилище, чтобы корректно использовать приложение.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Если проблема повторяется, попробуйте для её решения очистить хранилище приложений Nextcloud и Nextcloud Карточки.</string>
     <string name="error_dialog_tip_clear_storage">Для очистки хранилища на откройте приложение «Настройки» и выберите Приложения → Nextcloud / Nextcloud Deck → Хранилище → Очистить хранилище</string>
     <string name="error_dialog_tip_files_outdated">Ваше приложение Nextcloud устарело. Установите новую версию с Play Store или F-Droid.</string>
     <string name="error_dialog_tip_files_force_stop">Похоже, что с приложением Nextcloud ведёт себя неожиданным образом. Попробуйте принудительно остановить приложения Nextcloud и Nextcloud Карточки. </string>
@@ -247,6 +244,7 @@
     <string name="info_box_version_not_supported">Версия сервера %1$s не поддерживается, необходимо выполнить обновление до версии %2$s</string>
     <string name="share_link">Предоставление общего доступа по ссылке</string>
     <string name="archive_cards">Архивировать карточки</string>
+
     <string name="manage_accounts">Управление аккаунтами</string>
     <string name="manage_list">Управлять списком</string>
     <string name="simple_reply">Ответить</string>
@@ -254,12 +252,29 @@
     <string name="append_text_to_description">Добавить в описание</string>
     <string name="add_text_as_comment">Добавить как комментарий</string>
     <string name="progress_count">%1$d из %2$d</string>
-    <plurals name="progress_error_count">
-        <item quantity="one">Во время передачи произошла %1$d ошибка.</item>
-        <item quantity="few">Во время передачи произошло %1$d ошибки.</item>
-        <item quantity="many">Во время передачи произошло %1$d ошибок.</item>
-        <item quantity="other">Во время передачи произошло %1$d ошибки.</item>
-    </plurals>
     <string name="simple_report">Сообщить</string>
     <string name="error_action_open_battery_settings">Настройки аккумулятора</string>
-</resources>
+    <string name="move_warning">нет ни одного комментария или вложения, которые можно перенести при перемещении карточки на другую доску</string>
+    <string name="clone_board">Скопировать доску</string>
+    <string name="cloning_board">Копирование %1$s...</string>
+    <string name="successfully_cloned_board">Успешно скопировано%1$s</string>
+    <string name="attachment_does_not_yet_exist">Вложение еще не создано в карточке</string>
+    <string name="card_does_not_yet_exist">Карточка не создана на доске</string>
+
+    <string name="widget_stack_title">Список</string>
+    <string name="widget_stack_header_icon">иконка заголовка виджета</string>
+    <string name="select_stack">Выберите список</string>
+    <string name="project_type_deck_board">Доска</string>
+    <string name="project_type_deck_card">Карточка</string>
+    <string name="project_type_file">Файл</string>
+    <string name="projects_title">Проекты</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d ресурс</item>
+        <item quantity="few">%1$d ресурса</item>
+        <item quantity="many">%1$d ресурсов</item>
+        <item quantity="other">%1$d ресурса</item>
+    </plurals>
+    <string name="no_assigned_label">Метки не присвоены</string>
+    <string name="single_card">Отдельная карточка</string>
+    <string name="simple_move">Переместить</string>
+    </resources>

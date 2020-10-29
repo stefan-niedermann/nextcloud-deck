@@ -38,7 +38,6 @@
     <string name="simple_disabled">מושבת</string>
     <string name="simple_copied">הועתק</string>
     <string name="simple_archive">לארכיון</string>
-
     <string name="edit_board">ערוך לוח</string>
     <string name="archive_board">לוח פעיל</string>
     <string name="delete_board">מחק לוח</string>
@@ -70,9 +69,6 @@
     <string name="about_credits_tab_title">תודות</string>
     <string name="about_contribution_tab_title">תרומה</string>
     <string name="about_license_tab_title">רישיון</string>
-
-    <string name="copied_to_clipboard">הועתק ללוח הגזירים</string>
-
     <string name="seconds_ago">לפני מספר שניות</string>
     <string name="edit">עריכה</string>
     <string name="label_labels">בחירת תגיות</string>
@@ -159,7 +155,6 @@
     <string name="maintenance_mode_explanation">השרת %1$s נמצא במצב תחזוקה. נא ליצור קשר עם ההנהלה או לנסות מאוחר יותר.</string>
     <string name="share_add_to_card">הוספה לכרטיס</string>
     <string name="share_success">%1$s נוסף בהצלחה אל %2$s</string>
-    <string name="could_not_copy_to_clipboard">לא ניתן להעתיק ללוח הגזירים</string>
     <string name="add_comment">הוספת הערה</string>
     <string name="card_edit_comments">תגובות</string>
     <string name="no_comments_yet">אין הערות עדיין</string>
@@ -216,6 +211,9 @@
     <string name="server_error">שגיאת שרת</string>
     <string name="shared_error">שיתוף תוכן מיישומוני צד־שלישי עדיין לא נתמך לגמרי. נא לנסות להוריד תחילה ואז לשתף ממנהל הקבצים או הגלריה המובנים.</string>
     <string name="error_dialog_title">שוד ושבר - מה עכשיו? 🙁</string>
+    <string name="error_dialog_tip_files_outdated">נראה כי יישומון ה־Nextcloud שלך אינו עדכני. נא לבקר בחנות Play או ב־F-Droid כדי לעדכן לגרסה האחרונה.</string>
+    <string name="error_dialog_tip_files_delete_storage">אם כפיית עצירה לא עוזרת, ניתן לנסות לרוקן את האחסון של שני היישומונים.</string>
+    <string name="error_dialog_timeout_instance">לא חזרה תגובה מהשרת שלך בזמן קצוב. נא לוודא שהעותק פועל כראוי.</string>
     <string name="error_dialog_check_maintenance">נא לבדוק שעותק ה־Nextcloud שלך אינו במצב תחזוקה כרגע.</string>
     <string name="error_dialog_we_need_info">אנו זקוקים לפירוט הטכני הבא כדי לסייע לך:</string>
     <string name="error_action_open_deck_info">פתיחת פרטי יישומון</string>
@@ -229,4 +227,9 @@
     <string name="manage_accounts">ניהול חשבונות</string>
     <string name="simple_reply">תגובה</string>
     <string name="simple_report">דיווח</string>
+    <string name="clone_board">שכפול לוח</string>
+    <string name="widget_stack_title">רשימה</string>
+    <string name="project_type_file">קובץ</string>
+    <string name="projects_title">מיזמים</string>
+    <string name="simple_move">העברה</string>
     </resources>

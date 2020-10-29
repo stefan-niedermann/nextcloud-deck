@@ -38,6 +38,7 @@
     <string name="simple_disabled">inaktiverad</string>
     <string name="simple_copied">Kopierad</string>
     <string name="simple_archive">Arkivera</string>
+    <string name="simple_unassigned">Ej tilldelad</string>
 
     <string name="edit_board">Ändra tavla</string>
     <string name="archive_board">Arkivera tavla</string>
@@ -70,9 +71,6 @@
     <string name="about_credits_tab_title">Tack</string>
     <string name="about_contribution_tab_title">Bidrag</string>
     <string name="about_license_tab_title">Licens</string>
-
-    <string name="copied_to_clipboard">Kopierat till urklipp</string>
-
     <string name="seconds_ago">sekunder sedan</string>
     <string name="edit">Redigera</string>
     <string name="label_labels">Välj taggar</string>
@@ -129,6 +127,7 @@
     <string name="delete_board_message">Detta kommer att permanent radera denna tavla inklusive alla listor och kort.</string>
     <string name="settings_theme_title">Mörkt tema</string>
     <string name="settings_branding_title">Varumärke</string>
+    <string name="settings_compact_title">Kompakt läge</string>
     <string name="settings_background_sync">Bakgrundssynkronisering</string>
     <string name="pref_value_wifi_and_mobile">Synkronisera med Wi-Fi och mobildata</string>
     <string name="pref_value_wifi_only">Synkronisera endast med Wi-Fi</string>
@@ -156,7 +155,6 @@
     <string name="maintenance_mode_explanation">Servern %1$s är för närvarande i underhållsläge. Kontakta din administratör eller försök igen senare.</string>
     <string name="share_add_to_card">Lägg till i kort</string>
     <string name="share_success">La till %1$s till %2$s</string>
-    <string name="could_not_copy_to_clipboard">Kunde inte kopiera till urklipp</string>
     <string name="add_comment">Lägg till kommentar</string>
     <string name="card_edit_comments">Kommentarer</string>
     <string name="no_comments_yet">Inga kommentarer än</string>
@@ -212,8 +210,26 @@
     <string name="server_misconfigured">Server felkonfigurerad</string>
     <string name="server_error">Serverfel</string>
     <string name="shared_error">Delning av innehåll från appar från tredje part stöds ännu inte helt. Vänligen försök att hämta det först och dela det sedan från din ursprungliga filhanterare eller galleri.</string>
+    <string name="error_edit_activity_killed_by_android">Android avslutade redigeringsläget eftersom det behövde mer systemresurser för andra appar.</string>
+
     <string name="error_dialog_title">Å nej - Vad händer nu?🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Försök med att Tvinga appen att stänga och återstarta. En felaktig anslutning till Nextcloud-appen kan ha förekommit.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Om problemet kvarstår kan du försöka rensa lagringen av båda apparna: Nextcloud och Nextcloud Deck för att lösa problemet.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Uppgraderingen av databasen misslyckades. Var god anmäl problemet, rensa sedan appens data för att kunna återgå till normal användning.</string>
+    <string name="error_dialog_tip_clear_storage">Du kan rensa diskutrymmet genom att öppna appens info, välj Lagring -> Rensa data</string>
+    <string name="error_dialog_tip_files_outdated">Din Nextcloud-app verkar utdaterad. Besök Play Butiken eller F-Droid för att hämta senaste versionen</string>
+    <string name="error_dialog_tip_files_force_stop">Något verkar fel med din Nextcloud-app. Försök att tvångsavsluta både Nextcloud och Nextcloud Deck-appen.</string>
+    <string name="error_dialog_tip_files_delete_storage">Om tvångsavslutning ej hjälper kan du försöka rensa datan på båda appar.</string>
+    <string name="error_dialog_timeout_instance">Din server svarade inte inom den angivna tiden. Kontrollera att den fungerar normalt.</string>
+    <string name="error_dialog_timeout_toggle">Kontrollera din nätverksanslutning. Ibland kan det hjälpa att slå av och på mobildata eller Wi-Fi.</string>
+    <string name="error_dialog_check_server">Inkorrekt svar från din server. Kontrollera att du har tillgång till Deck-appen genom din webbläsare.</string>
+    <string name="error_dialog_check_server_logs">Det finns problem med din Nextcloud-installation. Ta gärna en titt i serverns loggfiler. </string>
+    <string name="error_dialog_check_maintenance">Kontrollera att underhållsläge inte är aktivt på Nextcloud-installation.</string>
+    <string name="error_dialog_insufficient_storage">Din Nextcloud-installation har slut på diskutrymme. Radera några filer för att kunna synkronisera ändringar till ditt moln.</string>
+    <string name="error_dialog_we_need_info">Vi behöver följande teknisk information för att kunna hjälpa dig:</string>
+    <string name="error_dialog_redirect">Din server svarade med ett HTTP 302 statusmeddelande vilket innebär att du inte har installerat Deck appen på din server eller att något är felkonfigurerat. Detta kan orsakas av manuella ändringar i en .htaccess-fil eller av Nextcloud-appar som \"OID Client\".</string>
+    <string name="error_dialog_version_not_parsable">Vi kunde inte avgöra vilken version av Deck-appen som är installerad på servern. Kontrollera att den är installerad och aktiverad.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Ditt Nextcloud-konto är eventuellt inte längre auktoriserat. </string>
     <string name="error_action_open_deck_info">Öppna appinformation</string>
     <string name="error_action_open_network">Nätverksinställningar</string>
     <string name="error_action_server_logs">Serverloggar</string>
@@ -223,6 +239,7 @@
     <string name="info_box_version_not_supported">Serverversion %1$s stöds inte, uppdatera till %2$s</string>
     <string name="share_link">Dela länk</string>
     <string name="archive_cards">Arkivera kort</string>
+
     <string name="manage_accounts">Hantera konton</string>
     <string name="manage_list">Hantera lista</string>
     <string name="simple_reply">Svara</string>
@@ -230,9 +247,11 @@
     <string name="append_text_to_description">Lägg till beskrivning</string>
     <string name="add_text_as_comment">Lägg till som kommentar</string>
     <string name="progress_count">%1$d av %2$d</string>
-    <plurals name="progress_error_count">
-        <item quantity="one">%1$d fel vid uppladdning.</item>
-        <item quantity="other">%1$d fel vid uppladdning</item>
-    </plurals>
     <string name="simple_report">Rapportera</string>
-    </resources>
+    <string name="clone_board">Kopiera tavla</string>
+    <string name="widget_stack_title">Lista</string>
+    <string name="project_type_file">Fil</string>
+    <string name="projects_title">Projekt</string>
+    <string name="simple_move">Flytta</string>
+    <string name="simple_unassign">Ta bort tilldelning</string>
+</resources>

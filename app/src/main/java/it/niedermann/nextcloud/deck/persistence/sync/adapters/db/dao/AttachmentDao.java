@@ -25,6 +25,10 @@ public interface AttachmentDao extends GenericDao<Attachment> {
     @Query("SELECT * FROM attachment WHERE accountId = :accountId and (status<>1 or id is null or lastModified <> lastModifiedLocal)")
     List<Attachment> getLocallyChangedAttachmentsDirectly(long accountId);
 
+    @Query("SELECT a.* FROM attachment a inner join card c on c.localId = a.cardId " +
+            "WHERE c.stackId = :localStackId and (a.status<>1 or a.id is null or a.lastModified <> a.lastModifiedLocal)")
+    List<Attachment> getLocallyChangedAttachmentsForStackDirectly(long localStackId);
+
     @Query("SELECT * FROM attachment WHERE accountId = :accountId and cardId = :localCardId")
     List<Attachment> getAttachmentsForLocalCardIdDirectly(long accountId, Long localCardId);
 }

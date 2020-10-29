@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/spacer_2x"
+    android:layout_marginTop="@dimen/spacer_1x"
+    android:layout_marginEnd="@dimen/spacer_2x"
+    android:layout_marginBottom="@dimen/spacer_1x"
+    android:focusable="true"
+    app:cardElevation="@dimen/spacer_1qx"
+    app:cardBackgroundColor="@color/bg_card">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/spacer_1x"
+        android:paddingBottom="@dimen/spacer_1x">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/spacer_2x"
+            android:paddingEnd="@dimen/spacer_1x">
+
+            <TextView
+                android:id="@+id/card_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4sp"
+                android:layout_weight="1"
+                android:textColor="?attr/colorAccent"
+                android:textSize="18sp"
+                tools:ignore="RtlSymmetry"
+                tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut l" />
+
+            <ImageView
+                android:id="@+id/not_synced_yet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8sp"
+                android:contentDescription="@string/not_synced_yet"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_sync_blue_24dp"
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/spacer_1hx"
+                tools:ignore="RtlSymmetry">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/card_due_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/due_tomorrow_background"
+                    android:drawablePadding="@dimen/spacer_1hx"
+                    android:gravity="center"
+                    android:padding="@dimen/spacer_1hx"
+                    android:paddingEnd="@dimen/spacer_1x"
+                    android:textColor="@color/fg_secondary"
+                    app:drawableStartCompat="@drawable/calendar_blank_grey600_24dp"
+                    tools:text="tomorrow" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/card_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/label_menu"
+                android:padding="@dimen/spacer_1hx"
+                android:tint="?attr/colorAccent"
+                app:srcCompat="@drawable/ic_menu" />
+        </LinearLayout>
+
+        <it.niedermann.nextcloud.deck.ui.view.labellayout.CompactLabelLayout
+            android:id="@+id/labels"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacer_1x"
+            android:animateLayoutChanges="true"
+            android:paddingStart="@dimen/spacer_2x"
+            android:paddingEnd="@dimen/spacer_2x"
+            app:flexWrap="nowrap"
+            tools:layout_height="@dimen/avatar_size" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

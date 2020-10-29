@@ -11,6 +11,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 
 @Dao
 public interface CardDao extends GenericDao<Card> {
@@ -36,9 +37,13 @@ public interface CardDao extends GenericDao<Card> {
     @Query("SELECT * FROM card WHERE accountId = :accountId AND archived = 0 AND stackId = :localStackId and status<>3 order by `order`, createdAt asc")
     LiveData<List<FullCard>> getFullCardsForStack(final long accountId, final long localStackId);
 
-    @Transaction                                                                                // v not deleted!
+    @Transaction
     @RawQuery(observedEntities = Card.class)
     LiveData<List<FullCard>> getFilteredFullCardsForStack(SupportSQLiteQuery query);
+
+    @Transaction
+    @RawQuery(observedEntities = Card.class)
+    List<FullCard> getFilteredFullCardsForStackDirectly(SupportSQLiteQuery query);
 
     @Transaction
     @Query("SELECT * FROM card WHERE accountId = :accountId AND stackId = :localStackId order by `order`, createdAt asc")
@@ -47,6 +52,9 @@ public interface CardDao extends GenericDao<Card> {
     @Transaction
     @Query("SELECT * FROM card WHERE accountId = :accountId and localId = :localCardId")
     LiveData<FullCard> getFullCardByLocalId(final long accountId, final long localCardId);
+    @Transaction
+    @Query("SELECT * FROM card WHERE accountId = :accountId and localId = :localCardId")
+    LiveData<FullCardWithProjects> getFullCardWithProjectsByLocalId(final long accountId, final long localCardId);
 
     @Transaction
     @Query("SELECT * FROM card WHERE accountId = :accountId and id = :remoteId")
@@ -66,9 +74,15 @@ public interface CardDao extends GenericDao<Card> {
     @Query("SELECT * FROM card c WHERE accountId = :accountId and exists ( select 1 from DeckComment dc where dc.objectId = c.localId and dc.status<>1)")
     List<Card> getCardsWithLocallyChangedCommentsDirectly(Long accountId);
 
+    @Query("SELECT * FROM card c WHERE stackId = :localStackId and exists ( select 1 from DeckComment dc where dc.objectId = c.localId and dc.status<>1)")
+    List<Card> getCardsWithLocallyChangedCommentsForStackDirectly(Long localStackId);
+
     @Query("SELECT count(*) FROM card c WHERE accountId = :accountId and stackId = :localStackId and status <> 3")
     LiveData<Integer> countCardsInStack(long accountId, long localStackId);
 
     @Query("SELECT coalesce(MAX(`order`), -1) FROM card c WHERE  stackId = :localStackId and status <> 3")
     Integer getHighestOrderInStack(Long localStackId);
+
+    @Query("SELECT c.stackId FROM card c WHERE  localId = :localCardId")
+    Long getLocalStackIdByLocalCardId(Long localCardId);
 }

@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
-import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
@@ -9,42 +8,48 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import it.niedermann.android.crosstabdnd.DragAndDropAdapter;
 import it.niedermann.android.crosstabdnd.DraggedItemLocalState;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.databinding.ItemCardBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemCardCompactBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultOnlyTitleBinding;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.deck.ui.movecard.MoveCardDialogFragment;
 
+import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 
-public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> implements DragAndDropAdapter<FullCard>, CardOptionsItemSelectedListener, Branded {
+public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> implements DragAndDropAdapter<FullCard>, CardOptionsItemSelectedListener, Branded {
 
+    private final boolean compactMode;
+    @NonNull
     protected final SyncManager syncManager;
-
+    @NonNull
     protected final FragmentManager fragmentManager;
+    @NonNull
     protected final Account account;
     @Nullable
     protected final Long boardRemoteId;
@@ -55,12 +60,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> implements
     private final Context context;
     @Nullable
     private final SelectCardListener selectCardListener;
-    protected List<FullCard> cardList = new LinkedList<>();
+    @NonNull
+    protected List<FullCard> cardList = new ArrayList<>();
+    @NonNull
     protected LifecycleOwner lifecycleOwner;
     @NonNull
-    final private List<FullStack> availableStacks = new ArrayList<>();
     protected String counterMaxValue;
-
+    @ColorInt
     protected int mainColor;
     @StringRes
     private int shareLinkRes;
@@ -78,11 +84,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> implements
         this.hasEditPermission = hasEditPermission;
         this.syncManager = syncManager;
         this.selectCardListener = selectCardListener;
-        this.mainColor = context.getResources().getColor(R.color.defaultBrand);
-        syncManager.getStacksForBoard(account.getId(), boardLocalId).observe(this.lifecycleOwner, (stacks) -> {
-            availableStacks.clear();
-            availableStacks.addAll(stacks);
-        });
+        this.mainColor = ContextCompat.getColor(context, R.color.defaultBrand);
+        this.compactMode = getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.pref_key_compact), false);
         setHasStableIds(true);
     }
 
@@ -93,13 +96,36 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> implements
 
     @NonNull
     @Override
-    public CardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
-        return new CardViewHolder(ItemCardBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
+    public AbstractCardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        switch (viewType) {
+            case R.layout.item_card_compact:
+                return new CompactCardViewHolder(ItemCardCompactBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
+            case R.layout.item_card_default_only_title:
+                return new DefaultCardOnlyTitleViewHolder(ItemCardDefaultOnlyTitleBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
+            case R.layout.item_card_default:
+            default:
+                return new DefaultCardViewHolder(ItemCardDefaultBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
+        }
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull CardViewHolder viewHolder, int position) {
+    public int getItemViewType(int position) {
+        if (compactMode) {
+            return R.layout.item_card_compact;
+        } else {
+            final FullCard fullCard = cardList.get(position);
+            if (fullCard.getAttachments().size() == 0
+                    && fullCard.getAssignedUsers().size() == 0
+                    && fullCard.getLabels().size() == 0
+                    && fullCard.getCommentCount() == 0) {
+                return R.layout.item_card_default_only_title;
+            }
+            return R.layout.item_card_default;
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull AbstractCardViewHolder viewHolder, int position) {
         @NonNull FullCard fullCard = cardList.get(position);
         viewHolder.bind(fullCard, account, boardRemoteId, hasEditPermission, R.menu.card_menu, this, counterMaxValue, mainColor);
 
@@ -128,7 +154,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> implements
 
     @Override
     public int getItemCount() {
-        return cardList == null ? 0 : cardList.size();
+        return cardList.size();
     }
 
     public void insertItem(FullCard fullCard, int position) {
@@ -136,6 +162,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> implements
         notifyItemInserted(position);
     }
 
+    @NonNull
     @Override
     public List<FullCard> getItemList() {
         return this.cardList;
@@ -186,28 +213,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> implements
                 return true;
             }
             case R.id.action_card_move: {
-                int currentStackItem = 0;
-                CharSequence[] items = new CharSequence[availableStacks.size()];
-                for (int i = 0; i < availableStacks.size(); i++) {
-                    final Stack stack = availableStacks.get(i).getStack();
-                    items[i] = stack.getTitle();
-                    if (stack.getLocalId().equals(stackId)) {
-                        currentStackItem = i;
-                    }
-                }
-                final FullCard newCard = fullCard;
-                new BrandedAlertDialogBuilder(context)
-                        .setSingleChoiceItems(items, currentStackItem, (dialog, which) -> {
-                            dialog.cancel();
-                            newCard.getCard().setStackId(availableStacks.get(which).getStack().getLocalId());
-                            LiveDataHelper.observeOnce(syncManager.updateCard(newCard), lifecycleOwner, (c) -> {
-                                // Nothing to do here...
-                            });
-                            DeckLog.log("Moved card \"" + fullCard.getCard().getTitle() + "\" to \"" + availableStacks.get(which).getStack().getTitle() + "\"");
-                        })
-                        .setNeutralButton(android.R.string.cancel, null)
-                        .setTitle(context.getString(R.string.action_card_move_title, fullCard.getCard().getTitle()))
-                        .show();
+                DeckLog.verbose("[Move card] Launch move dialog for " + Card.class.getSimpleName() + " \"" + fullCard.getCard().getTitle() + "\" (#" + fullCard.getLocalId() + ") from " + Stack.class.getSimpleName() + " #" + +stackId);
+                MoveCardDialogFragment.newInstance(fullCard.getAccountId(), boardLocalId, fullCard.getCard().getTitle(), fullCard.getLocalId()).show(fragmentManager, MoveCardDialogFragment.class.getSimpleName());
                 return true;
             }
             case R.id.action_card_archive: {
@@ -222,7 +229,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> implements
             case R.id.action_card_delete: {
                 final WrappedLiveData<Void> deleteLiveData = syncManager.deleteCard(fullCard.getCard());
                 observeOnce(deleteLiveData, lifecycleOwner, (v) -> {
-                    if (deleteLiveData.hasError()) {
+                    if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
                         ExceptionDialogFragment.newInstance(deleteLiveData.getError(), account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
                     }
                 });

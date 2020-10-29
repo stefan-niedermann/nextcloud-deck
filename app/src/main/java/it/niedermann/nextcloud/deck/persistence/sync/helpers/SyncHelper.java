@@ -31,12 +31,17 @@ public class SyncHelper {
     // Sync Server -> App
     public <T extends IRemoteEntity> void  doSyncFor(final AbstractSyncDataProvider<T> provider){
         provider.registerChildInParent(provider);
-        provider.getAllFromServer(serverAdapter, accountId, new IResponseCallback<List<T>>(account) {
+        provider.getAllFromServer(serverAdapter, dataBaseAdapter, accountId, new IResponseCallback<List<T>>(account) {
             @Override
             public void onResponse(List<T> response) {
                 if (response != null) {
                     provider.goingDeeper();
                     for (T entityFromServer : response) {
+                        if (entityFromServer == null) {
+                            // see https://github.com/stefan-niedermann/nextcloud-deck/issues/574
+                            DeckLog.error("Skipped null value from server for DataProvider: " + provider.getClass().getSimpleName());
+                            continue;
+                        }
                         entityFromServer.setAccountId(accountId);
                         T existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
 
@@ -126,6 +131,7 @@ public class SyncHelper {
             public void onResponse(T response) {
                 response.setAccountId(this.account.getId());
                 T update = applyUpdatesFromRemote(provider, entity, response, accountId);
+                update.setId(response.getId());
                 update.setStatus(DBStatus.UP_TO_DATE.getId());
                 provider.updateInDB(dataBaseAdapter, accountId, update, false);
                 provider.goDeeperForUpSync(SyncHelper.this, serverAdapter, dataBaseAdapter, responseCallback);

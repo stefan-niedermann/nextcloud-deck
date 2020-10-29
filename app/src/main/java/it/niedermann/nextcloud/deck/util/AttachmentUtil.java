@@ -1,9 +1,12 @@
 package it.niedermann.nextcloud.deck.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,6 +15,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Attachment;
 
 /**
  * Created by stefan on 07.03.20.
@@ -22,7 +27,34 @@ public class AttachmentUtil {
     private AttachmentUtil() {
     }
 
-    public static String getRemoteUrl(String accountUrl, long cardRemoteId, long attachmentRemoteId) {
+    /**
+     * @return {@link AttachmentUtil#getRemoteUrl} or {@link Attachment#getLocalPath()} as fallback in case this {@param attachment} has not yet been synced.
+     */
+    @Nullable
+    public static String getRemoteOrLocalUrl(@NonNull String accountUrl, @Nullable Long cardRemoteId, @NonNull Attachment attachment) {
+        return (attachment.getId() == null || cardRemoteId == null)
+                ? attachment.getLocalPath()
+                : getRemoteUrl(accountUrl, cardRemoteId, attachment.getId());
+    }
+
+    /**
+     * Tries to open the given {@link Attachment} in web browser. Displays a toast on failure.
+     */
+    public static void openAttachmentInBrowser(@NonNull Context context, @NonNull String accountUrl, Long cardRemoteId, Long attachmentRemoteId) {
+        if (cardRemoteId == null) {
+            Toast.makeText(context, R.string.card_does_not_yet_exist, Toast.LENGTH_LONG).show();
+            DeckLog.logError(new IllegalArgumentException("cardRemoteId must not be null."));
+            return;
+        }
+        if (attachmentRemoteId == null) {
+            Toast.makeText(context, R.string.attachment_does_not_yet_exist, Toast.LENGTH_LONG).show();
+            DeckLog.logError(new IllegalArgumentException("attachmentRemoteId must not be null."));
+            return;
+        }
+        context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(AttachmentUtil.getRemoteUrl(accountUrl, cardRemoteId, attachmentRemoteId))));
+    }
+
+    private static String getRemoteUrl(@NonNull String accountUrl, @NonNull Long cardRemoteId, @NonNull Long attachmentRemoteId) {
         return accountUrl + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachmentRemoteId;
     }
 

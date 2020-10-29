@@ -20,6 +20,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterBinding;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
@@ -28,7 +29,6 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.util.ColorUtil.getContrastRatio;
 
 public class FilterDialogFragment extends BrandedDialogFragment {
 
@@ -47,8 +47,9 @@ public class FilterDialogFragment extends BrandedDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        indicator = getResources().getDrawable(R.drawable.circle_grey600_8dp);
-        indicator.setColorFilter(getResources().getColor(R.color.primary), PorterDuff.Mode.SRC_ATOP);
+        indicator = ContextCompat.getDrawable(requireContext(), R.drawable.circle_grey600_8dp);
+        assert indicator != null;
+        indicator.setColorFilter(getResources().getColor(R.color.defaultBrand), PorterDuff.Mode.SRC_ATOP);
 
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 
@@ -63,10 +64,10 @@ public class FilterDialogFragment extends BrandedDialogFragment {
             filterInformationDraft.observe(this, (draft) -> {
                 switch (position) {
                     case 0:
-                        tab.setIcon(draft.getLabels().size() > 0 ? indicator : null);
+                        tab.setIcon(draft.getLabels().size() > 0 || draft.isNoAssignedLabel() ? indicator : null);
                         break;
                     case 1:
-                        tab.setIcon(draft.getUsers().size() > 0 ? indicator : null);
+                        tab.setIcon(draft.getUsers().size() > 0 || draft.isNoAssignedUser() ? indicator : null);
                         break;
                     case 2:
                         tab.setIcon(draft.getDueType() != EDueType.NO_FILTER ? indicator : null);
@@ -106,7 +107,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
     @Override
     public void applyBrand(int mainColor) {
         @ColorInt final int finalMainColor = getSecondaryForegroundColorDependingOnTheme(binding.tabLayout.getContext(), mainColor);
-        final boolean contrastRatioIsSufficient = getContrastRatio(mainColor, ContextCompat.getColor(binding.tabLayout.getContext(), R.color.primary)) > 1.7d;
+        final boolean contrastRatioIsSufficient = ColorUtil.INSTANCE.getContrastRatio(mainColor, ContextCompat.getColor(binding.tabLayout.getContext(), R.color.primary)) > 1.7d;
         binding.tabLayout.setSelectedTabIndicatorColor(contrastRatioIsSufficient ? mainColor : finalMainColor);
         indicator.setColorFilter(contrastRatioIsSufficient ? mainColor : finalMainColor, PorterDuff.Mode.SRC_ATOP);
     }

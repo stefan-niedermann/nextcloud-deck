@@ -1,11 +1,11 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -55,6 +56,13 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
 import static android.app.Activity.RESULT_OK;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.app.Activity.RESULT_OK;
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.KITKAT;
+import static android.os.Build.VERSION_CODES.M;
+import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
+import static androidx.core.content.PermissionChecker.checkSelfPermission;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
@@ -95,7 +103,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
         syncManager = new SyncManager(requireContext());
         adapter = new CardAttachmentAdapter(
-                requireContext(),
                 getChildFragmentManager(),
                 requireActivity().getMenuInflater(),
                 this,
@@ -326,10 +333,11 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUEST_CODE_ADD_FILE_PERMISSION:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                if (SDK_INT >= KITKAT && checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED) {
                     pickFile();
+                } else {
+                    Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
                 }
-                break;
             case REQUEST_CODE_PICK_CONTACT_PERMISSION:
                 pickContact();
                 break;
@@ -343,7 +351,12 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         adapter.removeAttachment(attachment);
         viewModel.getFullCard().getAttachments().remove(attachment);
         if (!viewModel.isCreateMode() && attachment.getLocalId() != null) {
-            syncManager.deleteAttachmentOfCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), attachment.getLocalId());
+            final WrappedLiveData<Void> deleteLiveData = syncManager.deleteAttachmentOfCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), attachment.getLocalId());
+            observeOnce(deleteLiveData, this, (next) -> {
+                if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
+                    ExceptionDialogFragment.newInstance(deleteLiveData.getError(), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
+            });
         }
         updateEmptyContentView();
     }
@@ -366,6 +379,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     @Override
     public void applyBrand(int mainColor) {
         applyBrandToFAB(mainColor, binding.fab);
+        adapter.applyBrand(mainColor);
     }
 
     public static Fragment newInstance() {

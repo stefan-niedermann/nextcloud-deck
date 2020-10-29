@@ -8,13 +8,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.android.util.ClipboardUtil;
+import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityExceptionBinding;
 import it.niedermann.nextcloud.deck.ui.exception.tips.TipsAdapter;
-import it.niedermann.nextcloud.deck.util.ExceptionUtil;
-
-import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
+import it.niedermann.nextcloud.exception.ExceptionUtil;
 
 public class ExceptionActivity extends AppCompatActivity {
 
@@ -22,9 +21,12 @@ public class ExceptionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        final ActivityExceptionBinding binding = ActivityExceptionBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
         super.onCreate(savedInstanceState);
+
+        final ActivityExceptionBinding binding = ActivityExceptionBinding.inflate(getLayoutInflater());
+
+        setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
 
         Throwable throwable = ((Throwable) getIntent().getSerializableExtra(KEY_THROWABLE));
 
@@ -32,23 +34,18 @@ public class ExceptionActivity extends AppCompatActivity {
             throwable = new Exception("Could not get exception");
         }
 
-        DeckLog.logError(throwable);
-
-        setSupportActionBar(binding.toolbar);
-        binding.toolbar.setTitle(R.string.error);
-        binding.message.setText(throwable.getMessage());
-
-        final String debugInfo = ExceptionUtil.getDebugInfos(this, throwable, null);
-
-        binding.stacktrace.setText(debugInfo);
-
         final TipsAdapter adapter = new TipsAdapter(this::startActivity);
+        final String debugInfo = "Full Crash:\n\n" + ExceptionUtil.INSTANCE.getDebugInfos(this, throwable, BuildConfig.FLAVOR);
+
         binding.tips.setAdapter(adapter);
         binding.tips.setNestedScrollingEnabled(false);
-        adapter.setThrowable(this, null, throwable);
-
-        binding.copy.setOnClickListener((v) -> copyToClipboard(this, getString(R.string.simple_exception), "```\n" + debugInfo + "\n```"));
+        binding.toolbar.setTitle(R.string.error);
+        binding.message.setText(throwable.getMessage());
+        binding.stacktrace.setText(debugInfo);
+        binding.copy.setOnClickListener((v) -> ClipboardUtil.INSTANCE.copyToClipboard(this, getString(R.string.simple_exception), "```\n" + debugInfo + "\n```"));
         binding.close.setOnClickListener((v) -> finish());
+
+        adapter.setThrowable(this, null, throwable);
     }
 
     @NonNull

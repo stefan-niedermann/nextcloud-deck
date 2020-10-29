@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
@@ -39,9 +40,17 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
     public static <T extends IRemoteEntity> List<T> findDelta(List<T> listA, List<T> listB){
         List<T> delta = new ArrayList<>();
         for (T b : listB) {
+            if (b == null) {
+                DeckLog.error("Entry in listB is null! skipping...");
+                continue;
+            }
             boolean found = false;
             for (T a : listA) {
-                if ((a.getLocalId()!= null && b.getLocalId()!= null ? (a.getLocalId().equals(b.getLocalId()))
+                if (a == null) {
+                    DeckLog.error("Entry in listA is null! skipping...");
+                    continue;
+                }
+                if ((a.getLocalId() != null && b.getLocalId() != null ? (a.getLocalId().equals(b.getLocalId()))
                         : a.getId().equals(b.getId())) && b.getAccountId() == a.getAccountId()) {
                     found = true;
                     break;
@@ -58,7 +67,13 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
         children.add(child);
     }
 
-    public abstract void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<T>> responder, Date lastSync);
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<T>> responder, Date lastSync) {
+        return;
+    }
+    public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<List<T>> responder, Date lastSync) {
+        // Overridden, because we also need the DB-Adapter at some points here (see ACL data provider)
+        getAllFromServer(serverAdapter, accountId, responder, lastSync);
+    }
 
     public abstract T getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, T entity);
 

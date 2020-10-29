@@ -6,9 +6,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -19,6 +17,7 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.util.AsyncUtil;
 
 public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
@@ -39,27 +38,65 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     @Override
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
         handleOwner(dataBaseAdapter, accountId, entity);
-        return dataBaseAdapter.createBoardDirectly(accountId, entity.getBoard());
+        Long localId = dataBaseAdapter.createBoardDirectly(accountId, entity.getBoard());
+        entity.getBoard().setLocalId(localId);
+        handleUsers(dataBaseAdapter, accountId, entity);
+        return localId;
     }
 
     private void handleOwner(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
         if (entity.getOwner()!=null) {
-            User remoteOwner = entity.getOwner();
-            User owner = dataBaseAdapter.getUserByUidDirectly(accountId, remoteOwner.getUid());
-            if (owner == null){
-                dataBaseAdapter.createUser(accountId, remoteOwner);
-            } else {
-                dataBaseAdapter.updateUser(accountId, remoteOwner, false);
-            }
-            owner = dataBaseAdapter.getUserByUidDirectly(accountId, remoteOwner.getUid());
+            User owner = createOrUpdateUser(dataBaseAdapter,accountId, entity.getOwner());
             entity.getBoard().setOwnerId(owner.getLocalId());
         }
     }
 
+    private void handleUsers(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
+        dataBaseAdapter.deleteBoardMembershipsOfBoard(entity.getLocalId());
+        if (entity.getUsers()!=null && !entity.getUsers().isEmpty()) {
+            for (User user : entity.getUsers()) {
+                if (user == null) {
+                    continue;
+                }
+                User existing = createOrUpdateUser(dataBaseAdapter, accountId, user);
+                dataBaseAdapter.addUserToBoard(existing.getLocalId(), entity.getLocalId());
+            }
+        }
+    }
+
+    private User createOrUpdateUser(DataBaseAdapter dataBaseAdapter, long accountId, User remoteUser) {
+        User owner = dataBaseAdapter.getUserByUidDirectly(accountId, remoteUser.getUid());
+        if (owner == null){
+            dataBaseAdapter.createUser(accountId, remoteUser);
+        } else {
+            dataBaseAdapter.updateUser(accountId, remoteUser, false);
+        }
+        return dataBaseAdapter.getUserByUidDirectly(accountId, remoteUser.getUid());
+    }
+
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity, boolean setStatus) {
+        handleDefaultLabels(dataBaseAdapter, entity);
         handleOwner(dataBaseAdapter, accountId, entity);
         dataBaseAdapter.updateBoard(entity.getBoard(), setStatus);
+        handleUsers(dataBaseAdapter, accountId, entity);
+    }
+
+    private void handleDefaultLabels(DataBaseAdapter dataBaseAdapter, FullBoard entity) {
+        // ## merge labels (created at board creation):
+        // the server creates four default labels. if a board is copied, they will also be copied. At sync, after creating the board, the labels are already there.
+        // this merges the created default ones with the ones i already have.
+        if (entity!= null && entity.getLabels() != null) {
+            for (Label label : entity.getLabels()) {
+                // does this label exist and unknown to server yet?
+                Label existing = dataBaseAdapter.getLabelByBoardIdAndTitleDirectly(entity.getLocalId(), label.getTitle());
+                if (existing != null && existing.getId() == null) {
+                    // take our label and lets say it IS the same as on server (but use the local color, no matter what the server says)
+                    existing.setId(label.getId());
+                    dataBaseAdapter.updateLabel(existing, false);
+                }
+            }
+        }
     }
 
     @Override
@@ -102,17 +139,13 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
         Long accountId = callback.getAccount().getId();
         List<Label> locallyChangedLabels = dataBaseAdapter.getLocallyChangedLabels(accountId);
-        CountDownLatch countDownLatch = new CountDownLatch(locallyChangedLabels.size());
-        for (Label label : locallyChangedLabels) {
-            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
-            label.setBoardId(board.getId());
-            syncHelper.doUpSyncFor(new LabelDataProvider(this, board, Collections.singletonList(label)), countDownLatch);
-        }
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            DeckLog.logError(e);
-        }
+        AsyncUtil.awaitAsyncWork(locallyChangedLabels.size(), (countDownLatch) -> {
+            for (Label label : locallyChangedLabels) {
+                Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
+                label.setBoardId(board.getId());
+                syncHelper.doUpSyncFor(new LabelDataProvider(this, board, Collections.singletonList(label)), countDownLatch);
+            }
+        });
 
         List<Long> localBoardIDsWithChangedACL = dataBaseAdapter.getBoardIDsOfLocallyChangedAccessControl(accountId);
         for (Long boardId : localBoardIDsWithChangedACL) {

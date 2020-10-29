@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 
 import androidx.activity.ComponentActivity;
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -18,11 +19,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
+import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAutocompleteLabelBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.util.AutoCompleteAdapter;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
@@ -35,7 +36,7 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
     public LabelAutoCompleteAdapter(@NonNull ComponentActivity activity, long accountId, long boardId, long cardId) {
         super(activity, accountId, boardId, cardId);
         final String[] colors = activity.getResources().getStringArray(R.array.board_default_colors);
-        final String createLabelColor = colors[new Random().nextInt(colors.length)].substring(1);
+        @ColorInt int createLabelColor = Color.parseColor(colors[new Random().nextInt(colors.length)]);
         observeOnce(syncManager.getFullBoardById(accountId, boardId), activity, (fullBoard) -> {
             if (fullBoard.getBoard().isPermissionManage()) {
                 canManage = true;
@@ -59,8 +60,8 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
         }
 
         final Label label = getItem(position);
-        final int labelColor = Color.parseColor("#" + label.getColor());
-        final int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
+        final int labelColor = label.getColor();
+        final int color = ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(labelColor);
 
         binding.label.setText(label.getTitle());
         binding.label.setChipBackgroundColor(ColorStateList.valueOf(labelColor));

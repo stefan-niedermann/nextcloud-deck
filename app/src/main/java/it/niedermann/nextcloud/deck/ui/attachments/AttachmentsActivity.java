@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.attachments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.SharedElementCallback;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -44,6 +47,9 @@ public class AttachmentsActivity extends AppCompatActivity {
         supportPostponeEnterTransition();
 
         setSupportActionBar(binding.toolbar);
+        final Drawable navigationIcon = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
+        DrawableCompat.setTint(navigationIcon, ContextCompat.getColor(this, android.R.color.white));
+        binding.toolbar.setNavigationIcon(navigationIcon);
 
         final Bundle args = getIntent().getExtras();
         if (args == null || !args.containsKey(BUNDLE_KEY_ACCOUNT) || !args.containsKey(BUNDLE_KEY_CARD_ID)) {
@@ -59,7 +65,7 @@ public class AttachmentsActivity extends AppCompatActivity {
         long cardId = args.getLong(BUNDLE_KEY_CARD_ID);
 
         final SyncManager syncManager = new SyncManager(this);
-        syncManager.getCardByLocalId(account.getId(), cardId).observe(this, fullCard -> {
+        syncManager.getFullCardWithProjectsByLocalId(account.getId(), cardId).observe(this, fullCard -> {
             final List<Attachment> attachments = new ArrayList<>();
             for (Attachment a : fullCard.getAttachments()) {
                 if (MimeTypeUtil.isImage(a.getMimetype())) {
@@ -67,7 +73,7 @@ public class AttachmentsActivity extends AppCompatActivity {
                 }
             }
             if (fullCard.getAttachments().size() == 0) {
-                DeckLog.logError(new IllegalStateException(AttachmentsActivity.class.getSimpleName() + " called, but card " + fullCard.getLocalId() + "has no attachments"));
+                DeckLog.logError(new IllegalStateException(AttachmentsActivity.class.getSimpleName() + " called, but card " + fullCard.getCard().getTitle() + " has no attachments"));
                 supportFinishAfterTransition();
                 return;
             }
@@ -79,7 +85,7 @@ public class AttachmentsActivity extends AppCompatActivity {
                     binding.toolbar.setTitle(attachments.get(position).getBasename());
                 }
             };
-            RecyclerView.Adapter adapter = new AttachmentAdapter(account, fullCard.getId(), attachments);
+            RecyclerView.Adapter<AttachmentViewHolder> adapter = new AttachmentAdapter(account, fullCard.getId(), attachments);
             binding.viewPager.setAdapter(adapter);
             binding.viewPager.registerOnPageChangeCallback(onPageChangeCallback);
 
@@ -104,7 +110,7 @@ public class AttachmentsActivity extends AppCompatActivity {
                     long currentAttachmentLocalId = attachments.get(binding.viewPager.getCurrentItem()).getLocalId();
                     String transitionKey = getString(R.string.transition_attachment_preview, String.valueOf(currentAttachmentLocalId));
                     if (transitionKey.equals(names.get(0))) {
-                        sharedElements.put(transitionKey, binding.viewPager.getRootView().findViewById(R.id.preview)
+                        sharedElements.put(transitionKey, binding.viewPager.getRootView().findViewById(R.id.avatar)
                         );
                     }
 

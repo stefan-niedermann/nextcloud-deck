@@ -1,4 +1,3 @@
 include ':app'
 include ':cross-tab-drag-and-drop'
-include ':glide-sso-integration'
 include ':tab-layout-helper'

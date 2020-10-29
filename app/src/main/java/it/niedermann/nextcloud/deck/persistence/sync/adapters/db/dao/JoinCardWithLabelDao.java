@@ -40,6 +40,9 @@ public interface JoinCardWithLabelDao extends GenericDao<JoinCardWithLabel> {
     @Query("select * from joincardwithlabel WHERE status <> 1") // not UP_TO_DATE
     List<JoinCardWithLabel> getAllChangedJoins();
 
+    @Query("select j.* from joincardwithlabel j inner join card c on j.cardId = c.localId  WHERE c.stackId = :localStackId and j.status <> 1") // not UP_TO_DATE
+    List<JoinCardWithLabel> getAllChangedJoinsForStack(Long localStackId);
+
     @Query("delete from joincardwithlabel " +
             "where cardId = (select c.localId from card c where c.accountId = :accountId and c.id = :remoteCardId) " +
             "and labelId = (select l.localId from label l where l.accountId = :accountId and l.id = :remoteLabelId)")
