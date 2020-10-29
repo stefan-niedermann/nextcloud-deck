@@ -209,10 +209,9 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         switch (requestCode) {
             case REQUEST_CODE_PICK_CONTACT: {
                 if (resultCode == RESULT_OK) {
-                    final Uri sourceUri = VCardUtil.getVCardContentUri(requireContext());
                     try {
-                        uploadNewAttachment(sourceUri);
-                    } catch (UploadAttachmentFailedException | IOException e) {
+                        uploadNewAttachment(VCardUtil.getVCardContentUri(requireContext()));
+                    } catch (Exception e) {
                         ExceptionDialogFragment.newInstance(e, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                     }
                 }
@@ -225,10 +224,9 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                         ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Intent data is null"), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                         return;
                     }
-                    final Uri sourceUri = data.getData();
                     try {
-                        uploadNewAttachment(sourceUri);
-                    } catch (UploadAttachmentFailedException | IOException e) {
+                        uploadNewAttachment(data.getData());
+                    } catch (Exception e) {
                         ExceptionDialogFragment.newInstance(e, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                     }
                 }

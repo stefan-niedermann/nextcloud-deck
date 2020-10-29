@@ -12,13 +12,11 @@ import java.util.NoSuchElementException;
 
 public class VCardUtil {
 
-    private static final String TAG = VCardUtil.class.getSimpleName();
-
     private VCardUtil() {
         // You shall not pass
     }
 
-    public static Uri getVCardContentUri(@NonNull Context context) {
+    public static Uri getVCardContentUri(@NonNull Context context) throws NoSuchElementException {
         final ContentResolver cr = context.getContentResolver();
         try (final Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null)) {
             if (cursor.moveToFirst()) {
