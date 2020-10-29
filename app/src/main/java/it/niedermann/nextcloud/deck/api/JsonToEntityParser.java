@@ -44,6 +44,7 @@ import static it.niedermann.nextcloud.deck.exceptions.TraceableException.makeTra
 
 public class JsonToEntityParser {
 
+    @SuppressWarnings("unchecked")
     protected static <T> T parseJsonObject(JsonObject obj, Class<T> mType) {
         if (mType == FullBoard.class) {
             return (T) parseBoard(obj);
