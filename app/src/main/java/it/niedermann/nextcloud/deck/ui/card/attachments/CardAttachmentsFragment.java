@@ -322,6 +322,9 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 }
                 break;
             }
+            default: {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
         }
     }
 
