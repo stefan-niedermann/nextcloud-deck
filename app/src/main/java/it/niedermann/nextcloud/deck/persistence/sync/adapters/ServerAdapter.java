@@ -18,7 +18,6 @@ import com.nextcloud.android.sso.api.ParsedResponse;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -26,7 +25,6 @@ import java.util.TimeZone;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.api.RequestHelper;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.AccessControl;
@@ -47,7 +45,6 @@ import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.model.propagation.Reorder;
-import it.niedermann.nextcloud.deck.util.DateUtil;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -139,14 +136,6 @@ public class ServerAdapter {
 //        return lastSyncHeader;
     }
 
-    // TODO not used
-    private Date getLastSync(long accountId) {
-        Date lastSync = DateUtil.nowInGMT();
-        lastSync.setTime(LastSyncUtil.getLastSync(accountId));
-
-        return lastSync;
-    }
-
     public void getBoards(IResponseCallback<List<FullBoard>> responseCallback) {
         RequestHelper.request(provider, () ->
                         provider.getDeckAPI().getBoards(true, getLastSyncDateFormatted(responseCallback.getAccount().getId())),
@@ -162,16 +151,18 @@ public class ServerAdapter {
         ensureInternetConnection();
         RequestHelper.request(provider, () -> provider.getNextcloudAPI().getProjectsForCard(remoteCardId), responseCallback);
     }
+
     public void searchUser(String searchTerm, IResponseCallback<OcsUserList> responseCallback) {
         ensureInternetConnection();
         RequestHelper.request(provider, () -> provider.getNextcloudAPI().searchUser(searchTerm), responseCallback);
     }
+
     public void getSingleUserData(String userUid, IResponseCallback<OcsUser> responseCallback) {
         ensureInternetConnection();
         RequestHelper.request(provider, () -> provider.getNextcloudAPI().getSingleUserData(userUid), responseCallback);
     }
 
-     public void searchGroupMembers(String groupUID, IResponseCallback<GroupMemberUIDs> responseCallback) {
+    public void searchGroupMembers(String groupUID, IResponseCallback<GroupMemberUIDs> responseCallback) {
         ensureInternetConnection();
         RequestHelper.request(provider, () -> provider.getNextcloudAPI().searchGroupMembers(groupUID), responseCallback);
     }

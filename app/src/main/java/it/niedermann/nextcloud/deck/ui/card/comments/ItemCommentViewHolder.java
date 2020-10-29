@@ -38,7 +38,7 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
         ViewUtil.addAvatar(binding.avatar, account.getUrl(), comment.getComment().getActorId(), DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
         binding.message.setText(comment.getComment().getMessage());
         binding.actorDisplayName.setText(comment.getComment().getActorDisplayName());
-        binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(binding.creationDateTime.getContext(), comment.getComment().getCreationDateTime().getTime()));
+        binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(binding.creationDateTime.getContext(), comment.getComment().getCreationDateTime().toEpochMilli()));
         itemView.setOnClickListener(View::showContextMenu);
 
         itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {

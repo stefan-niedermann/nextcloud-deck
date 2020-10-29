@@ -23,7 +23,6 @@ import java.io.File;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -213,7 +212,7 @@ public class SyncManager {
                         if (response.getDeckVersion().isSupported(appContext)) {
                             long accountId = callbackAccountId;
                             Instant lastSyncDate = LastSyncUtil.getLastSyncDate(callbackAccountId);
-                            Date now = DateUtil.nowInGMT();
+                            Instant now = DateUtil.nowInGMT();
 
                             final SyncHelper syncHelper = new SyncHelper(serverAdapter, dataBaseAdapter, lastSyncDate);
 

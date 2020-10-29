@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.time.Instant;
-import java.util.Date;
 
 import it.niedermann.nextcloud.deck.R;
 
@@ -31,8 +30,8 @@ public class LastSyncUtil {
         return Instant.ofEpochMilli(getLastSync(accountId));
     }
 
-    public static void setLastSyncDate(long accountId, Date value) {
-        INSTANCE.lastSyncPref.edit().putLong(getSyncKeyForAccount(accountId), value.getTime()).apply();
+    public static void setLastSyncDate(long accountId, Instant value) {
+        INSTANCE.lastSyncPref.edit().putLong(getSyncKeyForAccount(accountId), value.toEpochMilli()).apply();
     }
 
     public static void resetLastSyncDate(long accountId) {

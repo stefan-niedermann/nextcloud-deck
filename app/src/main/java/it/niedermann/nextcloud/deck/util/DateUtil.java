@@ -5,6 +5,7 @@ import android.text.format.DateUtils;
 
 import androidx.annotation.NonNull;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.TimeZone;
@@ -17,8 +18,8 @@ public final class DateUtil {
     private DateUtil() {
     }
 
-    public static Date nowInGMT() {
-        return convertToGMT(new Date());
+    public static Instant nowInGMT() {
+        return convertToGMT(new Date()).toInstant();
     }
 
     private static Date convertToGMT(Date date) {

@@ -10,7 +10,6 @@ import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import it.niedermann.android.util.ColorUtil;
@@ -241,7 +240,7 @@ public class JsonToEntityParser {
             deckComment.setActorId(commentJson.get("actorId").getAsString());
             deckComment.setActorDisplayName(commentJson.get("actorDisplayName").getAsString());
             deckComment.setActorType(commentJson.get("actorType").getAsString());
-            deckComment.setCreationDateTime(Date.from(getTimestampFromString(commentJson.get("creationDateTime"))));
+            deckComment.setCreationDateTime(getTimestampFromString(commentJson.get("creationDateTime")));
 
             if (commentJson.has("replyTo")) {
                 JsonObject replyTo = commentJson.get("replyTo").getAsJsonObject();

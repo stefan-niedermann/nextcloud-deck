@@ -16,9 +16,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.File;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -173,7 +173,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                             break;
                         case 1:
                             final Account currentAccount = mainViewModel.getCurrentAccount();
-                            final DeckComment comment = new DeckComment(receivedText.trim(), currentAccount.getUserName(), new Date());
+                            final DeckComment comment = new DeckComment(receivedText.trim(), currentAccount.getUserName(), Instant.now());
                             syncManager.addCommentToCard(currentAccount.getId(), fullCard.getLocalId(), comment);
                             Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
                             finish();
