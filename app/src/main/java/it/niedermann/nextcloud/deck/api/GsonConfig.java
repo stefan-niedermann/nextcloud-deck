@@ -32,65 +32,47 @@ public class GsonConfig {
     private static final Gson INSTANCE;
 
     static {
-        Type boardList = new TypeToken<List<FullBoard>>() {
-        }.getType();
-        Type board = new TypeToken<FullBoard>() {
-        }.getType();
-        Type cardList = new TypeToken<FullCard>() {
-        }.getType();
-        Type card = new TypeToken<FullCard>() {
-        }.getType();
-        Type labelList = new TypeToken<Label>() {
-        }.getType();
-        Type label = new TypeToken<Label>() {
-        }.getType();
-        Type stackList = new TypeToken<List<FullStack>>() {
-        }.getType();
-        Type stack = new TypeToken<FullStack>() {
-        }.getType();
-        Type capabilities = new TypeToken<Capabilities>() {
-        }.getType();
-        Type ocsUserList = new TypeToken<OcsUserList>() {
-        }.getType();
-        Type ocsUser = new TypeToken<OcsUser>() {
-        }.getType();
-        Type activity = new TypeToken<Activity>() {
-        }.getType();
-        Type activityList = new TypeToken<List<Activity>>() {
-        }.getType();
-        Type attachment = new TypeToken<Attachment>() {
-        }.getType();
-        Type attachmentList = new TypeToken<List<Attachment>>() {
-        }.getType();
-        Type comment = new TypeToken<OcsComment>() {
-        }.getType();
-        Type projectList = new TypeToken<OcsProjectList>() {
-        }.getType();
-        Type groupMembers = new TypeToken<GroupMemberUIDs>() {
-        }.getType();
+        Type boardList = new TypeToken<List<FullBoard>>() {}.getType();
+        Type board = new TypeToken<FullBoard>() {}.getType();
+        Type cardList = new TypeToken<FullCard>() {}.getType();
+        Type card = new TypeToken<FullCard>() {}.getType();
+        Type labelList = new TypeToken<Label>() {}.getType();
+        Type label = new TypeToken<Label>() {}.getType();
+        Type stackList = new TypeToken<List<FullStack>>() {}.getType();
+        Type stack = new TypeToken<FullStack>() {}.getType();
+        Type capabilities = new TypeToken<Capabilities>() {}.getType();
+        Type ocsUserList = new TypeToken<OcsUserList>() {}.getType();
+        Type ocsUser = new TypeToken<OcsUser>() {}.getType();
+        Type activity = new TypeToken<Activity>() {}.getType();
+        Type activityList = new TypeToken<List<Activity>>() {}.getType();
+        Type attachment = new TypeToken<Attachment>() {}.getType();
+        Type attachmentList = new TypeToken<List<Attachment>>() {}.getType();
+        Type comment = new TypeToken<OcsComment>() {}.getType();
+        Type projectList = new TypeToken<OcsProjectList>() {}.getType();
+        Type groupMembers = new TypeToken<GroupMemberUIDs>() {}.getType();
 
         INSTANCE = new GsonBuilder()
                 .setDateFormat(DATE_PATTERN)
                 .setLenient()
-                .registerTypeAdapter(Instant.class, new GsonUTCInstantAdapter())
-                .registerTypeAdapter(boardList, new NextcloudArrayDeserializer<>("boards", FullBoard.class))
-                .registerTypeAdapter(board, new NextcloudDeserializer<>("board", FullBoard.class))
-                .registerTypeAdapter(cardList, new NextcloudArrayDeserializer<>("cards", FullCard.class))
-                .registerTypeAdapter(card, new NextcloudDeserializer<>("card", FullCard.class))
-                .registerTypeAdapter(labelList, new NextcloudArrayDeserializer<>("labels", Label.class))
-                .registerTypeAdapter(label, new NextcloudDeserializer<>("label", Label.class))
-                .registerTypeAdapter(stackList, new NextcloudArrayDeserializer<>("stacks", FullStack.class))
-                .registerTypeAdapter(stack, new NextcloudDeserializer<>("stack", FullStack.class))
-                .registerTypeAdapter(capabilities, new NextcloudDeserializer<>("capability", Capabilities.class))
-                .registerTypeAdapter(ocsUserList, new NextcloudDeserializer<>("ocsUserList", OcsUserList.class))
-                .registerTypeAdapter(ocsUser, new NextcloudDeserializer<>("ocsUser", OcsUser.class))
-                .registerTypeAdapter(activity, new NextcloudDeserializer<>("activity", Activity.class))
-                .registerTypeAdapter(activityList, new NextcloudDeserializer<>("activityList", Activity.class))
+                .registerTypeAdapter(Instant.class,  new GsonUTCInstantAdapter())
+                .registerTypeAdapter(boardList,      new NextcloudArrayDeserializer<>("boards", FullBoard.class))
+                .registerTypeAdapter(board,          new NextcloudDeserializer<>("board", FullBoard.class))
+                .registerTypeAdapter(cardList,       new NextcloudArrayDeserializer<>("cards", FullCard.class))
+                .registerTypeAdapter(card,           new NextcloudDeserializer<>("card", FullCard.class))
+                .registerTypeAdapter(labelList,      new NextcloudArrayDeserializer<>("labels", Label.class))
+                .registerTypeAdapter(label,          new NextcloudDeserializer<>("label", Label.class))
+                .registerTypeAdapter(stackList,      new NextcloudArrayDeserializer<>("stacks", FullStack.class))
+                .registerTypeAdapter(stack,          new NextcloudDeserializer<>("stack", FullStack.class))
+                .registerTypeAdapter(capabilities,   new NextcloudDeserializer<>("capability", Capabilities.class))
+                .registerTypeAdapter(ocsUserList,    new NextcloudDeserializer<>("ocsUserList", OcsUserList.class))
+                .registerTypeAdapter(ocsUser,        new NextcloudDeserializer<>("ocsUser", OcsUser.class))
+                .registerTypeAdapter(activity,       new NextcloudDeserializer<>("activity", Activity.class))
+                .registerTypeAdapter(activityList,   new NextcloudDeserializer<>("activityList", Activity.class))
                 .registerTypeAdapter(attachmentList, new NextcloudArrayDeserializer<>("attachments", Attachment.class))
-                .registerTypeAdapter(attachment, new NextcloudDeserializer<>("attachment", Attachment.class))
-                .registerTypeAdapter(comment, new NextcloudDeserializer<>("comment", OcsComment.class))
-                .registerTypeAdapter(projectList, new NextcloudDeserializer<>("projectList", OcsProjectList.class))
-                .registerTypeAdapter(groupMembers, new NextcloudDeserializer<>("groupMembers", GroupMemberUIDs.class))
+                .registerTypeAdapter(attachment,     new NextcloudDeserializer<>("attachment", Attachment.class))
+                .registerTypeAdapter(comment,        new NextcloudDeserializer<>("comment", OcsComment.class))
+                .registerTypeAdapter(projectList,    new NextcloudDeserializer<>("projectList", OcsProjectList.class))
+                .registerTypeAdapter(groupMembers,  new NextcloudDeserializer<>("groupMembers", GroupMemberUIDs.class))
                 .create();
     }
 
