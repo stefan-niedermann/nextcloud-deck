@@ -58,8 +58,8 @@ public class AttachmentUtil {
         return accountUrl + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachmentRemoteId;
     }
 
-    public static File copyContentUriToTempFile(@NonNull Context context, @NonNull Uri currentUri, long accountId, Long localId) throws IOException, IllegalArgumentException {
-        String fullTempPath = context.getApplicationContext().getFilesDir().getAbsolutePath() + "/attachments/account-" + accountId + "/card-" + (localId == null ? "pending-creation" : localId) + '/' + UriUtils.getDisplayNameForUri(currentUri, context);
+    public static File copyContentUriToTempFile(@NonNull Context context, @NonNull Uri currentUri, long accountId, Long localCardId) throws IOException, IllegalArgumentException {
+        String fullTempPath = context.getApplicationContext().getFilesDir().getAbsolutePath() + "/attachments/account-" + accountId + "/card-" + (localCardId == null ? "pending-creation" : localCardId) + '/' + UriUtils.getDisplayNameForUri(currentUri, context);
         DeckLog.verbose("----- fullTempPath: " + fullTempPath);
         InputStream inputStream = context.getContentResolver().openInputStream(currentUri);
         if (inputStream == null) {
@@ -78,7 +78,7 @@ public class AttachmentUtil {
         if (!cacheFile.createNewFile()) {
             throw new IOException("Failed to create cacheFile");
         }
-        FileOutputStream outputStream = new FileOutputStream(fullTempPath);
+        final FileOutputStream outputStream = new FileOutputStream(fullTempPath);
         byte[] buffer = new byte[4096];
 
         int count;
