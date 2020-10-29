@@ -54,7 +54,7 @@ public class CardActivityViewHolder extends RecyclerView.ViewHolder {
             case FILES:
                 binding.type.setImageResource(R.drawable.type_file_36dp);
             case HISTORY:
-                binding.type.setImageResource(R.drawable.type_file_36dp);
+                binding.type.setImageResource(R.drawable.type_history_36dp);
             case DECK:
             default:
                 break;
