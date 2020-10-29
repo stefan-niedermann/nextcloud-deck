@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -20,7 +20,7 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
         super(parent);
         this.board = board;
         this.labels = labels;
-        if (this.labels!= null && board != null){
+        if (this.labels != null && board != null) {
             for (Label label : labels) {
                 label.setBoardId(board.getLocalId());
             }
@@ -28,7 +28,7 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<Label>> responder, Date lastSync) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<Label>> responder, Instant lastSync) {
         responder.onResponse(labels);
     }
 
@@ -54,7 +54,7 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
         dataBaseAdapter.updateLabel(entity, setStatus);
     }
 
-    private IResponseCallback<Label> getLabelUniqueHandler(DataBaseAdapter dataBaseAdapter, Label entitiy, IResponseCallback<Label> responder){
+    private IResponseCallback<Label> getLabelUniqueHandler(DataBaseAdapter dataBaseAdapter, Label entitiy, IResponseCallback<Label> responder) {
         return new IResponseCallback<Label>(responder.getAccount()) {
             @Override
             public void onResponse(Label response) {
@@ -63,7 +63,7 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
 
             @Override
             public void onError(Throwable throwable) {
-                if (HandledServerErrors.LABELS_TITLE_MUST_BE_UNIQUE == HandledServerErrors.fromThrowable(throwable)){
+                if (HandledServerErrors.LABELS_TITLE_MUST_BE_UNIQUE == HandledServerErrors.fromThrowable(throwable)) {
                     DeckLog.log(throwable.getCause().getMessage() + ": " + entitiy.toString());
                     dataBaseAdapter.deleteLabelPhysically(entitiy);
                     responder.onResponse(entitiy);
@@ -96,7 +96,7 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
     }
 
     @Override
-    public List<Label> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+    public List<Label> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Instant lastSync) {
         return labels;
     }
 
@@ -109,7 +109,7 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
     public void handleDeletes(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, List<Label> entitiesFromServer) {
         List<Label> deletedLabels = findDelta(labels, dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, board.getLocalId()).getLabels());
         for (Label deletedLabel : deletedLabels) {
-            if (deletedLabel.getId()!=null){
+            if (deletedLabel.getId() != null) {
                 // preserve new, unsynced card.
                 dataBaseAdapter.deleteLabelPhysically(deletedLabel);
             }

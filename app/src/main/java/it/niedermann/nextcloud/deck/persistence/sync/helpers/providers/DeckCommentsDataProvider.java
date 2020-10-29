@@ -1,8 +1,8 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -24,7 +24,7 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<OcsComment>> responder, Date lastSync) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<OcsComment>> responder, Instant lastSync) {
         serverAdapter.getCommentsForRemoteCardId(card.getId(), new IResponseCallback<OcsComment>(responder.getAccount()) {
             @Override
             public void onResponse(OcsComment response) {
@@ -134,7 +134,7 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
     }
 
     @Override
-    public List<OcsComment> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+    public List<OcsComment> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Instant lastSync) {
         return new OcsComment(dataBaseAdapter.getLocallyChangedCommentsByLocalCardIdDirectly(accountId, card.getLocalId())).split();
     }
 

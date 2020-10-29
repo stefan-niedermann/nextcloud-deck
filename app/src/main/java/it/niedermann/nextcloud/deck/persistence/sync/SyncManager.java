@@ -212,7 +212,7 @@ public class SyncManager {
                     if (response != null && !response.isMaintenanceEnabled()) {
                         if (response.getDeckVersion().isSupported(appContext)) {
                             long accountId = callbackAccountId;
-                            Date lastSyncDate = LastSyncUtil.getLastSyncDate(callbackAccountId);
+                            Instant lastSyncDate = LastSyncUtil.getLastSyncDate(callbackAccountId);
                             Date now = DateUtil.nowInGMT();
 
                             final SyncHelper syncHelper = new SyncHelper(serverAdapter, dataBaseAdapter, lastSyncDate);
@@ -1734,7 +1734,7 @@ public class SyncManager {
                 Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(movedCard.getCard().getStackId());
                 FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, stack.getBoardId());
                 Account account = dataBaseAdapter.getAccountByIdDirectly(movedCard.getCard().getAccountId());
-                new SyncHelper(serverAdapter, dataBaseAdapter, new Date()).setResponseCallback(new IResponseCallback<Boolean>(account) {
+                new SyncHelper(serverAdapter, dataBaseAdapter, Instant.now()).setResponseCallback(new IResponseCallback<Boolean>(account) {
                     @Override
                     public void onResponse(Boolean response) {
                         // doNothing();
