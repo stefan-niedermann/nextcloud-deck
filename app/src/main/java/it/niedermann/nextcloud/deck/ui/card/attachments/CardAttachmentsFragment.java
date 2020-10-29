@@ -1,11 +1,11 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
@@ -54,13 +54,10 @@ import it.niedermann.nextcloud.deck.ui.card.attachments.picker.CardAttachmentPic
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.CardAttachmentPickerListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
-import static android.app.Activity.RESULT_OK;
-import static androidx.core.content.PermissionChecker.checkSelfPermission;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.KITKAT;
-import static android.os.Build.VERSION_CODES.M;
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -225,7 +222,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                     // Get the contacts name
                     String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
                     Log.e("col: ", name);
-
 
 
 //
