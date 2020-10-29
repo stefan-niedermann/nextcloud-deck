@@ -79,7 +79,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.LabelData
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.BoardWithAclDownSyncDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.BoardWithStacksAndLabelsUpSyncDataProvider;
-import it.niedermann.nextcloud.deck.util.DateUtil;
 
 import static java.net.HttpURLConnection.HTTP_NOT_MODIFIED;
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
@@ -212,7 +211,6 @@ public class SyncManager {
                         if (response.getDeckVersion().isSupported(appContext)) {
                             long accountId = callbackAccountId;
                             Instant lastSyncDate = LastSyncUtil.getLastSyncDate(callbackAccountId);
-                            Instant now = DateUtil.nowInGMT();
 
                             final SyncHelper syncHelper = new SyncHelper(serverAdapter, dataBaseAdapter, lastSyncDate);
 
@@ -223,7 +221,7 @@ public class SyncManager {
                                         @Override
                                         public void onResponse(Boolean response) {
                                             // TODO deactivate for dev
-                                            LastSyncUtil.setLastSyncDate(accountId, now);
+                                            LastSyncUtil.setLastSyncDate(accountId, Instant.now());
                                             respondCallbacksAfterSync(callbacksQueueForSync, response, null);
                                         }
 
