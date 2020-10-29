@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Tekijät</string>
     <string name="about_contribution_tab_title">Kontribuutio</string>
     <string name="about_license_tab_title">Lisenssi</string>
-
-    <string name="copied_to_clipboard">Kopioitu leikepöydälle</string>
-
     <string name="seconds_ago">sekuntia sitten</string>
     <string name="edit">Muokkaa</string>
     <string name="label_labels">Valitse tunnisteet</string>
@@ -158,7 +155,6 @@
     <string name="maintenance_mode_explanation">Palvelin%1$s on juuri ylläpitotilassa. Ota yhteys järjestelmän ylläpitäjään tai yritä myöhemmin uudelleen.</string>
     <string name="share_add_to_card">Lisää kortille</string>
     <string name="share_success">Onnistuneesti lisätty %1$s kohteeseen %2$s</string>
-    <string name="could_not_copy_to_clipboard">Ei voitu kopioida leikepöydälle</string>
     <string name="add_comment">Lisää kommentti</string>
     <string name="card_edit_comments">Kommentit</string>
     <string name="no_comments_yet">Ei kommentteja</string>

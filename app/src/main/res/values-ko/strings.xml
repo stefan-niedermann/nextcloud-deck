@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">크레딧</string>
     <string name="about_contribution_tab_title">기여자</string>
     <string name="about_license_tab_title">라이선스</string>
-
-    <string name="copied_to_clipboard">클립보드로 복사</string>
-
     <string name="seconds_ago">몇 초 전</string>
     <string name="edit">수정</string>
     <string name="label_labels">태그 선택</string>
@@ -156,7 +153,6 @@
     <string name="maintenance_mode_explanation">%1$s서버는 현재 유지보수 모드입니다. 관리자에게 연락하거나 나중에 시도해주십시오.</string>
     <string name="share_add_to_card">카드를 더하십시오.</string>
     <string name="share_success">%1$s가  %2$s에  성공적으로 더해졌습니다.</string>
-    <string name="could_not_copy_to_clipboard">클립보드에 복사할 수 없습니다.</string>
     <string name="add_comment">덧글 달기</string>
     <string name="card_edit_comments">댓글</string>
     <string name="no_comments_yet">덧글이 없음</string>

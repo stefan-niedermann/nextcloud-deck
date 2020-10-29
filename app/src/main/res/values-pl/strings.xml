@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Autorzy</string>
     <string name="about_contribution_tab_title">Wkład</string>
     <string name="about_license_tab_title">Licencja</string>
-
-    <string name="copied_to_clipboard">Skopiowano do schowka</string>
-
     <string name="seconds_ago">przed chwilą</string>
     <string name="edit">Edytuj</string>
     <string name="label_labels">Wybierz etykietę</string>
@@ -114,6 +111,7 @@
     <string name="no_lists_yet">Brak list</string>
     <string name="do_you_want_to_save_your_changes">Czy chcesz zachować zmiany?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Czy chcesz zarchiwizować wszystkie karty %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Czy chcesz zarchiwizować wszystkie odfiltrowane karty z %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Spowoduje to trwałe usunięcie %1$d karty z tej listy.</item>
         <item quantity="few">Spowoduje to trwałe usunięcie wszystkich %1$d kart z tej listy.</item>
@@ -162,7 +160,6 @@
     <string name="maintenance_mode_explanation">Serwer %1$s jest obecnie w trybie konserwacji. Skontaktuj się z administratorem lub spróbuj ponownie później.</string>
     <string name="share_add_to_card">Dodaj do karty</string>
     <string name="share_success">Pomyślnie dodano %1$s do %2$s</string>
-    <string name="could_not_copy_to_clipboard">Nie można skopiować do schowka</string>
     <string name="add_comment">Dodaj komentarz</string>
     <string name="card_edit_comments">Komentarze</string>
     <string name="no_comments_yet">Brak komentarzy</string>
@@ -293,4 +290,8 @@
     <string name="project_type_room">Pokój rozmów</string>
     <string name="simple_move">Przenieś</string>
     <string name="cannot_upload_files_without_permission">Nie można wysyłać plików bez uprawnienia</string>
-    </resources>
+    <string name="clone_cards">Klonuj karty</string>
+    <string name="simple_clone">Klonuj</string>
+    <string name="user_avatar">Awatar użytkownika</string>
+    <string name="simple_unassign">Cofnij przypisanie</string>
+</resources>

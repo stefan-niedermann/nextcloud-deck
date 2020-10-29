@@ -11,13 +11,12 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.net.URL;
 
-import it.niedermann.android.glidesso.SingleSignOnUrl;
+import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemPrepareCreateAccountBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-
-import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
+import it.niedermann.nextcloud.sso.glide.SingleSignOnUrl;
 
 public class AccountAdapter extends AbstractAdapter<Account> {
 
@@ -51,7 +50,7 @@ public class AccountAdapter extends AbstractAdapter<Account> {
             }
 
             Glide.with(getContext())
-                    .load(new SingleSignOnUrl(item.getName(), item.getAvatarUrl(dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details))))
+                    .load(new SingleSignOnUrl(item.getName(), item.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details))))
                     .placeholder(R.drawable.ic_baseline_account_circle_24)
                     .error(R.drawable.ic_baseline_account_circle_24)
                     .apply(RequestOptions.circleCropTransform())

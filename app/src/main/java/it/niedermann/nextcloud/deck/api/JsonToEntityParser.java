@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.exceptions.DeckException;
 import it.niedermann.nextcloud.deck.model.AccessControl;
@@ -39,7 +40,6 @@ import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 import static it.niedermann.nextcloud.deck.exceptions.DeckException.Hint.CAPABILITIES_VERSION_NOT_PARSABLE;
 import static it.niedermann.nextcloud.deck.exceptions.TraceableException.makeTraceableIfFails;
@@ -117,6 +117,7 @@ public class JsonToEntityParser {
         }, obj);
         return ocsUserList;
     }
+
     private static OcsUser parseSingleOcsUser(JsonObject obj) {
         DeckLog.verbose(obj.toString());
         OcsUser ocsUser = new OcsUser();
@@ -124,10 +125,10 @@ public class JsonToEntityParser {
             JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
             if (!data.isJsonNull()) {
                 JsonObject user = data.getAsJsonObject();
-                if (user.has("id")){
+                if (user.has("id")) {
                     ocsUser.setId(user.get("id").getAsString());
                 }
-                if (user.has("displayname")){
+                if (user.has("displayname")) {
                     ocsUser.setDisplayName(user.get("displayname").getAsString());
                 }
             }
@@ -135,6 +136,7 @@ public class JsonToEntityParser {
         }, obj);
         return ocsUser;
     }
+
     private static OcsProjectList parseOcsProjectList(JsonObject obj) {
         DeckLog.verbose(obj.toString());
         OcsProjectList projectList = new OcsProjectList();
@@ -150,10 +152,10 @@ public class JsonToEntityParser {
                         project.setName(getNullAsEmptyString(jsonObject.get("name")));
                         project.setResources(new ArrayList<>());
                         JsonElement jsonResources = jsonObject.get("resources");
-                        if (jsonResources != null && jsonResources.isJsonArray()){
+                        if (jsonResources != null && jsonResources.isJsonArray()) {
                             JsonArray resourcesArray = jsonResources.getAsJsonArray();
                             for (JsonElement resourceElement : resourcesArray) {
-                                if (resourceElement.isJsonObject()){
+                                if (resourceElement.isJsonObject()) {
                                     OcsProjectResource resource = parseOcsProjectResource(resourceElement.getAsJsonObject());
                                     resource.setProjectId(project.getId());
                                     project.getResources().add(resource);
@@ -176,7 +178,7 @@ public class JsonToEntityParser {
             if (obj.has("id")) {
                 String idString = obj.get("id").getAsString();
                 if (idString != null && idString.trim().length() > 0) {
-                    if (idString.matches("[0-9]+")){
+                    if (idString.matches("[0-9]+")) {
                         resource.setId(Long.parseLong(idString.trim()));
                     } else {
                         resource.setIdString(idString);
@@ -196,15 +198,15 @@ public class JsonToEntityParser {
                 resource.setIconUrl(getNullAsEmptyString(obj.get("iconUrl")));
             }
             if (obj.has("path")) {
-               resource.setPath(obj.get("path").getAsString());
+                resource.setPath(obj.get("path").getAsString());
             }
             if (obj.has("mimetype")) {
-               resource.setMimetype(obj.get("mimetype").getAsString());
+                resource.setMimetype(obj.get("mimetype").getAsString());
             }
             if (obj.has("preview-available")) {
-               resource.setPreviewAvailable(obj.get("preview-available").getAsBoolean());
+                resource.setPreviewAvailable(obj.get("preview-available").getAsBoolean());
             } else {
-               resource.setPreviewAvailable(false);
+                resource.setPreviewAvailable(false);
             }
 
         }, obj);
@@ -242,17 +244,18 @@ public class JsonToEntityParser {
             deckComment.setActorType(commentJson.get("actorType").getAsString());
             deckComment.setCreationDateTime(getTimestampFromString(commentJson.get("creationDateTime")));
 
-            if (commentJson.has("replyTo")){
-            JsonObject replyTo = commentJson.get("replyTo").getAsJsonObject();
-            deckComment.setParentId(replyTo.get("id").getAsLong());
-        }
-
-        JsonElement mentions = commentJson.get("mentions");
-        if (mentions != null && mentions.isJsonArray()) {
-            for (JsonElement mention : mentions.getAsJsonArray()) {
-                deckComment.addMention(parseMention(mention));
+            if (commentJson.has("replyTo")) {
+                JsonObject replyTo = commentJson.get("replyTo").getAsJsonObject();
+                deckComment.setParentId(replyTo.get("id").getAsLong());
             }
-        }}, data);
+
+            JsonElement mentions = commentJson.get("mentions");
+            if (mentions != null && mentions.isJsonArray()) {
+                for (JsonElement mention : mentions.getAsJsonArray()) {
+                    deckComment.addMention(parseMention(mention));
+                }
+            }
+        }, data);
 
         return deckComment;
     }
@@ -480,7 +483,7 @@ public class JsonToEntityParser {
 
     protected static User parseUser(JsonElement userElement) {
         DeckLog.verbose(userElement.toString());
-        if (userElement.isJsonNull()){
+        if (userElement.isJsonNull()) {
             return null;
         }
         User user = new User();
@@ -560,7 +563,7 @@ public class JsonToEntityParser {
         String rawString = getNullAsEmptyString(element.get(field));
         try {
             if (!rawString.trim().isEmpty()) {
-                String colorAsString = ColorUtil.formatColorToParsableHexString(rawString);
+                String colorAsString = ColorUtil.INSTANCE.formatColorToParsableHexString(rawString);
                 return Color.parseColor(colorAsString);
             }
         } catch (Exception e) {

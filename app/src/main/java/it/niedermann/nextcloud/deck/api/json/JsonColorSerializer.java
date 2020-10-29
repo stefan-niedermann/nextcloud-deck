@@ -6,7 +6,7 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 
-import it.niedermann.nextcloud.deck.util.ColorUtil;
+import it.niedermann.android.util.ColorUtil;
 
 public class JsonColorSerializer extends TypeAdapter<Integer> {
     @Override
@@ -14,7 +14,7 @@ public class JsonColorSerializer extends TypeAdapter<Integer> {
         if (value == null) {
             out.nullValue();
         } else {
-            out.value(ColorUtil.intColorToHexString(value));
+            out.value(ColorUtil.INSTANCE.intColorToHexString(value));
         }
     }
 

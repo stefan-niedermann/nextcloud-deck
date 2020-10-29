@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Créditos</string>
     <string name="about_contribution_tab_title">Contribuir</string>
     <string name="about_license_tab_title">Licencia</string>
-
-    <string name="copied_to_clipboard">Copiado al portapapeles</string>
-
     <string name="seconds_ago">hace unos segundos</string>
     <string name="edit">Editar</string>
     <string name="label_labels">Seleccionar etiquetas</string>
@@ -114,6 +111,7 @@
     <string name="no_lists_yet">Aún no hay listas</string>
     <string name="do_you_want_to_save_your_changes">¿Desea guardar los cambios?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">¿Desea archivar todas las tarjetas de %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">¿Desea archivar todas las tarjetas filtradas de %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Esto eliminará permanentemente %1$d tarjeta de esta lista.</item>
         <item quantity="other">Esto eliminará permanentemente todas las %1$d tarjetas de esta lista.</item>
@@ -158,7 +156,6 @@
     <string name="maintenance_mode_explanation">El servidor %1$s está actualmente en modo de mantenimiento. Por favor, contacta con tu administrador o vuelve a intentarlo más tarde.</string>
     <string name="share_add_to_card">Añadir a la tarjeta</string>
     <string name="share_success">Añadido satisfactoriamente %1$s a %2$s</string>
-    <string name="could_not_copy_to_clipboard">No se puede copiar al portapapeles</string>
     <string name="add_comment">Agregar comentario</string>
     <string name="card_edit_comments">Comentarios</string>
     <string name="no_comments_yet">Todavía no hay comentarios.</string>
@@ -285,4 +282,8 @@
     <string name="project_type_room">Sala de conversación</string>
     <string name="simple_move">Mover</string>
     <string name="cannot_upload_files_without_permission">No se puede subir archivos sin permiso</string>
-    </resources>
+    <string name="clone_cards">Clonar tarjetas</string>
+    <string name="simple_clone">Clonar</string>
+    <string name="user_avatar">Usar avatar</string>
+    <string name="simple_unassign">Sin asignar</string>
+</resources>

@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Tack</string>
     <string name="about_contribution_tab_title">Bidrag</string>
     <string name="about_license_tab_title">Licens</string>
-
-    <string name="copied_to_clipboard">Kopierat till urklipp</string>
-
     <string name="seconds_ago">sekunder sedan</string>
     <string name="edit">Redigera</string>
     <string name="label_labels">Välj taggar</string>
@@ -158,7 +155,6 @@
     <string name="maintenance_mode_explanation">Servern %1$s är för närvarande i underhållsläge. Kontakta din administratör eller försök igen senare.</string>
     <string name="share_add_to_card">Lägg till i kort</string>
     <string name="share_success">La till %1$s till %2$s</string>
-    <string name="could_not_copy_to_clipboard">Kunde inte kopiera till urklipp</string>
     <string name="add_comment">Lägg till kommentar</string>
     <string name="card_edit_comments">Kommentarer</string>
     <string name="no_comments_yet">Inga kommentarer än</string>
@@ -257,4 +253,5 @@
     <string name="project_type_file">Fil</string>
     <string name="projects_title">Projekt</string>
     <string name="simple_move">Flytta</string>
-    </resources>
+    <string name="simple_unassign">Ta bort tilldelning</string>
+</resources>

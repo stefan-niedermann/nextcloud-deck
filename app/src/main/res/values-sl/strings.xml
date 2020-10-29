@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Zasluge</string>
     <string name="about_contribution_tab_title">Skupnost</string>
     <string name="about_license_tab_title">Dovoljenje</string>
-
-    <string name="copied_to_clipboard">Kopirano v odložišče</string>
-
     <string name="seconds_ago">pred nekaj sekundami</string>
     <string name="edit">Uredi</string>
     <string name="label_labels">Izbor oznak</string>
@@ -114,6 +111,7 @@
     <string name="no_lists_yet">Ni še dodanega seznama</string>
     <string name="do_you_want_to_save_your_changes">Ali želite shraniti spremembe?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Ali želite arhivirati vse naloge %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Ali želite arhivirati vse filtrirane naloge %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">S tem boste trajno izbrisali %1$d nalogo tega seznama.</item>
         <item quantity="two">S tem boste trajno izbrisali %1$d nalogi tega seznama.</item>
@@ -162,7 +160,6 @@
     <string name="maintenance_mode_explanation">Strežnik %1$s je trenutno v načinu vzdrževanja. Stopite v stik s skrbnikom, ali pa poskusite kasneje.</string>
     <string name="share_add_to_card">Dodaj k nalogi</string>
     <string name="share_success">Uspešno dodano %1$s v %2$s</string>
-    <string name="could_not_copy_to_clipboard">Predmeta ni mogoče kopirati v odložišče</string>
     <string name="add_comment">Dodaj opombo</string>
     <string name="card_edit_comments">Opombe</string>
     <string name="no_comments_yet">Ni še dodane nobene opombe</string>
@@ -292,5 +289,9 @@
     <string name="single_card">Enojna naloga</string>
     <string name="project_type_room">Klepetalnica</string>
     <string name="simple_move">Premakni</string>
-    <string name="cannot_upload_files_without_permission">Ne morem naložiti datoteke brez dovoljenja</string>
-    </resources>
+    <string name="cannot_upload_files_without_permission">Brez ustreznih dovoljenj ni mogoče naložiti datoteke</string>
+    <string name="clone_cards">Kloniraj nalogo</string>
+    <string name="simple_clone">Kloniraj</string>
+    <string name="user_avatar">Podoba uporabnika</string>
+    <string name="simple_unassign">Odstrani</string>
+</resources>

@@ -13,10 +13,10 @@ import com.google.gson.annotations.JsonAdapter;
 
 import java.io.Serializable;
 
+import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.json.JsonColorSerializer;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 @Entity(inheritSuperIndices = true,
         indices = {@Index("boardId"), @Index(value = {"boardId", "title"}, unique = true, name = "idx_label_title_unique")},
@@ -68,7 +68,7 @@ public class Label extends AbstractRemoteEntity implements Serializable {
 
     public void setColor(String color) {
         try {
-            setColor(Color.parseColor(ColorUtil.formatColorToParsableHexString(color)));
+            setColor(Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(color)));
         } catch (Exception e) {
             DeckLog.logError(e);
             setColor(Color.GRAY);

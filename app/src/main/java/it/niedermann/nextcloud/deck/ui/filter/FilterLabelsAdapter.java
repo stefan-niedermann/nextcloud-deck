@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemFilterLabelBinding;
 import it.niedermann.nextcloud.deck.model.Label;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 @SuppressWarnings("WeakerAccess")
 public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapter.LabelViewHolder> {
@@ -73,13 +73,14 @@ public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapte
         LabelViewHolder(@NonNull ItemFilterLabelBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            this.binding.label.setClickable(false);
         }
 
         void bind(final Label label) {
             binding.label.setText(label.getTitle());
             final int labelColor = label.getColor();
             binding.label.setChipBackgroundColor(ColorStateList.valueOf(labelColor));
-            final int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
+            final int color = ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(labelColor);
             binding.label.setTextColor(color);
             itemView.setSelected(selectedLabels.contains(label));
             bindClickListener(label);

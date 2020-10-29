@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Zásluhy</string>
     <string name="about_contribution_tab_title">Zapojení se</string>
     <string name="about_license_tab_title">Licence</string>
-
-    <string name="copied_to_clipboard">Zkopírováno do schránky</string>
-
     <string name="seconds_ago">před několika sekundami</string>
     <string name="edit">Upravit</string>
     <string name="label_labels">Vybrat štítky</string>
@@ -114,6 +111,7 @@
     <string name="no_lists_yet">Zatím žádné seznamy</string>
     <string name="do_you_want_to_save_your_changes">Chcete vámi provedené změny uložit?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Chcete archivovat všechny karty %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Chcete archivovat všechny filtrované karty %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Toto nadobro vymaže %1$d kartu z tohoto seznamu.</item>
         <item quantity="few">Toto nadobro vymaže obě %1$d karty z tohoto seznamu.</item>
@@ -162,7 +160,6 @@
     <string name="maintenance_mode_explanation">Na serveru %1$s v tuto chvíli probíhá údržba. Obraťte se na jeho správce nebo to zkuste později znovu.</string>
     <string name="share_add_to_card">Přidat do karty</string>
     <string name="share_success">%1$s úspěšně přidáno do %2$s</string>
-    <string name="could_not_copy_to_clipboard">Nedaří se zkopírovat do schránky</string>
     <string name="add_comment">Přidat komentář</string>
     <string name="card_edit_comments">Komentáře</string>
     <string name="no_comments_yet">Zatím žádné komentáře</string>
@@ -293,4 +290,8 @@
     <string name="project_type_room">Diskuzní místnost</string>
     <string name="simple_move">Přesunout</string>
     <string name="cannot_upload_files_without_permission">Není možné nahrávat soubory bez oprávnění</string>
-    </resources>
+    <string name="clone_cards">Klonovat karty</string>
+    <string name="simple_clone">Klonovat</string>
+    <string name="user_avatar">Zástupný obrázek uživatele</string>
+    <string name="simple_unassign">Zrušit přirazení</string>
+</resources>

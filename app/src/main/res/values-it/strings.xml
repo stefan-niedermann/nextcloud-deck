@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Riconoscimenti</string>
     <string name="about_contribution_tab_title">Contributi</string>
     <string name="about_license_tab_title">Licenza</string>
-
-    <string name="copied_to_clipboard">Copiato negli appunti</string>
-
     <string name="seconds_ago">secondi fa</string>
     <string name="edit">Modifica</string>
     <string name="label_labels">Seleziona etichette</string>
@@ -114,6 +111,7 @@
     <string name="no_lists_yet">Ancora nessun elenco</string>
     <string name="do_you_want_to_save_your_changes">Vuoi salvare le tue modifiche?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Vuoi archiviare tutte le schede di %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Vuoi archiviare tutte le schede filtrate di %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Questo eliminerà definitivamente %1$d scheda di questo elenco</item>
         <item quantity="other">Questo eliminerà definitivamente %1$d schede di questo elenco</item>
@@ -158,7 +156,6 @@
     <string name="maintenance_mode_explanation">Il server %1$s attualmente è in manutenzione. Contatta l\'amministratore o riprova più tardi.</string>
     <string name="share_add_to_card">Aggiungi a scheda</string>
     <string name="share_success">Aggiunto %1$s a %2$s correttamente</string>
-    <string name="could_not_copy_to_clipboard">Impossibile copiare negli appunti</string>
     <string name="add_comment">Aggiungi commento</string>
     <string name="card_edit_comments">Commenti</string>
     <string name="no_comments_yet">Ancora nessun commento</string>
@@ -285,4 +282,8 @@
     <string name="project_type_room">Stanza di Talk</string>
     <string name="simple_move">Sposta</string>
     <string name="cannot_upload_files_without_permission">Impossible caricare file senza permesso</string>
-    </resources>
+    <string name="clone_cards">Clona schede</string>
+    <string name="simple_clone">Clona</string>
+    <string name="user_avatar">Avatar dell\'utente</string>
+    <string name="simple_unassign">Rimuovi assegnazione</string>
+</resources>

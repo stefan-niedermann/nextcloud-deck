@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Credits</string>
     <string name="about_contribution_tab_title">Beitrag</string>
     <string name="about_license_tab_title">Lizenz</string>
-
-    <string name="copied_to_clipboard">In die Zwischenablage kopiert</string>
-
     <string name="seconds_ago">Gerade eben</string>
     <string name="edit">Bearbeiten</string>
     <string name="label_labels">Schlagworte auswählen</string>
@@ -114,6 +111,7 @@
     <string name="no_lists_yet">Noch keine Listen vorhanden</string>
     <string name="do_you_want_to_save_your_changes">Möchten Sie Ihre Änderungen speichern?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Möchten Sie alle Karten von %1$s archivieren?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Möchten Sie alle gefilterten Karten von %1$s archivieren?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Dies wird %1$d Karte permanent aus dieser Liste löschen.</item>
         <item quantity="other">Dies wird %1$d Karten permanent aus dieser Liste löschen.</item>
@@ -158,7 +156,6 @@
     <string name="maintenance_mode_explanation">Der Server %1$s ist momentan im Wartungsmodus. Bitte nehmen Sie Kontakt mit Ihrem Administrator auf oder versuchen Sie es später nochmal!</string>
     <string name="share_add_to_card">Zur Karte hinzufügen</string>
     <string name="share_success">%1$s erfolgreich zu %2$s hinzugefügt</string>
-    <string name="could_not_copy_to_clipboard">Konnte nicht in die Zwischenablage kopieren</string>
     <string name="add_comment">Kommentar hinzufügen</string>
     <string name="card_edit_comments">Kommentare</string>
     <string name="no_comments_yet">Noch keine Kommentare vorhanden</string>
@@ -285,4 +282,8 @@
     <string name="project_type_room">Talk-Raum</string>
     <string name="simple_move">Verschieben</string>
     <string name="cannot_upload_files_without_permission">Dateien können nicht ohne Berechtigung hochgeladen werden</string>
-    </resources>
+    <string name="clone_cards">Karten klonen</string>
+    <string name="simple_clone">Klonen</string>
+    <string name="user_avatar">Benutzer-Avatar</string>
+    <string name="simple_unassign">Zuordnung aufheben</string>
+</resources>

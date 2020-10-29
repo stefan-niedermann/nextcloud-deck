@@ -77,9 +77,6 @@
     <string name="about_credits_tab_title">Credits</string>
     <string name="about_contribution_tab_title">Contribution</string>
     <string name="about_license_tab_title">License</string>
-
-    <string name="copied_to_clipboard">Copied to clipboard</string>
-
     <string name="seconds_ago">seconds ago</string>
     <string name="edit">Edit</string>
     <string name="label_labels">Select Tags</string>
@@ -184,7 +181,6 @@
     <string name="maintenance_mode_explanation">The server %1$s is currently in maintenance mode. Please contact your administrator or try later again.</string>
     <string name="share_add_to_card">Add to card</string>
     <string name="share_success">Successfully added %1$s to %2$s</string>
-    <string name="could_not_copy_to_clipboard">Could not copy to clipboard</string>
     <string name="add_comment">Add comment</string>
     <string name="card_edit_comments">Comments</string>
     <string name="no_comments_yet">No comments yet</string>
