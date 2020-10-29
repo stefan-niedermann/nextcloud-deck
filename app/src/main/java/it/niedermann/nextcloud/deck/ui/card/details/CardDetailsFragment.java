@@ -31,13 +31,13 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog.OnTimeSetListen
 import com.yydcdut.markdown.MarkdownProcessor;
 import com.yydcdut.markdown.syntax.edit.EditFactory;
 
-import java.text.DateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.android.util.DimensionUtil;
@@ -60,7 +60,6 @@ import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.util.MarkDownUtil;
 
-import static android.text.format.DateFormat.getDateFormat;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -72,11 +71,8 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     private EditCardViewModel viewModel;
     private SyncManager syncManager;
     private AssigneeAdapter adapter;
-    private DateFormat dateFormat;
-    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-    @Px
-    private int avatarSize;
-    private LinearLayout.LayoutParams avatarLayoutParams;
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
+    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
     private AppCompatActivity activity;
 
     @Override
@@ -98,7 +94,6 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                              ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentCardEditTabDetailsBinding.inflate(inflater, container, false);
-        dateFormat = getDateFormat(activity);
 
         viewModel = new ViewModelProvider(activity).get(EditCardViewModel.class);
 
@@ -111,8 +106,9 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
 
         syncManager = new SyncManager(requireContext());
 
-        avatarSize = DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.avatar_size);
-        avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
+        @Px
+        final int avatarSize = DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.avatar_size);
+        final LinearLayout.LayoutParams avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
         avatarLayoutParams.setMargins(0, 0, DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.spacer_1x), 0);
 
         setupAssignees();
@@ -182,8 +178,8 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     private void setupDueDate() {
         if (this.viewModel.getFullCard().getCard().getDueDate() != null) {
             final ZonedDateTime dueDate = this.viewModel.getFullCard().getCard().getDueDate().atZone(ZoneId.systemDefault());
-            binding.dueDateDate.setText(dueDate == null ? null : dateFormat.format(dueDate));
-            binding.dueDateTime.setText(dueDate == null ? null : dueDate.toLocalTime().format(timeFormatter));
+            binding.dueDateDate.setText(dueDate == null ? null : dueDate.format(dateFormatter));
+            binding.dueDateTime.setText(dueDate == null ? null : dueDate.format(timeFormatter));
             binding.clearDueDate.setVisibility(VISIBLE);
         } else {
             binding.clearDueDate.setVisibility(GONE);
@@ -357,7 +353,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                 ZoneId.systemDefault()
         );
         this.viewModel.getFullCard().getCard().setDueDate(newDateTime.toInstant());
-        binding.dueDateDate.setText(dateFormat.format(newDateTime.toInstant().toEpochMilli()));
+        binding.dueDateDate.setText(newDateTime.format(dateFormatter));
 
         if (this.viewModel.getFullCard().getCard().getDueDate() == null || this.viewModel.getFullCard().getCard().getDueDate().toEpochMilli() == 0) {
             binding.clearDueDate.setVisibility(GONE);
