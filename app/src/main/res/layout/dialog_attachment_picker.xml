@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="@dimen/spacer_3x"
+    android:padding="@dimen/spacer_2x"
     app:behavior_hideable="false"
     app:behavior_peekHeight="90dp"
     app:justifyContent="space_around"
@@ -15,14 +15,20 @@
         android:id="@+id/pickCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:id="@+id/pickCameraIamge"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/circle_grey600_36dp"
             android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
+            android:padding="12dp"
+            app:backgroundTint="@color/grey600"
+            app:srcCompat="@drawable/ic_baseline_photo_camera_24"
+            app:tint="@color/primary" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,14 +42,20 @@
         android:id="@+id/pickContact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:id="@+id/pickContactIamge"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/circle_grey600_36dp"
             android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_baseline_contact_mail_24" />
+            android:padding="12dp"
+            app:backgroundTint="@color/grey600"
+            app:srcCompat="@drawable/ic_person_grey600_24dp"
+            app:tint="@color/primary" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -57,14 +69,20 @@
         android:id="@+id/pickFile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:id="@+id/pickFileIamge"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/circle_grey600_36dp"
             android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_attach_file_grey600_24dp" />
+            android:padding="12dp"
+            app:backgroundTint="@color/grey600"
+            app:srcCompat="@drawable/ic_attach_file_grey600_24dp"
+            app:tint="@color/primary" />
 
         <TextView
             android:layout_width="wrap_content"

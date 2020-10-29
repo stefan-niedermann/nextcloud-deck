@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments.picker;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,9 +14,17 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import it.niedermann.nextcloud.deck.databinding.DialogAttachmentPickerBinding;
+import java.util.stream.Stream;
 
-public class CardAttachmentPicker extends BottomSheetDialogFragment {
+import it.niedermann.nextcloud.deck.databinding.DialogAttachmentPickerBinding;
+import it.niedermann.nextcloud.deck.ui.branding.Branded;
+
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
+
+public class CardAttachmentPicker extends BottomSheetDialogFragment implements Branded {
 
     private DialogAttachmentPickerBinding binding;
     private CardAttachmentPickerListener listener;
@@ -32,6 +41,16 @@ public class CardAttachmentPicker extends BottomSheetDialogFragment {
             this.listener = (CardAttachmentPickerListener) getParentFragment();
         } else {
             throw new IllegalArgumentException("Caller must implement " + CardAttachmentPickerListener.class.getSimpleName());
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        @Nullable Context context = getContext();
+        if (context != null && isBrandingEnabled(context)) {
+            applyBrand(readBrandMainColor(context));
         }
     }
 
@@ -59,7 +78,7 @@ public class CardAttachmentPicker extends BottomSheetDialogFragment {
             dismiss();
         });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (SDK_INT >= Build.VERSION_CODES.KITKAT) {
             binding.pickFile.setOnClickListener((v) -> {
                 listener.pickFile();
                 dismiss();
@@ -71,5 +90,16 @@ public class CardAttachmentPicker extends BottomSheetDialogFragment {
 
     public static DialogFragment newInstance() {
         return new CardAttachmentPicker();
+    }
+
+    @Override
+    public void applyBrand(int mainColor) {
+        if (SDK_INT >= LOLLIPOP) {
+            Stream.of(
+                    binding.pickCameraIamge,
+                    binding.pickContactIamge,
+                    binding.pickFileIamge
+            ).forEach(image -> image.setBackgroundTintList(ColorStateList.valueOf(mainColor)));
+        }
     }
 }
