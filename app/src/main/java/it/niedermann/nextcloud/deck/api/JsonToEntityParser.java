@@ -6,6 +6,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -240,7 +241,7 @@ public class JsonToEntityParser {
             deckComment.setActorId(commentJson.get("actorId").getAsString());
             deckComment.setActorDisplayName(commentJson.get("actorDisplayName").getAsString());
             deckComment.setActorType(commentJson.get("actorType").getAsString());
-            deckComment.setCreationDateTime(getTimestampFromString(commentJson.get("creationDateTime")));
+            deckComment.setCreationDateTime(Date.from(getTimestampFromString(commentJson.get("creationDateTime"))));
 
             if (commentJson.has("replyTo")) {
                 JsonObject replyTo = commentJson.get("replyTo").getAsJsonObject();
@@ -643,20 +644,20 @@ public class JsonToEntityParser {
         return jsonElement.isJsonNull() ? "" : jsonElement.getAsString();
     }
 
-    private static Date getTimestampFromString(JsonElement jsonElement) {
+    private static Instant getTimestampFromString(JsonElement jsonElement) {
         if (jsonElement.isJsonNull()) {
             return null;
         } else {
             String dateAsString = jsonElement.getAsString();
-            return new Date(ZonedDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(dateAsString)).toInstant().toEpochMilli());
+            return ZonedDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(dateAsString)).toInstant();
         }
     }
 
-    private static Date getTimestampFromLong(JsonElement jsonElement) {
+    private static Instant getTimestampFromLong(JsonElement jsonElement) {
         if (jsonElement.isJsonNull()) {
             return null;
         } else {
-            return new Date(jsonElement.getAsLong() * 1000);
+            return Instant.ofEpochMilli(jsonElement.getAsLong() * 1000);
         }
     }
 }

@@ -181,8 +181,8 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
 
     private void setupDueDate() {
         if (this.viewModel.getFullCard().getCard().getDueDate() != null) {
-            binding.dueDateDate.setText(dateFormat.format(this.viewModel.getFullCard().getCard().getDueDate()));
-            ZonedDateTime dueDate = this.viewModel.getFullCard().getCard().getDueDateInstant().atZone(ZoneId.systemDefault());
+            final ZonedDateTime dueDate = this.viewModel.getFullCard().getCard().getDueDate().atZone(ZoneId.systemDefault());
+            binding.dueDateDate.setText(dueDate == null ? null : dateFormat.format(dueDate));
             binding.dueDateTime.setText(dueDate == null ? null : dueDate.toLocalTime().format(timeFormatter));
             binding.clearDueDate.setVisibility(VISIBLE);
         } else {
@@ -196,7 +196,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
             binding.dueDateDate.setOnClickListener(v -> {
                 final LocalDate date;
                 if (viewModel.getFullCard() != null && viewModel.getFullCard().getCard() != null && viewModel.getFullCard().getCard().getDueDate() != null) {
-                    date = viewModel.getFullCard().getCard().getDueDateInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    date = viewModel.getFullCard().getCard().getDueDate().atZone(ZoneId.systemDefault()).toLocalDate();
                 } else {
                     date = LocalDate.now();
                 }
@@ -207,7 +207,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
             binding.dueDateTime.setOnClickListener(v -> {
                 final LocalTime time;
                 if (viewModel.getFullCard() != null && viewModel.getFullCard().getCard() != null && viewModel.getFullCard().getCard().getDueDate() != null) {
-                    time = viewModel.getFullCard().getCard().getDueDateInstant().atZone(ZoneId.systemDefault()).toLocalTime();
+                    time = viewModel.getFullCard().getCard().getDueDate().atZone(ZoneId.systemDefault()).toLocalTime();
                 } else {
                     time = LocalTime.now();
                 }
@@ -346,7 +346,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
             hourOfDay = 0;
             minute = 0;
         } else {
-            final LocalTime oldTime = LocalTime.from(this.viewModel.getFullCard().getCard().getDueDateInstant().atZone(ZoneId.systemDefault()));
+            final LocalTime oldTime = LocalTime.from(this.viewModel.getFullCard().getCard().getDueDate().atZone(ZoneId.systemDefault()));
             hourOfDay = oldTime.getHour();
             minute = oldTime.getMinute();
         }
@@ -356,10 +356,10 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                 LocalTime.of(hourOfDay, minute),
                 ZoneId.systemDefault()
         );
-        this.viewModel.getFullCard().getCard().setDueDateInstant(newDateTime.toInstant());
+        this.viewModel.getFullCard().getCard().setDueDate(newDateTime.toInstant());
         binding.dueDateDate.setText(dateFormat.format(newDateTime.toInstant().toEpochMilli()));
 
-        if (this.viewModel.getFullCard().getCard().getDueDate() == null || this.viewModel.getFullCard().getCard().getDueDate().getTime() == 0) {
+        if (this.viewModel.getFullCard().getCard().getDueDate() == null || this.viewModel.getFullCard().getCard().getDueDate().toEpochMilli() == 0) {
             binding.clearDueDate.setVisibility(GONE);
         } else {
             binding.clearDueDate.setVisibility(VISIBLE);
@@ -368,15 +368,15 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
 
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
-        final Instant oldInstant = this.viewModel.getFullCard().getCard().getDueDateInstant();
+        final Instant oldInstant = this.viewModel.getFullCard().getCard().getDueDate();
         final ZonedDateTime oldDateTime = oldInstant == null ? ZonedDateTime.now() : oldInstant.atZone(ZoneId.systemDefault());
         final ZonedDateTime newDateTime = oldDateTime.with(
                 LocalTime.of(hourOfDay, minute)
         );
 
-        this.viewModel.getFullCard().getCard().setDueDateInstant(newDateTime.toInstant());
+        this.viewModel.getFullCard().getCard().setDueDate(newDateTime.toInstant());
         binding.dueDateTime.setText(newDateTime.format(timeFormatter));
-        if (this.viewModel.getFullCard().getCard().getDueDate() == null || this.viewModel.getFullCard().getCard().getDueDate().getTime() == 0) {
+        if (this.viewModel.getFullCard().getCard().getDueDate() == null || this.viewModel.getFullCard().getCard().getDueDate().toEpochMilli() == 0) {
             binding.clearDueDate.setVisibility(GONE);
         } else {
             binding.clearDueDate.setVisibility(VISIBLE);

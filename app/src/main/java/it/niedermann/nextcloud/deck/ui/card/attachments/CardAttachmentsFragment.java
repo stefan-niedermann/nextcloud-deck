@@ -24,7 +24,7 @@ import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -196,7 +196,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                         }
                     }
 
-                    final Date now = new Date();
+                    final Instant now = Instant.now();
                     final Attachment a = new Attachment();
                     a.setMimetype(requireContext().getContentResolver().getType(sourceUri));
                     a.setData(fileToUpload.getName());

@@ -20,6 +20,7 @@ import com.nextcloud.android.sso.api.ParsedResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.File;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -1142,7 +1143,7 @@ public class SyncManager {
             if (cards.size() > 0) {
                 CountDownLatch latch = new CountDownLatch(cards.size());
                 for (FullCard card : cards) {
-                    if (card.getCard().isArchived()){
+                    if (card.getCard().isArchived()) {
                         latch.countDown();
                         continue;
                     }
@@ -1804,7 +1805,7 @@ public class SyncManager {
     }
 
     private void reorderAscending(@NonNull Card movedCard, @NonNull List<Card> cardsToReorganize, int startingAtOrder) {
-        Date now = new Date();
+        final Instant now = Instant.now();
         for (Card card : cardsToReorganize) {
             card.setOrder(startingAtOrder);
             if (card.getStatus() == DBStatus.UP_TO_DATE.getId()) {
@@ -1832,7 +1833,7 @@ public class SyncManager {
         WrappedLiveData<Attachment> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Attachment attachment = populateAttachmentEntityForFile(new Attachment(), localCardId, mimeType, file);
-            Date now = new Date();
+            final Instant now = Instant.now();
             attachment.setLastModifiedLocal(now);
             attachment.setCreatedAt(now);
             FullCard card = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, localCardId);
@@ -1852,7 +1853,7 @@ public class SyncManager {
         WrappedLiveData<Attachment> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Attachment attachment = populateAttachmentEntityForFile(existing, existing.getCardId(), mimeType, file);
-            attachment.setLastModifiedLocal(new Date());
+            attachment.setLastModifiedLocal(Instant.now());
             if (serverAdapter.hasInternetConnection()) {
                 FullCard card = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, existing.getCardId());
                 Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getCard().getStackId());
