@@ -17,7 +17,8 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_flexGrow="1">
 
         <ImageView
             android:id="@+id/pickCameraIamge"
@@ -44,7 +45,8 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_flexGrow="1">
 
         <ImageView
             android:id="@+id/pickContactIamge"
@@ -71,7 +73,8 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_flexGrow="1">
 
         <ImageView
             android:id="@+id/pickFileIamge"
@@ -81,6 +84,7 @@
             android:contentDescription="@null"
             android:padding="12dp"
             app:backgroundTint="@color/grey600"
+            app:layout_flexGrow="1"
             app:srcCompat="@drawable/ic_attach_file_grey600_24dp"
             app:tint="@color/primary" />
 
