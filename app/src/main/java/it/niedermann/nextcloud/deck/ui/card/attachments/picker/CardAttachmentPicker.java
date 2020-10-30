@@ -93,15 +93,10 @@ public class CardAttachmentPicker extends BottomSheetDialogFragment implements B
             listener.pickContact();
             dismiss();
         });
-
-        if (SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            binding.pickFile.setOnClickListener((v) -> {
-                listener.pickFile();
-                dismiss();
-            });
-        } else {
-            binding.pickFile.setVisibility(View.GONE);
-        }
+        binding.pickFile.setOnClickListener((v) -> {
+            listener.pickFile();
+            dismiss();
+        });
     }
 
     public static DialogFragment newInstance() {
