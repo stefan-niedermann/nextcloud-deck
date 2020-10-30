@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -122,27 +123,27 @@ public class SyncManager {
     public boolean synchronizeEverything() {
         List<Account> accounts = dataBaseAdapter.getAllAccountsDirectly();
         if (accounts.size() > 0) {
-            final BooleanResultHolder success = new BooleanResultHolder();
+            final AtomicBoolean success = new AtomicBoolean();
             CountDownLatch latch = new CountDownLatch(accounts.size());
             try {
                 for (Account account : accounts) {
                     new SyncManager(dataBaseAdapter.getContext(), account.getName()).synchronize(new IResponseCallback<Boolean>(account) {
                         @Override
                         public void onResponse(Boolean response) {
-                            success.result = success.result && Boolean.TRUE.equals(response);
+                            success.set(success.get() && Boolean.TRUE.equals(response));
                             latch.countDown();
                         }
 
                         @Override
                         public void onError(Throwable throwable) {
-                            success.result = false;
+                            success.set(false);
                             super.onError(throwable);
                             latch.countDown();
                         }
                     });
                 }
                 latch.await();
-                return success.result;
+                return success.get();
             } catch (InterruptedException e) {
                 DeckLog.logError(e);
                 return false;
@@ -1946,10 +1947,6 @@ public class SyncManager {
 
     public void deleteStackWidgetModel(int appWidgetId) {
         doAsync(() -> dataBaseAdapter.deleteStackWidget(appWidgetId));
-    }
-
-    private static class BooleanResultHolder {
-        public boolean result = true;
     }
 
     /**
