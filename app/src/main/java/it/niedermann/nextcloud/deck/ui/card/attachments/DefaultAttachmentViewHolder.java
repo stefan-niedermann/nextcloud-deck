@@ -56,10 +56,10 @@ public class DefaultAttachmentViewHolder extends AttachmentViewHolder {
         binding.filename.setText(attachment.getBasename());
         binding.filesize.setText(Formatter.formatFileSize(binding.filesize.getContext(), attachment.getFilesize()));
         if (attachment.getLastModifiedLocal() != null) {
-            binding.modified.setText(DateUtil.getRelativeDateTimeString(binding.modified.getContext(), attachment.getLastModifiedLocal().getTime()));
+            binding.modified.setText(DateUtil.getRelativeDateTimeString(binding.modified.getContext(), attachment.getLastModifiedLocal().toEpochMilli()));
             binding.modified.setVisibility(View.VISIBLE);
         } else if (attachment.getLastModified() != null) {
-            binding.modified.setText(DateUtil.getRelativeDateTimeString(binding.modified.getContext(), attachment.getLastModified().getTime()));
+            binding.modified.setText(DateUtil.getRelativeDateTimeString(binding.modified.getContext(), attachment.getLastModified().toEpochMilli()));
             binding.modified.setVisibility(View.VISIBLE);
         } else {
             binding.modified.setVisibility(View.GONE);

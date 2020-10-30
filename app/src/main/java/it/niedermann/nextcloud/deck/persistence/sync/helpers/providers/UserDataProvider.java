@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -27,7 +27,7 @@ public class UserDataProvider extends AbstractSyncDataProvider<User> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<User>> responder, Date lastSync) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<User>> responder, Instant lastSync) {
         responder.onResponse(users);
     }
 
@@ -67,7 +67,7 @@ public class UserDataProvider extends AbstractSyncDataProvider<User> {
     }
 
     @Override
-    public List<User> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+    public List<User> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Instant lastSync) {
         return null;
     }
 

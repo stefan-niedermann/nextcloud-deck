@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.Px;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -31,11 +31,13 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog.OnTimeSetListen
 import com.yydcdut.markdown.MarkdownProcessor;
 import com.yydcdut.markdown.syntax.edit.EditFactory;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.android.util.DimensionUtil;
@@ -58,7 +60,6 @@ import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.util.MarkDownUtil;
 
-import static android.text.format.DateFormat.getDateFormat;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -70,11 +71,8 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     private EditCardViewModel viewModel;
     private SyncManager syncManager;
     private AssigneeAdapter adapter;
-    private DateFormat dateFormat;
-    private DateFormat dueTime = new SimpleDateFormat("HH:mm", Locale.ROOT);
-    @Px
-    private int avatarSize;
-    private LinearLayout.LayoutParams avatarLayoutParams;
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
+    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
     private AppCompatActivity activity;
 
     @Override
@@ -96,7 +94,6 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                              ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentCardEditTabDetailsBinding.inflate(inflater, container, false);
-        dateFormat = getDateFormat(activity);
 
         viewModel = new ViewModelProvider(activity).get(EditCardViewModel.class);
 
@@ -109,8 +106,9 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
 
         syncManager = new SyncManager(requireContext());
 
-        avatarSize = DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.avatar_size);
-        avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
+        @Px
+        final int avatarSize = DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.avatar_size);
+        final LinearLayout.LayoutParams avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
         avatarLayoutParams.setMargins(0, 0, DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.spacer_1x), 0);
 
         setupAssignees();
@@ -177,46 +175,11 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         }
     }
 
-    private TimePickerDialog createTimePickerDialogFromDate(
-            @Nullable OnTimeSetListener listener,
-            @Nullable Date date
-    ) {
-        int hourOfDay = 0;
-        int minutes = 0;
-
-        if (date != null) {
-            hourOfDay = date.getHours();
-            minutes = date.getMinutes();
-        }
-        return BrandedTimePickerDialog.newInstance(listener, hourOfDay, minutes, true);
-    }
-
-    private DatePickerDialog createDatePickerDialogFromDate(
-            @Nullable OnDateSetListener listener,
-            @Nullable Date date
-    ) {
-        int year;
-        int month;
-        int day;
-
-        Calendar cal = Calendar.getInstance();
-        if (date != null) {
-            cal.setTime(date);
-            year = cal.get(Calendar.YEAR);
-            month = cal.get(Calendar.MONTH);
-            day = cal.get(Calendar.DAY_OF_MONTH);
-        } else {
-            year = cal.get(Calendar.YEAR);
-            month = cal.get(Calendar.MONTH);
-            day = cal.get(Calendar.DAY_OF_MONTH);
-        }
-        return BrandedDatePickerDialog.newInstance(listener, year, month, day);
-    }
-
     private void setupDueDate() {
         if (this.viewModel.getFullCard().getCard().getDueDate() != null) {
-            binding.dueDateDate.setText(dateFormat.format(this.viewModel.getFullCard().getCard().getDueDate()));
-            binding.dueDateTime.setText(dueTime.format(this.viewModel.getFullCard().getCard().getDueDate()));
+            final ZonedDateTime dueDate = this.viewModel.getFullCard().getCard().getDueDate().atZone(ZoneId.systemDefault());
+            binding.dueDateDate.setText(dueDate == null ? null : dueDate.format(dateFormatter));
+            binding.dueDateTime.setText(dueDate == null ? null : dueDate.format(timeFormatter));
             binding.clearDueDate.setVisibility(VISIBLE);
         } else {
             binding.clearDueDate.setVisibility(GONE);
@@ -227,19 +190,25 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         if (viewModel.canEdit()) {
 
             binding.dueDateDate.setOnClickListener(v -> {
-                if (viewModel.getFullCard() != null && viewModel.getFullCard().getCard() != null) {
-                    createDatePickerDialogFromDate(this, viewModel.getFullCard().getCard().getDueDate()).show(getChildFragmentManager(), BrandedDatePickerDialog.class.getCanonicalName());
+                final LocalDate date;
+                if (viewModel.getFullCard() != null && viewModel.getFullCard().getCard() != null && viewModel.getFullCard().getCard().getDueDate() != null) {
+                    date = viewModel.getFullCard().getCard().getDueDate().atZone(ZoneId.systemDefault()).toLocalDate();
                 } else {
-                    createDatePickerDialogFromDate(this, null).show(getChildFragmentManager(), BrandedDatePickerDialog.class.getCanonicalName());
+                    date = LocalDate.now();
                 }
+                BrandedDatePickerDialog.newInstance(this, date.getYear(), date.getMonthValue(), date.getDayOfMonth())
+                        .show(getChildFragmentManager(), BrandedDatePickerDialog.class.getCanonicalName());
             });
 
             binding.dueDateTime.setOnClickListener(v -> {
-                if (viewModel.getFullCard() != null && viewModel.getFullCard().getCard() != null) {
-                    createTimePickerDialogFromDate(this, viewModel.getFullCard().getCard().getDueDate()).show(getChildFragmentManager(), BrandedTimePickerDialog.class.getCanonicalName());
+                final LocalTime time;
+                if (viewModel.getFullCard() != null && viewModel.getFullCard().getCard() != null && viewModel.getFullCard().getCard().getDueDate() != null) {
+                    time = viewModel.getFullCard().getCard().getDueDate().atZone(ZoneId.systemDefault()).toLocalTime();
                 } else {
-                    createTimePickerDialogFromDate(this, null).show(getChildFragmentManager(), BrandedTimePickerDialog.class.getCanonicalName());
+                    time = LocalTime.now();
                 }
+                BrandedTimePickerDialog.newInstance(this, time.getHour(), time.getMinute(), true)
+                        .show(getChildFragmentManager(), BrandedTimePickerDialog.class.getCanonicalName());
             });
 
             binding.clearDueDate.setOnClickListener(v -> {
@@ -365,23 +334,28 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        Calendar c = Calendar.getInstance();
         int hourOfDay;
         int minute;
 
-        if (binding.dueDateTime.getText() != null && binding.dueDateTime.length() > 0) {
-            hourOfDay = this.viewModel.getFullCard().getCard().getDueDate().getHours();
-            minute = this.viewModel.getFullCard().getCard().getDueDate().getMinutes();
-        } else {
+        final CharSequence selectedTime = binding.dueDateTime.getText();
+        if (TextUtils.isEmpty(selectedTime)) {
             hourOfDay = 0;
             minute = 0;
+        } else {
+            final LocalTime oldTime = LocalTime.from(this.viewModel.getFullCard().getCard().getDueDate().atZone(ZoneId.systemDefault()));
+            hourOfDay = oldTime.getHour();
+            minute = oldTime.getMinute();
         }
 
-        c.set(year, monthOfYear, dayOfMonth, hourOfDay, minute);
-        this.viewModel.getFullCard().getCard().setDueDate(c.getTime());
-        binding.dueDateDate.setText(dateFormat.format(c.getTime()));
+        final ZonedDateTime newDateTime = ZonedDateTime.of(
+                LocalDate.of(year, monthOfYear + 1, dayOfMonth),
+                LocalTime.of(hourOfDay, minute),
+                ZoneId.systemDefault()
+        );
+        this.viewModel.getFullCard().getCard().setDueDate(newDateTime.toInstant());
+        binding.dueDateDate.setText(newDateTime.format(dateFormatter));
 
-        if (this.viewModel.getFullCard().getCard().getDueDate() == null || this.viewModel.getFullCard().getCard().getDueDate().getTime() == 0) {
+        if (this.viewModel.getFullCard().getCard().getDueDate() == null || this.viewModel.getFullCard().getCard().getDueDate().toEpochMilli() == 0) {
             binding.clearDueDate.setVisibility(GONE);
         } else {
             binding.clearDueDate.setVisibility(VISIBLE);
@@ -390,13 +364,15 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
 
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
-        if (this.viewModel.getFullCard().getCard().getDueDate() == null) {
-            this.viewModel.getFullCard().getCard().setDueDate(new Date());
-        }
-        this.viewModel.getFullCard().getCard().getDueDate().setHours(hourOfDay);
-        this.viewModel.getFullCard().getCard().getDueDate().setMinutes(minute);
-        binding.dueDateTime.setText(dueTime.format(this.viewModel.getFullCard().getCard().getDueDate().getTime()));
-        if (this.viewModel.getFullCard().getCard().getDueDate() == null || this.viewModel.getFullCard().getCard().getDueDate().getTime() == 0) {
+        final Instant oldInstant = this.viewModel.getFullCard().getCard().getDueDate();
+        final ZonedDateTime oldDateTime = oldInstant == null ? ZonedDateTime.now() : oldInstant.atZone(ZoneId.systemDefault());
+        final ZonedDateTime newDateTime = oldDateTime.with(
+                LocalTime.of(hourOfDay, minute)
+        );
+
+        this.viewModel.getFullCard().getCard().setDueDate(newDateTime.toInstant());
+        binding.dueDateTime.setText(newDateTime.format(timeFormatter));
+        if (this.viewModel.getFullCard().getCard().getDueDate() == null || this.viewModel.getFullCard().getCard().getDueDate().toEpochMilli() == 0) {
             binding.clearDueDate.setVisibility(GONE);
         } else {
             binding.clearDueDate.setVisibility(VISIBLE);

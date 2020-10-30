@@ -1,8 +1,8 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -38,7 +38,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullCard>> responder, Date lastSync) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullCard>> responder, Instant lastSync) {
 
         List<FullCard> result = new ArrayList<>();
         if (stack.getCards() == null || stack.getCards().isEmpty()) {
@@ -155,7 +155,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         }
         entity.getCard().setStackId(stack.getId());
 //        if (board != null && stack != null && board.getId() != null && stack.getId() != null) {
-            serverAdapter.createCard(board.getId(), stack.getId(), entity.getCard(), responder);
+        serverAdapter.createCard(board.getId(), stack.getId(), entity.getCard(), responder);
 //        } else DeckLog.error("Skipped card creation due to missing remote ID");
     }
 
@@ -177,7 +177,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     }
 
     @Override
-    public List<FullCard> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+    public List<FullCard> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Instant lastSync) {
         if (board == null || stack == null) {
             // no cards changed!
             // (see call from StackDataProvider: goDeeperForUpSync called with null for board.)

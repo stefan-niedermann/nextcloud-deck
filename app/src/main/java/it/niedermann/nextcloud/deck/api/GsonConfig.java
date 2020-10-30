@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -54,7 +54,7 @@ public class GsonConfig {
         INSTANCE = new GsonBuilder()
                 .setDateFormat(DATE_PATTERN)
                 .setLenient()
-                .registerTypeAdapter(Date.class,        new GsonUTCDateAdapter())
+                .registerTypeAdapter(Instant.class,     new GsonUTCInstantAdapter())
                 .registerTypeAdapter(boardList,         new NextcloudArrayDeserializer<>("boards", FullBoard.class))
                 .registerTypeAdapter(board,             new NextcloudDeserializer<>("board", FullBoard.class))
                 .registerTypeAdapter(cardList,          new NextcloudArrayDeserializer<>("cards", FullCard.class))
@@ -72,7 +72,7 @@ public class GsonConfig {
                 .registerTypeAdapter(attachment,        new NextcloudDeserializer<>("attachment", Attachment.class))
                 .registerTypeAdapter(comment,           new NextcloudDeserializer<>("comment", OcsComment.class))
                 .registerTypeAdapter(projectList,       new NextcloudDeserializer<>("projectList", OcsProjectList.class))
-                .registerTypeAdapter(groupMembers,       new NextcloudDeserializer<>("groupMembers", GroupMemberUIDs.class))
+                .registerTypeAdapter(groupMembers,      new NextcloudDeserializer<>("groupMembers", GroupMemberUIDs.class))
                 .create();
     }
 

@@ -11,7 +11,9 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.DateFormat;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 import it.niedermann.android.util.ClipboardUtil;
 import it.niedermann.android.util.DimensionUtil;
@@ -26,7 +28,8 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 import static it.niedermann.nextcloud.deck.util.ViewUtil.setupMentions;
 
 public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
-    private ItemCommentBinding binding;
+    private final ItemCommentBinding binding;
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
 
     @SuppressWarnings("WeakerAccess")
     public ItemCommentViewHolder(ItemCommentBinding binding) {
@@ -38,7 +41,7 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
         ViewUtil.addAvatar(binding.avatar, account.getUrl(), comment.getComment().getActorId(), DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
         binding.message.setText(comment.getComment().getMessage());
         binding.actorDisplayName.setText(comment.getComment().getActorDisplayName());
-        binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(binding.creationDateTime.getContext(), comment.getComment().getCreationDateTime().getTime()));
+        binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(binding.creationDateTime.getContext(), comment.getComment().getCreationDateTime().toEpochMilli()));
         itemView.setOnClickListener(View::showContextMenu);
 
         itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
@@ -72,7 +75,7 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
         DrawableCompat.setTint(binding.notSyncedYet.getDrawable(), mainColor);
         binding.notSyncedYet.setVisibility(DBStatus.LOCAL_EDITED.equals(comment.getStatusEnum()) ? View.VISIBLE : View.GONE);
 
-        TooltipCompat.setTooltipText(binding.creationDateTime, DateFormat.getDateTimeInstance().format(comment.getComment().getCreationDateTime()));
+        TooltipCompat.setTooltipText(binding.creationDateTime, comment.getComment().getCreationDateTime().atZone(ZoneId.systemDefault()).format(dateFormatter));
         setupMentions(account, comment.getComment().getMentions(), binding.message);
 
         if (comment.getParent() == null) {

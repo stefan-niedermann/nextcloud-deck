@@ -11,7 +11,7 @@ import androidx.room.Index;
 import com.google.gson.annotations.JsonAdapter;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.Instant;
 
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -48,7 +48,7 @@ public class Board extends AbstractRemoteEntity implements Serializable {
     private Integer color;
     private boolean archived;
     private int shared;
-    private Date deletedAt;
+    private Instant deletedAt;
     private boolean permissionRead = false;
     private boolean permissionEdit = false;
     private boolean permissionManage = false;
@@ -56,22 +56,22 @@ public class Board extends AbstractRemoteEntity implements Serializable {
 
 
     @Override
-    public Date getLastModified() {
+    public Instant getLastModified() {
         return lastModified;
     }
 
     @Override
-    public void setLastModified(Date lastModified) {
+    public void setLastModified(Instant lastModified) {
         this.lastModified = lastModified;
     }
 
     @Override
-    public Date getLastModifiedLocal() {
+    public Instant getLastModifiedLocal() {
         return lastModifiedLocal;
     }
 
     @Override
-    public void setLastModifiedLocal(Date lastModifiedLocal) {
+    public void setLastModifiedLocal(Instant lastModifiedLocal) {
         this.lastModifiedLocal = lastModifiedLocal;
     }
 
@@ -122,11 +122,11 @@ public class Board extends AbstractRemoteEntity implements Serializable {
         this.shared = shared;
     }
 
-    public Date getDeletedAt() {
+    public Instant getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(Date deletedAt) {
+    public void setDeletedAt(Instant deletedAt) {
         this.deletedAt = deletedAt;
     }
 

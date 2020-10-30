@@ -4,7 +4,7 @@ android {
     compileSdkVersion 30
     defaultConfig {
         applicationId "it.niedermann.nextcloud.deck"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 30
         versionCode 1011001
         versionName "1.11.1"
@@ -34,6 +34,7 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+        coreLibraryDesugaringEnabled true
     }
     flavorDimensions "version"
     productFlavors {
@@ -53,7 +54,7 @@ android {
 
 dependencies {
     // Single-Sign-On
-    implementation 'com.github.nextcloud:Android-SingleSignOn:0.5.3'
+    implementation 'com.github.nextcloud:Android-SingleSignOn:0.5.4'
     implementation 'com.github.stefan-niedermann.nextcloud-commons:sso-glide:1.2.0'
     implementation 'com.github.stefan-niedermann.nextcloud-commons:exception:1.2.0'
     implementation 'com.github.stefan-niedermann:android-commons:0.1.1'
@@ -81,9 +82,6 @@ dependencies {
 
     // Custom Date / Time Picker for branding support
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
-
-    // Android backport for java.time
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'
 
     // Flexbox
     implementation 'com.google.android:flexbox:2.0.1'
@@ -120,7 +118,7 @@ dependencies {
     // -----------------------
 
     implementation 'androidx.multidex:multidex:2.0.1'
-
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
 
     // -------------
     // --- Tests ---

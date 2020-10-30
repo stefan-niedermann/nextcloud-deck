@@ -1,20 +1,17 @@
 package it.niedermann.nextcloud.deck;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
+import androidx.multidex.MultiDexApplication;
 import androidx.preference.PreferenceManager;
-
-import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
-import static androidx.multidex.MultiDex.install;
 
-public class DeckApplication extends Application {
+public class DeckApplication extends MultiDexApplication {
 
     public static final long NO_ACCOUNT_ID = -1L;
     public static final long NO_BOARD_ID = -1L;
@@ -24,17 +21,6 @@ public class DeckApplication extends Application {
     public void onCreate() {
         setAppTheme(isDarkTheme(getApplicationContext()));
         super.onCreate();
-        AndroidThreeTen.init(this);
-    }
-
-    // --------
-    // Multidex
-    // --------
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        install(this);
     }
 
     // -----------------

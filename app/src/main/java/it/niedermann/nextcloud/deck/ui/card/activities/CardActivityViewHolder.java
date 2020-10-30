@@ -25,7 +25,7 @@ public class CardActivityViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(@NonNull Activity activity, @NonNull MenuInflater inflater) {
         final Context context = itemView.getContext();
-        binding.date.setText(DateUtil.getRelativeDateTimeString(context, activity.getLastModified().getTime()));
+        binding.date.setText(DateUtil.getRelativeDateTimeString(context, activity.getLastModified().toEpochMilli()));
         binding.subject.setText(activity.getSubject());
         itemView.setOnClickListener(View::showContextMenu);
         itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
