@@ -1,7 +1,9 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import androidx.annotation.NonNull;
+
 import java.time.Instant;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -12,9 +14,10 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter
 
 public class ActivityDataProvider extends AbstractSyncDataProvider<Activity> {
 
-    protected Card card;
+    @NonNull
+    private final Card card;
 
-    public ActivityDataProvider(AbstractSyncDataProvider<?> parent, Card card) {
+    public ActivityDataProvider(AbstractSyncDataProvider<?> parent, @NonNull Card card) {
         super(parent);
         this.card = card;
     }
@@ -66,6 +69,6 @@ public class ActivityDataProvider extends AbstractSyncDataProvider<Activity> {
 
     @Override
     public List<Activity> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Instant lastSync) {
-        return new ArrayList<>();
+        return Collections.emptyList();
     }
 }

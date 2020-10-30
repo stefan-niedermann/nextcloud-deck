@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.SharedElementCallback;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -44,7 +43,6 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
 import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.KITKAT;
 import static android.os.Build.VERSION_CODES.M;
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
@@ -127,7 +125,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             updateEmptyContentView();
         }
 
-        if (viewModel.canEdit() && SDK_INT >= KITKAT) {
+        if (viewModel.canEdit()) {
             binding.fab.setOnClickListener(v -> pickFile());
             binding.fab.show();
             binding.attachmentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -146,7 +144,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         return binding.getRoot();
     }
 
-    @RequiresApi(api = KITKAT)
     public void pickFile() {
         if (SDK_INT >= M && checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED) {
             requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_ADD_FILE_PERMISSION);
@@ -245,7 +242,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         //noinspection SwitchStatementWithTooFewBranches
         switch (requestCode) {
             case REQUEST_CODE_ADD_FILE_PERMISSION:
-                if (SDK_INT >= KITKAT && checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED) {
+                if (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED) {
                     pickFile();
                 } else {
                     Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();

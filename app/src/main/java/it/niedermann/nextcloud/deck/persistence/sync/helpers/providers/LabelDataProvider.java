@@ -13,8 +13,8 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter
 
 public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
 
-    private List<Label> labels;
-    private Board board;
+    private final List<Label> labels;
+    private final Board board;
 
     public LabelDataProvider(AbstractSyncDataProvider<?> parent, Board board, List<Label> labels) {
         super(parent);
