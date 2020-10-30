@@ -43,7 +43,7 @@ public class SingleCardWidget extends AppWidgetProvider {
                     views.setTextViewText(R.id.description, fullModel.getFullCard().getCard().getDescription());
 
                     if (fullModel.getFullCard().getCard().getDueDate() != null) {
-                        views.setTextViewText(R.id.card_due_date, DateUtil.getRelativeDateTimeString(context, fullModel.getFullCard().getCard().getDueDate().getTime()));
+                        views.setTextViewText(R.id.card_due_date, DateUtil.getRelativeDateTimeString(context, fullModel.getFullCard().getCard().getDueDate().toEpochMilli()));
                         // TODO Use multiple views for background colors and only set the necessary to View.VISIBLE
                         // https://stackoverflow.com/a/3376537
                         // Because otherwise using Reflection is the only way

@@ -20,15 +20,16 @@ import com.nextcloud.android.sso.api.ParsedResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.File;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -79,7 +80,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.LabelData
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.BoardWithAclDownSyncDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.BoardWithStacksAndLabelsUpSyncDataProvider;
-import it.niedermann.nextcloud.deck.util.DateUtil;
 
 import static java.net.HttpURLConnection.HTTP_NOT_MODIFIED;
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
@@ -123,27 +123,27 @@ public class SyncManager {
     public boolean synchronizeEverything() {
         List<Account> accounts = dataBaseAdapter.getAllAccountsDirectly();
         if (accounts.size() > 0) {
-            final BooleanResultHolder success = new BooleanResultHolder();
+            final AtomicBoolean success = new AtomicBoolean();
             CountDownLatch latch = new CountDownLatch(accounts.size());
             try {
                 for (Account account : accounts) {
                     new SyncManager(dataBaseAdapter.getContext(), account.getName()).synchronize(new IResponseCallback<Boolean>(account) {
                         @Override
                         public void onResponse(Boolean response) {
-                            success.result = success.result && Boolean.TRUE.equals(response);
+                            success.set(success.get() && Boolean.TRUE.equals(response));
                             latch.countDown();
                         }
 
                         @Override
                         public void onError(Throwable throwable) {
-                            success.result = false;
+                            success.set(false);
                             super.onError(throwable);
                             latch.countDown();
                         }
                     });
                 }
                 latch.await();
-                return success.result;
+                return success.get();
             } catch (InterruptedException e) {
                 DeckLog.logError(e);
                 return false;
@@ -211,8 +211,7 @@ public class SyncManager {
                     if (response != null && !response.isMaintenanceEnabled()) {
                         if (response.getDeckVersion().isSupported(appContext)) {
                             long accountId = callbackAccountId;
-                            Date lastSyncDate = LastSyncUtil.getLastSyncDate(callbackAccountId);
-                            Date now = DateUtil.nowInGMT();
+                            Instant lastSyncDate = LastSyncUtil.getLastSyncDate(callbackAccountId);
 
                             final SyncHelper syncHelper = new SyncHelper(serverAdapter, dataBaseAdapter, lastSyncDate);
 
@@ -223,7 +222,7 @@ public class SyncManager {
                                         @Override
                                         public void onResponse(Boolean response) {
                                             // TODO deactivate for dev
-                                            LastSyncUtil.setLastSyncDate(accountId, now);
+                                            LastSyncUtil.setLastSyncDate(accountId, Instant.now());
                                             respondCallbacksAfterSync(callbacksQueueForSync, response, null);
                                         }
 
@@ -1142,7 +1141,7 @@ public class SyncManager {
             if (cards.size() > 0) {
                 CountDownLatch latch = new CountDownLatch(cards.size());
                 for (FullCard card : cards) {
-                    if (card.getCard().isArchived()){
+                    if (card.getCard().isArchived()) {
                         latch.countDown();
                         continue;
                     }
@@ -1733,7 +1732,7 @@ public class SyncManager {
                 Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(movedCard.getCard().getStackId());
                 FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, stack.getBoardId());
                 Account account = dataBaseAdapter.getAccountByIdDirectly(movedCard.getCard().getAccountId());
-                new SyncHelper(serverAdapter, dataBaseAdapter, new Date()).setResponseCallback(new IResponseCallback<Boolean>(account) {
+                new SyncHelper(serverAdapter, dataBaseAdapter, Instant.now()).setResponseCallback(new IResponseCallback<Boolean>(account) {
                     @Override
                     public void onResponse(Boolean response) {
                         // doNothing();
@@ -1804,7 +1803,7 @@ public class SyncManager {
     }
 
     private void reorderAscending(@NonNull Card movedCard, @NonNull List<Card> cardsToReorganize, int startingAtOrder) {
-        Date now = new Date();
+        final Instant now = Instant.now();
         for (Card card : cardsToReorganize) {
             card.setOrder(startingAtOrder);
             if (card.getStatus() == DBStatus.UP_TO_DATE.getId()) {
@@ -1832,7 +1831,7 @@ public class SyncManager {
         WrappedLiveData<Attachment> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Attachment attachment = populateAttachmentEntityForFile(new Attachment(), localCardId, mimeType, file);
-            Date now = new Date();
+            final Instant now = Instant.now();
             attachment.setLastModifiedLocal(now);
             attachment.setCreatedAt(now);
             FullCard card = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, localCardId);
@@ -1852,7 +1851,7 @@ public class SyncManager {
         WrappedLiveData<Attachment> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Attachment attachment = populateAttachmentEntityForFile(existing, existing.getCardId(), mimeType, file);
-            attachment.setLastModifiedLocal(new Date());
+            attachment.setLastModifiedLocal(Instant.now());
             if (serverAdapter.hasInternetConnection()) {
                 FullCard card = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, existing.getCardId());
                 Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getCard().getStackId());
@@ -1948,10 +1947,6 @@ public class SyncManager {
 
     public void deleteStackWidgetModel(int appWidgetId) {
         doAsync(() -> dataBaseAdapter.deleteStackWidget(appWidgetId));
-    }
-
-    private static class BooleanResultHolder {
-        public boolean result = true;
     }
 
     /**

@@ -1,7 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial;
 
+import java.time.Instant;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -20,7 +20,7 @@ public class BoardWithStacksAndLabelsUpSyncDataProvider extends BoardDataProvide
     }
 
     @Override
-    public List<FullBoard> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+    public List<FullBoard> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Instant lastSync) {
         return Collections.singletonList(board);
     }
 

@@ -9,8 +9,8 @@ import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -71,14 +71,14 @@ public class DataBaseAdapter {
 
     private <T extends AbstractRemoteEntity> void markAsEditedIfNeeded(T entity, boolean setStatus) {
         if (!setStatus) return;
-        entity.setLastModifiedLocal(new Date()); // now.
+        entity.setLastModifiedLocal(Instant.now());
         entity.setStatusEnum(DBStatus.LOCAL_EDITED);
     }
 
     private <T extends AbstractRemoteEntity> void markAsDeletedIfNeeded(T entity, boolean setStatus) {
         if (!setStatus) return;
         entity.setStatusEnum(DBStatus.LOCAL_DELETED);
-        entity.setLastModifiedLocal(new Date()); // now.
+        entity.setLastModifiedLocal(Instant.now());
     }
 
     public LiveData<Boolean> hasAccounts() {
@@ -269,7 +269,7 @@ public class DataBaseAdapter {
             }
         }
         if (filter.getArchiveStatus() != FilterInformation.EArchiveStatus.ALL) {
-            query.append(" and c.archived = "+(filter.getArchiveStatus() == FilterInformation.EArchiveStatus.ARCHIVED ? 1 : 0));
+            query.append(" and c.archived = " + (filter.getArchiveStatus() == FilterInformation.EArchiveStatus.ARCHIVED ? 1 : 0));
         }
         query.append(" and status<>3 order by `order`, createdAt asc;");
         return new SimpleSQLiteQuery(query.toString(), args.toArray());
@@ -385,12 +385,15 @@ public class DataBaseAdapter {
     public void deleteJoinedLabelsForBoard(Long localBoardId) {
         db.getJoinBoardWithLabelDao().deleteByBoardId(localBoardId);
     }
+
     public void deleteGroupMembershipsOfGroup(Long localGroupUserId) {
         db.getUserInGroupDao().deleteByGroupId(localGroupUserId);
     }
+
     public void deleteBoardMembershipsOfBoard(Long localBoardId) {
         db.getUserInBoardDao().deleteByBoardId(localBoardId);
     }
+
     public void addUserToGroup(Long localGroupUserId, Long localGroupMemberId) {
         UserInGroup relation = new UserInGroup();
         relation.setGroupId(localGroupUserId);
@@ -731,7 +734,7 @@ public class DataBaseAdapter {
 
     public long createAttachment(long accountId, @NonNull Attachment attachment) {
         attachment.setAccountId(accountId);
-        attachment.setCreatedAt(new Date());
+        attachment.setCreatedAt(Instant.now());
         return db.getAttachmentDao().insert(attachment);
     }
 
@@ -1094,12 +1097,15 @@ public class DataBaseAdapter {
         resource.setAccountId(accountId);
         return db.getOcsProjectResourceDao().insert(resource);
     }
+
     public int countProjectResourcesInProjectDirectly(Long projectLocalId) {
         return db.getOcsProjectResourceDao().countProjectResourcesInProjectDirectly(projectLocalId);
     }
+
     public LiveData<Integer> countProjectResourcesInProject(Long projectLocalId) {
         return db.getOcsProjectResourceDao().countProjectResourcesInProject(projectLocalId);
     }
+
     public LiveData<List<OcsProjectResource>> getResourcesByLocalProjectId(Long projectLocalId) {
         return db.getOcsProjectResourceDao().getResourcesByLocalProjectId(projectLocalId);
     }

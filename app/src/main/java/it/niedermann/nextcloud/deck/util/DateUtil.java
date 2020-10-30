@@ -3,9 +3,9 @@ package it.niedermann.nextcloud.deck.util;
 import android.content.Context;
 import android.text.format.DateUtils;
 
-import java.util.Date;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
+import androidx.annotation.NonNull;
+
+import java.time.ZonedDateTime;
 
 import it.niedermann.nextcloud.deck.R;
 
@@ -15,48 +15,9 @@ public final class DateUtil {
     private DateUtil() {
     }
 
-    public static Date nowInGMT() {
-        return convertToGMT(new Date());
-    }
-
-    private static Date convertToGMT(Date date ){
-        TimeZone tz = TimeZone.getDefault();
-        Date ret = new Date( date.getTime() - tz.getRawOffset() );
-
-        // if we are now in DST, back off by the delta.  Note that we are checking the GMT date, this is the KEY.
-        if ( tz.inDaylightTime( ret )){
-            Date dstDate = new Date( ret.getTime() - tz.getDSTSavings() );
-
-            // check to make sure we have not crossed back into standard time
-            // this happens when we are on the cusp of DST (7pm the day before the change for PDT)
-            if ( tz.inDaylightTime( dstDate )){
-                ret = dstDate;
-            }
-        }
-        return ret;
-    }
-
-    /**
-     * Get difference between 2 dates in days (hours, minutes will be set to zero).
-     *
-     * @param sourceDateFrom  start date
-     * @param sourceDateUntil end date
-     * @return difference between the to dates in days.
-     */
-    public static long getDayDifference(Date sourceDateFrom, Date sourceDateUntil) {
-        Date dateFrom = new Date(sourceDateFrom.getTime());
-        dateFrom.setHours(0);
-        dateFrom.setMinutes(0);
-
-        Date dateUntil = new Date(sourceDateUntil.getTime());
-        dateUntil.setHours(0);
-        dateUntil.setMinutes(0);
-
-        return TimeUnit.DAYS.convert(dateUntil.getTime() - dateFrom.getTime(), TimeUnit.MILLISECONDS);
-    }
-
-    public static CharSequence getRelativeDateTimeString(Context context, long time) {
-        if ((System.currentTimeMillis() - time) < 60 * 1000 && System.currentTimeMillis() > time) {
+    public static CharSequence getRelativeDateTimeString(@NonNull Context context, long time) {
+        long now = ZonedDateTime.now().toInstant().toEpochMilli();
+        if ((now - time) < 60 * 1000 && now > time) {
             // < 60 seconds -> seconds ago
             return context.getString(R.string.seconds_ago);
         } else {

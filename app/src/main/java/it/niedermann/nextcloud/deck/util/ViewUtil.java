@@ -25,7 +25,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import it.niedermann.android.util.DimensionUtil;
@@ -34,6 +34,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
+import static java.time.temporal.ChronoUnit.DAYS;
 
 public final class ViewUtil {
     private ViewUtil() {
@@ -53,8 +54,8 @@ public final class ViewUtil {
                 .into(avatar);
     }
 
-    public static void themeDueDate(Context context, TextView cardDueDate, Date dueDate) {
-        long diff = DateUtil.getDayDifference(new Date(), dueDate);
+    public static void themeDueDate(@NonNull Context context, @NonNull TextView cardDueDate, @NonNull LocalDate dueDate) {
+        long diff = DAYS.between(LocalDate.now(), dueDate);
 
         int backgroundDrawable = 0;
         int textColor = isDarkTheme(context) ? R.color.dark_fg_primary : R.color.grey600;

@@ -1,8 +1,8 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,12 +21,12 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.util.AsyncUtil;
 
 public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
-    public BoardDataProvider(){
+    public BoardDataProvider() {
         super(null);
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullBoard>> responder, Date lastSync) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullBoard>> responder, Instant lastSync) {
         serverAdapter.getBoards(responder);
     }
 
@@ -45,15 +45,15 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     private void handleOwner(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
-        if (entity.getOwner()!=null) {
-            User owner = createOrUpdateUser(dataBaseAdapter,accountId, entity.getOwner());
+        if (entity.getOwner() != null) {
+            User owner = createOrUpdateUser(dataBaseAdapter, accountId, entity.getOwner());
             entity.getBoard().setOwnerId(owner.getLocalId());
         }
     }
 
     private void handleUsers(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
         dataBaseAdapter.deleteBoardMembershipsOfBoard(entity.getLocalId());
-        if (entity.getUsers()!=null && !entity.getUsers().isEmpty()) {
+        if (entity.getUsers() != null && !entity.getUsers().isEmpty()) {
             for (User user : entity.getUsers()) {
                 if (user == null) {
                     continue;
@@ -66,7 +66,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
     private User createOrUpdateUser(DataBaseAdapter dataBaseAdapter, long accountId, User remoteUser) {
         User owner = dataBaseAdapter.getUserByUidDirectly(accountId, remoteUser.getUid());
-        if (owner == null){
+        if (owner == null) {
             dataBaseAdapter.createUser(accountId, remoteUser);
         } else {
             dataBaseAdapter.updateUser(accountId, remoteUser, false);
@@ -86,7 +86,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
         // ## merge labels (created at board creation):
         // the server creates four default labels. if a board is copied, they will also be copied. At sync, after creating the board, the labels are already there.
         // this merges the created default ones with the ones i already have.
-        if (entity!= null && entity.getLabels() != null) {
+        if (entity != null && entity.getLabels() != null) {
             for (Label label : entity.getLabels()) {
                 // does this label exist and unknown to server yet?
                 Label existing = dataBaseAdapter.getLabelByBoardIdAndTitleDirectly(entity.getLocalId(), label.getTitle());
@@ -108,19 +108,19 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     @Override
     public void goDeeper(SyncHelper syncHelper, FullBoard existingEntity, FullBoard entityFromServer, IResponseCallback<Boolean> callback) {
         List<Label> labels = entityFromServer.getLabels();
-        if (labels != null && !labels.isEmpty()){
+        if (labels != null && !labels.isEmpty()) {
             syncHelper.doSyncFor(new LabelDataProvider(this, existingEntity.getBoard(), labels));
         }
 
         List<AccessControl> acl = entityFromServer.getParticipants();
-        if (acl != null && !acl.isEmpty()){
-            for (AccessControl ac : acl){
+        if (acl != null && !acl.isEmpty()) {
+            for (AccessControl ac : acl) {
                 ac.setBoardId(existingEntity.getLocalId());
             }
             syncHelper.doSyncFor(new AccessControlDataProvider(this, existingEntity, acl));
         }
 
-        if (entityFromServer.getStacks() != null && !entityFromServer.getStacks().isEmpty()){
+        if (entityFromServer.getStacks() != null && !entityFromServer.getStacks().isEmpty()) {
             syncHelper.doSyncFor(new StackDataProvider(this, existingEntity));
         }
     }
@@ -131,7 +131,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public List<FullBoard> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+    public List<FullBoard> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Instant lastSync) {
         return dataBaseAdapter.getLocallyChangedBoards(accountId);
     }
 
@@ -149,7 +149,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
         List<Long> localBoardIDsWithChangedACL = dataBaseAdapter.getBoardIDsOfLocallyChangedAccessControl(accountId);
         for (Long boardId : localBoardIDsWithChangedACL) {
-            syncHelper.doUpSyncFor(new AccessControlDataProvider(this, dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, boardId) ,new ArrayList<>()));
+            syncHelper.doUpSyncFor(new AccessControlDataProvider(this, dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, boardId), new ArrayList<>()));
         }
 
         Set<Long> syncedBoards = new HashSet<>();

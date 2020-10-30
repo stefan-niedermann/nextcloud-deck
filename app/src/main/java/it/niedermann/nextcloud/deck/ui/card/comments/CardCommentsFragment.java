@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.Date;
+import java.time.Instant;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -103,7 +103,7 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
                 if (!TextUtils.isEmpty(binding.message.getText().toString().trim())) {
                     binding.emptyContentView.setVisibility(GONE);
                     binding.comments.setVisibility(VISIBLE);
-                    final DeckComment comment = new DeckComment(binding.message.getText().toString().trim(), mainViewModel.getAccount().getUserName(), new Date());
+                    final DeckComment comment = new DeckComment(binding.message.getText().toString().trim(), mainViewModel.getAccount().getUserName(), Instant.now());
                     final FullDeckComment parent = commentsViewModel.getReplyToComment().getValue();
                     if (parent != null) {
                         comment.setParentId(parent.getId());

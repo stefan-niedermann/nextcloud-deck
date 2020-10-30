@@ -30,7 +30,7 @@ import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -54,6 +54,8 @@ import it.niedermann.nextcloud.deck.util.VCardUtil;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.M;
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -250,7 +252,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             }
         }
 
-        final Date now = new Date();
+        final Instant now = Instant.now();
         final Attachment a = new Attachment();
         a.setMimetype(requireContext().getContentResolver().getType(sourceUri));
         a.setData(fileToUpload.getName());

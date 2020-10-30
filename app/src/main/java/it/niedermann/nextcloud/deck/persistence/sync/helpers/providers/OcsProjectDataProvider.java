@@ -1,7 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.time.Instant;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -15,13 +15,14 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter
 
 public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject> {
     private Card card;
+
     public OcsProjectDataProvider(AbstractSyncDataProvider<?> parent, Card card) {
         super(parent);
         this.card = card;
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<OcsProject>> responder, Date lastSync) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<OcsProject>> responder, Instant lastSync) {
         serverAdapter.getProjectsForCard(card.getId(), new IResponseCallback<OcsProjectList>(responder.getAccount()) {
             @Override
             public void onResponse(OcsProjectList response) {
@@ -70,7 +71,7 @@ public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject>
             for (OcsProjectResource resource : entity.getResources()) {
                 resource.setProjectId(entity.getLocalId());
                 resource.setLocalId(dataBaseAdapter.createProjectResourceDirectly(accountId, resource));
-                if ("deck-card".equals(resource.getType())){
+                if ("deck-card".equals(resource.getType())) {
                     dataBaseAdapter.assignCardToProjectIfMissng(accountId, entity.getLocalId(), resource.getId());
                 }
             }
@@ -93,7 +94,7 @@ public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject>
     }
 
     @Override
-    public List<OcsProject> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+    public List<OcsProject> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Instant lastSync) {
         return Collections.emptyList();
     }
 }

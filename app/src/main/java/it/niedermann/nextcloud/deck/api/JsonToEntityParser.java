@@ -6,10 +6,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import it.niedermann.android.util.ColorUtil;
@@ -44,6 +44,7 @@ import static it.niedermann.nextcloud.deck.exceptions.TraceableException.makeTra
 
 public class JsonToEntityParser {
 
+    @SuppressWarnings("unchecked")
     protected static <T> T parseJsonObject(JsonObject obj, Class<T> mType) {
         if (mType == FullBoard.class) {
             return (T) parseBoard(obj);
@@ -643,20 +644,20 @@ public class JsonToEntityParser {
         return jsonElement.isJsonNull() ? "" : jsonElement.getAsString();
     }
 
-    private static Date getTimestampFromString(JsonElement jsonElement) {
+    private static Instant getTimestampFromString(JsonElement jsonElement) {
         if (jsonElement.isJsonNull()) {
             return null;
         } else {
             String dateAsString = jsonElement.getAsString();
-            return new Date(ZonedDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(dateAsString)).toInstant().toEpochMilli());
+            return ZonedDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(dateAsString)).toInstant();
         }
     }
 
-    private static Date getTimestampFromLong(JsonElement jsonElement) {
+    private static Instant getTimestampFromLong(JsonElement jsonElement) {
         if (jsonElement.isJsonNull()) {
             return null;
         } else {
-            return new Date(jsonElement.getAsLong() * 1000);
+            return Instant.ofEpochMilli(jsonElement.getAsLong() * 1000);
         }
     }
 }

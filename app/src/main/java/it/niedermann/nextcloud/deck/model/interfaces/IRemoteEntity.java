@@ -1,7 +1,7 @@
 package it.niedermann.nextcloud.deck.model.interfaces;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
@@ -44,19 +44,19 @@ public interface IRemoteEntity {
         getEntity().setStatus(status);
     }
 
-    default Date getLastModified() {
+    default Instant getLastModified() {
         return getEntity().getLastModified();
     }
 
-    default void setLastModified(Date lastModified) {
+    default void setLastModified(Instant lastModified) {
         getEntity().setLastModified(lastModified);
     }
 
-    default Date getLastModifiedLocal() {
+    default Instant getLastModifiedLocal() {
         return getEntity().getLastModifiedLocal();
     }
 
-    default void setLastModifiedLocal(Date lastModifiedLocal) {
+    default void setLastModifiedLocal(Instant lastModifiedLocal) {
         getEntity().setLastModifiedLocal(lastModifiedLocal);
     }
 

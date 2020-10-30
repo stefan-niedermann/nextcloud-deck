@@ -5,12 +5,13 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
+
 @Entity(inheritSuperIndices = true,
         indices = {
                 @Index(value = "accountId", name = "comment_accID"),
@@ -35,7 +36,7 @@ public class DeckComment extends AbstractRemoteEntity {
 
     private Long objectId;
     private String actorType;
-    private Date creationDateTime;
+    private Instant creationDateTime;
     private String actorId;
     private String actorDisplayName;
     private String message;
@@ -47,7 +48,7 @@ public class DeckComment extends AbstractRemoteEntity {
     }
 
     @Ignore
-    public DeckComment(String message, String actorDisplayName, Date creationDateTime) {
+    public DeckComment(String message, String actorDisplayName, Instant creationDateTime) {
         setMessage(message);
         setActorDisplayName(actorDisplayName);
         setCreationDateTime(creationDateTime);
@@ -76,11 +77,11 @@ public class DeckComment extends AbstractRemoteEntity {
         this.actorType = actorType;
     }
 
-    public Date getCreationDateTime() {
+    public Instant getCreationDateTime() {
         return creationDateTime;
     }
 
-    public void setCreationDateTime(Date creationDateTime) {
+    public void setCreationDateTime(Instant creationDateTime) {
         this.creationDateTime = creationDateTime;
     }
 
@@ -121,8 +122,8 @@ public class DeckComment extends AbstractRemoteEntity {
     }
 
     public void setMessage(String message) {
-        if (message!= null && message.length() > MAX_MESSAGE_LENGTH) {
-            throw new IllegalArgumentException("The server won't accept messages longer than "+MAX_MESSAGE_LENGTH+" characters!");
+        if (message != null && message.length() > MAX_MESSAGE_LENGTH) {
+            throw new IllegalArgumentException("The server won't accept messages longer than " + MAX_MESSAGE_LENGTH + " characters!");
         }
         this.message = message;
     }
