@@ -29,11 +29,10 @@ import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import it.niedermann.nextcloud.deck.BuildConfig;
@@ -77,6 +76,8 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
     private SyncManager syncManager;
     private CardAttachmentAdapter adapter;
+
+    private final DateTimeFormatter fileNameFromCameraFormatter = DateTimeFormatter.ofPattern("'JPG_'yyyyMMdd'_'HHmmss'.jpg'");
 
     private int clickedItemPosition;
 
@@ -163,7 +164,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         final Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(requireContext().getPackageManager()) != null) {
             Long localId = viewModel.getFullCard().getLocalId();
-            String imageFileName = "JPEG_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Instant().atZone(ZoneId.systemDefault()).format(cameraFormatter)) + "_";
+            String imageFileName = Instant.now().atZone(ZoneId.systemDefault()).format(fileNameFromCameraFormatter);
             File tempFile = new File(requireContext().getApplicationContext().getFilesDir().getAbsolutePath() + "/attachments/account-" + viewModel.getFullCard().getAccountId() + "/card-" + (localId == null ? "pending-creation" : localId) + '/' + imageFileName);
 
             Uri photoURI = FileProvider.getUriForFile(requireContext(),
