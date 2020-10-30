@@ -15,12 +15,12 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AbstractS
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.IRelationshipProvider;
 
 public class SyncHelper {
-    private ServerAdapter serverAdapter;
-    private DataBaseAdapter dataBaseAdapter;
+    private final ServerAdapter serverAdapter;
+    private final DataBaseAdapter dataBaseAdapter;
     private Account account;
     private long accountId;
     private IResponseCallback<Boolean> responseCallback;
-    private Instant lastSync;
+    private final Instant lastSync;
 
     public SyncHelper(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, Instant lastSync) {
         this.serverAdapter = serverAdapter;
