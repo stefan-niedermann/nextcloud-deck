@@ -11,7 +11,7 @@
 
     <uses-feature android:name="android.hardware.camera.any" />
 
-    <uses-sdk android:minSdkVersion="19" tools:overrideLibrary="androidx.camera.core, androidx.camera.camera2, androidx.camera.lifecycle, androidx.camera.view"/>
+    <uses-sdk tools:overrideLibrary="androidx.camera.core, androidx.camera.camera2, androidx.camera.lifecycle, androidx.camera.view"/>
 
     <application
         android:name="it.niedermann.nextcloud.deck.DeckApplication"
