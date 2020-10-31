@@ -64,19 +64,6 @@ public class AttachmentUtil {
             throw new IOException("Could not open input stream for " + currentUri.getPath());
         }
         final File cacheFile = getTempCacheFile(context, accountId, localCardId, UriUtils.getDisplayNameForUri(currentUri, context));
-        DeckLog.verbose("----- fullTempPath: " + cacheFile.getAbsolutePath());
-        final File tempDir = cacheFile.getParentFile();
-        if (tempDir == null) {
-            throw new FileNotFoundException("could not cacheFile.getParentFile()");
-        }
-        if (!tempDir.exists()) {
-            if (!tempDir.mkdirs()) {
-                throw new IOException("Directory for temporary file does not exist and could not be created.");
-            }
-        }
-        if (!cacheFile.createNewFile()) {
-            throw new IOException("Failed to create cacheFile");
-        }
         final FileOutputStream outputStream = new FileOutputStream(cacheFile);
         byte[] buffer = new byte[4096];
 
@@ -88,7 +75,34 @@ public class AttachmentUtil {
         return cacheFile;
     }
 
-    public static File getTempCacheFile(@NonNull Context context, long accountId, Long localCardId, String fileName) {
-        return new File(context.getApplicationContext().getFilesDir().getAbsolutePath() + "/attachments/account-" + accountId + "/card-" + (localCardId == null ? "pending-creation" : localCardId) + '/' + fileName);
+    /**
+     * Creates a new {@link File}
+     */
+    public static File getTempCacheFile(@NonNull Context context, long accountId, Long localCardId, String fileName) throws IOException {
+        File cacheFile = new File(context.getApplicationContext().getFilesDir().getAbsolutePath() + "/attachments/account-" + accountId + "/card-" + (localCardId == null ? "pending-creation" : localCardId) + '/' + fileName);
+
+        DeckLog.verbose("- Full path for new cache file: " + cacheFile.getAbsolutePath());
+
+        final File tempDir = cacheFile.getParentFile();
+        if (tempDir == null) {
+            throw new FileNotFoundException("could not cacheFile.getParentFile()");
+        }
+        if (!tempDir.exists()) {
+            DeckLog.verbose("-- The folder in which the new file should be created does not exist yet. Trying to create it...");
+            if (tempDir.mkdirs()) {
+                DeckLog.verbose("--- Creation successful");
+            } else {
+                throw new IOException("Directory for temporary file does not exist and could not be created.");
+            }
+        }
+
+        DeckLog.verbose("- Try to create actual cache file");
+        if (cacheFile.createNewFile()) {
+            DeckLog.verbose("-- Successfully created cache file");
+        } else {
+            throw new IOException("Failed to create cacheFile");
+        }
+
+        return cacheFile;
     }
 }

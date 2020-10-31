@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
-import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +14,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
+import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.app.SharedElementCallback;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.PermissionChecker;
@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.File;
@@ -54,6 +55,8 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 import it.niedermann.nextcloud.deck.util.VCardUtil;
 
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
@@ -67,14 +70,17 @@ import static java.net.HttpURLConnection.HTTP_CONFLICT;
 
 public class CardAttachmentsFragment extends BrandedFragment implements AttachmentDeletedListener, AttachmentClickedListener, CardAttachmentPickerListener {
 
+    private static final String TAG = CardAttachmentsFragment.class.getSimpleName();
+
     private FragmentCardEditTabAttachmentsBinding binding;
     private EditCardViewModel viewModel;
 
     private static final int REQUEST_CODE_ADD_FILE = 1;
     private static final int REQUEST_CODE_ADD_FILE_PERMISSION = 2;
-    private static final int REQUEST_CODE_CAPTURE_IMAGE = 3;
-    private static final int REQUEST_CODE_PICK_CONTACT = 4;
-    private static final int REQUEST_CODE_PICK_CONTACT_PERMISSION = 5;
+    private static final int REQUEST_CODE_CAMERA = 3;
+    private static final int REQUEST_CODE_CAMERA_PERMISSION = 4;
+    private static final int REQUEST_CODE_PICK_CONTACT = 5;
+    private static final int REQUEST_CODE_PICK_CONTACT_PERMISSION = 6;
 
     private SyncManager syncManager;
     private CardAttachmentAdapter adapter;
@@ -163,49 +169,46 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
     @Override
     public void pickCamera() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(requireActivity(), CAMERA) != PermissionChecker.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{CAMERA}, REQUEST_CODE_CAMERA_PERMISSION);
+        } else {
+            final ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext());
+            cameraProviderFuture.addListener(() -> {
+                final String photoFileName = Instant.now().atZone(ZoneId.systemDefault()).format(fileNameFromCameraFormatter);
+                try {
+                    final File photoFile = AttachmentUtil.getTempCacheFile(requireContext(), viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), photoFileName);
+                    final ImageCapture.OutputFileOptions options = new ImageCapture.OutputFileOptions.Builder(photoFile).build();
+                    final ImageCapture imageCapture = new ImageCapture.Builder().build();
 
-        final String photoFileName = Instant.now().atZone(ZoneId.systemDefault()).format(fileNameFromCameraFormatter);
-        final File photoFile = AttachmentUtil.getTempCacheFile(requireContext(), viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), photoFileName);
-        final ImageCapture.OutputFileOptions options = new ImageCapture.OutputFileOptions.Builder(photoFile).build();
-        ImageCapture imageCapture = new ImageCapture.Builder().build();
-        imageCapture.takePicture(options, ContextCompat.getMainExecutor(requireContext()), new ImageCapture.OnImageSavedCallback() {
-            @Override
-            public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                Uri savedUri = Uri.fromFile(photoFile);
-                Log.v("TAG", savedUri.toString());
-            }
+                    ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
+                    cameraProvider.unbindAll();
+                    cameraProvider.bindToLifecycle(this, CameraSelector.DEFAULT_BACK_CAMERA, imageCapture);
 
-            @Override
-            public void onError(@NonNull ImageCaptureException exception) {
-                Log.v("TAG", exception.getMessage());
-            }
-        });
+                    imageCapture.takePicture(options, ContextCompat.getMainExecutor(requireContext()), new ImageCapture.OnImageSavedCallback() {
+                        @Override
+                        public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                            Uri savedUri = Uri.fromFile(photoFile);
+                            DeckLog.verbose("onImageSaved - savedUri: " + savedUri.toString());
+                        }
 
-
-
-
-
-
-//        final Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        if (takePictureIntent.resolveActivity(requireContext().getPackageManager()) != null) {
-//            Long localId = viewModel.getFullCard().getLocalId();
-//            File tempFile = new File(requireContext().getApplicationContext().getFilesDir().getAbsolutePath() + "/attachments/account-" + viewModel.getFullCard().getAccountId() + "/card-" + (localId == null ? "pending-creation" : localId) + '/' + photoFileName);
-//
-//            Uri photoURI = FileProvider.getUriForFile(requireContext(),
-//                    BuildConfig.APPLICATION_ID + ".fileprovider",
-//                    tempFile);
-//            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-//            startActivityForResult(takePictureIntent, REQUEST_CODE_ADD_FILE);
-//        }
+                        @Override
+                        public void onError(@NonNull ImageCaptureException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                } catch (Exception e) {
+                    ExceptionDialogFragment.newInstance(e, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
+            }, ContextCompat.getMainExecutor(requireContext()));
+        }
     }
 
     @Override
     public void pickContact() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(requireActivity(), Manifest.permission.READ_CONTACTS) != PermissionChecker.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CODE_PICK_CONTACT_PERMISSION);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(requireActivity(), READ_CONTACTS) != PermissionChecker.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_CODE_PICK_CONTACT_PERMISSION);
         } else {
-            final Intent intent = new Intent(Intent.ACTION_PICK)
-                    .setType(ContactsContract.Contacts.CONTENT_TYPE);
+            final Intent intent = new Intent(Intent.ACTION_PICK).setType(ContactsContract.Contacts.CONTENT_TYPE);
             if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
                 startActivityForResult(intent, REQUEST_CODE_PICK_CONTACT);
             }
@@ -214,9 +217,8 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
     @Override
     public void pickFile() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(requireActivity(), Manifest.permission.READ_CONTACTS) != PermissionChecker.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    REQUEST_CODE_ADD_FILE_PERMISSION);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) != PermissionChecker.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_ADD_FILE_PERMISSION);
         } else {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
                     .addCategory(Intent.CATEGORY_OPENABLE)
@@ -321,8 +323,19 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 } else {
                     Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
                 }
+                break;
+            case REQUEST_CODE_CAMERA_PERMISSION:
+                if (checkSelfPermission(requireActivity(), CAMERA) == PERMISSION_GRANTED) {
+                    pickCamera();
+                } else {
+                    Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
+                }
             case REQUEST_CODE_PICK_CONTACT_PERMISSION:
-                pickContact();
+                if (checkSelfPermission(requireActivity(), READ_CONTACTS) == PERMISSION_GRANTED) {
+                    pickContact();
+                } else {
+                    Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
+                }
                 break;
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
