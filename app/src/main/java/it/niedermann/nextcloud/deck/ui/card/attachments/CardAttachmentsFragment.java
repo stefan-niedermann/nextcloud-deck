@@ -7,8 +7,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.provider.MediaStore;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +16,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageCaptureException;
 import androidx.core.app.SharedElementCallback;
-import androidx.core.content.FileProvider;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -35,7 +37,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
-import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabAttachmentsBinding;
@@ -50,6 +51,7 @@ import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.CardAttachmentPicker;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.CardAttachmentPickerListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 import it.niedermann.nextcloud.deck.util.VCardUtil;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
@@ -161,18 +163,40 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
     @Override
     public void pickCamera() {
-        final Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(requireContext().getPackageManager()) != null) {
-            Long localId = viewModel.getFullCard().getLocalId();
-            String imageFileName = Instant.now().atZone(ZoneId.systemDefault()).format(fileNameFromCameraFormatter);
-            File tempFile = new File(requireContext().getApplicationContext().getFilesDir().getAbsolutePath() + "/attachments/account-" + viewModel.getFullCard().getAccountId() + "/card-" + (localId == null ? "pending-creation" : localId) + '/' + imageFileName);
 
-            Uri photoURI = FileProvider.getUriForFile(requireContext(),
-                    BuildConfig.APPLICATION_ID + ".fileprovider",
-                    tempFile);
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-            startActivityForResult(takePictureIntent, REQUEST_CODE_ADD_FILE);
-        }
+        final String photoFileName = Instant.now().atZone(ZoneId.systemDefault()).format(fileNameFromCameraFormatter);
+        final File photoFile = AttachmentUtil.getTempCacheFile(requireContext(), viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), photoFileName);
+        final ImageCapture.OutputFileOptions options = new ImageCapture.OutputFileOptions.Builder(photoFile).build();
+        ImageCapture imageCapture = new ImageCapture.Builder().build();
+        imageCapture.takePicture(options, ContextCompat.getMainExecutor(requireContext()), new ImageCapture.OnImageSavedCallback() {
+            @Override
+            public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                Uri savedUri = Uri.fromFile(photoFile);
+                Log.v("TAG", savedUri.toString());
+            }
+
+            @Override
+            public void onError(@NonNull ImageCaptureException exception) {
+                Log.v("TAG", exception.getMessage());
+            }
+        });
+
+
+
+
+
+
+//        final Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (takePictureIntent.resolveActivity(requireContext().getPackageManager()) != null) {
+//            Long localId = viewModel.getFullCard().getLocalId();
+//            File tempFile = new File(requireContext().getApplicationContext().getFilesDir().getAbsolutePath() + "/attachments/account-" + viewModel.getFullCard().getAccountId() + "/card-" + (localId == null ? "pending-creation" : localId) + '/' + photoFileName);
+//
+//            Uri photoURI = FileProvider.getUriForFile(requireContext(),
+//                    BuildConfig.APPLICATION_ID + ".fileprovider",
+//                    tempFile);
+//            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+//            startActivityForResult(takePictureIntent, REQUEST_CODE_ADD_FILE);
+//        }
     }
 
     @Override
@@ -215,7 +239,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 }
                 break;
             }
-            case REQUEST_CODE_CAPTURE_IMAGE:
             case REQUEST_CODE_ADD_FILE: {
                 if (resultCode == RESULT_OK) {
                     try {

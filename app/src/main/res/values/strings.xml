@@ -314,4 +314,5 @@
     <string name="simple_contact">Contact</string>
     <string name="simple_file">File</string>
     <string name="simple_camera">Camera</string>
+    <string name="min_api_21">This feature requires at least Android 5</string>
 </resources>

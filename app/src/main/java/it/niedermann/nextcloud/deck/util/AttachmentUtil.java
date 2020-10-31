@@ -59,14 +59,13 @@ public class AttachmentUtil {
     }
 
     public static File copyContentUriToTempFile(@NonNull Context context, @NonNull Uri currentUri, long accountId, Long localCardId) throws IOException, IllegalArgumentException {
-        String fullTempPath = context.getApplicationContext().getFilesDir().getAbsolutePath() + "/attachments/account-" + accountId + "/card-" + (localCardId == null ? "pending-creation" : localCardId) + '/' + UriUtils.getDisplayNameForUri(currentUri, context);
-        DeckLog.verbose("----- fullTempPath: " + fullTempPath);
-        InputStream inputStream = context.getContentResolver().openInputStream(currentUri);
+        final InputStream inputStream = context.getContentResolver().openInputStream(currentUri);
         if (inputStream == null) {
             throw new IOException("Could not open input stream for " + currentUri.getPath());
         }
-        File cacheFile = new File(fullTempPath);
-        File tempDir = cacheFile.getParentFile();
+        final File cacheFile = getTempCacheFile(context, accountId, localCardId, UriUtils.getDisplayNameForUri(currentUri, context));
+        DeckLog.verbose("----- fullTempPath: " + cacheFile.getAbsolutePath());
+        final File tempDir = cacheFile.getParentFile();
         if (tempDir == null) {
             throw new FileNotFoundException("could not cacheFile.getParentFile()");
         }
@@ -78,7 +77,7 @@ public class AttachmentUtil {
         if (!cacheFile.createNewFile()) {
             throw new IOException("Failed to create cacheFile");
         }
-        final FileOutputStream outputStream = new FileOutputStream(fullTempPath);
+        final FileOutputStream outputStream = new FileOutputStream(cacheFile);
         byte[] buffer = new byte[4096];
 
         int count;
@@ -87,5 +86,9 @@ public class AttachmentUtil {
         }
         DeckLog.verbose("----- wrote");
         return cacheFile;
+    }
+
+    public static File getTempCacheFile(@NonNull Context context, long accountId, Long localCardId, String fileName) {
+        return new File(context.getApplicationContext().getFilesDir().getAbsolutePath() + "/attachments/account-" + accountId + "/card-" + (localCardId == null ? "pending-creation" : localCardId) + '/' + fileName);
     }
 }

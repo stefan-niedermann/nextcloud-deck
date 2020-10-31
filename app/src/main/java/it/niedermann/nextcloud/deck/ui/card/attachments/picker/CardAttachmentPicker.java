@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +25,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.stream.Stream;
 
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogAttachmentPickerBinding;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.util.DeckColorUtil;
@@ -86,8 +88,12 @@ public class CardAttachmentPicker extends BottomSheetDialogFragment implements B
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         binding.pickCamera.setOnClickListener((v) -> {
-            listener.pickCamera();
-            dismiss();
+            if (SDK_INT >= LOLLIPOP) {
+                listener.pickCamera();
+                dismiss();
+            } else {
+                Toast.makeText(requireContext(), R.string.min_api_21, Toast.LENGTH_SHORT).show();
+            }
         });
         binding.pickContact.setOnClickListener((v) -> {
             listener.pickContact();
