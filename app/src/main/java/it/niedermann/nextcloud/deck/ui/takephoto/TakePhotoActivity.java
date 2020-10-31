@@ -65,11 +65,12 @@ public class TakePhotoActivity extends BrandedActivity {
                 final ImageCapture captureUseCase;
                 final ImageCapture.Builder captureUseCaseBuilder = new ImageCapture.Builder();
                 if (SDK_INT >= LOLLIPOP) {
-                    captureUseCaseBuilder.setTargetResolution(new Size(1280, 720)).build();
+                    captureUseCaseBuilder.setTargetResolution(new Size(720, 1280)).build();
                 }
                 captureUseCase = captureUseCaseBuilder.build();
 
                 binding.takePhoto.setOnClickListener((v) -> {
+                    binding.takePhoto.setEnabled(false);
                     final String photoFileName = Instant.now().atZone(ZoneId.systemDefault()).format(fileNameFromCameraFormatter);
                     try {
                         final File photoFile = AttachmentUtil.getTempCacheFile(this, "photos/" + photoFileName);
@@ -88,6 +89,7 @@ public class TakePhotoActivity extends BrandedActivity {
                                 e.printStackTrace();
                                 //noinspection ResultOfMethodCallIgnored
                                 photoFile.delete();
+                                binding.takePhoto.setEnabled(true);
                             }
                         });
                     } catch (Exception e) {
@@ -104,7 +106,7 @@ public class TakePhotoActivity extends BrandedActivity {
 
 
     public static Intent createIntent(@NonNull Context context) {
-        return new Intent(context, TakePhotoActivity.class);
+        return new Intent(context, TakePhotoActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
     @Override

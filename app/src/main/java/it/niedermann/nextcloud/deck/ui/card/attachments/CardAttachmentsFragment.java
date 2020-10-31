@@ -250,7 +250,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                     }
                 }
 
-                final String mimeType = requireContext().getContentResolver().getType(sourceUri);
                 final Instant now = Instant.now();
                 final Attachment a = new Attachment();
                 a.setMimetype(requireContext().getContentResolver().getType(sourceUri));
