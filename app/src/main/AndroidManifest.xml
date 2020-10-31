@@ -11,7 +11,7 @@
 
     <uses-feature android:name="android.hardware.camera.any" />
 
-    <uses-sdk android:minSdkVersion="19" tools:overrideLibrary="androidx.camera.camera2, androidx.camera.lifecycle, androidx.camera.core"/>
+    <uses-sdk android:minSdkVersion="19" tools:overrideLibrary="androidx.camera.core, androidx.camera.camera2, androidx.camera.lifecycle, androidx.camera.view"/>
 
     <application
         android:name="it.niedermann.nextcloud.deck.DeckApplication"
@@ -53,6 +53,11 @@
             android:name=".ui.manageaccounts.ManageAccountsActivity"
             android:label="@string/manage_accounts"
             android:parentActivityName=".ui.MainActivity"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".ui.takephoto.TakePhotoActivity"
+            android:theme="@style/TransparentTheme"
             android:windowSoftInputMode="stateHidden" />
 
         <activity

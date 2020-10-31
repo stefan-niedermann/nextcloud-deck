@@ -63,7 +63,7 @@ public class AttachmentUtil {
         if (inputStream == null) {
             throw new IOException("Could not open input stream for " + currentUri.getPath());
         }
-        final File cacheFile = getTempCacheFile(context, accountId, localCardId, UriUtils.getDisplayNameForUri(currentUri, context));
+        final File cacheFile = getTempCacheFile(context, "attachments/account-" + accountId + "/card-" + (localCardId == null ? "pending-creation" : localCardId) + '/' + UriUtils.getDisplayNameForUri(currentUri, context));
         final FileOutputStream outputStream = new FileOutputStream(cacheFile);
         byte[] buffer = new byte[4096];
 
@@ -78,8 +78,8 @@ public class AttachmentUtil {
     /**
      * Creates a new {@link File}
      */
-    public static File getTempCacheFile(@NonNull Context context, long accountId, Long localCardId, String fileName) throws IOException {
-        File cacheFile = new File(context.getApplicationContext().getFilesDir().getAbsolutePath() + "/attachments/account-" + accountId + "/card-" + (localCardId == null ? "pending-creation" : localCardId) + '/' + fileName);
+    public static File getTempCacheFile(@NonNull Context context, String fileName) throws IOException {
+        File cacheFile = new File(context.getApplicationContext().getFilesDir().getAbsolutePath() + "/" + fileName);
 
         DeckLog.verbose("- Full path for new cache file: " + cacheFile.getAbsolutePath());
 

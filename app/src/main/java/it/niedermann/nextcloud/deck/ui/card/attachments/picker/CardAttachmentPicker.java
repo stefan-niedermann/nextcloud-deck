@@ -90,19 +90,12 @@ public class CardAttachmentPicker extends BottomSheetDialogFragment implements B
         binding.pickCamera.setOnClickListener((v) -> {
             if (SDK_INT >= LOLLIPOP) {
                 listener.pickCamera();
-                dismiss();
             } else {
                 Toast.makeText(requireContext(), R.string.min_api_21, Toast.LENGTH_SHORT).show();
             }
         });
-        binding.pickContact.setOnClickListener((v) -> {
-            listener.pickContact();
-            dismiss();
-        });
-        binding.pickFile.setOnClickListener((v) -> {
-            listener.pickFile();
-            dismiss();
-        });
+        binding.pickContact.setOnClickListener((v) -> listener.pickContact());
+        binding.pickFile.setOnClickListener((v) -> listener.pickFile());
     }
 
     public static DialogFragment newInstance() {
