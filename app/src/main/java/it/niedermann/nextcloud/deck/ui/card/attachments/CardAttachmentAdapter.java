@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ import it.niedermann.nextcloud.deck.ui.attachments.AttachmentsActivity;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
 import static androidx.recyclerview.widget.RecyclerView.NO_ID;
 import static it.niedermann.nextcloud.deck.util.AttachmentUtil.openAttachmentInBrowser;
 
@@ -37,6 +40,9 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
     public static final int VIEW_TYPE_DEFAULT = 2;
     public static final int VIEW_TYPE_IMAGE = 1;
 
+    @NonNull
+    private MutableLiveData<Boolean> isEmpty = new MutableLiveData<>(true);
+    @NonNull
     private final MenuInflater menuInflater;
     @ColorInt
     private int mainColor;
@@ -126,22 +132,34 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
         return attachments.size();
     }
 
+    private void updateIsEmpty() {
+        this.isEmpty.postValue(getItemCount() <= 0);
+    }
+
+    @NonNull
+    public LiveData<Boolean> isEmpty() {
+        return distinctUntilChanged(this.isEmpty);
+    }
+
     public void setAttachments(@NonNull List<Attachment> attachments, @Nullable Long cardRemoteId) {
         this.cardRemoteId = cardRemoteId;
         this.attachments.clear();
         this.attachments.addAll(attachments);
         notifyDataSetChanged();
+        this.updateIsEmpty();
     }
 
     public void addAttachment(Attachment a) {
         this.attachments.add(0, a);
         notifyItemInserted(this.attachments.size());
+        this.updateIsEmpty();
     }
 
     public void removeAttachment(Attachment a) {
         final int index = this.attachments.indexOf(a);
         this.attachments.remove(a);
         notifyItemRemoved(index);
+        this.updateIsEmpty();
     }
 
     public void replaceAttachment(Attachment toReplace, Attachment with) {

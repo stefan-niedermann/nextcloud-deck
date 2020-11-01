@@ -54,6 +54,8 @@ import static android.app.Activity.RESULT_OK;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.os.Build.VERSION_CODES.M;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -106,7 +108,15 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 viewModel.getFullCard().getLocalId());
         binding.attachmentsList.setAdapter(adapter);
 
-        updateEmptyContentView();
+        adapter.isEmpty().observe(getViewLifecycleOwner(), (isEmpty) -> {
+            if (isEmpty) {
+                this.binding.emptyContentView.setVisibility(VISIBLE);
+                this.binding.attachmentsList.setVisibility(GONE);
+            } else {
+                this.binding.emptyContentView.setVisibility(GONE);
+                this.binding.attachmentsList.setVisibility(VISIBLE);
+            }
+        });
 
         final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int spanCount = (int) ((displayMetrics.widthPixels / displayMetrics.density) / getResources().getInteger(R.integer.max_dp_attachment_column));
@@ -138,7 +148,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 }
             });
             adapter.setAttachments(viewModel.getFullCard().getAttachments(), viewModel.getFullCard().getId());
-            updateEmptyContentView();
         }
 
         if (viewModel.canEdit()) {
@@ -287,7 +296,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                         }
                     });
                 }
-                updateEmptyContentView();
                 break;
             }
             default: {
@@ -344,22 +352,11 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 }
             });
         }
-        updateEmptyContentView();
     }
 
     @Override
     public void onAttachmentClicked(int position) {
         this.clickedItemPosition = position;
-    }
-
-    private void updateEmptyContentView() {
-        if (this.adapter == null || this.adapter.getItemCount() == 0) {
-            this.binding.emptyContentView.setVisibility(View.VISIBLE);
-            this.binding.attachmentsList.setVisibility(View.GONE);
-        } else {
-            this.binding.emptyContentView.setVisibility(View.GONE);
-            this.binding.attachmentsList.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
