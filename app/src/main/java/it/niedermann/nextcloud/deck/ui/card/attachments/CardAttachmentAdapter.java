@@ -45,9 +45,9 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
     private Long cardRemoteId = null;
     private final long cardLocalId;
     @NonNull
-    FragmentManager fragmentManager;
+    private final FragmentManager fragmentManager;
     @NonNull
-    private List<Attachment> attachments = new ArrayList<>();
+    private final List<Attachment> attachments = new ArrayList<>();
     @NonNull
     private final AttachmentClickedListener attachmentClickedListener;
 
