@@ -60,8 +60,17 @@ public class CardAttachmentPicker extends BottomSheetDialogFragment implements B
         }
 
         @Nullable Context context = getContext();
-        if (context != null && isBrandingEnabled(context)) {
-            applyBrand(readBrandMainColor(context));
+        if (context != null) {
+            if (isBrandingEnabled(context)) {
+                applyBrand(readBrandMainColor(context));
+            } else { // Make sure that without branding the icons are still white
+                if (SDK_INT >= LOLLIPOP) {
+                    final ColorStateList colorStateList = ColorStateList.valueOf(Color.WHITE);
+                    for (ImageView v : brandedViews) {
+                        v.setImageTintList(colorStateList);
+                    }
+                }
+            }
         }
 
         return binding.getRoot();
