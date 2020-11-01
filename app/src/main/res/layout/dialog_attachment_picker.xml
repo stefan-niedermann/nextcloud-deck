@@ -8,19 +8,30 @@
     <ListView
         android:id="@+id/contactsListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
         android:id="@+id/avatar"
-         />
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
+    <HorizontalScrollView
+        android:layout_below="@id/avatar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/thumbnails"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
 
     <com.google.android.flexbox.FlexboxLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
         android:paddingStart="@dimen/spacer_2x"
         android:paddingTop="@dimen/spacer_3x"
         android:paddingEnd="@dimen/spacer_2x"

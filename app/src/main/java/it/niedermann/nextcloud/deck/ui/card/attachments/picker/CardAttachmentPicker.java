@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,6 +105,31 @@ public class CardAttachmentPicker extends BottomSheetDialogFragment implements B
         binding.pickContact.setOnClickListener((v) -> listener.pickContact());
         binding.pickFile.setOnClickListener((v) -> listener.pickFile());
 
+        loadAndDisplayContacts();
+        loadAndDisplayGallery();
+    }
+
+    private void loadAndDisplayGallery() {
+        if (SDK_INT >= LOLLIPOP) {
+            final ContentResolver contentResolver = requireContext().getContentResolver();
+            try (final Cursor outerCursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, null, null, null)) {
+                while (outerCursor.moveToNext()) {
+                    Bitmap photo = MediaStore.Images.Thumbnails.getThumbnail(
+                            contentResolver, outerCursor.getLong(outerCursor.getColumnIndex(MediaStore.Images.Media._ID)),
+                            MediaStore.Images.Thumbnails.MINI_KIND, null);
+
+                    ImageView iv = new ImageView(requireContext());
+
+                    Glide.with(requireContext())
+                            .load(photo)
+                            .into(iv);
+                    binding.thumbnails.addView(iv);
+                }
+            }
+        }
+    }
+
+    private void loadAndDisplayContacts() {
         List<Contact> contacts = new ArrayList<>();
 
         final ContentResolver contentResolver = requireContext().getContentResolver();
@@ -112,8 +138,8 @@ public class CardAttachmentPicker extends BottomSheetDialogFragment implements B
                 Contact contact = new Contact();
                 contact.userName = outerCursor.getString(outerCursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
                 final String contactId = outerCursor.getString(outerCursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
-                Cursor pCur = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
-                        ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY +" = ?",
+                Cursor pCur = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                        ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY + " = ?",
                         new String[]{contactId}, null);
                 if (pCur.moveToFirst()) {
                     String phone = pCur.getString(
@@ -124,7 +150,7 @@ public class CardAttachmentPicker extends BottomSheetDialogFragment implements B
                 pCur.close();
 
                 final String lookupKey = outerCursor.getString(outerCursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
-                InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(contentResolver,Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey));
+                InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(contentResolver, Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey));
 
                 Bitmap photo = BitmapFactory.decodeResource(getResources(),
                         R.drawable.ic_person_grey600_24dp);
@@ -148,7 +174,7 @@ public class CardAttachmentPicker extends BottomSheetDialogFragment implements B
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 requireContext(),
                 android.R.layout.simple_list_item_1,
-                contacts.stream().map((c) -> c.userName).collect(Collectors.toList()) );
+                contacts.stream().map((c) -> c.userName).collect(Collectors.toList()));
 
         binding.contactsListView.setAdapter(arrayAdapter);
     }
