@@ -83,6 +83,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                 DeckLog.warn("=============================================================");
                 DeckLog.warn("Nextcloud app is not installed. Cannot choose account");
                 DeckLog.logError(e);
+                binding.addButton.setEnabled(true);
             } catch (AndroidGetAccountsPermissionNotGranted e) {
                 binding.addButton.setEnabled(true);
                 AccountImporter.requestAndroidAccountPermissionsAndPickAccount(this);
