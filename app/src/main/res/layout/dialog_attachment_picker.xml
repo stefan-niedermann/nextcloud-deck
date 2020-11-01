@@ -1,101 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingStart="@dimen/spacer_2x"
-    android:paddingEnd="@dimen/spacer_2x"
-    android:paddingTop="@dimen/spacer_3x"
-    android:paddingBottom="@dimen/spacer_3x"
-    app:behavior_hideable="false"
-    app:behavior_peekHeight="90dp"
-    app:justifyContent="space_around"
-    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/pickCamera"
-        android:layout_width="wrap_content"
+    <ListView
+        android:id="@+id/contactsListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/avatar"
+         />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_flexGrow="1">
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:paddingStart="@dimen/spacer_2x"
+        android:paddingTop="@dimen/spacer_3x"
+        android:paddingEnd="@dimen/spacer_2x"
+        android:paddingBottom="@dimen/spacer_3x"
+        app:justifyContent="space_around">
 
-        <ImageView
-            android:id="@+id/pickCameraIamge"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:background="@drawable/circle_grey600_36dp"
-            android:contentDescription="@null"
-            android:padding="12dp"
-            app:backgroundTint="@color/defaultBrand"
-            app:srcCompat="@drawable/ic_baseline_photo_camera_24"
-            app:tint="@color/primary" />
-
-        <TextView
+        <LinearLayout
+            android:id="@+id/pickCamera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacer_1x"
-            android:text="@string/simple_camera"
-            android:textAppearance="?attr/textAppearanceCaption" />
-    </LinearLayout>
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_flexGrow="1">
 
-    <LinearLayout
-        android:id="@+id/pickContact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_flexGrow="1">
+            <ImageView
+                android:id="@+id/pickCameraIamge"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/circle_grey600_36dp"
+                android:contentDescription="@null"
+                android:padding="12dp"
+                app:backgroundTint="@color/defaultBrand"
+                app:srcCompat="@drawable/ic_baseline_photo_camera_24"
+                app:tint="@color/primary" />
 
-        <ImageView
-            android:id="@+id/pickContactIamge"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:background="@drawable/circle_grey600_36dp"
-            android:contentDescription="@null"
-            android:padding="12dp"
-            app:backgroundTint="@color/defaultBrand"
-            app:srcCompat="@drawable/ic_person_grey600_24dp"
-            app:tint="@color/primary" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacer_1x"
+                android:text="@string/simple_camera"
+                android:textAppearance="?attr/textAppearanceCaption" />
+        </LinearLayout>
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/pickContact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacer_1x"
-            android:text="@string/simple_contact"
-            android:textAppearance="?attr/textAppearanceCaption" />
-    </LinearLayout>
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_flexGrow="1">
 
-    <LinearLayout
-        android:id="@+id/pickFile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_flexGrow="1">
+            <ImageView
+                android:id="@+id/pickContactIamge"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/circle_grey600_36dp"
+                android:contentDescription="@null"
+                android:padding="12dp"
+                app:backgroundTint="@color/defaultBrand"
+                app:srcCompat="@drawable/ic_person_grey600_24dp"
+                app:tint="@color/primary" />
 
-        <ImageView
-            android:id="@+id/pickFileIamge"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:background="@drawable/circle_grey600_36dp"
-            android:contentDescription="@null"
-            android:padding="12dp"
-            app:backgroundTint="@color/defaultBrand"
-            app:layout_flexGrow="1"
-            app:srcCompat="@drawable/ic_attach_file_grey600_24dp"
-            app:tint="@color/primary" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacer_1x"
+                android:text="@string/simple_contact"
+                android:textAppearance="?attr/textAppearanceCaption" />
+        </LinearLayout>
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/pickFile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacer_1x"
-            android:text="@string/simple_file"
-            android:textAppearance="?attr/textAppearanceCaption" />
-    </LinearLayout>
-</com.google.android.flexbox.FlexboxLayout>
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_flexGrow="1">
+
+            <ImageView
+                android:id="@+id/pickFileIamge"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/circle_grey600_36dp"
+                android:contentDescription="@null"
+                android:padding="12dp"
+                app:backgroundTint="@color/defaultBrand"
+                app:layout_flexGrow="1"
+                app:srcCompat="@drawable/ic_attach_file_grey600_24dp"
+                app:tint="@color/primary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacer_1x"
+                android:text="@string/simple_file"
+                android:textAppearance="?attr/textAppearanceCaption" />
+        </LinearLayout>
+    </com.google.android.flexbox.FlexboxLayout>
+
+</RelativeLayout>
