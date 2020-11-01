@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.SharedElementCallback;
 import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.DialogFragment;
@@ -52,6 +53,8 @@ import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -164,6 +167,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     }
 
     @Override
+    @RequiresApi(LOLLIPOP)
     public void pickCamera() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(requireActivity(), CAMERA) != PermissionChecker.PERMISSION_GRANTED) {
             requestPermissions(new String[]{CAMERA}, REQUEST_CODE_CAMERA_PERMISSION);
@@ -305,7 +309,11 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 break;
             case REQUEST_CODE_CAMERA_PERMISSION:
                 if (checkSelfPermission(requireActivity(), CAMERA) == PERMISSION_GRANTED) {
-                    pickCamera();
+                    if (SDK_INT >= LOLLIPOP) {
+                        pickCamera();
+                    } else {
+                        Toast.makeText(requireContext(), R.string.min_api_21, Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
                 }
