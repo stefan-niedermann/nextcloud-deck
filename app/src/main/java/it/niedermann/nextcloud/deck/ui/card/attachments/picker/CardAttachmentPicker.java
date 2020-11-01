@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,8 +23,6 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-
-import java.util.stream.Stream;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogAttachmentPickerBinding;
@@ -40,6 +39,8 @@ public class CardAttachmentPicker extends BottomSheetDialogFragment implements B
 
     private DialogAttachmentPickerBinding binding;
     private CardAttachmentPickerListener listener;
+
+    private ImageView[] brandedViews;
 
     public CardAttachmentPicker() {
 
@@ -75,6 +76,7 @@ public class CardAttachmentPicker extends BottomSheetDialogFragment implements B
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogAttachmentPickerBinding.inflate(inflater, container, false);
+        brandedViews = new ImageView[]{binding.pickCameraIamge, binding.pickContactIamge, binding.pickFileIamge};
 
         @Nullable Context context = getContext();
         if (context != null && isBrandingEnabled(context)) {
@@ -105,18 +107,14 @@ public class CardAttachmentPicker extends BottomSheetDialogFragment implements B
     @Override
     public void applyBrand(int mainColor) {
         if (SDK_INT >= LOLLIPOP) {
-            Stream.of(
-                    binding.pickCameraIamge,
-                    binding.pickContactIamge,
-                    binding.pickFileIamge
-            ).forEach(image -> {
-                image.setBackgroundTintList(ColorStateList.valueOf(mainColor));
-                image.setImageTintList(ColorStateList.valueOf(
+            for (ImageView v : brandedViews) {
+                v.setBackgroundTintList(ColorStateList.valueOf(mainColor));
+                v.setImageTintList(ColorStateList.valueOf(
                         DeckColorUtil.contrastRatioIsSufficient(mainColor, Color.WHITE)
                                 ? Color.WHITE
                                 : Color.BLACK
                 ));
-            });
+            }
         }
     }
 

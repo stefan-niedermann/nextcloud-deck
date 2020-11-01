@@ -65,8 +65,6 @@ import static java.net.HttpURLConnection.HTTP_CONFLICT;
 
 public class CardAttachmentsFragment extends BrandedFragment implements AttachmentDeletedListener, AttachmentClickedListener, CardAttachmentPickerListener {
 
-    private static final String TAG = CardAttachmentsFragment.class.getSimpleName();
-
     private FragmentCardEditTabAttachmentsBinding binding;
     private EditCardViewModel viewModel;
 
