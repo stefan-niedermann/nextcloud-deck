@@ -50,6 +50,10 @@ public class TakePhotoActivity extends BrandedActivity {
 
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
 
+        if (SDK_INT < LOLLIPOP) {
+            throw new UnsupportedOperationException("This activity requires API level 21 or higher");
+        }
+
         binding = ActivityTakePhotoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -62,12 +66,7 @@ public class TakePhotoActivity extends BrandedActivity {
 
                 previewUseCase.setSurfaceProvider(binding.preview.getSurfaceProvider());
 
-                final ImageCapture captureUseCase;
-                final ImageCapture.Builder captureUseCaseBuilder = new ImageCapture.Builder();
-                if (SDK_INT >= LOLLIPOP) {
-                    captureUseCaseBuilder.setTargetResolution(new Size(720, 1280)).build();
-                }
-                captureUseCase = captureUseCaseBuilder.build();
+                final ImageCapture captureUseCase = new ImageCapture.Builder().setTargetResolution(new Size(720, 1280)).build();
 
                 binding.takePhoto.setOnClickListener((v) -> {
                     binding.takePhoto.setEnabled(false);
@@ -106,7 +105,7 @@ public class TakePhotoActivity extends BrandedActivity {
 
 
     public static Intent createIntent(@NonNull Context context) {
-        return new Intent(context, TakePhotoActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        return new Intent(context, TakePhotoActivity.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
     }
 
     @Override
