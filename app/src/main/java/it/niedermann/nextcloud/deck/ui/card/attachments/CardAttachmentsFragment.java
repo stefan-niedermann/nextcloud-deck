@@ -317,6 +317,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 } else {
                     Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
                 }
+                break;
             case REQUEST_CODE_PICK_CONTACT_PERMISSION:
                 if (checkSelfPermission(requireActivity(), READ_CONTACTS) == PERMISSION_GRANTED) {
                     pickContact();
