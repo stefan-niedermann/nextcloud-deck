@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui.card.attachments;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.DisplayMetrics;
@@ -16,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.SharedElementCallback;
-import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -55,6 +53,7 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static android.os.Build.VERSION_CODES.M;
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -169,7 +168,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     @Override
     @RequiresApi(LOLLIPOP)
     public void pickCamera() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(requireActivity(), CAMERA) != PermissionChecker.PERMISSION_GRANTED) {
+        if (isPermissionRequestNeeded(CAMERA)) {
             requestPermissions(new String[]{CAMERA}, REQUEST_CODE_CAMERA_PERMISSION);
         } else {
             startActivityForResult(TakePhotoActivity.createIntent(requireContext()), REQUEST_CODE_CAMERA);
@@ -178,7 +177,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
     @Override
     public void pickContact() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(requireActivity(), READ_CONTACTS) != PermissionChecker.PERMISSION_GRANTED) {
+        if (isPermissionRequestNeeded(READ_CONTACTS)) {
             requestPermissions(new String[]{READ_CONTACTS}, REQUEST_CODE_PICK_CONTACT_PERMISSION);
         } else {
             final Intent intent = new Intent(Intent.ACTION_PICK).setType(ContactsContract.Contacts.CONTENT_TYPE);
@@ -190,7 +189,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
     @Override
     public void pickFile() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) != PermissionChecker.PERMISSION_GRANTED) {
+        if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE)) {
             requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_ADD_FILE_PERMISSION);
         } else {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
@@ -200,28 +199,29 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         }
     }
 
+    /**
+     * Checks the current Android version and whether the permission has already been granted.
+     *
+     * @param permission see {@link android.Manifest.permission}
+     * @return whether or not requesting permission is needed
+     */
+    private boolean isPermissionRequestNeeded(@NonNull String permission) {
+        return SDK_INT >= M && checkSelfPermission(requireActivity(), permission) != PERMISSION_GRANTED;
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case REQUEST_CODE_PICK_CONTACT: {
-                if (resultCode == RESULT_OK) {
-                    try {
-                        uploadNewAttachmentFromUri(VCardUtil.getVCardContentUri(requireContext(), Uri.parse(data.getDataString())));
-                        if (picker != null) {
-                            picker.dismiss();
-                        }
-                    } catch (Exception e) {
-                        ExceptionDialogFragment.newInstance(e, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                    }
-                }
-                break;
-            }
+            case REQUEST_CODE_PICK_CONTACT:
             case REQUEST_CODE_CAMERA:
             case REQUEST_CODE_ADD_FILE: {
                 if (resultCode == RESULT_OK) {
+                    final Uri sourceUri = requestCode == REQUEST_CODE_PICK_CONTACT
+                            ? VCardUtil.getVCardContentUri(requireContext(), Uri.parse(data.getDataString()))
+                            : data.getData();
                     try {
-                        uploadNewAttachmentFromUri(data.getData());
+                        uploadNewAttachmentFromUri(sourceUri);
                         if (picker != null) {
                             picker.dismiss();
                         }
@@ -300,14 +300,15 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
-            case REQUEST_CODE_ADD_FILE_PERMISSION:
+            case REQUEST_CODE_ADD_FILE_PERMISSION: {
                 if (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED) {
                     pickFile();
                 } else {
                     Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
                 }
                 break;
-            case REQUEST_CODE_CAMERA_PERMISSION:
+            }
+            case REQUEST_CODE_CAMERA_PERMISSION: {
                 if (checkSelfPermission(requireActivity(), CAMERA) == PERMISSION_GRANTED) {
                     if (SDK_INT >= LOLLIPOP) {
                         pickCamera();
@@ -318,13 +319,15 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                     Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
                 }
                 break;
-            case REQUEST_CODE_PICK_CONTACT_PERMISSION:
+            }
+            case REQUEST_CODE_PICK_CONTACT_PERMISSION: {
                 if (checkSelfPermission(requireActivity(), READ_CONTACTS) == PERMISSION_GRANTED) {
                     pickContact();
                 } else {
                     Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
                 }
                 break;
+            }
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
