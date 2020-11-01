@@ -219,7 +219,9 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                             ? VCardUtil.getVCardContentUri(requireContext(), Uri.parse(data.getDataString()))
                             : data.getData();
                     try {
-                        uploadNewAttachmentFromUri(sourceUri);
+                        uploadNewAttachmentFromUri(sourceUri, requestCode == REQUEST_CODE_CAMERA
+                                ? data.getType()
+                                : requireContext().getContentResolver().getType(sourceUri));
                         if (picker != null) {
                             picker.dismiss();
                         }
@@ -235,7 +237,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         }
     }
 
-    private void uploadNewAttachmentFromUri(@NonNull Uri sourceUri) throws UploadAttachmentFailedException, IOException {
+    private void uploadNewAttachmentFromUri(@NonNull Uri sourceUri, String mimeType) throws UploadAttachmentFailedException, IOException {
         if (sourceUri == null) {
             throw new UploadAttachmentFailedException("sourceUri is null");
         }
@@ -254,7 +256,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
                 final Instant now = Instant.now();
                 final Attachment a = new Attachment();
-                a.setMimetype(requireContext().getContentResolver().getType(sourceUri));
+                a.setMimetype(mimeType);
                 a.setData(fileToUpload.getName());
                 a.setFilename(fileToUpload.getName());
                 a.setBasename(fileToUpload.getName());
