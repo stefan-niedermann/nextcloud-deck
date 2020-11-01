@@ -11,7 +11,7 @@
 
     <uses-feature android:name="android.hardware.camera.any" />
 
-    <uses-sdk tools:overrideLibrary="androidx.camera.core, androidx.camera.camera2, androidx.camera.lifecycle, androidx.camera.view"/>
+    <uses-sdk tools:overrideLibrary="androidx.camera.core, androidx.camera.camera2, androidx.camera.lifecycle, androidx.camera.view" />
 
     <application
         android:name="it.niedermann.nextcloud.deck.DeckApplication"
@@ -57,7 +57,7 @@
 
         <activity
             android:name=".ui.takephoto.TakePhotoActivity"
-            android:theme="@style/TransparentTheme"
+            android:theme="@style/TakePhotoTheme"
             android:windowSoftInputMode="stateHidden" />
 
         <activity

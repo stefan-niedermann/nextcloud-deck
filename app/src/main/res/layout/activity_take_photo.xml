@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
     android:orientation="vertical"
     tools:theme="@style/TransparentTheme">
 
@@ -12,20 +13,43 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
+    <com.google.android.flexbox.FlexboxLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:padding="@dimen/spacer_3x">
+        android:background="@color/camera_controls_overlay"
+        app:alignItems="center"
+        app:justifyContent="space_evenly">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/switchCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/take_photo_switch_camera"
+            android:tint="@android:color/white"
+            app:backgroundTint="@color/defaultBrand"
+            app:fabSize="mini"
+            tools:srcCompat="@drawable/ic_baseline_camera_front_24" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/takePhoto"
+            android:layout_marginTop="@dimen/spacer_3x"
+            android:layout_marginBottom="@dimen/spacer_3x"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="Take photo"
+            android:contentDescription="@string/take_photo"
             android:tint="@android:color/white"
             app:backgroundTint="@color/defaultBrand"
             app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
-    </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/toggle_torch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/take_photo_toggle_torch"
+            android:tint="@android:color/white"
+            app:backgroundTint="@color/defaultBrand"
+            app:fabSize="mini"
+            tools:srcCompat="@drawable/ic_baseline_flash_on_24" />
+    </com.google.android.flexbox.FlexboxLayout>
 </RelativeLayout>
