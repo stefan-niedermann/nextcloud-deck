@@ -134,7 +134,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
     }
 
     public void addAttachment(Attachment a) {
-        this.attachments.add(a);
+        this.attachments.add(0, a);
         notifyItemInserted(this.attachments.size());
     }
 
@@ -142,6 +142,13 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
         final int index = this.attachments.indexOf(a);
         this.attachments.remove(a);
         notifyItemRemoved(index);
+    }
+
+    public void replaceAttachment(Attachment toReplace, Attachment with) {
+        final int index = this.attachments.indexOf(toReplace);
+        this.attachments.remove(toReplace);
+        this.attachments.add(index, with);
+        notifyItemChanged(index);
     }
 
     @Override

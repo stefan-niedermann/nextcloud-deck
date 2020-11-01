@@ -263,9 +263,9 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 a.setFilesize(fileToUpload.length());
                 a.setLocalPath(fileToUpload.getAbsolutePath());
                 a.setLastModifiedLocal(now);
-                a.setStatusEnum(DBStatus.LOCAL_EDITED);
                 a.setCreatedAt(now);
-                viewModel.getFullCard().getAttachments().add(a);
+                a.setStatusEnum(DBStatus.LOCAL_EDITED);
+                viewModel.getFullCard().getAttachments().add(0, a);
                 adapter.addAttachment(a);
                 if (!viewModel.isCreateMode()) {
                     WrappedLiveData<Attachment> liveData = syncManager.addAttachmentToCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload);
@@ -282,9 +282,8 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                             }
                         } else {
                             viewModel.getFullCard().getAttachments().remove(a);
-                            adapter.removeAttachment(a);
-                            viewModel.getFullCard().getAttachments().add(next);
-                            adapter.addAttachment(next);
+                            viewModel.getFullCard().getAttachments().add(0, next);
+                            adapter.replaceAttachment(a, next);
                         }
                     });
                 }
