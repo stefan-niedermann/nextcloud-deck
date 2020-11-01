@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -16,6 +16,8 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectList;
+import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 
@@ -42,14 +44,17 @@ public class GsonConfig {
         Type ocsUserList = new TypeToken<OcsUserList>() {}.getType();
         Type ocsUser = new TypeToken<OcsUser>() {}.getType();
         Type activity = new TypeToken<Activity>() {}.getType();
+        Type activityList = new TypeToken<List<Activity>>() {}.getType();
         Type attachment = new TypeToken<Attachment>() {}.getType();
         Type attachmentList = new TypeToken<List<Attachment>>() {}.getType();
         Type comment = new TypeToken<OcsComment>() {}.getType();
+        Type projectList = new TypeToken<OcsProjectList>() {}.getType();
+        Type groupMembers = new TypeToken<GroupMemberUIDs>() {}.getType();
 
         INSTANCE = new GsonBuilder()
                 .setDateFormat(DATE_PATTERN)
                 .setLenient()
-                .registerTypeAdapter(Date.class,        new GsonUTCDateAdapter())
+                .registerTypeAdapter(Instant.class,     new GsonUTCInstantAdapter())
                 .registerTypeAdapter(boardList,         new NextcloudArrayDeserializer<>("boards", FullBoard.class))
                 .registerTypeAdapter(board,             new NextcloudDeserializer<>("board", FullBoard.class))
                 .registerTypeAdapter(cardList,          new NextcloudArrayDeserializer<>("cards", FullCard.class))
@@ -62,9 +67,12 @@ public class GsonConfig {
                 .registerTypeAdapter(ocsUserList,       new NextcloudDeserializer<>("ocsUserList", OcsUserList.class))
                 .registerTypeAdapter(ocsUser,           new NextcloudDeserializer<>("ocsUser", OcsUser.class))
                 .registerTypeAdapter(activity,          new NextcloudDeserializer<>("activity", Activity.class))
+                .registerTypeAdapter(activityList,      new NextcloudDeserializer<>("activityList", Activity.class))
                 .registerTypeAdapter(attachmentList,    new NextcloudArrayDeserializer<>("attachments", Attachment.class))
                 .registerTypeAdapter(attachment,        new NextcloudDeserializer<>("attachment", Attachment.class))
                 .registerTypeAdapter(comment,           new NextcloudDeserializer<>("comment", OcsComment.class))
+                .registerTypeAdapter(projectList,       new NextcloudDeserializer<>("projectList", OcsProjectList.class))
+                .registerTypeAdapter(groupMembers,      new NextcloudDeserializer<>("groupMembers", GroupMemberUIDs.class))
                 .create();
     }
 

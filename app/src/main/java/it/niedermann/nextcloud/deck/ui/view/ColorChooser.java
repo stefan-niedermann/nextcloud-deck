@@ -14,23 +14,17 @@ import androidx.annotation.Nullable;
 import com.google.android.flexbox.FlexboxLayout;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
+import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.WidgetColorChooserBinding;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
-
 public class ColorChooser extends LinearLayout {
 
-    private WidgetColorChooserBinding binding;
+    private final WidgetColorChooserBinding binding;
 
-    private final FlexboxLayout.LayoutParams params = new FlexboxLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-    );
-
-    private Context context;
-    private String[] colors;
+    private final Context context;
+    private final String[] colors;
 
     private String selectedColor;
     private String previouslySelectedColor;
@@ -41,7 +35,11 @@ public class ColorChooser extends LinearLayout {
         super(context, attrs);
         this.context = context;
 
-        params.setMargins(0, dpToPx(context, R.dimen.spacer_1x), 0, 0);
+        final FlexboxLayout.LayoutParams params = new FlexboxLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(0, DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1x), 0, 0);
         params.setFlexBasisPercent(.15f);
 
         TypedArray a = context.obtainStyledAttributes(attrs,

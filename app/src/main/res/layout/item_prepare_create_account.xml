@@ -14,7 +14,7 @@
         android:layout_marginEnd="@dimen/spacer_2x"
         android:contentDescription="@null"
         app:srcCompat="@drawable/ic_person_grey600_24dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:src="@tools:sample/avatars" />
 
 
     <LinearLayout
@@ -37,8 +37,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:ellipsize="middle"
+            android:singleLine="true"
             android:textAppearance="?attr/textAppearanceListItemSecondary"
-            tools:text="https://example.com/" />
+            tools:text="example.com" />
     </LinearLayout>
 
 </LinearLayout>

@@ -1,12 +1,11 @@
 package it.niedermann.nextcloud.deck.model;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
-import java.util.Date;
+import java.time.Instant;
 
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
@@ -35,12 +34,10 @@ public class Stack extends AbstractRemoteEntity {
 
     private String title;
 
-    @NonNull
     private long boardId;
 
-    private Date deletedAt;
+    private Instant deletedAt;
 
-    @NonNull
     private int order;
 //
 //    @ToMany
@@ -64,11 +61,11 @@ public class Stack extends AbstractRemoteEntity {
         this.boardId = boardId;
     }
 
-    public Date getDeletedAt() {
+    public Instant getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(Date deletedAt) {
+    public void setDeletedAt(Instant deletedAt) {
         this.deletedAt = deletedAt;
     }
 

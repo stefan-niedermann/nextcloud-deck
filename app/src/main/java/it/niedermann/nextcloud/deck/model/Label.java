@@ -1,27 +1,41 @@
 package it.niedermann.nextcloud.deck.model;
 
+import android.graphics.Color;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 
+import com.google.gson.annotations.JsonAdapter;
+
 import java.io.Serializable;
 
+import it.niedermann.android.util.ColorUtil;
+import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.api.json.JsonColorSerializer;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 @Entity(inheritSuperIndices = true,
         indices = {@Index("boardId"), @Index(value = {"boardId", "title"}, unique = true, name = "idx_label_title_unique")},
         foreignKeys = {
-        @ForeignKey(
-            entity = Board.class,
-            parentColumns = "localId",
-            childColumns = "boardId",
-            onDelete = ForeignKey.CASCADE
-        )
-    }
+                @ForeignKey(
+                        entity = Board.class,
+                        parentColumns = "localId",
+                        childColumns = "boardId",
+                        onDelete = ForeignKey.CASCADE
+                )
+        }
 )
 public class Label extends AbstractRemoteEntity implements Serializable {
     private String title;
-    private String color;
+
+    @JsonAdapter(JsonColorSerializer.class)
+    @NonNull
+    @ColumnInfo(defaultValue = "0")
+    private Integer color;
     private long boardId;
 
     public Label() {
@@ -42,12 +56,23 @@ public class Label extends AbstractRemoteEntity implements Serializable {
         this.title = title;
     }
 
-    public String getColor() {
+    @NonNull
+    @ColorInt
+    public Integer getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(@NonNull @ColorInt Integer color) {
         this.color = color;
+    }
+
+    public void setColor(String color) {
+        try {
+            setColor(Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(color)));
+        } catch (Exception e) {
+            DeckLog.logError(e);
+            setColor(Color.GRAY);
+        }
     }
 
     public long getBoardId() {
@@ -62,18 +87,20 @@ public class Label extends AbstractRemoteEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         Label label = (Label) o;
 
         if (boardId != label.boardId) return false;
         if (title != null ? !title.equals(label.title) : label.title != null) return false;
-        return color != null ? color.equals(label.color) : label.color == null;
+        return color.equals(label.color);
     }
 
     @Override
     public int hashCode() {
-        int result = title != null ? title.hashCode() : 0;
-        result = 31 * result + (color != null ? color.hashCode() : 0);
+        int result = super.hashCode();
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + color.hashCode();
         result = 31 * result + (int) (boardId ^ (boardId >>> 32));
         return result;
     }

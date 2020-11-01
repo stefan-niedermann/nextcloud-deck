@@ -23,6 +23,7 @@ import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGrant
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
+import com.nextcloud.android.sso.ui.UiExceptionManager;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -36,7 +37,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 
 import static com.nextcloud.android.sso.AccountImporter.REQUEST_AUTH_TOKEN_SSO;
 
@@ -79,7 +79,11 @@ public class ImportAccountActivity extends AppCompatActivity {
             try {
                 AccountImporter.pickNewAccount(this);
             } catch (NextcloudFilesAppNotInstalledException e) {
-                ExceptionUtil.handleNextcloudFilesAppNotInstalledException(this, e);
+                UiExceptionManager.showDialogForException(this, e);
+                DeckLog.warn("=============================================================");
+                DeckLog.warn("Nextcloud app is not installed. Cannot choose account");
+                DeckLog.logError(e);
+                binding.addButton.setEnabled(true);
             } catch (AndroidGetAccountsPermissionNotGranted e) {
                 binding.addButton.setEnabled(true);
                 AccountImporter.requestAndroidAccountPermissionsAndPickAccount(this);

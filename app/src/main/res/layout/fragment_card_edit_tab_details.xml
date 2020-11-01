@@ -1,163 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fillViewport="true">
 
-    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/spacer_2x">
+        android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacer_2x">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacer_2x"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_size_details"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/spacer_2x"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/ic_label_grey600_24dp" />
+
+                <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
+                    android:id="@+id/labels"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:completionThreshold="1"
+                    android:hint="@string/label_labels"
+                    android:inputType="text" />
+            </LinearLayout>
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/labelsGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:animateLayoutChanges="true" />
+
+            <LinearLayout
+                android:id="@+id/colorPicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacer_2x">
+
+
+                <ImageView
+                    android:layout_width="@dimen/icon_size_details"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/spacer_2x"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/calendar_blank_grey600_24dp" />
+
+                <EditText
+                    android:id="@+id/dueDateDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:enabled="true"
+                    android:focusable="false"
+                    android:hint="@string/hint_due_date_date"
+                    android:importantForAutofill="no"
+                    android:inputType="date"
+                    android:maxLines="1"
+                    tools:text="01/07/2020" />
+
+                <EditText
+                    android:id="@+id/dueDateTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:enabled="true"
+                    android:focusable="false"
+                    android:hint="@string/hint_due_date_time"
+                    android:importantForAutofill="no"
+                    android:inputType="datetime"
+                    android:maxLines="1"
+                    android:minLines="0"
+                    android:textAlignment="center"
+                    tools:text="11:45" />
+
+                <ImageView
+                    android:id="@+id/clearDueDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/label_clear_due_date"
+                    android:paddingStart="@dimen/spacer_1x"
+                    android:paddingEnd="@dimen/spacer_1x"
+                    app:srcCompat="@drawable/ic_close_circle_grey600" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacer_2x"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_size_details"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/spacer_2x"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/ic_person_grey600_24dp" />
+
+                <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
+                    android:id="@+id/people"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:completionThreshold="1"
+                    android:hint="@string/hint_assign_people"
+                    android:inputType="text" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/assignees"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="@dimen/spacer_1x"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:listitem="@tools:sample/avatars" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacer_2x"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_size_details"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="@dimen/spacer_2x"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/ic_baseline_subject_24" />
+
+                <com.yydcdut.markdown.MarkdownEditText
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:hint="@string/label_description"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:scrollbars="vertical" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/projectsTitle"
+            style="?attr/textAppearanceOverline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/details"
+            android:layout_marginStart="@dimen/icon_size_details"
             android:layout_marginTop="@dimen/spacer_2x"
-            android:orientation="horizontal">
+            android:paddingStart="@dimen/spacer_4x"
+            android:paddingEnd="@null"
+            android:text="@string/projects_title" />
 
-            <ImageView
-                android:layout_width="@dimen/icon_size_details"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/spacer_2x"
-                android:contentDescription="@null"
-                app:srcCompat="@drawable/ic_label_grey600_24dp" />
-
-            <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
-                android:id="@+id/labels"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:completionThreshold="1"
-                android:hint="@string/label_labels"
-                android:inputType="text" />
-        </LinearLayout>
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/labelsGroup"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/projects"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:animateLayoutChanges="true" />
-
-        <LinearLayout
-            android:id="@+id/colorPicker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacer_2x">
-
-
-            <ImageView
-                android:layout_width="@dimen/icon_size_details"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/spacer_2x"
-                android:contentDescription="@null"
-                app:srcCompat="@drawable/calendar_blank_grey600_24dp" />
-
-            <EditText
-                android:id="@+id/dueDateDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:enabled="true"
-                android:focusable="false"
-                android:hint="@string/hint_due_date_date"
-                android:importantForAutofill="no"
-                android:inputType="date"
-                android:maxLines="1"
-                tools:text="01/07/2020" />
-
-            <EditText
-                android:id="@+id/dueDateTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:enabled="true"
-                android:focusable="false"
-                android:hint="@string/hint_due_date_time"
-                android:importantForAutofill="no"
-                android:inputType="datetime"
-                android:maxLines="1"
-                android:minLines="0"
-                android:textAlignment="center"
-                tools:text="11:45" />
-
-            <ImageView
-                android:id="@+id/clearDueDate"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/label_clear_due_date"
-                android:paddingStart="@dimen/spacer_1x"
-                android:paddingEnd="@dimen/spacer_1x"
-                app:srcCompat="@drawable/ic_close_circle_grey600" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacer_2x"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="@dimen/icon_size_details"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/spacer_2x"
-                android:contentDescription="@null"
-                app:srcCompat="@drawable/ic_person_grey600_24dp" />
-
-            <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
-                android:id="@+id/people"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:completionThreshold="1"
-                android:hint="@string/hint_assign_people"
-                android:inputType="text" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/peopleList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:orientation="horizontal" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacer_2x"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="@dimen/icon_size_details"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="@dimen/spacer_2x"
-                android:contentDescription="@null"
-                app:srcCompat="@drawable/ic_format_align_left_black_24dp" />
-
-            <com.yydcdut.markdown.MarkdownEditText
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:hint="@string/label_description"
-                android:importantForAutofill="no"
-                android:inputType="textMultiLine|textCapSentences"
-                android:scrollbars="vertical" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/commentsFragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacer_2x" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
+            android:layout_below="@id/projectsTitle"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_project" />
+    </RelativeLayout>
 </ScrollView>

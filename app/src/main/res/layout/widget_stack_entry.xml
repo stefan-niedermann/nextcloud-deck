@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget_stack_entry"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/widget_stack_card_padding"
+    android:background="@color/primary">
+
+        <TextView
+            android:id="@+id/widget_entry_content_tv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingStart="@dimen/widget_stack_card_padding"
+            android:paddingEnd="@dimen/widget_stack_card_padding"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textSize="14sp"
+            android:textColor="@color/widget_foreground"
+            tools:maxLength="60"
+            tools:text="@tools:sample/lorem/random" />
+</LinearLayout>

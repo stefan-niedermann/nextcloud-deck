@@ -8,15 +8,15 @@ import java.util.ArrayList;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
-import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 
 @SuppressWarnings("WeakerAccess")
 public class EditCardViewModel extends ViewModel {
 
     private Account account;
     private long boardId;
-    private FullCard originalCard;
-    private FullCard fullCard;
+    private FullCardWithProjects originalCard;
+    private FullCardWithProjects fullCard;
     private boolean isSupportedVersion = false;
     private boolean hasCommentsAbility = false;
     private boolean pendingCreation = false;
@@ -29,10 +29,10 @@ public class EditCardViewModel extends ViewModel {
      * @param boardId  Local ID, expecting a positive long value
      * @param fullCard The card that is currently edited
      */
-    public void initializeExistingCard(long boardId, @NonNull FullCard fullCard, boolean isSupportedVersion) {
+    public void initializeExistingCard(long boardId, @NonNull FullCardWithProjects fullCard, boolean isSupportedVersion) {
         this.boardId = boardId;
         this.fullCard = fullCard;
-        this.originalCard = new FullCard(this.fullCard);
+        this.originalCard = new FullCardWithProjects(this.fullCard);
         this.isSupportedVersion = isSupportedVersion;
     }
 
@@ -43,7 +43,7 @@ public class EditCardViewModel extends ViewModel {
      * @param stackId Local ID, expecting a positive long value where the card should be created
      */
     public void initializeNewCard(long boardId, long stackId, boolean isSupportedVersion) {
-        final FullCard fullCard = new FullCard();
+        final FullCardWithProjects fullCard = new FullCardWithProjects();
         fullCard.setLabels(new ArrayList<>());
         fullCard.setAssignedUsers(new ArrayList<>());
         fullCard.setAttachments(new ArrayList<>());
@@ -74,7 +74,7 @@ public class EditCardViewModel extends ViewModel {
         return account;
     }
 
-    public FullCard getFullCard() {
+    public FullCardWithProjects getFullCard() {
         return fullCard;
     }
 

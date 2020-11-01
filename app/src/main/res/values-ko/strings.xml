@@ -38,6 +38,7 @@
     <string name="simple_disabled">비활성화</string>
     <string name="simple_copied">복사됨</string>
     <string name="simple_archive">보관</string>
+    <string name="simple_unassigned">할당되지 않음</string>
 
     <string name="edit_board">게시판 편집</string>
     <string name="archive_board">게시판 보관</string>
@@ -64,13 +65,12 @@
     <string name="about_app_license">이 앱은 GNU General Public License v3+로 배포됩니다.</string>
     <string name="about_app_license_button">라이선스 보기</string>
     <string name="about_icons_disclaimer_title">아이콘</string>
+    <string name="about_icons_disclaimer_app_icon">원래 아이콘을 보고싶으시면 %1$s</string>
+    <string name="about_icons_disclaimer_mdi_icons">이 후 %1$s앱의 모든 아이콘의 사용은 Google. Inc.가 만들고 Apache 2.0 License아래 보호됩니다.</string>
     <string name="about_icons_disclaimer_mdi">Material 디자인 아이콘</string>
     <string name="about_credits_tab_title">크레딧</string>
     <string name="about_contribution_tab_title">기여자</string>
     <string name="about_license_tab_title">라이선스</string>
-
-    <string name="copied_to_clipboard">클립보드로 복사</string>
-
     <string name="seconds_ago">몇 초 전</string>
     <string name="edit">수정</string>
     <string name="label_labels">태그 선택</string>
@@ -110,6 +110,7 @@
     <string name="not_synced_yet">아직 동기화되지 않았음</string>
     <string name="no_lists_yet">리스트 없음</string>
     <string name="do_you_want_to_save_your_changes">변경된 사항을 저장하시겠습니까?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">모든 %1$s카드들을 보관 하시겠습니까?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="other">이 리스트의  모든 %1$d카드가 영구적으로 지워집니다.</item>
     </plurals>
@@ -123,6 +124,8 @@
     <string name="deck_outdated_please_update">너무 오래된 버전입니다(%1$s). 업데이트 해주십시오.</string>
     <string name="delete_board_message">모든 리스트와 카드를 포함한 이 보드를 영구적으로 지웁니다.</string>
     <string name="settings_theme_title">어두운 테마</string>
+    <string name="settings_branding_title">브랜딩</string>
+    <string name="settings_compact_title">축소 모드</string>
     <string name="settings_background_sync">백그라운드 동기화</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fi나 모바일 데이터를 사용해 동기화</string>
     <string name="pref_value_wifi_only">Wi-Fi만 사용해 동기화</string>
@@ -150,7 +153,6 @@
     <string name="maintenance_mode_explanation">%1$s서버는 현재 유지보수 모드입니다. 관리자에게 연락하거나 나중에 시도해주십시오.</string>
     <string name="share_add_to_card">카드를 더하십시오.</string>
     <string name="share_success">%1$s가  %2$s에  성공적으로 더해졌습니다.</string>
-    <string name="could_not_copy_to_clipboard">클립보드에 복사할 수 없습니다.</string>
     <string name="add_comment">덧글 달기</string>
     <string name="card_edit_comments">댓글</string>
     <string name="no_comments_yet">덧글이 없음</string>
@@ -158,6 +160,7 @@
     <string name="add_a_new_board_using_the_button">+버튼을 사용해서 새로운 보드를 더하십시오.</string>
     <string name="choose_board">보드 선택</string>
     <string name="choose_list">리스트 선택</string>
+    <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">브라우저에서 열기</string>
     <string name="updating_card">카드 업데이트 중...</string>
 
@@ -209,21 +212,37 @@
 
     <string name="error_dialog_title">세상에 - 무슨일이야?</string>
     <string name="error_dialog_tip_token_mismatch_retry">앱을 종료하고 다시 시작해주십시오.  아마 Nextcloud에 잘못된 연결이 있었을 것입니다.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">이슈가 지속되면 Nextcloud와 Nextcloud Deck라는 두 앱을 스토리지에서 지워 이 문제를 해결하십시오.ㅣ</string>
+    <string name="error_dialog_tip_clear_storage_might_help">이슈가 지속되면 Nextcloud와 Nextcloud Deck라는 두 앱을 스토리지에서 지워 이 문제를 해결하십시오.ㅣ</string>
+    <string name="error_dialog_tip_database_upgrade_failed">데이터베이스 업그레이드 실패. 오류를 보고하고 정상적인 앱사용을 위해 저장소를 정리하세요.</string>
     <string name="error_dialog_tip_clear_storage">저장공간을 비우기 위해  app info를 열고  Storage → Clear storage를 선택해주십시오.</string>
     <string name="error_dialog_tip_files_outdated">당신의 Nextcloud 앱은 예전 버전입니다.  Play Store나 F-Droid에 가서 최신 버전을 다운로드 하십시오.</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloud 앱에 문제가 생겼습니다. Nextcloud앱과 Nextcloud Deck앱 둘 다 강제종료 해보십시오.</string>
     <string name="error_dialog_tip_files_delete_storage">강제 종료가 도움이 되지 않는다면, 두 앱 모두의 저장공간을 비워보십시오.</string>
     <string name="error_dialog_timeout_instance">서버로부터 응답이 없습니다. 당신의 인스턴스가 잘 작동하는지 확인해 주십시오.</string>
     <string name="error_dialog_timeout_toggle">네트워크 연결을 확인하십시오. 종종 모바일데이터나 와이파이를 껐다가 키는 것이 도움이 될 것입니다.</string>
+    <string name="error_dialog_check_server">서버의 응답이 틀렸습니다. 덱에 접근할 수 있는지 웹인터페이스로 확인해 주세요.</string>
     <string name="error_action_open_deck_info">앱 정보 열기</string>
     <string name="error_action_open_network">네트워크 환경설정</string>
     <string name="error_action_server_logs">서버 기록</string>
     <string name="error_action_install">설치</string>
+    <string name="error_action_report_issue">보고</string>
     <string name="info_box_maintenance_mode">서버가 유지 관리 모드임</string>
     <string name="info_box_version_not_supported">%1$s서버 버전은 지원되지 않습니다. %2$s로 업데이트 해주십시오.</string>
     <string name="share_link">링크 공유</string>
+    <string name="archive_cards">카드들 보관</string>
+
     <string name="manage_accounts">계정 관리</string>
+    <string name="manage_list">목록 관리</string>
     <string name="simple_reply">답장</string>
+    <string name="append_text_to_description">설명에 추가</string>
+    <string name="add_text_as_comment">댓글로 추가하기</string>
     <string name="simple_report">보고</string>
-</resources>
+    <string name="error_action_open_battery_settings">배터리 설정</string>
+    <string name="clone_board">게시판 복제</string>
+    <string name="cloning_board">%1$s 복제중...</string>
+    <string name="successfully_cloned_board">%1$s이(가) 성공적으로 복제되었습니다.</string>
+    <string name="widget_stack_title">목록</string>
+    <string name="project_type_file">파일</string>
+    <string name="projects_title">프로젝트</string>
+    <string name="simple_move">이동</string>
+    </resources>

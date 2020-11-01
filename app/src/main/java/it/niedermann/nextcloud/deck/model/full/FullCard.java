@@ -6,8 +6,6 @@ import androidx.room.Ignore;
 import androidx.room.Junction;
 import androidx.room.Relation;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +23,7 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 public class FullCard implements IRemoteEntity, DragAndDropModel {
 
     @Ignore
-    private transient boolean isAttachmentsSorted = false;
+    protected transient boolean isAttachmentsSorted = false;
 
     @Embedded
     public Card card;
@@ -47,7 +45,6 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
 
     @Relation(entity = DeckComment.class, parentColumn = "localId", entityColumn = "objectId", projection = "localId")
     public List<Long> commentIDs;
-
 
     public FullCard() {
         super();
@@ -126,11 +123,11 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
 
     @Ignore
     @Override
-    public IRemoteEntity getEntity() {
+    public Card getEntity() {
         return card;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String toString() {
         return "FullCard{" +

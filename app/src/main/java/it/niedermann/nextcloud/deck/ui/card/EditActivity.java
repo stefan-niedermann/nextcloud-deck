@@ -31,7 +31,6 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
-import static android.graphics.Color.parseColor;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
@@ -83,7 +82,6 @@ public class EditActivity extends BrandedActivity {
         setSupportActionBar(binding.toolbar);
 
         viewModel = new ViewModelProvider(this).get(EditCardViewModel.class);
-        syncManager = new SyncManager(this);
 
         loadDataFromIntent();
     }
@@ -117,11 +115,12 @@ public class EditActivity extends BrandedActivity {
             throw new IllegalArgumentException(BUNDLE_KEY_ACCOUNT + " must not be null.");
         }
         viewModel.setAccount(account);
+        syncManager = new SyncManager(this, viewModel.getAccount().getName());
 
         final long boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
 
         observeOnce(syncManager.getFullBoardById(account.getId(), boardId), EditActivity.this, (fullBoard -> {
-            applyBrand(parseColor('#' + fullBoard.getBoard().getColor()));
+            applyBrand(fullBoard.getBoard().getColor());
             viewModel.setCanEdit(fullBoard.getBoard().isPermissionEdit());
             invalidateOptionsMenu();
             if (viewModel.isCreateMode()) {
@@ -138,7 +137,7 @@ public class EditActivity extends BrandedActivity {
                 setupViewPager();
                 setupTitle();
             } else {
-                observeOnce(syncManager.getCardByLocalId(account.getId(), cardId), EditActivity.this, (fullCard) -> {
+                observeOnce(syncManager.getFullCardWithProjectsByLocalId(account.getId(), cardId), EditActivity.this, (fullCard) -> {
                     if (fullCard == null) {
                         new BrandedAlertDialogBuilder(this)
                                 .setTitle(R.string.card_not_found)
@@ -154,6 +153,8 @@ public class EditActivity extends BrandedActivity {
                 });
             }
         }));
+
+        DeckLog.verbose("Finished loading intent data: { accountId = " + viewModel.getAccount().getId() + " , cardId = " + cardId + " }");
     }
 
     @Override
@@ -296,10 +297,10 @@ public class EditActivity extends BrandedActivity {
 
     @Override
     public void applyBrand(int mainColor) {
-        if(isBrandingEnabled(this)) {
+        if (isBrandingEnabled(this)) {
             final Drawable navigationIcon = binding.toolbar.getNavigationIcon();
             if (navigationIcon == null) {
-                DeckLog.error("Excpected navigationIcon to be present.");
+                DeckLog.error("Expected navigationIcon to be present.");
             } else {
                 DrawableCompat.setTint(binding.toolbar.getNavigationIcon(), colorAccent);
             }

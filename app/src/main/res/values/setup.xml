@@ -8,6 +8,7 @@
     <string name="pref_key_wifi_only" translatable="false">wifiOnly</string>
     <string name="pref_key_dark_theme" translatable="false">darkTheme</string>
     <string name="pref_key_branding" translatable="false">branding</string>
+    <string name="pref_key_compact" translatable="false">compact</string>
     <string name="pref_key_background_sync" translatable="false">backgroundSync</string>
 
     <string name="pref_value_background_sync_off">off</string>

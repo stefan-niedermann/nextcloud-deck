@@ -14,15 +14,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 
+import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogShareProgressBinding;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.exception.ExceptionUtil;
 
 import static android.graphics.PorterDuff.Mode;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.util.ExceptionUtil.getDebugInfos;
 
 public class ShareProgressDialogFragment extends BrandedDialogFragment {
 
@@ -70,7 +71,7 @@ public class ShareProgressDialogFragment extends BrandedDialogFragment {
                 binding.errorReportButton.setOnClickListener((v) -> {
                     final StringBuilder debugInfos = new StringBuilder(exceptionsCount + " attachments failed to upload:");
                     for (Throwable t : exceptions) {
-                        debugInfos.append(getDebugInfos(requireContext(), t, null));
+                        debugInfos.append(ExceptionUtil.INSTANCE.getDebugInfos(requireContext(), t, BuildConfig.FLAVOR));
                     }
                     ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException(debugInfos.toString()), null)
                             .show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());

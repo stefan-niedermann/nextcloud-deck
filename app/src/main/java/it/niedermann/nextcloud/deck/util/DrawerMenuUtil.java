@@ -38,7 +38,7 @@ public class DrawerMenuUtil {
         SubMenu boardsMenu = menu.addSubMenu(R.string.simple_boards);
         int index = 0;
         for (Board board : boards) {
-            MenuItem m = boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, "#" + board.getColor()));
+            MenuItem m = boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, String.format("#%06X", (0xFFFFFF & board.getColor()))));
             if (currentServerVersionIsSupported) {
                 if (board.isPermissionManage()) {
                     AppCompatImageButton contextMenu = new AppCompatImageButton(context);
@@ -62,6 +62,9 @@ public class DrawerMenuUtil {
                                     return true;
                                 case R.id.manage_labels:
                                     ManageLabelsDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), editBoard);
+                                    return true;
+                                case R.id.clone_board:
+                                    context.onClone(board);
                                     return true;
                                 case R.id.archive_board:
                                     context.onArchive(board);

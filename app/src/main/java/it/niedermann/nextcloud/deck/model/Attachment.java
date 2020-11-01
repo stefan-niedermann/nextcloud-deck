@@ -5,29 +5,29 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.Instant;
 
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 @Entity(inheritSuperIndices = true,
         indices = {@Index("cardId")},
         foreignKeys = {
-        @ForeignKey(
-            entity = Card.class,
-            parentColumns = "localId",
-            childColumns = "cardId",
-            onDelete = ForeignKey.CASCADE
-        )
-    }
+                @ForeignKey(
+                        entity = Card.class,
+                        parentColumns = "localId",
+                        childColumns = "cardId",
+                        onDelete = ForeignKey.CASCADE
+                )
+        }
 )
 public class Attachment extends AbstractRemoteEntity implements Comparable<Attachment>, Serializable {
 
     private long cardId;
     private String type = "deck_file";
     private String data;
-    private Date createdAt;
+    private Instant createdAt;
     private String createdBy;
-    private Date deletedAt;
+    private Instant deletedAt;
     private long filesize;
     private String mimetype;
     private String dirname;
@@ -60,11 +60,11 @@ public class Attachment extends AbstractRemoteEntity implements Comparable<Attac
         this.data = data;
     }
 
-    public Date getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -76,11 +76,11 @@ public class Attachment extends AbstractRemoteEntity implements Comparable<Attac
         this.createdBy = createdBy;
     }
 
-    public Date getDeletedAt() {
+    public Instant getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(Date deletedAt) {
+    public void setDeletedAt(Instant deletedAt) {
         this.deletedAt = deletedAt;
     }
 
@@ -202,7 +202,7 @@ public class Attachment extends AbstractRemoteEntity implements Comparable<Attac
     private static int longToComparsionResult(long diff) {
         if (diff > 0) {
             return 1;
-        } else if(diff < 0) {
+        } else if (diff < 0) {
             return -1;
         }
         return 0;
@@ -210,18 +210,18 @@ public class Attachment extends AbstractRemoteEntity implements Comparable<Attac
 
     public long getModificationTimeForComparsion() {
         if (lastModifiedLocal != null) {
-            return lastModifiedLocal.getTime();
+            return lastModifiedLocal.toEpochMilli();
         }
         if (lastModified != null) {
-            return lastModified.getTime();
+            return lastModified.toEpochMilli();
         }
-        return new Date().getTime();
+        return Instant.now().toEpochMilli();
     }
 
     public long getCreationTimeForComparsion() {
         if (createdAt != null) {
-            return createdAt.getTime();
+            return createdAt.toEpochMilli();
         }
-        return new Date().getTime();
+        return Instant.now().toEpochMilli();
     }
 }

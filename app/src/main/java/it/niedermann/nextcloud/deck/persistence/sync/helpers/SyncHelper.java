@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -15,28 +15,33 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AbstractS
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.IRelationshipProvider;
 
 public class SyncHelper {
-    private ServerAdapter serverAdapter;
-    private DataBaseAdapter dataBaseAdapter;
+    private final ServerAdapter serverAdapter;
+    private final DataBaseAdapter dataBaseAdapter;
     private Account account;
     private long accountId;
     private IResponseCallback<Boolean> responseCallback;
-    private Date lastSync;
+    private final Instant lastSync;
 
-    public SyncHelper(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, Date lastSync) {
+    public SyncHelper(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, Instant lastSync) {
         this.serverAdapter = serverAdapter;
         this.dataBaseAdapter = dataBaseAdapter;
         this.lastSync = lastSync;
     }
 
     // Sync Server -> App
-    public <T extends IRemoteEntity> void  doSyncFor(final AbstractSyncDataProvider<T> provider){
+    public <T extends IRemoteEntity> void doSyncFor(final AbstractSyncDataProvider<T> provider) {
         provider.registerChildInParent(provider);
-        provider.getAllFromServer(serverAdapter, accountId, new IResponseCallback<List<T>>(account) {
+        provider.getAllFromServer(serverAdapter, dataBaseAdapter, accountId, new IResponseCallback<List<T>>(account) {
             @Override
             public void onResponse(List<T> response) {
                 if (response != null) {
                     provider.goingDeeper();
                     for (T entityFromServer : response) {
+                        if (entityFromServer == null) {
+                            // see https://github.com/stefan-niedermann/nextcloud-deck/issues/574
+                            DeckLog.error("Skipped null value from server for DataProvider: " + provider.getClass().getSimpleName());
+                            continue;
+                        }
                         entityFromServer.setAccountId(accountId);
                         T existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
 
@@ -44,8 +49,8 @@ public class SyncHelper {
                             provider.createInDB(dataBaseAdapter, accountId, entityFromServer);
                         } else {
                             //TODO: how to handle deletes? what about archived?
-                            if (existingEntity.getStatus() != DBStatus.UP_TO_DATE.getId()){
-                                DeckLog.log("Conflicting changes on entity: "+existingEntity);
+                            if (existingEntity.getStatus() != DBStatus.UP_TO_DATE.getId()) {
+                                DeckLog.log("Conflicting changes on entity: " + existingEntity);
                                 // TODO: what to do?
                             } else {
 //                                if (existingEntity.getLastModified().getTime() == entityFromServer.getLastModified().getTime()) {
@@ -58,7 +63,7 @@ public class SyncHelper {
                         provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer, responseCallback);
                     }
 
-                     provider.handleDeletes(serverAdapter, dataBaseAdapter, accountId, response);
+                    provider.handleDeletes(serverAdapter, dataBaseAdapter, accountId, response);
 
                     provider.doneGoingDeeper(responseCallback, true);
                 } else {
@@ -76,17 +81,18 @@ public class SyncHelper {
     }
 
     // Sync App -> Server
-    public <T extends IRemoteEntity> void doUpSyncFor(AbstractSyncDataProvider<T> provider){
+    public <T extends IRemoteEntity> void doUpSyncFor(AbstractSyncDataProvider<T> provider) {
         doUpSyncFor(provider, null);
     }
-    public <T extends IRemoteEntity> void doUpSyncFor(AbstractSyncDataProvider<T> provider, CountDownLatch countDownLatch){
+
+    public <T extends IRemoteEntity> void doUpSyncFor(AbstractSyncDataProvider<T> provider, CountDownLatch countDownLatch) {
         List<T> allFromDB = provider.getAllChangedFromDB(dataBaseAdapter, accountId, lastSync);
         if (allFromDB != null && !allFromDB.isEmpty()) {
             for (T entity : allFromDB) {
-                if (entity.getId()!=null) {
+                if (entity.getId() != null) {
                     if (entity.getStatusEnum() == DBStatus.LOCAL_DELETED) {
                         provider.deleteOnServer(serverAdapter, accountId, getDeleteCallback(provider, entity), entity, dataBaseAdapter);
-                        if (countDownLatch != null){
+                        if (countDownLatch != null) {
                             countDownLatch.countDown();
                         }
                     } else {
@@ -98,7 +104,7 @@ public class SyncHelper {
             }
         } else {
             provider.goDeeperForUpSync(this, serverAdapter, dataBaseAdapter, responseCallback);
-            if (countDownLatch != null){
+            if (countDownLatch != null) {
                 countDownLatch.countDown();
             }
         }
@@ -126,10 +132,11 @@ public class SyncHelper {
             public void onResponse(T response) {
                 response.setAccountId(this.account.getId());
                 T update = applyUpdatesFromRemote(provider, entity, response, accountId);
+                update.setId(response.getId());
                 update.setStatus(DBStatus.UP_TO_DATE.getId());
                 provider.updateInDB(dataBaseAdapter, accountId, update, false);
                 provider.goDeeperForUpSync(SyncHelper.this, serverAdapter, dataBaseAdapter, responseCallback);
-                if (countDownLatch != null){
+                if (countDownLatch != null) {
                     countDownLatch.countDown();
                 }
             }
@@ -138,7 +145,7 @@ public class SyncHelper {
             public void onError(Throwable throwable) {
                 super.onError(throwable);
                 responseCallback.onError(throwable);
-                if (countDownLatch != null){
+                if (countDownLatch != null) {
                     countDownLatch.countDown();
                 }
             }
