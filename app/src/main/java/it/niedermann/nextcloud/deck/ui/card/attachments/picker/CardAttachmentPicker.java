@@ -23,6 +23,7 @@ import it.niedermann.nextcloud.deck.util.DeckColorUtil;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static android.view.View.GONE;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 
@@ -53,6 +54,10 @@ public class CardAttachmentPicker extends BottomSheetDialogFragment implements B
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogAttachmentPickerBinding.inflate(inflater, container, false);
         brandedViews = new ImageView[]{binding.pickCameraIamge, binding.pickContactIamge, binding.pickFileIamge};
+
+        if (SDK_INT < LOLLIPOP) {
+            binding.pickCamera.setVisibility(GONE);
+        }
 
         @Nullable Context context = getContext();
         if (context != null && isBrandingEnabled(context)) {
