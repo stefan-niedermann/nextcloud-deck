@@ -1,8 +1,11 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -11,6 +14,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -46,10 +50,10 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
-import it.niedermann.nextcloud.deck.ui.card.attachments.picker.CardAttachmentPickerListener;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.GalleryAdapter;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.takephoto.TakePhotoActivity;
+import it.niedermann.nextcloud.deck.util.DeckColorUtil;
 import it.niedermann.nextcloud.deck.util.VCardUtil;
 
 import static android.Manifest.permission.CAMERA;
@@ -68,12 +72,14 @@ import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
 import static it.niedermann.nextcloud.deck.util.AttachmentUtil.copyContentUriToTempFile;
 import static java.net.HttpURLConnection.HTTP_CONFLICT;
 
-public class CardAttachmentsFragment extends BrandedFragment implements AttachmentDeletedListener, AttachmentClickedListener, CardAttachmentPickerListener {
+public class CardAttachmentsFragment extends BrandedFragment implements AttachmentDeletedListener, AttachmentClickedListener {
 
     private FragmentCardEditTabAttachmentsBinding binding;
     private EditCardViewModel viewModel;
@@ -89,6 +95,8 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     private SyncManager syncManager;
     private CardAttachmentAdapter adapter;
 
+    private ImageView[] brandedViews;
+
     private int clickedItemPosition;
 
     @Override
@@ -98,6 +106,20 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
         binding = FragmentCardEditTabAttachmentsBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
+
+        if (SDK_INT < LOLLIPOP) {
+            binding.pickCamera.setVisibility(GONE);
+        }
+        brandedViews = new ImageView[]{binding.pickCameraIamge, binding.pickContactIamge, binding.pickFileIamge};
+        binding.pickCamera.setOnClickListener((v) -> {
+            if (SDK_INT >= LOLLIPOP) {
+                pickCamera();
+            } else {
+                Toast.makeText(requireContext(), R.string.min_api_21, Toast.LENGTH_SHORT).show();
+            }
+        });
+        binding.pickContact.setOnClickListener((v) -> pickContact());
+        binding.pickFile.setOnClickListener((v) -> pickFile());
 
         // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
         // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
@@ -218,10 +240,22 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             binding.fab.hide();
             binding.emptyContentView.hideDescription();
         }
+        @Nullable Context context = getContext();
+        if (context != null) {
+            if (isBrandingEnabled(context)) {
+                applyBrand(readBrandMainColor(context));
+            } else { // Make sure that without branding the icons are still white
+                if (SDK_INT >= LOLLIPOP) {
+                    final ColorStateList colorStateList = ColorStateList.valueOf(Color.WHITE);
+                    for (ImageView v : brandedViews) {
+                        v.setImageTintList(colorStateList);
+                    }
+                }
+            }
+        }
         return binding.getRoot();
     }
 
-    @Override
     @RequiresApi(LOLLIPOP)
     public void pickCamera() {
         if (isPermissionRequestNeeded(CAMERA)) {
@@ -231,7 +265,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         }
     }
 
-    @Override
     public void pickContact() {
         if (isPermissionRequestNeeded(READ_CONTACTS)) {
             requestPermissions(new String[]{READ_CONTACTS}, REQUEST_CODE_PICK_CONTACT_PERMISSION);
@@ -243,7 +276,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         }
     }
 
-    @Override
     public void pickFile() {
         if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE)) {
             requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_ADD_FILE_PERMISSION);
@@ -410,6 +442,18 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     public void applyBrand(int mainColor) {
         applyBrandToFAB(mainColor, binding.fab);
         adapter.applyBrand(mainColor);
+        if (SDK_INT >= LOLLIPOP) {
+            final ColorStateList backgroundColorStateList = ColorStateList.valueOf(mainColor);
+            final ColorStateList foregroundColorStateList = ColorStateList.valueOf(
+                    DeckColorUtil.contrastRatioIsSufficient(mainColor, Color.WHITE)
+                            ? Color.WHITE
+                            : Color.BLACK
+            );
+            for (ImageView v : brandedViews) {
+                v.setBackgroundTintList(backgroundColorStateList);
+                v.setImageTintList(foregroundColorStateList);
+            }
+        }
     }
 
     public static Fragment newInstance() {
