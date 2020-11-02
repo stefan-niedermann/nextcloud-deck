@@ -375,6 +375,35 @@ public abstract class DeckDatabase extends RoomDatabase {
         }
     };
 
+    private static final Migration MIGRATION_22_23 = new Migration(22, 23) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE `FilterWidgets` (`id` INTEGER PRIMARY KEY AUTOINCREMENT)");
+            database.execSQL("CREATE TABLE `FilterWidgetAccounts` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "filterWidgetId INTEGER NOT NULL, accountId INTEGER NOT NULL, " +
+                    "FOREIGN KEY (accountId) REFERENCES Account(id), FOREIGN KEY (filterWidgetId) REFERENCES FilterWidgets(id))");
+            database.execSQL("CREATE TABLE `FilterWidgetBoards` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "filterAccountId INTEGER NOT NULL, boardId INTEGER NOT NULL, FOREIGN KEY (boardId) REFERENCES Board(id), " +
+                    "FOREIGN KEY (filterAccountId) REFERENCES FillterWidtetAccounts(id))");
+            database.execSQL("CREATE TABLE `FilterWidgetStacks` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "filterBoardId INTEGER NOT NULL, stackId INTEGER NOT NULL, FOREIGN KEY (stackId) REFERENCES Stack(id), " +
+                    "FOREIGN KEY (filterBoardId) REFERENCES FillterWidtetBoards(id))");
+            database.execSQL("CREATE TABLE `FilterWidgetTags` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "filterBoardId INTEGER NOT NULL, labelId INTEGER NOT NULL, FOREIGN KEY (labelId) REFERENCES Label(id), " +
+                    "FOREIGN KEY (filterBoardId) REFERENCES FillterWidtetBoards(id))");
+            database.execSQL("CREATE TABLE `FilterWidgetUsers` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "filterBoardId INTEGER NOT NULL, userId INTEGER NOT NULL, FOREIGN KEY (userId) REFERENCES Label(id), " +
+                    "FOREIGN KEY (filterBoardId) REFERENCES FillterWidtetBoards(id))");
+            database.execSQL("CREATE TABLE `FilterWidgetDue` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "filterBoardId INTEGER NOT NULL, dueType INTEGER NOT NULL, " +
+                    "FOREIGN KEY (filterBoardId) REFERENCES FillterWidtetBoards(id))");
+            database.execSQL("CREATE TABLE `FilterWidgetSort` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "filterBoardId INTEGER NOT NULL, sortType INT NOT NULL, ruleOrder INT NOT NULL, " +
+                    "FOREIGN KEY (filterBoardId) REFERENCES FillterWidtetBoards(id))");
+            database.execSQL("CREATE UNIQUE INDEX unique_idx_filter_widget_sort_type_board ON FilterWidgetSort (`sortType`, `filterBoardId`)");
+        }
+    };
+
     public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
@@ -434,6 +463,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                         lastSyncPref.apply();
                     }
                 })
+                .addMigrations(MIGRATION_22_23)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();
