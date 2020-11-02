@@ -2,31 +2,36 @@ package it.niedermann.nextcloud.deck.ui.card.attachments;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.SharedElementCallback;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -41,8 +46,8 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
-import it.niedermann.nextcloud.deck.ui.card.attachments.picker.CardAttachmentPicker;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.CardAttachmentPickerListener;
+import it.niedermann.nextcloud.deck.ui.card.attachments.picker.GalleryAdapter;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.takephoto.TakePhotoActivity;
 import it.niedermann.nextcloud.deck.util.VCardUtil;
@@ -58,6 +63,9 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
+import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED;
+import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HALF_EXPANDED;
+import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
@@ -69,6 +77,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
     private FragmentCardEditTabAttachmentsBinding binding;
     private EditCardViewModel viewModel;
+    private BottomSheetBehavior<LinearLayout> mBottomSheetBehaviour;
 
     private static final int REQUEST_CODE_ADD_FILE = 1;
     private static final int REQUEST_CODE_ADD_FILE_PERMISSION = 2;
@@ -79,8 +88,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
     private SyncManager syncManager;
     private CardAttachmentAdapter adapter;
-    @Nullable
-    private DialogFragment picker;
 
     private int clickedItemPosition;
 
@@ -118,6 +125,46 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             }
         });
 
+        mBottomSheetBehaviour = BottomSheetBehavior.from(binding.bottomSheetParent);
+        mBottomSheetBehaviour.setDraggable(true);
+        mBottomSheetBehaviour.setHideable(true);
+        mBottomSheetBehaviour.setState(STATE_HIDDEN);
+        mBottomSheetBehaviour.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                switch (newState) {
+                    case STATE_HIDDEN: {
+                        binding.bottomNavigation.setVisibility(GONE);
+                        break;
+                    }
+                    case STATE_EXPANDED:
+                    case STATE_HALF_EXPANDED: {
+                        binding.bottomNavigation.setVisibility(VISIBLE);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+        GalleryAdapter galleryAdapter = new GalleryAdapter();
+        List<Long> imageIds = Collections.emptyList();
+        if (SDK_INT >= LOLLIPOP) {
+            final ContentResolver contentResolver = requireContext().getContentResolver();
+            try (final Cursor outerCursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, null, null, null)) {
+                imageIds = new ArrayList<>(outerCursor.getCount());
+                while (outerCursor.moveToNext()) {
+                    imageIds.add(outerCursor.getLong(outerCursor.getColumnIndex(MediaStore.Images.Media._ID)));
+                }
+            }
+        }
+        binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
+        galleryAdapter.setImageIds(imageIds);
+        binding.pickerRecyclerView.setAdapter(galleryAdapter);
+
         final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int spanCount = (int) ((displayMetrics.widthPixels / displayMetrics.density) / getResources().getInteger(R.integer.max_dp_attachment_column));
         GridLayoutManager glm = new GridLayoutManager(getContext(), spanCount);
@@ -152,8 +199,10 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
         if (viewModel.canEdit()) {
             binding.fab.setOnClickListener(v -> {
-                picker = CardAttachmentPicker.newInstance();
-                picker.show(getChildFragmentManager(), CardAttachmentPicker.class.getSimpleName());
+//                picker = CardAttachmentPicker.newInstance();
+//                picker.show(getChildFragmentManager(), CardAttachmentPicker.class.getSimpleName());
+                mBottomSheetBehaviour.setState(STATE_HALF_EXPANDED);
+                binding.bottomNavigation.setVisibility(VISIBLE);
             });
             binding.fab.show();
             binding.attachmentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -231,9 +280,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                         uploadNewAttachmentFromUri(sourceUri, requestCode == REQUEST_CODE_CAMERA
                                 ? data.getType()
                                 : requireContext().getContentResolver().getType(sourceUri));
-                        if (picker != null) {
-                            picker.dismiss();
-                        }
+                        mBottomSheetBehaviour.setState(STATE_HIDDEN);
                     } catch (Exception e) {
                         ExceptionDialogFragment.newInstance(e, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                     }

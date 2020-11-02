@@ -41,7 +41,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
     public static final int VIEW_TYPE_IMAGE = 1;
 
     @NonNull
-    private MutableLiveData<Boolean> isEmpty = new MutableLiveData<>(true);
+    private final MutableLiveData<Boolean> isEmpty = new MutableLiveData<>(true);
     @NonNull
     private final MenuInflater menuInflater;
     @ColorInt
