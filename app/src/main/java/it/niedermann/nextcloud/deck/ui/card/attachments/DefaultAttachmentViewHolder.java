@@ -19,7 +19,7 @@ import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
 public class DefaultAttachmentViewHolder extends AttachmentViewHolder {
-    private ItemAttachmentDefaultBinding binding;
+    private final ItemAttachmentDefaultBinding binding;
 
     @SuppressWarnings("WeakerAccess")
     public DefaultAttachmentViewHolder(ItemAttachmentDefaultBinding binding) {

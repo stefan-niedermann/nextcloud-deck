@@ -1,5 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +11,8 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.ContactsContract;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -16,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -26,6 +33,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
@@ -91,8 +99,15 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     private SyncManager syncManager;
     private CardAttachmentAdapter adapter;
 
-    private ImageView[] brandedViews;
+    private FloatingActionButton[] brandedViews;
     private GalleryAdapter galleryAdapter;
+
+    private final OnBackPressedCallback backPressedCallback = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            mBottomSheetBehaviour.setState(STATE_HIDDEN);
+        }
+    };
 
     private int clickedItemPosition;
 
@@ -107,7 +122,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         if (SDK_INT < LOLLIPOP) {
             binding.pickCamera.setVisibility(GONE);
         }
-        brandedViews = new ImageView[]{binding.pickCameraIamge, binding.pickContactIamge, binding.pickFileIamge};
+        brandedViews = new FloatingActionButton[]{binding.pickCamera, binding.pickContact, binding.pickFile};
         binding.pickCamera.setOnClickListener((v) -> {
             if (SDK_INT >= LOLLIPOP) {
                 pickCamera();
@@ -154,18 +169,16 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 switch (newState) {
                     case STATE_HIDDEN: {
                         DeckLog.log("BottomSheet: HIDDEN");
+                        backPressedCallback.remove();
                         hidePicker();
-                        binding.fab.show();
                         break;
                     }
                     case STATE_EXPANDED: {
                         DeckLog.log("BottomSheet: EXPANDED");
-                        showPicker();
                         break;
                     }
                     case STATE_HALF_EXPANDED: {
                         DeckLog.log("BottomSheet: HALF_EXPANDED");
-                        showPicker();
                         break;
                     }
                     case BottomSheetBehavior.STATE_COLLAPSED:
@@ -228,9 +241,9 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                     binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
                     binding.pickerRecyclerView.setAdapter(galleryAdapter);
                 }
-                mBottomSheetBehaviour.setState(STATE_EXPANDED);
+                mBottomSheetBehaviour.setState(STATE_HALF_EXPANDED);
                 showPicker();
-                binding.fab.hide();
+                requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), backPressedCallback);
             });
             binding.fab.show();
             binding.attachmentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -434,30 +447,35 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         }
     }
 
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        if (galleryAdapter != null) {
-            galleryAdapter.onLowMemory();
-        }
-    }
-
     private void hidePicker() {
-        binding.bottomNavigation
-                .animate()
-                .translationY(binding.bottomNavigation.getHeight())
-                .setDuration(300)
-                .start();
-        binding.bottomNavigation.setVisibility(GONE);
+        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.mdtp_transparent_black), getResources().getColor(android.R.color.transparent));
+        colorAnimation.setDuration(250);
+        colorAnimation.addUpdateListener(animator -> binding.pickerControls.setBackgroundColor((int) animator.getAnimatedValue()));
+        colorAnimation.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                binding.pickerControlsWrapper.setVisibility(GONE);
+            }
+        });
+        colorAnimation.start();
+        new Handler(Looper.getMainLooper()).postDelayed(() -> binding.pickerControlsWrapper.setVisibility(GONE), 250);
+        for (FloatingActionButton fab : brandedViews) {
+            fab.hide();
+        }
+        binding.fab.show();
     }
 
     private void showPicker() {
-        binding.bottomNavigation.setVisibility(VISIBLE);
-        binding.bottomNavigation
-                .animate()
-                .translationY(0)
-                .setDuration(300)
-                .start();
+        binding.pickerControlsWrapper.setVisibility(VISIBLE);
+        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(android.R.color.transparent), getResources().getColor(R.color.mdtp_transparent_black));
+        colorAnimation.setDuration(250); // milliseconds
+        colorAnimation.addUpdateListener(animator -> binding.pickerControls.setBackgroundColor((int) animator.getAnimatedValue()));
+        colorAnimation.start();
+        binding.fab.hide();
+        for (FloatingActionButton fab : brandedViews) {
+            fab.show();
+        }
     }
 
     @Override

@@ -57,114 +57,56 @@
             android:id="@+id/pickerRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/support_simple_spinner_dropdown_item" />
+            tools:listitem="@layout/support_simple_spinner_dropdown_item"
+            tools:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/bottomNavigation"
+        android:id="@+id/pickerControlsWrapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="bottom"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:gravity="bottom">
 
         <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/pickerControls"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorSurface"
             android:paddingStart="@dimen/spacer_2x"
-            android:paddingTop="@dimen/spacer_3x"
+            android:paddingTop="@dimen/spacer_2x"
             android:paddingEnd="@dimen/spacer_2x"
-            android:paddingBottom="@dimen/spacer_3x"
+            android:paddingBottom="@dimen/spacer_2x"
             app:justifyContent="space_around">
 
-            <LinearLayout
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/pickCamera"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:gravity="center"
-                android:orientation="vertical"
-                app:layout_flexGrow="1">
+                android:contentDescription="@string/simple_camera"
+                android:tint="@android:color/white"
+                android:visibility="gone"
+                app:backgroundTint="@color/defaultBrand"
+                app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
 
-                <ImageView
-                    android:id="@+id/pickCameraIamge"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:background="@drawable/circle_grey600_36dp"
-                    android:contentDescription="@null"
-                    android:padding="12dp"
-                    app:backgroundTint="@color/defaultBrand"
-                    app:srcCompat="@drawable/ic_baseline_photo_camera_24"
-                    app:tint="@color/primary" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacer_1x"
-                    android:text="@string/simple_camera"
-                    android:textAppearance="?attr/textAppearanceCaption" />
-            </LinearLayout>
-
-            <LinearLayout
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/pickContact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:gravity="center"
-                android:orientation="vertical"
-                app:layout_flexGrow="1">
+                android:contentDescription="@string/simple_contact"
+                android:tint="@android:color/white"
+                android:visibility="gone"
+                app:backgroundTint="@color/defaultBrand"
+                app:srcCompat="@drawable/ic_person_grey600_24dp" />
 
-                <ImageView
-                    android:id="@+id/pickContactIamge"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:background="@drawable/circle_grey600_36dp"
-                    android:contentDescription="@null"
-                    android:padding="12dp"
-                    app:backgroundTint="@color/defaultBrand"
-                    app:srcCompat="@drawable/ic_person_grey600_24dp"
-                    app:tint="@color/primary" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacer_1x"
-                    android:text="@string/simple_contact"
-                    android:textAppearance="?attr/textAppearanceCaption" />
-            </LinearLayout>
-
-            <LinearLayout
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/pickFile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:gravity="center"
-                android:orientation="vertical"
-                app:layout_flexGrow="1">
-
-                <ImageView
-                    android:id="@+id/pickFileIamge"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:background="@drawable/circle_grey600_36dp"
-                    android:contentDescription="@null"
-                    android:padding="12dp"
-                    app:backgroundTint="@color/defaultBrand"
-                    app:layout_flexGrow="1"
-                    app:srcCompat="@drawable/ic_attach_file_grey600_24dp"
-                    app:tint="@color/primary" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacer_1x"
-                    android:text="@string/simple_file"
-                    android:textAppearance="?attr/textAppearanceCaption" />
-            </LinearLayout>
+                android:contentDescription="@string/simple_file"
+                android:tint="@android:color/white"
+                android:visibility="gone"
+                app:backgroundTint="@color/defaultBrand"
+                app:srcCompat="@drawable/ic_attach_file_grey600_24dp" />
         </com.google.android.flexbox.FlexboxLayout>
-
-
     </LinearLayout>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

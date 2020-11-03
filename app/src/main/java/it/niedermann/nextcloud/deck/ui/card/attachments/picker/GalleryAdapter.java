@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
-import android.util.Pair;
 import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -18,14 +17,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.io.IOException;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
 import java.util.function.Consumer;
 
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentImageBinding;
@@ -44,8 +39,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> 
     private final Cursor cursor;
     @NonNull
     private final ContentResolver contentResolver;
-    @NonNull
-    private final Map<Integer, Pair<Long, FutureTask<Bitmap>>> itemCache = new HashMap<>();
     @NonNull
     private final ExecutorService bitmapFetcherExecutor = Executors.newCachedThreadPool();
     @NonNull
@@ -66,8 +59,11 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> 
 
     @Override
     public long getItemId(int position) {
-        final Pair<Long, ?> itemAtPosition = getImageInformation(position);
-        return itemAtPosition == null ? NO_ID : itemAtPosition.first;
+        if (cursor.moveToPosition(position)) {
+            return cursor.getLong(columnIndex);
+        } else {
+            return NO_ID;
+        }
     }
 
     @NonNull
@@ -78,54 +74,27 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull GalleryItemViewHolder holder, int position) {
-        final Pair<Long, FutureTask<Bitmap>> imageInformation = getImageInformation(position);
-        bitmapFetcherExecutor.execute(imageInformation.second);
-        bitmapWaiterExecutor.execute(() -> {
-            try {
-                final Bitmap image = imageInformation.second.get();
-                new Handler(Looper.getMainLooper()).post(() -> holder.bind(ContentUris.withAppendedId(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, imageInformation.first), image, onSelect));
-            } catch (ExecutionException | InterruptedException ignored) {
-                new Handler(Looper.getMainLooper()).post(holder::bindError);
+        long id = getItemId(position);
+        try {
+            Bitmap thumbnail;
+            if (SDK_INT >= Q) {
+                thumbnail = contentResolver.loadThumbnail(ContentUris.withAppendedId(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id), new Size(512, 384), null);
+            } else {
+                thumbnail = MediaStore.Images.Thumbnails.getThumbnail(
+                        contentResolver, id,
+                        MediaStore.Images.Thumbnails.MINI_KIND, null);
             }
-        });
+            new Handler(Looper.getMainLooper()).post(() -> holder.bind(ContentUris.withAppendedId(
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id), thumbnail, onSelect));
+        } catch (IOException ignored) {
+            new Handler(Looper.getMainLooper()).post(holder::bindError);
+        }
     }
 
     @Override
     public int getItemCount() {
         return count;
-    }
-
-    private Pair<Long, FutureTask<Bitmap>> getImageInformation(int position) {
-        if (itemCache.containsKey(position)) {
-            return itemCache.get(position);
-        } else {
-            if (cursor.isClosed()) {
-                throw new IllegalStateException("This adapter has already been destoryed and can no longer be used.");
-            }
-            if (cursor.moveToPosition(position)) {
-                long id = cursor.getLong(columnIndex);
-                return itemCache.put(position, new Pair<>(id, new FutureTask<>(() -> {
-                    if (SDK_INT >= Q) {
-                        return contentResolver.loadThumbnail(ContentUris.withAppendedId(
-                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id), new Size(512, 384), null);
-                    } else {
-                        return MediaStore.Images.Thumbnails.getThumbnail(
-                                contentResolver, id,
-                                MediaStore.Images.Thumbnails.MINI_KIND, null);
-                    }
-                })));
-            } else {
-                throw new NoSuchElementException("Could not find ID for position " + position);
-            }
-        }
-    }
-
-    /**
-     * Call this method in case of low memory. It will clear the internally cached {@link Bitmap}s to free memory.
-     */
-    public void onLowMemory() {
-        itemCache.clear();
     }
 
     /**
