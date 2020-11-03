@@ -71,7 +71,6 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
-import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HALF_EXPANDED;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -101,6 +100,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
     private FloatingActionButton[] brandedViews;
     private GalleryAdapter galleryAdapter;
+    private boolean pickerAnimationInProgress = false;
 
     private final OnBackPressedCallback backPressedCallback = new OnBackPressedCallback(true) {
         @Override
@@ -164,42 +164,26 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         mBottomSheetBehaviour.setHideable(true);
         mBottomSheetBehaviour.setState(STATE_HIDDEN);
         mBottomSheetBehaviour.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-//            private float lastOffset = -1;
+            private float lastOffset = -1;
+
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                switch (newState) {
-                    case STATE_HIDDEN: {
-                        DeckLog.log("BottomSheet: HIDDEN");
-                        backPressedCallback.remove();
-                        hidePicker();
-                        break;
-                    }
-                    case STATE_EXPANDED: {
-                        DeckLog.log("BottomSheet: EXPANDED");
-                        break;
-                    }
-                    case STATE_HALF_EXPANDED: {
-                        DeckLog.log("BottomSheet: HALF_EXPANDED");
-                        break;
-                    }
-                    case BottomSheetBehavior.STATE_COLLAPSED:
-                        DeckLog.log("BottomSheet: COLLAPSED");
-                        break;
-                    case BottomSheetBehavior.STATE_DRAGGING:
-                        DeckLog.log("BottomSheet: DRAGGING");
-                        break;
-                    case BottomSheetBehavior.STATE_SETTLING:
-                        DeckLog.log("BottomSheet: SETTLING");
-                        break;
+                if (newState == STATE_HIDDEN) {
+                    backPressedCallback.remove();
+                    hidePicker();
                 }
             }
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-//                if(slideOffset < 0 && slideOffset < lastOffset) {
-//                    Toast.makeText(requireContext(), "Now?", Toast.LENGTH_SHORT).show();
-//                }
-//                lastOffset = slideOffset;
+                if (!pickerAnimationInProgress) {
+                    if (slideOffset < 0 && slideOffset < lastOffset && binding.pickerControlsWrapper.getVisibility() == VISIBLE) {
+                        hidePicker();
+                    } else if (slideOffset > lastOffset && binding.pickerControlsWrapper.getVisibility() != VISIBLE) {
+                        showPicker();
+                    }
+                }
+                lastOffset = slideOffset;
             }
         });
         binding.pickerBackdrop.setOnClickListener(v -> mBottomSheetBehaviour.setState(STATE_HIDDEN));
@@ -453,6 +437,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     }
 
     private void hidePicker() {
+        pickerAnimationInProgress = true;
         ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.mdtp_transparent_black), getResources().getColor(android.R.color.transparent));
         colorAnimation.setDuration(250);
         colorAnimation.addUpdateListener(animator -> {
@@ -465,6 +450,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 super.onAnimationEnd(animation);
                 binding.pickerBackdrop.setVisibility(GONE);
                 binding.pickerControlsWrapper.setVisibility(GONE);
+                pickerAnimationInProgress = false;
             }
         });
         colorAnimation.start();
@@ -476,6 +462,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     }
 
     private void showPicker() {
+        pickerAnimationInProgress = true;
         binding.pickerBackdrop.setVisibility(VISIBLE);
         binding.pickerControlsWrapper.setVisibility(VISIBLE);
         ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(android.R.color.transparent), getResources().getColor(R.color.mdtp_transparent_black));
@@ -483,6 +470,13 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         colorAnimation.addUpdateListener(animator -> {
             binding.pickerBackdrop.setBackgroundColor((int) animator.getAnimatedValue());
             binding.pickerControls.setBackgroundColor((int) animator.getAnimatedValue());
+        });
+        colorAnimation.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                pickerAnimationInProgress = false;
+            }
         });
         colorAnimation.start();
         binding.fab.hide();
