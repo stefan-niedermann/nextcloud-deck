@@ -169,7 +169,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState == STATE_HIDDEN) {
-                    backPressedCallback.remove();
+                    backPressedCallback.setEnabled(false);
                     hidePicker();
                 }
             }
@@ -232,6 +232,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 }
                 mBottomSheetBehaviour.setState(STATE_HALF_EXPANDED);
                 showPicker();
+                backPressedCallback.setEnabled(true);
                 requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), backPressedCallback);
             });
             binding.fab.show();
@@ -262,6 +263,18 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             }
         }
         return binding.getRoot();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        backPressedCallback.setEnabled(false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        backPressedCallback.setEnabled(binding.pickerControlsWrapper.getVisibility() == VISIBLE);
     }
 
     @RequiresApi(LOLLIPOP)
