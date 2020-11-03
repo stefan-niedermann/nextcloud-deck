@@ -4,12 +4,10 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,8 +32,6 @@ import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -156,12 +152,13 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 switch (newState) {
                     case STATE_HIDDEN: {
-                        binding.bottomNavigation.setVisibility(GONE);
+                        hidePicker();
+                        binding.fab.show();
                         break;
                     }
                     case STATE_EXPANDED:
                     case STATE_HALF_EXPANDED: {
-                        binding.bottomNavigation.setVisibility(VISIBLE);
+                        showPicker();
                         break;
                     }
                 }
@@ -172,20 +169,11 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
             }
         });
-        GalleryAdapter galleryAdapter = new GalleryAdapter();
-        List<Long> imageIds = Collections.emptyList();
         if (SDK_INT >= LOLLIPOP) {
-            final ContentResolver contentResolver = requireContext().getContentResolver();
-            try (final Cursor outerCursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, null, null, null)) {
-                imageIds = new ArrayList<>(outerCursor.getCount());
-                while (outerCursor.moveToNext()) {
-                    imageIds.add(outerCursor.getLong(outerCursor.getColumnIndex(MediaStore.Images.Media._ID)));
-                }
-            }
+            GalleryAdapter galleryAdapter = new GalleryAdapter(requireContext());
+            binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
+            binding.pickerRecyclerView.setAdapter(galleryAdapter);
         }
-        binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
-        galleryAdapter.setImageIds(imageIds);
-        binding.pickerRecyclerView.setAdapter(galleryAdapter);
 
         final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int spanCount = (int) ((displayMetrics.widthPixels / displayMetrics.density) / getResources().getInteger(R.integer.max_dp_attachment_column));
@@ -224,7 +212,8 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 //                picker = CardAttachmentPicker.newInstance();
 //                picker.show(getChildFragmentManager(), CardAttachmentPicker.class.getSimpleName());
                 mBottomSheetBehaviour.setState(STATE_HALF_EXPANDED);
-                binding.bottomNavigation.setVisibility(VISIBLE);
+                showPicker();
+                binding.fab.hide();
             });
             binding.fab.show();
             binding.attachmentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -417,6 +406,24 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    private void hidePicker() {
+        binding.bottomNavigation
+                .animate()
+                .translationY(binding.bottomNavigation.getHeight())
+                .setDuration(300)
+                .start();
+        binding.bottomNavigation.setVisibility(GONE);
+    }
+
+    private void showPicker() {
+        binding.bottomNavigation.setVisibility(VISIBLE);
+        binding.bottomNavigation
+                .animate()
+                .translationY(0)
+                .setDuration(300)
+                .start();
     }
 
     @Override

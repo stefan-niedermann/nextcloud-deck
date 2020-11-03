@@ -37,48 +37,36 @@
         tools:visibility="visible" />
 
     <LinearLayout
-        android:orientation="vertical"
         android:id="@+id/bottom_sheet_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:gravity="center"
+        android:orientation="vertical"
         app:elevation="@dimen/spacer_1x"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <View
             android:layout_width="20dp"
             android:layout_height="4dp"
-            android:background="@color/bg_info_box"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:background="@color/bg_info_box" />
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/pickerRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:id="@+id/bottom_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/pickerRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:listitem="@layout/support_simple_spinner_dropdown_item"/>
-
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/support_simple_spinner_dropdown_item" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="bottom"
         android:visibility="gone"
-        android:gravity="bottom">
+        tools:visibility="visible">
 
         <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"
