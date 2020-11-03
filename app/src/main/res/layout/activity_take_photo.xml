@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/camera_controls_overlay"
+        android:background="@color/mdtp_transparent_black"
         app:alignItems="center"
         app:justifyContent="space_evenly">
 
