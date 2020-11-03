@@ -92,6 +92,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     private CardAttachmentAdapter adapter;
 
     private ImageView[] brandedViews;
+    private GalleryAdapter galleryAdapter;
 
     private int clickedItemPosition;
 
@@ -152,15 +153,30 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 switch (newState) {
                     case STATE_HIDDEN: {
+                        DeckLog.log("BottomSheet: HIDDEN");
                         hidePicker();
                         binding.fab.show();
                         break;
                     }
-                    case STATE_EXPANDED:
-                    case STATE_HALF_EXPANDED: {
+                    case STATE_EXPANDED: {
+                        DeckLog.log("BottomSheet: EXPANDED");
                         showPicker();
                         break;
                     }
+                    case STATE_HALF_EXPANDED: {
+                        DeckLog.log("BottomSheet: HALF_EXPANDED");
+                        showPicker();
+                        break;
+                    }
+                    case BottomSheetBehavior.STATE_COLLAPSED:
+                        DeckLog.log("BottomSheet: COLLAPSED");
+                        break;
+                    case BottomSheetBehavior.STATE_DRAGGING:
+                        DeckLog.log("BottomSheet: DRAGGING");
+                        break;
+                    case BottomSheetBehavior.STATE_SETTLING:
+                        DeckLog.log("BottomSheet: SETTLING");
+                        break;
                 }
             }
 
@@ -169,11 +185,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
             }
         });
-        if (SDK_INT >= LOLLIPOP) {
-            GalleryAdapter galleryAdapter = new GalleryAdapter(requireContext());
-            binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
-            binding.pickerRecyclerView.setAdapter(galleryAdapter);
-        }
 
         final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int spanCount = (int) ((displayMetrics.widthPixels / displayMetrics.density) / getResources().getInteger(R.integer.max_dp_attachment_column));
@@ -209,9 +220,15 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
         if (viewModel.canEdit()) {
             binding.fab.setOnClickListener(v -> {
-//                picker = CardAttachmentPicker.newInstance();
-//                picker.show(getChildFragmentManager(), CardAttachmentPicker.class.getSimpleName());
-                mBottomSheetBehaviour.setState(STATE_HALF_EXPANDED);
+                if (SDK_INT >= LOLLIPOP && galleryAdapter == null) {
+                    galleryAdapter = new GalleryAdapter(requireContext(), uri -> {
+                        // TODO show selected image in dialog and let it confirm first
+                        onActivityResult(REQUEST_CODE_ADD_FILE, RESULT_OK, new Intent().setData(uri));
+                    });
+                    binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
+                    binding.pickerRecyclerView.setAdapter(galleryAdapter);
+                }
+                mBottomSheetBehaviour.setState(STATE_EXPANDED);
                 showPicker();
                 binding.fab.hide();
             });
@@ -314,6 +331,15 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         }
     }
 
+    @Override
+    public void onDestroy() {
+        if (this.galleryAdapter != null) {
+            this.galleryAdapter.onDestroy();
+            this.binding.pickerRecyclerView.setAdapter(null);
+        }
+        super.onDestroy();
+    }
+
     private void uploadNewAttachmentFromUri(@NonNull Uri sourceUri, String mimeType) throws UploadAttachmentFailedException, IOException {
         if (sourceUri == null) {
             throw new UploadAttachmentFailedException("sourceUri is null");
@@ -405,6 +431,14 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             }
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        if (galleryAdapter != null) {
+            galleryAdapter.onLowMemory();
         }
     }
 
