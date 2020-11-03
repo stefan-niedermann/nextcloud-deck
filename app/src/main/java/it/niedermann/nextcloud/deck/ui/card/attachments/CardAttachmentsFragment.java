@@ -164,6 +164,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         mBottomSheetBehaviour.setHideable(true);
         mBottomSheetBehaviour.setState(STATE_HIDDEN);
         mBottomSheetBehaviour.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+//            private float lastOffset = -1;
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 switch (newState) {
@@ -195,9 +196,13 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
+//                if(slideOffset < 0 && slideOffset < lastOffset) {
+//                    Toast.makeText(requireContext(), "Now?", Toast.LENGTH_SHORT).show();
+//                }
+//                lastOffset = slideOffset;
             }
         });
+        binding.pickerBackdrop.setOnClickListener(v -> mBottomSheetBehaviour.setState(STATE_HIDDEN));
 
         final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int spanCount = (int) ((displayMetrics.widthPixels / displayMetrics.density) / getResources().getInteger(R.integer.max_dp_attachment_column));
@@ -450,11 +455,15 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     private void hidePicker() {
         ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.mdtp_transparent_black), getResources().getColor(android.R.color.transparent));
         colorAnimation.setDuration(250);
-        colorAnimation.addUpdateListener(animator -> binding.pickerControls.setBackgroundColor((int) animator.getAnimatedValue()));
+        colorAnimation.addUpdateListener(animator -> {
+            binding.pickerBackdrop.setBackgroundColor((int) animator.getAnimatedValue());
+            binding.pickerControls.setBackgroundColor((int) animator.getAnimatedValue());
+        });
         colorAnimation.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+                binding.pickerBackdrop.setVisibility(GONE);
                 binding.pickerControlsWrapper.setVisibility(GONE);
             }
         });
@@ -467,10 +476,14 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     }
 
     private void showPicker() {
+        binding.pickerBackdrop.setVisibility(VISIBLE);
         binding.pickerControlsWrapper.setVisibility(VISIBLE);
         ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(android.R.color.transparent), getResources().getColor(R.color.mdtp_transparent_black));
-        colorAnimation.setDuration(250); // milliseconds
-        colorAnimation.addUpdateListener(animator -> binding.pickerControls.setBackgroundColor((int) animator.getAnimatedValue()));
+        colorAnimation.setDuration(250);
+        colorAnimation.addUpdateListener(animator -> {
+            binding.pickerBackdrop.setBackgroundColor((int) animator.getAnimatedValue());
+            binding.pickerControls.setBackgroundColor((int) animator.getAnimatedValue());
+        });
         colorAnimation.start();
         binding.fab.hide();
         for (FloatingActionButton fab : brandedViews) {

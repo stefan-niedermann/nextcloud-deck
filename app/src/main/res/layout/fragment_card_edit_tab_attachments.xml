@@ -36,27 +36,39 @@
         app:srcCompat="@drawable/ic_file_upload_white_24dp"
         tools:visibility="visible" />
 
+    <FrameLayout
+        android:id="@+id/pickerBackdrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/mdtp_transparent_black"
+        android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/bottom_sheet_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
         android:gravity="center"
         android:orientation="vertical"
         app:elevation="@dimen/spacer_1x"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <View
-            android:layout_width="20dp"
-            android:layout_height="4dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/bg_info_box" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spacer_2x"
+            android:background="@drawable/bottom_sheet_rounded">
+
+            <View
+                android:layout_width="@dimen/spacer_4x"
+                android:layout_height="@dimen/spacer_1hx"
+                android:layout_centerInParent="true"
+                android:background="@color/bg_info_box" />
+        </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/pickerRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?attr/colorPrimarySurface"
             tools:listitem="@layout/support_simple_spinner_dropdown_item"
             tools:visibility="gone" />
     </LinearLayout>
