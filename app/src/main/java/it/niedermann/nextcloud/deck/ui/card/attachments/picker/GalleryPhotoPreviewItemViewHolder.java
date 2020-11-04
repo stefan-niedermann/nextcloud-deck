@@ -11,7 +11,6 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.concurrent.ExecutionException;
 
-import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.ItemPhotoPreviewBinding;
 
@@ -28,26 +27,24 @@ public class GalleryPhotoPreviewItemViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(@NonNull Runnable openNativePicker, @NonNull LifecycleOwner lifecycleOwner) {
-        if(!BuildConfig.DEBUG) {
-            itemView.setOnClickListener((v) -> openNativePicker.run());
-            ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(itemView.getContext());
-            cameraProviderFuture.addListener(() -> {
-                try {
-                    unbind();
-                    cameraProvider = cameraProviderFuture.get();
-                    Preview previewUseCase = new Preview.Builder().build();
-                    previewUseCase.setSurfaceProvider(binding.preview.getSurfaceProvider());
-                    cameraProvider.bindToLifecycle(lifecycleOwner, DEFAULT_BACK_CAMERA, previewUseCase);
-                } catch (ExecutionException | InterruptedException e) {
-                    DeckLog.logError(e);
-                }
-            }, ContextCompat.getMainExecutor(itemView.getContext()));
-        }
+        itemView.setOnClickListener((v) -> openNativePicker.run());
+        ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(itemView.getContext());
+        cameraProviderFuture.addListener(() -> {
+            try {
+                unbind();
+                cameraProvider = cameraProviderFuture.get();
+                Preview previewUseCase = new Preview.Builder().build();
+                previewUseCase.setSurfaceProvider(binding.preview.getSurfaceProvider());
+                cameraProvider.bindToLifecycle(lifecycleOwner, DEFAULT_BACK_CAMERA, previewUseCase);
+            } catch (ExecutionException | InterruptedException e) {
+                DeckLog.logError(e);
+            }
+        }, ContextCompat.getMainExecutor(itemView.getContext()));
     }
 
 
     public void unbind() {
-        if(cameraProvider != null) {
+        if (cameraProvider != null) {
             cameraProvider.unbindAll();
         }
     }

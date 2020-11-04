@@ -90,11 +90,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorSurface"
+            android:clickable="true"
             android:paddingStart="@dimen/spacer_2x"
             android:paddingTop="@dimen/spacer_2x"
             android:paddingEnd="@dimen/spacer_2x"
             android:paddingBottom="@dimen/spacer_2x"
-            app:justifyContent="space_around">
+            app:justifyContent="space_around"
+            tools:ignore="KeyboardInaccessibleWidget">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/pickCamera"
