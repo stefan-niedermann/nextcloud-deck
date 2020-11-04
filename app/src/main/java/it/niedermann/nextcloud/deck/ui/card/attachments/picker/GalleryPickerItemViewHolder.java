@@ -26,12 +26,12 @@ public class GalleryPickerItemViewHolder extends RecyclerView.ViewHolder {
         this.binding = binding;
     }
 
-    public void bind(@NonNull Runnable onSelectPicker, @NonNull LifecycleOwner lifecycleOwner) {
-        itemView.setOnClickListener((v) -> onSelectPicker.run());
-
+    public void bind(@NonNull Runnable openNativePicker, @NonNull LifecycleOwner lifecycleOwner) {
+        itemView.setOnClickListener((v) -> openNativePicker.run());
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(itemView.getContext());
         cameraProviderFuture.addListener(() -> {
             try {
+                unbind();
                 cameraProvider = cameraProviderFuture.get();
                 Preview previewUseCase = new Preview.Builder().build();
                 previewUseCase.setSurfaceProvider(binding.preview.getSurfaceProvider());

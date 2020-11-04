@@ -59,7 +59,7 @@ public class ContactAdapter extends AbstractPickerAdapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
             case VIEW_TYPE_ITEM_PICKER: {
-                ((ContactPickerItemViewHolder) holder).bind(onSelectPicker);
+                ((ContactPickerItemViewHolder) holder).bind(openNativePicker);
                 break;
             }
             case VIEW_TYPE_ITEM: {

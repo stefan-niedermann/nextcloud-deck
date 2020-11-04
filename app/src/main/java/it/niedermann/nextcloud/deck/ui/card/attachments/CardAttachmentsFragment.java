@@ -25,7 +25,6 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.SharedElementCallback;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -92,15 +91,12 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     private EditCardViewModel viewModel;
     private BottomSheetBehavior<LinearLayout> mBottomSheetBehaviour;
 
-    private static final int REQUEST_CODE_ADD_FILE = 1;
-    private static final int REQUEST_CODE_ADD_FILE_PERMISSION = 2;
-    private static final int REQUEST_CODE_ADD_FILE_PICKER_PERMISSION = 3;
-    private static final int REQUEST_CODE_CAMERA = 4;
-    private static final int REQUEST_CODE_CAMERA_PERMISSION = 5;
-    private static final int REQUEST_CODE_GALLERY_PICKER_PERMISSION = 6;
-    private static final int REQUEST_CODE_PICK_CONTACT = 7;
-    private static final int REQUEST_CODE_PICK_CONTACT_PERMISSION = 8;
-    private static final int REQUEST_CODE_PICK_CONTACT_PICKER_PERMISSION = 9;
+    private static final int REQUEST_CODE_PICK_FILE = 1;
+    private static final int REQUEST_CODE_PICK_FILE_PERMISSION = 2;
+    private static final int REQUEST_CODE_PICK_CAMERA = 3;
+    private static final int REQUEST_CODE_PICK_GALLERY_PERMISSION = 4;
+    private static final int REQUEST_CODE_PICK_CONTACT = 5;
+    private static final int REQUEST_CODE_PICK_CONTACT_PICKER_PERMISSION = 6;
 
     private SyncManager syncManager;
     private CardAttachmentAdapter adapter;
@@ -125,20 +121,11 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
         binding = FragmentCardEditTabAttachmentsBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
-
-        if (SDK_INT < LOLLIPOP) {
-            binding.pickCamera.setVisibility(GONE);
-        }
         brandedViews = new FloatingActionButton[]{binding.pickCamera, binding.pickContact, binding.pickFile};
-        binding.pickCamera.setOnClickListener((v) -> {
-            if (SDK_INT >= LOLLIPOP) {
-                pickCamera();
-            } else {
-                Toast.makeText(requireContext(), R.string.min_api_21, Toast.LENGTH_SHORT).show();
-            }
-        });
-        binding.pickContact.setOnClickListener((v) -> pickContact());
-        binding.pickFile.setOnClickListener((v) -> pickFile());
+
+        binding.pickCamera.setOnClickListener((v) -> showGalleryPicker());
+        binding.pickContact.setOnClickListener((v) -> showContactPicker());
+        binding.pickFile.setOnClickListener((v) -> showFilesPicker());
 
         // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
         // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
@@ -177,7 +164,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState == STATE_HIDDEN) {
                     backPressedCallback.setEnabled(false);
-                    hidePicker();
+                    hidePickerSheet();
                 }
             }
 
@@ -185,9 +172,9 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
                 if (!pickerAnimationInProgress) {
                     if (slideOffset < 0 && slideOffset < lastOffset && binding.pickerControlsWrapper.getVisibility() == VISIBLE) {
-                        hidePicker();
+                        hidePickerSheet();
                     } else if (slideOffset > lastOffset && binding.pickerControlsWrapper.getVisibility() != VISIBLE) {
-                        showPicker();
+                        showPickerSheet();
                     }
                 }
                 lastOffset = slideOffset;
@@ -228,7 +215,17 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         }
 
         if (viewModel.canEdit()) {
-            binding.fab.setOnClickListener(v -> showGalleryPicker());
+            binding.fab.setOnClickListener(v -> {
+                if (SDK_INT < LOLLIPOP) {
+                    openNativeFilePicker();
+                } else {
+                    showGalleryPicker();
+                    showPickerSheet();
+                    mBottomSheetBehaviour.setState(STATE_HALF_EXPANDED);
+                    backPressedCallback.setEnabled(true);
+                    requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), backPressedCallback);
+                }
+            });
             binding.fab.show();
             binding.attachmentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
@@ -271,84 +268,112 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         backPressedCallback.setEnabled(binding.pickerControlsWrapper.getVisibility() == VISIBLE);
     }
 
-    @RequiresApi(LOLLIPOP)
-    public void pickCamera() {
-        if (isPermissionRequestNeeded(CAMERA)) {
-            requestPermissions(new String[]{CAMERA}, REQUEST_CODE_CAMERA_PERMISSION);
-        } else {
-            startActivityForResult(TakePhotoActivity.createIntent(requireContext()), REQUEST_CODE_CAMERA);
+    private void showPickerSheet() {
+        pickerAnimationInProgress = true;
+        binding.pickerBackdrop.setVisibility(VISIBLE);
+        binding.pickerControlsWrapper.setVisibility(VISIBLE);
+        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(android.R.color.transparent), getResources().getColor(R.color.mdtp_transparent_black));
+        colorAnimation.setDuration(250);
+        colorAnimation.addUpdateListener(animator -> {
+            binding.pickerBackdrop.setBackgroundColor((int) animator.getAnimatedValue());
+            binding.pickerControls.setBackgroundColor((int) animator.getAnimatedValue());
+        });
+        colorAnimation.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                pickerAnimationInProgress = false;
+            }
+        });
+        colorAnimation.start();
+        binding.fab.hide();
+        for (FloatingActionButton fab : brandedViews) {
+            fab.show();
         }
     }
 
-    public void showContactPicker() {
+    private void hidePickerSheet() {
+        pickerAnimationInProgress = true;
+        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.mdtp_transparent_black), getResources().getColor(android.R.color.transparent));
+        colorAnimation.setDuration(250);
+        colorAnimation.addUpdateListener(animator -> {
+            binding.pickerBackdrop.setBackgroundColor((int) animator.getAnimatedValue());
+            binding.pickerControls.setBackgroundColor((int) animator.getAnimatedValue());
+        });
+        colorAnimation.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                binding.pickerBackdrop.setVisibility(GONE);
+                binding.pickerControlsWrapper.setVisibility(GONE);
+                pickerAnimationInProgress = false;
+            }
+        });
+        colorAnimation.start();
+        new Handler(Looper.getMainLooper()).postDelayed(() -> binding.pickerControlsWrapper.setVisibility(GONE), 250);
+        for (FloatingActionButton fab : brandedViews) {
+            fab.hide();
+        }
+        binding.fab.show();
+    }
+
+    private void showContactPicker() {
         if (isPermissionRequestNeeded(READ_CONTACTS)) {
             requestPermissions(new String[]{READ_CONTACTS}, REQUEST_CODE_PICK_CONTACT_PICKER_PERMISSION);
         } else {
-            pickerAdapter = new ContactAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_CONTACT, RESULT_OK, new Intent().setData(uri)), this::pickContact);
+            unbindPickerAdapter();
+            pickerAdapter = new ContactAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_CONTACT, RESULT_OK, new Intent().setData(uri)), this::openNativeContactPicker);
             binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
             binding.pickerRecyclerView.setAdapter(pickerAdapter);
-            mBottomSheetBehaviour.setState(STATE_HALF_EXPANDED);
-            showPicker();
-            backPressedCallback.setEnabled(true);
-            requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), backPressedCallback);
         }
     }
 
-    public void showGalleryPicker() {
+    private void showGalleryPicker() {
         if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE) || isPermissionRequestNeeded(CAMERA)) {
-            requestPermissions(new String[]{READ_EXTERNAL_STORAGE, CAMERA}, REQUEST_CODE_GALLERY_PICKER_PERMISSION);
+            requestPermissions(new String[]{READ_EXTERNAL_STORAGE, CAMERA}, REQUEST_CODE_PICK_GALLERY_PERMISSION);
         } else {
-            if (SDK_INT >= LOLLIPOP) {
-                pickerAdapter = new GalleryAdapter(requireContext(), uri -> {
-                    // TODO show selected image in dialog and let it confirm first
-                    onActivityResult(REQUEST_CODE_ADD_FILE, RESULT_OK, new Intent().setData(uri));
-                }, this::pickCamera, getViewLifecycleOwner());
-                binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
-                binding.pickerRecyclerView.setAdapter(pickerAdapter);
-            }
-            mBottomSheetBehaviour.setState(STATE_HALF_EXPANDED);
-            showPicker();
-            backPressedCallback.setEnabled(true);
-            requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), backPressedCallback);
+            unbindPickerAdapter();
+            pickerAdapter = new GalleryAdapter(requireContext(), uri -> {
+                onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri));
+            }, this::openNativeCameraPicker, getViewLifecycleOwner());
+            binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
+            binding.pickerRecyclerView.setAdapter(pickerAdapter);
         }
     }
 
-    public void showFilesPicker() {
+    private void showFilesPicker() {
         if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE)) {
-            requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_ADD_FILE_PICKER_PERMISSION);
+            requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_PICK_FILE_PERMISSION);
         } else {
+            unbindPickerAdapter();
             if (SDK_INT >= LOLLIPOP) {
-                pickerAdapter = new FileAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_ADD_FILE, RESULT_OK, new Intent().setData(uri)), this::pickFile);
+                pickerAdapter = new FileAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeFilePicker);
                 binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                 binding.pickerRecyclerView.setAdapter(pickerAdapter);
             }
-            mBottomSheetBehaviour.setState(STATE_HALF_EXPANDED);
-            showPicker();
-            backPressedCallback.setEnabled(true);
-            requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), backPressedCallback);
         }
     }
 
-    public void pickContact() {
-        if (isPermissionRequestNeeded(READ_CONTACTS)) {
-            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_CODE_PICK_CONTACT_PERMISSION);
+    private void openNativeCameraPicker() {
+        if (SDK_INT >= LOLLIPOP) {
+            startActivityForResult(TakePhotoActivity.createIntent(requireContext()), REQUEST_CODE_PICK_CAMERA);
         } else {
-            final Intent intent = new Intent(Intent.ACTION_PICK).setType(ContactsContract.Contacts.CONTENT_TYPE);
-            if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
-                startActivityForResult(intent, REQUEST_CODE_PICK_CONTACT);
-            }
+            ExceptionDialogFragment.newInstance(new UnsupportedOperationException("This feature requires Android 5"), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
         }
     }
 
-    public void pickFile() {
-        if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE)) {
-            requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_ADD_FILE_PERMISSION);
-        } else {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
-                    .addCategory(Intent.CATEGORY_OPENABLE)
-                    .setType("*/*");
-            startActivityForResult(intent, REQUEST_CODE_ADD_FILE);
+    private void openNativeContactPicker() {
+        final Intent intent = new Intent(Intent.ACTION_PICK).setType(ContactsContract.Contacts.CONTENT_TYPE);
+        if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
+            startActivityForResult(intent, REQUEST_CODE_PICK_CONTACT);
         }
+    }
+
+    private void openNativeFilePicker() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
+                .addCategory(Intent.CATEGORY_OPENABLE)
+                .setType("*/*");
+        startActivityForResult(intent, REQUEST_CODE_PICK_FILE);
     }
 
     /**
@@ -361,19 +386,25 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         return SDK_INT >= M && checkSelfPermission(requireActivity(), permission) != PERMISSION_GRANTED;
     }
 
+    private void unbindPickerAdapter() {
+        if (pickerAdapter != null) {
+            pickerAdapter.onDestroy();
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_CODE_PICK_CONTACT:
-            case REQUEST_CODE_CAMERA:
-            case REQUEST_CODE_ADD_FILE: {
+            case REQUEST_CODE_PICK_CAMERA:
+            case REQUEST_CODE_PICK_FILE: {
                 if (resultCode == RESULT_OK) {
                     final Uri sourceUri = requestCode == REQUEST_CODE_PICK_CONTACT
                             ? VCardUtil.getVCardContentUri(requireContext(), Uri.parse(data.getDataString()))
                             : data.getData();
                     try {
-                        uploadNewAttachmentFromUri(sourceUri, requestCode == REQUEST_CODE_CAMERA
+                        uploadNewAttachmentFromUri(sourceUri, requestCode == REQUEST_CODE_PICK_CAMERA
                                 ? data.getType()
                                 : requireContext().getContentResolver().getType(sourceUri));
                         mBottomSheetBehaviour.setState(STATE_HIDDEN);
@@ -459,47 +490,21 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
-            case REQUEST_CODE_ADD_FILE_PERMISSION: {
-                if (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED) {
-                    pickFile();
-                } else {
-                    Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
-                }
-                break;
-            }
-            case REQUEST_CODE_CAMERA_PERMISSION: {
-                if (checkSelfPermission(requireActivity(), CAMERA) == PERMISSION_GRANTED) {
-                    if (SDK_INT >= LOLLIPOP) {
-                        pickCamera();
-                    } else {
-                        Toast.makeText(requireContext(), R.string.min_api_21, Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
-                }
-                break;
-            }
-            case REQUEST_CODE_PICK_CONTACT_PERMISSION: {
-                if (checkSelfPermission(requireActivity(), READ_CONTACTS) == PERMISSION_GRANTED) {
-                    pickContact();
-                } else {
-                    Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
-                }
-                break;
-            }
-            case REQUEST_CODE_ADD_FILE_PICKER_PERMISSION: {
+            case REQUEST_CODE_PICK_FILE_PERMISSION: {
                 if (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED) {
                     showFilesPicker();
                 } else {
                     Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
+                    hidePickerSheet();
                 }
                 break;
             }
-            case REQUEST_CODE_GALLERY_PICKER_PERMISSION: {
+            case REQUEST_CODE_PICK_GALLERY_PERMISSION: {
                 if (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED && checkSelfPermission(requireActivity(), CAMERA) == PERMISSION_GRANTED) {
                     showGalleryPicker();
                 } else {
                     Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
+                    hidePickerSheet();
                 }
                 break;
             }
@@ -513,55 +518,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             }
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
-
-    private void hidePicker() {
-        pickerAnimationInProgress = true;
-        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.mdtp_transparent_black), getResources().getColor(android.R.color.transparent));
-        colorAnimation.setDuration(250);
-        colorAnimation.addUpdateListener(animator -> {
-            binding.pickerBackdrop.setBackgroundColor((int) animator.getAnimatedValue());
-            binding.pickerControls.setBackgroundColor((int) animator.getAnimatedValue());
-        });
-        colorAnimation.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                binding.pickerBackdrop.setVisibility(GONE);
-                binding.pickerControlsWrapper.setVisibility(GONE);
-                pickerAnimationInProgress = false;
-            }
-        });
-        colorAnimation.start();
-        new Handler(Looper.getMainLooper()).postDelayed(() -> binding.pickerControlsWrapper.setVisibility(GONE), 250);
-        for (FloatingActionButton fab : brandedViews) {
-            fab.hide();
-        }
-        binding.fab.show();
-    }
-
-    private void showPicker() {
-        pickerAnimationInProgress = true;
-        binding.pickerBackdrop.setVisibility(VISIBLE);
-        binding.pickerControlsWrapper.setVisibility(VISIBLE);
-        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(android.R.color.transparent), getResources().getColor(R.color.mdtp_transparent_black));
-        colorAnimation.setDuration(250);
-        colorAnimation.addUpdateListener(animator -> {
-            binding.pickerBackdrop.setBackgroundColor((int) animator.getAnimatedValue());
-            binding.pickerControls.setBackgroundColor((int) animator.getAnimatedValue());
-        });
-        colorAnimation.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                pickerAnimationInProgress = false;
-            }
-        });
-        colorAnimation.start();
-        binding.fab.hide();
-        for (FloatingActionButton fab : brandedViews) {
-            fab.show();
         }
     }
 

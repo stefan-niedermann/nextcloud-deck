@@ -30,19 +30,19 @@ public abstract class AbstractPickerAdapter<T extends RecyclerView.ViewHolder> e
     @NonNull
     protected final Consumer<Uri> onSelect;
     @NonNull
-    protected final Runnable onSelectPicker;
+    protected final Runnable openNativePicker;
     @NonNull
     protected final Cursor cursor;
     @NonNull
     protected final ContentResolver contentResolver;
 
-    public AbstractPickerAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable onSelectPicker, Uri subject, String idColumn, String sortOrder) {
-        this(context, onSelect, onSelectPicker, subject, idColumn, new String[]{idColumn}, sortOrder);
+    public AbstractPickerAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable openNativePicker, Uri subject, String idColumn, String sortOrder) {
+        this(context, onSelect, openNativePicker, subject, idColumn, new String[]{idColumn}, sortOrder);
     }
 
-    public AbstractPickerAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable onSelectPicker, Uri subject, String idColumn, String[] requestedColumns, String sortOrder) {
+    public AbstractPickerAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable openNativePicker, Uri subject, String idColumn, String[] requestedColumns, String sortOrder) {
         this.onSelect = onSelect;
-        this.onSelectPicker = onSelectPicker;
+        this.openNativePicker = openNativePicker;
         this.contentResolver = context.getContentResolver();
         this.cursor = Objects.requireNonNull(contentResolver.query(subject, requestedColumns, null, null, sortOrder));
         this.columnIndex = cursor.getColumnIndex(idColumn);

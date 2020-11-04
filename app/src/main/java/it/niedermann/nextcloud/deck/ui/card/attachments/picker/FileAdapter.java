@@ -55,7 +55,7 @@ public class FileAdapter extends AbstractPickerAdapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
             case VIEW_TYPE_ITEM_PICKER: {
-                ((FilePickerItemViewHolder) holder).bind(onSelectPicker);
+                ((FilePickerItemViewHolder) holder).bind(openNativePicker);
                 break;
             }
             case VIEW_TYPE_ITEM: {

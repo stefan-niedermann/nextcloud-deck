@@ -41,8 +41,8 @@ public class GalleryAdapter extends AbstractPickerAdapter<RecyclerView.ViewHolde
             ? MediaStore.Images.Media.DATE_TAKEN
             : MediaStore.Images.Media.DATE_ADDED;
 
-    public GalleryAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable onSelectPicker, @NonNull LifecycleOwner lifecycleOwner) {
-        super(context, onSelect, onSelectPicker, EXTERNAL_CONTENT_URI, _ID, sortOrder + " DESC");
+    public GalleryAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable openNativePicker, @NonNull LifecycleOwner lifecycleOwner) {
+        super(context, onSelect, openNativePicker, EXTERNAL_CONTENT_URI, _ID, sortOrder + " DESC");
         this.lifecycleOwner = lifecycleOwner;
         notifyItemRangeInserted(0, getItemCount());
     }
@@ -65,7 +65,7 @@ public class GalleryAdapter extends AbstractPickerAdapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
             case VIEW_TYPE_ITEM_PICKER: {
-                ((GalleryPickerItemViewHolder) holder).bind(onSelectPicker, lifecycleOwner);
+                ((GalleryPickerItemViewHolder) holder).bind(openNativePicker, lifecycleOwner);
                 break;
             }
             case VIEW_TYPE_ITEM: {
