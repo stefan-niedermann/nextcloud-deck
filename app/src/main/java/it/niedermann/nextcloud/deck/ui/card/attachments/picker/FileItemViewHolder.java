@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.text.format.Formatter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -23,8 +24,8 @@ public class FileItemViewHolder extends RecyclerView.ViewHolder {
         this.binding = binding;
     }
 
-    public void bind(@NonNull Uri uri, @NonNull String displayName, long size, @NonNull Consumer<Uri> onSelect) {
-        itemView.setOnClickListener((v) -> onSelect.accept(uri));
+    public void bind(@NonNull Uri uri, @NonNull String displayName, long size, @Nullable Consumer<Uri> onSelect) {
+        itemView.setOnClickListener(onSelect == null ? null : (v) -> onSelect.accept(uri));
         binding.displayName.setText(displayName);
         binding.contactInformation.setText(Formatter.formatFileSize(itemView.getContext(), size));
         Glide.with(itemView.getContext())

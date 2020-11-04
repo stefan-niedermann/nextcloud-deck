@@ -6,11 +6,11 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.function.Consumer;
@@ -18,24 +18,21 @@ import java.util.function.Consumer;
 import it.niedermann.nextcloud.deck.databinding.ItemPickerNativeBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemPickerUserBinding;
 
-import static android.provider.BaseColumns._ID;
-import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE;
-import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
-import static android.provider.MediaStore.Files.FileColumns.TITLE;
-import static android.provider.MediaStore.MediaColumns.DATE_ADDED;
-import static android.provider.MediaStore.MediaColumns.SIZE;
+import static android.provider.MediaStore.Downloads.DATE_ADDED;
+import static android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI;
+import static android.provider.MediaStore.Downloads.SIZE;
+import static android.provider.MediaStore.Downloads.TITLE;
+import static android.provider.MediaStore.Downloads._ID;
 import static java.util.Objects.requireNonNull;
 
-public class FileAdapter extends AbstractPickerAdapter<RecyclerView.ViewHolder> {
+@RequiresApi(api = 29)
+public class FileAdapter extends AbstractCursorPickerAdapter<RecyclerView.ViewHolder> {
 
     private final int displayNameColumnIndex;
     private final int sizeColumnIndex;
-    private final static String[] excludedMediaTypes = new String[]{
-            String.valueOf(MEDIA_TYPE_IMAGE)
-    };
 
     public FileAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable onSelectPicker) {
-        super(context, onSelect, onSelectPicker, _ID, requireNonNull(context.getContentResolver().query(MediaStore.Files.getContentUri("external"), new String[]{_ID, TITLE, SIZE}, MEDIA_TYPE + " NOT IN (" + TextUtils.join(",", excludedMediaTypes) + ") ", null, DATE_ADDED + " DESC")));
+        super(context, onSelect, onSelectPicker, _ID, requireNonNull(context.getContentResolver().query(EXTERNAL_CONTENT_URI, new String[]{_ID, TITLE, SIZE}, null, null, DATE_ADDED + " DESC")));
         displayNameColumnIndex = cursor.getColumnIndex(TITLE);
         sizeColumnIndex = cursor.getColumnIndex(SIZE);
         notifyItemRangeInserted(0, getItemCount());

@@ -27,7 +27,7 @@ import static android.os.Build.VERSION_CODES.Q;
 import static android.provider.BaseColumns._ID;
 import static android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
-public class GalleryAdapter extends AbstractPickerAdapter<RecyclerView.ViewHolder> {
+public class GalleryAdapterAbstract extends AbstractCursorPickerAdapter<RecyclerView.ViewHolder> {
 
     @NonNull
     private final LifecycleOwner lifecycleOwner;
@@ -37,7 +37,7 @@ public class GalleryAdapter extends AbstractPickerAdapter<RecyclerView.ViewHolde
             ? MediaStore.Images.Media.DATE_TAKEN
             : MediaStore.Images.Media.DATE_ADDED;
 
-    public GalleryAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable openNativePicker, @NonNull LifecycleOwner lifecycleOwner) {
+    public GalleryAdapterAbstract(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable openNativePicker, @NonNull LifecycleOwner lifecycleOwner) {
         super(context, onSelect, openNativePicker, EXTERNAL_CONTENT_URI, _ID, sortOrder + " DESC");
         this.lifecycleOwner = lifecycleOwner;
         notifyItemRangeInserted(0, getItemCount());

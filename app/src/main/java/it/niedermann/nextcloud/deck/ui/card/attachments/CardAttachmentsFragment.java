@@ -53,9 +53,10 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.AbstractPickerAdapter;
-import it.niedermann.nextcloud.deck.ui.card.attachments.picker.ContactAdapter;
+import it.niedermann.nextcloud.deck.ui.card.attachments.picker.ContactAdapterAbstract;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.FileAdapter;
-import it.niedermann.nextcloud.deck.ui.card.attachments.picker.GalleryAdapter;
+import it.niedermann.nextcloud.deck.ui.card.attachments.picker.FileAdapterLegacy;
+import it.niedermann.nextcloud.deck.ui.card.attachments.picker.GalleryAdapterAbstract;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.takephoto.TakePhotoActivity;
 import it.niedermann.nextcloud.deck.util.DeckColorUtil;
@@ -307,12 +308,12 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     }
 
     private void showGalleryPicker() {
-        if (!(pickerAdapter instanceof GalleryAdapter)) {
+        if (!(pickerAdapter instanceof GalleryAdapterAbstract)) {
             if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE) || isPermissionRequestNeeded(CAMERA)) {
                 requestPermissions(new String[]{READ_EXTERNAL_STORAGE, CAMERA}, REQUEST_CODE_PICK_GALLERY_PERMISSION);
             } else {
                 unbindPickerAdapter();
-                pickerAdapter = new GalleryAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeCameraPicker, getViewLifecycleOwner());
+                pickerAdapter = new GalleryAdapterAbstract(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeCameraPicker, getViewLifecycleOwner());
                 binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
                 binding.pickerRecyclerView.setAdapter(pickerAdapter);
             }
@@ -320,12 +321,12 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     }
 
     private void showContactPicker() {
-        if (!(pickerAdapter instanceof ContactAdapter)) {
+        if (!(pickerAdapter instanceof ContactAdapterAbstract)) {
             if (isPermissionRequestNeeded(READ_CONTACTS)) {
                 requestPermissions(new String[]{READ_CONTACTS}, REQUEST_CODE_PICK_CONTACT_PICKER_PERMISSION);
             } else {
                 unbindPickerAdapter();
-                pickerAdapter = new ContactAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_CONTACT, RESULT_OK, new Intent().setData(uri)), this::openNativeContactPicker);
+                pickerAdapter = new ContactAdapterAbstract(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_CONTACT, RESULT_OK, new Intent().setData(uri)), this::openNativeContactPicker);
                 binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                 binding.pickerRecyclerView.setAdapter(pickerAdapter);
             }
@@ -333,13 +334,18 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     }
 
     private void showFilePicker() {
-        if (!(pickerAdapter instanceof FileAdapter)) {
+        if (!(pickerAdapter instanceof FileAdapter) && !(pickerAdapter instanceof FileAdapterLegacy)) {
             if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE)) {
                 requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_PICK_FILE_PERMISSION);
             } else {
                 unbindPickerAdapter();
                 if (SDK_INT >= LOLLIPOP) {
-                    pickerAdapter = new FileAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeFilePicker);
+//                    if (SDK_INT >= Build.VERSION_CODES.Q) {
+//                        // TODO Only usable with Scoped Storage
+//                        pickerAdapter = new FileAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeFilePicker);
+//                    } else {
+                    pickerAdapter = new FileAdapterLegacy(uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeFilePicker);
+//                    }
                     binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                     binding.pickerRecyclerView.setAdapter(pickerAdapter);
                 }

@@ -31,13 +31,13 @@ import static android.provider.ContactsContract.Contacts.DISPLAY_NAME;
 import static android.provider.ContactsContract.Contacts.SORT_KEY_PRIMARY;
 import static android.provider.ContactsContract.Contacts._ID;
 
-public class ContactAdapter extends AbstractPickerAdapter<RecyclerView.ViewHolder> {
+public class ContactAdapterAbstract extends AbstractCursorPickerAdapter<RecyclerView.ViewHolder> {
 
 
     private final int lookupKeyColumnIndex;
     private final int displayNameColumnIndex;
 
-    public ContactAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable onSelectPicker) {
+    public ContactAdapterAbstract(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable onSelectPicker) {
         super(context, onSelect, onSelectPicker, CONTENT_URI, _ID, new String[]{_ID, LOOKUP_KEY, DISPLAY_NAME}, SORT_KEY_PRIMARY);
         lookupKeyColumnIndex = cursor.getColumnIndex(LOOKUP_KEY);
         displayNameColumnIndex = cursor.getColumnIndex(DISPLAY_NAME);

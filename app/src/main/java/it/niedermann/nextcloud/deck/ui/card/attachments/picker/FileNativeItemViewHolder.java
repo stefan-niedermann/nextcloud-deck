@@ -17,7 +17,7 @@ public class FileNativeItemViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(Runnable onOpenMajorPicker) {
         binding.title.setText(R.string.show_all_files);
-        binding.subtitle.setText(R.string.recent);
+        binding.subtitle.setText(R.string.downloads);
         itemView.setOnClickListener((v) -> onOpenMajorPicker.run());
     }
 }
