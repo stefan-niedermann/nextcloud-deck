@@ -71,7 +71,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimarySurface"
-            android:padding="@dimen/spacer_1x"
+            android:paddingStart="@dimen/spacer_1x"
+            android:paddingTop="@dimen/spacer_1x"
+            android:paddingEnd="@dimen/spacer_1x"
+            android:paddingBottom="88dp"
             tools:listitem="@layout/support_simple_spinner_dropdown_item"
             tools:visibility="gone" />
     </LinearLayout>
