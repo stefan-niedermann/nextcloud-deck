@@ -9,13 +9,14 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 import static android.database.Cursor.FIELD_TYPE_INTEGER;
+import static android.database.Cursor.FIELD_TYPE_NULL;
 import static androidx.recyclerview.widget.RecyclerView.NO_ID;
+import static java.util.Objects.requireNonNull;
 
 /**
  * An {@link RecyclerView.Adapter} which provides previews of one type of files and also an option to open a native dialog.
@@ -51,14 +52,18 @@ public abstract class AbstractPickerAdapter<T extends RecyclerView.ViewHolder> e
     }
 
     public AbstractPickerAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable openNativePicker, Uri subject, String idColumn, String[] requestedColumns, String sortOrder) {
+        this(context, onSelect, openNativePicker, idColumn, requireNonNull(context.getContentResolver().query(subject, requestedColumns, null, null, sortOrder)));
+    }
+
+    public AbstractPickerAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable openNativePicker, String idColumn, @NonNull Cursor cursor) {
+        this.contentResolver = context.getContentResolver();
         this.onSelect = onSelect;
         this.openNativePicker = openNativePicker;
-        this.contentResolver = context.getContentResolver();
-        this.cursor = Objects.requireNonNull(contentResolver.query(subject, requestedColumns, null, null, sortOrder));
+        this.cursor = cursor;
         this.cursor.moveToFirst();
         this.columnIndex = this.cursor.getColumnIndex(idColumn);
-        this.columnIndexType = this.cursor.getType(columnIndex);
         this.count = cursor.getCount();
+        this.columnIndexType = (this.count > 0) ? this.cursor.getType(columnIndex) : FIELD_TYPE_NULL;
         setHasStableIds(true);
     }
 

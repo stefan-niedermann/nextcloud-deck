@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -18,17 +19,23 @@ import it.niedermann.nextcloud.deck.databinding.ItemPickerNativeBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemPickerUserBinding;
 
 import static android.provider.BaseColumns._ID;
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE;
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 import static android.provider.MediaStore.Files.FileColumns.TITLE;
 import static android.provider.MediaStore.MediaColumns.DATE_ADDED;
 import static android.provider.MediaStore.MediaColumns.SIZE;
+import static java.util.Objects.requireNonNull;
 
 public class FileAdapter extends AbstractPickerAdapter<RecyclerView.ViewHolder> {
 
     private final int displayNameColumnIndex;
     private final int sizeColumnIndex;
+    private final static String[] excludedMediaTypes = new String[]{
+            String.valueOf(MEDIA_TYPE_IMAGE)
+    };
 
     public FileAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable onSelectPicker) {
-        super(context, onSelect, onSelectPicker, MediaStore.Files.getContentUri("external"), _ID, new String[]{_ID, TITLE, SIZE}, DATE_ADDED + " DESC");
+        super(context, onSelect, onSelectPicker, _ID, requireNonNull(context.getContentResolver().query(MediaStore.Files.getContentUri("external"), new String[]{_ID, TITLE, SIZE}, MEDIA_TYPE + " NOT IN (" + TextUtils.join(",", excludedMediaTypes) + ") ", null, DATE_ADDED + " DESC")));
         displayNameColumnIndex = cursor.getColumnIndex(TITLE);
         sizeColumnIndex = cursor.getColumnIndex(SIZE);
         notifyItemRangeInserted(0, getItemCount());
