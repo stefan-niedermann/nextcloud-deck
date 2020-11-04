@@ -17,6 +17,7 @@ public class ContactNativeItemViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(@NonNull Runnable onOpenMajorPicker) {
         binding.title.setText(R.string.show_all_contacts);
+        binding.subtitle.setText(R.string.your_contacts);
         itemView.setOnClickListener((v) -> onOpenMajorPicker.run());
     }
 }

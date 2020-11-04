@@ -40,6 +40,7 @@
         android:background="@color/bg_info_box" />
 
     <TextView
+        android:id="@+id/subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacer_2x"

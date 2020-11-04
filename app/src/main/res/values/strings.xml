@@ -322,4 +322,5 @@
     <string name="show_all_files">Show all files</string>
     <string name="recent">Recent</string>
     <string name="upload_a_new_attachment">Upload a new attachment</string>
+    <string name="your_contacts">Your contacts</string>
 </resources>
