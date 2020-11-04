@@ -40,7 +40,8 @@ public abstract class AbstractPickerAdapter<T extends RecyclerView.ViewHolder> e
     protected final ContentResolver contentResolver;
 
     /**
-     * Should be used to bind heavy operations like when dealing with {@link Bitmap}
+     * Should be used to bind heavy operations like when dealing with {@link Bitmap}.
+     * This must only be one {@link Thread} because otherwise the cursor might change while fetching data from it.
      */
     @NonNull
     protected final ExecutorService bindExecutor = Executors.newFixedThreadPool(1);
