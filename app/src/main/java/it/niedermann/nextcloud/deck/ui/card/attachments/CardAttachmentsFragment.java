@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
-import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -30,6 +29,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.animation.ArgbEvaluatorCompat;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -123,7 +123,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
         binding.pickCamera.setOnClickListener((v) -> showGalleryPicker());
         binding.pickContact.setOnClickListener((v) -> showContactPicker());
-        binding.pickFile.setOnClickListener((v) -> showFilesPicker());
+        binding.pickFile.setOnClickListener((v) -> showFilePicker());
 
         // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
         // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
@@ -270,8 +270,8 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         pickerAnimationInProgress = true;
         binding.pickerBackdrop.setVisibility(VISIBLE);
         binding.pickerControlsWrapper.setVisibility(VISIBLE);
-        final ValueAnimator backdropAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(android.R.color.transparent), getResources().getColor(R.color.mdtp_transparent_black));
-        final ValueAnimator controlsAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(android.R.color.transparent), getResources().getColor(R.color.primary));
+        final ValueAnimator backdropAnimation = ValueAnimator.ofObject(ArgbEvaluatorCompat.getInstance(), getResources().getColor(android.R.color.transparent), getResources().getColor(R.color.mdtp_transparent_black));
+        final ValueAnimator controlsAnimation = ValueAnimator.ofObject(ArgbEvaluatorCompat.getInstance(), getResources().getColor(android.R.color.transparent), getResources().getColor(R.color.primary));
         controlsAnimation.setDuration(250);
         backdropAnimation.setDuration(250);
         controlsAnimation.addUpdateListener(animator -> binding.pickerControls.setBackgroundColor((int) animator.getAnimatedValue()));
@@ -287,8 +287,8 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
     private void hidePickerSheet() {
         pickerAnimationInProgress = true;
-        final ValueAnimator backdropAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.mdtp_transparent_black), getResources().getColor(android.R.color.transparent));
-        final ValueAnimator controlsAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.primary), getResources().getColor(android.R.color.transparent));
+        final ValueAnimator backdropAnimation = ValueAnimator.ofObject(ArgbEvaluatorCompat.getInstance(), getResources().getColor(R.color.mdtp_transparent_black), getResources().getColor(android.R.color.transparent));
+        final ValueAnimator controlsAnimation = ValueAnimator.ofObject(ArgbEvaluatorCompat.getInstance(), getResources().getColor(R.color.primary), getResources().getColor(android.R.color.transparent));
         controlsAnimation.setDuration(250);
         backdropAnimation.setDuration(250);
         controlsAnimation.addUpdateListener(animator -> binding.pickerControls.setBackgroundColor((int) animator.getAnimatedValue()));
@@ -306,6 +306,17 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         binding.fab.show();
     }
 
+    private void showGalleryPicker() {
+        if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE) || isPermissionRequestNeeded(CAMERA)) {
+            requestPermissions(new String[]{READ_EXTERNAL_STORAGE, CAMERA}, REQUEST_CODE_PICK_GALLERY_PERMISSION);
+        } else {
+            unbindPickerAdapter();
+            pickerAdapter = new GalleryAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeCameraPicker, getViewLifecycleOwner());
+            binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
+            binding.pickerRecyclerView.setAdapter(pickerAdapter);
+        }
+    }
+
     private void showContactPicker() {
         if (isPermissionRequestNeeded(READ_CONTACTS)) {
             requestPermissions(new String[]{READ_CONTACTS}, REQUEST_CODE_PICK_CONTACT_PICKER_PERMISSION);
@@ -317,20 +328,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         }
     }
 
-    private void showGalleryPicker() {
-        if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE) || isPermissionRequestNeeded(CAMERA)) {
-            requestPermissions(new String[]{READ_EXTERNAL_STORAGE, CAMERA}, REQUEST_CODE_PICK_GALLERY_PERMISSION);
-        } else {
-            unbindPickerAdapter();
-            pickerAdapter = new GalleryAdapter(requireContext(), uri -> {
-                onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri));
-            }, this::openNativeCameraPicker, getViewLifecycleOwner());
-            binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
-            binding.pickerRecyclerView.setAdapter(pickerAdapter);
-        }
-    }
-
-    private void showFilesPicker() {
+    private void showFilePicker() {
         if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE)) {
             requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_PICK_FILE_PERMISSION);
         } else {
@@ -481,7 +479,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         switch (requestCode) {
             case REQUEST_CODE_PICK_FILE_PERMISSION: {
                 if (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED) {
-                    showFilesPicker();
+                    showFilePicker();
                 } else {
                     Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
                     hidePickerSheet();

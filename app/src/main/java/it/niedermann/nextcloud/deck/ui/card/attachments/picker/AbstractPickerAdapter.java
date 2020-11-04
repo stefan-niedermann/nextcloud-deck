@@ -45,8 +45,8 @@ public abstract class AbstractPickerAdapter<T extends RecyclerView.ViewHolder> e
         this.openNativePicker = openNativePicker;
         this.contentResolver = context.getContentResolver();
         this.cursor = Objects.requireNonNull(contentResolver.query(subject, requestedColumns, null, null, sortOrder));
-        this.columnIndex = cursor.getColumnIndex(idColumn);
-        cursor.moveToFirst();
+        this.cursor.moveToFirst();
+        this.columnIndex = this.cursor.getColumnIndex(idColumn);
         this.columnIndexType = this.cursor.getType(columnIndex);
         this.count = cursor.getCount();
         setHasStableIds(true);
