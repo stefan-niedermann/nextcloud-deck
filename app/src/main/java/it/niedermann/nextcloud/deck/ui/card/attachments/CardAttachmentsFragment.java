@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.ContentResolver;
@@ -272,20 +270,15 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         pickerAnimationInProgress = true;
         binding.pickerBackdrop.setVisibility(VISIBLE);
         binding.pickerControlsWrapper.setVisibility(VISIBLE);
-        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(android.R.color.transparent), getResources().getColor(R.color.mdtp_transparent_black));
-        colorAnimation.setDuration(250);
-        colorAnimation.addUpdateListener(animator -> {
-            binding.pickerBackdrop.setBackgroundColor((int) animator.getAnimatedValue());
-            binding.pickerControls.setBackgroundColor((int) animator.getAnimatedValue());
-        });
-        colorAnimation.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                pickerAnimationInProgress = false;
-            }
-        });
-        colorAnimation.start();
+        final ValueAnimator backdropAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(android.R.color.transparent), getResources().getColor(R.color.mdtp_transparent_black));
+        final ValueAnimator controlsAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(android.R.color.transparent), getResources().getColor(R.color.primary));
+        controlsAnimation.setDuration(250);
+        backdropAnimation.setDuration(250);
+        controlsAnimation.addUpdateListener(animator -> binding.pickerControls.setBackgroundColor((int) animator.getAnimatedValue()));
+        backdropAnimation.addUpdateListener(animator -> binding.pickerBackdrop.setBackgroundColor((int) animator.getAnimatedValue()));
+        controlsAnimation.start();
+        backdropAnimation.start();
+        new Handler(Looper.getMainLooper()).postDelayed(() -> pickerAnimationInProgress = false, 250);
         binding.fab.hide();
         for (FloatingActionButton fab : brandedViews) {
             fab.show();
@@ -294,23 +287,19 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
     private void hidePickerSheet() {
         pickerAnimationInProgress = true;
-        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.mdtp_transparent_black), getResources().getColor(android.R.color.transparent));
-        colorAnimation.setDuration(250);
-        colorAnimation.addUpdateListener(animator -> {
-            binding.pickerBackdrop.setBackgroundColor((int) animator.getAnimatedValue());
-            binding.pickerControls.setBackgroundColor((int) animator.getAnimatedValue());
-        });
-        colorAnimation.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                binding.pickerBackdrop.setVisibility(GONE);
-                binding.pickerControlsWrapper.setVisibility(GONE);
-                pickerAnimationInProgress = false;
-            }
-        });
-        colorAnimation.start();
-        new Handler(Looper.getMainLooper()).postDelayed(() -> binding.pickerControlsWrapper.setVisibility(GONE), 250);
+        final ValueAnimator backdropAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.mdtp_transparent_black), getResources().getColor(android.R.color.transparent));
+        final ValueAnimator controlsAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.primary), getResources().getColor(android.R.color.transparent));
+        controlsAnimation.setDuration(250);
+        backdropAnimation.setDuration(250);
+        controlsAnimation.addUpdateListener(animator -> binding.pickerControls.setBackgroundColor((int) animator.getAnimatedValue()));
+        backdropAnimation.addUpdateListener(animator -> binding.pickerBackdrop.setBackgroundColor((int) animator.getAnimatedValue()));
+        controlsAnimation.start();
+        backdropAnimation.start();
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            binding.pickerBackdrop.setVisibility(GONE);
+            binding.pickerControlsWrapper.setVisibility(GONE);
+            pickerAnimationInProgress = false;
+        }, 250);
         for (FloatingActionButton fab : brandedViews) {
             fab.hide();
         }
