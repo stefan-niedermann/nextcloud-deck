@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.ContactsContract;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -22,6 +23,7 @@ import java.util.function.Consumer;
 import it.niedermann.nextcloud.deck.databinding.ItemPickerNativeBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemPickerUserBinding;
 
+import static android.provider.ContactsContract.CommonDataKinds.Email.DATA;
 import static android.provider.ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY;
 import static android.provider.ContactsContract.CommonDataKinds.Phone.NUMBER;
 import static android.provider.ContactsContract.Contacts.CONTENT_LOOKUP_URI;
@@ -69,12 +71,21 @@ public class ContactAdapter extends AbstractPickerAdapter<RecyclerView.ViewHolde
                         final Bitmap thumbnail = BitmapFactory.decodeStream(inputStream);
                         String contactInformation = "";
                         final String lookupKey = cursor.getString(columnIndex);
-                        final Cursor phoneNumberCursor = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, new String[]{NUMBER}, LOOKUP_KEY + " = ?", new String[]{lookupKey}, null);
-                        if (phoneNumberCursor != null) {
-                            if (phoneNumberCursor.moveToFirst()) {
-                                contactInformation = phoneNumberCursor.getString(phoneNumberCursor.getColumnIndex(NUMBER));
+                        final Cursor phoneCursor = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, new String[]{NUMBER}, LOOKUP_KEY + " = ?", new String[]{lookupKey}, null);
+                        if (phoneCursor != null) {
+                            if (phoneCursor.moveToFirst()) {
+                                contactInformation = phoneCursor.getString(phoneCursor.getColumnIndex(NUMBER));
                             }
-                            phoneNumberCursor.close();
+                            phoneCursor.close();
+                        }
+                        if (TextUtils.isEmpty(contactInformation)) {
+                            final Cursor emailCursor = contentResolver.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, new String[]{DATA}, LOOKUP_KEY + " = ?", new String[]{lookupKey}, null);
+                            if (emailCursor != null) {
+                                if (emailCursor.moveToFirst()) {
+                                    contactInformation = emailCursor.getString(emailCursor.getColumnIndex(DATA));
+                                }
+                                emailCursor.close();
+                            }
                         }
                         final String finalContactInformation = contactInformation;
                         new Handler(Looper.getMainLooper()).post(() -> viewHolder.bind(ContentUris.withAppendedId(CONTENT_LOOKUP_URI, id), thumbnail, displayName, finalContactInformation, onSelect));
