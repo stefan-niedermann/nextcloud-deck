@@ -30,6 +30,7 @@ import androidx.core.app.SharedElementCallback;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -54,6 +55,9 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
+import it.niedermann.nextcloud.deck.ui.card.attachments.picker.AbstractPickerAdapter;
+import it.niedermann.nextcloud.deck.ui.card.attachments.picker.ContactAdapter;
+import it.niedermann.nextcloud.deck.ui.card.attachments.picker.FileAdapter;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.GalleryAdapter;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.takephoto.TakePhotoActivity;
@@ -90,16 +94,19 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
     private static final int REQUEST_CODE_ADD_FILE = 1;
     private static final int REQUEST_CODE_ADD_FILE_PERMISSION = 2;
-    private static final int REQUEST_CODE_CAMERA = 3;
-    private static final int REQUEST_CODE_CAMERA_PERMISSION = 4;
-    private static final int REQUEST_CODE_PICK_CONTACT = 5;
-    private static final int REQUEST_CODE_PICK_CONTACT_PERMISSION = 6;
+    private static final int REQUEST_CODE_ADD_FILE_PICKER_PERMISSION = 3;
+    private static final int REQUEST_CODE_CAMERA = 4;
+    private static final int REQUEST_CODE_CAMERA_PERMISSION = 5;
+    private static final int REQUEST_CODE_GALLERY_PICKER_PERMISSION = 6;
+    private static final int REQUEST_CODE_PICK_CONTACT = 7;
+    private static final int REQUEST_CODE_PICK_CONTACT_PERMISSION = 8;
+    private static final int REQUEST_CODE_PICK_CONTACT_PICKER_PERMISSION = 9;
 
     private SyncManager syncManager;
     private CardAttachmentAdapter adapter;
 
     private FloatingActionButton[] brandedViews;
-    private GalleryAdapter galleryAdapter;
+    private AbstractPickerAdapter<?> pickerAdapter;
     private boolean pickerAnimationInProgress = false;
 
     private final OnBackPressedCallback backPressedCallback = new OnBackPressedCallback(true) {
@@ -221,20 +228,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         }
 
         if (viewModel.canEdit()) {
-            binding.fab.setOnClickListener(v -> {
-                if (SDK_INT >= LOLLIPOP && galleryAdapter == null) {
-                    galleryAdapter = new GalleryAdapter(requireContext(), uri -> {
-                        // TODO show selected image in dialog and let it confirm first
-                        onActivityResult(REQUEST_CODE_ADD_FILE, RESULT_OK, new Intent().setData(uri));
-                    });
-                    binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
-                    binding.pickerRecyclerView.setAdapter(galleryAdapter);
-                }
-                mBottomSheetBehaviour.setState(STATE_HALF_EXPANDED);
-                showPicker();
-                backPressedCallback.setEnabled(true);
-                requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), backPressedCallback);
-            });
+            binding.fab.setOnClickListener(v -> showGalleryPicker());
             binding.fab.show();
             binding.attachmentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
@@ -283,6 +277,55 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             requestPermissions(new String[]{CAMERA}, REQUEST_CODE_CAMERA_PERMISSION);
         } else {
             startActivityForResult(TakePhotoActivity.createIntent(requireContext()), REQUEST_CODE_CAMERA);
+        }
+    }
+
+    public void showContactPicker() {
+        if (isPermissionRequestNeeded(READ_CONTACTS)) {
+            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_CODE_PICK_CONTACT_PICKER_PERMISSION);
+        } else {
+            pickerAdapter = new ContactAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_CONTACT, RESULT_OK, new Intent().setData(uri)), this::pickContact);
+            binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+            binding.pickerRecyclerView.setAdapter(pickerAdapter);
+            mBottomSheetBehaviour.setState(STATE_HALF_EXPANDED);
+            showPicker();
+            backPressedCallback.setEnabled(true);
+            requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), backPressedCallback);
+        }
+    }
+
+    public void showGalleryPicker() {
+        if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE) || isPermissionRequestNeeded(CAMERA)) {
+            requestPermissions(new String[]{READ_EXTERNAL_STORAGE, CAMERA}, REQUEST_CODE_GALLERY_PICKER_PERMISSION);
+        } else {
+            if (SDK_INT >= LOLLIPOP) {
+                pickerAdapter = new GalleryAdapter(requireContext(), uri -> {
+                    // TODO show selected image in dialog and let it confirm first
+                    onActivityResult(REQUEST_CODE_ADD_FILE, RESULT_OK, new Intent().setData(uri));
+                }, this::pickCamera, getViewLifecycleOwner());
+                binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
+                binding.pickerRecyclerView.setAdapter(pickerAdapter);
+            }
+            mBottomSheetBehaviour.setState(STATE_HALF_EXPANDED);
+            showPicker();
+            backPressedCallback.setEnabled(true);
+            requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), backPressedCallback);
+        }
+    }
+
+    public void showFilesPicker() {
+        if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE)) {
+            requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_ADD_FILE_PICKER_PERMISSION);
+        } else {
+            if (SDK_INT >= LOLLIPOP) {
+                pickerAdapter = new FileAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_ADD_FILE, RESULT_OK, new Intent().setData(uri)), this::pickFile);
+                binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+                binding.pickerRecyclerView.setAdapter(pickerAdapter);
+            }
+            mBottomSheetBehaviour.setState(STATE_HALF_EXPANDED);
+            showPicker();
+            backPressedCallback.setEnabled(true);
+            requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), backPressedCallback);
         }
     }
 
@@ -348,8 +391,8 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
     @Override
     public void onDestroy() {
-        if (this.galleryAdapter != null) {
-            this.galleryAdapter.onDestroy();
+        if (this.pickerAdapter != null) {
+            this.pickerAdapter.onDestroy();
             this.binding.pickerRecyclerView.setAdapter(null);
         }
         super.onDestroy();
@@ -439,6 +482,30 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             case REQUEST_CODE_PICK_CONTACT_PERMISSION: {
                 if (checkSelfPermission(requireActivity(), READ_CONTACTS) == PERMISSION_GRANTED) {
                     pickContact();
+                } else {
+                    Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
+                }
+                break;
+            }
+            case REQUEST_CODE_ADD_FILE_PICKER_PERMISSION: {
+                if (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED) {
+                    showFilesPicker();
+                } else {
+                    Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
+                }
+                break;
+            }
+            case REQUEST_CODE_GALLERY_PICKER_PERMISSION: {
+                if (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED && checkSelfPermission(requireActivity(), CAMERA) == PERMISSION_GRANTED) {
+                    showGalleryPicker();
+                } else {
+                    Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
+                }
+                break;
+            }
+            case REQUEST_CODE_PICK_CONTACT_PICKER_PERMISSION: {
+                if (checkSelfPermission(requireActivity(), READ_CONTACTS) == PERMISSION_GRANTED) {
+                    showContactPicker();
                 } else {
                     Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
                 }
