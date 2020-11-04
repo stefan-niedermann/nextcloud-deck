@@ -61,6 +61,7 @@
             <View
                 android:layout_width="@dimen/spacer_4x"
                 android:layout_height="@dimen/spacer_1hx"
+                android:layout_alignParentBottom="true"
                 android:layout_centerInParent="true"
                 android:background="@color/bg_info_box" />
         </RelativeLayout>
