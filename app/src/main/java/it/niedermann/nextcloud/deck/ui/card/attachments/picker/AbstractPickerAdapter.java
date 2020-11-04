@@ -9,17 +9,12 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-import static android.database.Cursor.FIELD_TYPE_BLOB;
-import static android.database.Cursor.FIELD_TYPE_FLOAT;
 import static android.database.Cursor.FIELD_TYPE_INTEGER;
-import static android.database.Cursor.FIELD_TYPE_NULL;
-import static android.database.Cursor.FIELD_TYPE_STRING;
 import static androidx.recyclerview.widget.RecyclerView.NO_ID;
 
 /**
@@ -72,17 +67,10 @@ public abstract class AbstractPickerAdapter<T extends RecyclerView.ViewHolder> e
     @Override
     public long getItemId(int position) {
         if (cursor.moveToPosition(position - 1)) {
+            //noinspection SwitchStatementWithTooFewBranches
             switch (columnIndexType) {
                 case FIELD_TYPE_INTEGER:
                     return cursor.getLong(columnIndex);
-                case FIELD_TYPE_NULL:
-                    return NO_ID;
-                case FIELD_TYPE_FLOAT:
-                    return String.valueOf(cursor.getFloat(columnIndex)).hashCode();
-                case FIELD_TYPE_STRING:
-                    return cursor.getString(columnIndex).hashCode();
-                case FIELD_TYPE_BLOB:
-                    return Arrays.hashCode(cursor.getBlob(columnIndex));
                 default:
                     throw new IllegalStateException("Unknown type for columnIndex \"" + columnIndex + "\": " + columnIndexType);
             }
