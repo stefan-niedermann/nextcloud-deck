@@ -4,8 +4,6 @@ import android.animation.ValueAnimator;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +13,6 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -31,7 +28,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.animation.ArgbEvaluatorCompat;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
@@ -41,6 +37,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
+import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabAttachmentsBinding;
@@ -59,7 +56,6 @@ import it.niedermann.nextcloud.deck.ui.card.attachments.picker.FileAdapterLegacy
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.GalleryAdapterAbstract;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.takephoto.TakePhotoActivity;
-import it.niedermann.nextcloud.deck.util.DeckColorUtil;
 import it.niedermann.nextcloud.deck.util.VCardUtil;
 
 import static android.Manifest.permission.CAMERA;
@@ -100,7 +96,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     private SyncManager syncManager;
     private CardAttachmentAdapter adapter;
 
-    private FloatingActionButton[] brandedViews;
     private AbstractPickerAdapter<?> pickerAdapter;
     private boolean pickerAnimationInProgress = false;
 
@@ -120,11 +115,16 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
         binding = FragmentCardEditTabAttachmentsBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
-        brandedViews = new FloatingActionButton[]{binding.pickCamera, binding.pickContact, binding.pickFile};
-
-        binding.pickCamera.setOnClickListener((v) -> showGalleryPicker());
-        binding.pickContact.setOnClickListener((v) -> showContactPicker());
-        binding.pickFile.setOnClickListener((v) -> showFilePicker());
+        binding.bottomNavigation.setOnNavigationItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.gallery) {
+                showGalleryPicker();
+            } else if (item.getItemId() == R.id.contacts) {
+                showContactPicker();
+            } else if (item.getItemId() == R.id.files) {
+                showFilePicker();
+            }
+            return true;
+        });
 
         // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
         // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
@@ -170,9 +170,9 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
                 if (!pickerAnimationInProgress) {
-                    if (slideOffset < 0 && slideOffset < lastOffset && binding.pickerControlsWrapper.getVisibility() == VISIBLE) {
+                    if (slideOffset < 0 && slideOffset < lastOffset && binding.bottomNavigation.getTranslationY() == 0) {
                         hidePickerSheet();
-                    } else if (slideOffset > lastOffset && binding.pickerControlsWrapper.getVisibility() != VISIBLE) {
+                    } else if (slideOffset > lastOffset && binding.bottomNavigation.getTranslationY() != 0) {
                         showPickerSheet();
                     }
                 }
@@ -243,13 +243,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         if (context != null) {
             if (isBrandingEnabled(context)) {
                 applyBrand(readBrandMainColor(context));
-            } else { // Make sure that without branding the icons are still white
-                if (SDK_INT >= LOLLIPOP) {
-                    final ColorStateList colorStateList = ColorStateList.valueOf(Color.WHITE);
-                    for (ImageView v : brandedViews) {
-                        v.setImageTintList(colorStateList);
-                    }
-                }
             }
         }
         return binding.getRoot();
@@ -264,46 +257,32 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     @Override
     public void onResume() {
         super.onResume();
-        backPressedCallback.setEnabled(binding.pickerControlsWrapper.getVisibility() == VISIBLE);
+        backPressedCallback.setEnabled(binding.bottomNavigation.getTranslationY() == 0);
     }
 
     private void showPickerSheet() {
         pickerAnimationInProgress = true;
         binding.pickerBackdrop.setVisibility(VISIBLE);
-        binding.pickerControlsWrapper.setVisibility(VISIBLE);
+        binding.bottomNavigation.animate().translationY(0).setDuration(250).start();
         final ValueAnimator backdropAnimation = ValueAnimator.ofObject(ArgbEvaluatorCompat.getInstance(), getResources().getColor(android.R.color.transparent), getResources().getColor(R.color.mdtp_transparent_black));
-        final ValueAnimator controlsAnimation = ValueAnimator.ofObject(ArgbEvaluatorCompat.getInstance(), getResources().getColor(android.R.color.transparent), getResources().getColor(R.color.primary));
-        controlsAnimation.setDuration(250);
         backdropAnimation.setDuration(250);
-        controlsAnimation.addUpdateListener(animator -> binding.pickerControls.setBackgroundColor((int) animator.getAnimatedValue()));
         backdropAnimation.addUpdateListener(animator -> binding.pickerBackdrop.setBackgroundColor((int) animator.getAnimatedValue()));
-        controlsAnimation.start();
         backdropAnimation.start();
         new Handler(Looper.getMainLooper()).postDelayed(() -> pickerAnimationInProgress = false, 250);
         binding.fab.hide();
-        for (FloatingActionButton fab : brandedViews) {
-            fab.show();
-        }
     }
 
     private void hidePickerSheet() {
         pickerAnimationInProgress = true;
         final ValueAnimator backdropAnimation = ValueAnimator.ofObject(ArgbEvaluatorCompat.getInstance(), getResources().getColor(R.color.mdtp_transparent_black), getResources().getColor(android.R.color.transparent));
-        final ValueAnimator controlsAnimation = ValueAnimator.ofObject(ArgbEvaluatorCompat.getInstance(), getResources().getColor(R.color.primary), getResources().getColor(android.R.color.transparent));
-        controlsAnimation.setDuration(250);
         backdropAnimation.setDuration(250);
-        controlsAnimation.addUpdateListener(animator -> binding.pickerControls.setBackgroundColor((int) animator.getAnimatedValue()));
         backdropAnimation.addUpdateListener(animator -> binding.pickerBackdrop.setBackgroundColor((int) animator.getAnimatedValue()));
-        controlsAnimation.start();
         backdropAnimation.start();
+        binding.bottomNavigation.animate().translationY(DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.attachments_bottom_navigation_height)).setDuration(250).start();
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             binding.pickerBackdrop.setVisibility(GONE);
-            binding.pickerControlsWrapper.setVisibility(GONE);
             pickerAnimationInProgress = false;
         }, 250);
-        for (FloatingActionButton fab : brandedViews) {
-            fab.hide();
-        }
         binding.fab.show();
     }
 
@@ -543,18 +522,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     public void applyBrand(int mainColor) {
         applyBrandToFAB(mainColor, binding.fab);
         adapter.applyBrand(mainColor);
-        if (SDK_INT >= LOLLIPOP) {
-            final ColorStateList backgroundColorStateList = ColorStateList.valueOf(mainColor);
-            final ColorStateList foregroundColorStateList = ColorStateList.valueOf(
-                    DeckColorUtil.contrastRatioIsSufficient(mainColor, Color.WHITE)
-                            ? Color.WHITE
-                            : Color.BLACK
-            );
-            for (ImageView v : brandedViews) {
-                v.setBackgroundTintList(backgroundColorStateList);
-                v.setImageTintList(foregroundColorStateList);
-            }
-        }
     }
 
     public static Fragment newInstance() {

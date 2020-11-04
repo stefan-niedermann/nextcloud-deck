@@ -324,4 +324,6 @@
     <string name="upload_a_new_attachment">Upload a new attachment</string>
     <string name="contacts">Contacts</string>
     <string name="downloads">Downloads</string>
+    <string name="files">Files</string>
+    <string name="gallery">Gallery</string>
 </resources>
