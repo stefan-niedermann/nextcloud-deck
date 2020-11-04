@@ -307,36 +307,42 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     }
 
     private void showGalleryPicker() {
-        if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE) || isPermissionRequestNeeded(CAMERA)) {
-            requestPermissions(new String[]{READ_EXTERNAL_STORAGE, CAMERA}, REQUEST_CODE_PICK_GALLERY_PERMISSION);
-        } else {
-            unbindPickerAdapter();
-            pickerAdapter = new GalleryAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeCameraPicker, getViewLifecycleOwner());
-            binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
-            binding.pickerRecyclerView.setAdapter(pickerAdapter);
+        if (!(pickerAdapter instanceof GalleryAdapter)) {
+            if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE) || isPermissionRequestNeeded(CAMERA)) {
+                requestPermissions(new String[]{READ_EXTERNAL_STORAGE, CAMERA}, REQUEST_CODE_PICK_GALLERY_PERMISSION);
+            } else {
+                unbindPickerAdapter();
+                pickerAdapter = new GalleryAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeCameraPicker, getViewLifecycleOwner());
+                binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
+                binding.pickerRecyclerView.setAdapter(pickerAdapter);
+            }
         }
     }
 
     private void showContactPicker() {
-        if (isPermissionRequestNeeded(READ_CONTACTS)) {
-            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_CODE_PICK_CONTACT_PICKER_PERMISSION);
-        } else {
-            unbindPickerAdapter();
-            pickerAdapter = new ContactAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_CONTACT, RESULT_OK, new Intent().setData(uri)), this::openNativeContactPicker);
-            binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-            binding.pickerRecyclerView.setAdapter(pickerAdapter);
+        if (!(pickerAdapter instanceof ContactAdapter)) {
+            if (isPermissionRequestNeeded(READ_CONTACTS)) {
+                requestPermissions(new String[]{READ_CONTACTS}, REQUEST_CODE_PICK_CONTACT_PICKER_PERMISSION);
+            } else {
+                unbindPickerAdapter();
+                pickerAdapter = new ContactAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_CONTACT, RESULT_OK, new Intent().setData(uri)), this::openNativeContactPicker);
+                binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+                binding.pickerRecyclerView.setAdapter(pickerAdapter);
+            }
         }
     }
 
     private void showFilePicker() {
-        if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE)) {
-            requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_PICK_FILE_PERMISSION);
-        } else {
-            unbindPickerAdapter();
-            if (SDK_INT >= LOLLIPOP) {
-                pickerAdapter = new FileAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeFilePicker);
-                binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-                binding.pickerRecyclerView.setAdapter(pickerAdapter);
+        if (!(pickerAdapter instanceof FileAdapter)) {
+            if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE)) {
+                requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_PICK_FILE_PERMISSION);
+            } else {
+                unbindPickerAdapter();
+                if (SDK_INT >= LOLLIPOP) {
+                    pickerAdapter = new FileAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeFilePicker);
+                    binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+                    binding.pickerRecyclerView.setAdapter(pickerAdapter);
+                }
             }
         }
     }
