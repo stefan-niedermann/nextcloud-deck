@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.card.attachments.picker;
 
 import android.content.ContentUris;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -21,10 +22,11 @@ import java.util.function.Consumer;
 import it.niedermann.nextcloud.deck.databinding.ItemPickerNativeBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemPickerUserBinding;
 
+import static android.provider.ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY;
+import static android.provider.ContactsContract.CommonDataKinds.Phone.NUMBER;
 import static android.provider.ContactsContract.Contacts.CONTENT_LOOKUP_URI;
 import static android.provider.ContactsContract.Contacts.CONTENT_URI;
 import static android.provider.ContactsContract.Contacts.DISPLAY_NAME;
-import static android.provider.ContactsContract.Contacts.LOOKUP_KEY;
 import static android.provider.ContactsContract.Contacts.SORT_KEY_PRIMARY;
 
 public class ContactAdapter extends AbstractPickerAdapter<RecyclerView.ViewHolder> {
@@ -62,10 +64,20 @@ public class ContactAdapter extends AbstractPickerAdapter<RecyclerView.ViewHolde
                 bindExecutor.execute(() -> {
                     final ContactItemViewHolder viewHolder = (ContactItemViewHolder) holder;
                     final long id = getItemId(position);
-                    final String name = cursor.getString(displayNameColumnIndex);
+                    final String displayName = cursor.getString(displayNameColumnIndex);
                     try (InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(contentResolver, Uri.withAppendedPath(CONTENT_LOOKUP_URI, cursor.getString(columnIndex)))) {
                         final Bitmap thumbnail = BitmapFactory.decodeStream(inputStream);
-                        new Handler(Looper.getMainLooper()).post(() -> viewHolder.bind(ContentUris.withAppendedId(CONTENT_LOOKUP_URI, id), thumbnail, name, onSelect));
+                        String contactInformation = "";
+                        final String lookupKey = cursor.getString(columnIndex);
+                        final Cursor phoneNumberCursor = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, new String[]{NUMBER}, LOOKUP_KEY + " = ?", new String[]{lookupKey}, null);
+                        if (phoneNumberCursor != null) {
+                            if (phoneNumberCursor.moveToFirst()) {
+                                contactInformation = phoneNumberCursor.getString(phoneNumberCursor.getColumnIndex(NUMBER));
+                            }
+                            phoneNumberCursor.close();
+                        }
+                        final String finalContactInformation = contactInformation;
+                        new Handler(Looper.getMainLooper()).post(() -> viewHolder.bind(ContentUris.withAppendedId(CONTENT_LOOKUP_URI, id), thumbnail, displayName, finalContactInformation, onSelect));
                     } catch (IOException ignored) {
                         new Handler(Looper.getMainLooper()).post(viewHolder::bindError);
                     }

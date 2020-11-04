@@ -30,9 +30,10 @@ public class ContactItemViewHolder extends RecyclerView.ViewHolder {
         this.binding = binding;
     }
 
-    public void bind(@NonNull Uri uri, @Nullable Bitmap image, @NonNull String displayName, @NonNull Consumer<Uri> onSelect) {
+    public void bind(@NonNull Uri uri, @Nullable Bitmap image, @NonNull String displayName, @Nullable String contactInformation, @NonNull Consumer<Uri> onSelect) {
         itemView.setOnClickListener((v) -> onSelect.accept(uri));
         binding.displayName.setText(displayName);
+        binding.contactInformation.setText(contactInformation);
         if (image == null) {
             binding.initials.setVisibility(VISIBLE);
             binding.initials.setText(TextUtils.isEmpty(displayName)

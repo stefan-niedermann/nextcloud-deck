@@ -48,7 +48,7 @@ public abstract class AbstractPickerAdapter<T extends RecyclerView.ViewHolder> e
      * Should be used to bind heavy operations like when dealing with {@link Bitmap}
      */
     @NonNull
-    protected final ExecutorService bindExecutor = Executors.newCachedThreadPool();
+    protected final ExecutorService bindExecutor = Executors.newFixedThreadPool(1);
 
     public AbstractPickerAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable openNativePicker, Uri subject, String idColumn, String sortOrder) {
         this(context, onSelect, openNativePicker, subject, idColumn, new String[]{idColumn}, sortOrder);
