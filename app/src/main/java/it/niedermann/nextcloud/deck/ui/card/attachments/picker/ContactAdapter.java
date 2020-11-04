@@ -16,11 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-import it.niedermann.nextcloud.deck.databinding.ItemFilterUserBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemPickerNativeBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemPickerUserBinding;
 
 import static android.provider.ContactsContract.Contacts.CONTENT_LOOKUP_URI;
@@ -33,8 +31,6 @@ public class ContactAdapter extends AbstractPickerAdapter<RecyclerView.ViewHolde
 
 
     private final int displayNameColumnIndex;
-    @NonNull
-    private final ExecutorService bitmapExecutor = Executors.newCachedThreadPool();
 
     public ContactAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable onSelectPicker) {
         super(context, onSelect, onSelectPicker, CONTENT_URI, LOOKUP_KEY, new String[]{LOOKUP_KEY, DISPLAY_NAME}, SORT_KEY_PRIMARY);
@@ -46,8 +42,8 @@ public class ContactAdapter extends AbstractPickerAdapter<RecyclerView.ViewHolde
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
-            case VIEW_TYPE_ITEM_PICKER:
-                return new ContactPickerItemViewHolder(ItemFilterUserBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+            case VIEW_TYPE_ITEM_NATIVE:
+                return new ContactNativeItemViewHolder(ItemPickerNativeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
             case VIEW_TYPE_ITEM:
                 return new ContactItemViewHolder(ItemPickerUserBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
             default:
@@ -58,12 +54,12 @@ public class ContactAdapter extends AbstractPickerAdapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
-            case VIEW_TYPE_ITEM_PICKER: {
-                ((ContactPickerItemViewHolder) holder).bind(openNativePicker);
+            case VIEW_TYPE_ITEM_NATIVE: {
+                ((ContactNativeItemViewHolder) holder).bind(openNativePicker);
                 break;
             }
             case VIEW_TYPE_ITEM: {
-                bitmapExecutor.execute(() -> {
+                bindExecutor.execute(() -> {
                     final ContactItemViewHolder viewHolder = (ContactItemViewHolder) holder;
                     final long id = getItemId(position);
                     final String name = cursor.getString(displayNameColumnIndex);

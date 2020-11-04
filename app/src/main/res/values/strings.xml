@@ -318,4 +318,8 @@
     <string name="take_photo">Take a photo</string>
     <string name="take_photo_switch_camera">Switch camera</string>
     <string name="take_photo_toggle_torch">Toggle torch</string>
+    <string name="show_all_contacts">Show all contacts</string>
+    <string name="show_all_files">Show all files</string>
+    <string name="recent">Recent</string>
+    <string name="upload_a_new_attachment">Upload a new attachment</string>
 </resources>

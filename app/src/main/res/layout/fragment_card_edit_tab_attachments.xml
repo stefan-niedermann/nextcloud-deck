@@ -31,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:contentDescription="@string/upload_a_new_attachment"
         android:visibility="gone"
         app:backgroundTint="@color/defaultBrand"
         app:srcCompat="@drawable/ic_file_upload_white_24dp"
@@ -69,6 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimarySurface"
+            android:padding="@dimen/spacer_1x"
             tools:listitem="@layout/support_simple_spinner_dropdown_item"
             tools:visibility="gone" />
     </LinearLayout>

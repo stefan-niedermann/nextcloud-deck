@@ -17,8 +17,6 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentImageBinding;
@@ -31,8 +29,6 @@ import static android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
 public class GalleryAdapter extends AbstractPickerAdapter<RecyclerView.ViewHolder> {
 
-    @NonNull
-    private final ExecutorService bitmapExecutor = Executors.newCachedThreadPool();
     @NonNull
     private final LifecycleOwner lifecycleOwner;
 
@@ -51,8 +47,8 @@ public class GalleryAdapter extends AbstractPickerAdapter<RecyclerView.ViewHolde
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
-            case VIEW_TYPE_ITEM_PICKER:
-                return new GalleryPickerItemViewHolder(ItemPhotoPreviewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+            case VIEW_TYPE_ITEM_NATIVE:
+                return new GalleryPhotoPreviewItemViewHolder(ItemPhotoPreviewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
             case VIEW_TYPE_ITEM:
                 return new GalleryItemViewHolder(ItemAttachmentImageBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
             default:
@@ -64,12 +60,12 @@ public class GalleryAdapter extends AbstractPickerAdapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
-            case VIEW_TYPE_ITEM_PICKER: {
-                ((GalleryPickerItemViewHolder) holder).bind(openNativePicker, lifecycleOwner);
+            case VIEW_TYPE_ITEM_NATIVE: {
+                ((GalleryPhotoPreviewItemViewHolder) holder).bind(openNativePicker, lifecycleOwner);
                 break;
             }
             case VIEW_TYPE_ITEM: {
-                bitmapExecutor.execute(() -> {
+                bindExecutor.execute(() -> {
                     final long id = getItemId(position);
                     try {
                         final Bitmap thumbnail;
@@ -94,8 +90,8 @@ public class GalleryAdapter extends AbstractPickerAdapter<RecyclerView.ViewHolde
     @Override
     public void onViewDetachedFromWindow(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewDetachedFromWindow(holder);
-        if(holder instanceof GalleryPickerItemViewHolder) {
-            ((GalleryPickerItemViewHolder) holder).unbind();
+        if(holder instanceof GalleryPhotoPreviewItemViewHolder) {
+            ((GalleryPhotoPreviewItemViewHolder) holder).unbind();
         }
     }
 }

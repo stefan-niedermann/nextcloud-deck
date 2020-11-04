@@ -16,12 +16,12 @@ import it.niedermann.nextcloud.deck.databinding.ItemPhotoPreviewBinding;
 
 import static androidx.camera.core.CameraSelector.DEFAULT_BACK_CAMERA;
 
-public class GalleryPickerItemViewHolder extends RecyclerView.ViewHolder {
+public class GalleryPhotoPreviewItemViewHolder extends RecyclerView.ViewHolder {
 
     private final ItemPhotoPreviewBinding binding;
     private ProcessCameraProvider cameraProvider;
 
-    public GalleryPickerItemViewHolder(@NonNull ItemPhotoPreviewBinding binding) {
+    public GalleryPhotoPreviewItemViewHolder(@NonNull ItemPhotoPreviewBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
     }
