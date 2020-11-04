@@ -344,7 +344,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 //                        // TODO Only usable with Scoped Storage
 //                        pickerAdapter = new FileAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeFilePicker);
 //                    } else {
-                    pickerAdapter = new FileAdapterLegacy(uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeFilePicker);
+                    pickerAdapter = new FileAdapterLegacy(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeFilePicker);
 //                    }
                     binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                     binding.pickerRecyclerView.setAdapter(pickerAdapter);

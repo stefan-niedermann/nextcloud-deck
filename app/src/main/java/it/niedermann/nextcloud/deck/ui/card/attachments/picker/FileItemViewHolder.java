@@ -1,44 +1,42 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments.picker;
 
 import android.net.Uri;
-import android.text.format.Formatter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-
 import java.util.function.Consumer;
 
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.databinding.ItemPickerUserBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemAttachmentDefaultBinding;
+
+import static android.text.format.Formatter.formatFileSize;
+import static it.niedermann.nextcloud.deck.util.AttachmentUtil.getIconForMimeType;
+import static it.niedermann.nextcloud.deck.util.DateUtil.getRelativeDateTimeString;
 
 public class FileItemViewHolder extends RecyclerView.ViewHolder {
 
-    private final ItemPickerUserBinding binding;
+    private final ItemAttachmentDefaultBinding binding;
 
-    public FileItemViewHolder(@NonNull ItemPickerUserBinding binding) {
+    public FileItemViewHolder(@NonNull ItemAttachmentDefaultBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
     }
 
-    public void bind(@NonNull Uri uri, @NonNull String displayName, long size, @Nullable Consumer<Uri> onSelect) {
+    public void bind(@NonNull Uri uri, @NonNull String name, String mimeType, long size, long modified, @Nullable Consumer<Uri> onSelect) {
         itemView.setOnClickListener(onSelect == null ? null : (v) -> onSelect.accept(uri));
-        binding.displayName.setText(displayName);
-        binding.contactInformation.setText(Formatter.formatFileSize(itemView.getContext(), size));
-        Glide.with(itemView.getContext())
-                .load(R.drawable.ic_attach_file_grey600_24dp)
-                .placeholder(R.drawable.ic_person_grey600_24dp)
-                .apply(RequestOptions.circleCropTransform())
-                .into(binding.avatar);
+        binding.filename.setText(name);
+        binding.filesize.setText(formatFileSize(binding.filesize.getContext(), size));
+        binding.modified.setText(getRelativeDateTimeString(binding.modified.getContext(), modified));
+        binding.preview.setImageResource(getIconForMimeType(mimeType));
     }
 
     public void bindError() {
+        binding.filename.setText(R.string.simple_exception);
+        binding.filesize.setText(null);
+        binding.modified.setText(null);
         itemView.setOnClickListener(null);
-        Glide.with(itemView.getContext())
-                .load(R.drawable.ic_person_grey600_24dp)
-                .into(binding.avatar);
+        binding.preview.setImageResource(R.drawable.ic_attach_file_grey600_24dp);
     }
 }

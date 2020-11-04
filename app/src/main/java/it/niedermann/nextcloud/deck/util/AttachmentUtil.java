@@ -3,8 +3,11 @@ package it.niedermann.nextcloud.deck.util;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
+import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -105,4 +108,31 @@ public class AttachmentUtil {
 
         return cacheFile;
     }
+
+    @DrawableRes
+    public static int getIconForMimeType(@NonNull String mimeType) {
+        if (TextUtils.isEmpty(mimeType)) {
+            return R.drawable.ic_attach_file_grey600_24dp;
+        } else if (MimeTypeUtil.isAudio(mimeType)) {
+            return R.drawable.ic_music_note_grey600_24dp;
+        } else if (MimeTypeUtil.isVideo(mimeType)) {
+            return R.drawable.ic_local_movies_grey600_24dp;
+        } else if (MimeTypeUtil.isPdf(mimeType)) {
+            return R.drawable.ic_baseline_picture_as_pdf_24;
+        } else if (MimeTypeUtil.isContact(mimeType)) {
+            return R.drawable.ic_baseline_contact_mail_24;
+        } else {
+            return R.drawable.ic_attach_file_grey600_24dp;
+        }
+    }
+
+    public static String getMimeType(@Nullable String url) {
+        String type = null;
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        }
+        return type;
+    }
+
 }

@@ -15,11 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.function.Consumer;
 
+import it.niedermann.nextcloud.deck.databinding.ItemAttachmentDefaultBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemPickerNativeBinding;
-import it.niedermann.nextcloud.deck.databinding.ItemPickerUserBinding;
 
 import static android.provider.MediaStore.Downloads.DATE_ADDED;
+import static android.provider.MediaStore.Downloads.DATE_MODIFIED;
 import static android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI;
+import static android.provider.MediaStore.Downloads.MIME_TYPE;
 import static android.provider.MediaStore.Downloads.SIZE;
 import static android.provider.MediaStore.Downloads.TITLE;
 import static android.provider.MediaStore.Downloads._ID;
@@ -30,11 +32,15 @@ public class FileAdapter extends AbstractCursorPickerAdapter<RecyclerView.ViewHo
 
     private final int displayNameColumnIndex;
     private final int sizeColumnIndex;
+    private final int modifiedColumnIndex;
+    private final int mimeTypeColumnIndex;
 
-    public FileAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable onSelectPicker) {
-        super(context, onSelect, onSelectPicker, _ID, requireNonNull(context.getContentResolver().query(EXTERNAL_CONTENT_URI, new String[]{_ID, TITLE, SIZE}, null, null, DATE_ADDED + " DESC")));
+    private FileAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable onSelectPicker) {
+        super(context, onSelect, onSelectPicker, _ID, requireNonNull(context.getContentResolver().query(EXTERNAL_CONTENT_URI, new String[]{_ID, TITLE, SIZE, DATE_MODIFIED, MIME_TYPE}, null, null, DATE_ADDED + " DESC")));
         displayNameColumnIndex = cursor.getColumnIndex(TITLE);
         sizeColumnIndex = cursor.getColumnIndex(SIZE);
+        modifiedColumnIndex = cursor.getColumnIndex(DATE_MODIFIED);
+        mimeTypeColumnIndex = cursor.getColumnIndex(MIME_TYPE);
         notifyItemRangeInserted(0, getItemCount());
     }
 
@@ -45,7 +51,7 @@ public class FileAdapter extends AbstractCursorPickerAdapter<RecyclerView.ViewHo
             case VIEW_TYPE_ITEM_NATIVE:
                 return new FileNativeItemViewHolder(ItemPickerNativeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
             case VIEW_TYPE_ITEM:
-                return new FileItemViewHolder(ItemPickerUserBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+                return new FileItemViewHolder(ItemAttachmentDefaultBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
             default:
                 throw new IllegalStateException("Unknown viewType " + viewType);
         }
@@ -62,8 +68,10 @@ public class FileAdapter extends AbstractCursorPickerAdapter<RecyclerView.ViewHo
                 bindExecutor.execute(() -> {
                     final long id = getItemId(position);
                     final String name = cursor.getString(displayNameColumnIndex);
+                    final String mimeType = cursor.getString(mimeTypeColumnIndex);
                     final long size = cursor.getLong(sizeColumnIndex);
-                    new Handler(Looper.getMainLooper()).post(() -> ((FileItemViewHolder) holder).bind(ContentUris.withAppendedId(MediaStore.Files.getContentUri("external"), id), name, size, onSelect));
+                    final long modified = cursor.getLong(modifiedColumnIndex);
+                    new Handler(Looper.getMainLooper()).post(() -> ((FileItemViewHolder) holder).bind(ContentUris.withAppendedId(MediaStore.Files.getContentUri("external"), id), name, mimeType, size, modified, onSelect));
                 });
                 break;
             }

@@ -1,12 +1,12 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments.picker;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
@@ -14,8 +14,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
+import it.niedermann.nextcloud.deck.databinding.ItemAttachmentDefaultBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemPickerNativeBinding;
-import it.niedermann.nextcloud.deck.databinding.ItemPickerUserBinding;
+import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 
 import static java.util.Collections.reverseOrder;
 import static java.util.Comparator.comparingLong;
@@ -26,14 +27,17 @@ import static java.util.stream.Collectors.toList;
 public class FileAdapterLegacy extends AbstractPickerAdapter<RecyclerView.ViewHolder> {
 
     @NonNull
-    List<File> files;
-    @Nullable
-    protected Consumer<Uri> onSelect;
-    @Nullable
-    protected Runnable openNativePicker;
+    private final Context context;
+    @NonNull
+    private final List<File> files;
+    @NonNull
+    protected final Consumer<Uri> onSelect;
+    @NonNull
+    protected final Runnable openNativePicker;
 
-    public FileAdapterLegacy(@NonNull Consumer<Uri> onSelect, @NonNull Runnable openNativePicker) {
+    public FileAdapterLegacy(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable openNativePicker) {
         // TODO run in separate thread?
+        this.context = context;
         this.onSelect = onSelect;
         this.openNativePicker = openNativePicker;
         this.files = Arrays.stream(requireNonNull(requireNonNull(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)).listFiles()))
@@ -49,7 +53,7 @@ public class FileAdapterLegacy extends AbstractPickerAdapter<RecyclerView.ViewHo
             case VIEW_TYPE_ITEM_NATIVE:
                 return new FileNativeItemViewHolder(ItemPickerNativeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
             case VIEW_TYPE_ITEM:
-                return new FileItemViewHolder(ItemPickerUserBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+                return new FileItemViewHolder(ItemAttachmentDefaultBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
             default:
                 throw new IllegalStateException("Unknown viewType " + viewType);
         }
@@ -65,7 +69,7 @@ public class FileAdapterLegacy extends AbstractPickerAdapter<RecyclerView.ViewHo
             case VIEW_TYPE_ITEM: {
                 final File file = files.get(position - 1);
                 if (file.isFile()) {
-                    ((FileItemViewHolder) holder).bind(Uri.fromFile(file), file.getName(), file.length(), onSelect);
+                    ((FileItemViewHolder) holder).bind(Uri.fromFile(file), file.getName(), AttachmentUtil.getMimeType(file.getAbsolutePath()), file.length(), file.lastModified(), onSelect);
                 } else {
                     ((FileItemViewHolder) holder).bindError();
                 }
