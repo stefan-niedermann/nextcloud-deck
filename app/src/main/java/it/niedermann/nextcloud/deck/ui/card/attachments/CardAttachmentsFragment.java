@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,10 +51,10 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.AbstractPickerAdapter;
-import it.niedermann.nextcloud.deck.ui.card.attachments.picker.ContactAdapterAbstract;
+import it.niedermann.nextcloud.deck.ui.card.attachments.picker.ContactAdapter;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.FileAdapter;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.FileAdapterLegacy;
-import it.niedermann.nextcloud.deck.ui.card.attachments.picker.GalleryAdapterAbstract;
+import it.niedermann.nextcloud.deck.ui.card.attachments.picker.GalleryAdapter;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.takephoto.TakePhotoActivity;
 import it.niedermann.nextcloud.deck.util.VCardUtil;
@@ -264,7 +265,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         pickerAnimationInProgress = true;
         binding.pickerBackdrop.setVisibility(VISIBLE);
         binding.bottomNavigation.animate().translationY(0).setDuration(250).start();
-        final ValueAnimator backdropAnimation = ValueAnimator.ofObject(ArgbEvaluatorCompat.getInstance(), getResources().getColor(android.R.color.transparent), getResources().getColor(R.color.mdtp_transparent_black));
+        final ValueAnimator backdropAnimation = ValueAnimator.ofObject(ArgbEvaluatorCompat.getInstance(), ((ColorDrawable) binding.pickerBackdrop.getBackground()).getColor(), getResources().getColor(R.color.mdtp_transparent_black));
         backdropAnimation.setDuration(250);
         backdropAnimation.addUpdateListener(animator -> binding.pickerBackdrop.setBackgroundColor((int) animator.getAnimatedValue()));
         backdropAnimation.start();
@@ -274,7 +275,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
     private void hidePickerSheet() {
         pickerAnimationInProgress = true;
-        final ValueAnimator backdropAnimation = ValueAnimator.ofObject(ArgbEvaluatorCompat.getInstance(), getResources().getColor(R.color.mdtp_transparent_black), getResources().getColor(android.R.color.transparent));
+        final ValueAnimator backdropAnimation = ValueAnimator.ofObject(ArgbEvaluatorCompat.getInstance(), ((ColorDrawable) binding.pickerBackdrop.getBackground()).getColor(), getResources().getColor(android.R.color.transparent));
         backdropAnimation.setDuration(250);
         backdropAnimation.addUpdateListener(animator -> binding.pickerBackdrop.setBackgroundColor((int) animator.getAnimatedValue()));
         backdropAnimation.start();
@@ -287,12 +288,12 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     }
 
     private void showGalleryPicker() {
-        if (!(pickerAdapter instanceof GalleryAdapterAbstract)) {
+        if (!(pickerAdapter instanceof GalleryAdapter)) {
             if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE) || isPermissionRequestNeeded(CAMERA)) {
                 requestPermissions(new String[]{READ_EXTERNAL_STORAGE, CAMERA}, REQUEST_CODE_PICK_GALLERY_PERMISSION);
             } else {
                 unbindPickerAdapter();
-                pickerAdapter = new GalleryAdapterAbstract(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeCameraPicker, getViewLifecycleOwner());
+                pickerAdapter = new GalleryAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeCameraPicker, getViewLifecycleOwner());
                 binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
                 binding.pickerRecyclerView.setAdapter(pickerAdapter);
             }
@@ -300,12 +301,12 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     }
 
     private void showContactPicker() {
-        if (!(pickerAdapter instanceof ContactAdapterAbstract)) {
+        if (!(pickerAdapter instanceof ContactAdapter)) {
             if (isPermissionRequestNeeded(READ_CONTACTS)) {
                 requestPermissions(new String[]{READ_CONTACTS}, REQUEST_CODE_PICK_CONTACT_PICKER_PERMISSION);
             } else {
                 unbindPickerAdapter();
-                pickerAdapter = new ContactAdapterAbstract(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_CONTACT, RESULT_OK, new Intent().setData(uri)), this::openNativeContactPicker);
+                pickerAdapter = new ContactAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_CONTACT, RESULT_OK, new Intent().setData(uri)), this::openNativeContactPicker);
                 binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                 binding.pickerRecyclerView.setAdapter(pickerAdapter);
             }

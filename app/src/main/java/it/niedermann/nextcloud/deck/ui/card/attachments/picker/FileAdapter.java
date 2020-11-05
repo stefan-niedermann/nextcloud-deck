@@ -65,14 +65,16 @@ public class FileAdapter extends AbstractCursorPickerAdapter<RecyclerView.ViewHo
                 break;
             }
             case VIEW_TYPE_ITEM: {
-                bindExecutor.execute(() -> {
-                    final long id = getItemId(position);
-                    final String name = cursor.getString(displayNameColumnIndex);
-                    final String mimeType = cursor.getString(mimeTypeColumnIndex);
-                    final long size = cursor.getLong(sizeColumnIndex);
-                    final long modified = cursor.getLong(modifiedColumnIndex);
-                    new Handler(Looper.getMainLooper()).post(() -> ((FileItemViewHolder) holder).bind(ContentUris.withAppendedId(MediaStore.Files.getContentUri("external"), id), name, mimeType, size, modified, onSelect));
-                });
+                if (!cursor.isClosed()) {
+                    bindExecutor.execute(() -> {
+                        final long id = getItemId(position);
+                        final String name = cursor.getString(displayNameColumnIndex);
+                        final String mimeType = cursor.getString(mimeTypeColumnIndex);
+                        final long size = cursor.getLong(sizeColumnIndex);
+                        final long modified = cursor.getLong(modifiedColumnIndex);
+                        new Handler(Looper.getMainLooper()).post(() -> ((FileItemViewHolder) holder).bind(ContentUris.withAppendedId(MediaStore.Files.getContentUri("external"), id), name, mimeType, size, modified, onSelect));
+                    });
+                }
                 break;
             }
         }

@@ -69,7 +69,7 @@ public abstract class AbstractCursorPickerAdapter<T extends RecyclerView.ViewHol
      */
     @Override
     public long getItemId(int position) {
-        if (cursor.moveToPosition(position - 1)) {
+        if (!cursor.isClosed() && cursor.moveToPosition(position - 1)) {
             //noinspection SwitchStatementWithTooFewBranches
             switch (columnIndexType) {
                 case FIELD_TYPE_INTEGER:
