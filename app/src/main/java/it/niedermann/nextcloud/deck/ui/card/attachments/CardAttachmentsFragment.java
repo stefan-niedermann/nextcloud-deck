@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,9 +19,11 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.SharedElementCallback;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -60,6 +63,7 @@ import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDia
 import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDialogViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.takephoto.TakePhotoActivity;
+import it.niedermann.nextcloud.deck.util.DeckColorUtil;
 import it.niedermann.nextcloud.deck.util.VCardUtil;
 
 import static android.Manifest.permission.CAMERA;
@@ -123,6 +127,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         binding = FragmentCardEditTabAttachmentsBinding.inflate(inflater, container, false);
         editViewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
         previewViewModel = new ViewModelProvider(requireActivity()).get(PreviewDialogViewModel.class);
+        binding.bottomNavigation.setSelectedItemId(R.id.gallery);
         binding.bottomNavigation.setOnNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.gallery) {
                 showGalleryPicker();
@@ -557,6 +562,23 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     public void applyBrand(int mainColor) {
         applyBrandToFAB(mainColor, binding.fab);
         adapter.applyBrand(mainColor);
+
+        @ColorInt final int accentColor = ContextCompat.getColor(requireContext(), R.color.accent);
+        @ColorInt final int finalMainColor = DeckColorUtil.contrastRatioIsSufficient(mainColor, ContextCompat.getColor(requireContext(), R.color.primary))
+                ? mainColor
+                : accentColor;
+        final ColorStateList list = new ColorStateList(
+                new int[][]{
+                        new int[]{android.R.attr.state_checked},
+                        new int[]{}
+                },
+                new int[]{
+                        finalMainColor,
+                        accentColor
+                }
+        );
+        binding.bottomNavigation.setItemIconTintList(list);
+        binding.bottomNavigation.setItemTextColor(list);
     }
 
     public static Fragment newInstance() {
