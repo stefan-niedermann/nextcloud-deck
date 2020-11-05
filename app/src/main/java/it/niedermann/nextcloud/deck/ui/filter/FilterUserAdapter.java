@@ -84,14 +84,14 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
         }
 
         void bind(@NonNull final User user) {
-            binding.displayName.setText(user.getDisplayname());
+            binding.title.setText(user.getDisplayname());
             ViewUtil.addAvatar(binding.avatar, account.getUrl(), user.getUid(), avatarSize, R.drawable.ic_person_grey600_24dp);
             itemView.setSelected(selectedUsers.contains(user));
             bindClickListener(user);
         }
 
         public void bindNotAssigned() {
-            binding.displayName.setText(itemView.getContext().getString(R.string.simple_unassigned));
+            binding.title.setText(itemView.getContext().getString(R.string.simple_unassigned));
             Glide.with(itemView.getContext())
                     .load(R.drawable.ic_baseline_block_24)
                     .into(binding.avatar);

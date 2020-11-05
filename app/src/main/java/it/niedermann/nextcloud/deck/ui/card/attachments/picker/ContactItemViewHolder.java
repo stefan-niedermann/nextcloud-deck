@@ -4,15 +4,17 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Pair;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.request.RequestOptions;
 
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemPickerUserBinding;
@@ -30,9 +32,9 @@ public class ContactItemViewHolder extends RecyclerView.ViewHolder {
         this.binding = binding;
     }
 
-    public void bind(@NonNull Uri uri, @Nullable Bitmap image, @NonNull String displayName, @Nullable String contactInformation, @NonNull Consumer<Uri> onSelect) {
-        itemView.setOnClickListener((v) -> onSelect.accept(uri));
-        binding.displayName.setText(displayName);
+    public void bind(@NonNull Uri uri, @Nullable Bitmap image, @NonNull String displayName, @Nullable String contactInformation, @NonNull BiConsumer<Uri, Pair<String, RequestBuilder<?>>> onSelect) {
+        itemView.setOnClickListener((v) -> onSelect.accept(uri, new Pair<>(displayName, image == null ? null : Glide.with(itemView.getContext()).load(image))));
+        binding.title.setText(displayName);
         binding.contactInformation.setText(contactInformation);
         if (image == null) {
             binding.initials.setVisibility(VISIBLE);

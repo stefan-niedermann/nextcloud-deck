@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.util.Pair;
 import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -16,8 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.RequestBuilder;
+
 import java.io.IOException;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentImageBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemPhotoPreviewBinding;
@@ -37,7 +40,7 @@ public class GalleryAdapter extends AbstractCursorPickerAdapter<RecyclerView.Vie
             ? MediaStore.Images.Media.DATE_TAKEN
             : MediaStore.Images.Media.DATE_ADDED;
 
-    public GalleryAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable openNativePicker, @NonNull LifecycleOwner lifecycleOwner) {
+    public GalleryAdapter(@NonNull Context context, @NonNull BiConsumer<Uri, Pair<String, RequestBuilder<?>>> onSelect, @NonNull Runnable openNativePicker, @NonNull LifecycleOwner lifecycleOwner) {
         super(context, onSelect, openNativePicker, EXTERNAL_CONTENT_URI, _ID, sortOrder + " DESC");
         this.lifecycleOwner = lifecycleOwner;
         notifyItemRangeInserted(0, getItemCount());
@@ -90,7 +93,7 @@ public class GalleryAdapter extends AbstractCursorPickerAdapter<RecyclerView.Vie
     @Override
     public void onViewDetachedFromWindow(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewDetachedFromWindow(holder);
-        if(holder instanceof GalleryPhotoPreviewItemViewHolder) {
+        if (holder instanceof GalleryPhotoPreviewItemViewHolder) {
             ((GalleryPhotoPreviewItemViewHolder) holder).unbind();
         }
     }

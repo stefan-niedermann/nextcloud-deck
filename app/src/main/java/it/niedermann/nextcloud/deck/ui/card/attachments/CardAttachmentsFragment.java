@@ -55,6 +55,8 @@ import it.niedermann.nextcloud.deck.ui.card.attachments.picker.ContactAdapter;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.FileAdapter;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.FileAdapterLegacy;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.GalleryAdapter;
+import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDialog;
+import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDialogViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.takephoto.TakePhotoActivity;
 import it.niedermann.nextcloud.deck.util.VCardUtil;
@@ -84,7 +86,8 @@ import static java.net.HttpURLConnection.HTTP_CONFLICT;
 public class CardAttachmentsFragment extends BrandedFragment implements AttachmentDeletedListener, AttachmentClickedListener {
 
     private FragmentCardEditTabAttachmentsBinding binding;
-    private EditCardViewModel viewModel;
+    private EditCardViewModel editViewModel;
+    private PreviewDialogViewModel previewViewModel;
     private BottomSheetBehavior<LinearLayout> mBottomSheetBehaviour;
 
     private static final int REQUEST_CODE_PICK_FILE = 1;
@@ -115,7 +118,8 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                              Bundle savedInstanceState) {
 
         binding = FragmentCardEditTabAttachmentsBinding.inflate(inflater, container, false);
-        viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
+        editViewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
+        previewViewModel = new ViewModelProvider(requireActivity()).get(PreviewDialogViewModel.class);
         binding.bottomNavigation.setOnNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.gallery) {
                 showGalleryPicker();
@@ -129,7 +133,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
         // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
         // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
-        if (viewModel.getFullCard() == null) {
+        if (editViewModel.getFullCard() == null) {
             DeckLog.logError(new IllegalStateException("Cannot populate " + CardAttachmentsFragment.class.getSimpleName() + " because viewModel.getFullCard() is null"));
             return binding.getRoot();
         }
@@ -139,8 +143,8 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 getChildFragmentManager(),
                 requireActivity().getMenuInflater(),
                 this,
-                viewModel.getAccount(),
-                viewModel.getFullCard().getLocalId());
+                editViewModel.getAccount(),
+                editViewModel.getFullCard().getLocalId());
         binding.attachmentsList.setAdapter(adapter);
 
         adapter.isEmpty().observe(getViewLifecycleOwner(), (isEmpty) -> {
@@ -198,7 +202,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             }
         });
         binding.attachmentsList.setLayoutManager(glm);
-        if (!viewModel.isCreateMode()) {
+        if (!editViewModel.isCreateMode()) {
             // https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html?m=1
             // https://github.com/android/animation-samples/blob/master/GridToPager/app/src/main/java/com/google/samples/gridtopager/fragment/ImagePagerFragment.java
             setExitSharedElementCallback(new SharedElementCallback() {
@@ -211,10 +215,10 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                     }
                 }
             });
-            adapter.setAttachments(viewModel.getFullCard().getAttachments(), viewModel.getFullCard().getId());
+            adapter.setAttachments(editViewModel.getFullCard().getAttachments(), editViewModel.getFullCard().getId());
         }
 
-        if (viewModel.canEdit()) {
+        if (editViewModel.canEdit()) {
             binding.fab.setOnClickListener(v -> {
                 if (SDK_INT < LOLLIPOP) {
                     openNativeFilePicker();
@@ -293,7 +297,15 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 requestPermissions(new String[]{READ_EXTERNAL_STORAGE, CAMERA}, REQUEST_CODE_PICK_GALLERY_PERMISSION);
             } else {
                 unbindPickerAdapter();
-                pickerAdapter = new GalleryAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeCameraPicker, getViewLifecycleOwner());
+                pickerAdapter = new GalleryAdapter(requireContext(), (uri, pair) -> {
+                    previewViewModel.prepareDialog(pair.first, pair.second);
+                    PreviewDialog.newInstance().show(getChildFragmentManager(), PreviewDialog.class.getSimpleName());
+                    observeOnce(previewViewModel.getResult(), getViewLifecycleOwner(), (submitPositive) -> {
+                        if (submitPositive) {
+                            onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri));
+                        }
+                    });
+                }, this::openNativeCameraPicker, getViewLifecycleOwner());
                 binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
                 binding.pickerRecyclerView.setAdapter(pickerAdapter);
             }
@@ -306,7 +318,15 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 requestPermissions(new String[]{READ_CONTACTS}, REQUEST_CODE_PICK_CONTACT_PICKER_PERMISSION);
             } else {
                 unbindPickerAdapter();
-                pickerAdapter = new ContactAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_CONTACT, RESULT_OK, new Intent().setData(uri)), this::openNativeContactPicker);
+                pickerAdapter = new ContactAdapter(requireContext(), (uri, pair) -> {
+                    previewViewModel.prepareDialog(pair.first, pair.second);
+                    PreviewDialog.newInstance().show(getChildFragmentManager(), PreviewDialog.class.getSimpleName());
+                    observeOnce(previewViewModel.getResult(), getViewLifecycleOwner(), (submitPositive) -> {
+                        if (submitPositive) {
+                            onActivityResult(REQUEST_CODE_PICK_CONTACT, RESULT_OK, new Intent().setData(uri));
+                        }
+                    });
+                }, this::openNativeContactPicker);
                 binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                 binding.pickerRecyclerView.setAdapter(pickerAdapter);
             }
@@ -324,7 +344,15 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 //                        // TODO Only usable with Scoped Storage
 //                        pickerAdapter = new FileAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeFilePicker);
 //                    } else {
-                    pickerAdapter = new FileAdapterLegacy(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeFilePicker);
+                    pickerAdapter = new FileAdapterLegacy(requireContext(), (uri, pair) -> {
+                        previewViewModel.prepareDialog(pair.first, pair.second);
+                        PreviewDialog.newInstance().show(getChildFragmentManager(), PreviewDialog.class.getSimpleName());
+                        observeOnce(previewViewModel.getResult(), getViewLifecycleOwner(), (submitPositive) -> {
+                            if (submitPositive) {
+                                onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri));
+                            }
+                        });
+                    }, this::openNativeFilePicker);
 //                    }
                     binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                     binding.pickerRecyclerView.setAdapter(pickerAdapter);
@@ -337,7 +365,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         if (SDK_INT >= LOLLIPOP) {
             startActivityForResult(TakePhotoActivity.createIntent(requireContext()), REQUEST_CODE_PICK_CAMERA);
         } else {
-            ExceptionDialogFragment.newInstance(new UnsupportedOperationException("This feature requires Android 5"), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            ExceptionDialogFragment.newInstance(new UnsupportedOperationException("This feature requires Android 5"), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
         }
     }
 
@@ -388,7 +416,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                                 : requireContext().getContentResolver().getType(sourceUri));
                         mBottomSheetBehaviour.setState(STATE_HIDDEN);
                     } catch (Exception e) {
-                        ExceptionDialogFragment.newInstance(e, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                        ExceptionDialogFragment.newInstance(e, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                     }
                 }
                 break;
@@ -416,15 +444,14 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             case ContentResolver.SCHEME_CONTENT:
             case ContentResolver.SCHEME_FILE: {
                 DeckLog.verbose("--- found content URL " + sourceUri.getPath());
-                final File fileToUpload = copyContentUriToTempFile(requireContext(), sourceUri, viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId());
-                for (Attachment existingAttachment : viewModel.getFullCard().getAttachments()) {
+                final File fileToUpload = copyContentUriToTempFile(requireContext(), sourceUri, editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId());
+                for (Attachment existingAttachment : editViewModel.getFullCard().getAttachments()) {
                     final String existingPath = existingAttachment.getLocalPath();
                     if (existingPath != null && existingPath.equals(fileToUpload.getAbsolutePath())) {
                         BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
                         return;
                     }
                 }
-
                 final Instant now = Instant.now();
                 final Attachment a = new Attachment();
                 a.setMimetype(mimeType);
@@ -436,24 +463,24 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 a.setLastModifiedLocal(now);
                 a.setCreatedAt(now);
                 a.setStatusEnum(DBStatus.LOCAL_EDITED);
-                viewModel.getFullCard().getAttachments().add(0, a);
+                editViewModel.getFullCard().getAttachments().add(0, a);
                 adapter.addAttachment(a);
-                if (!viewModel.isCreateMode()) {
-                    WrappedLiveData<Attachment> liveData = syncManager.addAttachmentToCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload);
+                if (!editViewModel.isCreateMode()) {
+                    WrappedLiveData<Attachment> liveData = syncManager.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload);
                     observeOnce(liveData, getViewLifecycleOwner(), (next) -> {
                         if (liveData.hasError()) {
                             Throwable t = liveData.getError();
                             if (t instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) t).getStatusCode() == HTTP_CONFLICT) {
                                 // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
-                                viewModel.getFullCard().getAttachments().remove(a);
+                                editViewModel.getFullCard().getAttachments().remove(a);
                                 adapter.removeAttachment(a);
                                 BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
                             } else {
-                                ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", t), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", t), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                             }
                         } else {
-                            viewModel.getFullCard().getAttachments().remove(a);
-                            viewModel.getFullCard().getAttachments().add(0, next);
+                            editViewModel.getFullCard().getAttachments().remove(a);
+                            editViewModel.getFullCard().getAttachments().add(0, next);
                             adapter.replaceAttachment(a, next);
                         }
                     });
@@ -503,12 +530,12 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     @Override
     public void onAttachmentDeleted(Attachment attachment) {
         adapter.removeAttachment(attachment);
-        viewModel.getFullCard().getAttachments().remove(attachment);
-        if (!viewModel.isCreateMode() && attachment.getLocalId() != null) {
-            final WrappedLiveData<Void> deleteLiveData = syncManager.deleteAttachmentOfCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), attachment.getLocalId());
+        editViewModel.getFullCard().getAttachments().remove(attachment);
+        if (!editViewModel.isCreateMode() && attachment.getLocalId() != null) {
+            final WrappedLiveData<Void> deleteLiveData = syncManager.deleteAttachmentOfCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), attachment.getLocalId());
             observeOnce(deleteLiveData, this, (next) -> {
                 if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
-                    ExceptionDialogFragment.newInstance(deleteLiveData.getError(), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    ExceptionDialogFragment.newInstance(deleteLiveData.getError(), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 }
             });
         }

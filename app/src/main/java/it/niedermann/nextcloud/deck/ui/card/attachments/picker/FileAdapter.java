@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -13,7 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.function.Consumer;
+import com.bumptech.glide.RequestBuilder;
+
+import java.util.function.BiConsumer;
 
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentDefaultBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemPickerNativeBinding;
@@ -35,7 +38,7 @@ public class FileAdapter extends AbstractCursorPickerAdapter<RecyclerView.ViewHo
     private final int modifiedColumnIndex;
     private final int mimeTypeColumnIndex;
 
-    private FileAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable onSelectPicker) {
+    private FileAdapter(@NonNull Context context, @NonNull BiConsumer<Uri, Pair<String, RequestBuilder<?>>> onSelect, @NonNull Runnable onSelectPicker) {
         super(context, onSelect, onSelectPicker, _ID, requireNonNull(context.getContentResolver().query(EXTERNAL_CONTENT_URI, new String[]{_ID, TITLE, SIZE, DATE_MODIFIED, MIME_TYPE}, null, null, DATE_ADDED + " DESC")));
         displayNameColumnIndex = cursor.getColumnIndex(TITLE);
         sizeColumnIndex = cursor.getColumnIndex(SIZE);

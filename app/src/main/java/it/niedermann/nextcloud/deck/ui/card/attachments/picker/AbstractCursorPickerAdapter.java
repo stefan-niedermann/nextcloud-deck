@@ -5,13 +5,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Pair;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.RequestBuilder;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 import static android.database.Cursor.FIELD_TYPE_INTEGER;
 import static android.database.Cursor.FIELD_TYPE_NULL;
@@ -29,7 +32,7 @@ public abstract class AbstractCursorPickerAdapter<T extends RecyclerView.ViewHol
     protected final int columnIndex;
     private final int columnIndexType;
     @NonNull
-    protected final Consumer<Uri> onSelect;
+    protected final BiConsumer<Uri, Pair<String, RequestBuilder<?>>> onSelect;
     @NonNull
     protected final Runnable openNativePicker;
     @NonNull
@@ -44,15 +47,15 @@ public abstract class AbstractCursorPickerAdapter<T extends RecyclerView.ViewHol
     @NonNull
     protected final ExecutorService bindExecutor = Executors.newFixedThreadPool(1);
 
-    public AbstractCursorPickerAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable openNativePicker, Uri subject, String idColumn, String sortOrder) {
+    public AbstractCursorPickerAdapter(@NonNull Context context, @NonNull BiConsumer<Uri, Pair<String, RequestBuilder<?>>> onSelect, @NonNull Runnable openNativePicker, Uri subject, String idColumn, String sortOrder) {
         this(context, onSelect, openNativePicker, subject, idColumn, new String[]{idColumn}, sortOrder);
     }
 
-    public AbstractCursorPickerAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable openNativePicker, Uri subject, String idColumn, String[] requestedColumns, String sortOrder) {
+    public AbstractCursorPickerAdapter(@NonNull Context context, @NonNull BiConsumer<Uri, Pair<String, RequestBuilder<?>>> onSelect, @NonNull Runnable openNativePicker, Uri subject, String idColumn, String[] requestedColumns, String sortOrder) {
         this(context, onSelect, openNativePicker, idColumn, requireNonNull(context.getContentResolver().query(subject, requestedColumns, null, null, sortOrder)));
     }
 
-    public AbstractCursorPickerAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable openNativePicker, String idColumn, @NonNull Cursor cursor) {
+    public AbstractCursorPickerAdapter(@NonNull Context context, @NonNull BiConsumer<Uri, Pair<String, RequestBuilder<?>>> onSelect, @NonNull Runnable openNativePicker, String idColumn, @NonNull Cursor cursor) {
         this.contentResolver = context.getContentResolver();
         this.onSelect = onSelect;
         this.openNativePicker = openNativePicker;

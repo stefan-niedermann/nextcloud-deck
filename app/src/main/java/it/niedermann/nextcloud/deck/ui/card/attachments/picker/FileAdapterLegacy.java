@@ -3,16 +3,19 @@ package it.niedermann.nextcloud.deck.ui.card.attachments.picker;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.RequestBuilder;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentDefaultBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemPickerNativeBinding;
@@ -31,11 +34,11 @@ public class FileAdapterLegacy extends AbstractPickerAdapter<RecyclerView.ViewHo
     @NonNull
     private final List<File> files;
     @NonNull
-    protected final Consumer<Uri> onSelect;
+    protected final BiConsumer<Uri, Pair<String, RequestBuilder<?>>> onSelect;
     @NonNull
     protected final Runnable openNativePicker;
 
-    public FileAdapterLegacy(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable openNativePicker) {
+    public FileAdapterLegacy(@NonNull Context context, @NonNull BiConsumer<Uri, Pair<String, RequestBuilder<?>>> onSelect, @NonNull Runnable openNativePicker) {
         // TODO run in separate thread?
         this.context = context;
         this.onSelect = onSelect;

@@ -9,15 +9,18 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.RequestBuilder;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 import it.niedermann.nextcloud.deck.databinding.ItemPickerNativeBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemPickerUserBinding;
@@ -37,7 +40,7 @@ public class ContactAdapter extends AbstractCursorPickerAdapter<RecyclerView.Vie
     private final int lookupKeyColumnIndex;
     private final int displayNameColumnIndex;
 
-    public ContactAdapter(@NonNull Context context, @NonNull Consumer<Uri> onSelect, @NonNull Runnable onSelectPicker) {
+    public ContactAdapter(@NonNull Context context, @NonNull BiConsumer<Uri, Pair<String, RequestBuilder<?>>> onSelect, @NonNull Runnable onSelectPicker) {
         super(context, onSelect, onSelectPicker, CONTENT_URI, _ID, new String[]{_ID, LOOKUP_KEY, DISPLAY_NAME}, SORT_KEY_PRIMARY);
         lookupKeyColumnIndex = cursor.getColumnIndex(LOOKUP_KEY);
         displayNameColumnIndex = cursor.getColumnIndex(DISPLAY_NAME);

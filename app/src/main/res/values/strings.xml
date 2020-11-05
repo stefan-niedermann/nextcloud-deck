@@ -326,4 +326,5 @@
     <string name="downloads">Downloads</string>
     <string name="files">Files</string>
     <string name="gallery">Gallery</string>
+    <string name="simple_attach">attach</string>
 </resources>

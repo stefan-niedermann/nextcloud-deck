@@ -1,12 +1,15 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments.picker;
 
 import android.net.Uri;
+import android.util.Pair;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.function.Consumer;
+import com.bumptech.glide.RequestBuilder;
+
+import java.util.function.BiConsumer;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentDefaultBinding;
@@ -24,8 +27,8 @@ public class FileItemViewHolder extends RecyclerView.ViewHolder {
         this.binding = binding;
     }
 
-    public void bind(@NonNull Uri uri, @NonNull String name, String mimeType, long size, long modified, @Nullable Consumer<Uri> onSelect) {
-        itemView.setOnClickListener(onSelect == null ? null : (v) -> onSelect.accept(uri));
+    public void bind(@NonNull Uri uri, @NonNull String name, String mimeType, long size, long modified, @Nullable BiConsumer<Uri, Pair<String, RequestBuilder<?>>> onSelect) {
+        itemView.setOnClickListener(onSelect == null ? null : (v) -> onSelect.accept(uri, new Pair<>(name, null)));
         binding.filename.setText(name);
         binding.filesize.setText(formatFileSize(binding.filesize.getContext(), size));
         binding.modified.setText(getRelativeDateTimeString(binding.modified.getContext(), modified));
