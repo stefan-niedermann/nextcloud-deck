@@ -18,10 +18,10 @@
         android:contentDescription="@string/take_photo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent=".5"
+        app:layout_constraintHeight_percent=".3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent=".5"
+        app:layout_constraintWidth_percent=".3"
         app:srcCompat="@drawable/ic_baseline_photo_camera_24"
         app:tint="@android:color/white" />
 </it.niedermann.nextcloud.deck.ui.view.SquareConstraintLayout>

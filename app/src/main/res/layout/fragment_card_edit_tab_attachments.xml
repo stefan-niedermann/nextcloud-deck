@@ -71,9 +71,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimarySurface"
-            android:paddingStart="@dimen/spacer_1x"
+            android:paddingStart="@dimen/spacer_1hx"
             android:paddingTop="@dimen/spacer_1x"
-            android:paddingEnd="@dimen/spacer_1x"
+            android:paddingEnd="@dimen/spacer_1hx"
             android:paddingBottom="@dimen/attachments_bottom_navigation_height"
             tools:listitem="@layout/support_simple_spinner_dropdown_item"
             tools:visibility="gone" />

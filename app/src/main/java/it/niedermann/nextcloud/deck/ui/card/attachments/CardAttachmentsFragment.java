@@ -55,6 +55,7 @@ import it.niedermann.nextcloud.deck.ui.card.attachments.picker.ContactAdapter;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.FileAdapter;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.FileAdapterLegacy;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.GalleryAdapter;
+import it.niedermann.nextcloud.deck.ui.card.attachments.picker.GalleryItemDecoration;
 import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDialog;
 import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDialogViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
@@ -89,6 +90,8 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     private EditCardViewModel editViewModel;
     private PreviewDialogViewModel previewViewModel;
     private BottomSheetBehavior<LinearLayout> mBottomSheetBehaviour;
+
+    private RecyclerView.ItemDecoration galleryItemDecoration;
 
     private static final int REQUEST_CODE_PICK_FILE = 1;
     private static final int REQUEST_CODE_PICK_FILE_PERMISSION = 2;
@@ -156,7 +159,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 this.binding.attachmentsList.setVisibility(VISIBLE);
             }
         });
-
+        galleryItemDecoration = new GalleryItemDecoration(DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.spacer_1qx));
         mBottomSheetBehaviour = BottomSheetBehavior.from(binding.bottomSheetParent);
         mBottomSheetBehaviour.setDraggable(true);
         mBottomSheetBehaviour.setHideable(true);
@@ -306,6 +309,8 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                         }
                     });
                 }, this::openNativeCameraPicker, getViewLifecycleOwner());
+                binding.pickerRecyclerView.removeItemDecoration(galleryItemDecoration);
+                binding.pickerRecyclerView.addItemDecoration(galleryItemDecoration);
                 binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
                 binding.pickerRecyclerView.setAdapter(pickerAdapter);
             }
@@ -327,6 +332,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                         }
                     });
                 }, this::openNativeContactPicker);
+                binding.pickerRecyclerView.removeItemDecoration(galleryItemDecoration);
                 binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                 binding.pickerRecyclerView.setAdapter(pickerAdapter);
             }
@@ -354,6 +360,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                         });
                     }, this::openNativeFilePicker);
 //                    }
+                    binding.pickerRecyclerView.removeItemDecoration(galleryItemDecoration);
                     binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                     binding.pickerRecyclerView.setAdapter(pickerAdapter);
                 }
