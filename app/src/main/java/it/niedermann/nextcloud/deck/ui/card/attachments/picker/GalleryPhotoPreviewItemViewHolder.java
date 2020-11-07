@@ -36,7 +36,7 @@ public class GalleryPhotoPreviewItemViewHolder extends RecyclerView.ViewHolder {
                 Preview previewUseCase = new Preview.Builder().build();
                 previewUseCase.setSurfaceProvider(binding.preview.getSurfaceProvider());
                 cameraProvider.bindToLifecycle(lifecycleOwner, DEFAULT_BACK_CAMERA, previewUseCase);
-            } catch (ExecutionException | InterruptedException e) {
+            } catch (ExecutionException | InterruptedException | IllegalArgumentException e) {
                 DeckLog.logError(e);
             }
         }, ContextCompat.getMainExecutor(itemView.getContext()));

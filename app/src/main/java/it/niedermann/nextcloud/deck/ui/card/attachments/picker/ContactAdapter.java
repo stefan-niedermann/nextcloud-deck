@@ -44,7 +44,7 @@ public class ContactAdapter extends AbstractCursorPickerAdapter<RecyclerView.Vie
         super(context, onSelect, onSelectPicker, CONTENT_URI, _ID, new String[]{_ID, LOOKUP_KEY, DISPLAY_NAME}, SORT_KEY_PRIMARY);
         lookupKeyColumnIndex = cursor.getColumnIndex(LOOKUP_KEY);
         displayNameColumnIndex = cursor.getColumnIndex(DISPLAY_NAME);
-        notifyItemRangeInserted(0, getItemCount());
+        notifyItemRangeInserted(0, getItemCount() + 1);
     }
 
     @NonNull

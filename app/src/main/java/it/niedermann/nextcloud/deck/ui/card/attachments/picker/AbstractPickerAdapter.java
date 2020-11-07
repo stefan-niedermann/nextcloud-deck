@@ -4,14 +4,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class AbstractPickerAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<T> {
 
+    protected static final int VIEW_TYPE_NONE = -1;
     protected static final int VIEW_TYPE_ITEM = 0;
     protected static final int VIEW_TYPE_ITEM_NATIVE = 1;
 
     @Override
     public int getItemViewType(int position) {
-        return position == 0
-                ? VIEW_TYPE_ITEM_NATIVE
-                : VIEW_TYPE_ITEM;
+        if (position > 0) {
+            return VIEW_TYPE_ITEM;
+        } else if (position == 0) {
+            return VIEW_TYPE_ITEM_NATIVE;
+        } else {
+            return VIEW_TYPE_NONE;
+        }
     }
 
     /**

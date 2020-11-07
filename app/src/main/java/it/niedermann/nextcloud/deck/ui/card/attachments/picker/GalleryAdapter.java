@@ -43,7 +43,7 @@ public class GalleryAdapter extends AbstractCursorPickerAdapter<RecyclerView.Vie
     public GalleryAdapter(@NonNull Context context, @NonNull BiConsumer<Uri, Pair<String, RequestBuilder<?>>> onSelect, @NonNull Runnable openNativePicker, @NonNull LifecycleOwner lifecycleOwner) {
         super(context, onSelect, openNativePicker, EXTERNAL_CONTENT_URI, _ID, sortOrder + " DESC");
         this.lifecycleOwner = lifecycleOwner;
-        notifyItemRangeInserted(0, getItemCount());
+        notifyItemRangeInserted(0, getItemCount() + 1);
     }
 
     @NonNull

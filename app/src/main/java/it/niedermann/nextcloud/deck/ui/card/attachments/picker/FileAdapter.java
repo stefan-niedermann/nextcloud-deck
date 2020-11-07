@@ -44,7 +44,7 @@ public class FileAdapter extends AbstractCursorPickerAdapter<RecyclerView.ViewHo
         sizeColumnIndex = cursor.getColumnIndex(SIZE);
         modifiedColumnIndex = cursor.getColumnIndex(DATE_MODIFIED);
         mimeTypeColumnIndex = cursor.getColumnIndex(MIME_TYPE);
-        notifyItemRangeInserted(0, getItemCount());
+        notifyItemRangeInserted(0, getItemCount() + 1);
     }
 
     @NonNull

@@ -62,8 +62,8 @@ public abstract class AbstractCursorPickerAdapter<T extends RecyclerView.ViewHol
         this.cursor = cursor;
         this.cursor.moveToFirst();
         this.columnIndex = this.cursor.getColumnIndex(idColumn);
-        this.count = cursor.getCount();
-        this.columnIndexType = (this.count > 0) ? this.cursor.getType(columnIndex) : FIELD_TYPE_NULL;
+        this.count = cursor.getCount() + 1;
+        this.columnIndexType = (this.count > 1) ? this.cursor.getType(columnIndex) : FIELD_TYPE_NULL;
         setHasStableIds(true);
     }
 
