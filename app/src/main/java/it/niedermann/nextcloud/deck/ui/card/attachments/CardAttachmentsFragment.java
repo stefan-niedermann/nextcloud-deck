@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -19,7 +18,6 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.Px;
 import androidx.core.app.SharedElementCallback;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -28,7 +26,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.animation.ArgbEvaluatorCompat;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
@@ -76,7 +73,6 @@ import static android.view.View.VISIBLE;
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
-import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
@@ -107,12 +103,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     private int accentColor;
     @ColorInt
     private int primaryColor;
-    @ColorInt
-    private int backdropColorExpanded;
-    @ColorInt
-    private int backdropColorCollapsed;
-    @Px
-    private int bottomNavigationHeight;
 
     private SyncManager syncManager;
     private CardAttachmentAdapter adapter;
@@ -146,11 +136,8 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             }
             return true;
         });
-        backdropColorExpanded = ContextCompat.getColor(requireContext(), R.color.mdtp_transparent_black);
-        backdropColorCollapsed = ContextCompat.getColor(requireContext(), android.R.color.transparent);
         accentColor = ContextCompat.getColor(requireContext(), R.color.accent);
         primaryColor = ContextCompat.getColor(requireContext(), R.color.primary);
-        bottomNavigationHeight = DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.attachments_bottom_navigation_height);
 
         // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
         // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
@@ -182,46 +169,9 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         mBottomSheetBehaviour.setDraggable(true);
         mBottomSheetBehaviour.setHideable(true);
         mBottomSheetBehaviour.setState(STATE_HIDDEN);
-        mBottomSheetBehaviour.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            private float lastOffset = -1;
-
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                if (newState == STATE_HIDDEN) {
-                    backPressedCallback.setEnabled(false);
-                    binding.pickerBackdrop.setVisibility(GONE);
-                } else {
-                    if (newState == STATE_EXPANDED) {
-                        binding.pickerBackdrop.setBackgroundColor(backdropColorExpanded);
-                    }
-                    if (binding.pickerBackdrop.getVisibility() != VISIBLE) {
-                        binding.pickerBackdrop.setVisibility(VISIBLE);
-                    }
-                }
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                if (slideOffset <= 0) {
-                    @ColorInt
-                    int newBackdropColor = ArgbEvaluatorCompat.getInstance().evaluate(slideOffset * -1, backdropColorExpanded, backdropColorCollapsed);
-                    if (((ColorDrawable) binding.pickerBackdrop.getBackground()).getColor() != newBackdropColor) {
-                        binding.pickerBackdrop.setBackgroundColor(newBackdropColor);
-                    }
-                    binding.bottomNavigation.setTranslationY((slideOffset * -1) * bottomNavigationHeight);
-                    if (slideOffset <= lastOffset && slideOffset != 0) {
-                        if (binding.fab.getVisibility() == GONE) {
-                            binding.fab.show();
-                        }
-                    } else {
-                        if (binding.fab.getVisibility() == VISIBLE) {
-                            binding.fab.hide();
-                        }
-                    }
-                }
-                lastOffset = slideOffset;
-            }
-        });
+        mBottomSheetBehaviour.addBottomSheetCallback(new CardAttachmentsBottomsheetBehaviorCallback(
+                requireContext(), backPressedCallback, binding.fab, binding.pickerBackdrop, binding.bottomNavigation,
+                R.color.mdtp_transparent_black, android.R.color.transparent, R.dimen.attachments_bottom_navigation_height));
         binding.pickerBackdrop.setOnClickListener(v -> mBottomSheetBehaviour.setState(STATE_HIDDEN));
 
         final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
