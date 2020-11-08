@@ -7,7 +7,7 @@
     <dimen name="spacer_4x">32dp</dimen>
 
     <dimen name="compact_label_height">6dp</dimen>
-    <dimen name="attachments_bottom_navigation_height">56dp</dimen>
+    <dimen name="attachments_bottom_navigation_height">64dp</dimen>
 
     <!-- Drawer header -->
     <dimen name="drawer_header_height">100dp</dimen>

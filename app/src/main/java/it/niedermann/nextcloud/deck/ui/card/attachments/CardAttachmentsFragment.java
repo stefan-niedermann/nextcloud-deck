@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
-import android.animation.ValueAnimator;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,8 +9,6 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.provider.ContactsContract;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -22,6 +21,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.Px;
 import androidx.core.app.SharedElementCallback;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -77,6 +77,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
+import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HALF_EXPANDED;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -104,6 +105,17 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     private static final int REQUEST_CODE_PICK_CONTACT = 5;
     private static final int REQUEST_CODE_PICK_CONTACT_PICKER_PERMISSION = 6;
 
+    @ColorInt
+    private int accentColor;
+    @ColorInt
+    private int primaryColor;
+    @ColorInt
+    private int backdropColorExpanded;
+    @ColorInt
+    private int backdropColorCollapsed;
+    @Px
+    private int bottomNavigationHeight;
+
     private SyncManager syncManager;
     private CardAttachmentAdapter adapter;
 
@@ -127,7 +139,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         binding = FragmentCardEditTabAttachmentsBinding.inflate(inflater, container, false);
         editViewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
         previewViewModel = new ViewModelProvider(requireActivity()).get(PreviewDialogViewModel.class);
-        binding.bottomNavigation.setSelectedItemId(R.id.gallery);
         binding.bottomNavigation.setOnNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.gallery) {
                 showGalleryPicker();
@@ -138,6 +149,11 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             }
             return true;
         });
+        backdropColorExpanded = ContextCompat.getColor(requireContext(), R.color.mdtp_transparent_black);
+        backdropColorCollapsed = ContextCompat.getColor(requireContext(), android.R.color.transparent);
+        accentColor = ContextCompat.getColor(requireContext(), R.color.accent);
+        primaryColor = ContextCompat.getColor(requireContext(), R.color.primary);
+        bottomNavigationHeight = DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.attachments_bottom_navigation_height);
 
         // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
         // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
@@ -176,7 +192,15 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState == STATE_HIDDEN) {
                     backPressedCallback.setEnabled(false);
-                    hidePickerSheet();
+                    binding.pickerBackdrop.setVisibility(GONE);
+                    setBottomNavigationVisibility(false);
+                } else {
+                    if (newState == STATE_EXPANDED) {
+                        binding.pickerBackdrop.setBackgroundColor(backdropColorExpanded);
+                    }
+                    if (binding.pickerBackdrop.getVisibility() != VISIBLE) {
+                        binding.pickerBackdrop.setVisibility(VISIBLE);
+                    }
                 }
             }
 
@@ -184,9 +208,16 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
                 if (!pickerAnimationInProgress) {
                     if (slideOffset < 0 && slideOffset < lastOffset && binding.bottomNavigation.getTranslationY() == 0) {
-                        hidePickerSheet();
+                        setBottomNavigationVisibility(false);
                     } else if (slideOffset > lastOffset && binding.bottomNavigation.getTranslationY() != 0) {
-                        showPickerSheet();
+                        setBottomNavigationVisibility(true);
+                    }
+                }
+                if (slideOffset <= 0) {
+                    @ColorInt
+                    int newBackdropColor = ArgbEvaluatorCompat.getInstance().evaluate(slideOffset * -1, backdropColorExpanded, backdropColorCollapsed);
+                    if (((ColorDrawable) binding.pickerBackdrop.getBackground()).getColor() != newBackdropColor) {
+                        binding.pickerBackdrop.setBackgroundColor(newBackdropColor);
                     }
                 }
                 lastOffset = slideOffset;
@@ -231,8 +262,9 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 if (SDK_INT < LOLLIPOP) {
                     openNativeFilePicker();
                 } else {
+                    binding.bottomNavigation.setSelectedItemId(R.id.gallery);
                     showGalleryPicker();
-                    showPickerSheet();
+                    setBottomNavigationVisibility(true);
                     mBottomSheetBehaviour.setState(STATE_HALF_EXPANDED);
                     backPressedCallback.setEnabled(true);
                     requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), backPressedCallback);
@@ -252,11 +284,9 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             binding.fab.hide();
             binding.emptyContentView.hideDescription();
         }
-        @Nullable Context context = getContext();
-        if (context != null) {
-            if (isBrandingEnabled(context)) {
-                applyBrand(readBrandMainColor(context));
-            }
+        @Nullable Context context = requireContext();
+        if (isBrandingEnabled(context)) {
+            applyBrand(readBrandMainColor(context));
         }
         return binding.getRoot();
     }
@@ -273,30 +303,24 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         backPressedCallback.setEnabled(binding.bottomNavigation.getTranslationY() == 0);
     }
 
-    private void showPickerSheet() {
+    private void setBottomNavigationVisibility(boolean visible) {
         pickerAnimationInProgress = true;
-        binding.pickerBackdrop.setVisibility(VISIBLE);
-        binding.bottomNavigation.animate().translationY(0).setDuration(250).start();
-        final ValueAnimator backdropAnimation = ValueAnimator.ofObject(ArgbEvaluatorCompat.getInstance(), ((ColorDrawable) binding.pickerBackdrop.getBackground()).getColor(), getResources().getColor(R.color.mdtp_transparent_black));
-        backdropAnimation.setDuration(250);
-        backdropAnimation.addUpdateListener(animator -> binding.pickerBackdrop.setBackgroundColor((int) animator.getAnimatedValue()));
-        backdropAnimation.start();
-        new Handler(Looper.getMainLooper()).postDelayed(() -> pickerAnimationInProgress = false, 250);
-        binding.fab.hide();
-    }
-
-    private void hidePickerSheet() {
-        pickerAnimationInProgress = true;
-        final ValueAnimator backdropAnimation = ValueAnimator.ofObject(ArgbEvaluatorCompat.getInstance(), ((ColorDrawable) binding.pickerBackdrop.getBackground()).getColor(), getResources().getColor(android.R.color.transparent));
-        backdropAnimation.setDuration(250);
-        backdropAnimation.addUpdateListener(animator -> binding.pickerBackdrop.setBackgroundColor((int) animator.getAnimatedValue()));
-        backdropAnimation.start();
-        binding.bottomNavigation.animate().translationY(DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.attachments_bottom_navigation_height)).setDuration(250).start();
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            binding.pickerBackdrop.setVisibility(GONE);
-            pickerAnimationInProgress = false;
-        }, 250);
-        binding.fab.show();
+        binding.bottomNavigation
+                .animate()
+                .translationY(visible ? 0 : bottomNavigationHeight)
+                .setDuration(250)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        pickerAnimationInProgress = false;
+                    }
+                })
+                .start();
+        if (visible) {
+            binding.fab.hide();
+        } else {
+            binding.fab.show();
+        }
     }
 
     private void showGalleryPicker() {
@@ -314,8 +338,9 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                         }
                     });
                 }, this::openNativeCameraPicker, getViewLifecycleOwner());
-                binding.pickerRecyclerView.removeItemDecoration(galleryItemDecoration);
-                binding.pickerRecyclerView.addItemDecoration(galleryItemDecoration);
+                if (binding.pickerRecyclerView.getItemDecorationCount() == 0) {
+                    binding.pickerRecyclerView.addItemDecoration(galleryItemDecoration);
+                }
                 binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
                 binding.pickerRecyclerView.setAdapter(pickerAdapter);
             }
@@ -337,7 +362,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                         }
                     });
                 }, this::openNativeContactPicker);
-                binding.pickerRecyclerView.removeItemDecoration(galleryItemDecoration);
+                removeGalleryItemDecoration();
                 binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                 binding.pickerRecyclerView.setAdapter(pickerAdapter);
             }
@@ -365,7 +390,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                         });
                     }, this::openNativeFilePicker);
 //                    }
-                    binding.pickerRecyclerView.removeItemDecoration(galleryItemDecoration);
+                    removeGalleryItemDecoration();
                     binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                     binding.pickerRecyclerView.setAdapter(pickerAdapter);
                 }
@@ -389,10 +414,9 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     }
 
     private void openNativeFilePicker() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
+        startActivityForResult(new Intent(Intent.ACTION_GET_CONTENT)
                 .addCategory(Intent.CATEGORY_OPENABLE)
-                .setType("*/*");
-        startActivityForResult(intent, REQUEST_CODE_PICK_FILE);
+                .setType("*/*"), REQUEST_CODE_PICK_FILE);
     }
 
     /**
@@ -408,6 +432,12 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     private void unbindPickerAdapter() {
         if (pickerAdapter != null) {
             pickerAdapter.onDestroy();
+        }
+    }
+
+    private void removeGalleryItemDecoration() {
+        if (binding.pickerRecyclerView.getItemDecorationCount() > 0) {
+            binding.pickerRecyclerView.removeItemDecoration(galleryItemDecoration);
         }
     }
 
@@ -513,7 +543,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                     showFilePicker();
                 } else {
                     Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
-                    hidePickerSheet();
+                    setBottomNavigationVisibility(false);
                 }
                 break;
             }
@@ -522,7 +552,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                     showGalleryPicker();
                 } else {
                     Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
-                    hidePickerSheet();
+                    setBottomNavigationVisibility(false);
                 }
                 break;
             }
@@ -562,9 +592,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     public void applyBrand(int mainColor) {
         applyBrandToFAB(mainColor, binding.fab);
         adapter.applyBrand(mainColor);
-
-        @ColorInt final int accentColor = ContextCompat.getColor(requireContext(), R.color.accent);
-        @ColorInt final int finalMainColor = DeckColorUtil.contrastRatioIsSufficient(mainColor, ContextCompat.getColor(requireContext(), R.color.primary))
+        @ColorInt final int finalMainColor = DeckColorUtil.contrastRatioIsSufficient(mainColor, primaryColor)
                 ? mainColor
                 : accentColor;
         final ColorStateList list = new ColorStateList(
