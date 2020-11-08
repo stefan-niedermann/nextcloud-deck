@@ -175,8 +175,8 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         binding.pickerBackdrop.setOnClickListener(v -> mBottomSheetBehaviour.setState(STATE_HIDDEN));
 
         final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        int spanCount = (int) ((displayMetrics.widthPixels / displayMetrics.density) / getResources().getInteger(R.integer.max_dp_attachment_column));
-        GridLayoutManager glm = new GridLayoutManager(getContext(), spanCount);
+        final int spanCount = (int) ((displayMetrics.widthPixels / displayMetrics.density) / getResources().getInteger(R.integer.max_dp_attachment_column));
+        final GridLayoutManager glm = new GridLayoutManager(getContext(), spanCount);
         glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
