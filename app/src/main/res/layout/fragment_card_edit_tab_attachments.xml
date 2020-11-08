@@ -41,7 +41,7 @@
         android:id="@+id/pickerBackdrop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/mdtp_transparent_black"
+        android:background="@android:color/transparent"
         android:visibility="gone" />
 
     <LinearLayout

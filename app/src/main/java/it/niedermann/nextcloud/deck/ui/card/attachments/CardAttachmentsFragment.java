@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -77,8 +75,8 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
+import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED;
-import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HALF_EXPANDED;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
@@ -120,7 +118,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     private CardAttachmentAdapter adapter;
 
     private AbstractPickerAdapter<?> pickerAdapter;
-    private boolean pickerAnimationInProgress = false;
 
     private final OnBackPressedCallback backPressedCallback = new OnBackPressedCallback(true) {
         @Override
@@ -193,7 +190,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 if (newState == STATE_HIDDEN) {
                     backPressedCallback.setEnabled(false);
                     binding.pickerBackdrop.setVisibility(GONE);
-                    setBottomNavigationVisibility(false);
                 } else {
                     if (newState == STATE_EXPANDED) {
                         binding.pickerBackdrop.setBackgroundColor(backdropColorExpanded);
@@ -206,18 +202,21 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                if (!pickerAnimationInProgress) {
-                    if (slideOffset < 0 && slideOffset < lastOffset && binding.bottomNavigation.getTranslationY() == 0) {
-                        setBottomNavigationVisibility(false);
-                    } else if (slideOffset > lastOffset && binding.bottomNavigation.getTranslationY() != 0) {
-                        setBottomNavigationVisibility(true);
-                    }
-                }
                 if (slideOffset <= 0) {
                     @ColorInt
                     int newBackdropColor = ArgbEvaluatorCompat.getInstance().evaluate(slideOffset * -1, backdropColorExpanded, backdropColorCollapsed);
                     if (((ColorDrawable) binding.pickerBackdrop.getBackground()).getColor() != newBackdropColor) {
                         binding.pickerBackdrop.setBackgroundColor(newBackdropColor);
+                    }
+                    binding.bottomNavigation.setTranslationY((slideOffset * -1) * bottomNavigationHeight);
+                    if (slideOffset <= lastOffset && slideOffset != 0) {
+                        if (binding.fab.getVisibility() == GONE) {
+                            binding.fab.show();
+                        }
+                    } else {
+                        if (binding.fab.getVisibility() == VISIBLE) {
+                            binding.fab.hide();
+                        }
                     }
                 }
                 lastOffset = slideOffset;
@@ -264,8 +263,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 } else {
                     binding.bottomNavigation.setSelectedItemId(R.id.gallery);
                     showGalleryPicker();
-                    setBottomNavigationVisibility(true);
-                    mBottomSheetBehaviour.setState(STATE_HALF_EXPANDED);
+                    mBottomSheetBehaviour.setState(STATE_COLLAPSED);
                     backPressedCallback.setEnabled(true);
                     requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), backPressedCallback);
                 }
@@ -301,26 +299,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     public void onResume() {
         super.onResume();
         backPressedCallback.setEnabled(binding.bottomNavigation.getTranslationY() == 0);
-    }
-
-    private void setBottomNavigationVisibility(boolean visible) {
-        pickerAnimationInProgress = true;
-        binding.bottomNavigation
-                .animate()
-                .translationY(visible ? 0 : bottomNavigationHeight)
-                .setDuration(250)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        pickerAnimationInProgress = false;
-                    }
-                })
-                .start();
-        if (visible) {
-            binding.fab.hide();
-        } else {
-            binding.fab.show();
-        }
     }
 
     private void showGalleryPicker() {
@@ -543,7 +521,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                     showFilePicker();
                 } else {
                     Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
-                    setBottomNavigationVisibility(false);
                 }
                 break;
             }
@@ -552,7 +529,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                     showGalleryPicker();
                 } else {
                     Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
-                    setBottomNavigationVisibility(false);
                 }
                 break;
             }
