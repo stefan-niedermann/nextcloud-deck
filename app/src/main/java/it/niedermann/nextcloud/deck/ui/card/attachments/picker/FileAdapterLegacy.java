@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments.picker;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Pair;
@@ -30,17 +29,14 @@ import static java.util.stream.Collectors.toList;
 public class FileAdapterLegacy extends AbstractPickerAdapter<RecyclerView.ViewHolder> {
 
     @NonNull
-    private final Context context;
-    @NonNull
     private final List<File> files;
     @NonNull
     protected final BiConsumer<Uri, Pair<String, RequestBuilder<?>>> onSelect;
     @NonNull
     protected final Runnable openNativePicker;
 
-    public FileAdapterLegacy(@NonNull Context context, @NonNull BiConsumer<Uri, Pair<String, RequestBuilder<?>>> onSelect, @NonNull Runnable openNativePicker) {
+    public FileAdapterLegacy(@NonNull BiConsumer<Uri, Pair<String, RequestBuilder<?>>> onSelect, @NonNull Runnable openNativePicker) {
         // TODO run in separate thread?
-        this.context = context;
         this.onSelect = onSelect;
         this.openNativePicker = openNativePicker;
         this.files = Arrays.stream(requireNonNull(requireNonNull(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)).listFiles()))

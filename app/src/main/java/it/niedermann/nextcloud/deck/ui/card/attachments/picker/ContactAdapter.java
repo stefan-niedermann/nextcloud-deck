@@ -36,7 +36,6 @@ import static android.provider.ContactsContract.Contacts._ID;
 
 public class ContactAdapter extends AbstractCursorPickerAdapter<RecyclerView.ViewHolder> {
 
-
     private final int lookupKeyColumnIndex;
     private final int displayNameColumnIndex;
 

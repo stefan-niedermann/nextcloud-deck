@@ -308,7 +308,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 //                        // TODO Only usable with Scoped Storage
 //                        pickerAdapter = new FileAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeFilePicker);
 //                    } else {
-                    pickerAdapter = new FileAdapterLegacy(requireContext(), (uri, pair) -> {
+                    pickerAdapter = new FileAdapterLegacy((uri, pair) -> {
                         previewViewModel.prepareDialog(pair.first, pair.second);
                         PreviewDialog.newInstance().show(getChildFragmentManager(), PreviewDialog.class.getSimpleName());
                         observeOnce(previewViewModel.getResult(), getViewLifecycleOwner(), (submitPositive) -> {
