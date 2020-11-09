@@ -95,5 +95,6 @@ public abstract class AbstractCursorPickerAdapter<T extends RecyclerView.ViewHol
      */
     public void onDestroy() {
         cursor.close();
+        bindExecutor.shutdownNow();
     }
 }

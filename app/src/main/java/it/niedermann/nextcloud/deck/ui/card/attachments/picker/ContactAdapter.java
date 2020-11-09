@@ -67,12 +67,12 @@ public class ContactAdapter extends AbstractCursorPickerAdapter<RecyclerView.Vie
                 break;
             }
             case VIEW_TYPE_ITEM: {
-                bindExecutor.execute(() -> {
-                    final ContactItemViewHolder viewHolder = (ContactItemViewHolder) holder;
-                    if (!cursor.isClosed()) {
-                        cursor.moveToPosition(position - 1);
-                        final String displayName = cursor.getString(displayNameColumnIndex);
-                        final String lookupKey = cursor.getString(lookupKeyColumnIndex);
+                final ContactItemViewHolder viewHolder = (ContactItemViewHolder) holder;
+                if (!cursor.isClosed()) {
+                    cursor.moveToPosition(position - 1);
+                    final String displayName = cursor.getString(displayNameColumnIndex);
+                    final String lookupKey = cursor.getString(lookupKeyColumnIndex);
+                    bindExecutor.execute(() -> {
                         try (InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(contentResolver, Uri.withAppendedPath(CONTENT_LOOKUP_URI, lookupKey))) {
                             final Bitmap thumbnail = BitmapFactory.decodeStream(inputStream);
                             String contactInformation = "";
@@ -93,10 +93,10 @@ public class ContactAdapter extends AbstractCursorPickerAdapter<RecyclerView.Vie
                         } catch (IOException ignored) {
                             new Handler(Looper.getMainLooper()).post(viewHolder::bindError);
                         }
-                    } else {
-                        new Handler(Looper.getMainLooper()).post(viewHolder::bindError);
-                    }
-                });
+                    });
+                } else {
+                    new Handler(Looper.getMainLooper()).post(viewHolder::bindError);
+                }
                 break;
             }
         }
