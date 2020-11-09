@@ -68,8 +68,8 @@ public class GalleryAdapter extends AbstractCursorPickerAdapter<RecyclerView.Vie
                 break;
             }
             case VIEW_TYPE_ITEM: {
+                final long id = getItemId(position);
                 bindExecutor.execute(() -> {
-                    final long id = getItemId(position);
                     try {
                         final Bitmap thumbnail;
                         if (SDK_INT >= Q) {
