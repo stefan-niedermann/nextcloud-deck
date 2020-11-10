@@ -1,1 +1,1 @@
-- 📎 Add more sources to upload attachments (#289)
+- 📎 New attachment picker (#289)
