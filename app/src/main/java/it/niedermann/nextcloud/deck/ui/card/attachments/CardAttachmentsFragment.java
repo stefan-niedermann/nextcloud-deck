@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -18,6 +19,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.SharedElementCallback;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -36,6 +38,10 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
+import id.zelory.compressor.constraint.FormatConstraint;
+import id.zelory.compressor.constraint.QualityConstraint;
+import id.zelory.compressor.constraint.ResolutionConstraint;
+import id.zelory.compressor.constraint.SizeConstraint;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -59,6 +65,8 @@ import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDia
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.takephoto.TakePhotoActivity;
 import it.niedermann.nextcloud.deck.util.DeckColorUtil;
+import it.niedermann.nextcloud.deck.util.JavaCompressor;
+import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 import it.niedermann.nextcloud.deck.util.VCardUtil;
 
 import static android.Manifest.permission.CAMERA;
@@ -414,52 +422,68 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             case ContentResolver.SCHEME_CONTENT:
             case ContentResolver.SCHEME_FILE: {
                 DeckLog.verbose("--- found content URL " + sourceUri.getPath());
-                final File fileToUpload = copyContentUriToTempFile(requireContext(), sourceUri, editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId());
-                for (Attachment existingAttachment : editViewModel.getFullCard().getAttachments()) {
-                    final String existingPath = existingAttachment.getLocalPath();
-                    if (existingPath != null && existingPath.equals(fileToUpload.getAbsolutePath())) {
-                        BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
-                        return;
-                    }
-                }
-                final Instant now = Instant.now();
-                final Attachment a = new Attachment();
-                a.setMimetype(mimeType);
-                a.setData(fileToUpload.getName());
-                a.setFilename(fileToUpload.getName());
-                a.setBasename(fileToUpload.getName());
-                a.setFilesize(fileToUpload.length());
-                a.setLocalPath(fileToUpload.getAbsolutePath());
-                a.setLastModifiedLocal(now);
-                a.setCreatedAt(now);
-                a.setStatusEnum(DBStatus.LOCAL_EDITED);
-                editViewModel.getFullCard().getAttachments().add(0, a);
-                adapter.addAttachment(a);
-                if (!editViewModel.isCreateMode()) {
-                    WrappedLiveData<Attachment> liveData = syncManager.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload);
-                    observeOnce(liveData, getViewLifecycleOwner(), (next) -> {
-                        if (liveData.hasError()) {
-                            Throwable t = liveData.getError();
-                            if (t instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) t).getStatusCode() == HTTP_CONFLICT) {
-                                // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
-                                editViewModel.getFullCard().getAttachments().remove(a);
-                                adapter.removeAttachment(a);
-                                BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
-                            } else {
-                                ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", t), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                            }
-                        } else {
-                            editViewModel.getFullCard().getAttachments().remove(a);
-                            editViewModel.getFullCard().getAttachments().add(0, next);
-                            adapter.replaceAttachment(a, next);
-                        }
-                    });
+                final File originalFile = copyContentUriToTempFile(requireContext(), sourceUri, editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId());
+                if (MimeTypeUtil.isImage(mimeType)) {
+                    JavaCompressor.compress(
+                            (AppCompatActivity) requireActivity(),
+                            originalFile,
+                            (status, file) -> uploadNewAttachmentFromFile(status ? file : originalFile, mimeType),
+                            new ResolutionConstraint(1920, 1920),
+                            new SizeConstraint(1_000_000, 10, 10, 10),
+                            new FormatConstraint(Bitmap.CompressFormat.JPEG),
+                            new QualityConstraint(80)
+                    );
+                } else {
+                    uploadNewAttachmentFromFile(originalFile, mimeType);
                 }
                 break;
             }
             default: {
                 throw new UploadAttachmentFailedException("Unknown URI scheme: " + sourceUri.getScheme());
             }
+        }
+    }
+
+    private void uploadNewAttachmentFromFile(@NonNull File fileToUpload, String mimeType) {
+        for (Attachment existingAttachment : editViewModel.getFullCard().getAttachments()) {
+            final String existingPath = existingAttachment.getLocalPath();
+            if (existingPath != null && existingPath.equals(fileToUpload.getAbsolutePath())) {
+                BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                return;
+            }
+        }
+        final Instant now = Instant.now();
+        final Attachment a = new Attachment();
+        a.setMimetype(mimeType);
+        a.setData(fileToUpload.getName());
+        a.setFilename(fileToUpload.getName());
+        a.setBasename(fileToUpload.getName());
+        a.setFilesize(fileToUpload.length());
+        a.setLocalPath(fileToUpload.getAbsolutePath());
+        a.setLastModifiedLocal(now);
+        a.setCreatedAt(now);
+        a.setStatusEnum(DBStatus.LOCAL_EDITED);
+        editViewModel.getFullCard().getAttachments().add(0, a);
+        adapter.addAttachment(a);
+        if (!editViewModel.isCreateMode()) {
+            WrappedLiveData<Attachment> liveData = syncManager.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload);
+            observeOnce(liveData, getViewLifecycleOwner(), (next) -> {
+                if (liveData.hasError()) {
+                    Throwable t = liveData.getError();
+                    if (t instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) t).getStatusCode() == HTTP_CONFLICT) {
+                        // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
+                        editViewModel.getFullCard().getAttachments().remove(a);
+                        adapter.removeAttachment(a);
+                        BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                    } else {
+                        ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", t), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    }
+                } else {
+                    editViewModel.getFullCard().getAttachments().remove(a);
+                    editViewModel.getFullCard().getAttachments().add(0, next);
+                    adapter.replaceAttachment(a, next);
+                }
+            });
         }
     }
 
