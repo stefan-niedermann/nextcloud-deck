@@ -286,4 +286,11 @@
     <string name="simple_clone">Kopyala</string>
     <string name="user_avatar">Kullanıcı avatarı</string>
     <string name="simple_unassign">Atamayı kaldır</string>
-</resources>
+    <string name="simple_contact">Kişi</string>
+    <string name="simple_file">Dosya</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="min_api_21">Bu özellik için en az Android 5 sürümü gereklidir</string>
+    <string name="take_photo">Bir fotoğraf çekin</string>
+    <string name="take_photo_switch_camera">Kamerayı değiştir</string>
+    <string name="take_photo_toggle_torch">Feneri aç/kapat</string>
+    </resources>

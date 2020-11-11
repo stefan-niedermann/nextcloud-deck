@@ -111,6 +111,7 @@
     <string name="no_lists_yet">Aucune liste pour l\'instant</string>
     <string name="do_you_want_to_save_your_changes">Souhaitez-vous enregistrer vos modifications ?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Souhaitez-vous archiver toutes les carte de %1$s ?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Souhaitez-vous archiver toutes les cartes de %1$s affichées par le filtre?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Cela supprimera définitivement l\'ensemble des %1$d cartes de cette liste.</item>
         <item quantity="other">Cela supprimera définitivement l\'ensemble des %1$d cartes de cette liste.</item>
@@ -281,4 +282,15 @@
     <string name="project_type_room">Salon de discussion</string>
     <string name="simple_move">Déplacer</string>
     <string name="cannot_upload_files_without_permission">Impossible de téléverser des fichiers sans permission</string>
+    <string name="clone_cards">Cloner les cartes</string>
+    <string name="simple_clone">Cloner</string>
+    <string name="user_avatar">Avatar utilisateur</string>
+    <string name="simple_unassign">Désassigner</string>
+    <string name="simple_contact">Contact</string>
+    <string name="simple_file">Fichier</string>
+    <string name="simple_camera">Appareil photo</string>
+    <string name="min_api_21">Cette fonctionnalité est disponible à partir d\'Android 5</string>
+    <string name="take_photo">Prendre une photo</string>
+    <string name="take_photo_switch_camera">Changer d\'appareil photo</string>
+    <string name="take_photo_toggle_torch">Allumer la lampe</string>
     </resources>

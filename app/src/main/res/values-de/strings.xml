@@ -286,4 +286,11 @@
     <string name="simple_clone">Klonen</string>
     <string name="user_avatar">Benutzer-Avatar</string>
     <string name="simple_unassign">Zuordnung aufheben</string>
-</resources>
+    <string name="simple_contact">Kontakt</string>
+    <string name="simple_file">Datei</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="min_api_21">Diese Funktion benötigt Android 5 oder neuer</string>
+    <string name="take_photo">Foto aufnehmen</string>
+    <string name="take_photo_switch_camera">Kamera wechseln</string>
+    <string name="take_photo_toggle_torch">Taschenlampe umschalten</string>
+    </resources>
