@@ -286,4 +286,11 @@
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Avatar do usuário</string>
     <string name="simple_unassign">Desatribuir</string>
-</resources>
+    <string name="simple_contact">Contato</string>
+    <string name="simple_file">Arquivo</string>
+    <string name="simple_camera">Câmera</string>
+    <string name="min_api_21">Este recurso requer pelo menos Android 5</string>
+    <string name="take_photo">Tire uma foto</string>
+    <string name="take_photo_switch_camera">Trocar câmera</string>
+    <string name="take_photo_toggle_torch">Alternar tocha</string>
+    </resources>
