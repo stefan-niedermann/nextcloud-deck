@@ -293,4 +293,13 @@
     <string name="take_photo">Scatta una foto</string>
     <string name="take_photo_switch_camera">Cambia fotocamera</string>
     <string name="take_photo_toggle_torch">Attiva la torcia</string>
-    </resources>
+    <string name="show_all_contacts">Mostra tutti i contatti</string>
+    <string name="show_all_files">Mostra tutti i file</string>
+    <string name="recent">Recenti</string>
+    <string name="upload_a_new_attachment">Carica un nuovo allegato</string>
+    <string name="contacts">Contatti</string>
+    <string name="downloads">Scaricamenti</string>
+    <string name="files">File</string>
+    <string name="gallery">Galleria</string>
+    <string name="simple_attach">allega</string>
+</resources>
