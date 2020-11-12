@@ -293,4 +293,13 @@
     <string name="take_photo">Tomar una foto</string>
     <string name="take_photo_switch_camera">Cambiar cámara</string>
     <string name="take_photo_toggle_torch">Activar/desactivar linterna</string>
-    </resources>
+    <string name="show_all_contacts">Mostrar todos los contactos</string>
+    <string name="show_all_files">Mostrar todos los archivos</string>
+    <string name="recent">Reciente</string>
+    <string name="upload_a_new_attachment">Subir un nuevo adjunto</string>
+    <string name="contacts">Contactos</string>
+    <string name="downloads">Descargas</string>
+    <string name="files">Archivos</string>
+    <string name="gallery">Galería</string>
+    <string name="simple_attach">adjuntar</string>
+</resources>

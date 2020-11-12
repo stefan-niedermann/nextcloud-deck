@@ -293,4 +293,9 @@
     <string name="take_photo">Prendre une photo</string>
     <string name="take_photo_switch_camera">Changer d\'appareil photo</string>
     <string name="take_photo_toggle_torch">Allumer la lampe</string>
+    <string name="show_all_files">Afficher tous les fichiers</string>
+    <string name="contacts">Contacts</string>
+    <string name="downloads">Téléchargements</string>
+    <string name="files">Fichiers</string>
+    <string name="gallery">Galerie</string>
     </resources>
