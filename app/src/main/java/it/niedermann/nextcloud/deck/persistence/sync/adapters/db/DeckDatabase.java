@@ -42,6 +42,14 @@ import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.model.relations.UserInBoard;
 import it.niedermann.nextcloud.deck.model.relations.UserInGroup;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetBoard;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetDue;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetSort;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetStack;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetLabel;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccessControlDao;
@@ -95,9 +103,18 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.Sta
                 JoinCardWithProject.class,
                 UserInGroup.class,
                 UserInBoard.class,
+                // FilterWidget:
+                FilterWidget.class,
+                FilterWidgetAccount.class,
+                FilterWidgetBoard.class,
+                FilterWidgetStack.class,
+                FilterWidgetLabel.class,
+                FilterWidgetUser.class,
+                FilterWidgetDue.class,
+                FilterWidgetSort.class,
         },
         exportSchema = false,
-        version = 22
+        version = 23
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -378,29 +395,28 @@ public abstract class DeckDatabase extends RoomDatabase {
     private static final Migration MIGRATION_22_23 = new Migration(22, 23) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-            database.execSQL("CREATE TABLE `FilterWidgets` (`id` INTEGER PRIMARY KEY AUTOINCREMENT)");
-            database.execSQL("CREATE TABLE `FilterWidgetAccounts` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "filterWidgetId INTEGER NOT NULL, accountId INTEGER NOT NULL, " +
-                    "FOREIGN KEY (accountId) REFERENCES Account(id), FOREIGN KEY (filterWidgetId) REFERENCES FilterWidgets(id))");
-            database.execSQL("CREATE TABLE `FilterWidgetBoards` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "filterAccountId INTEGER NOT NULL, boardId INTEGER NOT NULL, FOREIGN KEY (boardId) REFERENCES Board(id), " +
-                    "FOREIGN KEY (filterAccountId) REFERENCES FillterWidtetAccounts(id))");
-            database.execSQL("CREATE TABLE `FilterWidgetStacks` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "filterBoardId INTEGER NOT NULL, stackId INTEGER NOT NULL, FOREIGN KEY (stackId) REFERENCES Stack(id), " +
-                    "FOREIGN KEY (filterBoardId) REFERENCES FillterWidtetBoards(id))");
-            database.execSQL("CREATE TABLE `FilterWidgetTags` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "filterBoardId INTEGER NOT NULL, labelId INTEGER NOT NULL, FOREIGN KEY (labelId) REFERENCES Label(id), " +
-                    "FOREIGN KEY (filterBoardId) REFERENCES FillterWidtetBoards(id))");
-            database.execSQL("CREATE TABLE `FilterWidgetUsers` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "filterBoardId INTEGER NOT NULL, userId INTEGER NOT NULL, FOREIGN KEY (userId) REFERENCES Label(id), " +
-                    "FOREIGN KEY (filterBoardId) REFERENCES FillterWidtetBoards(id))");
-            database.execSQL("CREATE TABLE `FilterWidgetDue` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "filterBoardId INTEGER NOT NULL, dueType INTEGER NOT NULL, " +
-                    "FOREIGN KEY (filterBoardId) REFERENCES FillterWidtetBoards(id))");
-            database.execSQL("CREATE TABLE `FilterWidgetSort` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "filterBoardId INTEGER NOT NULL, sortType INT NOT NULL, ruleOrder INT NOT NULL, " +
-                    "FOREIGN KEY (filterBoardId) REFERENCES FillterWidtetBoards(id))");
-            database.execSQL("CREATE UNIQUE INDEX unique_idx_filter_widget_sort_type_board ON FilterWidgetSort (`sortType`, `filterBoardId`)");
+            database.execSQL("CREATE TABLE `FilterWidget` (`id` INTEGER PRIMARY KEY AUTOINCREMENT)");
+            database.execSQL("CREATE TABLE `FilterWidgetAccount` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterWidgetId` INTEGER, `accountId` INTEGER, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterWidgetId`) REFERENCES `FilterWidget`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE TABLE `FilterWidgetBoard` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterAccountId` INTEGER, `boardId` INTEGER, FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterAccountId`) REFERENCES `FilterWidgetAccount`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE TABLE `FilterWidgetDue` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterBoardId` INTEGER, `dueType` INTEGER NOT NULL, FOREIGN KEY(`filterBoardId`) REFERENCES `FilterWidgetBoard`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE TABLE `FilterWidgetLabel` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterBoardId` INTEGER, `labelId` INTEGER, FOREIGN KEY(`labelId`) REFERENCES `Label`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterBoardId`) REFERENCES `FilterWidgetBoard`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE TABLE `FilterWidgetSort` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterBoardId` INTEGER, `direction` INTEGER NOT NULL, `criteria` INTEGER NOT NULL, `ruleOrder` INTEGER NOT NULL, FOREIGN KEY(`filterBoardId`) REFERENCES `FilterWidgetBoard`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE TABLE `FilterWidgetStack` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterBoardId` INTEGER, `stackId` INTEGER, FOREIGN KEY(`stackId`) REFERENCES `Stack`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterBoardId`) REFERENCES `FilterWidgetBoard`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE TABLE `FilterWidgetUser` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterBoardId` INTEGER, `userId` INTEGER, FOREIGN KEY(`userId`) REFERENCES `User`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterBoardId`) REFERENCES `FilterWidgetBoard`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetAccount_accountId` ON `FilterWidgetAccount` (`accountId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetBoard_boardId` ON `FilterWidgetBoard` (`boardId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetBoard_filterAccountId` ON `FilterWidgetBoard` (`filterAccountId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetLabel_filterBoardId` ON `FilterWidgetLabel` (`filterBoardId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetLabel_labelId` ON `FilterWidgetLabel` (`labelId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetSort_filterBoardId` ON `FilterWidgetSort` (`filterBoardId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetStack_filterBoardId` ON `FilterWidgetStack` (`filterBoardId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetStack_stackId` ON `FilterWidgetStack` (`stackId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetUser_filterBoardId` ON `FilterWidgetUser` (`filterBoardId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetUser_userId` ON `FilterWidgetUser` (`userId`)");
+            database.execSQL("CREATE UNIQUE INDEX `unique_idx_FilterWidgetDue_filterBoardId` ON `FilterWidgetDue` (`filterBoardId`)");
+            database.execSQL("CREATE INDEX `unique_idx_FilterWidgetSort_filterBoardId_criteria` ON `FilterWidgetSort` (`filterBoardId`, `criteria`)");
+            database.execSQL("CREATE INDEX `unique_idx_FilterWidgetSort_filterBoardId_ruleOrder` ON `FilterWidgetSort` (`filterBoardId`, `ruleOrder`)");
+
         }
     };
 

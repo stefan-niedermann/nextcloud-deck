@@ -5,18 +5,18 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.Label;
 
 @Entity(
         indices = {
-                @Index(value = "filterBoardId", name = "idx_FilterWidgetUser_filterBoardId"),
-                @Index(value = "userId", name = "idx_FilterWidgetUser_userId")
+                @Index(value = "filterBoardId", name = "idx_FilterWidgetLabel_filterBoardId"),
+                @Index(value = "labelId", name = "idx_FilterWidgetLabel_labelId")
         },
         foreignKeys = {
                 @ForeignKey(
-                        entity = User.class,
+                        entity = Label.class,
                         parentColumns = "localId",
-                        childColumns = "userId", onDelete = ForeignKey.CASCADE
+                        childColumns = "labelId", onDelete = ForeignKey.CASCADE
                 ),
                 @ForeignKey(
                         entity = FilterWidgetBoard.class,
@@ -25,12 +25,12 @@ import it.niedermann.nextcloud.deck.model.User;
                 )
         }
 )
-public class FilterWidgetUser {
+public class FilterWidgetLabel {
 
     @PrimaryKey(autoGenerate = true)
     private Long id;
     private Long filterBoardId;
-    private Long userId;
+    private Long labelId;
 
     public Long getId() {
         return id;
@@ -48,12 +48,12 @@ public class FilterWidgetUser {
         this.filterBoardId = filterBoardId;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getLabelId() {
+        return labelId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setLabelId(Long labelId) {
+        this.labelId = labelId;
     }
 
     @Override
@@ -61,19 +61,19 @@ public class FilterWidgetUser {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FilterWidgetUser that = (FilterWidgetUser) o;
+        FilterWidgetLabel that = (FilterWidgetLabel) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (filterBoardId != null ? !filterBoardId.equals(that.filterBoardId) : that.filterBoardId != null)
             return false;
-        return userId != null ? userId.equals(that.userId) : that.userId == null;
+        return labelId != null ? labelId.equals(that.labelId) : that.labelId == null;
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (filterBoardId != null ? filterBoardId.hashCode() : 0);
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + (labelId != null ? labelId.hashCode() : 0);
         return result;
     }
 }
