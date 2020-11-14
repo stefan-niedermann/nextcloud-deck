@@ -9,23 +9,25 @@
     android:padding="@dimen/spacer_2x">
 
     <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="@dimen/spacer_1x">
+        android:layout_width="@dimen/avatar_size"
+        android:layout_height="@dimen/avatar_size"
+        android:layout_marginEnd="@dimen/spacer_2x">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/preview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/spacer_1x"
+            android:contentDescription="@null"
+            android:padding="@dimen/spacer_1hx"
             app:srcCompat="@drawable/ic_attach_file_grey600_24dp" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/not_synced_yet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
+            android:contentDescription="@string/not_synced_yet"
             android:visibility="gone"
             app:srcCompat="@drawable/ic_sync_blue_24dp"
             tools:visibility="visible" />
@@ -36,6 +38,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginEnd="@dimen/spacer_1x"
         android:layout_weight="1"
         android:textAppearance="?attr/textAppearanceListItem"
         tools:maxLength="30"

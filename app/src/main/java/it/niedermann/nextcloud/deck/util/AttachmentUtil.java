@@ -3,8 +3,11 @@ package it.niedermann.nextcloud.deck.util;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
+import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -58,27 +61,13 @@ public class AttachmentUtil {
         return accountUrl + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachmentRemoteId;
     }
 
-    public static File copyContentUriToTempFile(@NonNull Context context, @NonNull Uri currentUri, long accountId, Long localId) throws IOException, IllegalArgumentException {
-        String fullTempPath = context.getApplicationContext().getFilesDir().getAbsolutePath() + "/attachments/account-" + accountId + "/card-" + (localId == null ? "pending-creation" : localId) + '/' + UriUtils.getDisplayNameForUri(currentUri, context);
-        DeckLog.verbose("----- fullTempPath: " + fullTempPath);
-        InputStream inputStream = context.getContentResolver().openInputStream(currentUri);
+    public static File copyContentUriToTempFile(@NonNull Context context, @NonNull Uri currentUri, long accountId, Long localCardId) throws IOException, IllegalArgumentException {
+        final InputStream inputStream = context.getContentResolver().openInputStream(currentUri);
         if (inputStream == null) {
             throw new IOException("Could not open input stream for " + currentUri.getPath());
         }
-        File cacheFile = new File(fullTempPath);
-        File tempDir = cacheFile.getParentFile();
-        if (tempDir == null) {
-            throw new FileNotFoundException("could not cacheFile.getPranetFile()");
-        }
-        if (!tempDir.exists()) {
-            if (!tempDir.mkdirs()) {
-                throw new IOException("Directory for temporary file does not exist and could not be created.");
-            }
-        }
-        if (!cacheFile.createNewFile()) {
-            throw new IOException("Failed to create cacheFile");
-        }
-        FileOutputStream outputStream = new FileOutputStream(fullTempPath);
+        final File cacheFile = getTempCacheFile(context, "attachments/account-" + accountId + "/card-" + (localCardId == null ? "pending-creation" : localCardId) + '/' + UriUtils.getDisplayNameForUri(currentUri, context));
+        final FileOutputStream outputStream = new FileOutputStream(cacheFile);
         byte[] buffer = new byte[4096];
 
         int count;
@@ -88,4 +77,62 @@ public class AttachmentUtil {
         DeckLog.verbose("----- wrote");
         return cacheFile;
     }
+
+    /**
+     * Creates a new {@link File}
+     */
+    public static File getTempCacheFile(@NonNull Context context, String fileName) throws IOException {
+        File cacheFile = new File(context.getApplicationContext().getFilesDir().getAbsolutePath() + "/" + fileName);
+
+        DeckLog.verbose("- Full path for new cache file: " + cacheFile.getAbsolutePath());
+
+        final File tempDir = cacheFile.getParentFile();
+        if (tempDir == null) {
+            throw new FileNotFoundException("could not cacheFile.getParentFile()");
+        }
+        if (!tempDir.exists()) {
+            DeckLog.verbose("-- The folder in which the new file should be created does not exist yet. Trying to create it...");
+            if (tempDir.mkdirs()) {
+                DeckLog.verbose("--- Creation successful");
+            } else {
+                throw new IOException("Directory for temporary file does not exist and could not be created.");
+            }
+        }
+
+        DeckLog.verbose("- Try to create actual cache file");
+        if (cacheFile.createNewFile()) {
+            DeckLog.verbose("-- Successfully created cache file");
+        } else {
+            throw new IOException("Failed to create cacheFile");
+        }
+
+        return cacheFile;
+    }
+
+    @DrawableRes
+    public static int getIconForMimeType(@NonNull String mimeType) {
+        if (TextUtils.isEmpty(mimeType)) {
+            return R.drawable.ic_attach_file_grey600_24dp;
+        } else if (MimeTypeUtil.isAudio(mimeType)) {
+            return R.drawable.ic_music_note_grey600_24dp;
+        } else if (MimeTypeUtil.isVideo(mimeType)) {
+            return R.drawable.ic_local_movies_grey600_24dp;
+        } else if (MimeTypeUtil.isPdf(mimeType)) {
+            return R.drawable.ic_baseline_picture_as_pdf_24;
+        } else if (MimeTypeUtil.isContact(mimeType)) {
+            return R.drawable.ic_baseline_contact_mail_24;
+        } else {
+            return R.drawable.ic_attach_file_grey600_24dp;
+        }
+    }
+
+    public static String getMimeType(@Nullable String url) {
+        String type = null;
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        }
+        return type;
+    }
+
 }

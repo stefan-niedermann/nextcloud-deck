@@ -9,6 +9,14 @@ The license of this project allows you to verify that no data is collected by th
 
 This is a list of permissions required and asked by the App in order to properly work on your device:
 
+- `android.permission.CAMERA`
+
+  Used for the preview of the camera in the attachments picker and to capture photos to attach them directly to a card
+
+- `android.permission.READ_CONTACTS`
+
+  Used to display and choose contacts directly within the attachment picker without the need of opening an external app
+
 - `android.permission.ACCESS_NETWORK_STATE`
 
   Used to provide offline support and make the "Sync only on Wi-Fi" option possible.

@@ -311,4 +311,20 @@
     <string name="simple_clone">Clone</string>
     <string name="user_avatar">User avatar</string>
     <string name="simple_unassign">Unassign</string>
+    <string name="simple_contact">Contact</string>
+    <string name="simple_file">File</string>
+    <string name="simple_camera">Camera</string>
+    <string name="min_api_21">This feature requires at least Android 5</string>
+    <string name="take_photo">Take a photo</string>
+    <string name="take_photo_switch_camera">Switch camera</string>
+    <string name="take_photo_toggle_torch">Toggle torch</string>
+    <string name="show_all_contacts">Show all contacts</string>
+    <string name="show_all_files">Show all files</string>
+    <string name="recent">Recent</string>
+    <string name="upload_a_new_attachment">Upload a new attachment</string>
+    <string name="contacts">Contacts</string>
+    <string name="downloads">Downloads</string>
+    <string name="files">Files</string>
+    <string name="gallery">Gallery</string>
+    <string name="simple_attach">attach</string>
 </resources>

@@ -286,4 +286,20 @@
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Avatar do usuario</string>
     <string name="simple_unassign">Desasignar</string>
+    <string name="simple_contact">Contacto</string>
+    <string name="simple_file">Ficheiro</string>
+    <string name="simple_camera">Cámara</string>
+    <string name="min_api_21">Esta función require polo menos Android 5</string>
+    <string name="take_photo">Tirar unha foto</string>
+    <string name="take_photo_switch_camera">Cambiar de cámara</string>
+    <string name="take_photo_toggle_torch">Alternar o facho</string>
+    <string name="show_all_contacts">Amosar todos os contactos</string>
+    <string name="show_all_files">Amosar todos os ficheiros</string>
+    <string name="recent">Recente</string>
+    <string name="upload_a_new_attachment">Enviar un novo anexo</string>
+    <string name="contacts">Contactos</string>
+    <string name="downloads">Descargas</string>
+    <string name="files">Ficheiros</string>
+    <string name="gallery">Galería</string>
+    <string name="simple_attach">anexar</string>
 </resources>

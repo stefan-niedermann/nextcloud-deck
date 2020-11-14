@@ -58,7 +58,7 @@
     <string name="about_source_title">Quellcode</string>
     <string name="about_source">Dieses Projekt wird auf GitHub gehostet: %1$s</string>
     <string name="about_issues_title">Probleme</string>
-    <string name="about_issues">Sie können Fehler, Verbesserungsvorschläge oder Wünsche für neue Funktionen im GitHub-Ticket-System erfassen: %1$s</string>
+    <string name="about_issues">Sie können Fehler, Verbesserungsvorschläge oder Wünsche für neue Funktionen als Issue auf GitHub erfassen: %1$s</string>
     <string name="about_translate_title">Übersetzen</string>
     <string name="about_translate">Treten Sie dem Nextcloud-Team bei Transifex bei und helfen Sie uns, diese App zu übersetzen: %1$s</string>
     <string name="about_app_license_title">App-Lizenz</string>
@@ -101,10 +101,10 @@
     <string name="card_edit_attachments">Anhänge</string>
     <string name="card_edit_activity">Aktivitäten</string>
     <string name="about_server_app_version_text">Serverversion der App:</string>
-    <string name="no_files_attached_to_this_card">An diese Karte sind keine Dateien angehängt.</string>
+    <string name="no_files_attached_to_this_card">Dieser Karte sind keine Dateien angehängt.</string>
     <string name="attachments">Anhänge</string>
     <string name="no_cards">Bislang keine Karten</string>
-    <string name="no_account">Kein Konto konfiguriert</string>
+    <string name="no_account">Kein Konto eingerichtet</string>
     <string name="account_already_added">Konto wurde bereits hinzugefügt</string>
     <string name="account_is_getting_imported">Konto wird importiert</string>
     <string name="not_synced_yet">Noch nicht synchronisiert</string>
@@ -286,4 +286,20 @@
     <string name="simple_clone">Klonen</string>
     <string name="user_avatar">Benutzer-Avatar</string>
     <string name="simple_unassign">Zuordnung aufheben</string>
+    <string name="simple_contact">Kontakt</string>
+    <string name="simple_file">Datei</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="min_api_21">Diese Funktion benötigt Android 5 oder neuer</string>
+    <string name="take_photo">Foto aufnehmen</string>
+    <string name="take_photo_switch_camera">Kamera wechseln</string>
+    <string name="take_photo_toggle_torch">Taschenlampe umschalten</string>
+    <string name="show_all_contacts">Alle Kontakte anzeigen</string>
+    <string name="show_all_files">Alle Dateien anzeigen</string>
+    <string name="recent">Neueste</string>
+    <string name="upload_a_new_attachment">Neuen Anhang hochladen</string>
+    <string name="contacts">Kontakte</string>
+    <string name="downloads">Downloads</string>
+    <string name="files">Dateien</string>
+    <string name="gallery">Galerie</string>
+    <string name="simple_attach">anhängen</string>
 </resources>

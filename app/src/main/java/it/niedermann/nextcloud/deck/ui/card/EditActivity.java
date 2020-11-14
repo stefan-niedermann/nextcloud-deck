@@ -25,6 +25,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
@@ -171,12 +172,16 @@ public class EditActivity extends BrandedActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_card_save) {
-            saveAndFinish();
+            saveAndRun(super::finish);
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void saveAndFinish() {
+    /**
+     * Tries to save the current {@link FullCard} from the {@link EditCardViewModel} and then runs the given {@link Runnable}
+     * @param runnable
+     */
+    private void saveAndRun(@NonNull Runnable runnable) {
         if (!viewModel.isPendingCreation()) {
             viewModel.setPendingCreation(true);
             final String title = viewModel.getFullCard().getCard().getTitle();
@@ -194,9 +199,9 @@ public class EditActivity extends BrandedActivity {
                         .show();
             } else {
                 if (viewModel.isCreateMode()) {
-                    observeOnce(syncManager.createFullCard(viewModel.getAccount().getId(), viewModel.getBoardId(), viewModel.getFullCard().getCard().getStackId(), viewModel.getFullCard()), EditActivity.this, (card) -> super.finish());
+                    observeOnce(syncManager.createFullCard(viewModel.getAccount().getId(), viewModel.getBoardId(), viewModel.getFullCard().getCard().getStackId(), viewModel.getFullCard()), EditActivity.this, (card) -> runnable.run());
                 } else {
-                    observeOnce(syncManager.updateCard(viewModel.getFullCard()), EditActivity.this, (card) -> super.finish());
+                    observeOnce(syncManager.updateCard(viewModel.getFullCard()), EditActivity.this, (card) -> runnable.run());
                 }
             }
         }
@@ -265,26 +270,15 @@ public class EditActivity extends BrandedActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        finish(); // close this activity as oppose to navigating up
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
-
-    @Override
     public void finish() {
         if (!viewModel.hasChanges() && viewModel.canEdit()) {
             new BrandedAlertDialogBuilder(this)
                     .setTitle(R.string.simple_save)
                     .setMessage(R.string.do_you_want_to_save_your_changes)
-                    .setPositiveButton(R.string.simple_save, (dialog, whichButton) -> saveAndFinish())
+                    .setPositiveButton(R.string.simple_save, (dialog, whichButton) -> saveAndRun(super::finish))
                     .setNegativeButton(R.string.simple_discard, (dialog, whichButton) -> super.finish()).show();
         } else {
-            directFinish();
+            super.finish();
         }
     }
 
