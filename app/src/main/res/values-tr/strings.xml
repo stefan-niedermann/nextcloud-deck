@@ -286,4 +286,20 @@
     <string name="simple_clone">Kopyala</string>
     <string name="user_avatar">Kullanıcı avatarı</string>
     <string name="simple_unassign">Atamayı kaldır</string>
+    <string name="simple_contact">Kişi</string>
+    <string name="simple_file">Dosya</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="min_api_21">Bu özellik için en az Android 5 sürümü gereklidir</string>
+    <string name="take_photo">Bir fotoğraf çekin</string>
+    <string name="take_photo_switch_camera">Kamerayı değiştir</string>
+    <string name="take_photo_toggle_torch">Feneri aç/kapat</string>
+    <string name="show_all_contacts">Tüm kişileri görüntüle</string>
+    <string name="show_all_files">Tüm dosyaları görüntüle</string>
+    <string name="recent">Son kullanılan</string>
+    <string name="upload_a_new_attachment">Ek dosya yükle</string>
+    <string name="contacts">Kişiler</string>
+    <string name="downloads">İndirmeler</string>
+    <string name="files">Dosyalar</string>
+    <string name="gallery">Galeri</string>
+    <string name="simple_attach">ekle</string>
 </resources>

@@ -294,4 +294,11 @@
     <string name="simple_clone">Klonovat</string>
     <string name="user_avatar">Zástupný obrázek uživatele</string>
     <string name="simple_unassign">Zrušit přirazení</string>
-</resources>
+    <string name="simple_contact">Kontakt</string>
+    <string name="simple_file">Soubor</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="min_api_21">Tato funkce vyžaduje minimálně verzi 5 systému Android</string>
+    <string name="take_photo">Vyfotit</string>
+    <string name="take_photo_switch_camera">Přepnout kameru</string>
+    <string name="take_photo_toggle_torch">Vyp/zap. přisvícení</string>
+    </resources>
