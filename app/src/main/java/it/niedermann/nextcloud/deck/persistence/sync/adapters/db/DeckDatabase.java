@@ -46,9 +46,9 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetBoard;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetDue;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetLabel;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetSort;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetStack;
-import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetLabel;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
@@ -76,6 +76,14 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.Oc
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.OcsProjectResourceDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.SingleCardWidgetModelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.StackWidgetModelDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetAccountDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetBoardDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetDueDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetLabelDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetSortDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetStackDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetUserDao;
 
 @Database(
         entities = {
@@ -533,4 +541,21 @@ public abstract class DeckDatabase extends RoomDatabase {
     public abstract UserInGroupDao getUserInGroupDao();
 
     public abstract UserInBoardDao getUserInBoardDao();
+
+    public abstract FilterWidgetDao getFilterWidgetDao();
+
+    public abstract FilterWidgetAccountDao getFilterWidgetAccountDao();
+
+    public abstract FilterWidgetBoardDao getFilterWidgetBoardDao();
+
+    public abstract FilterWidgetStackDao getFilterWidgetStackDao();
+
+    public abstract FilterWidgetLabelDao getFilterWidgetLabelDao();
+
+    public abstract FilterWidgetUserDao getFilterWidgetUserDao();
+
+    public abstract FilterWidgetDueDao getFilterWidgetDueDao();
+
+    public abstract FilterWidgetSortDao getFilterWidgetSortDao();
+
 }
