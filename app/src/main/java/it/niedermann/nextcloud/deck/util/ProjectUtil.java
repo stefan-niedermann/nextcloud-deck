@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.util;
 
 import android.net.Uri;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,11 +47,14 @@ public class ProjectUtil {
             throw new IllegalArgumentException("provided url is null");
         }
         url = url.trim();
+        if (TextUtils.isEmpty(url)) {
+            throw new IllegalArgumentException("trimmed url is empty");
+        }
         // extract important part
         String[] splitByPrefix = url.split(".*index\\.php/apps/deck/#/board/");
         // split into board- and card part
         if (splitByPrefix.length < 2) {
-            throw new IllegalArgumentException("this doesn't seem to be an URL containing the board ID");
+            throw new IllegalArgumentException("This URL doesn't seem to be an URL containing the boardId: \"" + url + "\"");
         }
         String[] splitBySeparator = splitByPrefix[1].split("/card/");
 
@@ -63,13 +67,13 @@ public class ProjectUtil {
         }
 
         if (splitBySeparator.length < 1) {
-            throw new IllegalArgumentException("this doesn't seem to be a valid URL containing the board ID");
+            throw new IllegalArgumentException("This URL doesn't seem to be an URL containing the boardId: \"" + url + "\"");
         }
 
         // return result
         long boardId = Long.parseLong(splitBySeparator[0]);
         if (boardId < 1) {
-            throw new IllegalArgumentException("invalid boardId: "+boardId);
+            throw new IllegalArgumentException("Invalid boardId \"" + boardId + "\" for url \"" + url + "\".");
         }
         if (splitBySeparator.length == 1) {
             return new long[]{boardId};
@@ -81,7 +85,7 @@ public class ProjectUtil {
                 return new long[]{boardId};
             }
         } else {
-            throw new IllegalArgumentException("could not parse URL for board- and/or card-ID");
+            throw new IllegalArgumentException("could not parse URL for boardId and/or cardId: \"" + url + "\"");
         }
     }
 }
