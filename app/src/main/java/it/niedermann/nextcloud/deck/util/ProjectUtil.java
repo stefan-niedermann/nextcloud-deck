@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.util;
 
 import android.net.Uri;
-import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,7 +46,7 @@ public class ProjectUtil {
             throw new IllegalArgumentException("provided url is null");
         }
         url = url.trim();
-        if (TextUtils.isEmpty(url)) {
+        if (url.length() == 0) {
             throw new IllegalArgumentException("trimmed url is empty");
         }
         // extract important part
