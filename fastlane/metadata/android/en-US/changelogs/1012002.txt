@@ -1,0 +1,1 @@
+- 🎨️ BottomNavigation in attachment picker is not colored when branding is disabled (#729)
