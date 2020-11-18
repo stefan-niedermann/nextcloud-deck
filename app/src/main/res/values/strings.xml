@@ -10,7 +10,6 @@
     <string name="drawer_end_account">Last account</string>
     <string name="drawer_manage_accounts">Manage accounts</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Boards</string>
     <string name="simple_add">Add</string>
     <string name="simple_save">Save</string>
@@ -47,7 +46,6 @@
     <string name="delete_board">Delete board</string>
     <string name="delete_something">Delete %1$s</string>
 
-    <!-- About -->
     <string name="about">About</string>
     <string name="about_version_title">Version</string>
     <string name="about_version">You are currently using %1$s</string>
@@ -107,7 +105,6 @@
     <string name="label_clear_due_date">Clear due date</string>
     <string name="label_add">Add %1$s</string>
 
-    <!-- URLs -->
     <string name="url_maintainer" translatable="false">https://www.niedermann.it/</string>
     <string name="url_about_icon_author" translatable="false">https://github.com/nextcloud/deck/commit/8c04ea8dc99e9b392f4039e8e5e6964d5a6d3453#diff-f3716cc279904617b1a21078526b6bf1R1</string>
     <string name="url_source" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck</string>
@@ -192,11 +189,9 @@
     <string name="open_in_browser">Open in browser</string>
     <string name="updating_card">Updating card…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Move list right</string>
     <string name="move_list_left">Move list left</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">All</string>
     <string name="filter_overdue">Overdue</string>
     <string name="filter_today">Today</string>
@@ -207,7 +202,6 @@
     <string name="filter_by_assigned_user">Filter by assigned user</string>
     <string name="filter_by_duedate">Filter by due date</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Archived cards</string>
     <string name="action_card_dearchive">Undo card archiving</string>
     <string name="action_archived_cards">Browse archived cards</string>
@@ -222,11 +216,9 @@
     <string name="filter_user_title">Users</string>
     <string name="filter_duedate_title">Due date</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Undo board archiving</string>
     <string name="archived_boards">Archived boards</string>
 
-    <!-- Errors -->
     <string name="error">An error appeared</string>
     <string name="synchronization_failed">Synchronization failed</string>
     <string name="operation_not_yet_supported">Not yet supported</string>
