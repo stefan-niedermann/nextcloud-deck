@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +26,6 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog.OnTimeSetListener;
-import com.yydcdut.markdown.MarkdownProcessor;
-import com.yydcdut.markdown.syntax.edit.EditFactory;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -58,7 +54,6 @@ import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeDialog;
 import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
-import it.niedermann.nextcloud.deck.util.MarkDownUtil;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -143,31 +138,13 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         applyBrandToEditText(mainColor, binding.dueDateDate);
         applyBrandToEditText(mainColor, binding.dueDateTime);
         applyBrandToEditText(mainColor, binding.people);
-        applyBrandToEditText(mainColor, binding.description);
     }
 
     private void setupDescription() {
         if (viewModel.canEdit()) {
-            MarkdownProcessor markdownProcessor = new MarkdownProcessor(requireContext());
-            markdownProcessor.config(MarkDownUtil.getMarkDownConfiguration(binding.description.getContext()).build());
-            markdownProcessor.factory(EditFactory.create());
-            markdownProcessor.live(binding.description);
-            binding.description.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if (viewModel.getFullCard() != null) {
-                        viewModel.getFullCard().getCard().setDescription(binding.description.getText().toString());
-                    }
-                }
-
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    // Nothing to do
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    // Nothing to do
+            binding.description.setTextChangedListener((newText) -> {
+                if (viewModel.getFullCard() != null) {
+                    viewModel.getFullCard().getCard().setDescription(newText);
                 }
             });
         } else {

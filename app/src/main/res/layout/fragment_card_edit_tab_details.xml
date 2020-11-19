@@ -130,30 +130,10 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 tools:listitem="@tools:sample/avatars" />
 
-            <LinearLayout
+            <it.niedermann.android.markdown.MarkdownEditor
+                android:id="@+id/description"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacer_2x"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="@dimen/icon_size_details"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="@dimen/spacer_2x"
-                    android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_baseline_subject_24" />
-
-                <com.yydcdut.markdown.MarkdownEditText
-                    android:id="@+id/description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="top"
-                    android:hint="@string/label_description"
-                    android:importantForAutofill="no"
-                    android:inputType="textMultiLine|textCapSentences"
-                    android:scrollbars="vertical" />
-            </LinearLayout>
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <TextView
