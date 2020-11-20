@@ -20,6 +20,7 @@ abstract class WebViewMarkdownEditor extends WebView implements MarkdownEditor {
     protected boolean enabledStateOnPageFinished = true;
     @Nullable
     protected Consumer<String> listener;
+    private CharSequence lastText = "";
 
     public WebViewMarkdownEditor(@NonNull Context context) {
         super(context);
@@ -61,6 +62,11 @@ abstract class WebViewMarkdownEditor extends WebView implements MarkdownEditor {
     abstract protected String getUrlToIndex();
 
     @Override
+    public CharSequence getText() {
+        return lastText;
+    }
+
+    @Override
     public void setText(CharSequence textToSetOnPageFinished) {
         if (pageFinished) {
             final String escapedText = this.textToSetOnPageFinished == null ? "" : this.textToSetOnPageFinished.toString().replace("`", "\\`");
@@ -89,5 +95,6 @@ abstract class WebViewMarkdownEditor extends WebView implements MarkdownEditor {
         if (this.listener != null) {
             this.listener.accept(newText);
         }
+        lastText = newText;
     }
 }

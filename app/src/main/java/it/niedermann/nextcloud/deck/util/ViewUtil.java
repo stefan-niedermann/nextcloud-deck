@@ -29,6 +29,7 @@ import com.bumptech.glide.request.transition.Transition;
 import java.time.LocalDate;
 import java.util.List;
 
+import it.niedermann.android.markdown.MarkdownViewer;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -99,7 +100,7 @@ public final class ViewUtil {
      * @param mentions {@link List} of all mentions that should be substituted
      * @param textView target {@link TextView}
      */
-    public static void setupMentions(@NonNull Account account, @NonNull List<Mention> mentions, TextView textView) {
+    public static void setupMentions(@NonNull Account account, @NonNull List<Mention> mentions, MarkdownViewer textView) {
         Context context = textView.getContext();
         SpannableStringBuilder messageBuilder = new SpannableStringBuilder(textView.getText());
 
