@@ -1052,6 +1052,11 @@ public class DataBaseAdapter {
         return db.getStackWidgetModelDao().getStackWidgetByAppWidgetIdDirectly(appWidgetId);
     }
 
+    public void deleteFilterWidget(int appWidgetId) {
+        // TODO
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
     public void deleteStackWidget(int appWidgetId) {
         StackWidgetModel model = new StackWidgetModel();
         model.setAppWidgetId(appWidgetId);

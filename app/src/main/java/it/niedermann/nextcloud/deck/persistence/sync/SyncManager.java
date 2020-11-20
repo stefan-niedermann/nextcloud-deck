@@ -61,6 +61,8 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetConfiguration;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetData;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
@@ -1964,6 +1966,26 @@ public class SyncManager {
 
     public void deleteStackWidgetModel(int appWidgetId) {
         doAsync(() -> dataBaseAdapter.deleteStackWidget(appWidgetId));
+    }
+
+    /**
+     * If a filter widget with the given id exists, it will be updated, otherwise it will be created.
+     */
+    public void updateFilterWidgetConfiguration(@NonNull FilterWidgetConfiguration data) {
+        // TODO
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public void deleteFilterWidget(int appWidgetId) {
+        doAsync(() -> dataBaseAdapter.deleteFilterWidget(appWidgetId));
+    }
+
+    /**
+     * Returns the payload of the give {@param appWidgetId}.
+     */
+    public LiveData<FilterWidgetData> getFilterWidgetData(int appWidgetId) {
+        // TODO
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     /**
