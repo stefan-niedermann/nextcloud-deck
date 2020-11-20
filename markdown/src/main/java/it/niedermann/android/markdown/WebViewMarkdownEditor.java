@@ -1,7 +1,8 @@
-package it.niedermann.android.markdown.simplemde;
+package it.niedermann.android.markdown;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -9,42 +10,43 @@ import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.util.Consumer;
 
-import it.niedermann.android.markdown.MarkdownEditor;
+abstract class WebViewMarkdownEditor extends WebView implements MarkdownEditor {
 
-public class SimpleMDEMarkdownEditor extends WebView implements MarkdownEditor {
+    protected boolean pageFinished = false;
+    protected String textToSetOnPageFinished;
+    protected boolean enabledStateOnPageFinished = true;
+    @Nullable
+    protected Consumer<String> listener;
 
-    private boolean pageFinished = false;
-    @NonNull
-    private Consumer<String> listener = s -> {
-    };
-    private String textToSetOnPageFinished;
-    private boolean enabledStateOnPageFinished = true;
-
-    @SuppressLint("SetJavaScriptEnabled")
-    public SimpleMDEMarkdownEditor(@NonNull Context context) {
+    public WebViewMarkdownEditor(@NonNull Context context) {
         super(context);
         init();
     }
 
-    @SuppressLint({"SetJavaScriptEnabled", "JavascriptInterface", "AddJavascriptInterface"})
-    public SimpleMDEMarkdownEditor(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public WebViewMarkdownEditor(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
-    public SimpleMDEMarkdownEditor(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public WebViewMarkdownEditor(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public WebViewMarkdownEditor(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        init();
+    }
+
+    @SuppressLint({"SetJavaScriptEnabled", "JavascriptInterface"})
     private void init() {
         getSettings().setJavaScriptEnabled(true);
         addJavascriptInterface(this, "Android");
-        loadUrl("file:///android_asset/web/simplemde/index.html");
+        loadUrl(getUrlToIndex());
         setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -55,6 +57,8 @@ public class SimpleMDEMarkdownEditor extends WebView implements MarkdownEditor {
             }
         });
     }
+
+    abstract protected String getUrlToIndex();
 
     @Override
     public void setText(String textToSetOnPageFinished) {
@@ -82,6 +86,8 @@ public class SimpleMDEMarkdownEditor extends WebView implements MarkdownEditor {
 
     @JavascriptInterface
     public void onTextChanged(String newText) {
-        this.listener.accept(newText);
+        if (this.listener != null) {
+            this.listener.accept(newText);
+        }
     }
 }
