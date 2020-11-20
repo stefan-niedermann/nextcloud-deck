@@ -5,7 +5,7 @@ import androidx.core.util.Consumer;
 
 public interface MarkdownEditor {
 
-    void setText(String textToSetOnPageFinished);
+    void setText(CharSequence textToSetOnPageFinished);
 
     void setTextChangedListener(@NonNull Consumer<String> listener);
 

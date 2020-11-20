@@ -16,7 +16,7 @@ import androidx.core.util.Consumer;
 abstract class WebViewMarkdownEditor extends WebView implements MarkdownEditor {
 
     protected boolean pageFinished = false;
-    protected String textToSetOnPageFinished;
+    protected CharSequence textToSetOnPageFinished;
     protected boolean enabledStateOnPageFinished = true;
     @Nullable
     protected Consumer<String> listener;
@@ -61,17 +61,17 @@ abstract class WebViewMarkdownEditor extends WebView implements MarkdownEditor {
     abstract protected String getUrlToIndex();
 
     @Override
-    public void setText(String textToSetOnPageFinished) {
+    public void setText(CharSequence textToSetOnPageFinished) {
         if (pageFinished) {
-            String newText = this.textToSetOnPageFinished == null ? "" : this.textToSetOnPageFinished.replace("`", "\\`");
-            evaluateJavascript("setText(`" + newText + "`);", null);
+            final String escapedText = this.textToSetOnPageFinished == null ? "" : this.textToSetOnPageFinished.toString().replace("`", "\\`");
+            evaluateJavascript("setText(`" + escapedText + "`);", null);
         } else {
             this.textToSetOnPageFinished = textToSetOnPageFinished;
         }
     }
 
     @Override
-    public void setTextChangedListener(@NonNull Consumer<String> listener) {
+    public void setTextChangedListener(@Nullable Consumer<String> listener) {
         this.listener = listener;
     }
 

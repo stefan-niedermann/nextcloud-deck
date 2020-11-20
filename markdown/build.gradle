@@ -31,8 +31,20 @@ android {
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
-    testImplementation 'junit:junit:4.+'
+
+    implementation "io.noties.markwon:core:4.6.0"
+    implementation "io.noties.markwon:editor:4.6.0"
+    implementation "io.noties.markwon:ext-strikethrough:4.6.0"
+    implementation "io.noties.markwon:ext-tables:4.6.0"
+    implementation "io.noties.markwon:ext-tasklist:4.6.0"
+    implementation "io.noties.markwon:html:4.6.0"
+    implementation "io.noties.markwon:image:4.6.0"
+    implementation "io.noties.markwon:image-glide:4.6.0"
+    implementation "io.noties.markwon:linkify:4.6.0"
+    implementation "io.noties.markwon:simple-ext:4.6.0"
+    implementation "io.noties.markwon:inline-parser:4.6.0"
+
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
