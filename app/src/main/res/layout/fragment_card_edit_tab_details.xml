@@ -130,7 +130,7 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 tools:listitem="@tools:sample/avatars" />
 
-            <it.niedermann.android.markdown.MarkdownEditor
+            <it.niedermann.android.markdown.simplemde.SimpleMDEMarkdownEditor
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

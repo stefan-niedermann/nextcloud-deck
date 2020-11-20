@@ -35,6 +35,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
+import it.niedermann.android.markdown.MarkdownEditor;
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -69,6 +70,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
     private AppCompatActivity activity;
+    private MarkdownEditor description;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -89,7 +91,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                              ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentCardEditTabDetailsBinding.inflate(inflater, container, false);
-
+        this.description = binding.description;
         viewModel = new ViewModelProvider(activity).get(EditCardViewModel.class);
 
         // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
@@ -111,7 +113,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         setupDueDate();
         setupDescription();
         setupProjects();
-        binding.description.setText(viewModel.getFullCard().getCard().getDescription());
+        description.setText(viewModel.getFullCard().getCard().getDescription());
 
         return binding.getRoot();
     }
@@ -142,13 +144,13 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
 
     private void setupDescription() {
         if (viewModel.canEdit()) {
-            binding.description.setTextChangedListener((newText) -> {
+            description.setTextChangedListener((newText) -> {
                 if (viewModel.getFullCard() != null) {
                     viewModel.getFullCard().getCard().setDescription(newText);
                 }
             });
         } else {
-            binding.description.setEnabled(false);
+            description.setEnabled(false);
         }
     }
 
