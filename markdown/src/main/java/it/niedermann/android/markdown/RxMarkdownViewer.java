@@ -8,6 +8,8 @@ import com.yydcdut.markdown.MarkdownProcessor;
 import com.yydcdut.markdown.MarkdownTextView;
 import com.yydcdut.markdown.syntax.text.TextFactory;
 
+import it.niedermann.android.markdown.rxmarkdown.MarkDownUtil;
+
 public class RxMarkdownViewer extends FrameLayout implements MarkdownViewer {
 
     private MarkdownProcessor markdownProcessor;
@@ -34,6 +36,7 @@ public class RxMarkdownViewer extends FrameLayout implements MarkdownViewer {
     private void init(Context context) {
         addView(textView);
         markdownProcessor = new MarkdownProcessor(context);
+        markdownProcessor.config(MarkDownUtil.getMarkDownConfiguration(context).build());
         markdownProcessor.factory(TextFactory.create());
     }
 

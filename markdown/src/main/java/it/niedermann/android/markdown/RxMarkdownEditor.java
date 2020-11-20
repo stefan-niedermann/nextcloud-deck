@@ -13,6 +13,8 @@ import com.yydcdut.markdown.MarkdownEditText;
 import com.yydcdut.markdown.MarkdownProcessor;
 import com.yydcdut.markdown.syntax.edit.EditFactory;
 
+import it.niedermann.android.markdown.rxmarkdown.MarkDownUtil;
+
 public class RxMarkdownEditor extends FrameLayout implements MarkdownEditor {
 
     private MarkdownProcessor markdownProcessor;
@@ -40,6 +42,7 @@ public class RxMarkdownEditor extends FrameLayout implements MarkdownEditor {
     private void init(Context context) {
         addView(editText);
         markdownProcessor = new MarkdownProcessor(context);
+        markdownProcessor.config(MarkDownUtil.getMarkDownConfiguration(context).build());
         markdownProcessor.factory(EditFactory.create());
         markdownProcessor.live(editText);
         editText.addTextChangedListener(new TextWatcher() {
