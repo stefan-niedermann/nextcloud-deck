@@ -329,4 +329,5 @@
     <string name="gallery">Gallery</string>
     <string name="simple_attach">attach</string>
     <string name="add_filter_widget">Add filter widget</string>
+    <string name="simple_order">Order</string>
 </resources>
