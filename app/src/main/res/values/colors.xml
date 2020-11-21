@@ -12,6 +12,9 @@
     <color name="bg_card_wrapper">#fafafa</color>
     <color name="dark_fg_primary">#e5e5e5</color>
 
+    <color name="activity_create">#00D400</color>
+    <color name="activity_delete">#D40000</color>
+
 
     <!-- due date colors -->
     <color name="due_tomorrow">#7fffc53a</color>

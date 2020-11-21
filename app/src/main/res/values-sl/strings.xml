@@ -294,4 +294,11 @@
     <string name="simple_clone">Kloniraj</string>
     <string name="user_avatar">Podoba uporabnika</string>
     <string name="simple_unassign">Odstrani</string>
-</resources>
+    <string name="simple_contact">Stik</string>
+    <string name="simple_file">Datoteka</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="min_api_21">Ta možnost zahteva vsaj sistem Android 5.</string>
+    <string name="take_photo">Zajemi posnetek</string>
+    <string name="take_photo_switch_camera">Preklopi kamero</string>
+    <string name="take_photo_toggle_torch">Preklopi bliskavico</string>
+    </resources>

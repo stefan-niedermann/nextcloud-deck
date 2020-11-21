@@ -31,8 +31,67 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:contentDescription="@string/upload_a_new_attachment"
         android:visibility="gone"
         app:backgroundTint="@color/defaultBrand"
         app:srcCompat="@drawable/ic_file_upload_white_24dp"
         tools:visibility="visible" />
+
+    <FrameLayout
+        android:id="@+id/pickerBackdrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/bottom_sheet_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:elevation="@dimen/spacer_1x"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spacer_2x"
+            android:background="@drawable/bottom_sheet_rounded">
+
+            <View
+                android:layout_width="@dimen/spacer_4x"
+                android:layout_height="@dimen/spacer_1hx"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:background="@color/bg_info_box" />
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/pickerRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimarySurface"
+            android:paddingStart="@dimen/spacer_1hx"
+            android:paddingTop="@dimen/spacer_1x"
+            android:paddingEnd="@dimen/spacer_1hx"
+            android:paddingBottom="@dimen/attachments_bottom_navigation_height"
+            tools:listitem="@layout/support_simple_spinner_dropdown_item"
+            tools:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/attachments_bottom_navigation_height"
+            android:translationY="@dimen/attachments_bottom_navigation_height"
+            app:backgroundTint="?attr/colorPrimary"
+            app:itemIconTint="?attr/colorAccent"
+            app:itemTextColor="?attr/colorAccent"
+            app:menu="@menu/attachment_picker_menu" />
+    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

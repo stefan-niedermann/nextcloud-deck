@@ -215,7 +215,7 @@
 
     <string name="error_dialog_title">Oh no - ¿Ahora qué? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Por favor, intenta forzar el cierre de la aplicación y vuelve a abrirla. Es posible que haya habido un problema de conexión con la aplicación Nextcloud.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Si el problema persiste, intenta limpiar borrar el almacenamiento de ambas apps, Nextcloud y Nextcloud Deck para solucionar este problema.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Si el problema persiste, intenta borrar el almacenamiento de ambas apps: Nextcloud y Nextcloud Deck para solucionar este problema.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Falló la actualización de la base de datos. Por favor, informe del problema y limpie el almacenamiento para usar la aplicación de manera normal.</string>
     <string name="error_dialog_tip_clear_storage">Puedes limpiar el almacenamiento abriendo la información de la app y seleccionando Almacenamiento → Eliminar datos.</string>
     <string name="error_dialog_tip_files_outdated">Su aplicación Nextcloud parece que está desactualizada. Por favor visite la Play Store o F-Droid para conseguir la versión más reciente.</string>
@@ -230,7 +230,7 @@
     <string name="error_dialog_we_need_info">Necesitamos la siguiente información técnica para ayudarle:</string>
     <string name="error_dialog_redirect">Tu servidor respondió con el código de estado HTTP 302, lo que implica que no está instalada la aplicación Deck en su servidor o que algo está mal configurado. Esto puede estar causado por anulaciones personalizadas en un  archivo .htaccess o por aplicaciones de Nexcloud como OID Client. </string>
     <string name="error_dialog_version_not_parsable">No se pudo determinar la versión de la aplicación Deck en el lado del servidor. Por favor, compruebe que está instalada y activada. </string>
-    <string name="error_dialog_account_might_not_be_authorized">La cuenta de tu app Nextcloud puede ya no estar autorizada.</string>
+    <string name="error_dialog_account_might_not_be_authorized">La cuenta de tu app Nextcloud podría no estar autorizada.</string>
     <string name="error_dialog_user_not_found_in_database">El usuario actual no coincide con el usuario que tenemos en nuestra base de datos. Si estás usando LDAP en tu instancia de Nextcloud, tu app de Nextcloud puede haber almacenado una ID de usuario antigua.</string>
     <string name="error_dialog_capabilities_not_parsable">No se ha podido comprobar las capacidades de su servidor. Por favor compruebe que su servidor está funcionando bien y que otras aplicaciones de cliente son capaces de acceder a Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">No se ha podido subir un adjunto. Por favor, intenta compartirlo de otra forma y comunícanos este fallo.</string>
@@ -286,4 +286,20 @@
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Usar avatar</string>
     <string name="simple_unassign">Sin asignar</string>
+    <string name="simple_contact">Contacto</string>
+    <string name="simple_file">Archivo</string>
+    <string name="simple_camera">Camera</string>
+    <string name="min_api_21">Esta característica requiere Android 5 como mínimo</string>
+    <string name="take_photo">Tomar una foto</string>
+    <string name="take_photo_switch_camera">Cambiar cámara</string>
+    <string name="take_photo_toggle_torch">Activar/desactivar linterna</string>
+    <string name="show_all_contacts">Mostrar todos los contactos</string>
+    <string name="show_all_files">Mostrar todos los archivos</string>
+    <string name="recent">Reciente</string>
+    <string name="upload_a_new_attachment">Subir un nuevo adjunto</string>
+    <string name="contacts">Contactos</string>
+    <string name="downloads">Descargas</string>
+    <string name="files">Archivos</string>
+    <string name="gallery">Galería</string>
+    <string name="simple_attach">adjuntar</string>
 </resources>

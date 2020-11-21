@@ -294,4 +294,20 @@
     <string name="simple_clone">Klonuj</string>
     <string name="user_avatar">Awatar użytkownika</string>
     <string name="simple_unassign">Cofnij przypisanie</string>
+    <string name="simple_contact">Kontakt</string>
+    <string name="simple_file">Plik</string>
+    <string name="simple_camera">Aparat</string>
+    <string name="min_api_21">Funkcja ta wymaga co najmniej Androida 5</string>
+    <string name="take_photo">Zrobić zdjęcie</string>
+    <string name="take_photo_switch_camera">Przełącz aparat</string>
+    <string name="take_photo_toggle_torch">Włącz latarkę</string>
+    <string name="show_all_contacts">Pokaż wszystkie kontakty</string>
+    <string name="show_all_files">Pokaż wszystkie pliki</string>
+    <string name="recent">Ostatnie</string>
+    <string name="upload_a_new_attachment">Prześlij nowy załącznik</string>
+    <string name="contacts">Kontakty</string>
+    <string name="downloads">Pobrane</string>
+    <string name="files">Pliki</string>
+    <string name="gallery">Galeria</string>
+    <string name="simple_attach">dołącz</string>
 </resources>

@@ -12,6 +12,7 @@ import android.text.style.ImageSpan;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +34,8 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -139,5 +142,13 @@ public final class ViewUtil {
                     });
         }
         textView.setText(messageBuilder);
+    }
+
+    public static void setImageColor(@NonNull Context context, @NonNull ImageView imageView, @ColorRes int colorRes) {
+        if (SDK_INT >= LOLLIPOP) {
+            imageView.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(context, colorRes)));
+        } else {
+            imageView.setColorFilter(ContextCompat.getColor(context, colorRes));
+        }
     }
 }

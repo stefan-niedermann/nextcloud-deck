@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/gallery"
+        android:icon="@drawable/ic_baseline_photo_camera_24"
+        android:title="@string/gallery"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/contacts"
+        android:icon="@drawable/ic_person_grey600_24dp"
+        android:title="@string/contacts"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/files"
+        android:icon="@drawable/ic_attach_file_grey600_24dp"
+        android:title="@string/files"
+        app:showAsAction="ifRoom" />
+</menu>

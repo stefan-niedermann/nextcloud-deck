@@ -19,7 +19,7 @@ import com.bumptech.glide.Glide;
 import java.io.Serializable;
 
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.databinding.DialogAssigneeBinding;
+import it.niedermann.nextcloud.deck.databinding.DialogPreviewBinding;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDeleteAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
@@ -27,10 +27,11 @@ import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 
+@Deprecated
 public class CardAssigneeDialog extends BrandedDialogFragment {
 
     private static final String KEY_USER = "user";
-    private DialogAssigneeBinding binding;
+    private DialogPreviewBinding binding;
     private EditCardViewModel viewModel;
 
     @Nullable
@@ -63,7 +64,7 @@ public class CardAssigneeDialog extends BrandedDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        binding = DialogAssigneeBinding.inflate(LayoutInflater.from(requireContext()));
+        binding = DialogPreviewBinding.inflate(LayoutInflater.from(requireContext()));
         viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
 
         AlertDialog.Builder dialogBuilder = new BrandedDeleteAlertDialogBuilder(requireContext());
@@ -95,7 +96,7 @@ public class CardAssigneeDialog extends BrandedDialogFragment {
                 .placeholder(circularProgressDrawable)
                 .error(R.drawable.ic_person_grey600_24dp)
                 .into(binding.avatar));
-        binding.displayName.setText(user.getDisplayname());
+        binding.title.setText(user.getDisplayname());
     }
 
     @Override
