@@ -57,7 +57,7 @@ public class SyncHelper {
                                 // TODO: what to do?
                             } else {
                                 if (entityFromServer.getEtag() != null && entityFromServer.getEtag().equals(existingEntity.getEtag())) {
-                                    DeckLog.info("ETags do match! skipping this one.");
+                                    DeckLog.info("["+provider.getClass().getSimpleName()+"] ETags do match! skipping Entitiy with localId: "+existingEntity.getLocalId());
                                     continue;
                                 }
                                 provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(provider, existingEntity, entityFromServer, accountId), false);
