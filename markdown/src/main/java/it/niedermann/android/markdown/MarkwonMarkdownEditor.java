@@ -68,7 +68,7 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
                 .useEditHandler(new CodeEditHandler())
                 .useEditHandler(new CodeBlockEditHandler())
                 .useEditHandler(new BlockQuoteEditHandler())
-//                .useEditHandler(new HeadingEditHandler())
+                .useEditHandler(new HeadingEditHandler())
                 .build();
         addTextChangedListener(MarkwonEditorTextWatcher.withPreRender(editor, Executors.newCachedThreadPool(), this));
         addTextChangedListener(new TextWatcher() {
