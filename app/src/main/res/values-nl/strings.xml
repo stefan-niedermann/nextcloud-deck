@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Laatste account</string>
     <string name="drawer_manage_accounts">Accounts beheren </string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Bord</string>
     <string name="simple_add">Toevoegen</string>
     <string name="simple_save">Bewaren</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Bord verwijderen</string>
     <string name="delete_something">Verwijder %1$s</string>
 
-    <!-- About -->
     <string name="about">Over</string>
     <string name="about_version_title">Versie</string>
     <string name="about_version">Je gebruikt nu %1$s</string>
@@ -166,11 +164,9 @@
     <string name="open_in_browser">Open in browser</string>
     <string name="updating_card">Kaart wordt geüpdatet...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Verplaats de stapel naar rechts</string>
     <string name="move_list_left">Verplaats de stapel naar links</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Alle</string>
     <string name="filter_overdue">Vervallen</string>
     <string name="filter_today">Vandaag</string>
@@ -181,7 +177,6 @@
     <string name="filter_by_assigned_user">Filter op toegewezen gebruiker</string>
     <string name="filter_by_duedate">Filter op vervaldatum</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Gearchiveerde kaarten</string>
     <string name="action_card_dearchive">Kaartarchivering ongedaan maken</string>
     <string name="action_archived_cards">Blader door gearchiveerde kaarten</string>
@@ -196,11 +191,9 @@
     <string name="filter_user_title">Gebruikers</string>
     <string name="filter_duedate_title">Vervaldatum</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Archiveren van bord ongedaan maken</string>
     <string name="archived_boards">Gearchiveerde borden</string>
 
-    <!-- Errors -->
     <string name="error">Er is een fout verschenen</string>
     <string name="synchronization_failed">Synchronisatie mislukt</string>
     <string name="operation_not_yet_supported">Nog niet ondersteund</string>

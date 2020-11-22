@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Letztes Konto</string>
     <string name="drawer_manage_accounts">Konten verwalten</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Boards</string>
     <string name="simple_add">Hinzufügen</string>
     <string name="simple_save">Speichern</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Board löschen</string>
     <string name="delete_something">Lösche %1$s</string>
 
-    <!-- About -->
     <string name="about">Über</string>
     <string name="about_version_title">Version</string>
     <string name="about_version">Sie benutzen aktuell %1$s</string>
@@ -167,11 +165,9 @@
     <string name="open_in_browser">Im Browser öffnen</string>
     <string name="updating_card">Karte wird aktualisiert…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Liste nach rechts schieben</string>
     <string name="move_list_left">Liste nach links schieben</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Alle</string>
     <string name="filter_overdue">Überfällig</string>
     <string name="filter_today">Heute</string>
@@ -182,7 +178,6 @@
     <string name="filter_by_assigned_user">Nach zugewiesenem Benutzer filtern</string>
     <string name="filter_by_duedate">Nach Fälligkeitsdatum filtern</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Archivierte Karten</string>
     <string name="action_card_dearchive">Karte archivieren rückgängig machen</string>
     <string name="action_archived_cards">Archivierte Karten durchsuchen</string>
@@ -197,11 +192,9 @@
     <string name="filter_user_title">Benutzer</string>
     <string name="filter_duedate_title">Fälligkeitsdatum</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Board archivieren rückgängig machen</string>
     <string name="archived_boards">Archivierte Boards</string>
 
-    <!-- Errors -->
     <string name="error">Es ist ein Fehler aufgetreten</string>
     <string name="synchronization_failed">Synchronisierung fehlgeschlagen</string>
     <string name="operation_not_yet_supported">Wird bislang noch nicht unterstützt</string>
@@ -277,7 +270,7 @@
         <item quantity="one">%1$d Ressource</item>
         <item quantity="other">%1$d Ressourcen</item>
     </plurals>
-    <string name="no_assigned_label">Keine Schlagwort zugewiesen</string>
+    <string name="no_assigned_label">Kein Schlagwort zugewiesen</string>
     <string name="single_card">Einzelne Karte</string>
     <string name="project_type_room">Talk-Raum</string>
     <string name="simple_move">Verschieben</string>
@@ -302,4 +295,5 @@
     <string name="files">Dateien</string>
     <string name="gallery">Galerie</string>
     <string name="simple_attach">anhängen</string>
+    <string name="add_stack_widget">Ein Listen-Widget hinzufügen</string>
 </resources>

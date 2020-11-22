@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Последњи налог</string>
     <string name="drawer_manage_accounts">Управљање налозима</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Табле</string>
     <string name="simple_add">Додај</string>
     <string name="simple_save">Сачувај</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Избриши таблу</string>
     <string name="delete_something">Обриши %1$s</string>
 
-    <!-- About -->
     <string name="about">О програму</string>
     <string name="about_version_title">Верзија</string>
     <string name="about_version">Тренутно користите %1$s</string>
@@ -169,11 +167,9 @@
     <string name="open_in_browser">Отвори у прегледачу</string>
     <string name="updating_card">Ажурирам картицу…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Помери списак удесно</string>
     <string name="move_list_left">Помери списак улево</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Све</string>
     <string name="filter_overdue">Прошао рок</string>
     <string name="filter_today">Данас</string>
@@ -184,7 +180,6 @@
     <string name="filter_by_assigned_user">Филтрирај по додељеном кориснику</string>
     <string name="filter_by_duedate">Филтрирај по року</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Архивиране картице</string>
     <string name="action_card_dearchive">Поништи архивирање картице</string>
     <string name="action_archived_cards">Прегледај архивиране картице</string>
@@ -199,11 +194,9 @@
     <string name="filter_user_title">Корисници</string>
     <string name="filter_duedate_title">Рок</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Поништи архивирање табле</string>
     <string name="archived_boards">Архивиране табле</string>
 
-    <!-- Errors -->
     <string name="error">Дошло је до грешке</string>
     <string name="synchronization_failed">Синхронизација није успела</string>
     <string name="operation_not_yet_supported">Није још подржано</string>

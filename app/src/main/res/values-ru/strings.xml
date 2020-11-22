@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Последняя учётная запись</string>
     <string name="drawer_manage_accounts">Управление аккаунтами</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Доски</string>
     <string name="simple_add">Добавить</string>
     <string name="simple_save">Сохранить</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Удалить доску</string>
     <string name="delete_something">Удалить %1$s</string>
 
-    <!-- About -->
     <string name="about">О программе</string>
     <string name="about_version_title">Версия</string>
     <string name="about_version">Вы используете %1$s</string>
@@ -170,11 +168,9 @@
     <string name="open_in_browser">Открыть в браузере</string>
     <string name="updating_card">Обновление карточки…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Переместить вправо</string>
     <string name="move_list_left">Переместить влево</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Все</string>
     <string name="filter_overdue">Просроченные</string>
     <string name="filter_today">Сегодня</string>
@@ -185,7 +181,6 @@
     <string name="filter_by_assigned_user">Отфильтровать по назначению</string>
     <string name="filter_by_duedate">Отфильтровать по сроку исполнения</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Карточки в архиве</string>
     <string name="action_card_dearchive">Отменить архивацию карточки</string>
     <string name="action_archived_cards">Показать архив карточек</string>
@@ -200,11 +195,9 @@
     <string name="filter_user_title">Пользователи</string>
     <string name="filter_duedate_title">Дата исполнения</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Отменить архивацию доски</string>
     <string name="archived_boards">Архив досок</string>
 
-    <!-- Errors -->
     <string name="error">Произошла ошибка</string>
     <string name="synchronization_failed">Сбой синхронизации</string>
     <string name="operation_not_yet_supported">Ещё не поддерживается</string>

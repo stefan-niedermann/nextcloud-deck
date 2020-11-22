@@ -8,7 +8,6 @@
     <string name="drawer_end_account">마지막 계정</string>
     <string name="drawer_manage_accounts">계정 관리</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">게시판</string>
     <string name="simple_add">추가</string>
     <string name="simple_save">저장</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">게시판 삭제</string>
     <string name="delete_something">%1$s 삭제</string>
 
-    <!-- About -->
     <string name="about">정보</string>
     <string name="about_version_title">버전</string>
     <string name="about_version"> 현재 %1$s사용 중</string>
@@ -164,11 +162,9 @@
     <string name="open_in_browser">브라우저에서 열기</string>
     <string name="updating_card">카드 업데이트 중...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">리스트를 오른쪽으로 옮기기</string>
     <string name="move_list_left">리스트를 왼쪽으로 옮기기</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">모두</string>
     <string name="filter_overdue">기한 넘김</string>
     <string name="filter_today">오늘</string>
@@ -179,7 +175,6 @@
     <string name="filter_by_assigned_user">지정된 사용자로 필터링</string>
     <string name="filter_by_duedate">기한으로 필터링</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">보관된 카드들</string>
     <string name="action_card_dearchive">카드 보관 되돌리기</string>
     <string name="action_archived_cards">보관된 카드 둘러보기</string>
@@ -194,11 +189,9 @@
     <string name="filter_user_title">사용자</string>
     <string name="filter_duedate_title">만료 날짜</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">보드 보관 되돌리기</string>
     <string name="archived_boards">보관된 게시판</string>
 
-    <!-- Errors -->
     <string name="error">오류가 나타남</string>
     <string name="synchronization_failed">동기화에 실패했습니다.</string>
     <string name="operation_not_yet_supported">아직 지원되지 않습니다!</string>
