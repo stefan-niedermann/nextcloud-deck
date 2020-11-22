@@ -28,7 +28,6 @@ import io.noties.markwon.simple.ext.SimpleExtPlugin;
 import it.niedermann.android.markdown.markwon.handler.BlockQuoteEditHandler;
 import it.niedermann.android.markdown.markwon.handler.CodeBlockEditHandler;
 import it.niedermann.android.markdown.markwon.handler.CodeEditHandler;
-import it.niedermann.android.markdown.markwon.handler.HeadingEditHandler;
 import it.niedermann.android.markdown.markwon.handler.StrikethroughEditHandler;
 
 public class MarkwonMarkdownEditor extends AppCompatEditText implements MarkdownEditor {
@@ -69,7 +68,7 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
                 .useEditHandler(new CodeEditHandler())
                 .useEditHandler(new CodeBlockEditHandler())
                 .useEditHandler(new BlockQuoteEditHandler())
-                .useEditHandler(new HeadingEditHandler())
+//                .useEditHandler(new HeadingEditHandler())
                 .build();
         addTextChangedListener(MarkwonEditorTextWatcher.withPreRender(editor, Executors.newCachedThreadPool(), this));
         addTextChangedListener(new TextWatcher() {
