@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers;
 
+import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
+
+import java.net.HttpURLConnection;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -53,9 +56,10 @@ public class SyncHelper {
                                 DeckLog.log("Conflicting changes on entity: " + existingEntity);
                                 // TODO: what to do?
                             } else {
-//                                if (existingEntity.getLastModified().getTime() == entityFromServer.getLastModified().getTime()) {
-//                                    continue; // TODO: is this is ok for sure? -> isn`t! NPE
-//                                }
+                                if (entityFromServer.getEtag() != null && entityFromServer.getEtag().equals(existingEntity.getEtag())) {
+                                    DeckLog.info("ETags do match! skipping this one.");
+                                    continue;
+                                }
                                 provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(provider, existingEntity, entityFromServer, accountId), false);
                             }
                         }
@@ -73,8 +77,17 @@ public class SyncHelper {
 
             @Override
             public void onError(Throwable throwable) {
+                super.onError(throwable);
+                if (throwable.getClass() == NextcloudHttpRequestFailedException.class) {
+                    NextcloudHttpRequestFailedException requestFailedException = (NextcloudHttpRequestFailedException) throwable;
+                    if (HttpURLConnection.HTTP_NOT_MODIFIED == requestFailedException.getStatusCode()){
+                        DeckLog.info("ETags do match! skipping this one.");
+                        // well, etags say we're fine here. no need to go deeper.
+                        provider.childDone(provider, responseCallback, false);
+                        return;
+                    }
+                }
                 provider.onError(throwable, responseCallback);
-                DeckLog.logError(throwable);
                 responseCallback.onError(throwable);
             }
         }, lastSync);
