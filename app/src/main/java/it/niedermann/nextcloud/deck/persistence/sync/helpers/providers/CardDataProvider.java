@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import android.annotation.SuppressLint;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,6 +57,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
                     }
                 }
 
+                @SuppressLint("MissingSuperCall")
                 @Override
                 public void onError(Throwable throwable) {
                     responder.onError(throwable);
@@ -151,12 +154,13 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullCard> responder, FullCard entity) {
         if (stack.getId() == null) {
-            throw new DeckException(DeckException.Hint.DEPENDENCY_NOT_SYNCED_YET, "Stack for this Card is not synced yet. Perform a full sync (pull to referesh) as soon as you are online again.");
+            responder.onError(new DeckException(DeckException.Hint.DEPENDENCY_NOT_SYNCED_YET, "Stack \"" +
+                    stack.getStack().getTitle() + "\" for Card \"" + entity.getCard().getTitle() +
+                    "\" is not synced yet. Perform a full sync (pull to refresh) as soon as you are online again."));
+            return;
         }
         entity.getCard().setStackId(stack.getId());
-//        if (board != null && stack != null && board.getId() != null && stack.getId() != null) {
         serverAdapter.createCard(board.getId(), stack.getId(), entity.getCard(), responder);
-//        } else DeckLog.error("Skipped card creation due to missing remote ID");
     }
 
     @Override
@@ -327,6 +331,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
                         // do not delete, it's still there and was just moved!
                     }
 
+                    @SuppressLint("MissingSuperCall")
                     @Override
                     public void onError(Throwable throwable) {
                         if (!(throwable instanceof OfflineException)) {
