@@ -80,7 +80,9 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                listener.accept(s.toString());
+                if (listener != null) {
+                    listener.accept(s.toString());
+                }
             }
 
             @Override
@@ -88,7 +90,11 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
 
             }
         });
+    }
 
+    @Override
+    public void setMarkdownString(CharSequence text) {
+        setText(text);
     }
 
     @Override

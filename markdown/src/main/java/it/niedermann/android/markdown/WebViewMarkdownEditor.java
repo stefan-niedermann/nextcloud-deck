@@ -11,8 +11,10 @@ import android.webkit.WebViewClient;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.annotation.RestrictTo;
 import androidx.core.util.Consumer;
 
+@RestrictTo(value = RestrictTo.Scope.LIBRARY)
 abstract class WebViewMarkdownEditor extends WebView implements MarkdownEditor {
 
     protected boolean pageFinished = false;
@@ -53,7 +55,7 @@ abstract class WebViewMarkdownEditor extends WebView implements MarkdownEditor {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 pageFinished = true;
-                setText(textToSetOnPageFinished);
+                setMarkdownString(textToSetOnPageFinished);
                 setEnabled(enabledStateOnPageFinished);
             }
         });
@@ -67,7 +69,7 @@ abstract class WebViewMarkdownEditor extends WebView implements MarkdownEditor {
     }
 
     @Override
-    public void setText(CharSequence textToSetOnPageFinished) {
+    public void setMarkdownString(CharSequence textToSetOnPageFinished) {
         if (pageFinished) {
             final String escapedText = this.textToSetOnPageFinished == null ? "" : this.textToSetOnPageFinished.toString().replace("`", "\\`");
             evaluateJavascript("setText(`" + escapedText + "`);", null);

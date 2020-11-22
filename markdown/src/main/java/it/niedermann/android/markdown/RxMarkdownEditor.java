@@ -65,7 +65,7 @@ public class RxMarkdownEditor extends FrameLayout implements MarkdownEditor {
     }
 
     @Override
-    public void setText(CharSequence text) {
+    public void setMarkdownString(CharSequence text) {
         editText.setText(markdownProcessor.parse(text));
     }
 

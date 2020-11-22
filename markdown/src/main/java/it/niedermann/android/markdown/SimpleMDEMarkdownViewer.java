@@ -6,19 +6,19 @@ import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class ProseMirrorMarkdownEditor extends WebViewMarkdownEditor {
+public class SimpleMDEMarkdownViewer extends WebViewMarkdownEditor implements MarkdownEditor {
 
-    public ProseMirrorMarkdownEditor(@NonNull Context context) {
+    public SimpleMDEMarkdownViewer(@NonNull Context context) {
         super(context);
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public ProseMirrorMarkdownEditor(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public SimpleMDEMarkdownViewer(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public ProseMirrorMarkdownEditor(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SimpleMDEMarkdownViewer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         throw new UnsupportedOperationException("Not yet implemented");
     }
@@ -27,5 +27,4 @@ public class ProseMirrorMarkdownEditor extends WebViewMarkdownEditor {
     protected String getUrlToIndex() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
-
 }

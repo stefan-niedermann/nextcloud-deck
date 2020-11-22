@@ -4,13 +4,16 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
+import androidx.core.util.Consumer;
+
 import com.yydcdut.markdown.MarkdownProcessor;
 import com.yydcdut.markdown.MarkdownTextView;
 import com.yydcdut.markdown.syntax.text.TextFactory;
 
 import it.niedermann.android.markdown.rxmarkdown.MarkDownUtil;
 
-public class RxMarkdownViewer extends FrameLayout implements MarkdownViewer {
+public class RxMarkdownViewer extends FrameLayout implements MarkdownEditor {
 
     private MarkdownProcessor markdownProcessor;
     private final MarkdownTextView textView;
@@ -41,12 +44,17 @@ public class RxMarkdownViewer extends FrameLayout implements MarkdownViewer {
     }
 
     @Override
-    public void setText(CharSequence text) {
+    public void setMarkdownString(CharSequence text) {
         textView.setText(markdownProcessor.parse(text));
     }
 
     @Override
     public CharSequence getText() {
         return textView.getText();
+    }
+
+    @Override
+    public void setTextChangedListener(@NonNull Consumer<String> listener) {
+        // Nothing
     }
 }

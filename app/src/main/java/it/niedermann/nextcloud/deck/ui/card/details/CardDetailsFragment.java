@@ -113,7 +113,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         setupDueDate();
         setupDescription();
         setupProjects();
-        description.setText(viewModel.getFullCard().getCard().getDescription());
+        description.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
 
         return binding.getRoot();
     }

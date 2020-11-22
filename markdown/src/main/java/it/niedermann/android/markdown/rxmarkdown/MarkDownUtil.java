@@ -2,12 +2,14 @@ package it.niedermann.android.markdown.rxmarkdown;
 
 import android.content.Context;
 
+import androidx.annotation.RestrictTo;
+
 import com.yydcdut.rxmarkdown.RxMDConfiguration.Builder;
 
 /**
  * Created by stefan on 07.12.16.
  */
-
+@RestrictTo(value = RestrictTo.Scope.LIBRARY)
 public class MarkDownUtil {
 
     private MarkDownUtil() {

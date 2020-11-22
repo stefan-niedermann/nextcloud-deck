@@ -22,6 +22,6 @@ public class SimpleMDEMarkdownEditor extends WebViewMarkdownEditor implements Ma
 
     @Override
     protected String getUrlToIndex() {
-        throw new UnsupportedOperationException(getClass().getSimpleName() + " has not been implemented yet.");
+        return "file:///android_asset/web/simplemde/index.html";
     }
 }

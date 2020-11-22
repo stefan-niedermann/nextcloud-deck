@@ -29,7 +29,7 @@ import com.bumptech.glide.request.transition.Transition;
 import java.time.LocalDate;
 import java.util.List;
 
-import it.niedermann.android.markdown.MarkdownViewer;
+import it.niedermann.android.markdown.MarkdownEditor;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -100,7 +100,7 @@ public final class ViewUtil {
      * @param mentions {@link List} of all mentions that should be substituted
      * @param textView target {@link TextView}
      */
-    public static void setupMentions(@NonNull Account account, @NonNull List<Mention> mentions, MarkdownViewer textView) {
+    public static void setupMentions(@NonNull Account account, @NonNull List<Mention> mentions, MarkdownEditor textView) {
         Context context = textView.getContext();
         SpannableStringBuilder messageBuilder = new SpannableStringBuilder(textView.getText());
 
@@ -116,7 +116,7 @@ public final class ViewUtil {
                 index = messageBuilder.toString().substring(0, index).lastIndexOf(mentionId);
             }
         }
-        textView.setText(messageBuilder);
+        textView.setMarkdownString(messageBuilder);
 
         // Step 2
         // Replace avatar icons with real avatars
@@ -142,7 +142,7 @@ public final class ViewUtil {
                         }
                     });
         }
-        textView.setText(messageBuilder);
+        textView.setMarkdownString(messageBuilder);
     }
 
     public static void setImageColor(@NonNull Context context, @NonNull ImageView imageView, @ColorRes int colorRes) {

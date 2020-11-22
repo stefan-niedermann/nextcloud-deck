@@ -6,19 +6,19 @@ import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class ProseMirrorMarkdownEditor extends WebViewMarkdownEditor {
+public class ProseMirrorMarkdownViewer extends WebViewMarkdownEditor {
 
-    public ProseMirrorMarkdownEditor(@NonNull Context context) {
+    public ProseMirrorMarkdownViewer(@NonNull Context context) {
         super(context);
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public ProseMirrorMarkdownEditor(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public ProseMirrorMarkdownViewer(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public ProseMirrorMarkdownEditor(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ProseMirrorMarkdownViewer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         throw new UnsupportedOperationException("Not yet implemented");
     }
