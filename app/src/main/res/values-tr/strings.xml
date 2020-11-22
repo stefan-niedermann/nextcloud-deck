@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Son hesap</string>
     <string name="drawer_manage_accounts">Hesap yönetimi</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Katlar</string>
     <string name="simple_add">Ekle</string>
     <string name="simple_save">Kaydet</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Panoyu sil</string>
     <string name="delete_something">%1$s Sil</string>
 
-    <!-- About -->
     <string name="about">Hakkında</string>
     <string name="about_version_title">Sürüm</string>
     <string name="about_version">Şu anda %1$s kullanıyorsunuz</string>
@@ -167,11 +165,9 @@
     <string name="open_in_browser">Tarayıcıda aç</string>
     <string name="updating_card">Kart güncelleniyor…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Listeyi sağa taşı</string>
     <string name="move_list_left">Listeyi sola taşı</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Tümü</string>
     <string name="filter_overdue">Zamanı geçmiş</string>
     <string name="filter_today">Bugün</string>
@@ -182,7 +178,6 @@
     <string name="filter_by_assigned_user">Atanmış kullanıcıya göre süz</string>
     <string name="filter_by_duedate">Bitiş tarihine göre süz</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Arşivlenmiş kartlar</string>
     <string name="action_card_dearchive">Kart arşivlemeyi geri al</string>
     <string name="action_archived_cards">Arşivlenmiş kartlara göz at</string>
@@ -197,11 +192,9 @@
     <string name="filter_user_title">Kullanıcılar</string>
     <string name="filter_duedate_title">Bitiş tarihi</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Pano arşivlemeyi geri al</string>
     <string name="archived_boards">Arşivlenmiş panolar</string>
 
-    <!-- Errors -->
     <string name="error">Bir sorun çıktı</string>
     <string name="synchronization_failed">Eşitlenemedi</string>
     <string name="operation_not_yet_supported">Henüz desteklenmiyor</string>
@@ -266,8 +259,8 @@
     <string name="card_does_not_yet_exist">Kart henüz panoda bulunmuyor</string>
 
     <string name="widget_stack_title">Listele</string>
-    <string name="widget_stack_header_icon">Araç başlık simgesi</string>
-    <string name="widget_stack_placeholder_icon">Araç yer belirteci simgesi</string>
+    <string name="widget_stack_header_icon">Pano bileşeni başlık simgesi</string>
+    <string name="widget_stack_placeholder_icon">Pano bileşeni yer belirteci simgesi</string>
     <string name="select_stack">Liste seçin</string>
     <string name="project_type_deck_board">Tahta panosu</string>
     <string name="project_type_deck_card">Tahta kartı</string>
@@ -302,4 +295,5 @@
     <string name="files">Dosyalar</string>
     <string name="gallery">Galeri</string>
     <string name="simple_attach">ekle</string>
+    <string name="add_stack_widget">Liste pano bileşeni ekle</string>
 </resources>

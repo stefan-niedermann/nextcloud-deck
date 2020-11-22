@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Última conta</string>
     <string name="drawer_manage_accounts">Gerenciar contas</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Painéis</string>
     <string name="simple_add">Adicionar</string>
     <string name="simple_save">Salvar</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Excluir painel</string>
     <string name="delete_something">Excluir %1$s</string>
 
-    <!-- About -->
     <string name="about">Sobre</string>
     <string name="about_version_title">Versão</string>
     <string name="about_version">Atualmente você está usando %1$s</string>
@@ -167,11 +165,9 @@
     <string name="open_in_browser">Abrir no navegador</string>
     <string name="updating_card">Atualizando cartão...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Mover lista para a direita</string>
     <string name="move_list_left">Mover lista para a esquerda</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Tudo</string>
     <string name="filter_overdue">Vencidos</string>
     <string name="filter_today">Hoje</string>
@@ -182,7 +178,6 @@
     <string name="filter_by_assigned_user">Filtrar por usuário atribuído</string>
     <string name="filter_by_duedate">Filtrar por data de vencimento</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Cartões arquivados</string>
     <string name="action_card_dearchive">Desfazer arquivamento do cartão</string>
     <string name="action_archived_cards">Navegar pelos cartões arquivados</string>
@@ -197,11 +192,9 @@
     <string name="filter_user_title">Usuários</string>
     <string name="filter_duedate_title">Data de vencimento</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Desfazer arquivamento do painel</string>
     <string name="archived_boards">Painéis arquivados</string>
 
-    <!-- Errors -->
     <string name="error">Ocorreu um erro</string>
     <string name="synchronization_failed">A sincronização falhou</string>
     <string name="operation_not_yet_supported">Ainda não suportado</string>

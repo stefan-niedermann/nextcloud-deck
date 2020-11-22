@@ -8,7 +8,6 @@
     <string name="drawer_end_account">חשבון אחרון</string>
     <string name="drawer_manage_accounts">ניהול חשבונות</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">לוחות</string>
     <string name="simple_add">הוספה</string>
     <string name="simple_save">שמור</string>
@@ -43,7 +42,6 @@
     <string name="delete_board">מחק לוח</string>
     <string name="delete_something">מחיקת %1$s</string>
 
-    <!-- About -->
     <string name="about">על אודות</string>
     <string name="about_version_title">גרסה</string>
     <string name="about_version">אתה משתמש כרגע ב%1$s</string>
@@ -166,11 +164,9 @@
     <string name="open_in_browser">פתיחה בדפדפן</string>
     <string name="updating_card">הכרטיס מעודכן…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">העברת רשימה ימינה</string>
     <string name="move_list_left">העברת רשימה שמאלה</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">הכול</string>
     <string name="filter_overdue">באיחור</string>
     <string name="filter_today">היום</string>
@@ -181,7 +177,6 @@
     <string name="filter_by_assigned_user">סינון לפי משתמש מוקצה</string>
     <string name="filter_by_duedate">סינון לפי תאריך יעד</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">כרטיסים בארכיון</string>
     <string name="action_card_dearchive">ביטול העברת כרטיס לארכיון</string>
     <string name="action_archived_cards">עיון בכרטיסים בארכיון</string>
@@ -196,11 +191,9 @@
     <string name="filter_user_title">משתמשים</string>
     <string name="filter_duedate_title">תאריך יעד</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">ביטול העברת הלוח לארכיון</string>
     <string name="archived_boards">לוחות שנשמרו בארכיון</string>
 
-    <!-- Errors -->
     <string name="error">הופיעה שגיאה</string>
     <string name="synchronization_failed">הסנכרון נכשל</string>
     <string name="operation_not_yet_supported">אין תמיכה עדיין</string>
