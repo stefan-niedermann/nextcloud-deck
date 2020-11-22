@@ -56,7 +56,7 @@ public class SyncHelper {
                                 DeckLog.log("Conflicting changes on entity: " + existingEntity);
                                 // TODO: what to do?
                             } else {
-                                if (entityFromServer.getEtag() != null && entityFromServer.getEtag().equals(existingEntity.getEtag())) {
+                                if (entityFromServer.getEtag() != null && !entityFromServer.getEtag().trim().isEmpty() && entityFromServer.getEtag().equals(existingEntity.getEtag())) {
                                     DeckLog.info("["+provider.getClass().getSimpleName()+"] ETags do match! skipping Entitiy with localId: "+existingEntity.getLocalId());
                                     continue;
                                 }
