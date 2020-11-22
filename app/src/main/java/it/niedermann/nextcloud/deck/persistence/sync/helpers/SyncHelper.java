@@ -81,7 +81,7 @@ public class SyncHelper {
                 if (throwable.getClass() == NextcloudHttpRequestFailedException.class) {
                     NextcloudHttpRequestFailedException requestFailedException = (NextcloudHttpRequestFailedException) throwable;
                     if (HttpURLConnection.HTTP_NOT_MODIFIED == requestFailedException.getStatusCode()){
-                        DeckLog.info("ETags do match! skipping this one.");
+                        DeckLog.info("["+provider.getClass().getSimpleName()+"] ETags do match! skipping this one.");
                         // well, etags say we're fine here. no need to go deeper.
                         provider.childDone(provider, responseCallback, false);
                         return;
