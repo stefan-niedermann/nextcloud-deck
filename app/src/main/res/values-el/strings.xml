@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Τελευταίος λογαριασμός</string>
     <string name="drawer_manage_accounts">Διαχείριση λογαριασμών</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Πίνακες</string>
     <string name="simple_add">Προσθήκη</string>
     <string name="simple_save">Αποθήκευση</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Διαγραφή πίνακα</string>
     <string name="delete_something">Διαγραφή %1$s</string>
 
-    <!-- About -->
     <string name="about">Περί</string>
     <string name="about_version_title">Έκδοση</string>
     <string name="about_version">Προς το παρόν χρησιμοποιείτε %1$s</string>
@@ -166,11 +164,9 @@
     <string name="open_in_browser">Άνοιγμα στον περιηγητή ιστού</string>
     <string name="updating_card">Ενημέρωση καρτέλας...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Μετακίνηση λίστας δεξιά</string>
     <string name="move_list_left">Μετακίνηση λίστας αριστερά</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">\'Ολα</string>
     <string name="filter_overdue">Εκπρόθεσμος</string>
     <string name="filter_today">Σήμερα</string>
@@ -181,7 +177,6 @@
     <string name="filter_by_assigned_user">Φίλτρο ανά χρήστη</string>
     <string name="filter_by_duedate">Φίλτρο ανά ημερομηνία λήξης</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Αρχειοθετημένες κάρτες</string>
     <string name="action_card_dearchive">Αναίρεση αρχειοθέτησης κάρτας</string>
     <string name="action_archived_cards">Περιήγηση στις αρχειοθετημένες καρτέλες</string>
@@ -196,11 +191,9 @@
     <string name="filter_user_title">Χρήστες</string>
     <string name="filter_duedate_title">Προθεσμία</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Αναίρεση αρχειοθέτησης πίνακα</string>
     <string name="archived_boards">Αρχειοθέτηση πινάκων </string>
 
-    <!-- Errors -->
     <string name="error">Παρουσιάστηκε σφάλμα</string>
     <string name="synchronization_failed">Αποτυχία συγχρονισμού</string>
     <string name="operation_not_yet_supported">Δεν υποστηρίζεται ακόμη</string>
