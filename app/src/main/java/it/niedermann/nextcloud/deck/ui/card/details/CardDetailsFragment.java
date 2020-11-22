@@ -35,7 +35,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
-import it.niedermann.android.markdown.MarkdownEditor;
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -70,7 +69,6 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
     private AppCompatActivity activity;
-    private MarkdownEditor description;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -91,7 +89,6 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                              ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentCardEditTabDetailsBinding.inflate(inflater, container, false);
-        this.description = binding.description;
         viewModel = new ViewModelProvider(activity).get(EditCardViewModel.class);
 
         // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
@@ -103,8 +100,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
 
         syncManager = new SyncManager(requireContext());
 
-        @Px
-        final int avatarSize = DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.avatar_size);
+        @Px final int avatarSize = DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.avatar_size);
         final LinearLayout.LayoutParams avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
         avatarLayoutParams.setMargins(0, 0, DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.spacer_1x), 0);
 
@@ -113,7 +109,6 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         setupDueDate();
         setupDescription();
         setupProjects();
-        description.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
 
         return binding.getRoot();
     }
@@ -143,14 +138,17 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     }
 
     private void setupDescription() {
+        binding.description.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
         if (viewModel.canEdit()) {
-            description.setTextChangedListener((newText) -> {
+            binding.description.getMarkdownString().observe(getViewLifecycleOwner(), (newText) -> {
                 if (viewModel.getFullCard() != null) {
-                    viewModel.getFullCard().getCard().setDescription(newText);
+                    viewModel.getFullCard().getCard().setDescription(newText == null ? "" : newText.toString());
+                } else {
+                    DeckLog.logError(new IllegalStateException("FullCard was empty when trying to setup description"));
                 }
             });
         } else {
-            description.setEnabled(false);
+            binding.description.setEnabled(false);
         }
     }
 

@@ -15,7 +15,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
-import it.niedermann.android.markdown.MarkdownEditor;
 import it.niedermann.android.util.ClipboardUtil;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
@@ -30,19 +29,17 @@ import static it.niedermann.nextcloud.deck.util.ViewUtil.setupMentions;
 
 public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
     private final ItemCommentBinding binding;
-    private final MarkdownEditor markdownViewer;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
 
     @SuppressWarnings("WeakerAccess")
     public ItemCommentViewHolder(ItemCommentBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
-        this.markdownViewer = this.binding.message;
     }
 
     public void bind(@NonNull FullDeckComment comment, @NonNull Account account, @ColorInt int mainColor, @NonNull MenuInflater inflater, @NonNull CommentDeletedListener deletedListener, @NonNull CommentSelectAsReplyListener selectAsReplyListener, @NonNull FragmentManager fragmentManager) {
         ViewUtil.addAvatar(binding.avatar, account.getUrl(), comment.getComment().getActorId(), DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
-        this.markdownViewer.setMarkdownString(comment.getComment().getMessage());
+        binding.message.setMarkdownString(comment.getComment().getMessage());
         binding.actorDisplayName.setText(comment.getComment().getActorDisplayName());
         binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(binding.creationDateTime.getContext(), comment.getComment().getCreationDateTime().toEpochMilli()));
         itemView.setOnClickListener(View::showContextMenu);
@@ -79,7 +76,7 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
         binding.notSyncedYet.setVisibility(DBStatus.LOCAL_EDITED.equals(comment.getStatusEnum()) ? View.VISIBLE : View.GONE);
 
         TooltipCompat.setTooltipText(binding.creationDateTime, comment.getComment().getCreationDateTime().atZone(ZoneId.systemDefault()).format(dateFormatter));
-        setupMentions(account, comment.getComment().getMentions(), binding.message);
+        setupMentions(account, binding.message.getContext(), comment.getComment().getMessage(), comment.getComment().getMentions(), this.binding.message);
 
         if (comment.getParent() == null) {
             binding.parentContainer.setVisibility(View.GONE);

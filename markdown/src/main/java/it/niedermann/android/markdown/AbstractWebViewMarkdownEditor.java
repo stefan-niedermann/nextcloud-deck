@@ -2,7 +2,6 @@ package it.niedermann.android.markdown;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -10,38 +9,32 @@ import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.annotation.RestrictTo;
-import androidx.core.util.Consumer;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
 @RestrictTo(value = RestrictTo.Scope.LIBRARY)
-abstract class WebViewMarkdownEditor extends WebView implements MarkdownEditor {
+public abstract class AbstractWebViewMarkdownEditor extends WebView implements MarkdownEditor {
 
+    private final MutableLiveData<CharSequence> lastText$ = new MutableLiveData<>();
     protected boolean pageFinished = false;
     protected CharSequence textToSetOnPageFinished;
     protected boolean enabledStateOnPageFinished = true;
-    @Nullable
-    protected Consumer<String> listener;
-    private CharSequence lastText = "";
 
-    public WebViewMarkdownEditor(@NonNull Context context) {
+    public AbstractWebViewMarkdownEditor(@NonNull Context context) {
         super(context);
         init();
     }
 
-    public WebViewMarkdownEditor(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public AbstractWebViewMarkdownEditor(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public WebViewMarkdownEditor(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public AbstractWebViewMarkdownEditor(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public WebViewMarkdownEditor(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         init();
     }
 
@@ -64,23 +57,14 @@ abstract class WebViewMarkdownEditor extends WebView implements MarkdownEditor {
     abstract protected String getUrlToIndex();
 
     @Override
-    public CharSequence getText() {
-        return lastText;
-    }
-
-    @Override
     public void setMarkdownString(CharSequence textToSetOnPageFinished) {
         if (pageFinished) {
             final String escapedText = this.textToSetOnPageFinished == null ? "" : this.textToSetOnPageFinished.toString().replace("`", "\\`");
             evaluateJavascript("setText(`" + escapedText + "`);", null);
+            lastText$.setValue(this.textToSetOnPageFinished);
         } else {
             this.textToSetOnPageFinished = textToSetOnPageFinished;
         }
-    }
-
-    @Override
-    public void setTextChangedListener(@Nullable Consumer<String> listener) {
-        this.listener = listener;
     }
 
     @Override
@@ -92,11 +76,14 @@ abstract class WebViewMarkdownEditor extends WebView implements MarkdownEditor {
         }
     }
 
+    @Override
+    public LiveData<CharSequence> getMarkdownString() {
+        return distinctUntilChanged(lastText$);
+    }
+
+    @RestrictTo(RestrictTo.Scope.SUBCLASSES)
     @JavascriptInterface
     public void onTextChanged(String newText) {
-        if (this.listener != null) {
-            this.listener.accept(newText);
-        }
-        lastText = newText;
+        lastText$.setValue(newText);
     }
 }

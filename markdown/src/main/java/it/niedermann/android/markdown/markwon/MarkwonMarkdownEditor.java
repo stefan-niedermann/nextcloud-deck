@@ -1,4 +1,4 @@
-package it.niedermann.android.markdown;
+package it.niedermann.android.markdown.markwon;
 
 import android.content.Context;
 import android.text.Editable;
@@ -8,7 +8,8 @@ import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
-import androidx.core.util.Consumer;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.concurrent.Executors;
 
@@ -17,24 +18,18 @@ import io.noties.markwon.editor.MarkwonEditor;
 import io.noties.markwon.editor.MarkwonEditorTextWatcher;
 import io.noties.markwon.editor.handler.EmphasisEditHandler;
 import io.noties.markwon.editor.handler.StrongEmphasisEditHandler;
-import io.noties.markwon.ext.strikethrough.StrikethroughPlugin;
-import io.noties.markwon.ext.tasklist.TaskListPlugin;
-import io.noties.markwon.html.HtmlPlugin;
-import io.noties.markwon.image.ImagesPlugin;
-import io.noties.markwon.image.glide.GlideImagesPlugin;
-import io.noties.markwon.inlineparser.MarkwonInlineParserPlugin;
-import io.noties.markwon.linkify.LinkifyPlugin;
-import io.noties.markwon.simple.ext.SimpleExtPlugin;
+import it.niedermann.android.markdown.MarkdownEditor;
 import it.niedermann.android.markdown.markwon.handler.BlockQuoteEditHandler;
 import it.niedermann.android.markdown.markwon.handler.CodeBlockEditHandler;
 import it.niedermann.android.markdown.markwon.handler.CodeEditHandler;
 import it.niedermann.android.markdown.markwon.handler.HeadingEditHandler;
 import it.niedermann.android.markdown.markwon.handler.StrikethroughEditHandler;
 
+import static it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil.initMarkwon;
+
 public class MarkwonMarkdownEditor extends AppCompatEditText implements MarkdownEditor {
 
-    @Nullable
-    protected Consumer<String> listener;
+    private final MutableLiveData<CharSequence> unrenderedText$ = new MutableLiveData<>();
 
     public MarkwonMarkdownEditor(@NonNull Context context) {
         super(context);
@@ -52,16 +47,7 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
     }
 
     private void init(@NonNull Context context) {
-        final Markwon markwon = Markwon.builder(context)
-                .usePlugin(StrikethroughPlugin.create())
-                .usePlugin(TaskListPlugin.create(context))
-                .usePlugin(HtmlPlugin.create())
-                .usePlugin(ImagesPlugin.create())
-                .usePlugin(GlideImagesPlugin.create(context))
-                .usePlugin(SimpleExtPlugin.create())
-                .usePlugin(MarkwonInlineParserPlugin.create())
-                .usePlugin(LinkifyPlugin.create())
-                .build();
+        final Markwon markwon = initMarkwon(context);
         final MarkwonEditor editor = MarkwonEditor.builder(markwon)
                 .useEditHandler(new EmphasisEditHandler())
                 .useEditHandler(new StrongEmphasisEditHandler())
@@ -80,9 +66,7 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (listener != null) {
-                    listener.accept(s.toString());
-                }
+                unrenderedText$.setValue(s.toString());
             }
 
             @Override
@@ -98,8 +82,7 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
     }
 
     @Override
-    public void setTextChangedListener(@NonNull Consumer<String> listener) {
-        this.listener = listener;
+    public LiveData<CharSequence> getMarkdownString() {
+        return unrenderedText$;
     }
-
 }

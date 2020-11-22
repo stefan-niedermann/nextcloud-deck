@@ -1,18 +1,19 @@
-package it.niedermann.android.markdown;
+package it.niedermann.android.markdown.rxmarkdown;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import androidx.annotation.NonNull;
-import androidx.core.util.Consumer;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.yydcdut.markdown.MarkdownProcessor;
 import com.yydcdut.markdown.MarkdownTextView;
 import com.yydcdut.markdown.syntax.text.TextFactory;
 
-import it.niedermann.android.markdown.rxmarkdown.MarkDownUtil;
+import it.niedermann.android.markdown.MarkdownEditor;
 
+@Deprecated
 public class RxMarkdownViewer extends FrameLayout implements MarkdownEditor {
 
     private MarkdownProcessor markdownProcessor;
@@ -39,7 +40,7 @@ public class RxMarkdownViewer extends FrameLayout implements MarkdownEditor {
     private void init(Context context) {
         addView(textView);
         markdownProcessor = new MarkdownProcessor(context);
-        markdownProcessor.config(MarkDownUtil.getMarkDownConfiguration(context).build());
+        markdownProcessor.config(RxMarkdownUtil.getMarkDownConfiguration(context).build());
         markdownProcessor.factory(TextFactory.create());
     }
 
@@ -49,12 +50,7 @@ public class RxMarkdownViewer extends FrameLayout implements MarkdownEditor {
     }
 
     @Override
-    public CharSequence getText() {
-        return textView.getText();
-    }
-
-    @Override
-    public void setTextChangedListener(@NonNull Consumer<String> listener) {
-        // Nothing
+    public LiveData<CharSequence> getMarkdownString() {
+        return new MutableLiveData<>();
     }
 }

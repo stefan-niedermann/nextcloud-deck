@@ -98,11 +98,10 @@ public final class ViewUtil {
      *
      * @param account  {@link Account} where the users of those mentions belong to
      * @param mentions {@link List} of all mentions that should be substituted
-     * @param textView target {@link TextView}
+     * @param target target {@link TextView}
      */
-    public static void setupMentions(@NonNull Account account, @NonNull List<Mention> mentions, MarkdownEditor textView) {
-        Context context = textView.getContext();
-        SpannableStringBuilder messageBuilder = new SpannableStringBuilder(textView.getText());
+    public static void setupMentions(@NonNull Account account, @NonNull Context context, String text, @NonNull List<Mention> mentions, MarkdownEditor target) {
+        SpannableStringBuilder messageBuilder = new SpannableStringBuilder(text);
 
         // Step 1
         // Add avatar icons and display names
@@ -116,7 +115,7 @@ public final class ViewUtil {
                 index = messageBuilder.toString().substring(0, index).lastIndexOf(mentionId);
             }
         }
-        textView.setMarkdownString(messageBuilder);
+        target.setMarkdownString(messageBuilder);
 
         // Step 2
         // Replace avatar icons with real avatars
@@ -142,7 +141,7 @@ public final class ViewUtil {
                         }
                     });
         }
-        textView.setMarkdownString(messageBuilder);
+        target.setMarkdownString(messageBuilder);
     }
 
     public static void setImageColor(@NonNull Context context, @NonNull ImageView imageView, @ColorRes int colorRes) {

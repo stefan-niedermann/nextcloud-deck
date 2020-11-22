@@ -1,4 +1,4 @@
-package it.niedermann.android.markdown;
+package it.niedermann.android.markdown.rxmarkdown;
 
 import android.content.Context;
 import android.text.Editable;
@@ -6,20 +6,23 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import androidx.annotation.NonNull;
-import androidx.core.util.Consumer;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.yydcdut.markdown.MarkdownEditText;
 import com.yydcdut.markdown.MarkdownProcessor;
 import com.yydcdut.markdown.syntax.edit.EditFactory;
 
-import it.niedermann.android.markdown.rxmarkdown.MarkDownUtil;
+import it.niedermann.android.markdown.MarkdownEditor;
 
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
+
+@Deprecated
 public class RxMarkdownEditor extends FrameLayout implements MarkdownEditor {
 
+    private final MutableLiveData<CharSequence> unrenderedText$ = new MutableLiveData<>();
     private MarkdownProcessor markdownProcessor;
     private final MarkdownEditText editText;
-    private Consumer<String> listener;
 
     public RxMarkdownEditor(Context context) {
         super(context);
@@ -42,7 +45,7 @@ public class RxMarkdownEditor extends FrameLayout implements MarkdownEditor {
     private void init(Context context) {
         addView(editText);
         markdownProcessor = new MarkdownProcessor(context);
-        markdownProcessor.config(MarkDownUtil.getMarkDownConfiguration(context).build());
+        markdownProcessor.config(RxMarkdownUtil.getMarkDownConfiguration(context).build());
         markdownProcessor.factory(EditFactory.create());
         markdownProcessor.live(editText);
         editText.addTextChangedListener(new TextWatcher() {
@@ -53,8 +56,7 @@ public class RxMarkdownEditor extends FrameLayout implements MarkdownEditor {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                final CharSequence text = getText();
-                listener.accept(text == null ? null : text.toString());
+                unrenderedText$.setValue(s.toString());
             }
 
             @Override
@@ -70,12 +72,7 @@ public class RxMarkdownEditor extends FrameLayout implements MarkdownEditor {
     }
 
     @Override
-    public CharSequence getText() {
-        return editText.getText();
-    }
-
-    @Override
-    public void setTextChangedListener(@NonNull Consumer<String> listener) {
-        this.listener = listener;
+    public LiveData<CharSequence> getMarkdownString() {
+        return distinctUntilChanged(unrenderedText$);
     }
 }

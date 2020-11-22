@@ -9,10 +9,11 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration.Builder;
 /**
  * Created by stefan on 07.12.16.
  */
+@Deprecated
 @RestrictTo(value = RestrictTo.Scope.LIBRARY)
-public class MarkDownUtil {
+public class RxMarkdownUtil {
 
-    private MarkDownUtil() {
+    private RxMarkdownUtil() {
     }
 
     /**
