@@ -28,6 +28,7 @@ import io.noties.markwon.simple.ext.SimpleExtPlugin;
 import it.niedermann.android.markdown.markwon.handler.BlockQuoteEditHandler;
 import it.niedermann.android.markdown.markwon.handler.CodeBlockEditHandler;
 import it.niedermann.android.markdown.markwon.handler.CodeEditHandler;
+import it.niedermann.android.markdown.markwon.handler.HeadingEditHandler;
 import it.niedermann.android.markdown.markwon.handler.StrikethroughEditHandler;
 
 public class MarkwonMarkdownEditor extends AppCompatEditText implements MarkdownEditor {
