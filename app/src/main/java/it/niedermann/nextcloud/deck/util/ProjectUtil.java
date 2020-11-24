@@ -50,7 +50,7 @@ public class ProjectUtil {
             throw new IllegalArgumentException("trimmed url is empty");
         }
         // extract important part
-        String[] splitByPrefix = url.split(".*index\\.php/apps/deck(/#)?/board/");
+        String[] splitByPrefix = url.split(".*(index\\.php)?/apps/deck(/#)?/board/");
         // split into board- and card part
         if (splitByPrefix.length < 2) {
             throw new IllegalArgumentException("This URL doesn't seem to be an URL containing the boardId: \"" + url + "\"");
