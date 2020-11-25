@@ -25,17 +25,17 @@ public class MarkwonMarkdownViewer extends AppCompatTextView implements Markdown
 
     public MarkwonMarkdownViewer(@NonNull Context context) {
         super(context);
-        this.markwon = initMarkwon(context);
+        this.markwon = initMarkwon(context).build();
     }
 
     public MarkwonMarkdownViewer(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        this.markwon = initMarkwon(context);
+        this.markwon = initMarkwon(context).build();
     }
 
     public MarkwonMarkdownViewer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.markwon = initMarkwon(context);
+        this.markwon = initMarkwon(context).build();
     }
 
     @Override
@@ -49,9 +49,9 @@ public class MarkwonMarkdownViewer extends AppCompatTextView implements Markdown
     }
 
     @Override
-    public void setMentions(@NonNull Map<String, String> mentions) {
-        this.markwon = initMarkwon(getContext(), mentions);
-        setMarkdownString(this.unrenderedText$.getValue());
+    public void setMarkdownString(CharSequence text, @NonNull Map<String, String> mentions) {
+        this.markwon = initMarkwon(getContext(), mentions).build();
+        setMarkdownString(text);
     }
 
     @Override

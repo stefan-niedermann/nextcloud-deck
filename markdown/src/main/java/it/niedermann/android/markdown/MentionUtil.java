@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -19,8 +20,7 @@ import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
 import java.util.Map;
 
-import it.niedermann.android.util.DimensionUtil;
-
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 public class MentionUtil {
 
     private MentionUtil() {
@@ -43,20 +43,20 @@ public class MentionUtil {
 
         // Step 2
         // Replace avatar icons with real avatars
-        final ImageSpan[] list = messageBuilder.getSpans(0, messageBuilder.length(), ImageSpan.class);
-        for (ImageSpan span : list) {
+        final MentionSpan[] list = messageBuilder.getSpans(0, messageBuilder.length(), MentionSpan.class);
+        for (MentionSpan span : list) {
             final int spanStart = messageBuilder.getSpanStart(span);
             final int spanEnd = messageBuilder.getSpanEnd(span);
             Glide.with(context)
                     .asBitmap()
                     .placeholder(R.drawable.ic_person_grey600_24dp)
-                    .load(account.url + "/index.php/avatar/" + messageBuilder.subSequence(spanStart + 1, spanEnd).toString() + "/" + DimensionUtil.INSTANCE.dpToPx(context, R.dimen.avatar_size))
+                    .load(account.url + "/index.php/avatar/" + messageBuilder.subSequence(spanStart + 1, spanEnd).toString() + "/" + span.getDrawable().getIntrinsicHeight())
                     .apply(RequestOptions.circleCropTransform())
                     .into(new CustomTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                             messageBuilder.removeSpan(span);
-                            messageBuilder.setSpan(new ImageSpan(context, resource), spanStart, spanEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            messageBuilder.setSpan(new MentionSpan(context, resource), spanStart, spanEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         }
 
                         @Override
@@ -75,11 +75,21 @@ public class MentionUtil {
             final String mentionDisplayName = " " + mentions.get(userId);
             int index = messageBuilder.toString().lastIndexOf(mentionId);
             while (index >= 0) {
-                messageBuilder.setSpan(new ImageSpan(context, R.drawable.ic_person_grey600_24dp), index, index + mentionId.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                messageBuilder.setSpan(new MentionSpan(context, R.drawable.ic_person_grey600_24dp), index, index + mentionId.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 messageBuilder.insert(index + mentionId.length(), mentionDisplayName);
                 index = messageBuilder.toString().substring(0, index).lastIndexOf(mentionId);
             }
         }
         return messageBuilder;
+    }
+
+    private static class MentionSpan extends ImageSpan {
+        private MentionSpan(@NonNull Context context, int resourceId) {
+            super(context, resourceId);
+        }
+
+        private MentionSpan(@NonNull Context context, @NonNull Bitmap bitmap) {
+            super(context, bitmap);
+        }
     }
 }

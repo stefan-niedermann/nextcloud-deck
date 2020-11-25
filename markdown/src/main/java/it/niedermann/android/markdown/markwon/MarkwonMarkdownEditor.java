@@ -47,7 +47,7 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
     }
 
     private void init(@NonNull Context context) {
-        final Markwon markwon = initMarkwon(context);
+        final Markwon markwon = initMarkwon(context).build();
         final MarkwonEditor editor = MarkwonEditor.builder(markwon)
                 .useEditHandler(new EmphasisEditHandler())
                 .useEditHandler(new StrongEmphasisEditHandler())

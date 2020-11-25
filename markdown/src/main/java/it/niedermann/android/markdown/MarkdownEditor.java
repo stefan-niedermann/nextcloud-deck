@@ -17,18 +17,18 @@ public interface MarkdownEditor {
     void setMarkdownString(CharSequence text);
 
     /**
+     * Will replace all `@mention`s of Nextcloud users with the avatar and given display name.
+     *
+     * @param mentions {@link Map} of mentions, where the key is the user id and the value is the display name
+     */
+    default void setMarkdownString(CharSequence text, @NonNull Map<String, String> mentions) {
+        // Has to be supported explicitely
+    }
+
+    /**
      * @return the source {@link String} of the currently rendered markdown
      */
     LiveData<CharSequence> getMarkdownString();
 
     void setEnabled(boolean enabled);
-
-    /**
-     * Will replace all `@mention`s of Nextcloud users with the avatar and given display name.
-     *
-     * @param mentions {@link Map} of mentions, where the key is the user id and the value is the display name
-     */
-    default void setMentions(@NonNull Map<String, String> mentions) {
-
-    }
 }

@@ -1,4 +1,4 @@
-package it.niedermann.android.markdown.markwon;
+package it.niedermann.android.markdown.markwon.plugins;
 
 import android.content.Context;
 import android.widget.TextView;
@@ -16,20 +16,20 @@ import io.noties.markwon.MarkwonPlugin;
 
 import static it.niedermann.android.markdown.MentionUtil.setupMentions;
 
-public class MarkwonNextcloudMentionPlugin extends AbstractMarkwonPlugin {
+public class NextcloudMentionsPlugin extends AbstractMarkwonPlugin {
 
     @NonNull
     private final Context context;
     @NonNull
     private final Map<String, String> mentions;
 
-    private MarkwonNextcloudMentionPlugin(@NonNull Context context, @NonNull Map<String, String> mentions) {
+    private NextcloudMentionsPlugin(@NonNull Context context, @NonNull Map<String, String> mentions) {
         this.context = context.getApplicationContext();
         this.mentions = mentions;
     }
 
     public static MarkwonPlugin create(@NonNull Context context, @NonNull Map<String, String> mentions) {
-        return new MarkwonNextcloudMentionPlugin(context, mentions);
+        return new NextcloudMentionsPlugin(context, mentions);
     }
 
     @Override

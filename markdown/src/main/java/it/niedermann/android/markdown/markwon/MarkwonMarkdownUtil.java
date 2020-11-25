@@ -15,6 +15,7 @@ import io.noties.markwon.image.glide.GlideImagesPlugin;
 import io.noties.markwon.inlineparser.MarkwonInlineParserPlugin;
 import io.noties.markwon.linkify.LinkifyPlugin;
 import io.noties.markwon.simple.ext.SimpleExtPlugin;
+import it.niedermann.android.markdown.markwon.plugins.NextcloudMentionsPlugin;
 
 /**
  * Created by stefan on 07.12.16.
@@ -25,7 +26,7 @@ public class MarkwonMarkdownUtil {
     private MarkwonMarkdownUtil() {
     }
 
-    public static Markwon initMarkwon(@NonNull Context context) {
+    public static Markwon.Builder initMarkwon(@NonNull Context context) {
         return Markwon.builder(context)
                 .usePlugin(StrikethroughPlugin.create())
                 .usePlugin(TaskListPlugin.create(context))
@@ -33,20 +34,11 @@ public class MarkwonMarkdownUtil {
                 .usePlugin(GlideImagesPlugin.create(context))
                 .usePlugin(SimpleExtPlugin.create())
                 .usePlugin(MarkwonInlineParserPlugin.create())
-                .usePlugin(LinkifyPlugin.create())
-                .build();
+                .usePlugin(LinkifyPlugin.create());
     }
 
-    public static Markwon initMarkwon(@NonNull Context context, @NonNull Map<String, String> mentions) {
-        return Markwon.builder(context)
-                .usePlugin(StrikethroughPlugin.create())
-                .usePlugin(TaskListPlugin.create(context))
-                .usePlugin(ImagesPlugin.create())
-                .usePlugin(GlideImagesPlugin.create(context))
-                .usePlugin(SimpleExtPlugin.create())
-                .usePlugin(MarkwonInlineParserPlugin.create())
-                .usePlugin(LinkifyPlugin.create())
-                .usePlugin(MarkwonNextcloudMentionPlugin.create(context, mentions))
-                .build();
+    public static Markwon.Builder initMarkwon(@NonNull Context context, @NonNull Map<String, String> mentions) {
+        return initMarkwon(context)
+                .usePlugin(NextcloudMentionsPlugin.create(context, mentions));
     }
 }

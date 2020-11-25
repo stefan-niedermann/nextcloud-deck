@@ -57,8 +57,9 @@ public class RxMarkdownViewer extends MarkdownTextView implements MarkdownEditor
     }
 
     @Override
-    public void setMentions(@NonNull Map<String, String> mentions) {
+    public void setMarkdownString(CharSequence text, @NonNull Map<String, String> mentions) {
         try {
+            setMarkdownString(text);
             setupMentions(SingleAccountHelper.getCurrentSingleSignOnAccount(getContext()), mentions, this);
         } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
             e.printStackTrace();

@@ -53,7 +53,7 @@ public abstract class AbstractMarkdownEditor<T extends View & MarkdownEditor> ex
     }
 
     @Override
-    public void setMentions(@NonNull Map<String, String> mentions) {
-        editor.setMentions(mentions);
+    public void setMarkdownString(CharSequence text, @NonNull Map<String, String> mentions) {
+        editor.setMarkdownString(text, mentions);
     }
 }
