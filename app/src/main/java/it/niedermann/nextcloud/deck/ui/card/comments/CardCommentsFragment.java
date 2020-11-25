@@ -79,7 +79,7 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
             if (comment == null) {
                 binding.replyComment.setVisibility(GONE);
             } else {
-                binding.replyCommentText.setText(comment.getComment().getMessage());
+                binding.replyCommentText.setMarkdownString(comment.getComment().getMessage());
                 binding.replyComment.setVisibility(VISIBLE);
 //                setupMentions(mainViewModel.getAccount(), comment.getComment().getMentions(), binding.replyCommentText);
             }
