@@ -56,7 +56,7 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
             dialogBuilder.setPositiveButton(R.string.simple_save, (dialog, which) -> {
                 this.fullBoard.board.setColor(binding.colorChooser.getSelectedColor());
                 this.fullBoard.board.setTitle(binding.input.getText().toString());
-                editBoardListener.onUpdateBoard(fullBoard);
+                this.editBoardListener.onUpdateBoard(fullBoard);
             });
             final MainViewModel viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
             new SyncManager(requireActivity()).getFullBoardById(viewModel.getCurrentAccount().getId(), args.getLong(KEY_BOARD_ID)).observe(EditBoardDialogFragment.this, (FullBoard fb) -> {
@@ -65,13 +65,13 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
                     String title = this.fullBoard.getBoard().getTitle();
                     binding.input.setText(title);
                     binding.input.setSelection(title.length());
-                    binding.colorChooser.selectColor(String.format("#%06X", (0xFFFFFF & fullBoard.getBoard().getColor())));
+                    binding.colorChooser.selectColor(fullBoard.getBoard().getColor());
                 }
             });
         } else {
             dialogBuilder.setTitle(R.string.add_board);
             dialogBuilder.setPositiveButton(R.string.simple_add, (dialog, which) -> editBoardListener.onCreateBoard(binding.input.getText().toString(), binding.colorChooser.getSelectedColor()));
-            binding.colorChooser.selectColor(String.format("#%06X", 0xFFFFFF & ContextCompat.getColor(requireContext(), R.color.board_default_color)));
+            binding.colorChooser.selectColor(ContextCompat.getColor(requireContext(), R.color.board_default_color));
         }
 
         return dialogBuilder

@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Posledný účet</string>
     <string name="drawer_manage_accounts">Spravovať účty</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Nástenky</string>
     <string name="simple_add">Pridať</string>
     <string name="simple_save">Uložiť</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Zmazať nástenku</string>
     <string name="delete_something">Zmazať %1$s</string>
 
-    <!-- About -->
     <string name="about">O aplikácii</string>
     <string name="about_version_title">Verzia</string>
     <string name="about_version">Momentálne používate %1$s</string>
@@ -170,11 +168,9 @@
     <string name="open_in_browser">Otvoriť v prehliadači</string>
     <string name="updating_card">Aktualizácia karty…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Presunúť zoznam doprava</string>
     <string name="move_list_left">Presunúť zoznam doľava</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Všetko</string>
     <string name="filter_overdue">Po termíne</string>
     <string name="filter_today">Dnes</string>
@@ -185,7 +181,6 @@
     <string name="filter_by_assigned_user">Filtrovať podľa priradeného používateľa</string>
     <string name="filter_by_duedate">Filtrovať podľa termínu</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Archivované karty</string>
     <string name="action_card_dearchive">Odarchivovať kartu</string>
     <string name="action_archived_cards">Prechádzať archivované karty</string>
@@ -200,11 +195,9 @@
     <string name="filter_user_title">Používatelia</string>
     <string name="filter_duedate_title">Termín dokončenia</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Zrušiť archiváciu nástenky</string>
     <string name="archived_boards">Archivované nástenky</string>
 
-    <!-- Errors -->
     <string name="error">Vyskytla sa chyba</string>
     <string name="synchronization_failed">Synchronizácia zlyhala</string>
     <string name="operation_not_yet_supported">Zatiaľ nepodporované</string>

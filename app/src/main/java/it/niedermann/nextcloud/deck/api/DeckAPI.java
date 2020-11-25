@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.deck.api;
 
 
+import com.nextcloud.android.sso.api.ParsedResponse;
+
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -33,6 +35,7 @@ import retrofit2.http.Query;
 public interface DeckAPI {
 
     String MODIFIED_SINCE_HEADER = "If-Modified-Since";
+    String IF_NONE_MATCH = "If-None-Match";
 
     // ### BOARDS
     @POST("boards")
@@ -51,7 +54,7 @@ public interface DeckAPI {
     Observable<FullBoard> restoreBoard(@Path("id") long id);
 
     @GET("boards")
-    Observable<List<FullBoard>> getBoards(@Query ("details") boolean verbose, @Header(MODIFIED_SINCE_HEADER) String lastSync );
+    Observable<ParsedResponse<List<FullBoard>>> getBoards(@Query ("details") boolean verbose, @Header(MODIFIED_SINCE_HEADER) String lastSync, @Header(IF_NONE_MATCH) String eTag);
 
 
     // ### Stacks

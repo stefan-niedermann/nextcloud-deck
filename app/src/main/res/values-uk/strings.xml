@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Останній обліковий запис</string>
     <string name="drawer_manage_accounts">Облікові записи</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Дошки</string>
     <string name="simple_add">Додати</string>
     <string name="simple_save">Зберегти</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Вилучити дошку</string>
     <string name="delete_something">Вилучити %1$s</string>
 
-    <!-- About -->
     <string name="about">Про програму</string>
     <string name="about_version_title">Версія</string>
     <string name="about_version">Ви використовуєте%1$s</string>
@@ -169,11 +167,9 @@
     <string name="open_in_browser">Відкрити у переглядачі</string>
     <string name="updating_card">Оновлюю картку...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Пересунути список праворуч</string>
     <string name="move_list_left">Пересунути список ліворуч</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Всі</string>
     <string name="filter_overdue">Протерміновано</string>
     <string name="filter_today">Сьогодні</string>
@@ -184,7 +180,6 @@
     <string name="filter_by_assigned_user">Відібрати за призначеним користувачем</string>
     <string name="filter_by_duedate">Відібрати за датою завершення</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Заархівовані картки</string>
     <string name="action_card_dearchive">Скасувати архівування картки</string>
     <string name="action_archived_cards">Перегляд заархівованих карток</string>
@@ -199,11 +194,9 @@
     <string name="filter_user_title">Користувачі</string>
     <string name="filter_duedate_title">Дата завершення</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Скасувати архівування дошки</string>
     <string name="archived_boards">Архівовані дошки</string>
 
-    <!-- Errors -->
     <string name="error">Сталася помилка </string>
     <string name="synchronization_failed">Синхронізація не вдалася</string>
     <string name="operation_not_yet_supported">Ще не підтримується</string>

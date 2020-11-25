@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.exceptions.DeckException;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
@@ -74,6 +75,9 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullStack> responder, FullStack entity) {
+        if (board.getId() == null) {
+            throw new DeckException(DeckException.Hint.DEPENDENCY_NOT_SYNCED_YET, "Board for this stack is not synced yet. Perform a full sync (pull to referesh) as soon as you are online again.");
+        }
         entity.getStack().setBoardId(board.getId());
         serverAdapter.createStack(board.getBoard(), entity.getStack(), responder);
     }

@@ -11,6 +11,8 @@ public class TraceableException extends RuntimeException {
     public static void makeTraceableIfFails(Runnable runnable, Object... args) {
         try {
             runnable.run();
+        } catch (TraceableException t) {
+            throw t;
         } catch (Throwable t) {
             final StringBuilder message = new StringBuilder("Sorry, a wild error appeared!\n\n" +
                     "⚠️ If you want to tell us about the following issue, " +

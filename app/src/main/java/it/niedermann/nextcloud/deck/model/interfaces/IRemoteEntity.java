@@ -68,6 +68,14 @@ public interface IRemoteEntity {
         getEntity().setStatusEnum(status);
     }
 
+    default String getEtag() {
+        return getEntity().getEtag();
+    }
+
+    default void setEtag(String etag) {
+        getEntity().setEtag(etag);
+    }
+
     default <T> List<T> copyList(List<T> listToCopy) {
         if (listToCopy == null) {
             return null;

@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Sista konto</string>
     <string name="drawer_manage_accounts">Hantera konton</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Tavlor</string>
     <string name="simple_add">Lägg till</string>
     <string name="simple_save">Spara</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Ta bort tavla</string>
     <string name="delete_something">Ta bort %1$s</string>
 
-    <!-- About -->
     <string name="about">Om</string>
     <string name="about_version_title">Version</string>
     <string name="about_version">Du använder för närvarande %1$s</string>
@@ -167,11 +165,9 @@
     <string name="open_in_browser">Öppna i webbläsare</string>
     <string name="updating_card">Uppdaterar kortet...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Flytta listan åt höger</string>
     <string name="move_list_left">Flytta listan åt vänster</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Alla</string>
     <string name="filter_overdue">Förfallen</string>
     <string name="filter_today">Idag</string>
@@ -182,7 +178,6 @@
     <string name="filter_by_assigned_user">Filtrera efter tilldelad användare</string>
     <string name="filter_by_duedate">Filtrera efter förfallodatum</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Arkiverade kort</string>
     <string name="action_card_dearchive">Ångra kortarkivering</string>
     <string name="action_archived_cards">Bläddra i arkiverade kort</string>
@@ -197,11 +192,9 @@
     <string name="filter_user_title">Användare</string>
     <string name="filter_duedate_title">Slutdatum</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Ångra tavelarkivering</string>
     <string name="archived_boards">Arkiverade tavlor</string>
 
-    <!-- Errors -->
     <string name="error">Ett fel inträffade</string>
     <string name="synchronization_failed">Synkroniseringen misslyckades</string>
     <string name="operation_not_yet_supported">Stöds inte än</string>

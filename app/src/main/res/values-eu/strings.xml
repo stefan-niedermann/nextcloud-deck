@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Azken kontua</string>
     <string name="drawer_manage_accounts">Kudeatu kontuak</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Mahaiak</string>
     <string name="simple_add">Gehitu</string>
     <string name="simple_save">Gorde</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Ezabatu mahaia</string>
     <string name="delete_something">Ezabatu %1$s</string>
 
-    <!-- About -->
     <string name="about">Honi buruz</string>
     <string name="about_version_title">Bertsioa</string>
     <string name="about_version">%1$s erabiltzen ari zara</string>
@@ -166,11 +164,9 @@
     <string name="open_in_browser">Ireki nabigatzailean</string>
     <string name="updating_card">Txartela eguneratzen...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Mugitu zerrenda eskuinera</string>
     <string name="move_list_left">Mugitu zerrenda ezkerrera</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Denak</string>
     <string name="filter_overdue">Atzeratuta</string>
     <string name="filter_today">Gaur</string>
@@ -181,7 +177,6 @@
     <string name="filter_by_assigned_user">Iragazi esleitutako erabiltzailez</string>
     <string name="filter_by_duedate">Iragazi epe-mugaz</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Artxibatutako txartelak</string>
     <string name="action_card_dearchive">Desegin txartelak artxibatzea</string>
     <string name="action_archived_cards">Arakatu artxibatutako txartelak</string>
@@ -196,11 +191,9 @@
     <string name="filter_user_title">Erabiltzaileak</string>
     <string name="filter_duedate_title">Epe-muga</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Desegin mahaia artxibatzea</string>
     <string name="archived_boards">Artxibatutako mahaiak</string>
 
-    <!-- Errors -->
     <string name="error">Errore bat agertu da</string>
     <string name="synchronization_failed">Sinkronizazioak huts egin du</string>
     <string name="operation_not_yet_supported">Oraingoz ez da onartzen</string>

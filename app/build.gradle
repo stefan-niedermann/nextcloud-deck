@@ -6,8 +6,8 @@ android {
         applicationId "it.niedermann.nextcloud.deck"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 1012001
-        versionName "1.12.1"
+        versionCode 1013000
+        versionName "1.13.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         javaCompileOptions {
@@ -104,8 +104,6 @@ dependencies {
     // -------------------------
     // --- Backend-Libraries ---
     // -------------------------
-
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.10'
 
     // Room components
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"

@@ -37,8 +37,8 @@ public class Board extends AbstractRemoteEntity implements Serializable {
     }
 
     @Ignore
-    public Board(String title, String color) {
-        this.title = title;
+    public Board(String title, @ColorInt int color) {
+        setTitle(title);
         setColor(color);
     }
 
@@ -98,7 +98,7 @@ public class Board extends AbstractRemoteEntity implements Serializable {
         }
     }
 
-    public void setColor(Integer color) {
+    public void setColor(@ColorInt Integer color) {
         this.color = color;
     }
 

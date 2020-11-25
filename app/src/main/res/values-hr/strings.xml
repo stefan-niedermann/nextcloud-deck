@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Prethodni račun</string>
     <string name="drawer_manage_accounts">Upravljaj računima</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Ploče</string>
     <string name="simple_add">Dodaj</string>
     <string name="simple_save">Spremi</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Izbriši ploču</string>
     <string name="delete_something">Izbriši %1$s</string>
 
-    <!-- About -->
     <string name="about">Informacije</string>
     <string name="about_version_title">Inačica</string>
     <string name="about_version">Trenutno se koristite %1$s</string>
@@ -168,11 +166,9 @@
     <string name="open_in_browser">Otvori u pregledniku</string>
     <string name="updating_card">Ažuriranje kartice…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Pomakni popis desno</string>
     <string name="move_list_left">Pomakni popis lijevo</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Sve</string>
     <string name="filter_overdue">Kasni</string>
     <string name="filter_today">Danas</string>
@@ -183,7 +179,6 @@
     <string name="filter_by_assigned_user">Filtriraj prema dodijeljenom korisniku</string>
     <string name="filter_by_duedate">Filtriraj prema datumu dospijeća</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Arhivirane kartice</string>
     <string name="action_card_dearchive">Poništi arhiviranje kartice</string>
     <string name="action_archived_cards">Pretraži arhivirane kartice</string>
@@ -198,11 +193,9 @@
     <string name="filter_user_title">Korisnici</string>
     <string name="filter_duedate_title">Datum dospijeća</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Poništi arhiviranje ploče</string>
     <string name="archived_boards">Arhivirane ploče</string>
 
-    <!-- Errors -->
     <string name="error">Pojavila se pogreška</string>
     <string name="synchronization_failed">Sinkronizacija nije uspjela</string>
     <string name="operation_not_yet_supported">Još nije podržano</string>
