@@ -8,7 +8,6 @@
     <string name="drawer_end_account">最後のアカウント</string>
     <string name="drawer_manage_accounts">アカウント管理</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">ボード</string>
     <string name="simple_add">追加</string>
     <string name="simple_save">保存</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">ボードを削除</string>
     <string name="delete_something">%1$sを削除</string>
 
-    <!-- About -->
     <string name="about">バージョン情報</string>
     <string name="about_version_title">バージョン</string>
     <string name="about_version">現在%1$sを使用しています</string>
@@ -164,11 +162,9 @@
     <string name="open_in_browser">ブラウザーで開く</string>
     <string name="updating_card">カードの更新中...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">リストを右に移動</string>
     <string name="move_list_left">リストを左に移動</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">すべて</string>
     <string name="filter_overdue">期限超過</string>
     <string name="filter_today">今日</string>
@@ -179,7 +175,6 @@
     <string name="filter_by_assigned_user">割当ユーザーでフィルター</string>
     <string name="filter_by_duedate">期限でフィルター</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">カードをアーカイブ</string>
     <string name="action_card_dearchive">カードのアーカイブを元に戻す</string>
     <string name="action_archived_cards">アーカイブされたカードをブラウズする</string>
@@ -194,11 +189,9 @@
     <string name="filter_user_title">ユーザー</string>
     <string name="filter_duedate_title">期限</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">ボードのアーカイブを元に戻す</string>
     <string name="archived_boards">アーカイブ済みのボード</string>
 
-    <!-- Errors -->
     <string name="error">エラーが見つかりました</string>
     <string name="synchronization_failed">同期に失敗</string>
     <string name="operation_not_yet_supported">未サポート</string>

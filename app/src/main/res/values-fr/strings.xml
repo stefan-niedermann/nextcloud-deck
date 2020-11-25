@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Dernier compte</string>
     <string name="drawer_manage_accounts">Gérer les comptes</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Tableaux</string>
     <string name="simple_add">Ajouter</string>
     <string name="simple_save">Enregistrer</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Supprimer le tableau</string>
     <string name="delete_something">Supprimer %1$s</string>
 
-    <!-- About -->
     <string name="about">À propos de</string>
     <string name="about_version_title">Version</string>
     <string name="about_version">Vous utilisez actuellement la version : %1$s</string>
@@ -167,11 +165,9 @@
     <string name="open_in_browser">Ouvrir dans le navigateur web</string>
     <string name="updating_card">Mise à jour de la carte en cours...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Déplacer la liste à droite</string>
     <string name="move_list_left">Déplacer la liste à gauche</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Tout</string>
     <string name="filter_overdue">En retard</string>
     <string name="filter_today">Aujourd\'hui</string>
@@ -182,7 +178,6 @@
     <string name="filter_by_assigned_user">Filtrer par utilisateur assigné</string>
     <string name="filter_by_duedate">Filtrer par échéance</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Cartes archivées</string>
     <string name="action_card_dearchive">Annuler l\'archivage de la carte</string>
     <string name="action_archived_cards">Parcourir les cartes archivées</string>
@@ -197,11 +192,9 @@
     <string name="filter_user_title">Utilisateurs</string>
     <string name="filter_duedate_title">Date d\'échéance</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Annuler l\'archivage du tableau</string>
     <string name="archived_boards">Tableaux archivés</string>
 
-    <!-- Errors -->
     <string name="error">Une erreur est survenue</string>
     <string name="synchronization_failed">Échec de synchronisation</string>
     <string name="operation_not_yet_supported">Non supporté actuellement</string>
@@ -293,9 +286,12 @@
     <string name="take_photo">Prendre une photo</string>
     <string name="take_photo_switch_camera">Changer d\'appareil photo</string>
     <string name="take_photo_toggle_torch">Allumer la lampe</string>
+    <string name="show_all_contacts">Afficher toutes les contacts</string>
     <string name="show_all_files">Afficher tous les fichiers</string>
+    <string name="upload_a_new_attachment">Envoyer une nouvelle pièce jointe</string>
     <string name="contacts">Contacts</string>
     <string name="downloads">Téléchargements</string>
     <string name="files">Fichiers</string>
     <string name="gallery">Galerie</string>
+    <string name="simple_attach">joindre</string>
     </resources>

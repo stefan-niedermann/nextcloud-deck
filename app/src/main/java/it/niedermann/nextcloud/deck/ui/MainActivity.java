@@ -470,21 +470,23 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     }
 
     @Override
-    public void onCreateBoard(String title, String color) {
+    public void onCreateBoard(String title, @ColorInt int color) {
         if (boardsLiveData == null || boardsLiveDataObserver == null) {
             throw new IllegalStateException("Cannot create board when noone observe boards yet. boardsLiveData or observer is null.");
         }
         boardsLiveData.removeObserver(boardsLiveDataObserver);
-        final Board boardToCreate = new Board(title, color.startsWith("#") ? color.substring(1) : color);
+        final Board boardToCreate = new Board(title, color);
         boardToCreate.setPermissionEdit(true);
         boardToCreate.setPermissionManage(true);
-        observeOnce(syncManager.createBoard(mainViewModel.getCurrentAccount().getId(), boardToCreate), this, createdBoard -> {
-            if (createdBoard == null) {
-                BrandedSnackbar.make(binding.coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG)
-                        // TODO implement action!
-                        // .setAction(R.string.simple_open, v -> ExceptionDialogFragment.newInstance(throwable).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+
+        final WrappedLiveData<FullBoard> createLiveData = syncManager.createBoard(mainViewModel.getCurrentAccount().getId(), boardToCreate);
+        observeOnce(createLiveData, this, (createdBoard) -> {
+            if (createLiveData.hasError()) {
+                BrandedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(createLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
                         .show();
-            } else {
+            }
+            if (createdBoard != null && !createLiveData.hasError()) {
                 boardsList.add(createdBoard.getBoard());
                 setCurrentBoard(createdBoard.getBoard());
 

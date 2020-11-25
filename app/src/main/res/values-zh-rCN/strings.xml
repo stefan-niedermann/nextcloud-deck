@@ -8,7 +8,6 @@
     <string name="drawer_end_account">最后一个账号</string>
     <string name="drawer_manage_accounts">管理账号</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">面板</string>
     <string name="simple_add">添加</string>
     <string name="simple_save">保存</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">删除面板</string>
     <string name="delete_something">删除 %1$s</string>
 
-    <!-- About -->
     <string name="about">关于</string>
     <string name="about_version_title">版本</string>
     <string name="about_version">您当前正在使用 %1$s</string>
@@ -162,11 +160,9 @@
     <string name="open_in_browser">在浏览器中打开</string>
     <string name="updating_card">正在更新卡片…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">将列表移动到右侧</string>
     <string name="move_list_left">将列表移动到左侧</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">全部</string>
     <string name="filter_overdue">逾期</string>
     <string name="filter_today">今天</string>
@@ -177,7 +173,6 @@
     <string name="filter_by_assigned_user">根据指定用户过滤</string>
     <string name="filter_by_duedate">根据截止日期过滤</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">已存档卡片</string>
     <string name="action_card_dearchive">取消存档卡片</string>
     <string name="action_archived_cards">浏览已存档卡片</string>
@@ -194,7 +189,6 @@
 
     <string name="archived_boards">已归档面板</string>
 
-    <!-- Errors -->
     <string name="error">发生了一个错误</string>
     <string name="synchronization_failed">同步失败</string>
     <string name="operation_not_yet_supported">尚未支持</string>

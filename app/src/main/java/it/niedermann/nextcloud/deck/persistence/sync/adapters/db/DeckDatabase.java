@@ -97,7 +97,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.Sta
                 UserInBoard.class,
         },
         exportSchema = false,
-        version = 22
+        version = 23
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -375,6 +375,25 @@ public abstract class DeckDatabase extends RoomDatabase {
         }
     };
 
+    private static final Migration MIGRATION_22_23 = new Migration(22, 23) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // https://github.com/stefan-niedermann/nextcloud-deck/issues/359
+            database.execSQL("ALTER TABLE `Account` ADD `boardsEtag` TEXT");
+            database.execSQL("ALTER TABLE `Board` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `Stack` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `Card` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `Label` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `AccessControl` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `Attachment` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `User` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `DeckComment` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `Activity` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `OcsProject` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `OcsProjectResource` ADD `etag` TEXT");
+        }
+    };
+
     public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
@@ -434,6 +453,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                         lastSyncPref.apply();
                     }
                 })
+                .addMigrations(MIGRATION_22_23)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();
