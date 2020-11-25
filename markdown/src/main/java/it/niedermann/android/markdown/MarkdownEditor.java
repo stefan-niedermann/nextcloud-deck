@@ -1,6 +1,9 @@
 package it.niedermann.android.markdown;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+
+import java.util.Map;
 
 /**
  * Can be used for editors and viewers as well.
@@ -19,4 +22,13 @@ public interface MarkdownEditor {
     LiveData<CharSequence> getMarkdownString();
 
     void setEnabled(boolean enabled);
+
+    /**
+     * Will replace all `@mention`s of Nextcloud users with the avatar and given display name.
+     *
+     * @param mentions {@link Map} of mentions, where the key is the user id and the value is the display name
+     */
+    default void setMentions(@NonNull Map<String, String> mentions) {
+
+    }
 }

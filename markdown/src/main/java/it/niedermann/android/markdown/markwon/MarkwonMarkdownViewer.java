@@ -10,6 +10,8 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.Map;
+
 import io.noties.markwon.Markwon;
 import it.niedermann.android.markdown.MarkdownEditor;
 
@@ -18,7 +20,7 @@ import static it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil.initMar
 
 public class MarkwonMarkdownViewer extends AppCompatTextView implements MarkdownEditor {
 
-    private final Markwon markwon;
+    private Markwon markwon;
     private final MutableLiveData<CharSequence> unrenderedText$ = new MutableLiveData<>();
 
     public MarkwonMarkdownViewer(@NonNull Context context) {
@@ -38,16 +40,22 @@ public class MarkwonMarkdownViewer extends AppCompatTextView implements Markdown
 
     @Override
     public void setMarkdownString(CharSequence text) {
-        unrenderedText$.setValue(text);
+        this.unrenderedText$.setValue(text);
         if (TextUtils.isEmpty(text)) {
             setText(text);
         } else {
-            markwon.setMarkdown(this, text.toString());
+            this.markwon.setMarkdown(this, text.toString());
         }
     }
 
     @Override
+    public void setMentions(@NonNull Map<String, String> mentions) {
+        this.markwon = initMarkwon(getContext(), mentions);
+        setMarkdownString(this.unrenderedText$.getValue());
+    }
+
+    @Override
     public LiveData<CharSequence> getMarkdownString() {
-        return distinctUntilChanged(unrenderedText$);
+        return distinctUntilChanged(this.unrenderedText$);
     }
 }

@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.HashMap;
+import java.util.Map;
 
 import it.niedermann.android.util.ClipboardUtil;
 import it.niedermann.android.util.DimensionUtil;
@@ -21,11 +23,10 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCommentBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
+import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
-
-import static it.niedermann.nextcloud.deck.util.ViewUtil.setupMentions;
 
 public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
     private final ItemCommentBinding binding;
@@ -76,7 +77,11 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
         binding.notSyncedYet.setVisibility(DBStatus.LOCAL_EDITED.equals(comment.getStatusEnum()) ? View.VISIBLE : View.GONE);
 
         TooltipCompat.setTooltipText(binding.creationDateTime, comment.getComment().getCreationDateTime().atZone(ZoneId.systemDefault()).format(dateFormatter));
-        setupMentions(account, binding.message.getContext(), comment.getComment().getMessage(), comment.getComment().getMentions(), this.binding.message);
+        final Map<String, String> mentions = new HashMap<>(comment.getComment().getMentions().size());
+        for (Mention mention : comment.getComment().getMentions()) {
+            mentions.put(mention.getMentionId(), mention.getMentionDisplayName());
+        }
+        binding.message.setMentions(mentions);
 
         if (comment.getParent() == null) {
             binding.parentContainer.setVisibility(View.GONE);

@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 import androidx.lifecycle.LiveData;
 
+import java.util.Map;
+
 @RestrictTo(value = RestrictTo.Scope.LIBRARY)
 public abstract class AbstractMarkdownEditor<T extends View & MarkdownEditor> extends FrameLayout implements MarkdownEditor {
     private MarkdownEditor editor;
@@ -48,5 +50,10 @@ public abstract class AbstractMarkdownEditor<T extends View & MarkdownEditor> ex
     @Override
     public void setEnabled(boolean enabled) {
         editor.setEnabled(enabled);
+    }
+
+    @Override
+    public void setMentions(@NonNull Map<String, String> mentions) {
+        editor.setMentions(mentions);
     }
 }

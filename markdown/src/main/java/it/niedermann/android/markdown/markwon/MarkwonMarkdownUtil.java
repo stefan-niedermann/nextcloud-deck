@@ -5,6 +5,8 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.RestrictTo;
 
+import java.util.Map;
+
 import io.noties.markwon.Markwon;
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin;
 import io.noties.markwon.ext.tasklist.TaskListPlugin;
@@ -32,6 +34,19 @@ public class MarkwonMarkdownUtil {
                 .usePlugin(SimpleExtPlugin.create())
                 .usePlugin(MarkwonInlineParserPlugin.create())
                 .usePlugin(LinkifyPlugin.create())
+                .build();
+    }
+
+    public static Markwon initMarkwon(@NonNull Context context, @NonNull Map<String, String> mentions) {
+        return Markwon.builder(context)
+                .usePlugin(StrikethroughPlugin.create())
+                .usePlugin(TaskListPlugin.create(context))
+                .usePlugin(ImagesPlugin.create())
+                .usePlugin(GlideImagesPlugin.create(context))
+                .usePlugin(SimpleExtPlugin.create())
+                .usePlugin(MarkwonInlineParserPlugin.create())
+                .usePlugin(LinkifyPlugin.create())
+                .usePlugin(MarkwonNextcloudMentionPlugin.create(context, mentions))
                 .build();
     }
 }
