@@ -11,11 +11,11 @@ import it.niedermann.android.markdown.markwon.MarkwonMarkdownEditor;
 public class MarkdownEditorImpl extends AbstractMarkdownEditor<MarkwonMarkdownEditor> {
 
     public MarkdownEditorImpl(@NonNull Context context) {
-        super(context, new MarkwonMarkdownEditor(context));
+        this(context, null);
     }
 
     public MarkdownEditorImpl(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs, new MarkwonMarkdownEditor(context, attrs));
+        this(context, attrs, 0);
     }
 
     public MarkdownEditorImpl(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {

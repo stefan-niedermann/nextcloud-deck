@@ -167,8 +167,9 @@
                 android:id="@+id/descriptionEditor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacer_1x"
-                android:textColor="?attr/colorAccent" />
+                android:layout_marginTop="@dimen/spacer_2x"
+                android:textColor="?attr/colorAccent"
+                android:textSize="@dimen/font_size_description" />
 
             <it.niedermann.android.markdown.MarkdownViewerImpl
                 android:id="@+id/descriptionViewer"
@@ -176,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacer_2x"
                 android:textColor="?attr/colorAccent"
-                android:textSize="18sp" />
+                android:textSize="@dimen/font_size_description" />
         </LinearLayout>
 
         <TextView

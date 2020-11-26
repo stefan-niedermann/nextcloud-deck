@@ -24,8 +24,7 @@ public abstract class AbstractWebViewMarkdownEditor extends WebView implements M
     protected boolean enabledStateOnPageFinished = true;
 
     public AbstractWebViewMarkdownEditor(@NonNull Context context) {
-        super(context);
-        init();
+        this(context, null);
     }
 
     public AbstractWebViewMarkdownEditor(@NonNull Context context, @Nullable AttributeSet attrs) {

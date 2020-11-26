@@ -30,21 +30,15 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
     private final MutableLiveData<CharSequence> unrenderedText$ = new MutableLiveData<>();
 
     public MarkwonMarkdownEditor(@NonNull Context context) {
-        super(context);
-        init(context);
+        this(context, null);
     }
 
     public MarkwonMarkdownEditor(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
+        this(context, attrs, android.R.attr.editTextStyle);
     }
 
     public MarkwonMarkdownEditor(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
-    }
-
-    private void init(@NonNull Context context) {
         final Markwon markwon = MarkwonMarkdownUtil.initMarkwonEditor(context).build();
         final MarkwonEditor editor = MarkwonEditor.builder(markwon)
                 .useEditHandler(new EmphasisEditHandler())

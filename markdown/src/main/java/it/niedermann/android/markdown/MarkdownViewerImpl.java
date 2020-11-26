@@ -11,11 +11,11 @@ import it.niedermann.android.markdown.markwon.MarkwonMarkdownViewer;
 public class MarkdownViewerImpl extends AbstractMarkdownEditor<MarkwonMarkdownViewer> {
 
     public MarkdownViewerImpl(@NonNull Context context) {
-        super(context, new MarkwonMarkdownViewer(context));
+        this(context, null);
     }
 
     public MarkdownViewerImpl(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs, new MarkwonMarkdownViewer(context, attrs));
+        this(context, attrs, 0);
     }
 
     public MarkdownViewerImpl(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {

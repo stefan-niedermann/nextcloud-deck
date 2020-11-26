@@ -1,6 +1,7 @@
 package it.niedermann.android.markdown.markwon;
 
 import android.content.Context;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
@@ -11,6 +12,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import io.noties.markwon.Markwon;
 import it.niedermann.android.markdown.MarkdownEditor;
@@ -22,29 +25,37 @@ public class MarkwonMarkdownViewer extends AppCompatTextView implements Markdown
 
     private Markwon markwon;
     private final MutableLiveData<CharSequence> unrenderedText$ = new MutableLiveData<>();
+    private final ExecutorService renderService;
 
     public MarkwonMarkdownViewer(@NonNull Context context) {
-        super(context);
-        this.markwon = MarkwonMarkdownUtil.initMarkwonViewer(context).build();
+        this(context, null);
     }
 
     public MarkwonMarkdownViewer(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        this.markwon = MarkwonMarkdownUtil.initMarkwonViewer(context).build();
+        this(context, attrs, android.R.attr.textViewStyle);
     }
 
     public MarkwonMarkdownViewer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.markwon = MarkwonMarkdownUtil.initMarkwonViewer(context).build();
+        this.renderService = Executors.newSingleThreadExecutor();
     }
 
     @Override
     public void setMarkdownString(CharSequence text) {
+        final CharSequence previousText = this.unrenderedText$.getValue();
         this.unrenderedText$.setValue(text);
         if (TextUtils.isEmpty(text)) {
             setText(text);
         } else {
-            this.markwon.setMarkdown(this, text.toString());
+            if (!text.equals(previousText)) {
+                setText(null);
+            }
+            this.renderService.execute(() -> {
+                final Spanned markdown = this.markwon.toMarkdown(text.toString());
+                post(() -> this.markwon.setParsedMarkdown(this, markdown));
+            });
+
         }
     }
 

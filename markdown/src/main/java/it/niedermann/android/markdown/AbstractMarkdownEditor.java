@@ -14,27 +14,21 @@ import java.util.Map;
 
 @RestrictTo(value = RestrictTo.Scope.LIBRARY)
 public abstract class AbstractMarkdownEditor<T extends View & MarkdownEditor> extends FrameLayout implements MarkdownEditor {
-    private MarkdownEditor editor;
+    private final MarkdownEditor editor;
 
 
     public AbstractMarkdownEditor(@NonNull Context context, T impl) {
-        super(context);
-        init(impl);
+        this(context, null, impl);
     }
 
     public AbstractMarkdownEditor(@NonNull Context context, @Nullable AttributeSet attrs, T impl) {
-        super(context, attrs);
-        init(impl);
+        this(context, attrs, 0, impl);
     }
 
     public AbstractMarkdownEditor(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, T impl) {
         super(context, attrs, defStyleAttr);
-        init(impl);
-    }
-
-    private void init(T markdownEditor) {
-        this.editor = markdownEditor;
-        addView(markdownEditor);
+        this.editor = impl;
+        addView(impl);
     }
 
     @Override
