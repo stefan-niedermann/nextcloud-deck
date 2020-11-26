@@ -42,9 +42,8 @@ public class MarkwonMarkdownUtil {
         return Markwon.builder(context)
                 .usePlugin(ThemePlugin.create(context))
                 .usePlugin(StrikethroughPlugin.create())
-                .usePlugin(ImagesPlugin.create())
-                .usePlugin(GlideImagesPlugin.create(context))
                 .usePlugin(SimpleExtPlugin.create())
+                .usePlugin(ImagesPlugin.create())
                 .usePlugin(MarkwonInlineParserPlugin.create());
     }
 
@@ -55,6 +54,7 @@ public class MarkwonMarkdownUtil {
                 .usePlugin(TablePlugin.create(context))
                 .usePlugin(TaskListPlugin.create(context))
                 .usePlugin(LinkifyPlugin.create())
+                .usePlugin(GlideImagesPlugin.create(context))
                 .usePlugin(SyntaxHighlightPlugin.create(prism4j, prism4jTheme));
     }
 

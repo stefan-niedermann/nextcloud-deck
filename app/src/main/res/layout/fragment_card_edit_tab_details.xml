@@ -167,7 +167,7 @@
                 android:id="@+id/descriptionEditor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacer_2x"
+                android:layout_marginTop="@dimen/spacer_1x"
                 android:textColor="?attr/colorAccent"
                 android:textSize="@dimen/font_size_description" />
 
