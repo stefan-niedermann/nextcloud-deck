@@ -25,8 +25,6 @@ import it.niedermann.android.markdown.markwon.handler.CodeEditHandler;
 import it.niedermann.android.markdown.markwon.handler.HeadingEditHandler;
 import it.niedermann.android.markdown.markwon.handler.StrikethroughEditHandler;
 
-import static it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil.initMarkwon;
-
 public class MarkwonMarkdownEditor extends AppCompatEditText implements MarkdownEditor {
 
     private final MutableLiveData<CharSequence> unrenderedText$ = new MutableLiveData<>();
@@ -47,7 +45,7 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
     }
 
     private void init(@NonNull Context context) {
-        final Markwon markwon = initMarkwon(context).build();
+        final Markwon markwon = MarkwonMarkdownUtil.initMarkwonEditor(context).build();
         final MarkwonEditor editor = MarkwonEditor.builder(markwon)
                 .useEditHandler(new EmphasisEditHandler())
                 .useEditHandler(new StrongEmphasisEditHandler())

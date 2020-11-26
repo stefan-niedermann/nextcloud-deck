@@ -9,6 +9,7 @@ import java.util.Map;
 
 import io.noties.markwon.Markwon;
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin;
+import io.noties.markwon.ext.tables.TablePlugin;
 import io.noties.markwon.ext.tasklist.TaskListPlugin;
 import io.noties.markwon.image.ImagesPlugin;
 import io.noties.markwon.image.glide.GlideImagesPlugin;
@@ -21,6 +22,7 @@ import io.noties.markwon.syntax.SyntaxHighlightPlugin;
 import io.noties.prism4j.Prism4j;
 import io.noties.prism4j.annotations.PrismBundle;
 import it.niedermann.android.markdown.markwon.plugins.NextcloudMentionsPlugin;
+import it.niedermann.android.markdown.markwon.plugins.ThemePlugin;
 
 @RestrictTo(value = RestrictTo.Scope.LIBRARY)
 @PrismBundle(
@@ -36,22 +38,28 @@ public class MarkwonMarkdownUtil {
         // Util class
     }
 
-    public static Markwon.Builder initMarkwon(@NonNull Context context) {
-        final Prism4j prism4j = new Prism4j(new MarkwonGrammarLocator());
-        final Prism4jTheme prism4jTheme = Prism4jThemeDefault.create();
+    public static Markwon.Builder initMarkwonEditor(@NonNull Context context) {
         return Markwon.builder(context)
+                .usePlugin(ThemePlugin.create(context))
                 .usePlugin(StrikethroughPlugin.create())
-                .usePlugin(TaskListPlugin.create(context))
                 .usePlugin(ImagesPlugin.create())
                 .usePlugin(GlideImagesPlugin.create(context))
                 .usePlugin(SimpleExtPlugin.create())
-                .usePlugin(MarkwonInlineParserPlugin.create())
+                .usePlugin(MarkwonInlineParserPlugin.create());
+    }
+
+    public static Markwon.Builder initMarkwonViewer(@NonNull Context context) {
+        final Prism4j prism4j = new Prism4j(new MarkwonGrammarLocator());
+        final Prism4jTheme prism4jTheme = Prism4jThemeDefault.create();
+        return initMarkwonEditor(context)
+                .usePlugin(TablePlugin.create(context))
+                .usePlugin(TaskListPlugin.create(context))
                 .usePlugin(LinkifyPlugin.create())
                 .usePlugin(SyntaxHighlightPlugin.create(prism4j, prism4jTheme));
     }
 
-    public static Markwon.Builder initMarkwon(@NonNull Context context, @NonNull Map<String, String> mentions) {
-        return initMarkwon(context)
+    public static Markwon.Builder initMarkwonViewer(@NonNull Context context, @NonNull Map<String, String> mentions) {
+        return initMarkwonViewer(context)
                 .usePlugin(NextcloudMentionsPlugin.create(context, mentions));
     }
 }

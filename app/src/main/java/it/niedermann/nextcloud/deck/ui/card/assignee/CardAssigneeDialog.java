@@ -24,10 +24,13 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDeleteAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
+import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDialog;
 
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 
-@Deprecated
+/**
+ * TODO maybe this can be merged with {@link PreviewDialog}
+ */
 public class CardAssigneeDialog extends BrandedDialogFragment {
 
     private static final String KEY_USER = "user";

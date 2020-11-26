@@ -69,6 +69,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
     private AppCompatActivity activity;
+    boolean editorActive = true;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -138,9 +139,23 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     }
 
     private void setupDescription() {
-        binding.description.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
         if (viewModel.canEdit()) {
-            binding.description.getMarkdownString().observe(getViewLifecycleOwner(), (newText) -> {
+            binding.descriptionToggle.setVisibility(VISIBLE);
+            binding.descriptionToggle.setOnClickListener((v) -> {
+                editorActive = !editorActive;
+                if (editorActive) {
+                    binding.descriptionEditor.setVisibility(VISIBLE);
+                    binding.descriptionViewer.setVisibility(GONE);
+                    binding.descriptionToggle.setImageResource(R.drawable.ic_baseline_eye_24);
+                } else {
+                    binding.descriptionEditor.setVisibility(GONE);
+                    binding.descriptionViewer.setVisibility(VISIBLE);
+                    binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
+                    binding.descriptionToggle.setImageResource(R.drawable.ic_edit_grey600_24dp);
+                }
+            });
+            binding.descriptionEditor.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
+            binding.descriptionEditor.getMarkdownString().observe(getViewLifecycleOwner(), (newText) -> {
                 if (viewModel.getFullCard() != null) {
                     viewModel.getFullCard().getCard().setDescription(newText == null ? "" : newText.toString());
                 } else {
@@ -148,7 +163,11 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                 }
             });
         } else {
-            binding.description.setEnabled(false);
+            binding.descriptionEditor.setEnabled(false);
+            binding.descriptionEditor.setVisibility(VISIBLE);
+            binding.descriptionViewer.setEnabled(false);
+            binding.descriptionViewer.setVisibility(GONE);
+            binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
         }
     }
 
