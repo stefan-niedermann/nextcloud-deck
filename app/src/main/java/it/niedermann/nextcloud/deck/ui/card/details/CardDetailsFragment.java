@@ -150,7 +150,6 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                 } else {
                     binding.descriptionEditor.setVisibility(GONE);
                     binding.descriptionViewer.setVisibility(VISIBLE);
-                    binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
                     binding.descriptionToggle.setImageResource(R.drawable.ic_edit_grey600_24dp);
                 }
             });
@@ -158,6 +157,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
             binding.descriptionEditor.getMarkdownString().observe(getViewLifecycleOwner(), (newText) -> {
                 if (viewModel.getFullCard() != null) {
                     viewModel.getFullCard().getCard().setDescription(newText == null ? "" : newText.toString());
+                    binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
                 } else {
                     DeckLog.logError(new IllegalStateException("FullCard was empty when trying to setup description"));
                 }
