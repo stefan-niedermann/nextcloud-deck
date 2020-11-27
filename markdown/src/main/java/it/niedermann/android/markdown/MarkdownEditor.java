@@ -22,7 +22,7 @@ public interface MarkdownEditor {
      * @param mentions {@link Map} of mentions, where the key is the user id and the value is the display name
      */
     default void setMarkdownString(CharSequence text, @NonNull Map<String, String> mentions) {
-        // Has to be supported explicitely
+        setMarkdownString(text);
     }
 
     /**
