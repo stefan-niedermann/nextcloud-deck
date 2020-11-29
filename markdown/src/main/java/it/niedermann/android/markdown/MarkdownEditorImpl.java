@@ -8,17 +8,16 @@ import androidx.annotation.Nullable;
 
 import it.niedermann.android.markdown.markwon.MarkwonMarkdownEditor;
 
-public class MarkdownEditorImpl extends AbstractMarkdownEditor<MarkwonMarkdownEditor> {
-
+public class MarkdownEditorImpl extends MarkwonMarkdownEditor {
     public MarkdownEditorImpl(@NonNull Context context) {
-        super(context, new MarkwonMarkdownEditor(context));
+        super(context);
     }
 
     public MarkdownEditorImpl(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs, new MarkwonMarkdownEditor(context, attrs));
+        super(context, attrs);
     }
 
     public MarkdownEditorImpl(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr, new MarkwonMarkdownEditor(context, attrs, defStyleAttr));
+        super(context, attrs, defStyleAttr);
     }
 }

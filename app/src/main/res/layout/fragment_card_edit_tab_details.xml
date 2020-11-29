@@ -172,6 +172,7 @@
                 android:textSize="@dimen/font_size_description" />
 
             <it.niedermann.android.markdown.MarkdownViewerImpl
+                android:visibility="gone"
                 android:id="@+id/descriptionViewer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

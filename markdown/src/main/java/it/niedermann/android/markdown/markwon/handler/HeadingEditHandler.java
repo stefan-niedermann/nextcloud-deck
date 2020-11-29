@@ -38,7 +38,7 @@ public class HeadingEditHandler implements EditHandler<HeadingSpan> {
             @NonNull HeadingSpan span,
             int spanStart,
             int spanTextLength) {
-        HeadingSpan newSpan;
+        final HeadingSpan newSpan;
 
         switch (span.getLevel()) {
             case 1:
@@ -63,13 +63,38 @@ public class HeadingEditHandler implements EditHandler<HeadingSpan> {
                 return;
 
         }
+        final int newStart = getNewSpanStart(input, spanStart);
+        final int newEnd = findEnd(input, newStart, newSpan.getLevel());
 
         editable.setSpan(
                 newSpan,
-                spanStart,
-                spanStart + spanTextLength + newSpan.getLevel() + 1,
+                newStart,
+                newEnd,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         );
+    }
+
+    private int findEnd(String input, int searchFrom, int spanLevel) {
+        int end = searchFrom + spanLevel;
+        final int strLength = input.length();
+        while (end < strLength - 1) {
+            end++;
+            if (input.charAt(end) == '\n') {
+                break;
+            }
+        }
+        return end + 1;
+    }
+
+    private int getNewSpanStart(String input, int spanStart) {
+        int start = spanStart;
+
+        while (start >= 0 && input.charAt(start) != '\n') {
+            start--;
+        }
+        start += 1;
+
+        return start;
     }
 
 
