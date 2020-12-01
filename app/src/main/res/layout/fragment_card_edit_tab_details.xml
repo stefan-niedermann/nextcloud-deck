@@ -130,10 +130,55 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 tools:listitem="@tools:sample/avatars" />
 
-            <it.niedermann.android.markdown.MarkdownEditorImpl
-                android:id="@+id/description"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_size_details"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/spacer_2x"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/ic_baseline_subject_24" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/descriptionToggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/edit_description"
+                        android:paddingStart="@dimen/spacer_1x"
+                        android:paddingEnd="@dimen/spacer_1x"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_baseline_eye_24"
+                        tools:visibility="visible" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <it.niedermann.android.markdown.MarkdownEditorImpl
+                android:id="@+id/descriptionEditor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacer_1x"
+                android:textColor="?attr/colorAccent"
+                android:textSize="@dimen/font_size_description" />
+
+            <it.niedermann.android.markdown.MarkdownViewerImpl
+                android:visibility="gone"
+                android:id="@+id/descriptionViewer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacer_2x"
+                android:textColor="?attr/colorAccent"
+                android:textSize="@dimen/font_size_description" />
         </LinearLayout>
 
         <TextView

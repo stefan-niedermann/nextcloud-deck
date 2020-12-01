@@ -320,4 +320,5 @@
     <string name="gallery">Gallery</string>
     <string name="simple_attach">attach</string>
     <string name="add_stack_widget">Add list widget</string>
+    <string name="edit_description">Edit description</string>
 </resources>

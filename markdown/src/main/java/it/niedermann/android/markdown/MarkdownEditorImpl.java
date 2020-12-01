@@ -6,19 +6,18 @@ import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import it.niedermann.android.markdown.rxmarkdown.RxMarkdownEditor;
+import it.niedermann.android.markdown.markwon.MarkwonMarkdownEditor;
 
-public class MarkdownEditorImpl extends AbstractMarkdownEditor<RxMarkdownEditor> {
-
+public class MarkdownEditorImpl extends MarkwonMarkdownEditor {
     public MarkdownEditorImpl(@NonNull Context context) {
-        super(context, new RxMarkdownEditor(context));
+        super(context);
     }
 
     public MarkdownEditorImpl(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs, new RxMarkdownEditor(context, attrs));
+        super(context, attrs);
     }
 
     public MarkdownEditorImpl(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr, new RxMarkdownEditor(context, attrs, defStyleAttr));
+        super(context, attrs, defStyleAttr);
     }
 }

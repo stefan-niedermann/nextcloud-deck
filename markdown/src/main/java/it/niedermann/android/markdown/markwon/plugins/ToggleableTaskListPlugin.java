@@ -18,8 +18,8 @@ import io.noties.markwon.ext.tasklist.TaskListSpan;
 
 public class ToggleableTaskListPlugin extends AbstractMarkwonPlugin {
 
-    private String originalNoteContent;
-    private ToggleListener toggleListener;
+    private final String originalNoteContent;
+    private final ToggleListener toggleListener;
     public static final String CHECKBOX_UNCHECKED_PLUS = "+ [ ]";
     public static final String CHECKBOX_UNCHECKED_MINUS = "- [ ]";
     public static final String CHECKBOX_UNCHECKED_STAR = "* [ ]";
