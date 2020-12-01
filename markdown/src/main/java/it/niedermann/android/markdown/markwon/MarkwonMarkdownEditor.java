@@ -58,25 +58,28 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
                 .useEditHandler(new BlockQuoteEditHandler())
                 .useEditHandler(new HeadingEditHandler())
                 .build();
-        // FIXME I think this causes a concurrency issue with the other TextChangedListener
-        addTextChangedListener(MarkwonEditorTextWatcher.withPreRender(editor, Executors.newSingleThreadExecutor(), this));
+
+        MarkwonEditorTextWatcher originalWatcher = MarkwonEditorTextWatcher.withPreRender(editor, Executors.newSingleThreadExecutor(), this);
+
+        // intercept behavior of the original MarkwonEditorTextWatcher.
         addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (count == 1 && s.charAt(start) == '\n') { // 'Enter' was pressed
-                    // FIXME I think manipulating the content here might cause an error in the preview render thread - maybe we need to cancel it?
-                    autoContinueCheckboxListsOnEnter(s, start, count);
-                }
+                originalWatcher.beforeTextChanged(s, start, count, after);
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                unrenderedText$.setValue(s.toString());
+                if (count == 1 && s.charAt(start) == '\n') {
+                    autoContinueCheckboxListsOnEnter(s, start, count);
+                }
+                originalWatcher.onTextChanged(s, start, before, count);
+//                unrenderedText$.setValue(s.toString());
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                originalWatcher.afterTextChanged(s);
             }
         });
     }
