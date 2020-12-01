@@ -27,6 +27,15 @@ import it.niedermann.android.markdown.markwon.handler.StrikethroughEditHandler;
 
 public class MarkwonMarkdownEditor extends AppCompatEditText implements MarkdownEditor {
 
+    private static final String CHECKBOX_UNCHECKED_MINUS = "- [ ]";
+    private static final String CHECKBOX_UNCHECKED_MINUS_TRAILING_SPACE = CHECKBOX_UNCHECKED_MINUS + " ";
+    private static final String CHECKBOX_UNCHECKED_STAR = "* [ ]";
+    private static final String CHECKBOX_UNCHECKED_STAR_TRAILING_SPACE = CHECKBOX_UNCHECKED_STAR + " ";
+    private static final String CHECKBOX_CHECKED_MINUS = "- [x]";
+    private static final String CHECKBOX_CHECKED_STAR = "* [x]";
+
+    private static final int lengthCheckbox = 6;
+
     private final MutableLiveData<CharSequence> unrenderedText$ = new MutableLiveData<>();
 
     public MarkwonMarkdownEditor(@NonNull Context context) {
@@ -49,11 +58,15 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
                 .useEditHandler(new BlockQuoteEditHandler())
                 .useEditHandler(new HeadingEditHandler())
                 .build();
-        addTextChangedListener(MarkwonEditorTextWatcher.withPreRender(editor, Executors.newCachedThreadPool(), this));
+        // FIXME I think this causes a concurrency issue with the other TextChangedListener
+        addTextChangedListener(MarkwonEditorTextWatcher.withPreRender(editor, Executors.newSingleThreadExecutor(), this));
         addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                if (count == 1 && s.charAt(start) == '\n') { // 'Enter' was pressed
+                    // FIXME I think manipulating the content here might cause an error in the preview render thread - maybe we need to cancel it?
+                    autoContinueCheckboxListsOnEnter(s, start, count);
+                }
             }
 
             @Override
@@ -71,10 +84,50 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
     @Override
     public void setMarkdownString(CharSequence text) {
         setText(text);
+        unrenderedText$.setValue(text == null ? "" : text.toString());
     }
 
     @Override
     public LiveData<CharSequence> getMarkdownString() {
         return unrenderedText$;
+    }
+
+    private boolean autoContinueCheckboxListsOnEnter(@NonNull CharSequence originalSequence, int start, int count) {
+        final CharSequence s = originalSequence.subSequence(0, originalSequence.length());
+        final int startOfLine = getStartOfLine(s, start);
+        final String line = s.subSequence(startOfLine, start).toString();
+
+        if (line.equals(CHECKBOX_UNCHECKED_MINUS_TRAILING_SPACE) || line.equals(CHECKBOX_UNCHECKED_STAR_TRAILING_SPACE)) {
+            setSelection(startOfLine + 1);
+            setNewText(new StringBuilder(s).replace(startOfLine, startOfLine + lengthCheckbox + 1, "\n"), startOfLine + 1);
+            return true;
+        } else if (lineStartsWithCheckbox(line, false)) {
+            setNewText(new StringBuilder(s).insert(start + count, CHECKBOX_UNCHECKED_MINUS_TRAILING_SPACE), start + lengthCheckbox + 1);
+            return true;
+        } else if (lineStartsWithCheckbox(line, true)) {
+            setNewText(new StringBuilder(s).insert(start + count, CHECKBOX_UNCHECKED_STAR_TRAILING_SPACE), start + lengthCheckbox + 1);
+            return true;
+        }
+        return false;
+    }
+
+    private void setNewText(@NonNull StringBuilder newText, int selection) {
+        setMarkdownString(newText.toString());
+        unrenderedText$.setValue(newText.toString());
+        setSelection(selection);
+    }
+
+    private static int getStartOfLine(@NonNull CharSequence s, int cursorPosition) {
+        int startOfLine = cursorPosition;
+        while (startOfLine > 0 && s.charAt(startOfLine - 1) != '\n') {
+            startOfLine--;
+        }
+        return startOfLine;
+    }
+
+    private static boolean lineStartsWithCheckbox(@NonNull String line, boolean starAsLeadingCharacter) {
+        return starAsLeadingCharacter
+                ? line.startsWith(CHECKBOX_UNCHECKED_STAR) || line.startsWith(CHECKBOX_CHECKED_STAR)
+                : line.startsWith(CHECKBOX_UNCHECKED_MINUS) || line.startsWith(CHECKBOX_CHECKED_MINUS);
     }
 }
