@@ -295,4 +295,5 @@
     <string name="files">Archivos</string>
     <string name="gallery">Galería</string>
     <string name="simple_attach">adjuntar</string>
-    </resources>
+    <string name="add_stack_widget">Agregar lista de widget</string>
+</resources>

@@ -238,4 +238,8 @@
     <string name="project_type_file">파일</string>
     <string name="projects_title">프로젝트</string>
     <string name="simple_move">이동</string>
+    <string name="simple_contact">연락처</string>
+    <string name="simple_camera">카메라</string>
+    <string name="take_photo_switch_camera">카메라 전환</string>
+    <string name="show_all_files">모든 파일 보기</string>
     </resources>
