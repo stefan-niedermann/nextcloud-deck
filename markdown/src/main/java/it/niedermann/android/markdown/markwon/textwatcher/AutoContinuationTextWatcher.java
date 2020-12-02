@@ -2,7 +2,6 @@ package it.niedermann.android.markdown.markwon.textwatcher;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -12,31 +11,13 @@ import io.noties.markwon.editor.MarkwonEditor;
 import io.noties.markwon.editor.MarkwonEditorTextWatcher;
 import it.niedermann.android.markdown.markwon.MarkwonMarkdownEditor;
 
+import static it.niedermann.android.markdown.markwon.textwatcher.AutoContinuationTextWatcher.EListType.LENGTH_CHECKBOX_WITH_TRAILING_SPACE;
+import static it.niedermann.android.markdown.markwon.textwatcher.AutoContinuationTextWatcher.EListType.LENGTH_LIST_WITH_TRAILING_SPACE;
+
 /**
  * Automatically continues lists and checkbox lists when pressing enter
  */
 public class AutoContinuationTextWatcher implements TextWatcher {
-
-    private static final String TAG = AutoContinuationTextWatcher.class.getSimpleName();
-
-    private static final String LIST_DASH = "-";
-    private static final String LIST_STAR = "*";
-    private static final String LIST_PLUS = "+";
-    private static final String LIST_DASH_TRAILING = LIST_DASH + " ";
-    private static final String LIST_STAR_TRAILING = LIST_STAR + " ";
-    private static final String LIST_PLUS_TRAILING = LIST_PLUS + " ";
-    private static final String CHECKBOX_CHECKED_DASH = "- [x]";
-    private static final String CHECKBOX_CHECKED_STAR = "* [x]";
-    private static final String CHECKBOX_CHECKED_PLUS = "+ [x]";
-    private static final String CHECKBOX_UNCHECKED_DASH = "- [ ]";
-    private static final String CHECKBOX_UNCHECKED_STAR = "* [ ]";
-    private static final String CHECKBOX_UNCHECKED_PLUS = "+ [ ]";
-    private static final String CHECKBOX_UNCHECKED_DASH_TRAILING_SPACE = CHECKBOX_UNCHECKED_DASH + " ";
-    private static final String CHECKBOX_UNCHECKED_STAR_TRAILING_SPACE = CHECKBOX_UNCHECKED_STAR + " ";
-    private static final String CHECKBOX_UNCHECKED_PLUS_TRAILING_SPACE = CHECKBOX_UNCHECKED_PLUS + " ";
-
-    private static final int LIST_TRAILING_SPACE_LENGTH = 2;
-    private static final int CHECKBOX_TRAILING_SPACE_LENGTH = 6;
 
     private final MarkwonEditorTextWatcher originalWatcher;
     private final MarkwonMarkdownEditor editText;
@@ -53,9 +34,8 @@ public class AutoContinuationTextWatcher implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (count == 1 && s.charAt(start) == '\n') {
-            autoContinueCheckboxListsOnEnter(s, start, count);
-        }
+        final int numberOfInsertedCharactersBeforeLine = autoContinueCheckboxListsOnEnter(s, start, count);
+        // TODO how to use this information for the originalWatcher?
         originalWatcher.onTextChanged(s, start, before, count);
     }
 
@@ -68,36 +48,34 @@ public class AutoContinuationTextWatcher implements TextWatcher {
      * @return added characters in front of the current line (can be negative)
      */
     private int autoContinueCheckboxListsOnEnter(@NonNull CharSequence originalSequence, int start, int count) {
+        if (count != 1 || originalSequence.charAt(start) != '\n') {
+            return 0;
+        }
         final CharSequence s = originalSequence.subSequence(0, originalSequence.length());
         final int startOfLine = getStartOfLine(s, start);
         final String line = s.subSequence(startOfLine, start).toString();
 
-        if (line.equals(CHECKBOX_UNCHECKED_DASH_TRAILING_SPACE) || line.equals(CHECKBOX_UNCHECKED_STAR_TRAILING_SPACE)) {
+        if (lineStartsWithEmptyUncheckedCheckbox(line)) {
             editText.setSelection(startOfLine + 1);
-            setNewText(new StringBuilder(s).replace(startOfLine, startOfLine + CHECKBOX_TRAILING_SPACE_LENGTH + 1, "\n"), startOfLine + 1);
-            return CHECKBOX_TRAILING_SPACE_LENGTH * -1;
-        } else if (line.equals(LIST_DASH_TRAILING) || line.equals(LIST_PLUS_TRAILING) || line.equals(LIST_STAR_TRAILING)) {
+            setNewText(new StringBuilder(s).replace(startOfLine, startOfLine + LENGTH_CHECKBOX_WITH_TRAILING_SPACE + 1, "\n"), startOfLine + 1);
+            return LENGTH_CHECKBOX_WITH_TRAILING_SPACE * -1;
+        } else if (lineStartsWithEmptyList(line)) {
             editText.setSelection(startOfLine + 1);
-            setNewText(new StringBuilder(s).replace(startOfLine, startOfLine + LIST_TRAILING_SPACE_LENGTH + 1, "\n"), startOfLine + 1);
-            return CHECKBOX_TRAILING_SPACE_LENGTH;
-        } else if (lineStartsWithCheckbox(line, EListType.DASH)) {
-            setNewText(new StringBuilder(s).insert(start + count, CHECKBOX_UNCHECKED_DASH_TRAILING_SPACE), start + CHECKBOX_TRAILING_SPACE_LENGTH + 1);
-            return CHECKBOX_TRAILING_SPACE_LENGTH;
-        } else if (lineStartsWithCheckbox(line, EListType.STAR)) {
-            setNewText(new StringBuilder(s).insert(start + count, CHECKBOX_UNCHECKED_STAR_TRAILING_SPACE), start + CHECKBOX_TRAILING_SPACE_LENGTH + 1);
-            return CHECKBOX_TRAILING_SPACE_LENGTH;
-        } else if (lineStartsWithCheckbox(line, EListType.PLUS)) {
-            setNewText(new StringBuilder(s).insert(start + count, CHECKBOX_UNCHECKED_PLUS_TRAILING_SPACE), start + CHECKBOX_TRAILING_SPACE_LENGTH + 1);
-            return CHECKBOX_TRAILING_SPACE_LENGTH;
-        } else if (lineStartsWithList(line, EListType.DASH)) {
-            setNewText(new StringBuilder(s).insert(start + count, LIST_DASH_TRAILING), start + LIST_TRAILING_SPACE_LENGTH + 1);
-            return LIST_TRAILING_SPACE_LENGTH;
-        } else if (lineStartsWithList(line, EListType.STAR)) {
-            setNewText(new StringBuilder(s).insert(start + count, LIST_STAR_TRAILING), start + LIST_TRAILING_SPACE_LENGTH + 1);
-            return LIST_TRAILING_SPACE_LENGTH;
-        } else if (lineStartsWithList(line, EListType.PLUS)) {
-            setNewText(new StringBuilder(s).insert(start + count, LIST_PLUS_TRAILING), start + LIST_TRAILING_SPACE_LENGTH + 1);
-            return LIST_TRAILING_SPACE_LENGTH;
+            setNewText(new StringBuilder(s).replace(startOfLine, startOfLine + LENGTH_LIST_WITH_TRAILING_SPACE + 1, "\n"), startOfLine + 1);
+            return LENGTH_LIST_WITH_TRAILING_SPACE * -1;
+        } else {
+            for (EListType listType : EListType.values()) {
+                if (lineStartsWithCheckbox(line, listType)) {
+                    setNewText(new StringBuilder(s).insert(start + count, listType.checkboxUncheckedWithTrailingSpace), start + LENGTH_CHECKBOX_WITH_TRAILING_SPACE + 1);
+                    return LENGTH_CHECKBOX_WITH_TRAILING_SPACE;
+                }
+            }
+            for (EListType listType : EListType.values()) {
+                if (lineStartsWithList(line, listType)) {
+                    setNewText(new StringBuilder(s).insert(start + count, listType.listSymbolWithTrailingSpace), start + LENGTH_LIST_WITH_TRAILING_SPACE + 1);
+                    return LENGTH_LIST_WITH_TRAILING_SPACE;
+                }
+            }
         }
         return 0;
     }
@@ -115,37 +93,52 @@ public class AutoContinuationTextWatcher implements TextWatcher {
         return startOfLine;
     }
 
-    private static boolean lineStartsWithCheckbox(@NonNull String line, @NonNull EListType listType) {
-        switch (listType) {
-            case STAR:
-                return line.startsWith(CHECKBOX_UNCHECKED_STAR) || line.startsWith(CHECKBOX_CHECKED_STAR);
-            case DASH:
-                return line.startsWith(CHECKBOX_UNCHECKED_DASH) || line.startsWith(CHECKBOX_CHECKED_DASH);
-            case PLUS:
-                return line.startsWith(CHECKBOX_UNCHECKED_PLUS) || line.startsWith(CHECKBOX_CHECKED_PLUS);
-            default:
-                Log.w(TAG, "List type " + listType + " is not supported.");
-                return false;
+    private static boolean lineStartsWithEmptyUncheckedCheckbox(@NonNull String line) {
+        for (EListType listType : EListType.values()) {
+            if (line.equals(listType.checkboxUncheckedWithTrailingSpace)) {
+                return true;
+            }
         }
+        return false;
+    }
+
+    private static boolean lineStartsWithEmptyList(@NonNull String line) {
+        for (EListType listType : EListType.values()) {
+            if (line.equals(listType.listSymbolWithTrailingSpace)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean lineStartsWithCheckbox(@NonNull String line, @NonNull EListType listType) {
+        return line.startsWith(String.valueOf(listType.checkboxUnchecked)) || line.startsWith(listType.checkboxChecked);
     }
 
     private static boolean lineStartsWithList(@NonNull String line, @NonNull EListType listType) {
-        switch (listType) {
-            case STAR:
-                return line.startsWith(LIST_STAR);
-            case DASH:
-                return line.startsWith(LIST_DASH);
-            case PLUS:
-                return line.startsWith(LIST_PLUS);
-            default:
-                Log.w(TAG, "List type " + listType + " is not supported.");
-                return false;
-        }
+        return line.startsWith(String.valueOf(listType.listSymbol));
     }
 
-    private enum EListType {
-        STAR,
-        DASH,
-        PLUS
+    enum EListType {
+        STAR('*'),
+        DASH('-'),
+        PLUS('+');
+
+        static final int LENGTH_LIST_WITH_TRAILING_SPACE = 2;
+        static final int LENGTH_CHECKBOX_WITH_TRAILING_SPACE = 6;
+
+        final char listSymbol;
+        final String listSymbolWithTrailingSpace;
+        final String checkboxChecked;
+        final String checkboxUnchecked;
+        final String checkboxUncheckedWithTrailingSpace;
+
+        EListType(char listSymbol) {
+            this.listSymbol = listSymbol;
+            this.listSymbolWithTrailingSpace = listSymbol + " ";
+            this.checkboxChecked = listSymbolWithTrailingSpace + "[x]";
+            this.checkboxUnchecked = listSymbolWithTrailingSpace + "[ ]";
+            this.checkboxUncheckedWithTrailingSpace = checkboxUnchecked + " ";
+        }
     }
 }
