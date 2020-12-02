@@ -112,11 +112,11 @@ public class AutoContinuationTextWatcher implements TextWatcher {
     }
 
     private static boolean lineStartsWithCheckbox(@NonNull String line, @NonNull EListType listType) {
-        return line.startsWith(String.valueOf(listType.checkboxUnchecked)) || line.startsWith(listType.checkboxChecked);
+        return line.startsWith(listType.checkboxUnchecked) || line.startsWith(listType.checkboxChecked);
     }
 
     private static boolean lineStartsWithList(@NonNull String line, @NonNull EListType listType) {
-        return line.startsWith(String.valueOf(listType.listSymbol));
+        return line.startsWith(listType.listSymbol);
     }
 
     enum EListType {
@@ -127,14 +127,14 @@ public class AutoContinuationTextWatcher implements TextWatcher {
         static final int LENGTH_LIST_WITH_TRAILING_SPACE = 2;
         static final int LENGTH_CHECKBOX_WITH_TRAILING_SPACE = 6;
 
-        final char listSymbol;
+        final String listSymbol;
         final String listSymbolWithTrailingSpace;
         final String checkboxChecked;
         final String checkboxUnchecked;
         final String checkboxUncheckedWithTrailingSpace;
 
         EListType(char listSymbol) {
-            this.listSymbol = listSymbol;
+            this.listSymbol = String.valueOf(listSymbol);
             this.listSymbolWithTrailingSpace = listSymbol + " ";
             this.checkboxChecked = listSymbolWithTrailingSpace + "[x]";
             this.checkboxUnchecked = listSymbolWithTrailingSpace + "[ ]";
