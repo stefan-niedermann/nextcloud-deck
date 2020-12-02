@@ -19,6 +19,12 @@ public class AutoContinuationTextWatcher implements TextWatcher {
 
     private static final String TAG = AutoContinuationTextWatcher.class.getSimpleName();
 
+    private static final String LIST_DASH = "-";
+    private static final String LIST_STAR = "*";
+    private static final String LIST_PLUS = "+";
+    private static final String LIST_DASH_TRAILING = LIST_DASH + " ";
+    private static final String LIST_STAR_TRAILING = LIST_STAR + " ";
+    private static final String LIST_PLUS_TRAILING = LIST_PLUS + " ";
     private static final String CHECKBOX_CHECKED_DASH = "- [x]";
     private static final String CHECKBOX_CHECKED_STAR = "* [x]";
     private static final String CHECKBOX_CHECKED_PLUS = "+ [x]";
@@ -29,6 +35,7 @@ public class AutoContinuationTextWatcher implements TextWatcher {
     private static final String CHECKBOX_UNCHECKED_STAR_TRAILING_SPACE = CHECKBOX_UNCHECKED_STAR + " ";
     private static final String CHECKBOX_UNCHECKED_PLUS_TRAILING_SPACE = CHECKBOX_UNCHECKED_PLUS + " ";
 
+    private static final int LIST_TRAILING_SPACE_LENGTH = 2;
     private static final int CHECKBOX_TRAILING_SPACE_LENGTH = 6;
 
     private final MarkwonEditorTextWatcher originalWatcher;
@@ -69,6 +76,10 @@ public class AutoContinuationTextWatcher implements TextWatcher {
             editText.setSelection(startOfLine + 1);
             setNewText(new StringBuilder(s).replace(startOfLine, startOfLine + CHECKBOX_TRAILING_SPACE_LENGTH + 1, "\n"), startOfLine + 1);
             return CHECKBOX_TRAILING_SPACE_LENGTH * -1;
+        } else if (line.equals(LIST_DASH_TRAILING) || line.equals(LIST_PLUS_TRAILING) || line.equals(LIST_STAR_TRAILING)) {
+            editText.setSelection(startOfLine + 1);
+            setNewText(new StringBuilder(s).replace(startOfLine, startOfLine + LIST_TRAILING_SPACE_LENGTH + 1, "\n"), startOfLine + 1);
+            return CHECKBOX_TRAILING_SPACE_LENGTH;
         } else if (lineStartsWithCheckbox(line, EListType.DASH)) {
             setNewText(new StringBuilder(s).insert(start + count, CHECKBOX_UNCHECKED_DASH_TRAILING_SPACE), start + CHECKBOX_TRAILING_SPACE_LENGTH + 1);
             return CHECKBOX_TRAILING_SPACE_LENGTH;
@@ -78,6 +89,15 @@ public class AutoContinuationTextWatcher implements TextWatcher {
         } else if (lineStartsWithCheckbox(line, EListType.PLUS)) {
             setNewText(new StringBuilder(s).insert(start + count, CHECKBOX_UNCHECKED_PLUS_TRAILING_SPACE), start + CHECKBOX_TRAILING_SPACE_LENGTH + 1);
             return CHECKBOX_TRAILING_SPACE_LENGTH;
+        } else if (lineStartsWithList(line, EListType.DASH)) {
+            setNewText(new StringBuilder(s).insert(start + count, LIST_DASH_TRAILING), start + LIST_TRAILING_SPACE_LENGTH + 1);
+            return LIST_TRAILING_SPACE_LENGTH;
+        } else if (lineStartsWithList(line, EListType.STAR)) {
+            setNewText(new StringBuilder(s).insert(start + count, LIST_STAR_TRAILING), start + LIST_TRAILING_SPACE_LENGTH + 1);
+            return LIST_TRAILING_SPACE_LENGTH;
+        } else if (lineStartsWithList(line, EListType.PLUS)) {
+            setNewText(new StringBuilder(s).insert(start + count, LIST_PLUS_TRAILING), start + LIST_TRAILING_SPACE_LENGTH + 1);
+            return LIST_TRAILING_SPACE_LENGTH;
         }
         return 0;
     }
@@ -103,6 +123,20 @@ public class AutoContinuationTextWatcher implements TextWatcher {
                 return line.startsWith(CHECKBOX_UNCHECKED_DASH) || line.startsWith(CHECKBOX_CHECKED_DASH);
             case PLUS:
                 return line.startsWith(CHECKBOX_UNCHECKED_PLUS) || line.startsWith(CHECKBOX_CHECKED_PLUS);
+            default:
+                Log.w(TAG, "List type " + listType + " is not supported.");
+                return false;
+        }
+    }
+
+    private static boolean lineStartsWithList(@NonNull String line, @NonNull EListType listType) {
+        switch (listType) {
+            case STAR:
+                return line.startsWith(LIST_STAR);
+            case DASH:
+                return line.startsWith(LIST_DASH);
+            case PLUS:
+                return line.startsWith(LIST_PLUS);
             default:
                 Log.w(TAG, "List type " + listType + " is not supported.");
                 return false;
