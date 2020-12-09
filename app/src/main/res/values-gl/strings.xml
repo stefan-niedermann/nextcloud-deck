@@ -6,9 +6,8 @@
     <string name="drawer_current_account">Conta actual</string>
     <string name="drawer_middle_account">Conta media</string>
     <string name="drawer_end_account">Última conta</string>
-    <string name="drawer_manage_accounts">Administrar contas</string>
+    <string name="drawer_manage_accounts">Xestionar contas</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Taboleiros</string>
     <string name="simple_add">Engadir</string>
     <string name="simple_save">Gardar</string>
@@ -38,13 +37,13 @@
     <string name="simple_disabled">desactivado</string>
     <string name="simple_copied">Copiada</string>
     <string name="simple_archive">Aquivar</string>
+    <string name="simple_unassigned">Sen asignar</string>
 
     <string name="edit_board">Editar taboleiro</string>
     <string name="archive_board">Arquivar taboleiro</string>
     <string name="delete_board">Eliminar taboleiro</string>
     <string name="delete_something">Eliminar %1$s</string>
 
-    <!-- About -->
     <string name="about">Sobre</string>
     <string name="about_version_title">Versión</string>
     <string name="about_version">Agora está a empregar %1$s</string>
@@ -56,7 +55,7 @@
     <string name="about_testers_title">Probadores</string>
     <string name="about_source_title">Código fonte</string>
     <string name="about_source">Este proxecto está aloxado en GitHub: %1$s</string>
-    <string name="about_issues_title">Incidentes</string>
+    <string name="about_issues_title">Incidencias</string>
     <string name="about_issues">Vostede pode informar de fallos, propoñer melloras e solicitar funcionalidades na ferramenta de seguimento de erros do GitHub: %1$s</string>
     <string name="about_translate_title">Traducir</string>
     <string name="about_translate">Únase ao equipo Nextcloud en Transifex e axúdenos a traducir esta aplicación: %1$s</string>
@@ -70,9 +69,6 @@
     <string name="about_credits_tab_title">Recoñecementos</string>
     <string name="about_contribution_tab_title">Colaboración</string>
     <string name="about_license_tab_title">Licenza</string>
-
-    <string name="copied_to_clipboard">Copiado no portapapeis.</string>
-
     <string name="seconds_ago">hai uns segundos</string>
     <string name="edit">Editar</string>
     <string name="label_labels">Seleccionar etiquetas</string>
@@ -111,11 +107,12 @@
     <string name="account_is_getting_imported">A conta está a importarse</string>
     <string name="not_synced_yet">Aínda non foi sincronizado</string>
     <string name="no_lists_yet">Non hai listas</string>
-    <string name="do_you_want_to_save_your_changes">Confirma que quere gardar os cambios?</string>
+    <string name="do_you_want_to_save_your_changes">Quere gardar os cambios?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Quere arquivar todas as tarxetas de %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Quere arquivar todas as tarxetas filtradas de %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
-        <item quantity="one">Isto eliminará permanentemente %1$d tarxeta desta lista.</item>
-        <item quantity="other">Isto eliminará permanentemente as %1$d tarxetas desta lista.</item>
+        <item quantity="one">Isto eliminará de xeito permanente %1$d tarxeta desta lista.</item>
+        <item quantity="other">Isto eliminará de xeito permanente as %1$d tarxetas desta lista.</item>
     </plurals>
     <plurals name="do_you_want_to_delete_the_label">
         <item quantity="one">Isto retirará a etiqueta de %1$d tarxeta.</item>
@@ -129,6 +126,7 @@
     <string name="delete_board_message">Isto eliminará este taboleiro de xeito permanente incluíndo todas as listas e tarxetas.</string>
     <string name="settings_theme_title">Tema escuro</string>
     <string name="settings_branding_title">Xestión da marca</string>
+    <string name="settings_compact_title">Modo compacto</string>
     <string name="settings_background_sync">Sincronización do traballo en segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronización con wifi e con datos móbiles</string>
     <string name="pref_value_wifi_only">Sincronizar só con wifi</string>
@@ -156,7 +154,6 @@
     <string name="maintenance_mode_explanation">O servidor %1$s está atopase en modo de mantemento. Póñase en contacto co seu administrador ou ténteo de novo máis tarde.</string>
     <string name="share_add_to_card">Engadir á tarxeta</string>
     <string name="share_success">%1$s foi engadido satisfactoriamente  a %2$s</string>
-    <string name="could_not_copy_to_clipboard">Non foi posíbel copiar ao portapapeis</string>
     <string name="add_comment">Engadir comentario</string>
     <string name="card_edit_comments">Comentarios</string>
     <string name="no_comments_yet">Aínda non hai comentarios</string>
@@ -168,11 +165,9 @@
     <string name="open_in_browser">Abrir no navegador</string>
     <string name="updating_card">Actualizado tarxeta…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Mover a lista á dereita</string>
     <string name="move_list_left">Mover a lista á esquerda</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Todo</string>
     <string name="filter_overdue">Caducado</string>
     <string name="filter_today">Hoxe</string>
@@ -183,7 +178,6 @@
     <string name="filter_by_assigned_user">Filtrar polo usuario asignado</string>
     <string name="filter_by_duedate">Filtrar pola data de caducidade</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Tarxetas arquivadas</string>
     <string name="action_card_dearchive">Desfacer o arquivo de tarxetas</string>
     <string name="action_archived_cards">Examinar as tarxetas arquivadas</string>
@@ -198,11 +192,9 @@
     <string name="filter_user_title">Usuarios</string>
     <string name="filter_duedate_title">Data de caducidade</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Desfacer o arquivo de taboleiros</string>
     <string name="archived_boards">Taboleiros arquivados</string>
 
-    <!-- Errors -->
     <string name="error">Apareceu un erro</string>
     <string name="synchronization_failed">Produciuse un fallo na sincronización</string>
     <string name="operation_not_yet_supported">Aínda non está admitido</string>
@@ -216,7 +208,8 @@
 
     <string name="error_dialog_title">Vaites, e agora que? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Probe a forzar o peche da apli e reiniciala de novo. Pode haber unha conexión incorrecta coa apli Nextcloud.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">Se o problema continúa, tente limpar o almacenamento de ambas as aplis: Nextcloud e Nextcloud Deck para resolver este problema.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Se o problema continúa, tente limpar o almacenamento de ambas as aplis: Nextcloud e Nextcloud Deck para resolver este problema.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Produciuse un fallo ao anovar a base de datos. Informe do problema e borre o almacenamento para usar a apli normalmente.</string>
     <string name="error_dialog_tip_clear_storage">Pode limpar o almacenamento abrindo a información da apli e seleccionando Almacenamento → Limpar o almacenamento.</string>
     <string name="error_dialog_tip_files_outdated">A súa apli Nextcloud semella estar desactualizada. Visite Play Store ou F-Droid para obter a última versión.</string>
     <string name="error_dialog_tip_files_force_stop">Semella que algo está mal na súa apli Nextcloud. Tente forzar a parar ambas, a apli Nextcloud e a apli Nextcloud Deck.</string>
@@ -230,26 +223,77 @@
     <string name="error_dialog_we_need_info">Necesitamos a seguinte información técnica para axudarlle:</string>
     <string name="error_dialog_redirect">O seu servidor respondeu cun código de estado HTTP 302, o que implica que non ten instalada a aplicación Deck no servidor ou que algo está mal configurado. Isto pode ser causado por substitucións personalizadas nun ficheiro .htaccess ou por aplicacións Nextcloud como Client OID.</string>
     <string name="error_dialog_version_not_parsable">Non foi posíbel determinar a versión da apli Deck do lado do servidor. Asegúrese de que estea instalado e activado.</string>
+    <string name="error_dialog_account_might_not_be_authorized">É posíbel que a conta da súa apli do Nextcloud xa non estea autorizada.</string>
+    <string name="error_dialog_user_not_found_in_database">O usuario actual non coincide co que temos na nosa base de datos. Se está a usar LDAP na súa instancia do Nextcloud, é posíbel que a súa apli do Nextcloud teña almacenado un ID de usuario antigo.</string>
     <string name="error_dialog_capabilities_not_parsable">Non foi posíbel obter as funcionalidades do seu servidor. Asegúrese de que o seu servidor funciona correctamente e que outras aplis de cliente poidan acceder ao Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Non foi posíbel enviar un arquivo anexo. Probe compartilo doutro xeito e infórmenos deste erro.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Desactive todas as optimizacións de batería para Nextcloud e a apli Deck.</string>
     <string name="error_action_open_deck_info">Abrir a info da apli</string>
     <string name="error_action_open_network">Axustes da rede</string>
     <string name="error_action_server_logs">Rexistros do servidor</string>
     <string name="error_action_install">Instalar</string>
+    <string name="error_action_report_issue">Informe</string>
     <string name="info_box_maintenance_mode">Servidor en modo de mantemento</string>
     <string name="info_box_version_not_supported">A versión %1$s do servidor non é compatíbel, actualice a %2$s</string>
     <string name="share_link">Compartir ligazón</string>
     <string name="archive_cards">Arquivar as tarxetas</string>
-    <string name="manage_accounts">Administrar contas</string>
-    <string name="manage_list">Administrar a lista</string>
+
+    <string name="manage_accounts">Xestionar contas</string>
+    <string name="manage_list">Xestionar a lista</string>
     <string name="simple_reply">Responder</string>
     <string name="error_while_uploading_attachment">Produciuse un erro ao enviar o anexo: %1$s</string>
     <string name="append_text_to_description">Anexo á descrición</string>
     <string name="add_text_as_comment">Engadir como comentario</string>
     <string name="progress_count">%1$d de %2$d</string>
     <plurals name="progress_error_count">
-        <item quantity="one">%1$d  erros ao enviar.</item>
-        <item quantity="other">%1$d erros ao enviar.</item>
+        <item quantity="one">%1$d erros ao enviar</item>
+        <item quantity="other">%1$d erros ao enviar</item>
     </plurals>
     <string name="simple_report">Informe</string>
+    <string name="error_action_open_battery_settings">Axustes da batería</string>
+    <string name="move_warning">Non é posíbel transferir nin comentarios nin ficheiros anexos ao mover a tarxeta a outro taboleiro.</string>
+    <string name="clone_board">Clonar taboleiro</string>
+    <string name="cloning_board">Clonando %1$s…</string>
+    <string name="successfully_cloned_board">%1$s foi clonado satisfactoriamente</string>
+    <string name="attachment_does_not_yet_exist">Aínda non existe o anexo no Deck</string>
+    <string name="card_does_not_yet_exist">Aínda non existe a tarxeta no Deck</string>
+
+    <string name="widget_stack_title">Lista</string>
+    <string name="widget_stack_header_icon">Icona de cabeceira do trebello</string>
+    <string name="widget_stack_placeholder_icon">Icona de marcador de posición do trebello</string>
+    <string name="select_stack">Seleccionar a lista</string>
+    <string name="project_type_deck_board">Taboleiro do Deck</string>
+    <string name="project_type_deck_card">Tarxeta do Deck</string>
+    <string name="project_type_file">Ficheiro</string>
+    <string name="projects_title">Proxectos</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d recurso</item>
+        <item quantity="other">%1$d recursos</item>
+    </plurals>
+    <string name="no_assigned_label">Non hai etiqueta asignada</string>
+    <string name="single_card">Terxeta única</string>
+    <string name="project_type_room">Sala de conversas</string>
+    <string name="simple_move">Mover</string>
+    <string name="cannot_upload_files_without_permission">Non é posíbel enviar ficheiros sen permiso</string>
+    <string name="clone_cards">Clonar tarxetas</string>
+    <string name="simple_clone">Clonar</string>
+    <string name="user_avatar">Avatar do usuario</string>
+    <string name="simple_unassign">Desasignar</string>
+    <string name="simple_contact">Contacto</string>
+    <string name="simple_file">Ficheiro</string>
+    <string name="simple_camera">Cámara</string>
+    <string name="min_api_21">Esta función require polo menos Android 5</string>
+    <string name="take_photo">Tirar unha foto</string>
+    <string name="take_photo_switch_camera">Cambiar de cámara</string>
+    <string name="take_photo_toggle_torch">Alternar o facho</string>
+    <string name="show_all_contacts">Amosar todos os contactos</string>
+    <string name="show_all_files">Amosar todos os ficheiros</string>
+    <string name="recent">Recente</string>
+    <string name="upload_a_new_attachment">Enviar un novo anexo</string>
+    <string name="contacts">Contactos</string>
+    <string name="downloads">Descargas</string>
+    <string name="files">Ficheiros</string>
+    <string name="gallery">Galería</string>
+    <string name="simple_attach">anexar</string>
+    <string name="add_stack_widget">Engadir o trebello de lista</string>
 </resources>

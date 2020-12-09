@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Viimeisin tili</string>
     <string name="drawer_manage_accounts">Tilien hallinta</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Taulut</string>
     <string name="simple_add">Lisää</string>
     <string name="simple_save">Tallenna</string>
@@ -21,6 +20,7 @@
     <string name="simple_exception">Poikkeus</string>
     <string name="simple_close">sulje</string>
     <string name="simple_open">Avoinna</string>
+    <string name="simple_switch">Kytkin</string>
     <string name="simple_filter">Suodata</string>
     <string name="simple_overdue">Myöhässä</string>
     <string name="simple_clear">Tyhjennä</string>
@@ -36,13 +36,14 @@
     <string name="simple_comment">Kommentti</string>
     <string name="simple_disabled">poistettu käytöstä</string>
     <string name="simple_copied">Kopioitu</string>
+    <string name="simple_archive">Arkisto</string>
+    <string name="simple_unassigned">Määrittämätön</string>
 
     <string name="edit_board">Muokkaa taulua</string>
     <string name="archive_board">Arkistoi taulu</string>
     <string name="delete_board">Poista taulu</string>
     <string name="delete_something">Poista %1$s</string>
 
-    <!-- About -->
     <string name="about">Tietoja</string>
     <string name="about_version_title">Versio</string>
     <string name="about_version">Käytössäsi on %1$s</string>
@@ -68,16 +69,21 @@
     <string name="about_credits_tab_title">Tekijät</string>
     <string name="about_contribution_tab_title">Kontribuutio</string>
     <string name="about_license_tab_title">Lisenssi</string>
-
     <string name="seconds_ago">sekuntia sitten</string>
     <string name="edit">Muokkaa</string>
     <string name="label_labels">Valitse tunnisteet</string>
     <string name="label_description">Kuvaus</string>
     <string name="hint_assign_people">Määritä käyttäjät</string>
     <string name="hint_due_date_date">Eräpäivä</string>
+    <string name="card_not_found">Korttia ei löydy</string>
+    <string name="card_not_found_message">Korttia ei löytynyt. Se voi olla äskettäin poistettu.</string>
+
     <string name="add_account">Lisää tili</string>
     <string name="choose_account">Valitse tili</string>
+    <string name="add_card">Lisää uusi kortti</string>
     <string name="activity">Aktiviteetti</string>
+    <string name="add_list">Lisää lista</string>
+    <string name="rename_list">Nimeä lista uudelleen</string>
     <string name="delete_list">Poista lista</string>
     <string name="label_menu">Valikko</string>
     <string name="action_card_assign">Määritä kortti minulle</string>
@@ -89,13 +95,6 @@
     <string name="label_clear_due_date">Poista eräpäivä</string>
     <string name="label_add">Lisää %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Tapahtui virhe</string>
-    <string name="copied_to_clipboard">Kopioitu leikepöydälle</string>
-    <string name="maintenance_mode">Palvelin on huoltotilassa</string>
-    <string name="server_misconfigured">Virheelliset palvelimen asetukset</string>
-    <string name="server_misconfigured_explanation">Palvelimesi vastasi HTTP 302 tilakoodilla, joka tarkoittaa, että Deck/pakka sovellusta ei ole asennettu palvelimellesi tai jossain on virheelliset asetukset. Tämän voi aiheuttaa muunneltu .htaccess tiedosto tai Nextcloud sovellus kuten OID asiakas. Tukipalvelun yhteystiedot löytyvät muuta valikosta. </string>
-    <string name="server_error">Palvelinvirhe</string>
     <string name="card_edit_details">Tiedot</string>
     <string name="card_edit_attachments">Liitteet</string>
     <string name="card_edit_activity">Tapahtumat</string>
@@ -107,12 +106,26 @@
     <string name="account_already_added">Tili on jo lisätty</string>
     <string name="account_is_getting_imported">Tiliä tuodaan sisään</string>
     <string name="not_synced_yet">Ei vielä synkronoitu</string>
+    <string name="no_lists_yet">Ei vielä listoja</string>
     <string name="do_you_want_to_save_your_changes">Haluatko tallentaa muutokset?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Haluatko arkistoida kaikki kortit listalta %1$s?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Tämä poistaa %1$d kortin tältä listalta.</item>
+        <item quantity="other">Tämä poistaa kaikki %1$d korttia tältä listalta.</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Tämä poistaa nimikkeen %1$d kortilta.</item>
+        <item quantity="other">Tämä poistaa nimikkeen %1$d kortilta.</item>
+    </plurals>
+    <string name="add_a_new_list_using_the_button">Lisää uusi lista painamalla +</string>
     <string name="add_a_new_card_using_the_button">Lisää uusi kortti painamalla +</string>
     <string name="update_deck">Päivitä pakka</string>
     <string name="your_deck_version_is_too_old">Pakan versio on liian vanha</string>
-    <string name="deck_outdated_please_update">Pakan versio on liian vanha. Päivitä kayttämällä tätä android sovellusta asiakkaana.</string>
+    <string name="deck_outdated_please_update">Deck-versiosi (%1$s) on liian vanha. Päivitä sovellus.</string>
+    <string name="delete_board_message">Tämä poistaa tämän taulun ja sen listat ja kortit pysyvästi.</string>
     <string name="settings_theme_title">Tumma teema</string>
+    <string name="settings_branding_title">Brändäys</string>
+    <string name="settings_compact_title">Kompakti tila</string>
     <string name="settings_background_sync">Taustasynkronointi</string>
     <string name="pref_value_wifi_and_mobile">Synkronoi wifi- ja mobiilidatayhteydellä</string>
     <string name="pref_value_wifi_only">Synkronoi vain wifi-yhteydellä</string>
@@ -137,12 +150,23 @@
     <string name="provide_at_least_a_title_or_description">Anna vähintään otsikko tai kuvaus</string>
     <string name="welcome_text">Tervetuloa kohteeseen %1$s</string>
     <string name="save_card_before_attachment">Kortti pitää tallentaa ennen kuin liitetiedostoja voidaan lisätä.</string>
+    <string name="maintenance_mode_explanation">Palvelin%1$s on juuri ylläpitotilassa. Ota yhteys järjestelmän ylläpitäjään tai yritä myöhemmin uudelleen.</string>
     <string name="share_add_to_card">Lisää kortille</string>
     <string name="share_success">Onnistuneesti lisätty %1$s kohteeseen %2$s</string>
-    <string name="could_not_copy_to_clipboard">Ei voitu kopioida leikepöydälle</string>
+    <string name="add_comment">Lisää kommentti</string>
     <string name="card_edit_comments">Kommentit</string>
+    <string name="no_comments_yet">Ei kommentteja</string>
+    <string name="no_boards">Ei vielä tauluja</string>
+    <string name="add_a_new_board_using_the_button">Lisää uusi taulu painamalla +</string>
+    <string name="choose_board">Valitse taulu</string>
+    <string name="choose_list">Valitse lista</string>
+    <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Avaa selaimessa</string>
-    <!-- Filter -->
+    <string name="updating_card">Päivitetään korttia...</string>
+
+    <string name="move_list_right">Siirrä lista oikealle</string>
+    <string name="move_list_left">Siirrä lista vasemmalle</string>
+
     <string name="filter_no_filter">Kaikki</string>
     <string name="filter_overdue">Myöhässä</string>
     <string name="filter_today">Tänään</string>
@@ -150,6 +174,101 @@
     <string name="filter_month">Seuraavat 30 päivää</string>
     <string name="filter_no_due">Ei eräpäivää</string>
     <string name="filter_by_tag">Suodata tunnisteen perusteella</string>
-    <!-- Archived cards -->
+    <string name="filter_by_assigned_user">Suodata määritetyn käyttäjän mukaan</string>
+    <string name="filter_by_duedate">Suodata määräpäivän mukaan</string>
+
     <string name="archived_cards">Arkistoidut kortit</string>
+    <string name="action_card_dearchive">Kumoa kortin arkistointi</string>
+    <string name="action_archived_cards">Selaa arkistoituja kortteja</string>
+    <string name="attachment_already_exists">Liite on jo olemassa</string>
+    <string name="pick_custom_color">Valitse mukautettu väri</string>
+    <string name="manage_tags">Hallitse tunnisteita</string>
+    <string name="add_tag">Lisää tunniste</string>
+    <string name="tag_already_exists">%1$s on jo olemassa</string>
+    <string name="tag_successfully_added">%1$s lisätty onnistuneesti</string>
+    <string name="edit_tag">Muokkaa tunnistetta %1$s</string>
+    <string name="filter_tags_title">Tunnisteet</string>
+    <string name="filter_user_title">Käyttäjät</string>
+    <string name="filter_duedate_title">Eräpäivä</string>
+
+    <string name="action_board_dearchive">Kumoa taulun arkistointi</string>
+    <string name="archived_boards">Arkistoidut taulut</string>
+
+    <string name="error">Tapahtui virhe</string>
+    <string name="synchronization_failed">Synkronointi epäonnistui</string>
+    <string name="operation_not_yet_supported">Ei vielä tuettu</string>
+    <string name="error_revoking_ac">Virhe käyttöoikeuden kumoamisessa (%1$s)</string>
+    <string name="error_create_label">Virhe nimikkeen luonnissa (%1$s)</string>
+    <string name="maintenance_mode">Palvelin on huoltotilassa</string>
+    <string name="server_misconfigured">Virheelliset palvelimen asetukset</string>
+    <string name="server_error">Palvelinvirhe</string>
+    <string name="shared_error">Sisällön jako 3. osapuolen sovelluksista ei ole vielä täysin tuettu. Lataa kohde ensin ja jaa se laitteen tiedostohallinnasta tai galleriasta.</string>
+    <string name="error_edit_activity_killed_by_android">Android päätti muokkaustilan, koska resursseja tarvitaan muille sovelluksille.</string>
+
+    <string name="error_dialog_title">Voi ei - Mitä nyt? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Yritä pakottaa sovelluksen sulkeminen ja käynnistä se uudelleen. Nextcloud-sovellukseen on saattanut olla virheellinen yhteys.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Jos ongelma jatkuu, tyhjennä Nextcloudin ja Nextcloud Deckin tallennustila laitteesta ratkaistaaksesi ongelman.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Tietokannan päivittäminen epäonnistui. Ole hyvä ja raportoi ongelmasta ja tyhjennä tallennustila käyttääksesi sovellusta normaalisti.</string>
+    <string name="error_dialog_tip_clear_storage">Voit tyhjentää tallennustilan avaamalla sovelluksen tiedot ja valitsemalla Tallennustila → Tyhjennä tallennustila.</string>
+    <string name="error_dialog_tip_files_outdated">Nextcloud-sovelluksesi on vanhentunut. Lataa uusin version Play Storesta tai F-Droidista.</string>
+    <string name="error_dialog_tip_files_force_stop">Nextcloud-sovelluksessasi on jotain vialla. Pakota Nextcloudin ja Nextcloud Deckin lopetus.</string>
+    <string name="error_dialog_tip_files_delete_storage">Jos pakotettu lopettaminen ei auta, voit yrittää tyhjentää sovelluksien tallennustilan.</string>
+    <string name="error_dialog_timeout_instance">Palvelimen aikakatkaisu. Varmista, että se on toiminnassa.</string>
+    <string name="error_dialog_timeout_toggle">Tarkista verkkoyhteytesi. Joskus mobiilidatan tai Wi-Fin kytkeminen pois päältä ja päälle saattaa ratkaista ongelman.</string>
+    <string name="error_dialog_check_server">Palvelin vastasi virheellisesti. Tarkista, saatko yhteyden Deckiin selaimen kautta.</string>
+    <string name="error_dialog_check_server_logs">Nextcloud-asennuksessasi on ongelma. Katso lisätietoja palvelimen lokitiedostoista.</string>
+    <string name="error_dialog_check_maintenance">Varmista, ettei Nextcloud-palvelin ole ylläpitotilassa.</string>
+    <string name="error_dialog_insufficient_storage">Nextcloud-palvelimellasi ei ole vapaata tallennustilaa. Poista tiedostoja, jotta paikallisten muutosten synkronointi pilveen onnistuu.</string>
+    <string name="error_dialog_we_need_info">Tarvitsemme seuraavat tekniset tiedot auttaaksemme sinua:</string>
+    <string name="error_dialog_redirect">Palvelimesi vastasi HTTP-tilakoodilla 302, joka viittaa siihen, että Deckiä ei ole asennettu tai se on määritelty virheellisesti. Syynä saattaa olla muokattu .htaccess-tiedosto tai jokin Nextcloud-sovellus, kuten OID Client.</string>
+    <string name="error_dialog_version_not_parsable">Palvelimen Deck-sovelluksen versiota ei voitu määrittää. Varmista, että se on asennettu ja otettu käyttöön.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Tilisi valtuutus Nextcloud-sovellukseen saattaa olla päättynyt.</string>
+    <string name="error_dialog_user_not_found_in_database">Käyttäjää ei löydy tietokannastamme. Jos  LDAP on käytössä Nextcloudissa, Nextcloud-sovellksessa saattaa olla tallennettuna vanha käyttäjän tunnus.</string>
+    <string name="error_dialog_capabilities_not_parsable">Palvelimesi ominaisuuksia ei voitu hakea. Varmista, että palvelin on käynnissä ja muut asiakasohjelmat saavat yhteyden Nextcloudiin.</string>
+    <string name="error_dialog_attachment_upload_failed">Liitettä ei voitu lähettää. Yritä jakaa se toista kautta ja kerro meille tästä bugista.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Ota pois käytöstä akun optimointi Nextcloud- ja Deck-sovelluksilta.</string>
+    <string name="error_action_open_deck_info">Avaa sovelluksen tiedot</string>
+    <string name="error_action_open_network">Verkkoasetukset</string>
+    <string name="error_action_server_logs">Palvelimen lokit</string>
+    <string name="error_action_report_issue">Raportti</string>
+    <string name="info_box_maintenance_mode">Palvelin on huoltotilassa</string>
+    <string name="info_box_version_not_supported">Palvelinversio %1$s ei ole tuettu, päivitä versioon %2$s</string>
+    <string name="share_link">Jaa linkki</string>
+    <string name="archive_cards">Arkistoi kortit</string>
+
+    <string name="manage_accounts">Tilien hallinta</string>
+    <string name="manage_list">Hallinnoi listaa</string>
+    <string name="simple_reply">Vastaa</string>
+    <string name="error_while_uploading_attachment">Virhe liitteen lähttämisessä: %1$s</string>
+    <string name="append_text_to_description">Lisää selitteeseen</string>
+    <string name="add_text_as_comment">Lisää kommenttina</string>
+    <string name="progress_count">%1$d / %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d virhe lähettämisen aikana</item>
+        <item quantity="other">%1$d virhettä lähettämisen aikana</item>
+    </plurals>
+    <string name="simple_report">Raportti</string>
+    <string name="error_action_open_battery_settings">Akkuasetukset</string>
+    <string name="move_warning">Kommentteja tai liitteitä ei siirretä, kun kortti siirretään toiseen tauluun.</string>
+    <string name="clone_board">Monista taulu</string>
+    <string name="cloning_board">Kloonataan %1$s…</string>
+    <string name="successfully_cloned_board">Taulun %1$s kloonaus onnistui</string>
+    <string name="attachment_does_not_yet_exist">Liitettä ei vielä ole Deckissä</string>
+    <string name="card_does_not_yet_exist">Korttia ei vielä ole Deckissä</string>
+
+    <string name="widget_stack_title">Lista</string>
+    <string name="select_stack">Valitse lista</string>
+    <string name="project_type_deck_board">Deck-taulu</string>
+    <string name="project_type_deck_card">Deck-kortti</string>
+    <string name="project_type_file">Tiedosto</string>
+    <string name="projects_title">Projektit</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d resurssi</item>
+        <item quantity="other">%1$d resurssia</item>
+    </plurals>
+    <string name="no_assigned_label">Ei määritettyä tunnistetta</string>
+    <string name="single_card">Yksittäinen kortti</string>
+    <string name="project_type_room">Keskusteluhuone</string>
+    <string name="simple_move">Siirrä</string>
+    <string name="cannot_upload_files_without_permission">Tiedostojen lähettäminen ei ole mahdollista ilman käyttöoikeutta</string>
     </resources>

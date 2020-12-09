@@ -15,12 +15,16 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.board.ArchiveBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
+import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoardListener, EditBoardListener, ArchiveBoardListener {
 
@@ -29,7 +33,6 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
     private MainViewModel viewModel;
     private ActivityArchivedBinding binding;
     private ArchivedBoardsAdapter adapter;
-    private SyncManager syncManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,12 +57,18 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         viewModel.setCurrentAccount(account);
-        syncManager = new SyncManager(this);
 
-        adapter = new ArchivedBoardsAdapter(viewModel.isCurrentAccountIsSupportedVersion(), getSupportFragmentManager(), (board) -> syncManager.dearchiveBoard(board));
+        adapter = new ArchivedBoardsAdapter(viewModel.isCurrentAccountIsSupportedVersion(), getSupportFragmentManager(), (board) -> {
+            final WrappedLiveData<FullBoard> liveData = viewModel.dearchiveBoard(board);
+            observeOnce(liveData, this, (fullBoard) -> {
+                if (liveData.hasError()) {
+                    ExceptionDialogFragment.newInstance(liveData.getError(), viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
+            });
+        });
         binding.recyclerView.setAdapter(adapter);
 
-        syncManager.getBoards(account.getId(), true).observe(this, (boards) -> {
+        viewModel.getBoards(account.getId(), true).observe(this, (boards) -> {
             viewModel.setCurrentAccountHasArchivedBoards(boards != null && boards.size() > 0);
             adapter.setBoards(boards == null ? Collections.emptyList() : boards);
         });
@@ -80,16 +89,36 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
 
     @Override
     public void onBoardDeleted(Board board) {
-        syncManager.deleteBoard(board);
+        final WrappedLiveData<Void> deleteLiveData = viewModel.deleteBoard(board);
+        observeOnce(deleteLiveData, this, (next) -> {
+            if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
+                ExceptionDialogFragment.newInstance(deleteLiveData.getError(), viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+        });
     }
 
     @Override
     public void onUpdateBoard(FullBoard fullBoard) {
-        syncManager.updateBoard(fullBoard);
+        final WrappedLiveData<FullBoard> updateLiveData = viewModel.updateBoard(fullBoard);
+        observeOnce(updateLiveData, this, (next) -> {
+            if (updateLiveData.hasError()) {
+                ExceptionDialogFragment.newInstance(updateLiveData.getError(), viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+        });
     }
 
     @Override
     public void onArchive(Board board) {
-        syncManager.dearchiveBoard(board);
+        final WrappedLiveData<FullBoard> liveData = viewModel.dearchiveBoard(board);
+        observeOnce(liveData, this, (fullBoard) -> {
+            if (liveData.hasError()) {
+                ExceptionDialogFragment.newInstance(liveData.getError(), viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+        });
+    }
+
+    @Override
+    public void onClone(Board board) {
+
     }
 }

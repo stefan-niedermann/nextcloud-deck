@@ -14,13 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
+import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentAboutLicenseTabBinding;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
-import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficientBigAreas;
+import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
 import static it.niedermann.nextcloud.deck.util.SpannableUtil.setTextWithURL;
 
 public class AboutFragmentLicenseTab extends BrandedFragment {
@@ -42,6 +42,6 @@ public class AboutFragmentLicenseTab extends BrandedFragment {
                 ? mainColor
                 : isDarkTheme(requireContext()) ? Color.WHITE : Color.BLACK;
         DrawableCompat.setTintList(binding.aboutAppLicenseButton.getBackground(), ColorStateList.valueOf(finalMainColor));
-        binding.aboutAppLicenseButton.setTextColor(ColorUtil.getForegroundColorForBackgroundColor(finalMainColor));
+        binding.aboutAppLicenseButton.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(finalMainColor));
     }
 }

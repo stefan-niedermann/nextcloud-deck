@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.deck.databinding.DialogFilterLabelsBinding;
 import it.niedermann.nextcloud.deck.model.Label;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -31,21 +30,33 @@ public class FilterLabelsFragment extends Fragment implements SelectionListener<
 
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 
-        observeOnce(new SyncManager(requireContext()).findProposalsForLabelsToAssign(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId()), requireActivity(), (labels) -> {
+        observeOnce(filterViewModel.findProposalsForLabelsToAssign(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId()), requireActivity(), (labels) -> {
             binding.labels.setNestedScrollingEnabled(false);
-            binding.labels.setAdapter(new FilterLabelsAdapter(labels, requireNonNull(filterViewModel.getFilterInformationDraft().getValue()).getLabels(), this));
+            binding.labels.setAdapter(new FilterLabelsAdapter(
+                    labels,
+                    requireNonNull(filterViewModel.getFilterInformationDraft().getValue()).getLabels(),
+                    requireNonNull(filterViewModel.getFilterInformationDraft().getValue()).isNoAssignedLabel(),
+                    this));
         });
 
         return binding.getRoot();
     }
 
     @Override
-    public void onItemSelected(Label item) {
-        filterViewModel.addFilterInformationDraftLabel(item);
+    public void onItemSelected(@Nullable Label item) {
+        if (item == null) {
+            filterViewModel.setNotAssignedLabel(true);
+        } else {
+            filterViewModel.addFilterInformationDraftLabel(item);
+        }
     }
 
     @Override
-    public void onItemDeselected(Label item) {
-        filterViewModel.removeFilterInformationLabel(item);
+    public void onItemDeselected(@Nullable Label item) {
+        if (item == null) {
+            filterViewModel.setNotAssignedLabel(false);
+        } else {
+            filterViewModel.removeFilterInformationLabel(item);
+        }
     }
 }

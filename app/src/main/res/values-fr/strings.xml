@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Dernier compte</string>
     <string name="drawer_manage_accounts">Gérer les comptes</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Tableaux</string>
     <string name="simple_add">Ajouter</string>
     <string name="simple_save">Enregistrer</string>
@@ -20,9 +19,9 @@
     <string name="simple_error">Erreur</string>
     <string name="simple_exception">Exception</string>
     <string name="simple_close">fermer</string>
-    <string name="simple_open">Ouvert</string>
+    <string name="simple_open">Ouvrir</string>
     <string name="simple_switch">Permuter</string>
-    <string name="simple_filter">Filtre</string>
+    <string name="simple_filter">Filtrer</string>
     <string name="simple_overdue">En retard</string>
     <string name="simple_clear">Effacer</string>
     <string name="simple_discard">ignorer</string>
@@ -38,16 +37,16 @@
     <string name="simple_disabled">désactivé</string>
     <string name="simple_copied">Copié</string>
     <string name="simple_archive">Archiver</string>
+    <string name="simple_unassigned">Non assigné(s)</string>
 
     <string name="edit_board">Modifier le tableau</string>
     <string name="archive_board">Archiver le tableau</string>
     <string name="delete_board">Supprimer le tableau</string>
     <string name="delete_something">Supprimer %1$s</string>
 
-    <!-- About -->
     <string name="about">À propos de</string>
     <string name="about_version_title">Version</string>
-    <string name="about_version">Vous utilisez actuellement %1$s</string>
+    <string name="about_version">Vous utilisez actuellement la version : %1$s</string>
     <string name="about_maintainer_title">Responsable</string>
     <string name="about_developers_title">Développeurs</string>
     <string name="about_translators_title">Traducteurs</string>
@@ -64,22 +63,19 @@
     <string name="about_app_license">Cette application est sous licence GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Voir la licence</string>
     <string name="about_icons_disclaimer_title">Icônes</string>
-    <string name="about_icons_disclaimer_app_icon">Pour l’icône original voir %1$s.</string>
+    <string name="about_icons_disclaimer_app_icon">Pour l’icône originale voir %1$s.</string>
     <string name="about_icons_disclaimer_mdi_icons">Les icônes suivantes utilisées dans cette applications sont %1$s réalisées par Google Inc. et sous licence Apache 2.0.</string>
     <string name="about_icons_disclaimer_mdi">Icônes Material Design</string>
     <string name="about_credits_tab_title">Crédits</string>
     <string name="about_contribution_tab_title">Contribution</string>
     <string name="about_license_tab_title">Licence</string>
-
-    <string name="copied_to_clipboard">Copié dans le presse-papier</string>
-
     <string name="seconds_ago">à l\'instant</string>
     <string name="edit">Modifier</string>
     <string name="label_labels">Sélectionner les étiquettes</string>
     <string name="label_description">Description</string>
     <string name="hint_assign_people">Assigner des utilisateurs</string>
     <string name="hint_due_date_date">Date d\'échéance</string>
-    <string name="card_not_found">Carte non trouvé</string>
+    <string name="card_not_found">Carte non trouvée</string>
     <string name="card_not_found_message">La carte est introuvable. Elle a peut-être été supprimée récemment.</string>
 
     <string name="add_account">Ajouter un compte</string>
@@ -112,7 +108,8 @@
     <string name="not_synced_yet">Aucune synchronisation pour l\'instant</string>
     <string name="no_lists_yet">Aucune liste pour l\'instant</string>
     <string name="do_you_want_to_save_your_changes">Souhaitez-vous enregistrer vos modifications ?</string>
-    <string name="do_you_want_to_archive_all_cards_of_the_list">Voulez vous archiver toutes les carte de %1$s ?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Souhaitez-vous archiver toutes les carte de %1$s ?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Souhaitez-vous archiver toutes les cartes de %1$s affichées par le filtre?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Cela supprimera définitivement l\'ensemble des %1$d cartes de cette liste.</item>
         <item quantity="other">Cela supprimera définitivement l\'ensemble des %1$d cartes de cette liste.</item>
@@ -125,13 +122,14 @@
     <string name="add_a_new_card_using_the_button">Ajouter une nouvelle carte en utilisant le bouton +.</string>
     <string name="update_deck">Mettre à jour Deck</string>
     <string name="your_deck_version_is_too_old">Votre version de Deck est trop ancienne</string>
-    <string name="deck_outdated_please_update">Votre version de deck est trop ancienne (%1$s). Veuillez mettre à jour pour utiliser cette application Android en tant que client.</string>
-    <string name="delete_board_message">Cette action supprimera définitivement ce tableau incluant ses listes et ses cartes.</string>
+    <string name="deck_outdated_please_update">Votre version de l\'application Deck est trop ancienne (%1$s). Veuillez la mettre à jour afin de pouvoir utiliser cette application Android en tant que client.</string>
+    <string name="delete_board_message">Cette action supprimera définitivement ce tableau, y compris la totalité de ses listes et de ses cartes.</string>
     <string name="settings_theme_title">Thème sombre</string>
-    <string name="settings_branding_title">marque</string>
+    <string name="settings_branding_title">Thème du serveur</string>
+    <string name="settings_compact_title">Mode compact</string>
     <string name="settings_background_sync">Synchronisation en tâche de fond</string>
     <string name="pref_value_wifi_and_mobile">Synchroniser en Wifi et données mobiles</string>
-    <string name="pref_value_wifi_only">Synchroniser uniquement en Wifi</string>
+    <string name="pref_value_wifi_only">Synchroniser uniquement en Wi-Fi</string>
     <string name="pref_value_theme_light">Clair</string>
     <string name="unassigned_user">%1$s non assigné</string>
     <string name="no_activities">Il n\'y a aucune activité sur cette carte. Vous devez être connectés à Internet pour charger et afficher les activités.</string>
@@ -155,24 +153,21 @@
     <string name="save_card_before_attachment">Vous devez enregistrer la carte avant d\'ajouter une pièce jointe.</string>
     <string name="maintenance_mode_explanation">Le serveur %1$s est actuellement en maintenance. Veuillez contacter votre administrateur ou réessayer plus tard.</string>
     <string name="share_add_to_card">Ajouter à la carte</string>
-    <string name="share_success">Ajout de %1$s à %2$s réussit</string>
-    <string name="could_not_copy_to_clipboard">Impossible de copier dans le presse-papiers</string>
+    <string name="share_success">Ajout de %1$s à %2$s réussi</string>
     <string name="add_comment">Ajouter un commentaire</string>
     <string name="card_edit_comments">Commentaires</string>
     <string name="no_comments_yet">Aucun commentaire pour l\'instant</string>
     <string name="no_boards">Pas encore de tableaux</string>
-    <string name="add_a_new_board_using_the_button">Ajouter un nouveau table en utilisant le bouton +</string>
+    <string name="add_a_new_board_using_the_button">Ajouter un nouveau tableau en utilisant le bouton +</string>
     <string name="choose_board">Choisir un tableau</string>
     <string name="choose_list">Sélectionner la liste</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Ouvrir dans le navigateur web</string>
     <string name="updating_card">Mise à jour de la carte en cours...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Déplacer la liste à droite</string>
     <string name="move_list_left">Déplacer la liste à gauche</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Tout</string>
     <string name="filter_overdue">En retard</string>
     <string name="filter_today">Aujourd\'hui</string>
@@ -180,10 +175,9 @@
     <string name="filter_month">30 prochains jours</string>
     <string name="filter_no_due">Sans échéance</string>
     <string name="filter_by_tag">Filtrer par étiquette</string>
-    <string name="filter_by_assigned_user">Filtrer par utilisateur</string>
+    <string name="filter_by_assigned_user">Filtrer par utilisateur assigné</string>
     <string name="filter_by_duedate">Filtrer par échéance</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Cartes archivées</string>
     <string name="action_card_dearchive">Annuler l\'archivage de la carte</string>
     <string name="action_archived_cards">Parcourir les cartes archivées</string>
@@ -198,11 +192,9 @@
     <string name="filter_user_title">Utilisateurs</string>
     <string name="filter_duedate_title">Date d\'échéance</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Annuler l\'archivage du tableau</string>
     <string name="archived_boards">Tableaux archivés</string>
 
-    <!-- Errors -->
     <string name="error">Une erreur est survenue</string>
     <string name="synchronization_failed">Échec de synchronisation</string>
     <string name="operation_not_yet_supported">Non supporté actuellement</string>
@@ -215,31 +207,37 @@
     <string name="error_edit_activity_killed_by_android">Android a mis fin au mode édition car il avait besoin de plus de ressources système pour les autres applications.</string>
 
     <string name="error_dialog_title">Oh non ! - Et maintenant ? 🙁</string>
-    <string name="error_dialog_tip_token_mismatch_retry">Essayez de forcer la fermeture de l\'application puis redémarrer la. Il y avait peut-être une mauvaise connexion à Nextcloud.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">Si le problème persiste, essayez d\'effacer les données d\'application des deux applications: Nextcloud et Nextcloud Deck pour résoudre ce problème.</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Essayez de forcer la fermeture de l\'application puis de la redémarrer. Il y avait peut-être une mauvaise connexion à Nextcloud.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Si le problème persiste, essayez d\'effacer les données des applications Nextcloud et Nextcloud Deck pour résoudre ce problème.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">La mise à jour de la base de données a échoué. Veuillez signaler l\'erreur et supprimer les données pour utiliser l\'application de manière normale.</string>
     <string name="error_dialog_tip_clear_storage">Vous pouvez nettoyer l\'espace de stockage en ouvrant les paramètres de l\'application et en sélectionnant Stockage → Effacer le stockage.</string>
-    <string name="error_dialog_tip_files_outdated">Votre application Nextcloud semble ancienne. Veuillez visiter le Play Store ou F-Droid pour installer la dernière version.</string>
+    <string name="error_dialog_tip_files_outdated">Votre application Nextcloud semble trop ancienne. Veuillez visiter le Play Store ou F-Droid afin d\'installer la dernière version.</string>
     <string name="error_dialog_tip_files_force_stop">Quelque chose semble ne pas fonctionner avec votre application Nextcloud. Essayer de forcer l\'arrêt des applications Nextcloud et Nextcloud Notes.</string>
     <string name="error_dialog_tip_files_delete_storage">Si l’arrêt forcé ne fonctionne pas, vous pouvez essayer d\'effacer les données des deux applications.</string>
     <string name="error_dialog_timeout_instance">Le serveur n’a pas répondu dans le temps imparti. Assurez-vous que votre instance fonctionne correctement.</string>
     <string name="error_dialog_timeout_toggle">Vérifiez votre connexion réseau. L\'activation et la désactivation des données mobiles ou du Wi-Fi peuvent aider.</string>
-    <string name="error_dialog_check_server">Le serveur a renvoyé une réponse incorrecte. Vérifier si vous pouvez accéder à vos notes via l\'interface Web.</string>
-    <string name="error_dialog_check_server_logs">Il y a un problème avec votre configuration Nextcloud. Consulter les fichiers journaux du serveur.</string>
-    <string name="error_dialog_check_maintenance">Vérifier si votre instance Nextcloud n\'est pas actuellement en mode maintenance.</string>
+    <string name="error_dialog_check_server">Votre serveur a renvoyé une réponse incorrecte. Vérifiez si vous pouvez accéder à l\'application Deck via l\'interface Web.</string>
+    <string name="error_dialog_check_server_logs">Il y a un problème avec votre configuration Nextcloud. Consultez s\'il vous plaît les fichiers journaux du serveur.</string>
+    <string name="error_dialog_check_maintenance">Vérifiez s\'il vous plaît si votre instance Nextcloud n\'est actuellement pas en mode maintenance.</string>
     <string name="error_dialog_insufficient_storage">Votre instance Nextcloud n\'a plus d\'espace disponible. Veuillez supprimer certains fichiers pour pouvoir synchroniser vos modifications locales dans votre cloud.</string>
     <string name="error_dialog_we_need_info">Nous avons besoin des informations techniques suivantes pour pouvoir vous aider :</string>
-    <string name="error_dialog_redirect">Votre serveur a répondu avec le code d\'état HTTP 302, ce qui implique que vous n\'avez pas installé l\'application Deck sur votre serveur ou que quelque chose est mal configuré. Cela peut être dû à des modifications personnalisés du fichier .htaccess ou à des applications Nextcloud comme un client OID. Vous pouvez trouver nos coordonnées pour le support dans la section «À propos».</string>
-    <string name="error_dialog_version_not_parsable">Nous n\'avons pas pu déterminer la version de l\'app Deck côté serveur. Veuillez vérifier qu\'elle est bien installé et activé.</string>
-    <string name="error_dialog_capabilities_not_parsable">Nous n\'avons pas pu récupérer les capacités de votre serveur. Veuillez vous assurer que votre serveur fonctionne bien et que les autres apps client peuvent accéder à Nextcloud.</string>
+    <string name="error_dialog_redirect">Votre serveur a répondu avec le code d\'état HTTP 302, ce qui implique que vous n\'avez pas installé l\'application Deck sur votre serveur ou que quelque chose est mal configuré. Cela peut être dû à des modifications personnalisées du fichier .htaccess ou à des applications Nextcloud comme un client OID.</string>
+    <string name="error_dialog_version_not_parsable">Nous n\'avons pas pu déterminer la version de l\'application Deck sur votre serveur. Veuillez vérifier qu\'elle est bien installée et activée.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Il semble possible que le compte de votre application Nextcloud ne soit plus autorisé.</string>
+    <string name="error_dialog_user_not_found_in_database">L\'utilisateur actuel est différent de l\'utilisateur que nous avons dans notre base de données. Si vous utilisez LDAP sur votre instance Nextcloud, il est alors possible que votre application Nextcloud ait stocké un identifiant utilisateur obsolète</string>
+    <string name="error_dialog_capabilities_not_parsable">Nous n\'avons pas pu évaluer les capacités de votre serveur. Veuillez vous assurer que votre serveur fonctionne bien et que les autres applications clientes peuvent accéder à Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Une pièce jointe n’a pas pu être téléversée. Veuillez essayer de la partager d’une autre façon et faites-nous part de ce bogue.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Merci de bien vouloir désactiver toutes les optimisations de batterie pour Nextcloud ainsi que pour l\'application Deck.</string>
     <string name="error_action_open_deck_info">Ouvrir les informations de l\'application</string>
     <string name="error_action_open_network">Paramètres réseau</string>
     <string name="error_action_server_logs">Journaux serveur</string>
     <string name="error_action_install">Installer</string>
+    <string name="error_action_report_issue">Signaler</string>
     <string name="info_box_maintenance_mode">Serveur en maintenance</string>
     <string name="info_box_version_not_supported">Version du serveur %1$s non prise en charge, veuillez mettre à jour en  %2$s</string>
     <string name="share_link">Lien de partage</string>
     <string name="archive_cards">Archiver les cartes</string>
+
     <string name="manage_accounts">Gérer les comptes</string>
     <string name="manage_list">Gérer la liste</string>
     <string name="simple_reply">Répondre</string>
@@ -247,5 +245,55 @@
     <string name="append_text_to_description">Ajouter à la description</string>
     <string name="add_text_as_comment">Ajouter en commentaire</string>
     <string name="progress_count">%1$d sur %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d  erreur lors de l\'envoi</item>
+        <item quantity="other">%1$d erreurs lors de l\'envoi</item>
+    </plurals>
     <string name="simple_report">Signaler</string>
+    <string name="error_action_open_battery_settings">Paramètres de batterie</string>
+    <string name="move_warning">Ni les commentaires ni les pièces jointes ne peuvent être transférés lorsque la carte est déplacée sur un autre tableau.</string>
+    <string name="clone_board">Dupliquer le tableau</string>
+    <string name="cloning_board">Clonage de %1$s…</string>
+    <string name="successfully_cloned_board">Cloné avec succès %1$s</string>
+    <string name="attachment_does_not_yet_exist">Pièce jointe non encore présente dans le tableau</string>
+    <string name="card_does_not_yet_exist">Carte non encore présente dans le tableau</string>
+
+    <string name="widget_stack_title">Liste</string>
+    <string name="widget_stack_header_icon">Icône d’en-tête du widget</string>
+    <string name="widget_stack_placeholder_icon">Icône d’espace réservé du widget</string>
+    <string name="select_stack">Sélectionner la liste</string>
+    <string name="project_type_deck_board">Tableau de l\'application Deck</string>
+    <string name="project_type_deck_card">Carte de l\'application Deck</string>
+    <string name="project_type_file">Fichier</string>
+    <string name="projects_title">Projets</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d ressource</item>
+        <item quantity="other">%1$d ressources</item>
+    </plurals>
+    <string name="no_assigned_label">Pas d’étiquette attribuée</string>
+    <string name="single_card">Carte unique</string>
+    <string name="project_type_room">Salon de discussion</string>
+    <string name="simple_move">Déplacer</string>
+    <string name="cannot_upload_files_without_permission">Impossible de téléverser des fichiers sans permission</string>
+    <string name="clone_cards">Cloner les cartes</string>
+    <string name="simple_clone">Cloner</string>
+    <string name="user_avatar">Avatar utilisateur</string>
+    <string name="simple_unassign">Désassigner</string>
+    <string name="simple_contact">Contact</string>
+    <string name="simple_file">Fichier</string>
+    <string name="simple_camera">Appareil photo</string>
+    <string name="min_api_21">Cette fonctionnalité est disponible à partir d\'Android 5</string>
+    <string name="take_photo">Prendre une photo</string>
+    <string name="take_photo_switch_camera">Changer d\'appareil photo</string>
+    <string name="take_photo_toggle_torch">Allumer la lampe</string>
+    <string name="show_all_contacts">Afficher toutes les contacts</string>
+    <string name="show_all_files">Afficher tous les fichiers</string>
+    <string name="recent">Récent</string>
+    <string name="upload_a_new_attachment">Envoyer une nouvelle pièce jointe</string>
+    <string name="contacts">Contacts</string>
+    <string name="downloads">Téléchargements</string>
+    <string name="files">Fichiers</string>
+    <string name="gallery">Galerie</string>
+    <string name="simple_attach">joindre</string>
+    <string name="add_stack_widget">Ajouter un widget liste</string>
 </resources>

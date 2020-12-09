@@ -1,12 +1,13 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.time.Instant;
 import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.exceptions.DeckException;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
@@ -19,13 +20,15 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     private FullBoard board;
 
+    private Set<Long> syncedStacks = new ConcurrentSkipListSet<>();
+
     public StackDataProvider(AbstractSyncDataProvider<?> parent, FullBoard board) {
         super(parent);
         this.board = board;
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullStack>> responder, Date lastSync) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullStack>> responder, Instant lastSync) {
         serverAdapter.getStacks(board.getId(), responder);
     }
 
@@ -54,12 +57,12 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
 
     @Override
     public void goDeeper(SyncHelper syncHelper, FullStack existingEntity, FullStack entityFromServer, IResponseCallback<Boolean> callback) {
-       boolean serverHasCards = entityFromServer.getCards() != null && !entityFromServer.getCards().isEmpty();
-       boolean weHaveCards = existingEntity.getCards() != null && !existingEntity.getCards().isEmpty();
-        if (serverHasCards || weHaveCards){
+        boolean serverHasCards = entityFromServer.getCards() != null && !entityFromServer.getCards().isEmpty();
+        boolean weHaveCards = existingEntity.getCards() != null && !existingEntity.getCards().isEmpty();
+        if (serverHasCards || weHaveCards) {
             existingEntity.setCards(entityFromServer.getCards());
             List<Card> cards = existingEntity.getCards();
-            if (cards != null ){
+            if (cards != null) {
                 for (Card card : cards) {
                     card.setStackId(existingEntity.getLocalId());
                 }
@@ -72,6 +75,9 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullStack> responder, FullStack entity) {
+        if (board.getId() == null) {
+            throw new DeckException(DeckException.Hint.DEPENDENCY_NOT_SYNCED_YET, "Board for this stack is not synced yet. Perform a full sync (pull to referesh) as soon as you are online again.");
+        }
         entity.getStack().setBoardId(board.getId());
         serverAdapter.createStack(board.getBoard(), entity.getStack(), responder);
     }
@@ -89,8 +95,8 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
-    public List<FullStack> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
-        if (board == null){
+    public List<FullStack> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Instant lastSync) {
+        if (board == null) {
             // no stacks changed!
             // (see call from BoardDataProvider: goDeeperForUpSync called with null for board.)
             // so we can just skip this one and proceed with cards.
@@ -103,16 +109,19 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     @Override
     public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
         List<FullCard> changedCards = dataBaseAdapter.getLocallyChangedCardsDirectly(callback.getAccount().getId());
-        Set<Long> syncedStacks = new HashSet<>();
-        if (changedCards != null && changedCards.size() > 0){
+        if (changedCards != null && !changedCards.isEmpty()) {
             for (FullCard changedCard : changedCards) {
                 long stackId = changedCard.getCard().getStackId();
-                boolean added = syncedStacks.add(stackId);
-                if (added) {
+                boolean alreadySynced = syncedStacks.contains(stackId);
+                if (!alreadySynced) {
                     FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(stackId);
-                    Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
-                    changedCard.getCard().setStackId(stack.getId());
-                    syncHelper.doUpSyncFor(new CardDataProvider(this, board, stack));
+                    // already synced and known to server?
+                    if (stack.getStack().getId() != null) {
+                        syncedStacks.add(stackId);
+                        Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+                        changedCard.getCard().setStackId(stack.getId());
+                        syncHelper.doUpSyncFor(new CardDataProvider(this, board, stack));
+                    }
                 }
             }
         } else {
@@ -132,7 +141,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
         List<FullStack> localStacks = dataBaseAdapter.getFullStacksForBoardDirectly(accountId, board.getLocalId());
         List<FullStack> delta = findDelta(entitiesFromServer, localStacks);
         for (FullStack stackToDelete : delta) {
-            if (stackToDelete.getId() == null){
+            if (stackToDelete.getId() == null) {
                 // not pushed up yet so:
                 continue;
             }

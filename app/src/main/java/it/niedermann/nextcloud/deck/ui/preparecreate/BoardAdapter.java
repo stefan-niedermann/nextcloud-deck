@@ -6,8 +6,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import org.jetbrains.annotations.NotNull;
-
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemPrepareCreateBoardBinding;
@@ -26,9 +24,9 @@ public class BoardAdapter extends AbstractAdapter<Board> {
         return item.getLocalId();
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public View getView(int position, View convertView, @NotNull ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final ItemPrepareCreateBoardBinding binding;
         if (convertView == null) {
             binding = ItemPrepareCreateBoardBinding.inflate(inflater, parent, false);
@@ -39,7 +37,7 @@ public class BoardAdapter extends AbstractAdapter<Board> {
         final Board item = getItem(position);
         if (item != null) {
             binding.boardTitle.setText(item.getTitle());
-            binding.avatar.setImageDrawable(ViewUtil.getTintedImageView(binding.avatar.getContext(), R.drawable.circle_grey600_36dp, "#" + item.getColor()));
+            binding.avatar.setImageDrawable(ViewUtil.getTintedImageView(binding.avatar.getContext(), R.drawable.circle_grey600_36dp, item.getColor()));
         } else {
             DeckLog.logError(new IllegalArgumentException("No item for position " + position));
         }

@@ -1,0 +1,2 @@
+- ⚡️ Use ETags to speed up account synchronization and use less data (requires Nextcloud ≥ 19)
+- 🐞 Do not break sync, when a project has an error

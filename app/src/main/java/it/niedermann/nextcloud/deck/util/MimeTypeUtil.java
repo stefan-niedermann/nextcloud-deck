@@ -6,6 +6,7 @@ import java.util.Locale;
 
 public class MimeTypeUtil {
 
+    public static final String IMAGE_JPEG = "image/jpeg";
     public static final String TEXT_PLAIN = "text/plain";
     public static final String TEXT_VCARD = "text/vcard";
     public static final String APPLICATION_PDF = "application/pdf";

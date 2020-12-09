@@ -31,7 +31,7 @@
     </FrameLayout>
 
     <TextView
-        android:id="@+id/displayName"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,7 +52,7 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.account = account;
         this.accessControlChangedListener = accessControlChangedListener;
         this.context = context;
-        this.mainColor = context.getResources().getColor(R.color.primary);
+        this.mainColor = ContextCompat.getColor(context, R.color.primary);
         setHasStableIds(true);
     }
 
@@ -172,9 +173,9 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
         final int finalMainColor = getSecondaryForegroundColorDependingOnTheme(context, mainColor);
         DrawableCompat.setTintList(switchCompat.getThumbDrawable(), new ColorStateList(
                 new int[][]{new int[]{android.R.attr.state_checked}, new int[]{}},
-                new int[]{finalMainColor, context.getResources().getColor(R.color.fg_secondary)}
+                new int[]{finalMainColor, ContextCompat.getColor(context, R.color.fg_secondary)}
         ));
-        final int trackColor = context.getResources().getColor(R.color.fg_secondary);
+        final int trackColor = ContextCompat.getColor(context, R.color.fg_secondary);
         final int lightTrackColor = Color.argb(77, Color.red(trackColor), Color.green(trackColor), Color.blue(trackColor));
         final int lightTrackColorChecked = Color.argb(77, Color.red(finalMainColor), Color.green(finalMainColor), Color.blue(finalMainColor));
         DrawableCompat.setTintList(switchCompat.getTrackDrawable(), new ColorStateList(

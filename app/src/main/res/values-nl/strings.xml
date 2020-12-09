@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Laatste account</string>
     <string name="drawer_manage_accounts">Accounts beheren </string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Bord</string>
     <string name="simple_add">Toevoegen</string>
     <string name="simple_save">Bewaren</string>
@@ -38,13 +37,13 @@
     <string name="simple_disabled">uitgeschakeld</string>
     <string name="simple_copied">Gekopieerd</string>
     <string name="simple_archive">Archiveer</string>
+    <string name="simple_unassigned">Niet-toegewezen</string>
 
     <string name="edit_board">Pas bord aan</string>
     <string name="archive_board">Archiveer bord</string>
     <string name="delete_board">Bord verwijderen</string>
     <string name="delete_something">Verwijder %1$s</string>
 
-    <!-- About -->
     <string name="about">Over</string>
     <string name="about_version_title">Versie</string>
     <string name="about_version">Je gebruikt nu %1$s</string>
@@ -70,9 +69,6 @@
     <string name="about_credits_tab_title">Credits</string>
     <string name="about_contribution_tab_title">Bijdrage</string>
     <string name="about_license_tab_title">Licentie</string>
-
-    <string name="copied_to_clipboard">Gekopieerd naar het klembord</string>
-
     <string name="seconds_ago">seconden geleden</string>
     <string name="edit">Bewerken</string>
     <string name="label_labels">Kies tags</string>
@@ -80,7 +76,7 @@
     <string name="hint_assign_people">Toewijzen gebruikers</string>
     <string name="hint_due_date_date">Vervaldatum</string>
     <string name="card_not_found">Kaart niet gevonden</string>
-    <string name="card_not_found_message">De kaart kon niet gevonden worden. Misschien is deze recent verwijderd.</string>
+    <string name="card_not_found_message">De kaart kon niet worden gevonden. Misschien is die recent verwijderd.</string>
 
     <string name="add_account">Account toevoegen</string>
     <string name="choose_account">Kies account</string>
@@ -91,7 +87,7 @@
     <string name="delete_list">Stapel verwijderen</string>
     <string name="label_menu">menu</string>
     <string name="action_card_assign">Wijs kaart toe aan mij</string>
-    <string name="action_card_unassign">Kaart van mij afstoten</string>
+    <string name="action_card_unassign">Kaart van mij terughalen</string>
     <string name="action_card_archive">Archiveer kaart</string>
     <string name="action_card_delete">Verwijderen kaart</string>
     <string name="add_board">Toevoegen bord</string>
@@ -106,12 +102,13 @@
     <string name="no_files_attached_to_this_card">Er zijn geen bestanden gekoppeld aan deze kaart.</string>
     <string name="attachments">Bijlagen</string>
     <string name="no_cards">Nog geen kaarten</string>
-    <string name="no_account">Geen account geconfigureerd.</string>
-    <string name="account_already_added">Account al toegevoegd.</string>
+    <string name="no_account">Geen account geconfigureerd</string>
+    <string name="account_already_added">Account al toegevoegd</string>
     <string name="account_is_getting_imported">Account wordt geïmporteerd</string>
     <string name="not_synced_yet">Nog niet gesynchroniseerd</string>
-    <string name="no_lists_yet">Nog geen stapels</string>
+    <string name="no_lists_yet">Nog geen lijsten</string>
     <string name="do_you_want_to_save_your_changes">Wil je de wijzigingen opslaan?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Wil je alle kaarten van %1$s archiveren?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Dit zal deze %1$dkaart permanent van de lijst verwijderen.</item>
         <item quantity="other">Dit zal alle %1$dkaarten definitief uit de stapel verwijderen.</item>
@@ -127,7 +124,8 @@
     <string name="deck_outdated_please_update">Je deck versie is te oud (%1$s). Update deze android app om de deck te kunnen gebruiken.</string>
     <string name="delete_board_message">Dit zal dit bord inclusief alle stapels en kaarten definitief verwijderen.</string>
     <string name="settings_theme_title">Donker thema</string>
-    <string name="settings_branding_title">Brandmerken</string>
+    <string name="settings_branding_title">Branding</string>
+    <string name="settings_compact_title">Compacte modus</string>
     <string name="settings_background_sync">Achtergrond synchronisatie</string>
     <string name="pref_value_wifi_and_mobile">Sync met Wi-Fi en mobiele data</string>
     <string name="pref_value_wifi_only">Sync alleen met Wi-Fi</string>
@@ -152,10 +150,9 @@
     <string name="provide_at_least_a_title_or_description">Geef ten minste een titel of beschrijving op</string>
     <string name="welcome_text">Welkom bij %1$s</string>
     <string name="save_card_before_attachment">De kaart moet worden bewaard voordat er bijlagen aan kunnen worden toegevoegd.</string>
-    <string name="maintenance_mode_explanation">De server %1$s is momenteel in onderhoud modus. Neem a.u.b. contact op met de beheerder of probeer het later opnieuw</string>
+    <string name="maintenance_mode_explanation">De server %1$s is momenteel in onderhoud modus. Neem alstublieft contact op met de beheerder of probeer het later opnieuw</string>
     <string name="share_add_to_card">Toevoegen aan kaart</string>
     <string name="share_success">Succesvol %1$s toegevoegd aan %2$s</string>
-    <string name="could_not_copy_to_clipboard">Kon niet kopiëren naar het klembord</string>
     <string name="add_comment">Reactie toevoegen</string>
     <string name="card_edit_comments">Reacties</string>
     <string name="no_comments_yet">Nog geen reacties</string>
@@ -167,11 +164,9 @@
     <string name="open_in_browser">Open in browser</string>
     <string name="updating_card">Kaart wordt geüpdatet...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Verplaats de stapel naar rechts</string>
     <string name="move_list_left">Verplaats de stapel naar links</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Alle</string>
     <string name="filter_overdue">Vervallen</string>
     <string name="filter_today">Vandaag</string>
@@ -182,7 +177,6 @@
     <string name="filter_by_assigned_user">Filter op toegewezen gebruiker</string>
     <string name="filter_by_duedate">Filter op vervaldatum</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Gearchiveerde kaarten</string>
     <string name="action_card_dearchive">Kaartarchivering ongedaan maken</string>
     <string name="action_archived_cards">Blader door gearchiveerde kaarten</string>
@@ -197,11 +191,9 @@
     <string name="filter_user_title">Gebruikers</string>
     <string name="filter_duedate_title">Vervaldatum</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Archiveren van bord ongedaan maken</string>
     <string name="archived_boards">Gearchiveerde borden</string>
 
-    <!-- Errors -->
     <string name="error">Er is een fout verschenen</string>
     <string name="synchronization_failed">Synchronisatie mislukt</string>
     <string name="operation_not_yet_supported">Nog niet ondersteund</string>
@@ -210,34 +202,76 @@
     <string name="maintenance_mode">Server in onderhoudsmodus</string>
     <string name="server_misconfigured">Server verkeerd geconfigureerd</string>
     <string name="server_error">Serverfout</string>
-    <string name="shared_error">Het delen van content vanaf 3e-partij apps wordt nog niet volledig ondersteund. Probeer jhet eerst te downloaden en deel dan vanaf je eigen bestandsbeheerder of galerij.</string>
+    <string name="shared_error">Het delen van content vanaf 3e-partij apps wordt nog niet volledig ondersteund. Probeer het eerst te downloaden en deel dan vanaf je eigen bestandsbeheerder of galerij.</string>
     <string name="error_edit_activity_killed_by_android">Android beëindigde de bewerkingsmodus omdat het meer systeembronnen nodig had voor andere apps.</string>
 
     <string name="error_dialog_title">Oh nee - wat nu? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Probeer de app te sluiten en opnieuw te starten. Er was misschien een onjuiste verbinding met de Nextcloud-app.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">Als het probleem blijft aanhouden, probeer dan de gegevensopslag van beide apps te wissen: zowel Nextcloud als Nextcloud Deck.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Als het probleem blijft aanhouden, probeer dan de gegevensopslag van beide apps te wissen: zowel Nextcloud als Nextcloud Deck.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Het upgraden van de database is mislukt. Gelieve het probleem te melden en opslagruimte vrij te maken om de app naar behoren te kunnen gebruiken.</string>
     <string name="error_dialog_tip_clear_storage">Je kan de opslag leegmaken door in Android de app info te openen en kies dan Opslag →  Gegevens verwijderen.</string>
     <string name="error_dialog_tip_files_outdated">Je Nextcloud app lijkt te zijn verouderd. Download alstublieft de nieuwste versie in de Google Play Store of in F-Droid.</string>
     <string name="error_dialog_tip_files_force_stop">Er lijkt iets mis te zijn met je Nextcloud app. Probeer alstublieft beide apps geforceerd te sluiten, zowel de Nextcloud app als de Nextcloud Deck app.</string>
     <string name="error_dialog_tip_files_delete_storage">Als geforceerd afsluiten niet helpt, probeer dan van beide apps de gegevensopslag te wissen.</string>
     <string name="error_dialog_timeout_instance">Er was binnen de gestelde tijd geen reactie ontvangen van je server. Controleer alstublieft of je Nextcloud-instantie wel goed loopt.</string>
     <string name="error_dialog_timeout_toggle">Controleer je netwerk verbinding. Het kan ook helpen de dataverbinding of WIFI uit en weer aan te zetten.</string>
-    <string name="error_dialog_check_server">Je server gaf een onjuiste reactie. Controleer alstublieft of de Deck app in de web-interface wel goed werkt.</string>
+    <string name="error_dialog_check_server">Je server gaf een onjuiste reactie. Controleer alstublieft of je toegang krijgt tot de Deck app via de web-interface.</string>
     <string name="error_dialog_check_server_logs">Er is iets mis met je Nextcloud instellingen. Controleer alstublieft de server log bestanden.</string>
     <string name="error_dialog_check_maintenance">Controleer alstublieft of je Nextcloud instantie momenteel niet in onderhouds-modus draait.</string>
     <string name="error_dialog_insufficient_storage">Je Nextcloud instantie heeft geen vrije ruimte meer. Verwijder alstublieft enkele bestanden om je lokale gegevens te kunnen synchroniseren.</string>
     <string name="error_dialog_we_need_info">We hebben de volgende technische informatie nodig om je te kunnen helpen: </string>
     <string name="error_dialog_redirect">Je server heeft gereageerd met een HTTP 302-statuscode, wat inhoudt dat je de Deck-app niet op je server hebt geïnstalleerd of dat er iets verkeerd is geconfigureerd. Dit kan worden veroorzaakt door maatwerk aanpassingen in een .htaccess-bestand of door Nextcloud-apps zoals de OID Client.</string>
     <string name="error_dialog_version_not_parsable">We konden de versie van de Deck-app aan de serverzijde niet bepalen. Zorg ervoor dat de app is geïnstalleerd en ingeschakeld.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Het account van uw Nextcloud-app is mogelijk niet langer geautoriseerd.</string>
+    <string name="error_dialog_user_not_found_in_database">De huidige gebruiker komt niet overeen met de gebruiker die we in onze database hebben. Als u LDAP gebruikt op uw Nextcloud-instantie, heeft uw Nextcloud-app mogelijk een oude gebruikers-ID opgeslagen.</string>
     <string name="error_dialog_capabilities_not_parsable">We kunnen de mogelijkheden van je server niet vaststellen. Zorg ervoor dat je server goed werkt en dat andere client-apps toegang hebben tot Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Een bijlage kon niet worden opgeladen. Gelieve het op een andere manier te delen en ons in te lichten over deze fout.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Gelieve de batterijoptimalisatie uit te schakelen voor de Nextcloud en Deck applicatie.</string>
     <string name="error_action_open_deck_info">Open App informatie</string>
     <string name="error_action_open_network">Netwerk instellingen</string>
     <string name="error_action_server_logs">Server logbestanden</string>
     <string name="error_action_install">Installeren</string>
+    <string name="error_action_report_issue">Rapporteer</string>
     <string name="info_box_maintenance_mode">Server in onderhoudsmodus</string>
     <string name="info_box_version_not_supported">Server versie %1$s is niet ondersteund, werk bij naar %2$s</string>
     <string name="share_link">Delen link</string>
+    <string name="archive_cards">Archiveer kaarten</string>
+
     <string name="manage_accounts">Accounts beheren </string>
+    <string name="manage_list">Beheer lijst</string>
     <string name="simple_reply">Antwoord</string>
+    <string name="error_while_uploading_attachment">Fout tijdens het opladen van bijlage: %1$s</string>
+    <string name="append_text_to_description">Toevoegen aan beschrijving</string>
+    <string name="add_text_as_comment">Toevoegen als opmerking</string>
+    <string name="progress_count">%1$d op %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d fouten tijdens het uploaden</item>
+        <item quantity="other">%1$d fouten tijdens het uploaden</item>
+    </plurals>
     <string name="simple_report">Rapporteer</string>
-</resources>
+    <string name="error_action_open_battery_settings">Batterij instellingen</string>
+    <string name="move_warning">Bij het verplaatsen van de kaart naar een ander bord kunnen geen opmerkingen of bijlagen worden overgebracht.</string>
+    <string name="clone_board">Dupliceer bord</string>
+    <string name="cloning_board">Klonen %1$s ...</string>
+    <string name="successfully_cloned_board">Succesvol gekloond %1$s</string>
+    <string name="attachment_does_not_yet_exist">Bijlage bestaat nog niet in Deck</string>
+    <string name="card_does_not_yet_exist">Kaart bestaat nog niet in Deck</string>
+
+    <string name="widget_stack_title">Lijst</string>
+    <string name="widget_stack_header_icon">Widget koptekst icoon</string>
+    <string name="widget_stack_placeholder_icon">Widget placeholder icoon</string>
+    <string name="select_stack">Lijst selecteren</string>
+    <string name="project_type_deck_board">Deck board</string>
+    <string name="project_type_deck_card">Deck kaart</string>
+    <string name="project_type_file">Bestand</string>
+    <string name="projects_title">Projecten</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d middelen</item>
+        <item quantity="other">%1$d middelen</item>
+    </plurals>
+    <string name="no_assigned_label">Geen toegewezen label</string>
+    <string name="single_card">Enkele kaart</string>
+    <string name="project_type_room">Praatruimte</string>
+    <string name="simple_move">Verplaatsen</string>
+    <string name="cannot_upload_files_without_permission">Kan geen bestanden uploaden zonder toestemming</string>
+    </resources>

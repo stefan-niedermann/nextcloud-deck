@@ -24,12 +24,18 @@ public abstract class IResponseCallback<T> {
         DeckLog.logError(throwable);
     }
 
+    @CallSuper
+    public void onError(Throwable throwable, T locallyCreatedEntity) {
+        onError(throwable);
+    }
+
     public static <T> IResponseCallback<T> getDefaultResponseCallback(Account account) {
         return new IResponseCallback<T>(account) {
             @Override
             public void onResponse(T response) {
                 // Do Nothing
             }
+
         };
     }
 

@@ -17,14 +17,13 @@ import androidx.preference.PreferenceManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
+import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
-import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficient;
-import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficientBigAreas;
-import static it.niedermann.nextcloud.deck.util.ColorUtil.getContrastRatio;
-import static it.niedermann.nextcloud.deck.util.ColorUtil.getForegroundColorForBackgroundColor;
+import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficient;
+import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
 
 public abstract class BrandingUtil {
 
@@ -44,7 +43,7 @@ public abstract class BrandingUtil {
             DeckLog.log("--- Read: shared_preference_theme_main");
             return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_main), context.getApplicationContext().getResources().getColor(R.color.defaultBrand));
         } else {
-            return context.getResources().getColor(R.color.defaultBrand);
+            return ContextCompat.getColor(context, R.color.defaultBrand);
         }
     }
 
@@ -87,13 +86,13 @@ public abstract class BrandingUtil {
         fab.setSupportBackgroundTintList(ColorStateList.valueOf(contrastRatioIsSufficient
                 ? mainColor
                 : ContextCompat.getColor(fab.getContext(), R.color.accent)));
-        fab.setColorFilter(contrastRatioIsSufficient ? getForegroundColorForBackgroundColor(mainColor) : mainColor);
+        fab.setColorFilter(contrastRatioIsSufficient ? ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(mainColor) : mainColor);
     }
 
     public static void applyBrandToPrimaryTabLayout(@ColorInt int mainColor, @NonNull TabLayout tabLayout) {
-        @ColorInt int finalMainColor = getSecondaryForegroundColorDependingOnTheme(tabLayout.getContext(), mainColor);
+        @ColorInt final int finalMainColor = getSecondaryForegroundColorDependingOnTheme(tabLayout.getContext(), mainColor);
         tabLayout.setBackgroundColor(ContextCompat.getColor(tabLayout.getContext(), R.color.primary));
-        final boolean contrastRatioIsSufficient = getContrastRatio(mainColor, ContextCompat.getColor(tabLayout.getContext(), R.color.primary)) > 1.7d;
+        final boolean contrastRatioIsSufficient = ColorUtil.INSTANCE.getContrastRatio(mainColor, ContextCompat.getColor(tabLayout.getContext(), R.color.primary)) > 1.7d;
         tabLayout.setSelectedTabIndicatorColor(contrastRatioIsSufficient ? mainColor : finalMainColor);
     }
 
@@ -112,7 +111,7 @@ public abstract class BrandingUtil {
                         finalMainColor,
                         finalMainColor,
                         finalMainColor,
-                        editText.getContext().getResources().getColor(R.color.fg_secondary)
+                        ContextCompat.getColor(editText.getContext(), R.color.fg_secondary)
                 }
         ));
     }

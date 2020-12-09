@@ -58,14 +58,14 @@ public class EditLabelDialogFragment extends BrandedDialogFragment {
 
         dialogBuilder.setTitle(getString(R.string.edit_tag, label.getTitle()));
         dialogBuilder.setPositiveButton(R.string.simple_save, (dialog, which) -> {
-            this.label.setColor(binding.colorChooser.getSelectedColor().substring(1));
+            this.label.setColor(binding.colorChooser.getSelectedColor());
             this.label.setTitle(binding.input.getText().toString());
             listener.onLabelUpdated(this.label);
         });
         String title = this.label.getTitle();
         binding.input.setText(title);
         binding.input.setSelection(title.length());
-        binding.colorChooser.selectColor("#" + this.label.getColor());
+        binding.colorChooser.selectColor(this.label.getColor());
 
         return dialogBuilder
                 .setView(binding.getRoot())

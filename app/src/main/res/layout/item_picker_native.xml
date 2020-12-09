@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:padding="@dimen/spacer_2x">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size"
+            android:layout_marginEnd="@dimen/spacer_2x"
+            android:contentDescription="@null"
+            android:padding="@dimen/spacer_1hx"
+            app:srcCompat="@drawable/ic_baseline_search_24" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAppearance="?attr/textAppearanceListItem"
+            tools:text="Search all files" />
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bg_info_box" />
+
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacer_2x"
+        android:paddingStart="72dp"
+        android:paddingTop="@dimen/spacer_1x"
+        android:paddingEnd="@dimen/spacer_1x"
+        android:paddingBottom="@dimen/spacer_1x"
+        android:text="@string/recent"
+        android:textAppearance="?attr/textAppearanceOverline" />
+</LinearLayout>

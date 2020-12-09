@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Ultimo account</string>
     <string name="drawer_manage_accounts">Gestisci account</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Lavagne</string>
     <string name="simple_add">Aggiungi</string>
     <string name="simple_save">Salva</string>
@@ -38,13 +37,13 @@
     <string name="simple_disabled">disabilitato</string>
     <string name="simple_copied">Copiato</string>
     <string name="simple_archive">Archivio</string>
+    <string name="simple_unassigned">Non assegnato</string>
 
     <string name="edit_board">Modifica lavagna</string>
     <string name="archive_board">Archivia lavagna</string>
     <string name="delete_board">Elimina lavagna</string>
     <string name="delete_something">Elimina %1$s</string>
 
-    <!-- About -->
     <string name="about">Informazioni</string>
     <string name="about_version_title">Versione</string>
     <string name="about_version">Stai utilizzando attualmente %1$s</string>
@@ -70,9 +69,6 @@
     <string name="about_credits_tab_title">Riconoscimenti</string>
     <string name="about_contribution_tab_title">Contributi</string>
     <string name="about_license_tab_title">Licenza</string>
-
-    <string name="copied_to_clipboard">Copiato negli appunti</string>
-
     <string name="seconds_ago">secondi fa</string>
     <string name="edit">Modifica</string>
     <string name="label_labels">Seleziona etichette</string>
@@ -113,6 +109,7 @@
     <string name="no_lists_yet">Ancora nessun elenco</string>
     <string name="do_you_want_to_save_your_changes">Vuoi salvare le tue modifiche?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Vuoi archiviare tutte le schede di %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Vuoi archiviare tutte le schede filtrate di %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Questo eliminerà definitivamente %1$d scheda di questo elenco</item>
         <item quantity="other">Questo eliminerà definitivamente %1$d schede di questo elenco</item>
@@ -129,6 +126,7 @@
     <string name="delete_board_message">Questo eliminerà definitivamente questa lavagna inclusi tutti gli elenchi e le schede.</string>
     <string name="settings_theme_title">Tema scuro</string>
     <string name="settings_branding_title">Marchio</string>
+    <string name="settings_compact_title">Modalità compatta</string>
     <string name="settings_background_sync">Sincronizzazione in background</string>
     <string name="pref_value_wifi_and_mobile">Sincronizza su Wi-FI e dati mobili</string>
     <string name="pref_value_wifi_only">Sincronizza solo con Wi-Fi</string>
@@ -156,7 +154,6 @@
     <string name="maintenance_mode_explanation">Il server %1$s attualmente è in manutenzione. Contatta l\'amministratore o riprova più tardi.</string>
     <string name="share_add_to_card">Aggiungi a scheda</string>
     <string name="share_success">Aggiunto %1$s a %2$s correttamente</string>
-    <string name="could_not_copy_to_clipboard">Impossibile copiare negli appunti</string>
     <string name="add_comment">Aggiungi commento</string>
     <string name="card_edit_comments">Commenti</string>
     <string name="no_comments_yet">Ancora nessun commento</string>
@@ -168,11 +165,9 @@
     <string name="open_in_browser">Apri nel browser</string>
     <string name="updating_card">Aggiornamento scheda...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Sposta a destra l\'elenco</string>
     <string name="move_list_left">Sposta a sinistra l\'elenco</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Tutti</string>
     <string name="filter_overdue">Scadenza</string>
     <string name="filter_today">Oggi</string>
@@ -183,7 +178,6 @@
     <string name="filter_by_assigned_user">Filtra per utente assegnato</string>
     <string name="filter_by_duedate">Filtra per data di scadenza</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Schede archiviate</string>
     <string name="action_card_dearchive">Annulla archiviazione della scheda</string>
     <string name="action_archived_cards">Sfoglia le schede archiviate</string>
@@ -198,11 +192,9 @@
     <string name="filter_user_title">Utenti</string>
     <string name="filter_duedate_title">Data di scadenza</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Annulla archiviazione della lavagna</string>
     <string name="archived_boards">Lavagne archiviate</string>
 
-    <!-- Errors -->
     <string name="error">Si è verificato un errore</string>
     <string name="synchronization_failed">Sincronizzazione non riuscita</string>
     <string name="operation_not_yet_supported">Non ancora supportato</string>
@@ -216,7 +208,8 @@
 
     <string name="error_dialog_title">Oh no - E adesso? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Prova a forzare la chiusura dell\'applicazione e riavviarla nuovamente. Potrebbe essersi verificato un problema di connessione all\'applicazione Nextcloud. </string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">Se il problema persiste, prova a cancellare l\'archiviazione di entrambe le applicazioni Nextcloud e Nextcloud Deck per risolvere il problema.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Se il problema persiste, prova a cancellare l\'archiviazione di entrambe le applicazioni Nextcloud e Nextcloud Deck per risolvere il problema.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">L\'aggiornamento del database non è riuscito. Segnala il problema e cancella l\'archiviazione per utilizzare l\'applicazione normalmente.</string>
     <string name="error_dialog_tip_clear_storage">Puoi a cancellare l\'archiviazione aprendo le informazioni dell\'applicazione e selezionando Archiviazione → Cancella archiviazione.</string>
     <string name="error_dialog_tip_files_outdated">La tua applicazione di Nextcloud sembra essere datata. Visita il Play Store o F-Droid per ottenere l\'ultima versione.</string>
     <string name="error_dialog_tip_files_force_stop">Sembra che ci sia un problema con la tua applicazione di Nextcloud. Prova a fermare entrambe le applicazioni Nextcloud e Nextcloud Deck.</string>
@@ -230,16 +223,21 @@
     <string name="error_dialog_we_need_info">Ci servono le seguenti informazioni tecniche per aiutarti:</string>
     <string name="error_dialog_redirect">Il tuo server ha risposto con un codice di stato HTTP 302, che implica che non hai installato l\'applicazione Deck sul tuo server o qualcosa non è configurato correttamente. Questo può essere causato da configurazioni personalizzate nel file .htaccess o da applicazioni di Nextcloud come OID Client.</string>
     <string name="error_dialog_version_not_parsable">Impossibile determinare la versione dell\'applicazione Deck lato server. Assicurati che sia installata e abilitata.</string>
+    <string name="error_dialog_account_might_not_be_authorized">L\'account della tua applicazione Nextcloud potrebbe non essere più autorizzato.</string>
+    <string name="error_dialog_user_not_found_in_database">L\'utente attuale non corrisponde all\'utente presente nel nostro database. Se stai usando LDAP sulla tua istanza di Nextcloud, la tua applicazione potrebbe aver memorizzato un vecchio identificativo utente.</string>
     <string name="error_dialog_capabilities_not_parsable">Non siamo riusciti a recuperare le funzionalità del tuo server. Assicurati che il server sia in esecuzione e che le altre applicazioni siano in grado di accedere a Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Un allegato non può essere caricato. Prova a condividerlo in un altro modo e informaci di questo problema.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Disabilita tutte le ottimizzazioni della batteria per le applicazioni Nextcloud e Deck.</string>
     <string name="error_action_open_deck_info">Apri Informazioni applicazione</string>
     <string name="error_action_open_network">Impostazioni di rete</string>
     <string name="error_action_server_logs">Log del server</string>
     <string name="error_action_install">Installa</string>
+    <string name="error_action_report_issue">Segnala</string>
     <string name="info_box_maintenance_mode">Server in manutenzione</string>
     <string name="info_box_version_not_supported">Versione del server %1$s non supportata, aggiorna a %2$s</string>
     <string name="share_link">Condividi collegamento</string>
     <string name="archive_cards">Archivia schede</string>
+
     <string name="manage_accounts">Gestisci account</string>
     <string name="manage_list">Gestisci elenco</string>
     <string name="simple_reply">Rispondi</string>
@@ -252,4 +250,50 @@
         <item quantity="other">%1$d errori durante il caricamento</item>
     </plurals>
     <string name="simple_report">Segnala</string>
+    <string name="error_action_open_battery_settings">Impostazioni batteria</string>
+    <string name="move_warning">Né i commenti, né gli allegati possono essere trasferiti quando si sposta la scheda su un\'altra lavagna.</string>
+    <string name="clone_board">Clona lavagna</string>
+    <string name="cloning_board">Clonazione di %1$s…</string>
+    <string name="successfully_cloned_board">%1$s clonato correttamente</string>
+    <string name="attachment_does_not_yet_exist">L\'allegato non esiste ancora in Deck</string>
+    <string name="card_does_not_yet_exist">La scheda non esiste ancora in Deck</string>
+
+    <string name="widget_stack_title">Elenco</string>
+    <string name="widget_stack_header_icon">Icona intestazione widget</string>
+    <string name="widget_stack_placeholder_icon">Icona segnaposto widget</string>
+    <string name="select_stack">Seleziona elenco</string>
+    <string name="project_type_deck_board">Lavagna di Deck</string>
+    <string name="project_type_deck_card">Scheda di Deck</string>
+    <string name="project_type_file">File</string>
+    <string name="projects_title">Progetti</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d risorsa</item>
+        <item quantity="other">%1$d risorse</item>
+    </plurals>
+    <string name="no_assigned_label">Nessuna etichetta assegnata</string>
+    <string name="single_card">Scheda singola</string>
+    <string name="project_type_room">Stanza di Talk</string>
+    <string name="simple_move">Sposta</string>
+    <string name="cannot_upload_files_without_permission">Impossible caricare file senza permesso</string>
+    <string name="clone_cards">Clona schede</string>
+    <string name="simple_clone">Clona</string>
+    <string name="user_avatar">Avatar dell\'utente</string>
+    <string name="simple_unassign">Rimuovi assegnazione</string>
+    <string name="simple_contact">Contatto</string>
+    <string name="simple_file">File</string>
+    <string name="simple_camera">Fotocamera</string>
+    <string name="min_api_21">Questa funzionalità richiede almeno Android 5</string>
+    <string name="take_photo">Scatta una foto</string>
+    <string name="take_photo_switch_camera">Cambia fotocamera</string>
+    <string name="take_photo_toggle_torch">Attiva la torcia</string>
+    <string name="show_all_contacts">Mostra tutti i contatti</string>
+    <string name="show_all_files">Mostra tutti i file</string>
+    <string name="recent">Recenti</string>
+    <string name="upload_a_new_attachment">Carica un nuovo allegato</string>
+    <string name="contacts">Contatti</string>
+    <string name="downloads">Scaricamenti</string>
+    <string name="files">File</string>
+    <string name="gallery">Galleria</string>
+    <string name="simple_attach">allega</string>
+    <string name="add_stack_widget">Aggiungi widget elenco</string>
 </resources>

@@ -1,9 +1,10 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
@@ -26,28 +27,37 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
         }
     }
 
-    public void handleDeletes(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, List<T> entitiesFromServer){
+    public void handleDeletes(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, List<T> entitiesFromServer) {
         // do nothing as a default.
     }
 
     /**
      * Searches each entry of <code>listB</code> in list <code>listA</code> and returns the missing ones
+     *
      * @param listA List
      * @param listB List
      * @return all entries of <code>listB</code> missing in <code>listA</code>
      */
-    public static <T extends IRemoteEntity> List<T> findDelta(List<T> listA, List<T> listB){
+    public static <T extends IRemoteEntity> List<T> findDelta(List<T> listA, List<T> listB) {
         List<T> delta = new ArrayList<>();
         for (T b : listB) {
+            if (b == null) {
+                DeckLog.error("Entry in listB is null! skipping...");
+                continue;
+            }
             boolean found = false;
             for (T a : listA) {
-                if ((a.getLocalId()!= null && b.getLocalId()!= null ? (a.getLocalId().equals(b.getLocalId()))
+                if (a == null) {
+                    DeckLog.error("Entry in listA is null! skipping...");
+                    continue;
+                }
+                if ((a.getLocalId() != null && b.getLocalId() != null ? (a.getLocalId().equals(b.getLocalId()))
                         : a.getId().equals(b.getId())) && b.getAccountId() == a.getAccountId()) {
                     found = true;
                     break;
                 }
             }
-            if (!found){
+            if (!found) {
                 delta.add(b);
             }
         }
@@ -58,7 +68,14 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
         children.add(child);
     }
 
-    public abstract void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<T>> responder, Date lastSync);
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<T>> responder, Instant lastSync) {
+        return;
+    }
+
+    public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<List<T>> responder, Instant lastSync) {
+        // Overridden, because we also need the DB-Adapter at some points here (see ACL data provider)
+        getAllFromServer(serverAdapter, accountId, responder, lastSync);
+    }
 
     public abstract T getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, T entity);
 
@@ -72,7 +89,7 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
 
     public abstract void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, T t);
 
-    public void deletePhysicallyInDB(DataBaseAdapter dataBaseAdapter, long accountId, T t){
+    public void deletePhysicallyInDB(DataBaseAdapter dataBaseAdapter, long accountId, T t) {
         deleteInDB(dataBaseAdapter, accountId, t);
     }
 
@@ -106,7 +123,7 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
         stillGoingDeeper = true;
     }
 
-    public abstract List<T> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync);
+    public abstract List<T> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Instant lastSync);
 
     public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
         //do nothing

@@ -1,17 +1,23 @@
 package it.niedermann.nextcloud.deck.model;
 
+import android.graphics.Color;
+
+import androidx.annotation.ColorInt;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
-import java.io.Serializable;
-import java.util.Date;
+import com.google.gson.annotations.JsonAdapter;
 
+import java.io.Serializable;
+import java.time.Instant;
+
+import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.api.json.JsonColorSerializer;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 @Entity(
         inheritSuperIndices = true,
@@ -31,20 +37,18 @@ public class Board extends AbstractRemoteEntity implements Serializable {
     }
 
     @Ignore
-    public Board(String title, String color) {
-        this.title = title;
+    public Board(String title, @ColorInt int color) {
+        setTitle(title);
         setColor(color);
     }
 
     private String title;
     private long ownerId;
-    /**
-     * Deck App sends color strings without leading # character
-     */
-    private String color;
+    @JsonAdapter(JsonColorSerializer.class)
+    private Integer color;
     private boolean archived;
     private int shared;
-    private Date deletedAt;
+    private Instant deletedAt;
     private boolean permissionRead = false;
     private boolean permissionEdit = false;
     private boolean permissionManage = false;
@@ -52,22 +56,22 @@ public class Board extends AbstractRemoteEntity implements Serializable {
 
 
     @Override
-    public Date getLastModified() {
+    public Instant getLastModified() {
         return lastModified;
     }
 
     @Override
-    public void setLastModified(Date lastModified) {
+    public void setLastModified(Instant lastModified) {
         this.lastModified = lastModified;
     }
 
     @Override
-    public Date getLastModifiedLocal() {
+    public Instant getLastModifiedLocal() {
         return lastModifiedLocal;
     }
 
     @Override
-    public void setLastModifiedLocal(Date lastModifiedLocal) {
+    public void setLastModifiedLocal(Instant lastModifiedLocal) {
         this.lastModifiedLocal = lastModifiedLocal;
     }
 
@@ -79,19 +83,23 @@ public class Board extends AbstractRemoteEntity implements Serializable {
         this.id = id;
     }
 
-    public String getColor() {
+    @ColorInt
+    public Integer getColor() {
         return color;
     }
 
+
     public void setColor(String color) {
         try {
-            // Nextcloud might return color format #000 which cannot be parsed by Color.parseColor()
-            // https://github.com/stefan-niedermann/nextcloud-deck/issues/466
-            this.color = ColorUtil.formatColorToParsableHexString(color).substring(1);
+            setColor(Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(color)));
         } catch (Exception e) {
             DeckLog.logError(e);
-            this.color = "757575";
+            setColor(Color.GRAY);
         }
+    }
+
+    public void setColor(@ColorInt Integer color) {
+        this.color = color;
     }
 
     public boolean isArchived() {
@@ -114,11 +122,11 @@ public class Board extends AbstractRemoteEntity implements Serializable {
         this.shared = shared;
     }
 
-    public Date getDeletedAt() {
+    public Instant getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(Date deletedAt) {
+    public void setDeletedAt(Instant deletedAt) {
         this.deletedAt = deletedAt;
     }
 

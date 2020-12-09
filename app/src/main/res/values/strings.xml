@@ -10,7 +10,6 @@
     <string name="drawer_end_account">Last account</string>
     <string name="drawer_manage_accounts">Manage accounts</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Boards</string>
     <string name="simple_add">Add</string>
     <string name="simple_save">Save</string>
@@ -40,13 +39,13 @@
     <string name="simple_disabled">disabled</string>
     <string name="simple_copied">Copied</string>
     <string name="simple_archive">Archive</string>
+    <string name="simple_unassigned">Unassigned</string>
 
     <string name="edit_board">Edit board</string>
     <string name="archive_board">Archive board</string>
     <string name="delete_board">Delete board</string>
     <string name="delete_something">Delete %1$s</string>
 
-    <!-- About -->
     <string name="about">About</string>
     <string name="about_version_title">Version</string>
     <string name="about_version">You are currently using %1$s</string>
@@ -76,9 +75,6 @@
     <string name="about_credits_tab_title">Credits</string>
     <string name="about_contribution_tab_title">Contribution</string>
     <string name="about_license_tab_title">License</string>
-
-    <string name="copied_to_clipboard">Copied to clipboard</string>
-
     <string name="seconds_ago">seconds ago</string>
     <string name="edit">Edit</string>
     <string name="label_labels">Select Tags</string>
@@ -109,7 +105,6 @@
     <string name="label_clear_due_date">Clear due date</string>
     <string name="label_add">Add %1$s</string>
 
-    <!-- URLs -->
     <string name="url_maintainer" translatable="false">https://www.niedermann.it/</string>
     <string name="url_about_icon_author" translatable="false">https://github.com/nextcloud/deck/commit/8c04ea8dc99e9b392f4039e8e5e6964d5a6d3453#diff-f3716cc279904617b1a21078526b6bf1R1</string>
     <string name="url_source" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck</string>
@@ -138,6 +133,7 @@
     <string name="no_lists_yet">No lists yet</string>
     <string name="do_you_want_to_save_your_changes">Do you want to save your changes?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Do you want to archive all cards of %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Do you want to archive all filtered cards of %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">This will permanently delete %1$d card of this list.</item>
         <item quantity="other">This will permanently delete all %1$d cards of this list.</item>
@@ -154,6 +150,7 @@
     <string name="delete_board_message">This will permanently delete this board including all lists and cards.</string>
     <string name="settings_theme_title">Dark theme</string>
     <string name="settings_branding_title">Branding</string>
+    <string name="settings_compact_title">Compact mode</string>
     <string name="settings_background_sync">Background synchronization</string>
     <string name="pref_value_wifi_and_mobile">Sync on Wi-Fi and mobile data</string>
     <string name="pref_value_wifi_only">Sync only on Wi-Fi</string>
@@ -181,7 +178,6 @@
     <string name="maintenance_mode_explanation">The server %1$s is currently in maintenance mode. Please contact your administrator or try later again.</string>
     <string name="share_add_to_card">Add to card</string>
     <string name="share_success">Successfully added %1$s to %2$s</string>
-    <string name="could_not_copy_to_clipboard">Could not copy to clipboard</string>
     <string name="add_comment">Add comment</string>
     <string name="card_edit_comments">Comments</string>
     <string name="no_comments_yet">No comments yet</string>
@@ -193,11 +189,9 @@
     <string name="open_in_browser">Open in browser</string>
     <string name="updating_card">Updating card…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Move list right</string>
     <string name="move_list_left">Move list left</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">All</string>
     <string name="filter_overdue">Overdue</string>
     <string name="filter_today">Today</string>
@@ -208,7 +202,6 @@
     <string name="filter_by_assigned_user">Filter by assigned user</string>
     <string name="filter_by_duedate">Filter by due date</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Archived cards</string>
     <string name="action_card_dearchive">Undo card archiving</string>
     <string name="action_archived_cards">Browse archived cards</string>
@@ -223,11 +216,9 @@
     <string name="filter_user_title">Users</string>
     <string name="filter_duedate_title">Due date</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Undo board archiving</string>
     <string name="archived_boards">Archived boards</string>
 
-    <!-- Errors -->
     <string name="error">An error appeared</string>
     <string name="synchronization_failed">Synchronization failed</string>
     <string name="operation_not_yet_supported">Not yet supported</string>
@@ -241,8 +232,8 @@
 
     <string name="error_dialog_title">Oh no - What now? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Please try to force close the app and restart it again. There might have been an incorrect connection to the Nextcloud app.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">If the issue persists, try to clear the storage of both apps: Nextcloud and Nextcloud Deck to solve this issue.</string>
-    <string name="error_dialog_tip_database_upgrade_failed">The ugprade of the database failed. Please report the issue and clear the storage to use the app normally.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">If the issue persists, try to clear the storage of both apps: Nextcloud and Nextcloud Deck to solve this issue.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">The upgrade of the database failed. Please report the issue and clear the storage to use the app normally.</string>
     <string name="error_dialog_tip_clear_storage">You can clear the storage by opening the app info and selecting Storage → Clear storage.</string>
     <string name="error_dialog_tip_files_outdated">Your Nextcloud app seems to be outdated. Please visit the Play Store or F-Droid to get the latest version.</string>
     <string name="error_dialog_tip_files_force_stop">Something seems to be wrong with your Nextcloud app. Please try to force stop both, the Nextcloud app and the Nextcloud Deck app.</string>
@@ -256,6 +247,8 @@
     <string name="error_dialog_we_need_info">We need the following technical information to help you:</string>
     <string name="error_dialog_redirect">Your server did respond with a HTTP 302 status code, which implies, that you do not have installed the Deck app on your server or something is misconfigured. This can be caused by custom overrides in a .htaccess-file or by Nextcloud apps like OID Client.</string>
     <string name="error_dialog_version_not_parsable">We could not determine the version of the server side Deck app. Please make sure it is installed and enabled.</string>
+    <string name="error_dialog_account_might_not_be_authorized">The account of your Nextcloud app might no longer be authorized.</string>
+    <string name="error_dialog_user_not_found_in_database">The current user does not match the user we have in our database. If you are using LDAP on your Nextcloud instance, your Nextcloud app might have stored an old user ID.</string>
     <string name="error_dialog_capabilities_not_parsable">We could not fetch the capabilities of your server. Please make sure your server is running well and other client apps are able to access Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">An attachment could not be uploaded. Please try to share it on another way and let us know about this bug.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Please disable all battery optimizations for Nextcloud and the Deck app.</string>
@@ -268,6 +261,7 @@
     <string name="info_box_version_not_supported">Server version %1$s not supported, please update to %2$s</string>
     <string name="share_link">Share link</string>
     <string name="archive_cards">Archive cards</string>
+
     <string name="manage_accounts">Manage accounts</string>
     <string name="manage_list">Manage list</string>
     <string name="simple_reply">Reply</string>
@@ -276,9 +270,54 @@
     <string name="add_text_as_comment">Add as comment</string>
     <string name="progress_count">%1$d of %2$d</string>
     <plurals name="progress_error_count">
-        <item quantity="one">%1$d error while uploading.</item>
+        <item quantity="one">%1$d error while uploading</item>
         <item quantity="other">%1$d errors while uploading</item>
     </plurals>
     <string name="simple_report">Report</string>
     <string name="error_action_open_battery_settings">Battery settings</string>
+    <string name="move_warning">Neither comments nor attachments can be transferred when moving the card to another board.</string>
+    <string name="clone_board">Clone board</string>
+    <string name="cloning_board">Cloning %1$s…</string>
+    <string name="successfully_cloned_board">Successfully cloned %1$s</string>
+    <string name="attachment_does_not_yet_exist">Attachment does not yet exist in Deck</string>
+    <string name="card_does_not_yet_exist">Card does not yet exist in Deck</string>
+
+    <string name="widget_stack_title">List</string>
+    <string name="widget_stack_header_icon">Widget header icon</string>
+    <string name="widget_stack_placeholder_icon">Widget placeholder icon</string>
+    <string name="select_stack">Select list</string>
+    <string name="project_type_deck_board">Deck board</string>
+    <string name="project_type_deck_card">Deck card</string>
+    <string name="project_type_file">File</string>
+    <string name="projects_title">Projects</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d resource</item>
+        <item quantity="other">%1$d resources</item>
+    </plurals>
+    <string name="no_assigned_label">No assigned tag</string>
+    <string name="single_card">Single card</string>
+    <string name="project_type_room">Talk room</string>
+    <string name="simple_move">Move</string>
+    <string name="cannot_upload_files_without_permission">Can not upload files without permission</string>
+    <string name="clone_cards">Clone cards</string>
+    <string name="simple_clone">Clone</string>
+    <string name="user_avatar">User avatar</string>
+    <string name="simple_unassign">Unassign</string>
+    <string name="simple_contact">Contact</string>
+    <string name="simple_file">File</string>
+    <string name="simple_camera">Camera</string>
+    <string name="min_api_21">This feature requires at least Android 5</string>
+    <string name="take_photo">Take a photo</string>
+    <string name="take_photo_switch_camera">Switch camera</string>
+    <string name="take_photo_toggle_torch">Toggle torch</string>
+    <string name="show_all_contacts">Show all contacts</string>
+    <string name="show_all_files">Show all files</string>
+    <string name="recent">Recent</string>
+    <string name="upload_a_new_attachment">Upload a new attachment</string>
+    <string name="contacts">Contacts</string>
+    <string name="downloads">Downloads</string>
+    <string name="files">Files</string>
+    <string name="gallery">Gallery</string>
+    <string name="simple_attach">attach</string>
+    <string name="add_stack_widget">Add list widget</string>
 </resources>

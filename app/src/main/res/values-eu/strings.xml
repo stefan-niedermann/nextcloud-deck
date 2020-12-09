@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Azken kontua</string>
     <string name="drawer_manage_accounts">Kudeatu kontuak</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Mahaiak</string>
     <string name="simple_add">Gehitu</string>
     <string name="simple_save">Gorde</string>
@@ -28,7 +27,7 @@
     <string name="simple_discard">baztertu</string>
     <string name="simple_update">Eguneratu</string>
     <string name="simple_delete">Ezabatu</string>
-    <string name="simple_rename">Berrizendatu</string>
+    <string name="simple_rename">Aldatu izena</string>
     <string name="simple_settings">Ezarpenak</string>
     <string name="simple_undo">Desegin</string>
     <string name="simple_manage">kudeatu</string>
@@ -38,13 +37,13 @@
     <string name="simple_disabled">desgaituta</string>
     <string name="simple_copied">Kopiatuta</string>
     <string name="simple_archive">Artxibatu</string>
+    <string name="simple_unassigned">Esleitu gabea</string>
 
     <string name="edit_board">Editatu mahaia</string>
     <string name="archive_board">Artxibatu mahaia</string>
     <string name="delete_board">Ezabatu mahaia</string>
     <string name="delete_something">Ezabatu %1$s</string>
 
-    <!-- About -->
     <string name="about">Honi buruz</string>
     <string name="about_version_title">Bertsioa</string>
     <string name="about_version">%1$s erabiltzen ari zara</string>
@@ -70,9 +69,6 @@
     <string name="about_credits_tab_title">Kredituak</string>
     <string name="about_contribution_tab_title">Lagundu!</string>
     <string name="about_license_tab_title">Lizentzia</string>
-
-    <string name="copied_to_clipboard">Kopiatu arbelera</string>
-
     <string name="seconds_ago">segundo lehenago</string>
     <string name="edit">Editatu</string>
     <string name="label_labels">Hautatu etiketak</string>
@@ -86,9 +82,9 @@
     <string name="choose_account">Aukeratu kontua</string>
     <string name="add_card">Gehitu txartel berria</string>
     <string name="activity">Jarduera</string>
-    <string name="add_list">Zerrenda gehitu</string>
-    <string name="rename_list">Zerrenda berrizendatu</string>
-    <string name="delete_list">Zerrenda ezabatu</string>
+    <string name="add_list">Gehitu zerrenda</string>
+    <string name="rename_list">Aldatu izena zerrendari</string>
+    <string name="delete_list">Ezabatu zerrenda</string>
     <string name="label_menu">menua</string>
     <string name="action_card_assign">Esleitu txartel hau niri</string>
     <string name="action_card_unassign">Txartel hau niri esleitzeari utzi</string>
@@ -112,6 +108,7 @@
     <string name="not_synced_yet">Oraindik sinkronizatu gabe</string>
     <string name="no_lists_yet">Ez dago zerrendarik</string>
     <string name="do_you_want_to_save_your_changes">Zure aldaketak gorde nahi dituzu?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">%1$s-ko txartel guztiak artxibatu nahi dituzu?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Honek zerrenda honen txartel %1$d ezabatuko du betirako.</item>
         <item quantity="other">Honek zerrenda honen %1$d txartel ezabatuko ditu betirako.</item>
@@ -122,12 +119,13 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Gehitu zerrenda berria + botoia erabiliz</string>
     <string name="add_a_new_card_using_the_button">Gehitu txartel berria + botoia erabiliz</string>
-    <string name="update_deck">Eguneratu sorta</string>
-    <string name="your_deck_version_is_too_old">Zure sorta bertsioa zaharregia da</string>
-    <string name="deck_outdated_please_update">Zure sorta bertsioa zaharregia da (%1$s). Mesedez eguneratu ezazu android aplikazio hau bezero gisa erabiltzeko.</string>
+    <string name="update_deck">Eguneratu Deck</string>
+    <string name="your_deck_version_is_too_old">Zure Deck bertsioa zaharregia da</string>
+    <string name="deck_outdated_please_update">Zure Deck bertsioa zaharregia da (%1$s). Mesedez eguneratu ezazu android aplikazio hau bezero gisa erabiltzeko.</string>
     <string name="delete_board_message">Honek mahai hau eta bertako zerrenda eta txartel guztiak ezabatuko ditu.</string>
     <string name="settings_theme_title">Gai iluna</string>
     <string name="settings_branding_title">Marka</string>
+    <string name="settings_compact_title">Modu trinkoa</string>
     <string name="settings_background_sync">Atzeko planoko sinkronizazioa</string>
     <string name="pref_value_wifi_and_mobile">Sinkronizatu Wi-Fi eta datu mugikorrekin</string>
     <string name="pref_value_wifi_only">Sinkronizatu Wi-Fiarekin soilik</string>
@@ -147,7 +145,7 @@
     <string name="hours_6">6 ordu</string>
     <string name="action_card_move">Mugitu txartela</string>
     <string name="action_card_move_title">Mugitu %1$s</string>
-    <string name="please_add_an_account_first">Mesedez, gehitu kontu bat lehenengo</string>
+    <string name="please_add_an_account_first">Gehitu kontu bat lehenengo</string>
     <string name="title_is_mandatory">Izenburua jartzea nahitaezkoa da</string>
     <string name="provide_at_least_a_title_or_description">Jarri gutxienez izenburu edo deskribapen bat</string>
     <string name="welcome_text">Ongi etorri %1$s(e)ra</string>
@@ -155,23 +153,20 @@
     <string name="maintenance_mode_explanation">%1$s zerbitzaria mantentze moduan dago. Mesedez jarri harremanetan zure administratzailearekin edo saiatu berriro.</string>
     <string name="share_add_to_card">Gehitu txartelera</string>
     <string name="share_success">%1$s ondo gehitu da %2$s -ra</string>
-    <string name="could_not_copy_to_clipboard">Ezin izan da arbelera kopiatu</string>
     <string name="add_comment">Gehitu iruzkina</string>
     <string name="card_edit_comments">Iruzkinak</string>
     <string name="no_comments_yet">Iruzkinik ez oraindik</string>
     <string name="no_boards">Ez dago mahairik oraindik</string>
-    <string name="add_a_new_board_using_the_button">Gehitu mahai berri bat + botoia erabiliz</string>
+    <string name="add_a_new_board_using_the_button">Gehitu mahai berria + botoia erabiliz</string>
     <string name="choose_board">Aukeratu mahaia</string>
     <string name="choose_list">Aukeratu zerrenda</string>
     <string name="task_count">%2$s(e)tik %1$s</string>
     <string name="open_in_browser">Ireki nabigatzailean</string>
     <string name="updating_card">Txartela eguneratzen...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Mugitu zerrenda eskuinera</string>
     <string name="move_list_left">Mugitu zerrenda ezkerrera</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Denak</string>
     <string name="filter_overdue">Atzeratuta</string>
     <string name="filter_today">Gaur</string>
@@ -182,7 +177,6 @@
     <string name="filter_by_assigned_user">Iragazi esleitutako erabiltzailez</string>
     <string name="filter_by_duedate">Iragazi epe-mugaz</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Artxibatutako txartelak</string>
     <string name="action_card_dearchive">Desegin txartelak artxibatzea</string>
     <string name="action_archived_cards">Arakatu artxibatutako txartelak</string>
@@ -197,11 +191,9 @@
     <string name="filter_user_title">Erabiltzaileak</string>
     <string name="filter_duedate_title">Epe-muga</string>
 
-    <!-- Archived boards -->
-    <string name="action_board_dearchive">Desegin mahaiaren artxiboa</string>
-    <string name="archived_boards">Artxibatutako taulak</string>
+    <string name="action_board_dearchive">Desegin mahaia artxibatzea</string>
+    <string name="archived_boards">Artxibatutako mahaiak</string>
 
-    <!-- Errors -->
     <string name="error">Errore bat agertu da</string>
     <string name="synchronization_failed">Sinkronizazioak huts egin du</string>
     <string name="operation_not_yet_supported">Oraingoz ez da onartzen</string>
@@ -211,27 +203,75 @@
     <string name="server_misconfigured">Zerbitzaria gaizki konfiguratuta</string>
     <string name="server_error">Zerbitzari akatsa</string>
     <string name="shared_error">Hirugarrenen aplikazioetatik edukiak partekatzea ez da guztiz onartzen oraingoz. Saiatu lehenengo deskargatzen eta gero zure fitxategi kudeatzailetik edo galeriatik partekatzen.</string>
+    <string name="error_edit_activity_killed_by_android">Androidek edizio modua eten du sistemako baliabide gehiago behar dituelako beste aplikazio batzuentzat.</string>
+
     <string name="error_dialog_title">Oh ez - Orain zer? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Saia zaitez aplikazioa itxi eta berrabiarazten. Agian Nextcloud aplikazioarekin gaizki konektatzea gertatu da.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">Arazoak jarraitzen badu, saiatu bi aplikazioen biltegiak garbitzen: Nextcloud eta Nextcloud Sortak aplikazioenak arazoa konpontzeko.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Arazoak jarraitzen badu, saiatu bi aplikazioen biltegiak garbitzen: Nextcloud eta Nextcloud Deck aplikazioenak, arazoa konpontzeko.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Datu-basearen bertsio-berritzeak huts egin du. Eman arazoaren berri eta biltegia garbitu aplikazioa normaltasunez erabiltzeko.</string>
+    <string name="error_dialog_tip_clear_storage">Biltegia garbi dezakezu aplikazioaren informazioa ireki eta hautatuz: Biltegia → Garbitu biltegia.</string>
     <string name="error_dialog_tip_files_outdated">Daukazun Nextcloud aplikazioa zaharkituta dagoela dirudi. Zoaz Play Store edo F-Droidera azken bertsioa lortzeko.</string>
-    <string name="error_dialog_tip_files_force_stop">Daukazun Nextcloud aplikazioan zerbait gaizki dabilela dirudi.  Saia zaitez Nextcloud aplikazioa eta Nextcloud Sortak geldiarazten. </string>
+    <string name="error_dialog_tip_files_force_stop">Daukazun Nextcloud aplikazioan zerbait gaizki dabilela dirudi.  Saia zaitez Nextcloud aplikazioa eta Nextcloud Deck geldiarazten. </string>
     <string name="error_dialog_tip_files_delete_storage">Geldiarazteak ez badu arazoa konpontzen, bi biltegiak garbitzen saia zaitezke.</string>
     <string name="error_dialog_timeout_instance">Ez da zerbitzariaren erantzunik jaso emandako denboran. Ziurta ezazu zure instantzia ondo dabilela.</string>
-    <string name="error_dialog_check_server">Zerbitzariaren erantzuna ez da zuzena izan. Egiazta ezazu Sortak aplikazioa atzitu dezakezula web interfazearen bidez.</string>
+    <string name="error_dialog_timeout_toggle">Egiaztatu zure datu konexioa. Batzuetan mugikorraren datuak edo WI-FI konexioa itzali eta piztea lagungarri da.</string>
+    <string name="error_dialog_check_server">Zerbitzariaren erantzuna ez da zuzena izan. Egiazta ezazu Deck aplikazioa atzitu dezakezula web interfazearen bidez.</string>
     <string name="error_dialog_check_server_logs">Arazo bat dago zure Nextcloud ezarpenekin. Eman begiratu bat zerbitzariko egunkari-fitxategiei.</string>
     <string name="error_dialog_check_maintenance">Egiazta ezazu zure Nextcloud instantzia ez dagoela mantentze moduan une honetan.</string>
     <string name="error_dialog_insufficient_storage">Zure Nextcloud instantziak ez du biltegiratze leku libre gehiagorik. Ezabatu fitxategi batzuk, aldaketa lokalak hodeiarekin sinkroniza daitezen.</string>
     <string name="error_dialog_we_need_info">Zuri laguntzeko hurrengo informazio teknikoa behar dugu:</string>
-    <string name="error_dialog_redirect">Zure zerbitzariak HTTP 302 egoera kodearekin erantzun du, honek esan nahi du ez duzula Sortak aplikazioa ez duzula zure zerbitzarian instalatu edo zerbait txarto konfiguratuta dagoela. Hau .htaccess fitxategi batean arau pertsonalizatuak daudelako edo OID Bezeroa izeneko aplikazioarengatik sortua izan daiteke. </string>
+    <string name="error_dialog_redirect">Zure zerbitzariak HTTP 302 egoera kodearekin erantzun du, honek esan nahi du ez duzula Deck aplikazioa ez duzula zure zerbitzarian instalatu edo zerbait txarto konfiguratuta dagoela. Hau .htaccess fitxategi batean arau pertsonalizatuak daudelako edo OID Bezeroa izeneko aplikazioarengatik sortua izan daiteke. </string>
+    <string name="error_dialog_version_not_parsable">Ezin izan dugu zerbitzariaren Deck aplikazioaren bertsioa zehaztu. Ziurtatu instalatuta eta gaituta dagoela.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Baliteke Nextcloud aplikazioaren kontua baimenduta ez egotea.</string>
+    <string name="error_dialog_user_not_found_in_database">Egungo erabiltzailea ez dator bat gure datu-basean daukagun erabiltzailearekin. Zure Nextcloud instantzian LDAP erabiltzen ari bazara, baliteke zure Nextcloud aplikazioak erabiltzaile-ID zahar bat biltegiratu izana.</string>
+    <string name="error_dialog_capabilities_not_parsable">Ezin izan ditugu zure zerbitzariko gaitasunak eskuratu. Ziurtatu zure zerbitzaria badabilela eta beste bezero aplikazioak Nexcloud atzitzeko gai direla.</string>
+    <string name="error_dialog_attachment_upload_failed">Eranskin bat ezin izan da igo. Parteka ezazu beste bide batetik eta emaiguzu akats honen berri, mesedez.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Desgaitu bateria optimizazio guztiak Nextcloudentzat eta Deck aplikazioarentzat.</string>
     <string name="error_action_open_deck_info">Ireki aplikazioaren informazioa</string>
     <string name="error_action_open_network">Sareko ezarpenak</string>
     <string name="error_action_server_logs">Zerbitzariaren egunkariak</string>
     <string name="error_action_install">Instalatu</string>
+    <string name="error_action_report_issue">Jakinarazi</string>
     <string name="info_box_maintenance_mode">Zerbitzaria mantentze-lanen moduan</string>
     <string name="info_box_version_not_supported">Zerbitzariaren %1$s bertsioa ez dago onartuta, mesedez eguneratu %2$s(e)ra</string>
     <string name="share_link">Partekatu esteka</string>
+    <string name="archive_cards">Artxibatu txartelak</string>
+
     <string name="manage_accounts">Kudeatu kontuak</string>
+    <string name="manage_list">Kudeatu zerrenda</string>
     <string name="simple_reply">Erantzun</string>
+    <string name="error_while_uploading_attachment">Errorea eranskin hau igotzean: %1$s</string>
+    <string name="append_text_to_description">Erantsi deskripzioari</string>
+    <string name="add_text_as_comment">Gehitu iruzkin gisa</string>
+    <string name="progress_count">%2$dtik%1$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$derrore kargatzerakoan</item>
+        <item quantity="other">%1$derrore kargatzerakoan</item>
+    </plurals>
     <string name="simple_report">Jakinarazi</string>
-</resources>
+    <string name="error_action_open_battery_settings">Bateria ezarpenak</string>
+    <string name="move_warning">Ez iruzkinak eta ez eranskinak ezin izan dira transferitu txartela beste mahai batera mugitzean.</string>
+    <string name="clone_board">Klonatu mahaia</string>
+    <string name="cloning_board">%1$sklonatzen...</string>
+    <string name="successfully_cloned_board">%1$sondo klonatu da</string>
+    <string name="attachment_does_not_yet_exist">Eranskina oraindik ez dago Deck-en</string>
+    <string name="card_does_not_yet_exist">Txartela oraindik ez dago Deck-en</string>
+
+    <string name="widget_stack_title">Zerrenda</string>
+    <string name="widget_stack_header_icon">Goiburu widgetaren ikonoa</string>
+    <string name="widget_stack_placeholder_icon">Leku-marka widgetaren ikonoa</string>
+    <string name="select_stack">Hautatu zerrenda</string>
+    <string name="project_type_deck_board">Deck mahaia</string>
+    <string name="project_type_deck_card">Deck txartela</string>
+    <string name="project_type_file">Fitxategia</string>
+    <string name="projects_title">Proiektuak</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$dbaliabide</item>
+        <item quantity="other">%1$dbaliabide</item>
+    </plurals>
+    <string name="no_assigned_label">Esleitutako etiketarik ez</string>
+    <string name="single_card">Txartel bakana</string>
+    <string name="project_type_room">Hitz egiteko gela</string>
+    <string name="simple_move">Mugitu</string>
+    <string name="cannot_upload_files_without_permission">Ezin da fitxategirik kargatu baimenik gabe</string>
+    </resources>

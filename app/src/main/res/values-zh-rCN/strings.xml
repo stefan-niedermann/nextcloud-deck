@@ -8,7 +8,6 @@
     <string name="drawer_end_account">最后一个账号</string>
     <string name="drawer_manage_accounts">管理账号</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">面板</string>
     <string name="simple_add">添加</string>
     <string name="simple_save">保存</string>
@@ -38,13 +37,13 @@
     <string name="simple_disabled">已禁用</string>
     <string name="simple_copied">已复制</string>
     <string name="simple_archive">归档</string>
+    <string name="simple_unassigned">未分配</string>
 
     <string name="edit_board">编辑面板</string>
     <string name="archive_board">归档面板</string>
     <string name="delete_board">删除面板</string>
     <string name="delete_something">删除 %1$s</string>
 
-    <!-- About -->
     <string name="about">关于</string>
     <string name="about_version_title">版本</string>
     <string name="about_version">您当前正在使用 %1$s</string>
@@ -70,9 +69,6 @@
     <string name="about_credits_tab_title">致谢</string>
     <string name="about_contribution_tab_title">贡献</string>
     <string name="about_license_tab_title">授权</string>
-
-    <string name="copied_to_clipboard">复制到剪贴板</string>
-
     <string name="seconds_ago">几秒前</string>
     <string name="edit">编辑</string>
     <string name="label_labels">选择标签</string>
@@ -153,7 +149,6 @@
     <string name="maintenance_mode_explanation">服务器 %1$s 正处于维护模式。请联系你的管理员或稍后再试。</string>
     <string name="share_add_to_card">添加到卡片</string>
     <string name="share_success">成功将 %1$s 添加到 %2$s</string>
-    <string name="could_not_copy_to_clipboard">无法复制到剪贴板</string>
     <string name="add_comment">添加评论</string>
     <string name="card_edit_comments">评论</string>
     <string name="no_comments_yet">还没有评论</string>
@@ -165,11 +160,9 @@
     <string name="open_in_browser">在浏览器中打开</string>
     <string name="updating_card">正在更新卡片…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">将列表移动到右侧</string>
     <string name="move_list_left">将列表移动到左侧</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">全部</string>
     <string name="filter_overdue">逾期</string>
     <string name="filter_today">今天</string>
@@ -180,7 +173,6 @@
     <string name="filter_by_assigned_user">根据指定用户过滤</string>
     <string name="filter_by_duedate">根据截止日期过滤</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">已存档卡片</string>
     <string name="action_card_dearchive">取消存档卡片</string>
     <string name="action_archived_cards">浏览已存档卡片</string>
@@ -197,7 +189,6 @@
 
     <string name="archived_boards">已归档面板</string>
 
-    <!-- Errors -->
     <string name="error">发生了一个错误</string>
     <string name="synchronization_failed">同步失败</string>
     <string name="operation_not_yet_supported">尚未支持</string>
@@ -209,19 +200,34 @@
     <string name="shared_error">目前还不完全支持从第三方应用程序中分享内容。请尝试先下载，然后从您的本地文件管理器或图库中分享。</string>
     <string name="error_dialog_title">哦，糟糕。所以会怎么样？🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">请尝试强行关闭应用并重新打开。可能与 Nextcloud 应用的连接不正确。</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">如果问题持续存在，尝试通过清除 Nextcloud 和 Nextcloud 看板两个应用的存储空间来解决问题。</string>
+    <string name="error_dialog_tip_clear_storage_might_help">如果问题持续存在，尝试通过清除 Nextcloud 和 Nextcloud 看板两个应用的存储空间来解决问题。</string>
     <string name="error_dialog_tip_files_outdated">您的 Nextcloud 应用似乎已经过时了。请访问 Play 商店或 F-Droid 以获取最新版本。</string>
     <string name="error_dialog_tip_files_force_stop">您的 Nextcloud 应用似乎出现了问题。请尝试强行停止 Nextcloud 和 Nextcloud 看板两个应用。</string>
     <string name="error_dialog_tip_files_delete_storage">如果强行停止没有效果，您可以尝试清除两个应用的存储空间。</string>
     <string name="error_dialog_timeout_instance">服务器没有在规定的时间内回答。请确保您的服务器实例在正常运行。</string>
+    <string name="error_dialog_timeout_toggle">检查您的网络连接。有时候关闭并重新开启移动数据或 Wi-Fi 有帮助。</string>
     <string name="error_dialog_check_server">服务器的回答不正确。请检查您是否能通过网页访问看板应用。</string>
     <string name="error_dialog_check_server_logs">您的 Nextcloud 配置有一些问题。请查看服务器日志。</string>
     <string name="error_dialog_check_maintenance">请检查您的 Nextcloud 实例是否处于维护模式。</string>
     <string name="error_dialog_insufficient_storage">您的 Nextcloud 实例已经没有可用的存储空间了。请删除一些文件来允许本地的变更同步到云。</string>
     <string name="error_dialog_we_need_info">我们需要以下技术信息来帮助您：</string>
+    <string name="error_dialog_account_might_not_be_authorized">您的Nextcloud应用账号可能不再被授权。</string>
+    <string name="error_action_open_network">网络设置</string>
+    <string name="error_action_server_logs">服务器日志</string>
+    <string name="error_action_install">安装</string>
+    <string name="error_action_report_issue">报告</string>
     <string name="info_box_maintenance_mode">服务器处于维护模式</string>
     <string name="share_link">共享链接</string>
     <string name="manage_accounts">管理账号</string>
     <string name="simple_reply">回复</string>
     <string name="simple_report">报告</string>
-</resources>
+    <string name="error_action_open_battery_settings">电池设置</string>
+    <string name="clone_board">克隆面板</string>
+    <string name="widget_stack_title">列表</string>
+    <string name="project_type_file">文件</string>
+    <string name="projects_title">项目</string>
+    <string name="simple_move">移动</string>
+    <string name="simple_clone">克隆</string>
+    <string name="user_avatar">用户头像</string>
+    <string name="simple_unassign">取消分配</string>
+    </resources>

@@ -39,6 +39,10 @@ import static it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment.
 
 public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
 
+    private static final Intent INTENT_APP_INFO = new Intent(ACTION_APPLICATION_DETAILS_SETTINGS)
+            .setData(Uri.parse("package:" + BuildConfig.APPLICATION_ID))
+            .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_deck_info);
+
     @NonNull
     private Consumer<Intent> actionButtonClickedListener;
     @NonNull
@@ -68,11 +72,8 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
     public void setThrowable(@NonNull Context context, @Nullable Account account, @NonNull Throwable throwable) {
         if (throwable instanceof TokenMismatchException) {
             add(R.string.error_dialog_tip_token_mismatch_retry);
-            add(R.string.error_dialog_tip_token_mismatch_clear_storage);
-            Intent intent = new Intent(ACTION_APPLICATION_DETAILS_SETTINGS)
-                    .setData(Uri.parse("package:" + BuildConfig.APPLICATION_ID))
-                    .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_deck_info);
-            add(R.string.error_dialog_tip_clear_storage, intent);
+            add(R.string.error_dialog_tip_clear_storage_might_help);
+            add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
         } else if (throwable instanceof NextcloudFilesAppNotSupportedException) {
             add(R.string.error_dialog_tip_files_outdated);
         } else if (throwable instanceof NextcloudApiNotRespondingException) {
@@ -122,6 +123,10 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
                     } else {
                         add(R.string.error_dialog_version_not_parsable);
                     }
+                    add(R.string.error_dialog_account_might_not_be_authorized);
+                    break;
+                case UNKNOWN_ACCOUNT_USER_ID:
+                    add(R.string.error_dialog_user_not_found_in_database);
                     break;
                 case CAPABILITIES_NOT_PARSABLE:
                 default:
@@ -133,15 +138,15 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
                         add(R.string.error_dialog_capabilities_not_parsable);
                     }
             }
+            // Files app might no longer be authenticated: https://github.com/stefan-niedermann/nextcloud-deck/issues/621#issuecomment-665533567
+            add(R.string.error_dialog_tip_clear_storage_might_help);
+            add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
         } else if (throwable instanceof RuntimeException) {
             if (throwable.getMessage() != null && throwable.getMessage().contains("database")) {
                 Intent reportIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.url_report_bug)))
                         .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_report_issue);
                 add(R.string.error_dialog_tip_database_upgrade_failed, reportIntent);
-                Intent clearIntent = new Intent(ACTION_APPLICATION_DETAILS_SETTINGS)
-                        .setData(Uri.parse("package:" + BuildConfig.APPLICATION_ID))
-                        .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_deck_info);
-                add(R.string.error_dialog_tip_clear_storage, clearIntent);
+                add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
             }
         }
     }

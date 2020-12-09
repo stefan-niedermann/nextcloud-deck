@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/account_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/choose_account"
+        tools:listitem="@layout/item_prepare_create_account" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/board_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/choose_board"
+        tools:listitem="@layout/item_board" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/stack_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/choose_list"
+        tools:listitem="@layout/item_board" />
+</LinearLayout>

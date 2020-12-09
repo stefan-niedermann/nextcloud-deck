@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.Px;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,8 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
     final int avatarSize;
     @NonNull
     private final Account account;
+    @Nullable
+    private static final User NOT_ASSIGNED = null;
     @NonNull
     private final List<User> users = new ArrayList<>();
     @NonNull
@@ -30,11 +34,15 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
     @Nullable
     private final SelectionListener<User> selectionListener;
 
-    public FilterUserAdapter(@Px int avatarSize, @NonNull Account account, @NonNull List<User> users, @NonNull List<User> selectedUsers, @Nullable SelectionListener selectionListener) {
+    public FilterUserAdapter(@Px int avatarSize, @NonNull Account account, @NonNull List<User> users, @NonNull List<User> selectedUsers, boolean noAssignedUser, @Nullable SelectionListener<User> selectionListener) {
         super();
         this.avatarSize = avatarSize;
         this.account = account;
+        this.users.add(NOT_ASSIGNED);
         this.users.addAll(users);
+        if (noAssignedUser) {
+            this.selectedUsers.add(NOT_ASSIGNED);
+        }
         this.selectedUsers.addAll(selectedUsers);
         this.selectionListener = selectionListener;
         setHasStableIds(true);
@@ -43,7 +51,8 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
 
     @Override
     public long getItemId(int position) {
-        return users.get(position).getLocalId();
+        @Nullable final User user = users.get(position);
+        return user == null ? -1L : user.getLocalId();
     }
 
     @NonNull
@@ -54,16 +63,16 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder viewHolder, int position) {
-        viewHolder.bind(users.get(position));
+        if (position == 0) {
+            viewHolder.bindNotAssigned();
+        } else {
+            viewHolder.bind(users.get(position));
+        }
     }
 
     @Override
     public int getItemCount() {
         return users.size();
-    }
-
-    public List<User> getSelected() {
-        return selectedUsers;
     }
 
     class UserViewHolder extends RecyclerView.ViewHolder {
@@ -74,22 +83,34 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
             this.binding = binding;
         }
 
-        void bind(final User user) {
-            binding.displayName.setText(user.getDisplayname());
+        void bind(@NonNull final User user) {
+            binding.title.setText(user.getDisplayname());
             ViewUtil.addAvatar(binding.avatar, account.getUrl(), user.getUid(), avatarSize, R.drawable.ic_person_grey600_24dp);
             itemView.setSelected(selectedUsers.contains(user));
+            bindClickListener(user);
+        }
 
+        public void bindNotAssigned() {
+            binding.title.setText(itemView.getContext().getString(R.string.simple_unassigned));
+            Glide.with(itemView.getContext())
+                    .load(R.drawable.ic_baseline_block_24)
+                    .into(binding.avatar);
+            itemView.setSelected(selectedUsers.contains(NOT_ASSIGNED));
+            bindClickListener(NOT_ASSIGNED);
+        }
+
+        private void bindClickListener(@Nullable User user) {
             itemView.setOnClickListener(view -> {
                 if (selectedUsers.contains(user)) {
                     selectedUsers.remove(user);
                     itemView.setSelected(false);
-                    if(selectionListener != null) {
+                    if (selectionListener != null) {
                         selectionListener.onItemDeselected(user);
                     }
                 } else {
                     selectedUsers.add(user);
                     itemView.setSelected(true);
-                    if(selectionListener != null) {
+                    if (selectionListener != null) {
                         selectionListener.onItemSelected(user);
                     }
                 }

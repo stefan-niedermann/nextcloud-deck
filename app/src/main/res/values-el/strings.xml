@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Τελευταίος λογαριασμός</string>
     <string name="drawer_manage_accounts">Διαχείριση λογαριασμών</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Πίνακες</string>
     <string name="simple_add">Προσθήκη</string>
     <string name="simple_save">Αποθήκευση</string>
@@ -38,13 +37,13 @@
     <string name="simple_disabled">απενεργοποιημένο</string>
     <string name="simple_copied">Αντιγράφτηκε</string>
     <string name="simple_archive">Αρχειοθέτηση</string>
+    <string name="simple_unassigned">Χωρίς ανάθεση</string>
 
     <string name="edit_board">Επεξεργασία πίνακα</string>
     <string name="archive_board">Αρχειοθέτηση πίνακα</string>
     <string name="delete_board">Διαγραφή πίνακα</string>
     <string name="delete_something">Διαγραφή %1$s</string>
 
-    <!-- About -->
     <string name="about">Περί</string>
     <string name="about_version_title">Έκδοση</string>
     <string name="about_version">Προς το παρόν χρησιμοποιείτε %1$s</string>
@@ -70,9 +69,6 @@
     <string name="about_credits_tab_title">Μνεία</string>
     <string name="about_contribution_tab_title">Συνεισφορά</string>
     <string name="about_license_tab_title"> Άδεια χρήσης </string>
-
-    <string name="copied_to_clipboard">Αντιγράφηκε στο πρόχειρο</string>
-
     <string name="seconds_ago"> δευτερόλεπτα πριν </string>
     <string name="edit">Επεξεργασία</string>
     <string name="label_labels">Επιλογή Ετικετών</string>
@@ -129,6 +125,7 @@
     <string name="delete_board_message">Μόνιμη διαγραφή πίνακα με όλες τις λίστες και κάρτες.</string>
     <string name="settings_theme_title">Σκούρο θέμα</string>
     <string name="settings_branding_title">Επωνυμία</string>
+    <string name="settings_compact_title">Συμπαγής λειτουργία</string>
     <string name="settings_background_sync">Συγχρονισμός στο παρασκήνιο</string>
     <string name="pref_value_wifi_and_mobile">Συγχρονισμός σε Wi-Fi και δεδομένα κινητού</string>
     <string name="pref_value_wifi_only">Συγχρονισμός μόνο σε Wi-Fi</string>
@@ -156,7 +153,6 @@
     <string name="maintenance_mode_explanation">Ο διακομιστής %1$s είναι σε κατάσταση συντήρησης. Επικοινωνήστε με τον διαχειριστή ή δοκιμάστε αργότερα.</string>
     <string name="share_add_to_card">Προσθήκη στην κάρτα</string>
     <string name="share_success">Επιτυχής προσθήκη %1$s από %2$s</string>
-    <string name="could_not_copy_to_clipboard">Δεν μπορεί να αντιγραφή στο πρόχειρο</string>
     <string name="add_comment">Προσθήκη σχολίου</string>
     <string name="card_edit_comments">Σχόλια</string>
     <string name="no_comments_yet">Δεν υπάρχουν ακόμα σχόλια</string>
@@ -168,11 +164,9 @@
     <string name="open_in_browser">Άνοιγμα στον περιηγητή ιστού</string>
     <string name="updating_card">Ενημέρωση καρτέλας...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Μετακίνηση λίστας δεξιά</string>
     <string name="move_list_left">Μετακίνηση λίστας αριστερά</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">\'Ολα</string>
     <string name="filter_overdue">Εκπρόθεσμος</string>
     <string name="filter_today">Σήμερα</string>
@@ -183,7 +177,6 @@
     <string name="filter_by_assigned_user">Φίλτρο ανά χρήστη</string>
     <string name="filter_by_duedate">Φίλτρο ανά ημερομηνία λήξης</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Αρχειοθετημένες κάρτες</string>
     <string name="action_card_dearchive">Αναίρεση αρχειοθέτησης κάρτας</string>
     <string name="action_archived_cards">Περιήγηση στις αρχειοθετημένες καρτέλες</string>
@@ -198,11 +191,9 @@
     <string name="filter_user_title">Χρήστες</string>
     <string name="filter_duedate_title">Προθεσμία</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Αναίρεση αρχειοθέτησης πίνακα</string>
     <string name="archived_boards">Αρχειοθέτηση πινάκων </string>
 
-    <!-- Errors -->
     <string name="error">Παρουσιάστηκε σφάλμα</string>
     <string name="synchronization_failed">Αποτυχία συγχρονισμού</string>
     <string name="operation_not_yet_supported">Δεν υποστηρίζεται ακόμη</string>
@@ -216,7 +207,8 @@
 
     <string name="error_dialog_title">Ωχ όχι - Τώρα τί; 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Δοκιμάστε τερματισμό της εφαρμογή και επανεκκίνηση. Ίσως υπάρχει λάθος σύνδεση.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">Εάν το πρόβλημα παραμένει, προσπαθήστε να εκκαθαρίσετε τον χώρο αποθήκευσης και των δύο εφαρμογών: του Nextcloud και του Nextcloud Deck για επίλυση.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Εάν το πρόβλημα παραμένει, προσπαθήστε να εκκαθαρίσετε τον χώρο αποθήκευσης και των δύο εφαρμογών: του Nextcloud και του Nextcloud Deck για επίλυση.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Η αναβάθμιση της βάσης δεδομένων απέτυχε. Παρακαλούμε αναφέρετε το πρόβλημα και εκκαθαρίστε τον χώρο αποθήκευσης για να χρησιμοποιήσετε την εφαρμογή κανονικά.</string>
     <string name="error_dialog_tip_clear_storage">Μπορείτε να εκκαθαρίσετε τον χώρο αποθήκευσης από τις πληροφορίες εφαρμογής και επιλέγοντας Αποθηκευτικός χώρος → Εκκαθάριση χώρου αποθήκευσης.</string>
     <string name="error_dialog_tip_files_outdated">Η εφαρμογή Nextcloud δεν είναι ενημερωμένη. Παρακαλούμε επισκεφθείτε το Play Store ή το F-Groid για λήψη της τελευταίας έκδοσης.</string>
     <string name="error_dialog_tip_files_force_stop">Κάτι φαίνεται να πάει στραβά με την εφαρμογή Nextcloud. Προσπαθήστε να τερματίσετε την εφαρμογή Nextcloud και την εφαρμογή Nextcloud Deck.</string>
@@ -230,16 +222,21 @@
     <string name="error_dialog_we_need_info">Χρειαζόμαστε τις ακόλουθες τεχνικές πληροφορίες για να σας βοηθήσουμε:</string>
     <string name="error_dialog_redirect">Ο διακομιστής απάντησε με κωδικό κατάστασης HTTP 302, που σημαίνει, πως δεν έχετε εγκατεστημένη την εφαρμογή Deck στον διακομιστή σας ή υπάρχει λάθος ρύθμιση. Αυτό μπορεί να προκλήθηκε από λάθος καταχώρηση στο αρχείο .htaccess-file ή σε εφαρμογές του Nextcloud όπως την OID Client.</string>
     <string name="error_dialog_version_not_parsable">Δεν μπορέσαμε να προσδιορίσουμε την έκδοση της εφαρμογής Deck του διακομιστή σας. Βεβαιωθείτε ότι είναι εγκατεστημένο και ενεργοποιημένο.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Ο λογαριασμός στην εφαρμογή σας Nextcloud, ίσως δεν έχει πλέον πιστοποίηση.</string>
+    <string name="error_dialog_user_not_found_in_database">Ο τρέχων χρήστης δεν είναι ίδιος με αυτόν που έχουμε καταχωρημένο στη βάση δεδομένων μας. Εάν χρησιμοποιείτε την λειτουρία LDAP στον διακομιστή σας Nextcloud, η εφαρμογή σας ενδέχεται να έχει αποθηκευμένο ένα παλιό αναγνωριστικό χρήστη.</string>
     <string name="error_dialog_capabilities_not_parsable">Δεν ήταν δυνατός ο έλεγχος των δυνατοτήτων του διακομιστή σας. Βεβαιωθείτε ότι ο διακομιστής σας λειτουργεί σωστά και οι εφαρμογές έχουν πρόσβαση στο Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Δεν ήταν δυνατή η μεταφόρτωση ενός συνημμένου. Προσπαθήστε να το διαμοιράσετε με άλλο τρόπο και ενημερώστε μας σχετικά με το σφάλμα.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Παρακαλούμε απενεργοποιήστε όλες τις βελτιστοποιήσεις μπαταρίας για το Nextcloud και την εφαρμογή Deck.</string>
     <string name="error_action_open_deck_info">Πληροφορίες εφαρμογής</string>
     <string name="error_action_open_network">Ρυθμίσεις δικτύου</string>
     <string name="error_action_server_logs">Αρχεία καταγραφής διακομιστή</string>
     <string name="error_action_install">Εγκατάσταση</string>
+    <string name="error_action_report_issue">Αναφορά</string>
     <string name="info_box_maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
     <string name="info_box_version_not_supported">Η έκδοση του διακομιστή %1$s δεν υποστηρίζεται, παρακαλούμε αναβαθμίστε στην %2$s</string>
     <string name="share_link">Διαμοιρασμός συνδέσμου</string>
     <string name="archive_cards">Αρχειοθετημένες κάρτες</string>
+
     <string name="manage_accounts">Διαχείριση λογαριασμών</string>
     <string name="manage_list">Διαχείριση λίστας</string>
     <string name="simple_reply">Απάντηση</string>
@@ -252,4 +249,30 @@
         <item quantity="other">%1$d σφάλματα κατά την μεταφόρτωση</item>
     </plurals>
     <string name="simple_report">Αναφορά</string>
-</resources>
+    <string name="error_action_open_battery_settings">Ρυθμίσεις μπαταρίας</string>
+    <string name="move_warning">Δεν μπορούν να μεταφερθούν τα σχόλια, ούτε τα συνημμένα κατά τη μετακίνηση της κάρτας σε άλλο πίνακα.</string>
+    <string name="clone_board">Κλωνοποίηση πίνακα</string>
+    <string name="cloning_board">Κλωνοποίηση %1$s…</string>
+    <string name="successfully_cloned_board">Επιτυχής κλωνοποίηση %1$s</string>
+    <string name="attachment_does_not_yet_exist">Δεν υπάρχει ακόμα το συνημμένο στο Deck</string>
+    <string name="card_does_not_yet_exist">Η κάρτα δεν υπάρχει ακόμα στο Deck</string>
+
+    <string name="widget_stack_title">Λίστα</string>
+    <string name="widget_stack_header_icon">Εικονίδιο επικεφαλίδας του γραφικού στοιχείου</string>
+    <string name="widget_stack_placeholder_icon">Εικονίδιο θέσης κράτησης του γραφικού στοιχείου</string>
+    <string name="select_stack">Επιλέξτε λίστα</string>
+    <string name="project_type_deck_board">Πίνακας του Deck</string>
+    <string name="project_type_deck_card">Κάρτα του Deck</string>
+    <string name="project_type_file">Αρχείο</string>
+    <string name="projects_title">Projects</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d πόρος</item>
+        <item quantity="other">%1$d πόροι</item>
+    </plurals>
+    <string name="no_assigned_label">Δεν καταχωρήθηκε ετικέτα</string>
+    <string name="single_card">Απλή καρτέλα</string>
+    <string name="project_type_room">Δωμάτιο του Talk </string>
+    <string name="simple_move">Μετακίνηση</string>
+    <string name="cannot_upload_files_without_permission">Δεν μπορείτε να ανεβάσετε αρχεία χωρίς άδεια</string>
+    <string name="simple_unassign">Αποδέσμευση</string>
+    </resources>

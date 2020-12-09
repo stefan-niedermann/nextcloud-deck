@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Последњи налог</string>
     <string name="drawer_manage_accounts">Управљање налозима</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Табле</string>
     <string name="simple_add">Додај</string>
     <string name="simple_save">Сачувај</string>
@@ -38,13 +37,13 @@
     <string name="simple_disabled">искључено</string>
     <string name="simple_copied">Копирано</string>
     <string name="simple_archive">Архива</string>
+    <string name="simple_unassigned">Недодељен</string>
 
     <string name="edit_board">Измени таблу</string>
     <string name="archive_board">Архивирај таблу</string>
     <string name="delete_board">Избриши таблу</string>
     <string name="delete_something">Обриши %1$s</string>
 
-    <!-- About -->
     <string name="about">О програму</string>
     <string name="about_version_title">Верзија</string>
     <string name="about_version">Тренутно користите %1$s</string>
@@ -70,9 +69,6 @@
     <string name="about_credits_tab_title">Заслуге</string>
     <string name="about_contribution_tab_title">Допринос</string>
     <string name="about_license_tab_title">Лиценца</string>
-
-    <string name="copied_to_clipboard">Копирано у клипборд</string>
-
     <string name="seconds_ago">пре неколико секунди</string>
     <string name="edit">Измени</string>
     <string name="label_labels">Одаберите ознаке</string>
@@ -112,6 +108,8 @@
     <string name="not_synced_yet">Још није синхронизовано</string>
     <string name="no_lists_yet">Нема још спискова</string>
     <string name="do_you_want_to_save_your_changes">Да ли желите да сачувате измене?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Да ли желите да архивирате све картице са %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Да ли желите да архивирате све филтриране картице са %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Овим ћете заувек обрисати %1$d картицу са овог списка.</item>
         <item quantity="few">Овим ћете заувек обрисати %1$d картице са овог списка.</item>
@@ -124,12 +122,13 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Додај нови списак користећи + дугме</string>
     <string name="add_a_new_card_using_the_button">Додајте нову картицу на + дугме</string>
-    <string name="update_deck">Ажурирај шпил</string>
+    <string name="update_deck">Ажурирај Шпил</string>
     <string name="your_deck_version_is_too_old">Ваша верзија Шпила је превише стара</string>
     <string name="deck_outdated_please_update">Верзија апликације Шпил је стара (%1$s). Ажурирајте да бисте користили ову Андроид апликацију као клијента.</string>
     <string name="delete_board_message">Ово ће трајно да уклони ову таблу укључујући све спискове и картице.</string>
     <string name="settings_theme_title">Тамна тема</string>
     <string name="settings_branding_title">Брендирање</string>
+    <string name="settings_compact_title">Компактан режим</string>
     <string name="settings_background_sync">Позадинска синхронизација</string>
     <string name="pref_value_wifi_and_mobile">Синхронизуј и на бежичној и на мобилној вези</string>
     <string name="pref_value_wifi_only">Синхронизуј само преко бежичне везе</string>
@@ -157,7 +156,6 @@
     <string name="maintenance_mode_explanation">Сервер %1$s је тренутно у режиму одржавања. Контактирајте администратора или покушајте касније.</string>
     <string name="share_add_to_card">Додај на картицу</string>
     <string name="share_success">Успешно додат %1$s на %2$s</string>
-    <string name="could_not_copy_to_clipboard">Не могу да копирам у оставу</string>
     <string name="add_comment">Додај коментар</string>
     <string name="card_edit_comments">Коментари</string>
     <string name="no_comments_yet">Још нема коментара</string>
@@ -169,11 +167,9 @@
     <string name="open_in_browser">Отвори у прегледачу</string>
     <string name="updating_card">Ажурирам картицу…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Помери списак удесно</string>
     <string name="move_list_left">Помери списак улево</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Све</string>
     <string name="filter_overdue">Прошао рок</string>
     <string name="filter_today">Данас</string>
@@ -184,7 +180,6 @@
     <string name="filter_by_assigned_user">Филтрирај по додељеном кориснику</string>
     <string name="filter_by_duedate">Филтрирај по року</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Архивиране картице</string>
     <string name="action_card_dearchive">Поништи архивирање картице</string>
     <string name="action_archived_cards">Прегледај архивиране картице</string>
@@ -199,11 +194,9 @@
     <string name="filter_user_title">Корисници</string>
     <string name="filter_duedate_title">Рок</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Поништи архивирање табле</string>
     <string name="archived_boards">Архивиране табле</string>
 
-    <!-- Errors -->
     <string name="error">Дошло је до грешке</string>
     <string name="synchronization_failed">Синхронизација није успела</string>
     <string name="operation_not_yet_supported">Није још подржано</string>
@@ -217,7 +210,8 @@
 
     <string name="error_dialog_title">О, не - шта сад? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Покушајте да форсирано затворите апликацију и стартујете је поново. Можда је била неисправна конекција ка Некстклауд апликацији.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">Ако проблем настави да се дешава, пробајте да очистите податке од обе апликације: и Некстклауд и Некстклауд Шпила да бисте решили проблем.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Ако проблем настави да се дешава, пробајте да очистите податке од обе апликације: и Некстклауд и Некстклауд Шпила да бисте решили проблем.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Ажурирање базе није успело. Пријавите овај проблем и очистите складиште да користите апликацију нормално.</string>
     <string name="error_dialog_tip_clear_storage">Складиште можете очистити ако отворите информације о апликацији и бирањем Меморија → Обриши податке.</string>
     <string name="error_dialog_tip_files_outdated">Изгледа да је верзија Некстклауд апликације стара. Посетите Play Store или Ф-дроид да скинете најновију верзију.</string>
     <string name="error_dialog_tip_files_force_stop">Нешто није у реду да Вашом Некстклауд апликацијом. Пробајте да форсирано зауставите обе, и Некстклауд апликацију и апликацију Некстклауд Шпила.</string>
@@ -231,15 +225,62 @@
     <string name="error_dialog_we_need_info">Потребне су нам следеће техничке информација да бисмо Вам помогли:</string>
     <string name="error_dialog_redirect">Сервер је одговорио са HTTP 302 кодом, што значи да немате инсталирану Deck апликацију или да Вам сервер није правилно конфигурисан. Ово може да буде проузорковано произвољним додавањима у .htaccess фајлу или другим Некстклауд апликацијама као што је OID Client.</string>
     <string name="error_dialog_version_not_parsable">Не можемо да одредимо серверску верзију апликације Шпила. Проверите да ли је инсталирана и укључена.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Ваш налог од Некстклауд апликације можда више није ауторизован.</string>
+    <string name="error_dialog_user_not_found_in_database">Тренутни корисник се не поклапа са корисником у нашој бази података. Ако користите LDAP у тренутној Некстклауд сесији, вероватно Вам је Некстклауд апликација сачувала стари кориснички ИД.</string>
     <string name="error_dialog_capabilities_not_parsable">Не можемо да дохватимо могућности Вашег сервера. Проверите да Вам сервер ради добро и да ли друге клијентске апликације могу да му приступе.</string>
+    <string name="error_dialog_attachment_upload_failed">Прилог није могао бити отпремљен. Молимо пробајте да га поделите на други начин и пријавите нам ову грешку.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Искључите све оптимизације батерије за Некстаклауд и Шпил апликације.</string>
     <string name="error_action_open_deck_info">Отвори инфо о апликацији</string>
     <string name="error_action_open_network">Поставке мреже</string>
     <string name="error_action_server_logs">Дневник са сервера</string>
     <string name="error_action_install">Инсталирај</string>
+    <string name="error_action_report_issue">Пријави</string>
     <string name="info_box_maintenance_mode">Сервер у режиму одржавања</string>
     <string name="info_box_version_not_supported">Серверска верзија %1$s није подржана, ажурирајте на %2$s</string>
     <string name="share_link">Веза дељења</string>
+    <string name="archive_cards">Архивирај картице</string>
+
     <string name="manage_accounts">Управљање налозима</string>
+    <string name="manage_list">Управљај списком</string>
     <string name="simple_reply">Одговори</string>
+    <string name="error_while_uploading_attachment">Грешка приликом отпремања прилога: %1$s</string>
+    <string name="append_text_to_description">Придодај на опис</string>
+    <string name="add_text_as_comment">Додај као коментар</string>
+    <string name="progress_count">%1$d од %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d грешка приликом отпремања</item>
+        <item quantity="few">%1$d грешке приликом отпремања</item>
+        <item quantity="other">%1$d грешака приликом отпремања</item>
+    </plurals>
     <string name="simple_report">Пријави</string>
-</resources>
+    <string name="error_action_open_battery_settings">Подешавања батерије</string>
+    <string name="move_warning">Ни коментари ни прилози не могу да се пребаце када се картица помера на другу таблу.</string>
+    <string name="clone_board">Клонирај таблу</string>
+    <string name="cloning_board">Клонирам %1$s…</string>
+    <string name="successfully_cloned_board">Успешно клониран %1$s</string>
+    <string name="attachment_does_not_yet_exist">Прилог још не постоји у Шпил апликацији</string>
+    <string name="card_does_not_yet_exist">Картица још не постоји у Шпил апликацији</string>
+
+    <string name="widget_stack_title">Излистај</string>
+    <string name="widget_stack_header_icon">Заглавње иконице виџета</string>
+    <string name="widget_stack_placeholder_icon">Иконица виџета</string>
+    <string name="select_stack">Одабир списка</string>
+    <string name="project_type_deck_board">Табла Шпила</string>
+    <string name="project_type_deck_card">Картица Шпила</string>
+    <string name="project_type_file">Фајл</string>
+    <string name="projects_title">Пројекти</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d ресурс</item>
+        <item quantity="few">%1$d ресурси</item>
+        <item quantity="other">%1$d ресурси</item>
+    </plurals>
+    <string name="no_assigned_label">Нема додељене ознаке</string>
+    <string name="single_card">Засебна картица</string>
+    <string name="project_type_room">Причаоница</string>
+    <string name="simple_move">Помери</string>
+    <string name="cannot_upload_files_without_permission">Не могу да отпремим фајлове без дозвола</string>
+    <string name="clone_cards">Клонирај картице</string>
+    <string name="simple_clone">Клонирај</string>
+    <string name="user_avatar">Кориснички аватар</string>
+    <string name="simple_unassign">Уклони доделу</string>
+    </resources>

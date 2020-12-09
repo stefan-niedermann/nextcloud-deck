@@ -43,7 +43,6 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
     private static final String KEY_BOARD_ID = "board_id";
 
     private long boardId;
-    private SyncManager syncManager;
     private UserAutoCompleteAdapter userAutoCompleteAdapter;
     private AccessControlAdapter adapter;
 
@@ -75,10 +74,9 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         adapter = new AccessControlAdapter(viewModel.getCurrentAccount(), this, requireContext());
         binding.peopleList.setAdapter(adapter);
 
-        syncManager = new SyncManager(requireActivity());
-        syncManager.getFullBoardById(viewModel.getCurrentAccount().getId(), boardId).observe(this, (FullBoard fullBoard) -> {
+        viewModel.getFullBoardById(viewModel.getCurrentAccount().getId(), boardId).observe(this, (FullBoard fullBoard) -> {
             if (fullBoard != null) {
-                syncManager.getAccessControlByLocalBoardId(viewModel.getCurrentAccount().getId(), boardId).observe(this, (List<AccessControl> accessControlList) -> {
+                viewModel.getAccessControlByLocalBoardId(viewModel.getCurrentAccount().getId(), boardId).observe(this, (List<AccessControl> accessControlList) -> {
                     final AccessControl ownerControl = new AccessControl();
                     ownerControl.setLocalId(HEADER_ITEM_LOCAL_ID);
                     ownerControl.setUser(fullBoard.getOwner());
@@ -103,15 +101,20 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
 
     @Override
     public void updateAccessControl(AccessControl accessControl) {
-        syncManager.updateAccessControl(accessControl);
+        WrappedLiveData<AccessControl> updateLiveData = viewModel.updateAccessControl(accessControl);
+        observeOnce(updateLiveData, requireActivity(), (next) -> {
+            if (updateLiveData.hasError()) {
+                ExceptionDialogFragment.newInstance(updateLiveData.getError(), viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+        });
     }
 
     @Override
     public void deleteAccessControl(AccessControl ac) {
-        final WrappedLiveData<Void> wrappedDeleteLiveData = syncManager.deleteAccessControl(ac);
+        final WrappedLiveData<Void> wrappedDeleteLiveData = viewModel.deleteAccessControl(ac);
         adapter.remove(ac);
         observeOnce(wrappedDeleteLiveData, this, (ignored) -> {
-            if (wrappedDeleteLiveData.hasError()) {
+            if (wrappedDeleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(wrappedDeleteLiveData.getError())) {
                 DeckLog.logError(wrappedDeleteLiveData.getError());
                 BrandedSnackbar.make(requireView(), getString(R.string.error_revoking_ac, ac.getUser().getDisplayname()), Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(wrappedDeleteLiveData.getError(), viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
@@ -129,7 +132,12 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         ac.setType(0L); // https://github.com/nextcloud/deck/blob/master/docs/API.md#post-boardsboardidacl---add-new-acl-rule
         ac.setUserId(user.getLocalId());
         ac.setUser(user);
-        syncManager.createAccessControl(viewModel.getCurrentAccount().getId(), ac);
+        final WrappedLiveData<AccessControl> createLiveData = viewModel.createAccessControl(viewModel.getCurrentAccount().getId(), ac);
+        observeOnce(createLiveData, this, (next) -> {
+            if (createLiveData.hasError()) {
+                ExceptionDialogFragment.newInstance(createLiveData.getError(), viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+        });
         binding.people.setText("");
         userAutoCompleteAdapter.exclude(user);
     }

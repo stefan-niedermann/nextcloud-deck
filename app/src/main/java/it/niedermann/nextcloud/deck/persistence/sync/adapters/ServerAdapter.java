@@ -13,18 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 
+import com.nextcloud.android.sso.api.ParsedResponse;
+
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.api.RequestHelper;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.AccessControl;
@@ -39,11 +35,12 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectList;
+import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.model.propagation.Reorder;
-import it.niedermann.nextcloud.deck.util.DateUtil;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -53,18 +50,11 @@ import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 
 public class ServerAdapter {
 
-    private String prefKeyWifiOnly;
-
-    private static final DateFormat API_FORMAT =
-            new SimpleDateFormat("E, dd MMM yyyy hh:mm:ss z", Locale.US);
-
-    static {
-        API_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT"));
-    }
+    private final String prefKeyWifiOnly;
 
     @NonNull
-    private Context applicationContext;
-    private ApiProvider provider;
+    private final Context applicationContext;
+    private final ApiProvider provider;
 
     public ServerAdapter(@NonNull Context applicationContext) {
         this(applicationContext, null);
@@ -135,32 +125,35 @@ public class ServerAdapter {
 //        return lastSyncHeader;
     }
 
-    // TODO not used
-    private Date getLastSync(long accountId) {
-        Date lastSync = DateUtil.nowInGMT();
-        lastSync.setTime(LastSyncUtil.getLastSync(accountId));
-
-        return lastSync;
-    }
-
-    public void getBoards(IResponseCallback<List<FullBoard>> responseCallback) {
+    public void getBoards(IResponseCallback<ParsedResponse<List<FullBoard>>> responseCallback) {
         RequestHelper.request(provider, () ->
-                        provider.getDeckAPI().getBoards(true, getLastSyncDateFormatted(responseCallback.getAccount().getId())),
+                        provider.getDeckAPI().getBoards(true, getLastSyncDateFormatted(responseCallback.getAccount().getId()), responseCallback.getAccount().getBoardsEtag()),
                 responseCallback);
     }
 
-    public void getCapabilities(IResponseCallback<Capabilities> responseCallback) {
+    public void getCapabilities(String eTag, IResponseCallback<ParsedResponse<Capabilities>> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(provider, () -> provider.getNextcloudAPI().getCapabilities(), responseCallback);
-    }
-    public void getAllOcsUsers(IResponseCallback<OcsUserList> responseCallback) {
-        ensureInternetConnection();
-        RequestHelper.request(provider, () -> provider.getNextcloudAPI().getAllUsers(), responseCallback);
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().getCapabilities(eTag), responseCallback);
     }
 
-    public void getOcsUserDetails(String ocsUserName, IResponseCallback<OcsUser> responseCallback) {
+    public void getProjectsForCard(long remoteCardId, IResponseCallback<OcsProjectList> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(provider, () -> provider.getNextcloudAPI().getUserDetails(ocsUserName), responseCallback);
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().getProjectsForCard(remoteCardId), responseCallback);
+    }
+
+    public void searchUser(String searchTerm, IResponseCallback<OcsUserList> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().searchUser(searchTerm), responseCallback);
+    }
+
+    public void getSingleUserData(String userUid, IResponseCallback<OcsUser> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().getSingleUserData(userUid), responseCallback);
+    }
+
+    public void searchGroupMembers(String groupUID, IResponseCallback<GroupMemberUIDs> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().searchGroupMembers(groupUID), responseCallback);
     }
 
     public void getActivitiesForCard(long cardId, IResponseCallback<List<it.niedermann.nextcloud.deck.model.ocs.Activity>> responseCallback) {

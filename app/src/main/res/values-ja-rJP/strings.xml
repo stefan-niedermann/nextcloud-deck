@@ -8,7 +8,6 @@
     <string name="drawer_end_account">最後のアカウント</string>
     <string name="drawer_manage_accounts">アカウント管理</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">ボード</string>
     <string name="simple_add">追加</string>
     <string name="simple_save">保存</string>
@@ -38,13 +37,13 @@
     <string name="simple_disabled">無効</string>
     <string name="simple_copied">コピーしました</string>
     <string name="simple_archive">アーカイブ</string>
+    <string name="simple_unassigned">未割り当て</string>
 
     <string name="edit_board">ボードを編集</string>
     <string name="archive_board">ボードをアーカイブ</string>
     <string name="delete_board">ボードを削除</string>
     <string name="delete_something">%1$sを削除</string>
 
-    <!-- About -->
     <string name="about">バージョン情報</string>
     <string name="about_version_title">バージョン</string>
     <string name="about_version">現在%1$sを使用しています</string>
@@ -70,9 +69,6 @@
     <string name="about_credits_tab_title">クレジット</string>
     <string name="about_contribution_tab_title">貢献</string>
     <string name="about_license_tab_title">ライセンス</string>
-
-    <string name="copied_to_clipboard">クリップボードにコピーされました</string>
-
     <string name="seconds_ago">数秒前</string>
     <string name="edit">編集</string>
     <string name="label_labels">タグを選択..</string>
@@ -113,6 +109,7 @@
     <string name="no_lists_yet">まだリストがありません</string>
     <string name="do_you_want_to_save_your_changes">変更を保存しますか？</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">%1$s の全カードをアーカイブしますか？</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">%1$s のフィルターされた全カードをアーカイブしますか？</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="other">このリストの%1$dのカードすべてが完全に削除されます。</item>
     </plurals>
@@ -127,6 +124,7 @@
     <string name="delete_board_message">このボードと含まれるすべてのリストやカードは完全に削除されます．</string>
     <string name="settings_theme_title">ダークテーマ</string>
     <string name="settings_branding_title">ブランディング</string>
+    <string name="settings_compact_title">コンパクトモード</string>
     <string name="settings_background_sync">バックグラウンド同期</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fiおよびモバイル接続時に同期する</string>
     <string name="pref_value_wifi_only">Wi-Fi接続時のみ同期する</string>
@@ -154,7 +152,6 @@
     <string name="maintenance_mode_explanation">サーバー%1$sは現在メンテナンスモードです。管理者に問い合わせるか後で試してください。</string>
     <string name="share_add_to_card">カードに追加</string>
     <string name="share_success">%1$sを%2$sに追加できました</string>
-    <string name="could_not_copy_to_clipboard">クリップボードにコピーできませんでした</string>
     <string name="add_comment">コメントを追加</string>
     <string name="card_edit_comments">コメント</string>
     <string name="no_comments_yet">コメントはまだありません</string>
@@ -166,11 +163,9 @@
     <string name="open_in_browser">ブラウザーで開く</string>
     <string name="updating_card">カードの更新中...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">リストを右に移動</string>
     <string name="move_list_left">リストを左に移動</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">すべて</string>
     <string name="filter_overdue">期限超過</string>
     <string name="filter_today">今日</string>
@@ -181,7 +176,6 @@
     <string name="filter_by_assigned_user">割当ユーザーでフィルター</string>
     <string name="filter_by_duedate">期限でフィルター</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">カードをアーカイブ</string>
     <string name="action_card_dearchive">カードのアーカイブを元に戻す</string>
     <string name="action_archived_cards">アーカイブされたカードをブラウズする</string>
@@ -196,11 +190,9 @@
     <string name="filter_user_title">ユーザー</string>
     <string name="filter_duedate_title">期限</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">ボードのアーカイブを元に戻す</string>
     <string name="archived_boards">アーカイブ済みのボード</string>
 
-    <!-- Errors -->
     <string name="error">エラーが見つかりました</string>
     <string name="synchronization_failed">同期に失敗</string>
     <string name="operation_not_yet_supported">未サポート</string>
@@ -214,7 +206,8 @@
 
     <string name="error_dialog_title">おやまあ、どうしたことでしょう？🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">アプリの強制終了と再起動を試みてください。Nextcloudアプリへの接続が正しくない接続があったかも知れません。</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">この問題が続くようでしたら、下記両方のアプリでストレージをクリアして問題が解決できるか試してください：Nextcloud と Nextcloud Deck</string>
+    <string name="error_dialog_tip_clear_storage_might_help">この問題が続くようでしたら、下記両方のアプリでストレージをクリアして問題が解決できるか試してください：Nextcloud と Nextcloud Deck</string>
+    <string name="error_dialog_tip_database_upgrade_failed">データベースのアップグレードに失敗しました。問題を報告し、ストレージを初期化してアプリを正常に使用できるようにしてください</string>
     <string name="error_dialog_tip_clear_storage">以下の方法でストレージをクリアできます：アプリ情報→ストレージ→ストレージをクリア.</string>
     <string name="error_dialog_tip_files_outdated">Nextcloudアプリが古いようです。プレイストアかF-Droidから最新版を入手してください。</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloudアプリで何か不具合が発生しました。NextcloudアプリとNextcloud Deckアプリの両方を強制終了してください。</string>
@@ -228,17 +221,76 @@
     <string name="error_dialog_we_need_info">サポートには下記技術情報が必要です：</string>
     <string name="error_dialog_redirect">サーバがHTTPステータスコード 302を返しました。これはDeckアプリがインストールされていないか、構成が誤っていることを意味します。.htaccessファイルのカスタムオーバーライドやOIDクライアントのようなNextcloudアプリが原因の可能性があります。</string>
     <string name="error_dialog_version_not_parsable">サーバー側のDeckアプリのバージョンを判別できませんでした。Deckアプリがインストール，有効化されていることを確認してください。</string>
+    <string name="error_dialog_account_might_not_be_authorized">Nextcloudアプリのアカウントが認証されていない可能性があります。</string>
+    <string name="error_dialog_user_not_found_in_database">現在のユーザーは、データベースに登録されているユーザーと一致しません。NextcloudインスタンスでLDAPを使用している場合、Nextcloudアプリに古いユーザーIDが保存されている可能性があります。</string>
     <string name="error_dialog_capabilities_not_parsable">サーバーの機能を取得できませんでした。サーバーが正常に動作しており、他のクライアントアプリがNextcloudにアクセスできることを確認してください。</string>
+    <string name="error_dialog_attachment_upload_failed">添付ファイルをアップロードできませんでした。別の方法で共有してみてください。
+また、このバグについて報告してください。</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">NextcloudとDeckアプリのバッテリー最適化をすべて無効にしてください。</string>
     <string name="error_action_open_deck_info">アプリ情報を開く</string>
     <string name="error_action_open_network">ネットワーク設定</string>
     <string name="error_action_server_logs">サーバーログ</string>
     <string name="error_action_install">インストール</string>
+    <string name="error_action_report_issue">報告</string>
     <string name="info_box_maintenance_mode">サーバーはメンテナンスモードです。</string>
     <string name="info_box_version_not_supported">サーバーのバージョン%1$sはサポートしていませんので、%2$sにアップデートしてください。</string>
     <string name="share_link">URLで共有</string>
     <string name="archive_cards">カードをアーカイブ</string>
+
     <string name="manage_accounts">アカウント管理</string>
     <string name="manage_list">リスト管理</string>
     <string name="simple_reply">返信</string>
+    <string name="error_while_uploading_attachment">%1$s添付ファイルのアップロード中にエラーが発生しました</string>
+    <string name="append_text_to_description">説明を追加</string>
+    <string name="add_text_as_comment">コメントとして追加</string>
+    <string name="progress_count">%1$dの%2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="other">%1$dアップロード中にエラーが発生しました。</item>
+    </plurals>
     <string name="simple_report">報告</string>
+    <string name="error_action_open_battery_settings">バッテリー設定</string>
+    <string name="move_warning">カードを別のボードに移動する際に、コメントや添付ファイルを転送することはできません。</string>
+    <string name="clone_board">ボードを複製</string>
+    <string name="cloning_board">%1$sを複製しています...</string>
+    <string name="successfully_cloned_board">%1$sの複製に成功しました</string>
+    <string name="attachment_does_not_yet_exist">添付ファイルはDeckには存在しません</string>
+    <string name="card_does_not_yet_exist">カードはDeckには存在しません</string>
+
+    <string name="widget_stack_title">リスト</string>
+    <string name="widget_stack_header_icon">ウィジェットのヘッダーアイコン</string>
+    <string name="widget_stack_placeholder_icon">ウィジェットの代替アイコン</string>
+    <string name="select_stack">リストを選択</string>
+    <string name="project_type_deck_board">Deckボード</string>
+    <string name="project_type_deck_card">Deckカード</string>
+    <string name="project_type_file">ファイル</string>
+    <string name="projects_title">プロジェクト</string>
+    <plurals name="resources_count">
+        <item quantity="other">%1$dリソース</item>
+    </plurals>
+    <string name="no_assigned_label">割り当てられたタグはありません</string>
+    <string name="single_card">1つのカード</string>
+    <string name="project_type_room">トークルーム</string>
+    <string name="simple_move">移動</string>
+    <string name="cannot_upload_files_without_permission">権限が無いためアップロードできません</string>
+    <string name="clone_cards">カードを複製</string>
+    <string name="simple_clone">複製</string>
+    <string name="user_avatar">ユーザーのアバター</string>
+    <string name="simple_unassign">割り当てを解除</string>
+    <string name="simple_contact">連絡先</string>
+    <string name="simple_file">ファイル</string>
+    <string name="simple_camera">カメラ</string>
+    <string name="min_api_21">この機能には少なくともAndroid5以上が必要です。</string>
+    <string name="take_photo">写真を撮る</string>
+    <string name="take_photo_switch_camera">カメラ切替</string>
+    <string name="take_photo_toggle_torch">フラッシュを切替</string>
+    <string name="show_all_contacts">すべての連絡先を表示</string>
+    <string name="show_all_files">すべてのファイルを表示</string>
+    <string name="recent">最近</string>
+    <string name="upload_a_new_attachment">新しい添付をアップロードする</string>
+    <string name="contacts">連絡先</string>
+    <string name="downloads">ダウンロード</string>
+    <string name="files">ファイル</string>
+    <string name="gallery">ギャラリー</string>
+    <string name="simple_attach">参加</string>
+    <string name="add_stack_widget">リストのウィジェットを追加</string>
 </resources>

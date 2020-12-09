@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Останній обліковий запис</string>
     <string name="drawer_manage_accounts">Облікові записи</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Дошки</string>
     <string name="simple_add">Додати</string>
     <string name="simple_save">Зберегти</string>
@@ -38,13 +37,13 @@
     <string name="simple_disabled">вимкнено</string>
     <string name="simple_copied">Скопійовано</string>
     <string name="simple_archive">Архів</string>
+    <string name="simple_unassigned">Скасовано призначення</string>
 
     <string name="edit_board">Редагувати дошку</string>
     <string name="archive_board">Архівувати дошку</string>
     <string name="delete_board">Вилучити дошку</string>
     <string name="delete_something">Вилучити %1$s</string>
 
-    <!-- About -->
     <string name="about">Про програму</string>
     <string name="about_version_title">Версія</string>
     <string name="about_version">Ви використовуєте%1$s</string>
@@ -70,9 +69,6 @@
     <string name="about_credits_tab_title">Подяки</string>
     <string name="about_contribution_tab_title">Внесок</string>
     <string name="about_license_tab_title">Ліцензія</string>
-
-    <string name="copied_to_clipboard">Скопійовано</string>
-
     <string name="seconds_ago">секунд тому</string>
     <string name="edit">Редагувати</string>
     <string name="label_labels">Вибрати позначки</string>
@@ -112,6 +108,7 @@
     <string name="not_synced_yet">Поки не синхронізовано</string>
     <string name="no_lists_yet">Поки що відсутні списки</string>
     <string name="do_you_want_to_save_your_changes">Зберегти зміни?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Дійсно заархівувати всі картки з %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Це вилучіть %1$d картку з цього списку.</item>
         <item quantity="few">Це вилучіть усі %1$d карток з цього списку.</item>
@@ -159,7 +156,6 @@
     <string name="maintenance_mode_explanation">Зараз сервер %1$s у режимі технічного обслуговування. Будь ласка, сконтактуйте з вашим адміністратором або спробуйте пізніше.</string>
     <string name="share_add_to_card">Додати до картки</string>
     <string name="share_success">Успішно додано %1$s до %2$s</string>
-    <string name="could_not_copy_to_clipboard">Неможливо скопіювати</string>
     <string name="add_comment">Додати коментар</string>
     <string name="card_edit_comments">Коментарі</string>
     <string name="no_comments_yet">Коментарі відсутні</string>
@@ -171,11 +167,9 @@
     <string name="open_in_browser">Відкрити у переглядачі</string>
     <string name="updating_card">Оновлюю картку...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Пересунути список праворуч</string>
     <string name="move_list_left">Пересунути список ліворуч</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Всі</string>
     <string name="filter_overdue">Протерміновано</string>
     <string name="filter_today">Сьогодні</string>
@@ -186,7 +180,6 @@
     <string name="filter_by_assigned_user">Відібрати за призначеним користувачем</string>
     <string name="filter_by_duedate">Відібрати за датою завершення</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Заархівовані картки</string>
     <string name="action_card_dearchive">Скасувати архівування картки</string>
     <string name="action_archived_cards">Перегляд заархівованих карток</string>
@@ -201,11 +194,9 @@
     <string name="filter_user_title">Користувачі</string>
     <string name="filter_duedate_title">Дата завершення</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Скасувати архівування дошки</string>
     <string name="archived_boards">Архівовані дошки</string>
 
-    <!-- Errors -->
     <string name="error">Сталася помилка </string>
     <string name="synchronization_failed">Синхронізація не вдалася</string>
     <string name="operation_not_yet_supported">Ще не підтримується</string>
@@ -215,17 +206,49 @@
     <string name="server_misconfigured">Сервер налаштовано некоректно</string>
     <string name="server_error">Помилка серверу</string>
     <string name="shared_error">Спільний доступ до вмісту з інших застосунків ще не підтримується повністю. Будь ласка, спробуйте спочатку звантажити цей вміст, а потім поділитися ним через вбудований менеджер файлів або галерею.</string>
+    <string name="error_edit_activity_killed_by_android">Android вивантажив режим редагування через нестачу системних ресурсів.</string>
+
     <string name="error_dialog_title">От халепа!</string>
     <string name="error_dialog_tip_token_mismatch_retry">Спробуйте примусово закрити застосунок та наново запустити. Можливо, встановлено неправильне з\'єднання із застосунком Nextcloud.</string>
+    <string name="error_dialog_tip_clear_storage">Ви можете очистити сховище, відкривши інформацію про програму та вибравши Пам’ять → Очистити пам’ять.</string>
+    <string name="error_dialog_tip_files_outdated">Ваш додаток Nextcloud здається застарілим. Будь ласка, відвідайте Play Маркет або F-Droid, щоб отримати останню версію.</string>
+    <string name="error_dialog_tip_files_delete_storage">Якщо примусове їх завершення не допомагає, спробуйте очистити сховище обох програм.</string>
+    <string name="error_dialog_timeout_instance">За відведений час відповіді від вашого сервера не надійшло. Переконайтесь, що ваш сервер працює добре.</string>
+    <string name="error_dialog_check_server_logs">Виникла проблема з налаштуванням Nextcloud. Будь ласка, подивіться файли журналу сервера.</string>
+    <string name="error_dialog_check_maintenance">Будь ласка, перевірте, чи ваш сервер Nextcloud наразі не перебуває в режимі обслуговування.</string>
     <string name="error_dialog_insufficient_storage">Ваш сервер Nextcloud не має вільного місця. Будь ласка видаліть деякі файлі, щоб синхронізувати ваші локальні зміни з вашим хмарним сховищем.</string>
+    <string name="error_dialog_we_need_info">Нам потрібна наступна технічна інформація, щоб допомогти вам:</string>
     <string name="error_action_open_deck_info">Відкрити інформацію про застосунок</string>
     <string name="error_action_open_network">Налаштування мережі</string>
     <string name="error_action_server_logs">Журнал сервера</string>
     <string name="error_action_install">Встановити</string>
+    <string name="error_action_report_issue">Звіт</string>
     <string name="info_box_maintenance_mode">Сервер у режимі обслуговування</string>
     <string name="info_box_version_not_supported">Версія сервера %1$s не підтримується, будь ласка, поновіться до %2$s</string>
     <string name="share_link">Поширити посилання</string>
+    <string name="archive_cards">Архівувати картки</string>
+
     <string name="manage_accounts">Облікові записи</string>
+    <string name="manage_list">Керувати списком</string>
     <string name="simple_reply">Відповісти</string>
+    <string name="error_while_uploading_attachment">Помилка під час завантаження вкладення: %1$s</string>
+    <string name="append_text_to_description">Додати до опису</string>
+    <string name="add_text_as_comment">Додати коментар</string>
+    <string name="progress_count">%1$d з %2$d</string>
     <string name="simple_report">Звіт</string>
-</resources>
+    <string name="error_action_open_battery_settings">Налаштування батареї</string>
+    <string name="move_warning">У разі переміщення картки до іншої дошки коментарі та вкладення не буде перенесено.</string>
+    <string name="clone_board">Копіювати дошку</string>
+    <string name="cloning_board">Копіювання %1$s...</string>
+    <string name="successfully_cloned_board">Успішно скопійовано %1$s</string>
+    <string name="attachment_does_not_yet_exist">Вкладення поки відсутнє у застосунку</string>
+    <string name="card_does_not_yet_exist">Картка поки відсутня у застосунку</string>
+
+    <string name="widget_stack_title">Список</string>
+    <string name="widget_stack_header_icon">Піктограма заголовку віджету</string>
+    <string name="widget_stack_placeholder_icon">Піктограма поля віджету</string>
+    <string name="select_stack">Виберіть список</string>
+    <string name="project_type_file">Файл</string>
+    <string name="projects_title">Проєкти</string>
+    <string name="simple_move">Перемістити</string>
+    </resources>

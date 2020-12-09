@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Darrer compte</string>
     <string name="drawer_manage_accounts">Gestiona els comptes</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Taulells</string>
     <string name="simple_add">Afegeix</string>
     <string name="simple_save">Desa</string>
@@ -38,13 +37,13 @@
     <string name="simple_disabled">Desactivat</string>
     <string name="simple_copied">Copiat</string>
     <string name="simple_archive">Arxiu</string>
+    <string name="simple_unassigned">Sense assignar</string>
 
     <string name="edit_board">Edita el tauler</string>
     <string name="archive_board">Arxiva el tauler</string>
     <string name="delete_board">Suprimeix el tauler</string>
     <string name="delete_something">Elimina %1$s</string>
 
-    <!-- About -->
     <string name="about">Quant a</string>
     <string name="about_version_title">Versió</string>
     <string name="about_version">Esteu fent servir %1$s</string>
@@ -70,9 +69,6 @@
     <string name="about_credits_tab_title">Crèdits</string>
     <string name="about_contribution_tab_title">Contribució</string>
     <string name="about_license_tab_title">Llicència</string>
-
-    <string name="copied_to_clipboard">S\'ha copiat al porta-retalls</string>
-
     <string name="seconds_ago">fa uns segons</string>
     <string name="edit">Edita</string>
     <string name="label_labels">Selecciona etiquetes</string>
@@ -129,6 +125,7 @@
     <string name="delete_board_message">Això suprimirà permanentment aquest tauler, incloent-hi totes les llistes i targetes.</string>
     <string name="settings_theme_title">Tema fosc</string>
     <string name="settings_branding_title">Marcatge</string>
+    <string name="settings_compact_title">Mode compacte</string>
     <string name="settings_background_sync">Sincronització en segon pla</string>
     <string name="pref_value_wifi_and_mobile">Sincronitza per Wi-Fi i dades mòbils</string>
     <string name="pref_value_wifi_only">Sincronitza només per Wi-Fi</string>
@@ -156,7 +153,6 @@
     <string name="maintenance_mode_explanation">El servidor %1$s és actualment en mode de manteniment. Si us plau, contacteu el vostre administrador o proveu de nou més tard.</string>
     <string name="share_add_to_card">Afegeix a la targeta</string>
     <string name="share_success">S\'ha afegit amb èxit %1$s a %2$s</string>
-    <string name="could_not_copy_to_clipboard">No s\'ha pogut copiar al porta-retalls</string>
     <string name="add_comment">Afegeix un comentari</string>
     <string name="card_edit_comments">Comentaris</string>
     <string name="no_comments_yet">Encara no hi ha comentaris</string>
@@ -168,11 +164,9 @@
     <string name="open_in_browser">Obre al navegador</string>
     <string name="updating_card">S\'està actualitzant la targeta...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Mou la llista a la dreta</string>
     <string name="move_list_left">Mou la llista a l\'esquerra</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Totes</string>
     <string name="filter_overdue">Endarrerit</string>
     <string name="filter_today">Avui</string>
@@ -183,7 +177,6 @@
     <string name="filter_by_assigned_user">Filtra per usuari assignat</string>
     <string name="filter_by_duedate">Filtra per data de venciment</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Targetes arxivades</string>
     <string name="action_card_dearchive">Desfés l\'arxivament de la targeta</string>
     <string name="action_archived_cards">Navega per les targetes arxivades</string>
@@ -198,11 +191,9 @@
     <string name="filter_user_title">Usuaris</string>
     <string name="filter_duedate_title">Data de venciment</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Desfés l\'arxivament del tauler</string>
     <string name="archived_boards">Taulers arxivats</string>
 
-    <!-- Errors -->
     <string name="error">S\'ha produït un error</string>
     <string name="synchronization_failed">Ha fallat la sincronització</string>
     <string name="operation_not_yet_supported">Encara no està suportat</string>
@@ -216,7 +207,8 @@
 
     <string name="error_dialog_title">Oh no! - I ara què? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Si us plau, mireu de forçar el tancament de l\'aplicació i reiniciar-la de nou. Hi deu haver hagut una connexió incorrecta a l\'aplicació Nextcloud.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">Si el problema persisteix, mireu de netejar l\'emmagatzematge de totes dues aplicacions: Nextcloud i Nextcloud Deck per tal de resoldre el problema.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Si el problema persisteix, mireu de netejar l\'emmagatzematge de totes dues aplicacions: Nextcloud i Nextcloud Deck per tal de resoldre el problema.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Ha fallat l\'actualització de la base de dades. Informeu del problema i esborreu l\'emmagatzematge per utilitzar l\'aplicació normalment.</string>
     <string name="error_dialog_tip_clear_storage">Podeu netejar l\'emmagatzematge obrint la informació de l\'aplicació i seleccionant Emmagatzematge → Neteja l\'emmagatzematge.</string>
     <string name="error_dialog_tip_files_outdated">La vostra aplicació Nextcloud sembla que està obsoleta. Si us plau, visiteu la Play Store o l\'F-Droid per tal d\'aconseguir la darrera versió.</string>
     <string name="error_dialog_tip_files_force_stop">Sembla que alguna cosa està malament a la vostra aplicació Nextcloud. Si us plau, intenteu forçar l\'aturada tant de l\'aplicació Nextcloud com de l\'aplicació Nextcloud Deck.</string>
@@ -230,17 +222,57 @@
     <string name="error_dialog_we_need_info">Ens cal la següent informació tècnica per poder-vos ajudar:</string>
     <string name="error_dialog_redirect">El vostre servidor ha respost amb un codi d\'estat HTTP 302, que vol dir que no teniu instal·lada l\'aplicació Deck al vostre servidor o que alguna cosa està mal configurada. Això pot estar causat per una sobreescriptura a .htaccess-file o per aplicacions de Nextcloud com  OID Client.</string>
     <string name="error_dialog_version_not_parsable">No hem pogut determinar la versió de l\'aplicació Deck de la part del servidor. Si us plau, assegureu-vos que està instal·lada i habilitada.</string>
+    <string name="error_dialog_account_might_not_be_authorized">És possible que el compte de la vostra aplicació Nextcloud ja no estigui autoritzat.</string>
+    <string name="error_dialog_user_not_found_in_database">L’usuari actual no coincideix amb l’usuari que tenim a la nostra base de dades. Si feu servir LDAP a la vostra instància de Nextcloud, és possible que l\'aplicació Nextcloud hagi emmagatzemat un ID d\'usuari antic.</string>
     <string name="error_dialog_capabilities_not_parsable">No podem recuperar les capacitats del vostre servidor. Si us plau, assegureu-vos que el servidor funciona bé i que altres aplicacions de client poden accedir al Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">No s\'ha pogut carregar un fitxer adjunt. Proveu de compartir-ho d’una altra manera i informeu-nos d’aquest error.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Desactiveu totes les optimitzacions de bateries de Nextcloud i l\'aplicació Deck.</string>
     <string name="error_action_open_deck_info">Obre la informació de l\'aplicació</string>
     <string name="error_action_open_network">Arranjaments de xarxa</string>
     <string name="error_action_server_logs">Bitàcoles del servidor</string>
     <string name="error_action_install">Instal·lació</string>
+    <string name="error_action_report_issue">Informar</string>
     <string name="info_box_maintenance_mode">Servidor en mode de manteniment</string>
     <string name="info_box_version_not_supported">La versió del servidor %1$s no està suportada, si us plau, actualitzeu a %2$s.</string>
     <string name="share_link">Enllaç de compartició</string>
     <string name="archive_cards">Arxiva les targetes</string>
+
     <string name="manage_accounts">Gestiona els comptes</string>
     <string name="manage_list">Gestiona la llista</string>
     <string name="simple_reply">Respon</string>
+    <string name="error_while_uploading_attachment">S\'ha produït un error en penjar el fitxer adjunt: %1$s</string>
+    <string name="append_text_to_description">Apunteu a la descripció</string>
+    <string name="add_text_as_comment">Afegir com a comentari</string>
+    <string name="progress_count">%1$d de %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d error durant la càrrega</item>
+        <item quantity="other">%1$d errors durant la càrrega</item>
+    </plurals>
     <string name="simple_report">Informar</string>
-</resources>
+    <string name="error_action_open_battery_settings">Paràmetres de la bateria</string>
+    <string name="move_warning">Ni es poden transferir comentaris ni fitxers adjunts quan es mogui la targeta a un altre tauler.</string>
+    <string name="clone_board">Clonar tauler</string>
+    <string name="cloning_board">Clonant %1$s ...</string>
+    <string name="successfully_cloned_board">S\'ha clonat amb èxit %1$s</string>
+    <string name="attachment_does_not_yet_exist">Encara no existeix el fitxer adjunt al Deck</string>
+    <string name="card_does_not_yet_exist">La targeta encara no existeix al Deck</string>
+
+    <string name="widget_stack_title">Llista</string>
+    <string name="widget_stack_header_icon">Icona de capçalera de widget</string>
+    <string name="widget_stack_placeholder_icon">Icona de marcador de lloc de widget</string>
+    <string name="select_stack">Seleccionar llista</string>
+    <string name="project_type_deck_board">Tauler de Deck</string>
+    <string name="project_type_deck_card">Targeta de Deck</string>
+    <string name="project_type_file">Fitxer</string>
+    <string name="projects_title">Projectes</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d recursos</item>
+        <item quantity="other">%1$d recursos</item>
+    </plurals>
+    <string name="no_assigned_label">Sense etiqueta assignada</string>
+    <string name="single_card">Targeta única</string>
+    <string name="project_type_room">Sala de xerrades</string>
+    <string name="simple_move">Mou</string>
+    <string name="cannot_upload_files_without_permission">No es poden pujar fitxers sense permís</string>
+    <string name="simple_unassign">No ho assignis</string>
+    </resources>
