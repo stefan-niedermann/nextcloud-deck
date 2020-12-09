@@ -288,10 +288,12 @@
     <string name="take_photo_toggle_torch">Allumer la lampe</string>
     <string name="show_all_contacts">Afficher toutes les contacts</string>
     <string name="show_all_files">Afficher tous les fichiers</string>
+    <string name="recent">Récent</string>
     <string name="upload_a_new_attachment">Envoyer une nouvelle pièce jointe</string>
     <string name="contacts">Contacts</string>
     <string name="downloads">Téléchargements</string>
     <string name="files">Fichiers</string>
     <string name="gallery">Galerie</string>
     <string name="simple_attach">joindre</string>
-    </resources>
+    <string name="add_stack_widget">Ajouter un widget liste</string>
+</resources>

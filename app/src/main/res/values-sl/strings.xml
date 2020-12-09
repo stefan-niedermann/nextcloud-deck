@@ -303,4 +303,5 @@
     <string name="files">Datoteke</string>
     <string name="gallery">Galerija</string>
     <string name="simple_attach">pripni</string>
-    </resources>
+    <string name="add_stack_widget">Dodaj gradnik seznama</string>
+</resources>
