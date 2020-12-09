@@ -46,7 +46,6 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabDetailsBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDatePickerDialog;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
@@ -69,7 +68,6 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
 
     private FragmentCardEditTabDetailsBinding binding;
     private EditCardViewModel viewModel;
-    private SyncManager syncManager;
     private AssigneeAdapter adapter;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
@@ -94,7 +92,6 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                              ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentCardEditTabDetailsBinding.inflate(inflater, container, false);
-
         viewModel = new ViewModelProvider(activity).get(EditCardViewModel.class);
 
         // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
@@ -104,10 +101,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
             return binding.getRoot();
         }
 
-        syncManager = new SyncManager(requireContext());
-
-        @Px
-        final int avatarSize = DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.avatar_size);
+        @Px final int avatarSize = DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.avatar_size);
         final LinearLayout.LayoutParams avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
         avatarLayoutParams.setMargins(0, 0, DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.spacer_1x), 0);
 
@@ -239,7 +233,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                     newLabel.setBoardId(boardId);
                     newLabel.setTitle(((LabelAutoCompleteAdapter) binding.labels.getAdapter()).getLastFilterText());
                     newLabel.setLocalId(null);
-                    WrappedLiveData<Label> createLabelLiveData = syncManager.createLabel(accountId, newLabel, boardId);
+                    WrappedLiveData<Label> createLabelLiveData = viewModel.createLabel(accountId, newLabel, boardId);
                     observeOnce(createLabelLiveData, CardDetailsFragment.this, createdLabel -> {
                         if (createLabelLiveData.hasError()) {
                             DeckLog.logError(createLabelLiveData.getError());

@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
 
@@ -21,11 +22,11 @@ import it.niedermann.nextcloud.deck.databinding.ActivityPickStackBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackFragment;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackListener;
+import it.niedermann.nextcloud.deck.ui.pickstack.PickStackViewModel;
 
 import static androidx.lifecycle.Transformations.switchMap;
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
@@ -36,8 +37,7 @@ import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSuf
 public abstract class PickStackActivity extends AppCompatActivity implements Branded, PickStackListener {
 
     protected ActivityPickStackBinding binding;
-
-    protected SyncManager syncManager;
+    protected PickStackViewModel viewModel;
 
     private boolean brandingEnabled;
 
@@ -55,14 +55,14 @@ public abstract class PickStackActivity extends AppCompatActivity implements Bra
         brandingEnabled = isBrandingEnabled(this);
 
         binding = ActivityPickStackBinding.inflate(getLayoutInflater());
+        viewModel = new ViewModelProvider(this).get(PickStackViewModel.class);
+
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
-        syncManager = new SyncManager(this);
-
-        switchMap(syncManager.hasAccounts(), hasAccounts -> {
+        switchMap(viewModel.hasAccounts(), hasAccounts -> {
             if (hasAccounts) {
-                return syncManager.readAccounts();
+                return viewModel.readAccounts();
             } else {
                 startActivityForResult(new Intent(this, ImportAccountActivity.class), ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT);
                 return null;
@@ -89,11 +89,7 @@ public abstract class PickStackActivity extends AppCompatActivity implements Bra
             binding.submit.setEnabled(false);
         } else {
             applyBrand(board.getColor());
-            if (stack == null) {
-                binding.submit.setEnabled(false);
-            } else {
-                binding.submit.setEnabled(true);
-            }
+            binding.submit.setEnabled(stack != null);
         }
     }
 

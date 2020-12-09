@@ -112,7 +112,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     @ColorInt
     private int primaryColor;
 
-    private SyncManager syncManager;
     private CardAttachmentAdapter adapter;
 
     private AbstractPickerAdapter<?> pickerAdapter;
@@ -154,7 +153,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             return binding.getRoot();
         }
 
-        syncManager = new SyncManager(requireContext());
         adapter = new CardAttachmentAdapter(
                 getChildFragmentManager(),
                 requireActivity().getMenuInflater(),
@@ -466,7 +464,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         editViewModel.getFullCard().getAttachments().add(0, a);
         adapter.addAttachment(a);
         if (!editViewModel.isCreateMode()) {
-            WrappedLiveData<Attachment> liveData = syncManager.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload);
+            WrappedLiveData<Attachment> liveData = editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload);
             observeOnce(liveData, getViewLifecycleOwner(), (next) -> {
                 if (liveData.hasError()) {
                     Throwable t = liveData.getError();
@@ -524,7 +522,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         adapter.removeAttachment(attachment);
         editViewModel.getFullCard().getAttachments().remove(attachment);
         if (!editViewModel.isCreateMode() && attachment.getLocalId() != null) {
-            final WrappedLiveData<Void> deleteLiveData = syncManager.deleteAttachmentOfCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), attachment.getLocalId());
+            final WrappedLiveData<Void> deleteLiveData = editViewModel.deleteAttachmentOfCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), attachment.getLocalId());
             observeOnce(deleteLiveData, this, (next) -> {
                 if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
                     ExceptionDialogFragment.newInstance(deleteLiveData.getError(), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());

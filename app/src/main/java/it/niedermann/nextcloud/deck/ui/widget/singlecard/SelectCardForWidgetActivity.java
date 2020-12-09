@@ -45,7 +45,7 @@ public class SelectCardForWidgetActivity extends MainActivity implements SelectC
 
     @Override
     public void onCardSelected(FullCard fullCard) {
-        syncManager.addOrUpdateSingleCardWidget(appWidgetId, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId(), fullCard.getLocalId());
+        mainViewModel.addOrUpdateSingleCardWidget(appWidgetId, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId(), fullCard.getLocalId());
         final Intent updateIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null,
                 getApplicationContext(), SingleCardWidget.class)
                 .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);

@@ -88,11 +88,11 @@ import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 public class SyncManager {
 
     @NonNull
-    private Context appContext;
+    private final Context appContext;
     @NonNull
-    private DataBaseAdapter dataBaseAdapter;
+    private final DataBaseAdapter dataBaseAdapter;
     @NonNull
-    private ServerAdapter serverAdapter;
+    private final ServerAdapter serverAdapter;
 
     private static final Map<Long, List<IResponseCallback<Boolean>>> RUNNING_SYNCS = new ConcurrentHashMap<>();
 
@@ -119,7 +119,7 @@ public class SyncManager {
         return dataBaseAdapter.getLocalBoardIdByCardRemoteIdAndAccountId(cardRemoteId, account.getId());
     }
 
-    @AnyThread
+    @WorkerThread
     public boolean synchronizeEverything() {
         List<Account> accounts = dataBaseAdapter.getAllAccountsDirectly();
         if (accounts.size() > 0) {
@@ -348,23 +348,20 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<Account> createAccount(@NonNull Account accout) {
-        return dataBaseAdapter.createAccount(accout);
+    public WrappedLiveData<Account> createAccount(@NonNull Account account) {
+        return dataBaseAdapter.createAccount(account);
     }
 
     public boolean hasInternetConnection() {
         return serverAdapter.hasInternetConnection();
     }
 
+    @AnyThread
     public void deleteAccount(long id) {
         doAsync(() -> {
             dataBaseAdapter.deleteAccount(id);
             LastSyncUtil.resetLastSyncDate(id);
         });
-    }
-
-    public void updateAccount(Account account) {
-        dataBaseAdapter.updateAccount(account);
     }
 
     @AnyThread
@@ -590,6 +587,7 @@ public class SyncManager {
                 String found = matcher.group();
                 newBoardTitleBaseName = newBoardTitleBaseName.substring(0, newBoardTitleBaseName.length() - found.length());
                 Matcher indexMatcher = Pattern.compile("[0-9]+").matcher(found);
+                //noinspection ResultOfMethodCallIgnored
                 indexMatcher.find();
                 String oldIndexString = indexMatcher.group();
                 newBoardTitleCopyIndex = Integer.parseInt(oldIndexString);
@@ -956,24 +954,22 @@ public class SyncManager {
 
     @AnyThread
     private void updateStack(@NonNull Account account, @NonNull FullBoard board, @NonNull FullStack stack, @Nullable WrappedLiveData<FullStack> liveData) {
-        doAsync(() -> {
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new StackDataProvider(null, board), stack, new IResponseCallback<FullStack>(account) {
-                @Override
-                public void onResponse(FullStack response) {
-                    if (liveData != null) {
-                        liveData.postValue(response);
-                    }
+        doAsync(() -> new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new StackDataProvider(null, board), stack, new IResponseCallback<FullStack>(account) {
+            @Override
+            public void onResponse(FullStack response) {
+                if (liveData != null) {
+                    liveData.postValue(response);
                 }
+            }
 
-                @SuppressLint("MissingSuperCall")
-                @Override
-                public void onError(Throwable throwable) {
-                    if (liveData != null) {
-                        liveData.postError(throwable);
-                    }
+            @SuppressLint("MissingSuperCall")
+            @Override
+            public void onError(Throwable throwable) {
+                if (liveData != null) {
+                    liveData.postError(throwable);
                 }
-            });
-        });
+            }
+        }));
     }
 
     /**
@@ -1319,36 +1315,35 @@ public class SyncManager {
     public WrappedLiveData<Void> moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
         return LiveDataHelper.wrapInLiveData(() -> {
 
-            FullCard originalCard = dataBaseAdapter.getFullCardByLocalIdDirectly(originAccountId, originCardLocalId);
+            final FullCard originalCard = dataBaseAdapter.getFullCardByLocalIdDirectly(originAccountId, originCardLocalId);
             int newIndex = dataBaseAdapter.getHighestCardOrderInStack(targetStackLocalId) + 1;
-            FullBoard originalBoard = dataBaseAdapter.getFullBoardByLocalCardIdDirectly(originCardLocalId);
+            final FullBoard originalBoard = dataBaseAdapter.getFullBoardByLocalCardIdDirectly(originCardLocalId);
             // ### maybe shortcut possible? (just moved to another stack)
             if (targetBoardLocalId == originalBoard.getLocalId()) {
                 reorder(originAccountId, originalCard, targetStackLocalId, newIndex);
                 return null;
             }
             // ### get rid of original card where it is now.
-            Card originalInnerCard = originalCard.getCard();
+            final Card originalInnerCard = originalCard.getCard();
             deleteCard(new Card(originalInnerCard));
             // ### clone card itself
-            Card targetCard = originalInnerCard;
-            targetCard.setAccountId(targetAccountId);
-            targetCard.setId(null);
-            targetCard.setLocalId(null);
-            targetCard.setStatusEnum(DBStatus.LOCAL_EDITED);
-            targetCard.setStackId(targetStackLocalId);
-            targetCard.setOrder(newIndex);
-            targetCard.setArchived(false);
-            targetCard.setAttachmentCount(0);
-            targetCard.setCommentsUnread(0);
-            FullCard fullCardForServerPropagation = new FullCard();
-            fullCardForServerPropagation.setCard(targetCard);
+            originalInnerCard.setAccountId(targetAccountId);
+            originalInnerCard.setId(null);
+            originalInnerCard.setLocalId(null);
+            originalInnerCard.setStatusEnum(DBStatus.LOCAL_EDITED);
+            originalInnerCard.setStackId(targetStackLocalId);
+            originalInnerCard.setOrder(newIndex);
+            originalInnerCard.setArchived(false);
+            originalInnerCard.setAttachmentCount(0);
+            originalInnerCard.setCommentsUnread(0);
+            final FullCard fullCardForServerPropagation = new FullCard();
+            fullCardForServerPropagation.setCard(originalInnerCard);
 
-            Account targetAccount = dataBaseAdapter.getAccountByIdDirectly(targetAccountId);
-            FullBoard targetBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, targetBoardLocalId);
-            FullStack targetFullStack = dataBaseAdapter.getFullStackByLocalIdDirectly(targetStackLocalId);
-            User userOfTargetAccount = dataBaseAdapter.getUserByUidDirectly(targetAccountId, targetAccount.getUserName());
-            CountDownLatch latch = new CountDownLatch(1);
+            final Account targetAccount = dataBaseAdapter.getAccountByIdDirectly(targetAccountId);
+            final FullBoard targetBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, targetBoardLocalId);
+            final FullStack targetFullStack = dataBaseAdapter.getFullStackByLocalIdDirectly(targetStackLocalId);
+            final User userOfTargetAccount = dataBaseAdapter.getUserByUidDirectly(targetAccountId, targetAccount.getUserName());
+            final CountDownLatch latch = new CountDownLatch(1);
             ServerAdapter serverToUse = serverAdapter;
             if (originAccountId != targetAccountId) {
                 serverToUse = new ServerAdapter(appContext, targetAccount.getName());
@@ -1356,8 +1351,8 @@ public class SyncManager {
             new DataPropagationHelper(serverToUse, dataBaseAdapter).createEntity(new CardPropagationDataProvider(null, targetBoard.getBoard(), targetFullStack), fullCardForServerPropagation, new IResponseCallback<FullCard>(targetAccount) {
                 @Override
                 public void onResponse(FullCard response) {
-                    targetCard.setId(response.getId());
-                    targetCard.setLocalId(response.getLocalId());
+                    originalInnerCard.setId(response.getId());
+                    originalInnerCard.setLocalId(response.getLocalId());
                     latch.countDown();
                 }
 
@@ -1380,7 +1375,7 @@ public class SyncManager {
                 throw new RuntimeException("error fulfilling countDownLatch", e);
             }
 
-            long newCardId = targetCard.getLocalId();
+            long newCardId = originalInnerCard.getLocalId();
 
             // ### clone labels, assign them
             // prepare
@@ -1389,7 +1384,7 @@ public class SyncManager {
             List<AccessControl> aclOfTargetBoard = dataBaseAdapter.getAccessControlByLocalBoardIdDirectly(targetAccountId, targetBoard.getLocalId());
             if (!hasManagePermission) {
                 for (AccessControl accessControl : aclOfTargetBoard) {
-                    if (accessControl.getUserId() == userOfTargetAccount.getLocalId() && accessControl.isPermissionManage()) {
+                    if (accessControl.getUserId().equals(userOfTargetAccount.getLocalId()) && accessControl.isPermissionManage()) {
                         hasManagePermission = true;
                         break;
                     }
@@ -1416,7 +1411,7 @@ public class SyncManager {
                         createAndAssignLabelToCard(targetBoard.getAccountId(), originalLabel, newCardId, serverToUse);
                     }
                 } else {
-                    assignLabelToCard(existingMatch, targetCard, serverToUse);
+                    assignLabelToCard(existingMatch, originalInnerCard, serverToUse);
                 }
             }
 
@@ -1429,7 +1424,7 @@ public class SyncManager {
                     boolean hasViewPermission = targetBoard.getBoard().getOwnerId() == assignedUser.getLocalId();
                     if (!hasViewPermission) {
                         for (AccessControl accessControl : aclOfTargetBoard) {
-                            if (accessControl.getUserId() == userOfTargetAccount.getLocalId()) {
+                            if (accessControl.getUserId().equals(userOfTargetAccount.getLocalId())) {
                                 // ACL exists, so viewing is granted
                                 hasViewPermission = true;
                                 break;
@@ -1437,7 +1432,7 @@ public class SyncManager {
                         }
                     }
                     if (hasViewPermission) {
-                        assignUserToCard(assignedUser, targetCard);
+                        assignUserToCard(assignedUser, originalInnerCard);
                     }
                 }
             }
@@ -1469,9 +1464,7 @@ public class SyncManager {
                 public void onError(Throwable throwable) {
                     liveData.postError(throwable);
                 }
-            }, (entity, response) -> {
-                response.setBoardId(board.getLocalId());
-            });
+            }, (entity, response) -> response.setBoardId(board.getLocalId()));
         });
         return liveData;
     }
@@ -1683,10 +1676,6 @@ public class SyncManager {
 
     public LiveData<List<Label>> searchNotYetAssignedLabelsByTitle(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, @NonNull String searchTerm) {
         return dataBaseAdapter.searchNotYetAssignedLabelsByTitle(accountId, boardId, notYetAssignedToLocalCardId, searchTerm);
-    }
-
-    public String getServerUrl() {
-        return serverAdapter.getServerUrl();
     }
 
     /**

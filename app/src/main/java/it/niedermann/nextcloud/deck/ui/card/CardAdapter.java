@@ -33,6 +33,7 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
+import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.movecard.MoveCardDialogFragment;
@@ -46,16 +47,10 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
 
     private final boolean compactMode;
     @NonNull
-    protected final SyncManager syncManager;
+    protected final MainViewModel mainViewModel;
     @NonNull
     protected final FragmentManager fragmentManager;
-    @NonNull
-    protected final Account account;
-    @Nullable
-    protected final Long boardRemoteId;
-    private final long boardLocalId;
     private final long stackId;
-    protected final boolean hasEditPermission;
     @NonNull
     private final Context context;
     @Nullable
@@ -69,20 +64,16 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
     @ColorInt
     protected int mainColor;
     @StringRes
-    private int shareLinkRes;
+    private final int shareLinkRes;
 
-    public CardAdapter(@NonNull Context context, @NonNull FragmentManager fragmentManager, @NonNull Account account, long boardLocalId, @Nullable Long boardRemoteId, long stackId, boolean hasEditPermission, @NonNull SyncManager syncManager, @NonNull LifecycleOwner lifecycleOwner, @Nullable SelectCardListener selectCardListener) {
+    public CardAdapter(@NonNull Context context, @NonNull FragmentManager fragmentManager, long stackId, @NonNull MainViewModel mainViewModel, @NonNull LifecycleOwner lifecycleOwner, @Nullable SelectCardListener selectCardListener) {
         this.context = context;
         this.counterMaxValue = context.getString(R.string.counter_max_value);
         this.fragmentManager = fragmentManager;
         this.lifecycleOwner = lifecycleOwner;
-        this.account = account;
-        this.shareLinkRes = account.getServerDeckVersionAsObject().getShareLinkResource();
-        this.boardLocalId = boardLocalId;
-        this.boardRemoteId = boardRemoteId;
+        this.shareLinkRes = mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().getShareLinkResource();
         this.stackId = stackId;
-        this.hasEditPermission = hasEditPermission;
-        this.syncManager = syncManager;
+        this.mainViewModel = mainViewModel;
         this.selectCardListener = selectCardListener;
         this.mainColor = ContextCompat.getColor(context, R.color.defaultBrand);
         this.compactMode = getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.pref_key_compact), false);
@@ -97,15 +88,12 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
     @NonNull
     @Override
     public AbstractCardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        switch (viewType) {
-            case R.layout.item_card_compact:
-                return new CompactCardViewHolder(ItemCardCompactBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
-            case R.layout.item_card_default_only_title:
-                return new DefaultCardOnlyTitleViewHolder(ItemCardDefaultOnlyTitleBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
-            case R.layout.item_card_default:
-            default:
-                return new DefaultCardViewHolder(ItemCardDefaultBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
+        if (viewType == R.layout.item_card_compact) {
+            return new CompactCardViewHolder(ItemCardCompactBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
+        } else if (viewType == R.layout.item_card_default_only_title) {
+            return new DefaultCardOnlyTitleViewHolder(ItemCardDefaultOnlyTitleBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
         }
+        return new DefaultCardViewHolder(ItemCardDefaultBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
     }
 
     @Override
@@ -127,12 +115,12 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
     @Override
     public void onBindViewHolder(@NonNull AbstractCardViewHolder viewHolder, int position) {
         @NonNull FullCard fullCard = cardList.get(position);
-        viewHolder.bind(fullCard, account, boardRemoteId, hasEditPermission, R.menu.card_menu, this, counterMaxValue, mainColor);
+        viewHolder.bind(fullCard, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardRemoteId(), mainViewModel.currentBoardHasEditPermission(), R.menu.card_menu, this, counterMaxValue, mainColor);
 
         // Only enable details view if there is no one waiting for selecting a card.
         viewHolder.bindCardClickListener((v) -> {
             if (selectCardListener == null) {
-                context.startActivity(EditActivity.createEditCardIntent(context, account, boardLocalId, fullCard.getLocalId()));
+                context.startActivity(EditActivity.createEditCardIntent(context, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), fullCard.getLocalId()));
             } else {
                 selectCardListener.onCardSelected(fullCard);
             }
@@ -194,47 +182,44 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
 
     @Override
     public boolean onCardOptionsItemSelected(@NonNull MenuItem menuItem, @NonNull FullCard fullCard) {
-        switch (menuItem.getItemId()) {
-            case R.id.share_link: {
-                Intent shareIntent = new Intent()
-                        .setAction(Intent.ACTION_SEND)
-                        .setType(TEXT_PLAIN)
-                        .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
-                        .putExtra(Intent.EXTRA_TITLE, fullCard.getCard().getTitle())
-                        .putExtra(Intent.EXTRA_TEXT, account.getUrl() + context.getString(shareLinkRes, boardRemoteId, fullCard.getCard().getId()));
-                context.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
-            }
-            case R.id.action_card_assign: {
-                new Thread(() -> syncManager.assignUserToCard(syncManager.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard())).start();
-                return true;
-            }
-            case R.id.action_card_unassign: {
-                new Thread(() -> syncManager.unassignUserFromCard(syncManager.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard())).start();
-                return true;
-            }
-            case R.id.action_card_move: {
-                DeckLog.verbose("[Move card] Launch move dialog for " + Card.class.getSimpleName() + " \"" + fullCard.getCard().getTitle() + "\" (#" + fullCard.getLocalId() + ") from " + Stack.class.getSimpleName() + " #" + +stackId);
-                MoveCardDialogFragment.newInstance(fullCard.getAccountId(), boardLocalId, fullCard.getCard().getTitle(), fullCard.getLocalId()).show(fragmentManager, MoveCardDialogFragment.class.getSimpleName());
-                return true;
-            }
-            case R.id.action_card_archive: {
-                final WrappedLiveData<FullCard> archiveLiveData = syncManager.archiveCard(fullCard);
-                observeOnce(archiveLiveData, lifecycleOwner, (v) -> {
-                    if (archiveLiveData.hasError()) {
-                        ExceptionDialogFragment.newInstance(archiveLiveData.getError(), account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
-                    }
-                });
-                return true;
-            }
-            case R.id.action_card_delete: {
-                final WrappedLiveData<Void> deleteLiveData = syncManager.deleteCard(fullCard.getCard());
-                observeOnce(deleteLiveData, lifecycleOwner, (v) -> {
-                    if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
-                        ExceptionDialogFragment.newInstance(deleteLiveData.getError(), account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
-                    }
-                });
-                return true;
-            }
+        int itemId = menuItem.getItemId();
+        final Account account = mainViewModel.getCurrentAccount();
+        if (itemId == R.id.share_link) {
+            Intent shareIntent = new Intent()
+                    .setAction(Intent.ACTION_SEND)
+                    .setType(TEXT_PLAIN)
+                    .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
+                    .putExtra(Intent.EXTRA_TITLE, fullCard.getCard().getTitle())
+                    .putExtra(Intent.EXTRA_TEXT, account.getUrl() + context.getString(shareLinkRes, mainViewModel.getCurrentBoardRemoteId(), fullCard.getCard().getId()));
+            context.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
+            new Thread(() -> mainViewModel.assignUserToCard(mainViewModel.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard())).start();
+            return true;
+        } else if (itemId == R.id.action_card_assign) {
+            new Thread(() -> mainViewModel.assignUserToCard(mainViewModel.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard())).start();
+            return true;
+        } else if (itemId == R.id.action_card_unassign) {
+            new Thread(() -> mainViewModel.unassignUserFromCard(mainViewModel.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard())).start();
+            return true;
+        } else if (itemId == R.id.action_card_move) {
+            DeckLog.verbose("[Move card] Launch move dialog for " + Card.class.getSimpleName() + " \"" + fullCard.getCard().getTitle() + "\" (#" + fullCard.getLocalId() + ") from " + Stack.class.getSimpleName() + " #" + +stackId);
+            MoveCardDialogFragment.newInstance(fullCard.getAccountId(), mainViewModel.getCurrentBoardLocalId(), fullCard.getCard().getTitle(), fullCard.getLocalId()).show(fragmentManager, MoveCardDialogFragment.class.getSimpleName());
+            return true;
+        } else if (itemId == R.id.action_card_archive) {
+            final WrappedLiveData<FullCard> archiveLiveData = mainViewModel.archiveCard(fullCard);
+            observeOnce(archiveLiveData, lifecycleOwner, (v) -> {
+                if (archiveLiveData.hasError()) {
+                    ExceptionDialogFragment.newInstance(archiveLiveData.getError(), account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
+                }
+            });
+            return true;
+        } else if (itemId == R.id.action_card_delete) {
+            final WrappedLiveData<Void> deleteLiveData = mainViewModel.deleteCard(fullCard.getCard());
+            observeOnce(deleteLiveData, lifecycleOwner, (v) -> {
+                if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
+                    ExceptionDialogFragment.newInstance(deleteLiveData.getError(), account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
+                }
+            });
+            return true;
         }
         return true;
     }

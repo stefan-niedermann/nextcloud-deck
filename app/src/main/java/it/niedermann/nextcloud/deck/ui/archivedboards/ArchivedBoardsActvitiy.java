@@ -33,7 +33,6 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
     private MainViewModel viewModel;
     private ActivityArchivedBinding binding;
     private ArchivedBoardsAdapter adapter;
-    private SyncManager syncManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,10 +57,9 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         viewModel.setCurrentAccount(account);
-        syncManager = new SyncManager(this);
 
         adapter = new ArchivedBoardsAdapter(viewModel.isCurrentAccountIsSupportedVersion(), getSupportFragmentManager(), (board) -> {
-            final WrappedLiveData<FullBoard> liveData = syncManager.dearchiveBoard(board);
+            final WrappedLiveData<FullBoard> liveData = viewModel.dearchiveBoard(board);
             observeOnce(liveData, this, (fullBoard) -> {
                 if (liveData.hasError()) {
                     ExceptionDialogFragment.newInstance(liveData.getError(), viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
@@ -70,7 +68,7 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
         });
         binding.recyclerView.setAdapter(adapter);
 
-        syncManager.getBoards(account.getId(), true).observe(this, (boards) -> {
+        viewModel.getBoards(account.getId(), true).observe(this, (boards) -> {
             viewModel.setCurrentAccountHasArchivedBoards(boards != null && boards.size() > 0);
             adapter.setBoards(boards == null ? Collections.emptyList() : boards);
         });
@@ -91,7 +89,7 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
 
     @Override
     public void onBoardDeleted(Board board) {
-        final WrappedLiveData<Void> deleteLiveData = syncManager.deleteBoard(board);
+        final WrappedLiveData<Void> deleteLiveData = viewModel.deleteBoard(board);
         observeOnce(deleteLiveData, this, (next) -> {
             if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
                 ExceptionDialogFragment.newInstance(deleteLiveData.getError(), viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
@@ -101,7 +99,7 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
 
     @Override
     public void onUpdateBoard(FullBoard fullBoard) {
-        final WrappedLiveData<FullBoard> updateLiveData = syncManager.updateBoard(fullBoard);
+        final WrappedLiveData<FullBoard> updateLiveData = viewModel.updateBoard(fullBoard);
         observeOnce(updateLiveData, this, (next) -> {
             if (updateLiveData.hasError()) {
                 ExceptionDialogFragment.newInstance(updateLiveData.getError(), viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
@@ -111,7 +109,7 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
 
     @Override
     public void onArchive(Board board) {
-        final WrappedLiveData<FullBoard> liveData = syncManager.dearchiveBoard(board);
+        final WrappedLiveData<FullBoard> liveData = viewModel.dearchiveBoard(board);
         observeOnce(liveData, this, (fullBoard) -> {
             if (liveData.hasError()) {
                 ExceptionDialogFragment.newInstance(liveData.getError(), viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
