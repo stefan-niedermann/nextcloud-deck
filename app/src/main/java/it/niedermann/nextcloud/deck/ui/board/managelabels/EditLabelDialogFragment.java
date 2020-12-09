@@ -65,7 +65,7 @@ public class EditLabelDialogFragment extends BrandedDialogFragment {
         String title = this.label.getTitle();
         binding.input.setText(title);
         binding.input.setSelection(title.length());
-        binding.colorChooser.selectColor(String.format("#%06X", (0xFFFFFF & this.label.getColor())));
+        binding.colorChooser.selectColor(this.label.getColor());
 
         return dialogBuilder
                 .setView(binding.getRoot())

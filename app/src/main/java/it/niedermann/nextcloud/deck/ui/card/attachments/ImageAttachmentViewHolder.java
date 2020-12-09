@@ -18,7 +18,7 @@ import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 
 public class ImageAttachmentViewHolder extends AttachmentViewHolder {
-    private ItemAttachmentImageBinding binding;
+    private final ItemAttachmentImageBinding binding;
 
     @SuppressWarnings("WeakerAccess")
     public ImageAttachmentViewHolder(ItemAttachmentImageBinding binding) {
@@ -37,16 +37,17 @@ public class ImageAttachmentViewHolder extends AttachmentViewHolder {
     }
 
     public void bind(@NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull FragmentManager fragmentManager, Long cardRemoteId, Attachment attachment, @Nullable View.OnClickListener onClickListener, @ColorInt int mainColor) {
-        @Nullable final String uri = AttachmentUtil.getRemoteOrLocalUrl(account.getUrl(), cardRemoteId, attachment);
+        super.bind(menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, mainColor, AttachmentUtil.getRemoteOrLocalUrl(account.getUrl(), cardRemoteId, attachment));
 
-        super.bind(menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, mainColor, uri);
+        getPreview().post(() -> {
+            @Nullable final String uri = AttachmentUtil.getThumbnailUrl(account.getServerDeckVersionAsObject(), account.getUrl(), cardRemoteId, attachment, getPreview().getWidth());
+            Glide.with(getPreview().getContext())
+                    .load(uri)
+                    .placeholder(R.drawable.ic_image_grey600_24dp)
+                    .error(R.drawable.ic_image_grey600_24dp)
+                    .into(getPreview());
+        });
 
-        getPreview().setImageResource(R.drawable.ic_image_grey600_24dp);
-        Glide.with(getPreview().getContext())
-                .load(uri)
-                .placeholder(R.drawable.ic_image_grey600_24dp)
-                .error(R.drawable.ic_image_grey600_24dp)
-                .into(getPreview());
         itemView.setOnClickListener(onClickListener);
     }
 }

@@ -7,8 +7,8 @@ android {
         applicationId "it.niedermann.nextcloud.deck"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 1012000
-        versionName "1.12.0"
+        versionCode 1013000
+        versionName "1.13.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         javaCompileOptions {
@@ -68,9 +68,9 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
-    implementation "androidx.camera:camera-camera2:1.0.0-beta11"
-    implementation "androidx.camera:camera-lifecycle:1.0.0-beta11"
-    implementation "androidx.camera:camera-view:1.0.0-alpha18"
+    implementation "androidx.camera:camera-camera2:1.0.0-beta12"
+    implementation "androidx.camera:camera-lifecycle:1.0.0-beta12"
+    implementation "androidx.camera:camera-view:1.0.0-alpha19"
 
     implementation 'id.zelory:compressor:3.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.10"
@@ -113,8 +113,6 @@ dependencies {
     // --- Backend-Libraries ---
     // -------------------------
 
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.10'
-
     // Room components
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
     annotationProcessor "androidx.room:room-compiler:$rootProject.roomVersion"
@@ -131,7 +129,7 @@ dependencies {
     // -----------------------
 
     implementation 'androidx.multidex:multidex:2.0.1'
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.0'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
 
     // -------------
     // --- Tests ---

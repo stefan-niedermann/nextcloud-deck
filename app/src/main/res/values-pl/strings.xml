@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Ostatnie konto</string>
     <string name="drawer_manage_accounts">Zarządzaj kontami</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Tablice</string>
     <string name="simple_add">Dodaj</string>
     <string name="simple_save">Zapisz</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Usuń tablicę</string>
     <string name="delete_something">Usuń %1$s</string>
 
-    <!-- About -->
     <string name="about">O aplikacji</string>
     <string name="about_version_title">Wersja</string>
     <string name="about_version">Aktualnie używasz %1$s</string>
@@ -58,11 +56,11 @@
     <string name="about_source_title">Kod źródłowy</string>
     <string name="about_source">Projekt jest hostowany na GitHub: %1$s</string>
     <string name="about_issues_title">Problemy</string>
-    <string name="about_issues">Możesz zgłaszać błędy, propozycje ulepszeń i prośby o funkcje na GitHub: %1$s</string>
+    <string name="about_issues">Możesz zgłaszać błędy, propozycje ulepszeń i prośby o funkcje w liście problemów na GitHub: %1$s</string>
     <string name="about_translate_title">Tłumaczyć</string>
     <string name="about_translate">Dołącz do zespołu Nextcloud na Transifex i pomóż nam przetłumaczyć tę aplikację: %1$s</string>
     <string name="about_app_license_title">Licencja</string>
-    <string name="about_app_license">Ta aplikacja jest licencjonowana na podstawie GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license">Aplikacja jest na licencji GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Zobacz licencję</string>
     <string name="about_icons_disclaimer_title">Ikony</string>
     <string name="about_icons_disclaimer_app_icon">Oryginalna ikona. Zobacz %1$s.</string>
@@ -171,11 +169,9 @@
     <string name="open_in_browser">Otwórz w przeglądarce</string>
     <string name="updating_card">Aktualizowanie karty…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Przesuń listę w prawo</string>
     <string name="move_list_left">Przesuń listę w lewo</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Wszystko</string>
     <string name="filter_overdue">Zaległe</string>
     <string name="filter_today">Dzisiaj</string>
@@ -186,7 +182,6 @@
     <string name="filter_by_assigned_user">Filtruj według przypisanego użytkownika</string>
     <string name="filter_by_duedate">Filtruj według terminu</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Zarchiwizowane karty</string>
     <string name="action_card_dearchive">Cofnij archiwizację karty</string>
     <string name="action_archived_cards">Przeglądaj zarchiwizowane karty</string>
@@ -201,11 +196,9 @@
     <string name="filter_user_title">Użytkownicy</string>
     <string name="filter_duedate_title">Data realizacji</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Cofnij archiwizację tablicy</string>
     <string name="archived_boards">Zarchiwizowane tablice</string>
 
-    <!-- Errors -->
     <string name="error">Wystąpił błąd</string>
     <string name="synchronization_failed">Synchronizacja nie powiodła się</string>
     <string name="operation_not_yet_supported">Jeszcze nie obsługiwane</string>
@@ -294,4 +287,21 @@
     <string name="simple_clone">Klonuj</string>
     <string name="user_avatar">Awatar użytkownika</string>
     <string name="simple_unassign">Cofnij przypisanie</string>
+    <string name="simple_contact">Kontakt</string>
+    <string name="simple_file">Plik</string>
+    <string name="simple_camera">Aparat</string>
+    <string name="min_api_21">Funkcja ta wymaga co najmniej Androida 5</string>
+    <string name="take_photo">Zrobić zdjęcie</string>
+    <string name="take_photo_switch_camera">Przełącz aparat</string>
+    <string name="take_photo_toggle_torch">Włącz latarkę</string>
+    <string name="show_all_contacts">Pokaż wszystkie kontakty</string>
+    <string name="show_all_files">Pokaż wszystkie pliki</string>
+    <string name="recent">Ostatnie</string>
+    <string name="upload_a_new_attachment">Prześlij nowy załącznik</string>
+    <string name="contacts">Kontakty</string>
+    <string name="downloads">Pobrane</string>
+    <string name="files">Pliki</string>
+    <string name="gallery">Galeria</string>
+    <string name="simple_attach">dołącz</string>
+    <string name="add_stack_widget">Dodaj widżet listy</string>
 </resources>

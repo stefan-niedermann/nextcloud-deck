@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Última conta</string>
     <string name="drawer_manage_accounts">Xestionar contas</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Taboleiros</string>
     <string name="simple_add">Engadir</string>
     <string name="simple_save">Gardar</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Eliminar taboleiro</string>
     <string name="delete_something">Eliminar %1$s</string>
 
-    <!-- About -->
     <string name="about">Sobre</string>
     <string name="about_version_title">Versión</string>
     <string name="about_version">Agora está a empregar %1$s</string>
@@ -167,11 +165,9 @@
     <string name="open_in_browser">Abrir no navegador</string>
     <string name="updating_card">Actualizado tarxeta…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Mover a lista á dereita</string>
     <string name="move_list_left">Mover a lista á esquerda</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Todo</string>
     <string name="filter_overdue">Caducado</string>
     <string name="filter_today">Hoxe</string>
@@ -182,7 +178,6 @@
     <string name="filter_by_assigned_user">Filtrar polo usuario asignado</string>
     <string name="filter_by_duedate">Filtrar pola data de caducidade</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Tarxetas arquivadas</string>
     <string name="action_card_dearchive">Desfacer o arquivo de tarxetas</string>
     <string name="action_archived_cards">Examinar as tarxetas arquivadas</string>
@@ -197,11 +192,9 @@
     <string name="filter_user_title">Usuarios</string>
     <string name="filter_duedate_title">Data de caducidade</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Desfacer o arquivo de taboleiros</string>
     <string name="archived_boards">Taboleiros arquivados</string>
 
-    <!-- Errors -->
     <string name="error">Apareceu un erro</string>
     <string name="synchronization_failed">Produciuse un fallo na sincronización</string>
     <string name="operation_not_yet_supported">Aínda non está admitido</string>
@@ -286,4 +279,21 @@
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Avatar do usuario</string>
     <string name="simple_unassign">Desasignar</string>
+    <string name="simple_contact">Contacto</string>
+    <string name="simple_file">Ficheiro</string>
+    <string name="simple_camera">Cámara</string>
+    <string name="min_api_21">Esta función require polo menos Android 5</string>
+    <string name="take_photo">Tirar unha foto</string>
+    <string name="take_photo_switch_camera">Cambiar de cámara</string>
+    <string name="take_photo_toggle_torch">Alternar o facho</string>
+    <string name="show_all_contacts">Amosar todos os contactos</string>
+    <string name="show_all_files">Amosar todos os ficheiros</string>
+    <string name="recent">Recente</string>
+    <string name="upload_a_new_attachment">Enviar un novo anexo</string>
+    <string name="contacts">Contactos</string>
+    <string name="downloads">Descargas</string>
+    <string name="files">Ficheiros</string>
+    <string name="gallery">Galería</string>
+    <string name="simple_attach">anexar</string>
+    <string name="add_stack_widget">Engadir o trebello de lista</string>
 </resources>

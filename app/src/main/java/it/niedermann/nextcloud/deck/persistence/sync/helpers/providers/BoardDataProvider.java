@@ -1,5 +1,9 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import android.annotation.SuppressLint;
+
+import com.nextcloud.android.sso.api.ParsedResponse;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,8 +30,24 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullBoard>> responder, Instant lastSync) {
-        serverAdapter.getBoards(responder);
+    public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<List<FullBoard>> responder, Instant lastSync) {
+        serverAdapter.getBoards(new IResponseCallback<ParsedResponse<List<FullBoard>>>(responder.getAccount()) {
+            @Override
+            public void onResponse(ParsedResponse<List<FullBoard>> response) {
+                String etag = response.getHeaders().get("ETag");
+                if (etag != null && !etag.equals(account.getBoardsEtag())) {
+                    account.setBoardsEtag(etag);
+                    dataBaseAdapter.updateAccount(account);
+                }
+                responder.onResponse(response.getResponse());
+            }
+
+            @SuppressLint("MissingSuperCall")
+            @Override
+            public void onError(Throwable throwable) {
+                responder.onError(throwable);
+            }
+        });
     }
 
     @Override

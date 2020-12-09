@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Zadnji račun</string>
     <string name="drawer_manage_accounts">Upravljanje z računi</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Zbirke</string>
     <string name="simple_add">Dodaj</string>
     <string name="simple_save">Shrani</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Izbriši zbirko</string>
     <string name="delete_something">Izbriši %1$s</string>
 
-    <!-- About -->
     <string name="about">O programu</string>
     <string name="about_version_title">Različica</string>
     <string name="about_version">Trenutno je v uporabi %1$s</string>
@@ -171,11 +169,9 @@
     <string name="open_in_browser">Odpri v brskalniku</string>
     <string name="updating_card">Poteka posodabljanje naloge ...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Pomakni seznam desno</string>
     <string name="move_list_left">Pomakni seznam levo</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Vse</string>
     <string name="filter_overdue">Preteklo</string>
     <string name="filter_today">Danes</string>
@@ -186,7 +182,6 @@
     <string name="filter_by_assigned_user">Filtriraj po dodeljenem uporabniku</string>
     <string name="filter_by_duedate">Filtriraj po datumu preteka</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Arhivirane naloge</string>
     <string name="action_card_dearchive">Razveljavi arhiviranje naloge</string>
     <string name="action_archived_cards">Prebrskaj med arhiviranimi nalogami</string>
@@ -201,11 +196,9 @@
     <string name="filter_user_title">Uporabniki</string>
     <string name="filter_duedate_title">Datum preteka</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Razveljavi arhiviranje zbirke</string>
     <string name="archived_boards">Arhivirane zbirke</string>
 
-    <!-- Errors -->
     <string name="error">Prišlo je do napake</string>
     <string name="synchronization_failed">Usklajevanje je spodletelo</string>
     <string name="operation_not_yet_supported">Možnost še ni podprta</string>
@@ -294,4 +287,21 @@
     <string name="simple_clone">Kloniraj</string>
     <string name="user_avatar">Podoba uporabnika</string>
     <string name="simple_unassign">Odstrani</string>
+    <string name="simple_contact">Stik</string>
+    <string name="simple_file">Datoteka</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="min_api_21">Ta možnost zahteva vsaj sistem Android 5.</string>
+    <string name="take_photo">Zajemi posnetek</string>
+    <string name="take_photo_switch_camera">Preklopi kamero</string>
+    <string name="take_photo_toggle_torch">Preklopi bliskavico</string>
+    <string name="show_all_contacts">Prikaži vse stike</string>
+    <string name="show_all_files">Pokaži vse datoteke</string>
+    <string name="recent">Nedavne</string>
+    <string name="upload_a_new_attachment">Pošlji novo prilogo</string>
+    <string name="contacts">Stiki</string>
+    <string name="downloads">Prejemi</string>
+    <string name="files">Datoteke</string>
+    <string name="gallery">Galerija</string>
+    <string name="simple_attach">pripni</string>
+    <string name="add_stack_widget">Dodaj gradnik seznama</string>
 </resources>

@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.util;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.Spannable;
@@ -12,6 +11,8 @@ import android.text.style.ImageSpan;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +34,8 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -77,16 +80,12 @@ public final class ViewUtil {
         TextViewCompat.setCompoundDrawableTintList(cardDueDate, ColorStateList.valueOf(ContextCompat.getColor(context, textColor)));
     }
 
-    public static Drawable getTintedImageView(@NonNull Context context, @DrawableRes int imageId, @NonNull String color) {
+    public static Drawable getTintedImageView(@NonNull Context context, @DrawableRes int imageId, @ColorInt int color) {
         final Drawable drawable = ContextCompat.getDrawable(context, imageId);
         assert drawable != null;
         final Drawable wrapped = DrawableCompat.wrap(drawable).mutate();
-        DrawableCompat.setTint(wrapped, Color.parseColor(color));
+        DrawableCompat.setTint(wrapped, color);
         return drawable;
-    }
-
-    public static Drawable getTintedImageView(@NonNull Context context, @DrawableRes int imageId, int colorId) {
-        return getTintedImageView(context, imageId, context.getResources().getString(colorId));
     }
 
     /**
@@ -139,5 +138,13 @@ public final class ViewUtil {
                     });
         }
         textView.setText(messageBuilder);
+    }
+
+    public static void setImageColor(@NonNull Context context, @NonNull ImageView imageView, @ColorRes int colorRes) {
+        if (SDK_INT >= LOLLIPOP) {
+            imageView.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(context, colorRes)));
+        } else {
+            imageView.setColorFilter(ContextCompat.getColor(context, colorRes));
+        }
     }
 }

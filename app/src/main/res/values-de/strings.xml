@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Letztes Konto</string>
     <string name="drawer_manage_accounts">Konten verwalten</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Boards</string>
     <string name="simple_add">Hinzufügen</string>
     <string name="simple_save">Speichern</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Board löschen</string>
     <string name="delete_something">Lösche %1$s</string>
 
-    <!-- About -->
     <string name="about">Über</string>
     <string name="about_version_title">Version</string>
     <string name="about_version">Sie benutzen aktuell %1$s</string>
@@ -58,7 +56,7 @@
     <string name="about_source_title">Quellcode</string>
     <string name="about_source">Dieses Projekt wird auf GitHub gehostet: %1$s</string>
     <string name="about_issues_title">Probleme</string>
-    <string name="about_issues">Sie können Fehler, Verbesserungsvorschläge oder Wünsche für neue Funktionen im GitHub-Ticket-System erfassen: %1$s</string>
+    <string name="about_issues">Sie können Fehler, Verbesserungsvorschläge oder Wünsche für neue Funktionen als Issue auf GitHub erfassen: %1$s</string>
     <string name="about_translate_title">Übersetzen</string>
     <string name="about_translate">Treten Sie dem Nextcloud-Team bei Transifex bei und helfen Sie uns, diese App zu übersetzen: %1$s</string>
     <string name="about_app_license_title">App-Lizenz</string>
@@ -101,10 +99,10 @@
     <string name="card_edit_attachments">Anhänge</string>
     <string name="card_edit_activity">Aktivitäten</string>
     <string name="about_server_app_version_text">Serverversion der App:</string>
-    <string name="no_files_attached_to_this_card">An diese Karte sind keine Dateien angehängt.</string>
+    <string name="no_files_attached_to_this_card">Dieser Karte sind keine Dateien angehängt.</string>
     <string name="attachments">Anhänge</string>
     <string name="no_cards">Bislang keine Karten</string>
-    <string name="no_account">Kein Konto konfiguriert</string>
+    <string name="no_account">Kein Konto eingerichtet</string>
     <string name="account_already_added">Konto wurde bereits hinzugefügt</string>
     <string name="account_is_getting_imported">Konto wird importiert</string>
     <string name="not_synced_yet">Noch nicht synchronisiert</string>
@@ -167,11 +165,9 @@
     <string name="open_in_browser">Im Browser öffnen</string>
     <string name="updating_card">Karte wird aktualisiert…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Liste nach rechts schieben</string>
     <string name="move_list_left">Liste nach links schieben</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Alle</string>
     <string name="filter_overdue">Überfällig</string>
     <string name="filter_today">Heute</string>
@@ -182,7 +178,6 @@
     <string name="filter_by_assigned_user">Nach zugewiesenem Benutzer filtern</string>
     <string name="filter_by_duedate">Nach Fälligkeitsdatum filtern</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Archivierte Karten</string>
     <string name="action_card_dearchive">Karte archivieren rückgängig machen</string>
     <string name="action_archived_cards">Archivierte Karten durchsuchen</string>
@@ -197,11 +192,9 @@
     <string name="filter_user_title">Benutzer</string>
     <string name="filter_duedate_title">Fälligkeitsdatum</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Board archivieren rückgängig machen</string>
     <string name="archived_boards">Archivierte Boards</string>
 
-    <!-- Errors -->
     <string name="error">Es ist ein Fehler aufgetreten</string>
     <string name="synchronization_failed">Synchronisierung fehlgeschlagen</string>
     <string name="operation_not_yet_supported">Wird bislang noch nicht unterstützt</string>
@@ -277,7 +270,7 @@
         <item quantity="one">%1$d Ressource</item>
         <item quantity="other">%1$d Ressourcen</item>
     </plurals>
-    <string name="no_assigned_label">Keine Schlagwort zugewiesen</string>
+    <string name="no_assigned_label">Kein Schlagwort zugewiesen</string>
     <string name="single_card">Einzelne Karte</string>
     <string name="project_type_room">Talk-Raum</string>
     <string name="simple_move">Verschieben</string>
@@ -286,4 +279,21 @@
     <string name="simple_clone">Klonen</string>
     <string name="user_avatar">Benutzer-Avatar</string>
     <string name="simple_unassign">Zuordnung aufheben</string>
+    <string name="simple_contact">Kontakt</string>
+    <string name="simple_file">Datei</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="min_api_21">Diese Funktion benötigt Android 5 oder neuer</string>
+    <string name="take_photo">Foto aufnehmen</string>
+    <string name="take_photo_switch_camera">Kamera wechseln</string>
+    <string name="take_photo_toggle_torch">Taschenlampe umschalten</string>
+    <string name="show_all_contacts">Alle Kontakte anzeigen</string>
+    <string name="show_all_files">Alle Dateien anzeigen</string>
+    <string name="recent">Neueste</string>
+    <string name="upload_a_new_attachment">Neuen Anhang hochladen</string>
+    <string name="contacts">Kontakte</string>
+    <string name="downloads">Downloads</string>
+    <string name="files">Dateien</string>
+    <string name="gallery">Galerie</string>
+    <string name="simple_attach">anhängen</string>
+    <string name="add_stack_widget">Ein Listen-Widget hinzufügen</string>
 </resources>

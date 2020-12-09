@@ -39,6 +39,8 @@ public abstract class AbstractRemoteEntity implements IRemoteEntity {
     protected Instant lastModified;
     protected Instant lastModifiedLocal;
 
+    protected String etag;
+
     public AbstractRemoteEntity() {
     }
 
@@ -137,6 +139,15 @@ public abstract class AbstractRemoteEntity implements IRemoteEntity {
         this.status = status.getId();
     }
 
+    @Override
+    public String getEtag() {
+        return etag;
+    }
+
+    @Override
+    public void setEtag(String etag) {
+        this.etag = etag;
+    }
 
     @Override
     public boolean equals(Object o) {

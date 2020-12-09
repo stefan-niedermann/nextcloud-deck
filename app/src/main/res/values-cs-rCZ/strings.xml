@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Poslední účet</string>
     <string name="drawer_manage_accounts">Spravovat účty</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Tabule</string>
     <string name="simple_add">Přidat</string>
     <string name="simple_save">Uložit</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Smazat tabuli</string>
     <string name="delete_something">Smazat %1$s</string>
 
-    <!-- About -->
     <string name="about">O aplikaci</string>
     <string name="about_version_title">Verze</string>
     <string name="about_version">Nyní používáte %1$s</string>
@@ -171,11 +169,9 @@
     <string name="open_in_browser">Otevřít v prohlížeči</string>
     <string name="updating_card">Aktualizace karty…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Přesunout seznam vpravo</string>
     <string name="move_list_left">Přesunout seznam vlevo</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Vše</string>
     <string name="filter_overdue">Po termínu</string>
     <string name="filter_today">Dnes</string>
@@ -186,7 +182,6 @@
     <string name="filter_by_assigned_user">Filtrovat podle uživatele, který je úkolem pověřen</string>
     <string name="filter_by_duedate">Filtrovat podle termínu</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Archivované karty</string>
     <string name="action_card_dearchive">Vzít zpět archivaci karty</string>
     <string name="action_archived_cards">Procházet archivované karty</string>
@@ -201,11 +196,9 @@
     <string name="filter_user_title">Uživatelé</string>
     <string name="filter_duedate_title">Datum termínu</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Vzít zpět archivaci tabule</string>
     <string name="archived_boards">Archivované tabule</string>
 
-    <!-- Errors -->
     <string name="error">Objevila se chyba</string>
     <string name="synchronization_failed">Synchronizace se nezdařila</string>
     <string name="operation_not_yet_supported">Zatím nepodorováno</string>
@@ -294,4 +287,20 @@
     <string name="simple_clone">Klonovat</string>
     <string name="user_avatar">Zástupný obrázek uživatele</string>
     <string name="simple_unassign">Zrušit přirazení</string>
-</resources>
+    <string name="simple_contact">Kontakt</string>
+    <string name="simple_file">Soubor</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="min_api_21">Tato funkce vyžaduje minimálně verzi 5 systému Android</string>
+    <string name="take_photo">Vyfotit</string>
+    <string name="take_photo_switch_camera">Přepnout kameru</string>
+    <string name="take_photo_toggle_torch">Vyp/zap. přisvícení</string>
+    <string name="show_all_contacts">Zobrazit všechny kontakty</string>
+    <string name="show_all_files">Zobrazit všechny soubory</string>
+    <string name="recent">Nedávné</string>
+    <string name="upload_a_new_attachment">Nahrát novou přílohu</string>
+    <string name="contacts">Kontakty</string>
+    <string name="downloads">Stažené</string>
+    <string name="files">Soubory</string>
+    <string name="gallery">Galerie</string>
+    <string name="simple_attach">přiložit</string>
+    </resources>

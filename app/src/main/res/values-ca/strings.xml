@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Darrer compte</string>
     <string name="drawer_manage_accounts">Gestiona els comptes</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Taulells</string>
     <string name="simple_add">Afegeix</string>
     <string name="simple_save">Desa</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Suprimeix el tauler</string>
     <string name="delete_something">Elimina %1$s</string>
 
-    <!-- About -->
     <string name="about">Quant a</string>
     <string name="about_version_title">Versió</string>
     <string name="about_version">Esteu fent servir %1$s</string>
@@ -166,11 +164,9 @@
     <string name="open_in_browser">Obre al navegador</string>
     <string name="updating_card">S\'està actualitzant la targeta...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Mou la llista a la dreta</string>
     <string name="move_list_left">Mou la llista a l\'esquerra</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Totes</string>
     <string name="filter_overdue">Endarrerit</string>
     <string name="filter_today">Avui</string>
@@ -181,7 +177,6 @@
     <string name="filter_by_assigned_user">Filtra per usuari assignat</string>
     <string name="filter_by_duedate">Filtra per data de venciment</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Targetes arxivades</string>
     <string name="action_card_dearchive">Desfés l\'arxivament de la targeta</string>
     <string name="action_archived_cards">Navega per les targetes arxivades</string>
@@ -196,11 +191,9 @@
     <string name="filter_user_title">Usuaris</string>
     <string name="filter_duedate_title">Data de venciment</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Desfés l\'arxivament del tauler</string>
     <string name="archived_boards">Taulers arxivats</string>
 
-    <!-- Errors -->
     <string name="error">S\'ha produït un error</string>
     <string name="synchronization_failed">Ha fallat la sincronització</string>
     <string name="operation_not_yet_supported">Encara no està suportat</string>
@@ -282,4 +275,4 @@
     <string name="simple_move">Mou</string>
     <string name="cannot_upload_files_without_permission">No es poden pujar fitxers sense permís</string>
     <string name="simple_unassign">No ho assignis</string>
-</resources>
+    </resources>

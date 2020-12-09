@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Ultimo account</string>
     <string name="drawer_manage_accounts">Gestisci account</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Lavagne</string>
     <string name="simple_add">Aggiungi</string>
     <string name="simple_save">Salva</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Elimina lavagna</string>
     <string name="delete_something">Elimina %1$s</string>
 
-    <!-- About -->
     <string name="about">Informazioni</string>
     <string name="about_version_title">Versione</string>
     <string name="about_version">Stai utilizzando attualmente %1$s</string>
@@ -167,11 +165,9 @@
     <string name="open_in_browser">Apri nel browser</string>
     <string name="updating_card">Aggiornamento scheda...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Sposta a destra l\'elenco</string>
     <string name="move_list_left">Sposta a sinistra l\'elenco</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Tutti</string>
     <string name="filter_overdue">Scadenza</string>
     <string name="filter_today">Oggi</string>
@@ -182,7 +178,6 @@
     <string name="filter_by_assigned_user">Filtra per utente assegnato</string>
     <string name="filter_by_duedate">Filtra per data di scadenza</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Schede archiviate</string>
     <string name="action_card_dearchive">Annulla archiviazione della scheda</string>
     <string name="action_archived_cards">Sfoglia le schede archiviate</string>
@@ -197,11 +192,9 @@
     <string name="filter_user_title">Utenti</string>
     <string name="filter_duedate_title">Data di scadenza</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Annulla archiviazione della lavagna</string>
     <string name="archived_boards">Lavagne archiviate</string>
 
-    <!-- Errors -->
     <string name="error">Si è verificato un errore</string>
     <string name="synchronization_failed">Sincronizzazione non riuscita</string>
     <string name="operation_not_yet_supported">Non ancora supportato</string>
@@ -286,4 +279,21 @@
     <string name="simple_clone">Clona</string>
     <string name="user_avatar">Avatar dell\'utente</string>
     <string name="simple_unassign">Rimuovi assegnazione</string>
+    <string name="simple_contact">Contatto</string>
+    <string name="simple_file">File</string>
+    <string name="simple_camera">Fotocamera</string>
+    <string name="min_api_21">Questa funzionalità richiede almeno Android 5</string>
+    <string name="take_photo">Scatta una foto</string>
+    <string name="take_photo_switch_camera">Cambia fotocamera</string>
+    <string name="take_photo_toggle_torch">Attiva la torcia</string>
+    <string name="show_all_contacts">Mostra tutti i contatti</string>
+    <string name="show_all_files">Mostra tutti i file</string>
+    <string name="recent">Recenti</string>
+    <string name="upload_a_new_attachment">Carica un nuovo allegato</string>
+    <string name="contacts">Contatti</string>
+    <string name="downloads">Scaricamenti</string>
+    <string name="files">File</string>
+    <string name="gallery">Galleria</string>
+    <string name="simple_attach">allega</string>
+    <string name="add_stack_widget">Aggiungi widget elenco</string>
 </resources>
