@@ -294,4 +294,13 @@
     <string name="take_photo">Vyfotit</string>
     <string name="take_photo_switch_camera">Přepnout kameru</string>
     <string name="take_photo_toggle_torch">Vyp/zap. přisvícení</string>
+    <string name="show_all_contacts">Zobrazit všechny kontakty</string>
+    <string name="show_all_files">Zobrazit všechny soubory</string>
+    <string name="recent">Nedávné</string>
+    <string name="upload_a_new_attachment">Nahrát novou přílohu</string>
+    <string name="contacts">Kontakty</string>
+    <string name="downloads">Stažené</string>
+    <string name="files">Soubory</string>
+    <string name="gallery">Galerie</string>
+    <string name="simple_attach">přiložit</string>
     </resources>
