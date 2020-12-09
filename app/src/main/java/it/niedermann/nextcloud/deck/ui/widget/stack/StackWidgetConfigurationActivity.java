@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.PickStackActivity;
 
@@ -18,7 +19,7 @@ public class StackWidgetConfigurationActivity extends PickStackActivity {
         super.onCreate(savedInstanceState);
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("Add stack widget");
+            actionBar.setTitle(R.string.add_stack_widget);
         }
 
         setResult(RESULT_CANCELED);

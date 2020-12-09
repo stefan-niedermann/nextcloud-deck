@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Viimeisin tili</string>
     <string name="drawer_manage_accounts">Tilien hallinta</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Taulut</string>
     <string name="simple_add">Lisää</string>
     <string name="simple_save">Tallenna</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Poista taulu</string>
     <string name="delete_something">Poista %1$s</string>
 
-    <!-- About -->
     <string name="about">Tietoja</string>
     <string name="about_version_title">Versio</string>
     <string name="about_version">Käytössäsi on %1$s</string>
@@ -166,11 +164,9 @@
     <string name="open_in_browser">Avaa selaimessa</string>
     <string name="updating_card">Päivitetään korttia...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Siirrä lista oikealle</string>
     <string name="move_list_left">Siirrä lista vasemmalle</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Kaikki</string>
     <string name="filter_overdue">Myöhässä</string>
     <string name="filter_today">Tänään</string>
@@ -181,7 +177,6 @@
     <string name="filter_by_assigned_user">Suodata määritetyn käyttäjän mukaan</string>
     <string name="filter_by_duedate">Suodata määräpäivän mukaan</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Arkistoidut kortit</string>
     <string name="action_card_dearchive">Kumoa kortin arkistointi</string>
     <string name="action_archived_cards">Selaa arkistoituja kortteja</string>
@@ -196,11 +191,9 @@
     <string name="filter_user_title">Käyttäjät</string>
     <string name="filter_duedate_title">Eräpäivä</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Kumoa taulun arkistointi</string>
     <string name="archived_boards">Arkistoidut taulut</string>
 
-    <!-- Errors -->
     <string name="error">Tapahtui virhe</string>
     <string name="synchronization_failed">Synkronointi epäonnistui</string>
     <string name="operation_not_yet_supported">Ei vielä tuettu</string>

@@ -470,12 +470,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     }
 
     @Override
-    public void onCreateBoard(String title, String color) {
+    public void onCreateBoard(String title, @ColorInt int color) {
         if (boardsLiveData == null || boardsLiveDataObserver == null) {
             throw new IllegalStateException("Cannot create board when noone observe boards yet. boardsLiveData or observer is null.");
         }
         boardsLiveData.removeObserver(boardsLiveDataObserver);
-        final Board boardToCreate = new Board(title, color.startsWith("#") ? color.substring(1) : color);
+        final Board boardToCreate = new Board(title, color);
         boardToCreate.setPermissionEdit(true);
         boardToCreate.setPermissionManage(true);
 

@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Siste konto</string>
     <string name="drawer_manage_accounts">Håndter kontoer</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Tavler</string>
     <string name="simple_add">Legg til</string>
     <string name="simple_save">Lagre</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Slett tavle</string>
     <string name="delete_something">Slett %1$s</string>
 
-    <!-- About -->
     <string name="about">Om</string>
     <string name="about_version_title">Versjon</string>
     <string name="about_version">Du bruker forøyeblikket %1$s</string>
@@ -166,11 +164,9 @@
     <string name="open_in_browser">Åpne i nettleser</string>
     <string name="updating_card">Oppdaterer kort...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Flytt listen til høyre</string>
     <string name="move_list_left">Flytt listen til venstre</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Alle</string>
     <string name="filter_overdue">Utløpt</string>
     <string name="filter_today">I dag</string>
@@ -181,7 +177,6 @@
     <string name="filter_by_assigned_user">Filtrer på tildelt bruker</string>
     <string name="filter_by_duedate">Filtrer på forfallsdato</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Arkiver tavle</string>
     <string name="action_card_dearchive">Angre arkivering av kort</string>
     <string name="action_archived_cards">Bla gjennom arkiverte kort</string>
@@ -196,11 +191,9 @@
     <string name="filter_user_title">Brukere</string>
     <string name="filter_duedate_title">Forfallsdato</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Angre arkivering av tavle</string>
     <string name="archived_boards">Arkiverte tavler</string>
 
-    <!-- Errors -->
     <string name="error">En feil oppstod</string>
     <string name="synchronization_failed">Synkronisering mislyktes</string>
     <string name="operation_not_yet_supported">Ikke støttet enda</string>

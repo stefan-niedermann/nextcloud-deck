@@ -35,6 +35,7 @@ public abstract class IResponseCallback<T> {
             public void onResponse(T response) {
                 // Do Nothing
             }
+
         };
     }
 

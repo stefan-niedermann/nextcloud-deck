@@ -233,9 +233,9 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             binding.emptyContentView.hideDescription();
         }
         @Nullable Context context = requireContext();
-        if (isBrandingEnabled(context)) {
-            applyBrand(readBrandMainColor(context));
-        }
+        applyBrand(isBrandingEnabled(context)
+                ? readBrandMainColor(context)
+                : ContextCompat.getColor(context, R.color.defaultBrand));
         return binding.getRoot();
     }
 

@@ -54,6 +54,7 @@ public class Account implements Serializable {
     private boolean maintenanceEnabled = false;
 
     private String etag;
+    private String boardsEtag;
 
     @Ignore
     public Account(Long id, @NonNull String name, @NonNull String userName, @NonNull String url) {
@@ -188,6 +189,14 @@ public class Account implements Serializable {
 
     public void setEtag(String etag) {
         this.etag = etag;
+    }
+
+    public String getBoardsEtag() {
+        return boardsEtag;
+    }
+
+    public void setBoardsEtag(String boardsEtag) {
+        this.boardsEtag = boardsEtag;
     }
 
     /**

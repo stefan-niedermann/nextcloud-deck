@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Utolsó fiók</string>
     <string name="drawer_manage_accounts">Fiókok kezelése</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Táblák</string>
     <string name="simple_add">Hozzáadás</string>
     <string name="simple_save">Mentés</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Tábla törlése</string>
     <string name="delete_something">%1$s törlése</string>
 
-    <!-- About -->
     <string name="about">Névjegy</string>
     <string name="about_version_title">Verzió</string>
     <string name="about_version">Jelenleg ezt a verziót használja: %1$s</string>
@@ -167,11 +165,9 @@
     <string name="open_in_browser">Megnyitás böngészőben</string>
     <string name="updating_card">Kártya frissítése…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Lista áthelyezése jobbra</string>
     <string name="move_list_left">Lista áthelyezése balra</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Mind</string>
     <string name="filter_overdue">Lejárt</string>
     <string name="filter_today">Ma</string>
@@ -182,7 +178,6 @@
     <string name="filter_by_assigned_user">Szűrés hozzárendelt felhasználó szerint</string>
     <string name="filter_by_duedate">Szűrés határidő szerint</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Archivált kártyák</string>
     <string name="action_card_dearchive">Kártya archiválásának visszavonása</string>
     <string name="action_archived_cards">Archivált kártyák tallózása</string>
@@ -197,11 +192,9 @@
     <string name="filter_user_title">Felhasználók</string>
     <string name="filter_duedate_title">Határidő</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Tábla archiválásának visszavonása</string>
     <string name="archived_boards">Archivált táblák</string>
 
-    <!-- Errors -->
     <string name="error">Hiba történt</string>
     <string name="synchronization_failed">Szinkronizálás sikertelen</string>
     <string name="operation_not_yet_supported">Még nem támogatott</string>
@@ -286,4 +279,5 @@
     <string name="simple_clone">Klónozás</string>
     <string name="user_avatar">Felhasználói avatar</string>
     <string name="simple_unassign">Elvétel</string>
-    </resources>
+    <string name="add_stack_widget">Lista felületi elem hozzáadása</string>
+</resources>

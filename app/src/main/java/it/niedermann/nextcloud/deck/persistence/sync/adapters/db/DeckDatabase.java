@@ -122,7 +122,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.fil
                 FilterWidgetSort.class,
         },
         exportSchema = false,
-        version = 23
+        version = 24
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -403,6 +403,25 @@ public abstract class DeckDatabase extends RoomDatabase {
     private static final Migration MIGRATION_22_23 = new Migration(22, 23) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
+            // https://github.com/stefan-niedermann/nextcloud-deck/issues/359
+            database.execSQL("ALTER TABLE `Account` ADD `boardsEtag` TEXT");
+            database.execSQL("ALTER TABLE `Board` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `Stack` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `Card` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `Label` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `AccessControl` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `Attachment` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `User` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `DeckComment` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `Activity` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `OcsProject` ADD `etag` TEXT");
+            database.execSQL("ALTER TABLE `OcsProjectResource` ADD `etag` TEXT");
+        }
+    };
+
+    private static final Migration MIGRATION_23_24 = new Migration(23, 24) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE `FilterWidget` (`id` INTEGER PRIMARY KEY AUTOINCREMENT)");
             database.execSQL("CREATE TABLE `FilterWidgetAccount` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterWidgetId` INTEGER, `accountId` INTEGER, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterWidgetId`) REFERENCES `FilterWidget`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
             database.execSQL("CREATE TABLE `FilterWidgetBoard` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterAccountId` INTEGER, `boardId` INTEGER, FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterAccountId`) REFERENCES `FilterWidgetAccount`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
@@ -489,6 +508,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                     }
                 })
                 .addMigrations(MIGRATION_22_23)
+                .addMigrations(MIGRATION_23_24)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();

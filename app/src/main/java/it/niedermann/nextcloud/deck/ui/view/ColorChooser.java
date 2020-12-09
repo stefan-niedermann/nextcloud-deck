@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +10,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.flexbox.FlexboxLayout;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
+
+import java.util.Arrays;
 
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
@@ -24,10 +29,12 @@ public class ColorChooser extends LinearLayout {
     private final WidgetColorChooserBinding binding;
 
     private final Context context;
-    private final String[] colors;
+    private final int[] colors;
 
-    private String selectedColor;
-    private String previouslySelectedColor;
+    @ColorInt
+    private int selectedColor;
+    @ColorInt
+    private int previouslySelectedColor;
     @Nullable
     private ImageView previouslySelectedImageView;
 
@@ -42,14 +49,15 @@ public class ColorChooser extends LinearLayout {
         params.setMargins(0, DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1x), 0, 0);
         params.setFlexBasisPercent(.15f);
 
-        TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.ColorChooser, 0, 0);
-        colors = getResources().getStringArray(a.getResourceId(R.styleable.ColorChooser_colors, 0));
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ColorChooser, 0, 0);
+        colors = Arrays.stream(getResources().getStringArray(a.getResourceId(R.styleable.ColorChooser_colors, 0)))
+                .mapToInt(Color::parseColor)
+                .toArray();
         a.recycle();
 
         binding = WidgetColorChooserBinding.inflate(LayoutInflater.from(context), this, true);
-        for (final String color : colors) {
-            ImageView image = new ImageView(getContext());
+        for (final int color : colors) {
+            final ImageView image = new ImageView(getContext());
             image.setLayoutParams(params);
             image.setOnClickListener((imageView) -> {
                 if (previouslySelectedImageView != null) { // null when first selection
@@ -59,7 +67,7 @@ public class ColorChooser extends LinearLayout {
                 selectedColor = color;
                 this.previouslySelectedColor = color;
                 this.previouslySelectedImageView = image;
-                binding.customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, R.color.board_default_custom_color));
+                binding.customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, ContextCompat.getColor(context, R.color.board_default_custom_color)));
                 binding.customColorPicker.setVisibility(View.GONE);
                 binding.brightnessSlide.setVisibility(View.GONE);
             });
@@ -82,19 +90,20 @@ public class ColorChooser extends LinearLayout {
                 previouslySelectedImageView.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, previouslySelectedColor));
                 previouslySelectedImageView = null;
             }
-            String customColor = "#" + envelope.getHexCode().substring(2);
+            @ColorInt
+            final int customColor = envelope.getColor();
             selectedColor = customColor;
             previouslySelectedColor = customColor;
             binding.customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(context, R.drawable.circle_alpha_colorize_36dp, selectedColor));
         });
     }
 
-    public void selectColor(String newColor) {
+    public void selectColor(@ColorInt int newColor) {
         boolean newColorIsCustomColor = true;
         selectedColor = newColor;
         for (int i = 0; i < colors.length; i++) {
-            if (colors[i].equals(newColor)) {
-                binding.customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, R.color.board_default_custom_color));
+            if (colors[i] == newColor) {
+                binding.customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, ContextCompat.getColor(context, R.color.board_default_custom_color)));
                 binding.colorPicker.getChildAt(i).performClick();
                 newColorIsCustomColor = false;
                 break;
@@ -105,7 +114,8 @@ public class ColorChooser extends LinearLayout {
         }
     }
 
-    public String getSelectedColor() {
+    @ColorInt
+    public int getSelectedColor() {
         return this.selectedColor;
     }
 }
