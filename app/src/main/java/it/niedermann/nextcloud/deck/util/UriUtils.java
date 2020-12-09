@@ -9,12 +9,18 @@ import android.webkit.MimeTypeMap;
 
 import androidx.annotation.NonNull;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
+
+import static java.lang.Long.parseLong;
 
 /**
  * A helper class for some {@link Uri} operations.
  */
 public final class UriUtils {
+
+    private static final String boardsSegment = "board";
 
     private UriUtils() {
         // utility class -> private constructor
@@ -92,5 +98,23 @@ public final class UriUtils {
             throw new IllegalArgumentException("Could not retrieve display name for " + uri.toString(), e);
         }
         return displayName;
+    }
+
+    public static long parseBoardRemoteId(@NonNull String uri) throws IllegalArgumentException {
+        List<String> segments = Arrays.asList(uri.split("/"));
+        int boardsSegmentIndex = segments.lastIndexOf(boardsSegment);
+        if (segments.size() <= boardsSegmentIndex) {
+            throw new IllegalArgumentException("There was no ID following the last " + boardsSegment + " segment.");
+        }
+        final long parsedLong;
+        try {
+            parsedLong = parseLong(segments.get(boardsSegmentIndex + 1));
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("The ID (\"" + segments.get(boardsSegmentIndex + 1) + "\") the last " + boardsSegment + " is not of type " + Long.class.getSimpleName(), e);
+        }
+        if (parsedLong < 1) {
+            throw new IllegalArgumentException("Parsed board remote id must not be less then 1 but was " + parsedLong);
+        }
+        return parsedLong;
     }
 }
