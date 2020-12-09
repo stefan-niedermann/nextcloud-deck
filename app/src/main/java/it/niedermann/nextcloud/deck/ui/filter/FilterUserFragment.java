@@ -14,7 +14,6 @@ import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterAssigneesBinding;
 import it.niedermann.nextcloud.deck.model.User;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -33,7 +32,7 @@ public class FilterUserFragment extends Fragment implements SelectionListener<Us
 
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 
-        observeOnce(new SyncManager(requireContext()).findProposalsForUsersToAssign(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId()), requireActivity(), (users) -> {
+        observeOnce(filterViewModel.findProposalsForUsersToAssign(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId()), requireActivity(), (users) -> {
             binding.users.setNestedScrollingEnabled(false);
             binding.users.setAdapter(new FilterUserAdapter(
                     DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.avatar_size),

@@ -40,7 +40,6 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
     private FragmentCardEditTabCommentsBinding binding;
     private EditCardViewModel mainViewModel;
     private CommentsViewModel commentsViewModel;
-    private SyncManager syncManager;
     private CardCommentsAdapter adapter;
 
     public static Fragment newInstance() {
@@ -70,7 +69,6 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
 
         commentsViewModel = new ViewModelProvider(this).get(CommentsViewModel.class);
 
-        syncManager = new SyncManager(requireActivity());
         adapter = new CardCommentsAdapter(requireContext(), mainViewModel.getAccount(), requireActivity().getMenuInflater(), this, this, getChildFragmentManager());
         binding.comments.setAdapter(adapter);
 
@@ -84,7 +82,7 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
 //                setupMentions(mainViewModel.getAccount(), comment.getComment().getMentions(), binding.replyCommentText);
             }
         });
-        syncManager.getFullCommentsForLocalCardId(mainViewModel.getFullCard().getLocalId()).observe(getViewLifecycleOwner(),
+        commentsViewModel.getFullCommentsForLocalCardId(mainViewModel.getFullCard().getLocalId()).observe(getViewLifecycleOwner(),
                 (comments) -> {
                     if (comments != null && comments.size() > 0) {
                         binding.emptyContentView.setVisibility(GONE);
@@ -108,7 +106,7 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
                         comment.setParentId(parent.getId());
                         commentsViewModel.setReplyToComment(null);
                     }
-                    syncManager.addCommentToCard(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), comment);
+                    commentsViewModel.addCommentToCard(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), comment);
                 }
                 binding.message.setText(null);
             });
@@ -136,12 +134,12 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
 
     @Override
     public void onCommentEdited(Long id, String comment) {
-        syncManager.updateComment(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), id, comment);
+        commentsViewModel.updateComment(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), id, comment);
     }
 
     @Override
     public void onCommentDeleted(Long localId) {
-        final WrappedLiveData<Void> deleteLiveData = syncManager.deleteComment(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), localId);
+        final WrappedLiveData<Void> deleteLiveData = commentsViewModel.deleteComment(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), localId);
         observeOnce(deleteLiveData, this, (next) -> {
             if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
                 ExceptionDialogFragment.newInstance(deleteLiveData.getError(), mainViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
