@@ -42,6 +42,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabDetailsBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDatePickerDialog;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
@@ -136,14 +137,16 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
 
     private void setupDescription() {
         if (viewModel.canEdit()) {
-            binding.descriptionToggle.setVisibility(VISIBLE);
+            binding.descriptionBar.setOnClickListener((v) -> binding.descriptionEditor.requestFocus());
             binding.descriptionToggle.setOnClickListener((v) -> {
                 editorActive = !editorActive;
                 if (editorActive) {
+                    binding.descriptionBar.setOnClickListener((view) -> binding.descriptionEditor.requestFocus());
                     binding.descriptionEditor.setVisibility(VISIBLE);
                     binding.descriptionViewer.setVisibility(GONE);
                     binding.descriptionToggle.setImageResource(R.drawable.ic_baseline_eye_24);
                 } else {
+                    binding.descriptionBar.setOnClickListener(null);
                     binding.descriptionEditor.setVisibility(GONE);
                     binding.descriptionViewer.setVisibility(VISIBLE);
                     binding.descriptionToggle.setImageResource(R.drawable.ic_edit_grey600_24dp);
@@ -155,8 +158,9 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                     viewModel.getFullCard().getCard().setDescription(newText == null ? "" : newText.toString());
                     binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
                 } else {
-                    DeckLog.logError(new IllegalStateException("FullCard was empty when trying to setup description"));
+                    DeckLog.logError(new IllegalStateException(FullCard.class.getSimpleName() + " was empty when trying to setup description"));
                 }
+                binding.descriptionToggle.setVisibility(TextUtils.isEmpty(newText) ? GONE : VISIBLE);
             });
         } else {
             binding.descriptionEditor.setEnabled(false);

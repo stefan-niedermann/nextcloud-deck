@@ -131,13 +131,14 @@
                 tools:listitem="@tools:sample/avatars" />
 
             <LinearLayout
+                android:id="@+id/descriptionBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="@dimen/icon_size_details"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacer_2x"
                     android:contentDescription="@null"
                     app:srcCompat="@drawable/ic_baseline_subject_24" />
@@ -159,7 +160,7 @@
                         android:paddingEnd="@dimen/spacer_1x"
                         android:visibility="gone"
                         app:srcCompat="@drawable/ic_baseline_eye_24"
-                        tools:visibility="visible" />
+                        tools:visibility="gone" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -172,13 +173,14 @@
                 android:textSize="@dimen/font_size_description" />
 
             <it.niedermann.android.markdown.MarkdownViewerImpl
-                android:visibility="gone"
                 android:id="@+id/descriptionViewer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacer_2x"
                 android:textColor="?attr/colorAccent"
-                android:textSize="@dimen/font_size_description" />
+                android:textIsSelectable="true"
+                android:textSize="@dimen/font_size_description"
+                android:visibility="gone" />
         </LinearLayout>
 
         <TextView

@@ -2,6 +2,7 @@ package it.niedermann.android.markdown.markwon;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,14 +46,20 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
                 .useEditHandler(new BlockQuoteEditHandler())
                 .useEditHandler(new HeadingEditHandler())
                 .build();
-
-        // addTextChangedListener(MarkwonEditorTextWatcher.withPreRender(editor, Executors.newSingleThreadExecutor(), this));
         addTextChangedListener(new AutoContinuationTextWatcher(editor, this));
     }
 
     @Override
     public void setMarkdownString(CharSequence text) {
         setText(text);
+        setMarkdownStringModel(text);
+    }
+
+    /**
+     * Updates the current model which matches the rendered state of the editor *without* triggering
+     * anything of the native {@link EditText}
+     */
+    public void setMarkdownStringModel(CharSequence text) {
         unrenderedText$.setValue(text == null ? "" : text.toString());
     }
 

@@ -35,8 +35,12 @@ public class AutoContinuationTextWatcher implements TextWatcher {
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         final int numberOfInsertedCharactersBeforeLine = autoContinueCheckboxListsOnEnter(s, start, count);
-        // TODO how to use this information for the originalWatcher?
-        originalWatcher.onTextChanged(s, start, before, count);
+        if (numberOfInsertedCharactersBeforeLine == 0) {
+            editText.setMarkdownStringModel(s);
+        } else {
+            // TODO how to use this information for the originalWatcher?
+            originalWatcher.onTextChanged(s, start, before, count);
+        }
     }
 
     @Override
