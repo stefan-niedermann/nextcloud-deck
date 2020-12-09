@@ -13,8 +13,8 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemProjectResourceBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
+import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.util.ProjectUtil;
 
 import static android.view.View.GONE;
@@ -30,12 +30,12 @@ public class CardProjectResourceViewHolder extends RecyclerView.ViewHolder {
         this.binding = binding;
     }
 
-    public void bind(@NonNull Account account, @NonNull OcsProjectResource resource, @NonNull LifecycleOwner owner) {
+    public void bind(@NonNull EditCardViewModel viewModel, @NonNull OcsProjectResource resource, @NonNull LifecycleOwner owner) {
+        final Account account = viewModel.getAccount();
         final Resources resources = itemView.getResources();
         binding.name.setText(resource.getName());
         final @Nullable String link = resource.getLink();
         binding.type.setVisibility(VISIBLE);
-        final SyncManager syncManager = new SyncManager(itemView.getContext());
         if (resource.getType() != null) {
             switch (resource.getType()) {
                 case "deck": {
@@ -49,9 +49,9 @@ public class CardProjectResourceViewHolder extends RecyclerView.ViewHolder {
                     try {
                         long[] ids = ProjectUtil.extractBoardIdAndCardIdFromUrl(link);
                         if (ids.length == 2) {
-                            syncManager.getCardByRemoteID(account.getId(), ids[1]).observe(owner, (fullCard) -> {
+                            viewModel.getCardByRemoteID(account.getId(), ids[1]).observe(owner, (fullCard) -> {
                                 if (fullCard != null) {
-                                    syncManager.getBoardByRemoteId(account.getId(), ids[0]).observe(owner, (board) -> {
+                                    viewModel.getBoardByRemoteId(account.getId(), ids[0]).observe(owner, (board) -> {
                                         if (board != null) {
                                             binding.getRoot().setOnClickListener((v) -> itemView.getContext().startActivity(EditActivity.createEditCardIntent(itemView.getContext(), account, board.getLocalId(), fullCard.getLocalId())));
                                         } else {

@@ -26,7 +26,6 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
@@ -45,7 +44,6 @@ public class EditActivity extends BrandedActivity {
 
     private ActivityEditBinding binding;
     private EditCardViewModel viewModel;
-    private SyncManager syncManager;
 
     private static final int[] tabTitles = new int[]{
             R.string.card_edit_details,
@@ -116,11 +114,10 @@ public class EditActivity extends BrandedActivity {
             throw new IllegalArgumentException(BUNDLE_KEY_ACCOUNT + " must not be null.");
         }
         viewModel.setAccount(account);
-        syncManager = new SyncManager(this, viewModel.getAccount().getName());
 
         final long boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
 
-        observeOnce(syncManager.getFullBoardById(account.getId(), boardId), EditActivity.this, (fullBoard -> {
+        observeOnce(viewModel.getFullBoardById(account.getId(), boardId), EditActivity.this, (fullBoard -> {
             applyBrand(fullBoard.getBoard().getColor());
             viewModel.setCanEdit(fullBoard.getBoard().isPermissionEdit());
             invalidateOptionsMenu();
@@ -138,7 +135,7 @@ public class EditActivity extends BrandedActivity {
                 setupViewPager();
                 setupTitle();
             } else {
-                observeOnce(syncManager.getFullCardWithProjectsByLocalId(account.getId(), cardId), EditActivity.this, (fullCard) -> {
+                observeOnce(viewModel.getFullCardWithProjectsByLocalId(account.getId(), cardId), EditActivity.this, (fullCard) -> {
                     if (fullCard == null) {
                         new BrandedAlertDialogBuilder(this)
                                 .setTitle(R.string.card_not_found)
@@ -199,9 +196,9 @@ public class EditActivity extends BrandedActivity {
                         .show();
             } else {
                 if (viewModel.isCreateMode()) {
-                    observeOnce(syncManager.createFullCard(viewModel.getAccount().getId(), viewModel.getBoardId(), viewModel.getFullCard().getCard().getStackId(), viewModel.getFullCard()), EditActivity.this, (card) -> runnable.run());
+                    observeOnce(viewModel.createFullCard(viewModel.getAccount().getId(), viewModel.getBoardId(), viewModel.getFullCard().getCard().getStackId(), viewModel.getFullCard()), EditActivity.this, (card) -> runnable.run());
                 } else {
-                    observeOnce(syncManager.updateCard(viewModel.getFullCard()), EditActivity.this, (card) -> runnable.run());
+                    observeOnce(viewModel.updateCard(viewModel.getFullCard()), EditActivity.this, (card) -> runnable.run());
                 }
             }
         }

@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
 
@@ -20,7 +21,6 @@ import it.niedermann.nextcloud.deck.databinding.FragmentPickStackBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.ImportAccountActivity;
 import it.niedermann.nextcloud.deck.ui.preparecreate.AccountAdapter;
 import it.niedermann.nextcloud.deck.ui.preparecreate.BoardAdapter;
@@ -35,10 +35,9 @@ import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentStackId;
 public class PickStackFragment extends Fragment {
 
     private FragmentPickStackBinding binding;
+    private PickStackViewModel viewModel;
 
     private static final String KEY_SHOW_BOARDS_WITHOUT_EDIT_PERMISSION = "show_boards_without_edit_permission";
-
-    private SyncManager syncManager;
 
     private PickStackListener pickStackListener;
 
@@ -127,6 +126,7 @@ public class PickStackFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         binding = FragmentPickStackBinding.inflate(getLayoutInflater());
+        viewModel = new ViewModelProvider(requireActivity()).get(PickStackViewModel.class);
 
         accountAdapter = new AccountAdapter(requireContext());
         binding.accountSelect.setAdapter(accountAdapter);
@@ -138,11 +138,9 @@ public class PickStackFragment extends Fragment {
         binding.stackSelect.setAdapter(stackAdapter);
         binding.stackSelect.setEnabled(false);
 
-        syncManager = new SyncManager(requireContext());
-
-        switchMap(syncManager.hasAccounts(), hasAccounts -> {
+        switchMap(viewModel.hasAccounts(), hasAccounts -> {
             if (hasAccounts) {
-                return syncManager.readAccounts();
+                return viewModel.readAccounts();
             } else {
                 startActivityForResult(new Intent(requireActivity(), ImportAccountActivity.class), ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT);
                 return null;
@@ -170,12 +168,12 @@ public class PickStackFragment extends Fragment {
 
         binding.accountSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
             updateLiveDataSource(boardsLiveData, boardsObserver, showBoardsWithoutEditPermission
-                    ? syncManager.getBoards(parent.getSelectedItemId())
-                    : syncManager.getBoardsWithEditPermission(parent.getSelectedItemId()));
+                    ? viewModel.getBoards(parent.getSelectedItemId())
+                    : viewModel.getBoardsWithEditPermission(parent.getSelectedItemId()));
         });
 
         binding.boardSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
-            updateLiveDataSource(stacksLiveData, stacksObserver, syncManager.getStacksForBoard(binding.accountSelect.getSelectedItemId(), parent.getSelectedItemId()));
+            updateLiveDataSource(stacksLiveData, stacksObserver, viewModel.getStacksForBoard(binding.accountSelect.getSelectedItemId(), parent.getSelectedItemId()));
         });
 
         binding.stackSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
