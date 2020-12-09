@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.SharedElementCallback;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -24,7 +25,6 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityAttachmentsBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
@@ -35,6 +35,7 @@ public class AttachmentsActivity extends AppCompatActivity {
     private static final String BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID = "currentAttachmenLocaltId";
 
     private ActivityAttachmentsBinding binding;
+    private AttachmentsViewModel viewModel;
     private ViewPager2.OnPageChangeCallback onPageChangeCallback;
 
     @Override
@@ -43,6 +44,8 @@ public class AttachmentsActivity extends AppCompatActivity {
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
 
         binding = ActivityAttachmentsBinding.inflate(getLayoutInflater());
+        viewModel = new ViewModelProvider(this).get(AttachmentsViewModel.class);
+
         setContentView(binding.getRoot());
         supportPostponeEnterTransition();
 
@@ -64,8 +67,7 @@ public class AttachmentsActivity extends AppCompatActivity {
 
         long cardId = args.getLong(BUNDLE_KEY_CARD_ID);
 
-        final SyncManager syncManager = new SyncManager(this);
-        syncManager.getFullCardWithProjectsByLocalId(account.getId(), cardId).observe(this, fullCard -> {
+        viewModel.getFullCardWithProjectsByLocalId(account.getId(), cardId).observe(this, fullCard -> {
             final List<Attachment> attachments = new ArrayList<>();
             for (Attachment a : fullCard.getAttachments()) {
                 if (MimeTypeUtil.isImage(a.getMimetype())) {

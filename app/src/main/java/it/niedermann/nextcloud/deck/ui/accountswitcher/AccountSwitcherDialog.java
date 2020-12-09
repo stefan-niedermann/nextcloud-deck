@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.accountswitcher;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogAccountSwitcherBinding;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.manageaccounts.ManageAccountsActivity;
@@ -33,21 +31,15 @@ import static it.niedermann.nextcloud.deck.ui.MainActivity.ACTIVITY_MANAGE_ACCOU
 public class AccountSwitcherDialog extends BrandedDialogFragment {
 
     private AccountSwitcherAdapter adapter;
-    private SyncManager syncManager;
     private DialogAccountSwitcherBinding binding;
     private MainViewModel viewModel;
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        syncManager = new SyncManager(requireActivity());
-    }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         binding = DialogAccountSwitcherBinding.inflate(requireActivity().getLayoutInflater());
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+
         binding.accountName.setText(viewModel.getCurrentAccount().getUserName());
         binding.accountHost.setText(Uri.parse(viewModel.getCurrentAccount().getUrl()).getHost());
         binding.check.setSelected(true);
@@ -66,7 +58,7 @@ public class AccountSwitcherDialog extends BrandedDialogFragment {
             dismiss();
         }));
 
-        observeOnce(syncManager.readAccounts(), requireActivity(), (accounts) -> {
+        observeOnce(viewModel.readAccounts(), requireActivity(), (accounts) -> {
             accounts.remove(viewModel.getCurrentAccount());
             adapter.setAccounts(accounts);
         });

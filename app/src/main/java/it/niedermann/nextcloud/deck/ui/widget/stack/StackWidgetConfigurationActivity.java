@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -13,10 +14,14 @@ import it.niedermann.nextcloud.deck.ui.PickStackActivity;
 
 public class StackWidgetConfigurationActivity extends PickStackActivity {
     private int appWidgetId;
+    private StackWidgetConfigurationViewModel stackWidgetConfigurationViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        stackWidgetConfigurationViewModel = new ViewModelProvider(this).get(StackWidgetConfigurationViewModel.class);
+
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(R.string.add_stack_widget);
@@ -40,9 +45,9 @@ public class StackWidgetConfigurationActivity extends PickStackActivity {
     protected void onSubmit(Account account, long boardId, long stackId) {
         final Bundle extras = new Bundle();
 
-        syncManager.addStackWidget(appWidgetId, account.getId(), stackId, false);
+        stackWidgetConfigurationViewModel.addStackWidget(appWidgetId, account.getId(), stackId, false);
         Intent updateIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null,
-                                    getApplicationContext(), StackWidget.class);
+                getApplicationContext(), StackWidget.class);
         extras.putSerializable(StackWidget.ACCOUNT_KEY, account);
         extras.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 

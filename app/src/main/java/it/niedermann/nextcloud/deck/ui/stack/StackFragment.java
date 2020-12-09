@@ -40,7 +40,7 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
     private static final String KEY_STACK_ID = "stackId";
 
     private FragmentStackBinding binding;
-    private SyncManager syncManager;
+    private MainViewModel mainViewModel;
     private FragmentActivity activity;
     private OnScrollListener onScrollListener;
 
@@ -68,10 +68,10 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentStackBinding.inflate(inflater, container, false);
         activity = requireActivity();
+        binding = FragmentStackBinding.inflate(inflater, container, false);
+        mainViewModel = new ViewModelProvider(activity).get(MainViewModel.class);
 
-        final MainViewModel mainViewModel = new ViewModelProvider(activity).get(MainViewModel.class);
         final FilterViewModel filterViewModel = new ViewModelProvider(activity).get(FilterViewModel.class);
 
         // This might be a zombie fragment with an empty MainViewModel after Android killed the activity (but not the fragment instance
@@ -81,19 +81,10 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
             return binding.getRoot();
         }
 
-        syncManager = new SyncManager(activity);
-
-        adapter = new CardAdapter(
-                requireContext(),
-                getChildFragmentManager(),
-                mainViewModel.getCurrentAccount(),
-                mainViewModel.getCurrentBoardLocalId(),
-                mainViewModel.getCurrentBoardRemoteId(),
-                stackId,
-                mainViewModel.currentBoardHasEditPermission(),
-                syncManager,
-                this,
-                (requireActivity() instanceof SelectCardListener) ? (SelectCardListener) requireActivity() : null);
+        adapter = new CardAdapter(requireContext(), getChildFragmentManager(), stackId, mainViewModel, this,
+                (requireActivity() instanceof SelectCardListener)
+                        ? (SelectCardListener) requireActivity()
+                        : null);
         binding.recyclerView.setAdapter(adapter);
 
         if (onScrollListener != null) {
@@ -121,12 +112,12 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
             }
         });
 
-        cardsLiveData = syncManager.getFullCardsForStack(mainViewModel.getCurrentAccount().getId(), stackId, filterViewModel.getFilterInformation().getValue());
+        cardsLiveData = mainViewModel.getFullCardsForStack(mainViewModel.getCurrentAccount().getId(), stackId, filterViewModel.getFilterInformation().getValue());
         cardsLiveData.observe(getViewLifecycleOwner(), cardsObserver);
 
         filterViewModel.getFilterInformation().observe(getViewLifecycleOwner(), (filterInformation -> {
             cardsLiveData.removeObserver(cardsObserver);
-            cardsLiveData = syncManager.getFullCardsForStack(mainViewModel.getCurrentAccount().getId(), stackId, filterInformation);
+            cardsLiveData = mainViewModel.getFullCardsForStack(mainViewModel.getCurrentAccount().getId(), stackId, filterInformation);
             cardsLiveData.observe(getViewLifecycleOwner(), cardsObserver);
         }));
 
@@ -163,7 +154,7 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
 
     @Override
     public void move(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
-        WrappedLiveData<Void> liveData = syncManager.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId);
+        final WrappedLiveData<Void> liveData = mainViewModel.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId);
         observeOnce(liveData, requireActivity(), (next) -> {
             if (liveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(liveData.getError())) {
                 ExceptionDialogFragment.newInstance(liveData.getError(), null).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());

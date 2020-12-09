@@ -1,28 +1,40 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
+import android.app.Application;
+
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+
+import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
+import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
 import static it.niedermann.nextcloud.deck.model.internal.FilterInformation.hasActiveFilter;
 
 @SuppressWarnings("WeakerAccess")
-public class FilterViewModel extends ViewModel {
+public class FilterViewModel extends AndroidViewModel {
+
+    private final SyncManager syncManager;
 
     @IntRange(from = 0, to = 2)
     private int currentFilterTab = 0;
 
     @NonNull
-    private MutableLiveData<FilterInformation> filterInformationDraft = new MutableLiveData<>(new FilterInformation());
+    private final MutableLiveData<FilterInformation> filterInformationDraft = new MutableLiveData<>(new FilterInformation());
     @NonNull
-    private MutableLiveData<FilterInformation> filterInformation = new MutableLiveData<>();
+    private final MutableLiveData<FilterInformation> filterInformation = new MutableLiveData<>();
+
+    public FilterViewModel(@NonNull Application application) {
+        super(application);
+        this.syncManager = new SyncManager(application);
+    }
 
     public void publishFilterInformationDraft() {
         this.filterInformation.postValue(hasActiveFilter(filterInformationDraft.getValue()) ? filterInformationDraft.getValue() : null);
@@ -97,5 +109,13 @@ public class FilterViewModel extends ViewModel {
     @IntRange(from = 0, to = 2)
     public int getCurrentFilterTab() {
         return this.currentFilterTab;
+    }
+
+    public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long boardId) {
+        return syncManager.findProposalsForUsersToAssign(accountId, boardId, -1L, -1);
+    }
+
+    public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId) {
+        return syncManager.findProposalsForLabelsToAssign(accountId, boardId, -1L);
     }
 }
