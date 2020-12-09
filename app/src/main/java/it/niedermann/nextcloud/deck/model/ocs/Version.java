@@ -10,12 +10,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 
 public class Version implements Comparable<Version> {
     private static final Pattern NUMBER_EXTRACTION_PATTERN = Pattern.compile("[0-9]+");
     private static final Version VERSION_1_0_0 = new Version("1.0.0", 1, 0, 0);
     private static final Version VERSION_1_0_3 = new Version("1.0.3", 1, 0, 3);
+    private static final Version VERSION_1_3_0 = new Version("1.3.0", 1, 3, 0);
     @Nullable
     private static Version VERSION_MINIMUM_SUPPORTED;
 
@@ -155,6 +157,22 @@ public class Version implements Comparable<Version> {
     }
 
     /**
+     * Before {@link #VERSION_1_3_0} all {@link Attachment}s have been stored in a special folder at the server.
+     * Starting with {@link #VERSION_1_3_0} {@link Attachment}s can be stored as regular files, allowing for example to make use of server side thumbnail generation.
+     * <p>
+     * Since the migration takes a long time, it does not happen on upgrading the server app but step by step via a cronjob.
+     * Therefore this method is just an indicator, that it is possible that {@link Attachment}s are stored as files, but it is no guarantee that all {@link Attachment}s already have been migrated to files.
+     *
+     * @return whether or not the server supports file attachments
+     * @see <a href="https://github.com/nextcloud/deck/pull/2638">documentation in PR</a>
+     */
+    public boolean supportsFileAttachments() {
+        return false;
+//         TODO depends on https://github.com/nextcloud/deck/pull/2638
+//         return isGreaterOrEqualTo(VERSION_1_3_0);
+    }
+
+    /**
      * Title max length has been increased from 100 to 255 characters beginning with server {@link Version} 1.0.0
      *
      * @return the number of characters that the title fields of cards allow
@@ -165,6 +183,7 @@ public class Version implements Comparable<Version> {
                 ? 255
                 : 100;
     }
+
     /**
      * URL to view a card in the web interface has been changed in {@link Version} 1.0.0
      *
