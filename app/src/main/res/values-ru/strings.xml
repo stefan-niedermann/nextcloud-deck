@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Последняя учётная запись</string>
     <string name="drawer_manage_accounts">Управление аккаунтами</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Доски</string>
     <string name="simple_add">Добавить</string>
     <string name="simple_save">Сохранить</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Удалить доску</string>
     <string name="delete_something">Удалить %1$s</string>
 
-    <!-- About -->
     <string name="about">О программе</string>
     <string name="about_version_title">Версия</string>
     <string name="about_version">Вы используете %1$s</string>
@@ -111,6 +109,7 @@
     <string name="no_lists_yet">Нет ни одного списка</string>
     <string name="do_you_want_to_save_your_changes">Сохранить изменения?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Вы хотите архивировать все карточки из %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Переместить в архив все отобранные в списке «%1$s» карточки?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Это действие безвозвратно удалит %1$d карточку этого списка.</item>
         <item quantity="few">Это действие безвозвратно удалит %1$d карточки этого списка.</item>
@@ -170,11 +169,9 @@
     <string name="open_in_browser">Открыть в браузере</string>
     <string name="updating_card">Обновление карточки…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Переместить вправо</string>
     <string name="move_list_left">Переместить влево</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Все</string>
     <string name="filter_overdue">Просроченные</string>
     <string name="filter_today">Сегодня</string>
@@ -185,7 +182,6 @@
     <string name="filter_by_assigned_user">Отфильтровать по назначению</string>
     <string name="filter_by_duedate">Отфильтровать по сроку исполнения</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Карточки в архиве</string>
     <string name="action_card_dearchive">Отменить архивацию карточки</string>
     <string name="action_archived_cards">Показать архив карточек</string>
@@ -200,11 +196,9 @@
     <string name="filter_user_title">Пользователи</string>
     <string name="filter_duedate_title">Дата исполнения</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Отменить архивацию доски</string>
     <string name="archived_boards">Архив досок</string>
 
-    <!-- Errors -->
     <string name="error">Произошла ошибка</string>
     <string name="synchronization_failed">Сбой синхронизации</string>
     <string name="operation_not_yet_supported">Ещё не поддерживается</string>
@@ -218,7 +212,8 @@
 
     <string name="error_dialog_title">О нет, что теперь? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Попробуйте принудительно закрыть приложение и запустить его снова. Это могло быть связано с некорректным подключением к приложению Nextcloud.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Если проблема повторяется, попробуйте для её решения очистить хранилище приложений Nextcloud и Nextcloud Карточки.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Если проблема повторяется, попробуйте для её решения очистить хранилища данных приложений Nextcloud и Nextcloud Карточки.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Не удалось выполнить обновление базы данных. Сообщите об этой ошибке разработчикам. Чтобы продолжить использовать приложение, требуется выполнить очистку данных приложения.</string>
     <string name="error_dialog_tip_clear_storage">Для очистки хранилища на откройте приложение «Настройки» и выберите Приложения → Nextcloud / Nextcloud Deck → Хранилище → Очистить хранилище</string>
     <string name="error_dialog_tip_files_outdated">Ваше приложение Nextcloud устарело. Установите новую версию с Play Store или F-Droid.</string>
     <string name="error_dialog_tip_files_force_stop">Похоже, что с приложением Nextcloud ведёт себя неожиданным образом. Попробуйте принудительно остановить приложения Nextcloud и Nextcloud Карточки. </string>
@@ -232,6 +227,8 @@
     <string name="error_dialog_we_need_info">Требуется следующая техническая информация от вас:</string>
     <string name="error_dialog_redirect">На запрос сервер вернул код состояния HTTP 302, что означает, что  приложение Карточки либо не установлено, либо сервер настроен неверно. Такое поведение может являться следствием замены стандартного файла .htaccess администратором сервера или приложением Nextcloud, таким как OID Client.</string>
     <string name="error_dialog_version_not_parsable">Не удалось определить серверную версию приложения Карточки. Убедитесь, что приложение установлено и включено на сервере.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Учётная запись из приложения Nextcloud не может использована для авторизации.</string>
+    <string name="error_dialog_user_not_found_in_database">Данные о текущем пользователе отличаются от сохранённых в базе данных приложения. Это может произойти при использовании каталогов LDAP на сервере Nextcloud.</string>
     <string name="error_dialog_capabilities_not_parsable">Не удалось получить параметры совместимости сервера. Убедитесь, что сервер работоспособен и у других приложений-клиентов имеется доступ.</string>
     <string name="error_dialog_attachment_upload_failed">Ошибка передачи вложения на сервер. Используйте другой способ публикации и сообщите разработчикам об этой ошибке.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Пожалуйста отключите все оптимизации аккумулятора для приложений Nextcloud и Deck.</string>
@@ -252,6 +249,12 @@
     <string name="append_text_to_description">Добавить в описание</string>
     <string name="add_text_as_comment">Добавить как комментарий</string>
     <string name="progress_count">%1$d из %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">Во время передачи произошла %1$d ошибка</item>
+        <item quantity="few">Во время передачи произошло %1$d ошибки</item>
+        <item quantity="many">Во время передачи произошло %1$d ошибок</item>
+        <item quantity="other">Во время передачи произошло %1$d ошибки</item>
+    </plurals>
     <string name="simple_report">Сообщить</string>
     <string name="error_action_open_battery_settings">Настройки аккумулятора</string>
     <string name="move_warning">нет ни одного комментария или вложения, которые можно перенести при перемещении карточки на другую доску</string>
@@ -263,6 +266,7 @@
 
     <string name="widget_stack_title">Список</string>
     <string name="widget_stack_header_icon">иконка заголовка виджета</string>
+    <string name="widget_stack_placeholder_icon">Подстановочный значок виджета</string>
     <string name="select_stack">Выберите список</string>
     <string name="project_type_deck_board">Доска</string>
     <string name="project_type_deck_card">Карточка</string>
@@ -276,5 +280,28 @@
     </plurals>
     <string name="no_assigned_label">Метки не присвоены</string>
     <string name="single_card">Отдельная карточка</string>
+    <string name="project_type_room">Комната конференции</string>
     <string name="simple_move">Переместить</string>
-    </resources>
+    <string name="cannot_upload_files_without_permission">Отсутствуют права для загрузки файла</string>
+    <string name="clone_cards">Скопировать карточку</string>
+    <string name="simple_clone">Скопировать</string>
+    <string name="user_avatar">Изображение профиля</string>
+    <string name="simple_unassign">Отменить назначение</string>
+    <string name="simple_contact">Контакт</string>
+    <string name="simple_file">Файл</string>
+    <string name="simple_camera">Камера</string>
+    <string name="min_api_21">Эта возможность поддерживается на Android версии 5 и старше</string>
+    <string name="take_photo">Сделать фотографию</string>
+    <string name="take_photo_switch_camera">Переключить камеру</string>
+    <string name="take_photo_toggle_torch">Подсветка</string>
+    <string name="show_all_contacts">Показать все контакты</string>
+    <string name="show_all_files">Показать всё файлы</string>
+    <string name="recent">Недавние</string>
+    <string name="upload_a_new_attachment">Загрузить вложение</string>
+    <string name="contacts">Контакты</string>
+    <string name="downloads">Загрузки</string>
+    <string name="files">Файлы</string>
+    <string name="gallery">Галерея</string>
+    <string name="simple_attach">вложить</string>
+    <string name="add_stack_widget">Добавить виджет списка</string>
+</resources>

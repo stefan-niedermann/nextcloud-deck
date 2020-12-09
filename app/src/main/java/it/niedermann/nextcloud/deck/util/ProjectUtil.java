@@ -33,7 +33,7 @@ public class ProjectUtil {
 
     /**
      * extracts the values of board- and card-ID from url.
-     * Depending on what kind of url it gets, it will return a long[] of lenght 1 or 2:
+     * Depending on what kind of url it gets, it will return a long[] of length 1 or 2:
      * If the url contains both values, you'll get 2, if it contains only the board, you'll get 1.
      * <p>
      * The order is fixed here: [boardId, cardId]
@@ -50,7 +50,7 @@ public class ProjectUtil {
             throw new IllegalArgumentException("trimmed url is empty");
         }
         // extract important part
-        String[] splitByPrefix = url.split(".*index\\.php/apps/deck(/#)?/board/");
+        String[] splitByPrefix = url.split(".*(index\\.php/)?apps/deck(/#)?/board/");
         // split into board- and card part
         if (splitByPrefix.length < 2) {
             throw new IllegalArgumentException("This URL doesn't seem to be an URL containing the boardId: \"" + url + "\"");

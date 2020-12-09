@@ -38,7 +38,6 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
     private static final String KEY_BOARD_ID = "board_id";
 
     private long boardId;
-    private SyncManager syncManager;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -67,8 +66,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
         colors = getResources().getStringArray(R.array.board_default_colors);
         adapter = new ManageLabelsAdapter(this, requireContext());
         binding.labels.setAdapter(adapter);
-        syncManager = new SyncManager(requireActivity());
-        syncManager.getFullBoardById(viewModel.getCurrentAccount().getId(), boardId).observe(this, (fullBoard) -> {
+        viewModel.getFullBoardById(viewModel.getCurrentAccount().getId(), boardId).observe(this, (fullBoard) -> {
             if (fullBoard == null) {
                 throw new IllegalStateException("FullBoard should not be null");
             }
@@ -82,7 +80,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
             label.setTitle(binding.addLabelTitle.getText().toString());
             label.setColor(colors[new Random().nextInt(colors.length)]);
 
-            WrappedLiveData<Label> createLiveData = syncManager.createLabel(viewModel.getCurrentAccount().getId(), label, boardId);
+            WrappedLiveData<Label> createLiveData = viewModel.createLabel(viewModel.getCurrentAccount().getId(), label, boardId);
             observeOnce(createLiveData, this, (createdLabel) -> {
                 if (createLiveData.hasError()) {
                     final Throwable error = createLiveData.getError();
@@ -126,7 +124,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
 
     @Override
     public void requestDelete(@NonNull Label label) {
-        observeOnce(syncManager.countCardsWithLabel(label.getLocalId()), this, (count) -> {
+        observeOnce(viewModel.countCardsWithLabel(label.getLocalId()), this, (count) -> {
             if (count > 0) {
                 new BrandedDeleteAlertDialogBuilder(requireContext())
                         .setTitle(getString(R.string.delete_something, label.getTitle()))
@@ -141,7 +139,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
     }
 
     private void deleteLabel(@NonNull Label label) {
-        final WrappedLiveData<Void> deleteLiveData = syncManager.deleteLabel(label);
+        final WrappedLiveData<Void> deleteLiveData = viewModel.deleteLabel(label);
         observeOnce(deleteLiveData, this, (v) -> {
             if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
                 final Throwable error = deleteLiveData.getError();
@@ -159,7 +157,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
 
     @Override
     public void onLabelUpdated(@NonNull Label label) {
-        WrappedLiveData<Label> updateLiveData = syncManager.updateLabel(label);
+        WrappedLiveData<Label> updateLiveData = viewModel.updateLabel(label);
         observeOnce(updateLiveData, this, (updatedLabel) -> {
             if (updateLiveData.hasError()) {
                 final Throwable error = updateLiveData.getError();

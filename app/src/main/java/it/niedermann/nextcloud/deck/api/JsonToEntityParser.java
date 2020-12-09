@@ -284,6 +284,7 @@ public class JsonToEntityParser {
         makeTraceableIfFails(() -> {
             board.setTitle(getNullAsEmptyString(e.get("title")));
             board.setColor(getNullAsEmptyString(e.get("color")));
+            board.setEtag(getNullAsNull(e.get("ETag")));
             board.setArchived(e.get("archived").getAsBoolean());
 
             board.setLastModified(getTimestampFromLong(e.get("lastModified")));
@@ -396,6 +397,7 @@ public class JsonToEntityParser {
             card.setDescription(getNullAsEmptyString(e.get("description")));
             card.setStackId(e.get("stackId").getAsLong());
             card.setType(getNullAsEmptyString(e.get("type")));
+            card.setEtag(getNullAsNull(e.get("ETag")));
             card.setLastModified(getTimestampFromLong(e.get("lastModified")));
             card.setCreatedAt(getTimestampFromLong(e.get("createdAt")));
             card.setDeletedAt(getTimestampFromLong(e.get("deletedAt")));
@@ -456,6 +458,7 @@ public class JsonToEntityParser {
             a.setId(e.get("id").getAsLong());
             a.setCardId(e.get("cardId").getAsLong());
             a.setType(e.get("type").getAsString());
+            a.setEtag(getNullAsNull(e.get("ETag")));
             a.setData(e.get("data").getAsString());
             a.setLastModified(getTimestampFromLong(e.get("lastModified")));
             a.setCreatedAt(getTimestampFromLong(e.get("createdAt")));
@@ -571,33 +574,6 @@ public class JsonToEntityParser {
         return Color.GRAY;
     }
 
-    protected static List<Activity> parseActivity(JsonObject e) {
-        DeckLog.verbose(e.toString());
-        List<Activity> activityList = new ArrayList<>();
-
-        makeTraceableIfFails(() -> {
-            if (e.has("ocs")) {
-                JsonObject ocs = e.getAsJsonObject("ocs");
-                if (ocs.has("data")) {
-                    JsonArray data = ocs.getAsJsonArray("data");
-                    for (JsonElement activityJson : data) {
-                        Activity activity = new Activity();
-                        JsonObject activityObject = activityJson.getAsJsonObject();
-
-                        activity.setId(activityObject.get("activity_id").getAsLong());
-                        activity.setType(ActivityType.findByPath(getNullAsEmptyString(activityObject.get("icon"))).getId());
-                        activity.setSubject(getNullAsEmptyString(activityObject.get("subject")));
-                        activity.setCardId(activityObject.get("object_id").getAsLong());
-                        activity.setLastModified(getTimestampFromString(activityObject.get("datetime")));
-
-                        activityList.add(activity);
-                    }
-                }
-            }
-        }, e);
-        return activityList;
-    }
-
     protected static FullStack parseStack(JsonObject e) {
         DeckLog.verbose(e.toString());
         FullStack fullStack = new FullStack();
@@ -607,6 +583,7 @@ public class JsonToEntityParser {
             stack.setTitle(getNullAsEmptyString(e.get("title")));
             stack.setBoardId(e.get("boardId").getAsLong());
             stack.setId(e.get("id").getAsLong());
+            stack.setEtag(getNullAsNull(e.get("ETag")));
             stack.setLastModified(getTimestampFromLong(e.get("lastModified")));
             stack.setDeletedAt(getTimestampFromLong(e.get("deletedAt")));
             if (e.has("order") && !e.get("order").isJsonNull()) {
@@ -627,6 +604,34 @@ public class JsonToEntityParser {
         return fullStack;
     }
 
+    protected static List<Activity> parseActivity(JsonObject e) {
+        DeckLog.verbose(e.toString());
+        List<Activity> activityList = new ArrayList<>();
+
+        makeTraceableIfFails(() -> {
+            if (e.has("ocs")) {
+                JsonObject ocs = e.getAsJsonObject("ocs");
+                if (ocs.has("data")) {
+                    JsonArray data = ocs.getAsJsonArray("data");
+                    for (JsonElement activityJson : data) {
+                        Activity activity = new Activity();
+                        JsonObject activityObject = activityJson.getAsJsonObject();
+
+                        activity.setId(activityObject.get("activity_id").getAsLong());
+                        activity.setType(ActivityType.findByPath(getNullAsEmptyString(activityObject.get("icon"))).getId());
+                        activity.setSubject(getNullAsEmptyString(activityObject.get("subject")));
+                        activity.setCardId(activityObject.get("object_id").getAsLong());
+                        activity.setEtag(getNullAsNull(e.get("ETag")));
+                        activity.setLastModified(getTimestampFromString(activityObject.get("datetime")));
+
+                        activityList.add(activity);
+                    }
+                }
+            }
+        }, e);
+        return activityList;
+    }
+
     protected static Label parseLabel(JsonObject e) {
         DeckLog.verbose(e.toString());
         Label label = new Label();
@@ -635,13 +640,18 @@ public class JsonToEntityParser {
             //todo: last modified!
 //          label.setLastModified(get);
             label.setTitle(getNullAsEmptyString(e.get("title")));
+            label.setEtag(getNullAsNull(e.get("ETag")));
             label.setColor(getColorAsInt(e, "color"));
         }, e);
         return label;
     }
 
     private static String getNullAsEmptyString(JsonElement jsonElement) {
-        return jsonElement.isJsonNull() ? "" : jsonElement.getAsString();
+        return jsonElement == null || jsonElement.isJsonNull() ? "" : jsonElement.getAsString();
+    }
+
+    private static String getNullAsNull(JsonElement jsonElement) {
+        return jsonElement == null || jsonElement.isJsonNull() ? null : jsonElement.getAsString();
     }
 
     private static Instant getTimestampFromString(JsonElement jsonElement) {

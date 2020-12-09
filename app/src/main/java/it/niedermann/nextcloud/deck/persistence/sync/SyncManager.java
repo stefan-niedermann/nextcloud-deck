@@ -527,8 +527,8 @@ public class SyncManager {
     }
 
     @AnyThread
-    public LiveData<FullBoard> createBoard(long accountId, @NonNull Board board) {
-        MutableLiveData<FullBoard> liveData = new MutableLiveData<>();
+    public WrappedLiveData<FullBoard> createBoard(long accountId, @NonNull Board board) {
+        WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
@@ -546,6 +546,12 @@ public class SyncManager {
                     @Override
                     public void onResponse(FullBoard response) {
                         liveData.postValue(response);
+                    }
+
+                    @SuppressLint("MissingSuperCall")
+                    @Override
+                    public void onError(Throwable throwable, FullBoard entity) {
+                        liveData.postError(throwable, entity);
                     }
                 });
             }
@@ -907,7 +913,18 @@ public class SyncManager {
             stack.setBoardId(board.getLocalId());
             fullStack.setStack(stack);
             fullStack.setAccountId(accountId);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new StackDataProvider(null, board), fullStack, getCallbackToLiveDataConverter(account, liveData));
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new StackDataProvider(null, board), fullStack, new IResponseCallback<FullStack>(account) {
+                @Override
+                public void onResponse(FullStack response) {
+                    liveData.postValue(response);
+                }
+
+                @SuppressLint("MissingSuperCall")
+                @Override
+                public void onError(Throwable throwable, FullStack entity) {
+                    liveData.postError(throwable, entity);
+                }
+            });
         });
         return liveData;
     }
@@ -1034,8 +1051,8 @@ public class SyncManager {
 //    }
 
     @AnyThread
-    public LiveData<FullCard> createFullCard(long accountId, long localBoardId, long localStackId, @NonNull FullCard card) {
-        MutableLiveData<FullCard> liveData = new MutableLiveData<>();
+    public WrappedLiveData<FullCard> createFullCard(long accountId, long localBoardId, long localStackId, @NonNull FullCard card) {
+        WrappedLiveData<FullCard> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
@@ -1072,11 +1089,28 @@ public class SyncManager {
                 }
             }
 
-            liveData.postValue(card);
+
             if (serverAdapter.hasInternetConnection()) {
                 new SyncHelper(serverAdapter, dataBaseAdapter, null)
-                        .setResponseCallback(IResponseCallback.getDefaultResponseCallback(account))
+                        .setResponseCallback(new IResponseCallback<Boolean>(account) {
+                            @Override
+                            public void onResponse(Boolean response) {
+                                liveData.postValue(card);
+                            }
+
+                            @SuppressLint("MissingSuperCall")
+                            @Override
+                            public void onError(Throwable throwable) {
+                                if (throwable.getClass() == DeckException.class && ((DeckException)throwable).getHint().equals(DeckException.Hint.DEPENDENCY_NOT_SYNCED_YET)) {
+                                    liveData.postValue(card);
+                                } else {
+                                    liveData.postError(throwable);
+                                }
+                            }
+                        })
                         .doUpSyncFor(new CardDataProvider(null, board, stack));
+            } else {
+                liveData.postValue(card);
             }
         });
         return liveData;

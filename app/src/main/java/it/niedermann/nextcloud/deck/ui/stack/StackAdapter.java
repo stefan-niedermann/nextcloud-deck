@@ -12,7 +12,7 @@ import it.niedermann.nextcloud.deck.model.Stack;
 
 public class StackAdapter extends FragmentStateAdapter {
     @NonNull
-    private List<Stack> stackList = new ArrayList<>();
+    private final List<Stack> stackList = new ArrayList<>();
 
     public StackAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);

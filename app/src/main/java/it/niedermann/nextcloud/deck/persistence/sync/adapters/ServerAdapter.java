@@ -125,9 +125,9 @@ public class ServerAdapter {
 //        return lastSyncHeader;
     }
 
-    public void getBoards(IResponseCallback<List<FullBoard>> responseCallback) {
+    public void getBoards(IResponseCallback<ParsedResponse<List<FullBoard>>> responseCallback) {
         RequestHelper.request(provider, () ->
-                        provider.getDeckAPI().getBoards(true, getLastSyncDateFormatted(responseCallback.getAccount().getId())),
+                        provider.getDeckAPI().getBoards(true, getLastSyncDateFormatted(responseCallback.getAccount().getId()), responseCallback.getAccount().getBoardsEtag()),
                 responseCallback);
     }
 

@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogTextColorInputBinding;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
@@ -56,22 +55,22 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
             dialogBuilder.setPositiveButton(R.string.simple_save, (dialog, which) -> {
                 this.fullBoard.board.setColor(binding.colorChooser.getSelectedColor());
                 this.fullBoard.board.setTitle(binding.input.getText().toString());
-                editBoardListener.onUpdateBoard(fullBoard);
+                this.editBoardListener.onUpdateBoard(fullBoard);
             });
             final MainViewModel viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-            new SyncManager(requireActivity()).getFullBoardById(viewModel.getCurrentAccount().getId(), args.getLong(KEY_BOARD_ID)).observe(EditBoardDialogFragment.this, (FullBoard fb) -> {
+            viewModel.getFullBoardById(viewModel.getCurrentAccount().getId(), args.getLong(KEY_BOARD_ID)).observe(EditBoardDialogFragment.this, (FullBoard fb) -> {
                 if (fb.board != null) {
                     this.fullBoard = fb;
                     String title = this.fullBoard.getBoard().getTitle();
                     binding.input.setText(title);
                     binding.input.setSelection(title.length());
-                    binding.colorChooser.selectColor(String.format("#%06X", (0xFFFFFF & fullBoard.getBoard().getColor())));
+                    binding.colorChooser.selectColor(fullBoard.getBoard().getColor());
                 }
             });
         } else {
             dialogBuilder.setTitle(R.string.add_board);
             dialogBuilder.setPositiveButton(R.string.simple_add, (dialog, which) -> editBoardListener.onCreateBoard(binding.input.getText().toString(), binding.colorChooser.getSelectedColor()));
-            binding.colorChooser.selectColor(String.format("#%06X", 0xFFFFFF & ContextCompat.getColor(requireContext(), R.color.board_default_color)));
+            binding.colorChooser.selectColor(ContextCompat.getColor(requireContext(), R.color.board_default_color));
         }
 
         return dialogBuilder

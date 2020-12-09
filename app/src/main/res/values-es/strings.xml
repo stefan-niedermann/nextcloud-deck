@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Última cuenta</string>
     <string name="drawer_manage_accounts">Gestionar cuentas</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Tableros</string>
     <string name="simple_add">Añadir</string>
     <string name="simple_save">Guardar</string>
@@ -45,7 +44,6 @@
     <string name="delete_board">Eliminar tablero</string>
     <string name="delete_something">Borrar %1$s</string>
 
-    <!-- About -->
     <string name="about">Acerca de</string>
     <string name="about_version_title">Version</string>
     <string name="about_version">Actualmente estás usando %1$s</string>
@@ -167,11 +165,9 @@
     <string name="open_in_browser">Abrir en navegador</string>
     <string name="updating_card">Actualizando tarjeta</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Mover lista a la derecha</string>
     <string name="move_list_left">Mover lista a la izquierda</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Todo</string>
     <string name="filter_overdue">Demorado</string>
     <string name="filter_today">Hoy</string>
@@ -182,7 +178,6 @@
     <string name="filter_by_assigned_user">Filtrar por usuario asignado</string>
     <string name="filter_by_duedate">Filtrar por fecha de finalización</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Tarjetas archivadas</string>
     <string name="action_card_dearchive">Deshacer archivado de tarjeta</string>
     <string name="action_archived_cards">Explorar las tarjetas archivadas</string>
@@ -197,11 +192,9 @@
     <string name="filter_user_title">Usuarios</string>
     <string name="filter_duedate_title">Fecha de fin</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Deshacer archivado del tablero</string>
     <string name="archived_boards">Tableros archivados</string>
 
-    <!-- Errors -->
     <string name="error">Ha aparecido un error</string>
     <string name="synchronization_failed">Fallo en la sincronización</string>
     <string name="operation_not_yet_supported">No está soportado todavía</string>
@@ -302,4 +295,5 @@
     <string name="files">Archivos</string>
     <string name="gallery">Galería</string>
     <string name="simple_attach">adjuntar</string>
+    <string name="add_stack_widget">Agregar lista de widget</string>
 </resources>

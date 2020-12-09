@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.Px;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +21,7 @@ import java.io.InputStream;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Attachment;
+import it.niedermann.nextcloud.deck.model.ocs.Version;
 
 /**
  * Created by stefan on 07.03.20.
@@ -31,7 +33,19 @@ public class AttachmentUtil {
     }
 
     /**
-     * @return {@link AttachmentUtil#getRemoteUrl} or {@link Attachment#getLocalPath()} as fallback in case this {@param attachment} has not yet been synced.
+     * @return a link to the thumbnail of the given {@link Attachment}.
+     * If a thumbnail is not available (see {@link Version#supportsFileAttachments()}), a link to
+     * the {@link Attachment} itself will be returned instead.
+     */
+    public static String getThumbnailUrl(@NonNull Version version, @NonNull String accountUrl, @NonNull Long cardRemoteId, @NonNull Attachment attachment, @Px int previewSize) {
+        return version.supportsFileAttachments() && !TextUtils.isEmpty(String.valueOf(attachment.getFileId()))
+                ? accountUrl + "/index.php/core/preview?fileId=" + attachment.getFileId() + "&x=" + previewSize + "&y=" + previewSize
+                : getRemoteOrLocalUrl(accountUrl, cardRemoteId, attachment);
+    }
+
+    /**
+     * @return {@link AttachmentUtil#getRemoteUrl} or {@link Attachment#getLocalPath()} as fallback
+     * in case this {@param attachment} has not yet been synced.
      */
     @Nullable
     public static String getRemoteOrLocalUrl(@NonNull String accountUrl, @Nullable Long cardRemoteId, @NonNull Attachment attachment) {

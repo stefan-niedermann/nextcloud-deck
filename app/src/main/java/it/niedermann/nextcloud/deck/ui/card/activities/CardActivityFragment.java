@@ -8,11 +8,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabActivitiesBinding;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 
 public class CardActivityFragment extends Fragment {
@@ -39,17 +37,14 @@ public class CardActivityFragment extends Fragment {
         }
 
         if (!viewModel.isCreateMode()) {
-            final SyncManager syncManager = new SyncManager(requireContext());
-
-            syncManager.syncActivitiesForCard(viewModel.getFullCard().getCard()).observe(getViewLifecycleOwner(), (activities -> {
+            viewModel.syncActivitiesForCard(viewModel.getFullCard().getCard()).observe(getViewLifecycleOwner(), (activities -> {
                 if (activities == null || activities.size() == 0) {
                     binding.emptyContentView.setVisibility(View.VISIBLE);
                     binding.activitiesList.setVisibility(View.GONE);
                 } else {
                     binding.emptyContentView.setVisibility(View.GONE);
                     binding.activitiesList.setVisibility(View.VISIBLE);
-                    RecyclerView.Adapter adapter = new CardActivityAdapter(activities, requireActivity().getMenuInflater());
-                    binding.activitiesList.setAdapter(adapter);
+                    binding.activitiesList.setAdapter(new CardActivityAdapter(activities, requireActivity().getMenuInflater()));
                 }
             }));
         } else {

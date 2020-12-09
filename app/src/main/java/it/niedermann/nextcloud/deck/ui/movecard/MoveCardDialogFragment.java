@@ -21,6 +21,7 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackFragment;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackListener;
+import it.niedermann.nextcloud.deck.ui.pickstack.PickStackViewModel;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -37,6 +38,7 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
     private Long originCardLocalId;
 
     private DialogMoveCardBinding binding;
+    private PickStackViewModel viewModel;
     private MoveCardListener moveCardListener;
 
     private Account selectedAccount;
