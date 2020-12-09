@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui.openlink;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -102,12 +101,12 @@ public class OpenLinkActivity extends AppCompatActivity implements Branded {
         SingleAccountHelper.setCurrentAccount(this, account.getName());
         saveCurrentAccountIdSynchronously(this, account.getId());
         try {
-            saveBrandColorsSynchronously(this, Color.parseColor(account.getColor()));
+            saveBrandColorsSynchronously(this, account.getColor());
         } catch (Throwable t) {
             DeckLog.logError(t);
         }
         syncManager = new SyncManager(this);
-        observeOnce(syncManager.getBoard(account.getId(), boardRemoteId), this, (board) -> {
+        observeOnce(syncManager.getBoardByRemoteId(account.getId(), boardRemoteId), this, (board) -> {
             saveCurrentBoardIdSynchronously(this, account.getId(), board.getLocalId());
             DeckLog.info("starting " + MainActivity.class.getSimpleName() + " with [" + account + ", " + board.getLocalId() + "]");
             Intent intent = new Intent(this, MainActivity.class)
