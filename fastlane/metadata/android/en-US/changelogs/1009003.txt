@@ -1,0 +1,3 @@
+- 🐞 Handle project resources with a string id properly
+- 🐞 Fix exception when creating a new list
+- 🐞 Fix NullPointerException when synchronizing in rare edge cases

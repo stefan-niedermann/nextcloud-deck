@@ -1,5 +1,7 @@
 package it.niedermann.android.crosstabdnd;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 public interface DragAndDropAdapter<Model> {
@@ -10,5 +12,6 @@ public interface DragAndDropAdapter<Model> {
 
     void insertItem(Model item, int position);
 
+    @NonNull
     List<Model> getItemList();
 }

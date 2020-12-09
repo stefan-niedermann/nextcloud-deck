@@ -2,21 +2,24 @@ package it.niedermann.nextcloud.deck.ui.exception;
 
 import android.app.Activity;
 
-import org.jetbrains.annotations.NotNull;
+import androidx.annotation.NonNull;
+
+import it.niedermann.nextcloud.deck.DeckLog;
 
 public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
 
-    private Activity context;
+    @NonNull
+    private final Activity activity;
 
-    public ExceptionHandler(Activity context) {
-        super();
-        this.context = context;
+    public ExceptionHandler(@NonNull Activity activity) {
+        this.activity = activity;
     }
 
     @Override
-    public void uncaughtException(@NotNull Thread t, Throwable e) {
-        context.getApplicationContext().startActivity(ExceptionActivity.createIntent(context, e));
-        context.finish();
+    public void uncaughtException(@NonNull Thread t, @NonNull Throwable e) {
+        DeckLog.logError(e);
+        activity.getApplicationContext().startActivity(ExceptionActivity.createIntent(activity, e));
+        activity.finish();
         Runtime.getRuntime().exit(0);
     }
 }

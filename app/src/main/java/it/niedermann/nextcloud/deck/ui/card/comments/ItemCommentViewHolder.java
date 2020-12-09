@@ -11,22 +11,25 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.DateFormat;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
+import it.niedermann.android.util.ClipboardUtil;
+import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCommentBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.util.DateUtil;
-import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 import static it.niedermann.nextcloud.deck.util.ViewUtil.setupMentions;
 
 public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
-    private ItemCommentBinding binding;
+    private final ItemCommentBinding binding;
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
 
     @SuppressWarnings("WeakerAccess")
     public ItemCommentViewHolder(ItemCommentBinding binding) {
@@ -35,15 +38,15 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(@NonNull FullDeckComment comment, @NonNull Account account, @ColorInt int mainColor, @NonNull MenuInflater inflater, @NonNull CommentDeletedListener deletedListener, @NonNull CommentSelectAsReplyListener selectAsReplyListener, @NonNull FragmentManager fragmentManager) {
-        ViewUtil.addAvatar(binding.avatar, account.getUrl(), comment.getComment().getActorId(), DimensionUtil.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
+        ViewUtil.addAvatar(binding.avatar, account.getUrl(), comment.getComment().getActorId(), DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
         binding.message.setText(comment.getComment().getMessage());
         binding.actorDisplayName.setText(comment.getComment().getActorDisplayName());
-        binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(binding.creationDateTime.getContext(), comment.getComment().getCreationDateTime().getTime()));
+        binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(binding.creationDateTime.getContext(), comment.getComment().getCreationDateTime().toEpochMilli()));
         itemView.setOnClickListener(View::showContextMenu);
 
         itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             inflater.inflate(R.menu.comment_menu, menu);
-            menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> copyToClipboard(itemView.getContext(), comment.getComment().getMessage()));
+            menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> ClipboardUtil.INSTANCE.copyToClipboard(itemView.getContext(), comment.getComment().getMessage()));
             final MenuItem replyMenuItem = menu.findItem(R.id.reply);
             if (comment.getStatusEnum() != DBStatus.LOCAL_EDITED && account.getServerDeckVersionAsObject().supportsCommentsReplys()) {
                 replyMenuItem.setOnMenuItemClickListener(item -> {
@@ -72,7 +75,7 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
         DrawableCompat.setTint(binding.notSyncedYet.getDrawable(), mainColor);
         binding.notSyncedYet.setVisibility(DBStatus.LOCAL_EDITED.equals(comment.getStatusEnum()) ? View.VISIBLE : View.GONE);
 
-        TooltipCompat.setTooltipText(binding.creationDateTime, DateFormat.getDateTimeInstance().format(comment.getComment().getCreationDateTime()));
+        TooltipCompat.setTooltipText(binding.creationDateTime, comment.getComment().getCreationDateTime().atZone(ZoneId.systemDefault()).format(dateFormatter));
         setupMentions(account, comment.getComment().getMentions(), binding.message);
 
         if (comment.getParent() == null) {

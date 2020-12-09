@@ -103,7 +103,12 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
 
     @Override
     public void updateAccessControl(AccessControl accessControl) {
-        syncManager.updateAccessControl(accessControl);
+        WrappedLiveData<AccessControl> updateLiveData = syncManager.updateAccessControl(accessControl);
+        observeOnce(updateLiveData, requireActivity(), (next) -> {
+            if (updateLiveData.hasError()) {
+                ExceptionDialogFragment.newInstance(updateLiveData.getError(), viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+        });
     }
 
     @Override
@@ -111,7 +116,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         final WrappedLiveData<Void> wrappedDeleteLiveData = syncManager.deleteAccessControl(ac);
         adapter.remove(ac);
         observeOnce(wrappedDeleteLiveData, this, (ignored) -> {
-            if (wrappedDeleteLiveData.hasError()) {
+            if (wrappedDeleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(wrappedDeleteLiveData.getError())) {
                 DeckLog.logError(wrappedDeleteLiveData.getError());
                 BrandedSnackbar.make(requireView(), getString(R.string.error_revoking_ac, ac.getUser().getDisplayname()), Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(wrappedDeleteLiveData.getError(), viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
@@ -129,7 +134,12 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         ac.setType(0L); // https://github.com/nextcloud/deck/blob/master/docs/API.md#post-boardsboardidacl---add-new-acl-rule
         ac.setUserId(user.getLocalId());
         ac.setUser(user);
-        syncManager.createAccessControl(viewModel.getCurrentAccount().getId(), ac);
+        final WrappedLiveData<AccessControl> createLiveData = syncManager.createAccessControl(viewModel.getCurrentAccount().getId(), ac);
+        observeOnce(createLiveData, this, (next) -> {
+            if (createLiveData.hasError()) {
+                ExceptionDialogFragment.newInstance(createLiveData.getError(), viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+        });
         binding.people.setText("");
         userAutoCompleteAdapter.exclude(user);
     }

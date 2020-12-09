@@ -45,7 +45,6 @@
                         android:paddingEnd="@dimen/spacer_1hx"
                         android:text="@string/info_box_maintenance_mode"
                         android:textColor="@color/grey600"
-                        app:drawableLeftCompat="@drawable/ic_info_outline_grey600_24dp"
                         app:drawableStartCompat="@drawable/ic_info_outline_grey600_24dp" />
 
                 </LinearLayout>
@@ -71,7 +70,6 @@
                         android:paddingEnd="@dimen/spacer_1hx"
                         android:text="@string/info_box_version_not_supported"
                         android:textColor="@android:color/white"
-                        app:drawableLeftCompat="@drawable/ic_warning_white_24dp"
                         app:drawableStartCompat="@drawable/ic_warning_white_24dp" />
 
                 </LinearLayout>
@@ -135,9 +133,9 @@
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:contentDescription="@string/simple_filter"
                         android:padding="12dp"
-                        android:tint="?attr/colorAccent"
                         android:tooltipText="@string/simple_filter"
                         app:srcCompat="@drawable/ic_filter_list_white_24dp"
+                        app:tint="?attr/colorAccent"
                         tools:targetApi="o" />
 
                     <ImageView
@@ -149,7 +147,9 @@
                         android:layout_marginBottom="12dp"
                         android:contentDescription="@null"
                         android:src="@drawable/circle_grey600_8dp"
-                        android:tint="@color/defaultBrand" />
+                        android:visibility="gone"
+                        app:tint="@color/defaultBrand"
+                        tools:visibility="visible" />
                 </FrameLayout>
 
                 <ImageView
@@ -160,11 +160,11 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/action_archived_cards"
                     android:padding="12dp"
-                    android:tint="?attr/colorAccent"
                     android:tooltipText="@string/action_archived_cards"
                     android:translationX="12dp"
                     android:visibility="gone"
                     app:srcCompat="@drawable/ic_archive_white_24dp"
+                    app:tint="?attr/colorAccent"
                     tools:targetApi="o"
                     tools:visibility="visible" />
             </androidx.appcompat.widget.Toolbar>
@@ -192,9 +192,9 @@
                     android:background="?attr/colorPrimary"
                     android:contentDescription="@string/add_list"
                     android:foreground="?attr/selectableItemBackgroundBorderless"
-                    android:tint="?attr/colorAccent"
                     android:tooltipText="@string/manage_list"
                     app:srcCompat="@drawable/ic_menu"
+                    app:tint="?attr/colorAccent"
                     tools:ignore="UnusedAttribute" />
             </LinearLayout>
 

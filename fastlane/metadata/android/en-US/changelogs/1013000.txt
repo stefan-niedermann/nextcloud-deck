@@ -1,0 +1,4 @@
+- ⚡️ #359 Implement ETags for synchronization Speed-Up
+- 🔄 #680 Loading indicator is shown indefinitely and no synchronization
+- 🐞 #707 Link for PushNotifications could not be parsed in some cases
+- 🌎 Updated translations

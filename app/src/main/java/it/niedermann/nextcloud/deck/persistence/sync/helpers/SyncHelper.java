@@ -1,6 +1,12 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers;
 
-import java.util.Date;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
+
+import java.net.HttpURLConnection;
+import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -15,28 +21,33 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AbstractS
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.IRelationshipProvider;
 
 public class SyncHelper {
-    private ServerAdapter serverAdapter;
-    private DataBaseAdapter dataBaseAdapter;
+    private final ServerAdapter serverAdapter;
+    private final DataBaseAdapter dataBaseAdapter;
     private Account account;
     private long accountId;
     private IResponseCallback<Boolean> responseCallback;
-    private Date lastSync;
+    private final Instant lastSync;
 
-    public SyncHelper(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, Date lastSync) {
+    public SyncHelper(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, Instant lastSync) {
         this.serverAdapter = serverAdapter;
         this.dataBaseAdapter = dataBaseAdapter;
         this.lastSync = lastSync;
     }
 
     // Sync Server -> App
-    public <T extends IRemoteEntity> void  doSyncFor(final AbstractSyncDataProvider<T> provider){
+    public <T extends IRemoteEntity> void doSyncFor(@NonNull final AbstractSyncDataProvider<T> provider) {
         provider.registerChildInParent(provider);
-        provider.getAllFromServer(serverAdapter, accountId, new IResponseCallback<List<T>>(account) {
+        provider.getAllFromServer(serverAdapter, dataBaseAdapter, accountId, new IResponseCallback<List<T>>(account) {
             @Override
             public void onResponse(List<T> response) {
                 if (response != null) {
                     provider.goingDeeper();
                     for (T entityFromServer : response) {
+                        if (entityFromServer == null) {
+                            // see https://github.com/stefan-niedermann/nextcloud-deck/issues/574
+                            DeckLog.error("Skipped null value from server for DataProvider: " + provider.getClass().getSimpleName());
+                            continue;
+                        }
                         entityFromServer.setAccountId(accountId);
                         T existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
 
@@ -44,13 +55,14 @@ public class SyncHelper {
                             provider.createInDB(dataBaseAdapter, accountId, entityFromServer);
                         } else {
                             //TODO: how to handle deletes? what about archived?
-                            if (existingEntity.getStatus() != DBStatus.UP_TO_DATE.getId()){
-                                DeckLog.log("Conflicting changes on entity: "+existingEntity);
+                            if (existingEntity.getStatus() != DBStatus.UP_TO_DATE.getId()) {
+                                DeckLog.warn("Conflicting changes on entity: " + existingEntity);
                                 // TODO: what to do?
                             } else {
-//                                if (existingEntity.getLastModified().getTime() == entityFromServer.getLastModified().getTime()) {
-//                                    continue; // TODO: is this is ok for sure? -> isn`t! NPE
-//                                }
+                                if (entityFromServer.getEtag() != null && entityFromServer.getEtag().equals(existingEntity.getEtag())) {
+                                    DeckLog.log("[" + provider.getClass().getSimpleName() + "] ETags do match! skipping " + existingEntity.getClass().getSimpleName() + " with localId: " + existingEntity.getLocalId());
+                                    continue;
+                                }
                                 provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(provider, existingEntity, entityFromServer, accountId), false);
                             }
                         }
@@ -58,7 +70,7 @@ public class SyncHelper {
                         provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer, responseCallback);
                     }
 
-                     provider.handleDeletes(serverAdapter, dataBaseAdapter, accountId, response);
+                    provider.handleDeletes(serverAdapter, dataBaseAdapter, accountId, response);
 
                     provider.doneGoingDeeper(responseCallback, true);
                 } else {
@@ -68,25 +80,35 @@ public class SyncHelper {
 
             @Override
             public void onError(Throwable throwable) {
+                super.onError(throwable);
+                if (throwable.getClass() == NextcloudHttpRequestFailedException.class) {
+                    NextcloudHttpRequestFailedException requestFailedException = (NextcloudHttpRequestFailedException) throwable;
+                    if (HttpURLConnection.HTTP_NOT_MODIFIED == requestFailedException.getStatusCode()){
+                        DeckLog.log("[" + provider.getClass().getSimpleName() + "] ETags do match! skipping this one.");
+                        // well, etags say we're fine here. no need to go deeper.
+                        provider.childDone(provider, responseCallback, false);
+                        return;
+                    }
+                }
                 provider.onError(throwable, responseCallback);
-                DeckLog.logError(throwable);
                 responseCallback.onError(throwable);
             }
         }, lastSync);
     }
 
     // Sync App -> Server
-    public <T extends IRemoteEntity> void doUpSyncFor(AbstractSyncDataProvider<T> provider){
+    public <T extends IRemoteEntity> void doUpSyncFor(@NonNull AbstractSyncDataProvider<T> provider) {
         doUpSyncFor(provider, null);
     }
-    public <T extends IRemoteEntity> void doUpSyncFor(AbstractSyncDataProvider<T> provider, CountDownLatch countDownLatch){
-        List<T> allFromDB = provider.getAllChangedFromDB(dataBaseAdapter, accountId, lastSync);
+
+    public <T extends IRemoteEntity> void doUpSyncFor(@NonNull AbstractSyncDataProvider<T> provider, @Nullable CountDownLatch countDownLatch) {
+        final List<T> allFromDB = provider.getAllChangedFromDB(dataBaseAdapter, accountId, lastSync);
         if (allFromDB != null && !allFromDB.isEmpty()) {
             for (T entity : allFromDB) {
-                if (entity.getId()!=null) {
+                if (entity.getId() != null) {
                     if (entity.getStatusEnum() == DBStatus.LOCAL_DELETED) {
                         provider.deleteOnServer(serverAdapter, accountId, getDeleteCallback(provider, entity), entity, dataBaseAdapter);
-                        if (countDownLatch != null){
+                        if (countDownLatch != null) {
                             countDownLatch.countDown();
                         }
                     } else {
@@ -98,13 +120,13 @@ public class SyncHelper {
             }
         } else {
             provider.goDeeperForUpSync(this, serverAdapter, dataBaseAdapter, responseCallback);
-            if (countDownLatch != null){
+            if (countDownLatch != null) {
                 countDownLatch.countDown();
             }
         }
     }
 
-    private <T extends IRemoteEntity> IResponseCallback<Void> getDeleteCallback(AbstractSyncDataProvider<T> provider, T entity) {
+    private <T extends IRemoteEntity> IResponseCallback<Void> getDeleteCallback(@NonNull AbstractSyncDataProvider<T> provider, T entity) {
         return new IResponseCallback<Void>(account) {
             @Override
             public void onResponse(Void response) {
@@ -120,16 +142,17 @@ public class SyncHelper {
         };
     }
 
-    private <T extends IRemoteEntity> IResponseCallback<T> getUpdateCallback(AbstractSyncDataProvider<T> provider, T entity, CountDownLatch countDownLatch) {
+    private <T extends IRemoteEntity> IResponseCallback<T> getUpdateCallback(@NonNull AbstractSyncDataProvider<T> provider, @NonNull T entity, @Nullable CountDownLatch countDownLatch) {
         return new IResponseCallback<T>(account) {
             @Override
             public void onResponse(T response) {
                 response.setAccountId(this.account.getId());
                 T update = applyUpdatesFromRemote(provider, entity, response, accountId);
+                update.setId(response.getId());
                 update.setStatus(DBStatus.UP_TO_DATE.getId());
                 provider.updateInDB(dataBaseAdapter, accountId, update, false);
                 provider.goDeeperForUpSync(SyncHelper.this, serverAdapter, dataBaseAdapter, responseCallback);
-                if (countDownLatch != null){
+                if (countDownLatch != null) {
                     countDownLatch.countDown();
                 }
             }
@@ -138,20 +161,20 @@ public class SyncHelper {
             public void onError(Throwable throwable) {
                 super.onError(throwable);
                 responseCallback.onError(throwable);
-                if (countDownLatch != null){
+                if (countDownLatch != null) {
                     countDownLatch.countDown();
                 }
             }
         };
     }
 
-    public void fixRelations(IRelationshipProvider relationshipProvider) {
+    public void fixRelations(@NonNull IRelationshipProvider relationshipProvider) {
         // this is OK, since the delete only affects records with status UP_TO_DATE
         relationshipProvider.deleteAllExisting(dataBaseAdapter, accountId);
         relationshipProvider.insertAllNecessary(dataBaseAdapter, accountId);
     }
 
-    private <T extends IRemoteEntity> T applyUpdatesFromRemote(AbstractSyncDataProvider<T> provider, T localEntity, T remoteEntity, Long accountId) {
+    private <T extends IRemoteEntity> T applyUpdatesFromRemote(@NonNull AbstractSyncDataProvider<T> provider, @NonNull T localEntity, @NonNull T remoteEntity, @NonNull Long accountId) {
         if (!accountId.equals(localEntity.getAccountId())) {
             throw new IllegalArgumentException("IDs of Accounts are not matching! WTF are you doin?!");
         }
@@ -160,7 +183,7 @@ public class SyncHelper {
         return remoteEntity;
     }
 
-    public SyncHelper setResponseCallback(IResponseCallback<Boolean> callback) {
+    public SyncHelper setResponseCallback(@NonNull IResponseCallback<Boolean> callback) {
         this.responseCallback = callback;
         this.account = responseCallback.getAccount();
         accountId = account.getId();

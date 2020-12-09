@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Sista konto</string>
     <string name="drawer_manage_accounts">Hantera konton</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Tavlor</string>
     <string name="simple_add">Lägg till</string>
     <string name="simple_save">Spara</string>
@@ -27,7 +26,7 @@
     <string name="simple_clear">Rensa</string>
     <string name="simple_discard">kassera</string>
     <string name="simple_update">Uppdatera</string>
-    <string name="simple_delete">Radera</string>
+    <string name="simple_delete">Ta bort</string>
     <string name="simple_rename">Byt namn</string>
     <string name="simple_settings">Inställningar</string>
     <string name="simple_undo">Ångra</string>
@@ -38,13 +37,13 @@
     <string name="simple_disabled">inaktiverad</string>
     <string name="simple_copied">Kopierad</string>
     <string name="simple_archive">Arkivera</string>
+    <string name="simple_unassigned">Ej tilldelad</string>
 
     <string name="edit_board">Ändra tavla</string>
     <string name="archive_board">Arkivera tavla</string>
-    <string name="delete_board">Radera tavla</string>
-    <string name="delete_something">Radera %1$s</string>
+    <string name="delete_board">Ta bort tavla</string>
+    <string name="delete_something">Ta bort %1$s</string>
 
-    <!-- About -->
     <string name="about">Om</string>
     <string name="about_version_title">Version</string>
     <string name="about_version">Du använder för närvarande %1$s</string>
@@ -70,9 +69,6 @@
     <string name="about_credits_tab_title">Tack</string>
     <string name="about_contribution_tab_title">Bidrag</string>
     <string name="about_license_tab_title">Licens</string>
-
-    <string name="copied_to_clipboard">Kopierat till urklipp</string>
-
     <string name="seconds_ago">sekunder sedan</string>
     <string name="edit">Redigera</string>
     <string name="label_labels">Välj taggar</string>
@@ -88,12 +84,12 @@
     <string name="activity">Aktivitet</string>
     <string name="add_list">Lägg till lista...</string>
     <string name="rename_list">Byt namn på lista</string>
-    <string name="delete_list">Radera lista</string>
+    <string name="delete_list">Ta bort lista</string>
     <string name="label_menu">meny</string>
     <string name="action_card_assign">Tilldela kort till mig</string>
     <string name="action_card_unassign">Ta bort kort från mig</string>
     <string name="action_card_archive">Arkivera kort</string>
-    <string name="action_card_delete">Radera kort</string>
+    <string name="action_card_delete">Ta bort kort</string>
     <string name="add_board">Lägg till tavla</string>
 
     <string name="label_clear_due_date">Rensa slutdatum</string>
@@ -113,6 +109,7 @@
     <string name="no_lists_yet">Inga listor än</string>
     <string name="do_you_want_to_save_your_changes">Vill du spara dina ändringar?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Vill du arkivera alla kort av %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Vill du arkivera alla filtrerade kort av %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Detta kommer att permanent radera %1$d kortet i denna lista.</item>
         <item quantity="other">Detta kommer att permanent radera alla %1$d kort i denna lista.</item>
@@ -129,6 +126,7 @@
     <string name="delete_board_message">Detta kommer att permanent radera denna tavla inklusive alla listor och kort.</string>
     <string name="settings_theme_title">Mörkt tema</string>
     <string name="settings_branding_title">Varumärke</string>
+    <string name="settings_compact_title">Kompakt läge</string>
     <string name="settings_background_sync">Bakgrundssynkronisering</string>
     <string name="pref_value_wifi_and_mobile">Synkronisera med Wi-Fi och mobildata</string>
     <string name="pref_value_wifi_only">Synkronisera endast med Wi-Fi</string>
@@ -156,7 +154,6 @@
     <string name="maintenance_mode_explanation">Servern %1$s är för närvarande i underhållsläge. Kontakta din administratör eller försök igen senare.</string>
     <string name="share_add_to_card">Lägg till i kort</string>
     <string name="share_success">La till %1$s till %2$s</string>
-    <string name="could_not_copy_to_clipboard">Kunde inte kopiera till urklipp</string>
     <string name="add_comment">Lägg till kommentar</string>
     <string name="card_edit_comments">Kommentarer</string>
     <string name="no_comments_yet">Inga kommentarer än</string>
@@ -168,11 +165,9 @@
     <string name="open_in_browser">Öppna i webbläsare</string>
     <string name="updating_card">Uppdaterar kortet...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Flytta listan åt höger</string>
     <string name="move_list_left">Flytta listan åt vänster</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Alla</string>
     <string name="filter_overdue">Förfallen</string>
     <string name="filter_today">Idag</string>
@@ -183,7 +178,6 @@
     <string name="filter_by_assigned_user">Filtrera efter tilldelad användare</string>
     <string name="filter_by_duedate">Filtrera efter förfallodatum</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Arkiverade kort</string>
     <string name="action_card_dearchive">Ångra kortarkivering</string>
     <string name="action_archived_cards">Bläddra i arkiverade kort</string>
@@ -198,11 +192,9 @@
     <string name="filter_user_title">Användare</string>
     <string name="filter_duedate_title">Slutdatum</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Ångra tavelarkivering</string>
     <string name="archived_boards">Arkiverade tavlor</string>
 
-    <!-- Errors -->
     <string name="error">Ett fel inträffade</string>
     <string name="synchronization_failed">Synkroniseringen misslyckades</string>
     <string name="operation_not_yet_supported">Stöds inte än</string>
@@ -212,17 +204,79 @@
     <string name="server_misconfigured">Server felkonfigurerad</string>
     <string name="server_error">Serverfel</string>
     <string name="shared_error">Delning av innehåll från appar från tredje part stöds ännu inte helt. Vänligen försök att hämta det först och dela det sedan från din ursprungliga filhanterare eller galleri.</string>
+    <string name="error_edit_activity_killed_by_android">Android avslutade redigeringsläget eftersom det behövde mer systemresurser för andra appar.</string>
+
     <string name="error_dialog_title">Å nej - Vad händer nu?🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Försök med att Tvinga appen att stänga och återstarta. En felaktig anslutning till Nextcloud-appen kan ha förekommit.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Om problemet kvarstår kan du försöka rensa lagringen av båda apparna: Nextcloud och Nextcloud Deck för att lösa problemet.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Uppgraderingen av databasen misslyckades. Var god anmäl problemet, rensa sedan appens data för att kunna återgå till normal användning.</string>
+    <string name="error_dialog_tip_clear_storage">Du kan rensa diskutrymmet genom att öppna appens info, välj Lagring -> Rensa data</string>
+    <string name="error_dialog_tip_files_outdated">Din Nextcloud-app verkar utdaterad. Besök Play Butiken eller F-Droid för att hämta senaste versionen</string>
+    <string name="error_dialog_tip_files_force_stop">Något verkar fel med din Nextcloud-app. Försök att tvångsavsluta både Nextcloud och Nextcloud Deck-appen.</string>
+    <string name="error_dialog_tip_files_delete_storage">Om tvångsavslutning ej hjälper kan du försöka rensa datan på båda appar.</string>
+    <string name="error_dialog_timeout_instance">Din server svarade inte inom den angivna tiden. Kontrollera att den fungerar normalt.</string>
+    <string name="error_dialog_timeout_toggle">Kontrollera din nätverksanslutning. Ibland kan det hjälpa att slå av och på mobildata eller Wi-Fi.</string>
+    <string name="error_dialog_check_server">Inkorrekt svar från din server. Kontrollera att du har tillgång till Deck-appen genom din webbläsare.</string>
+    <string name="error_dialog_check_server_logs">Det finns problem med din Nextcloud-installation. Ta gärna en titt i serverns loggfiler. </string>
+    <string name="error_dialog_check_maintenance">Kontrollera att underhållsläge inte är aktivt på Nextcloud-installation.</string>
+    <string name="error_dialog_insufficient_storage">Din Nextcloud-installation har slut på diskutrymme. Ta bort några filer för att kunna synkronisera ändringar till ditt moln.</string>
+    <string name="error_dialog_we_need_info">Vi behöver följande teknisk information för att kunna hjälpa dig:</string>
+    <string name="error_dialog_redirect">Din server svarade med ett HTTP 302 statusmeddelande vilket innebär att du inte har installerat Deck appen på din server eller att något är felkonfigurerat. Detta kan orsakas av manuella ändringar i en .htaccess-fil eller av Nextcloud-appar som \"OID Client\".</string>
+    <string name="error_dialog_version_not_parsable">Vi kunde inte avgöra vilken version av Deck-appen som är installerad på servern. Kontrollera att den är installerad och aktiverad.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Ditt Nextcloud-konto är eventuellt inte längre auktoriserat. </string>
+    <string name="error_dialog_user_not_found_in_database">Den nuvarande användaren matchar inte användaren vi har i vår databas. Om ni använder LDAP i er Nextcloud-instans kan din Nextcloud-app ha lagrat ett gammalt användar-ID.</string>
+    <string name="error_dialog_capabilities_not_parsable">Vi kunde inte hämta er servers förmågor. Vänligen säkerställ att er server fungerar som den ska och att klient-appar kan komma åt Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">En bifogad fil kunde inte laddas upp. Försök dela den på ett annat och sätt och vänligen berätta för oss om den här buggen.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Stäng av alla batterioptimeringar för Nextcloud och Deck-appen</string>
     <string name="error_action_open_deck_info">Öppna appinformation</string>
     <string name="error_action_open_network">Nätverksinställningar</string>
     <string name="error_action_server_logs">Serverloggar</string>
     <string name="error_action_install">Installera</string>
+    <string name="error_action_report_issue">Rapportera</string>
     <string name="info_box_maintenance_mode">Server i underhållsläge</string>
     <string name="info_box_version_not_supported">Serverversion %1$s stöds inte, uppdatera till %2$s</string>
     <string name="share_link">Dela länk</string>
     <string name="archive_cards">Arkivera kort</string>
+
     <string name="manage_accounts">Hantera konton</string>
+    <string name="manage_list">Hantera lista</string>
     <string name="simple_reply">Svara</string>
+    <string name="error_while_uploading_attachment">Fel vid uppladdning av bilaga: %1$s</string>
+    <string name="append_text_to_description">Lägg till beskrivning</string>
+    <string name="add_text_as_comment">Lägg till som kommentar</string>
+    <string name="progress_count">%1$d av %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d fel vid uppladdning</item>
+        <item quantity="other">%1$d fel vid uppladdning</item>
+    </plurals>
     <string name="simple_report">Rapportera</string>
-</resources>
+    <string name="error_action_open_battery_settings">Batteriinställningar</string>
+    <string name="move_warning">Varken kommentarer eller bifogade filer följer med när man flyttar kortet till ett annat plank.</string>
+    <string name="clone_board">Kopiera tavla</string>
+    <string name="cloning_board">Klonar %1$s ...</string>
+    <string name="successfully_cloned_board">Lyckades klona %1$s</string>
+    <string name="attachment_does_not_yet_exist">Bifogade filen finns inte ännu i Deck</string>
+    <string name="card_does_not_yet_exist">Kortet finns inte ännu i Deck</string>
+
+    <string name="widget_stack_title">Lista</string>
+    <string name="widget_stack_header_icon">Ikon för widgetens sidhuvud</string>
+    <string name="widget_stack_placeholder_icon">Ikon för widgetens platshållare</string>
+    <string name="select_stack">Välj lista</string>
+    <string name="project_type_deck_board">Deck-plank</string>
+    <string name="project_type_deck_card">Deck-kort</string>
+    <string name="project_type_file">Fil</string>
+    <string name="projects_title">Projekt</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d resurs</item>
+        <item quantity="other">%1$d resurser</item>
+    </plurals>
+    <string name="no_assigned_label">Ingen tilldelad tagg</string>
+    <string name="single_card">Enskilt kort</string>
+    <string name="project_type_room">Talk-rum</string>
+    <string name="simple_move">Flytta</string>
+    <string name="cannot_upload_files_without_permission">Kan inte ladda upp filer utan tillåtelse</string>
+    <string name="clone_cards">Klona kort</string>
+    <string name="simple_clone">Klona</string>
+    <string name="user_avatar">Användar-avatar</string>
+    <string name="simple_unassign">Ta bort tilldelning</string>
+    </resources>

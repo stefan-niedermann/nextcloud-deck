@@ -13,7 +13,7 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 @Dao
 public interface StackDao extends GenericDao<Stack> {
 
-    @Query("SELECT * FROM stack WHERE accountId = :accountId AND boardId = :localBoardId order by `order` asc")
+    @Query("SELECT * FROM stack WHERE accountId = :accountId AND boardId = :localBoardId and status<>3 and (deletedAt is null or deletedAt = 0) order by `order` asc")
     LiveData<List<Stack>> getStacksForBoard(final long accountId, final long localBoardId);
 
     @Query("SELECT * FROM stack WHERE accountId = :accountId and boardId = :localBoardId and id = :remoteId")
@@ -29,10 +29,6 @@ public interface StackDao extends GenericDao<Stack> {
     @Transaction
     @Query("SELECT * FROM stack WHERE accountId = :accountId and boardId = :localBoardId and id = :remoteId")
     FullStack getFullStackByRemoteIdDirectly(final long accountId, final long localBoardId, final long remoteId);
-
-    @Transaction
-    @Query("SELECT * FROM stack WHERE accountId = :accountId AND boardId = :localBoardId and status<>3 and (deletedAt is null or deletedAt = 0) order by `order` asc")
-    LiveData<List<FullStack>> getFullStacksForBoard(final long accountId, final long localBoardId);
 
     @Transaction
     @Query("SELECT * FROM stack WHERE accountId = :accountId and boardId = :localBoardId and id = :remoteId")
@@ -56,4 +52,7 @@ public interface StackDao extends GenericDao<Stack> {
 
     @Query("SELECT localId FROM stack s WHERE accountId = :accountId and id = :stackId")
     Long getLocalStackIdByRemoteStackIdDirectly(long accountId, Long stackId);
+
+    @Query("SELECT coalesce(MAX(`order`), -1) FROM stack s WHERE boardId = :localBoardId")
+    Integer getHighestStackOrderInBoard(long localBoardId);
 }

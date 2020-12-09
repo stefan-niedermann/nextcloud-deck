@@ -42,12 +42,9 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 * Translated in many languages 🌎
 
 ## 🏁 Planned features
-* [Widgets](https://github.com/stefan-niedermann/nextcloud-deck/issues/217)
-* [Add more sources to upload attachments](https://github.com/stefan-niedermann/nextcloud-deck/issues/289)
-* [Move cards to other boards](https://github.com/stefan-niedermann/nextcloud-deck/issues/453)
-* [Clone boards](https://github.com/stefan-niedermann/nextcloud-deck/issues/455)
+* [Improved Markdown support](https://github.com/stefan-niedermann/nextcloud-deck/issues/452)
+* [Filter Widget](https://github.com/stefan-niedermann/nextcloud-deck/issues/597)
 * Further stabilization of the UI and bugfixes
-* [Improve synchronization speed](https://github.com/nextcloud/deck/issues/1650)
 
 ## 👪 Join the team
 * Test the app with different devices

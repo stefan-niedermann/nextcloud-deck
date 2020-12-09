@@ -4,7 +4,7 @@ import android.net.Uri;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -32,7 +32,7 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<Attachment>> responder, Date lastSync) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<Attachment>> responder, Instant lastSync) {
         responder.onResponse(attachments);
     }
 
@@ -104,7 +104,7 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
     }
 
     @Override
-    public List<Attachment> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+    public List<Attachment> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Instant lastSync) {
         return dataBaseAdapter.getLocallyChangedAttachmentsByLocalCardIdDirectly(accountId, card.getLocalId());
     }
 
@@ -120,7 +120,7 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
             dataBaseAdapter.deleteAttachment(accountId, attachment, false);
         }
         for (Attachment attachment : entitiesFromServer) {
-            if (attachment.getDeletedAt() != null && attachment.getDeletedAt().getTime() != 0) {
+            if (attachment.getDeletedAt() != null && attachment.getDeletedAt().toEpochMilli() != 0) {
                 Attachment toDelete = dataBaseAdapter.getAttachmentByRemoteIdDirectly(accountId, attachment.getId());
                 if (toDelete != null) {
                     dataBaseAdapter.deleteAttachment(accountId, toDelete, false);

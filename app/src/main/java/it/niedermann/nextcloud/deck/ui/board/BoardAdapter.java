@@ -37,7 +37,7 @@ public class BoardAdapter extends ArrayAdapter<Board> {
         TextView boardName = convertView.findViewById(R.id.boardName);
         if (board != null) {
             boardName.setText(board.getTitle());
-            boardName.setCompoundDrawables(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, "#" + board.getColor()), null, null, null);
+            boardName.setCompoundDrawables(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, board.getColor()), null, null, null);
         } else {
             DeckLog.logError(new IllegalArgumentException("board at position " + position + "is null"));
         }

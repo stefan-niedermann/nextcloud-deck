@@ -1,8 +1,13 @@
 <resources>
+    <dimen name="spacer_1qx">2dp</dimen>
     <dimen name="spacer_1hx">4dp</dimen>
     <dimen name="spacer_1x">8dp</dimen>
     <dimen name="spacer_2x">16dp</dimen>
     <dimen name="spacer_3x">24dp</dimen>
+    <dimen name="spacer_4x">32dp</dimen>
+
+    <dimen name="compact_label_height">6dp</dimen>
+    <dimen name="attachments_bottom_navigation_height">64dp</dimen>
 
     <!-- Drawer header -->
     <dimen name="drawer_header_height">100dp</dimen>
@@ -16,11 +21,9 @@
     <dimen name="avatar_size_small_overlapping_border">2dp</dimen>
 
     <dimen name="icon_size_details">24dp</dimen>
-    <dimen name="nav_drawer_header_avatar">56dp</dimen>
-    <dimen name="nav_drawer_header_avatar_other_accounts_size">40dp</dimen>
-    <dimen name="nav_drawer_header_avatar_second_account_margin">56dp</dimen>
-    <dimen name="drawer_header_text">14sp</dimen>
-    <dimen name="drawer_header_subtext">12sp</dimen>
-    <dimen name="text_size_attachments">14sp</dimen>
     <dimen name="empty_content_font_size">26sp</dimen>
+
+    <dimen name="widget_stack_card_padding">@dimen/spacer_1hx</dimen>
+    <dimen name="widget_stack_icon_width">30dp</dimen>
+    <dimen name="widget_stack_header_height">36dp</dimen>
 </resources>

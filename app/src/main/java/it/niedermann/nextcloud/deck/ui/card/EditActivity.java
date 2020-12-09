@@ -25,13 +25,13 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
-import static android.graphics.Color.parseColor;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
@@ -83,7 +83,6 @@ public class EditActivity extends BrandedActivity {
         setSupportActionBar(binding.toolbar);
 
         viewModel = new ViewModelProvider(this).get(EditCardViewModel.class);
-        syncManager = new SyncManager(this);
 
         loadDataFromIntent();
     }
@@ -117,11 +116,12 @@ public class EditActivity extends BrandedActivity {
             throw new IllegalArgumentException(BUNDLE_KEY_ACCOUNT + " must not be null.");
         }
         viewModel.setAccount(account);
+        syncManager = new SyncManager(this, viewModel.getAccount().getName());
 
         final long boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
 
         observeOnce(syncManager.getFullBoardById(account.getId(), boardId), EditActivity.this, (fullBoard -> {
-            applyBrand(parseColor('#' + fullBoard.getBoard().getColor()));
+            applyBrand(fullBoard.getBoard().getColor());
             viewModel.setCanEdit(fullBoard.getBoard().isPermissionEdit());
             invalidateOptionsMenu();
             if (viewModel.isCreateMode()) {
@@ -138,7 +138,7 @@ public class EditActivity extends BrandedActivity {
                 setupViewPager();
                 setupTitle();
             } else {
-                observeOnce(syncManager.getCardByLocalId(account.getId(), cardId), EditActivity.this, (fullCard) -> {
+                observeOnce(syncManager.getFullCardWithProjectsByLocalId(account.getId(), cardId), EditActivity.this, (fullCard) -> {
                     if (fullCard == null) {
                         new BrandedAlertDialogBuilder(this)
                                 .setTitle(R.string.card_not_found)
@@ -154,6 +154,8 @@ public class EditActivity extends BrandedActivity {
                 });
             }
         }));
+
+        DeckLog.verbose("Finished loading intent data: { accountId = " + viewModel.getAccount().getId() + " , cardId = " + cardId + " }");
     }
 
     @Override
@@ -170,12 +172,16 @@ public class EditActivity extends BrandedActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_card_save) {
-            saveAndFinish();
+            saveAndRun(super::finish);
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void saveAndFinish() {
+    /**
+     * Tries to save the current {@link FullCard} from the {@link EditCardViewModel} and then runs the given {@link Runnable}
+     * @param runnable
+     */
+    private void saveAndRun(@NonNull Runnable runnable) {
         if (!viewModel.isPendingCreation()) {
             viewModel.setPendingCreation(true);
             final String title = viewModel.getFullCard().getCard().getTitle();
@@ -193,9 +199,9 @@ public class EditActivity extends BrandedActivity {
                         .show();
             } else {
                 if (viewModel.isCreateMode()) {
-                    observeOnce(syncManager.createFullCard(viewModel.getAccount().getId(), viewModel.getBoardId(), viewModel.getFullCard().getCard().getStackId(), viewModel.getFullCard()), EditActivity.this, (card) -> super.finish());
+                    observeOnce(syncManager.createFullCard(viewModel.getAccount().getId(), viewModel.getBoardId(), viewModel.getFullCard().getCard().getStackId(), viewModel.getFullCard()), EditActivity.this, (card) -> runnable.run());
                 } else {
-                    observeOnce(syncManager.updateCard(viewModel.getFullCard()), EditActivity.this, (card) -> super.finish());
+                    observeOnce(syncManager.updateCard(viewModel.getFullCard()), EditActivity.this, (card) -> runnable.run());
                 }
             }
         }
@@ -264,26 +270,15 @@ public class EditActivity extends BrandedActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        finish(); // close this activity as oppose to navigating up
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
-
-    @Override
     public void finish() {
         if (!viewModel.hasChanges() && viewModel.canEdit()) {
             new BrandedAlertDialogBuilder(this)
                     .setTitle(R.string.simple_save)
                     .setMessage(R.string.do_you_want_to_save_your_changes)
-                    .setPositiveButton(R.string.simple_save, (dialog, whichButton) -> saveAndFinish())
+                    .setPositiveButton(R.string.simple_save, (dialog, whichButton) -> saveAndRun(super::finish))
                     .setNegativeButton(R.string.simple_discard, (dialog, whichButton) -> super.finish()).show();
         } else {
-            directFinish();
+            super.finish();
         }
     }
 
@@ -296,10 +291,10 @@ public class EditActivity extends BrandedActivity {
 
     @Override
     public void applyBrand(int mainColor) {
-        if(isBrandingEnabled(this)) {
+        if (isBrandingEnabled(this)) {
             final Drawable navigationIcon = binding.toolbar.getNavigationIcon();
             if (navigationIcon == null) {
-                DeckLog.error("Excpected navigationIcon to be present.");
+                DeckLog.error("Expected navigationIcon to be present.");
             } else {
                 DrawableCompat.setTint(binding.toolbar.getNavigationIcon(), colorAccent);
             }

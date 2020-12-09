@@ -14,10 +14,10 @@ import androidx.core.content.ContextCompat;
 
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-import java.util.Calendar;
+import java.time.LocalTime;
 
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
+import it.niedermann.nextcloud.deck.util.DeckColorUtil;
 
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
@@ -44,7 +44,7 @@ public class BrandedTimePickerDialog extends TimePickerDialog implements Branded
         setOkColor(buttonTextColor);
         setCancelColor(buttonTextColor);
         // Text in picker title is always white
-        setAccentColor(ColorUtil.contrastRatioIsSufficientBigAreas(Color.WHITE, mainColor) ? mainColor : ContextCompat.getColor(requireContext(), R.color.accent));
+        setAccentColor(DeckColorUtil.contrastRatioIsSufficientBigAreas(Color.WHITE, mainColor) ? mainColor : ContextCompat.getColor(requireContext(), R.color.accent));
     }
 
     /**
@@ -86,9 +86,9 @@ public class BrandedTimePickerDialog extends TimePickerDialog implements Branded
      * @param is24HourMode True to render 24 hour mode, false to render AM / PM selectors.
      * @return a new TimePickerDialog instance.
      */
-    @SuppressWarnings({"unused", "SameParameterValue"})
+    @SuppressWarnings({"SameParameterValue"})
     public static TimePickerDialog newInstance(OnTimeSetListener callback, boolean is24HourMode) {
-        Calendar now = Calendar.getInstance();
-        return newInstance(callback, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), is24HourMode);
+        LocalTime now = LocalTime.now();
+        return newInstance(callback, now.getHour(), now.getMinute(), is24HourMode);
     }
 }

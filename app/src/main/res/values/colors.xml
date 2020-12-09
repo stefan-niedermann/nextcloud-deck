@@ -3,18 +3,17 @@
     <color name="primary">@android:color/white</color>
     <color name="accent">#000000</color>
     <color name="defaultBrand">#0082C9</color>
-    <color name="toolbarEditTextHighlightColor">#55ffffff</color>
     <color name="danger">#d40000</color>
-    <color name="fg_accent">#fff</color>
-    <color name="fg_primary">#333</color>
     <color name="fg_secondary">#999</color>
     <color name="bg_highlighted">#eee</color>
     <color name="grey600">#757575</color>
     <color name="bg_info_box">#dddddd</color>
     <color name="bg_card">@android:color/white</color>
     <color name="bg_card_wrapper">#fafafa</color>
-
     <color name="dark_fg_primary">#e5e5e5</color>
+
+    <color name="activity_create">#00D400</color>
+    <color name="activity_delete">#D40000</color>
 
 
     <!-- due date colors -->

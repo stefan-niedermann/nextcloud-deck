@@ -1,31 +1,30 @@
 package it.niedermann.nextcloud.deck.model.interfaces;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import java.util.Date;
+import java.time.Instant;
 
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 
 @Entity(
-    indices = {
-        @Index("accountId"),
-        @Index("id"),
-        @Index("lastModifiedLocal"),
-        @Index(value = {"accountId", "id"}, unique = true)
-    },
-    foreignKeys = {
-        @ForeignKey(
-            entity = Account.class,
-            parentColumns = "id",
-            childColumns = "accountId", onDelete = ForeignKey.CASCADE
-        )
-    }
+        indices = {
+                @Index("accountId"),
+                @Index("id"),
+                @Index("lastModifiedLocal"),
+                @Index(value = {"accountId", "id"}, unique = true)
+        },
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Account.class,
+                        parentColumns = "id",
+                        childColumns = "accountId", onDelete = ForeignKey.CASCADE
+                )
+        }
 )
 public abstract class AbstractRemoteEntity implements IRemoteEntity {
     @PrimaryKey(autoGenerate = true)
@@ -35,11 +34,12 @@ public abstract class AbstractRemoteEntity implements IRemoteEntity {
 
     protected Long id;
 
-    @NonNull
     protected int status = DBStatus.UP_TO_DATE.getId();
 
-    protected Date lastModified;
-    protected Date lastModifiedLocal;
+    protected Instant lastModified;
+    protected Instant lastModifiedLocal;
+
+    protected String etag;
 
     public AbstractRemoteEntity() {
     }
@@ -102,34 +102,29 @@ public abstract class AbstractRemoteEntity implements IRemoteEntity {
 
 
     @Override
-    public void setStatus(@NonNull int status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
-
     @Override
-    public Date getLastModified() {
+    public Instant getLastModified() {
         return this.lastModified;
     }
 
-
     @Override
-    public void setLastModified(Date lastModified) {
+    public void setLastModified(Instant lastModified) {
         this.lastModified = lastModified;
     }
 
-
     @Override
-    public Date getLastModifiedLocal() {
+    public Instant getLastModifiedLocal() {
         return this.lastModifiedLocal;
     }
 
-
     @Override
-    public void setLastModifiedLocal(Date lastModifiedLocal) {
+    public void setLastModifiedLocal(Instant lastModifiedLocal) {
         this.lastModifiedLocal = lastModifiedLocal;
     }
-
 
     @Ignore
     @Override
@@ -144,6 +139,15 @@ public abstract class AbstractRemoteEntity implements IRemoteEntity {
         this.status = status.getId();
     }
 
+    @Override
+    public String getEtag() {
+        return etag;
+    }
+
+    @Override
+    public void setEtag(String etag) {
+        this.etag = etag;
+    }
 
     @Override
     public boolean equals(Object o) {

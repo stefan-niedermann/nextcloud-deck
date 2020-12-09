@@ -3,8 +3,6 @@ package it.niedermann.nextcloud.deck.model.internal;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +12,21 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 
 public class FilterInformation implements Serializable {
+
+    public enum EArchiveStatus{
+        ALL, ARCHIVED, NON_ARCHIVED
+    }
+
     @NonNull
     private EDueType dueType = EDueType.NO_FILTER;
+    private boolean noAssignedLabel = false;
+    private boolean noAssignedUser = false;
     @NonNull
     private List<User> users = new ArrayList<>();
     @NonNull
     private List<Label> labels = new ArrayList<>();
+    @NonNull
+    private EArchiveStatus archiveStatus = EArchiveStatus.NON_ARCHIVED;
 
     public FilterInformation() {
         // Default constructor
@@ -28,8 +35,12 @@ public class FilterInformation implements Serializable {
     public FilterInformation(@Nullable FilterInformation filterInformation) {
         if (filterInformation != null) {
             this.dueType = filterInformation.getDueType();
+            this.archiveStatus = filterInformation.getArchiveStatus();
             this.users.addAll(filterInformation.getUsers());
             this.labels.addAll(filterInformation.getLabels());
+            this.noAssignedUser = filterInformation.isNoAssignedUser();
+            this.noAssignedLabel = filterInformation.isNoAssignedLabel();
+            this.archiveStatus = filterInformation.getArchiveStatus();
         }
     }
 
@@ -47,7 +58,7 @@ public class FilterInformation implements Serializable {
         return users;
     }
 
-    @NotNull
+    @NonNull
     public List<Label> getLabels() {
         return labels;
     }
@@ -68,23 +79,55 @@ public class FilterInformation implements Serializable {
         users.remove(user);
     }
 
-    @NotNull
+    public boolean isNoAssignedUser() {
+        return noAssignedUser;
+    }
+
+    public void setNoAssignedUser(boolean noAssignedUser) {
+        this.noAssignedUser = noAssignedUser;
+    }
+
+    public boolean isNoAssignedLabel() {
+        return noAssignedLabel;
+    }
+
+    public void setNoAssignedLabel(boolean noAssignedLabel) {
+        this.noAssignedLabel = noAssignedLabel;
+    }
+
+    public void setArchiveStatus(@NonNull EArchiveStatus archiveStatus) {
+        this.archiveStatus = archiveStatus;
+    }
+
+    @NonNull
+    public EArchiveStatus getArchiveStatus() {
+        return archiveStatus;
+    }
+
+    @NonNull
     @Override
     public String toString() {
         return "FilterInformation{" +
                 "dueType=" + dueType +
+                ", noAssignedLabel=" + noAssignedLabel +
+                ", noAssignedUser=" + noAssignedUser +
                 ", users=" + users +
                 ", labels=" + labels +
+                ", archiveStatus=" + archiveStatus +
                 '}';
     }
 
     /**
-     * @return whether or not the given filterInformation has any actual filters set
+     * @return whether or not the given {@param filterInformation} has any actual filters set
      */
     public static boolean hasActiveFilter(@Nullable FilterInformation filterInformation) {
         if (filterInformation == null) {
             return false;
         }
-        return filterInformation.getDueType() != EDueType.NO_FILTER || filterInformation.getUsers().size() > 0 || filterInformation.getLabels().size() > 0;
+        return filterInformation.getDueType() != EDueType.NO_FILTER
+                || filterInformation.getUsers().size() > 0
+                || filterInformation.getLabels().size() > 0
+                || filterInformation.noAssignedUser
+                || filterInformation.noAssignedLabel;
     }
 }

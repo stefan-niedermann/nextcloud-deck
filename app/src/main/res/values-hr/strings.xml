@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Prethodni račun</string>
     <string name="drawer_manage_accounts">Upravljaj računima</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Ploče</string>
     <string name="simple_add">Dodaj</string>
     <string name="simple_save">Spremi</string>
@@ -38,13 +37,13 @@
     <string name="simple_disabled">onemogućeno</string>
     <string name="simple_copied">Kopirano</string>
     <string name="simple_archive">Arhiva</string>
+    <string name="simple_unassigned">Nedodijeljeno</string>
 
     <string name="edit_board">Uredi ploču</string>
     <string name="archive_board">Arhiviraj ploču</string>
     <string name="delete_board">Izbriši ploču</string>
     <string name="delete_something">Izbriši %1$s</string>
 
-    <!-- About -->
     <string name="about">Informacije</string>
     <string name="about_version_title">Inačica</string>
     <string name="about_version">Trenutno se koristite %1$s</string>
@@ -70,9 +69,6 @@
     <string name="about_credits_tab_title">Zasluge</string>
     <string name="about_contribution_tab_title">Doprinos</string>
     <string name="about_license_tab_title">Licenca</string>
-
-    <string name="copied_to_clipboard">Kopirano u međuspremnik</string>
-
     <string name="seconds_ago">prije nekoliko sekundi</string>
     <string name="edit">Uredi</string>
     <string name="label_labels">Odaberite oznake</string>
@@ -80,6 +76,8 @@
     <string name="hint_assign_people">Dodijeli korisnike</string>
     <string name="hint_due_date_date">Datum dospijeća</string>
     <string name="card_not_found">Kartica nije pronadjena</string>
+    <string name="card_not_found_message">Kartica nije pronađena. Možda je nedavno izbrisana.</string>
+
     <string name="add_account">Dodaj račun</string>
     <string name="choose_account">Odaberi račun</string>
     <string name="add_card">Dodaj karticu</string>
@@ -110,6 +108,7 @@
     <string name="not_synced_yet">Još nije sinkronizirano</string>
     <string name="no_lists_yet">Još nema popisa</string>
     <string name="do_you_want_to_save_your_changes">Želite li spremiti promjene?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Želite li arhivirati sve kartice iz %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Trajno ćete izbrisati %1$d karticu s ovog popisa.</item>
         <item quantity="few">Trajno ćete izbrisati %1$d kartice s ovog popisa.</item>
@@ -128,6 +127,7 @@
     <string name="delete_board_message">Trajno ćete izbrisati ovu ploču, uključujući sve stogove i kartice.</string>
     <string name="settings_theme_title">Tamna tema</string>
     <string name="settings_branding_title">Brendiranje</string>
+    <string name="settings_compact_title">Kompaktni način rada</string>
     <string name="settings_background_sync">Pozadinska sinkronizacija</string>
     <string name="pref_value_wifi_and_mobile">Sinkronizacija putem bežičnih (Wi-Fi) i mobilnih podataka</string>
     <string name="pref_value_wifi_only">Sinkroniziraj samo putem bežične (Wi-Fi) mreže</string>
@@ -155,7 +155,6 @@
     <string name="maintenance_mode_explanation">Poslužitelj %1$s trenutno je u načinu održavanja. Obratite se svom administratoru ili pokušajte kasnije.</string>
     <string name="share_add_to_card">Dodaj kartici</string>
     <string name="share_success">%1$s uspješno dodano %2$s</string>
-    <string name="could_not_copy_to_clipboard">Kopiranje u međuspremnik nije uspjelo</string>
     <string name="add_comment">Dodaj komentar</string>
     <string name="card_edit_comments">Komentari</string>
     <string name="no_comments_yet">Još nema komentara</string>
@@ -167,11 +166,9 @@
     <string name="open_in_browser">Otvori u pregledniku</string>
     <string name="updating_card">Ažuriranje kartice…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Pomakni popis desno</string>
     <string name="move_list_left">Pomakni popis lijevo</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Sve</string>
     <string name="filter_overdue">Kasni</string>
     <string name="filter_today">Danas</string>
@@ -182,7 +179,6 @@
     <string name="filter_by_assigned_user">Filtriraj prema dodijeljenom korisniku</string>
     <string name="filter_by_duedate">Filtriraj prema datumu dospijeća</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Arhivirane kartice</string>
     <string name="action_card_dearchive">Poništi arhiviranje kartice</string>
     <string name="action_archived_cards">Pretraži arhivirane kartice</string>
@@ -197,11 +193,9 @@
     <string name="filter_user_title">Korisnici</string>
     <string name="filter_duedate_title">Datum dospijeća</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Poništi arhiviranje ploče</string>
     <string name="archived_boards">Arhivirane ploče</string>
 
-    <!-- Errors -->
     <string name="error">Pojavila se pogreška</string>
     <string name="synchronization_failed">Sinkronizacija nije uspjela</string>
     <string name="operation_not_yet_supported">Još nije podržano</string>
@@ -211,25 +205,77 @@
     <string name="server_misconfigured">Pogrešna konfiguracija poslužitelja</string>
     <string name="server_error">Greška poslužitelja</string>
     <string name="shared_error">Dijeljenje sadržaja iz aplikacija trećih strana još uvijek nije potpuno podržano. Pokušajte ga preuzeti i zatim dijeliti putem upravitelja podacima ili galerije.</string>
+    <string name="error_edit_activity_killed_by_android">Android je zatvorio način uređivanja jer treba više resursa sustava za ostale aplikacije.</string>
+
     <string name="error_dialog_title">Ups, što sada? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Pokušajte prisilno zatvoriti aplikaciju i ponovo je pokrenuti. Možda se radi o nepravilnoj vezi s aplikacijom Nextcloud.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">Ako problem i dalje nije otklonjen, pokušajte izbrisati pohranjene podatke iz obje aplikacije: Nextcloud i Nextcloud Deck.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Ako problem i dalje nije otklonjen, pokušajte izbrisati pohranjene podatke iz obje aplikacije: Nextcloud i Nextcloud Deck.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Nadogradnja baze podataka nije uspjela. Prijavite ovu poteškoću i izbrišite pohranu kako biste se koristili aplikacijom na uobičajeni način.</string>
+    <string name="error_dialog_tip_clear_storage">Pohranjene podatke možete izbrisati tako da otvorite informacije o aplikaciji i odaberete Pohrana → Brisanje pohrane podataka.</string>
     <string name="error_dialog_tip_files_outdated">Čini se da je vaša aplikacija Nextcloud zastarjela. Posjetite trgovinu Play Store ili F-Droid kako biste dohvatili najnoviju inačicu.</string>
     <string name="error_dialog_tip_files_force_stop">Čini se da nešto nije u redu s vašom aplikacijom Nextcloud. Pokušajte prisilno zatvoriti aplikaciju Nextcloud i aplikaciju Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Ako prisilno zatvaranje nije otklonilo problem, pokušajte izbrisati pohranjene podatke iz obje aplikacije.</string>
     <string name="error_dialog_timeout_instance">Nije stigao odgovor poslužitelja u zadanom vremenskom razdoblju. Provjerite radi li vaša instanca.</string>
+    <string name="error_dialog_timeout_toggle">Provjerite mrežnu vezu. Ponekad može pomoći isključivanje i ponovno uključivanje mobilnih podataka ili bežične (Wi-Fi) mreže.</string>
     <string name="error_dialog_check_server">Odgovor poslužitelja nije točan. Provjerite možete li aplikaciji Deck pristupiti putem web-sučelja.</string>
     <string name="error_dialog_check_server_logs">Postoji određeni problem s vašim Nextcloudom. Provjerite datoteke zapisa poslužitelja.</string>
     <string name="error_dialog_check_maintenance">Provjerite je li vaša instanca Nextclouda trenutno u načinu održavanja.</string>
     <string name="error_dialog_insufficient_storage">Nema slobodnog prostora za pohranu u vašoj instanci Nextclouda. Izbrišite dio datoteka kako biste sinkronizirali lokalne promjene u oblak.</string>
     <string name="error_dialog_we_need_info">Potrebne su nam sljedeće tehničke informacije kako bismo vam pomogli:</string>
     <string name="error_dialog_redirect">Vaš je poslužitelj vratio šifru statusa HTTP 302, što znači da aplikacija Deck nije instalirana na poslužitelju ili postoji pogreška u konfiguraciji. To mogu uzrokovati prilagođena prepisivanja u datoteci .htaccess ili određene aplikacije u Nextcloudu, kao što je OID Client.</string>
+    <string name="error_dialog_version_not_parsable">Nismo mogli utvrditi inačicu aplikacije Deck na strani poslužitelja. Provjerite je li instalirana i omogućena.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Račun vaše aplikacije Nextcloud možda više nije ovlašten.</string>
+    <string name="error_dialog_user_not_found_in_database">Trenutačni korisnik ne odgovara korisniku kojeg imamo u našoj bazi podataka. Ako upotrebljavate LDAP na svojoj instanci Nextclouda, vaša aplikacija Nextcloud možda je pohranila stari ID korisnika.</string>
+    <string name="error_dialog_capabilities_not_parsable">Nismo uspjeli dohvatiti mogućnosti vašeg poslužitelja. Provjerite radi li vaš poslužitelj pravilno i mogu li druge korisničke aplikacije pristupiti Nextcloudu.</string>
+    <string name="error_dialog_attachment_upload_failed">Nije moguće otpremiti privitak. Pokušajte ga podijeliti na neki drugi način i javite nam pojedinosti o ovoj pogrešci.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Onemogućite sve optimizacije baterije za aplikacije Nextcloud i Deck.</string>
+    <string name="error_action_open_deck_info">Otvori informacije o aplikaciji</string>
     <string name="error_action_open_network">Postavke mreže</string>
+    <string name="error_action_server_logs">Zapisi poslužitelja</string>
     <string name="error_action_install">Instaliraj</string>
+    <string name="error_action_report_issue">Prijavi</string>
     <string name="info_box_maintenance_mode">Poslužitelj u načinu održavanja</string>
     <string name="info_box_version_not_supported">Inačica poslužitelja %1$s nije podržana, ažurirajte poslužitelj na inačicu %2$s</string>
     <string name="share_link">Dijeli poveznicu</string>
+    <string name="archive_cards">Arhiviraj kartice</string>
+
     <string name="manage_accounts">Upravljaj računima</string>
+    <string name="manage_list">Upravljaj popisom</string>
     <string name="simple_reply">Odgovori</string>
+    <string name="error_while_uploading_attachment">Pogreška pri otpremanju privitka: %1$s</string>
+    <string name="append_text_to_description">Dodaj opisu</string>
+    <string name="add_text_as_comment">Dodaj kao komentar</string>
+    <string name="progress_count">%1$d od %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d pogreška pri otpremanju</item>
+        <item quantity="few">%1$d pogreške pri otpremanju</item>
+        <item quantity="other">%1$d pogreški pri otpremanju</item>
+    </plurals>
     <string name="simple_report">Prijavi</string>
-</resources>
+    <string name="error_action_open_battery_settings">Postavke baterije</string>
+    <string name="move_warning">Pri premještanju kartice na drugu ploču ne mogu se prenijeti komentari ni privitci.</string>
+    <string name="clone_board">Kloniraj ploču</string>
+    <string name="cloning_board">Kloniranje %1$s…</string>
+    <string name="successfully_cloned_board">Uspješno klonirano %1$s</string>
+    <string name="attachment_does_not_yet_exist">Privitak ne postoji u aplikaciji Deck</string>
+    <string name="card_does_not_yet_exist">Kartica ne postoji u aplikaciji Deck</string>
+
+    <string name="widget_stack_title">Popis</string>
+    <string name="widget_stack_header_icon">Ikona zaglavlja widgeta</string>
+    <string name="widget_stack_placeholder_icon">Privremena ikona widgeta</string>
+    <string name="select_stack">Odaberi popis</string>
+    <string name="project_type_deck_board">Deck ploča</string>
+    <string name="project_type_deck_card">Deck kartica</string>
+    <string name="project_type_file">Datoteka</string>
+    <string name="projects_title">Projekti</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d resurs</item>
+        <item quantity="few">%1$d resursa</item>
+        <item quantity="other">%1$d resursa</item>
+    </plurals>
+    <string name="no_assigned_label">Nema dodijeljenih oznaka</string>
+    <string name="single_card">Jedna kartica</string>
+    <string name="project_type_room">Soba za razgovor</string>
+    <string name="simple_move">Premjesti</string>
+    <string name="cannot_upload_files_without_permission">Otpremanje datoteka bez dopuštenja nije moguće</string>
+    </resources>

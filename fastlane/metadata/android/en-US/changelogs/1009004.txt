@@ -1,0 +1,1 @@
+- 🐞 Make synchronization more tolerant for defect users

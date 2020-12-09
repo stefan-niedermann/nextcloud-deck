@@ -20,15 +20,22 @@ import java.util.List;
 import it.niedermann.android.crosstabdnd.DragAndDropTab;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.FragmentStackBinding;
+import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
+import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.filter.FilterViewModel;
+import it.niedermann.nextcloud.deck.ui.movecard.MoveCardListener;
 
-public class StackFragment extends BrandedFragment implements DragAndDropTab<CardAdapter> {
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+
+public class StackFragment extends BrandedFragment implements DragAndDropTab<CardAdapter>, MoveCardListener {
 
     private static final String KEY_STACK_ID = "stackId";
 
@@ -153,4 +160,17 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
 
         return fragment;
     }
+
+    @Override
+    public void move(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
+        WrappedLiveData<Void> liveData = syncManager.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId);
+        observeOnce(liveData, requireActivity(), (next) -> {
+            if (liveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(liveData.getError())) {
+                ExceptionDialogFragment.newInstance(liveData.getError(), null).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            } else {
+                DeckLog.log("Moved " + Card.class.getSimpleName() + " \"" + originCardLocalId + "\" to " + Stack.class.getSimpleName() + " \"" + targetStackLocalId + "\"");
+            }
+        });
+    }
+
 }

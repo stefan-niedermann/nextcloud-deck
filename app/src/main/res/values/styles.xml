@@ -6,6 +6,16 @@
         <item name="colorAccent">@color/accent</item>
         <item name="toolbarStyle">@style/toolbarStyle</item>
         <item name="android:windowBackground">?attr/colorPrimary</item>
+        <item name="textAppearanceHeadline1">@style/Deck.TextAppearance.Headline1</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_rounded</item>
     </style>
 
     <style name="toolbarStyle" parent="@style/Widget.AppCompat.Toolbar">
@@ -31,5 +41,14 @@
         <item name="android:windowBackground">@android:color/background_dark</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="TakePhotoTheme" parent="TransparentTheme">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="Deck.TextAppearance.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textSize">36sp</item>
     </style>
 </resources>

@@ -8,11 +8,11 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.Stack;
 
 public class StackAdapter extends FragmentStateAdapter {
     @NonNull
-    private List<FullStack> stackList = new ArrayList<>();
+    private List<Stack> stackList = new ArrayList<>();
 
     public StackAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
@@ -23,7 +23,7 @@ public class StackAdapter extends FragmentStateAdapter {
         return stackList.size();
     }
 
-    public FullStack getItem(int position) {
+    public Stack getItem(int position) {
         return stackList.get(position);
     }
 
@@ -34,7 +34,7 @@ public class StackAdapter extends FragmentStateAdapter {
 
     @Override
     public boolean containsItem(long itemId) {
-        for (FullStack stack : stackList) {
+        for (Stack stack : stackList) {
             if (stack.getLocalId() == itemId) {
                 return true;
             }
@@ -48,9 +48,9 @@ public class StackAdapter extends FragmentStateAdapter {
         return StackFragment.newInstance(stackList.get(position).getLocalId());
     }
 
-    public void setStacks(@NonNull List<FullStack> fullStacks) {
+    public void setStacks(@NonNull List<Stack> stacks) {
         this.stackList.clear();
-        this.stackList.addAll(fullStacks);
+        this.stackList.addAll(stacks);
         notifyDataSetChanged();
     }
 }

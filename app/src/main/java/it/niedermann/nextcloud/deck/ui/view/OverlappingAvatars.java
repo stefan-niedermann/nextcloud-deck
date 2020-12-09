@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Px;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.bumptech.glide.Glide;
@@ -17,11 +18,10 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
+import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
-
-import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
 public class OverlappingAvatars extends RelativeLayout {
     final int maxAvatarCount;
@@ -44,11 +44,12 @@ public class OverlappingAvatars extends RelativeLayout {
     public OverlappingAvatars(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         maxAvatarCount = context.getResources().getInteger(R.integer.max_avatar_count);
-        avatarBorderSize = dpToPx(context, R.dimen.avatar_size_small_overlapping_border);
-        avatarSize = dpToPx(context, R.dimen.avatar_size_small) + avatarBorderSize * 2;
-        overlapPx = dpToPx(context, R.dimen.avatar_size_small_overlapping);
-        borderDrawable = getResources().getDrawable(R.drawable.avatar_border);
-        DrawableCompat.setTint(borderDrawable, getResources().getColor(R.color.bg_card));
+        avatarBorderSize = DimensionUtil.INSTANCE.dpToPx(context, R.dimen.avatar_size_small_overlapping_border);
+        avatarSize = DimensionUtil.INSTANCE.dpToPx(context, R.dimen.avatar_size_small) + avatarBorderSize * 2;
+        overlapPx = DimensionUtil.INSTANCE.dpToPx(context, R.dimen.avatar_size_small_overlapping);
+        borderDrawable = ContextCompat.getDrawable(context, R.drawable.avatar_border);
+        assert borderDrawable != null;
+        DrawableCompat.setTint(borderDrawable, ContextCompat.getColor(context, R.color.bg_card));
     }
 
     public void setAvatars(@NonNull Account account, @NonNull List<User> assignedUsers) {
@@ -70,6 +71,7 @@ public class OverlappingAvatars extends RelativeLayout {
             avatar.requestLayout();
             Glide.with(context)
                     .load(account.getUrl() + "/index.php/avatar/" + Uri.encode(assignedUsers.get(avatarCount).getUid()) + "/" + avatarSize)
+                    .placeholder(R.drawable.ic_person_grey600_24dp)
                     .error(R.drawable.ic_person_grey600_24dp)
                     .apply(RequestOptions.circleCropTransform())
                     .into(avatar);

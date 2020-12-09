@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Utolsó fiók</string>
     <string name="drawer_manage_accounts">Fiókok kezelése</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Táblák</string>
     <string name="simple_add">Hozzáadás</string>
     <string name="simple_save">Mentés</string>
@@ -38,13 +37,13 @@
     <string name="simple_disabled">letiltva</string>
     <string name="simple_copied">Másolva</string>
     <string name="simple_archive">Archívum</string>
+    <string name="simple_unassigned">Nem hozzárendelt</string>
 
     <string name="edit_board">Tábla szerkesztése</string>
     <string name="archive_board">Tábla archiválása</string>
     <string name="delete_board">Tábla törlése</string>
     <string name="delete_something">%1$s törlése</string>
 
-    <!-- About -->
     <string name="about">Névjegy</string>
     <string name="about_version_title">Verzió</string>
     <string name="about_version">Jelenleg ezt a verziót használja: %1$s</string>
@@ -70,9 +69,6 @@
     <string name="about_credits_tab_title">Köszönet</string>
     <string name="about_contribution_tab_title">Közreműködés</string>
     <string name="about_license_tab_title">Licenc</string>
-
-    <string name="copied_to_clipboard">Vágólapra másolva</string>
-
     <string name="seconds_ago">pár másodperce</string>
     <string name="edit">Szerkesztés</string>
     <string name="label_labels">Címkék kiválasztása</string>
@@ -112,6 +108,8 @@
     <string name="not_synced_yet">Még nincs szinkronizálva</string>
     <string name="no_lists_yet">Még nincsenek listák</string>
     <string name="do_you_want_to_save_your_changes">Biztos, hogy menti a változásokat?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Biztos, hogy archiválja a(z) %1$s összes kártyáját?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Kívánja a %1$s minden szűrt kártyáját arhiválni?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Ez véglegesen töröl %1$d kártyát a listából.</item>
         <item quantity="other">Ez véglegesen törli mind a(z) %1$d kártyát a listából.</item>
@@ -128,6 +126,7 @@
     <string name="delete_board_message">Ez véglegesen törli ezt a táblát az összes listával és kártyával együtt.</string>
     <string name="settings_theme_title">Sötét téma</string>
     <string name="settings_branding_title">Márkázas</string>
+    <string name="settings_compact_title">Kompakt mód</string>
     <string name="settings_background_sync">Háttér-szinkronizálás</string>
     <string name="pref_value_wifi_and_mobile">Szinkronizálás Wi-Fin és mobil adatkapcsolaton</string>
     <string name="pref_value_wifi_only">Szinkronizálás csak Wi-Fin</string>
@@ -155,7 +154,6 @@
     <string name="maintenance_mode_explanation">A(z) %1$s kiszolgáló jelenleg karbantartási módban van. Lépjen kapcsolatba a rendszergazdával vagy próbálja újra.</string>
     <string name="share_add_to_card">Kártyához adás</string>
     <string name="share_success">%1$s sikeresen hozzáadva ehhez: %2$s</string>
-    <string name="could_not_copy_to_clipboard">Nem sikerült a vágólapra másolni</string>
     <string name="add_comment">Hozzászólás hozzáadása</string>
     <string name="card_edit_comments">Hozzászólások</string>
     <string name="no_comments_yet">Még nincsenek hozzászólások</string>
@@ -167,11 +165,9 @@
     <string name="open_in_browser">Megnyitás böngészőben</string>
     <string name="updating_card">Kártya frissítése…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Lista áthelyezése jobbra</string>
     <string name="move_list_left">Lista áthelyezése balra</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Mind</string>
     <string name="filter_overdue">Lejárt</string>
     <string name="filter_today">Ma</string>
@@ -182,7 +178,6 @@
     <string name="filter_by_assigned_user">Szűrés hozzárendelt felhasználó szerint</string>
     <string name="filter_by_duedate">Szűrés határidő szerint</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Archivált kártyák</string>
     <string name="action_card_dearchive">Kártya archiválásának visszavonása</string>
     <string name="action_archived_cards">Archivált kártyák tallózása</string>
@@ -197,11 +192,9 @@
     <string name="filter_user_title">Felhasználók</string>
     <string name="filter_duedate_title">Határidő</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Tábla archiválásának visszavonása</string>
     <string name="archived_boards">Archivált táblák</string>
 
-    <!-- Errors -->
     <string name="error">Hiba történt</string>
     <string name="synchronization_failed">Szinkronizálás sikertelen</string>
     <string name="operation_not_yet_supported">Még nem támogatott</string>
@@ -215,7 +208,8 @@
 
     <string name="error_dialog_title">Jaj ne – Most mi legyen? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Próbálja kényszeríteni az alkalmazás bezárását, és indítsa újra. Lehet, hogy hibás volt a kapcsolat a többi Nextcloud alkalmazással.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">Ha a probléma továbbra is fennáll, próbálja kiüríteni mindkét alkalmazás tárolóját: a Nextcloudét és a Nextcloud Kártyákét.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Ha a probléma továbbra is fennáll, próbálja kiüríteni mindkét alkalmazás tárolóját: a Nextcloudét és a Nextcloud Kártyákét.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Az adatbázis frissítése sikertelen. Jelentse a problémát és az alkalmazás normális használatához törölje a tárolót.</string>
     <string name="error_dialog_tip_clear_storage">A tárolót az alkalmazásinformáció megnyitásával, és a Tárhely → Tárhely ürítése választásával törölheti.</string>
     <string name="error_dialog_tip_files_outdated">A Nextcloud alkalmazása elavultnak tűnik. Keresse fel a Play Áruházat vagy az F-Droidot, hogy beszerezze a legfrissebb verziót.</string>
     <string name="error_dialog_tip_files_force_stop">Valami hibásnak tűnik a Nextcloud alkalmazásában. Próbálja mindkettőt leállítani, a Nextcloud és a Nextcloud Kártyák alkalmazást is.</string>
@@ -229,16 +223,61 @@
     <string name="error_dialog_we_need_info">A következő műszaki információkra van szükségünk, hogy segíthessünk:</string>
     <string name="error_dialog_redirect">A kiszolgálója 302-es HTTP állapotkóddal válaszolt, amely arra utal, hogy nincs telepítve a Kártyák alkalmazás a kiszolgálón, vagy valami hibásan van beállítva. Ezt egyéni felülírások is okozhatják, mint egy .htaccess-fájl vagy az OID klienshez hasonló Nextcloud alkalmazások.</string>
     <string name="error_dialog_version_not_parsable">Nem sikerült meghatározni a kiszolgálóoldali Kártyák alkalmazás verzióját. Győződjön meg róla, hogy telepítve és engedélyezve van.</string>
+    <string name="error_dialog_account_might_not_be_authorized">A Nextcloud alkalmazáshoz tartozó fiókja lehet hogy már lehet, hogy nincs hitelesítve.</string>
+    <string name="error_dialog_user_not_found_in_database">A jelenlegi felhasználó nem egyezik az adatbázisban tárolttal. Ha LDAP-ot használt a Nextcloud példányán, akkor lehet, hogy a Nextcloud alkalmazás még egy régebbi felhasználóazonosítót tárol.</string>
     <string name="error_dialog_capabilities_not_parsable">A képességek lekérése a kiszolgálójáról sikertelen. Győződjön meg róla, hogy a kiszolgálója rendesen fut-e, és hogy más kliensalkalmazások elérik-e a Nextcloudod.</string>
+    <string name="error_dialog_attachment_upload_failed">A melléklet nem tölthető fel. Próbálja meg máshogy megosztani, és tájékoztasson minket a hibáról.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Kapcsoljon ki minden energiatakarékossági beállítást a Nextcloud valamint a Kártyák alkalmazáshoz. </string>
     <string name="error_action_open_deck_info">Alkalmazásinformációk megnyitása</string>
     <string name="error_action_open_network">Hálózati beállítások</string>
     <string name="error_action_server_logs">Kiszolgálónaplók</string>
     <string name="error_action_install">Telepítés</string>
+    <string name="error_action_report_issue">Jelentés</string>
     <string name="info_box_maintenance_mode">A kiszolgáló karbantartási módban van</string>
     <string name="info_box_version_not_supported">A kiszolgálóverzió nem támogatott: %1$s, frissítsen erre: %2$s</string>
     <string name="share_link">Hivatkozás megosztása</string>
     <string name="archive_cards">Archív kártyák</string>
+
     <string name="manage_accounts">Fiókok kezelése</string>
+    <string name="manage_list">Lista kezelése</string>
     <string name="simple_reply">Válasz</string>
+    <string name="error_while_uploading_attachment">Hiba a melléklet feltöltésekor: %1$s</string>
+    <string name="append_text_to_description">Hozzáfűzés a leíráshoz</string>
+    <string name="add_text_as_comment">Hozzáadás megjegyzésként</string>
+    <string name="progress_count">%1$d / %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d hiba történt feltöltéskor</item>
+        <item quantity="other">%1$d hiba történt feltöltéskor</item>
+    </plurals>
     <string name="simple_report">Jelentés</string>
+    <string name="error_action_open_battery_settings">Akkumulátorbeállítások</string>
+    <string name="move_warning">Sem a megjegyzések, sem a mellékletek nem vihetők át, ha másik táblára helyezi át a kártyát.</string>
+    <string name="clone_board">Tábla klónozása</string>
+    <string name="cloning_board">%1$s klónozása…</string>
+    <string name="successfully_cloned_board">%1$s sikeresen klónozva.</string>
+    <string name="attachment_does_not_yet_exist">A melléklet még nem létezik a Kártyákban</string>
+    <string name="card_does_not_yet_exist">A kártya még nem létezik a Kártyákban</string>
+
+    <string name="widget_stack_title">Lista</string>
+    <string name="widget_stack_header_icon">Modul fejlécikonja</string>
+    <string name="widget_stack_placeholder_icon">Modul helykitöltő ikonja</string>
+    <string name="select_stack">Válasszon listát</string>
+    <string name="project_type_deck_board">Kártyatábla</string>
+    <string name="project_type_deck_card">Kártya</string>
+    <string name="project_type_file">Fájl</string>
+    <string name="projects_title">Projektek</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d erőforrás</item>
+        <item quantity="other">%1$d erőforrás</item>
+    </plurals>
+    <string name="no_assigned_label">Nincs címke hozzárendelve</string>
+    <string name="single_card">Egyetlen kártya</string>
+    <string name="project_type_room">Beszélgetés szoba</string>
+    <string name="simple_move">Áthelyezés</string>
+    <string name="cannot_upload_files_without_permission">Engedély nélkül nem tölthetők fel fájlok</string>
+    <string name="clone_cards">Kártyák klónozása</string>
+    <string name="simple_clone">Klónozás</string>
+    <string name="user_avatar">Felhasználói avatar</string>
+    <string name="simple_unassign">Elvétel</string>
+    <string name="add_stack_widget">Lista felületi elem hozzáadása</string>
 </resources>

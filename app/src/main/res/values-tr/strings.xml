@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Son hesap</string>
     <string name="drawer_manage_accounts">Hesap yönetimi</string>
 
-    <!-- Simple values -->
     <string name="simple_boards">Katlar</string>
     <string name="simple_add">Ekle</string>
     <string name="simple_save">Kaydet</string>
@@ -38,13 +37,13 @@
     <string name="simple_disabled">devre dışı</string>
     <string name="simple_copied">Kopyalandı</string>
     <string name="simple_archive">Arşivle</string>
+    <string name="simple_unassigned">Atanmamış</string>
 
     <string name="edit_board">Panoyu düzenle</string>
     <string name="archive_board">Panoyu arşivle</string>
     <string name="delete_board">Panoyu sil</string>
     <string name="delete_something">%1$s Sil</string>
 
-    <!-- About -->
     <string name="about">Hakkında</string>
     <string name="about_version_title">Sürüm</string>
     <string name="about_version">Şu anda %1$s kullanıyorsunuz</string>
@@ -70,9 +69,6 @@
     <string name="about_credits_tab_title">Emeği Geçenler</string>
     <string name="about_contribution_tab_title">Katkıda Bulunanlar</string>
     <string name="about_license_tab_title">Lisans</string>
-
-    <string name="copied_to_clipboard">Panoya kopyalandı</string>
-
     <string name="seconds_ago">saniye önce</string>
     <string name="edit">Düzenle</string>
     <string name="label_labels">Etiketleri Seçin</string>
@@ -113,6 +109,7 @@
     <string name="no_lists_yet">Henüz bir liste yok</string>
     <string name="do_you_want_to_save_your_changes">Değişiklikleri kaydetmek ister misiniz?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Tüm %1$s kartlarını arşivlemek ister misiniz?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Tüm %1$s süzülmüş kartlarını arşivlemek ister misiniz?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Bu işlem, bu listedeki tüm %1$d kartı kalıcı olarak silecek.</item>
         <item quantity="other">Bu işlem bu listedeki tüm %1$d kartı kalıcı olarak silecek.</item>
@@ -129,6 +126,7 @@
     <string name="delete_board_message">Bu işlem içindeki tüm liste ve kartlarla birlikte bu panoyu silecek.</string>
     <string name="settings_theme_title">Koyu tema</string>
     <string name="settings_branding_title">Markalama</string>
+    <string name="settings_compact_title">Sıkışık kip</string>
     <string name="settings_background_sync">Arka planda eşitleme</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fi ve mobil veri ile eşitlensin</string>
     <string name="pref_value_wifi_only">Yalnız Wi-Fi ile eşitlensin</string>
@@ -156,7 +154,6 @@
     <string name="maintenance_mode_explanation">%1$s sunucusu şu anda bakım kipinde. Lütfen yöneticinizle görüşün ya da daha sonra yeniden deneyin.</string>
     <string name="share_add_to_card">Karta ekle</string>
     <string name="share_success">%1$s, %2$s üzerine eklendi</string>
-    <string name="could_not_copy_to_clipboard">Panoya kopyalanamadı</string>
     <string name="add_comment">Yorum ekle</string>
     <string name="card_edit_comments">Yorumlar</string>
     <string name="no_comments_yet">Henüz bir yorum yok</string>
@@ -168,11 +165,9 @@
     <string name="open_in_browser">Tarayıcıda aç</string>
     <string name="updating_card">Kart güncelleniyor…</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Listeyi sağa taşı</string>
     <string name="move_list_left">Listeyi sola taşı</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Tümü</string>
     <string name="filter_overdue">Zamanı geçmiş</string>
     <string name="filter_today">Bugün</string>
@@ -183,7 +178,6 @@
     <string name="filter_by_assigned_user">Atanmış kullanıcıya göre süz</string>
     <string name="filter_by_duedate">Bitiş tarihine göre süz</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Arşivlenmiş kartlar</string>
     <string name="action_card_dearchive">Kart arşivlemeyi geri al</string>
     <string name="action_archived_cards">Arşivlenmiş kartlara göz at</string>
@@ -198,11 +192,9 @@
     <string name="filter_user_title">Kullanıcılar</string>
     <string name="filter_duedate_title">Bitiş tarihi</string>
 
-    <!-- Archived boards -->
     <string name="action_board_dearchive">Pano arşivlemeyi geri al</string>
     <string name="archived_boards">Arşivlenmiş panolar</string>
 
-    <!-- Errors -->
     <string name="error">Bir sorun çıktı</string>
     <string name="synchronization_failed">Eşitlenemedi</string>
     <string name="operation_not_yet_supported">Henüz desteklenmiyor</string>
@@ -216,7 +208,8 @@
 
     <string name="error_dialog_title">Hayıır. Şimdi ne olacak? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Lütfen uygulamayı kapanmaya zorlayıp yeniden başlatın. Yanlış bir Nextcloud uygulaması bağlantısı olmalı.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">Sorun sürerse, çözmek için hem Nextcloud uygulamasının hem de Nextcloud Tahta uygulamasının depolamalarını temizlemeyi deneyin.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Sorun sürerse, çözmek için hem Nextcloud uygulamasının hem de Nextcloud Tahta uygulamasının depolamalarını temizlemeyi deneyin.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Veritabanı güncellenemedi. Lütfen sorunu bildirin ve uygulamayı normal şekilde kullanabilmek için depolamayı temizleyin.</string>
     <string name="error_dialog_tip_clear_storage">Depolamayı temizlemek için uygulama bilgilerini açın ve Depolama (Hafıza) → Depolamayı temizle (Veriyi sil) seçin.</string>
     <string name="error_dialog_tip_files_outdated">Nextcloud uygulamanız eski görünüyor. Lütfen son sürümü almak için Play Store ya da F-Droid mağazalarına gidin.</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloud uygulamanızda bir sorun var gibi görünüyor. Lütfen hem Nextcloud uygulamasını hem de Nextcloud Tahta uygulamasını zorla kapatmayı deneyin.</string>
@@ -230,16 +223,21 @@
     <string name="error_dialog_we_need_info">Size yardımcı olabilmemiz için şu teknik bilgilere gerek duyacağız:</string>
     <string name="error_dialog_redirect">Sunucunuz, üzerine Tahta uygulamasının kurulmadığı ya da bir şeyin yanlış yapılandırıldığı anlamına gelen HTTP 302 durum kodu ile yanıt verdi. Bu durum, bir .htaccess dosyasındaki özel kısıtlamalardan ya da OID İstemcisi gibi Nextcloud uygulamalarından kaynaklanabilir.</string>
     <string name="error_dialog_version_not_parsable">Sunucu tarafındaki tahta uygulamasının sürümü belirlenemedi. Lütfen kurulmuş ve etkinleştirilmiş olduğundan emin olun.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Nextcloud uygulamanızın hesabına artık izin verilmiyor olabilir.</string>
+    <string name="error_dialog_user_not_found_in_database">Geçerli kullanıcı veritabanımızdaki kullanıcı ile eşleşmiyor. Nextcloud kopyanızda LDAP kullanıyorsanız, Nextcloud uygulamanızda eski bir kullanıcı kodu kayıtlı olabilir.</string>
     <string name="error_dialog_capabilities_not_parsable">Sunucunuzun özellikleri alınamadı. Lütfen sunucunuzun düzgün çalışır durumda olduğundan ve diğer istemci uygulamalarının Nextcloud sunucusuna erişebildiğinden emin olun.</string>
     <string name="error_dialog_attachment_upload_failed">Bir ek dosya yüklenemedi. Lütfen dosyayı başka bir şekilde paylaşın ve bu hatayı bize bildirin.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Lütfen Nextcloud ve Pano uygulaması için tüm pil iyileştirmelerini devre dışı bırakın.</string>
     <string name="error_action_open_deck_info">Uygulama bilgilerini aç</string>
     <string name="error_action_open_network">Ağ ayarları</string>
     <string name="error_action_server_logs">Sunucu günlükleri</string>
     <string name="error_action_install">Kur</string>
+    <string name="error_action_report_issue">Sorun bildirin</string>
     <string name="info_box_maintenance_mode">Sunucu bakım kipinde</string>
     <string name="info_box_version_not_supported">%1$s sunucu sürümü desteklenmiyor. Lütfen %2$s sürümüne güncelleyin</string>
     <string name="share_link">Bağlantıyı paylaş</string>
     <string name="archive_cards">Kartları arşivle</string>
+
     <string name="manage_accounts">Hesap yönetimi</string>
     <string name="manage_list">Liste yönetimi</string>
     <string name="simple_reply">Yanıtla</string>
@@ -248,8 +246,54 @@
     <string name="add_text_as_comment">Yorum olarak ekle</string>
     <string name="progress_count">%1$d / %2$d</string>
     <plurals name="progress_error_count">
-        <item quantity="one">Yükleme sırasında %1$d sorun çıktı.</item>
-        <item quantity="other">Yükleme sırasında %1$d sorun çıktı.</item>
+        <item quantity="one">Yükleme sırasında %1$d sorun çıktı</item>
+        <item quantity="other">Yükleme sırasında %1$d sorun çıktı</item>
     </plurals>
     <string name="simple_report">Hata bildirin</string>
+    <string name="error_action_open_battery_settings">Pil ayarları</string>
+    <string name="move_warning">Kart başka bir panoya taşınırken yorum ya da ek dosyalar aktarılamaz.</string>
+    <string name="clone_board">Panoyu kopyala</string>
+    <string name="cloning_board">%1$s kopyalanıyor…</string>
+    <string name="successfully_cloned_board">%1$s kopyalandı</string>
+    <string name="attachment_does_not_yet_exist">Ek dosya henüz panoda bulunmuyor</string>
+    <string name="card_does_not_yet_exist">Kart henüz panoda bulunmuyor</string>
+
+    <string name="widget_stack_title">Listele</string>
+    <string name="widget_stack_header_icon">Pano bileşeni başlık simgesi</string>
+    <string name="widget_stack_placeholder_icon">Pano bileşeni yer belirteci simgesi</string>
+    <string name="select_stack">Liste seçin</string>
+    <string name="project_type_deck_board">Tahta panosu</string>
+    <string name="project_type_deck_card">Tahta kartı</string>
+    <string name="project_type_file">Dosya</string>
+    <string name="projects_title">Projeler</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d kaynak</item>
+        <item quantity="other">%1$d kaynak</item>
+    </plurals>
+    <string name="no_assigned_label">Henüz bir etiket atanmamış</string>
+    <string name="single_card">Tek kart</string>
+    <string name="project_type_room">Talk odası</string>
+    <string name="simple_move">Taşı</string>
+    <string name="cannot_upload_files_without_permission">İzin olmadan dosya yüklenemez</string>
+    <string name="clone_cards">Kartları kopyala</string>
+    <string name="simple_clone">Kopyala</string>
+    <string name="user_avatar">Kullanıcı avatarı</string>
+    <string name="simple_unassign">Atamayı kaldır</string>
+    <string name="simple_contact">Kişi</string>
+    <string name="simple_file">Dosya</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="min_api_21">Bu özellik için en az Android 5 sürümü gereklidir</string>
+    <string name="take_photo">Bir fotoğraf çekin</string>
+    <string name="take_photo_switch_camera">Kamerayı değiştir</string>
+    <string name="take_photo_toggle_torch">Feneri aç/kapat</string>
+    <string name="show_all_contacts">Tüm kişileri görüntüle</string>
+    <string name="show_all_files">Tüm dosyaları görüntüle</string>
+    <string name="recent">Son kullanılan</string>
+    <string name="upload_a_new_attachment">Ek dosya yükle</string>
+    <string name="contacts">Kişiler</string>
+    <string name="downloads">İndirmeler</string>
+    <string name="files">Dosyalar</string>
+    <string name="gallery">Galeri</string>
+    <string name="simple_attach">ekle</string>
+    <string name="add_stack_widget">Liste pano bileşeni ekle</string>
 </resources>

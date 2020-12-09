@@ -8,7 +8,7 @@ import androidx.room.Index;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,22 +16,23 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 @Entity(inheritSuperIndices = true,
-    indices = {
-        @Index(value = "accountId", name = "card_accID"),
-        @Index("stackId")
-    },
-    foreignKeys = {
-        @ForeignKey(
-            entity = Stack.class,
-            parentColumns = "localId",
-            childColumns = "stackId", onDelete = ForeignKey.CASCADE
-        )
-    }
+        indices = {
+                @Index(value = "accountId", name = "card_accID"),
+                @Index("stackId")
+        },
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Stack.class,
+                        parentColumns = "localId",
+                        childColumns = "stackId", onDelete = ForeignKey.CASCADE
+                )
+        }
 )
 public class Card extends AbstractRemoteEntity {
 
     private static Pattern PATTERN_MD_TASK = Pattern.compile("\\[([xX ])]");
-    public class TaskStatus {
+
+    public static class TaskStatus {
         public int taskCount;
         public int doneCount;
 
@@ -49,20 +50,21 @@ public class Card extends AbstractRemoteEntity {
     @NonNull
     private Long stackId;
     private String type;
-    private Date createdAt;
-    private Date deletedAt;
+    private Instant createdAt;
+    private Instant deletedAt;
     private int attachmentCount;
 
     private Long userId;
     private int order;
     private boolean archived;
     @SerializedName("duedate")
-    private Date dueDate;
+    private Instant dueDate;
     private boolean notified;
     private int overdue;
     private int commentsUnread;
 
-    public Card() {}
+    public Card() {
+    }
 
     @Ignore
     public Card(String title, String description, long stackId) {
@@ -89,15 +91,15 @@ public class Card extends AbstractRemoteEntity {
         this.commentsUnread = card.getCommentsUnread();
     }
 
-    public TaskStatus getTaskStatus(){
-        if (taskStatus == null){
+    public TaskStatus getTaskStatus() {
+        if (taskStatus == null) {
             int count = 0, done = 0;
             if (description != null) {
                 Matcher matcher = PATTERN_MD_TASK.matcher(description);
-                while (matcher.find()){
+                while (matcher.find()) {
                     count++;
                     char c = matcher.group().charAt(1);
-                    if (c == 'x' || c == 'X'){
+                    if (c == 'x' || c == 'X') {
                         done++;
                     }
                 }
@@ -164,19 +166,19 @@ public class Card extends AbstractRemoteEntity {
         this.type = type;
     }
 
-    public Date getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getDeletedAt() {
+    public Instant getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(Date deletedAt) {
+    public void setDeletedAt(Instant deletedAt) {
         this.deletedAt = deletedAt;
     }
 
@@ -200,12 +202,12 @@ public class Card extends AbstractRemoteEntity {
         this.archived = archived;
     }
 
-    public Date getDueDate() {
+    public Instant getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
+    public void setDueDate(Instant dateTime) {
+        this.dueDate = dateTime;
     }
 
     public int getOverdue() {
