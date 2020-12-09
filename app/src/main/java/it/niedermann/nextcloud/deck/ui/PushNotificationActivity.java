@@ -9,8 +9,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.nextcloud.android.sso.helper.SingleAccountHelper;
+import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -18,7 +17,6 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityPushNotificationBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.ProjectUtil;
@@ -28,6 +26,7 @@ import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.Liv
 public class PushNotificationActivity extends AppCompatActivity {
 
     private ActivityPushNotificationBinding binding;
+    private PushNotificationViewModel viewModel;
 
     // Provided by Files app NotificationJob
     private static final String KEY_SUBJECT = "subject";
@@ -47,6 +46,8 @@ public class PushNotificationActivity extends AppCompatActivity {
         }
 
         binding = ActivityPushNotificationBinding.inflate(getLayoutInflater());
+        viewModel = new ViewModelProvider(this).get(PushNotificationViewModel.class);
+
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
@@ -63,7 +64,6 @@ public class PushNotificationActivity extends AppCompatActivity {
 
         binding.cancel.setOnClickListener((v) -> finish());
 
-        final SyncManager accountReadingSyncManager = new SyncManager(this);
         final String cardRemoteIdString = getIntent().getStringExtra(KEY_CARD_REMOTE_ID);
         final String accountString = getIntent().getStringExtra(KEY_ACCOUNT);
 
@@ -72,18 +72,17 @@ public class PushNotificationActivity extends AppCompatActivity {
             if (cardRemoteIdString != null) {
                 try {
                     final int cardRemoteId = Integer.parseInt(cardRemoteIdString);
-                    observeOnce(accountReadingSyncManager.readAccount(accountString), this, (account -> {
+                    observeOnce(viewModel.readAccount(accountString), this, (account -> {
                         if (account != null) {
-                            SingleAccountHelper.setCurrentAccount(this, account.getName());
-                            final SyncManager syncManager = new SyncManager(this);
+                            viewModel.setAccount(account.getName());
                             DeckLog.verbose("account: " + account);
-                            observeOnce(syncManager.getBoardByRemoteId(account.getId(), ids[0]), PushNotificationActivity.this, (board -> {
+                            observeOnce(viewModel.getBoardByRemoteId(account.getId(), ids[0]), PushNotificationActivity.this, (board -> {
                                 DeckLog.verbose("BoardLocalId " + board);
                                 if (board != null) {
-                                    observeOnce(syncManager.getCardByRemoteID(account.getId(), cardRemoteId), PushNotificationActivity.this, (card -> {
+                                    observeOnce(viewModel.getCardByRemoteID(account.getId(), cardRemoteId), PushNotificationActivity.this, (card -> {
                                         DeckLog.verbose("Card: " + card);
                                         if (card != null) {
-                                            syncManager.synchronizeCard(new IResponseCallback<Boolean>(account) {
+                                            viewModel.synchronizeCard(new IResponseCallback<Boolean>(account) {
                                                 @Override
                                                 public void onResponse(Boolean response) {
                                                     openCardOnSubmit(account, board.getLocalId(), card.getLocalId());
@@ -98,11 +97,11 @@ public class PushNotificationActivity extends AppCompatActivity {
                                         } else {
                                             DeckLog.info("Card is not yet available locally. Synchronize board with localId " + board);
 
-                                            syncManager.synchronizeBoard(new IResponseCallback<Boolean>(account) {
+                                            viewModel.synchronizeBoard(new IResponseCallback<Boolean>(account) {
                                                 @Override
                                                 public void onResponse(Boolean response) {
                                                     runOnUiThread(() -> {
-                                                        observeOnce(syncManager.getCardByRemoteID(account.getId(), cardRemoteId), PushNotificationActivity.this, (card -> {
+                                                        observeOnce(viewModel.getCardByRemoteID(account.getId(), cardRemoteId), PushNotificationActivity.this, (card -> {
                                                             DeckLog.verbose("Card: " + card);
                                                             if (card != null) {
                                                                 openCardOnSubmit(account, board.getLocalId(), card.getLocalId());

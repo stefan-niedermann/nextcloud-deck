@@ -126,7 +126,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                         throw new IllegalArgumentException("MimeType of uri is null. [" + uri + "]");
                     }
                     runOnUiThread(() -> {
-                        final WrappedLiveData<Attachment> liveData = syncManager.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, tempFile);
+                        final WrappedLiveData<Attachment> liveData = mainViewModel.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, tempFile);
                         liveData.observe(ShareTargetActivity.this, (next) -> {
                             if (liveData.hasError()) {
                                 if (liveData.getError() instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) liveData.getError()).getStatusCode() == HTTP_CONFLICT) {
@@ -160,7 +160,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                                             ? receivedText
                                             : oldDescription + "\n\n" + receivedText
                             );
-                            WrappedLiveData<FullCard> liveData = syncManager.updateCard(fullCard);
+                            WrappedLiveData<FullCard> liveData = mainViewModel.updateCard(fullCard);
                             observeOnce(liveData, this, (next) -> {
                                 if (liveData.hasError()) {
                                     cardSelected = false;
@@ -174,7 +174,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                         case 1:
                             final Account currentAccount = mainViewModel.getCurrentAccount();
                             final DeckComment comment = new DeckComment(receivedText.trim(), currentAccount.getUserName(), Instant.now());
-                            syncManager.addCommentToCard(currentAccount.getId(), fullCard.getLocalId(), comment);
+                            mainViewModel.addCommentToCard(currentAccount.getId(), fullCard.getLocalId(), comment);
                             Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
                             finish();
                             break;

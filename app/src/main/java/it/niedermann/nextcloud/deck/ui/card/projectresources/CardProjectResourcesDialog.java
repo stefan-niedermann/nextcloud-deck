@@ -62,7 +62,7 @@ public class CardProjectResourcesDialog extends BrandedDialogFragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        final CardProjectResourceAdapter adapter = new CardProjectResourceAdapter(viewModel.getAccount(), resources, requireActivity());
+        final CardProjectResourceAdapter adapter = new CardProjectResourceAdapter(viewModel, resources, requireActivity());
         binding.getRoot().setAdapter(adapter);
         super.onActivityCreated(savedInstanceState);
     }

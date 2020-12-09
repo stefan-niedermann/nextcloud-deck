@@ -11,20 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.databinding.ItemProjectResourceBinding;
-import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
+import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 
 public class CardProjectResourceAdapter extends RecyclerView.Adapter<CardProjectResourceViewHolder> {
 
     @NonNull
-    private final Account account;
+    private final EditCardViewModel viewModel;
     @NonNull
     private final List<OcsProjectResource> resources;
     @NonNull
     private final LifecycleOwner owner;
 
-    public CardProjectResourceAdapter(@NonNull Account account, @NonNull List<OcsProjectResource> resources, @NonNull LifecycleOwner owner) {
-        this.account = account;
+    public CardProjectResourceAdapter(@NonNull EditCardViewModel viewModel, @NonNull List<OcsProjectResource> resources, @NonNull LifecycleOwner owner) {
+        this.viewModel = viewModel;
         this.resources = new ArrayList<>(resources.size());
         this.resources.addAll(resources);
         this.owner = owner;
@@ -44,7 +44,7 @@ public class CardProjectResourceAdapter extends RecyclerView.Adapter<CardProject
 
     @Override
     public void onBindViewHolder(@NonNull CardProjectResourceViewHolder holder, int position) {
-        holder.bind(account, resources.get(position), owner);
+        holder.bind(viewModel, resources.get(position), owner);
     }
 
     @Override
