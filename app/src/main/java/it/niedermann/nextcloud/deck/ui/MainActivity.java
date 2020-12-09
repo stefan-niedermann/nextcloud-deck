@@ -135,8 +135,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @NonNull
     protected List<Account> accountsList = new ArrayList<>();
-    protected SyncManager syncManager;
     protected SharedPreferences sharedPreferences;
+    private SyncManager syncManager;
     private StackAdapter stackAdapter;
     long lastBoardId;
     @NonNull
@@ -667,74 +667,67 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.archive_cards: {
-                final Stack stack = stackAdapter.getItem(binding.viewPager.getCurrentItem());
-                final long stackLocalId = stack.getLocalId();
-                observeOnce(syncManager.countCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId), MainActivity.this, (numberOfCards) -> {
-                    new BrandedAlertDialogBuilder(this)
-                            .setTitle(R.string.archive_cards)
-                            .setMessage(getString(FilterInformation.hasActiveFilter(filterViewModel.getFilterInformation().getValue())
-                                    ? R.string.do_you_want_to_archive_all_cards_of_the_filtered_list
-                                    : R.string.do_you_want_to_archive_all_cards_of_the_list, stack.getTitle()))
-                            .setPositiveButton(R.string.simple_archive, (dialog, whichButton) -> {
-                                final FilterInformation filterInformation = filterViewModel.getFilterInformation().getValue();
-                                final WrappedLiveData<Void> archiveStackLiveData = syncManager.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, filterInformation == null ? new FilterInformation() : filterInformation);
-                                observeOnce(archiveStackLiveData, this, (result) -> {
-                                    if (archiveStackLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(archiveStackLiveData.getError())) {
-                                        ExceptionDialogFragment.newInstance(archiveStackLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                                    }
-                                });
-                            })
-                            .setNeutralButton(android.R.string.cancel, null)
-                            .create()
-                            .show();
-                });
-                return true;
-            }
-            case R.id.add_list: {
-                EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
-                return true;
-            }
-            case R.id.rename_list: {
-                final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-                observeOnce(syncManager.getStack(mainViewModel.getCurrentAccount().getId(), stackId), MainActivity.this, fullStack ->
-                        EditStackDialogFragment.newInstance(fullStack.getLocalId(), fullStack.getStack().getTitle())
-                                .show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName()));
-                return true;
-            }
-            case R.id.move_list_left: {
-                final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-                // TODO error handling
-                final int stackLeftPosition = binding.viewPager.getCurrentItem() - 1;
-                final long stackLeftId = stackAdapter.getItem(stackLeftPosition).getLocalId();
-                syncManager.swapStackOrder(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId(), new Pair<>(stackId, stackLeftId));
-                stackMoved = true;
-                return true;
-            }
-            case R.id.move_list_right: {
-                final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-                // TODO error handling
-                final int stackRightPosition = binding.viewPager.getCurrentItem() + 1;
-                final long stackRightId = stackAdapter.getItem(stackRightPosition).getLocalId();
-                syncManager.swapStackOrder(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId(), new Pair<>(stackId, stackRightId));
-                stackMoved = true;
-                return true;
-            }
-            case R.id.delete_list: {
-                final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-                observeOnce(syncManager.countCardsInStack(mainViewModel.getCurrentAccount().getId(), stackId), MainActivity.this, (numberOfCards) -> {
-                    if (numberOfCards != null && numberOfCards > 0) {
-                        DeleteStackDialogFragment.newInstance(stackId, numberOfCards).show(getSupportFragmentManager(), DeleteStackDialogFragment.class.getCanonicalName());
-                    } else {
-                        onStackDeleted(stackId);
-                    }
-                });
-                return true;
-            }
-            default:
-                return super.onOptionsItemSelected(item);
+        int itemId = item.getItemId();
+        if (itemId == R.id.archive_cards) {
+            final Stack stack = stackAdapter.getItem(binding.viewPager.getCurrentItem());
+            final long stackLocalId = stack.getLocalId();
+            observeOnce(syncManager.countCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId), MainActivity.this, (numberOfCards) -> {
+                new BrandedAlertDialogBuilder(this)
+                        .setTitle(R.string.archive_cards)
+                        .setMessage(getString(FilterInformation.hasActiveFilter(filterViewModel.getFilterInformation().getValue())
+                                ? R.string.do_you_want_to_archive_all_cards_of_the_filtered_list
+                                : R.string.do_you_want_to_archive_all_cards_of_the_list, stack.getTitle()))
+                        .setPositiveButton(R.string.simple_archive, (dialog, whichButton) -> {
+                            final FilterInformation filterInformation = filterViewModel.getFilterInformation().getValue();
+                            final WrappedLiveData<Void> archiveStackLiveData = syncManager.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, filterInformation == null ? new FilterInformation() : filterInformation);
+                            observeOnce(archiveStackLiveData, this, (result) -> {
+                                if (archiveStackLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(archiveStackLiveData.getError())) {
+                                    ExceptionDialogFragment.newInstance(archiveStackLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                }
+                            });
+                        })
+                        .setNeutralButton(android.R.string.cancel, null)
+                        .create()
+                        .show();
+            });
+            return true;
+        } else if (itemId == R.id.add_list) {
+            EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
+            return true;
+        } else if (itemId == R.id.rename_list) {
+            final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
+            observeOnce(syncManager.getStack(mainViewModel.getCurrentAccount().getId(), stackId), MainActivity.this, fullStack ->
+                    EditStackDialogFragment.newInstance(fullStack.getLocalId(), fullStack.getStack().getTitle())
+                            .show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName()));
+            return true;
+        } else if (itemId == R.id.move_list_left) {
+            final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
+            // TODO error handling
+            final int stackLeftPosition = binding.viewPager.getCurrentItem() - 1;
+            final long stackLeftId = stackAdapter.getItem(stackLeftPosition).getLocalId();
+            syncManager.swapStackOrder(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId(), new Pair<>(stackId, stackLeftId));
+            stackMoved = true;
+            return true;
+        } else if (itemId == R.id.move_list_right) {
+            final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
+            // TODO error handling
+            final int stackRightPosition = binding.viewPager.getCurrentItem() + 1;
+            final long stackRightId = stackAdapter.getItem(stackRightPosition).getLocalId();
+            syncManager.swapStackOrder(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId(), new Pair<>(stackId, stackRightId));
+            stackMoved = true;
+            return true;
+        } else if (itemId == R.id.delete_list) {
+            final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
+            observeOnce(syncManager.countCardsInStack(mainViewModel.getCurrentAccount().getId(), stackId), MainActivity.this, (numberOfCards) -> {
+                if (numberOfCards != null && numberOfCards > 0) {
+                    DeleteStackDialogFragment.newInstance(stackId, numberOfCards).show(getSupportFragmentManager(), DeleteStackDialogFragment.class.getCanonicalName());
+                } else {
+                    onStackDeleted(stackId);
+                }
+            });
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     protected void showFabIfEditPermissionGranted() {
