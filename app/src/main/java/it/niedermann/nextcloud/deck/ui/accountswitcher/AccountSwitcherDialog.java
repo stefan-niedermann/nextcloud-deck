@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.accountswitcher;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -26,7 +25,6 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.manageaccounts.ManageAccountsActivity;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.MainActivity.ACTIVITY_MANAGE_ACCOUNTS;
 
 public class AccountSwitcherDialog extends BrandedDialogFragment {
 
@@ -80,7 +78,7 @@ public class AccountSwitcherDialog extends BrandedDialogFragment {
         });
 
         binding.manageAccounts.setOnClickListener((v) -> {
-            requireActivity().startActivityForResult(new Intent(requireContext(), ManageAccountsActivity.class), ACTIVITY_MANAGE_ACCOUNTS);
+            requireActivity().startActivity(ManageAccountsActivity.createIntent(requireContext()));
             dismiss();
         });
 
