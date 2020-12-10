@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey;
         },
         foreignKeys = {
                 @ForeignKey(
-                        entity = FilterWidgetBoard.class,
+                        entity = FilterWidget.class,
                         parentColumns = "id",
                         childColumns = "filterWidgetId", onDelete = ForeignKey.CASCADE
                 )

@@ -19,7 +19,7 @@ import it.niedermann.nextcloud.deck.model.User;
                         childColumns = "userId", onDelete = ForeignKey.CASCADE
                 ),
                 @ForeignKey(
-                        entity = FilterWidgetBoard.class,
+                        entity = FilterWidgetAccount.class,
                         parentColumns = "id",
                         childColumns = "filterAccountId", onDelete = ForeignKey.CASCADE
                 )
