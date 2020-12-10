@@ -44,7 +44,7 @@ public class AutoContinuationTextWatcher implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
         if (customText != null) {
-            CharSequence customText = this.customText;
+            final CharSequence customText = this.customText;
             this.customText = null;
             if (isInsert) {
                 insertCustomText(s, customText);
@@ -54,10 +54,11 @@ public class AutoContinuationTextWatcher implements TextWatcher {
         } else {
             originalWatcher.afterTextChanged(s);
         }
+        editText.setMarkdownStringModel(s);
     }
 
     private void deleteCustomText(Editable s, CharSequence customText) {
-        s.replace(sequenceStart, sequenceStart+customText.length()+1, "\n");
+        s.replace(sequenceStart, sequenceStart + customText.length() + 1, "\n");
         editText.setSelection(sequenceStart + 1);
     }
 
@@ -70,15 +71,15 @@ public class AutoContinuationTextWatcher implements TextWatcher {
         final int startOfLine = getStartOfLine(s, start);
         final String line = s.subSequence(startOfLine, start).toString();
 
-        String emptyListString = getListItemIfIsEmpty(line);
+        final String emptyListString = getListItemIfIsEmpty(line);
         if (emptyListString != null) {
             customText = emptyListString;
             isInsert = false;
             sequenceStart = startOfLine;
         } else {
             for (EListType listType : EListType.values()) {
-                boolean isCheckboxList = lineStartsWithCheckbox(line, listType);
-                boolean isPlainList = !isCheckboxList && lineStartsWithList(line, listType);
+                final boolean isCheckboxList = lineStartsWithCheckbox(line, listType);
+                final boolean isPlainList = !isCheckboxList && lineStartsWithList(line, listType);
                 if (isPlainList || isCheckboxList) {
                     customText = isPlainList ? listType.listSymbolWithTrailingSpace : listType.checkboxUncheckedWithTrailingSpace;
                     isInsert = true;
