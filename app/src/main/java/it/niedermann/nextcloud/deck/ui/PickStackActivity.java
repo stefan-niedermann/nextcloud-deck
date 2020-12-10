@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui;
 
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -64,7 +63,7 @@ public abstract class PickStackActivity extends AppCompatActivity implements Bra
             if (hasAccounts) {
                 return viewModel.readAccounts();
             } else {
-                startActivityForResult(new Intent(this, ImportAccountActivity.class), ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT);
+                startActivityForResult(ImportAccountActivity.createIntent(this), ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT);
                 return null;
             }
         }).observe(this, (List<Account> accounts) -> {

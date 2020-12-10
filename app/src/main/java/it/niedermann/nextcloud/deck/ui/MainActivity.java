@@ -132,9 +132,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     private FilterViewModel filterViewModel;
     private PickStackViewModel pickStackViewModel;
 
-    protected static final int ACTIVITY_ABOUT = 1;
     protected static final int ACTIVITY_SETTINGS = 2;
-    public static final int ACTIVITY_MANAGE_ACCOUNTS = 4;
 
     @NonNull
     protected List<Account> accountsList = new ArrayList<>();
@@ -158,8 +156,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     private boolean firstAccountAdded = false;
     private ConnectivityManager.NetworkCallback networkCallback;
 
-    private String accountAlreadyAdded;
-    private String urlFragmentUpdateDeck;
     private String addList;
     private String addBoard;
     @Nullable
@@ -186,8 +182,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
         addList = getString(R.string.add_list);
         addBoard = getString(R.string.add_board);
-        accountAlreadyAdded = getString(R.string.account_already_added);
-        urlFragmentUpdateDeck = getString(R.string.url_fragment_update_deck);
 
         setSupportActionBar(binding.toolbar);
 
@@ -202,7 +196,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             if (hasAccounts) {
                 return mainViewModel.readAccounts();
             } else {
-                startActivityForResult(new Intent(this, ImportAccountActivity.class), ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT);
+                startActivityForResult(ImportAccountActivity.createIntent(this), ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT);
                 return null;
             }
         }).observe(this, (List<Account> accounts) -> {
@@ -300,7 +294,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
                 Glide
                         .with(binding.accountSwitcher.getContext())
-                        .load(currentAccount.getAvatarUrl(64))
+                        .load(currentAccount.getAvatarUrl(binding.accountSwitcher.getWidth()))
                         .placeholder(R.drawable.ic_baseline_account_circle_24)
                         .error(R.drawable.ic_baseline_account_circle_24)
                         .apply(RequestOptions.circleCropTransform())
@@ -314,7 +308,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     binding.infoBoxVersionNotSupportedText.setText(getString(R.string.info_box_version_not_supported, mainViewModel.getCurrentAccount().getServerDeckVersion(), Version.minimumSupported(this).getOriginalVersion()));
                     binding.infoBoxVersionNotSupportedText.setOnClickListener((v) -> {
                         Intent openURL = new Intent(Intent.ACTION_VIEW);
-                        openURL.setData(Uri.parse(mainViewModel.getCurrentAccount().getUrl() + urlFragmentUpdateDeck));
+                        openURL.setData(Uri.parse(mainViewModel.getCurrentAccount().getUrl() + getString(R.string.url_fragment_update_deck)));
                         startActivity(openURL);
                     });
                     binding.infoBoxVersionNotSupported.setVisibility(View.VISIBLE);
@@ -648,10 +642,10 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case MENU_ID_ABOUT:
-                startActivityForResult(AboutActivity.createIntent(this, mainViewModel.getCurrentAccount()), MainActivity.ACTIVITY_ABOUT);
+                startActivity(AboutActivity.createIntent(this, mainViewModel.getCurrentAccount()));
                 break;
             case MENU_ID_SETTINGS:
-                startActivityForResult(new Intent(this, SettingsActivity.class), MainActivity.ACTIVITY_SETTINGS);
+                startActivityForResult(SettingsActivity.createIntent(this), MainActivity.ACTIVITY_SETTINGS);
                 break;
             case MENU_ID_ADD_BOARD:
                 EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
@@ -818,7 +812,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                                         .setNegativeButton(R.string.simple_discard, null)
                                                         .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {
                                                             final Intent openURL = new Intent(Intent.ACTION_VIEW);
-                                                            openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
+                                                            openURL.setData(Uri.parse(createdAccount.getUrl() + getString(R.string.url_fragment_update_deck)));
                                                             startActivity(openURL);
                                                             finish();
                                                         }).show());
@@ -855,7 +849,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                 final Throwable error = accountLiveData.getError();
                                 if (error instanceof SQLiteConstraintException) {
                                     DeckLog.warn("Account already added");
-                                    BrandedSnackbar.make(binding.coordinatorLayout, accountAlreadyAdded, Snackbar.LENGTH_LONG).show();
+                                    BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_already_added, Snackbar.LENGTH_LONG).show();
                                 } else {
                                     ExceptionDialogFragment.newInstance(error, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                                 }
