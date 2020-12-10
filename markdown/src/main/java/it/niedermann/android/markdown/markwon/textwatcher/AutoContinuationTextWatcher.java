@@ -11,9 +11,6 @@ import io.noties.markwon.editor.MarkwonEditor;
 import io.noties.markwon.editor.MarkwonEditorTextWatcher;
 import it.niedermann.android.markdown.markwon.MarkwonMarkdownEditor;
 
-import static it.niedermann.android.markdown.markwon.textwatcher.AutoContinuationTextWatcher.EListType.LENGTH_CHECKBOX_WITH_TRAILING_SPACE;
-import static it.niedermann.android.markdown.markwon.textwatcher.AutoContinuationTextWatcher.EListType.LENGTH_LIST_WITH_TRAILING_SPACE;
-
 /**
  * Automatically continues lists and checkbox lists when pressing enter
  */
@@ -21,6 +18,10 @@ public class AutoContinuationTextWatcher implements TextWatcher {
 
     private final MarkwonEditorTextWatcher originalWatcher;
     private final MarkwonMarkdownEditor editText;
+
+    private CharSequence customText = null;
+    private boolean isInsert = true;
+    private int sequenceStart = 0;
 
     public AutoContinuationTextWatcher(@NonNull MarkwonEditor editor, @NonNull MarkwonMarkdownEditor editText) {
         this.editText = editText;
@@ -34,59 +35,57 @@ public class AutoContinuationTextWatcher implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        final int numberOfInsertedCharactersBeforeLine = autoContinueCheckboxListsOnEnter(s, start, count);
-        if (numberOfInsertedCharactersBeforeLine == 0) {
-            editText.setMarkdownStringModel(s);
-        } else {
-            // TODO how to use this information for the originalWatcher?
-            originalWatcher.onTextChanged(s, start, before, count);
+        if (count == 1 && s.charAt(start) == '\n') {
+            handleNewlineInserted(s, start, count);
         }
+        originalWatcher.onTextChanged(s, start, before, count);
     }
 
     @Override
     public void afterTextChanged(Editable s) {
-        originalWatcher.afterTextChanged(s);
+        if (customText != null) {
+            CharSequence customText = this.customText;
+            this.customText = null;
+            if (isInsert) {
+                insertCustomText(s, customText);
+            } else {
+                deleteCustomText(s, customText);
+            }
+        } else {
+            originalWatcher.afterTextChanged(s);
+        }
     }
 
-    /**
-     * @return added characters in front of the current line (can be negative)
-     */
-    private int autoContinueCheckboxListsOnEnter(@NonNull CharSequence originalSequence, int start, int count) {
-        if (count != 1 || originalSequence.charAt(start) != '\n') {
-            return 0;
-        }
+    private void deleteCustomText(Editable s, CharSequence customText) {
+        s.replace(sequenceStart, sequenceStart+customText.length()+1, "\n");
+        editText.setSelection(sequenceStart + 1);
+    }
+
+    private void insertCustomText(Editable s, CharSequence customText) {
+        s.insert(sequenceStart, customText);
+    }
+
+    private void handleNewlineInserted(CharSequence originalSequence, int start, int count) {
         final CharSequence s = originalSequence.subSequence(0, originalSequence.length());
         final int startOfLine = getStartOfLine(s, start);
         final String line = s.subSequence(startOfLine, start).toString();
 
-        if (lineStartsWithEmptyUncheckedCheckbox(line)) {
-            editText.setSelection(startOfLine + 1);
-            setNewText(new StringBuilder(s).replace(startOfLine, startOfLine + LENGTH_CHECKBOX_WITH_TRAILING_SPACE + 1, "\n"), startOfLine + 1);
-            return LENGTH_CHECKBOX_WITH_TRAILING_SPACE * -1;
-        } else if (lineStartsWithEmptyList(line)) {
-            editText.setSelection(startOfLine + 1);
-            setNewText(new StringBuilder(s).replace(startOfLine, startOfLine + LENGTH_LIST_WITH_TRAILING_SPACE + 1, "\n"), startOfLine + 1);
-            return LENGTH_LIST_WITH_TRAILING_SPACE * -1;
+        String emptyListString = getListItemIfIsEmpty(line);
+        if (emptyListString != null) {
+            customText = emptyListString;
+            isInsert = false;
+            sequenceStart = startOfLine;
         } else {
             for (EListType listType : EListType.values()) {
-                if (lineStartsWithCheckbox(line, listType)) {
-                    setNewText(new StringBuilder(s).insert(start + count, listType.checkboxUncheckedWithTrailingSpace), start + LENGTH_CHECKBOX_WITH_TRAILING_SPACE + 1);
-                    return LENGTH_CHECKBOX_WITH_TRAILING_SPACE;
-                }
-            }
-            for (EListType listType : EListType.values()) {
-                if (lineStartsWithList(line, listType)) {
-                    setNewText(new StringBuilder(s).insert(start + count, listType.listSymbolWithTrailingSpace), start + LENGTH_LIST_WITH_TRAILING_SPACE + 1);
-                    return LENGTH_LIST_WITH_TRAILING_SPACE;
+                boolean isCheckboxList = lineStartsWithCheckbox(line, listType);
+                boolean isPlainList = !isCheckboxList && lineStartsWithList(line, listType);
+                if (isPlainList || isCheckboxList) {
+                    customText = isPlainList ? listType.listSymbolWithTrailingSpace : listType.checkboxUncheckedWithTrailingSpace;
+                    isInsert = true;
+                    sequenceStart = start + count;
                 }
             }
         }
-        return 0;
-    }
-
-    private void setNewText(@NonNull StringBuilder newText, int selection) {
-        editText.setMarkdownString(newText.toString());
-        editText.setSelection(selection);
     }
 
     private static int getStartOfLine(@NonNull CharSequence s, int cursorPosition) {
@@ -97,22 +96,15 @@ public class AutoContinuationTextWatcher implements TextWatcher {
         return startOfLine;
     }
 
-    private static boolean lineStartsWithEmptyUncheckedCheckbox(@NonNull String line) {
+    private static String getListItemIfIsEmpty(@NonNull String line) {
         for (EListType listType : EListType.values()) {
             if (line.equals(listType.checkboxUncheckedWithTrailingSpace)) {
-                return true;
+                return listType.checkboxUncheckedWithTrailingSpace;
+            } else if (line.equals(listType.listSymbolWithTrailingSpace)) {
+                return listType.listSymbolWithTrailingSpace;
             }
         }
-        return false;
-    }
-
-    private static boolean lineStartsWithEmptyList(@NonNull String line) {
-        for (EListType listType : EListType.values()) {
-            if (line.equals(listType.listSymbolWithTrailingSpace)) {
-                return true;
-            }
-        }
-        return false;
+        return null;
     }
 
     private static boolean lineStartsWithCheckbox(@NonNull String line, @NonNull EListType listType) {
@@ -127,9 +119,6 @@ public class AutoContinuationTextWatcher implements TextWatcher {
         STAR('*'),
         DASH('-'),
         PLUS('+');
-
-        static final int LENGTH_LIST_WITH_TRAILING_SPACE = 2;
-        static final int LENGTH_CHECKBOX_WITH_TRAILING_SPACE = 6;
 
         final String listSymbol;
         final String listSymbolWithTrailingSpace;
