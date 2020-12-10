@@ -12,7 +12,7 @@ public class FilterWidget {
     @PrimaryKey(autoGenerate = true)
     private Long id;
 
-    private int dueType;
+    private Integer dueType;
 
     @Ignore
     private List<FilterWidgetAccount> accounts;
@@ -44,11 +44,11 @@ public class FilterWidget {
         this.sorts = sorts;
     }
 
-    public int getDueType() {
+    public Integer getDueType() {
         return dueType;
     }
 
-    public void setDueType(int dueType) {
+    public void setDueType(Integer dueType) {
         this.dueType = dueType;
     }
 
