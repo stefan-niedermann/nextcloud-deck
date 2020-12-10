@@ -47,6 +47,11 @@ import it.niedermann.nextcloud.deck.model.relations.UserInBoard;
 import it.niedermann.nextcloud.deck.model.relations.UserInGroup;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetBoard;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetLabel;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetSort;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetStack;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
@@ -1058,6 +1063,28 @@ public class DataBaseAdapter {
     public Long createFilterWidget(FilterWidget filterWidget) {
         long widgetId = db.getFilterWidgetDao().insert(filterWidget);
         for (FilterWidgetAccount account : filterWidget.getAccounts()) {
+            account.setFilterWidgetId(widgetId);
+            long accountId = db.getFilterWidgetAccountDao().insert(account);
+            for (FilterWidgetUser user : account.getUsers()) {
+                user.setFilterAccountId(accountId);
+                db.getFilterWidgetUserDao().insert(user);
+            }
+            for (FilterWidgetBoard board : account.getBoards()) {
+                board.setFilterAccountId(accountId);
+                long boardId = db.getFilterWidgetBoardDao().insert(board);
+                for (FilterWidgetStack stack : board.getStacks()) {
+                    stack.setFilterBoardId(boardId);
+                    db.getFilterWidgetStackDao().insert(stack);
+                }
+                for (FilterWidgetLabel label : board.getLabels()) {
+                    label.setFilterBoardId(boardId);
+                    db.getFilterWidgetLabelDao().insert(label);
+                }
+            }
+        }
+        for (FilterWidgetSort sort : filterWidget.getSorts()) {
+            sort.setFilterWidgetId(widgetId);
+            db.getFilterWidgetSortDao().insert(sort);
         }
         return widgetId;
     }

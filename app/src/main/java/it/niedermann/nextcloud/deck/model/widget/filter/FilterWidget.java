@@ -12,11 +12,10 @@ public class FilterWidget {
     @PrimaryKey(autoGenerate = true)
     private Long id;
 
-    @Ignore
-    private List<FilterWidgetAccount> accounts;
+    private int dueType;
 
     @Ignore
-    private List<FilterWidgetDue> dues;
+    private List<FilterWidgetAccount> accounts;
 
     @Ignore
     private List<FilterWidgetSort> sorts;
@@ -37,20 +36,20 @@ public class FilterWidget {
         this.id = id;
     }
 
-    public List<FilterWidgetDue> getDues() {
-        return dues;
-    }
-
-    public void setDues(List<FilterWidgetDue> dues) {
-        this.dues = dues;
-    }
-
     public List<FilterWidgetSort> getSorts() {
         return sorts;
     }
 
     public void setSorts(List<FilterWidgetSort> sorts) {
         this.sorts = sorts;
+    }
+
+    public int getDueType() {
+        return dueType;
+    }
+
+    public void setDueType(int dueType) {
+        this.dueType = dueType;
     }
 
     @Override

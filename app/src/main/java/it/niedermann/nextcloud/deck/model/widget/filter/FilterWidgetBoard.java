@@ -39,14 +39,14 @@ public class FilterWidgetBoard {
     private List<FilterWidgetStack> stacks;
 
     @Ignore
-    private List<FilterWidgetLabel> tags;
+    private List<FilterWidgetLabel> labels;
 
-    public List<FilterWidgetLabel> getTags() {
-        return tags;
+    public List<FilterWidgetLabel> getLabels() {
+        return labels;
     }
 
-    public void setTags(List<FilterWidgetLabel> tags) {
-        this.tags = tags;
+    public void setLabels(List<FilterWidgetLabel> labels) {
+        this.labels = labels;
     }
 
     public List<FilterWidgetStack> getStacks() {
