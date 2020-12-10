@@ -77,11 +77,12 @@ public class EditActivity extends BrandedActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
+
         binding = ActivityEditBinding.inflate(getLayoutInflater());
+        viewModel = new ViewModelProvider(this).get(EditCardViewModel.class);
+
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
-
-        viewModel = new ViewModelProvider(this).get(EditCardViewModel.class);
 
         loadDataFromIntent();
     }
