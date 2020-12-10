@@ -26,6 +26,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
@@ -76,11 +77,12 @@ public class EditActivity extends BrandedActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
+
         binding = ActivityEditBinding.inflate(getLayoutInflater());
+        viewModel = new ViewModelProvider(this).get(EditCardViewModel.class);
+
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
-
-        viewModel = new ViewModelProvider(this).get(EditCardViewModel.class);
 
         loadDataFromIntent();
     }
@@ -169,16 +171,15 @@ public class EditActivity extends BrandedActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_card_save) {
-            saveAndRun(super::finish);
+            saveAndFinish();
         }
         return super.onOptionsItemSelected(item);
     }
 
     /**
-     * Tries to save the current {@link FullCard} from the {@link EditCardViewModel} and then runs the given {@link Runnable}
-     * @param runnable
+     * Tries to save the current {@link FullCard} from the {@link EditCardViewModel} and then finishes this activity.
      */
-    private void saveAndRun(@NonNull Runnable runnable) {
+    private void saveAndFinish() {
         if (!viewModel.isPendingCreation()) {
             viewModel.setPendingCreation(true);
             final String title = viewModel.getFullCard().getCard().getTitle();
@@ -195,11 +196,13 @@ public class EditActivity extends BrandedActivity {
                         .setOnDismissListener(dialog -> viewModel.setPendingCreation(false))
                         .show();
             } else {
-                if (viewModel.isCreateMode()) {
-                    observeOnce(viewModel.createFullCard(viewModel.getAccount().getId(), viewModel.getBoardId(), viewModel.getFullCard().getCard().getStackId(), viewModel.getFullCard()), EditActivity.this, (card) -> runnable.run());
-                } else {
-                    observeOnce(viewModel.updateCard(viewModel.getFullCard()), EditActivity.this, (card) -> runnable.run());
-                }
+                final WrappedLiveData<FullCard> save$ = viewModel.saveCard();
+                save$.observe(this, (fullCard) -> {
+                    if (save$.hasError()) {
+                        DeckLog.logError(save$.getError());
+                    }
+                });
+                super.finish();
             }
         }
     }
@@ -272,7 +275,7 @@ public class EditActivity extends BrandedActivity {
             new BrandedAlertDialogBuilder(this)
                     .setTitle(R.string.simple_save)
                     .setMessage(R.string.do_you_want_to_save_your_changes)
-                    .setPositiveButton(R.string.simple_save, (dialog, whichButton) -> saveAndRun(super::finish))
+                    .setPositiveButton(R.string.simple_save, (dialog, whichButton) -> saveAndFinish())
                     .setNegativeButton(R.string.simple_discard, (dialog, whichButton) -> super.finish()).show();
         } else {
             super.finish();

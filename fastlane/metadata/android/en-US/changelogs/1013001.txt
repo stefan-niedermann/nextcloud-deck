@@ -1,0 +1,3 @@
+- 📝 Enhanced Markdown editor for description (#452)
+- 📝 Markdown viewer for description with support for tables and syntax highlighting
+- 📝 Markdown support for comments

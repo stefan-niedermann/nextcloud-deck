@@ -34,7 +34,6 @@ import static android.view.View.VISIBLE;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
-import static it.niedermann.nextcloud.deck.util.ViewUtil.setupMentions;
 
 public class CardCommentsFragment extends BrandedFragment implements CommentEditedListener, CommentDeletedListener, CommentSelectAsReplyListener {
 
@@ -78,9 +77,9 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
             if (comment == null) {
                 binding.replyComment.setVisibility(GONE);
             } else {
-                binding.replyCommentText.setText(comment.getComment().getMessage());
+                binding.replyCommentText.setMarkdownString(comment.getComment().getMessage());
                 binding.replyComment.setVisibility(VISIBLE);
-                setupMentions(mainViewModel.getAccount(), comment.getComment().getMentions(), binding.replyCommentText);
+//                setupMentions(mainViewModel.getAccount(), comment.getComment().getMentions(), binding.replyCommentText);
             }
         });
         commentsViewModel.getFullCommentsForLocalCardId(mainViewModel.getFullCard().getLocalId()).observe(getViewLifecycleOwner(),

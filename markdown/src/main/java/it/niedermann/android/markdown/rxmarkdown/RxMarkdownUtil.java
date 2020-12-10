@@ -1,21 +1,20 @@
-package it.niedermann.nextcloud.deck.util;
+package it.niedermann.android.markdown.rxmarkdown;
 
 import android.content.Context;
 
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
+import androidx.annotation.RestrictTo;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration.Builder;
-
-import it.niedermann.nextcloud.deck.R;
 
 /**
  * Created by stefan on 07.12.16.
  */
+@Deprecated
+@RestrictTo(value = RestrictTo.Scope.LIBRARY)
+public class RxMarkdownUtil {
 
-public class MarkDownUtil {
-
-    private MarkDownUtil() {}
+    private RxMarkdownUtil() {
+    }
 
     /**
      * Ensures every instance of RxMD uses the same configuration
@@ -30,8 +29,7 @@ public class MarkDownUtil {
                 .setHeader4RelativeSize(1.15f)
                 .setHeader5RelativeSize(1.1f)
                 .setHeader6RelativeSize(1.05f)
-                .setHorizontalRulesHeight(2)
-                .setLinkFontColor(ContextCompat.getColor(context, R.color.primary));
+                .setHorizontalRulesHeight(2);
     }
 
     public static Builder getMarkDownConfiguration(Context context, Boolean darkTheme) {
@@ -41,7 +39,6 @@ public class MarkDownUtil {
                 .setHeader4RelativeSize(1.15f)
                 .setHeader5RelativeSize(1.1f)
                 .setHeader6RelativeSize(1.05f)
-                .setHorizontalRulesHeight(2)
-                .setLinkFontColor(ResourcesCompat.getColor(context.getResources(), R.color.primary, null));
+                .setHorizontalRulesHeight(2);
     }
 }

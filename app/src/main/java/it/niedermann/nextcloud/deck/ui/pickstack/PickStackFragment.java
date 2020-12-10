@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.pickstack;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -142,7 +141,7 @@ public class PickStackFragment extends Fragment {
             if (hasAccounts) {
                 return viewModel.readAccounts();
             } else {
-                startActivityForResult(new Intent(requireActivity(), ImportAccountActivity.class), ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT);
+                startActivityForResult(ImportAccountActivity.createIntent(requireContext()), ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT);
                 return null;
             }
         }).observe(getViewLifecycleOwner(), (List<Account> accounts) -> {

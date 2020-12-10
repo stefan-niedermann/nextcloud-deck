@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
@@ -250,5 +251,9 @@ public class ImportAccountActivity extends AppCompatActivity {
         DeckLog.info("--- Restoring sync on wifi only setting");
         editor.putBoolean(prefKeyWifiOnly, originalWifiOnlyValue);
         editor.apply();
+    }
+
+    public static Intent createIntent(@NonNull Context context) {
+        return new Intent(context, ImportAccountActivity.class);
     }
 }

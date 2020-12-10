@@ -42,8 +42,6 @@ public class AboutActivity extends BrandedActivity {
         setSupportActionBar(binding.toolbar);
         binding.viewPager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager(), getLifecycle(), (Account) getIntent().getSerializableExtra(BUNDLE_KEY_ACCOUNT)));
         new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> tab.setText(tabTitles[position])).attach();
-
-        setResult(RESULT_OK);
     }
 
     private static class TabsPagerAdapter extends FragmentStateAdapter {

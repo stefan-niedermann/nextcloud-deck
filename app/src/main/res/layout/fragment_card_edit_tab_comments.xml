@@ -49,7 +49,7 @@
                 android:padding="@dimen/spacer_1x"
                 app:srcCompat="@drawable/ic_reply_grey600_24dp" />
 
-            <TextView
+            <it.niedermann.android.markdown.MarkdownViewerImpl
                 android:id="@+id/replyCommentText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

@@ -323,4 +323,5 @@
     <string name="add_stack_widget">Add list widget</string>
     <string name="add_filter_widget">Add filter widget</string>
     <string name="simple_order">Order</string>
+    <string name="edit_description">Edit description</string>
 </resources>
