@@ -176,7 +176,7 @@ public class EditActivity extends BrandedActivity {
     }
 
     /**
-     * Tries to save the current {@link FullCard} from the {@link EditCardViewModel} and then runs the given {@link Runnable}
+     * Tries to save the current {@link FullCard} from the {@link EditCardViewModel} and then finishes this activity.
      */
     private void saveAndFinish() {
         if (!viewModel.isPendingCreation()) {
@@ -195,9 +195,7 @@ public class EditActivity extends BrandedActivity {
                         .setOnDismissListener(dialog -> viewModel.setPendingCreation(false))
                         .show();
             } else {
-                final WrappedLiveData<FullCard> save$ = viewModel.isCreateMode()
-                        ? viewModel.createFullCard(viewModel.getAccount().getId(), viewModel.getBoardId(), viewModel.getFullCard().getCard().getStackId(), viewModel.getFullCard())
-                        : viewModel.updateCard(viewModel.getFullCard());
+                final WrappedLiveData<FullCard> save$ = viewModel.saveCard();
                 save$.observe(this, (fullCard) -> {
                     if (save$.hasError()) {
                         DeckLog.logError(save$.getError());

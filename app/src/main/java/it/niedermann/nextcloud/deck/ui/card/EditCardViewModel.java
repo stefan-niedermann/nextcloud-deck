@@ -138,12 +138,13 @@ public class EditCardViewModel extends AndroidViewModel {
         return syncManager.getFullCardWithProjectsByLocalId(accountId, cardLocalId);
     }
 
-    public WrappedLiveData<FullCard> createFullCard(long accountId, long localBoardId, long localStackId, @NonNull FullCard card) {
-        return syncManager.createFullCard(accountId, localBoardId, localStackId, card);
-    }
-
-    public WrappedLiveData<FullCard> updateCard(@NonNull FullCard card) {
-        return syncManager.updateCard(card);
+    /**
+     * Saves the current {@link #fullCard}. If it is a new card, it will be created, otherwise it will be updated.
+     */
+    public WrappedLiveData<FullCard> saveCard() {
+        return isCreateMode()
+                ? syncManager.createFullCard(getAccount().getId(), getBoardId(), getFullCard().getCard().getStackId(), getFullCard())
+                : syncManager.updateCard(getFullCard());
     }
 
     public LiveData<List<Activity>> syncActivitiesForCard(@NonNull Card card) {
