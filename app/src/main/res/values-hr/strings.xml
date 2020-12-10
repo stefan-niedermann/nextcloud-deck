@@ -109,6 +109,7 @@
     <string name="no_lists_yet">Još nema popisa</string>
     <string name="do_you_want_to_save_your_changes">Želite li spremiti promjene?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Želite li arhivirati sve kartice iz %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Želite li arhivirati sve filtrirane kartice od %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Trajno ćete izbrisati %1$d karticu s ovog popisa.</item>
         <item quantity="few">Trajno ćete izbrisati %1$d kartice s ovog popisa.</item>
@@ -278,4 +279,8 @@
     <string name="project_type_room">Soba za razgovor</string>
     <string name="simple_move">Premjesti</string>
     <string name="cannot_upload_files_without_permission">Otpremanje datoteka bez dopuštenja nije moguće</string>
+    <string name="clone_cards">Kloniraj kartice</string>
+    <string name="simple_clone">Kloniraj</string>
+    <string name="user_avatar">Avatar korisnika</string>
+    <string name="simple_unassign">Poništi dodjelu</string>
     </resources>
