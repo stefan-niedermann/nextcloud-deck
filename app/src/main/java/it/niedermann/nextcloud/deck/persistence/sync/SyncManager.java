@@ -61,8 +61,10 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetConfiguration;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetData;
+import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
@@ -1934,6 +1936,57 @@ public class SyncManager {
     // Widgets
     // -------------------
 
+    // # filter widget
+
+    @AnyThread
+    public void createFilterWidget(@NonNull FilterWidget filterWidget, @NonNull IResponseCallback<Long> callback) {
+        doAsync(() -> {
+            try {
+                Long filterWidgetId = dataBaseAdapter.createFilterWidget(filterWidget);
+                callback.onResponse(filterWidgetId);
+            } catch (Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    @AnyThread
+    public void updateFilterWidget(@NonNull FilterWidget filterWidget, @NonNull IResponseCallback<Boolean> callback) {
+        doAsync(() -> {
+            try {
+                dataBaseAdapter.updateFilterWidget(filterWidget);
+                callback.onResponse(Boolean.TRUE);
+            } catch (Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    @AnyThread
+    public void deleteFilterWidget(@NonNull Long filterWidgetId, @NonNull IResponseCallback<Boolean> callback) {
+        doAsync(() -> {
+            try {
+                dataBaseAdapter.deleteFilterWidget(filterWidgetId);
+                callback.onResponse(Boolean.TRUE);
+            } catch (Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    @AnyThread
+    public void getCardsForFilterWidget(@NonNull Long filterWidgetId, @NonNull IResponseCallback<List<FilterWidgetCard>> callback) {
+        doAsync(() -> {
+            try {
+                callback.onResponse(dataBaseAdapter.getCardsForFilterWidget(filterWidgetId));
+            } catch (Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    // # single card widget
+
     /**
      * Can be called from a configuration screen or a picker.
      * Creates a new entry in the database, if row with given widgetId does not yet exist.
@@ -1980,10 +2033,6 @@ public class SyncManager {
     public void updateFilterWidgetConfiguration(@NonNull FilterWidgetConfiguration data) {
         // TODO
         throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    public void deleteFilterWidget(int appWidgetId) {
-        doAsync(() -> dataBaseAdapter.deleteFilterWidget(appWidgetId));
     }
 
     /**

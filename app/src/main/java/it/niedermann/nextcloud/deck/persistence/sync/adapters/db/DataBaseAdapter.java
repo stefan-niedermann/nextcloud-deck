@@ -45,6 +45,9 @@ import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.model.relations.UserInBoard;
 import it.niedermann.nextcloud.deck.model.relations.UserInGroup;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
+import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
@@ -1052,7 +1055,24 @@ public class DataBaseAdapter {
         return db.getStackWidgetModelDao().getStackWidgetByAppWidgetIdDirectly(appWidgetId);
     }
 
-    public void deleteFilterWidget(int appWidgetId) {
+    public Long createFilterWidget(FilterWidget filterWidget) {
+        long widgetId = db.getFilterWidgetDao().insert(filterWidget);
+        for (FilterWidgetAccount account : filterWidget.getAccounts()) {
+        }
+        return widgetId;
+    }
+
+    public void deleteFilterWidget(Long filterWidgetId) {
+        // TODO
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public void updateFilterWidget(FilterWidget filterWidget) {
+        // TODO
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<FilterWidgetCard> getCardsForFilterWidget(Long filterWidgetId) {
         // TODO
         throw new UnsupportedOperationException("Not yet implemented");
     }

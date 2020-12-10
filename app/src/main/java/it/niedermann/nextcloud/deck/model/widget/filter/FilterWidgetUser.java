@@ -9,7 +9,7 @@ import it.niedermann.nextcloud.deck.model.User;
 
 @Entity(
         indices = {
-                @Index(value = "filterBoardId", name = "idx_FilterWidgetUser_filterBoardId"),
+                @Index(value = "filterAccountId", name = "idx_FilterWidgetUser_filterAccountId"),
                 @Index(value = "userId", name = "idx_FilterWidgetUser_userId")
         },
         foreignKeys = {
@@ -21,7 +21,7 @@ import it.niedermann.nextcloud.deck.model.User;
                 @ForeignKey(
                         entity = FilterWidgetBoard.class,
                         parentColumns = "id",
-                        childColumns = "filterBoardId", onDelete = ForeignKey.CASCADE
+                        childColumns = "filterAccountId", onDelete = ForeignKey.CASCADE
                 )
         }
 )
@@ -29,7 +29,7 @@ public class FilterWidgetUser {
 
     @PrimaryKey(autoGenerate = true)
     private Long id;
-    private Long filterBoardId;
+    private Long filterAccountId;
     private Long userId;
 
     public Long getId() {
@@ -40,12 +40,12 @@ public class FilterWidgetUser {
         this.id = id;
     }
 
-    public Long getFilterBoardId() {
-        return filterBoardId;
+    public Long getFilterAccountId() {
+        return filterAccountId;
     }
 
-    public void setFilterBoardId(Long filterBoardId) {
-        this.filterBoardId = filterBoardId;
+    public void setFilterAccountId(Long filterAccountId) {
+        this.filterAccountId = filterAccountId;
     }
 
     public Long getUserId() {
@@ -64,7 +64,7 @@ public class FilterWidgetUser {
         FilterWidgetUser that = (FilterWidgetUser) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (filterBoardId != null ? !filterBoardId.equals(that.filterBoardId) : that.filterBoardId != null)
+        if (filterAccountId != null ? !filterAccountId.equals(that.filterAccountId) : that.filterAccountId != null)
             return false;
         return userId != null ? userId.equals(that.userId) : that.userId == null;
     }
@@ -72,7 +72,7 @@ public class FilterWidgetUser {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (filterBoardId != null ? filterBoardId.hashCode() : 0);
+        result = 31 * result + (filterAccountId != null ? filterAccountId.hashCode() : 0);
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
         return result;
     }

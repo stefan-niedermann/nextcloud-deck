@@ -7,13 +7,13 @@ import androidx.room.PrimaryKey;
 
 @Entity(
         indices = {
-                @Index(value = "filterBoardId", name = "unique_idx_FilterWidgetDue_filterBoardId", unique = true),
+                @Index(value = "filterWidgetId", name = "unique_idx_FilterWidgetDue_filterWidgetId", unique = true),
         },
         foreignKeys = {
                 @ForeignKey(
                         entity = FilterWidgetBoard.class,
                         parentColumns = "id",
-                        childColumns = "filterBoardId", onDelete = ForeignKey.CASCADE
+                        childColumns = "filterWidgetId", onDelete = ForeignKey.CASCADE
                 )
         }
 )
@@ -21,7 +21,7 @@ public class FilterWidgetDue {
 
     @PrimaryKey(autoGenerate = true)
     private Long id;
-    private Long filterBoardId;
+    private Long filterWidgetId;
     private int dueType;
 
     public Long getId() {
@@ -32,12 +32,12 @@ public class FilterWidgetDue {
         this.id = id;
     }
 
-    public Long getFilterBoardId() {
-        return filterBoardId;
+    public Long getFilterWidgetId() {
+        return filterWidgetId;
     }
 
-    public void setFilterBoardId(Long filterBoardId) {
-        this.filterBoardId = filterBoardId;
+    public void setFilterWidgetId(Long filterWidgetId) {
+        this.filterWidgetId = filterWidgetId;
     }
 
     public int getDueType() {
@@ -57,13 +57,13 @@ public class FilterWidgetDue {
 
         if (dueType != that.dueType) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        return filterBoardId != null ? filterBoardId.equals(that.filterBoardId) : that.filterBoardId == null;
+        return filterWidgetId != null ? filterWidgetId.equals(that.filterWidgetId) : that.filterWidgetId == null;
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (filterBoardId != null ? filterBoardId.hashCode() : 0);
+        result = 31 * result + (filterWidgetId != null ? filterWidgetId.hashCode() : 0);
         result = 31 * result + dueType;
         return result;
     }

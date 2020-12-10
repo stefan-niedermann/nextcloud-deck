@@ -425,25 +425,25 @@ public abstract class DeckDatabase extends RoomDatabase {
             database.execSQL("CREATE TABLE `FilterWidget` (`id` INTEGER PRIMARY KEY AUTOINCREMENT)");
             database.execSQL("CREATE TABLE `FilterWidgetAccount` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterWidgetId` INTEGER, `accountId` INTEGER, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterWidgetId`) REFERENCES `FilterWidget`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
             database.execSQL("CREATE TABLE `FilterWidgetBoard` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterAccountId` INTEGER, `boardId` INTEGER, FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterAccountId`) REFERENCES `FilterWidgetAccount`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
-            database.execSQL("CREATE TABLE `FilterWidgetDue` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterBoardId` INTEGER, `dueType` INTEGER NOT NULL, FOREIGN KEY(`filterBoardId`) REFERENCES `FilterWidgetBoard`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE TABLE `FilterWidgetDue` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterWidgetId` INTEGER, `dueType` INTEGER NOT NULL, FOREIGN KEY(`filterWidgetId`) REFERENCES `FilterWidget`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
             database.execSQL("CREATE TABLE `FilterWidgetLabel` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterBoardId` INTEGER, `labelId` INTEGER, FOREIGN KEY(`labelId`) REFERENCES `Label`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterBoardId`) REFERENCES `FilterWidgetBoard`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
-            database.execSQL("CREATE TABLE `FilterWidgetSort` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterBoardId` INTEGER, `direction` INTEGER NOT NULL, `criteria` INTEGER NOT NULL, `ruleOrder` INTEGER NOT NULL, FOREIGN KEY(`filterBoardId`) REFERENCES `FilterWidgetBoard`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE TABLE `FilterWidgetSort` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterBoardId` INTEGER, `direction` INTEGER NOT NULL, `criteria` INTEGER NOT NULL, `ruleOrder` INTEGER NOT NULL, FOREIGN KEY(`filterWidgetId`) REFERENCES `FilterWidget`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
             database.execSQL("CREATE TABLE `FilterWidgetStack` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterBoardId` INTEGER, `stackId` INTEGER, FOREIGN KEY(`stackId`) REFERENCES `Stack`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterBoardId`) REFERENCES `FilterWidgetBoard`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
-            database.execSQL("CREATE TABLE `FilterWidgetUser` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterBoardId` INTEGER, `userId` INTEGER, FOREIGN KEY(`userId`) REFERENCES `User`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterBoardId`) REFERENCES `FilterWidgetBoard`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE TABLE `FilterWidgetUser` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterAccountId` INTEGER, `userId` INTEGER, FOREIGN KEY(`userId`) REFERENCES `User`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterAccountId`) REFERENCES `FilterWidgetAccount`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
             database.execSQL("CREATE INDEX `index_FilterWidgetAccount_filterWidgetId` ON `FilterWidgetAccount` (`filterWidgetId`)");
             database.execSQL("CREATE INDEX `idx_FilterWidgetAccount_accountId` ON `FilterWidgetAccount` (`accountId`)");
             database.execSQL("CREATE INDEX `idx_FilterWidgetBoard_boardId` ON `FilterWidgetBoard` (`boardId`)");
             database.execSQL("CREATE INDEX `idx_FilterWidgetBoard_filterAccountId` ON `FilterWidgetBoard` (`filterAccountId`)");
             database.execSQL("CREATE INDEX `idx_FilterWidgetLabel_filterBoardId` ON `FilterWidgetLabel` (`filterBoardId`)");
             database.execSQL("CREATE INDEX `idx_FilterWidgetLabel_labelId` ON `FilterWidgetLabel` (`labelId`)");
-            database.execSQL("CREATE INDEX `idx_FilterWidgetSort_filterBoardId` ON `FilterWidgetSort` (`filterBoardId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetSort_filterWidgetId` ON `FilterWidgetSort` (`filterWidgetId`)");
             database.execSQL("CREATE INDEX `idx_FilterWidgetStack_filterBoardId` ON `FilterWidgetStack` (`filterBoardId`)");
             database.execSQL("CREATE INDEX `idx_FilterWidgetStack_stackId` ON `FilterWidgetStack` (`stackId`)");
-            database.execSQL("CREATE INDEX `idx_FilterWidgetUser_filterBoardId` ON `FilterWidgetUser` (`filterBoardId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetUser_filterAccountId` ON `FilterWidgetUser` (`filterAccountId`)");
             database.execSQL("CREATE INDEX `idx_FilterWidgetUser_userId` ON `FilterWidgetUser` (`userId`)");
-            database.execSQL("CREATE UNIQUE INDEX `unique_idx_FilterWidgetDue_filterBoardId` ON `FilterWidgetDue` (`filterBoardId`)");
-            database.execSQL("CREATE INDEX `unique_idx_FilterWidgetSort_filterBoardId_criteria` ON `FilterWidgetSort` (`filterBoardId`, `criteria`)");
-            database.execSQL("CREATE INDEX `unique_idx_FilterWidgetSort_filterBoardId_ruleOrder` ON `FilterWidgetSort` (`filterBoardId`, `ruleOrder`)");
+            database.execSQL("CREATE UNIQUE INDEX `unique_idx_FilterWidgetDue_filterWidgetId` ON `FilterWidgetDue` (`filterWidgetId`)");
+            database.execSQL("CREATE INDEX `unique_idx_FilterWidgetSort_filterWidgetId_criteria` ON `FilterWidgetSort` (`filterWidgetId`, `criteria`)");
+            database.execSQL("CREATE INDEX `unique_idx_FilterWidgetSort_filterWidgetId_ruleOrder` ON `FilterWidgetSort` (`filterWidgetId`, `ruleOrder`)");
 
         }
     };

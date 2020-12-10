@@ -7,15 +7,15 @@ import androidx.room.PrimaryKey;
 
 @Entity(
         indices = {
-                @Index(value = "filterBoardId", name = "idx_FilterWidgetSort_filterBoardId"),
-                @Index(value = {"filterBoardId", "criteria"}, name = "unique_idx_FilterWidgetSort_filterBoardId_criteria"),
-                @Index(value = {"filterBoardId", "ruleOrder"}, name = "unique_idx_FilterWidgetSort_filterBoardId_ruleOrder"),
+                @Index(value = "filterWidgetId", name = "idx_FilterWidgetSort_filterWidgetId"),
+                @Index(value = {"filterWidgetId", "criteria"}, name = "unique_idx_FilterWidgetSort_filterWidgetId_criteria"),
+                @Index(value = {"filterWidgetId", "ruleOrder"}, name = "unique_idx_FilterWidgetSort_filterWidgetId_ruleOrder"),
         },
         foreignKeys = {
                 @ForeignKey(
                         entity = FilterWidgetBoard.class,
                         parentColumns = "id",
-                        childColumns = "filterBoardId", onDelete = ForeignKey.CASCADE
+                        childColumns = "filterWidgetId", onDelete = ForeignKey.CASCADE
                 )
         }
 )
@@ -23,7 +23,7 @@ public class FilterWidgetSort {
 
     @PrimaryKey(autoGenerate = true)
     private Long id;
-    private Long filterBoardId;
+    private Long filterWidgetId;
     private boolean direction;
     private int criteria;
     private int ruleOrder;
@@ -36,12 +36,12 @@ public class FilterWidgetSort {
         this.id = id;
     }
 
-    public Long getFilterBoardId() {
-        return filterBoardId;
+    public Long getFilterWidgetId() {
+        return filterWidgetId;
     }
 
-    public void setFilterBoardId(Long filterBoardId) {
-        this.filterBoardId = filterBoardId;
+    public void setFilterWidgetId(Long filterWidgetId) {
+        this.filterWidgetId = filterWidgetId;
     }
 
     public boolean isDirection() {
@@ -79,13 +79,13 @@ public class FilterWidgetSort {
         if (criteria != that.criteria) return false;
         if (ruleOrder != that.ruleOrder) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        return filterBoardId != null ? filterBoardId.equals(that.filterBoardId) : that.filterBoardId == null;
+        return filterWidgetId != null ? filterWidgetId.equals(that.filterWidgetId) : that.filterWidgetId == null;
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (filterBoardId != null ? filterBoardId.hashCode() : 0);
+        result = 31 * result + (filterWidgetId != null ? filterWidgetId.hashCode() : 0);
         result = 31 * result + (direction ? 1 : 0);
         result = 31 * result + criteria;
         result = 31 * result + ruleOrder;

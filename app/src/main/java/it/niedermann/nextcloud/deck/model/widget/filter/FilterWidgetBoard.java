@@ -2,8 +2,11 @@ package it.niedermann.nextcloud.deck.model.widget.filter;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+
+import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Board;
 
@@ -31,6 +34,28 @@ public class FilterWidgetBoard {
     private Long id;
     private Long filterAccountId;
     private Long boardId;
+
+    @Ignore
+    private List<FilterWidgetStack> stacks;
+
+    @Ignore
+    private List<FilterWidgetLabel> tags;
+
+    public List<FilterWidgetLabel> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<FilterWidgetLabel> tags) {
+        this.tags = tags;
+    }
+
+    public List<FilterWidgetStack> getStacks() {
+        return stacks;
+    }
+
+    public void setStacks(List<FilterWidgetStack> stacks) {
+        this.stacks = stacks;
+    }
 
     public Long getId() {
         return id;

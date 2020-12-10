@@ -1,7 +1,10 @@
 package it.niedermann.nextcloud.deck.model.widget.filter;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import java.util.List;
 
 @Entity()
 public class FilterWidget {
@@ -9,12 +12,45 @@ public class FilterWidget {
     @PrimaryKey(autoGenerate = true)
     private Long id;
 
+    @Ignore
+    private List<FilterWidgetAccount> accounts;
+
+    @Ignore
+    private List<FilterWidgetDue> dues;
+
+    @Ignore
+    private List<FilterWidgetSort> sorts;
+
+    public List<FilterWidgetAccount> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<FilterWidgetAccount> accounts) {
+        this.accounts = accounts;
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<FilterWidgetDue> getDues() {
+        return dues;
+    }
+
+    public void setDues(List<FilterWidgetDue> dues) {
+        this.dues = dues;
+    }
+
+    public List<FilterWidgetSort> getSorts() {
+        return sorts;
+    }
+
+    public void setSorts(List<FilterWidgetSort> sorts) {
+        this.sorts = sorts;
     }
 
     @Override
