@@ -4,6 +4,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity()
@@ -15,10 +16,10 @@ public class FilterWidget {
     private Integer dueType;
 
     @Ignore
-    private List<FilterWidgetAccount> accounts;
+    private List<FilterWidgetAccount> accounts = new ArrayList<>();
 
     @Ignore
-    private List<FilterWidgetSort> sorts;
+    private List<FilterWidgetSort> sorts = new ArrayList<>();
 
     public List<FilterWidgetAccount> getAccounts() {
         return accounts;

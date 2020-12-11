@@ -1060,7 +1060,7 @@ public class DataBaseAdapter {
         return db.getStackWidgetModelDao().getStackWidgetByAppWidgetIdDirectly(appWidgetId);
     }
 
-    public Long createFilterWidget(FilterWidget filterWidget) {
+    public Long createFilterWidgetDirectly(FilterWidget filterWidget) {
         long widgetId = db.getFilterWidgetDao().insert(filterWidget);
         filterWidget.setId(widgetId);
         insertFilterWidgetDecendants(filterWidget);
@@ -1095,15 +1095,31 @@ public class DataBaseAdapter {
         }
     }
 
-    public void deleteFilterWidget(Long filterWidgetId) {
+    public void deleteFilterWidgetDirectly(Long filterWidgetId) {
         db.getFilterWidgetDao().delete(filterWidgetId);
     }
 
-    public void updateFilterWidget(FilterWidget filterWidget) {
+    public void updateFilterWidgetDirectly(FilterWidget filterWidget) {
         db.getFilterWidgetSortDao().deleteByFilterWidgetId(filterWidget.getId());
         db.getFilterWidgetAccountDao().deleteByFilterWidgetId(filterWidget.getId());
         db.getFilterWidgetDao().update(filterWidget);
         insertFilterWidgetDecendants(filterWidget);
+    }
+
+    public FilterWidget getFilterWidgetByIdDirectly(Long filterWidgetId) {
+        FilterWidget filterWidget = db.getFilterWidgetDao().getFilterWidgetByIdDirectly(filterWidgetId);
+        filterWidget.setSorts(db.getFilterWidgetSortDao().getFilterWidgetSortByFilterWidgetIdDirectly(filterWidgetId));
+        filterWidget.setAccounts(db.getFilterWidgetAccountDao().getFilterWidgetAccountsByFilterWidgetIdDirectly(filterWidgetId));
+        for (FilterWidgetAccount account : filterWidget.getAccounts()) {
+            account.setBoards(db.getFilterWidgetBoardDao().getFilterWidgetBoardsByFilterWidgetAccountIdDirectly(account.getId()));
+            account.setUsers(db.getFilterWidgetUserDao().getFilterWidgetUsersByFilterWidgetAccountIdDirectly(account.getId()));
+            for (FilterWidgetBoard board : account.getBoards()) {
+                board.setLabels(db.getFilterWidgetLabelDao().getFilterWidgetLabelsByFilterWidgetBoardIdDirectly(board.getId()));
+                board.setStacks(db.getFilterWidgetStackDao().getFilterWidgetStacksByFilterWidgetBoardIdDirectly(board.getId()));
+            }
+        }
+
+        return filterWidget;
     }
 
     public List<FilterWidgetCard> getCardsForFilterWidget(Long filterWidgetId) {

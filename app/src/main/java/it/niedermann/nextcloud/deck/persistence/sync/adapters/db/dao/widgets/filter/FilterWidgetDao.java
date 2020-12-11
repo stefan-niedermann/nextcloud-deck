@@ -10,4 +10,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.GenericDao;
 public interface FilterWidgetDao extends GenericDao<FilterWidget> {
     @Query("DELETE FROM filterwidget WHERE id = :filterWidgetId")
     void delete (Long filterWidgetId);
+
+    @Query("SELECT * FROM FilterWidget where id = :filterWidgetId")
+    FilterWidget getFilterWidgetByIdDirectly(Long filterWidgetId);
 }

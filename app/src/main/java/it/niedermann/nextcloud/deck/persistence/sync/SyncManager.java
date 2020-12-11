@@ -1942,7 +1942,7 @@ public class SyncManager {
     public void createFilterWidget(@NonNull FilterWidget filterWidget, @NonNull IResponseCallback<Long> callback) {
         doAsync(() -> {
             try {
-                Long filterWidgetId = dataBaseAdapter.createFilterWidget(filterWidget);
+                Long filterWidgetId = dataBaseAdapter.createFilterWidgetDirectly(filterWidget);
                 callback.onResponse(filterWidgetId);
             } catch (Throwable t) {
                 callback.onError(t);
@@ -1954,8 +1954,18 @@ public class SyncManager {
     public void updateFilterWidget(@NonNull FilterWidget filterWidget, @NonNull IResponseCallback<Boolean> callback) {
         doAsync(() -> {
             try {
-                dataBaseAdapter.updateFilterWidget(filterWidget);
+                dataBaseAdapter.updateFilterWidgetDirectly(filterWidget);
                 callback.onResponse(Boolean.TRUE);
+            } catch (Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+    @AnyThread
+    public void getFilterWidget(@NonNull Long filterWidgetId, @NonNull IResponseCallback<FilterWidget> callback) {
+        doAsync(() -> {
+            try {
+                callback.onResponse(dataBaseAdapter.getFilterWidgetByIdDirectly(filterWidgetId));
             } catch (Throwable t) {
                 callback.onError(t);
             }
@@ -1966,7 +1976,7 @@ public class SyncManager {
     public void deleteFilterWidget(@NonNull Long filterWidgetId, @NonNull IResponseCallback<Boolean> callback) {
         doAsync(() -> {
             try {
-                dataBaseAdapter.deleteFilterWidget(filterWidgetId);
+                dataBaseAdapter.deleteFilterWidgetDirectly(filterWidgetId);
                 callback.onResponse(Boolean.TRUE);
             } catch (Throwable t) {
                 callback.onError(t);

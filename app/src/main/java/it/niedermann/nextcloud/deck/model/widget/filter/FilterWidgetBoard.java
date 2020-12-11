@@ -6,6 +6,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Board;
@@ -36,10 +37,10 @@ public class FilterWidgetBoard {
     private Long boardId;
 
     @Ignore
-    private List<FilterWidgetStack> stacks;
+    private List<FilterWidgetStack> stacks = new ArrayList<>();
 
     @Ignore
-    private List<FilterWidgetLabel> labels;
+    private List<FilterWidgetLabel> labels = new ArrayList<>();
 
     public List<FilterWidgetLabel> getLabels() {
         return labels;
