@@ -2,13 +2,14 @@ package it.niedermann.nextcloud.deck;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 
 import androidx.annotation.NonNull;
 import androidx.multidex.MultiDexApplication;
 import androidx.preference.PreferenceManager;
 
-import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
-import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
+import it.niedermann.nextcloud.deck.ui.settings.DarkModeSetting;
+
 import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
 
 public class DeckApplication extends MultiDexApplication {
@@ -17,9 +18,12 @@ public class DeckApplication extends MultiDexApplication {
     public static final long NO_BOARD_ID = -1L;
     public static final long NO_STACK_ID = -1L;
 
+    private static String PREF_KEY_THEME;
+
     @Override
     public void onCreate() {
-        setAppTheme(isDarkTheme(getApplicationContext()));
+        PREF_KEY_THEME = getString(R.string.pref_key_dark_theme);
+        setAppTheme(getAppTheme(getApplicationContext()));
         super.onCreate();
     }
 
@@ -27,13 +31,37 @@ public class DeckApplication extends MultiDexApplication {
     // Day / Night theme
     // -----------------
 
-    public static void setAppTheme(boolean darkTheme) {
-        setDefaultNightMode(darkTheme ? MODE_NIGHT_YES : MODE_NIGHT_NO);
+    public static void setAppTheme(DarkModeSetting setting) {
+        setDefaultNightMode(setting.getModeId());
+    }
+
+    public static DarkModeSetting getAppTheme(@NonNull Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String mode;
+        try {
+            mode = prefs.getString(PREF_KEY_THEME, DarkModeSetting.SYSTEM_DEFAULT.getPreferenceValue(context));
+        } catch (ClassCastException e) {
+            boolean darkModeEnabled = prefs.getBoolean(PREF_KEY_THEME, false);
+            mode = darkModeEnabled ? DarkModeSetting.DARK.getPreferenceValue(context) : DarkModeSetting.LIGHT.getPreferenceValue(context);
+        }
+        return DarkModeSetting.valueOf(mode);
+    }
+
+    public static boolean isDarkThemeActive(@NonNull Context context, DarkModeSetting setting) {
+        if (setting == DarkModeSetting.SYSTEM_DEFAULT) {
+            return isDarkThemeActive(context);
+        } else {
+            return setting == DarkModeSetting.DARK;
+        }
+    }
+
+    public static boolean isDarkThemeActive(@NonNull Context context) {
+        int uiMode = context.getResources().getConfiguration().uiMode;
+        return (uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
     }
 
     public static boolean isDarkTheme(@NonNull Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return prefs.getBoolean(context.getString(R.string.pref_key_dark_theme), false);
+        return isDarkThemeActive(context, getAppTheme(context));
     }
 
     // --------------------------------------

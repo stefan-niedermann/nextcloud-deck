@@ -17,6 +17,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -68,6 +69,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.Oc
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.OcsProjectResourceDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.SingleCardWidgetModelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.StackWidgetModelDao;
+import it.niedermann.nextcloud.deck.ui.settings.DarkModeSetting;
 
 @Database(
         entities = {
@@ -97,7 +99,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.Sta
                 UserInBoard.class,
         },
         exportSchema = false,
-        version = 23
+        version = 24
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -454,6 +456,22 @@ public abstract class DeckDatabase extends RoomDatabase {
                     }
                 })
                 .addMigrations(MIGRATION_22_23)
+                .addMigrations(new Migration(23, 24) {
+                    @Override
+                    public void migrate(@NonNull SupportSQLiteDatabase database) {
+                        // https://github.com/stefan-niedermann/nextcloud-deck/issues/392
+                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                        final String themePref = context.getString(R.string.pref_key_dark_theme);
+
+                        if (sharedPreferences.contains(themePref)) {
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            final boolean darkTheme = sharedPreferences.getBoolean(themePref, false);
+                            editor.remove(themePref);
+                            editor.putString(themePref, darkTheme ? DarkModeSetting.DARK.getPreferenceValue(context) : DarkModeSetting.LIGHT.getPreferenceValue(context));
+                            editor.apply();
+                        }
+                    }
+                })
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();
