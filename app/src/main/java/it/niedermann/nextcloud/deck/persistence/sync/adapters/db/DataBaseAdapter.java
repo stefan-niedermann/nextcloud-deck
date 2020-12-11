@@ -1062,6 +1062,13 @@ public class DataBaseAdapter {
 
     public Long createFilterWidget(FilterWidget filterWidget) {
         long widgetId = db.getFilterWidgetDao().insert(filterWidget);
+        filterWidget.setId(widgetId);
+        insertFilterWidgetDecendants(filterWidget);
+        return widgetId;
+    }
+
+    private void insertFilterWidgetDecendants(FilterWidget filterWidget) {
+        long widgetId = filterWidget.getId();
         for (FilterWidgetAccount account : filterWidget.getAccounts()) {
             account.setFilterWidgetId(widgetId);
             long accountId = db.getFilterWidgetAccountDao().insert(account);
@@ -1086,17 +1093,17 @@ public class DataBaseAdapter {
             sort.setFilterWidgetId(widgetId);
             db.getFilterWidgetSortDao().insert(sort);
         }
-        return widgetId;
     }
 
     public void deleteFilterWidget(Long filterWidgetId) {
-        // TODO
-        throw new UnsupportedOperationException("Not yet implemented");
+        db.getFilterWidgetDao().delete(filterWidgetId);
     }
 
     public void updateFilterWidget(FilterWidget filterWidget) {
-        // TODO
-        throw new UnsupportedOperationException("Not yet implemented");
+        db.getFilterWidgetSortDao().deleteByFilterWidgetId(filterWidget.getId());
+        db.getFilterWidgetAccountDao().deleteByFilterWidgetId(filterWidget.getId());
+        db.getFilterWidgetDao().update(filterWidget);
+        insertFilterWidgetDecendants(filterWidget);
     }
 
     public List<FilterWidgetCard> getCardsForFilterWidget(Long filterWidgetId) {
