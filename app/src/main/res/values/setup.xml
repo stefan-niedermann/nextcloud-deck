@@ -30,6 +30,16 @@
         <item>@string/pref_value_background_6_hours</item>
     </string-array>
 
+    <string name="pref_value_theme_light" translatable="false">LIGHT</string>
+    <string name="pref_value_theme_dark" translatable="false">DARK</string>
+    <string name="pref_value_theme_system_default" translatable="false">SYSTEM_DEFAULT</string>
+
+    <string-array name="darkMode_values">
+        <item>@string/pref_value_theme_light</item>
+        <item>@string/pref_value_theme_dark</item>
+        <item>@string/pref_value_theme_system_default</item>
+    </string-array>
+
     <!-- To be concatenated with the account id -->
     <string name="shared_preference_last_account" translatable="false">it.niedermann.nextcloud.deck.last_account</string>
     <string name="shared_preference_last_board_for_account_" translatable="false">it.niedermann.nextcloud.deck.last_board_for_account_</string>
