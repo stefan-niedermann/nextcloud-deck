@@ -11,7 +11,11 @@ import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.AccessControl;
@@ -199,13 +203,18 @@ public class DataBaseAdapter {
 
     }
 
-    private void fillSqlWithListValues(StringBuilder query, List<Object> args, @NonNull List<? extends IRemoteEntity> entities) {
-        for (int i = 0; i < entities.size(); i++) {
+    private void fillSqlWithEntityListValues(StringBuilder query, List<Object> args, @NonNull List<? extends IRemoteEntity> entities) {
+        List<Long> idList = entities.stream().map(IRemoteEntity::getLocalId).collect(Collectors.toList());
+        fillSqlWithListValues(query, args, idList);
+    }
+
+    private void fillSqlWithListValues(StringBuilder query, List<Object> args, @NonNull List<?> values) {
+        for (int i = 0; i < values.size(); i++) {
             if (i > 0) {
                 query.append(", ");
             }
             query.append("?");
-            args.add(entities.get(i).getLocalId());
+            args.add(values.get(i));
         }
     }
 
@@ -223,15 +232,26 @@ public class DataBaseAdapter {
 
     @AnyThread
     private SimpleSQLiteQuery getQueryForFilter(FilterInformation filter, long accountId, long localStackId) {
+        return getQueryForFilter(filter, Collections.singletonList(accountId), Collections.singletonList(localStackId));
+    }
+    @AnyThread
+    private SimpleSQLiteQuery getQueryForFilter(FilterInformation filter, List<Long> accountIds, List<Long> localStackIds) {
         List<Object> args = new ArrayList<>();
-        args.add(accountId);
-        args.add(localStackId);
-        StringBuilder query = new StringBuilder("SELECT * FROM card c " +
-                "WHERE accountId = ? AND stackId = ? ");
+        StringBuilder query = new StringBuilder("SELECT * FROM card c WHERE 1=1 ");
+        if (accountIds != null && !accountIds.isEmpty()){
+            query.append("and accountId in (");
+            fillSqlWithListValues(query, args, accountIds);
+            query.append(") ");
+        }
+        if (localStackIds != null && !localStackIds.isEmpty()){
+            query.append("and stackId in (");
+            fillSqlWithListValues(query, args, localStackIds);
+            query.append(") ");
+        }
 
         if (!filter.getLabels().isEmpty()) {
             query.append("and (exists(select 1 from joincardwithlabel j where c.localId = cardId and labelId in (");
-            fillSqlWithListValues(query, args, filter.getLabels());
+            fillSqlWithEntityListValues(query, args, filter.getLabels());
             query.append(") and j.status<>3) ");
             if (filter.isNoAssignedLabel()) {
                 query.append("or not exists(select 1 from joincardwithlabel j where c.localId = cardId and j.status<>3)) ");
@@ -244,7 +264,7 @@ public class DataBaseAdapter {
 
         if (!filter.getUsers().isEmpty()) {
             query.append("and (exists(select 1 from joincardwithuser j where c.localId = cardId and userId in (");
-            fillSqlWithListValues(query, args, filter.getUsers());
+            fillSqlWithEntityListValues(query, args, filter.getUsers());
             query.append(") and j.status<>3) ");
             if (filter.isNoAssignedUser()) {
                 query.append("or not exists(select 1 from joincardwithuser j where c.localId = cardId and j.status<>3)) ");
@@ -273,13 +293,13 @@ public class DataBaseAdapter {
                     query.append("and datetime(c.duedate/1000, 'unixepoch', 'localtime') between datetime('now', 'localtime') and datetime('now', '+30 day', 'localtime')");
                     break;
                 default:
-                    throw new IllegalArgumentException("Xou need to add your new EDueType value\"" + filter.getDueType() + "\" here!");
+                    throw new IllegalArgumentException("You need to add your new EDueType value\"" + filter.getDueType() + "\" here!");
             }
         }
         if (filter.getArchiveStatus() != FilterInformation.EArchiveStatus.ALL) {
             query.append(" and c.archived = " + (filter.getArchiveStatus() == FilterInformation.EArchiveStatus.ARCHIVED ? 1 : 0));
         }
-        query.append(" and status<>3 order by `order`, createdAt asc;");
+        query.append(" and status<>3 order by accountId asc, stackId asc, `order`, createdAt asc;");
         return new SimpleSQLiteQuery(query.toString(), args.toArray());
     }
 
@@ -482,7 +502,7 @@ public class DataBaseAdapter {
         return LiveDataHelper.wrapInLiveData(() -> {
             board.setAccountId(accountId);
             long id = db.getBoardDao().insert(board);
-            return db.getBoardDao().getBoardByIdDirectly(id);
+            return db.getBoardDao().getBoardByLocalIdDirectly(id);
 
         });
     }
@@ -668,7 +688,7 @@ public class DataBaseAdapter {
 
     @WorkerThread
     public Board getBoardByLocalIdDirectly(long localId) {
-        return db.getBoardDao().getBoardByIdDirectly(localId);
+        return db.getBoardDao().getBoardByLocalIdDirectly(localId);
     }
 
     public LiveData<User> getUserByLocalId(long accountId, long localId) {
@@ -1123,8 +1143,45 @@ public class DataBaseAdapter {
     }
 
     public List<FilterWidgetCard> getCardsForFilterWidget(Long filterWidgetId) {
-        // TODO
-        throw new UnsupportedOperationException("Not yet implemented");
+        FilterWidget filterWidget = getFilterWidgetByIdDirectly(filterWidgetId);
+        FilterInformation filter = new FilterInformation();
+        List<Long> accounts = new ArrayList<>();
+        List<Long> stacks = new ArrayList<>();
+        for (FilterWidgetAccount account : filterWidget.getAccounts()) {
+            accounts.add(account.getId());
+            if (account.getBoards().isEmpty()) {
+
+            } else {
+
+            }
+        }
+
+        List<FullCard> cardsResult = db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, accounts, stacks));
+        filterRelationsForCard(cardsResult);
+
+        List<FilterWidgetCard> result = new ArrayList<>(cardsResult.size());
+        Map<Long, Board> boardCache = new HashMap<>();
+        Map<Long, Stack> stackCache = new HashMap<>();
+        for (FullCard fullCard : cardsResult) {
+            Long stackId = fullCard.getCard().getStackId();
+            Stack stack = stackCache.get(stackId);
+            if (stack == null) {
+                stack = db.getStackDao().getStackByLocalIdDirectly(stackId);
+                stackCache.put(stackId, stack);
+            }
+
+            Board board = boardCache.get(stack.getBoardId());
+            if (board == null) {
+                board = db.getBoardDao().getBoardByLocalIdDirectly(stackId);
+                boardCache.put(stackId, board);
+            }
+            FilterWidgetCard filterWidgetCard = new FilterWidgetCard();
+            filterWidgetCard.setCard(fullCard);
+            filterWidgetCard.setBoard(board);
+            filterWidgetCard.setStack(stack);
+            result.add(filterWidgetCard);
+        }
+        return result;
     }
 
     public void deleteStackWidget(int appWidgetId) {
