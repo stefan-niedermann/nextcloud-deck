@@ -263,7 +263,7 @@
 
     <string name="widget_stack_title">Излистај</string>
     <string name="widget_stack_header_icon">Заглавње иконице виџета</string>
-    <string name="widget_stack_placeholder_icon">Иконица виџета</string>
+    <string name="widget_placeholder_icon">Иконица виџета</string>
     <string name="select_stack">Одабир списка</string>
     <string name="project_type_deck_board">Табла Шпила</string>
     <string name="project_type_deck_card">Картица Шпила</string>

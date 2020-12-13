@@ -9,40 +9,28 @@
 
     <!-- Widget header -->
     <RelativeLayout
-        android:id="@+id/widget_stack_header_rl"
+        android:id="@+id/widget_upcoming_header_rl"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_stack_header_height"
         android:padding="@dimen/widget_stack_card_padding">
 
-        <ImageView
-            android:id="@+id/widget_stack_header_icon"
-            android:layout_width="@dimen/widget_stack_icon_width"
-            android:layout_height="match_parent"
-            android:src="@drawable/circle_grey600_8dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:paddingStart="@dimen/widget_stack_card_padding"
-            android:paddingEnd="@dimen/widget_stack_card_padding"
-            android:contentDescription="@string/widget_stack_header_icon" />
-
         <TextView
-            android:id="@+id/widget_stack_title_tv"
+            android:id="@+id/widget_upcoming_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textAppearance="?attr/textAppearanceBody1"
             android:textSize="18sp"
-            android:layout_toEndOf="@id/widget_stack_header_icon"
             android:gravity="center_vertical"
             android:paddingStart="@dimen/widget_stack_card_padding"
             android:paddingEnd="@dimen/widget_stack_card_padding"
             android:textColor="@color/widget_foreground"
-            tools:text="@string/app_name"/>
+            tools:text="@string/widget_upcoming_title"/>
 
     </RelativeLayout>
     <!-- End header -->
 
     <ListView
-        android:id="@+id/stack_widget_lv"
+        android:id="@+id/upcoming_widget_lv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@android:color/transparent"
@@ -51,7 +39,7 @@
         tools:listitem="@layout/widget_stack_entry" />
 
     <ImageView
-        android:id="@+id/widget_stack_placeholder_iv"
+        android:id="@+id/widget_upcoming_placeholder_iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"

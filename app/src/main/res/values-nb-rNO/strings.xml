@@ -259,7 +259,7 @@
 
     <string name="widget_stack_title">Liste</string>
     <string name="widget_stack_header_icon">Widget topptekstikon</string>
-    <string name="widget_stack_placeholder_icon">Widget plassholderikon</string>
+    <string name="widget_placeholder_icon">Widget plassholderikon</string>
     <string name="select_stack">Velg liste</string>
     <string name="project_type_deck_board">Deck tavle</string>
     <string name="project_type_deck_card">Deck kort</string>

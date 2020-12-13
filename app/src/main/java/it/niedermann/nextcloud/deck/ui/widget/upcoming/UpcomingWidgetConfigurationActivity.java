@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.widget.filter;
+package it.niedermann.nextcloud.deck.ui.widget.upcoming;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
@@ -11,13 +11,13 @@ import androidx.lifecycle.ViewModelProvider;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.databinding.ActivityFilterWidgetBinding;
+import it.niedermann.nextcloud.deck.databinding.ActivityUpcomingWidgetBinding;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
-public class FilterWidgetConfigurationActivity extends AppCompatActivity {
+public class UpcomingWidgetConfigurationActivity extends AppCompatActivity {
     private int appWidgetId;
-    private ActivityFilterWidgetBinding binding;
-    private FilterWidgetViewModel viewModel;
+    private ActivityUpcomingWidgetBinding binding;
+    private UpcomingWidgetViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,15 +25,15 @@ public class FilterWidgetConfigurationActivity extends AppCompatActivity {
 
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
 
-        binding = ActivityFilterWidgetBinding.inflate(getLayoutInflater());
-        viewModel = new ViewModelProvider(this).get(FilterWidgetViewModel.class);
+        binding = ActivityUpcomingWidgetBinding.inflate(getLayoutInflater());
+        viewModel = new ViewModelProvider(this).get(UpcomingWidgetViewModel.class);
 
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(R.string.add_filter_widget);
+            actionBar.setTitle(R.string.widget_upcoming_title);
         }
 
         setResult(RESULT_CANCELED);
@@ -51,19 +51,18 @@ public class FilterWidgetConfigurationActivity extends AppCompatActivity {
         binding.submit.setOnClickListener((v) -> {
             final Bundle extras = new Bundle();
 
-            viewModel.updateFilterWidget(new IResponseCallback<Integer>(null) {
+            viewModel.addUpcomingWidget(appWidgetId, new IResponseCallback<Integer>(null) {
                 @Override
                 public void onResponse(Integer response) {
-
                 }
             });
-            Intent updateIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, getApplicationContext(), FilterWidget.class);
+            Intent updateIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, getApplicationContext(), UpcomingWidget.class);
             extras.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 
             // The `extras` bundle is added to the intent this way because using putExtras(extras)
-            // would have the OS attempt to reassemle the data and cause a crash
+            // would have the OS attempt to reassemble the data and cause a crash
             // when it finds classes that are only known to this application.
-            updateIntent.putExtra(FilterWidget.BUNDLE_KEY, extras);
+            updateIntent.putExtra(UpcomingWidget.BUNDLE_KEY, extras);
             setResult(RESULT_OK, updateIntent);
             getApplicationContext().sendBroadcast(updateIntent);
 

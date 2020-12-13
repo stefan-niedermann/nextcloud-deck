@@ -62,8 +62,6 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
-import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetConfiguration;
-import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetData;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
@@ -1103,7 +1101,7 @@ public class SyncManager {
                             @SuppressLint("MissingSuperCall")
                             @Override
                             public void onError(Throwable throwable) {
-                                if (throwable.getClass() == DeckException.class && ((DeckException)throwable).getHint().equals(DeckException.Hint.DEPENDENCY_NOT_SYNCED_YET)) {
+                                if (throwable.getClass() == DeckException.class && ((DeckException) throwable).getHint().equals(DeckException.Hint.DEPENDENCY_NOT_SYNCED_YET)) {
                                     liveData.postValue(card);
                                 } else {
                                     liveData.postError(throwable);
@@ -1939,10 +1937,10 @@ public class SyncManager {
     // # filter widget
 
     @AnyThread
-    public void createFilterWidget(@NonNull FilterWidget filterWidget, @NonNull IResponseCallback<Long> callback) {
+    public void createFilterWidget(@NonNull FilterWidget filterWidget, @NonNull IResponseCallback<Integer> callback) {
         doAsync(() -> {
             try {
-                Long filterWidgetId = dataBaseAdapter.createFilterWidgetDirectly(filterWidget);
+                int filterWidgetId = dataBaseAdapter.createFilterWidgetDirectly(filterWidget);
                 callback.onResponse(filterWidgetId);
             } catch (Throwable t) {
                 callback.onError(t);
@@ -1961,6 +1959,7 @@ public class SyncManager {
             }
         });
     }
+
     @AnyThread
     public void getFilterWidget(@NonNull Integer filterWidgetId, @NonNull IResponseCallback<FilterWidget> callback) {
         doAsync(() -> {
@@ -1973,7 +1972,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void deleteFilterWidget(@NonNull Long filterWidgetId, @NonNull IResponseCallback<Boolean> callback) {
+    public void deleteFilterWidget(int filterWidgetId, @NonNull IResponseCallback<Boolean> callback) {
         doAsync(() -> {
             try {
                 dataBaseAdapter.deleteFilterWidgetDirectly(filterWidgetId);
@@ -1984,7 +1983,7 @@ public class SyncManager {
         });
     }
 
-    @AnyThread
+    @WorkerThread
     public void getCardsForFilterWidget(@NonNull Integer filterWidgetId, @NonNull IResponseCallback<List<FilterWidgetCard>> callback) {
         doAsync(() -> {
             try {
@@ -2035,22 +2034,6 @@ public class SyncManager {
 
     public void deleteStackWidgetModel(int appWidgetId) {
         doAsync(() -> dataBaseAdapter.deleteStackWidget(appWidgetId));
-    }
-
-    /**
-     * If a filter widget with the given id exists, it will be updated, otherwise it will be created.
-     */
-    public void updateFilterWidgetConfiguration(@NonNull FilterWidgetConfiguration data) {
-        // TODO
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    /**
-     * Returns the payload of the give {@param appWidgetId}.
-     */
-    public LiveData<FilterWidgetData> getFilterWidgetData(int appWidgetId) {
-        // TODO
-        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     /**

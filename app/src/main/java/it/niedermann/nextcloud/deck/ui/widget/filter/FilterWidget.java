@@ -72,7 +72,7 @@ public class FilterWidget extends AppWidgetProvider {
         final SyncManager syncManager = new SyncManager(context);
 
         for (int appWidgetId : appWidgetIds) {
-            syncManager.deleteFilterWidget((long)appWidgetId, new IResponseCallback<Boolean>(null) {
+            syncManager.deleteFilterWidget(appWidgetId, new IResponseCallback<Boolean>(null) {
                 @Override
                 public void onResponse(Boolean response) {
 

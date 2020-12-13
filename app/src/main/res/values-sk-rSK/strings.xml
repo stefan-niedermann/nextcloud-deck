@@ -265,7 +265,7 @@
 
     <string name="widget_stack_title">Zoznam</string>
     <string name="widget_stack_header_icon">Ikona hlavičky miniaplikácie</string>
-    <string name="widget_stack_placeholder_icon">Ikona zástupného symbolu miniaplikácie</string>
+    <string name="widget_placeholder_icon">Ikona zástupného symbolu miniaplikácie</string>
     <string name="select_stack">Vyberte zoznam</string>
     <string name="project_type_deck_board">Palubná doska</string>
     <string name="project_type_deck_card">Palubná karta</string>

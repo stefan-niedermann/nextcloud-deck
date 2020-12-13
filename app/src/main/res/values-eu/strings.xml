@@ -259,7 +259,7 @@
 
     <string name="widget_stack_title">Zerrenda</string>
     <string name="widget_stack_header_icon">Goiburu widgetaren ikonoa</string>
-    <string name="widget_stack_placeholder_icon">Leku-marka widgetaren ikonoa</string>
+    <string name="widget_placeholder_icon">Leku-marka widgetaren ikonoa</string>
     <string name="select_stack">Hautatu zerrenda</string>
     <string name="project_type_deck_board">Deck mahaia</string>
     <string name="project_type_deck_card">Deck txartela</string>

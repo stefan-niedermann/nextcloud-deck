@@ -109,7 +109,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.fil
                 JoinCardWithProject.class,
                 UserInGroup.class,
                 UserInBoard.class,
-                // FilterWidget:
+                // UpcomingWidget:
                 FilterWidget.class,
                 FilterWidgetAccount.class,
                 FilterWidgetBoard.class,

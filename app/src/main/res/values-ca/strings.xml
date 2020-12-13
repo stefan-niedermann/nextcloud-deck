@@ -259,7 +259,7 @@
 
     <string name="widget_stack_title">Llista</string>
     <string name="widget_stack_header_icon">Icona de capçalera de widget</string>
-    <string name="widget_stack_placeholder_icon">Icona de marcador de lloc de widget</string>
+    <string name="widget_placeholder_icon">Icona de marcador de lloc de widget</string>
     <string name="select_stack">Seleccionar llista</string>
     <string name="project_type_deck_board">Tauler de Deck</string>
     <string name="project_type_deck_card">Targeta de Deck</string>

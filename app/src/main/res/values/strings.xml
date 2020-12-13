@@ -285,7 +285,7 @@
     <string name="widget_stack_title">List</string>
     <string name="widget_filter_title">Filter</string>
     <string name="widget_stack_header_icon">Widget header icon</string>
-    <string name="widget_stack_placeholder_icon">Widget placeholder icon</string>
+    <string name="widget_placeholder_icon">Widget placeholder icon</string>
     <string name="select_stack">Select list</string>
     <string name="project_type_deck_board">Deck board</string>
     <string name="project_type_deck_card">Deck card</string>
@@ -324,4 +324,5 @@
     <string name="add_filter_widget">Add filter widget</string>
     <string name="simple_order">Order</string>
     <string name="edit_description">Edit description</string>
+    <string name="widget_upcoming_title">Upcoming cards</string>
 </resources>

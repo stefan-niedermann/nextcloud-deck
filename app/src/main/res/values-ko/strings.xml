@@ -257,7 +257,7 @@
 
     <string name="widget_stack_title">목록</string>
     <string name="widget_stack_header_icon">위젯 헤더 아이콘</string>
-    <string name="widget_stack_placeholder_icon">위젯 자리 표시 아이콘</string>
+    <string name="widget_placeholder_icon">위젯 자리 표시 아이콘</string>
     <string name="select_stack">목록 선택</string>
     <string name="project_type_deck_board">Deck 보드</string>
     <string name="project_type_deck_card">Deck 카드</string>

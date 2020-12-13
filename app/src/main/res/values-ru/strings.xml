@@ -266,7 +266,7 @@
 
     <string name="widget_stack_title">Список</string>
     <string name="widget_stack_header_icon">иконка заголовка виджета</string>
-    <string name="widget_stack_placeholder_icon">Подстановочный значок виджета</string>
+    <string name="widget_placeholder_icon">Подстановочный значок виджета</string>
     <string name="select_stack">Выберите список</string>
     <string name="project_type_deck_board">Доска</string>
     <string name="project_type_deck_card">Карточка</string>

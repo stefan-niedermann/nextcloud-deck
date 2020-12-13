@@ -246,7 +246,7 @@
 
     <string name="widget_stack_title">Список</string>
     <string name="widget_stack_header_icon">Піктограма заголовку віджету</string>
-    <string name="widget_stack_placeholder_icon">Піктограма поля віджету</string>
+    <string name="widget_placeholder_icon">Піктограма поля віджету</string>
     <string name="select_stack">Виберіть список</string>
     <string name="project_type_file">Файл</string>
     <string name="projects_title">Проєкти</string>

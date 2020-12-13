@@ -260,7 +260,7 @@
 
     <string name="widget_stack_title">Lista</string>
     <string name="widget_stack_header_icon">Ikon för widgetens sidhuvud</string>
-    <string name="widget_stack_placeholder_icon">Ikon för widgetens platshållare</string>
+    <string name="widget_placeholder_icon">Ikon för widgetens platshållare</string>
     <string name="select_stack">Välj lista</string>
     <string name="project_type_deck_board">Deck-plank</string>
     <string name="project_type_deck_card">Deck-kort</string>

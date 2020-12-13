@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.widget.filter;
+package it.niedermann.nextcloud.deck.ui.widget.upcoming;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -20,14 +20,14 @@ import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.widget.stack.StackWidget;
 
-public class FilterWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
+public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private final Context context;
     private final int appWidgetId;
 
     @NonNull
     private List<FilterWidgetCard> data = new ArrayList<>();
 
-    FilterWidgetFactory(Context context, Intent intent) {
+    UpcomingWidgetFactory(Context context, Intent intent) {
         this.context = context;
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
     }
@@ -41,14 +41,8 @@ public class FilterWidgetFactory implements RemoteViewsService.RemoteViewsFactor
             public void onResponse(List<FilterWidgetCard> response) {
                 data.clear();
                 data.addAll(response);
-                RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_upcoming);
+                final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_upcoming);
                 notifyAppWidgetUpdate(views);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                super.onError(throwable);
-                data.clear();
             }
         });
     }

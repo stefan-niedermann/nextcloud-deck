@@ -260,7 +260,7 @@
 
     <string name="widget_stack_title">Lista</string>
     <string name="widget_stack_header_icon">Modul fejlécikonja</string>
-    <string name="widget_stack_placeholder_icon">Modul helykitöltő ikonja</string>
+    <string name="widget_placeholder_icon">Modul helykitöltő ikonja</string>
     <string name="select_stack">Válasszon listát</string>
     <string name="project_type_deck_board">Kártyatábla</string>
     <string name="project_type_deck_card">Kártya</string>

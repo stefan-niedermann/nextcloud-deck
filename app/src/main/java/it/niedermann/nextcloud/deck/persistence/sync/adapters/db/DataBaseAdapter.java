@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -234,16 +235,17 @@ public class DataBaseAdapter {
     private SimpleSQLiteQuery getQueryForFilter(FilterInformation filter, long accountId, long localStackId) {
         return getQueryForFilter(filter, Collections.singletonList(accountId), Collections.singletonList(localStackId));
     }
+
     @AnyThread
     private SimpleSQLiteQuery getQueryForFilter(FilterInformation filter, List<Long> accountIds, List<Long> localStackIds) {
         List<Object> args = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT * FROM card c WHERE 1=1 ");
-        if (accountIds != null && !accountIds.isEmpty()){
+        if (accountIds != null && !accountIds.isEmpty()) {
             query.append("and accountId in (");
             fillSqlWithListValues(query, args, accountIds);
             query.append(") ");
         }
-        if (localStackIds != null && !localStackIds.isEmpty()){
+        if (localStackIds != null && !localStackIds.isEmpty()) {
             query.append("and stackId in (");
             fillSqlWithListValues(query, args, localStackIds);
             query.append(") ");
@@ -1066,25 +1068,24 @@ public class DataBaseAdapter {
         db.getSingleCardWidgetModelDao().delete(model);
     }
 
-    public long createStackWidget(int appWidgetId, long accountId, long stackId, boolean darkTheme) {
+    public void createStackWidget(int appWidgetId, long accountId, long stackId, boolean darkTheme) {
         StackWidgetModel model = new StackWidgetModel();
         model.setAppWidgetId(appWidgetId);
         model.setAccountId(accountId);
         model.setStackId(stackId);
         model.setDarkTheme(darkTheme);
 
-        return db.getStackWidgetModelDao().insert(model);
+        db.getStackWidgetModelDao().insert(model);
     }
 
     public StackWidgetModel getStackWidgetModelDirectly(int appWidgetId) {
         return db.getStackWidgetModelDao().getStackWidgetByAppWidgetIdDirectly(appWidgetId);
     }
 
-    public Long createFilterWidgetDirectly(FilterWidget filterWidget) {
-        long widgetId = db.getFilterWidgetDao().insert(filterWidget);
-        filterWidget.setId((int)widgetId);
+    public int createFilterWidgetDirectly(@NonNull FilterWidget filterWidget) {
+        db.getFilterWidgetDao().insert(filterWidget);
         insertFilterWidgetDecendants(filterWidget);
-        return widgetId;
+        return filterWidget.getId();
     }
 
     private void insertFilterWidgetDecendants(FilterWidget filterWidget) {
@@ -1115,7 +1116,7 @@ public class DataBaseAdapter {
         }
     }
 
-    public void deleteFilterWidgetDirectly(Long filterWidgetId) {
+    public void deleteFilterWidgetDirectly(Integer filterWidgetId) {
         db.getFilterWidgetDao().delete(filterWidgetId);
     }
 
@@ -1128,6 +1129,9 @@ public class DataBaseAdapter {
 
     public FilterWidget getFilterWidgetByIdDirectly(Integer filterWidgetId) {
         FilterWidget filterWidget = db.getFilterWidgetDao().getFilterWidgetByIdDirectly(filterWidgetId);
+        if (filterWidget == null) {
+            throw new NoSuchElementException("No widget with id " + filterWidgetId + " configured.");
+        }
         filterWidget.setSorts(db.getFilterWidgetSortDao().getFilterWidgetSortByFilterWidgetIdDirectly(filterWidgetId));
         filterWidget.setAccounts(db.getFilterWidgetAccountDao().getFilterWidgetAccountsByFilterWidgetIdDirectly(filterWidgetId));
         for (FilterWidgetAccount account : filterWidget.getAccounts()) {
@@ -1146,7 +1150,7 @@ public class DataBaseAdapter {
         FilterWidget filterWidget = getFilterWidgetByIdDirectly(filterWidgetId);
         FilterInformation filter = new FilterInformation();
         List<FullCard> cardsResult = new ArrayList<>();
-        if (filterWidget.getDueType()!=null) {
+        if (filterWidget.getDueType() != null) {
             filter.setDueType(EDueType.findById(filterWidget.getDueType()));
         } else filter.setDueType(EDueType.NO_FILTER);
 
