@@ -12,5 +12,5 @@ public interface FilterWidgetDao extends GenericDao<FilterWidget> {
     void delete (Long filterWidgetId);
 
     @Query("SELECT * FROM FilterWidget where id = :filterWidgetId")
-    FilterWidget getFilterWidgetByIdDirectly(Long filterWidgetId);
+    FilterWidget getFilterWidgetByIdDirectly(Integer filterWidgetId);
 }

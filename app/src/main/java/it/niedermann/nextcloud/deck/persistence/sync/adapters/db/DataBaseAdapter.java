@@ -1082,7 +1082,7 @@ public class DataBaseAdapter {
 
     public Long createFilterWidgetDirectly(FilterWidget filterWidget) {
         long widgetId = db.getFilterWidgetDao().insert(filterWidget);
-        filterWidget.setId(widgetId);
+        filterWidget.setId((int)widgetId);
         insertFilterWidgetDecendants(filterWidget);
         return widgetId;
     }
@@ -1126,7 +1126,7 @@ public class DataBaseAdapter {
         insertFilterWidgetDecendants(filterWidget);
     }
 
-    public FilterWidget getFilterWidgetByIdDirectly(Long filterWidgetId) {
+    public FilterWidget getFilterWidgetByIdDirectly(Integer filterWidgetId) {
         FilterWidget filterWidget = db.getFilterWidgetDao().getFilterWidgetByIdDirectly(filterWidgetId);
         filterWidget.setSorts(db.getFilterWidgetSortDao().getFilterWidgetSortByFilterWidgetIdDirectly(filterWidgetId));
         filterWidget.setAccounts(db.getFilterWidgetAccountDao().getFilterWidgetAccountsByFilterWidgetIdDirectly(filterWidgetId));
@@ -1142,7 +1142,7 @@ public class DataBaseAdapter {
         return filterWidget;
     }
 
-    public List<FilterWidgetCard> getCardsForFilterWidget(Long filterWidgetId) {
+    public List<FilterWidgetCard> getCardsForFilterWidget(Integer filterWidgetId) {
         FilterWidget filterWidget = getFilterWidgetByIdDirectly(filterWidgetId);
         FilterInformation filter = new FilterInformation();
         List<FullCard> cardsResult = new ArrayList<>();

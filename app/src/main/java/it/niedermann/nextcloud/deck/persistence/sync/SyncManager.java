@@ -1962,7 +1962,7 @@ public class SyncManager {
         });
     }
     @AnyThread
-    public void getFilterWidget(@NonNull Long filterWidgetId, @NonNull IResponseCallback<FilterWidget> callback) {
+    public void getFilterWidget(@NonNull Integer filterWidgetId, @NonNull IResponseCallback<FilterWidget> callback) {
         doAsync(() -> {
             try {
                 callback.onResponse(dataBaseAdapter.getFilterWidgetByIdDirectly(filterWidgetId));
@@ -1985,7 +1985,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void getCardsForFilterWidget(@NonNull Long filterWidgetId, @NonNull IResponseCallback<List<FilterWidgetCard>> callback) {
+    public void getCardsForFilterWidget(@NonNull Integer filterWidgetId, @NonNull IResponseCallback<List<FilterWidgetCard>> callback) {
         doAsync(() -> {
             try {
                 callback.onResponse(dataBaseAdapter.getCardsForFilterWidget(filterWidgetId));
