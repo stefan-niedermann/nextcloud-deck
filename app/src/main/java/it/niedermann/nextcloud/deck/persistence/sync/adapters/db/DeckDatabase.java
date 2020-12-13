@@ -69,7 +69,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.Oc
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.OcsProjectResourceDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.SingleCardWidgetModelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.StackWidgetModelDao;
-import it.niedermann.nextcloud.deck.ui.settings.DarkModeSetting;
 
 @Database(
         entities = {
@@ -285,7 +284,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                     String colorAsString1 = cursor.getString(4); // color
                     String colorAsString2 = cursor.getString(5); // textColor
 
-                    @ColorInt Integer color1 = null;
+                    @ColorInt int color1;
                     @ColorInt Integer color2 = null;
                     try {
                         color1 = Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(colorAsString1));
@@ -467,7 +466,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             final boolean darkTheme = sharedPreferences.getBoolean(themePref, false);
                             editor.remove(themePref);
-                            editor.putString(themePref, darkTheme ? DarkModeSetting.DARK.getPreferenceValue(context) : DarkModeSetting.LIGHT.getPreferenceValue(context));
+                            editor.putString(themePref, darkTheme ? context.getString(R.string.pref_value_theme_dark) : context.getString(R.string.pref_value_theme_light));
                             editor.apply();
                         }
                     }

@@ -8,8 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.multidex.MultiDexApplication;
 import androidx.preference.PreferenceManager;
 
-import it.niedermann.nextcloud.deck.ui.settings.DarkModeSetting;
-
 import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
 
 public class DeckApplication extends MultiDexApplication {
@@ -31,27 +29,27 @@ public class DeckApplication extends MultiDexApplication {
     // Day / Night theme
     // -----------------
 
-    public static void setAppTheme(DarkModeSetting setting) {
-        setDefaultNightMode(setting.getModeId());
+    public static void setAppTheme(int setting) {
+        setDefaultNightMode(setting);
     }
 
-    public static DarkModeSetting getAppTheme(@NonNull Context context) {
+    public static int getAppTheme(@NonNull Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String mode;
         try {
-            mode = prefs.getString(PREF_KEY_THEME, DarkModeSetting.SYSTEM_DEFAULT.getPreferenceValue(context));
+            mode = prefs.getString(PREF_KEY_THEME, context.getString(R.string.pref_value_theme_system_default));
         } catch (ClassCastException e) {
             boolean darkModeEnabled = prefs.getBoolean(PREF_KEY_THEME, false);
-            mode = darkModeEnabled ? DarkModeSetting.DARK.getPreferenceValue(context) : DarkModeSetting.LIGHT.getPreferenceValue(context);
+            mode = darkModeEnabled ? context.getString(R.string.pref_value_theme_dark) : context.getString(R.string.pref_value_theme_light);
         }
-        return DarkModeSetting.fromPreferenceValue(context, mode);
+        return Integer.parseInt(mode);
     }
 
-    public static boolean isDarkThemeActive(@NonNull Context context, DarkModeSetting setting) {
-        if (setting == DarkModeSetting.SYSTEM_DEFAULT) {
+    public static boolean isDarkThemeActive(@NonNull Context context, int darkModeSetting) {
+        if (darkModeSetting == Integer.parseInt(context.getString(R.string.pref_value_theme_system_default))) {
             return isDarkThemeActive(context);
         } else {
-            return setting == DarkModeSetting.DARK;
+            return darkModeSetting == Integer.parseInt(context.getString(R.string.pref_value_theme_dark));
         }
     }
 
