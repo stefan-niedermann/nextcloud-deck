@@ -285,7 +285,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                     String colorAsString2 = cursor.getString(5); // textColor
 
                     @ColorInt int color1;
-                    @ColorInt Integer color2 = null;
+                    @ColorInt int color2;
                     try {
                         color1 = Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(colorAsString1));
                         color2 = Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(colorAsString2));
@@ -316,7 +316,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 while (cursor.moveToNext()) {
                     String colorAsString1 = cursor.getString(8); // color
 
-                    @ColorInt Integer color1 = null;
+                    @ColorInt int color1;
                     try {
                         color1 = Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(colorAsString1));
                     } catch (Exception e) {
@@ -350,7 +350,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 while (cursor.moveToNext()) {
                     String colorAsString1 = cursor.getString(7); // color
 
-                    @ColorInt Integer color1 = null;
+                    @ColorInt int color1;
                     try {
                         color1 = Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(colorAsString1));
                     } catch (Exception e) {
