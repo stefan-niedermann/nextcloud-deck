@@ -44,7 +44,7 @@ public class DeckApplication extends MultiDexApplication {
             boolean darkModeEnabled = prefs.getBoolean(PREF_KEY_THEME, false);
             mode = darkModeEnabled ? DarkModeSetting.DARK.getPreferenceValue(context) : DarkModeSetting.LIGHT.getPreferenceValue(context);
         }
-        return DarkModeSetting.valueOf(mode);
+        return DarkModeSetting.fromPreferenceValue(context, mode);
     }
 
     public static boolean isDarkThemeActive(@NonNull Context context, DarkModeSetting setting) {

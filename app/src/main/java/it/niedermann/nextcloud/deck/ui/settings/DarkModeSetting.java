@@ -6,12 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import java.util.NoSuchElementException;
+
 import it.niedermann.nextcloud.deck.R;
 
 /**
  * Possible values of the Dark Mode Setting.
  * <p>
- * The Dark Mode Setting can be stored in {@link android.content.SharedPreferences} as String by using {@link DarkModeSetting#getPreferenceValue(Context)} and received via {@link DarkModeSetting#valueOf(String)}.
+ * The Dark Mode Setting can be stored in {@link android.content.SharedPreferences} as String by using {@link DarkModeSetting#getPreferenceValue(Context)} and received via {@link DarkModeSetting#fromPreferenceValue(Context, String)}.
  * <p>
  * Additionally, the equivalent {@link AppCompatDelegate}-Mode can be received via {@link #getModeId()}.
  *
@@ -48,5 +50,21 @@ public enum DarkModeSetting {
 
     public String getPreferenceValue(@NonNull Context context) {
         return context.getString(preferenceValue);
+    }
+
+    /**
+     * Returns the instance of {@link DarkModeSetting} that corresponds to the preferenceValue
+     *
+     * @param preferenceValue String that is stored in shared preferences
+     * @return An instance of {@link DarkModeSetting}
+     */
+    public static DarkModeSetting fromPreferenceValue(@NonNull Context context, String preferenceValue) {
+        for (DarkModeSetting value : DarkModeSetting.values()) {
+            if (context.getString(value.preferenceValue).equals(preferenceValue)) {
+                return value;
+            }
+        }
+
+        throw new NoSuchElementException("No NightMode with preferenceValue \"" + preferenceValue + "\" found");
     }
 }
