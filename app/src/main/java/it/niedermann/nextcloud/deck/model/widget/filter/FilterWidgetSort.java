@@ -24,7 +24,7 @@ public class FilterWidgetSort {
     @PrimaryKey(autoGenerate = true)
     private Long id;
     private Long filterWidgetId;
-    private boolean direction;
+    private boolean direction = true;
     private int criteria;
     private int ruleOrder;
 
@@ -44,12 +44,19 @@ public class FilterWidgetSort {
         this.filterWidgetId = filterWidgetId;
     }
 
-    public boolean isDirection() {
+    public boolean isDirectionAscending() {
         return direction;
     }
+    public boolean isDirectionDescending() {
+        return !direction;
+    }
 
-    public void setDirection(boolean direction) {
-        this.direction = direction;
+    public void setDirectionAscending() {
+        direction = true;
+    }
+
+    public void setDirectionDescending() {
+        direction = false;
     }
 
     public int getCriteria() {

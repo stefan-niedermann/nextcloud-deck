@@ -35,6 +35,7 @@ public class FilterWidgetBoard {
     private Long id;
     private Long filterAccountId;
     private Long boardId;
+    private boolean includeNoLabel = true;
 
     @Ignore
     private List<FilterWidgetStack> stacks = new ArrayList<>();
@@ -82,6 +83,14 @@ public class FilterWidgetBoard {
         this.boardId = boardId;
     }
 
+    public boolean isIncludeNoLabel() {
+        return includeNoLabel;
+    }
+
+    public void setIncludeNoLabel(boolean includeNoLabel) {
+        this.includeNoLabel = includeNoLabel;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -89,10 +98,13 @@ public class FilterWidgetBoard {
 
         FilterWidgetBoard that = (FilterWidgetBoard) o;
 
+        if (includeNoLabel != that.includeNoLabel) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (filterAccountId != null ? !filterAccountId.equals(that.filterAccountId) : that.filterAccountId != null)
             return false;
-        return boardId != null ? boardId.equals(that.boardId) : that.boardId == null;
+        if (boardId != null ? !boardId.equals(that.boardId) : that.boardId != null) return false;
+        if (stacks != null ? !stacks.equals(that.stacks) : that.stacks != null) return false;
+        return labels != null ? labels.equals(that.labels) : that.labels == null;
     }
 
     @Override
@@ -100,6 +112,9 @@ public class FilterWidgetBoard {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (filterAccountId != null ? filterAccountId.hashCode() : 0);
         result = 31 * result + (boardId != null ? boardId.hashCode() : 0);
+        result = 31 * result + (includeNoLabel ? 1 : 0);
+        result = 31 * result + (stacks != null ? stacks.hashCode() : 0);
+        result = 31 * result + (labels != null ? labels.hashCode() : 0);
         return result;
     }
 }

@@ -1145,18 +1145,22 @@ public class DataBaseAdapter {
     public List<FilterWidgetCard> getCardsForFilterWidget(Long filterWidgetId) {
         FilterWidget filterWidget = getFilterWidgetByIdDirectly(filterWidgetId);
         FilterInformation filter = new FilterInformation();
+        List<FullCard> cardsResult = new ArrayList<>();
         List<Long> accounts = new ArrayList<>();
         List<Long> stacks = new ArrayList<>();
         for (FilterWidgetAccount account : filterWidget.getAccounts()) {
             accounts.add(account.getId());
             if (account.getBoards().isEmpty()) {
-
+                filter
+                cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, accounts, stacks)));
             } else {
 
             }
         }
+        if (filterWidget.getDueType()!=null) {
+            filter.setDueType(EDueType.findById(filterWidget.getDueType()));
+        } else filter.setDueType(EDueType.NO_FILTER);
 
-        List<FullCard> cardsResult = db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, accounts, stacks));
         filterRelationsForCard(cardsResult);
 
         List<FilterWidgetCard> result = new ArrayList<>(cardsResult.size());

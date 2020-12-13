@@ -13,6 +13,6 @@ public interface FilterWidgetSortDao extends GenericDao<FilterWidgetSort> {
     @Query("DELETE FROM FilterWidgetSort WHERE filterWidgetId = :filterWidgetId")
     void deleteByFilterWidgetId (Long filterWidgetId);
 
-    @Query("select * FROM FilterWidgetSort WHERE filterWidgetId = :filterWidgetId")
+    @Query("select * FROM FilterWidgetSort WHERE filterWidgetId = :filterWidgetId order by ruleOrder asc")
     List<FilterWidgetSort> getFilterWidgetSortByFilterWidgetIdDirectly(Long filterWidgetId);
 }

@@ -35,6 +35,7 @@ public class FilterWidgetAccount {
     private Long id;
     private Long filterWidgetId;
     private Long accountId;
+    private boolean includeNoUser = true;
 
     @Ignore
     private List<FilterWidgetBoard> boards = new ArrayList<>();
@@ -82,6 +83,14 @@ public class FilterWidgetAccount {
         this.accountId = accountId;
     }
 
+    public boolean isIncludeNoUser() {
+        return includeNoUser;
+    }
+
+    public void setIncludeNoUser(boolean includeNoUser) {
+        this.includeNoUser = includeNoUser;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -89,10 +98,14 @@ public class FilterWidgetAccount {
 
         FilterWidgetAccount that = (FilterWidgetAccount) o;
 
+        if (includeNoUser != that.includeNoUser) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (filterWidgetId != null ? !filterWidgetId.equals(that.filterWidgetId) : that.filterWidgetId != null)
             return false;
-        return accountId != null ? accountId.equals(that.accountId) : that.accountId == null;
+        if (accountId != null ? !accountId.equals(that.accountId) : that.accountId != null)
+            return false;
+        if (boards != null ? !boards.equals(that.boards) : that.boards != null) return false;
+        return users != null ? users.equals(that.users) : that.users == null;
     }
 
     @Override
@@ -100,6 +113,9 @@ public class FilterWidgetAccount {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (filterWidgetId != null ? filterWidgetId.hashCode() : 0);
         result = 31 * result + (accountId != null ? accountId.hashCode() : 0);
+        result = 31 * result + (includeNoUser ? 1 : 0);
+        result = 31 * result + (boards != null ? boards.hashCode() : 0);
+        result = 31 * result + (users != null ? users.hashCode() : 0);
         return result;
     }
 }
