@@ -94,23 +94,39 @@ public class ServerAdapter {
                     Network network = cm.getActiveNetwork();
                     NetworkCapabilities capabilities = cm.getNetworkCapabilities(network);
                     if (capabilities == null) {
-                        return false;
+                        throw new OfflineException("prefKeyWifiOnly=true, Android lower >=M: cm.getNetworkCapabilities(network) is null.");
+//                        return false;
                     }
-                    return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
+                    boolean b = capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
+                    if (!b) {
+                        throw new OfflineException("prefKeyWifiOnly=true, Android lower >=M: capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) is false.");
+                    }
+                    return b;
                 } else {
                     NetworkInfo networkInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
                     if (networkInfo == null) {
-                        return false;
+                        throw new OfflineException("prefKeyWifiOnly=true, Android lower than M: cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI) is null.");
+                    }
+                    if (!networkInfo.isConnected()) {
+                        throw new OfflineException("prefKeyWifiOnly=true, Android lower than M: networkInfo.isConnected() is false.");
                     }
                     return networkInfo.isConnected();
                 }
 
 
             } else {
+                if (cm.getActiveNetworkInfo() == null) {
+                    throw new OfflineException("prefKeyWifiOnly=false: cm.getActiveNetworkInfo() is null.");
+                }
+                if (!cm.getActiveNetworkInfo().isConnected()) {
+                    throw new OfflineException("prefKeyWifiOnly=false: cm.getActiveNetworkInfo().isConnected() is false.");
+                }
+
                 return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
             }
         }
-        return false;
+        throw new OfflineException("ConnectivityManager is just null.");
+//        return false;
     }
 
     // TODO what is this?
