@@ -10,8 +10,8 @@ import java.util.List;
 @Entity()
 public class FilterWidget {
 
-    @PrimaryKey(autoGenerate = true)
-    private Long id;
+    @PrimaryKey()
+    private Integer id;
 
     private Integer dueType;
 
