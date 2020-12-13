@@ -75,6 +75,14 @@ public class FilterWidgetSort {
         this.ruleOrder = ruleOrder;
     }
 
+    public boolean isDirection() {
+        return direction;
+    }
+
+    public void setDirection(boolean direction) {
+        this.direction = direction;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
