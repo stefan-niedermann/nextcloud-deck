@@ -29,11 +29,11 @@ public class FilterWidget {
         this.accounts = accounts;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
