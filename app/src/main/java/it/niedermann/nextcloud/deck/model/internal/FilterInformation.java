@@ -99,6 +99,10 @@ public class FilterInformation implements Serializable {
         this.archiveStatus = archiveStatus;
     }
 
+    public void setUsers(@NonNull List<User> users) {
+        this.users = users;
+    }
+
     @NonNull
     public EArchiveStatus getArchiveStatus() {
         return archiveStatus;

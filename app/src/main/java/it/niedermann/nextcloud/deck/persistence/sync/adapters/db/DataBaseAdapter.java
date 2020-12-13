@@ -1146,25 +1146,40 @@ public class DataBaseAdapter {
         FilterWidget filterWidget = getFilterWidgetByIdDirectly(filterWidgetId);
         FilterInformation filter = new FilterInformation();
         List<FullCard> cardsResult = new ArrayList<>();
-        List<Long> accounts = new ArrayList<>();
-        List<Long> stacks = new ArrayList<>();
-        if (filterWidget.getAccounts().isEmpty()) {
+        if (filterWidget.getDueType()!=null) {
+            filter.setDueType(EDueType.findById(filterWidget.getDueType()));
+        } else filter.setDueType(EDueType.NO_FILTER);
 
+        // TODO: sort-stuff
+
+        if (filterWidget.getAccounts().isEmpty()) {
+            cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, null, null)));
         } else {
             for (FilterWidgetAccount account : filterWidget.getAccounts()) {
+                List<Long> accounts = new ArrayList<>();
                 accounts.add(account.getId());
+                filter.setNoAssignedUser(account.isIncludeNoUser());
+                List<User> users = new ArrayList<>();
+                List<Long> stacks = new ArrayList<>();
+                if (!account.getUsers().isEmpty()) {
+                    for (FilterWidgetUser user : account.getUsers()) {
+                        User u = new User();
+                        u.setLocalId(user.getUserId());
+                        users.add(u);
+                    }
+                }
+                filter.setUsers(users);
                 if (account.getBoards().isEmpty()) {
-//                filter
-                    cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, accounts, stacks)));
-                } else {
+                    for (FilterWidgetBoard board : account.getBoards()) {
+                        filter.setNoAssignedLabel(board.isIncludeNoLabel());
 
+                    }
+                } else {
+                    cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, accounts, stacks)));
                 }
             }
         }
 
-        if (filterWidget.getDueType()!=null) {
-            filter.setDueType(EDueType.findById(filterWidget.getDueType()));
-        } else filter.setDueType(EDueType.NO_FILTER);
 
         filterRelationsForCard(cardsResult);
 
