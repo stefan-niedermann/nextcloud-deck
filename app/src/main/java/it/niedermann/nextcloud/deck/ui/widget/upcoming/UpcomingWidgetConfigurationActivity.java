@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityUpcomingWidgetBinding;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
@@ -51,10 +50,8 @@ public class UpcomingWidgetConfigurationActivity extends AppCompatActivity {
         binding.submit.setOnClickListener((v) -> {
             final Bundle extras = new Bundle();
 
-            viewModel.addUpcomingWidget(appWidgetId, new IResponseCallback<Integer>(null) {
-                @Override
-                public void onResponse(Integer response) {
-                }
+            viewModel.addUpcomingWidget(appWidgetId).observe(this, (id) -> {
+                DeckLog.log("Created " + id);
             });
             Intent updateIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, getApplicationContext(), UpcomingWidget.class);
             extras.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
