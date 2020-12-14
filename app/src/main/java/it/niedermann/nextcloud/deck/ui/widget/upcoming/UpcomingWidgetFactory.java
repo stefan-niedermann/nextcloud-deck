@@ -18,7 +18,6 @@ import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.widget.stack.StackWidget;
 
 public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private final Context context;
@@ -104,8 +103,8 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
 
     private void notifyAppWidgetUpdate(RemoteViews views) {
         AppWidgetManager awm = AppWidgetManager.getInstance(context);
-        int[] appWidgetIds = awm.getAppWidgetIds(new ComponentName(context, StackWidget.class));
-        awm.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.stack_widget_lv);
+        int[] appWidgetIds = awm.getAppWidgetIds(new ComponentName(context, UpcomingWidget.class));
+        awm.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.upcoming_widget_lv);
         awm.updateAppWidget(appWidgetId, views);
     }
 }
