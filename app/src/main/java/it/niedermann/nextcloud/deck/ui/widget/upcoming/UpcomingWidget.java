@@ -6,15 +6,23 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.widget.RemoteViews;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
@@ -68,7 +76,42 @@ public class UpcomingWidget extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
-        updateAppWidget(context, appWidgetManager, appWidgetIds);
+        final SyncManager syncManager = new SyncManager(context);
+
+        for (int appWidgetId : appWidgetIds) {
+            new Thread(() -> {
+                List<Account> accountsList = syncManager.readAccountsDirectly();
+                final FilterWidget config = new FilterWidget();
+                config.setWidgetType(EWidgetType.UPCOMING_WIDGET);
+                config.setId(appWidgetId);
+                config.setAccounts(accountsList.stream().map(account -> {
+                    final FilterWidgetAccount fwa = new FilterWidgetAccount();
+                    fwa.setAccountId(account.getId());
+                    final FilterWidgetUser fwu = new FilterWidgetUser();
+                    fwu.setUserId(syncManager.getUserByUidDirectly(account.getId(), account.getUserName()).getId());
+                    fwa.setUsers(Collections.singletonList(fwu));
+                    return fwa;
+                }).collect(Collectors.toList()));
+                syncManager.createFilterWidget(config, new IResponseCallback<Integer>(null) {
+                    @Override
+                    public void onResponse(Integer response) {
+                        updateAppWidget(context, appWidgetManager, appWidgetIds);
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        super.onError(throwable);
+                        // FIXME check before inserting...
+                        if (throwable.getClass().equals(SQLiteConstraintException.class)) {
+                            DeckLog.error("Already exists, update instead.");
+                            updateAppWidget(context, appWidgetManager, appWidgetIds);
+                        } else {
+                            onDeleted(context, appWidgetIds);
+                        }
+                    }
+                });
+            }).start();
+        }
     }
 
     @Override

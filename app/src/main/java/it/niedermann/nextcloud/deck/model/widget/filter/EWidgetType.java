@@ -3,11 +3,11 @@ package it.niedermann.nextcloud.deck.model.widget.filter;
 import it.niedermann.nextcloud.deck.ui.widget.upcoming.UpcomingWidget;
 
 public enum EWidgetType {
-    UPCOMING_CARDS_WIDGET(1, UpcomingWidget.class);
+    FILTER_WIDGET(1, FilterWidget.class),
+    UPCOMING_WIDGET(2, UpcomingWidget.class);
 
-
-    private int id;
-    private Class<?> widgetClass;
+    private final int id;
+    private final Class<?> widgetClass;
 
     EWidgetType(int id, Class<?> widgetClass) {
         this.id = id;
@@ -20,7 +20,7 @@ public enum EWidgetType {
                 return s;
             }
         }
-        throw new IllegalArgumentException("unknown EWidgetType key");
+        throw new IllegalArgumentException("unknown " + EWidgetType.class.getSimpleName() + " key: " + id);
     }
 
     public static EWidgetType findByClass(Class<?> clazz) {

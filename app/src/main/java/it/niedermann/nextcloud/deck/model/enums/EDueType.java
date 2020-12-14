@@ -15,10 +15,10 @@ public enum EDueType {
     MONTH(5, R.string.filter_month),
     NO_DUE(6, R.string.filter_no_due);
 
-    private int value;
-    private int id;
+    private final int value;
+    private final int id;
 
-    EDueType(@NonNull int id, @StringRes int value) {
+    EDueType(int id, @StringRes int value) {
         this.value = value;
         this.id = id;
     }
@@ -26,7 +26,6 @@ public enum EDueType {
     public int getId() {
         return id;
     }
-
 
     public static EDueType findById(int id) {
         for (EDueType s : EDueType.values()) {

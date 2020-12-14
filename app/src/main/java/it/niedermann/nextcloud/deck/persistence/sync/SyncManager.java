@@ -381,6 +381,11 @@ public class SyncManager {
         return dataBaseAdapter.readAccounts();
     }
 
+    @WorkerThread
+    public List<Account> readAccountsDirectly() {
+        return dataBaseAdapter.getAllAccountsDirectly();
+    }
+
     /**
      * <p>
      * Since the return value is a {@link LiveData}, it should immediately return the available values from the database
