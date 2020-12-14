@@ -25,7 +25,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     private final int appWidgetId;
 
     @NonNull
-    private List<FilterWidgetCard> data = new ArrayList<>();
+    private final List<FilterWidgetCard> data = new ArrayList<>();
 
     UpcomingWidgetFactory(Context context, Intent intent) {
         this.context = context;
@@ -41,6 +41,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
             public void onResponse(List<FilterWidgetCard> response) {
                 data.clear();
                 data.addAll(response);
+                DeckLog.log("upcoming: loaded! data.size() " + data.size());
                 final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_upcoming);
                 notifyAppWidgetUpdate(views);
             }
@@ -67,6 +68,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     public RemoteViews getViewAt(int i) {
         RemoteViews widget_entry;
 
+        DeckLog.log("upcoming: data.size() " + data.size());
         if (i > (data.size() - 1) || data.get(i) == null) {
             DeckLog.error("Card not found at position " + i);
             return null;
@@ -75,7 +77,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
         FullCard card = data.get(i).getCard();
 
         widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_stack_entry);
-        widget_entry.setTextViewText(R.id.widget_entry_content_tv, card.card.getTitle());
+        widget_entry.setTextViewText(R.id.widget_entry_content_tv, card.getCard().getTitle());
 
         return widget_entry;
     }

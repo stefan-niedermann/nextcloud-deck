@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.widget.upcoming;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
@@ -17,12 +18,14 @@ import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
+import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 
 import static android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE;
 
 public class UpcomingWidget extends AppWidgetProvider {
-    public static final String ACCOUNT_KEY = "upcoming_widget_account";
     public static final String BUNDLE_KEY = "upcoming_widget_bundle";
+    private static final int PENDING_INTENT_OPEN_APP_RQ = 0;
+    private static final int PENDING_INTENT_EDIT_CARD_RQ = 1;
 
     static void updateAppWidget(Context context, AppWidgetManager awm, int[] appWidgetIds) {
         final SyncManager syncManager = new SyncManager(context);
@@ -34,31 +37,22 @@ public class UpcomingWidget extends AppWidgetProvider {
                         @Override
                         public void onResponse(List<FilterWidgetCard> response) {
 
-                            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_upcoming);
-                            Intent serviceIntent = new Intent(context, UpcomingWidgetService.class);
+                            final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_upcoming);
 
+                            final Intent serviceIntent = new Intent(context, UpcomingWidgetService.class);
                             serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-//                            serviceIntent.putExtra(ACCOUNT_ID_KEY + appWidgetId, model.getAccountId());
-//                            serviceIntent.putExtra(STACK_ID_KEY + appWidgetId, model.getStackId());
-//                    if (account != null) {
-//                        Bundle extras = new Bundle();
-//                        extras.putSerializable(StackWidget.ACCOUNT_KEY + appWidgetId, account);
-//                        serviceIntent.putExtra(BUNDLE_KEY + appWidgetId, extras);
-//                    }
                             serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME)));
 
-                            Intent intent = new Intent(Intent.ACTION_MAIN);
-                            intent.setComponent(new ComponentName(context.getPackageName(), MainActivity.class.getName()));
-//                            PendingIntent pendingIntent = PendingIntent.getActivity(context,  PENDING_INTENT_OPEN_APP_RQ,
-//                                    intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//                            views.setOnClickPendingIntent(R.id.widget_upcoming_header_rl, pendingIntent);
+                            final Intent intent = new Intent(Intent.ACTION_MAIN).setComponent(new ComponentName(context.getPackageName(), MainActivity.class.getName()));
+                            final PendingIntent pendingIntent = PendingIntent.getActivity(context, PENDING_INTENT_OPEN_APP_RQ, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            final PendingIntent templatePI = PendingIntent.getActivity(context, PENDING_INTENT_EDIT_CARD_RQ,
+                                    new Intent(context, EditActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
-//                            PendingIntent templatePI = PendingIntent.getActivity(context, PENDING_INTENT_EDIT_CARD_RQ,
-//                                    new Intent(context, EditActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-
-//                            views.setPendingIntentTemplate(R.id.upcoming_widget_lv, templatePI);
+                            views.setOnClickPendingIntent(R.id.widget_upcoming_header_rl, pendingIntent);
+                            views.setPendingIntentTemplate(R.id.upcoming_widget_lv, templatePI);
                             views.setRemoteAdapter(R.id.upcoming_widget_lv, serviceIntent);
                             views.setEmptyView(R.id.upcoming_widget_lv, R.id.widget_upcoming_placeholder_iv);
+
                             awm.notifyAppWidgetViewDataChanged(appWidgetId, R.id.upcoming_widget_lv);
                             awm.updateAppWidget(appWidgetId, views);
                         }

@@ -25,7 +25,7 @@ public class FilterWidgetFactory implements RemoteViewsService.RemoteViewsFactor
     private final int appWidgetId;
 
     @NonNull
-    private List<FilterWidgetCard> data = new ArrayList<>();
+    private final List<FilterWidgetCard> data = new ArrayList<>();
 
     FilterWidgetFactory(Context context, Intent intent) {
         this.context = context;
