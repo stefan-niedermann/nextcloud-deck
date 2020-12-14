@@ -1151,7 +1151,7 @@ public class DataBaseAdapter {
         FilterInformation filter = new FilterInformation();
         List<FullCard> cardsResult = new ArrayList<>();
         if (filterWidget.getDueType() != null) {
-            filter.setDueType(EDueType.findById(filterWidget.getDueType()));
+            filter.setDueType(filterWidget.getDueType());
         } else filter.setDueType(EDueType.NO_FILTER);
 
         // TODO: sort-stuff
