@@ -7,6 +7,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Account;
@@ -37,6 +38,15 @@ public class FilterWidgetAccount {
     private Long accountId;
     private boolean includeNoUser = true;
 
+    public FilterWidgetAccount() {
+        // Default constructor
+    }
+
+    @Ignore
+    public FilterWidgetAccount(Long accountId) {
+        this.accountId = accountId;
+    }
+
     @Ignore
     private List<FilterWidgetBoard> boards = new ArrayList<>();
 
@@ -57,6 +67,11 @@ public class FilterWidgetAccount {
 
     public void setUsers(List<FilterWidgetUser> users) {
         this.users = users;
+    }
+
+    @Ignore
+    public void setUsers(FilterWidgetUser user) {
+        this.users = Collections.singletonList(user);
     }
 
     public Long getId() {

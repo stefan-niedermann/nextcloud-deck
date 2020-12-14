@@ -10,6 +10,7 @@ public class FilterWidgetCard {
     private Board board;
 
     public FilterWidgetCard() {
+        // Default constructor
     }
 
     public FilterWidgetCard(FullCard card, Stack stack, Board board) {

@@ -9,9 +9,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.RemoteViews;
 
-import java.util.Collections;
+import androidx.annotation.NonNull;
+
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -22,7 +22,6 @@ import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
-import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
@@ -34,44 +33,6 @@ public class UpcomingWidget extends AppWidgetProvider {
     private static final int PENDING_INTENT_OPEN_APP_RQ = 0;
     private static final int PENDING_INTENT_EDIT_CARD_RQ = 1;
 
-    static void updateAppWidget(Context context, AppWidgetManager awm, int[] appWidgetIds) {
-        final SyncManager syncManager = new SyncManager(context);
-
-        for (int appWidgetId : appWidgetIds) {
-            new Thread(() -> {
-                try {
-                    syncManager.getCardsForFilterWidget(appWidgetId, new IResponseCallback<List<FilterWidgetCard>>(null) {
-                        @Override
-                        public void onResponse(List<FilterWidgetCard> response) {
-
-                            final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_upcoming);
-
-                            final Intent serviceIntent = new Intent(context, UpcomingWidgetService.class);
-                            serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-                            serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME)));
-
-                            final Intent intent = new Intent(Intent.ACTION_MAIN).setComponent(new ComponentName(context.getPackageName(), MainActivity.class.getName()));
-                            final PendingIntent pendingIntent = PendingIntent.getActivity(context, PENDING_INTENT_OPEN_APP_RQ, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                            final PendingIntent templatePI = PendingIntent.getActivity(context, PENDING_INTENT_EDIT_CARD_RQ,
-                                    new Intent(context, EditActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-
-                            views.setOnClickPendingIntent(R.id.widget_upcoming_header_rl, pendingIntent);
-                            views.setPendingIntentTemplate(R.id.upcoming_widget_lv, templatePI);
-                            views.setRemoteAdapter(R.id.upcoming_widget_lv, serviceIntent);
-                            views.setEmptyView(R.id.upcoming_widget_lv, R.id.widget_upcoming_placeholder_iv);
-
-                            awm.notifyAppWidgetViewDataChanged(appWidgetId, R.id.upcoming_widget_lv);
-                            awm.updateAppWidget(appWidgetId, views);
-                        }
-                    });
-                } catch (NoSuchElementException e) {
-                    // onUpdate has been triggered before the user finished configuring the widget
-                    DeckLog.warn("Caught " + NoSuchElementException.class.getSimpleName() + " for " + UpcomingWidget.class.getSimpleName() + " with ID " + appWidgetId);
-                }
-            }).start();
-        }
-    }
-
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
@@ -80,7 +41,7 @@ public class UpcomingWidget extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             new Thread(() -> {
                 if (syncManager.filterWidgetExists(appWidgetId)) {
-                    DeckLog.verbose(UpcomingWidget.class.getSimpleName() + "with id " + appWidgetId + " already exists, update instead.");
+                    DeckLog.warn(UpcomingWidget.class.getSimpleName() + "with id " + appWidgetId + " already exists, perform update instead.");
                     updateAppWidget(context, appWidgetManager, appWidgetIds);
                 } else {
                     final List<Account> accountsList = syncManager.readAccountsDirectly();
@@ -88,22 +49,20 @@ public class UpcomingWidget extends AppWidgetProvider {
                     config.setWidgetType(EWidgetType.UPCOMING_WIDGET);
                     config.setId(appWidgetId);
                     config.setAccounts(accountsList.stream().map(account -> {
-                        final FilterWidgetAccount fwa = new FilterWidgetAccount();
-                        fwa.setAccountId(account.getId());
-                        final FilterWidgetUser fwu = new FilterWidgetUser();
-                        fwu.setUserId(syncManager.getUserByUidDirectly(account.getId(), account.getUserName()).getId());
-                        fwa.setUsers(Collections.singletonList(fwu));
+                        final FilterWidgetAccount fwa = new FilterWidgetAccount(account.getId());
+                        fwa.setUsers(new FilterWidgetUser(syncManager.getUserByUidDirectly(account.getId(), account.getUserName()).getId()));
                         return fwa;
                     }).collect(Collectors.toList()));
                     syncManager.createFilterWidget(config, new IResponseCallback<Integer>(null) {
                         @Override
                         public void onResponse(Integer response) {
-                            DeckLog.verbose("Created " + UpcomingWidget.class.getSimpleName() + "with id " + appWidgetId);
+                            DeckLog.verbose("Successfully created " + UpcomingWidget.class.getSimpleName() + "with id " + appWidgetId);
                             updateAppWidget(context, appWidgetManager, appWidgetIds);
                         }
 
                         @Override
                         public void onError(Throwable throwable) {
+                            DeckLog.error("Error while creating " + UpcomingWidget.class.getSimpleName() + "with id " + appWidgetId);
                             super.onError(throwable);
                             onDeleted(context, appWidgetIds);
                         }
@@ -124,9 +83,12 @@ public class UpcomingWidget extends AppWidgetProvider {
                 if (intent.hasExtra(BUNDLE_KEY)) {
                     if (intent.hasExtra(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
                         if (intent.getExtras() != null) {
-                            updateAppWidget(context, awm, new int[]{intent.getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1)});
+                            int appWidgetId = intent.getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
+                            DeckLog.verbose(ACTION_APPWIDGET_UPDATE + " for " + UpcomingWidget.class.getSimpleName() + " with id " + appWidgetId + ", perform update.");
+                            updateAppWidget(context, awm, new int[]{appWidgetId});
                         }
                     } else {
+                        DeckLog.warn(ACTION_APPWIDGET_UPDATE + " for " + UpcomingWidget.class.getSimpleName() + " without id, perform update for all widgets of this type.");
                         updateAppWidget(context, awm, awm.getAppWidgetIds(new ComponentName(context, UpcomingWidget.class)));
                     }
                 }
@@ -140,12 +102,38 @@ public class UpcomingWidget extends AppWidgetProvider {
         final SyncManager syncManager = new SyncManager(context);
 
         for (int appWidgetId : appWidgetIds) {
+            DeckLog.info("Delete " + UpcomingWidget.class.getSimpleName() + " with id " + appWidgetId);
             syncManager.deleteFilterWidget(appWidgetId, new IResponseCallback<Boolean>(null) {
                 @Override
                 public void onResponse(Boolean response) {
-
+                    DeckLog.verbose("Successfully deleted " + UpcomingWidget.class.getSimpleName() + " with id " + appWidgetId);
                 }
             });
+        }
+    }
+
+    private static void updateAppWidget(@NonNull Context context, @NonNull AppWidgetManager awm, int[] appWidgetIds) {
+        for (int appWidgetId : appWidgetIds) {
+            new Thread(() -> {
+                final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_upcoming);
+
+                final Intent serviceIntent = new Intent(context, UpcomingWidgetService.class);
+                serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+                serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME)));
+
+                final Intent intent = new Intent(Intent.ACTION_MAIN).setComponent(new ComponentName(context.getPackageName(), MainActivity.class.getName()));
+                final PendingIntent pendingIntent = PendingIntent.getActivity(context, PENDING_INTENT_OPEN_APP_RQ, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                final PendingIntent templatePI = PendingIntent.getActivity(context, PENDING_INTENT_EDIT_CARD_RQ,
+                        new Intent(context, EditActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+
+                views.setOnClickPendingIntent(R.id.widget_upcoming_header_rl, pendingIntent);
+                views.setPendingIntentTemplate(R.id.upcoming_widget_lv, templatePI);
+                views.setRemoteAdapter(R.id.upcoming_widget_lv, serviceIntent);
+                views.setEmptyView(R.id.upcoming_widget_lv, R.id.widget_upcoming_placeholder_iv);
+
+                awm.notifyAppWidgetViewDataChanged(appWidgetId, R.id.upcoming_widget_lv);
+                awm.updateAppWidget(appWidgetId, views);
+            }).start();
         }
     }
 

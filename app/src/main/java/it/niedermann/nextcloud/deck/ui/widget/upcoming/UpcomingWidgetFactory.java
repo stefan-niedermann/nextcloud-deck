@@ -45,7 +45,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
         syncManager.getCardsForFilterWidget(appWidgetId, new IResponseCallback<List<FilterWidgetCard>>(null) {
             @Override
             public void onResponse(List<FilterWidgetCard> response) {
-                DeckLog.log("Result: " + response.size());
+                DeckLog.verbose(UpcomingWidgetFactory.class.getSimpleName() + " with id " + appWidgetId + " fetched " + response.size() + " cards from the database.");
                 data.clear();
                 Collections.sort(response, (card1, card2) -> {
                     if (card1 == null || card1.getCard() == null || card1.getCard().getCard().getDueDate() == null) {
@@ -128,8 +128,8 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     }
 
     private void notifyAppWidgetUpdate(RemoteViews views) {
-        AppWidgetManager awm = AppWidgetManager.getInstance(context);
-        int[] appWidgetIds = awm.getAppWidgetIds(new ComponentName(context, UpcomingWidget.class));
+        final AppWidgetManager awm = AppWidgetManager.getInstance(context);
+        final int[] appWidgetIds = awm.getAppWidgetIds(new ComponentName(context, UpcomingWidget.class));
         awm.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.upcoming_widget_lv);
         awm.updateAppWidget(appWidgetId, views);
     }

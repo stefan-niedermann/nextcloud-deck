@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.model.widget.filter;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -31,6 +32,15 @@ public class FilterWidgetUser {
     private Long id;
     private Long filterAccountId;
     private Long userId;
+
+    public FilterWidgetUser() {
+        // Default constructor
+    }
+
+    @Ignore
+    public FilterWidgetUser(Long userId) {
+        this.userId = userId;
+    }
 
     public Long getId() {
         return id;

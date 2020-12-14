@@ -64,14 +64,15 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHe
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
 import it.niedermann.nextcloud.deck.ui.widget.stack.StackWidget;
+import it.niedermann.nextcloud.deck.ui.widget.upcoming.UpcomingWidget;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
 public class DataBaseAdapter {
 
-    private DeckDatabase db;
+    private final DeckDatabase db;
     @NonNull
-    private Context context;
+    private final Context context;
 
     public DataBaseAdapter(@NonNull Context applicationContext) {
         this.context = applicationContext;
@@ -357,8 +358,6 @@ public class DataBaseAdapter {
             join.setStatus(status.getId());
             db.getJoinCardWithLabelDao().insert(join);
         }
-
-
     }
 
     public void deleteJoinedLabelsForCard(long localCardId) {
@@ -456,13 +455,21 @@ public class DataBaseAdapter {
     public WrappedLiveData<Account> createAccount(Account account) {
         return LiveDataHelper.wrapInLiveData(() -> {
             long id = db.getAccountDao().insert(account);
-            // TODO Add account to UpcomingWidgets
+            new Thread(() -> {
+                DeckLog.verbose("Adding new created account " + id + " to all instances of " + EWidgetType.UPCOMING_WIDGET.name());
+                for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
+                    widget.getAccounts().add(new FilterWidgetAccount(id));
+                    updateFilterWidgetDirectly(widget);
+                }
+                UpcomingWidget.notifyDatasetChanged(context);
+            }).start();
             return readAccountDirectly(id);
         });
     }
 
     public void deleteAccount(long id) {
         db.getAccountDao().deleteById(id);
+        notifyAllWidgets();
     }
 
     public void updateAccount(Account account) {
@@ -520,10 +527,12 @@ public class DataBaseAdapter {
     public void deleteBoard(Board board, boolean setStatus) {
         markAsDeletedIfNeeded(board, setStatus);
         db.getBoardDao().update(board);
+        notifyAllWidgets();
     }
 
     public void deleteBoardPhysically(Board board) {
         db.getBoardDao().delete(board);
+        notifyAllWidgets();
     }
 
     public void updateBoard(Board board, boolean setStatus) {
@@ -555,11 +564,13 @@ public class DataBaseAdapter {
     public void deleteStack(Stack stack, boolean setStatus) {
         markAsDeletedIfNeeded(stack, setStatus);
         db.getStackDao().update(stack);
+        notifyAllWidgets();
     }
 
     @WorkerThread
     public void deleteStackPhysically(Stack stack) {
         db.getStackDao().delete(stack);
+        notifyAllWidgets();
     }
 
     @WorkerThread
@@ -643,6 +654,8 @@ public class DataBaseAdapter {
             DeckLog.info("Notifying " + SingleCardWidget.class.getSimpleName() + " about card changes for \"" + card.getTitle() + "\"");
             SingleCardWidget.notifyDatasetChanged(context);
         }
+        // TODO check if necessary
+        UpcomingWidget.notifyDatasetChanged(context);
         notifyStackWidgetsIfNeeded(card.getTitle(), card.getStackId(), originalStackLocalId);
     }
 
@@ -1213,16 +1226,12 @@ public class DataBaseAdapter {
                 board = db.getBoardDao().getBoardByLocalIdDirectly(stackId);
                 boardCache.put(stackId, board);
             }
-            FilterWidgetCard filterWidgetCard = new FilterWidgetCard();
-            filterWidgetCard.setCard(fullCard);
-            filterWidgetCard.setBoard(board);
-            filterWidgetCard.setStack(stack);
-            result.add(filterWidgetCard);
+            result.add(new FilterWidgetCard(fullCard, stack, board));
         }
         return result;
     }
 
-    public List<FilterWidget> getFilterWidgetIDsByType(EWidgetType type) {
+    public List<FilterWidget> getFilterWidgetsByType(EWidgetType type) {
         List<Integer> ids = db.getFilterWidgetDao().getFilterWidgetIdsByType(type.getId());
         List<FilterWidget> widgets = new ArrayList<>(ids.size());
         for (Integer id : ids) {
@@ -1305,5 +1314,11 @@ public class DataBaseAdapter {
                 db.getJoinCardWithOcsProjectDao().insert(assignment);
             }
         }
+    }
+
+    private void notifyAllWidgets() {
+        SingleCardWidget.notifyDatasetChanged(context);
+        StackWidget.notifyDatasetChanged(context);
+        UpcomingWidget.notifyDatasetChanged(context);
     }
 }
