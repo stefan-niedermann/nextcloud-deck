@@ -456,6 +456,7 @@ public class DataBaseAdapter {
     public WrappedLiveData<Account> createAccount(Account account) {
         return LiveDataHelper.wrapInLiveData(() -> {
             long id = db.getAccountDao().insert(account);
+            // TODO Add account to UpcomingWidgets
             return readAccountDirectly(id);
         });
     }

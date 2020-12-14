@@ -61,6 +61,7 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
+import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
@@ -1986,6 +1987,14 @@ public class SyncManager {
                 callback.onError(t);
             }
         });
+    }
+
+    public List<Integer> getFilterWidgetIDsByType(EWidgetType type) {
+        return dataBaseAdapter.getFilterWidgetIDsByType(type);
+    }
+
+    public boolean filterWidgetExists(int id) {
+        return dataBaseAdapter.filterWidgetExists(id);
     }
 
     @WorkerThread

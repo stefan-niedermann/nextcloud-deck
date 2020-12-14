@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.widget.RemoteViews;
 
@@ -80,36 +79,36 @@ public class UpcomingWidget extends AppWidgetProvider {
 
         for (int appWidgetId : appWidgetIds) {
             new Thread(() -> {
-                List<Account> accountsList = syncManager.readAccountsDirectly();
-                final FilterWidget config = new FilterWidget();
-                config.setWidgetType(EWidgetType.UPCOMING_WIDGET);
-                config.setId(appWidgetId);
-                config.setAccounts(accountsList.stream().map(account -> {
-                    final FilterWidgetAccount fwa = new FilterWidgetAccount();
-                    fwa.setAccountId(account.getId());
-                    final FilterWidgetUser fwu = new FilterWidgetUser();
-                    fwu.setUserId(syncManager.getUserByUidDirectly(account.getId(), account.getUserName()).getId());
-                    fwa.setUsers(Collections.singletonList(fwu));
-                    return fwa;
-                }).collect(Collectors.toList()));
-                syncManager.createFilterWidget(config, new IResponseCallback<Integer>(null) {
-                    @Override
-                    public void onResponse(Integer response) {
-                        updateAppWidget(context, appWidgetManager, appWidgetIds);
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-                        super.onError(throwable);
-                        // FIXME check before inserting...
-                        if (throwable.getClass().equals(SQLiteConstraintException.class)) {
-                            DeckLog.error("Already exists, update instead.");
+                if (syncManager.filterWidgetExists(appWidgetId)) {
+                    DeckLog.verbose(UpcomingWidget.class.getSimpleName() + "with id " + appWidgetId + " already exists, update instead.");
+                    updateAppWidget(context, appWidgetManager, appWidgetIds);
+                } else {
+                    final List<Account> accountsList = syncManager.readAccountsDirectly();
+                    final FilterWidget config = new FilterWidget();
+                    config.setWidgetType(EWidgetType.UPCOMING_WIDGET);
+                    config.setId(appWidgetId);
+                    config.setAccounts(accountsList.stream().map(account -> {
+                        final FilterWidgetAccount fwa = new FilterWidgetAccount();
+                        fwa.setAccountId(account.getId());
+                        final FilterWidgetUser fwu = new FilterWidgetUser();
+                        fwu.setUserId(syncManager.getUserByUidDirectly(account.getId(), account.getUserName()).getId());
+                        fwa.setUsers(Collections.singletonList(fwu));
+                        return fwa;
+                    }).collect(Collectors.toList()));
+                    syncManager.createFilterWidget(config, new IResponseCallback<Integer>(null) {
+                        @Override
+                        public void onResponse(Integer response) {
+                            DeckLog.verbose("Created " + UpcomingWidget.class.getSimpleName() + "with id " + appWidgetId);
                             updateAppWidget(context, appWidgetManager, appWidgetIds);
-                        } else {
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            super.onError(throwable);
                             onDeleted(context, appWidgetIds);
                         }
-                    }
-                });
+                    });
+                }
             }).start();
         }
     }
