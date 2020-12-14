@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.model.widget.filter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -14,49 +15,56 @@ import it.niedermann.nextcloud.deck.model.enums.EDueType;
 public class FilterWidget {
 
     @PrimaryKey()
-    @NonNull
     private int id;
 
+    @Nullable
     private EDueType dueType;
 
     @NonNull
-    private EWidgetType widgetType;
+    private EWidgetType widgetType = EWidgetType.FILTER_WIDGET;
 
     @Ignore
-    private List<FilterWidgetAccount> accounts = new ArrayList<>();
+    @NonNull
+    private final List<FilterWidgetAccount> accounts = new ArrayList<>();
 
     @Ignore
-    private List<FilterWidgetSort> sorts = new ArrayList<>();
+    @NonNull
+    private final List<FilterWidgetSort> sorts = new ArrayList<>();
 
+    @NonNull
     public List<FilterWidgetAccount> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(List<FilterWidgetAccount> accounts) {
-        this.accounts = accounts;
+    public void setAccounts(@NonNull List<FilterWidgetAccount> accounts) {
+        this.accounts.clear();
+        this.accounts.addAll(accounts);
     }
 
     public Integer getId() {
         return id;
     }
 
+    @NonNull
     public List<FilterWidgetSort> getSorts() {
         return sorts;
     }
 
-    public void setSorts(List<FilterWidgetSort> sorts) {
-        this.sorts = sorts;
+    public void setSorts(@NonNull List<FilterWidgetSort> sorts) {
+        this.sorts.clear();
+        this.sorts.addAll(sorts);
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
+    @Nullable
     public EDueType getDueType() {
         return dueType;
     }
 
-    public void setDueType(EDueType dueType) {
+    public void setDueType(@Nullable EDueType dueType) {
         this.dueType = dueType;
     }
 

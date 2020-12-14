@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
@@ -33,6 +34,7 @@ public class UpcomingWidgetViewModel extends AndroidViewModel {
             final MutableLiveData<Integer> result$ = new MutableLiveData<>();
             new Thread(() -> {
                 final FilterWidget config = new FilterWidget();
+                config.setWidgetType(EWidgetType.UPCOMING_WIDGET);
                 config.setId(appWidgetId);
                 config.setAccounts(accountsList.stream().map(account -> {
                     final FilterWidgetAccount fwa = new FilterWidgetAccount();

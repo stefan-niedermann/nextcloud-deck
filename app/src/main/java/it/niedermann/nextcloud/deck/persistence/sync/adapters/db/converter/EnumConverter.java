@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.converter;
 
+import androidx.annotation.Nullable;
 import androidx.room.TypeConverter;
 
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
@@ -19,12 +20,14 @@ public class EnumConverter {
 
     // #### EDueType
     @TypeConverter
-    public static EDueType toDueTypeEnum(Integer value) {
+    @Nullable
+    public static EDueType toDueTypeEnum(@Nullable Integer value) {
         return value == null ? null : EDueType.findById(value);
     }
 
     @TypeConverter
-    public static int fromDueTypeEnum(EDueType value) {
+    @Nullable
+    public static Integer fromDueTypeEnum(@Nullable EDueType value) {
         return value == null ? null : value.getId();
     }
 }
