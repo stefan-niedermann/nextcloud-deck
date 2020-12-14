@@ -50,6 +50,7 @@ import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.model.relations.UserInBoard;
 import it.niedermann.nextcloud.deck.model.relations.UserInGroup;
+import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetBoard;
@@ -1218,6 +1219,14 @@ public class DataBaseAdapter {
             result.add(filterWidgetCard);
         }
         return result;
+    }
+
+    public List<Integer> getFilterWidgetIDsByType(EWidgetType type) {
+        return db.getFilterWidgetDao().getFilterWidgetIdsByType(type.getId());
+    }
+
+    public boolean filterWidgetExists(int id) {
+        return db.getFilterWidgetDao().filterWidgetExists(id);
     }
 
     public void deleteStackWidget(int appWidgetId) {
