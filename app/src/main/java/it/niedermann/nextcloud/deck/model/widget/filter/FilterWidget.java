@@ -11,7 +11,7 @@ import java.util.List;
 public class FilterWidget {
 
     @PrimaryKey()
-    private Integer id;
+    private int id;
 
     private Integer dueType;
 
