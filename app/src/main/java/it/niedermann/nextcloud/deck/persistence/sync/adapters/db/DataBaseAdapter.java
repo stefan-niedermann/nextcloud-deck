@@ -1164,7 +1164,6 @@ public class DataBaseAdapter {
                 accounts.add(account.getId());
                 filter.setNoAssignedUser(account.isIncludeNoUser());
                 List<User> users = new ArrayList<>();
-                List<Long> stacks = new ArrayList<>();
                 if (!account.getUsers().isEmpty()) {
                     for (FilterWidgetUser user : account.getUsers()) {
                         User u = new User();
@@ -1173,13 +1172,22 @@ public class DataBaseAdapter {
                     }
                 }
                 filter.setUsers(users);
-                if (account.getBoards().isEmpty()) {
+                if (!account.getBoards().isEmpty()) {
                     for (FilterWidgetBoard board : account.getBoards()) {
                         filter.setNoAssignedLabel(board.isIncludeNoLabel());
-
+                        List<Long> stacks = new ArrayList<>();
+                        for (FilterWidgetLabel label : board.getLabels()) {
+                            Label l = new Label();
+                            l.setLocalId(label.getLabelId());
+                            filter.addLabel(l);
+                        }
+                        for (FilterWidgetStack stack : board.getStacks()) {
+                            stacks.add(stack.getStackId());
+                        }
+                        cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, accounts, stacks)));
                     }
                 } else {
-                    cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, accounts, stacks)));
+                    cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, accounts, null)));
                 }
             }
         }
