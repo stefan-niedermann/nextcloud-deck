@@ -1221,8 +1221,13 @@ public class DataBaseAdapter {
         return result;
     }
 
-    public List<Integer> getFilterWidgetIDsByType(EWidgetType type) {
-        return db.getFilterWidgetDao().getFilterWidgetIdsByType(type.getId());
+    public List<FilterWidget> getFilterWidgetIDsByType(EWidgetType type) {
+        List<Integer> ids = db.getFilterWidgetDao().getFilterWidgetIdsByType(type.getId());
+        List<FilterWidget> widgets = new ArrayList<>(ids.size());
+        for (Integer id : ids) {
+            widgets.add(getFilterWidgetByIdDirectly(id));
+        }
+        return widgets;
     }
 
     public boolean filterWidgetExists(int id) {
