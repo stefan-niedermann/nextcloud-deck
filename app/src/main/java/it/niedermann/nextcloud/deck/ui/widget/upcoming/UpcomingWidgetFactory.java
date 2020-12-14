@@ -59,23 +59,25 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
 
     @Override
     public int getCount() {
-        return data.size();
+        return data.size() + 1;
     }
 
     @Override
     public RemoteViews getViewAt(int i) {
         RemoteViews widget_entry;
-
-        if (i > (data.size() - 1) || data.get(i) == null) {
-            DeckLog.error("Card not found at position " + i);
-            return null;
+        if (i == 0) {
+            widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_separator);
+            widget_entry.setTextViewText(R.id.widget_entry_content_tv, "First headline");
+        } else {
+            int cardPosition = i - 1;
+            if (cardPosition > (data.size() - 1) || data.get(cardPosition) == null) {
+                DeckLog.error("Card not found at position " + cardPosition);
+                return null;
+            }
+            final FullCard card = data.get(cardPosition).getCard();
+            widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_stack_entry);
+            widget_entry.setTextViewText(R.id.widget_entry_content_tv, card.getCard().getTitle());
         }
-
-        FullCard card = data.get(i).getCard();
-
-        widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_stack_entry);
-        widget_entry.setTextViewText(R.id.widget_entry_content_tv, card.getCard().getTitle());
-
         return widget_entry;
     }
 
@@ -86,7 +88,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
 
     @Override
     public int getViewTypeCount() {
-        return 1;
+        return 2;
     }
 
     @Override
