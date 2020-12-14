@@ -19,10 +19,13 @@
     </it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory>
 
     <it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory android:title="@string/simple_appearance">
-        <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
-            android:defaultValue="@string/pref_value_theme_light"
+        <ListPreference
+            android:defaultValue="@string/pref_value_theme_system_default"
+            android:entries="@array/darkmode_entries"
+            android:entryValues="@array/darkMode_values"
             android:icon="@drawable/ic_brightness_2_grey600_24dp"
             android:key="@string/pref_key_dark_theme"
+            android:summary="%s"
             android:title="@string/settings_theme_title" />
 
         <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference

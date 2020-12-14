@@ -17,6 +17,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -82,6 +83,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.fil
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetSortDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetStackDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetUserDao;
+import it.niedermann.nextcloud.deck.ui.settings.DarkModeSetting;
 
 @Database(
         entities = {
@@ -119,7 +121,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.fil
                 FilterWidgetSort.class,
         },
         exportSchema = false,
-        version = 24
+        version = 25
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -416,7 +418,7 @@ public abstract class DeckDatabase extends RoomDatabase {
         }
     };
 
-    private static final Migration MIGRATION_23_24 = new Migration(23, 24) {
+    private static final Migration MIGRATION_24_25 = new Migration(23, 24) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE `FilterWidget` (`id` INTEGER PRIMARY KEY NOT NULL, `dueType` INTEGER)");
@@ -503,7 +505,23 @@ public abstract class DeckDatabase extends RoomDatabase {
                     }
                 })
                 .addMigrations(MIGRATION_22_23)
-                .addMigrations(MIGRATION_23_24)
+                .addMigrations(new Migration(23, 24) {
+                    @Override
+                    public void migrate(@NonNull SupportSQLiteDatabase database) {
+                        // https://github.com/stefan-niedermann/nextcloud-deck/issues/392
+                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                        final String themePref = context.getString(R.string.pref_key_dark_theme);
+
+                        if (sharedPreferences.contains(themePref)) {
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            final boolean darkTheme = sharedPreferences.getBoolean(themePref, false);
+                            editor.remove(themePref);
+                            editor.putString(themePref, darkTheme ? DarkModeSetting.DARK.getPreferenceValue(context) : DarkModeSetting.LIGHT.getPreferenceValue(context));
+                            editor.apply();
+                        }
+                    }
+                })
+                .addMigrations(MIGRATION_24_25)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();

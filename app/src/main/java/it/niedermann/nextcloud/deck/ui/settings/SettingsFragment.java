@@ -21,7 +21,6 @@ import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMai
 public class SettingsFragment extends PreferenceFragmentCompat implements Branded {
 
     private BrandedSwitchPreference wifiOnlyPref;
-    private BrandedSwitchPreference themePref;
     private BrandedSwitchPreference brandingPref;
     private BrandedSwitchPreference compactPref;
 
@@ -41,11 +40,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
             DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_wifi_only) + "\"");
         }
 
-        themePref = findPreference(getString(R.string.pref_key_dark_theme));
+        Preference themePref = findPreference(getString(R.string.pref_key_dark_theme));
         if (themePref != null) {
             themePref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-                final Boolean darkTheme = (Boolean) newValue;
-                DeckLog.log("darkTheme: " + darkTheme);
+                final DarkModeSetting darkTheme = DarkModeSetting.valueOf((String) newValue);
+                DeckLog.log("appTheme: " + darkTheme);
                 setAppTheme(darkTheme);
                 requireActivity().setResult(Activity.RESULT_OK);
                 requireActivity().recreate();
@@ -93,7 +92,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
     @Override
     public void applyBrand(int mainColor) {
         wifiOnlyPref.applyBrand(mainColor);
-        themePref.applyBrand(mainColor);
         brandingPref.applyBrand(mainColor);
         compactPref.applyBrand(mainColor);
     }
