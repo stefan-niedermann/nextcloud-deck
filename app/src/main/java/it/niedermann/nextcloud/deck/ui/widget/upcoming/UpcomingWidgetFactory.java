@@ -33,9 +33,9 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     @NonNull
     private final List<Object> data = new ArrayList<>();
 
-    UpcomingWidgetFactory(Context context, Intent intent) {
+    UpcomingWidgetFactory(@NonNull Context context, Intent intent) {
         this.context = context;
-        appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
     }
 
     @Override
