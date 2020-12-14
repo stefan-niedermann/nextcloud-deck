@@ -58,7 +58,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
                 EDueType lastDueType = null;
                 for (FilterWidgetCard filterWidgetCard : response) {
                     if (filterWidgetCard.getCard().getCard().getDueDate() != null) {
-                        final EDueType nextDueType = getDueType(context, filterWidgetCard.getCard().getCard().getDueDate().atZone(ZoneId.systemDefault()).toLocalDate());
+                        final EDueType nextDueType = getDueType(filterWidgetCard.getCard().getCard().getDueDate().atZone(ZoneId.systemDefault()).toLocalDate());
                         if (!nextDueType.equals(lastDueType)) {
                             data.add(new Separator(EDueType.OVERDUE.toString(context)));
                             lastDueType = nextDueType;
@@ -133,7 +133,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
         awm.updateAppWidget(appWidgetId, views);
     }
 
-    private static EDueType getDueType(@NonNull Context context, @Nullable LocalDate dueDate) {
+    private static EDueType getDueType(@Nullable LocalDate dueDate) {
         if (dueDate == null) {
             return EDueType.NO_DUE;
         }

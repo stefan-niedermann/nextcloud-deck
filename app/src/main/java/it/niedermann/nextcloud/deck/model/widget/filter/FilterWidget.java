@@ -72,7 +72,7 @@ public class FilterWidget {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof FilterWidget)) return false;
 
         FilterWidget that = (FilterWidget) o;
 
