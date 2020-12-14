@@ -45,6 +45,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
         syncManager.getCardsForFilterWidget(appWidgetId, new IResponseCallback<List<FilterWidgetCard>>(null) {
             @Override
             public void onResponse(List<FilterWidgetCard> response) {
+                DeckLog.log("Result: " + response.size());
                 data.clear();
                 Collections.sort(response, (card1, card2) -> {
                     if (card1 == null || card1.getCard() == null || card1.getCard().getCard().getDueDate() == null) {

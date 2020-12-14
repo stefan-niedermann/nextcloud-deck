@@ -136,12 +136,6 @@
             android:name=".ui.exception.ExceptionActivity"
             android:process=":error_activity" />
 
-<!--        <activity android:name=".ui.widget.filter.FilterWidgetConfigurationActivity">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
-
 <!--        <receiver-->
 <!--            android:name="it.niedermann.nextcloud.deck.ui.widget.filter.FilterWidget"-->
 <!--            android:label="@string/widget_filter_title">-->
@@ -154,12 +148,6 @@
 <!--                android:name="android.appwidget.provider"-->
 <!--                android:resource="@xml/filter_widget_provider" />-->
 <!--        </receiver>-->
-
-        <activity android:name=".ui.widget.upcoming.UpcomingWidgetConfigurationActivity">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-            </intent-filter>
-        </activity>
 
         <service
             android:name=".ui.widget.upcoming.UpcomingWidgetService"
