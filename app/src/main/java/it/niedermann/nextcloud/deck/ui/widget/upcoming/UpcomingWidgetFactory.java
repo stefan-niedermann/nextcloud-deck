@@ -40,7 +40,6 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
             public void onResponse(List<FilterWidgetCard> response) {
                 data.clear();
                 data.addAll(response);
-                DeckLog.log("upcoming: loaded! data.size() " + data.size());
                 final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_upcoming);
                 notifyAppWidgetUpdate(views);
             }
@@ -67,7 +66,6 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     public RemoteViews getViewAt(int i) {
         RemoteViews widget_entry;
 
-        DeckLog.log("upcoming: data.size() " + data.size());
         if (i > (data.size() - 1) || data.get(i) == null) {
             DeckLog.error("Card not found at position " + i);
             return null;
