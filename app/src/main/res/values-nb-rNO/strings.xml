@@ -123,13 +123,11 @@
     <string name="your_deck_version_is_too_old">Din tjenerversjon av «deck» er updatert</string>
     <string name="deck_outdated_please_update">Din tjenerversjon av «deck» er utdatert (%1$s). Vennligst oppdater for å bruke denne android appen som klient.</string>
     <string name="delete_board_message">Dette vil uopprettelig slette denne tavlen inkludert alle lister og kort.</string>
-    <string name="settings_theme_title">Mørkt tema</string>
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Kompakt modus</string>
     <string name="settings_background_sync">Synkronisering i bakgrunnen</string>
     <string name="pref_value_wifi_and_mobile">Synkroniser med WiFi og mobil data</string>
     <string name="pref_value_wifi_only">Synkroniser kun med WiFi</string>
-    <string name="pref_value_theme_light">Lys</string>
     <string name="unassigned_user">Ikke tildelt %1$s</string>
     <string name="no_activities">Det er ingen aktiviteter på dette kortet. Du må være koblet til internett for å kunne laste inn og vise aktivitetene.</string>
     <string name="share_board">Del tavle</string>

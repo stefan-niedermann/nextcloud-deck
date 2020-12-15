@@ -124,13 +124,17 @@
     <string name="your_deck_version_is_too_old">Ihre Deck-Version ist zu alt</string>
     <string name="deck_outdated_please_update">Ihre Deck-Version ist zu alt (%1$s). Bitte aktualisieren Sie Deck um diese Android-App als Client verwenden zu können.</string>
     <string name="delete_board_message">Dies wird dieses Board endgültig inklusive aller Listen und Karten löschen.</string>
-    <string name="settings_theme_title">Dunkles Design</string>
+    <string name="settings_theme_title">Design</string>
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Kompakt-Modus</string>
     <string name="settings_background_sync">Hintergrundsynchronisierung</string>
     <string name="pref_value_wifi_and_mobile">Über WLAN und mobile Daten synchronisieren</string>
     <string name="pref_value_wifi_only">Nur über WLAN synchronisieren</string>
-    <string name="pref_value_theme_light">Hell</string>
+    <string-array name="darkmode_entries">
+        <item>Hell</item>
+        <item>Dunkel</item>
+        <item>Systemstandard</item>
+    </string-array>
     <string name="unassigned_user">Zuordnung von %1$s entfernt</string>
     <string name="no_activities">Auf dieser Karte sind keine Aktivitäten vorhanden. Sie müssen mit dem Internet verbunden sein, um Aktivitäten zu laden und anzuzeigen.</string>
     <string name="share_board">Board freigeben</string>
@@ -296,4 +300,5 @@
     <string name="gallery">Galerie</string>
     <string name="simple_attach">anhängen</string>
     <string name="add_stack_widget">Ein Listen-Widget hinzufügen</string>
+    <string name="edit_description">Beschreibung bearbeiten</string>
 </resources>

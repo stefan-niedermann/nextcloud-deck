@@ -123,13 +123,11 @@
     <string name="your_deck_version_is_too_old">La versió del tauler és massa antiga.</string>
     <string name="deck_outdated_please_update">La vostra versió de tauler és massa antiga (%1$s). Si us plau, actualitzeu-lo per usar aquesta aplicació d\'Android com a client.</string>
     <string name="delete_board_message">Això suprimirà permanentment aquest tauler, incloent-hi totes les llistes i targetes.</string>
-    <string name="settings_theme_title">Tema fosc</string>
     <string name="settings_branding_title">Marcatge</string>
     <string name="settings_compact_title">Mode compacte</string>
     <string name="settings_background_sync">Sincronització en segon pla</string>
     <string name="pref_value_wifi_and_mobile">Sincronitza per Wi-Fi i dades mòbils</string>
     <string name="pref_value_wifi_only">Sincronitza només per Wi-Fi</string>
-    <string name="pref_value_theme_light">Clar</string>
     <string name="unassigned_user">%1$s sense assignar</string>
     <string name="no_activities">No hi ha activitats en aquesta targeta. Per carregar i mostrar activitats, heu d’estar connectat a Internet.</string>
     <string name="share_board">Comparteix el tauler</string>

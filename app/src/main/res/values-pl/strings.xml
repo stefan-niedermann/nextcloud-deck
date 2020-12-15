@@ -128,13 +128,17 @@
     <string name="your_deck_version_is_too_old">Twoja wersja deck jest nieaktualna</string>
     <string name="deck_outdated_please_update">Twoja wersja deck (%1$s) jest nieaktualna. Zaktualizuj, aby używać tej aplikacji na Androida jako klienta.</string>
     <string name="delete_board_message">Spowoduje to trwałe usunięcie tej tablicy, w tym wszystkich list i kart.</string>
-    <string name="settings_theme_title">Ciemny motyw</string>
+    <string name="settings_theme_title">Motyw</string>
     <string name="settings_branding_title">Motyw serwera</string>
     <string name="settings_compact_title">Tryb kompaktowy</string>
     <string name="settings_background_sync">Synchronizacja w tle</string>
     <string name="pref_value_wifi_and_mobile">Synchronizacja w sieci Wi-Fi i komórkowej transmisji danych</string>
     <string name="pref_value_wifi_only">Synchronizuj tylko przez Wi-Fi</string>
-    <string name="pref_value_theme_light">Jasny</string>
+    <string-array name="darkmode_entries">
+        <item>Jasny</item>
+        <item>Ciemny</item>
+        <item>Domyślny systemu</item>
+    </string-array>
     <string name="unassigned_user">Nieprzypisane %1$s</string>
     <string name="no_activities">Na tej karcie nie ma żadnych działań. Musisz być podłączony do Internetu, aby ładować i wyświetlać działania.</string>
     <string name="share_board">Udostępnij tablicę</string>
@@ -304,4 +308,5 @@
     <string name="gallery">Galeria</string>
     <string name="simple_attach">dołącz</string>
     <string name="add_stack_widget">Dodaj widżet listy</string>
+    <string name="edit_description">Edytuj opis</string>
 </resources>

@@ -128,13 +128,17 @@
     <string name="your_deck_version_is_too_old">Različica zbirke je prestara</string>
     <string name="deck_outdated_please_update">Različica zbirke je prestara (%1$s). Za uporabo tega odjemalca je treba zbirko najprej posodobiti.</string>
     <string name="delete_board_message">S tem dejanjem bo zbirka z vsemi paketi nalog in nalogami trajno izbrisana.</string>
-    <string name="settings_theme_title">Temna tema</string>
+    <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Prilagajanje oblikovanja</string>
     <string name="settings_compact_title">Stisnjen pogled</string>
     <string name="settings_background_sync"> Usklajevanje v ozadju</string>
     <string name="pref_value_wifi_and_mobile">Usklajuj na Wi-Fi in mobilni povezavi</string>
     <string name="pref_value_wifi_only">Usklajuj le na Wi-Fi</string>
-    <string name="pref_value_theme_light">Svetla</string>
+    <string-array name="darkmode_entries">
+        <item>Svetla</item>
+        <item>Temna</item>
+        <item>Sistemska</item>
+    </string-array>
     <string name="unassigned_user">Uporabnik %1$s je odstranjen</string>
     <string name="no_activities">Na tej nalogi še ni zaznane nobene dejavnosti. Za prikaz dejavnosti mora biti vzpostavljena povezava z omrežjem.</string>
     <string name="share_board">Souporaba zbirke</string>
@@ -304,4 +308,5 @@
     <string name="gallery">Galerija</string>
     <string name="simple_attach">pripni</string>
     <string name="add_stack_widget">Dodaj gradnik seznama</string>
+    <string name="edit_description">Uredi opis</string>
 </resources>
