@@ -1,0 +1,1 @@
+- 🐞 Fix issue while extracting board Id and card Id from Push Notification URL
