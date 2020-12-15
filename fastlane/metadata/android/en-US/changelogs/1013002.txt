@@ -1,0 +1,1 @@
+- 🌗 Dark mode following system default (#392) (by @fm-sys)
