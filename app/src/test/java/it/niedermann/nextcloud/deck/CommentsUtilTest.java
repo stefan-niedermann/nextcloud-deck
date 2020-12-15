@@ -7,6 +7,7 @@ import it.niedermann.nextcloud.deck.ui.card.comments.util.CommentsUtil;
 
 public class CommentsUtilTest {
 
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void testMentionDiscovery() {
         Assert.assertNull(CommentsUtil.getUserNameForMentionProposal("", 0));
