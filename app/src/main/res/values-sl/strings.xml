@@ -135,9 +135,9 @@
     <string name="pref_value_wifi_and_mobile">Usklajuj na Wi-Fi in mobilni povezavi</string>
     <string name="pref_value_wifi_only">Usklajuj le na Wi-Fi</string>
     <string-array name="darkmode_entries">
+        <item>Sistemska</item>
         <item>Svetla</item>
         <item>Temna</item>
-        <item>Sistemska</item>
     </string-array>
     <string name="unassigned_user">Uporabnik %1$s je odstranjen</string>
     <string name="no_activities">Na tej nalogi še ni zaznane nobene dejavnosti. Za prikaz dejavnosti mora biti vzpostavljena povezava z omrežjem.</string>

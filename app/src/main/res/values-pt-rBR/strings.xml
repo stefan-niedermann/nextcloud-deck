@@ -131,9 +131,9 @@
     <string name="pref_value_wifi_and_mobile">Sincronizar com Wi-Fi e dados móveis</string>
     <string name="pref_value_wifi_only">Sincronizar apenas com Wi-Fi</string>
     <string-array name="darkmode_entries">
+        <item>Padrão do sistema</item>
         <item>Claro</item>
         <item>Escuro</item>
-        <item>Padrão do sistema</item>
     </string-array>
     <string name="unassigned_user"> %1$s desatribuído</string>
     <string name="no_activities">Não há atividades neste cartão. Você precisa estar conectado com a internet para carregar e exibir atividades.</string>

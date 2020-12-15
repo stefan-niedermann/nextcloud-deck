@@ -131,9 +131,9 @@
     <string name="pref_value_wifi_and_mobile">Über WLAN und mobile Daten synchronisieren</string>
     <string name="pref_value_wifi_only">Nur über WLAN synchronisieren</string>
     <string-array name="darkmode_entries">
+        <item>Systemstandard</item>
         <item>Hell</item>
         <item>Dunkel</item>
-        <item>Systemstandard</item>
     </string-array>
     <string name="unassigned_user">Zuordnung von %1$s entfernt</string>
     <string name="no_activities">Auf dieser Karte sind keine Aktivitäten vorhanden. Sie müssen mit dem Internet verbunden sein, um Aktivitäten zu laden und anzuzeigen.</string>
