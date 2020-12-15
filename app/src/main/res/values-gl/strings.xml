@@ -124,13 +124,17 @@
     <string name="your_deck_version_is_too_old">A versión do Deck é antiga de máis.</string>
     <string name="deck_outdated_please_update">A versión do Deck é antiga de máis (%1$s). Actualice para usar esta apli de Android como cliente.</string>
     <string name="delete_board_message">Isto eliminará este taboleiro de xeito permanente incluíndo todas as listas e tarxetas.</string>
-    <string name="settings_theme_title">Tema escuro</string>
+    <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Xestión da marca</string>
     <string name="settings_compact_title">Modo compacto</string>
     <string name="settings_background_sync">Sincronización do traballo en segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronización con wifi e con datos móbiles</string>
     <string name="pref_value_wifi_only">Sincronizar só con wifi</string>
-    <string name="pref_value_theme_light">Claro</string>
+    <string-array name="darkmode_entries">
+        <item>Predeterminado do sistema</item>
+        <item>Claro</item>
+        <item>Escuro</item>
+    </string-array>
     <string name="unassigned_user">Desasignado %1$s</string>
     <string name="no_activities">Non hai actividades nesta tarxeta. Para cargar e amosar actividades necesita estar conectado á Internet.</string>
     <string name="share_board">Taboleiro compartido</string>
@@ -296,4 +300,5 @@
     <string name="gallery">Galería</string>
     <string name="simple_attach">anexar</string>
     <string name="add_stack_widget">Engadir o trebello de lista</string>
+    <string name="edit_description">Editar a descrición</string>
 </resources>

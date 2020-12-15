@@ -127,12 +127,10 @@
     <string name="your_deck_version_is_too_old">Версія вашого застосунку застаріла</string>
     <string name="deck_outdated_please_update">Версія вашого застосунку застаріла (%1$s). Будь ласка, оновіть її для використання застосунку на мобільному пристрої в якості клієнта .</string>
     <string name="delete_board_message">Це безповоротно вилучіть дошку разом зі списками та картками</string>
-    <string name="settings_theme_title">Темна тема</string>
     <string name="settings_branding_title">Оформлення</string>
     <string name="settings_background_sync">Фонова синхронізація</string>
     <string name="pref_value_wifi_and_mobile">Синхронізація за допомогою Wi-Fi та мобільних даних</string>
     <string name="pref_value_wifi_only">Синхронізація тільки за допомогою WI-Fi</string>
-    <string name="pref_value_theme_light">Світла</string>
     <string name="unassigned_user">Скасовано призначення %1$s</string>
     <string name="no_activities">На цій картці відсутні активності. Вам потрібно мати з\'єднання з мережею для завантаження та відображення активностей.</string>
     <string name="share_board">Надати доступ до дошки</string>

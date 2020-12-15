@@ -124,13 +124,11 @@
     <string name="your_deck_version_is_too_old">Din version är för gammal</string>
     <string name="deck_outdated_please_update">Din version av Deck är för gammal (%1$s). Uppdatera för att använda den här Android-appen som klient.</string>
     <string name="delete_board_message">Detta kommer att permanent radera denna tavla inklusive alla listor och kort.</string>
-    <string name="settings_theme_title">Mörkt tema</string>
     <string name="settings_branding_title">Varumärke</string>
     <string name="settings_compact_title">Kompakt läge</string>
     <string name="settings_background_sync">Bakgrundssynkronisering</string>
     <string name="pref_value_wifi_and_mobile">Synkronisera med Wi-Fi och mobildata</string>
     <string name="pref_value_wifi_only">Synkronisera endast med Wi-Fi</string>
-    <string name="pref_value_theme_light">Ljust</string>
     <string name="unassigned_user">Tog bort tilldelning %1$s</string>
     <string name="no_activities">Det finns inga aktiviteter på det här kortet. Du måste vara ansluten till internet för att läsa in och visa aktiviteter.</string>
     <string name="share_board">Dela tavla</string>

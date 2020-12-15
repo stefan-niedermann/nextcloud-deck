@@ -126,13 +126,11 @@
     <string name="your_deck_version_is_too_old">Ваша верзија Шпила је превише стара</string>
     <string name="deck_outdated_please_update">Верзија апликације Шпил је стара (%1$s). Ажурирајте да бисте користили ову Андроид апликацију као клијента.</string>
     <string name="delete_board_message">Ово ће трајно да уклони ову таблу укључујући све спискове и картице.</string>
-    <string name="settings_theme_title">Тамна тема</string>
     <string name="settings_branding_title">Брендирање</string>
     <string name="settings_compact_title">Компактан режим</string>
     <string name="settings_background_sync">Позадинска синхронизација</string>
     <string name="pref_value_wifi_and_mobile">Синхронизуј и на бежичној и на мобилној вези</string>
     <string name="pref_value_wifi_only">Синхронизуј само преко бежичне везе</string>
-    <string name="pref_value_theme_light">Светла</string>
     <string name="unassigned_user">Раздужен %1$s</string>
     <string name="no_activities">Нема активности на овој картици. Морате бити повезани на интернет да бисте учитали и приказали активности.</string>
     <string name="share_board">Подели таблу</string>

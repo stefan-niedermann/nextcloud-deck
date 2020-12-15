@@ -128,13 +128,17 @@
     <string name="your_deck_version_is_too_old">Vámi používaná verze Deck je příliš stará</string>
     <string name="deck_outdated_please_update">Vámi používaná verze Deck na straně serveru je příliš stará (%1$s). Prosíme aktualizujte, abyste mohli používat tuto Android aplikaci jako klienta.</string>
     <string name="delete_board_message">Toto tabuli nadobro smaže, včetně všech seznamů a karet.</string>
-    <string name="settings_theme_title">Tmavý motiv vzhledu</string>
+    <string name="settings_theme_title">Vzhled</string>
     <string name="settings_branding_title">Opatření vlastním logem</string>
     <string name="settings_compact_title">Kompaktní režim</string>
     <string name="settings_background_sync">Synchronizace na pozadí</string>
     <string name="pref_value_wifi_and_mobile">Synchr. přes Wi-Fi a mobilní data</string>
     <string name="pref_value_wifi_only">Synchr. pouze přes Wi-Fi</string>
-    <string name="pref_value_theme_light">Světlý</string>
+    <string-array name="darkmode_entries">
+        <item>Systémové výchozí</item>
+        <item>Světlý</item>
+        <item>Tmavý</item>
+    </string-array>
     <string name="unassigned_user">Nepřidělené %1$s</string>
     <string name="no_activities">Na této kartě nejsou žádné aktivity. Abyste mohli načíst a zobrazit aktivity, je třeba být připojení k Intenetu.</string>
     <string name="share_board">Sdílet tabuli</string>

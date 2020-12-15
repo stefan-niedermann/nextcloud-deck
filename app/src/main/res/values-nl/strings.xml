@@ -123,13 +123,11 @@
     <string name="your_deck_version_is_too_old">Uw deck versie is te oud</string>
     <string name="deck_outdated_please_update">Je deck versie is te oud (%1$s). Update deze android app om de deck te kunnen gebruiken.</string>
     <string name="delete_board_message">Dit zal dit bord inclusief alle stapels en kaarten definitief verwijderen.</string>
-    <string name="settings_theme_title">Donker thema</string>
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Compacte modus</string>
     <string name="settings_background_sync">Achtergrond synchronisatie</string>
     <string name="pref_value_wifi_and_mobile">Sync met Wi-Fi en mobiele data</string>
     <string name="pref_value_wifi_only">Sync alleen met Wi-Fi</string>
-    <string name="pref_value_theme_light">Licht</string>
     <string name="unassigned_user">Niet toegewezen %1$s</string>
     <string name="no_activities">Deze kaart heeft geen activiteiten. Verbind met het internet om activiteiten te laden en te tonen.</string>
     <string name="share_board">Bord delen</string>

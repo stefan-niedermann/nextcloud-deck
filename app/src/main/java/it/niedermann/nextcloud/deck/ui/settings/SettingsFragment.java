@@ -43,9 +43,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
         Preference themePref = findPreference(getString(R.string.pref_key_dark_theme));
         if (themePref != null) {
             themePref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-                final DarkModeSetting darkTheme = DarkModeSetting.valueOf((String) newValue);
-                DeckLog.log("appTheme: " + darkTheme);
-                setAppTheme(darkTheme);
+                setAppTheme(Integer.parseInt((String) newValue));
                 requireActivity().setResult(Activity.RESULT_OK);
                 requireActivity().recreate();
                 return true;

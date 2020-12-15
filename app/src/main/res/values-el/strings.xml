@@ -123,13 +123,11 @@
     <string name="your_deck_version_is_too_old">Η έκδοσή σας είναι παλαιά.</string>
     <string name="deck_outdated_please_update">Η έκδοσή σας είναι είναι παλαιά (%1$s). Παρακαλούμε αναβαθμίστε για επιπλέον χρήση.</string>
     <string name="delete_board_message">Μόνιμη διαγραφή πίνακα με όλες τις λίστες και κάρτες.</string>
-    <string name="settings_theme_title">Σκούρο θέμα</string>
     <string name="settings_branding_title">Επωνυμία</string>
     <string name="settings_compact_title">Συμπαγής λειτουργία</string>
     <string name="settings_background_sync">Συγχρονισμός στο παρασκήνιο</string>
     <string name="pref_value_wifi_and_mobile">Συγχρονισμός σε Wi-Fi και δεδομένα κινητού</string>
     <string name="pref_value_wifi_only">Συγχρονισμός μόνο σε Wi-Fi</string>
-    <string name="pref_value_theme_light">Φωτεινό</string>
     <string name="unassigned_user">Αδιάθετα %1$s</string>
     <string name="no_activities">Δεν υπάρχουν δραστηριότητες σε αυτή την κάρτα. Θα πρέπει να είστε συνδεδεμένοι στο Ίντερνετ για να φορτώσετε και να εμφανίσετε δραστηριότητες.</string>
     <string name="share_board">Διαμοιρασμός πίνακα</string>

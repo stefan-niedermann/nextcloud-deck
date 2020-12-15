@@ -123,13 +123,11 @@
     <string name="your_deck_version_is_too_old">Pakan versio on liian vanha</string>
     <string name="deck_outdated_please_update">Deck-versiosi (%1$s) on liian vanha. Päivitä sovellus.</string>
     <string name="delete_board_message">Tämä poistaa tämän taulun ja sen listat ja kortit pysyvästi.</string>
-    <string name="settings_theme_title">Tumma teema</string>
     <string name="settings_branding_title">Brändäys</string>
     <string name="settings_compact_title">Kompakti tila</string>
     <string name="settings_background_sync">Taustasynkronointi</string>
     <string name="pref_value_wifi_and_mobile">Synkronoi wifi- ja mobiilidatayhteydellä</string>
     <string name="pref_value_wifi_only">Synkronoi vain wifi-yhteydellä</string>
-    <string name="pref_value_theme_light">Vaalea</string>
     <string name="unassigned_user">Ei määritelty%1$s</string>
     <string name="no_activities">Tällä kortilla ei ole toimintoja. Tarvitset internetyhteyden toimintojen lataamiseen ja näyttämiseen.</string>
     <string name="share_board">Jaa taulu</string>
