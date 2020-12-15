@@ -124,13 +124,11 @@
     <string name="your_deck_version_is_too_old">A Kártyák verziója túl régi</string>
     <string name="deck_outdated_please_update">A Kártyák verziója túl régi (%1$s). Frissítse, hogy ezt az androidos alkalmazást használhassa kliensként.</string>
     <string name="delete_board_message">Ez véglegesen törli ezt a táblát az összes listával és kártyával együtt.</string>
-    <string name="settings_theme_title">Sötét téma</string>
     <string name="settings_branding_title">Márkázas</string>
     <string name="settings_compact_title">Kompakt mód</string>
     <string name="settings_background_sync">Háttér-szinkronizálás</string>
     <string name="pref_value_wifi_and_mobile">Szinkronizálás Wi-Fin és mobil adatkapcsolaton</string>
     <string name="pref_value_wifi_only">Szinkronizálás csak Wi-Fin</string>
-    <string name="pref_value_theme_light">Világos</string>
     <string name="unassigned_user">Nem hozzárendelt %1$s</string>
     <string name="no_activities">Még nincsenek tevékenységek ezen a kártyán. Internetkapcsolatra van szükség, hogy betöltse és megjelenítse a tevékenységeket.</string>
     <string name="share_board">Tábla megosztása</string>
@@ -280,4 +278,4 @@
     <string name="user_avatar">Felhasználói avatar</string>
     <string name="simple_unassign">Elvétel</string>
     <string name="add_stack_widget">Lista felületi elem hozzáadása</string>
-</resources>
+    </resources>

@@ -124,13 +124,17 @@
     <string name="your_deck_version_is_too_old">Su versión del Deck es muy antigua </string>
     <string name="deck_outdated_please_update">Tu versión de Deck es demasiado antigua (%1$s). Por favor, actualiza para usar este cliente android.</string>
     <string name="delete_board_message">Esto borrará permanente el tablero, incluyendo todas las listas y tarjetas.</string>
-    <string name="settings_theme_title">Tema oscuro</string>
+    <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Modo compacto</string>
     <string name="settings_background_sync">Sincronización en segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronizar sobre Wi-Fi y datos móviles</string>
     <string name="pref_value_wifi_only">Sincronizar solo sobre Wi-Fi</string>
-    <string name="pref_value_theme_light">Brillante</string>
+    <string-array name="darkmode_entries">
+        <item>Claro</item>
+        <item>Oscuro</item>
+        <item>Predeterminado del sistema</item>
+    </string-array>
     <string name="unassigned_user">No asignado %1$s</string>
     <string name="no_activities">No hay actividades en esta tarjeta. Necesita recolectar a Internet para cargar y mostrar las actividades.</string>
     <string name="share_board">Compartir tablero</string>
@@ -296,4 +300,5 @@
     <string name="gallery">Galería</string>
     <string name="simple_attach">adjuntar</string>
     <string name="add_stack_widget">Agregar lista de widget</string>
+    <string name="edit_description">Editar descripción</string>
 </resources>

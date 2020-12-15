@@ -109,7 +109,7 @@
     <string name="no_lists_yet">Ainda sem listas</string>
     <string name="do_you_want_to_save_your_changes">Deseja salvar suas alterações?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Deseja arquivar todos os cartões de %1$s?</string>
-    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Você deseja arquivar todos os cartões filtrados de %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Deseja arquivar todos os cartões filtrados de %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Isto excluirá permanentemente %1$d cartão desta lista.</item>
         <item quantity="other">Isto excluirá permanentemente todos os %1$d cartões desta lista.</item>
@@ -124,13 +124,17 @@
     <string name="your_deck_version_is_too_old">Sua versão do dock é muito antiga.</string>
     <string name="deck_outdated_please_update">Sua versão do Deck (%1$s) é muito antiga. Atualize-a para usar este aplicativo android como cliente.</string>
     <string name="delete_board_message">Isso excluirá permanentemente este painel incluindo listas e cartões.</string>
-    <string name="settings_theme_title">Tema escuro</string>
+    <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Marcação</string>
     <string name="settings_compact_title">Modo compacto</string>
     <string name="settings_background_sync">Sincronização em segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronizar com Wi-Fi e dados móveis</string>
     <string name="pref_value_wifi_only">Sincronizar apenas com Wi-Fi</string>
-    <string name="pref_value_theme_light">Claro</string>
+    <string-array name="darkmode_entries">
+        <item>Claro</item>
+        <item>Escuro</item>
+        <item>Padrão do sistema</item>
+    </string-array>
     <string name="unassigned_user"> %1$s desatribuído</string>
     <string name="no_activities">Não há atividades neste cartão. Você precisa estar conectado com a internet para carregar e exibir atividades.</string>
     <string name="share_board">Compartilhar painel</string>
@@ -286,4 +290,15 @@
     <string name="take_photo">Tire uma foto</string>
     <string name="take_photo_switch_camera">Trocar câmera</string>
     <string name="take_photo_toggle_torch">Alternar tocha</string>
-    </resources>
+    <string name="show_all_contacts">Mostrar todos os contatos</string>
+    <string name="show_all_files">Mostrar todos os arquivos</string>
+    <string name="recent">Recente</string>
+    <string name="upload_a_new_attachment">Enviar um novo anexo</string>
+    <string name="contacts">Contatos</string>
+    <string name="downloads">Downloads</string>
+    <string name="files">Arquivos</string>
+    <string name="gallery">Galeria</string>
+    <string name="simple_attach">anexar</string>
+    <string name="add_stack_widget">Adicionar widget de lista</string>
+    <string name="edit_description">Editar descrição</string>
+</resources>

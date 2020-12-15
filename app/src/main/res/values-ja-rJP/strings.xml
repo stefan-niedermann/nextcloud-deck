@@ -122,13 +122,11 @@
     <string name="your_deck_version_is_too_old">端末のバージョンが旧すぎます</string>
     <string name="deck_outdated_please_update">Deckのバージョンが旧すぎます(%1$s)．このアンドロイドアプリをクライアントとして使うには更新してください．</string>
     <string name="delete_board_message">このボードと含まれるすべてのリストやカードは完全に削除されます．</string>
-    <string name="settings_theme_title">ダークテーマ</string>
     <string name="settings_branding_title">ブランディング</string>
     <string name="settings_compact_title">コンパクトモード</string>
     <string name="settings_background_sync">バックグラウンド同期</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fiおよびモバイル接続時に同期する</string>
     <string name="pref_value_wifi_only">Wi-Fi接続時のみ同期する</string>
-    <string name="pref_value_theme_light">明るい</string>
     <string name="unassigned_user">未割当の%1$s</string>
     <string name="no_activities">このカードにはアクティブティがありません。アクティブティをロードして表示するにはインターネットへの接続が必要です。</string>
     <string name="share_board">ボードを共有</string>
@@ -293,4 +291,4 @@
     <string name="gallery">ギャラリー</string>
     <string name="simple_attach">参加</string>
     <string name="add_stack_widget">リストのウィジェットを追加</string>
-</resources>
+    </resources>

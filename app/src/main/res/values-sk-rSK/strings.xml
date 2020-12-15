@@ -127,13 +127,11 @@
     <string name="your_deck_version_is_too_old">Verzia vášho balíčka je príliš stará</string>
     <string name="deck_outdated_please_update">Verzia vášho balíčka je príliš stará (%1$s). Ak chcete túto aplikáciu pre Android používať ako klienta, aktualizujte ju.</string>
     <string name="delete_board_message">Táto nástenka sa natrvalo odstráni, vrátane všetkých zoznamov a kariet.</string>
-    <string name="settings_theme_title">Tmavý motív</string>
     <string name="settings_branding_title">Použitie vlastného loga</string>
     <string name="settings_compact_title">Kompaktný režim</string>
     <string name="settings_background_sync">Synchronizácia na pozadí</string>
     <string name="pref_value_wifi_and_mobile">Synchronizovať na Wi-Fi a mobilných dátach</string>
     <string name="pref_value_wifi_only">Synchronizovať len na Wi-Fi</string>
-    <string name="pref_value_theme_light">Svetlý</string>
     <string name="unassigned_user">Nepriradené %1$s</string>
     <string name="no_activities">Na tejto karte nie sú žiadne aktivity. Na načítanie a zobrazenie aktivít musíte byť pripojení k internetu.</string>
     <string name="share_board">Zdieľať nástenku</string>
