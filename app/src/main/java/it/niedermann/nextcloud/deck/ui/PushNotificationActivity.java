@@ -60,7 +60,14 @@ public class PushNotificationActivity extends AppCompatActivity {
         }
 
         final String link = getIntent().getStringExtra(KEY_LINK);
-        long[] ids = ProjectUtil.extractBoardIdAndCardIdFromUrl(link);
+        final long[] ids;
+        try {
+            ids = ProjectUtil.extractBoardIdAndCardIdFromUrl(link);
+        } catch (Throwable t) {
+            DeckLog.logError(t);
+            finish();
+            return;
+        }
 
         binding.cancel.setOnClickListener((v) -> finish());
 
