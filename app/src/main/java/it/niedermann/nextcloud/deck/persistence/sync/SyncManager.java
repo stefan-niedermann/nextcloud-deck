@@ -423,6 +423,7 @@ public class SyncManager {
                         Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
                         acc.applyCapabilities(response.getResponse(), response.getHeaders().get("ETag"));
                         dataBaseAdapter.updateAccount(acc);
+                        callback.getAccount().setServerDeckVersion(acc.getServerDeckVersion());
                         callback.onResponse(response.getResponse());
                     }
 

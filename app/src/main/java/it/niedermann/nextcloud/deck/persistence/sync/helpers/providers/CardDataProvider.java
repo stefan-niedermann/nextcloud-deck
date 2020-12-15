@@ -22,7 +22,6 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
-import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
@@ -142,7 +141,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         }
         syncHelper.doSyncFor(new AttachmentDataProvider(this, board, stack.getStack(), existingEntity, attachments));
 
-        if (callback.getAccount().getServerDeckVersionAsObject().isGreaterOrEqualTo(new Version("1.0.0", 1, 0, 0))) {
+        if (callback.getAccount().getServerDeckVersionAsObject().supportsComments()) {
             DeckLog.verbose("Comments - Version is OK, SYNC");
             syncHelper.doSyncFor(new DeckCommentsDataProvider(this, existingEntity.getCard()));
         } else {
