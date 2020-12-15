@@ -85,7 +85,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.fil
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetSortDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetStackDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetUserDao;
-import it.niedermann.nextcloud.deck.ui.settings.DarkModeSetting;
 
 @Database(
         entities = {
