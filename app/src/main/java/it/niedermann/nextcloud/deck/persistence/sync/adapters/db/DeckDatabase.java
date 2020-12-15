@@ -98,7 +98,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.Sta
                 UserInBoard.class,
         },
         exportSchema = false,
-        version = 24
+        version = 25
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -394,6 +394,16 @@ public abstract class DeckDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `OcsProjectResource` ADD `etag` TEXT");
         }
     };
+    private static final Migration MIGRATION_24_25 = new Migration(24, 25) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // Reset etags (comments weren't loading due to bug)
+            database.execSQL("UPDATE `Account` SET `boardsEtag` = NULL");
+            database.execSQL("UPDATE `Board` SET `etag` = NULL");
+            database.execSQL("UPDATE `Stack` SET `etag` = NULL");
+            database.execSQL("UPDATE `Card` SET `etag` = NULL");
+        }
+    };
 
     public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
         @Override
@@ -471,6 +481,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                         }
                     }
                 })
+                .addMigrations(MIGRATION_24_25)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();
