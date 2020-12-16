@@ -1,8 +1,10 @@
 package it.niedermann.android.markdown.markwon;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 
 import java.util.Map;
@@ -106,5 +108,73 @@ public class MarkwonMarkdownUtil {
 
     public static boolean lineStartsWithList(@NonNull String line, @NonNull EListType listType) {
         return line.startsWith(listType.listSymbol);
+    }
+
+    /**
+     * Modifies the {@param builder} and adds the given {@param punctuation} from
+     * {@param selectionStart} to {@param selectionEnd} or removes the {@param punctuation} in case
+     * it already is around the selected part.
+     *
+     * @return the new cursor position
+     */
+    public static int togglePunctuation(@NonNull StringBuilder builder, int selectionStart, int selectionEnd, @NonNull String punctuation) {
+        switch (punctuation) {
+            case "**":
+            case "*":
+            case "~~": {
+                final boolean hasAlreadyMarkdown = hasAlreadyMarkdown(builder.toString(), selectionStart, selectionEnd, punctuation);
+                if (hasAlreadyMarkdown) {
+                    removeMarkdown(builder, selectionStart, selectionEnd, punctuation);
+                } else {
+                    builder.insert(selectionEnd, punctuation);
+                    builder.insert(selectionStart, punctuation);
+                }
+                return hasAlreadyMarkdown ? selectionEnd - punctuation.length() : selectionEnd + punctuation.length() * 2;
+            }
+            default:
+                throw new UnsupportedOperationException("This kind of punctuation is not yet supported: " + punctuation);
+        }
+    }
+
+    /**
+     * Inserts a link into the given {@param builder} from {@param selectionStart} to {@param selectionEnd} and uses the {@param clipboardUrl} if available.
+     *
+     * @return the new cursor position
+     */
+    public static int insertLink(@NonNull StringBuilder builder, int selectionStart, int selectionEnd, @Nullable String clipboardUrl) {
+        final CharSequence text = builder.toString();
+        final boolean textToFormatIsLink = TextUtils.indexOf(text.subSequence(selectionStart, selectionEnd), "http") == 0;
+        if (textToFormatIsLink) {
+            if (clipboardUrl == null) {
+                builder.insert(selectionEnd, ")");
+                builder.insert(selectionStart, "[](");
+            } else {
+                builder.insert(selectionEnd, "](" + clipboardUrl + ")");
+                builder.insert(selectionStart, "[");
+                selectionEnd += clipboardUrl.length();
+            }
+        } else {
+            if (clipboardUrl == null) {
+                builder.insert(selectionEnd, "]()");
+            } else {
+                builder.insert(selectionEnd, "](" + clipboardUrl + ")");
+                selectionEnd += clipboardUrl.length();
+            }
+            builder.insert(selectionStart, "[");
+        }
+        return textToFormatIsLink && clipboardUrl == null
+                ? selectionStart + 1
+                : selectionEnd + 3;
+    }
+
+    private static boolean hasAlreadyMarkdown(@Nullable CharSequence text, int start, int end, String punctuation) {
+        return text != null && (start > punctuation.length() && punctuation.contentEquals(text.subSequence(start - punctuation.length(), start)) &&
+                text.length() > end + punctuation.length() && punctuation.contentEquals(text.subSequence(end, end + punctuation.length())));
+    }
+
+    private static void removeMarkdown(StringBuilder ssb, int start, int end, String punctuation) {
+        // FIXME disabled, because it does not work properly and might cause data loss
+        ssb.delete(start - punctuation.length(), start);
+        ssb.delete(end - punctuation.length(), end);
     }
 }
