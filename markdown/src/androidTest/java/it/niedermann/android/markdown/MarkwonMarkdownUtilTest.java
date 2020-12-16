@@ -129,9 +129,9 @@ public class MarkwonMarkdownUtilTest extends TestCase {
         assertEquals("Lorem **ipsum** dolor sit amet.", builder.toString());
 
         // Remove bold
-//        builder = new StringBuilder("Lorem **ipsum** dolor sit amet.");
-//        assertEquals(11, MarkwonMarkdownUtil.togglePunctuation(builder, 7, 12, "**"));
-//        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
+        builder = new StringBuilder("Lorem **ipsum** dolor sit amet.");
+        assertEquals(11, MarkwonMarkdownUtil.togglePunctuation(builder, 8, 13, "**"));
+        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
 
         // Add strike
         builder = new StringBuilder("Lorem ipsum dolor sit amet.");
@@ -139,9 +139,9 @@ public class MarkwonMarkdownUtilTest extends TestCase {
         assertEquals("Lorem ~~ipsum~~ dolor sit amet.", builder.toString());
 
         // Remove strike
-//        builder = new StringBuilder("Lorem ~~ipsum~~ dolor sit amet.");
-//        assertEquals(11, MarkwonMarkdownUtil.togglePunctuation(builder, 7, 12, "~~"));
-//        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
+        builder = new StringBuilder("Lorem ~~ipsum~~ dolor sit amet.");
+        assertEquals(11, MarkwonMarkdownUtil.togglePunctuation(builder, 8, 13, "~~"));
+        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
 
         // Add italic at first position
         builder = new StringBuilder("Lorem ipsum dolor sit amet.");
@@ -149,9 +149,9 @@ public class MarkwonMarkdownUtilTest extends TestCase {
         assertEquals("*Lorem* ipsum dolor sit amet.", builder.toString());
 
         // Remove italic from first position
-//        builder = new StringBuilder("*Lorem* ipsum dolor sit amet.");
-//        assertEquals(5, MarkwonMarkdownUtil.togglePunctuation(builder, 1, 6, "*"));
-//        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
+        builder = new StringBuilder("*Lorem* ipsum dolor sit amet.");
+        assertEquals(5, MarkwonMarkdownUtil.togglePunctuation(builder, 1, 6, "*"));
+        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
 
         // Add italic at last position
         builder = new StringBuilder("Lorem ipsum dolor sit amet.");
@@ -159,21 +159,21 @@ public class MarkwonMarkdownUtilTest extends TestCase {
         assertEquals("Lorem ipsum dolor sit *amet.*", builder.toString());
 
         // Remove italic from last position
-//        builder = new StringBuilder("Lorem ipsum dolor sit *amet.*");
-//        assertEquals(27, MarkwonMarkdownUtil.togglePunctuation(builder, 23, 28, "*"));
-//        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
+        builder = new StringBuilder("Lorem ipsum dolor sit *amet.*");
+        assertEquals(27, MarkwonMarkdownUtil.togglePunctuation(builder, 23, 28, "*"));
+        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
 
         // Special use-case: toggle from italic to bold and back
 
         // Toggle italic on bold text
 //        builder = new StringBuilder("Lorem **ipsum** dolor sit amet.");
-//        assertEquals(13, MarkwonMarkdownUtil.togglePunctuation(builder, 8, 13, "*"));
-//        assertEquals("Lorem *ipsum* dolor sit amet.", builder.toString());
+//        assertEquals(17, MarkwonMarkdownUtil.togglePunctuation(builder, 8, 13, "*"));
+//        assertEquals("Lorem ***ipsum*** dolor sit amet.", builder.toString());
 
         // Toggle bold on italic text
 //        builder = new StringBuilder("Lorem *ipsum* dolor sit amet.");
-//        assertEquals(15, MarkwonMarkdownUtil.togglePunctuation(builder, 7, 12, "**"));
-//        assertEquals("Lorem **ipsum** dolor sit amet.", builder.toString());
+//        assertEquals(17, MarkwonMarkdownUtil.togglePunctuation(builder, 7, 12, "**"));
+//        assertEquals("Lorem ***ipsum*** dolor sit amet.", builder.toString());
     }
 
     public void testInsertLink() {
