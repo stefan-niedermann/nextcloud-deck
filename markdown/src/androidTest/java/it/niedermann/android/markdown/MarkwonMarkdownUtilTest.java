@@ -83,29 +83,41 @@ public class MarkwonMarkdownUtilTest extends TestCase {
         lines.put("- [x] ", true);
         lines.put("* [ ] ", true);
         lines.put("* [x] ", true);
+        lines.put("+ [ ] ", true);
+        lines.put("+ [x] ", true);
         lines.put("- [ ]", true);
         lines.put("- [x]", true);
         lines.put("* [ ]", true);
         lines.put("* [x]", true);
+        lines.put("+ [ ]", true);
+        lines.put("+ [x]", true);
 
         lines.put("-[ ] ", false);
         lines.put("-[x] ", false);
         lines.put("*[ ] ", false);
         lines.put("*[x] ", false);
+        lines.put("+[ ] ", false);
+        lines.put("+[x] ", false);
         lines.put("-[ ]", false);
         lines.put("-[x]", false);
         lines.put("*[ ]", false);
         lines.put("*[x]", false);
+        lines.put("+[ ]", false);
+        lines.put("+[x]", false);
 
         lines.put("- [] ", false);
         lines.put("* [] ", false);
+        lines.put("+ [] ", false);
         lines.put("- []", false);
         lines.put("* []", false);
+        lines.put("+ []", false);
 
         lines.put("-[] ", false);
         lines.put("*[] ", false);
+        lines.put("+[] ", false);
         lines.put("-[]", false);
         lines.put("*[]", false);
+        lines.put("+[]", false);
 
         lines.forEach((key, value) -> assertEquals(value, (Boolean) MarkwonMarkdownUtil.lineStartsWithCheckbox(key)));
     }
