@@ -120,16 +120,18 @@ public class MarkwonMarkdownUtil {
     public static int togglePunctuation(@NonNull StringBuilder builder, int selectionStart, int selectionEnd, @NonNull String punctuation) {
         switch (punctuation) {
             case "**":
+            case "__":
             case "*":
+            case "_":
             case "~~": {
-                final boolean hasAlreadyMarkdown = hasAlreadyMarkdown(builder.toString(), selectionStart, selectionEnd, punctuation);
-                if (hasAlreadyMarkdown) {
+                final boolean selectionIsSurroundedByPunctuation = selectionIsSurroundedByPunctuation(builder.toString(), selectionStart, selectionEnd, punctuation);
+                if (selectionIsSurroundedByPunctuation) {
                     removeMarkdown(builder, selectionStart, selectionEnd, punctuation);
                 } else {
                     builder.insert(selectionEnd, punctuation);
                     builder.insert(selectionStart, punctuation);
                 }
-                return hasAlreadyMarkdown ? selectionEnd - punctuation.length() : selectionEnd + punctuation.length() * 2;
+                return selectionIsSurroundedByPunctuation ? selectionEnd - punctuation.length() : selectionEnd + punctuation.length() * 2;
             }
             default:
                 throw new UnsupportedOperationException("This kind of punctuation is not yet supported: " + punctuation);
@@ -167,14 +169,19 @@ public class MarkwonMarkdownUtil {
                 : selectionEnd + 3;
     }
 
-    private static boolean hasAlreadyMarkdown(@Nullable CharSequence text, int start, int end, String punctuation) {
-        return text != null && (start > punctuation.length() && punctuation.contentEquals(text.subSequence(start - punctuation.length(), start)) &&
-                text.length() > end + punctuation.length() && punctuation.contentEquals(text.subSequence(end, end + punctuation.length())));
+    private static boolean selectionIsSurroundedByPunctuation(@NonNull CharSequence text, int start, int end, @NonNull String punctuation) {
+        if (text.length() < end + punctuation.length()) {
+            return false;
+        }
+        if (start - punctuation.length() < 0 || end + punctuation.length() > text.length()) {
+            return false;
+        }
+        return punctuation.contentEquals(text.subSequence(start - punctuation.length(), start))
+                && punctuation.contentEquals(text.subSequence(end, end + punctuation.length()));
     }
 
-    private static void removeMarkdown(StringBuilder ssb, int start, int end, String punctuation) {
-        // FIXME disabled, because it does not work properly and might cause data loss
+    private static void removeMarkdown(@NonNull StringBuilder ssb, int start, int end, @NonNull String punctuation) {
+        ssb.delete(end, end + punctuation.length());
         ssb.delete(start - punctuation.length(), start);
-        ssb.delete(end - punctuation.length(), end);
     }
 }
