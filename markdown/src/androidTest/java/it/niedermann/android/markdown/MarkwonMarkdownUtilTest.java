@@ -109,4 +109,94 @@ public class MarkwonMarkdownUtilTest extends TestCase {
 
         lines.forEach((key, value) -> assertEquals(value, (Boolean) MarkwonMarkdownUtil.lineStartsWithCheckbox(key)));
     }
+
+    public void testTogglePunctuation() {
+        StringBuilder builder;
+
+        // Add italic
+        builder = new StringBuilder("Lorem ipsum dolor sit amet.");
+        assertEquals(13, MarkwonMarkdownUtil.togglePunctuation(builder, 6, 11, "*"));
+        assertEquals("Lorem *ipsum* dolor sit amet.", builder.toString());
+
+        // Remove italic
+        builder = new StringBuilder("Lorem *ipsum* dolor sit amet.");
+        assertEquals(11, MarkwonMarkdownUtil.togglePunctuation(builder, 7, 12, "*"));
+        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
+
+        // Add bold
+        builder = new StringBuilder("Lorem ipsum dolor sit amet.");
+        assertEquals(15, MarkwonMarkdownUtil.togglePunctuation(builder, 6, 11, "**"));
+        assertEquals("Lorem **ipsum** dolor sit amet.", builder.toString());
+
+        // Remove bold
+//        builder = new StringBuilder("Lorem **ipsum** dolor sit amet.");
+//        assertEquals(11, MarkwonMarkdownUtil.togglePunctuation(builder, 7, 12, "**"));
+//        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
+
+        // Add strike
+        builder = new StringBuilder("Lorem ipsum dolor sit amet.");
+        assertEquals(15, MarkwonMarkdownUtil.togglePunctuation(builder, 6, 11, "~~"));
+        assertEquals("Lorem ~~ipsum~~ dolor sit amet.", builder.toString());
+
+        // Remove strike
+//        builder = new StringBuilder("Lorem ~~ipsum~~ dolor sit amet.");
+//        assertEquals(11, MarkwonMarkdownUtil.togglePunctuation(builder, 7, 12, "~~"));
+//        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
+
+        // Add italic at first position
+        builder = new StringBuilder("Lorem ipsum dolor sit amet.");
+        assertEquals(7, MarkwonMarkdownUtil.togglePunctuation(builder, 0, 5, "*"));
+        assertEquals("*Lorem* ipsum dolor sit amet.", builder.toString());
+
+        // Remove italic from first position
+//        builder = new StringBuilder("*Lorem* ipsum dolor sit amet.");
+//        assertEquals(5, MarkwonMarkdownUtil.togglePunctuation(builder, 1, 6, "*"));
+//        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
+
+        // Add italic at last position
+        builder = new StringBuilder("Lorem ipsum dolor sit amet.");
+        assertEquals(29, MarkwonMarkdownUtil.togglePunctuation(builder, 22, 27, "*"));
+        assertEquals("Lorem ipsum dolor sit *amet.*", builder.toString());
+
+        // Remove italic from last position
+//        builder = new StringBuilder("Lorem ipsum dolor sit *amet.*");
+//        assertEquals(27, MarkwonMarkdownUtil.togglePunctuation(builder, 23, 28, "*"));
+//        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
+
+        // Special use-case: toggle from italic to bold and back
+
+        // Toggle italic on bold text
+//        builder = new StringBuilder("Lorem **ipsum** dolor sit amet.");
+//        assertEquals(13, MarkwonMarkdownUtil.togglePunctuation(builder, 8, 13, "*"));
+//        assertEquals("Lorem *ipsum* dolor sit amet.", builder.toString());
+
+        // Toggle bold on italic text
+//        builder = new StringBuilder("Lorem *ipsum* dolor sit amet.");
+//        assertEquals(15, MarkwonMarkdownUtil.togglePunctuation(builder, 7, 12, "**"));
+//        assertEquals("Lorem **ipsum** dolor sit amet.", builder.toString());
+    }
+
+    public void testInsertLink() {
+        StringBuilder builder;
+
+        // Add link without clipboardUrl to normal text
+        builder = new StringBuilder("Lorem ipsum dolor sit amet.");
+        assertEquals(14, MarkwonMarkdownUtil.insertLink(builder, 6, 11, null));
+        assertEquals("Lorem [ipsum]() dolor sit amet.", builder.toString());
+
+        // Add link without clipboardUrl to url
+        builder = new StringBuilder("Lorem https://example.com dolor sit amet.");
+        assertEquals(7, MarkwonMarkdownUtil.insertLink(builder, 6, 25, null));
+        assertEquals("Lorem [](https://example.com) dolor sit amet.", builder.toString());
+
+        // Add link with clipboardUrl to normal text
+        builder = new StringBuilder("Lorem ipsum dolor sit amet.");
+        assertEquals(33, MarkwonMarkdownUtil.insertLink(builder, 6, 11, "https://example.com"));
+        assertEquals("Lorem [ipsum](https://example.com) dolor sit amet.", builder.toString());
+
+        // Add link with clipboardUrl to url
+        builder = new StringBuilder("Lorem https://example.com dolor sit amet.");
+        assertEquals(46, MarkwonMarkdownUtil.insertLink(builder, 6, 25, "https://example.de"));
+        assertEquals("Lorem [https://example.com](https://example.de) dolor sit amet.", builder.toString());
+    }
 }

@@ -1,18 +1,17 @@
 package it.niedermann.android.markdown.markwon.format;
 
 import android.graphics.Typeface;
+import android.text.Editable;
 import android.text.SpannableStringBuilder;
-import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.util.SparseIntArray;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import androidx.annotation.Nullable;
-
 import it.niedermann.android.markdown.R;
 import it.niedermann.android.markdown.markwon.MarkwonMarkdownEditor;
+import it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil;
 import it.niedermann.android.util.ClipboardUtil;
 
 public class ContextBasedRangeFormattingCallback implements ActionMode.Callback {
@@ -56,57 +55,26 @@ public class ContextBasedRangeFormattingCallback implements ActionMode.Callback 
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        final SpannableStringBuilder ssb = new SpannableStringBuilder(editText.getText());
+        final Editable editable = editText.getText();
+        final StringBuilder ssb = new StringBuilder(editable == null ? "" : editable.toString());
         final int itemId = item.getItemId();
         final int start = editText.getSelectionStart();
         int end = editText.getSelectionEnd();
 
         if (itemId == R.id.bold) {
-            final String punctuation = "**";
-            final boolean hasAlreadyMarkdown = hasAlreadyMarkdown(editText.getText(), start, end, punctuation);
-            if (hasAlreadyMarkdown) {
-                removeMarkdown(ssb, start, end, punctuation);
-            } else {
-                ssb.insert(end, punctuation);
-                ssb.insert(start, punctuation);
-            }
+            final int newSelection = MarkwonMarkdownUtil.togglePunctuation(ssb, start, end, "**");
             editText.setMarkdownString(ssb);
-            editText.setSelection(hasAlreadyMarkdown ? end - punctuation.length() : end + punctuation.length() * 2);
+            editText.setSelection(newSelection);
             return true;
         } else if (itemId == R.id.italic) {
-            final String punctuation = "*";
-            final boolean hasAlreadyMarkdown = hasAlreadyMarkdown(editText.getText(), start, end, punctuation);
-            if (hasAlreadyMarkdown) {
-                removeMarkdown(ssb, start, end, punctuation);
-            } else {
-                ssb.insert(end, punctuation);
-                ssb.insert(start, punctuation);
-            }
+            final int newSelection = MarkwonMarkdownUtil.togglePunctuation(ssb, start, end, "*");
             editText.setMarkdownString(ssb);
-            editText.setSelection(hasAlreadyMarkdown ? end - punctuation.length() : end + punctuation.length() * 2);
+            editText.setSelection(newSelection);
             return true;
         } else if (itemId == R.id.link) {
-            final CharSequence text = editText.getText();
-            final boolean textToFormatIsLink = text != null && TextUtils.indexOf(text.subSequence(start, end), "http") == 0;
-            if (textToFormatIsLink) {
-                ssb.insert(end, ")");
-                ssb.insert(start, "[](");
-            } else {
-                String clipboardURL = ClipboardUtil.INSTANCE.getClipboardURLorNull(editText.getContext());
-                if (clipboardURL != null) {
-                    ssb.insert(end, "](" + clipboardURL + ")");
-                    end += clipboardURL.length();
-                } else {
-                    ssb.insert(end, "]()");
-                }
-                ssb.insert(start, "[");
-            }
+            final int newSelection = MarkwonMarkdownUtil.insertLink(ssb, start, end, ClipboardUtil.INSTANCE.getClipboardURLorNull(editText.getContext()));
             editText.setMarkdownString(ssb);
-            if (textToFormatIsLink) {
-                editText.setSelection(start + 1);
-            } else {
-                editText.setSelection(end + 3); // after <end>](
-            }
+            editText.setSelection(newSelection);
             return true;
         }
         return false;
@@ -115,16 +83,5 @@ public class ContextBasedRangeFormattingCallback implements ActionMode.Callback 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         // Nothing to do here...
-    }
-
-    private static boolean hasAlreadyMarkdown(@Nullable CharSequence text, int start, int end, String punctuation) {
-        return text != null && (start > punctuation.length() && punctuation.contentEquals(text.subSequence(start - punctuation.length(), start)) &&
-                text.length() > end + punctuation.length() && punctuation.contentEquals(text.subSequence(end, end + punctuation.length())));
-    }
-
-    private static void removeMarkdown(SpannableStringBuilder ssb, int start, int end, String punctuation) {
-        // FIXME disabled, because it does not work properly and might cause data loss
-        ssb.delete(start - punctuation.length(), start);
-        ssb.delete(end - punctuation.length(), end);
     }
 }
