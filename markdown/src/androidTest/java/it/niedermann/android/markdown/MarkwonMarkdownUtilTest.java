@@ -194,6 +194,38 @@ public class MarkwonMarkdownUtilTest extends TestCase {
 //        builder = new StringBuilder("Lorem *ipsum* dolor sit amet.");
 //        assertEquals(17, MarkwonMarkdownUtil.togglePunctuation(builder, 7, 12, "**"));
 //        assertEquals("Lorem ***ipsum*** dolor sit amet.", builder.toString());
+
+        // Text is not directly surrounded by punctuation but contains it
+
+        // TODO Remove containing punctuation
+//        builder = new StringBuilder("Lorem *ipsum* dolor sit amet.");
+//        assertEquals(11, MarkwonMarkdownUtil.togglePunctuation(builder, 6, 13, "*"));
+//        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
+
+        // TODO Remove containing punctuation
+//        builder = new StringBuilder("Lorem *ipsum* dolor sit amet.");
+//        assertEquals(27, MarkwonMarkdownUtil.togglePunctuation(builder, 0, 29, "*"));
+//        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
+
+        // TODO Remove multiple containing punctuations
+//        builder = new StringBuilder("Lorem *ipsum* dolor *sit* amet.");
+//        assertEquals(27, MarkwonMarkdownUtil.togglePunctuation(builder, 0, 31, "*"));
+//        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
+
+        // TODO Toggle bold to italic
+//        builder = new StringBuilder("Lorem **ipsum** dolor sit amet.");
+//        assertEquals(29, MarkwonMarkdownUtil.togglePunctuation(builder, 0, 31, "*"));
+//        assertEquals("Lorem *ipsum* dolor sit amet.", builder.toString());
+
+        // TODO Toggle multiple bold parts to italic
+//        builder = new StringBuilder("Lorem **ipsum** dolor **sit** amet.");
+//        assertEquals(31, MarkwonMarkdownUtil.togglePunctuation(builder, 0, 35, "*"));
+//        assertEquals("Lorem *ipsum* dolor *sit* amet.", builder.toString());
+
+        // TODO Do nothing
+//        builder = new StringBuilder("Lorem *ipsum dolor sit amet.");
+//        assertEquals(28, MarkwonMarkdownUtil.togglePunctuation(builder, 0, 28, "*"));
+//        assertEquals("Lorem *ipsum dolor sit amet.", builder.toString());
     }
 
     @Test
@@ -240,23 +272,40 @@ public class MarkwonMarkdownUtilTest extends TestCase {
     }
 
     @Test
-    public void testRemoveSurroundingPunctuation() {
+    @SuppressWarnings("ConstantConditions")
+    public void testSelectionIsInLink() {
         try {
-            final Method m = MarkwonMarkdownUtil.class.getDeclaredMethod("removeSurroundingPunctuation", StringBuilder.class, int.class, int.class, String.class);
+            final Method m = MarkwonMarkdownUtil.class.getDeclaredMethod("selectionIsInLink", CharSequence.class, int.class, int.class);
             m.setAccessible(true);
-            StringBuilder builder;
 
-            builder = new StringBuilder("*Lorem Ipsum*");
-            m.invoke(null, builder, 1, 12, "*");
-            assertEquals("Lorem Ipsum", builder.toString());
+            assertTrue((Boolean) m.invoke(null, "Lorem [ipsum](https://example.com) dolor sit amet.", 7, 12));
+            assertTrue((Boolean) m.invoke(null, "Lorem [ipsum](https://example.com) dolor sit amet.", 6, 34));
+            assertTrue((Boolean) m.invoke(null, "Lorem [ipsum](https://example.com) dolor sit amet.", 14, 33));
+            assertTrue((Boolean) m.invoke(null, "Lorem [ipsum](https://example.com) dolor sit amet.", 12, 14));
+            assertTrue((Boolean) m.invoke(null, "Lorem [ipsum](https://example.com) dolor sit amet.", 0, 7));
+            assertTrue((Boolean) m.invoke(null, "Lorem [ipsum](https://example.com) dolor sit amet.", 33, 34));
 
-            builder = new StringBuilder("**Lorem Ipsum**");
-            m.invoke(null, builder, 2, 13, "**");
-            assertEquals("Lorem Ipsum", builder.toString());
+            assertTrue((Boolean) m.invoke(null, "Lorem [](https://example.com) dolor sit amet.", 6, 28));
+            assertTrue((Boolean) m.invoke(null, "Lorem [](https://example.com) dolor sit amet.", 7, 28));
+            assertTrue((Boolean) m.invoke(null, "Lorem [](https://example.com) dolor sit amet.", 8, 28));
+            assertTrue((Boolean) m.invoke(null, "Lorem [](https://example.com) dolor sit amet.", 9, 28));
+            assertTrue((Boolean) m.invoke(null, "Lorem [](https://example.com) dolor sit amet.", 6, 29));
+            assertTrue((Boolean) m.invoke(null, "Lorem [](https://example.com) dolor sit amet.", 7, 29));
+            assertTrue((Boolean) m.invoke(null, "Lorem [](https://example.com) dolor sit amet.", 8, 29));
+            assertTrue((Boolean) m.invoke(null, "Lorem [](https://example.com) dolor sit amet.", 9, 29));
 
-            builder = new StringBuilder("**Lorem Ipsum**");
-            m.invoke(null, builder, 2, 13, "*");
-            assertEquals("*Lorem Ipsum*", builder.toString());
+            assertTrue((Boolean) m.invoke(null, "Lorem [ipsum]() dolor sit amet.", 6, 12));
+            assertTrue((Boolean) m.invoke(null, "Lorem [ipsum]() dolor sit amet.", 6, 13));
+            assertTrue((Boolean) m.invoke(null, "Lorem [ipsum]() dolor sit amet.", 6, 14));
+            assertTrue((Boolean) m.invoke(null, "Lorem [ipsum]() dolor sit amet.", 6, 15));
+            assertTrue((Boolean) m.invoke(null, "Lorem [ipsum]() dolor sit amet.", 7, 12));
+            assertTrue((Boolean) m.invoke(null, "Lorem [ipsum]() dolor sit amet.", 7, 13));
+            assertTrue((Boolean) m.invoke(null, "Lorem [ipsum]() dolor sit amet.", 7, 14));
+            assertTrue((Boolean) m.invoke(null, "Lorem [ipsum]() dolor sit amet.", 7, 15));
+
+            assertFalse((Boolean) m.invoke(null, "Lorem [ipsum](https://example.com) dolor sit amet.", 0, 6));
+            assertFalse((Boolean) m.invoke(null, "Lorem [ipsum](https://example.com) dolor sit amet.", 34, 50));
+            assertFalse((Boolean) m.invoke(null, "Lorem [ipsum](https://example.com) dolor sit amet.", 41, 44));
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }

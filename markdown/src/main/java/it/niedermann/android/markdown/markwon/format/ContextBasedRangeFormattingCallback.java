@@ -4,6 +4,7 @@ import android.graphics.Typeface;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -49,7 +50,19 @@ public class ContextBasedRangeFormattingCallback implements ActionMode.Callback 
 
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        // TODO hide actions if not available?
+        final CharSequence text = editText.getText();
+        if (text != null) {
+            final int selectionStart = editText.getSelectionStart();
+            final int selectionEnd = editText.getSelectionEnd();
+            if (selectionStart >= 0 && selectionStart <= text.length()) {
+                if (MarkwonMarkdownUtil.selectionIsInLink(text, selectionStart, selectionEnd)) {
+                    menu.findItem(R.id.link).setVisible(false);
+                    Log.i(TAG, "Hide link menu item because the selection is already within a link.");
+                }
+            } else {
+                Log.e(TAG, "SelectionStart is " + selectionStart + ". Expected to be between 0 and " + text.length());
+            }
+        }
         return false;
     }
 
