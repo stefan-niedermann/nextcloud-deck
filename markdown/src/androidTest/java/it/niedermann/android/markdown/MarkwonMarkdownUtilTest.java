@@ -197,20 +197,30 @@ public class MarkwonMarkdownUtilTest extends TestCase {
 
         // Text is not directly surrounded by punctuation but contains it
 
-        // TODO Remove containing punctuation
-//        builder = new StringBuilder("Lorem *ipsum* dolor sit amet.");
-//        assertEquals(11, MarkwonMarkdownUtil.togglePunctuation(builder, 6, 13, "*"));
-//        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
+        // Do nothing when the same punctuation is contained only one time
+        builder = new StringBuilder("Lorem *ipsum dolor sit amet.");
+        assertEquals(28, MarkwonMarkdownUtil.togglePunctuation(builder, 0, 28, "*"));
+        assertEquals("Lorem *ipsum dolor sit amet.", builder.toString());
 
-        // TODO Remove containing punctuation
-//        builder = new StringBuilder("Lorem *ipsum* dolor sit amet.");
-//        assertEquals(27, MarkwonMarkdownUtil.togglePunctuation(builder, 0, 29, "*"));
-//        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
+        // Do nothing when the same punctuation is contained only one time
+        builder = new StringBuilder("Lorem **ipsum dolor sit amet.");
+        assertEquals(29, MarkwonMarkdownUtil.togglePunctuation(builder, 0, 29, "**"));
+        assertEquals("Lorem **ipsum dolor sit amet.", builder.toString());
 
-        // TODO Remove multiple containing punctuations
-//        builder = new StringBuilder("Lorem *ipsum* dolor *sit* amet.");
-//        assertEquals(27, MarkwonMarkdownUtil.togglePunctuation(builder, 0, 31, "*"));
-//        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
+        // Remove containing punctuation
+        builder = new StringBuilder("Lorem *ipsum* dolor sit amet.");
+        assertEquals(11, MarkwonMarkdownUtil.togglePunctuation(builder, 6, 13, "*"));
+        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
+
+        // Remove containing punctuation
+        builder = new StringBuilder("Lorem *ipsum* dolor sit amet.");
+        assertEquals(27, MarkwonMarkdownUtil.togglePunctuation(builder, 0, 29, "*"));
+        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
+
+        // Remove multiple containing punctuations
+        builder = new StringBuilder("Lorem *ipsum* dolor *sit* amet.");
+        assertEquals(27, MarkwonMarkdownUtil.togglePunctuation(builder, 0, 31, "*"));
+        assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
 
         // TODO Toggle bold to italic
 //        builder = new StringBuilder("Lorem **ipsum** dolor sit amet.");
@@ -221,11 +231,6 @@ public class MarkwonMarkdownUtilTest extends TestCase {
 //        builder = new StringBuilder("Lorem **ipsum** dolor **sit** amet.");
 //        assertEquals(31, MarkwonMarkdownUtil.togglePunctuation(builder, 0, 35, "*"));
 //        assertEquals("Lorem *ipsum* dolor *sit* amet.", builder.toString());
-
-        // TODO Do nothing
-//        builder = new StringBuilder("Lorem *ipsum dolor sit amet.");
-//        assertEquals(28, MarkwonMarkdownUtil.togglePunctuation(builder, 0, 28, "*"));
-//        assertEquals("Lorem *ipsum dolor sit amet.", builder.toString());
     }
 
     @Test
