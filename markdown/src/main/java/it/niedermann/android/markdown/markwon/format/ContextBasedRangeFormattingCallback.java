@@ -69,26 +69,29 @@ public class ContextBasedRangeFormattingCallback implements ActionMode.Callback 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         final Editable editable = editText.getText();
-        final StringBuilder ssb = new StringBuilder(editable == null ? "" : editable.toString());
-        final int itemId = item.getItemId();
-        final int start = editText.getSelectionStart();
-        int end = editText.getSelectionEnd();
+        if (editable != null) {
+            final int itemId = item.getItemId();
+            final int start = editText.getSelectionStart();
+            final int end = editText.getSelectionEnd();
 
-        if (itemId == R.id.bold) {
-            final int newSelection = MarkwonMarkdownUtil.togglePunctuation(ssb, start, end, "**");
-            editText.setMarkdownString(ssb);
-            editText.setSelection(newSelection);
-            return true;
-        } else if (itemId == R.id.italic) {
-            final int newSelection = MarkwonMarkdownUtil.togglePunctuation(ssb, start, end, "*");
-            editText.setMarkdownString(ssb);
-            editText.setSelection(newSelection);
-            return true;
-        } else if (itemId == R.id.link) {
-            final int newSelection = MarkwonMarkdownUtil.insertLink(ssb, start, end, ClipboardUtil.INSTANCE.getClipboardURLorNull(editText.getContext()));
-            editText.setMarkdownString(ssb);
-            editText.setSelection(newSelection);
-            return true;
+            if (itemId == R.id.bold) {
+                final int newSelection = MarkwonMarkdownUtil.togglePunctuation(editable, start, end, "**");
+                editText.setMarkdownStringModel(editable);
+                editText.setSelection(newSelection);
+                return true;
+            } else if (itemId == R.id.italic) {
+                final int newSelection = MarkwonMarkdownUtil.togglePunctuation(editable, start, end, "*");
+                editText.setMarkdownStringModel(editable);
+                editText.setSelection(newSelection);
+                return true;
+            } else if (itemId == R.id.link) {
+                final int newSelection = MarkwonMarkdownUtil.insertLink(editable, start, end, ClipboardUtil.INSTANCE.getClipboardURLorNull(editText.getContext()));
+                editText.setMarkdownStringModel(editable);
+                editText.setSelection(newSelection);
+                return true;
+            }
+        } else {
+            Log.e(TAG, "Editable is null");
         }
         return false;
     }
