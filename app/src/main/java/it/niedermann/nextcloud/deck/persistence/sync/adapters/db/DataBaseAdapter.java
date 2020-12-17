@@ -458,7 +458,7 @@ public class DataBaseAdapter {
             new Thread(() -> {
                 DeckLog.verbose("Adding new created account " + id + " to all instances of " + EWidgetType.UPCOMING_WIDGET.name());
                 for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
-                    widget.getAccounts().add(new FilterWidgetAccount(id));
+                    widget.getAccounts().add(new FilterWidgetAccount(id, false));
                     updateFilterWidgetDirectly(widget);
                 }
                 UpcomingWidget.notifyDatasetChanged(context);

@@ -43,8 +43,9 @@ public class FilterWidgetAccount {
     }
 
     @Ignore
-    public FilterWidgetAccount(Long accountId) {
-        this.accountId = accountId;
+    public FilterWidgetAccount(Long accountId, boolean includeNoUser) {
+        this.setAccountId(accountId);
+        this.setIncludeNoUser(includeNoUser);
     }
 
     @Ignore
