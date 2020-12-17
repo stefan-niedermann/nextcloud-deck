@@ -6,8 +6,8 @@ android {
         applicationId "it.niedermann.nextcloud.deck"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 1013001
-        versionName "1.13.1"
+        versionCode 1013004
+        versionName "1.13.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         javaCompileOptions {
@@ -16,7 +16,6 @@ android {
             }
         }
         multiDexEnabled true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures {
         viewBinding true
@@ -67,9 +66,9 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
-    implementation "androidx.camera:camera-camera2:1.0.0-beta12"
-    implementation "androidx.camera:camera-lifecycle:1.0.0-beta12"
-    implementation "androidx.camera:camera-view:1.0.0-alpha19"
+    implementation "androidx.camera:camera-camera2:1.0.0-rc01"
+    implementation "androidx.camera:camera-lifecycle:1.0.0-rc01"
+    implementation "androidx.camera:camera-view:1.0.0-alpha20"
 
     // Markdown
     implementation project(path: ':markdown')

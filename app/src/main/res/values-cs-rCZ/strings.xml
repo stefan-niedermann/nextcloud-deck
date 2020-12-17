@@ -134,11 +134,6 @@
     <string name="settings_background_sync">Synchronizace na pozadí</string>
     <string name="pref_value_wifi_and_mobile">Synchr. přes Wi-Fi a mobilní data</string>
     <string name="pref_value_wifi_only">Synchr. pouze přes Wi-Fi</string>
-    <string-array name="darkmode_entries">
-        <item>Systémové výchozí</item>
-        <item>Světlý</item>
-        <item>Tmavý</item>
-    </string-array>
     <string name="unassigned_user">Nepřidělené %1$s</string>
     <string name="no_activities">Na této kartě nejsou žádné aktivity. Abyste mohli načíst a zobrazit aktivity, je třeba být připojení k Intenetu.</string>
     <string name="share_board">Sdílet tabuli</string>

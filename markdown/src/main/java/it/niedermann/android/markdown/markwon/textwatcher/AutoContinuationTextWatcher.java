@@ -10,6 +10,12 @@ import java.util.concurrent.Executors;
 import io.noties.markwon.editor.MarkwonEditor;
 import io.noties.markwon.editor.MarkwonEditorTextWatcher;
 import it.niedermann.android.markdown.markwon.MarkwonMarkdownEditor;
+import it.niedermann.android.markdown.markwon.model.EListType;
+
+import static it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil.getListItemIfIsEmpty;
+import static it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil.getStartOfLine;
+import static it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil.lineStartsWithCheckbox;
+import static it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil.lineStartsWithList;
 
 /**
  * Automatically continues lists and checkbox lists when pressing enter
@@ -86,53 +92,6 @@ public class AutoContinuationTextWatcher implements TextWatcher {
                     sequenceStart = start + count;
                 }
             }
-        }
-    }
-
-    private static int getStartOfLine(@NonNull CharSequence s, int cursorPosition) {
-        int startOfLine = cursorPosition;
-        while (startOfLine > 0 && s.charAt(startOfLine - 1) != '\n') {
-            startOfLine--;
-        }
-        return startOfLine;
-    }
-
-    private static String getListItemIfIsEmpty(@NonNull String line) {
-        for (EListType listType : EListType.values()) {
-            if (line.equals(listType.checkboxUncheckedWithTrailingSpace)) {
-                return listType.checkboxUncheckedWithTrailingSpace;
-            } else if (line.equals(listType.listSymbolWithTrailingSpace)) {
-                return listType.listSymbolWithTrailingSpace;
-            }
-        }
-        return null;
-    }
-
-    private static boolean lineStartsWithCheckbox(@NonNull String line, @NonNull EListType listType) {
-        return line.startsWith(listType.checkboxUnchecked) || line.startsWith(listType.checkboxChecked);
-    }
-
-    private static boolean lineStartsWithList(@NonNull String line, @NonNull EListType listType) {
-        return line.startsWith(listType.listSymbol);
-    }
-
-    enum EListType {
-        STAR('*'),
-        DASH('-'),
-        PLUS('+');
-
-        final String listSymbol;
-        final String listSymbolWithTrailingSpace;
-        final String checkboxChecked;
-        final String checkboxUnchecked;
-        final String checkboxUncheckedWithTrailingSpace;
-
-        EListType(char listSymbol) {
-            this.listSymbol = String.valueOf(listSymbol);
-            this.listSymbolWithTrailingSpace = listSymbol + " ";
-            this.checkboxChecked = listSymbolWithTrailingSpace + "[x]";
-            this.checkboxUnchecked = listSymbolWithTrailingSpace + "[ ]";
-            this.checkboxUncheckedWithTrailingSpace = checkboxUnchecked + " ";
         }
     }
 }

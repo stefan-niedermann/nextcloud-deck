@@ -1,0 +1,3 @@
+- 📝 Context based formatting
+- ℹ️ Display more information when a unexpected push notification arrives
+- 🌎 Updated translations

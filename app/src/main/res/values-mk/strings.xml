@@ -115,11 +115,6 @@
     <string name="settings_background_sync">Синхронизација во позадина</string>
     <string name="pref_value_wifi_and_mobile">Синхронизирај на Wi-Fi и на мобилен интернет</string>
     <string name="pref_value_wifi_only">Синхронизирај само преку Wi-Fi</string>
-    <string-array name="darkmode_entries">
-        <item>Како од системот</item>
-        <item>Светла</item>
-        <item>Темна</item>
-    </string-array>
     <string name="unassigned_user">Недоделени %1$s</string>
     <string name="no_activities">Нема активности во оваа картица. Треба да бидете поврзани на интернет за да ги вчита и прикаже активностите.</string>
     <string name="share_board">Сподели табла</string>

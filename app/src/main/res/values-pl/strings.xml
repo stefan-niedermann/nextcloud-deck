@@ -135,7 +135,7 @@
     <string name="pref_value_wifi_and_mobile">Synchronizacja w sieci Wi-Fi i komórkowej transmisji danych</string>
     <string name="pref_value_wifi_only">Synchronizuj tylko przez Wi-Fi</string>
     <string-array name="darkmode_entries">
-        <item>Domyślny systemu</item>
+        <item>Domyślne ustawienia systemu</item>
         <item>Jasny</item>
         <item>Ciemny</item>
     </string-array>
