@@ -126,7 +126,7 @@ public class MarkwonMarkdownUtil {
             case "~~": {
                 final boolean selectionIsSurroundedByPunctuation = selectionIsSurroundedByPunctuation(builder.toString(), selectionStart, selectionEnd, punctuation);
                 if (selectionIsSurroundedByPunctuation) {
-                    removeMarkdown(builder, selectionStart, selectionEnd, punctuation);
+                    removeSurroundingPunctuation(builder, selectionStart, selectionEnd, punctuation);
                 } else {
                     builder.insert(selectionEnd, punctuation);
                     builder.insert(selectionStart, punctuation);
@@ -180,7 +180,7 @@ public class MarkwonMarkdownUtil {
                 && punctuation.contentEquals(text.subSequence(end, end + punctuation.length()));
     }
 
-    private static void removeMarkdown(@NonNull StringBuilder ssb, int start, int end, @NonNull String punctuation) {
+    private static void removeSurroundingPunctuation(@NonNull StringBuilder ssb, int start, int end, @NonNull String punctuation) {
         ssb.delete(end, end + punctuation.length());
         ssb.delete(start - punctuation.length(), start);
     }

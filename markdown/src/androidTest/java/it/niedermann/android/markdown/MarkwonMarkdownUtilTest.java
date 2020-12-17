@@ -1,18 +1,23 @@
 package it.niedermann.android.markdown;
 
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 import junit.framework.TestCase;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 import it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil;
 
-/**
- * Tests the NoteUtil
- * Created by stefan on 06.10.15.
- */
+@RunWith(AndroidJUnit4.class)
 public class MarkwonMarkdownUtilTest extends TestCase {
 
+    @Test
     public void testGetStartOfLine() {
         //language=md
         StringBuilder test = new StringBuilder(
@@ -45,6 +50,7 @@ public class MarkwonMarkdownUtilTest extends TestCase {
         }
     }
 
+    @Test
     public void testGetEndOfLine() {
         //language=md
         StringBuilder test = new StringBuilder(
@@ -77,8 +83,9 @@ public class MarkwonMarkdownUtilTest extends TestCase {
         }
     }
 
+    @Test
     public void testLineStartsWithCheckbox() {
-        Map<String, Boolean> lines = new HashMap<>();
+        final Map<String, Boolean> lines = new HashMap<>();
         lines.put("- [ ] ", true);
         lines.put("- [x] ", true);
         lines.put("* [ ] ", true);
@@ -122,6 +129,7 @@ public class MarkwonMarkdownUtilTest extends TestCase {
         lines.forEach((key, value) -> assertEquals(value, (Boolean) MarkwonMarkdownUtil.lineStartsWithCheckbox(key)));
     }
 
+    @Test
     public void testTogglePunctuation() {
         StringBuilder builder;
 
@@ -188,6 +196,7 @@ public class MarkwonMarkdownUtilTest extends TestCase {
 //        assertEquals("Lorem ***ipsum*** dolor sit amet.", builder.toString());
     }
 
+    @Test
     public void testInsertLink() {
         StringBuilder builder;
 
@@ -210,5 +219,46 @@ public class MarkwonMarkdownUtilTest extends TestCase {
         builder = new StringBuilder("Lorem https://example.com dolor sit amet.");
         assertEquals(46, MarkwonMarkdownUtil.insertLink(builder, 6, 25, "https://example.de"));
         assertEquals("Lorem [https://example.com](https://example.de) dolor sit amet.", builder.toString());
+    }
+
+    @Test
+    @SuppressWarnings("ConstantConditions")
+    public void testSelectionIsSurroundedByPunctuation() {
+        try {
+            final Method m = MarkwonMarkdownUtil.class.getDeclaredMethod("selectionIsSurroundedByPunctuation", CharSequence.class, int.class, int.class, String.class);
+            m.setAccessible(true);
+            assertTrue((Boolean) m.invoke(null, "*Lorem ipsum*", 1, 12, "*"));
+            assertTrue((Boolean) m.invoke(null, "**Lorem ipsum**", 2, 13, "*"));
+            assertTrue((Boolean) m.invoke(null, "**Lorem ipsum**", 2, 13, "**"));
+
+            assertFalse((Boolean) m.invoke(null, "*Lorem ipsum*", 0, 12, "*"));
+            assertFalse((Boolean) m.invoke(null, "*Lorem ipsum*", 1, 13, "*"));
+            assertFalse((Boolean) m.invoke(null, "*Lorem ipsum*", 0, 13, "*"));
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testRemoveSurroundingPunctuation() {
+        try {
+            final Method m = MarkwonMarkdownUtil.class.getDeclaredMethod("removeSurroundingPunctuation", StringBuilder.class, int.class, int.class, String.class);
+            m.setAccessible(true);
+            StringBuilder builder;
+
+            builder = new StringBuilder("*Lorem Ipsum*");
+            m.invoke(null, builder, 1, 12, "*");
+            assertEquals("Lorem Ipsum", builder.toString());
+
+            builder = new StringBuilder("**Lorem Ipsum**");
+            m.invoke(null, builder, 2, 13, "**");
+            assertEquals("Lorem Ipsum", builder.toString());
+
+            builder = new StringBuilder("**Lorem Ipsum**");
+            m.invoke(null, builder, 2, 13, "*");
+            assertEquals("*Lorem Ipsum*", builder.toString());
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 }
