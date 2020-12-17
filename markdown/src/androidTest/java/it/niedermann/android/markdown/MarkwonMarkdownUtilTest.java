@@ -185,12 +185,12 @@ public class MarkwonMarkdownUtilTest extends TestCase {
 
         // Special use-case: toggle from italic to bold and back
 
-        // Toggle italic on bold text
+        // TODO Toggle italic on bold text
 //        builder = new StringBuilder("Lorem **ipsum** dolor sit amet.");
 //        assertEquals(17, MarkwonMarkdownUtil.togglePunctuation(builder, 8, 13, "*"));
 //        assertEquals("Lorem ***ipsum*** dolor sit amet.", builder.toString());
 
-        // Toggle bold on italic text
+        // TODO Toggle bold on italic text
 //        builder = new StringBuilder("Lorem *ipsum* dolor sit amet.");
 //        assertEquals(17, MarkwonMarkdownUtil.togglePunctuation(builder, 7, 12, "**"));
 //        assertEquals("Lorem ***ipsum*** dolor sit amet.", builder.toString());
