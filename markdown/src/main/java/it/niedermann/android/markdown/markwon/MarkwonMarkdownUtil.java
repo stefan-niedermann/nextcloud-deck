@@ -1,6 +1,7 @@
 package it.niedermann.android.markdown.markwon;
 
 import android.content.Context;
+import android.text.Editable;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -113,35 +114,35 @@ public class MarkwonMarkdownUtil {
     }
 
     /**
-     * Modifies the {@param builder} and adds the given {@param punctuation} from
+     * Modifies the {@param editable} and adds the given {@param punctuation} from
      * {@param selectionStart} to {@param selectionEnd} or removes the {@param punctuation} in case
      * it already is around the selected part.
      *
      * @return the new cursor position
      */
-    public static int togglePunctuation(@NonNull StringBuilder builder, int selectionStart, int selectionEnd, @NonNull String punctuation) {
+    public static int togglePunctuation(@NonNull Editable editable, int selectionStart, int selectionEnd, @NonNull String punctuation) {
         switch (punctuation) {
             case "**":
             case "__":
             case "*":
             case "_":
             case "~~": {
-                final String text = builder.toString();
+                final String text = editable.toString();
                 final boolean selectionIsSurroundedByPunctuation = selectionIsSurroundedByPunctuation(text, selectionStart, selectionEnd, punctuation);
                 if (selectionIsSurroundedByPunctuation) {
-                    builder.delete(selectionEnd, selectionEnd + punctuation.length());
-                    builder.delete(selectionStart - punctuation.length(), selectionStart);
+                    editable.delete(selectionEnd, selectionEnd + punctuation.length());
+                    editable.delete(selectionStart - punctuation.length(), selectionStart);
                     return selectionEnd - punctuation.length();
                 } else {
                     final int containedPunctuationCount = getContainedPunctuationCount(text, selectionStart, selectionEnd, punctuation);
                     if (containedPunctuationCount == 0) {
-                        builder.insert(selectionEnd, punctuation);
-                        builder.insert(selectionStart, punctuation);
+                        editable.insert(selectionEnd, punctuation);
+                        editable.insert(selectionStart, punctuation);
                         return selectionEnd + punctuation.length() * 2;
                     } else if (containedPunctuationCount % 2 > 0) {
                         return selectionEnd;
                     } else {
-                        removeContainingPunctuation(builder, selectionStart, selectionEnd, punctuation);
+                        removeContainingPunctuation(editable, selectionStart, selectionEnd, punctuation);
                         return selectionEnd - containedPunctuationCount * punctuation.length();
                     }
                 }
@@ -152,34 +153,38 @@ public class MarkwonMarkdownUtil {
     }
 
     /**
-     * Inserts a link into the given {@param builder} from {@param selectionStart} to {@param selectionEnd} and uses the {@param clipboardUrl} if available.
+     * Inserts a link into the given {@param editable} from {@param selectionStart} to {@param selectionEnd} and uses the {@param clipboardUrl} if available.
      *
      * @return the new cursor position
      */
-    public static int insertLink(@NonNull StringBuilder builder, int selectionStart, int selectionEnd, @Nullable String clipboardUrl) {
-        final CharSequence text = builder.toString();
-        final boolean textToFormatIsLink = TextUtils.indexOf(text.subSequence(selectionStart, selectionEnd), "http") == 0;
-        if (textToFormatIsLink) {
-            if (clipboardUrl == null) {
-                builder.insert(selectionEnd, ")");
-                builder.insert(selectionStart, "[](");
-            } else {
-                builder.insert(selectionEnd, "](" + clipboardUrl + ")");
-                builder.insert(selectionStart, "[");
-                selectionEnd += clipboardUrl.length();
-            }
+    public static int insertLink(@NonNull Editable editable, int selectionStart, int selectionEnd, @Nullable String clipboardUrl) {
+        if (selectionStart == selectionEnd) {
+            editable.insert(selectionStart, "[](" + (clipboardUrl == null ? "" : clipboardUrl) + ")");
+            return selectionStart + 1;
         } else {
-            if (clipboardUrl == null) {
-                builder.insert(selectionEnd, "]()");
+            final boolean textToFormatIsLink = TextUtils.indexOf(editable.subSequence(selectionStart, selectionEnd), "http") == 0;
+            if (textToFormatIsLink) {
+                if (clipboardUrl == null) {
+                    editable.insert(selectionEnd, ")");
+                    editable.insert(selectionStart, "[](");
+                } else {
+                    editable.insert(selectionEnd, "](" + clipboardUrl + ")");
+                    editable.insert(selectionStart, "[");
+                    selectionEnd += clipboardUrl.length();
+                }
             } else {
-                builder.insert(selectionEnd, "](" + clipboardUrl + ")");
-                selectionEnd += clipboardUrl.length();
+                if (clipboardUrl == null) {
+                    editable.insert(selectionEnd, "]()");
+                } else {
+                    editable.insert(selectionEnd, "](" + clipboardUrl + ")");
+                    selectionEnd += clipboardUrl.length();
+                }
+                editable.insert(selectionStart, "[");
             }
-            builder.insert(selectionStart, "[");
+            return textToFormatIsLink && clipboardUrl == null
+                    ? selectionStart + 1
+                    : selectionEnd + 3;
         }
-        return textToFormatIsLink && clipboardUrl == null
-                ? selectionStart + 1
-                : selectionEnd + 3;
     }
 
     /**
@@ -206,11 +211,11 @@ public class MarkwonMarkdownUtil {
         return counter;
     }
 
-    private static void removeContainingPunctuation(@NonNull StringBuilder builder, int start, int end, @NonNull String punctuation) {
-        final Matcher matcher = Pattern.compile(Pattern.quote(punctuation)).matcher(builder.toString().subSequence(start, end));
+    private static void removeContainingPunctuation(@NonNull Editable editable, int start, int end, @NonNull String punctuation) {
+        final Matcher matcher = Pattern.compile(Pattern.quote(punctuation)).matcher(editable.toString().subSequence(start, end));
         int countDeletedPunctuations = 0;
         while (matcher.find()) {
-            builder.delete(start + matcher.start() - countDeletedPunctuations * punctuation.length(), start + matcher.end() - countDeletedPunctuations * punctuation.length());
+            editable.delete(start + matcher.start() - countDeletedPunctuations * punctuation.length(), start + matcher.end() - countDeletedPunctuations * punctuation.length());
             countDeletedPunctuations++;
         }
     }
