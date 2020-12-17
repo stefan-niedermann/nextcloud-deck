@@ -863,6 +863,11 @@ public class DataBaseAdapter {
     }
 
     @WorkerThread
+    public Long getBoardLocalIdByLocalCardIdDirectly(long localCardId) {
+        return db.getBoardDao().getBoardLocalIdByLocalCardIdDirectly(localCardId);
+    }
+
+    @WorkerThread
     public FullBoard getFullBoardByLocalCardIdDirectly(long localCardId) {
         return db.getBoardDao().getFullBoardByLocalCardIdDirectly(localCardId);
     }

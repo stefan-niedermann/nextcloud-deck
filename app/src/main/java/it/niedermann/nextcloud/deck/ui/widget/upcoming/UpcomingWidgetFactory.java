@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -24,12 +25,14 @@ import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private final Context context;
     private final int appWidgetId;
+    private final SyncManager syncManager;
 
     @NonNull
     private final List<Object> data = new ArrayList<>();
@@ -37,12 +40,11 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     UpcomingWidgetFactory(@NonNull Context context, Intent intent) {
         this.context = context;
         this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        this.syncManager = new SyncManager(context);
     }
 
     @Override
     public void onCreate() {
-        final SyncManager syncManager = new SyncManager(context);
-
         syncManager.getCardsForFilterWidget(appWidgetId, new IResponseCallback<List<FilterWidgetCard>>(null) {
             @Override
             public void onResponse(List<FilterWidgetCard> response) {
@@ -103,6 +105,11 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
             final FullCard card = ((FilterWidgetCard) data.get(i)).getCard();
             widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_stack_entry);
             widget_entry.setTextViewText(R.id.widget_entry_content_tv, card.getCard().getTitle());
+
+            final Long localCardId = card.getCard().getLocalId();
+            final Intent intent = EditActivity.createEditCardIntent(context, syncManager.readAccountDirectly(card.getAccountId()), syncManager.getBoardLocalIdByLocalCardIdDirectly(localCardId), localCardId);
+            intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+            widget_entry.setOnClickFillInIntent(R.id.widget_stack_entry, intent);
         }
         return widget_entry;
     }

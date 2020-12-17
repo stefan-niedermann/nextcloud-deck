@@ -371,6 +371,11 @@ public class SyncManager {
         return dataBaseAdapter.readAccount(id);
     }
 
+    @WorkerThread
+    public Account readAccountDirectly(long id) {
+        return dataBaseAdapter.readAccountDirectly(id);
+    }
+
     @AnyThread
     public LiveData<Account> readAccount(@Nullable String name) {
         return dataBaseAdapter.readAccount(name);
@@ -820,6 +825,11 @@ public class SyncManager {
 
     public LiveData<FullStack> getStack(long accountId, long localStackId) {
         return dataBaseAdapter.getStack(accountId, localStackId);
+    }
+
+    @WorkerThread
+    public Long getBoardLocalIdByLocalCardIdDirectly(long localCardId) {
+        return dataBaseAdapter.getBoardLocalIdByLocalCardIdDirectly(localCardId);
     }
 
     @AnyThread
