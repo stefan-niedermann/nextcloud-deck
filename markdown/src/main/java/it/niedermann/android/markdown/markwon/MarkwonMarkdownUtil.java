@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.noties.markwon.Markwon;
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin;
@@ -126,7 +128,8 @@ public class MarkwonMarkdownUtil {
             case "~~": {
                 final boolean selectionIsSurroundedByPunctuation = selectionIsSurroundedByPunctuation(builder.toString(), selectionStart, selectionEnd, punctuation);
                 if (selectionIsSurroundedByPunctuation) {
-                    removeSurroundingPunctuation(builder, selectionStart, selectionEnd, punctuation);
+                    builder.delete(selectionEnd, selectionEnd + punctuation.length());
+                    builder.delete(selectionStart - punctuation.length(), selectionStart);
                 } else {
                     builder.insert(selectionEnd, punctuation);
                     builder.insert(selectionStart, punctuation);
@@ -184,15 +187,14 @@ public class MarkwonMarkdownUtil {
                 && punctuation.contentEquals(text.subSequence(end, end + punctuation.length()));
     }
 
-    /**
-     * Mutates the given {@param builder} and removes the text range from {@param start} to
-     * {@param end} and its surrounding {@param punctuation}.
-     * Doesn't make any assumptions about the text lengths and will throw a
-     * {@link StringIndexOutOfBoundsException} if {@param start}, {@param end} or the
-     * {@param punctuation} is out of range of the given {@param builder}.
-     */
-    private static void removeSurroundingPunctuation(@NonNull StringBuilder builder, int start, int end, @NonNull String punctuation) throws StringIndexOutOfBoundsException {
-        builder.delete(end, end + punctuation.length());
-        builder.delete(start - punctuation.length(), start);
+    public static boolean selectionIsInLink(@NonNull CharSequence text, int start, int end) {
+        final Pattern pattern = Pattern.compile("\\[(.+)?]\\(([^ ]+?)?( \"(.+)\")?\\)");
+        final Matcher matcher = pattern.matcher(text);
+        while (matcher.find()) {
+            if ((start >= matcher.start() && start < matcher.end()) || (end > matcher.start() && end <= matcher.end())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
