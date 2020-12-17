@@ -183,18 +183,6 @@ public class MarkwonMarkdownUtilTest extends TestCase {
         assertEquals(27, MarkwonMarkdownUtil.togglePunctuation(builder, 23, 28, "*"));
         assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
 
-        // Special use-case: toggle from italic to bold and back
-
-        // TODO Toggle italic on bold text
-//        builder = new StringBuilder("Lorem **ipsum** dolor sit amet.");
-//        assertEquals(17, MarkwonMarkdownUtil.togglePunctuation(builder, 8, 13, "*"));
-//        assertEquals("Lorem ***ipsum*** dolor sit amet.", builder.toString());
-
-        // TODO Toggle bold on italic text
-//        builder = new StringBuilder("Lorem *ipsum* dolor sit amet.");
-//        assertEquals(17, MarkwonMarkdownUtil.togglePunctuation(builder, 7, 12, "**"));
-//        assertEquals("Lorem ***ipsum*** dolor sit amet.", builder.toString());
-
         // Text is not directly surrounded by punctuation but contains it
 
         // Do nothing when the same punctuation is contained only one time
@@ -221,6 +209,18 @@ public class MarkwonMarkdownUtilTest extends TestCase {
         builder = new StringBuilder("Lorem *ipsum* dolor *sit* amet.");
         assertEquals(27, MarkwonMarkdownUtil.togglePunctuation(builder, 0, 31, "*"));
         assertEquals("Lorem ipsum dolor sit amet.", builder.toString());
+
+        // Special use-case: toggle from italic to bold and back
+
+        // TODO Toggle italic on bold text
+//        builder = new StringBuilder("Lorem **ipsum** dolor sit amet.");
+//        assertEquals(17, MarkwonMarkdownUtil.togglePunctuation(builder, 8, 13, "*"));
+//        assertEquals("Lorem ***ipsum*** dolor sit amet.", builder.toString());
+
+        // TODO Toggle bold on italic text
+//        builder = new StringBuilder("Lorem *ipsum* dolor sit amet.");
+//        assertEquals(17, MarkwonMarkdownUtil.togglePunctuation(builder, 7, 12, "**"));
+//        assertEquals("Lorem ***ipsum*** dolor sit amet.", builder.toString());
 
         // TODO Toggle bold to italic
 //        builder = new StringBuilder("Lorem **ipsum** dolor sit amet.");

@@ -126,13 +126,14 @@ public class MarkwonMarkdownUtil {
             case "*":
             case "_":
             case "~~": {
-                final boolean selectionIsSurroundedByPunctuation = selectionIsSurroundedByPunctuation(builder.toString(), selectionStart, selectionEnd, punctuation);
+                final String text = builder.toString();
+                final boolean selectionIsSurroundedByPunctuation = selectionIsSurroundedByPunctuation(text, selectionStart, selectionEnd, punctuation);
                 if (selectionIsSurroundedByPunctuation) {
                     builder.delete(selectionEnd, selectionEnd + punctuation.length());
                     builder.delete(selectionStart - punctuation.length(), selectionStart);
                     return selectionEnd - punctuation.length();
                 } else {
-                    final int containedPunctuationCount = getContainedPunctuationCount(builder.toString(), selectionStart, selectionEnd, punctuation);
+                    final int containedPunctuationCount = getContainedPunctuationCount(text, selectionStart, selectionEnd, punctuation);
                     if (containedPunctuationCount == 0) {
                         builder.insert(selectionEnd, punctuation);
                         builder.insert(selectionStart, punctuation);
