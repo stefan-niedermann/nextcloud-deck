@@ -130,11 +130,6 @@
     <string name="settings_background_sync">Sincronización do traballo en segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronización con wifi e con datos móbiles</string>
     <string name="pref_value_wifi_only">Sincronizar só con wifi</string>
-    <string-array name="darkmode_entries">
-        <item>Predeterminado do sistema</item>
-        <item>Claro</item>
-        <item>Escuro</item>
-    </string-array>
     <string name="unassigned_user">Desasignado %1$s</string>
     <string name="no_activities">Non hai actividades nesta tarxeta. Para cargar e amosar actividades necesita estar conectado á Internet.</string>
     <string name="share_board">Taboleiro compartido</string>
