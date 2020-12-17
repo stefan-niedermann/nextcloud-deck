@@ -10,6 +10,7 @@ import android.widget.RemoteViewsService;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -49,21 +50,20 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
                 data.clear();
                 Collections.sort(response, (card1, card2) -> {
                     if (card1 == null || card1.getCard() == null || card1.getCard().getCard().getDueDate() == null) {
-                        return -1;
+                        return 1;
                     }
                     if (card2 == null || card2.getCard() == null || card2.getCard().getCard().getDueDate() == null) {
-                        return 1;
+                        return -1;
                     }
                     return card1.getCard().getCard().getDueDate().compareTo(card2.getCard().getCard().getDueDate()) * -1;
                 });
                 EDueType lastDueType = null;
                 for (FilterWidgetCard filterWidgetCard : response) {
-                    if (filterWidgetCard.getCard().getCard().getDueDate() != null) {
-                        final EDueType nextDueType = getDueType(filterWidgetCard.getCard().getCard().getDueDate().atZone(ZoneId.systemDefault()).toLocalDate());
-                        if (!nextDueType.equals(lastDueType)) {
-                            data.add(new Separator(EDueType.OVERDUE.toString(context)));
-                            lastDueType = nextDueType;
-                        }
+                    final EDueType nextDueType = getDueType(filterWidgetCard.getCard().getCard().getDueDate());
+                    DeckLog.info(filterWidgetCard.getCard().getCard().getTitle() + ": " + nextDueType.name());
+                    if (!nextDueType.equals(lastDueType)) {
+                        data.add(new Separator(nextDueType.toString(context)));
+                        lastDueType = nextDueType;
                     }
                     data.add(filterWidgetCard);
                 }
@@ -134,12 +134,13 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
         awm.updateAppWidget(appWidgetId, views);
     }
 
-    private static EDueType getDueType(@Nullable LocalDate dueDate) {
+    @NonNull
+    private static EDueType getDueType(@Nullable Instant dueDate) {
         if (dueDate == null) {
             return EDueType.NO_DUE;
         }
 
-        long diff = DAYS.between(LocalDate.now(), dueDate);
+        long diff = DAYS.between(LocalDate.now(), dueDate.atZone(ZoneId.systemDefault()).toLocalDate());
 
         if (diff > 7 && diff <= 30) {
             return EDueType.MONTH;

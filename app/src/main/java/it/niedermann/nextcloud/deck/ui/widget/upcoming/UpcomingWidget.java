@@ -48,6 +48,7 @@ public class UpcomingWidget extends AppWidgetProvider {
                     final FilterWidget config = new FilterWidget();
                     config.setWidgetType(EWidgetType.UPCOMING_WIDGET);
                     config.setId(appWidgetId);
+//                    config.setSorts(Collections.singletonList(new FilterWidgetSort()));
                     config.setAccounts(accountsList.stream().map(account -> {
                         final FilterWidgetAccount fwa = new FilterWidgetAccount(account.getId());
                         fwa.setUsers(new FilterWidgetUser(syncManager.getUserByUidDirectly(account.getId(), account.getUserName()).getLocalId()));
