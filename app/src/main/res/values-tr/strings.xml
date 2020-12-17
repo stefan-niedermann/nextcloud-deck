@@ -124,13 +124,11 @@
     <string name="your_deck_version_is_too_old">Tahta sürümünüz çok eski</string>
     <string name="deck_outdated_please_update">Tahta sürümünüz çok eski (%1$s). İstemci olarak kullanabilmek için bu android uygulamasını güncelleyin.</string>
     <string name="delete_board_message">Bu işlem içindeki tüm liste ve kartlarla birlikte bu panoyu silecek.</string>
-    <string name="settings_theme_title">Koyu tema</string>
     <string name="settings_branding_title">Markalama</string>
     <string name="settings_compact_title">Sıkışık kip</string>
     <string name="settings_background_sync">Arka planda eşitleme</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fi ve mobil veri ile eşitlensin</string>
     <string name="pref_value_wifi_only">Yalnız Wi-Fi ile eşitlensin</string>
-    <string name="pref_value_theme_light">Açık</string>
     <string name="unassigned_user">%1$s atanmamış</string>
     <string name="no_activities">Bu kart üzerinde yapılmış bir işlem yok. İşlemleri yükleyip görebilmek için İnternet bağlantınızın olması gerekir.</string>
     <string name="share_board">Panoyu paylaş</string>
@@ -296,4 +294,5 @@
     <string name="gallery">Galeri</string>
     <string name="simple_attach">ekle</string>
     <string name="add_stack_widget">Liste pano bileşeni ekle</string>
+    <string name="edit_description">Açıklamayı düzenle</string>
 </resources>

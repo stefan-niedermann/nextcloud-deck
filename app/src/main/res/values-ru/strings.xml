@@ -128,13 +128,11 @@
     <string name="your_deck_version_is_too_old">Версия приложения устарела</string>
     <string name="deck_outdated_please_update">На сервере установлена устаревшая версия приложение Карточки (%1$s). Обновите приложение на сервере, чтобы использовать приложение для Android.</string>
     <string name="delete_board_message">Это действие приведёт к удалению этой рабочей доски, всех списков и карточек.</string>
-    <string name="settings_theme_title">Тёмное оформление</string>
     <string name="settings_branding_title">Брендирование</string>
     <string name="settings_compact_title">компактный режим</string>
     <string name="settings_background_sync">Синхр. в фоновом режиме</string>
     <string name="pref_value_wifi_and_mobile">Синхр. по Wi-Fi и мобильной связи</string>
     <string name="pref_value_wifi_only">Синхр. только по Wi-Fi</string>
-    <string name="pref_value_theme_light">Светлый</string>
     <string name="unassigned_user">Не назначено %1$s</string>
     <string name="no_activities">По этой карточке нет истории действий. Для получения такой информации необходимо подключение к интернету.</string>
     <string name="share_board">Поделиться</string>
@@ -304,4 +302,4 @@
     <string name="gallery">Галерея</string>
     <string name="simple_attach">вложить</string>
     <string name="add_stack_widget">Добавить виджет списка</string>
-</resources>
+    </resources>

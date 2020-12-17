@@ -1175,8 +1175,6 @@ public class DataBaseAdapter {
             cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, null, null)));
         } else {
             for (FilterWidgetAccount account : filterWidget.getAccounts()) {
-                List<Long> accounts = new ArrayList<>();
-                accounts.add(account.getId());
                 filter.setNoAssignedUser(account.isIncludeNoUser());
                 List<User> users = new ArrayList<>();
                 if (!account.getUsers().isEmpty()) {
@@ -1190,19 +1188,24 @@ public class DataBaseAdapter {
                 if (!account.getBoards().isEmpty()) {
                     for (FilterWidgetBoard board : account.getBoards()) {
                         filter.setNoAssignedLabel(board.isIncludeNoLabel());
-                        List<Long> stacks = new ArrayList<>();
+                        List<Long> stacks;
                         for (FilterWidgetLabel label : board.getLabels()) {
                             Label l = new Label();
                             l.setLocalId(label.getLabelId());
                             filter.addLabel(l);
                         }
-                        for (FilterWidgetStack stack : board.getStacks()) {
-                            stacks.add(stack.getStackId());
+                        if (board.getStacks().isEmpty()) {
+                            stacks = db.getStackDao().getLocalStackIdsByLocalBoardIdDirectly(board.getBoardId());
+                        } else {
+                            stacks = new ArrayList<>();
+                            for (FilterWidgetStack stack : board.getStacks()) {
+                                stacks.add(stack.getStackId());
+                            }
                         }
-                        cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, accounts, stacks)));
+                        cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, Collections.singletonList(account.getId()), stacks)));
                     }
                 } else {
-                    cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, accounts, null)));
+                    cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, Collections.singletonList(account.getId()), null)));
                 }
             }
         }

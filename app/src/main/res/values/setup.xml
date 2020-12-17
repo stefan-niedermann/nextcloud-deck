@@ -30,14 +30,17 @@
         <item>@string/pref_value_background_6_hours</item>
     </string-array>
 
-    <string name="pref_value_theme_light" translatable="false">LIGHT</string>
-    <string name="pref_value_theme_dark" translatable="false">DARK</string>
-    <string name="pref_value_theme_system_default" translatable="false">SYSTEM_DEFAULT</string>
+    <!-- @see AppCompatDelegate#MODE_NIGHT_FOLLOW_SYSTEM -->
+    <string name="pref_value_theme_system_default" translatable="false">-1</string>
+    <!-- @see AppCompatDelegate#MODE_NIGHT_NO -->
+    <string name="pref_value_theme_light" translatable="false">1</string>
+    <!-- @see AppCompatDelegate#MODE_NIGHT_YES -->
+    <string name="pref_value_theme_dark" translatable="false">2</string>
 
     <string-array name="darkMode_values">
+        <item>@string/pref_value_theme_system_default</item>
         <item>@string/pref_value_theme_light</item>
         <item>@string/pref_value_theme_dark</item>
-        <item>@string/pref_value_theme_system_default</item>
     </string-array>
 
     <!-- To be concatenated with the account id -->

@@ -126,13 +126,11 @@
     <string name="your_deck_version_is_too_old">Vaša inačica Decka je prestara</string>
     <string name="deck_outdated_please_update">Vaša inačica Decka je prestara (%1$s). Ažurirajte je kako biste se koristili ovom aplikacijom za Android kao klijentom.</string>
     <string name="delete_board_message">Trajno ćete izbrisati ovu ploču, uključujući sve stogove i kartice.</string>
-    <string name="settings_theme_title">Tamna tema</string>
     <string name="settings_branding_title">Brendiranje</string>
     <string name="settings_compact_title">Kompaktni način rada</string>
     <string name="settings_background_sync">Pozadinska sinkronizacija</string>
     <string name="pref_value_wifi_and_mobile">Sinkronizacija putem bežičnih (Wi-Fi) i mobilnih podataka</string>
     <string name="pref_value_wifi_only">Sinkroniziraj samo putem bežične (Wi-Fi) mreže</string>
-    <string name="pref_value_theme_light">Svijetlo</string>
     <string name="unassigned_user">Uklonjeno %1$s</string>
     <string name="no_activities">Nema aktivnosti na ovoj kartici. Trebate uspostaviti internetsku vezu za učitavanje i prikaz aktivnosti.</string>
     <string name="share_board">Dijeli ploču</string>

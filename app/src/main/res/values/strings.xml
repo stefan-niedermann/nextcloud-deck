@@ -155,9 +155,9 @@
     <string name="pref_value_wifi_and_mobile">Sync on Wi-Fi and mobile data</string>
     <string name="pref_value_wifi_only">Sync only on Wi-Fi</string>
     <string-array name="darkmode_entries">
+        <item>System Default</item>
         <item>Light</item>
         <item>Dark</item>
-        <item>System Default</item>
     </string-array>
     <string name="unassigned_user">Unassigned %1$s</string>
     <string name="no_activities">There are no activities on this card. You need to be connected to the internet to load and display activities.</string>

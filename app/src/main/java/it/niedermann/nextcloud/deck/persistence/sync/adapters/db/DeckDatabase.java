@@ -85,7 +85,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.fil
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetSortDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetStackDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetUserDao;
-import it.niedermann.nextcloud.deck.ui.settings.DarkModeSetting;
 
 @Database(
         entities = {
@@ -123,7 +122,7 @@ import it.niedermann.nextcloud.deck.ui.settings.DarkModeSetting;
                 FilterWidgetSort.class,
         },
         exportSchema = false,
-        version = 25
+        version = 26
 )
 @TypeConverters({DateTypeConverter.class, EnumConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -309,8 +308,8 @@ public abstract class DeckDatabase extends RoomDatabase {
                     String colorAsString1 = cursor.getString(4); // color
                     String colorAsString2 = cursor.getString(5); // textColor
 
-                    @ColorInt Integer color1 = null;
-                    @ColorInt Integer color2 = null;
+                    @ColorInt int color1;
+                    @ColorInt int color2;
                     try {
                         color1 = Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(colorAsString1));
                         color2 = Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(colorAsString2));
@@ -341,7 +340,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 while (cursor.moveToNext()) {
                     String colorAsString1 = cursor.getString(8); // color
 
-                    @ColorInt Integer color1 = null;
+                    @ColorInt int color1;
                     try {
                         color1 = Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(colorAsString1));
                     } catch (Exception e) {
@@ -375,7 +374,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 while (cursor.moveToNext()) {
                     String colorAsString1 = cursor.getString(7); // color
 
-                    @ColorInt Integer color1 = null;
+                    @ColorInt int color1;
                     try {
                         color1 = Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(colorAsString1));
                     } catch (Exception e) {
@@ -419,8 +418,18 @@ public abstract class DeckDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `OcsProjectResource` ADD `etag` TEXT");
         }
     };
-
     private static final Migration MIGRATION_24_25 = new Migration(24, 25) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // Reset etags (comments weren't loading due to bug)
+            database.execSQL("UPDATE `Account` SET `boardsEtag` = NULL");
+            database.execSQL("UPDATE `Board` SET `etag` = NULL");
+            database.execSQL("UPDATE `Stack` SET `etag` = NULL");
+            database.execSQL("UPDATE `Card` SET `etag` = NULL");
+        }
+    };
+
+    private static final Migration MIGRATION_25_26 = new Migration(24, 25) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE `FilterWidget` (`id` INTEGER PRIMARY KEY NOT NULL, `dueType` INTEGER, `widgetType` INTEGER NOT NULL)");
@@ -518,12 +527,13 @@ public abstract class DeckDatabase extends RoomDatabase {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             final boolean darkTheme = sharedPreferences.getBoolean(themePref, false);
                             editor.remove(themePref);
-                            editor.putString(themePref, darkTheme ? DarkModeSetting.DARK.getPreferenceValue(context) : DarkModeSetting.LIGHT.getPreferenceValue(context));
+                            editor.putString(themePref, darkTheme ? context.getString(R.string.pref_value_theme_dark) : context.getString(R.string.pref_value_theme_light));
                             editor.apply();
                         }
                     }
                 })
                 .addMigrations(MIGRATION_24_25)
+                .addMigrations(MIGRATION_25_26)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();

@@ -123,13 +123,11 @@
     <string name="your_deck_version_is_too_old">Zure Deck bertsioa zaharregia da</string>
     <string name="deck_outdated_please_update">Zure Deck bertsioa zaharregia da (%1$s). Mesedez eguneratu ezazu android aplikazio hau bezero gisa erabiltzeko.</string>
     <string name="delete_board_message">Honek mahai hau eta bertako zerrenda eta txartel guztiak ezabatuko ditu.</string>
-    <string name="settings_theme_title">Gai iluna</string>
     <string name="settings_branding_title">Marka</string>
     <string name="settings_compact_title">Modu trinkoa</string>
     <string name="settings_background_sync">Atzeko planoko sinkronizazioa</string>
     <string name="pref_value_wifi_and_mobile">Sinkronizatu Wi-Fi eta datu mugikorrekin</string>
     <string name="pref_value_wifi_only">Sinkronizatu Wi-Fiarekin soilik</string>
-    <string name="pref_value_theme_light">Argia</string>
     <string name="unassigned_user">%1$s esleitu gabe</string>
     <string name="no_activities">Ez dago jarduerarik karta honetak. Internetera konektatuta egon behar zara jarduerak kargatzeko eta erakusteko.</string>
     <string name="share_board">Partekatu mahaia</string>
