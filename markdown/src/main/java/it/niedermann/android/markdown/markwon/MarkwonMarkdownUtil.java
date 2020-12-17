@@ -169,6 +169,10 @@ public class MarkwonMarkdownUtil {
                 : selectionEnd + 3;
     }
 
+    /**
+     * @return whether or not the selection of {@param text} from {@param start} to {@param end} is
+     * surrounded or not by the given {@param punctuation}.
+     */
     private static boolean selectionIsSurroundedByPunctuation(@NonNull CharSequence text, int start, int end, @NonNull String punctuation) {
         if (text.length() < end + punctuation.length()) {
             return false;
@@ -180,8 +184,15 @@ public class MarkwonMarkdownUtil {
                 && punctuation.contentEquals(text.subSequence(end, end + punctuation.length()));
     }
 
-    private static void removeSurroundingPunctuation(@NonNull StringBuilder ssb, int start, int end, @NonNull String punctuation) {
-        ssb.delete(end, end + punctuation.length());
-        ssb.delete(start - punctuation.length(), start);
+    /**
+     * Mutates the given {@param builder} and removes the text range from {@param start} to
+     * {@param end} and its surrounding {@param punctuation}.
+     * Doesn't make any assumptions about the text lengths and will throw a
+     * {@link StringIndexOutOfBoundsException} if {@param start}, {@param end} or the
+     * {@param punctuation} is out of range of the given {@param builder}.
+     */
+    private static void removeSurroundingPunctuation(@NonNull StringBuilder builder, int start, int end, @NonNull String punctuation) throws StringIndexOutOfBoundsException {
+        builder.delete(end, end + punctuation.length());
+        builder.delete(start - punctuation.length(), start);
     }
 }
