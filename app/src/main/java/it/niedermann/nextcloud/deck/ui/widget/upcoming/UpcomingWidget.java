@@ -50,7 +50,8 @@ public class UpcomingWidget extends AppWidgetProvider {
                     config.setId(appWidgetId);
                     config.setAccounts(accountsList.stream().map(account -> {
                         final FilterWidgetAccount fwa = new FilterWidgetAccount(account.getId());
-                        fwa.setUsers(new FilterWidgetUser(syncManager.getUserByUidDirectly(account.getId(), account.getUserName()).getId()));
+                        fwa.setUsers(new FilterWidgetUser(syncManager.getUserByUidDirectly(account.getId(), account.getUserName()).getLocalId()));
+                        fwa.setIncludeNoUser(false);
                         return fwa;
                     }).collect(Collectors.toList()));
                     syncManager.createFilterWidget(config, new IResponseCallback<Integer>(null) {
