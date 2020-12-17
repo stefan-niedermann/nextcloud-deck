@@ -11,7 +11,6 @@ import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,10 +47,8 @@ public class UpcomingWidget extends AppWidgetProvider {
                     updateAppWidget(context, appWidgetManager, appWidgetIds);
                 } else {
                     final List<Account> accountsList = syncManager.readAccountsDirectly();
-                    final FilterWidget config = new FilterWidget();
-                    config.setWidgetType(EWidgetType.UPCOMING_WIDGET);
-                    config.setId(appWidgetId);
-                    config.setSorts(Collections.singletonList(new FilterWidgetSort(ESortCriteria.DUE_DATE, true)));
+                    final FilterWidget config = new FilterWidget(appWidgetId, EWidgetType.UPCOMING_WIDGET);
+                    config.setSorts(new FilterWidgetSort(ESortCriteria.DUE_DATE, true));
                     config.setAccounts(accountsList.stream().map(account -> {
                         final FilterWidgetAccount fwa = new FilterWidgetAccount(account.getId(), false);
                         fwa.setUsers(new FilterWidgetUser(syncManager.getUserByUidDirectly(account.getId(), account.getUserName()).getLocalId()));

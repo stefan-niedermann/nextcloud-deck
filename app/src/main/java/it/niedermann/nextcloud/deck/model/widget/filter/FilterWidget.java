@@ -36,6 +36,16 @@ public class FilterWidget {
         return accounts;
     }
 
+    public FilterWidget() {
+        // Default constructor
+    }
+
+    @Ignore
+    public FilterWidget(int appWidgetId, @NonNull EWidgetType widgetType) {
+        setId(appWidgetId);
+        setWidgetType(widgetType);
+    }
+
     public void setAccounts(@NonNull List<FilterWidgetAccount> accounts) {
         this.accounts.clear();
         this.accounts.addAll(accounts);
@@ -48,6 +58,12 @@ public class FilterWidget {
     @NonNull
     public List<FilterWidgetSort> getSorts() {
         return sorts;
+    }
+
+    @Ignore
+    public void setSorts(@NonNull FilterWidgetSort sorts) {
+        this.sorts.clear();
+        this.sorts.add(sorts);
     }
 
     public void setSorts(@NonNull List<FilterWidgetSort> sorts) {

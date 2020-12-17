@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.model.widget.filter;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -34,6 +35,7 @@ public class FilterWidgetSort {
         // Default constructor
     }
 
+    @Ignore
     public FilterWidgetSort(ESortCriteria criteria, boolean ascending) {
         setCriteria(criteria);
         setDirection(ascending);
