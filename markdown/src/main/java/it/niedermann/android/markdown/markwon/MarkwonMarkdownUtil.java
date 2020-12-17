@@ -130,11 +130,20 @@ public class MarkwonMarkdownUtil {
                 if (selectionIsSurroundedByPunctuation) {
                     builder.delete(selectionEnd, selectionEnd + punctuation.length());
                     builder.delete(selectionStart - punctuation.length(), selectionStart);
+                    return selectionEnd - punctuation.length();
                 } else {
-                    builder.insert(selectionEnd, punctuation);
-                    builder.insert(selectionStart, punctuation);
+                    final int containedPunctuationCount = getContainedPunctuationCount(builder.toString(), selectionStart, selectionEnd, punctuation);
+                    if (containedPunctuationCount == 0) {
+                        builder.insert(selectionEnd, punctuation);
+                        builder.insert(selectionStart, punctuation);
+                        return selectionEnd + punctuation.length() * 2;
+                    } else if (containedPunctuationCount % 2 > 0) {
+                        return selectionEnd;
+                    } else {
+                        removeContainingPunctuation(builder, selectionStart, selectionEnd, punctuation);
+                        return selectionEnd - containedPunctuationCount * punctuation.length();
+                    }
                 }
-                return selectionIsSurroundedByPunctuation ? selectionEnd - punctuation.length() : selectionEnd + punctuation.length() * 2;
             }
             default:
                 throw new UnsupportedOperationException("This kind of punctuation is not yet supported: " + punctuation);
@@ -187,9 +196,26 @@ public class MarkwonMarkdownUtil {
                 && punctuation.contentEquals(text.subSequence(end, end + punctuation.length()));
     }
 
+    private static int getContainedPunctuationCount(@NonNull CharSequence text, int start, int end, @NonNull String punctuation) {
+        final Matcher matcher = Pattern.compile(Pattern.quote(punctuation)).matcher(text.subSequence(start, end));
+        int counter = 0;
+        while (matcher.find()) {
+            counter++;
+        }
+        return counter;
+    }
+
+    private static void removeContainingPunctuation(@NonNull StringBuilder builder, int start, int end, @NonNull String punctuation) {
+        final Matcher matcher = Pattern.compile(Pattern.quote(punctuation)).matcher(builder.toString().subSequence(start, end));
+        int countDeletedPunctuations = 0;
+        while (matcher.find()) {
+            builder.delete(start + matcher.start() - countDeletedPunctuations * punctuation.length(), start + matcher.end() - countDeletedPunctuations * punctuation.length());
+            countDeletedPunctuations++;
+        }
+    }
+
     public static boolean selectionIsInLink(@NonNull CharSequence text, int start, int end) {
-        final Pattern pattern = Pattern.compile("\\[(.+)?]\\(([^ ]+?)?( \"(.+)\")?\\)");
-        final Matcher matcher = pattern.matcher(text);
+        final Matcher matcher = Pattern.compile("\\[(.+)?]\\(([^ ]+?)?( \"(.+)\")?\\)").matcher(text);
         while (matcher.find()) {
             if ((start >= matcher.start() && start < matcher.end()) || (end > matcher.start() && end <= matcher.end())) {
                 return true;
