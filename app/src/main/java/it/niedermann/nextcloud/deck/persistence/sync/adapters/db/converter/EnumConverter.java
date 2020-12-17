@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.room.TypeConverter;
 
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
+import it.niedermann.nextcloud.deck.model.enums.ESortCriteria;
 import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
 
 public class EnumConverter {
@@ -28,6 +29,19 @@ public class EnumConverter {
     @TypeConverter
     @Nullable
     public static Integer fromDueTypeEnum(@Nullable EDueType value) {
+        return value == null ? null : value.getId();
+    }
+
+    // #### ESortCriteria
+    @TypeConverter
+    @Nullable
+    public static ESortCriteria toSortCriteriaEnum(@Nullable Integer value) {
+        return value == null ? null : ESortCriteria.findById(value);
+    }
+
+    @TypeConverter
+    @Nullable
+    public static Integer fromSortCriteriaEnum(@Nullable ESortCriteria value) {
         return value == null ? null : value.getId();
     }
 }

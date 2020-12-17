@@ -5,6 +5,8 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import it.niedermann.nextcloud.deck.model.enums.ESortCriteria;
+
 @Entity(
         indices = {
                 @Index(value = "filterWidgetId", name = "idx_FilterWidgetSort_filterWidgetId"),
@@ -25,8 +27,17 @@ public class FilterWidgetSort {
     private Long id;
     private Long filterWidgetId;
     private boolean direction = true;
-    private int criteria;
+    private ESortCriteria criteria;
     private int ruleOrder;
+
+    public FilterWidgetSort() {
+        // Default constructor
+    }
+
+    public FilterWidgetSort(ESortCriteria criteria, boolean ascending) {
+        setCriteria(criteria);
+        setDirection(ascending);
+    }
 
     public Long getId() {
         return id;
@@ -47,6 +58,7 @@ public class FilterWidgetSort {
     public boolean isDirectionAscending() {
         return direction;
     }
+
     public boolean isDirectionDescending() {
         return !direction;
     }
@@ -59,11 +71,11 @@ public class FilterWidgetSort {
         direction = false;
     }
 
-    public int getCriteria() {
+    public ESortCriteria getCriteria() {
         return criteria;
     }
 
-    public void setCriteria(int criteria) {
+    public void setCriteria(ESortCriteria criteria) {
         this.criteria = criteria;
     }
 
@@ -86,15 +98,16 @@ public class FilterWidgetSort {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof FilterWidgetSort)) return false;
 
         FilterWidgetSort that = (FilterWidgetSort) o;
 
         if (direction != that.direction) return false;
-        if (criteria != that.criteria) return false;
         if (ruleOrder != that.ruleOrder) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        return filterWidgetId != null ? filterWidgetId.equals(that.filterWidgetId) : that.filterWidgetId == null;
+        if (filterWidgetId != null ? !filterWidgetId.equals(that.filterWidgetId) : that.filterWidgetId != null)
+            return false;
+        return criteria == that.criteria;
     }
 
     @Override
@@ -102,7 +115,7 @@ public class FilterWidgetSort {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (filterWidgetId != null ? filterWidgetId.hashCode() : 0);
         result = 31 * result + (direction ? 1 : 0);
-        result = 31 * result + criteria;
+        result = 31 * result + (criteria != null ? criteria.hashCode() : 0);
         result = 31 * result + ruleOrder;
         return result;
     }

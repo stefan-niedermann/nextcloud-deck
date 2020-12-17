@@ -33,7 +33,7 @@ public enum EDueType {
                 return s;
             }
         }
-        throw new IllegalArgumentException("unknown EDueType key");
+        throw new IllegalArgumentException("unknown " + EDueType.class.getSimpleName() + " key: " + id);
     }
 
     @NonNull

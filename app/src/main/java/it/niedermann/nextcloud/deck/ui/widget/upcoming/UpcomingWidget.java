@@ -11,6 +11,7 @@ import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,9 +19,11 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.enums.ESortCriteria;
 import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetSort;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
@@ -48,7 +51,7 @@ public class UpcomingWidget extends AppWidgetProvider {
                     final FilterWidget config = new FilterWidget();
                     config.setWidgetType(EWidgetType.UPCOMING_WIDGET);
                     config.setId(appWidgetId);
-//                    config.setSorts(Collections.singletonList(new FilterWidgetSort()));
+                    config.setSorts(Collections.singletonList(new FilterWidgetSort(ESortCriteria.DUE_DATE, true)));
                     config.setAccounts(accountsList.stream().map(account -> {
                         final FilterWidgetAccount fwa = new FilterWidgetAccount(account.getId(), false);
                         fwa.setUsers(new FilterWidgetUser(syncManager.getUserByUidDirectly(account.getId(), account.getUserName()).getLocalId()));
