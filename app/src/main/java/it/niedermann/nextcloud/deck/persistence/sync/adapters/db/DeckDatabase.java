@@ -429,7 +429,7 @@ public abstract class DeckDatabase extends RoomDatabase {
         }
     };
 
-    private static final Migration MIGRATION_25_26 = new Migration(24, 25) {
+    private static final Migration MIGRATION_25_26 = new Migration(25, 26) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE `FilterWidget` (`id` INTEGER PRIMARY KEY NOT NULL, `dueType` INTEGER, `widgetType` INTEGER NOT NULL)");
