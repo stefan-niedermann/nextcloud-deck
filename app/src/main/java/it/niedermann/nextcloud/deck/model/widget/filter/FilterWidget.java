@@ -115,4 +115,12 @@ public class FilterWidget {
         result = 31 * result + (sorts != null ? sorts.hashCode() : 0);
         return result;
     }
+
+    public enum EChangedEntityType {
+        ACCOUNT,
+        BOARD,
+        STACK,
+        LABEL,
+        USER,
+    }
 }

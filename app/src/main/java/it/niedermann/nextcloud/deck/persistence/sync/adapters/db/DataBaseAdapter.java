@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
+import android.content.Intent;
 
 import androidx.annotation.AnyThread;
 import androidx.annotation.NonNull;
@@ -64,7 +66,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHe
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
 import it.niedermann.nextcloud.deck.ui.widget.stack.StackWidget;
-import it.niedermann.nextcloud.deck.ui.widget.upcoming.UpcomingWidget;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
@@ -315,7 +316,9 @@ public class DataBaseAdapter {
     @WorkerThread
     public long createUser(long accountId, User user) {
         user.setAccountId(accountId);
-        return db.getUserDao().insert(user);
+        long newId = db.getUserDao().insert(user);
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.USER, newId);
+        return newId;
     }
 
     @WorkerThread
@@ -323,6 +326,7 @@ public class DataBaseAdapter {
         markAsEditedIfNeeded(user, setStatus);
         user.setAccountId(accountId);
         db.getUserDao().update(user);
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.USER, user.getLocalId());
     }
 
     @AnyThread
@@ -338,7 +342,9 @@ public class DataBaseAdapter {
     @WorkerThread
     public long createLabelDirectly(long accountId, @NonNull Label label) {
         label.setAccountId(accountId);
-        return db.getLabelDao().insert(label);
+        long newId = db.getLabelDao().insert(label);
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.LABEL, newId);
+        return newId;
     }
 
     public void createJoinCardWithLabel(long localLabelId, long localCardId) {
@@ -351,12 +357,14 @@ public class DataBaseAdapter {
             // readded!
             existing.setStatusEnum(DBStatus.LOCAL_EDITED);
             db.getJoinCardWithLabelDao().update(existing);
+            notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.LABEL, existing.getLabelId());
         } else {
             JoinCardWithLabel join = new JoinCardWithLabel();
             join.setCardId(localCardId);
             join.setLabelId(localLabelId);
             join.setStatus(status.getId());
             db.getJoinCardWithLabelDao().insert(join);
+            notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.LABEL, join.getLabelId());
         }
     }
 
@@ -366,10 +374,12 @@ public class DataBaseAdapter {
 
     public void deleteJoinedLabelForCard(long localCardId, long localLabelId) {
         db.getJoinCardWithLabelDao().setDbStatus(localCardId, localLabelId, DBStatus.LOCAL_DELETED.getId());
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.LABEL, localLabelId);
     }
 
     public void deleteJoinedUserForCard(long localCardId, long localUserId) {
         db.getJoinCardWithUserDao().setDbStatus(localCardId, localUserId, DBStatus.LOCAL_DELETED.getId());
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.USER, localUserId);
     }
 
     public void deleteJoinedLabelForCardPhysically(long localCardId, long localLabelId) {
@@ -390,6 +400,7 @@ public class DataBaseAdapter {
             // readded!
             existing.setStatusEnum(DBStatus.LOCAL_EDITED);
             db.getJoinCardWithUserDao().update(existing);
+            notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.USER,localUserId);
         } else if (existing != null) {
             return;
         } else {
@@ -398,6 +409,7 @@ public class DataBaseAdapter {
             join.setUserId(localUserId);
             join.setStatus(status.getId());
             db.getJoinCardWithUserDao().insert(join);
+            notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.USER,localUserId);
         }
     }
 
@@ -441,11 +453,13 @@ public class DataBaseAdapter {
     public void updateLabel(Label label, boolean setStatus) {
         markAsEditedIfNeeded(label, setStatus);
         db.getLabelDao().update(label);
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.LABEL, label.getLocalId());
     }
 
     public void deleteLabel(Label label, boolean setStatus) {
         markAsDeletedIfNeeded(label, setStatus);
         db.getLabelDao().update(label);
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.LABEL, label.getLocalId());
     }
 
     public void deleteLabelPhysically(Label label) {
@@ -455,14 +469,15 @@ public class DataBaseAdapter {
     public WrappedLiveData<Account> createAccount(Account account) {
         return LiveDataHelper.wrapInLiveData(() -> {
             long id = db.getAccountDao().insert(account);
-            new Thread(() -> {
-                DeckLog.verbose("Adding new created account " + id + " to all instances of " + EWidgetType.UPCOMING_WIDGET.name());
-                for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
-                    widget.getAccounts().add(new FilterWidgetAccount(id, false));
-                    updateFilterWidgetDirectly(widget);
-                }
-                UpcomingWidget.notifyDatasetChanged(context);
-            }).start();
+            notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.ACCOUNT, id);
+//            new Thread(() -> {
+//                DeckLog.verbose("Adding new created account " + id + " to all instances of " + EWidgetType.UPCOMING_WIDGET.name());
+//                for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
+//                    widget.getAccounts().add(new FilterWidgetAccount(id));
+//                    updateFilterWidgetDirectly(widget);
+//                }
+//                UpcomingWidget.notifyDatasetChanged(context);
+//            }).start();
             return readAccountDirectly(id);
         });
     }
@@ -470,6 +485,7 @@ public class DataBaseAdapter {
     public void deleteAccount(long id) {
         db.getAccountDao().deleteById(id);
         notifyAllWidgets();
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.ACCOUNT, id);
     }
 
     public void updateAccount(Account account) {
@@ -513,6 +529,7 @@ public class DataBaseAdapter {
         return LiveDataHelper.wrapInLiveData(() -> {
             board.setAccountId(accountId);
             long id = db.getBoardDao().insert(board);
+            notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.BOARD, id);
             return db.getBoardDao().getBoardByLocalIdDirectly(id);
 
         });
@@ -521,13 +538,16 @@ public class DataBaseAdapter {
     @WorkerThread
     public long createBoardDirectly(long accountId, @NonNull Board board) {
         board.setAccountId(accountId);
-        return db.getBoardDao().insert(board);
+        long id = db.getBoardDao().insert(board);
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.BOARD, id);
+        return id;
     }
 
     public void deleteBoard(Board board, boolean setStatus) {
         markAsDeletedIfNeeded(board, setStatus);
         db.getBoardDao().update(board);
         notifyAllWidgets();
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.BOARD, board.getLocalId());
     }
 
     public void deleteBoardPhysically(Board board) {
@@ -538,6 +558,7 @@ public class DataBaseAdapter {
     public void updateBoard(Board board, boolean setStatus) {
         markAsEditedIfNeeded(board, setStatus);
         db.getBoardDao().update(board);
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.BOARD, board.getLocalId());
     }
 
     public LiveData<List<Stack>> getStacksForBoard(long accountId, long localBoardId) {
@@ -557,19 +578,23 @@ public class DataBaseAdapter {
     @WorkerThread
     public long createStack(long accountId, Stack stack) {
         stack.setAccountId(accountId);
-        return db.getStackDao().insert(stack);
+        long id = db.getStackDao().insert(stack);
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.STACK, id);
+        return id;
     }
 
     @WorkerThread
     public void deleteStack(Stack stack, boolean setStatus) {
         markAsDeletedIfNeeded(stack, setStatus);
         db.getStackDao().update(stack);
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.STACK, stack.getLocalId());
         notifyAllWidgets();
     }
 
     @WorkerThread
     public void deleteStackPhysically(Stack stack) {
         db.getStackDao().delete(stack);
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.STACK, stack.getLocalId());
         notifyAllWidgets();
     }
 
@@ -577,6 +602,7 @@ public class DataBaseAdapter {
     public void updateStack(Stack stack, boolean setStatus) {
         markAsEditedIfNeeded(stack, setStatus);
         db.getStackDao().update(stack);
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.STACK, stack.getLocalId());
         if (db.getStackWidgetModelDao().containsStackLocalId(stack.getLocalId())) {
             DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about card changes for \"" + stack.getTitle() + "\"");
             StackWidget.notifyDatasetChanged(context);
@@ -614,6 +640,7 @@ public class DataBaseAdapter {
         long newCardId = db.getCardDao().insert(card);
 
         notifyStackWidgetsIfNeeded(card.getTitle(), card.getStackId());
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.STACK, card.getStackId());
 
         return newCardId;
     }
@@ -638,6 +665,7 @@ public class DataBaseAdapter {
         }
 
         notifyStackWidgetsIfNeeded(card.getTitle(), card.getStackId());
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.STACK, card.getStackId());
     }
 
     @WorkerThread
@@ -654,8 +682,7 @@ public class DataBaseAdapter {
             DeckLog.info("Notifying " + SingleCardWidget.class.getSimpleName() + " about card changes for \"" + card.getTitle() + "\"");
             SingleCardWidget.notifyDatasetChanged(context);
         }
-        // TODO check if necessary
-        UpcomingWidget.notifyDatasetChanged(context);
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.STACK, originalStackLocalId);
         notifyStackWidgetsIfNeeded(card.getTitle(), card.getStackId(), originalStackLocalId);
     }
 
@@ -1166,6 +1193,16 @@ public class DataBaseAdapter {
         return filterWidget;
     }
 
+    public void notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType type, Long entityId) {
+        new Thread(() -> {
+            List<EWidgetType> widgetTypesToNotify = db.getFilterWidgetDao().getChangedListTypesByEntity(type.toString(), entityId);
+            for (EWidgetType t : widgetTypesToNotify) {
+                DeckLog.info("Notifying "+t.getWidgetClass().getSimpleName()+" about entity change: "+type.name()+" with ID "+entityId);
+                context.sendBroadcast(new Intent(context, t.getWidgetClass()).setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE));
+            }
+        }).start();
+    }
+
     public List<FilterWidgetCard> getCardsForFilterWidget(Integer filterWidgetId) {
         FilterWidget filterWidget = getFilterWidgetByIdDirectly(filterWidgetId);
         FilterInformation filter = new FilterInformation();
@@ -1173,8 +1210,6 @@ public class DataBaseAdapter {
         if (filterWidget.getDueType() != null) {
             filter.setDueType(filterWidget.getDueType());
         } else filter.setDueType(EDueType.NO_FILTER);
-
-        // TODO: sort-stuff
 
         if (filterWidget.getAccounts().isEmpty()) {
             cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, null, null)));
@@ -1327,6 +1362,6 @@ public class DataBaseAdapter {
     private void notifyAllWidgets() {
         SingleCardWidget.notifyDatasetChanged(context);
         StackWidget.notifyDatasetChanged(context);
-        UpcomingWidget.notifyDatasetChanged(context);
+//        UpcomingWidget.notifyDatasetChanged(context);
     }
 }

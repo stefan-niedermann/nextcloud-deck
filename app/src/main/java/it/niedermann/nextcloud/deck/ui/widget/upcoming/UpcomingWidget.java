@@ -141,7 +141,7 @@ public class UpcomingWidget extends AppWidgetProvider {
     /**
      * Updates UI data of all {@link UpcomingWidget} instances
      */
-    public static void notifyDatasetChanged(Context context) {
-        context.sendBroadcast(new Intent(context, UpcomingWidget.class).setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE));
-    }
+//    public static void notifyDatasetChanged(Context context) {
+//        context.sendBroadcast(new Intent(context, UpcomingWidget.class).setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE));
+//    }
 }
