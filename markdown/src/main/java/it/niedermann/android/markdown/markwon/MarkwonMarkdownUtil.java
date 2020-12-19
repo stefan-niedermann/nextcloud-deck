@@ -30,7 +30,6 @@ import io.noties.prism4j.Prism4j;
 import io.noties.prism4j.annotations.PrismBundle;
 import it.niedermann.android.markdown.markwon.model.EListType;
 import it.niedermann.android.markdown.markwon.plugins.NextcloudMentionsPlugin;
-import it.niedermann.android.markdown.markwon.plugins.SearchHighlightPlugin;
 import it.niedermann.android.markdown.markwon.plugins.ThemePlugin;
 import it.niedermann.android.markdown.markwon.span.SearchSpan;
 
@@ -58,8 +57,7 @@ public class MarkwonMarkdownUtil {
                 .usePlugin(StrikethroughPlugin.create())
                 .usePlugin(SimpleExtPlugin.create())
                 .usePlugin(ImagesPlugin.create())
-                .usePlugin(MarkwonInlineParserPlugin.create())
-                .usePlugin(SearchHighlightPlugin.create());
+                .usePlugin(MarkwonInlineParserPlugin.create());
     }
 
     public static Markwon.Builder initMarkwonViewer(@NonNull Context context) {

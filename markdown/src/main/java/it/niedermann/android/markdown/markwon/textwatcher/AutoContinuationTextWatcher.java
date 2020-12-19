@@ -31,11 +31,6 @@ public class AutoContinuationTextWatcher extends InterceptorTextWatcher {
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        originalWatcher.beforeTextChanged(s, start, count, after);
-    }
-
-    @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         if (count == 1 && s.charAt(start) == '\n') {
             handleNewlineInserted(s, start, count);

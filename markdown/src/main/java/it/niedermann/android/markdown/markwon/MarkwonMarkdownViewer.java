@@ -1,6 +1,9 @@
 package it.niedermann.android.markdown.markwon;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.Editable;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -20,8 +23,11 @@ import it.niedermann.android.markdown.MarkdownEditor;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
 import static it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil.initMarkwonViewer;
+import static it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil.searchAndColor;
 
 public class MarkwonMarkdownViewer extends AppCompatTextView implements MarkdownEditor {
+
+    private static final String TAG = MarkwonMarkdownViewer.class.getSimpleName();
 
     private Markwon markwon;
     private final MutableLiveData<CharSequence> unrenderedText$ = new MutableLiveData<>();
@@ -57,6 +63,15 @@ public class MarkwonMarkdownViewer extends AppCompatTextView implements Markdown
             }
 
         }
+    }
+
+    @Override
+    public void setSearchText(@Nullable CharSequence searchText) {
+        this.renderService.execute(() -> {
+            final Editable content = new SpannableStringBuilder(getText());
+            searchAndColor(content, searchText, getContext(), 0, Color.BLUE, Color.YELLOW);
+            post(() -> setText(content, BufferType.SPANNABLE));
+        });
     }
 
     @Override
