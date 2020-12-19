@@ -2,7 +2,9 @@ package it.niedermann.android.markdown.markwon;
 
 import android.content.Context;
 import android.os.Build;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -24,10 +26,14 @@ import it.niedermann.android.markdown.markwon.handler.CodeEditHandler;
 import it.niedermann.android.markdown.markwon.handler.HeadingEditHandler;
 import it.niedermann.android.markdown.markwon.handler.StrikethroughEditHandler;
 import it.niedermann.android.markdown.markwon.textwatcher.CombinedTextWatcher;
+import it.niedermann.android.markdown.markwon.textwatcher.SearchHighlightTextWatcher;
 
 public class MarkwonMarkdownEditor extends AppCompatEditText implements MarkdownEditor {
 
+    private static final String TAG = MarkwonMarkdownEditor.class.getSimpleName();
+
     private final MutableLiveData<CharSequence> unrenderedText$ = new MutableLiveData<>();
+    private final CombinedTextWatcher combinedWatcher;
 
     public MarkwonMarkdownEditor(@NonNull Context context) {
         this(context, null);
@@ -49,10 +55,22 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
                 .useEditHandler(new BlockQuoteEditHandler())
                 .useEditHandler(new HeadingEditHandler())
                 .build();
-        addTextChangedListener(new CombinedTextWatcher(editor, this));
+        combinedWatcher = new CombinedTextWatcher(editor, this);
+        addTextChangedListener(combinedWatcher);
         setCustomSelectionActionModeCallback(new ContextBasedRangeFormattingCallback(this));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             setCustomInsertionActionModeCallback(new ContextBasedFormattingCallback(this));
+        }
+    }
+
+    @Override
+    public void setSearchText(@Nullable CharSequence searchText) {
+        final SearchHighlightTextWatcher searchHighlightTextWatcher = combinedWatcher.get(SearchHighlightTextWatcher.class);
+        if (searchHighlightTextWatcher == null) {
+            Log.w(TAG, SearchHighlightTextWatcher.class.getSimpleName() + " is not a registered " + TextWatcher.class.getSimpleName());
+        } else {
+            searchHighlightTextWatcher.setSearchText(searchText);
+            post(() -> setMarkdownString(unrenderedText$.getValue()));
         }
     }
 

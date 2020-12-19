@@ -1,6 +1,7 @@
 package it.niedermann.android.markdown;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
 import java.util.Map;
@@ -31,4 +32,8 @@ public interface MarkdownEditor {
     LiveData<CharSequence> getMarkdownString();
 
     void setEnabled(boolean enabled);
+
+    default void setSearchText(@Nullable CharSequence searchText) {
+        // Optional
+    }
 }
