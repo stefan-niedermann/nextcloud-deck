@@ -39,7 +39,7 @@ public class ContextBasedFormattingCallback implements ActionMode.Callback {
             final int cursorPosition = editText.getSelectionStart();
             if (cursorPosition >= 0 && cursorPosition <= text.length()) {
                 final int startOfLine = getStartOfLine(text, cursorPosition);
-                final int endOfLine = getEndOfLine(text, startOfLine);
+                final int endOfLine = getEndOfLine(text, cursorPosition);
                 final String line = text.subSequence(startOfLine, endOfLine).toString();
                 if (lineStartsWithCheckbox(line)) {
                     menu.findItem(R.id.checkbox).setVisible(false);
