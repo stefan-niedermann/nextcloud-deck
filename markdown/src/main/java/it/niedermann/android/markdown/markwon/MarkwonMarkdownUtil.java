@@ -40,8 +40,9 @@ import it.niedermann.android.markdown.markwon.plugins.ThemePlugin;
 )
 public class MarkwonMarkdownUtil {
 
-    private static final Pattern ORDERED_LIST_ITEM_PATTERN = Pattern.compile("^(\\d+).\\s.+$");
-    private static final Pattern ORDERED_LIST_ITEM_EMPTY_PATTERN = Pattern.compile("^(\\d+).\\s$");
+    private static final Pattern PATTERN_ORDERED_LIST_ITEM = Pattern.compile("^(\\d+).\\s.+$");
+    private static final Pattern PATTERN_ORDERED_LIST_ITEM_EMPTY = Pattern.compile("^(\\d+).\\s$");
+    private static final Pattern PATTERN_MARKDOWN_LINK = Pattern.compile("\\[(.+)?]\\(([^ ]+?)?( \"(.+)\")?\\)");
 
     private MarkwonMarkdownUtil() {
         // Util class
@@ -96,7 +97,7 @@ public class MarkwonMarkdownUtil {
                 return listType.listSymbolWithTrailingSpace;
             }
         }
-        final Matcher matcher = ORDERED_LIST_ITEM_EMPTY_PATTERN.matcher(line);
+        final Matcher matcher = PATTERN_ORDERED_LIST_ITEM_EMPTY.matcher(line);
         if (matcher.find()) {
             return matcher.group();
         }
@@ -120,7 +121,7 @@ public class MarkwonMarkdownUtil {
      * @return the number of the ordered list item if the line is an ordered list, otherwise -1.
      */
     public static int getOrderedListNumber(@NonNull String line) {
-        final Matcher matcher = ORDERED_LIST_ITEM_PATTERN.matcher(line);
+        final Matcher matcher = PATTERN_ORDERED_LIST_ITEM.matcher(line);
         if (matcher.find()) {
             final String groupNumber = matcher.group(1);
             if (groupNumber != null) {
@@ -132,10 +133,6 @@ public class MarkwonMarkdownUtil {
             }
         }
         return -1;
-    }
-
-    public static boolean lineStartsWithUnorderedList(@NonNull String line, @NonNull EListType listType) {
-        return line.startsWith(listType.listSymbol);
     }
 
     /**
@@ -246,7 +243,7 @@ public class MarkwonMarkdownUtil {
     }
 
     public static boolean selectionIsInLink(@NonNull CharSequence text, int start, int end) {
-        final Matcher matcher = Pattern.compile("\\[(.+)?]\\(([^ ]+?)?( \"(.+)\")?\\)").matcher(text);
+        final Matcher matcher = PATTERN_MARKDOWN_LINK.matcher(text);
         while (matcher.find()) {
             if ((start >= matcher.start() && start < matcher.end()) || (end > matcher.start() && end <= matcher.end())) {
                 return true;

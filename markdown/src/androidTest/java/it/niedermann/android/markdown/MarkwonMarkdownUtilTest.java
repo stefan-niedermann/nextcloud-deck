@@ -1,5 +1,6 @@
 package it.niedermann.android.markdown;
 
+import android.text.Editable;
 import android.text.SpannableStringBuilder;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -291,6 +292,45 @@ public class MarkwonMarkdownUtilTest extends TestCase {
     }
 
     @Test
+    public void testRemoveContainingPunctuation() {
+        try {
+            final Method m = MarkwonMarkdownUtil.class.getDeclaredMethod("removeContainingPunctuation", Editable.class, int.class, int.class, String.class);
+            m.setAccessible(true);
+            SpannableStringBuilder builder;
+
+            builder = new SpannableStringBuilder("Lorem *ipsum* dolor");
+            m.invoke(null, builder, 0, 19, "*");
+            assertEquals("Lorem ipsum dolor", builder.toString());
+
+            builder = new SpannableStringBuilder("*Lorem ipsum dolor*");
+            m.invoke(null, builder, 0, 19, "*");
+            assertEquals("Lorem ipsum dolor", builder.toString());
+
+            builder = new SpannableStringBuilder("**Lorem ipsum**");
+            m.invoke(null, builder, 0, 15, "**");
+            assertEquals("Lorem ipsum", builder.toString());
+
+            builder = new SpannableStringBuilder("*Lorem* *ipsum*");
+            m.invoke(null, builder, 0, 15, "*");
+            assertEquals("Lorem ipsum", builder.toString());
+
+            builder = new SpannableStringBuilder("Lorem* ipsum");
+            m.invoke(null, builder, 0, 12, "*");
+            assertEquals("Lorem ipsum", builder.toString());
+
+            builder = new SpannableStringBuilder("*Lorem* ipsum*");
+            m.invoke(null, builder, 0, 14, "*");
+            assertEquals("Lorem ipsum", builder.toString());
+
+            builder = new SpannableStringBuilder("**Lorem ipsum**");
+            m.invoke(null, builder, 0, 15, "*");
+            assertEquals("Lorem ipsum", builder.toString());
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     @SuppressWarnings("ConstantConditions")
     public void testSelectionIsSurroundedByPunctuation() {
         try {
@@ -303,6 +343,23 @@ public class MarkwonMarkdownUtilTest extends TestCase {
             assertFalse((Boolean) m.invoke(null, "*Lorem ipsum*", 0, 12, "*"));
             assertFalse((Boolean) m.invoke(null, "*Lorem ipsum*", 1, 13, "*"));
             assertFalse((Boolean) m.invoke(null, "*Lorem ipsum*", 0, 13, "*"));
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    @SuppressWarnings("ConstantConditions")
+    public void testGetContainedPunctuationCount() {
+        try {
+            final Method m = MarkwonMarkdownUtil.class.getDeclaredMethod("getContainedPunctuationCount", CharSequence.class, int.class, int.class, String.class);
+            m.setAccessible(true);
+            assertEquals(0, (int) m.invoke(null, "*Lorem ipsum*", 1, 12, "*"));
+            assertEquals(1, (int) m.invoke(null, "*Lorem ipsum*", 1, 13, "*"));
+            assertEquals(2, (int) m.invoke(null, "*Lorem ipsum*", 0, 13, "*"));
+            assertEquals(0, (int) m.invoke(null, "*Lorem ipsum*", 0, 13, "**"));
+            assertEquals(0, (int) m.invoke(null, "*Lorem ipsum**", 0, 13, "**"));
+            assertEquals(1, (int) m.invoke(null, "*Lorem ipsum**", 0, 14, "**"));
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
@@ -354,6 +411,7 @@ public class MarkwonMarkdownUtilTest extends TestCase {
         assertEquals("+ ", MarkwonMarkdownUtil.getListItemIfIsEmpty("+ "));
         assertEquals("* ", MarkwonMarkdownUtil.getListItemIfIsEmpty("* "));
         assertEquals("1. ", MarkwonMarkdownUtil.getListItemIfIsEmpty("1. "));
+
         assertNull(MarkwonMarkdownUtil.getListItemIfIsEmpty("- Test"));
         assertNull(MarkwonMarkdownUtil.getListItemIfIsEmpty("+ Test"));
         assertNull(MarkwonMarkdownUtil.getListItemIfIsEmpty("* Test"));
