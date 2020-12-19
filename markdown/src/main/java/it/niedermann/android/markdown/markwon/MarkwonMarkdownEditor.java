@@ -64,13 +64,14 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
     }
 
     @Override
-    public void setSearchText(@Nullable CharSequence searchText) {
+    public void setSearchText(@Nullable CharSequence searchText, @Nullable Integer current) {
         final SearchHighlightTextWatcher searchHighlightTextWatcher = combinedWatcher.get(SearchHighlightTextWatcher.class);
         if (searchHighlightTextWatcher == null) {
             Log.w(TAG, SearchHighlightTextWatcher.class.getSimpleName() + " is not a registered " + TextWatcher.class.getSimpleName());
         } else {
             searchHighlightTextWatcher.setSearchText(searchText);
-            post(() -> setMarkdownString(unrenderedText$.getValue()));
+            searchHighlightTextWatcher.setCurrent(current);
+            post(() -> searchHighlightTextWatcher.afterTextChanged(getText()));
         }
     }
 

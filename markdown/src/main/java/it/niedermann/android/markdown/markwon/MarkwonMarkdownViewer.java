@@ -1,12 +1,10 @@
 package it.niedermann.android.markdown.markwon;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.text.Editable;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,11 +17,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import io.noties.markwon.Markwon;
+import io.noties.markwon.MarkwonPlugin;
 import it.niedermann.android.markdown.MarkdownEditor;
+import it.niedermann.android.markdown.markwon.plugins.SearchHighlightPlugin;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
 import static it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil.initMarkwonViewer;
-import static it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil.searchAndColor;
 
 public class MarkwonMarkdownViewer extends AppCompatTextView implements MarkdownEditor {
 
@@ -31,6 +30,8 @@ public class MarkwonMarkdownViewer extends AppCompatTextView implements Markdown
 
     private Markwon markwon;
     private final MutableLiveData<CharSequence> unrenderedText$ = new MutableLiveData<>();
+    private Spanned renderedText;
+
     private final ExecutorService renderService;
 
     public MarkwonMarkdownViewer(@NonNull Context context) {
@@ -57,21 +58,25 @@ public class MarkwonMarkdownViewer extends AppCompatTextView implements Markdown
             if (!text.equals(previousText)) {
                 setText(text);
                 this.renderService.execute(() -> {
-                    final Spanned markdown = this.markwon.toMarkdown(text.toString());
-                    post(() -> this.markwon.setParsedMarkdown(this, markdown));
+                    this.renderedText = this.markwon.toMarkdown(text.toString());
+                    post(() -> this.markwon.setParsedMarkdown(this, renderedText));
                 });
             }
-
         }
     }
 
     @Override
-    public void setSearchText(@Nullable CharSequence searchText) {
-        this.renderService.execute(() -> {
-            final Editable content = new SpannableStringBuilder(getText());
-            searchAndColor(content, searchText, getContext(), 0, Color.BLUE, Color.YELLOW);
-            post(() -> setText(content, BufferType.SPANNABLE));
-        });
+    public void setSearchText(@Nullable CharSequence searchText, @Nullable Integer current) {
+        final SearchHighlightPlugin searchHighlightPlugin = this.markwon.getPlugin(SearchHighlightPlugin.class);
+        if (searchHighlightPlugin == null) {
+            Log.w(TAG, SearchHighlightPlugin.class.getSimpleName() + " is not a registered " + MarkwonPlugin.class.getSimpleName());
+        } else {
+            searchHighlightPlugin.setSearchText(searchText);
+            searchHighlightPlugin.setCurrent(current);
+            if (renderedText != null) {
+                post(() -> this.markwon.setParsedMarkdown(this, renderedText));
+            }
+        }
     }
 
     @Override
