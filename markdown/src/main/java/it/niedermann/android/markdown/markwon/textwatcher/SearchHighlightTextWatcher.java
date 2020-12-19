@@ -14,6 +14,7 @@ public class SearchHighlightTextWatcher extends InterceptorTextWatcher {
 
     private final MarkwonMarkdownEditor editText;
     private CharSequence searchText;
+    private Integer current;
 
     public SearchHighlightTextWatcher(@NonNull TextWatcher originalWatcher, @NonNull MarkwonMarkdownEditor editText) {
         super(originalWatcher);
@@ -24,9 +25,13 @@ public class SearchHighlightTextWatcher extends InterceptorTextWatcher {
         this.searchText = searchText;
     }
 
+    public void setCurrent(@Nullable Integer current) {
+        this.current = current;
+    }
+
     @Override
     public void afterTextChanged(Editable s) {
         originalWatcher.afterTextChanged(s);
-        MarkwonMarkdownUtil.searchAndColor(s, searchText, editText.getContext(), 0, Color.MAGENTA, Color.GREEN);
+        MarkwonMarkdownUtil.searchAndColor(s, searchText, editText.getContext(), current, Color.MAGENTA, Color.GREEN);
     }
 }

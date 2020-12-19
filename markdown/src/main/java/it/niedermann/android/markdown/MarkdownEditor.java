@@ -34,6 +34,10 @@ public interface MarkdownEditor {
     void setEnabled(boolean enabled);
 
     default void setSearchText(@Nullable CharSequence searchText) {
+        setSearchText(searchText, null);
+    }
+
+    default void setSearchText(@Nullable CharSequence searchText, @Nullable Integer current) {
         // Optional
     }
 }
