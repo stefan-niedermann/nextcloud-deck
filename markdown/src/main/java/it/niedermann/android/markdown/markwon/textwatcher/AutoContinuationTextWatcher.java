@@ -5,10 +5,6 @@ import android.text.TextWatcher;
 
 import androidx.annotation.NonNull;
 
-import java.util.concurrent.Executors;
-
-import io.noties.markwon.editor.MarkwonEditor;
-import io.noties.markwon.editor.MarkwonEditorTextWatcher;
 import it.niedermann.android.markdown.markwon.MarkwonMarkdownEditor;
 import it.niedermann.android.markdown.markwon.model.EListType;
 
@@ -20,18 +16,18 @@ import static it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil.lineSta
 /**
  * Automatically continues lists and checkbox lists when pressing enter
  */
-public class AutoContinuationTextWatcher implements TextWatcher {
+public class AutoContinuationTextWatcher extends InterceptorTextWatcher {
 
-    private final MarkwonEditorTextWatcher originalWatcher;
+    @NonNull
     private final MarkwonMarkdownEditor editText;
 
     private CharSequence customText = null;
     private boolean isInsert = true;
     private int sequenceStart = 0;
 
-    public AutoContinuationTextWatcher(@NonNull MarkwonEditor editor, @NonNull MarkwonMarkdownEditor editText) {
+    public AutoContinuationTextWatcher(@NonNull TextWatcher originalWatcher, @NonNull MarkwonMarkdownEditor editText) {
+        super(originalWatcher);
         this.editText = editText;
-        originalWatcher = MarkwonEditorTextWatcher.withPreRender(editor, Executors.newSingleThreadExecutor(), editText);
     }
 
     @Override
