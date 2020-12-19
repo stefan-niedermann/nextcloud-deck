@@ -59,7 +59,7 @@ public class MarkwonMarkdownUtil {
                 .usePlugin(SimpleExtPlugin.create())
                 .usePlugin(ImagesPlugin.create())
                 .usePlugin(MarkwonInlineParserPlugin.create())
-                .usePlugin(SearchHighlightPlugin.create());
+                .usePlugin(SearchHighlightPlugin.create(context));
     }
 
     public static Markwon.Builder initMarkwonViewer(@NonNull Context context) {
@@ -256,7 +256,7 @@ public class MarkwonMarkdownUtil {
         return false;
     }
 
-    public static void searchAndColor(@NonNull Editable editable, @Nullable CharSequence searchText, @NonNull Context context, @Nullable Integer current, @ColorInt int mainColor, @ColorInt int textColor) {
+    public static void searchAndColor(@NonNull Editable editable, @Nullable CharSequence searchText, @NonNull Context context, @Nullable Integer current, @ColorInt int mainColor) {
         removeSpans(editable, SearchSpan.class);
         if (searchText != null) {
             final Matcher m = Pattern
@@ -267,7 +267,7 @@ public class MarkwonMarkdownUtil {
             while (m.find()) {
                 int start = m.start();
                 int end = m.end();
-                editable.setSpan(new SearchSpan(context, mainColor, textColor, (current != null && i == current)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                editable.setSpan(new SearchSpan(context, mainColor, (current != null && i == current)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 i++;
             }
         }

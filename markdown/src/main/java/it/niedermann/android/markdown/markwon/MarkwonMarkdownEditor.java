@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
@@ -60,6 +61,17 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
         setCustomSelectionActionModeCallback(new ContextBasedRangeFormattingCallback(this));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             setCustomInsertionActionModeCallback(new ContextBasedFormattingCallback(this));
+        }
+    }
+
+    @Override
+    public void setSearchColor(@ColorInt int color) {
+        final SearchHighlightTextWatcher searchHighlightTextWatcher = combinedWatcher.get(SearchHighlightTextWatcher.class);
+        if (searchHighlightTextWatcher == null) {
+            Log.w(TAG, SearchHighlightTextWatcher.class.getSimpleName() + " is not a registered " + TextWatcher.class.getSimpleName());
+        } else {
+            searchHighlightTextWatcher.setSearchColor(color);
+            post(() -> searchHighlightTextWatcher.afterTextChanged(getText()));
         }
     }
 
