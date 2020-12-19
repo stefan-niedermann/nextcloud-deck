@@ -13,9 +13,10 @@ import it.niedermann.android.markdown.markwon.MarkwonMarkdownEditor;
 import it.niedermann.android.markdown.markwon.model.EListType;
 
 import static it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil.getListItemIfIsEmpty;
+import static it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil.getOrderedListNumber;
 import static it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil.getStartOfLine;
 import static it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil.lineStartsWithCheckbox;
-import static it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil.lineStartsWithList;
+import static it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil.lineStartsWithUnorderedList;
 
 /**
  * Automatically continues lists and checkbox lists when pressing enter
@@ -85,12 +86,19 @@ public class AutoContinuationTextWatcher implements TextWatcher {
         } else {
             for (EListType listType : EListType.values()) {
                 final boolean isCheckboxList = lineStartsWithCheckbox(line, listType);
-                final boolean isPlainList = !isCheckboxList && lineStartsWithList(line, listType);
+                final boolean isPlainList = !isCheckboxList && lineStartsWithUnorderedList(line, listType);
                 if (isPlainList || isCheckboxList) {
                     customText = isPlainList ? listType.listSymbolWithTrailingSpace : listType.checkboxUncheckedWithTrailingSpace;
                     isInsert = true;
                     sequenceStart = start + count;
+                    return;
                 }
+            }
+            final int orderedListNumber = getOrderedListNumber(line);
+            if (orderedListNumber >= 0) {
+                customText = (orderedListNumber + 1) + ". ";
+                isInsert = true;
+                sequenceStart = start + count;
             }
         }
     }

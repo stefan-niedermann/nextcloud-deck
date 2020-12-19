@@ -347,4 +347,36 @@ public class MarkwonMarkdownUtilTest extends TestCase {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void testGetListItemIfIsEmpty() {
+        assertEquals("- ", MarkwonMarkdownUtil.getListItemIfIsEmpty("- "));
+        assertEquals("+ ", MarkwonMarkdownUtil.getListItemIfIsEmpty("+ "));
+        assertEquals("* ", MarkwonMarkdownUtil.getListItemIfIsEmpty("* "));
+        assertEquals("1. ", MarkwonMarkdownUtil.getListItemIfIsEmpty("1. "));
+        assertNull(MarkwonMarkdownUtil.getListItemIfIsEmpty("- Test"));
+        assertNull(MarkwonMarkdownUtil.getListItemIfIsEmpty("+ Test"));
+        assertNull(MarkwonMarkdownUtil.getListItemIfIsEmpty("* Test"));
+        assertNull(MarkwonMarkdownUtil.getListItemIfIsEmpty("1. s"));
+        assertNull(MarkwonMarkdownUtil.getListItemIfIsEmpty("1.  "));
+    }
+
+    @Test
+    public void testLineStartsWithOrderedList() {
+        assertEquals(1, MarkwonMarkdownUtil.getOrderedListNumber("1. Test"));
+        assertEquals(2, MarkwonMarkdownUtil.getOrderedListNumber("2. Test"));
+        assertEquals(3, MarkwonMarkdownUtil.getOrderedListNumber("3. Test"));
+        assertEquals(10, MarkwonMarkdownUtil.getOrderedListNumber("10. Test"));
+        assertEquals(11, MarkwonMarkdownUtil.getOrderedListNumber("11. Test"));
+        assertEquals(12, MarkwonMarkdownUtil.getOrderedListNumber("12. Test"));
+        assertEquals(1, MarkwonMarkdownUtil.getOrderedListNumber("1. 1"));
+        assertEquals(1, MarkwonMarkdownUtil.getOrderedListNumber("1. Test 1"));
+
+        assertEquals(-1, MarkwonMarkdownUtil.getOrderedListNumber(""));
+        assertEquals(-1, MarkwonMarkdownUtil.getOrderedListNumber("1."));
+        assertEquals(-1, MarkwonMarkdownUtil.getOrderedListNumber("1. "));
+        assertEquals(-1, MarkwonMarkdownUtil.getOrderedListNumber("11. "));
+        assertEquals(-1, MarkwonMarkdownUtil.getOrderedListNumber("-1. Test"));
+        assertEquals(-1, MarkwonMarkdownUtil.getOrderedListNumber(" 1. Test"));
+    }
 }

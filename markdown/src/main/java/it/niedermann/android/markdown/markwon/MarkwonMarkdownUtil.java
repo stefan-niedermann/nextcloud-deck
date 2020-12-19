@@ -40,6 +40,9 @@ import it.niedermann.android.markdown.markwon.plugins.ThemePlugin;
 )
 public class MarkwonMarkdownUtil {
 
+    private static final Pattern ORDERED_LIST_ITEM_PATTERN = Pattern.compile("^(\\d+).\\s.+$");
+    private static final Pattern ORDERED_LIST_ITEM_EMPTY_PATTERN = Pattern.compile("^(\\d+).\\s$");
+
     private MarkwonMarkdownUtil() {
         // Util class
     }
@@ -93,6 +96,10 @@ public class MarkwonMarkdownUtil {
                 return listType.listSymbolWithTrailingSpace;
             }
         }
+        final Matcher matcher = ORDERED_LIST_ITEM_EMPTY_PATTERN.matcher(line);
+        if (matcher.find()) {
+            return matcher.group();
+        }
         return null;
     }
 
@@ -109,7 +116,25 @@ public class MarkwonMarkdownUtil {
         return line.startsWith(listType.checkboxUnchecked) || line.startsWith(listType.checkboxChecked);
     }
 
-    public static boolean lineStartsWithList(@NonNull String line, @NonNull EListType listType) {
+    /**
+     * @return the number of the ordered list item if the line is an ordered list, otherwise -1.
+     */
+    public static int getOrderedListNumber(@NonNull String line) {
+        final Matcher matcher = ORDERED_LIST_ITEM_PATTERN.matcher(line);
+        if (matcher.find()) {
+            final String groupNumber = matcher.group(1);
+            if (groupNumber != null) {
+                try {
+                    return Integer.parseInt(groupNumber);
+                } catch (NumberFormatException e) {
+                    return -1;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public static boolean lineStartsWithUnorderedList(@NonNull String line, @NonNull EListType listType) {
         return line.startsWith(listType.listSymbol);
     }
 
