@@ -1,5 +1,6 @@
 package it.niedermann.android.markdown;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -32,6 +33,10 @@ public interface MarkdownEditor {
     LiveData<CharSequence> getMarkdownString();
 
     void setEnabled(boolean enabled);
+
+    default void setSearchColor(@ColorInt int color) {
+        // Optional
+    }
 
     default void setSearchText(@Nullable CharSequence searchText) {
         setSearchText(searchText, null);

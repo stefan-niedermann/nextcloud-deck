@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -61,6 +62,19 @@ public class MarkwonMarkdownViewer extends AppCompatTextView implements Markdown
                     this.renderedText = this.markwon.toMarkdown(text.toString());
                     post(() -> this.markwon.setParsedMarkdown(this, renderedText));
                 });
+            }
+        }
+    }
+
+    @Override
+    public void setSearchColor(@ColorInt int color) {
+        final SearchHighlightPlugin searchHighlightPlugin = this.markwon.getPlugin(SearchHighlightPlugin.class);
+        if (searchHighlightPlugin == null) {
+            Log.w(TAG, SearchHighlightPlugin.class.getSimpleName() + " is not a registered " + MarkwonPlugin.class.getSimpleName());
+        } else {
+            searchHighlightPlugin.setSearchColor(color);
+            if (renderedText != null) {
+                post(() -> this.markwon.setParsedMarkdown(this, renderedText));
             }
         }
     }

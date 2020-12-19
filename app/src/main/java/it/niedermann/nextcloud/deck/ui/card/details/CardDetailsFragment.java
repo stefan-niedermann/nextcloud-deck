@@ -133,6 +133,8 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         applyBrandToEditText(mainColor, binding.dueDateDate);
         applyBrandToEditText(mainColor, binding.dueDateTime);
         applyBrandToEditText(mainColor, binding.people);
+        binding.descriptionEditor.setSearchColor(mainColor);
+        binding.descriptionViewer.setSearchColor(mainColor);
     }
 
     private void setupDescription() {
@@ -162,25 +164,6 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                 }
                 binding.descriptionToggle.setVisibility(TextUtils.isEmpty(newText) ? GONE : VISIBLE);
             });
-
-            // FIXME remove thread
-            StringBuilder searchText = new StringBuilder("a");
-            new Thread(() -> {
-                while (true) {
-                    try {
-                        if(searchText.length() > 5) {
-                            searchText.replace(0, 1, "");
-                        } else {
-                            searchText.append("a");
-                        }
-                        binding.descriptionViewer.setSearchText(searchText.toString());
-                        binding.descriptionEditor.setSearchText(searchText.toString());
-                        Thread.sleep(3000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
         } else {
             binding.descriptionEditor.setEnabled(false);
             binding.descriptionEditor.setVisibility(VISIBLE);

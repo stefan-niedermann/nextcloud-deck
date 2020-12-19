@@ -9,6 +9,7 @@ import android.text.style.MetricAffectingSpan;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
+import it.niedermann.android.markdown.R;
 import it.niedermann.android.util.ColorUtil;
 
 public class SearchSpan extends MetricAffectingSpan {
@@ -19,16 +20,13 @@ public class SearchSpan extends MetricAffectingSpan {
     @ColorInt
     private final int mainColor;
     @ColorInt
-    private final int textColor;
-    @ColorInt
     private final int highlightColor;
 
-    public SearchSpan(@NonNull Context context, @ColorInt int mainColor, @ColorInt int textColor, boolean current) {
+    public SearchSpan(@NonNull Context context, @ColorInt int mainColor, boolean current) {
         this.context = context;
         this.mainColor = mainColor;
-        this.textColor = textColor;
         this.current = current;
-        this.highlightColor = Color.GRAY; //context.getResources().getColor(R.color.bg_highlighted);
+        this.highlightColor = context.getResources().getColor(R.color.bg_highlighted);
     }
 
     @Override
@@ -47,7 +45,7 @@ public class SearchSpan extends MetricAffectingSpan {
                     tp.bgColor = mainColor;
                     tp.setColor(Color.WHITE);
                 } else {
-                    if (true /*NotesColorUtil.contrastRatioIsSufficient(mainColor, highlightColor)*/) {
+                    if (ColorUtil.INSTANCE.getContrastRatio(mainColor, highlightColor) > 3d) {
                         tp.bgColor = highlightColor;
                     } else {
                         tp.bgColor = Color.BLACK;
@@ -57,7 +55,15 @@ public class SearchSpan extends MetricAffectingSpan {
             }
         } else {
             tp.bgColor = highlightColor;
-            tp.setColor(mainColor /*BrandingUtil.getSecondaryForegroundColorDependingOnTheme(context, mainColor)*/);
+            if (ColorUtil.INSTANCE.getContrastRatio(mainColor, highlightColor) > 3d) {
+                tp.setColor(mainColor);
+            } else {
+                if (isDarkThemeActive(context)) {
+                    tp.setColor(Color.WHITE);
+                } else {
+                    tp.setColor(Color.BLACK);
+                }
+            }
         }
         tp.setFakeBoldText(true);
     }
