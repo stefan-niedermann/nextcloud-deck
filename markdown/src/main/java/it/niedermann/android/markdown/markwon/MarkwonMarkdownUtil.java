@@ -149,14 +149,13 @@ public class MarkwonMarkdownUtil {
             case "*":
             case "_":
             case "~~": {
-                final String text = editable.toString();
-                final boolean selectionIsSurroundedByPunctuation = selectionIsSurroundedByPunctuation(text, selectionStart, selectionEnd, punctuation);
+                final boolean selectionIsSurroundedByPunctuation = selectionIsSurroundedByPunctuation(editable, selectionStart, selectionEnd, punctuation);
                 if (selectionIsSurroundedByPunctuation) {
                     editable.delete(selectionEnd, selectionEnd + punctuation.length());
                     editable.delete(selectionStart - punctuation.length(), selectionStart);
                     return selectionEnd - punctuation.length();
                 } else {
-                    final int containedPunctuationCount = getContainedPunctuationCount(text, selectionStart, selectionEnd, punctuation);
+                    final int containedPunctuationCount = getContainedPunctuationCount(editable, selectionStart, selectionEnd, punctuation);
                     if (containedPunctuationCount == 0) {
                         editable.insert(selectionEnd, punctuation);
                         editable.insert(selectionStart, punctuation);
@@ -234,7 +233,7 @@ public class MarkwonMarkdownUtil {
     }
 
     private static void removeContainingPunctuation(@NonNull Editable editable, int start, int end, @NonNull String punctuation) {
-        final Matcher matcher = Pattern.compile(Pattern.quote(punctuation)).matcher(editable.toString().subSequence(start, end));
+        final Matcher matcher = Pattern.compile(Pattern.quote(punctuation)).matcher(editable.subSequence(start, end));
         int countDeletedPunctuations = 0;
         while (matcher.find()) {
             editable.delete(start + matcher.start() - countDeletedPunctuations * punctuation.length(), start + matcher.end() - countDeletedPunctuations * punctuation.length());
