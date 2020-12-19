@@ -23,7 +23,7 @@ import it.niedermann.android.markdown.markwon.handler.CodeBlockEditHandler;
 import it.niedermann.android.markdown.markwon.handler.CodeEditHandler;
 import it.niedermann.android.markdown.markwon.handler.HeadingEditHandler;
 import it.niedermann.android.markdown.markwon.handler.StrikethroughEditHandler;
-import it.niedermann.android.markdown.markwon.textwatcher.AutoContinuationTextWatcher;
+import it.niedermann.android.markdown.markwon.textwatcher.CombinedTextWatcher;
 
 public class MarkwonMarkdownEditor extends AppCompatEditText implements MarkdownEditor {
 
@@ -49,7 +49,7 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
                 .useEditHandler(new BlockQuoteEditHandler())
                 .useEditHandler(new HeadingEditHandler())
                 .build();
-        addTextChangedListener(new AutoContinuationTextWatcher(editor, this));
+        addTextChangedListener(new CombinedTextWatcher(editor, this));
         setCustomSelectionActionModeCallback(new ContextBasedRangeFormattingCallback(this));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             setCustomInsertionActionModeCallback(new ContextBasedFormattingCallback(this));

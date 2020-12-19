@@ -2,8 +2,10 @@ package it.niedermann.android.markdown.markwon;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.Spannable;
 import android.text.TextUtils;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
@@ -30,6 +32,7 @@ import it.niedermann.android.markdown.markwon.model.EListType;
 import it.niedermann.android.markdown.markwon.plugins.NextcloudMentionsPlugin;
 import it.niedermann.android.markdown.markwon.plugins.SearchHighlightPlugin;
 import it.niedermann.android.markdown.markwon.plugins.ThemePlugin;
+import it.niedermann.android.markdown.markwon.span.SearchSpan;
 
 @RestrictTo(value = RestrictTo.Scope.LIBRARY)
 @PrismBundle(
@@ -251,5 +254,32 @@ public class MarkwonMarkdownUtil {
             }
         }
         return false;
+    }
+
+    public static void searchAndColor(@NonNull Editable editable, @Nullable CharSequence searchText, @NonNull Context context, @Nullable Integer current, @ColorInt int mainColor, @ColorInt int textColor) {
+        resetSearchSpans(editable);
+        if (TextUtils.isEmpty(searchText)) {
+            return;
+        }
+
+        //noinspection ConstantConditions
+        final Matcher m = Pattern.compile(searchText.toString(), Pattern.CASE_INSENSITIVE | Pattern.LITERAL)
+                .matcher(editable);
+
+        int i = 1;
+        while (m.find()) {
+            int start = m.start();
+            int end = m.end();
+            editable.setSpan(new SearchSpan(context, mainColor, textColor, (current != null && i == current)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            i++;
+        }
+    }
+
+    private static void resetSearchSpans(@NonNull Editable editable) {
+        final Object[] spansToRemove = editable.getSpans(0, editable.length(), Object.class);
+        for (Object span : spansToRemove) {
+            if (span.getClass() == SearchSpan.class)
+                editable.removeSpan(span);
+        }
     }
 }
