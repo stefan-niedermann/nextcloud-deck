@@ -654,6 +654,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 startActivity(ArchivedBoardsActvitiy.createIntent(MainActivity.this, mainViewModel.getCurrentAccount()));
                 break;
             default:
+                binding.navigationView.setCheckedItem(item);
                 setCurrentBoard(boardsList.get(item.getItemId()));
                 break;
         }
