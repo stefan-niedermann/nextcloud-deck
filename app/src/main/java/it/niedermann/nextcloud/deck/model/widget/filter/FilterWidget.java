@@ -18,6 +18,9 @@ public class FilterWidget {
     private int id;
 
     @Nullable
+    private String title;
+
+    @Nullable
     private EDueType dueType;
 
     @NonNull
@@ -93,26 +96,38 @@ public class FilterWidget {
         this.widgetType = widgetType;
     }
 
+    @Nullable
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(@Nullable String title) {
+        this.title = title;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof FilterWidget)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         FilterWidget that = (FilterWidget) o;
 
         if (id != that.id) return false;
-        if (dueType != null ? !dueType.equals(that.dueType) : that.dueType != null) return false;
-        if (accounts != null ? !accounts.equals(that.accounts) : that.accounts != null)
-            return false;
-        return sorts != null ? sorts.equals(that.sorts) : that.sorts == null;
+        if (title != null ? !title.equals(that.title) : that.title != null) return false;
+        if (dueType != that.dueType) return false;
+        if (widgetType != that.widgetType) return false;
+        if (!accounts.equals(that.accounts)) return false;
+        return sorts.equals(that.sorts);
     }
 
     @Override
     public int hashCode() {
         int result = id;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (dueType != null ? dueType.hashCode() : 0);
-        result = 31 * result + (accounts != null ? accounts.hashCode() : 0);
-        result = 31 * result + (sorts != null ? sorts.hashCode() : 0);
+        result = 31 * result + widgetType.hashCode();
+        result = 31 * result + accounts.hashCode();
+        result = 31 * result + sorts.hashCode();
         return result;
     }
 

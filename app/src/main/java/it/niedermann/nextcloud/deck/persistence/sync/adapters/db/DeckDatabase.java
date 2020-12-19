@@ -432,7 +432,7 @@ public abstract class DeckDatabase extends RoomDatabase {
     private static final Migration MIGRATION_25_26 = new Migration(25, 26) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-            database.execSQL("CREATE TABLE `FilterWidget` (`id` INTEGER PRIMARY KEY NOT NULL, `dueType` INTEGER, `widgetType` INTEGER NOT NULL)");
+            database.execSQL("CREATE TABLE `FilterWidget` (`id` INTEGER PRIMARY KEY NOT NULL, `title` TEXT, `dueType` INTEGER, `widgetType` INTEGER NOT NULL)");
             database.execSQL("CREATE TABLE `FilterWidgetAccount` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterWidgetId` INTEGER, `accountId` INTEGER, `includeNoUser` INTEGER NOT NULL, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterWidgetId`) REFERENCES `FilterWidget`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
             database.execSQL("CREATE TABLE `FilterWidgetBoard` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterAccountId` INTEGER, `boardId` INTEGER, `includeNoLabel` INTEGER NOT NULL, FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterAccountId`) REFERENCES `FilterWidgetAccount`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
             database.execSQL("CREATE TABLE `FilterWidgetLabel` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterBoardId` INTEGER, `labelId` INTEGER, FOREIGN KEY(`labelId`) REFERENCES `Label`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterBoardId`) REFERENCES `FilterWidgetBoard`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
