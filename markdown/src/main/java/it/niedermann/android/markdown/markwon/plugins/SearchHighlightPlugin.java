@@ -10,8 +10,7 @@ import androidx.annotation.Nullable;
 
 import io.noties.markwon.AbstractMarkwonPlugin;
 import io.noties.markwon.MarkwonPlugin;
-
-import static it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil.searchAndColor;
+import it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil;
 
 public class SearchHighlightPlugin extends AbstractMarkwonPlugin {
 
@@ -34,7 +33,7 @@ public class SearchHighlightPlugin extends AbstractMarkwonPlugin {
     public void afterSetText(@NonNull TextView textView) {
         super.afterSetText(textView);
         final Editable coloredContent = new SpannableStringBuilder(textView.getText());
-        searchAndColor(coloredContent, searchText, textView.getContext(), current, Color.BLUE, Color.YELLOW);
+        MarkwonMarkdownUtil.searchAndColor(coloredContent, searchText, textView.getContext(), current, Color.BLUE, Color.YELLOW);
         textView.setText(coloredContent, TextView.BufferType.SPANNABLE);
     }
 }
