@@ -220,6 +220,7 @@
         android:background="?attr/colorPrimary"
         android:fitsSystemWindows="false"
         android:theme="@style/NavigationView"
-        app:headerLayout="@layout/nav_header_main" />
+        app:headerLayout="@layout/nav_header_main"
+        app:itemBackground="@drawable/bg_navdrawer_item" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
