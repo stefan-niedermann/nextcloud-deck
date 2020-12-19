@@ -273,11 +273,9 @@ public class MarkwonMarkdownUtil {
         }
     }
 
-    private static void removeSpans(@NonNull Editable editable, @SuppressWarnings("SameParameterValue") @NonNull Class<?> clazz) {
-        final Object[] spansToRemove = editable.getSpans(0, editable.length(), Object.class);
-        for (Object span : spansToRemove) {
-            if (span.getClass() == clazz)
-                editable.removeSpan(span);
+    private static <T> void removeSpans(@NonNull Editable editable, @SuppressWarnings("SameParameterValue") Class<T> spanType) {
+        for (T span : editable.getSpans(0, editable.length(), spanType)) {
+            editable.removeSpan(span);
         }
     }
 }
