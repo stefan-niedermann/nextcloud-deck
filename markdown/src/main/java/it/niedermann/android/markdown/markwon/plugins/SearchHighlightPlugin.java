@@ -17,6 +17,7 @@ import it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil;
 
 public class SearchHighlightPlugin extends AbstractMarkwonPlugin {
 
+    private boolean searchActive = false;
     private CharSequence searchText;
     private Integer current;
     private int color;
@@ -31,6 +32,7 @@ public class SearchHighlightPlugin extends AbstractMarkwonPlugin {
 
     public void setSearchText(@Nullable CharSequence searchText) {
         this.searchText = searchText;
+        this.searchActive = true;
     }
 
     public void setCurrent(@Nullable Integer current) {
@@ -44,8 +46,10 @@ public class SearchHighlightPlugin extends AbstractMarkwonPlugin {
     @Override
     public void afterSetText(@NonNull TextView textView) {
         super.afterSetText(textView);
-        final Editable coloredContent = new SpannableStringBuilder(textView.getText());
-        MarkwonMarkdownUtil.searchAndColor(coloredContent, searchText, textView.getContext(), current, color);
-        textView.setText(coloredContent, TextView.BufferType.SPANNABLE);
+        if (this.searchActive) {
+            final Editable coloredContent = new SpannableStringBuilder(textView.getText());
+            MarkwonMarkdownUtil.searchAndColor(coloredContent, searchText, textView.getContext(), current, color);
+            textView.setText(coloredContent, TextView.BufferType.SPANNABLE);
+        }
     }
 }

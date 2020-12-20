@@ -15,6 +15,7 @@ import it.niedermann.android.markdown.markwon.MarkwonMarkdownUtil;
 public class SearchHighlightTextWatcher extends InterceptorTextWatcher {
 
     private final MarkwonMarkdownEditor editText;
+    private boolean searchActive = false;
     private CharSequence searchText;
     private Integer current;
     private int color;
@@ -27,6 +28,7 @@ public class SearchHighlightTextWatcher extends InterceptorTextWatcher {
 
     public void setSearchText(@Nullable CharSequence searchText) {
         this.searchText = searchText;
+        this.searchActive = true;
     }
 
     public void setCurrent(@Nullable Integer current) {
@@ -40,6 +42,8 @@ public class SearchHighlightTextWatcher extends InterceptorTextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
         originalWatcher.afterTextChanged(s);
-        MarkwonMarkdownUtil.searchAndColor(s, searchText, editText.getContext(), current, color);
+        if (searchActive) {
+            MarkwonMarkdownUtil.searchAndColor(s, searchText, editText.getContext(), current, color);
+        }
     }
 }
