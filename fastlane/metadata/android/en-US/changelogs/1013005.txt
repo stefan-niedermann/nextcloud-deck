@@ -1,1 +1,2 @@
 - 🔢 Auto continuate ordered lists (#768)
+- 👤 Fix image loading when Nextcloud instance is not installed in the root directory (#664, #706, #754)
