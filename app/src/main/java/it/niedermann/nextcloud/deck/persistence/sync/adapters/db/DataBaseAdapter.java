@@ -57,6 +57,7 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetBoard;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetLabel;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetProject;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetSort;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetStack;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
@@ -278,6 +279,19 @@ public class DataBaseAdapter {
             }
         } else if (filter.isNoAssignedUser()) {
             query.append("and not exists(select 1 from joincardwithuser j where c.localId = cardId and j.status<>3) ");
+        }
+
+        if (!filter.getProjects().isEmpty()) {
+            query.append("and (exists(select 1 from joincardwithproject j where c.localId = cardId and projectId in (");
+            fillSqlWithEntityListValues(query, args, filter.getProjects());
+            query.append(") and j.status<>3) ");
+            if (filter.isNoAssignedProject()) {
+                query.append("or not exists(select 1 from joincardwithproject j where c.localId = cardId and j.status<>3)) ");
+            } else {
+                query.append(") ");
+            }
+        } else if (filter.isNoAssignedProject()) {
+            query.append("and not exists(select 1 from joincardwithproject j where c.localId = cardId and j.status<>3) ");
         }
 
         if (filter.getDueType() != EDueType.NO_FILTER) {
@@ -1144,6 +1158,10 @@ public class DataBaseAdapter {
                 user.setFilterAccountId(accountId);
                 db.getFilterWidgetUserDao().insert(user);
             }
+            for (FilterWidgetProject project : account.getProjects()) {
+                project.setFilterAccountId(accountId);
+                db.getFilterWidgetProjectDao().insert(project);
+            }
             for (FilterWidgetBoard board : account.getBoards()) {
                 board.setFilterAccountId(accountId);
                 long boardId = db.getFilterWidgetBoardDao().insert(board);
@@ -1184,6 +1202,7 @@ public class DataBaseAdapter {
         for (FilterWidgetAccount account : filterWidget.getAccounts()) {
             account.setBoards(db.getFilterWidgetBoardDao().getFilterWidgetBoardsByFilterWidgetAccountIdDirectly(account.getId()));
             account.setUsers(db.getFilterWidgetUserDao().getFilterWidgetUsersByFilterWidgetAccountIdDirectly(account.getId()));
+            account.setProjects(db.getFilterWidgetProjectDao().getFilterWidgetProjectsByFilterWidgetAccountIdDirectly(account.getId()));
             for (FilterWidgetBoard board : account.getBoards()) {
                 board.setLabels(db.getFilterWidgetLabelDao().getFilterWidgetLabelsByFilterWidgetBoardIdDirectly(board.getId()));
                 board.setStacks(db.getFilterWidgetStackDao().getFilterWidgetStacksByFilterWidgetBoardIdDirectly(board.getId()));
@@ -1225,6 +1244,16 @@ public class DataBaseAdapter {
                     }
                 }
                 filter.setUsers(users);
+                filter.setNoAssignedProject(account.isIncludeNoProject());
+                List<OcsProject> projects = new ArrayList<>();
+                if (!account.getProjects().isEmpty()) {
+                    for (FilterWidgetProject project : account.getProjects()) {
+                        OcsProject u = new OcsProject();
+                        u.setLocalId(project.getProjectId());
+                        projects.add(u);
+                    }
+                }
+                filter.setProjects(projects);
                 if (!account.getBoards().isEmpty()) {
                     for (FilterWidgetBoard board : account.getBoards()) {
                         filter.setNoAssignedLabel(board.isIncludeNoLabel());

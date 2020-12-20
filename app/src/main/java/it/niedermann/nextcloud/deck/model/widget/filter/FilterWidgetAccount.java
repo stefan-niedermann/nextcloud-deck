@@ -37,6 +37,16 @@ public class FilterWidgetAccount {
     private Long filterWidgetId;
     private Long accountId;
     private boolean includeNoUser = true;
+    private boolean includeNoProject = true;
+
+    @Ignore
+    private List<FilterWidgetBoard> boards = new ArrayList<>();
+
+    @Ignore
+    private List<FilterWidgetUser> users = new ArrayList<>();
+
+    @Ignore
+    private List<FilterWidgetProject> projects = new ArrayList<>();
 
     public FilterWidgetAccount() {
         // Default constructor
@@ -47,12 +57,6 @@ public class FilterWidgetAccount {
         this.setAccountId(accountId);
         this.setIncludeNoUser(includeNoUser);
     }
-
-    @Ignore
-    private List<FilterWidgetBoard> boards = new ArrayList<>();
-
-    @Ignore
-    private List<FilterWidgetUser> users = new ArrayList<>();
 
     public void setBoards(List<FilterWidgetBoard> boards) {
         this.boards = boards;
@@ -107,6 +111,22 @@ public class FilterWidgetAccount {
         this.includeNoUser = includeNoUser;
     }
 
+    public boolean isIncludeNoProject() {
+        return includeNoProject;
+    }
+
+    public void setIncludeNoProject(boolean includeNoProject) {
+        this.includeNoProject = includeNoProject;
+    }
+
+    public List<FilterWidgetProject> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<FilterWidgetProject> projects) {
+        this.projects = projects;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -115,13 +135,15 @@ public class FilterWidgetAccount {
         FilterWidgetAccount that = (FilterWidgetAccount) o;
 
         if (includeNoUser != that.includeNoUser) return false;
+        if (includeNoProject != that.includeNoProject) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (filterWidgetId != null ? !filterWidgetId.equals(that.filterWidgetId) : that.filterWidgetId != null)
             return false;
         if (accountId != null ? !accountId.equals(that.accountId) : that.accountId != null)
             return false;
         if (boards != null ? !boards.equals(that.boards) : that.boards != null) return false;
-        return users != null ? users.equals(that.users) : that.users == null;
+        if (users != null ? !users.equals(that.users) : that.users != null) return false;
+        return projects != null ? projects.equals(that.projects) : that.projects == null;
     }
 
     @Override
@@ -130,8 +152,10 @@ public class FilterWidgetAccount {
         result = 31 * result + (filterWidgetId != null ? filterWidgetId.hashCode() : 0);
         result = 31 * result + (accountId != null ? accountId.hashCode() : 0);
         result = 31 * result + (includeNoUser ? 1 : 0);
+        result = 31 * result + (includeNoProject ? 1 : 0);
         result = 31 * result + (boards != null ? boards.hashCode() : 0);
         result = 31 * result + (users != null ? users.hashCode() : 0);
+        result = 31 * result + (projects != null ? projects.hashCode() : 0);
         return result;
     }
 }
