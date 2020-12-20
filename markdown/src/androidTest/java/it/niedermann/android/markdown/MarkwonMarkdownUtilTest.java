@@ -437,4 +437,25 @@ public class MarkwonMarkdownUtilTest extends TestCase {
         assertEquals(-1, MarkwonMarkdownUtil.getOrderedListNumber("-1. Test"));
         assertEquals(-1, MarkwonMarkdownUtil.getOrderedListNumber(" 1. Test"));
     }
+
+//    @Test
+//    public void testRemoveSpans() {
+//        try {
+//            final Method m = MarkwonMarkdownUtil.class.getDeclaredMethod("removeSpans", Editable.class, Class.class);
+//            m.setAccessible(true);
+//
+//            Editable editable;
+//
+//            editable = new SpannableStringBuilder("Lorem Ipsum dolor sit amet");
+//            editable.setSpan(SearchSpan.class, 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            editable.setSpan(ForegroundColorSpan.class, 6, 11, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            editable.setSpan(SearchSpan.class, 12, 17, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            m.invoke(null, editable, SearchSpan.class);
+//            assertEquals(0, editable.getSpans(0, editable.length(), SearchSpan.class).length);
+//            assertEquals(1, editable.getSpans(0, editable.length(), ForegroundColorSpan.class).length);
+//
+//        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
