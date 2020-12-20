@@ -1383,7 +1383,8 @@ public class DataBaseAdapter {
                 assignment.setStatus(DBStatus.UP_TO_DATE.getId());
                 assignment.setCardId(card.getLocalId());
                 assignment.setProjectId(localProjectId);
-                db.getJoinCardWithOcsProjectDao().insert(assignment);
+                long id = db.getJoinCardWithOcsProjectDao().insert(assignment);
+                notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.PROJECT, id);
             }
         }
     }

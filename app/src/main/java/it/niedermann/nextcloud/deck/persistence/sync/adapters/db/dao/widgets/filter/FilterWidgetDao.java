@@ -31,11 +31,13 @@ public interface FilterWidgetDao extends GenericDao<FilterWidget> {
             "LEFT JOIN FilterWidgetBoard b ON a.id = b.filterAccountId " +
             "LEFT JOIN FilterWidgetStack s ON b.id = s.filterBoardId " +
             "LEFT JOIN FilterWidgetUser u ON a.id = u.filterAccountId " +
+            "LEFT JOIN FilterWidgetProject p ON a.id = p.filterAccountId " +
             "LEFT JOIN FilterWidgetLabel l ON b.id = l.filterBoardId " +
             "WHERE (:changedEntityType = 'ACCOUNT' AND (a.accountId = :localIdOfChangedEntity OR a.accountId IS NULL)) " +
             "OR (:changedEntityType = 'BOARD' AND (b.boardId = :localIdOfChangedEntity OR b.boardId IS NULL)) " +
             "OR (:changedEntityType = 'STACK' AND (s.stackId = :localIdOfChangedEntity OR s.stackId IS NULL)) " +
             "OR (:changedEntityType = 'USER' AND (u.userId = :localIdOfChangedEntity OR u.userId IS NULL)) " +
+            "OR (:changedEntityType = 'PROJECT' AND (p.projectId = :localIdOfChangedEntity OR p.projectId IS NULL)) " +
             "OR (:changedEntityType = 'LABEL' AND (l.labelId = :localIdOfChangedEntity OR l.labelId IS NULL)) "
     )
     List<EWidgetType> getChangedListTypesByEntity(String changedEntityType, Long localIdOfChangedEntity);

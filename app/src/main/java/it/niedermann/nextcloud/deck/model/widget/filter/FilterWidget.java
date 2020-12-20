@@ -137,5 +137,6 @@ public class FilterWidget {
         STACK,
         LABEL,
         USER,
+        PROJECT,
     }
 }
