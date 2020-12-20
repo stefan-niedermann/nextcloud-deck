@@ -256,7 +256,7 @@ public class MarkwonMarkdownUtil {
         return false;
     }
 
-    public static void searchAndColor(@NonNull Editable editable, @Nullable CharSequence searchText, @NonNull Context context, @Nullable Integer current, @ColorInt int mainColor) {
+    public static void searchAndColor(@NonNull Spannable editable, @Nullable CharSequence searchText, @NonNull Context context, @Nullable Integer current, @ColorInt int mainColor) {
         removeSpans(editable, SearchSpan.class);
         if (searchText != null) {
             final Matcher m = Pattern
@@ -273,9 +273,9 @@ public class MarkwonMarkdownUtil {
         }
     }
 
-    private static <T> void removeSpans(@NonNull Editable editable, @SuppressWarnings("SameParameterValue") Class<T> spanType) {
-        for (T span : editable.getSpans(0, editable.length(), spanType)) {
-            editable.removeSpan(span);
+    private static <T> void removeSpans(@NonNull Spannable spannable, @SuppressWarnings("SameParameterValue") Class<T> spanType) {
+        for (T span : spannable.getSpans(0, spannable.length(), spanType)) {
+            spannable.removeSpan(span);
         }
     }
 }
