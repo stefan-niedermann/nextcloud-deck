@@ -258,18 +258,21 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     }
 
                     boardsList = boards;
+                    Board currentBoard = null;
 
                     if (boardsList.size() > 0) {
                         boolean currentBoardIdWasInList = false;
                         for (int i = 0; i < boardsList.size(); i++) {
                             if (lastBoardId == boardsList.get(i).getLocalId() || lastBoardId == NO_BOARD_ID) {
-                                setCurrentBoard(boardsList.get(i));
+                                currentBoard = boardsList.get(i);
+                                setCurrentBoard(currentBoard);
                                 currentBoardIdWasInList = true;
                                 break;
                             }
                         }
                         if (!currentBoardIdWasInList) {
-                            setCurrentBoard(boardsList.get(0));
+                            currentBoard = boardsList.get(0);
+                            setCurrentBoard(currentBoard);
                         }
 
                         binding.filter.setOnClickListener((v) -> FilterDialogFragment.newInstance().show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName()));
@@ -280,13 +283,14 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         binding.filter.setOnClickListener(null);
                     }
 
+                    final Board finalCurrentBoard = currentBoard;
                     if (hasArchivedBoardsLiveData != null && hasArchivedBoardsLiveDataObserver != null) {
                         hasArchivedBoardsLiveData.removeObserver(hasArchivedBoardsLiveDataObserver);
                     }
                     hasArchivedBoardsLiveData = mainViewModel.hasArchivedBoards(currentAccount.getId());
                     hasArchivedBoardsLiveDataObserver = (hasArchivedBoards) -> {
                         mainViewModel.setCurrentAccountHasArchivedBoards(Boolean.TRUE.equals(hasArchivedBoards));
-                        inflateBoardMenu();
+                        inflateBoardMenu(finalCurrentBoard);
                     };
                     hasArchivedBoardsLiveData.observe(this, hasArchivedBoardsLiveDataObserver);
                 };
@@ -486,7 +490,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 boardsList.add(createdBoard.getBoard());
                 setCurrentBoard(createdBoard.getBoard());
 
-                inflateBoardMenu();
+                inflateBoardMenu(createdBoard.getBoard());
                 EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
             }
             boardsLiveData.observe(this, boardsLiveDataObserver);
@@ -546,6 +550,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
         lastBoardId = board.getLocalId();
         saveCurrentBoardId(this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId());
+        binding.navigationView.setCheckedItem(boardsList.indexOf(board));
 
         binding.toolbar.setTitle(board.getTitle());
 
@@ -631,11 +636,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     }
 
     @UiThread
-    protected void inflateBoardMenu() {
+    protected void inflateBoardMenu(@Nullable Board currentBoard) {
         binding.navigationView.setItemIconTintList(null);
         Menu menu = binding.navigationView.getMenu();
         menu.clear();
         DrawerMenuUtil.inflateBoards(this, menu, this.boardsList, mainViewModel.currentAccountHasArchivedBoards(), mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported(this));
+        binding.navigationView.setCheckedItem(boardsList.indexOf(currentBoard));
     }
 
     @Override
@@ -654,7 +660,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 startActivity(ArchivedBoardsActvitiy.createIntent(MainActivity.this, mainViewModel.getCurrentAccount()));
                 break;
             default:
-                binding.navigationView.setCheckedItem(item);
                 setCurrentBoard(boardsList.get(item.getItemId()));
                 break;
         }
