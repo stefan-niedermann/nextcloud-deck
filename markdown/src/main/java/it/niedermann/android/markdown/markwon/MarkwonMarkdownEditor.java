@@ -71,7 +71,6 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
             Log.w(TAG, SearchHighlightTextWatcher.class.getSimpleName() + " is not a registered " + TextWatcher.class.getSimpleName());
         } else {
             searchHighlightTextWatcher.setSearchColor(color);
-            post(() -> searchHighlightTextWatcher.afterTextChanged(getText()));
         }
     }
 
@@ -81,9 +80,7 @@ public class MarkwonMarkdownEditor extends AppCompatEditText implements Markdown
         if (searchHighlightTextWatcher == null) {
             Log.w(TAG, SearchHighlightTextWatcher.class.getSimpleName() + " is not a registered " + TextWatcher.class.getSimpleName());
         } else {
-            searchHighlightTextWatcher.setSearchText(searchText);
-            searchHighlightTextWatcher.setCurrent(current);
-            post(() -> searchHighlightTextWatcher.afterTextChanged(getText()));
+            searchHighlightTextWatcher.setSearchText(searchText, current);
         }
     }
 

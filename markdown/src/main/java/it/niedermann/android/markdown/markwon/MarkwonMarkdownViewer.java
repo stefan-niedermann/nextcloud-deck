@@ -1,7 +1,6 @@
 package it.niedermann.android.markdown.markwon;
 
 import android.content.Context;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -31,7 +30,6 @@ public class MarkwonMarkdownViewer extends AppCompatTextView implements Markdown
 
     private Markwon markwon;
     private final MutableLiveData<CharSequence> unrenderedText$ = new MutableLiveData<>();
-    private Spanned renderedText;
 
     private final ExecutorService renderService;
 
@@ -58,10 +56,7 @@ public class MarkwonMarkdownViewer extends AppCompatTextView implements Markdown
         } else {
             if (!text.equals(previousText)) {
                 setText(text);
-                this.renderService.execute(() -> {
-                    this.renderedText = this.markwon.toMarkdown(text.toString());
-                    post(() -> this.markwon.setParsedMarkdown(this, renderedText));
-                });
+                this.renderService.execute(() -> post(() -> this.markwon.setMarkdown(this, text.toString())));
             }
         }
     }
@@ -72,10 +67,7 @@ public class MarkwonMarkdownViewer extends AppCompatTextView implements Markdown
         if (searchHighlightPlugin == null) {
             Log.w(TAG, SearchHighlightPlugin.class.getSimpleName() + " is not a registered " + MarkwonPlugin.class.getSimpleName());
         } else {
-            searchHighlightPlugin.setSearchColor(color);
-            if (renderedText != null) {
-                post(() -> this.markwon.setParsedMarkdown(this, renderedText));
-            }
+            searchHighlightPlugin.setSearchColor(color, this);
         }
     }
 
@@ -85,11 +77,7 @@ public class MarkwonMarkdownViewer extends AppCompatTextView implements Markdown
         if (searchHighlightPlugin == null) {
             Log.w(TAG, SearchHighlightPlugin.class.getSimpleName() + " is not a registered " + MarkwonPlugin.class.getSimpleName());
         } else {
-            searchHighlightPlugin.setSearchText(searchText);
-            searchHighlightPlugin.setCurrent(current);
-            if (renderedText != null) {
-                post(() -> this.markwon.setParsedMarkdown(this, renderedText));
-            }
+            searchHighlightPlugin.setSearchText(searchText, current, this);
         }
     }
 
