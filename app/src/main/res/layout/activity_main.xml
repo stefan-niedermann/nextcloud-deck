@@ -221,6 +221,7 @@
         android:fitsSystemWindows="false"
         android:theme="@style/NavigationView"
         app:headerLayout="@layout/nav_header_main"
-        app:itemBackground="@drawable/bg_navdrawer_item" />
+        app:itemBackground="@drawable/bg_navdrawer_item"
+        app:itemTextColor="?attr/colorOnSurface" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
