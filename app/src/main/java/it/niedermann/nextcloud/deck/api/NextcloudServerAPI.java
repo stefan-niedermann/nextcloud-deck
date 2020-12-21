@@ -10,7 +10,11 @@ import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectList;
+import it.niedermann.nextcloud.deck.model.ocs.projects.to.OcsProjectLink;
+import it.niedermann.nextcloud.deck.model.ocs.projects.to.OcsProjectNameForCreate;
+import it.niedermann.nextcloud.deck.model.ocs.projects.to.OcsProjectNameUpdate;
 import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
@@ -31,6 +35,18 @@ public interface NextcloudServerAPI {
 
     @GET("collaboration/resources/deck-card/{cardId}?format=json")
     Observable<OcsProjectList> getProjectsForCard(@Path("cardId") long cardId);
+
+    @POST("collaboration/resources/collections/{ocsProjectId}?format=json")
+    Observable<OcsProject> addCardToProject(@Path("ocsProjectId") long projectId, @Body OcsProjectLink comment);
+
+    @DELETE("collaboration/resources/collections/{ocsProjectId}?resourceType=deck-card&resourceId={cardId}")
+    Observable<OcsProject> removeCardFromProject(@Path("ocsProjectId") long projectId, @Path("cardId") long cardId);
+
+    @PUT("collaboration/resources/collections/{ocsProjectId}?format=json")
+    Observable<OcsProject> updateProjectName(@Path("ocsProjectId") long projectId, @Body OcsProjectNameUpdate ocsProjectName);
+
+    @POST("collaboration/resources/deck-card/{cardId}?format=json")
+    Observable<OcsProject> createProjectForCard(@Path("cardId") long cardId, @Body OcsProjectNameForCreate ocsProjectName);
 
     @GET("apps/files_sharing/api/v1/sharees?format=json&perPage=20&itemType=0%2C1%2C7")
     Observable<OcsUserList> searchUser(@Query("search") String searchTerm);
