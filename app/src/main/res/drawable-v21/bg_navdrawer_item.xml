@@ -19,7 +19,7 @@
         android:right="@dimen/spacer_1x">
 
         <selector>
-            <item android:state_selected="true">
+            <item android:state_checked="true">
                 <shape android:shape="rectangle">
                     <corners android:radius="@dimen/spacer_1hx" />
                     <solid android:color="@color/bg_highlighted" />
