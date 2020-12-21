@@ -48,6 +48,7 @@ public class SearchHighlightTextWatcher extends InterceptorTextWatcher {
     public void afterTextChanged(Editable s) {
         originalWatcher.afterTextChanged(s);
         if (searchText != null) {
+            MarkwonMarkdownUtil.removeSpans(s, SearchSpan.class);
             MarkwonMarkdownUtil.searchAndColor(s, searchText, editText.getContext(), current, color);
         }
     }

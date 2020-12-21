@@ -257,7 +257,6 @@ public class MarkwonMarkdownUtil {
     }
 
     public static void searchAndColor(@NonNull Spannable editable, @Nullable CharSequence searchText, @NonNull Context context, @Nullable Integer current, @ColorInt int mainColor) {
-        removeSpans(editable, SearchSpan.class);
         if (searchText != null) {
             final Matcher m = Pattern
                     .compile(searchText.toString(), Pattern.CASE_INSENSITIVE | Pattern.LITERAL)

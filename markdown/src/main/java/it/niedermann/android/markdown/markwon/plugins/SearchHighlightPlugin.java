@@ -37,9 +37,9 @@ public class SearchHighlightPlugin extends AbstractMarkwonPlugin {
 
     public void setSearchText(@Nullable CharSequence searchText, @Nullable Integer current, @NonNull TextView textView) {
         this.current = current;
+        MarkwonMarkdownUtil.removeSpans(getContentAsSpannable(textView), SearchSpan.class);
         if (TextUtils.isEmpty(searchText)) {
             this.searchText = null;
-            MarkwonMarkdownUtil.removeSpans(getContentAsSpannable(textView), SearchSpan.class);
         } else {
             this.searchText = searchText;
             afterSetText(textView);
