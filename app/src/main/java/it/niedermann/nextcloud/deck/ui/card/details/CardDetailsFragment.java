@@ -133,6 +133,8 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         applyBrandToEditText(mainColor, binding.dueDateDate);
         applyBrandToEditText(mainColor, binding.dueDateTime);
         applyBrandToEditText(mainColor, binding.people);
+        binding.descriptionEditor.setSearchColor(mainColor);
+        binding.descriptionViewer.setSearchColor(mainColor);
     }
 
     private void setupDescription() {
@@ -146,6 +148,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                     binding.descriptionViewer.setVisibility(GONE);
                     binding.descriptionToggle.setImageResource(R.drawable.ic_baseline_eye_24);
                 } else {
+                    binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
                     binding.descriptionBar.setOnClickListener(null);
                     binding.descriptionEditor.setVisibility(GONE);
                     binding.descriptionViewer.setVisibility(VISIBLE);
@@ -156,7 +159,6 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
             binding.descriptionEditor.getMarkdownString().observe(getViewLifecycleOwner(), (newText) -> {
                 if (viewModel.getFullCard() != null) {
                     viewModel.getFullCard().getCard().setDescription(newText == null ? "" : newText.toString());
-                    binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
                 } else {
                     DeckLog.logError(new IllegalStateException(FullCard.class.getSimpleName() + " was empty when trying to setup description"));
                 }

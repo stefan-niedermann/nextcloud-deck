@@ -6,8 +6,8 @@ android {
         applicationId "it.niedermann.nextcloud.deck"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 1013004
-        versionName "1.13.4"
+        versionCode 1013005
+        versionName "1.13.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         javaCompileOptions {
@@ -54,8 +54,8 @@ android {
 dependencies {
     // Single-Sign-On
     implementation 'com.github.nextcloud:Android-SingleSignOn:0.5.4'
-    implementation 'com.github.stefan-niedermann.nextcloud-commons:sso-glide:1.2.0'
-    implementation 'com.github.stefan-niedermann.nextcloud-commons:exception:1.2.0'
+    implementation 'com.github.stefan-niedermann.nextcloud-commons:sso-glide:1.2.2'
+    implementation 'com.github.stefan-niedermann.nextcloud-commons:exception:1.2.2'
     implementation 'com.github.stefan-niedermann:android-commons:0.1.1'
 
     // --------------------
@@ -71,7 +71,7 @@ dependencies {
     implementation "androidx.camera:camera-view:1.0.0-alpha20"
 
     // Markdown
-    implementation project(path: ':markdown')
+    implementation 'com.github.stefan-niedermann:nextcloud-notes:v2.18.0'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
