@@ -273,7 +273,7 @@ public class MarkwonMarkdownUtil {
         }
     }
 
-    private static <T> void removeSpans(@NonNull Spannable spannable, @SuppressWarnings("SameParameterValue") Class<T> spanType) {
+    public static <T> void removeSpans(@NonNull Spannable spannable, @SuppressWarnings("SameParameterValue") Class<T> spanType) {
         for (T span : spannable.getSpans(0, spannable.length(), spanType)) {
             spannable.removeSpan(span);
         }

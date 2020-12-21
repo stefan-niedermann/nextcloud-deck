@@ -2,7 +2,7 @@ package it.niedermann.android.markdown.markwon.format;
 
 import android.graphics.Typeface;
 import android.text.Editable;
-import android.text.SpannableStringBuilder;
+import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.util.SparseIntArray;
@@ -35,14 +35,14 @@ public class ContextBasedRangeFormattingCallback implements ActionMode.Callback 
 
         MenuItem item;
         CharSequence title;
-        SpannableStringBuilder ssb;
+        SpannableString spannableString;
 
         for (int i = 0; i < styleFormatMap.size(); i++) {
             item = menu.findItem(styleFormatMap.keyAt(i));
             title = item.getTitle();
-            ssb = new SpannableStringBuilder(title);
-            ssb.setSpan(new StyleSpan(styleFormatMap.valueAt(i)), 0, title.length(), 0);
-            item.setTitle(ssb);
+            spannableString = new SpannableString(title);
+            spannableString.setSpan(new StyleSpan(styleFormatMap.valueAt(i)), 0, title.length(), 0);
+            item.setTitle(spannableString);
         }
 
         return true;
