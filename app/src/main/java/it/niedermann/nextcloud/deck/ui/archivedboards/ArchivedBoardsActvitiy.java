@@ -119,6 +119,12 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
 
     @Override
     public void onClone(Board board) {
+        throw new IllegalStateException("Cloning boards is not available at " + ArchivedBoardsActvitiy.class.getSimpleName());
+    }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish(); // close this activity as oppose to navigating up
+        return true;
     }
 }
