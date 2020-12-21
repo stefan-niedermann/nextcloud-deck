@@ -71,7 +71,7 @@ dependencies {
     implementation "androidx.camera:camera-view:1.0.0-alpha20"
 
     // Markdown
-    implementation project(path: ':markdown')
+    implementation 'com.github.stefan-niedermann:nextcloud-notes:v2.18.0'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
