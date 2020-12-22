@@ -79,20 +79,15 @@ public class UpcomingWidget extends AppWidgetProvider {
 
         final AppWidgetManager awm = AppWidgetManager.getInstance(context);
 
-        if (intent.getAction() != null) {
-            if (intent.getAction().equals(ACTION_APPWIDGET_UPDATE)) {
-                if (intent.hasExtra(BUNDLE_KEY)) {
-                    if (intent.hasExtra(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
-                        if (intent.getExtras() != null) {
-                            int appWidgetId = intent.getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
-                            DeckLog.verbose(ACTION_APPWIDGET_UPDATE + " for " + UpcomingWidget.class.getSimpleName() + " with id " + appWidgetId + ", perform update.");
-                            updateAppWidget(context, awm, new int[]{appWidgetId});
-                        }
-                    } else {
-                        DeckLog.warn(ACTION_APPWIDGET_UPDATE + " for " + UpcomingWidget.class.getSimpleName() + " without id, perform update for all widgets of this type.");
-                        updateAppWidget(context, awm, awm.getAppWidgetIds(new ComponentName(context, UpcomingWidget.class)));
-                    }
-                }
+        if (ACTION_APPWIDGET_UPDATE.equals(intent.getAction())) {
+            if (intent.hasExtra(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
+                @SuppressWarnings("ConstantConditions")
+                int appWidgetId = intent.getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
+                DeckLog.verbose(ACTION_APPWIDGET_UPDATE + " for " + UpcomingWidget.class.getSimpleName() + " with id " + appWidgetId + ", perform update.");
+                updateAppWidget(context, awm, new int[]{appWidgetId});
+            } else {
+                DeckLog.verbose(ACTION_APPWIDGET_UPDATE + " for " + UpcomingWidget.class.getSimpleName() + ": Triggering update for all widgets of this type.");
+                updateAppWidget(context, awm, awm.getAppWidgetIds(new ComponentName(context, UpcomingWidget.class)));
             }
         }
     }
@@ -132,7 +127,7 @@ public class UpcomingWidget extends AppWidgetProvider {
                 views.setRemoteAdapter(R.id.upcoming_widget_lv, serviceIntent);
                 views.setEmptyView(R.id.upcoming_widget_lv, R.id.widget_upcoming_placeholder_iv);
 
-                awm.notifyAppWidgetViewDataChanged(appWidgetId, R.id.upcoming_widget_lv);
+//                awm.notifyAppWidgetViewDataChanged(appWidgetId, R.id.upcoming_widget_lv);
                 awm.updateAppWidget(appWidgetId, views);
             }).start();
         }

@@ -1216,7 +1216,7 @@ public class DataBaseAdapter {
         new Thread(() -> {
             List<EWidgetType> widgetTypesToNotify = db.getFilterWidgetDao().getChangedListTypesByEntity(type.toString(), entityId);
             for (EWidgetType t : widgetTypesToNotify) {
-                DeckLog.info("Notifying "+t.getWidgetClass().getSimpleName()+" about entity change: "+type.name()+" with ID "+entityId);
+                DeckLog.info("Notifying " + t.getWidgetClass().getSimpleName() + " about entity change: " + type.name() + " with ID " + entityId);
                 context.sendBroadcast(new Intent(context, t.getWidgetClass()).setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE));
             }
         }).start();
