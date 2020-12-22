@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -16,6 +17,7 @@ import androidx.annotation.NonNull;
 
 import java.util.NoSuchElementException;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullSingleCardWidgetModel;
@@ -36,8 +38,11 @@ public class SingleCardWidget extends AppWidgetProvider {
                     final Intent intent = EditActivity.createEditCardIntent(context, fullModel.getAccount(), fullModel.getModel().getBoardId(), fullModel.getFullCard().getLocalId());
                     final PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_single_card);
-                    Intent serviceIntent = new Intent(context, SingleCardWidgetService.class);
+                    final Intent serviceIntent = new Intent(context, SingleCardWidgetService.class);
                     serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+                    serviceIntent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+
+                    DeckLog.log("updateAppWidget() with appWidgetId " + appWidgetId);
 
                     views.setOnClickPendingIntent(R.id.widget_card, pendingIntent);
 
@@ -127,7 +132,7 @@ public class SingleCardWidget extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        AppWidgetManager awm = AppWidgetManager.getInstance(context);
+        final AppWidgetManager awm = AppWidgetManager.getInstance(context);
 
         updateAppWidget(context, AppWidgetManager.getInstance(context),
                 (awm.getAppWidgetIds(new ComponentName(context, SingleCardWidget.class))));

@@ -1100,7 +1100,7 @@ public class SyncManager {
                             @SuppressLint("MissingSuperCall")
                             @Override
                             public void onError(Throwable throwable) {
-                                if (throwable.getClass() == DeckException.class && ((DeckException)throwable).getHint().equals(DeckException.Hint.DEPENDENCY_NOT_SYNCED_YET)) {
+                                if (throwable.getClass() == DeckException.class && ((DeckException) throwable).getHint().equals(DeckException.Hint.DEPENDENCY_NOT_SYNCED_YET)) {
                                     liveData.postValue(card);
                                 } else {
                                     liveData.postError(throwable);
@@ -1943,10 +1943,10 @@ public class SyncManager {
     }
 
     @WorkerThread
-    public FullSingleCardWidgetModel getSingleCardWidgetModelDirectly(int widgetId) throws NoSuchElementException {
-        final FullSingleCardWidgetModel model = dataBaseAdapter.getFullSingleCardWidgetModel(widgetId);
+    public FullSingleCardWidgetModel getSingleCardWidgetModelDirectly(int appWidgetId) throws NoSuchElementException {
+        final FullSingleCardWidgetModel model = dataBaseAdapter.getFullSingleCardWidgetModel(appWidgetId);
         if (model == null) {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("There is no " + FullSingleCardWidgetModel.class.getSimpleName() + " with the given appWidgetId " + appWidgetId);
         }
         return model;
     }
