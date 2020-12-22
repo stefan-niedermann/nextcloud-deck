@@ -180,6 +180,10 @@
             </intent-filter>
         </activity>
 
+        <service
+            android:name=".ui.widget.singlecard.SingleCardWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
         <receiver
             android:name=".ui.widget.singlecard.SingleCardWidget"
             android:label="@string/single_card">

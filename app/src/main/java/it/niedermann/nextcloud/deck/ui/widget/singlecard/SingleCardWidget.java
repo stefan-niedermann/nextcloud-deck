@@ -36,11 +36,13 @@ public class SingleCardWidget extends AppWidgetProvider {
                     final Intent intent = EditActivity.createEditCardIntent(context, fullModel.getAccount(), fullModel.getModel().getBoardId(), fullModel.getFullCard().getLocalId());
                     final PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_single_card);
+                    Intent serviceIntent = new Intent(context, SingleCardWidgetService.class);
+                    serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 
                     views.setOnClickPendingIntent(R.id.widget_card, pendingIntent);
 
                     views.setTextViewText(R.id.title, fullModel.getFullCard().getCard().getTitle());
-                    views.setTextViewText(R.id.description, fullModel.getFullCard().getCard().getDescription());
+                    views.setRemoteAdapter(R.id.description_lv, serviceIntent);
 
                     if (fullModel.getFullCard().getCard().getDueDate() != null) {
                         views.setTextViewText(R.id.card_due_date, DateUtil.getRelativeDateTimeString(context, fullModel.getFullCard().getCard().getDueDate().toEpochMilli()));
@@ -92,6 +94,7 @@ public class SingleCardWidget extends AppWidgetProvider {
                     }
 
                     awm.updateAppWidget(appWidgetId, views);
+                    awm.notifyAppWidgetViewDataChanged(appWidgetId, R.id.description_lv);
                 } catch (NoSuchElementException e) {
                     // onUpdate has been triggered before the user finished configuring the widget
                 }
