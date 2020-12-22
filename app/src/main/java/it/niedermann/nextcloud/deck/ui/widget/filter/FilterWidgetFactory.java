@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.widget.filter;
 
 import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
@@ -14,43 +13,26 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.widget.stack.StackWidget;
 
 public class FilterWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private final Context context;
     private final int appWidgetId;
+    private final SyncManager syncManager;
 
     @NonNull
     private final List<FilterWidgetCard> data = new ArrayList<>();
 
     FilterWidgetFactory(Context context, Intent intent) {
         this.context = context;
-        appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        this.syncManager = new SyncManager(context);
     }
 
     @Override
     public void onCreate() {
-        final SyncManager syncManager = new SyncManager(context);
-
-        syncManager.getCardsForFilterWidget(appWidgetId, new IResponseCallback<List<FilterWidgetCard>>(null) {
-            @Override
-            public void onResponse(List<FilterWidgetCard> response) {
-                data.clear();
-                data.addAll(response);
-                RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_upcoming);
-                notifyAppWidgetUpdate(views);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                super.onError(throwable);
-                data.clear();
-            }
-        });
     }
 
     @Override
@@ -104,12 +86,5 @@ public class FilterWidgetFactory implements RemoteViewsService.RemoteViewsFactor
     @Override
     public boolean hasStableIds() {
         return true;
-    }
-
-    private void notifyAppWidgetUpdate(RemoteViews views) {
-        AppWidgetManager awm = AppWidgetManager.getInstance(context);
-        int[] appWidgetIds = awm.getAppWidgetIds(new ComponentName(context, StackWidget.class));
-        awm.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.stack_widget_lv);
-        awm.updateAppWidget(appWidgetId, views);
     }
 }

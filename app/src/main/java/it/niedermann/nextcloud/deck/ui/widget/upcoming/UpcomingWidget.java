@@ -31,7 +31,6 @@ import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import static android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE;
 
 public class UpcomingWidget extends AppWidgetProvider {
-    public static final String BUNDLE_KEY = "upcoming_widget_bundle";
     private static final int PENDING_INTENT_OPEN_APP_RQ = 0;
     private static final int PENDING_INTENT_EDIT_CARD_RQ = 1;
 
@@ -127,16 +126,9 @@ public class UpcomingWidget extends AppWidgetProvider {
                 views.setRemoteAdapter(R.id.upcoming_widget_lv, serviceIntent);
                 views.setEmptyView(R.id.upcoming_widget_lv, R.id.widget_upcoming_placeholder_iv);
 
-//                awm.notifyAppWidgetViewDataChanged(appWidgetId, R.id.upcoming_widget_lv);
+                awm.notifyAppWidgetViewDataChanged(appWidgetId, R.id.upcoming_widget_lv);
                 awm.updateAppWidget(appWidgetId, views);
             }).start();
         }
     }
-
-    /**
-     * Updates UI data of all {@link UpcomingWidget} instances
-     */
-//    public static void notifyDatasetChanged(Context context) {
-//        context.sendBroadcast(new Intent(context, UpcomingWidget.class).setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE));
-//    }
 }

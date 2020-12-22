@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.model.widget.filter;
 
+import it.niedermann.nextcloud.deck.ui.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.ui.widget.upcoming.UpcomingWidget;
 
 public enum EWidgetType {

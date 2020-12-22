@@ -2004,14 +2004,8 @@ public class SyncManager {
     }
 
     @WorkerThread
-    public void getCardsForFilterWidget(@NonNull Integer filterWidgetId, @NonNull IResponseCallback<List<FilterWidgetCard>> callback) {
-        doAsync(() -> {
-            try {
-                callback.onResponse(dataBaseAdapter.getCardsForFilterWidget(filterWidgetId));
-            } catch (Throwable t) {
-                callback.onError(t);
-            }
-        });
+    public List<FilterWidgetCard> getCardsForFilterWidget(@NonNull Integer filterWidgetId) {
+        return dataBaseAdapter.getCardsForFilterWidget(filterWidgetId);
     }
 
     // # single card widget

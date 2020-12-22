@@ -80,11 +80,4 @@ public class FilterWidget extends AppWidgetProvider {
             });
         }
     }
-
-    /**
-     * Updates UI data of all {@link FilterWidget} instances
-     */
-    public static void notifyDatasetChanged(Context context) {
-        context.sendBroadcast(new Intent(context, FilterWidget.class).setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE));
-    }
 }

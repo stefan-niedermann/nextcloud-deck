@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.widget.upcoming;
 
 import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -20,7 +19,6 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
@@ -45,39 +43,33 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
 
     @Override
     public void onCreate() {
-        syncManager.getCardsForFilterWidget(appWidgetId, new IResponseCallback<List<FilterWidgetCard>>(null) {
-            @Override
-            public void onResponse(List<FilterWidgetCard> response) {
-                DeckLog.verbose(UpcomingWidgetFactory.class.getSimpleName() + " with id " + appWidgetId + " fetched " + response.size() + " cards from the database.");
-                data.clear();
-                Collections.sort(response, (card1, card2) -> {
-                    if (card1 == null || card1.getCard() == null || card1.getCard().getCard().getDueDate() == null) {
-                        return 1;
-                    }
-                    if (card2 == null || card2.getCard() == null || card2.getCard().getCard().getDueDate() == null) {
-                        return -1;
-                    }
-                    return card1.getCard().getCard().getDueDate().compareTo(card2.getCard().getCard().getDueDate()) * -1;
-                });
-                EDueType lastDueType = null;
-                for (FilterWidgetCard filterWidgetCard : response) {
-                    final EDueType nextDueType = getDueType(filterWidgetCard.getCard().getCard().getDueDate());
-                    DeckLog.info(filterWidgetCard.getCard().getCard().getTitle() + ": " + nextDueType.name());
-                    if (!nextDueType.equals(lastDueType)) {
-                        data.add(new Separator(nextDueType.toString(context)));
-                        lastDueType = nextDueType;
-                    }
-                    data.add(filterWidgetCard);
-                }
-                final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_upcoming);
-                notifyAppWidgetUpdate(views);
-            }
-        });
+        // Nothing to do here...
     }
 
     @Override
     public void onDataSetChanged() {
-
+        final List<FilterWidgetCard> response = syncManager.getCardsForFilterWidget(appWidgetId);
+        DeckLog.verbose(UpcomingWidgetFactory.class.getSimpleName() + " with id " + appWidgetId + " fetched " + response.size() + " cards from the database.");
+        data.clear();
+        Collections.sort(response, (card1, card2) -> {
+            if (card1 == null || card1.getCard() == null || card1.getCard().getCard().getDueDate() == null) {
+                return 1;
+            }
+            if (card2 == null || card2.getCard() == null || card2.getCard().getCard().getDueDate() == null) {
+                return -1;
+            }
+            return card1.getCard().getCard().getDueDate().compareTo(card2.getCard().getCard().getDueDate()) * -1;
+        });
+        EDueType lastDueType = null;
+        for (FilterWidgetCard filterWidgetCard : response) {
+            final EDueType nextDueType = getDueType(filterWidgetCard.getCard().getCard().getDueDate());
+            DeckLog.info(filterWidgetCard.getCard().getCard().getTitle() + ": " + nextDueType.name());
+            if (!nextDueType.equals(lastDueType)) {
+                data.add(new Separator(nextDueType.toString(context)));
+                lastDueType = nextDueType;
+            }
+            data.add(filterWidgetCard);
+        }
     }
 
     @Override
@@ -132,13 +124,6 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     @Override
     public boolean hasStableIds() {
         return true;
-    }
-
-    private void notifyAppWidgetUpdate(RemoteViews views) {
-        final AppWidgetManager awm = AppWidgetManager.getInstance(context);
-        final int[] appWidgetIds = awm.getAppWidgetIds(new ComponentName(context, UpcomingWidget.class));
-        awm.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.upcoming_widget_lv);
-        awm.updateAppWidget(appWidgetId, views);
     }
 
     @NonNull
