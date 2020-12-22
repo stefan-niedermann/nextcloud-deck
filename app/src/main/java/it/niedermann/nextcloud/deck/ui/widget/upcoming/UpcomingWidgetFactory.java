@@ -9,6 +9,7 @@ import android.widget.RemoteViewsService;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -19,7 +20,6 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -58,11 +58,11 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
             if (card2 == null || card2.getCard() == null || card2.getCard().getCard().getDueDate() == null) {
                 return -1;
             }
-            return card1.getCard().getCard().getDueDate().compareTo(card2.getCard().getCard().getDueDate()) * -1;
+            return card1.getCard().getCard().getDueDate().compareTo(card2.getCard().getCard().getDueDate());
         });
-        EDueType lastDueType = null;
+        EUpcomingDueType lastDueType = null;
         for (FilterWidgetCard filterWidgetCard : response) {
-            final EDueType nextDueType = getDueType(filterWidgetCard.getCard().getCard().getDueDate());
+            final EUpcomingDueType nextDueType = getDueType(filterWidgetCard.getCard().getCard().getDueDate());
             DeckLog.info(filterWidgetCard.getCard().getCard().getTitle() + ": " + nextDueType.name());
             if (!nextDueType.equals(lastDueType)) {
                 data.add(new Separator(nextDueType.toString(context)));
@@ -127,23 +127,50 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     }
 
     @NonNull
-    private static EDueType getDueType(@Nullable Instant dueDate) {
+    private static EUpcomingDueType getDueType(@Nullable Instant dueDate) {
         if (dueDate == null) {
-            return EDueType.NO_DUE;
+            return EUpcomingDueType.NO_DUE;
         }
 
         long diff = DAYS.between(LocalDate.now(), dueDate.atZone(ZoneId.systemDefault()).toLocalDate());
 
-        if (diff > 7 && diff <= 30) {
-            return EDueType.MONTH;
-        } else if (diff > 0 && diff <= 7) {
-            return EDueType.WEEK;
+        if (diff > 7) {
+            return EUpcomingDueType.LATER;
+        } else if (diff > 1) {
+            return EUpcomingDueType.WEEK;
+        } else if (diff > 0) {
+            return EUpcomingDueType.TOMORROW;
         } else if (diff == 0) {
-            return EDueType.TODAY;
-        } else if (diff < 0) {
-            return EDueType.OVERDUE;
+            return EUpcomingDueType.TODAY;
+        } else {
+            return EUpcomingDueType.OVERDUE;
         }
-        return EDueType.NO_FILTER;
+    }
+
+    private enum EUpcomingDueType {
+        OVERDUE(1, R.string.filter_overdue),
+        TODAY(2, R.string.filter_today),
+        TOMORROW(3, R.string.filter_tomorrow),
+        WEEK(4, R.string.filter_week),
+        LATER(5, R.string.filter_later),
+        NO_DUE(6, R.string.filter_no_due);
+
+        private final int value;
+        private final int id;
+
+        EUpcomingDueType(int id, @StringRes int value) {
+            this.value = value;
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        @NonNull
+        public String toString(Context context) {
+            return context.getString(this.value);
+        }
     }
 
     private static class Separator {
