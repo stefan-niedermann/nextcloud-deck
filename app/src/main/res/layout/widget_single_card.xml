@@ -53,7 +53,10 @@
         android:id="@+id/description_lv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="@dimen/spacer_1hx"
+        android:layout_marginBottom="@dimen/spacer_1hx"
         android:layout_weight="1"
+        android:divider="@null"
         tools:listitem="@layout/widget_single_card_content" />
 
     <LinearLayout
