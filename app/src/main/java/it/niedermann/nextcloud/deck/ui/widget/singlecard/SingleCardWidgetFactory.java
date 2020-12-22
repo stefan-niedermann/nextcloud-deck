@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import it.niedermann.android.markdown.MarkdownUtil;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullSingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -26,6 +27,7 @@ public class SingleCardWidgetFactory implements RemoteViewsService.RemoteViewsFa
     public SingleCardWidgetFactory(@NonNull Context context, @NonNull Intent intent) {
         this.context = context;
         this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        DeckLog.log("Constructor with appWidgetId " + appWidgetId);
         this.syncManager = new SyncManager(context);
     }
 
@@ -37,6 +39,7 @@ public class SingleCardWidgetFactory implements RemoteViewsService.RemoteViewsFa
     @Override
     public void onDataSetChanged() {
         this.model = syncManager.getSingleCardWidgetModelDirectly(appWidgetId);
+        DeckLog.log("onDataSetChanged() with appWidgetId " + appWidgetId + " model: " + this.model.getFullCard().getCard().getTitle());
     }
 
     @Override
@@ -55,6 +58,7 @@ public class SingleCardWidgetFactory implements RemoteViewsService.RemoteViewsFa
         if (description == null) {
             return null;
         }
+        DeckLog.log("getViewAt() with appWidgetId " + appWidgetId + " model: " + this.model.getFullCard().getCard().getTitle());
 
         final Intent intent = EditActivity.createEditCardIntent(context, model.getAccount(), model.getModel().getBoardId(), model.getFullCard().getLocalId());
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
