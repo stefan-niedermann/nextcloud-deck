@@ -50,6 +50,7 @@ public class SingleCardWidget extends AppWidgetProvider {
                     }
 
                     views.setOnClickPendingIntent(R.id.widget_card, pendingIntent);
+                    views.setPendingIntentTemplate(R.id.description_lv, pendingIntent);
                     views.setTextViewText(R.id.title, fullModel.getFullCard().getCard().getTitle());
                     views.setRemoteAdapter(R.id.description_lv, serviceIntent);
 
@@ -138,8 +139,7 @@ public class SingleCardWidget extends AppWidgetProvider {
         super.onReceive(context, intent);
         final AppWidgetManager awm = AppWidgetManager.getInstance(context);
 
-        updateAppWidget(context, AppWidgetManager.getInstance(context),
-                (awm.getAppWidgetIds(new ComponentName(context, SingleCardWidget.class))));
+        updateAppWidget(context, AppWidgetManager.getInstance(context), (awm.getAppWidgetIds(new ComponentName(context, SingleCardWidget.class))));
     }
 
     @Override
