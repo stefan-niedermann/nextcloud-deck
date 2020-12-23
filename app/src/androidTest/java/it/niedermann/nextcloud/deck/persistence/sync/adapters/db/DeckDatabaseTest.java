@@ -43,7 +43,7 @@ public class DeckDatabaseTest {
         account.setUrl("https://example.com");
         accountDao.insert(account);
         Account byName = accountDao.getAccountByNameDirectly("test@example.com");
-        assertEquals("test1", byName.getUserName());
+        assertEquals("test", byName.getUserName());
         assertEquals("https://example.com", byName.getUrl());
     }
 }
