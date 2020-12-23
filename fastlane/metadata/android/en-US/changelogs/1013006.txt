@@ -1,0 +1,2 @@
+- Single card widget content is scrollable
+- Single card widget content got some basic markdown rendering
