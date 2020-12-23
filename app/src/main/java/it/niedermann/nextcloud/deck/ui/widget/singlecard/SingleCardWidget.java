@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -17,7 +18,6 @@ import androidx.annotation.NonNull;
 
 import java.util.NoSuchElementException;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullSingleCardWidgetModel;
@@ -39,13 +39,17 @@ public class SingleCardWidget extends AppWidgetProvider {
                     final PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_single_card);
                     final Intent serviceIntent = new Intent(context, SingleCardWidgetService.class);
+
                     serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
                     serviceIntent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 
-                    DeckLog.log("updateAppWidget() with appWidgetId " + appWidgetId);
+                    if (TextUtils.isEmpty(SingleCardWidgetFactory.getDescriptionOrNull(fullModel))) {
+                        views.setViewVisibility(R.id.description_lv, View.GONE);
+                    } else {
+                        views.setViewVisibility(R.id.description_lv, View.VISIBLE);
+                    }
 
                     views.setOnClickPendingIntent(R.id.widget_card, pendingIntent);
-
                     views.setTextViewText(R.id.title, fullModel.getFullCard().getCard().getTitle());
                     views.setRemoteAdapter(R.id.description_lv, serviceIntent);
 
