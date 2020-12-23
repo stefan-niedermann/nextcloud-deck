@@ -123,6 +123,7 @@
     <string name="your_deck_version_is_too_old">Uw deck versie is te oud</string>
     <string name="deck_outdated_please_update">Je deck versie is te oud (%1$s). Update deze android app om de deck te kunnen gebruiken.</string>
     <string name="delete_board_message">Dit zal dit bord inclusief alle stapels en kaarten definitief verwijderen.</string>
+    <string name="settings_theme_title">Thema</string>
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Compacte modus</string>
     <string name="settings_background_sync">Achtergrond synchronisatie</string>
