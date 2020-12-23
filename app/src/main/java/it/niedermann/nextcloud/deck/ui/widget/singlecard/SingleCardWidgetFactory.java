@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui.widget.singlecard;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -56,15 +55,10 @@ public class SingleCardWidgetFactory implements RemoteViewsService.RemoteViewsFa
             return null;
         }
 
-//        final Intent intent = EditActivity.createEditCardIntent(context, model.getAccount(), model.getModel().getBoardId(), model.getFullCard().getLocalId());
-//        final PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         final RemoteViews widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_single_card_content);
         widget_entry.setTextViewText(R.id.description, MarkdownUtil.renderForWidget(context, description));
-//        widget_entry.setOnClickPendingIntent(R.id.description, pendingIntent);
-
 
         final Intent intent = EditActivity.createEditCardIntent(context, model.getAccount(), model.getModel().getBoardId(), model.getFullCard().getCard().getLocalId());
-        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         widget_entry.setOnClickFillInIntent(R.id.description, intent);
 
         return widget_entry;
@@ -92,7 +86,7 @@ public class SingleCardWidgetFactory implements RemoteViewsService.RemoteViewsFa
 
     @Nullable
     public static CharSequence getDescriptionOrNull(@Nullable FullSingleCardWidgetModel model) {
-        if (model == null || model.getFullCard() == null || model.getFullCard().getCard() == null && TextUtils.isEmpty(model.getFullCard().getCard().getDescription())) {
+        if (model == null || model.getFullCard() == null || model.getFullCard().getCard() == null || TextUtils.isEmpty(model.getFullCard().getCard().getDescription())) {
             return null;
         }
         return model.getFullCard().getCard().getDescription();
