@@ -5,8 +5,12 @@ import androidx.annotation.NonNull;
 import java.util.Random;
 
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccountDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.BoardDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.StackDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
 
 public class DeckDatabaseTestUtil {
@@ -31,6 +35,26 @@ public class DeckDatabaseTestUtil {
         userToCreate.setAccountId(account.getId());
         final long id = dao.insert(userToCreate);
         return dao.getUserByLocalIdDirectly(id);
+    }
+
+    public static Board createBoard(@NonNull BoardDao dao, @NonNull Account account, @NonNull User owner) {
+        final Board boardToCreate = new Board();
+        boardToCreate.setAccountId(account.getId());
+        boardToCreate.setTitle(randomString(10));
+        boardToCreate.setOwnerId(owner.getLocalId());
+        boardToCreate.setId(1337L);
+        long id = dao.insert(boardToCreate);
+        return dao.getBoardByIdDirectly(id);
+    }
+
+    public static Stack createStack(@NonNull StackDao dao, @NonNull Account account, @NonNull Board board) {
+        final Stack stackToCreate = new Stack();
+        stackToCreate.setTitle(randomString(5));
+        stackToCreate.setAccountId(account.getId());
+        stackToCreate.setBoardId(board.getLocalId());
+        stackToCreate.setId(4711L);
+        long id = dao.insert(stackToCreate);
+        return dao.getStackByLocalIdDirectly(id);
     }
 
     private static String randomString(int length) {
