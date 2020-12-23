@@ -82,10 +82,15 @@ public class DeckDatabaseTest {
         boardToCreate.setAccountId(account.getId());
         boardToCreate.setTitle("Test-Board");
         boardToCreate.setOwnerId(user.getLocalId());
+        boardToCreate.setId(1337L);
 
         long id = db.getBoardDao().insert(boardToCreate);
         final Board board = db.getBoardDao().getBoardByIdDirectly(id);
 
         assertEquals("Test-Board", board.getTitle());
+        assertEquals(board, db.getBoardDao().getBoardByRemoteIdDirectly(account.getId(), board.getId()));
+        assertEquals(board, db.getBoardDao().getBoardForAccountByNameDirectly(account.getId(), "Test-Board"));
+        assertEquals(board, db.getBoardDao().getFullBoardByLocalIdDirectly(account.getId(), board.getLocalId()).getBoard());
+        assertEquals(board, db.getBoardDao().getFullBoardByRemoteIdDirectly(account.getId(), board.getId()).getBoard());
     }
 }
