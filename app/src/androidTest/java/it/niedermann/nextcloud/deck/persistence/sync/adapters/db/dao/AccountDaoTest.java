@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -15,14 +16,14 @@ import static org.junit.Assert.assertNull;
 public class AccountDaoTest extends AbstractDaoTest {
 
     @Test
-    public void writeAndReadAccount() {
+    public void testCreate() {
         final Account accountToCreate = new Account();
         accountToCreate.setName("test@example.com");
         accountToCreate.setUserName("test");
         accountToCreate.setUrl("https://example.com");
 
-        db.getAccountDao().insert(accountToCreate);
-        final Account account = db.getAccountDao().getAccountByNameDirectly("test@example.com");
+        long id = db.getAccountDao().insert(accountToCreate);
+        final Account account = db.getAccountDao().getAccountByIdDirectly(id);
 
         assertEquals("test", account.getUserName());
         assertEquals("https://example.com", account.getUrl());
@@ -33,5 +34,29 @@ public class AccountDaoTest extends AbstractDaoTest {
         assertEquals(1, db.getAccountDao().countAccountsDirectly());
         assertNull(account.getEtag());
         assertFalse(account.isMaintenanceEnabled());
+    }
+
+    @Test
+    public void testCountAccountsDirectly() {
+        final int expectedCount = 12;
+        for (int i = 0; i < expectedCount; i++) {
+            DeckDatabaseTestUtil.createAccount(db.getAccountDao());
+        }
+        assertEquals(expectedCount, db.getAccountDao().countAccountsDirectly());
+    }
+
+    @Test
+    public void testGetAllAccountsDirectly() {
+        final int expectedCount = 12;
+        for (int i = 0; i < expectedCount; i++) {
+            DeckDatabaseTestUtil.createAccount(db.getAccountDao());
+        }
+        assertEquals(expectedCount, db.getAccountDao().getAllAccountsDirectly().size());
+    }
+
+    @Test
+    public void testGetAccountByNameDirectly() {
+        final Account account = DeckDatabaseTestUtil.createAccount(db.getAccountDao());
+        assertEquals(account.getName(), db.getAccountDao().getAccountByNameDirectly(account.getName()).getName());
     }
 }

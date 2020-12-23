@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao;
 
-import android.content.Context;
-
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -19,8 +17,7 @@ public abstract class AbstractDaoTest {
 
     @Before
     public void createDb() {
-        Context context = ApplicationProvider.getApplicationContext();
-        db = Room.inMemoryDatabaseBuilder(context, DeckDatabase.class).build();
+        db = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), DeckDatabase.class).build();
     }
 
     @After
