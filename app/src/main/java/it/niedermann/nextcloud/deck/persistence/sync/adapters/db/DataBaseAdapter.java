@@ -501,7 +501,7 @@ public class DataBaseAdapter {
             long id = db.getAccountDao().insert(account);
 
             new Thread(() -> {
-                DeckLog.verbose("Adding new created account " + id + " to all instances of " + EWidgetType.UPCOMING_WIDGET.name());
+                DeckLog.verbose("Adding new created " + Account.class.getSimpleName() + " with " + id + " to all instances of " + EWidgetType.UPCOMING_WIDGET.name());
                 for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
                     widget.getAccounts().add(new FilterWidgetAccount(id, false));
                     updateFilterWidgetDirectly(widget);
@@ -1228,9 +1228,9 @@ public class DataBaseAdapter {
         return filterWidget;
     }
 
-    public void notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType type, Long entityId) {
+    public void notifyFilterWidgetsAboutChangedEntity(@NonNull FilterWidget.EChangedEntityType type, Long entityId) {
         new Thread(() -> {
-            List<EWidgetType> widgetTypesToNotify = db.getFilterWidgetDao().getChangedListTypesByEntity(type.toString(), entityId);
+            final List<EWidgetType> widgetTypesToNotify = db.getFilterWidgetDao().getChangedListTypesByEntity(type.toString(), entityId);
             for (EWidgetType t : widgetTypesToNotify) {
                 DeckLog.info("Notifying " + t.getWidgetClass().getSimpleName() + " about entity change: " + type.name() + " with ID " + entityId);
                 context.sendBroadcast(new Intent(context, t.getWidgetClass()).setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE));
