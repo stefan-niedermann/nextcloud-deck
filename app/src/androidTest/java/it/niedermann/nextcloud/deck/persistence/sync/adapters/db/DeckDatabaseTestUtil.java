@@ -6,14 +6,18 @@ import java.util.Random;
 
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccountDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.BoardDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.CardDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.StackDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
 
 public class DeckDatabaseTestUtil {
+
+    private static long currentLong = 1;
 
     private DeckDatabaseTestUtil() {
         // Util class
@@ -42,7 +46,7 @@ public class DeckDatabaseTestUtil {
         boardToCreate.setAccountId(account.getId());
         boardToCreate.setTitle(randomString(10));
         boardToCreate.setOwnerId(owner.getLocalId());
-        boardToCreate.setId(1337L);
+        boardToCreate.setId(currentLong++);
         long id = dao.insert(boardToCreate);
         return dao.getBoardByIdDirectly(id);
     }
@@ -52,9 +56,21 @@ public class DeckDatabaseTestUtil {
         stackToCreate.setTitle(randomString(5));
         stackToCreate.setAccountId(account.getId());
         stackToCreate.setBoardId(board.getLocalId());
-        stackToCreate.setId(4711L);
+        stackToCreate.setId(currentLong++);
         long id = dao.insert(stackToCreate);
         return dao.getStackByLocalIdDirectly(id);
+    }
+
+    public static Card createCard(@NonNull CardDao dao, @NonNull Account account, @NonNull Stack stack) {
+        final Card cardToCreate = new Card();
+        cardToCreate.setAccountId(account.getId());
+        cardToCreate.setTitle(randomString(15));
+        cardToCreate.setDescription(randomString(50));
+        cardToCreate.setStackId(stack.getLocalId());
+        cardToCreate.setId(currentLong++);
+
+        long id = dao.insert(cardToCreate);
+        return dao.getCardByLocalIdDirectly(account.getId(), id);
     }
 
     private static String randomString(int length) {
