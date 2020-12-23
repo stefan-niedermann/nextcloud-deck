@@ -1271,10 +1271,10 @@ public class DataBaseAdapter {
                                 stacks.add(stack.getStackId());
                             }
                         }
-                        cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, Collections.singletonList(account.getId()), stacks)));
+                        cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, Collections.singletonList(account.getAccountId()), stacks)));
                     }
                 } else {
-                    cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, Collections.singletonList(account.getId()), null)));
+                    cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, Collections.singletonList(account.getAccountId()), null)));
                 }
             }
         }
