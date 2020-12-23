@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import it.niedermann.android.markdown.MarkdownUtil;
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullSingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -27,7 +26,6 @@ public class SingleCardWidgetFactory implements RemoteViewsService.RemoteViewsFa
     public SingleCardWidgetFactory(@NonNull Context context, @NonNull Intent intent) {
         this.context = context;
         this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-        DeckLog.log("Constructor with appWidgetId " + appWidgetId);
         this.syncManager = new SyncManager(context);
     }
 
@@ -39,7 +37,6 @@ public class SingleCardWidgetFactory implements RemoteViewsService.RemoteViewsFa
     @Override
     public void onDataSetChanged() {
         this.model = syncManager.getSingleCardWidgetModelDirectly(appWidgetId);
-        DeckLog.log("onDataSetChanged() with appWidgetId " + appWidgetId + " model: " + this.model.getFullCard().getCard().getTitle());
     }
 
     @Override
@@ -58,12 +55,16 @@ public class SingleCardWidgetFactory implements RemoteViewsService.RemoteViewsFa
         if (description == null) {
             return null;
         }
-        DeckLog.log("getViewAt() with appWidgetId " + appWidgetId + " model: " + this.model.getFullCard().getCard().getTitle());
 
-        final Intent intent = EditActivity.createEditCardIntent(context, model.getAccount(), model.getModel().getBoardId(), model.getFullCard().getLocalId());
-        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+//        final Intent intent = EditActivity.createEditCardIntent(context, model.getAccount(), model.getModel().getBoardId(), model.getFullCard().getLocalId());
+//        final PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         final RemoteViews widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_single_card_content);
         widget_entry.setTextViewText(R.id.description, MarkdownUtil.renderForWidget(context, description));
+//        widget_entry.setOnClickPendingIntent(R.id.description, pendingIntent);
+
+
+        final Intent intent = EditActivity.createEditCardIntent(context, model.getAccount(), model.getModel().getBoardId(), model.getFullCard().getCard().getLocalId());
+        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         widget_entry.setOnClickFillInIntent(R.id.description, intent);
 
         return widget_entry;
@@ -90,7 +91,7 @@ public class SingleCardWidgetFactory implements RemoteViewsService.RemoteViewsFa
     }
 
     @Nullable
-    private static CharSequence getDescriptionOrNull(@Nullable FullSingleCardWidgetModel model) {
+    public static CharSequence getDescriptionOrNull(@Nullable FullSingleCardWidgetModel model) {
         if (model == null || model.getFullCard() == null && model.getFullCard().getCard() == null && TextUtils.isEmpty(model.getFullCard().getCard().getDescription())) {
             return null;
         }
