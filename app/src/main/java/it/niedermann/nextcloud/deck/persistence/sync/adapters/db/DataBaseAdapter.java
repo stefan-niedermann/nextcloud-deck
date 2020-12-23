@@ -331,7 +331,23 @@ public class DataBaseAdapter {
     public long createUser(long accountId, User user) {
         user.setAccountId(accountId);
         long newId = db.getUserDao().insert(user);
-        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.USER, newId);
+        new Thread(() -> {
+            Account account = db.getAccountDao().getAccountByIdDirectly(newId);
+            if (account.getUserName().equals(user.getUid())) {
+                for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
+                    for (FilterWidgetAccount widgetAccount : widget.getAccounts()) {
+                        if (widgetAccount.getAccountId() == accountId &&  widgetAccount.getUsers().isEmpty()) {
+                            FilterWidgetUser u = new FilterWidgetUser();
+                            u.setFilterAccountId(widgetAccount.getId());
+                            u.setUserId(newId);
+                            widgetAccount.getUsers().add(u);
+                            updateFilterWidgetDirectly(widget);
+                        }
+                    }
+                }
+            }
+            notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.USER, newId);
+        }).start();
         return newId;
     }
 
@@ -483,15 +499,15 @@ public class DataBaseAdapter {
     public WrappedLiveData<Account> createAccount(Account account) {
         return LiveDataHelper.wrapInLiveData(() -> {
             long id = db.getAccountDao().insert(account);
-            notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.ACCOUNT, id);
-//            new Thread(() -> {
-//                DeckLog.verbose("Adding new created account " + id + " to all instances of " + EWidgetType.UPCOMING_WIDGET.name());
-//                for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
-//                    widget.getAccounts().add(new FilterWidgetAccount(id));
-//                    updateFilterWidgetDirectly(widget);
-//                }
-//                UpcomingWidget.notifyDatasetChanged(context);
-//            }).start();
+
+            new Thread(() -> {
+                DeckLog.verbose("Adding new created account " + id + " to all instances of " + EWidgetType.UPCOMING_WIDGET.name());
+                for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
+                    widget.getAccounts().add(new FilterWidgetAccount(id, false));
+                    updateFilterWidgetDirectly(widget);
+                }
+                notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.ACCOUNT, id);
+            }).start();
             return readAccountDirectly(id);
         });
     }
