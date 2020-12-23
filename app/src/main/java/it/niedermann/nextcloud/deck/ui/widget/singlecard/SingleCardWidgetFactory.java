@@ -92,7 +92,7 @@ public class SingleCardWidgetFactory implements RemoteViewsService.RemoteViewsFa
 
     @Nullable
     public static CharSequence getDescriptionOrNull(@Nullable FullSingleCardWidgetModel model) {
-        if (model == null || model.getFullCard() == null && model.getFullCard().getCard() == null && TextUtils.isEmpty(model.getFullCard().getCard().getDescription())) {
+        if (model == null || model.getFullCard() == null || model.getFullCard().getCard() == null && TextUtils.isEmpty(model.getFullCard().getCard().getDescription())) {
             return null;
         }
         return model.getFullCard().getCard().getDescription();
