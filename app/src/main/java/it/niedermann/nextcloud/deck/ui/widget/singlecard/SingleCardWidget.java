@@ -6,7 +6,9 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -36,11 +38,21 @@ public class SingleCardWidget extends AppWidgetProvider {
                     final Intent intent = EditActivity.createEditCardIntent(context, fullModel.getAccount(), fullModel.getModel().getBoardId(), fullModel.getFullCard().getLocalId());
                     final PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_single_card);
+                    final Intent serviceIntent = new Intent(context, SingleCardWidgetService.class);
+
+                    serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+                    serviceIntent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+
+                    if (TextUtils.isEmpty(SingleCardWidgetFactory.getDescriptionOrNull(fullModel))) {
+                        views.setViewVisibility(R.id.description_lv, View.GONE);
+                    } else {
+                        views.setViewVisibility(R.id.description_lv, View.VISIBLE);
+                    }
 
                     views.setOnClickPendingIntent(R.id.widget_card, pendingIntent);
-
+                    views.setPendingIntentTemplate(R.id.description_lv, pendingIntent);
                     views.setTextViewText(R.id.title, fullModel.getFullCard().getCard().getTitle());
-                    views.setTextViewText(R.id.description, fullModel.getFullCard().getCard().getDescription());
+                    views.setRemoteAdapter(R.id.description_lv, serviceIntent);
 
                     if (fullModel.getFullCard().getCard().getDueDate() != null) {
                         views.setTextViewText(R.id.card_due_date, DateUtil.getRelativeDateTimeString(context, fullModel.getFullCard().getCard().getDueDate().toEpochMilli()));
@@ -92,6 +104,7 @@ public class SingleCardWidget extends AppWidgetProvider {
                     }
 
                     awm.updateAppWidget(appWidgetId, views);
+                    awm.notifyAppWidgetViewDataChanged(appWidgetId, R.id.description_lv);
                 } catch (NoSuchElementException e) {
                     // onUpdate has been triggered before the user finished configuring the widget
                 }
@@ -124,10 +137,9 @@ public class SingleCardWidget extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        AppWidgetManager awm = AppWidgetManager.getInstance(context);
+        final AppWidgetManager awm = AppWidgetManager.getInstance(context);
 
-        updateAppWidget(context, AppWidgetManager.getInstance(context),
-                (awm.getAppWidgetIds(new ComponentName(context, SingleCardWidget.class))));
+        updateAppWidget(context, AppWidgetManager.getInstance(context), (awm.getAppWidgetIds(new ComponentName(context, SingleCardWidget.class))));
     }
 
     @Override

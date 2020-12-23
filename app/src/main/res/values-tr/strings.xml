@@ -130,6 +130,11 @@
     <string name="settings_background_sync">Arka planda eşitleme</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fi ve mobil veri ile eşitlensin</string>
     <string name="pref_value_wifi_only">Yalnız Wi-Fi ile eşitlensin</string>
+    <string-array name="darkmode_entries">
+        <item>Sistem Varsayılanı</item>
+        <item>Açık</item>
+        <item>Koyu</item>
+    </string-array>
     <string name="unassigned_user">%1$s atanmamış</string>
     <string name="no_activities">Bu kart üzerinde yapılmış bir işlem yok. İşlemleri yükleyip görebilmek için İnternet bağlantınızın olması gerekir.</string>
     <string name="share_board">Panoyu paylaş</string>

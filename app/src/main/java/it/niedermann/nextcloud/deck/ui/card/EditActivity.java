@@ -176,6 +176,12 @@ public class EditActivity extends BrandedActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish(); // close this activity as oppose to navigating up
+        return true;
+    }
+
     /**
      * Tries to save the current {@link FullCard} from the {@link EditCardViewModel} and then finishes this activity.
      */
