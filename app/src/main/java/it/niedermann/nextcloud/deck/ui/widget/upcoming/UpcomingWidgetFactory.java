@@ -17,6 +17,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -48,27 +49,32 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
 
     @Override
     public void onDataSetChanged() {
-        final List<FilterWidgetCard> response = syncManager.getCardsForFilterWidget(appWidgetId);
-        DeckLog.verbose(UpcomingWidgetFactory.class.getSimpleName() + " with id " + appWidgetId + " fetched " + response.size() + " cards from the database.");
-        data.clear();
-        Collections.sort(response, (card1, card2) -> {
-            if (card1 == null || card1.getCard() == null || card1.getCard().getCard().getDueDate() == null) {
-                return 1;
+        try {
+            final List<FilterWidgetCard> response = syncManager.getCardsForFilterWidget(appWidgetId);
+            DeckLog.verbose(UpcomingWidgetFactory.class.getSimpleName() + " with id " + appWidgetId + " fetched " + response.size() + " cards from the database.");
+            data.clear();
+            Collections.sort(response, (card1, card2) -> {
+                if (card1 == null || card1.getCard() == null || card1.getCard().getCard().getDueDate() == null) {
+                    return 1;
+                }
+                if (card2 == null || card2.getCard() == null || card2.getCard().getCard().getDueDate() == null) {
+                    return -1;
+                }
+                return card1.getCard().getCard().getDueDate().compareTo(card2.getCard().getCard().getDueDate());
+            });
+            EUpcomingDueType lastDueType = null;
+            for (FilterWidgetCard filterWidgetCard : response) {
+                final EUpcomingDueType nextDueType = getDueType(filterWidgetCard.getCard().getCard().getDueDate());
+                DeckLog.info(filterWidgetCard.getCard().getCard().getTitle() + ": " + nextDueType.name());
+                if (!nextDueType.equals(lastDueType)) {
+                    data.add(new Separator(nextDueType.toString(context)));
+                    lastDueType = nextDueType;
+                }
+                data.add(filterWidgetCard);
             }
-            if (card2 == null || card2.getCard() == null || card2.getCard().getCard().getDueDate() == null) {
-                return -1;
-            }
-            return card1.getCard().getCard().getDueDate().compareTo(card2.getCard().getCard().getDueDate());
-        });
-        EUpcomingDueType lastDueType = null;
-        for (FilterWidgetCard filterWidgetCard : response) {
-            final EUpcomingDueType nextDueType = getDueType(filterWidgetCard.getCard().getCard().getDueDate());
-            DeckLog.info(filterWidgetCard.getCard().getCard().getTitle() + ": " + nextDueType.name());
-            if (!nextDueType.equals(lastDueType)) {
-                data.add(new Separator(nextDueType.toString(context)));
-                lastDueType = nextDueType;
-            }
-            data.add(filterWidgetCard);
+        } catch (NoSuchElementException e) {
+            DeckLog.error("No " + UpcomingWidget.class.getSimpleName() + " for appWidgetId " + appWidgetId + " found.");
+            DeckLog.logError(e);
         }
     }
 
