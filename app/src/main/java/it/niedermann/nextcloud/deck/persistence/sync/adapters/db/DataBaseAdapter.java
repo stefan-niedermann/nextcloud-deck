@@ -332,7 +332,7 @@ public class DataBaseAdapter {
         user.setAccountId(accountId);
         long newId = db.getUserDao().insert(user);
         new Thread(() -> {
-            Account account = db.getAccountDao().getAccountByIdDirectly(newId);
+            Account account = db.getAccountDao().getAccountByIdDirectly(accountId);
             if (account.getUserName().equals(user.getUid())) {
                 for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
                     for (FilterWidgetAccount widgetAccount : widget.getAccounts()) {
