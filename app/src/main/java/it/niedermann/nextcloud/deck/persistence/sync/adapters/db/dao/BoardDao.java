@@ -55,7 +55,7 @@ public interface BoardDao extends GenericDao<Board> {
     @Query("SELECT b.* FROM board b JOIN stack s ON s.boardId = b.localId JOIN card c ON s.localId = c.stackId where c.localId = :localCardId")
     Board getBoardByLocalCardIdDirectly(long localCardId);
 
-    @Query("SELECT b.localId FROM board b JOIN stack s ON s.boardId = b.localId JOIN card c ON c.localId = :localCardId")
+    @Query("SELECT b.localId FROM board b JOIN stack s ON s.boardId = b.localId JOIN card c ON s.localId = c.stackId where c.localId = :localCardId")
     Long getBoardLocalIdByLocalCardIdDirectly(long localCardId);
 
     @Transaction
