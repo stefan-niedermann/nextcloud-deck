@@ -60,8 +60,12 @@ public class DataBaseAdapter {
     private Context context;
 
     public DataBaseAdapter(@NonNull Context applicationContext) {
+        this(applicationContext, DeckDatabase.getInstance(applicationContext));
+    }
+
+    private DataBaseAdapter(@NonNull Context applicationContext, @NonNull DeckDatabase db) {
         this.context = applicationContext;
-        this.db = DeckDatabase.getInstance(applicationContext);
+        this.db = db;
     }
 
     @NonNull
@@ -202,20 +206,15 @@ public class DataBaseAdapter {
     }
 
     @WorkerThread
-    public List<FullCard> getFullCardsForStackDirectly(long accountId, long localStackId, FilterInformation filter) {
-        if (filter == null) {
-            return db.getCardDao().getFullCardsForStackDirectly(accountId, localStackId);
-        }
-        List<Object> args = new ArrayList<>();
-        args.add(accountId);
-        args.add(localStackId);
-
-        return db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, accountId, localStackId));
+    public List<FullCard> getFullCardsForStackDirectly(long accountId, long localStackId, @Nullable FilterInformation filter) {
+            return filter == null
+                    ? db.getCardDao().getFullCardsForStackDirectly(accountId, localStackId)
+                    : db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, accountId, localStackId));
     }
 
     @AnyThread
     private SimpleSQLiteQuery getQueryForFilter(FilterInformation filter, long accountId, long localStackId) {
-        List<Object> args = new ArrayList<>();
+        final List<Object> args = new ArrayList<>(2);
         args.add(accountId);
         args.add(localStackId);
         StringBuilder query = new StringBuilder("SELECT * FROM card c " +
