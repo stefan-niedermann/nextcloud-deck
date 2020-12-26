@@ -82,10 +82,13 @@ public class BoardDaoTest extends AbstractDaoTest {
         final Board boardVisible3= createBoard(db.getBoardDao(), account, owner);
         final Board boardInVisible1= createBoard(db.getBoardDao(), account, owner);
         boardInVisible1.setDeletedAt(Instant.now());
+        boardInVisible1.setArchived(true);
         final Board boardInVisible2= createBoard(db.getBoardDao(), account, owner);
         boardInVisible2.setStatus(3);
+        boardInVisible2.setArchived(true);
         final Board boardInVisible3= createBoard(db.getBoardDao(), account, owner);
         boardInVisible3.setStatusEnum(DBStatus.LOCAL_DELETED);
+        boardInVisible3.setArchived(true);
         final Board boardVisibleArchived= createBoard(db.getBoardDao(), account, owner);
         boardVisibleArchived.setArchived(true);
         db.getBoardDao().update(boardInVisible1, boardInVisible2, boardInVisible3, boardVisibleArchived);
