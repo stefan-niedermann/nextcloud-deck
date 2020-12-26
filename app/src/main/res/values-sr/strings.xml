@@ -63,7 +63,7 @@
     <string name="about_app_license">Ова апликација је лиценцирана под ГНУовом општом јавном лиценцом в3+.</string>
     <string name="about_app_license_button">Прикажи лиценцу</string>
     <string name="about_icons_disclaimer_title">Иконе</string>
-    <string name="about_icons_disclaimer_app_icon">За оригиналну иконицу, погледајте %1$s.</string>
+    <string name="about_icons_disclaimer_app_icon">За оригиналну икону, погледајте %1$s.</string>
     <string name="about_icons_disclaimer_mdi_icons">Све остале иконе коришћене у овој апликацији су %1$s које је направио Гугл и лиценциране су под Апач 2.0 лиценцом.</string>
     <string name="about_icons_disclaimer_mdi">Иконе у Материјал дизајну</string>
     <string name="about_credits_tab_title">Заслуге</string>
@@ -76,7 +76,7 @@
     <string name="hint_assign_people">Задужите кориснике</string>
     <string name="hint_due_date_date">Рок</string>
     <string name="card_not_found">Картица није нађена</string>
-    <string name="card_not_found_message">Картица не може да се нађе. Можда је недавно обрисана.</string>
+    <string name="card_not_found_message">Картица није нађена. Можда је недавно обрисана.</string>
 
     <string name="add_account">Додај налог</string>
     <string name="choose_account">Одаберите налог</string>
@@ -126,11 +126,17 @@
     <string name="your_deck_version_is_too_old">Ваша верзија Шпила је превише стара</string>
     <string name="deck_outdated_please_update">Верзија апликације Шпил је стара (%1$s). Ажурирајте да бисте користили ову Андроид апликацију као клијента.</string>
     <string name="delete_board_message">Ово ће трајно да уклони ову таблу укључујући све спискове и картице.</string>
+    <string name="settings_theme_title">Тема</string>
     <string name="settings_branding_title">Брендирање</string>
     <string name="settings_compact_title">Компактан режим</string>
     <string name="settings_background_sync">Позадинска синхронизација</string>
     <string name="pref_value_wifi_and_mobile">Синхронизуј и на бежичној и на мобилној вези</string>
     <string name="pref_value_wifi_only">Синхронизуј само преко бежичне везе</string>
+    <string-array name="darkmode_entries">
+        <item>системска</item>
+        <item>светла</item>
+        <item>тамна</item>
+    </string-array>
     <string name="unassigned_user">Раздужен %1$s</string>
     <string name="no_activities">Нема активности на овој картици. Морате бити повезани на интернет да бисте учитали и приказали активности.</string>
     <string name="share_board">Подели таблу</string>
@@ -281,4 +287,21 @@
     <string name="simple_clone">Клонирај</string>
     <string name="user_avatar">Кориснички аватар</string>
     <string name="simple_unassign">Уклони доделу</string>
-    </resources>
+    <string name="simple_contact">Контакт</string>
+    <string name="simple_file">Фајл</string>
+    <string name="simple_camera">Камера</string>
+    <string name="min_api_21">Ова могућност захтева бар Андроид 5</string>
+    <string name="take_photo">Сликај</string>
+    <string name="take_photo_switch_camera">Пребаци камеру</string>
+    <string name="show_all_contacts">Прикажи све контакте</string>
+    <string name="show_all_files">Прикажи све фајлове</string>
+    <string name="recent">Недавно</string>
+    <string name="upload_a_new_attachment">Отпреми нови прилог</string>
+    <string name="contacts">Контакти</string>
+    <string name="downloads">Преузимања</string>
+    <string name="files">Фајлови</string>
+    <string name="gallery">Галерија</string>
+    <string name="simple_attach">приложи</string>
+    <string name="add_stack_widget">Додај виџет листе</string>
+    <string name="edit_description">Уреди опис</string>
+</resources>
