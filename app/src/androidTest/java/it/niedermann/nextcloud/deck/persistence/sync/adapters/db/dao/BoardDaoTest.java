@@ -134,4 +134,27 @@ public class BoardDaoTest extends AbstractDaoTest {
         assertFalse(boards.stream().anyMatch((board -> board6.getLocalId().equals(board.getLocalId()))));
         assertFalse(boards.stream().anyMatch((board -> board7.getLocalId().equals(board.getLocalId()))));
     }
+
+    @Test
+    public void testCountArchivedBoards() throws InterruptedException {
+        final Account account = createAccount(db.getAccountDao());
+        final User owner = createUser(db.getUserDao(), account);
+        final Board board1= createBoard(db.getBoardDao(), account, owner);
+        final Board board2= createBoard(db.getBoardDao(), account, owner);
+        final Board board3= createBoard(db.getBoardDao(), account, owner);
+        final Board board5= createBoard(db.getBoardDao(), account, owner);
+        board5.setDeletedAt(Instant.now());
+        board5.setArchived(true);
+        final Board board6= createBoard(db.getBoardDao(), account, owner);
+        board6.setStatus(3);
+        board6.setArchived(true);
+        final Board board7= createBoard(db.getBoardDao(), account, owner);
+        board7.setStatusEnum(DBStatus.LOCAL_DELETED);
+        board7.setArchived(true);
+        final Board board4= createBoard(db.getBoardDao(), account, owner);
+        board4.setArchived(true);
+        db.getBoardDao().update(board5, board6, board7, board4);
+
+        assertEquals(Integer.valueOf(1), DeckDatabaseTestUtil.getOrAwaitValue(db.getBoardDao().countArchivedBoards(account.getId())));
+    }
 }
