@@ -10,12 +10,16 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createAccount;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createBoard;
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createCard;
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createStack;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createUser;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -133,6 +137,17 @@ public class BoardDaoTest extends AbstractDaoTest {
         assertFalse(boards.stream().anyMatch((board -> board5.getLocalId().equals(board.getLocalId()))));
         assertFalse(boards.stream().anyMatch((board -> board6.getLocalId().equals(board.getLocalId()))));
         assertFalse(boards.stream().anyMatch((board -> board7.getLocalId().equals(board.getLocalId()))));
+    }
+
+    @Test
+    public void testGetLocalBoardIdByCardRemoteIdAndAccountId() throws InterruptedException {
+        final Account account = createAccount(db.getAccountDao());
+        final User owner = createUser(db.getUserDao(), account);
+        final Board board = createBoard(db.getBoardDao(), account, owner);
+        final Stack stack = createStack(db.getStackDao(), account, board);
+        final Card card = createCard(db.getCardDao(), account, stack);
+
+        assertEquals(board.getLocalId(), DeckDatabaseTestUtil.getOrAwaitValue(db.getBoardDao().getLocalBoardIdByCardRemoteIdAndAccountId(card.getId(), account.getId())));
     }
 
     @Test
