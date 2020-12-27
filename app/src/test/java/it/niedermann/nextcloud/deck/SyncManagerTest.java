@@ -17,6 +17,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
@@ -42,7 +43,7 @@ import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({SyncManager.class, DeckLog.class})
+@PrepareForTest({SyncManager.class, DeckLog.class, LastSyncUtil.class})
 public class SyncManagerTest {
 
     @Rule
@@ -63,46 +64,13 @@ public class SyncManagerTest {
     @Before
     public void prepareDoAsync() {
         PowerMockito.mockStatic(DeckLog.class);
+        PowerMockito.mockStatic(LastSyncUtil.class);
         PowerMockito
                 .replace(PowerMockito.method(SyncManager.class, "doAsync", Runnable.class))
                 .with((obj, method, arguments) -> {
                     ((Runnable) arguments[0]).run();
                     return null;
                 });
-    }
-
-    /**
-     * When {@link SyncManager#synchronizeBoard(IResponseCallback, long)} is triggered, it should
-     * pass the given {@link IResponseCallback} to the {@link SyncHelper} and trigger a
-     * {@link SyncHelper#doSyncFor(AbstractSyncDataProvider)}.
-     * {@link OfflineException} should be caught and passed to the {@link IResponseCallback}
-     */
-    @Test
-    public void testSynchronizeBoard() throws Exception {
-        final SyncHelper syncHelper = mock(SyncHelper.class);
-
-        when(dataBaseAdapter.getFullBoardByLocalIdDirectly(anyLong(), anyLong())).thenReturn(new FullBoard());
-        when(syncHelper.setResponseCallback(any())).thenReturn(syncHelper);
-        doNothing().when(syncHelper).doSyncFor(any());
-        whenNew(SyncHelper.class).withAnyArguments().thenReturn(syncHelper);
-
-        IResponseCallback<Boolean> responseCallback = spy(new IResponseCallback<Boolean>(new Account(1L)) {
-            @Override
-            public void onResponse(Boolean response) {
-
-            }
-        });
-
-        syncManager.synchronizeBoard(responseCallback, 1L);
-
-        verify(syncHelper, times(1)).setResponseCallback(responseCallback);
-        verify(syncHelper, times(1)).doSyncFor(any(StackDataProvider.class));
-
-        doThrow(OfflineException.class).when(syncHelper).doSyncFor(any());
-
-        syncManager.synchronizeBoard(responseCallback, 1L);
-
-        verify(responseCallback, times(1)).onError(any(OfflineException.class));
     }
 
     @Test
@@ -147,5 +115,46 @@ public class SyncManagerTest {
         when(dataBaseAdapter.readAccount("test@example.com")).thenReturn(new MutableLiveData<>(null));
         assertNull(TestUtil.getOrAwaitValue(syncManager.readAccount("test@example.com")));
         verify(dataBaseAdapter, times(1)).readAccount("test@example.com");
+    }
+
+    @Test
+    public void testDeleteAccount() throws InterruptedException {
+        doNothing().when(dataBaseAdapter).deleteAccount(anyLong());
+        syncManager.deleteAccount(1337L);
+        verify(dataBaseAdapter, times(1)).deleteAccount(1337L);
+    }
+
+    /**
+     * When {@link SyncManager#synchronizeBoard(IResponseCallback, long)} is triggered, it should
+     * pass the given {@link IResponseCallback} to the {@link SyncHelper} and trigger a
+     * {@link SyncHelper#doSyncFor(AbstractSyncDataProvider)}.
+     * {@link OfflineException} should be caught and passed to the {@link IResponseCallback}
+     */
+    @Test
+    public void testSynchronizeBoard() throws Exception {
+        final SyncHelper syncHelper = mock(SyncHelper.class);
+
+        when(dataBaseAdapter.getFullBoardByLocalIdDirectly(anyLong(), anyLong())).thenReturn(new FullBoard());
+        when(syncHelper.setResponseCallback(any())).thenReturn(syncHelper);
+        doNothing().when(syncHelper).doSyncFor(any());
+        whenNew(SyncHelper.class).withAnyArguments().thenReturn(syncHelper);
+
+        IResponseCallback<Boolean> responseCallback = spy(new IResponseCallback<Boolean>(new Account(1L)) {
+            @Override
+            public void onResponse(Boolean response) {
+
+            }
+        });
+
+        syncManager.synchronizeBoard(responseCallback, 1L);
+
+        verify(syncHelper, times(1)).setResponseCallback(responseCallback);
+        verify(syncHelper, times(1)).doSyncFor(any(StackDataProvider.class));
+
+        doThrow(OfflineException.class).when(syncHelper).doSyncFor(any());
+
+        syncManager.synchronizeBoard(responseCallback, 1L);
+
+        verify(responseCallback, times(1)).onError(any(OfflineException.class));
     }
 }
