@@ -103,10 +103,14 @@ public class SyncManager {
 
     @AnyThread
     public SyncManager(@NonNull Context context, @Nullable String ssoAccountName) {
-        appContext = context.getApplicationContext();
-        LastSyncUtil.init(appContext);
-        this.dataBaseAdapter = new DataBaseAdapter(appContext);
-        this.serverAdapter = new ServerAdapter(appContext, ssoAccountName);
+        this(context, new DataBaseAdapter(context.getApplicationContext()), new ServerAdapter(context.getApplicationContext(), ssoAccountName));
+        LastSyncUtil.init(context.getApplicationContext());
+    }
+
+    private SyncManager(@NonNull Context context, @NonNull DataBaseAdapter databaseAdapter, @NonNull ServerAdapter serverAdapter) {
+        this.appContext = context.getApplicationContext();
+        this.dataBaseAdapter = databaseAdapter;
+        this.serverAdapter = serverAdapter;
     }
 
     @AnyThread

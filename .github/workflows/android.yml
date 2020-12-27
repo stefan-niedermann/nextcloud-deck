@@ -19,7 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Unit tests
-        run: bash ./gradlew test --stacktrace
+        run: bash ./gradlew test
 
   instrumented:
     name: Android instrumented tests
@@ -31,7 +31,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: ./gradlew connectAndroidTest --stacktrace
+          script: ./gradlew connectAndroidTest
 
   codeql:
     name: CodeQL security scan
@@ -44,7 +44,7 @@ jobs:
         with:
           languages: java
       - name: Build debug APK
-        run: bash ./gradlew assembleDev --stacktrace
+        run: bash ./gradlew assembleDev
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
 
@@ -55,7 +55,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Build debug APK
-        run: bash ./gradlew assembleDev --stacktrace
+        run: bash ./gradlew assembleDev
       - name: Upload APK
         uses: actions/upload-artifact@v1
         with:
