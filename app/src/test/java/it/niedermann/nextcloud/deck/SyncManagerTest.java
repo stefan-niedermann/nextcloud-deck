@@ -46,7 +46,7 @@ public class SyncManagerTest {
 
         when(dataBaseAdapter.hasAccounts()).thenReturn(new MutableLiveData<>(false));
         final LiveData<Boolean> hasAccountsNegative = syncManager.hasAccounts();
-        assertEquals(Boolean.TRUE, TestUtil.getOrAwaitValue(hasAccountsNegative));
+        assertEquals(Boolean.FALSE, TestUtil.getOrAwaitValue(hasAccountsNegative));
 
         verify(dataBaseAdapter, times(2)).hasAccounts();
     }
