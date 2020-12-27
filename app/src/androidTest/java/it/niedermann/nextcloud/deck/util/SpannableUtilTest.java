@@ -21,9 +21,9 @@ public class SpannableUtilTest {
     @Test
     public void testStrong() {
         final SpannableString spannableString = SpannableUtil.strong("test");
-        assertEquals(2, spannableString.getSpans(0, spannableString.length(), Object.class).length);
-        assertEquals(3, spannableString.getSpans(0, spannableString.length(), StyleSpan.class).length);
-        assertEquals(5, spannableString.length());
+        assertEquals(1, spannableString.getSpans(0, spannableString.length(), Object.class).length);
+        assertEquals(1, spannableString.getSpans(0, spannableString.length(), StyleSpan.class).length);
+        assertEquals(4, spannableString.length());
         assertEquals(Typeface.BOLD, spannableString.getSpans(0, spannableString.length(), StyleSpan.class)[0].getStyle());
     }
 
