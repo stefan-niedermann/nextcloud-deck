@@ -6,12 +6,15 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -25,7 +28,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({SyncManager.class})
 public class SyncManagerTest {
 
     @Rule
@@ -40,6 +44,16 @@ public class SyncManagerTest {
 
     @InjectMocks
     private SyncManager syncManager;
+
+    @Before
+    public void prepareDoAsync() {
+        PowerMockito
+                .replace(PowerMockito.method(SyncManager.class, "doAsync", Runnable.class))
+                .with((obj, method, arguments) -> {
+                    ((Runnable) arguments[0]).run();
+                    return null;
+                });
+    }
 
     @Test
     public void testHasAccounts() throws InterruptedException {
