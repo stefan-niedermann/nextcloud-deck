@@ -109,6 +109,7 @@
     <string name="no_lists_yet">尚无名单</string>
     <string name="do_you_want_to_save_your_changes">您希望保存变更吗？</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">你是否想要归档%1$s的全部卡片？</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">你想要存档 %1$s 的所有过滤的卡片吗？</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="other">这将会永久删除此列表中的 %1$d 个卡片。</item>
     </plurals>
@@ -122,9 +123,16 @@
     <string name="deck_outdated_please_update">你的看板版本太旧（%1$s）。请更新到这个 Android 客户端。</string>
     <string name="delete_board_message">此操作将永久删除此面板，包括所有列表和卡片。</string>
     <string name="settings_theme_title">主题</string>
+    <string name="settings_branding_title">添加商标</string>
+    <string name="settings_compact_title">紧凑模式</string>
     <string name="settings_background_sync">后台同步</string>
     <string name="pref_value_wifi_and_mobile">在有 Wi-Fi 和移动数据网络时同步</string>
     <string name="pref_value_wifi_only">仅在 Wi-Fi 下同步</string>
+    <string-array name="darkmode_entries">
+        <item>系统默认</item>
+        <item>浅色</item>
+        <item>深色</item>
+    </string-array>
     <string name="unassigned_user">已经取消分配%1$s</string>
     <string name="no_activities">找不到此卡片上的动态。 您需要连接到互联网才能加载和显示动态。</string>
     <string name="share_board">共享面板</string>
@@ -186,6 +194,7 @@
     <string name="filter_user_title">用户</string>
     <string name="filter_duedate_title">截止日期</string>
 
+    <string name="action_board_dearchive">撤销看板存档</string>
     <string name="archived_boards">已归档面板</string>
 
     <string name="error">发生了一个错误</string>
@@ -197,10 +206,13 @@
     <string name="server_misconfigured">配置错误的服务器</string>
     <string name="server_error">服务器错误</string>
     <string name="shared_error">目前还不完全支持从第三方应用程序中分享内容。请尝试先下载，然后从您的本地文件管理器或图库中分享。</string>
+    <string name="error_edit_activity_killed_by_android">安卓系统结束了编辑模式，因为它需要为其他应用程序提供更多的系统资源。</string>
+
     <string name="error_dialog_title">哦，糟糕。所以会怎么样？🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">请尝试强行关闭应用并重新打开。可能与 Nextcloud 应用的连接不正确。</string>
     <string name="error_dialog_tip_clear_storage_might_help">如果问题持续存在，尝试通过清除 Nextcloud 和 Nextcloud 看板两个应用的存储空间来解决问题。</string>
     <string name="error_dialog_tip_database_upgrade_failed">数据库升级失败。请报告问题并清除应用存储来正常使用此应用。</string>
+    <string name="error_dialog_tip_clear_storage">您可以通过打开应用信息，选择“存储>清除存储”来清除存储。</string>
     <string name="error_dialog_tip_files_outdated">您的 Nextcloud 应用似乎已经过时了。请访问 Play 商店或 F-Droid 以获取最新版本。</string>
     <string name="error_dialog_tip_files_force_stop">您的 Nextcloud 应用似乎出现了问题。请尝试强行停止 Nextcloud 和 Nextcloud 看板两个应用。</string>
     <string name="error_dialog_tip_files_delete_storage">如果强行停止没有效果，您可以尝试清除两个应用的存储空间。</string>
@@ -211,24 +223,78 @@
     <string name="error_dialog_check_maintenance">请检查您的 Nextcloud 实例是否处于维护模式。</string>
     <string name="error_dialog_insufficient_storage">您的 Nextcloud 实例已经没有可用的存储空间了。请删除一些文件来允许本地的变更同步到云。</string>
     <string name="error_dialog_we_need_info">我们需要以下技术信息来帮助您：</string>
+    <string name="error_dialog_redirect">您的服务器确实响应了一个HTTP 302状态码，这意味着您没有在您的服务器上安装 Deck 应用程序或有什么配置错误。这可能是由 .htaccess 文件中的自定义覆盖或由 Nextcloud 应用程序 (如OID Client)引起的。</string>
+    <string name="error_dialog_version_not_parsable">我们无法确定服务器端 Deck 应用程序的版本。请确保它已安装并启用。</string>
     <string name="error_dialog_account_might_not_be_authorized">您的Nextcloud应用账号可能不再被授权。</string>
+    <string name="error_dialog_user_not_found_in_database">当前用户与数据库中的用户不匹配。如果你在 Nextcloud 实例上使用 LDAP，那么 Nextcloud 应用程序可能存储了一个旧的用户ID。</string>
+    <string name="error_dialog_capabilities_not_parsable">我们无法获取您服务器的容量。请确保您的服务器运行良好，其他客户端应用程序能够访问Nextcloud。</string>
+    <string name="error_dialog_attachment_upload_failed">无法上传一个附件。请尝试用另一种方式分享它，并让我们知道这个bug。</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">请禁用针对 Nextcloud 和 Deck 应用程序的所有电池优化。</string>
+    <string name="error_action_open_deck_info">打开应用信息</string>
     <string name="error_action_open_network">网络设置</string>
     <string name="error_action_server_logs">服务器日志</string>
     <string name="error_action_install">安装</string>
     <string name="error_action_report_issue">报告</string>
     <string name="info_box_maintenance_mode">服务器处于维护模式</string>
+    <string name="info_box_version_not_supported">服务器版本 %1$s 不受支持，请更新到 %2$s</string>
     <string name="share_link">共享链接</string>
+    <string name="archive_cards">存档卡片</string>
+
     <string name="manage_accounts">管理账号</string>
+    <string name="manage_list">管理列表</string>
     <string name="simple_reply">回复</string>
+    <string name="error_while_uploading_attachment">上传出错，涉及的附件为：%1$s</string>
+    <string name="append_text_to_description">添加到描述</string>
+    <string name="add_text_as_comment">添加为注释</string>
+    <string name="progress_count">%2$d 中的 %1$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="other">上传时发生了 %1$d 个错误</item>
+    </plurals>
     <string name="simple_report">报告</string>
     <string name="error_action_open_battery_settings">电池设置</string>
+    <string name="move_warning">把卡片移到另一块板时，既不能转移注释也不能转移附件。</string>
     <string name="clone_board">克隆面板</string>
+    <string name="cloning_board">正在克隆 %1$s ......</string>
+    <string name="successfully_cloned_board">成功克隆了 %1$s</string>
+    <string name="attachment_does_not_yet_exist">附件在 Deck 中还不存在</string>
+    <string name="card_does_not_yet_exist">卡片在 Deck 中还不存在</string>
+
     <string name="widget_stack_title">列表</string>
+    <string name="widget_stack_header_icon">小部件标题图标</string>
+    <string name="widget_stack_placeholder_icon">小部件占位符图标 </string>
+    <string name="select_stack">选择列表</string>
+    <string name="project_type_deck_board">Deck 看板</string>
+    <string name="project_type_deck_card">Deck 卡片</string>
     <string name="project_type_file">文件</string>
     <string name="projects_title">项目</string>
+    <plurals name="resources_count">
+        <item quantity="other">%1$d 资源</item>
+    </plurals>
+    <string name="no_assigned_label">没有分配的标签</string>
+    <string name="single_card">单张卡片</string>
+    <string name="project_type_room">聊天室</string>
     <string name="simple_move">移动</string>
+    <string name="cannot_upload_files_without_permission">没有权限无法上传文件</string>
+    <string name="clone_cards">克隆卡片</string>
     <string name="simple_clone">克隆</string>
     <string name="user_avatar">用户头像</string>
     <string name="simple_unassign">取消分配</string>
+    <string name="simple_contact">联系人</string>
+    <string name="simple_file">文件</string>
+    <string name="simple_camera">相机</string>
+    <string name="min_api_21">该功能至少需要安卓 5.0 系统</string>
+    <string name="take_photo">拍一张照</string>
+    <string name="take_photo_switch_camera">切换相机</string>
+    <string name="take_photo_toggle_torch">切换闪光灯</string>
+    <string name="show_all_contacts">显示所有联系人</string>
+    <string name="show_all_files">显示所有文件</string>
+    <string name="recent">最近</string>
+    <string name="upload_a_new_attachment">上传一个新附件</string>
+    <string name="contacts">联系人</string>
+    <string name="downloads">下载项</string>
+    <string name="files">文件</string>
     <string name="gallery">相册</string>
-    </resources>
+    <string name="simple_attach">附加</string>
+    <string name="add_stack_widget">添加列表小部件</string>
+    <string name="edit_description">编辑描述</string>
+</resources>
