@@ -1,18 +1,22 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao;
 
+import android.os.Build;
+
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabase;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = {Build.VERSION_CODES.P})
 public abstract class AbstractDaoTest {
 
     @Rule
@@ -22,7 +26,10 @@ public abstract class AbstractDaoTest {
 
     @Before
     public void createDb() {
-        db = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), DeckDatabase.class).build();
+        db = Room
+                .inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), DeckDatabase.class)
+                .allowMainThreadQueries()
+                .build();
     }
 
     @After

@@ -1,15 +1,17 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
 import android.content.Context;
+import android.os.Build;
 
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -29,7 +31,8 @@ import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckData
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createUser;
 import static org.junit.Assert.assertEquals;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = {Build.VERSION_CODES.P})
 public class DataBaseAdapterTest {
 
     private DeckDatabase db;
@@ -40,7 +43,10 @@ public class DataBaseAdapterTest {
         final Constructor<DataBaseAdapter> constructor = DataBaseAdapter.class.getDeclaredConstructor(Context.class, DeckDatabase.class);
         if (Modifier.isPrivate(constructor.getModifiers())) {
             constructor.setAccessible(true);
-            db = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), DeckDatabase.class).build();
+            db = Room
+                    .inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), DeckDatabase.class)
+                    .allowMainThreadQueries()
+                    .build();
             adapter = constructor.newInstance(ApplicationProvider.getApplicationContext(), db);
         }
     }
@@ -64,18 +70,19 @@ public class DataBaseAdapterTest {
 
     @Test
     public void testFillSqlWithListValues() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        final User user1 = createUser(db.getUserDao(), createAccount(db.getAccountDao()));
+        // TODO understand what the method does and write a proper test.
+        final User user = createUser(db.getUserDao(), createAccount(db.getAccountDao()));
         final StringBuilder builder = new StringBuilder();
         final List<Object> args = new ArrayList<>(1);
         final List<? extends AbstractRemoteEntity> entities = new ArrayList<AbstractRemoteEntity>(1) {{
-            add(user1);
+            add(user);
         }};
 
-        Method m = DataBaseAdapter.class.getDeclaredMethod("fillSqlWithListValues", StringBuilder.class, List.class, List.class);
-        m.setAccessible(true);
-        m.invoke(adapter, builder, args, entities);
+        final Method fillSqlWithListValues = DataBaseAdapter.class.getDeclaredMethod("fillSqlWithListValues", StringBuilder.class, List.class, List.class);
+        fillSqlWithListValues.setAccessible(true);
+        fillSqlWithListValues.invoke(adapter, builder, args, entities);
         assertEquals("?", builder.toString());
-        assertEquals(user1.getLocalId(), args.get(0));
+        assertEquals(user.getLocalId(), args.get(0));
     }
 
 }
