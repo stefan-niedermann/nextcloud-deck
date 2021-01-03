@@ -1,12 +1,14 @@
 package it.niedermann.nextcloud.deck.util;
 
 import android.content.Context;
+import android.os.Build;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.core.app.ApplicationProvider;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.time.Duration;
 import java.time.ZoneId;
@@ -15,12 +17,13 @@ import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = {Build.VERSION_CODES.P})
 public class DateUtilTest {
 
     @Test
     public void testGetRelativeDateTimeString() {
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        Context appContext = ApplicationProvider.getApplicationContext();
         Stream.of(10, 20, 30, 40, 50)
                 .map(secondsAgo -> ZonedDateTime.now().minus(Duration.ofSeconds(secondsAgo)).toInstant().toEpochMilli())
                 .forEach(secondsAgoInMillis -> assertEquals("Below one minute diff, it should just print \"seconds\"", "seconds ago", DateUtil.getRelativeDateTimeString(appContext, secondsAgoInMillis)));

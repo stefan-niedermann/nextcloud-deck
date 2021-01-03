@@ -1,15 +1,17 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
 import android.content.Context;
+import android.os.Build;
 
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -29,7 +31,8 @@ import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckData
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createUser;
 import static org.junit.Assert.assertEquals;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = {Build.VERSION_CODES.P})
 public class DataBaseAdapterTest {
 
     private DeckDatabase db;
@@ -40,7 +43,10 @@ public class DataBaseAdapterTest {
         final Constructor<DataBaseAdapter> constructor = DataBaseAdapter.class.getDeclaredConstructor(Context.class, DeckDatabase.class);
         if (Modifier.isPrivate(constructor.getModifiers())) {
             constructor.setAccessible(true);
-            db = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), DeckDatabase.class).build();
+            db = Room
+                    .inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), DeckDatabase.class)
+                    .allowMainThreadQueries()
+                    .build();
             adapter = constructor.newInstance(ApplicationProvider.getApplicationContext(), db);
         }
     }

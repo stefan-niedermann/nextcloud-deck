@@ -1,16 +1,19 @@
 package it.niedermann.nextcloud.deck.util;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import android.os.Build;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 
 import static org.junit.Assert.assertEquals;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = {Build.VERSION_CODES.P})
 public class AttachmentUtilTest {
 
     @Test
