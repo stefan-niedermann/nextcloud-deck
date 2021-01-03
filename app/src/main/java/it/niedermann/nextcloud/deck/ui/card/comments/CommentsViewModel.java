@@ -14,6 +14,8 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
+
 @SuppressWarnings("WeakerAccess")
 public class CommentsViewModel extends AndroidViewModel {
 
@@ -35,7 +37,7 @@ public class CommentsViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<FullDeckComment>> getFullCommentsForLocalCardId(long localCardId) {
-        return syncManager.getFullCommentsForLocalCardId(localCardId);
+        return distinctUntilChanged(syncManager.getFullCommentsForLocalCardId(localCardId));
     }
 
     public void addCommentToCard(long accountId, long cardId, @NonNull DeckComment comment) {

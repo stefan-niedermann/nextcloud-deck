@@ -23,11 +23,13 @@ public class DateUtilTest {
 
     @Test
     public void testGetRelativeDateTimeString() {
-        Context appContext = ApplicationProvider.getApplicationContext();
+        final Context appContext = ApplicationProvider.getApplicationContext();
+
         Stream.of(10, 20, 30, 40, 50)
                 .map(secondsAgo -> ZonedDateTime.now().minus(Duration.ofSeconds(secondsAgo)).toInstant().toEpochMilli())
                 .forEach(secondsAgoInMillis -> assertEquals("Below one minute diff, it should just print \"seconds\"", "seconds ago", DateUtil.getRelativeDateTimeString(appContext, secondsAgoInMillis)));
 
+        // TODO Robolectric implementation seems to behave different from emulated device
 //        Stream.of(10, 20, 30, 40, 50)
 //                .forEach(minutesAgo -> assertEquals("Minutes ago should print the minutes", minutesAgo + " minutes ago", DateUtil.getRelativeDateTimeString(appContext, ZonedDateTime.now().minus(Duration.ofMinutes(minutesAgo)).toInstant().toEpochMilli())));
 
