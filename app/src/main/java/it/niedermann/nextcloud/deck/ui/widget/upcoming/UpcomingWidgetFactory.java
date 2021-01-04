@@ -16,11 +16,14 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -53,15 +56,14 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
             final List<FilterWidgetCard> response = syncManager.getCardsForFilterWidget(appWidgetId);
             DeckLog.verbose(UpcomingWidgetFactory.class.getSimpleName() + " with id " + appWidgetId + " fetched " + response.size() + " cards from the database.");
             data.clear();
-            Collections.sort(response, (card1, card2) -> {
-                if (card1 == null || card1.getCard() == null || card1.getCard().getCard().getDueDate() == null) {
-                    return 1;
-                }
-                if (card2 == null || card2.getCard() == null || card2.getCard().getCard().getDueDate() == null) {
-                    return -1;
-                }
-                return card1.getCard().getCard().getDueDate().compareTo(card2.getCard().getCard().getDueDate());
-            });
+            Comparator<Card> comparator = Comparator.comparing(Card::getDueDate);
+            Collections.sort(
+                    response.stream()
+                        .map((filterWidgetCard -> filterWidgetCard == null ? null : filterWidgetCard.getCard()))
+                        .map(fullCard -> fullCard == null ? null : fullCard.getCard())
+                        .collect(Collectors.toList()),
+                    comparator
+            );
             EUpcomingDueType lastDueType = null;
             for (FilterWidgetCard filterWidgetCard : response) {
                 final EUpcomingDueType nextDueType = getDueType(filterWidgetCard.getCard().getCard().getDueDate());
