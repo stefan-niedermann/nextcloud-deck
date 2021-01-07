@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    
+    ext.materialVersion = "1.2.1"
     repositories {
         google()
         jcenter()
@@ -25,10 +25,4 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-ext {
-    roomVersion = '2.2.6'
-    retrofitVersion = '2.7.1'
-    archLifecycleVersion = '2.2.0'
 }
