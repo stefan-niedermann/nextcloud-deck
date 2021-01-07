@@ -11,8 +11,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -56,7 +54,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
         final AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
 
         binding = DialogFilterBinding.inflate(requireActivity().getLayoutInflater());
-        binding.viewPager.setAdapter(new TabsPagerAdapter(getChildFragmentManager(), getLifecycle()));
+        binding.viewPager.setAdapter(new TabsPagerAdapter(this));
         binding.viewPager.setOffscreenPageLimit(tabTitles.length);
 
         LiveData<FilterInformation> filterInformationDraft = filterViewModel.getFilterInformationDraft();
@@ -114,8 +112,8 @@ public class FilterDialogFragment extends BrandedDialogFragment {
 
     private static class TabsPagerAdapter extends FragmentStateAdapter {
 
-        TabsPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
-            super(fragmentManager, lifecycle);
+        TabsPagerAdapter(final Fragment f) {
+            super(f);
         }
 
         @NonNull
