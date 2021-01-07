@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -45,7 +46,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
             themePref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
                 setAppTheme(Integer.parseInt((String) newValue));
                 requireActivity().setResult(Activity.RESULT_OK);
-                requireActivity().recreate();
+                ActivityCompat.recreate(requireActivity());
                 return true;
             });
         } else {
@@ -58,7 +59,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
                 final Boolean branding = (Boolean) newValue;
                 DeckLog.log("branding: " + branding);
                 requireActivity().setResult(Activity.RESULT_OK);
-                requireActivity().recreate();
+                ActivityCompat.recreate(requireActivity());
                 return true;
             });
         } else {

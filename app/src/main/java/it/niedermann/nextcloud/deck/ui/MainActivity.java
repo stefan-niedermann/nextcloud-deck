@@ -26,6 +26,7 @@ import androidx.annotation.RequiresApi;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.util.Pair;
@@ -516,7 +517,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 } else {
                     // If we notice after updating the capabilities, that the new version is not supported, but it was previously, recreate the activity to make sure all elements are disabled properly
                     if (mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported(MainActivity.this) && !response.getDeckVersion().isSupported(MainActivity.this)) {
-                        recreate();
+                        ActivityCompat.recreate(MainActivity.this);
                     }
                 }
             }
@@ -761,7 +762,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         switch (requestCode) {
             case MainActivity.ACTIVITY_SETTINGS:
                 if (resultCode == RESULT_OK) {
-                    recreate();
+                    ActivityCompat.recreate(this);
                 }
                 break;
             case ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT:
