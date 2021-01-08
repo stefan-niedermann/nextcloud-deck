@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -156,14 +157,17 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                 }
             });
             binding.descriptionEditor.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
-            binding.descriptionEditor.getMarkdownString().observe(getViewLifecycleOwner(), (newText) -> {
+            final Observer<CharSequence> descriptionObserver = (description) -> {
+
                 if (viewModel.getFullCard() != null) {
-                    viewModel.getFullCard().getCard().setDescription(newText == null ? "" : newText.toString());
+                    viewModel.getFullCard().getCard().setDescription(description == null ? "" : description.toString());
                 } else {
-                    DeckLog.logError(new IllegalStateException(FullCard.class.getSimpleName() + " was empty when trying to setup description"));
+                    ExceptionDialogFragment.newInstance(new IllegalStateException(FullCard.class.getSimpleName() + " was empty when trying to setup description"), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 }
-                binding.descriptionToggle.setVisibility(TextUtils.isEmpty(newText) ? GONE : VISIBLE);
-            });
+                binding.descriptionToggle.setVisibility(TextUtils.isEmpty(description) ? GONE : VISIBLE);
+            };
+            binding.descriptionEditor.getMarkdownString().observe(getViewLifecycleOwner(), descriptionObserver);
+            binding.descriptionViewer.getMarkdownString().observe(getViewLifecycleOwner(), descriptionObserver);
         } else {
             binding.descriptionEditor.setEnabled(false);
             binding.descriptionEditor.setVisibility(VISIBLE);
