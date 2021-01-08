@@ -1,3 +1,4 @@
-- Single card widget content is scrollable
-- Single card widget content got some basic markdown rendering
+- 📝 Single card widget content is scrollable
+- 📝 Single card widget content got some basic markdown rendering
 - 🐞 Crash when moving card with custom tags between boards (#772)
+- 🐞 Fix ArrayIndexOutOfBoundsException in CardDataProvider (#789)
