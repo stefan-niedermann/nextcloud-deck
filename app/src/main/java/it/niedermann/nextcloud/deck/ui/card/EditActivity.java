@@ -217,7 +217,7 @@ public class EditActivity extends BrandedActivity {
         binding.tabLayout.removeAllTabs();
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), getLifecycle());
+        final CardTabAdapter adapter = new CardTabAdapter(this);
         final TabLayoutMediator mediator = new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> {
             tab.setIcon(!viewModel.isCreateMode() && viewModel.hasCommentsAbility()
                     ? tabIconsWithComments[position]
