@@ -19,11 +19,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -56,13 +54,19 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
             final List<FilterWidgetCard> response = syncManager.getCardsForFilterWidget(appWidgetId);
             DeckLog.verbose(UpcomingWidgetFactory.class.getSimpleName() + " with id " + appWidgetId + " fetched " + response.size() + " cards from the database.");
             data.clear();
-            Comparator<Card> comparator = Comparator.comparing(Card::getDueDate);
+            Comparator<FilterWidgetCard> comparator = Comparator.comparing((card -> {
+                if (card != null &&
+                        card.getCard() != null &&
+                        card.getCard().getCard() != null &&
+                        card.getCard().getCard().getDueDate() != null) {
+                    return card.getCard().getCard().getDueDate();
+                }
+                return null;
+            }), Comparator.nullsLast(Comparator.naturalOrder()));
+
             Collections.sort(
-                    response.stream()
-                        .map((filterWidgetCard -> filterWidgetCard == null ? null : filterWidgetCard.getCard()))
-                        .map(fullCard -> fullCard == null ? null : fullCard.getCard())
-                        .collect(Collectors.toList()),
-                    Comparator.nullsLast(comparator)
+                    response,
+                    comparator
             );
             EUpcomingDueType lastDueType = null;
             for (FilterWidgetCard filterWidgetCard : response) {
