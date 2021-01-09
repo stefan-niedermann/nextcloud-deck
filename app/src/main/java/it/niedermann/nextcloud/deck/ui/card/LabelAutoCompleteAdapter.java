@@ -12,6 +12,7 @@ import androidx.activity.ComponentActivity;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.LiveData;
 
@@ -68,7 +69,7 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
         binding.label.setTextColor(color);
 
         if (ITEM_CREATE == label.getLocalId()) {
-            final Drawable plusIcon = DrawableCompat.wrap(binding.label.getContext().getResources().getDrawable(R.drawable.ic_plus));
+            final Drawable plusIcon = DrawableCompat.wrap(ContextCompat.getDrawable(binding.label.getContext(), R.drawable.ic_plus));
             DrawableCompat.setTint(plusIcon, color);
             binding.label.setChipIcon(plusIcon);
         } else {

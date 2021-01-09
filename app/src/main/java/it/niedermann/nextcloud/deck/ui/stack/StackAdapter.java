@@ -14,8 +14,8 @@ public class StackAdapter extends FragmentStateAdapter {
     @NonNull
     private final List<Stack> stackList = new ArrayList<>();
 
-    public StackAdapter(@NonNull FragmentActivity fragmentActivity) {
-        super(fragmentActivity);
+    public StackAdapter(final FragmentActivity fa) {
+        super(fa);
     }
 
     @Override

@@ -124,11 +124,17 @@
     <string name="your_deck_version_is_too_old">Votre version de Deck est trop ancienne</string>
     <string name="deck_outdated_please_update">Votre version de l\'application Deck est trop ancienne (%1$s). Veuillez la mettre à jour afin de pouvoir utiliser cette application Android en tant que client.</string>
     <string name="delete_board_message">Cette action supprimera définitivement ce tableau, y compris la totalité de ses listes et de ses cartes.</string>
+    <string name="settings_theme_title">Thème</string>
     <string name="settings_branding_title">Thème du serveur</string>
     <string name="settings_compact_title">Mode compact</string>
     <string name="settings_background_sync">Synchronisation en tâche de fond</string>
     <string name="pref_value_wifi_and_mobile">Synchroniser en Wifi et données mobiles</string>
     <string name="pref_value_wifi_only">Synchroniser uniquement en Wi-Fi</string>
+    <string-array name="darkmode_entries">
+        <item>Paramètre par défaut</item>
+        <item>Clair</item>
+        <item>Sombre</item>
+    </string-array>
     <string name="unassigned_user">%1$s non assigné</string>
     <string name="no_activities">Il n\'y a aucune activité sur cette carte. Vous devez être connectés à Internet pour charger et afficher les activités.</string>
     <string name="share_board">Partager le tableau</string>

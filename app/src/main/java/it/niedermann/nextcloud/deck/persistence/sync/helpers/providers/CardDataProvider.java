@@ -41,11 +41,12 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     @Override
     public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullCard>> responder, Instant lastSync) {
 
-        List<FullCard> result = new ArrayList<>();
+
         if (stack.getCards() == null || stack.getCards().isEmpty()) {
-            responder.onResponse(result);
+            responder.onResponse(new ArrayList<>());
             return;
         }
+        List<FullCard> result = Collections.synchronizedList(new ArrayList<>());
         for (Card card : stack.getCards()) {
             serverAdapter.getCard(board.getId(), stack.getId(), card.getId(), new IResponseCallback<FullCard>(responder.getAccount()) {
                 @Override

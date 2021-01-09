@@ -1,9 +1,11 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import android.os.Build;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.time.Instant;
 import java.util.List;
@@ -25,7 +27,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = {Build.VERSION_CODES.P})
 public class BoardDaoTest extends AbstractDaoTest {
 
     @Test
@@ -53,16 +56,16 @@ public class BoardDaoTest extends AbstractDaoTest {
     public void testGetBoardsForAccount() throws InterruptedException {
         final Account account = createAccount(db.getAccountDao());
         final User owner = createUser(db.getUserDao(), account);
-        final Board boardVisible1= createBoard(db.getBoardDao(), account, owner);
-        final Board boardVisible2= createBoard(db.getBoardDao(), account, owner);
-        final Board boardVisible3= createBoard(db.getBoardDao(), account, owner);
-        final Board boardInVisible1= createBoard(db.getBoardDao(), account, owner);
+        final Board boardVisible1 = createBoard(db.getBoardDao(), account, owner);
+        final Board boardVisible2 = createBoard(db.getBoardDao(), account, owner);
+        final Board boardVisible3 = createBoard(db.getBoardDao(), account, owner);
+        final Board boardInVisible1 = createBoard(db.getBoardDao(), account, owner);
         boardInVisible1.setDeletedAt(Instant.now());
-        final Board boardInVisible2= createBoard(db.getBoardDao(), account, owner);
+        final Board boardInVisible2 = createBoard(db.getBoardDao(), account, owner);
         boardInVisible2.setStatus(3);
-        final Board boardInVisible3= createBoard(db.getBoardDao(), account, owner);
+        final Board boardInVisible3 = createBoard(db.getBoardDao(), account, owner);
         boardInVisible3.setStatusEnum(DBStatus.LOCAL_DELETED);
-        final Board boardVisibleArchived= createBoard(db.getBoardDao(), account, owner);
+        final Board boardVisibleArchived = createBoard(db.getBoardDao(), account, owner);
         boardVisibleArchived.setArchived(true);
         db.getBoardDao().update(boardInVisible1, boardInVisible2, boardInVisible3, boardVisibleArchived);
 
@@ -81,19 +84,19 @@ public class BoardDaoTest extends AbstractDaoTest {
     public void testGetArchivedBoardsForAccount() throws InterruptedException {
         final Account account = createAccount(db.getAccountDao());
         final User owner = createUser(db.getUserDao(), account);
-        final Board board1= createBoard(db.getBoardDao(), account, owner);
-        final Board board2= createBoard(db.getBoardDao(), account, owner);
-        final Board board3= createBoard(db.getBoardDao(), account, owner);
-        final Board board5= createBoard(db.getBoardDao(), account, owner);
+        final Board board1 = createBoard(db.getBoardDao(), account, owner);
+        final Board board2 = createBoard(db.getBoardDao(), account, owner);
+        final Board board3 = createBoard(db.getBoardDao(), account, owner);
+        final Board board5 = createBoard(db.getBoardDao(), account, owner);
         board5.setDeletedAt(Instant.now());
         board5.setArchived(true);
-        final Board board6= createBoard(db.getBoardDao(), account, owner);
+        final Board board6 = createBoard(db.getBoardDao(), account, owner);
         board6.setStatus(3);
         board6.setArchived(true);
-        final Board board7= createBoard(db.getBoardDao(), account, owner);
+        final Board board7 = createBoard(db.getBoardDao(), account, owner);
         board7.setStatusEnum(DBStatus.LOCAL_DELETED);
         board7.setArchived(true);
-        final Board board4= createBoard(db.getBoardDao(), account, owner);
+        final Board board4 = createBoard(db.getBoardDao(), account, owner);
         board4.setArchived(true);
         db.getBoardDao().update(board5, board6, board7, board4);
 
@@ -112,19 +115,19 @@ public class BoardDaoTest extends AbstractDaoTest {
     public void testGetNonArchivedBoardsForAccount() throws InterruptedException {
         final Account account = createAccount(db.getAccountDao());
         final User owner = createUser(db.getUserDao(), account);
-        final Board board1= createBoard(db.getBoardDao(), account, owner);
-        final Board board2= createBoard(db.getBoardDao(), account, owner);
-        final Board board3= createBoard(db.getBoardDao(), account, owner);
-        final Board board5= createBoard(db.getBoardDao(), account, owner);
+        final Board board1 = createBoard(db.getBoardDao(), account, owner);
+        final Board board2 = createBoard(db.getBoardDao(), account, owner);
+        final Board board3 = createBoard(db.getBoardDao(), account, owner);
+        final Board board5 = createBoard(db.getBoardDao(), account, owner);
         board5.setDeletedAt(Instant.now());
         board5.setArchived(true);
-        final Board board6= createBoard(db.getBoardDao(), account, owner);
+        final Board board6 = createBoard(db.getBoardDao(), account, owner);
         board6.setStatus(3);
         board6.setArchived(true);
-        final Board board7= createBoard(db.getBoardDao(), account, owner);
+        final Board board7 = createBoard(db.getBoardDao(), account, owner);
         board7.setStatusEnum(DBStatus.LOCAL_DELETED);
         board7.setArchived(true);
-        final Board board4= createBoard(db.getBoardDao(), account, owner);
+        final Board board4 = createBoard(db.getBoardDao(), account, owner);
         board4.setArchived(true);
         db.getBoardDao().update(board5, board6, board7, board4);
 
@@ -154,19 +157,19 @@ public class BoardDaoTest extends AbstractDaoTest {
     public void testCountArchivedBoards() throws InterruptedException {
         final Account account = createAccount(db.getAccountDao());
         final User owner = createUser(db.getUserDao(), account);
-        final Board board1= createBoard(db.getBoardDao(), account, owner);
-        final Board board2= createBoard(db.getBoardDao(), account, owner);
-        final Board board3= createBoard(db.getBoardDao(), account, owner);
-        final Board board5= createBoard(db.getBoardDao(), account, owner);
+        final Board board1 = createBoard(db.getBoardDao(), account, owner);
+        final Board board2 = createBoard(db.getBoardDao(), account, owner);
+        final Board board3 = createBoard(db.getBoardDao(), account, owner);
+        final Board board5 = createBoard(db.getBoardDao(), account, owner);
         board5.setDeletedAt(Instant.now());
         board5.setArchived(true);
-        final Board board6= createBoard(db.getBoardDao(), account, owner);
+        final Board board6 = createBoard(db.getBoardDao(), account, owner);
         board6.setStatus(3);
         board6.setArchived(true);
-        final Board board7= createBoard(db.getBoardDao(), account, owner);
+        final Board board7 = createBoard(db.getBoardDao(), account, owner);
         board7.setStatusEnum(DBStatus.LOCAL_DELETED);
         board7.setArchived(true);
-        final Board board4= createBoard(db.getBoardDao(), account, owner);
+        final Board board4 = createBoard(db.getBoardDao(), account, owner);
         board4.setArchived(true);
         db.getBoardDao().update(board5, board6, board7, board4);
 

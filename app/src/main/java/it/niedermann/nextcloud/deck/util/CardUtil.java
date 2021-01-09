@@ -18,7 +18,7 @@ public class CardUtil {
     }
 
     @NonNull
-    public static String generateTitleFromDescription(String description) {
+    public static String generateTitleFromDescription(@Nullable String description) {
         if(description == null) return "";
         return getLineWithoutMarkDown(description, 0);
     }
@@ -32,20 +32,19 @@ public class CardUtil {
      */
     @NonNull
     private static String getLineWithoutMarkDown(@NonNull String content, @SuppressWarnings("SameParameterValue") int lineNumber) {
-        String line = "";
         if (content.contains("\n")) {
-            String[] lines = content.split("\n");
+            final String[] lines = content.split("\n");
             int currentLine = lineNumber;
             while (currentLine < lines.length && isEmptyLine(lines[currentLine])) {
                 currentLine++;
             }
             if (currentLine < lines.length) {
-                line = removeMarkDown(lines[currentLine]);
+                return removeMarkDown(lines[currentLine]);
             }
         } else {
-            line = content;
+            return content;
         }
-        return line;
+        return "";
     }
 
     /**
@@ -61,7 +60,7 @@ public class CardUtil {
      * @param line String - a single Line which ends with \n
      * @return boolean isEmpty
      */
-    private static boolean isEmptyLine(@Nullable String line) {
+    private static boolean isEmptyLine(@NonNull String line) {
         return removeMarkDown(line).trim().length() == 0;
     }
 
@@ -72,9 +71,7 @@ public class CardUtil {
      * @return Plain Text-String
      */
     @NonNull
-    private static String removeMarkDown(@Nullable String s) {
-        if (s == null)
-            return "";
+    private static String removeMarkDown(@NonNull String s) {
         s = pLists.matcher(s).replaceAll("");
         s = pHeadings.matcher(s).replaceAll("$1");
         s = pHeadingLine.matcher(s).replaceAll("");

@@ -109,6 +109,7 @@
     <string name="no_lists_yet">Nog geen lijsten</string>
     <string name="do_you_want_to_save_your_changes">Wil je de wijzigingen opslaan?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Wil je alle kaarten van %1$s archiveren?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Wil je alle gefilterde kaarten van  %1$s archiveren?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Dit zal deze %1$dkaart permanent van de lijst verwijderen.</item>
         <item quantity="other">Dit zal alle %1$dkaarten definitief uit de stapel verwijderen.</item>
@@ -129,6 +130,11 @@
     <string name="settings_background_sync">Achtergrond synchronisatie</string>
     <string name="pref_value_wifi_and_mobile">Sync met Wi-Fi en mobiele data</string>
     <string name="pref_value_wifi_only">Sync alleen met Wi-Fi</string>
+    <string-array name="darkmode_entries">
+        <item>Systeemstandaard</item>
+        <item>Licht</item>
+        <item>Donker</item>
+    </string-array>
     <string name="unassigned_user">Niet toegewezen %1$s</string>
     <string name="no_activities">Deze kaart heeft geen activiteiten. Verbind met het internet om activiteiten te laden en te tonen.</string>
     <string name="share_board">Bord delen</string>
@@ -217,7 +223,7 @@
     <string name="error_dialog_check_server">Je server gaf een onjuiste reactie. Controleer alstublieft of je toegang krijgt tot de Deck app via de web-interface.</string>
     <string name="error_dialog_check_server_logs">Er is iets mis met je Nextcloud instellingen. Controleer alstublieft de server log bestanden.</string>
     <string name="error_dialog_check_maintenance">Controleer alstublieft of je Nextcloud instantie momenteel niet in onderhouds-modus draait.</string>
-    <string name="error_dialog_insufficient_storage">Je Nextcloud instantie heeft geen vrije ruimte meer. Verwijder alstublieft enkele bestanden om je lokale gegevens te kunnen synchroniseren.</string>
+    <string name="error_dialog_insufficient_storage">Je Nextcloud instantie heeft geen vrije ruimte meer. Verwijder alsjeblieft enkele bestanden om je lokale gegevens te kunnen synchroniseren.</string>
     <string name="error_dialog_we_need_info">We hebben de volgende technische informatie nodig om je te kunnen helpen: </string>
     <string name="error_dialog_redirect">Je server heeft gereageerd met een HTTP 302-statuscode, wat inhoudt dat je de Deck-app niet op je server hebt geïnstalleerd of dat er iets verkeerd is geconfigureerd. Dit kan worden veroorzaakt door maatwerk aanpassingen in een .htaccess-bestand of door Nextcloud-apps zoals de OID Client.</string>
     <string name="error_dialog_version_not_parsable">We konden de versie van de Deck-app aan de serverzijde niet bepalen. Zorg ervoor dat de app is geïnstalleerd en ingeschakeld.</string>
@@ -273,4 +279,26 @@
     <string name="project_type_room">Praatruimte</string>
     <string name="simple_move">Verplaatsen</string>
     <string name="cannot_upload_files_without_permission">Kan geen bestanden uploaden zonder toestemming</string>
-    </resources>
+    <string name="clone_cards">Kaarten klonen</string>
+    <string name="simple_clone">Klonen</string>
+    <string name="user_avatar">Gebruik avatar</string>
+    <string name="simple_unassign">Toewijzing intrekken</string>
+    <string name="simple_contact">Contactpersoon</string>
+    <string name="simple_file">Bestand</string>
+    <string name="simple_camera">Camera</string>
+    <string name="min_api_21">Deze optie vereist minimaal Android 5</string>
+    <string name="take_photo">Neem een foto</string>
+    <string name="take_photo_switch_camera">Omschakelen camera</string>
+    <string name="take_photo_toggle_torch">Omschakelen zaklamp</string>
+    <string name="show_all_contacts">Toon alle contactpersonen</string>
+    <string name="show_all_files">Toon alle bestanden</string>
+    <string name="recent">Recent</string>
+    <string name="upload_a_new_attachment">Upload een nieuwe bijlage</string>
+    <string name="contacts">Contactpersonen</string>
+    <string name="downloads">Downloads</string>
+    <string name="files">Bestanden</string>
+    <string name="gallery">Galerij</string>
+    <string name="simple_attach">bijvoegen</string>
+    <string name="add_stack_widget">Toevoegen lijst widget</string>
+    <string name="edit_description">Bewerk beschrijving</string>
+</resources>

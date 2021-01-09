@@ -11,8 +11,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -49,14 +47,14 @@ public class FilterDialogFragment extends BrandedDialogFragment {
 
         indicator = ContextCompat.getDrawable(requireContext(), R.drawable.circle_grey600_8dp);
         assert indicator != null;
-        indicator.setColorFilter(getResources().getColor(R.color.defaultBrand), PorterDuff.Mode.SRC_ATOP);
+        indicator.setColorFilter(ContextCompat.getColor(getContext(), R.color.defaultBrand), PorterDuff.Mode.SRC_ATOP);
 
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 
         final AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
 
         binding = DialogFilterBinding.inflate(requireActivity().getLayoutInflater());
-        binding.viewPager.setAdapter(new TabsPagerAdapter(getChildFragmentManager(), getLifecycle()));
+        binding.viewPager.setAdapter(new TabsPagerAdapter(this));
         binding.viewPager.setOffscreenPageLimit(tabTitles.length);
 
         LiveData<FilterInformation> filterInformationDraft = filterViewModel.getFilterInformationDraft();
@@ -114,8 +112,8 @@ public class FilterDialogFragment extends BrandedDialogFragment {
 
     private static class TabsPagerAdapter extends FragmentStateAdapter {
 
-        TabsPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
-            super(fragmentManager, lifecycle);
+        TabsPagerAdapter(final Fragment f) {
+            super(f);
         }
 
         @NonNull
