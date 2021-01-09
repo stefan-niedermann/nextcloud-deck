@@ -62,7 +62,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
                         .map((filterWidgetCard -> filterWidgetCard == null ? null : filterWidgetCard.getCard()))
                         .map(fullCard -> fullCard == null ? null : fullCard.getCard())
                         .collect(Collectors.toList()),
-                    comparator
+                    Comparator.nullsLast(comparator)
             );
             EUpcomingDueType lastDueType = null;
             for (FilterWidgetCard filterWidgetCard : response) {
