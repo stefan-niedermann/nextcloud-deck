@@ -44,7 +44,8 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 ## 🏁 Planned features
 * [Upcoming cards widget](https://github.com/stefan-niedermann/nextcloud-deck/issues/597)
 * Enhanced support for projects
-* Further stabilization of the UI and bugfixes
+* Further stabilization of the UI and bug fixes
+* Reach and keep feature parity with the server app
 
 ## 👪 Join the team
 * Test the app with different devices
