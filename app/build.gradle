@@ -76,7 +76,7 @@ dependencies {
     def roomVersion = "2.2.6"
     implementation "androidx.room:room-runtime:$roomVersion"
     annotationProcessor "androidx.room:room-compiler:$roomVersion"
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.work:work-runtime:2.4.0'
     implementation "com.google.android.material:material:$rootProject.materialVersion"
 
