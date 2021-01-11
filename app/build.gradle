@@ -106,7 +106,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
 
     // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.6.4'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
     // ReactiveX
     implementation 'io.reactivex.rxjava2:rxjava:2.2.20'
