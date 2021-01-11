@@ -109,6 +109,7 @@
     <string name="no_lists_yet">Χωρίς λίστες ακόμη</string>
     <string name="do_you_want_to_save_your_changes">Θέλετε να αποθηκεύσετε τις αλλαγές σας;</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Θέλετε να αρχειοθετήσετε όλες τις κάρτες του %1$s;</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Θέλετε να αρχειοθετήσετε όλες τις φιλτραρισμένες κάρτες του %1$s; </string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Μόνιμη διαγραφή %1$dτης κάρτας της λίστας.</item>
         <item quantity="other">Μόνιμη διαγραφή όλων %1$d των καρτών της λίστας.</item>
@@ -123,11 +124,17 @@
     <string name="your_deck_version_is_too_old">Η έκδοσή σας είναι παλαιά.</string>
     <string name="deck_outdated_please_update">Η έκδοσή σας είναι είναι παλαιά (%1$s). Παρακαλούμε αναβαθμίστε για επιπλέον χρήση.</string>
     <string name="delete_board_message">Μόνιμη διαγραφή πίνακα με όλες τις λίστες και κάρτες.</string>
+    <string name="settings_theme_title">Θέμα</string>
     <string name="settings_branding_title">Επωνυμία</string>
     <string name="settings_compact_title">Συμπαγής λειτουργία</string>
     <string name="settings_background_sync">Συγχρονισμός στο παρασκήνιο</string>
     <string name="pref_value_wifi_and_mobile">Συγχρονισμός σε Wi-Fi και δεδομένα κινητού</string>
     <string name="pref_value_wifi_only">Συγχρονισμός μόνο σε Wi-Fi</string>
+    <string-array name="darkmode_entries">
+        <item>Προεπιλογή συστήματος</item>
+        <item>Ανοιχτό</item>
+        <item>Σκούρο</item>
+    </string-array>
     <string name="unassigned_user">Αδιάθετα %1$s</string>
     <string name="no_activities">Δεν υπάρχουν δραστηριότητες σε αυτή την κάρτα. Θα πρέπει να είστε συνδεδεμένοι στο Ίντερνετ για να φορτώσετε και να εμφανίσετε δραστηριότητες.</string>
     <string name="share_board">Διαμοιρασμός πίνακα</string>
@@ -272,5 +279,26 @@
     <string name="project_type_room">Δωμάτιο του Talk </string>
     <string name="simple_move">Μετακίνηση</string>
     <string name="cannot_upload_files_without_permission">Δεν μπορείτε να ανεβάσετε αρχεία χωρίς άδεια</string>
+    <string name="clone_cards">Κάρτες κλώνου</string>
+    <string name="simple_clone">Κλώνος</string>
+    <string name="user_avatar">Άβαταρ χρήστη</string>
     <string name="simple_unassign">Αποδέσμευση</string>
-    </resources>
+    <string name="simple_contact">Επικοινωνία</string>
+    <string name="simple_file">Αρχείο</string>
+    <string name="simple_camera">Κάμερα</string>
+    <string name="min_api_21">Αυτή η λειτουργία απαιτεί τουλάχιστον Android 5</string>
+    <string name="take_photo">Βγάλε μια φωτογραφία</string>
+    <string name="take_photo_switch_camera">Εναλλαγή κάμερας</string>
+    <string name="take_photo_toggle_torch">Εναλλαγή φακού</string>
+    <string name="show_all_contacts">Εμφάνιση όλων των επαφών</string>
+    <string name="show_all_files">Εμφάνιση όλων των αρχείων</string>
+    <string name="recent">Πρόσφατο</string>
+    <string name="upload_a_new_attachment">Ανεβάστε ένα νέο συνημμένο</string>
+    <string name="contacts">Επαφές</string>
+    <string name="downloads">Λήψεις</string>
+    <string name="files">Αρχεία</string>
+    <string name="gallery">Εκθεσιακός χώρος</string>
+    <string name="simple_attach">Επισυνάπτω</string>
+    <string name="add_stack_widget">Προσθήκη λίστας widget</string>
+    <string name="edit_description">Επεξεργασία περιγραφής</string>
+</resources>
