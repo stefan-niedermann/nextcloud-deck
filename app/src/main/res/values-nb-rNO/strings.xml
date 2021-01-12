@@ -123,11 +123,17 @@
     <string name="your_deck_version_is_too_old">Din tjenerversjon av «deck» er updatert</string>
     <string name="deck_outdated_please_update">Din tjenerversjon av «deck» er utdatert (%1$s). Vennligst oppdater for å bruke denne android appen som klient.</string>
     <string name="delete_board_message">Dette vil uopprettelig slette denne tavlen inkludert alle lister og kort.</string>
+    <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Kompakt modus</string>
     <string name="settings_background_sync">Synkronisering i bakgrunnen</string>
     <string name="pref_value_wifi_and_mobile">Synkroniser med WiFi og mobil data</string>
     <string name="pref_value_wifi_only">Synkroniser kun med WiFi</string>
+    <string-array name="darkmode_entries">
+        <item>System standard</item>
+        <item>Lys</item>
+        <item>Mørk</item>
+    </string-array>
     <string name="unassigned_user">Ikke tildelt %1$s</string>
     <string name="no_activities">Det er ingen aktiviteter på dette kortet. Du må være koblet til internett for å kunne laste inn og vise aktivitetene.</string>
     <string name="share_board">Del tavle</string>
@@ -272,4 +278,25 @@
     <string name="project_type_room">Talk rom</string>
     <string name="simple_move">Flytt</string>
     <string name="cannot_upload_files_without_permission">Kan ikke laste opp filer uten tillatelse</string>
-    </resources>
+    <string name="clone_cards">Klone kort</string>
+    <string name="simple_clone">Klone</string>
+    <string name="user_avatar">Bruker avatar</string>
+    <string name="simple_unassign">Fjern tildeling</string>
+    <string name="simple_contact">Kontakt</string>
+    <string name="simple_file">Fil</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="min_api_21">Denne funksjonen krever minst Android 5</string>
+    <string name="take_photo">Ta et bilde</string>
+    <string name="take_photo_switch_camera">Bytt kamera</string>
+    <string name="show_all_contacts">Vis alle kontakter</string>
+    <string name="show_all_files">Vis alle filer</string>
+    <string name="recent">Nylig</string>
+    <string name="upload_a_new_attachment">Last opp nytt vedlegg</string>
+    <string name="contacts">Kontakter</string>
+    <string name="downloads">Nedlastinger</string>
+    <string name="files">Filer</string>
+    <string name="gallery">Galleri</string>
+    <string name="simple_attach">legg ved</string>
+    <string name="add_stack_widget">Legg til liste widget</string>
+    <string name="edit_description">Rediger beskrivelse</string>
+</resources>
