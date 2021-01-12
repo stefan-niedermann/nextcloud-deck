@@ -261,7 +261,7 @@
 
     <string name="widget_stack_title">Popis</string>
     <string name="widget_stack_header_icon">Ikona zaglavlja widgeta</string>
-    <string name="widget_stack_placeholder_icon">Privremena ikona widgeta</string>
+    <string name="widget_placeholder_icon">Privremena ikona widgeta</string>
     <string name="select_stack">Odaberi popis</string>
     <string name="project_type_deck_board">Deck ploča</string>
     <string name="project_type_deck_card">Deck kartica</string>

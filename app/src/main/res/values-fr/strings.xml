@@ -264,7 +264,7 @@
 
     <string name="widget_stack_title">Liste</string>
     <string name="widget_stack_header_icon">Icône d’en-tête du widget</string>
-    <string name="widget_stack_placeholder_icon">Icône d’espace réservé du widget</string>
+    <string name="widget_placeholder_icon">Icône d’espace réservé du widget</string>
     <string name="select_stack">Sélectionner la liste</string>
     <string name="project_type_deck_board">Tableau de l\'application Deck</string>
     <string name="project_type_deck_card">Carte de l\'application Deck</string>

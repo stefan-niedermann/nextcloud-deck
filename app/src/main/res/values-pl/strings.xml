@@ -270,7 +270,7 @@
 
     <string name="widget_stack_title">Lista</string>
     <string name="widget_stack_header_icon">Ikona nagłówka widżetu</string>
-    <string name="widget_stack_placeholder_icon">Ikona zastępcza widżetu</string>
+    <string name="widget_placeholder_icon">Ikona zastępcza widżetu</string>
     <string name="select_stack">Wybierz listę</string>
     <string name="project_type_deck_board">Tablica Deck</string>
     <string name="project_type_deck_card">Karta Deck</string>

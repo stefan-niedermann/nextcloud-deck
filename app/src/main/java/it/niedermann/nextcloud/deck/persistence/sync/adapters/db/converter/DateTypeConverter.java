@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
+package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.converter;
 
 import androidx.room.TypeConverter;
 

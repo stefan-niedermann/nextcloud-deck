@@ -264,7 +264,7 @@
 
     <string name="widget_stack_title">Λίστα</string>
     <string name="widget_stack_header_icon">Εικονίδιο επικεφαλίδας του γραφικού στοιχείου</string>
-    <string name="widget_stack_placeholder_icon">Εικονίδιο θέσης κράτησης του γραφικού στοιχείου</string>
+    <string name="widget_placeholder_icon">Εικονίδιο θέσης κράτησης του γραφικού στοιχείου</string>
     <string name="select_stack">Επιλέξτε λίστα</string>
     <string name="project_type_deck_board">Πίνακας του Deck</string>
     <string name="project_type_deck_card">Κάρτα του Deck</string>

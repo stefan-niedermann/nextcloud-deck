@@ -38,6 +38,12 @@ public interface StackDao extends GenericDao<Stack> {
     @Query("SELECT * FROM stack WHERE accountId = :accountId and localId = :localId")
     LiveData<FullStack> getFullStack(long accountId, long localId);
 
+    @Query("SELECT localId FROM stack WHERE accountId = :accountId")
+    List<Long> getLocalStackIdsByAccountIdDirectly(long accountId);
+
+    @Query("SELECT localId FROM stack WHERE boardId = :localBoardId")
+    List<Long> getLocalStackIdsByLocalBoardIdDirectly(long localBoardId);
+
     @Transaction
     @Query("SELECT * FROM stack WHERE accountId = :accountId and boardId = :localBoardId and (status<>1 or id is null or lastModified <> lastModifiedLocal)")
     List<FullStack> getLocallyChangedStacksForBoardDirectly(long accountId, long localBoardId);

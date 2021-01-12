@@ -264,7 +264,7 @@
 
     <string name="widget_stack_title">Elenco</string>
     <string name="widget_stack_header_icon">Icona intestazione widget</string>
-    <string name="widget_stack_placeholder_icon">Icona segnaposto widget</string>
+    <string name="widget_placeholder_icon">Icona segnaposto widget</string>
     <string name="select_stack">Seleziona elenco</string>
     <string name="project_type_deck_board">Lavagna di Deck</string>
     <string name="project_type_deck_card">Scheda di Deck</string>

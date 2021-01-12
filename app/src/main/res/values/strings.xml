@@ -199,9 +199,11 @@
     <string name="filter_no_filter">All</string>
     <string name="filter_overdue">Overdue</string>
     <string name="filter_today">Today</string>
+    <string name="filter_tomorrow">Tomorrow</string>
     <string name="filter_week">Next 7 days</string>
     <string name="filter_month">Next 30 days</string>
     <string name="filter_no_due">No due date</string>
+    <string name="filter_later">Later</string>
     <string name="filter_by_tag">Filter by tag</string>
     <string name="filter_by_assigned_user">Filter by assigned user</string>
     <string name="filter_by_duedate">Filter by due date</string>
@@ -287,8 +289,9 @@
     <string name="card_does_not_yet_exist">Card does not yet exist in Deck</string>
 
     <string name="widget_stack_title">List</string>
+    <string name="widget_filter_title">Filter</string>
     <string name="widget_stack_header_icon">Widget header icon</string>
-    <string name="widget_stack_placeholder_icon">Widget placeholder icon</string>
+    <string name="widget_placeholder_icon">Widget placeholder icon</string>
     <string name="select_stack">Select list</string>
     <string name="project_type_deck_board">Deck board</string>
     <string name="project_type_deck_card">Deck card</string>
@@ -324,5 +327,8 @@
     <string name="gallery">Gallery</string>
     <string name="simple_attach">attach</string>
     <string name="add_stack_widget">Add list widget</string>
+    <string name="add_filter_widget">Add filter widget</string>
+    <string name="simple_order">Order</string>
     <string name="edit_description">Edit description</string>
+    <string name="widget_upcoming_title">Upcoming cards</string>
 </resources>

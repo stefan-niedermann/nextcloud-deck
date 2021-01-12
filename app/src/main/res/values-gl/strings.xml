@@ -264,7 +264,7 @@
 
     <string name="widget_stack_title">Lista</string>
     <string name="widget_stack_header_icon">Icona de cabeceira do trebello</string>
-    <string name="widget_stack_placeholder_icon">Icona de marcador de posición do trebello</string>
+    <string name="widget_placeholder_icon">Icona de marcador de posición do trebello</string>
     <string name="select_stack">Seleccionar a lista</string>
     <string name="project_type_deck_board">Taboleiro do Deck</string>
     <string name="project_type_deck_card">Tarxeta do Deck</string>

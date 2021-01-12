@@ -76,7 +76,7 @@ public class DeckDatabaseTestUtil {
         boardToCreate.setOwnerId(owner.getLocalId());
         boardToCreate.setId(currentLong++);
         long id = dao.insert(boardToCreate);
-        return dao.getBoardByIdDirectly(id);
+        return dao.getBoardByLocalIdDirectly(id);
     }
 
     public static Stack createStack(@NonNull StackDao dao, @NonNull Account account, @NonNull Board board) {

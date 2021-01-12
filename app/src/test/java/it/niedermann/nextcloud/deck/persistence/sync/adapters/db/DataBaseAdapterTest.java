@@ -25,6 +25,7 @@ import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
+import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createAccount;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createBoard;
@@ -69,8 +70,7 @@ public class DataBaseAdapterTest {
     }
 
     @Test
-    public void testFillSqlWithListValues() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        // TODO understand what the method does and write a proper test.
+    public void testFillSqlWithEntityListValues() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         final User user = createUser(db.getUserDao(), createAccount(db.getAccountDao()));
         final StringBuilder builder = new StringBuilder();
         final List<Object> args = new ArrayList<>(1);
@@ -82,7 +82,42 @@ public class DataBaseAdapterTest {
         fillSqlWithListValues.setAccessible(true);
         fillSqlWithListValues.invoke(adapter, builder, args, entities);
         assertEquals("?", builder.toString());
-        assertEquals(user.getLocalId(), args.get(0));
+        assertEquals(user.getLocalId(), ((IRemoteEntity)args.get(0)).getLocalId());
+    }
+
+    @Test
+    public void testFillSqlWithListValues() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        final User user = createUser(db.getUserDao(), createAccount(db.getAccountDao()));
+        final StringBuilder builder = new StringBuilder();
+        final List<Object> args = new ArrayList<>(1);
+        final Long leet = 1337L;
+        final List<?> entities = new ArrayList<Long>(1) {{
+            add(leet);
+        }};
+
+        final Method fillSqlWithListValues = DataBaseAdapter.class.getDeclaredMethod("fillSqlWithListValues", StringBuilder.class, List.class, List.class);
+        fillSqlWithListValues.setAccessible(true);
+        fillSqlWithListValues.invoke(adapter, builder, args, entities);
+        assertEquals("?", builder.toString());
+        assertEquals(leet, args.get(0));
+    }
+    @Test
+    public void testFillSqlWithMultipleListValues() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        final User user = createUser(db.getUserDao(), createAccount(db.getAccountDao()));
+        final StringBuilder builder = new StringBuilder();
+        final List<Object> args = new ArrayList<>(2);
+        final Long leet = 1337L;
+        final List<?> entities = new ArrayList<Long>(2) {{
+            add(leet);
+            add(leet+1);
+        }};
+
+        final Method fillSqlWithListValues = DataBaseAdapter.class.getDeclaredMethod("fillSqlWithListValues", StringBuilder.class, List.class, List.class);
+        fillSqlWithListValues.setAccessible(true);
+        fillSqlWithListValues.invoke(adapter, builder, args, entities);
+        assertEquals("?, ?", builder.toString());
+        assertEquals(leet, args.get(0));
+        assertEquals(leet+1, args.get(1));
     }
 
 }

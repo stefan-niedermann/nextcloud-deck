@@ -43,7 +43,7 @@ public class BoardDaoTest extends AbstractDaoTest {
         boardToCreate.setId(1337L);
 
         long id = db.getBoardDao().insert(boardToCreate);
-        final Board board = db.getBoardDao().getBoardByIdDirectly(id);
+        final Board board = db.getBoardDao().getBoardByLocalIdDirectly(id);
 
         assertEquals("Test-Board", board.getTitle());
         assertEquals(board, db.getBoardDao().getBoardByRemoteIdDirectly(account.getId(), board.getId()));

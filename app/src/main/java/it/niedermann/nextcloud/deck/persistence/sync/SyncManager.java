@@ -61,6 +61,8 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
+import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
@@ -373,6 +375,11 @@ public class SyncManager {
         return dataBaseAdapter.readAccount(id);
     }
 
+    @WorkerThread
+    public Account readAccountDirectly(long id) {
+        return dataBaseAdapter.readAccountDirectly(id);
+    }
+
     @AnyThread
     public LiveData<Account> readAccount(@Nullable String name) {
         return dataBaseAdapter.readAccount(name);
@@ -381,6 +388,11 @@ public class SyncManager {
     @AnyThread
     public LiveData<List<Account>> readAccounts() {
         return dataBaseAdapter.readAccounts();
+    }
+
+    @WorkerThread
+    public List<Account> readAccountsDirectly() {
+        return dataBaseAdapter.getAllAccountsDirectly();
     }
 
     /**
@@ -817,6 +829,11 @@ public class SyncManager {
 
     public LiveData<FullStack> getStack(long accountId, long localStackId) {
         return dataBaseAdapter.getStack(accountId, localStackId);
+    }
+
+    @WorkerThread
+    public Long getBoardLocalIdByLocalCardIdDirectly(long localCardId) {
+        return dataBaseAdapter.getBoardLocalIdByLocalCardIdDirectly(localCardId);
     }
 
     @AnyThread
@@ -1936,6 +1953,66 @@ public class SyncManager {
     // -------------------
     // Widgets
     // -------------------
+
+    // # filter widget
+
+    @AnyThread
+    public void createFilterWidget(@NonNull FilterWidget filterWidget, @NonNull IResponseCallback<Integer> callback) {
+        doAsync(() -> {
+            try {
+                int filterWidgetId = dataBaseAdapter.createFilterWidgetDirectly(filterWidget);
+                callback.onResponse(filterWidgetId);
+            } catch (Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    @AnyThread
+    public void updateFilterWidget(@NonNull FilterWidget filterWidget, @NonNull IResponseCallback<Boolean> callback) {
+        doAsync(() -> {
+            try {
+                dataBaseAdapter.updateFilterWidgetDirectly(filterWidget);
+                callback.onResponse(Boolean.TRUE);
+            } catch (Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    @AnyThread
+    public void getFilterWidget(@NonNull Integer filterWidgetId, @NonNull IResponseCallback<FilterWidget> callback) {
+        doAsync(() -> {
+            try {
+                callback.onResponse(dataBaseAdapter.getFilterWidgetByIdDirectly(filterWidgetId));
+            } catch (Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    @AnyThread
+    public void deleteFilterWidget(int filterWidgetId, @NonNull IResponseCallback<Boolean> callback) {
+        doAsync(() -> {
+            try {
+                dataBaseAdapter.deleteFilterWidgetDirectly(filterWidgetId);
+                callback.onResponse(Boolean.TRUE);
+            } catch (Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public boolean filterWidgetExists(int id) {
+        return dataBaseAdapter.filterWidgetExists(id);
+    }
+
+    @WorkerThread
+    public List<FilterWidgetCard> getCardsForFilterWidget(@NonNull Integer filterWidgetId) {
+        return dataBaseAdapter.getCardsForFilterWidget(filterWidgetId);
+    }
+
+    // # single card widget
 
     /**
      * Can be called from a configuration screen or a picker.

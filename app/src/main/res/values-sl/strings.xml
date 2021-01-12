@@ -270,7 +270,7 @@
 
     <string name="widget_stack_title">Seznam</string>
     <string name="widget_stack_header_icon">Ikona glave gradnika</string>
-    <string name="widget_stack_placeholder_icon">Ikona ročnika gradnika</string>
+    <string name="widget_placeholder_icon">Ikona ročnika gradnika</string>
     <string name="select_stack">Izbor seznama</string>
     <string name="project_type_deck_board">Zbirka Deck</string>
     <string name="project_type_deck_card">Naloga Deck</string>

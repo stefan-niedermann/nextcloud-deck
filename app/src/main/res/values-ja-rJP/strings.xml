@@ -256,7 +256,7 @@
 
     <string name="widget_stack_title">リスト</string>
     <string name="widget_stack_header_icon">ウィジェットのヘッダーアイコン</string>
-    <string name="widget_stack_placeholder_icon">ウィジェットの代替アイコン</string>
+    <string name="widget_placeholder_icon">ウィジェットの代替アイコン</string>
     <string name="select_stack">リストを選択</string>
     <string name="project_type_deck_board">Deckボード</string>
     <string name="project_type_deck_card">Deckカード</string>
