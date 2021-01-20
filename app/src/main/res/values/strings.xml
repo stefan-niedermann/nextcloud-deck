@@ -144,9 +144,8 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Add a new list using the + button</string>
     <string name="add_a_new_card_using_the_button">Add a new card using the + button</string>
-    <string name="update_deck">Update Deck app</string>
-    <string name="your_deck_version_is_too_old">Your Deck app version is too old</string>
-    <string name="deck_outdated_please_update">Your Deck app version is too old (%1$s). Please update to use this android app as client.</string>
+    <string name="update_deck">Update Deck web app</string>
+    <string name="deck_outdated_please_update">Your Deck web app version is too old (%1$s). Please update to use this Android app as client.</string>
     <string name="delete_board_message">This will permanently delete this board including all lists and cards.</string>
     <string name="settings_theme_title">Theme</string>
     <string name="settings_branding_title">Branding</string>
