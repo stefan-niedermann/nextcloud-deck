@@ -56,7 +56,7 @@ public class SingleCardWidgetFactory implements RemoteViewsService.RemoteViewsFa
         }
 
         final RemoteViews widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_single_card_content);
-        widget_entry.setTextViewText(R.id.description, MarkdownUtil.renderForWidget(context, description));
+        widget_entry.setTextViewText(R.id.description, MarkdownUtil.renderForRemoteView(context, description));
 
         final Intent intent = EditActivity.createEditCardIntent(context, model.getAccount(), model.getModel().getBoardId(), model.getFullCard().getCard().getLocalId());
         widget_entry.setOnClickFillInIntent(R.id.description, intent);
