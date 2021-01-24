@@ -515,7 +515,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     @Override
     public void applyBrand(int mainColor) {
         applyBrandToFAB(mainColor, binding.fab);
-        adapter.applyBrand(mainColor);
         @ColorInt final int finalMainColor = DeckColorUtil.contrastRatioIsSufficient(mainColor, primaryColor)
                 ? mainColor
                 : accentColor;
@@ -531,6 +530,13 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         );
         binding.bottomNavigation.setItemIconTintList(list);
         binding.bottomNavigation.setItemTextColor(list);
+
+        // applyBrand() is also called onStart
+        // adapter might be null at this point
+        // https://github.com/stefan-niedermann/nextcloud-deck/issues/782
+        if (adapter != null) {
+            adapter.applyBrand(mainColor);
+        }
     }
 
     public static Fragment newInstance() {
