@@ -404,7 +404,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         super.onDestroy();
     }
 
-    private void uploadNewAttachmentFromUri(@NonNull Uri sourceUri, String mimeType) throws UploadAttachmentFailedException, IOException {
+    private void uploadNewAttachmentFromUri(@NonNull Uri sourceUri, String mimeType) throws UploadAttachmentFailedException {
         if (sourceUri == null) {
             throw new UploadAttachmentFailedException("sourceUri is null");
         }
@@ -412,47 +412,57 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             case ContentResolver.SCHEME_CONTENT:
             case ContentResolver.SCHEME_FILE: {
                 DeckLog.verbose("--- found content URL " + sourceUri.getPath());
-                final File fileToUpload = copyContentUriToTempFile(requireContext(), sourceUri, editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId());
-                for (Attachment existingAttachment : editViewModel.getFullCard().getAttachments()) {
-                    final String existingPath = existingAttachment.getLocalPath();
-                    if (existingPath != null && existingPath.equals(fileToUpload.getAbsolutePath())) {
-                        BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
-                        return;
-                    }
-                }
-                final Instant now = Instant.now();
-                final Attachment a = new Attachment();
-                a.setMimetype(mimeType);
-                a.setData(fileToUpload.getName());
-                a.setFilename(fileToUpload.getName());
-                a.setBasename(fileToUpload.getName());
-                a.setFilesize(fileToUpload.length());
-                a.setLocalPath(fileToUpload.getAbsolutePath());
-                a.setLastModifiedLocal(now);
-                a.setCreatedAt(now);
-                a.setStatusEnum(DBStatus.LOCAL_EDITED);
-                editViewModel.getFullCard().getAttachments().add(0, a);
-                adapter.addAttachment(a);
-                if (!editViewModel.isCreateMode()) {
-                    WrappedLiveData<Attachment> liveData = editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload);
-                    observeOnce(liveData, getViewLifecycleOwner(), (next) -> {
-                        if (liveData.hasError()) {
-                            Throwable t = liveData.getError();
-                            if (t instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) t).getStatusCode() == HTTP_CONFLICT) {
-                                // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
-                                editViewModel.getFullCard().getAttachments().remove(a);
-                                adapter.removeAttachment(a);
-                                BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
-                            } else {
-                                ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", t), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                // Separate Thread required because picked file might not yet be locally available
+                // https://github.com/stefan-niedermann/nextcloud-deck/issues/814
+                new Thread(() -> {
+                    try {
+                        final File fileToUpload = copyContentUriToTempFile(requireContext(), sourceUri, editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId());
+                        requireActivity().runOnUiThread(() -> {
+                            for (Attachment existingAttachment : editViewModel.getFullCard().getAttachments()) {
+                                final String existingPath = existingAttachment.getLocalPath();
+                                if (existingPath != null && existingPath.equals(fileToUpload.getAbsolutePath())) {
+                                    BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                                    return;
+                                }
                             }
-                        } else {
-                            editViewModel.getFullCard().getAttachments().remove(a);
-                            editViewModel.getFullCard().getAttachments().add(0, next);
-                            adapter.replaceAttachment(a, next);
-                        }
-                    });
-                }
+                            final Instant now = Instant.now();
+                            final Attachment a = new Attachment();
+                            a.setMimetype(mimeType);
+                            a.setData(fileToUpload.getName());
+                            a.setFilename(fileToUpload.getName());
+                            a.setBasename(fileToUpload.getName());
+                            a.setFilesize(fileToUpload.length());
+                            a.setLocalPath(fileToUpload.getAbsolutePath());
+                            a.setLastModifiedLocal(now);
+                            a.setCreatedAt(now);
+                            a.setStatusEnum(DBStatus.LOCAL_EDITED);
+                            editViewModel.getFullCard().getAttachments().add(0, a);
+                            adapter.addAttachment(a);
+                            if (!editViewModel.isCreateMode()) {
+                                WrappedLiveData<Attachment> liveData = editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload);
+                                observeOnce(liveData, getViewLifecycleOwner(), (next) -> {
+                                    if (liveData.hasError()) {
+                                        Throwable t = liveData.getError();
+                                        if (t instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) t).getStatusCode() == HTTP_CONFLICT) {
+                                            // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
+                                            editViewModel.getFullCard().getAttachments().remove(a);
+                                            adapter.removeAttachment(a);
+                                            BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                                        } else {
+                                            ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", t), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                        }
+                                    } else {
+                                        editViewModel.getFullCard().getAttachments().remove(a);
+                                        editViewModel.getFullCard().getAttachments().add(0, next);
+                                        adapter.replaceAttachment(a, next);
+                                    }
+                                });
+                            }
+                        });
+                    } catch (IOException e) {
+                        requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(e, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                    }
+                }).start();
                 break;
             }
             default: {
