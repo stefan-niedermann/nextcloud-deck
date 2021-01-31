@@ -120,9 +120,8 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Eine neue Liste mit der + Taste hinzufügen</string>
     <string name="add_a_new_card_using_the_button">Eine neue Karte mit der + Taste hinzufügen</string>
-    <string name="update_deck">Deck aktualisieren</string>
-    <string name="your_deck_version_is_too_old">Ihre Deck-Version ist zu alt</string>
-    <string name="deck_outdated_please_update">Ihre Deck-Version ist zu alt (%1$s). Bitte aktualisieren Sie Deck um diese Android-App als Client verwenden zu können.</string>
+    <string name="update_deck">Deck Web-App aktualisieren</string>
+    <string name="deck_outdated_please_update">Ihre Deck Web-App-Version ist zu alt (%1$s). Bitte aktualisieren Sie, um diese Android-App als Client zu verwenden.</string>
     <string name="delete_board_message">Dies wird dieses Board endgültig inklusive aller Listen und Karten löschen.</string>
     <string name="settings_theme_title">Design</string>
     <string name="settings_branding_title">Branding</string>
@@ -175,9 +174,11 @@
     <string name="filter_no_filter">Alle</string>
     <string name="filter_overdue">Überfällig</string>
     <string name="filter_today">Heute</string>
+    <string name="filter_tomorrow">Morgen</string>
     <string name="filter_week">Die nächsten 7 Tage</string>
     <string name="filter_month">Die nächsten 30 Tage</string>
     <string name="filter_no_due">Kein Fälligkeitsdatum</string>
+    <string name="filter_later">Später</string>
     <string name="filter_by_tag">Nach Schlagwort filtern</string>
     <string name="filter_by_assigned_user">Nach zugewiesenem Benutzer filtern</string>
     <string name="filter_by_duedate">Nach Fälligkeitsdatum filtern</string>
@@ -263,6 +264,7 @@
     <string name="card_does_not_yet_exist">Karte existiert bislang nicht in Deck</string>
 
     <string name="widget_stack_title">Liste</string>
+    <string name="widget_filter_title">Filter</string>
     <string name="widget_stack_header_icon">Widget-Kopf-Icon</string>
     <string name="widget_placeholder_icon">Widget-Platzhalter-Symbol</string>
     <string name="select_stack">Liste auswählen</string>
@@ -300,5 +302,8 @@
     <string name="gallery">Galerie</string>
     <string name="simple_attach">anhängen</string>
     <string name="add_stack_widget">Ein Listen-Widget hinzufügen</string>
+    <string name="add_filter_widget">Filter-Widget hinzufügen</string>
+    <string name="simple_order">Reihenfolge</string>
     <string name="edit_description">Beschreibung bearbeiten</string>
+    <string name="widget_upcoming_title">Anstehende Karten</string>
 </resources>

@@ -118,9 +118,6 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">+ボタンで新しいリストを追加</string>
     <string name="add_a_new_card_using_the_button">+ボタンで新しいカードを追加</string>
-    <string name="update_deck">端末の更新</string>
-    <string name="your_deck_version_is_too_old">端末のバージョンが旧すぎます</string>
-    <string name="deck_outdated_please_update">Deckのバージョンが旧すぎます(%1$s)．このアンドロイドアプリをクライアントとして使うには更新してください．</string>
     <string name="delete_board_message">このボードと含まれるすべてのリストやカードは完全に削除されます．</string>
     <string name="settings_branding_title">ブランディング</string>
     <string name="settings_compact_title">コンパクトモード</string>
@@ -256,7 +253,6 @@
 
     <string name="widget_stack_title">リスト</string>
     <string name="widget_stack_header_icon">ウィジェットのヘッダーアイコン</string>
-    <string name="widget_placeholder_icon">ウィジェットの代替アイコン</string>
     <string name="select_stack">リストを選択</string>
     <string name="project_type_deck_board">Deckボード</string>
     <string name="project_type_deck_card">Deckカード</string>

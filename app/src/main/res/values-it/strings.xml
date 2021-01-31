@@ -120,9 +120,8 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Aggiungi un nuovo elenco usando il pulsante +</string>
     <string name="add_a_new_card_using_the_button">Aggiungi una nuova scheda utilizzando il pulsante +</string>
-    <string name="update_deck">Aggiorna Deck</string>
-    <string name="your_deck_version_is_too_old">La tua versione di Deck è troppo datata</string>
-    <string name="deck_outdated_please_update">La tua versione di Deck è troppo datata (%1$s). Aggiorna per utilizzare questa applicazione Android come client.</string>
+    <string name="update_deck">Aggiorna l\'applicazione web Deck</string>
+    <string name="deck_outdated_please_update">La tua versione dell\'applicazione web Deck è troppo datata (%1$s). Aggiorna per utilizzare questa applicazione Android come client.</string>
     <string name="delete_board_message">Questo eliminerà definitivamente questa lavagna inclusi tutti gli elenchi e le schede.</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Marchio</string>
@@ -175,9 +174,11 @@
     <string name="filter_no_filter">Tutti</string>
     <string name="filter_overdue">Scadenza</string>
     <string name="filter_today">Oggi</string>
+    <string name="filter_tomorrow">Domani</string>
     <string name="filter_week">7 giorni successivi</string>
     <string name="filter_month">30 giorni successivi</string>
     <string name="filter_no_due">Nessuna data di scadenza</string>
+    <string name="filter_later">Più tardi</string>
     <string name="filter_by_tag">Filtra per etichette</string>
     <string name="filter_by_assigned_user">Filtra per utente assegnato</string>
     <string name="filter_by_duedate">Filtra per data di scadenza</string>
@@ -263,8 +264,9 @@
     <string name="card_does_not_yet_exist">La scheda non esiste ancora in Deck</string>
 
     <string name="widget_stack_title">Elenco</string>
+    <string name="widget_filter_title">Filtro</string>
     <string name="widget_stack_header_icon">Icona intestazione widget</string>
-    <string name="widget_placeholder_icon">Icona segnaposto widget</string>
+    <string name="widget_placeholder_icon">Icona segnaposto dei widget</string>
     <string name="select_stack">Seleziona elenco</string>
     <string name="project_type_deck_board">Lavagna di Deck</string>
     <string name="project_type_deck_card">Scheda di Deck</string>
@@ -300,5 +302,8 @@
     <string name="gallery">Galleria</string>
     <string name="simple_attach">allega</string>
     <string name="add_stack_widget">Aggiungi widget elenco</string>
+    <string name="add_filter_widget">Aggiungi widget di filtro</string>
+    <string name="simple_order">Ordinamento</string>
     <string name="edit_description">Modifica descrizione</string>
+    <string name="widget_upcoming_title">Prossime schede</string>
 </resources>

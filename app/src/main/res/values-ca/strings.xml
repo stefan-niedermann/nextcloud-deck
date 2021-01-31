@@ -119,9 +119,6 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Afegiu una nova llista usant el botó +</string>
     <string name="add_a_new_card_using_the_button">Afegiu una targeta nova mitjançant el botó +.</string>
-    <string name="update_deck">Actualitza el tauler</string>
-    <string name="your_deck_version_is_too_old">La versió del tauler és massa antiga.</string>
-    <string name="deck_outdated_please_update">La vostra versió de tauler és massa antiga (%1$s). Si us plau, actualitzeu-lo per usar aquesta aplicació d\'Android com a client.</string>
     <string name="delete_board_message">Això suprimirà permanentment aquest tauler, incloent-hi totes les llistes i targetes.</string>
     <string name="settings_branding_title">Marcatge</string>
     <string name="settings_compact_title">Mode compacte</string>
@@ -257,7 +254,6 @@
 
     <string name="widget_stack_title">Llista</string>
     <string name="widget_stack_header_icon">Icona de capçalera de widget</string>
-    <string name="widget_placeholder_icon">Icona de marcador de lloc de widget</string>
     <string name="select_stack">Seleccionar llista</string>
     <string name="project_type_deck_board">Tauler de Deck</string>
     <string name="project_type_deck_card">Targeta de Deck</string>

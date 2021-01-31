@@ -122,15 +122,18 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Dodaj novi popis s pomoću gumba +</string>
     <string name="add_a_new_card_using_the_button">Dodaj novu karticu s pomoću gumba +</string>
-    <string name="update_deck">Ažuriraj Deck</string>
-    <string name="your_deck_version_is_too_old">Vaša inačica Decka je prestara</string>
-    <string name="deck_outdated_please_update">Vaša inačica Decka je prestara (%1$s). Ažurirajte je kako biste se koristili ovom aplikacijom za Android kao klijentom.</string>
     <string name="delete_board_message">Trajno ćete izbrisati ovu ploču, uključujući sve stogove i kartice.</string>
+    <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Brendiranje</string>
     <string name="settings_compact_title">Kompaktni način rada</string>
     <string name="settings_background_sync">Pozadinska sinkronizacija</string>
     <string name="pref_value_wifi_and_mobile">Sinkronizacija putem bežičnih (Wi-Fi) i mobilnih podataka</string>
     <string name="pref_value_wifi_only">Sinkroniziraj samo putem bežične (Wi-Fi) mreže</string>
+    <string-array name="darkmode_entries">
+        <item>Zadana postavka sustava</item>
+        <item>Svijetlo</item>
+        <item>Tamno</item>
+    </string-array>
     <string name="unassigned_user">Uklonjeno %1$s</string>
     <string name="no_activities">Nema aktivnosti na ovoj kartici. Trebate uspostaviti internetsku vezu za učitavanje i prikaz aktivnosti.</string>
     <string name="share_board">Dijeli ploču</string>
@@ -261,7 +264,6 @@
 
     <string name="widget_stack_title">Popis</string>
     <string name="widget_stack_header_icon">Ikona zaglavlja widgeta</string>
-    <string name="widget_placeholder_icon">Privremena ikona widgeta</string>
     <string name="select_stack">Odaberi popis</string>
     <string name="project_type_deck_board">Deck ploča</string>
     <string name="project_type_deck_card">Deck kartica</string>
@@ -281,4 +283,22 @@
     <string name="simple_clone">Kloniraj</string>
     <string name="user_avatar">Avatar korisnika</string>
     <string name="simple_unassign">Poništi dodjelu</string>
+    <string name="simple_contact">Kontakt</string>
+    <string name="simple_file">Datoteka</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="min_api_21">Ova značajka zahtijeva najmanje Android 5</string>
+    <string name="take_photo">Snimi fotografiju</string>
+    <string name="take_photo_switch_camera">Promijeni kameru</string>
+    <string name="take_photo_toggle_torch">Uključi/isključi svjetlo</string>
+    <string name="show_all_contacts">Prikaži sve kontakte</string>
+    <string name="show_all_files">Prikaži sve datoteke</string>
+    <string name="recent">Nedavni</string>
+    <string name="upload_a_new_attachment">Otpremi novi privitak</string>
+    <string name="contacts">Kontakti</string>
+    <string name="downloads">Preuzimanja</string>
+    <string name="files">Datoteke</string>
+    <string name="gallery">Galerija</string>
+    <string name="simple_attach">priloži</string>
+    <string name="add_stack_widget">Dodaj widget s popisom</string>
+    <string name="edit_description">Uredi opis</string>
     </resources>

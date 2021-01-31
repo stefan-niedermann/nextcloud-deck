@@ -124,9 +124,8 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Dodaj nową listę za pomocą przycisku +</string>
     <string name="add_a_new_card_using_the_button">Dodaj nową kartę za pomocą przycisku +</string>
-    <string name="update_deck">Zaktualizuj deck</string>
-    <string name="your_deck_version_is_too_old">Twoja wersja deck jest nieaktualna</string>
-    <string name="deck_outdated_please_update">Twoja wersja deck (%1$s) jest nieaktualna. Zaktualizuj, aby używać tej aplikacji na Androida jako klienta.</string>
+    <string name="update_deck">Zaktualizuj aplikację internetową Deck</string>
+    <string name="deck_outdated_please_update">Twoja wersja aplikacji internetowej Deck jest za stara (%1$s). Zaktualizuj, aby używać tej aplikacji na Androida jako klienta.</string>
     <string name="delete_board_message">Spowoduje to trwałe usunięcie tej tablicy, w tym wszystkich list i kart.</string>
     <string name="settings_theme_title">Motyw</string>
     <string name="settings_branding_title">Motyw serwera</string>
@@ -179,9 +178,11 @@
     <string name="filter_no_filter">Wszystko</string>
     <string name="filter_overdue">Zaległe</string>
     <string name="filter_today">Dzisiaj</string>
+    <string name="filter_tomorrow">Jutro</string>
     <string name="filter_week">Następne 7 dni</string>
     <string name="filter_month">Następne 30 dni</string>
     <string name="filter_no_due">Brak daty ważności</string>
+    <string name="filter_later">Później</string>
     <string name="filter_by_tag">Filtruj według etykiety</string>
     <string name="filter_by_assigned_user">Filtruj według przypisanego użytkownika</string>
     <string name="filter_by_duedate">Filtruj według terminu</string>
@@ -269,6 +270,7 @@
     <string name="card_does_not_yet_exist">Karta nie istnieje jeszcze w Deck</string>
 
     <string name="widget_stack_title">Lista</string>
+    <string name="widget_filter_title">Filtr</string>
     <string name="widget_stack_header_icon">Ikona nagłówka widżetu</string>
     <string name="widget_placeholder_icon">Ikona zastępcza widżetu</string>
     <string name="select_stack">Wybierz listę</string>
@@ -308,5 +310,8 @@
     <string name="gallery">Galeria</string>
     <string name="simple_attach">dołącz</string>
     <string name="add_stack_widget">Dodaj widżet listy</string>
+    <string name="add_filter_widget">Dodaj widżet filtra</string>
+    <string name="simple_order">Kolejność</string>
     <string name="edit_description">Edytuj opis</string>
+    <string name="widget_upcoming_title">Nadchodzące karty</string>
 </resources>

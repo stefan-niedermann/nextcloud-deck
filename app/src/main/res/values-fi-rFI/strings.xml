@@ -119,9 +119,6 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Lisää uusi lista painamalla +</string>
     <string name="add_a_new_card_using_the_button">Lisää uusi kortti painamalla +</string>
-    <string name="update_deck">Päivitä pakka</string>
-    <string name="your_deck_version_is_too_old">Pakan versio on liian vanha</string>
-    <string name="deck_outdated_please_update">Deck-versiosi (%1$s) on liian vanha. Päivitä sovellus.</string>
     <string name="delete_board_message">Tämä poistaa tämän taulun ja sen listat ja kortit pysyvästi.</string>
     <string name="settings_branding_title">Brändäys</string>
     <string name="settings_compact_title">Kompakti tila</string>

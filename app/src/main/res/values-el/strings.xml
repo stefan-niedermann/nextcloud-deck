@@ -120,9 +120,6 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Προσθήκη νέας λίστας με το κουμπί +</string>
     <string name="add_a_new_card_using_the_button">Προσθέστε νέα κάρτα με το κουμπί +</string>
-    <string name="update_deck">Ενημέρωση Deck</string>
-    <string name="your_deck_version_is_too_old">Η έκδοσή σας είναι παλαιά.</string>
-    <string name="deck_outdated_please_update">Η έκδοσή σας είναι είναι παλαιά (%1$s). Παρακαλούμε αναβαθμίστε για επιπλέον χρήση.</string>
     <string name="delete_board_message">Μόνιμη διαγραφή πίνακα με όλες τις λίστες και κάρτες.</string>
     <string name="settings_theme_title">Θέμα</string>
     <string name="settings_branding_title">Επωνυμία</string>
@@ -264,7 +261,6 @@
 
     <string name="widget_stack_title">Λίστα</string>
     <string name="widget_stack_header_icon">Εικονίδιο επικεφαλίδας του γραφικού στοιχείου</string>
-    <string name="widget_placeholder_icon">Εικονίδιο θέσης κράτησης του γραφικού στοιχείου</string>
     <string name="select_stack">Επιλέξτε λίστα</string>
     <string name="project_type_deck_board">Πίνακας του Deck</string>
     <string name="project_type_deck_card">Κάρτα του Deck</string>
@@ -301,4 +297,4 @@
     <string name="simple_attach">Επισυνάπτω</string>
     <string name="add_stack_widget">Προσθήκη λίστας widget</string>
     <string name="edit_description">Επεξεργασία περιγραφής</string>
-</resources>
+    </resources>
