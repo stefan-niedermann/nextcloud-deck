@@ -89,7 +89,7 @@ public interface CardDao extends GenericDao<Card> {
     @Transaction
     @Query("SELECT * FROM card c WHERE " +
             "exists(select 1 from Stack s join Board b on s.boardId = b.localId where s.localId = c.stackId and not exists(select 1 from AccessControl ac where ac.boardId = b.localId)) " +
-            "and ((:accountIds) is null or accountId in (:accountIds)) " +
-            "and (status<>1 or id is null or lastModified <> lastModifiedLocal)")
+            "and (coalesce(:accountIds, null) is null or accountId in (:accountIds)) " +
+            "and status <> 3")
     List<FullCard> getFullCardsForNonSharedBoardsDirectly(List<Long> accountIds);
 }
