@@ -725,6 +725,7 @@ public class DataBaseAdapter {
     @WorkerThread
     public long createAccessControl(long accountId, @NonNull AccessControl entity) {
         entity.setAccountId(accountId);
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.ACCOUNT, accountId);
         return db.getAccessControlDao().insert(entity);
     }
 
@@ -743,6 +744,7 @@ public class DataBaseAdapter {
 
     public void updateAccessControl(AccessControl entity, boolean setStatus) {
         markAsEditedIfNeeded(entity, setStatus);
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.ACCOUNT, entity.getAccountId());
         db.getAccessControlDao().update(entity);
     }
 
@@ -753,6 +755,7 @@ public class DataBaseAdapter {
         } else {
             db.getAccessControlDao().delete(entity);
         }
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.ACCOUNT, entity.getAccountId());
     }
 
     public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {
