@@ -123,9 +123,6 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Створюйте нові списки за допомогою кнопки (+)</string>
     <string name="add_a_new_card_using_the_button">Додавайте нові картки за допомогою кнопки (+)</string>
-    <string name="update_deck">Оновити</string>
-    <string name="your_deck_version_is_too_old">Версія вашого застосунку застаріла</string>
-    <string name="deck_outdated_please_update">Версія вашого застосунку застаріла (%1$s). Будь ласка, оновіть її для використання застосунку на мобільному пристрої в якості клієнта .</string>
     <string name="delete_board_message">Це безповоротно вилучіть дошку разом зі списками та картками</string>
     <string name="settings_branding_title">Оформлення</string>
     <string name="settings_background_sync">Фонова синхронізація</string>
@@ -244,7 +241,6 @@
 
     <string name="widget_stack_title">Список</string>
     <string name="widget_stack_header_icon">Піктограма заголовку віджету</string>
-    <string name="widget_placeholder_icon">Піктограма поля віджету</string>
     <string name="select_stack">Виберіть список</string>
     <string name="project_type_file">Файл</string>
     <string name="projects_title">Проєкти</string>

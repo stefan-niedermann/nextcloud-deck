@@ -119,9 +119,6 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Legg til ny liste ved å bruke + knappen</string>
     <string name="add_a_new_card_using_the_button">Legg til nytt kort ved å bruke + knappen</string>
-    <string name="update_deck">Oppdater «deck»</string>
-    <string name="your_deck_version_is_too_old">Din tjenerversjon av «deck» er updatert</string>
-    <string name="deck_outdated_please_update">Din tjenerversjon av «deck» er utdatert (%1$s). Vennligst oppdater for å bruke denne android appen som klient.</string>
     <string name="delete_board_message">Dette vil uopprettelig slette denne tavlen inkludert alle lister og kort.</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Branding</string>
@@ -263,7 +260,6 @@
 
     <string name="widget_stack_title">Liste</string>
     <string name="widget_stack_header_icon">Widget topptekstikon</string>
-    <string name="widget_placeholder_icon">Widget plassholderikon</string>
     <string name="select_stack">Velg liste</string>
     <string name="project_type_deck_board">Deck tavle</string>
     <string name="project_type_deck_card">Deck kort</string>
@@ -299,4 +295,4 @@
     <string name="simple_attach">legg ved</string>
     <string name="add_stack_widget">Legg til liste widget</string>
     <string name="edit_description">Rediger beskrivelse</string>
-</resources>
+    </resources>

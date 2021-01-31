@@ -120,9 +120,8 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Añadir una nueva lista usando el botón +</string>
     <string name="add_a_new_card_using_the_button">Añadir una nueva tarjeta usando el botón +</string>
-    <string name="update_deck">Actualizar el Deck</string>
-    <string name="your_deck_version_is_too_old">Su versión del Deck es muy antigua </string>
-    <string name="deck_outdated_please_update">Tu versión de Deck es demasiado antigua (%1$s). Por favor, actualiza para usar este cliente android.</string>
+    <string name="update_deck">Actualizar la aplicación web Deck</string>
+    <string name="deck_outdated_please_update">La versión de tu aplicación web Deck es demasiado antigua (%1$s). Por favor, actualiza para usar esta aplicación Android como cliente.</string>
     <string name="delete_board_message">Esto borrará permanente el tablero, incluyendo todas las listas y tarjetas.</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Branding</string>
@@ -175,9 +174,11 @@
     <string name="filter_no_filter">Todo</string>
     <string name="filter_overdue">Demorado</string>
     <string name="filter_today">Hoy</string>
+    <string name="filter_tomorrow">Mañana</string>
     <string name="filter_week">Siguientes 7 días</string>
     <string name="filter_month">Siguientes 30 días</string>
     <string name="filter_no_due">Sin fecha de vencimiento</string>
+    <string name="filter_later">Después</string>
     <string name="filter_by_tag">Filtrar por etiqueta</string>
     <string name="filter_by_assigned_user">Filtrar por usuario asignado</string>
     <string name="filter_by_duedate">Filtrar por fecha de finalización</string>
@@ -263,8 +264,9 @@
     <string name="card_does_not_yet_exist">La tarjeta todavía no existe en Deck</string>
 
     <string name="widget_stack_title">Lista</string>
+    <string name="widget_filter_title">Filtro</string>
     <string name="widget_stack_header_icon">Icono de la cabecera del widget</string>
-    <string name="widget_placeholder_icon">Espacio para icono del widget</string>
+    <string name="widget_placeholder_icon">Espacio para el icono del widget</string>
     <string name="select_stack">Seleccione lista</string>
     <string name="project_type_deck_board">Tablero Deck</string>
     <string name="project_type_deck_card">Tarjeta Deck</string>
@@ -300,5 +302,8 @@
     <string name="gallery">Galería</string>
     <string name="simple_attach">adjuntar</string>
     <string name="add_stack_widget">Agregar lista de widget</string>
+    <string name="add_filter_widget">Añadir filtro de widget</string>
+    <string name="simple_order">Ordenar</string>
     <string name="edit_description">Editar descripción</string>
+    <string name="widget_upcoming_title">Próximas tarjetas</string>
 </resources>

@@ -120,9 +120,6 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Ajoutez une nouvelle liste avec le bouton +</string>
     <string name="add_a_new_card_using_the_button">Ajouter une nouvelle carte en utilisant le bouton +.</string>
-    <string name="update_deck">Mettre à jour Deck</string>
-    <string name="your_deck_version_is_too_old">Votre version de Deck est trop ancienne</string>
-    <string name="deck_outdated_please_update">Votre version de l\'application Deck est trop ancienne (%1$s). Veuillez la mettre à jour afin de pouvoir utiliser cette application Android en tant que client.</string>
     <string name="delete_board_message">Cette action supprimera définitivement ce tableau, y compris la totalité de ses listes et de ses cartes.</string>
     <string name="settings_theme_title">Thème</string>
     <string name="settings_branding_title">Thème du serveur</string>
@@ -175,9 +172,11 @@
     <string name="filter_no_filter">Tout</string>
     <string name="filter_overdue">En retard</string>
     <string name="filter_today">Aujourd\'hui</string>
+    <string name="filter_tomorrow">Demain</string>
     <string name="filter_week">7 prochains jours</string>
     <string name="filter_month">30 prochains jours</string>
     <string name="filter_no_due">Sans échéance</string>
+    <string name="filter_later">Plus tard</string>
     <string name="filter_by_tag">Filtrer par étiquette</string>
     <string name="filter_by_assigned_user">Filtrer par utilisateur assigné</string>
     <string name="filter_by_duedate">Filtrer par échéance</string>
@@ -263,6 +262,7 @@
     <string name="card_does_not_yet_exist">Carte non encore présente dans le tableau</string>
 
     <string name="widget_stack_title">Liste</string>
+    <string name="widget_filter_title">Filtre</string>
     <string name="widget_stack_header_icon">Icône d’en-tête du widget</string>
     <string name="widget_placeholder_icon">Icône d’espace réservé du widget</string>
     <string name="select_stack">Sélectionner la liste</string>
@@ -300,5 +300,8 @@
     <string name="gallery">Galerie</string>
     <string name="simple_attach">joindre</string>
     <string name="add_stack_widget">Ajouter un widget liste</string>
+    <string name="add_filter_widget">Ajouter un widget filtre</string>
+    <string name="simple_order">Ordre</string>
     <string name="edit_description">Modifier la description</string>
+    <string name="widget_upcoming_title">Cartes à venir</string>
 </resources>

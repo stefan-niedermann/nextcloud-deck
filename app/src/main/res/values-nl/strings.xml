@@ -120,9 +120,8 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Voeg een nieuwe stapel toe met de + knop</string>
     <string name="add_a_new_card_using_the_button">Voeg een nieuwe kaart toe met de \'+\' knop</string>
-    <string name="update_deck">Werk deck bij</string>
-    <string name="your_deck_version_is_too_old">Uw deck versie is te oud</string>
-    <string name="deck_outdated_please_update">Je deck versie is te oud (%1$s). Update deze android app om de deck te kunnen gebruiken.</string>
+    <string name="update_deck">Werk de Deck webapp bij</string>
+    <string name="deck_outdated_please_update">Je Deck webapp versie is te oud (%1$s). Update deze app om de Android app als cliet te kunnen gebruiken.</string>
     <string name="delete_board_message">Dit zal dit bord inclusief alle stapels en kaarten definitief verwijderen.</string>
     <string name="settings_theme_title">Thema</string>
     <string name="settings_branding_title">Branding</string>
@@ -175,9 +174,11 @@
     <string name="filter_no_filter">Alle</string>
     <string name="filter_overdue">Vervallen</string>
     <string name="filter_today">Vandaag</string>
+    <string name="filter_tomorrow">Morgen</string>
     <string name="filter_week">Komende 7 dagen</string>
     <string name="filter_month">Komende 30 dagen</string>
     <string name="filter_no_due">Geen vervaldatum</string>
+    <string name="filter_later">Later</string>
     <string name="filter_by_tag">Filter op label</string>
     <string name="filter_by_assigned_user">Filter op toegewezen gebruiker</string>
     <string name="filter_by_duedate">Filter op vervaldatum</string>
@@ -263,8 +264,9 @@
     <string name="card_does_not_yet_exist">Kaart bestaat nog niet in Deck</string>
 
     <string name="widget_stack_title">Lijst</string>
+    <string name="widget_filter_title">Filter</string>
     <string name="widget_stack_header_icon">Widget koptekst icoon</string>
-    <string name="widget_placeholder_icon">Widget placeholder icoon</string>
+    <string name="widget_placeholder_icon">Widget plaatsvervanger pictogram</string>
     <string name="select_stack">Lijst selecteren</string>
     <string name="project_type_deck_board">Deck board</string>
     <string name="project_type_deck_card">Deck kaart</string>
@@ -300,5 +302,8 @@
     <string name="gallery">Galerij</string>
     <string name="simple_attach">bijvoegen</string>
     <string name="add_stack_widget">Toevoegen lijst widget</string>
+    <string name="add_filter_widget">Toevoegen filterwidget</string>
+    <string name="simple_order">Volgorde</string>
     <string name="edit_description">Bewerk beschrijving</string>
+    <string name="widget_upcoming_title">Aanstaande kaarten</string>
 </resources>

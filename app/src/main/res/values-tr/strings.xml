@@ -120,9 +120,8 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">+ düğmesini kullanarak yeni bir liste ekleyebilirsiniz</string>
     <string name="add_a_new_card_using_the_button">+ düğmesini kullanarak yeni bir kart ekleyebilirsiniz</string>
-    <string name="update_deck">Tahtayı güncelle</string>
-    <string name="your_deck_version_is_too_old">Tahta sürümünüz çok eski</string>
-    <string name="deck_outdated_please_update">Tahta sürümünüz çok eski (%1$s). İstemci olarak kullanabilmek için bu android uygulamasını güncelleyin.</string>
+    <string name="update_deck">Tahta web uygulamasını güncelle</string>
+    <string name="deck_outdated_please_update">Tahta web uygulaması sürümünüz çok eski (%1$s). İstemci olarak kullanabilmek için bu Android uygulamasını güncelleyin.</string>
     <string name="delete_board_message">Bu işlem içindeki tüm liste ve kartlarla birlikte bu panoyu silecek.</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Markalama</string>
@@ -175,9 +174,11 @@
     <string name="filter_no_filter">Tümü</string>
     <string name="filter_overdue">Zamanı geçmiş</string>
     <string name="filter_today">Bugün</string>
+    <string name="filter_tomorrow">Yarın</string>
     <string name="filter_week">Gelecek 7 gün</string>
     <string name="filter_month">Gelecek 30 gün</string>
     <string name="filter_no_due">Bitiş tarihi yok</string>
+    <string name="filter_later">Sonra</string>
     <string name="filter_by_tag">Etikete göre süz</string>
     <string name="filter_by_assigned_user">Atanmış kullanıcıya göre süz</string>
     <string name="filter_by_duedate">Bitiş tarihine göre süz</string>
@@ -263,6 +264,7 @@
     <string name="card_does_not_yet_exist">Kart henüz panoda bulunmuyor</string>
 
     <string name="widget_stack_title">Listele</string>
+    <string name="widget_filter_title">Süzgeç</string>
     <string name="widget_stack_header_icon">Pano bileşeni başlık simgesi</string>
     <string name="widget_placeholder_icon">Pano bileşeni yer belirteci simgesi</string>
     <string name="select_stack">Liste seçin</string>
@@ -300,5 +302,8 @@
     <string name="gallery">Galeri</string>
     <string name="simple_attach">ekle</string>
     <string name="add_stack_widget">Liste pano bileşeni ekle</string>
+    <string name="add_filter_widget">Süzgeç pano bileşeni ekle</string>
+    <string name="simple_order">Sıralama</string>
     <string name="edit_description">Açıklamayı düzenle</string>
+    <string name="widget_upcoming_title">Yaklaşan kartlar</string>
 </resources>

@@ -123,9 +123,6 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Pridajte nový zoznam pomocou tlačidla +</string>
     <string name="add_a_new_card_using_the_button">Pridajte novú kartu pomocou tlačidla +</string>
-    <string name="update_deck">Aktualizovať balíček</string>
-    <string name="your_deck_version_is_too_old">Verzia vášho balíčka je príliš stará</string>
-    <string name="deck_outdated_please_update">Verzia vášho balíčka je príliš stará (%1$s). Ak chcete túto aplikáciu pre Android používať ako klienta, aktualizujte ju.</string>
     <string name="delete_board_message">Táto nástenka sa natrvalo odstráni, vrátane všetkých zoznamov a kariet.</string>
     <string name="settings_branding_title">Použitie vlastného loga</string>
     <string name="settings_compact_title">Kompaktný režim</string>
@@ -263,7 +260,6 @@
 
     <string name="widget_stack_title">Zoznam</string>
     <string name="widget_stack_header_icon">Ikona hlavičky miniaplikácie</string>
-    <string name="widget_placeholder_icon">Ikona zástupného symbolu miniaplikácie</string>
     <string name="select_stack">Vyberte zoznam</string>
     <string name="project_type_deck_board">Palubná doska</string>
     <string name="project_type_deck_card">Palubná karta</string>

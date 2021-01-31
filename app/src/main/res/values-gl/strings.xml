@@ -102,7 +102,7 @@
     <string name="no_files_attached_to_this_card">Non hai ficheiros anexos a esta tarxeta.</string>
     <string name="attachments">Anexos</string>
     <string name="no_cards">Aínda non hai tarxetas</string>
-    <string name="no_account">Non hai contas configuradas.</string>
+    <string name="no_account">Non hai ningunha conta configurada</string>
     <string name="account_already_added">Foi engadida a conta</string>
     <string name="account_is_getting_imported">A conta está a importarse</string>
     <string name="not_synced_yet">Aínda non foi sincronizado</string>
@@ -120,9 +120,8 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Engadir unha nova lista co botón +</string>
     <string name="add_a_new_card_using_the_button">Engadir unha nova tarxeta co botón +</string>
-    <string name="update_deck">Actualizar o Deck</string>
-    <string name="your_deck_version_is_too_old">A versión do Deck é antiga de máis.</string>
-    <string name="deck_outdated_please_update">A versión do Deck é antiga de máis (%1$s). Actualice para usar esta apli de Android como cliente.</string>
+    <string name="update_deck">Actualizar a aplicación web Deck</string>
+    <string name="deck_outdated_please_update">A versión da súa aplicación web Deck é antiga de máis (%1$s). Actualice para usar esta apli de Android como cliente.</string>
     <string name="delete_board_message">Isto eliminará este taboleiro de xeito permanente incluíndo todas as listas e tarxetas.</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Xestión da marca</string>
@@ -175,9 +174,11 @@
     <string name="filter_no_filter">Todo</string>
     <string name="filter_overdue">Caducado</string>
     <string name="filter_today">Hoxe</string>
+    <string name="filter_tomorrow">Mañá</string>
     <string name="filter_week">Próximos 7 días</string>
     <string name="filter_month">Próximos 30 días</string>
     <string name="filter_no_due">Sen data de caducidade</string>
+    <string name="filter_later">Despois</string>
     <string name="filter_by_tag">Filtrar pola etiqueta</string>
     <string name="filter_by_assigned_user">Filtrar polo usuario asignado</string>
     <string name="filter_by_duedate">Filtrar pola data de caducidade</string>
@@ -263,6 +264,7 @@
     <string name="card_does_not_yet_exist">Aínda non existe a tarxeta no Deck</string>
 
     <string name="widget_stack_title">Lista</string>
+    <string name="widget_filter_title">Filtro</string>
     <string name="widget_stack_header_icon">Icona de cabeceira do trebello</string>
     <string name="widget_placeholder_icon">Icona de marcador de posición do trebello</string>
     <string name="select_stack">Seleccionar a lista</string>
@@ -300,5 +302,8 @@
     <string name="gallery">Galería</string>
     <string name="simple_attach">anexar</string>
     <string name="add_stack_widget">Engadir o trebello de lista</string>
+    <string name="add_filter_widget">Engadir o trebello de filtro</string>
+    <string name="simple_order">Orde</string>
     <string name="edit_description">Editar a descrición</string>
+    <string name="widget_upcoming_title">Tarxetas próximas</string>
 </resources>

@@ -109,6 +109,7 @@
     <string name="no_lists_yet">Ez dago zerrendarik</string>
     <string name="do_you_want_to_save_your_changes">Zure aldaketak gorde nahi dituzu?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">%1$s-ko txartel guztiak artxibatu nahi dituzu?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">%1$s-ko iragazitako txartel guztiak artxibatu nahi dituzu?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Honek zerrenda honen txartel %1$d ezabatuko du betirako.</item>
         <item quantity="other">Honek zerrenda honen %1$d txartel ezabatuko ditu betirako.</item>
@@ -119,9 +120,8 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Gehitu zerrenda berria + botoia erabiliz</string>
     <string name="add_a_new_card_using_the_button">Gehitu txartel berria + botoia erabiliz</string>
-    <string name="update_deck">Eguneratu Deck</string>
-    <string name="your_deck_version_is_too_old">Zure Deck bertsioa zaharregia da</string>
-    <string name="deck_outdated_please_update">Zure Deck bertsioa zaharregia da (%1$s). Mesedez eguneratu ezazu android aplikazio hau bezero gisa erabiltzeko.</string>
+    <string name="update_deck">Eguneratu Deck web apl.</string>
+    <string name="deck_outdated_please_update">Zure Deck web apl. zaharregia da (%1$s).Mesedez eguneratu ezazu android aplikazio hau bezero gisa erabiltzeko.</string>
     <string name="delete_board_message">Honek mahai hau eta bertako zerrenda eta txartel guztiak ezabatuko ditu.</string>
     <string name="settings_theme_title">Gaia</string>
     <string name="settings_branding_title">Marka</string>
@@ -174,9 +174,11 @@
     <string name="filter_no_filter">Denak</string>
     <string name="filter_overdue">Atzeratuta</string>
     <string name="filter_today">Gaur</string>
+    <string name="filter_tomorrow">Bihar</string>
     <string name="filter_week">Hurrengo 7 egunetan</string>
     <string name="filter_month">Hurrengo 30 egunetan</string>
     <string name="filter_no_due">Epe-mugarik gabe</string>
+    <string name="filter_later">Beranduago</string>
     <string name="filter_by_tag">Iragazi etiketaz</string>
     <string name="filter_by_assigned_user">Iragazi esleitutako erabiltzailez</string>
     <string name="filter_by_duedate">Iragazi epe-mugaz</string>
@@ -262,6 +264,7 @@
     <string name="card_does_not_yet_exist">Txartela oraindik ez dago Deck-en</string>
 
     <string name="widget_stack_title">Zerrenda</string>
+    <string name="widget_filter_title">Iragazkia</string>
     <string name="widget_stack_header_icon">Goiburu widgetaren ikonoa</string>
     <string name="widget_placeholder_icon">Leku-marka widgetaren ikonoa</string>
     <string name="select_stack">Hautatu zerrenda</string>
@@ -275,18 +278,32 @@
     </plurals>
     <string name="no_assigned_label">Esleitutako etiketarik ez</string>
     <string name="single_card">Txartel bakana</string>
-    <string name="project_type_room">Hitz egiteko gela</string>
+    <string name="project_type_room">Talk gela</string>
     <string name="simple_move">Mugitu</string>
     <string name="cannot_upload_files_without_permission">Ezin da fitxategirik kargatu baimenik gabe</string>
+    <string name="clone_cards">Klonatu txartelak</string>
+    <string name="simple_clone">Klonatu</string>
+    <string name="user_avatar">Erabltzaile-avatarra</string>
+    <string name="simple_unassign">Kendu esleipena</string>
     <string name="simple_contact">Kontaktua</string>
     <string name="simple_file">Fitxategia</string>
     <string name="simple_camera">Kamera</string>
+    <string name="min_api_21">Eginbide honek gutxienez Android 5 behar du</string>
+    <string name="take_photo">Argazkia atera</string>
+    <string name="take_photo_switch_camera">Aldatu kamera</string>
+    <string name="take_photo_toggle_torch">Txandakatu linterna</string>
     <string name="show_all_contacts">Erakutsi kontaktu guztiak</string>
     <string name="show_all_files">Erakustsi fitxategi guztiak</string>
     <string name="recent">Azkenak</string>
+    <string name="upload_a_new_attachment">Kargatu eranskin berria</string>
     <string name="contacts">Kontaktuak</string>
     <string name="downloads">Deskargak</string>
     <string name="files">Fitxategiak</string>
     <string name="gallery">Galeria</string>
+    <string name="simple_attach">Erantsi</string>
+    <string name="add_stack_widget">Gehitu zerrenda widget-a</string>
+    <string name="add_filter_widget">Gehitu iragazki widget-a</string>
+    <string name="simple_order">Ordena</string>
     <string name="edit_description">Editatu deskribapena</string>
+    <string name="widget_upcoming_title">Hurrengo txartelak</string>
 </resources>

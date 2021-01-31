@@ -124,9 +124,7 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Nov seznam dodate s klikom na gumb +</string>
     <string name="add_a_new_card_using_the_button">Novo nalogo je mogoče dodati z gumbom +</string>
-    <string name="update_deck">Posodobi zbirko</string>
-    <string name="your_deck_version_is_too_old">Različica zbirke je prestara</string>
-    <string name="deck_outdated_please_update">Različica zbirke je prestara (%1$s). Za uporabo tega odjemalca je treba zbirko najprej posodobiti.</string>
+    <string name="update_deck">Posodobi spletni program Deck</string>
     <string name="delete_board_message">S tem dejanjem bo zbirka z vsemi paketi nalog in nalogami trajno izbrisana.</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Prilagajanje oblikovanja</string>
@@ -179,9 +177,11 @@
     <string name="filter_no_filter">Vse</string>
     <string name="filter_overdue">Preteklo</string>
     <string name="filter_today">Danes</string>
+    <string name="filter_tomorrow">Jutri</string>
     <string name="filter_week">Naslednjih 7 dni</string>
     <string name="filter_month">Naslednjih 30 dni</string>
     <string name="filter_no_due">Ni datuma preteka</string>
+    <string name="filter_later">Kasneje</string>
     <string name="filter_by_tag">Filtriraj po oznaki</string>
     <string name="filter_by_assigned_user">Filtriraj po dodeljenem uporabniku</string>
     <string name="filter_by_duedate">Filtriraj po datumu preteka</string>
@@ -269,8 +269,9 @@
     <string name="card_does_not_yet_exist">Naloga v Deck še ne obstaja</string>
 
     <string name="widget_stack_title">Seznam</string>
+    <string name="widget_filter_title">Filter</string>
     <string name="widget_stack_header_icon">Ikona glave gradnika</string>
-    <string name="widget_placeholder_icon">Ikona ročnika gradnika</string>
+    <string name="widget_placeholder_icon">Ikona vsebnika gradnika</string>
     <string name="select_stack">Izbor seznama</string>
     <string name="project_type_deck_board">Zbirka Deck</string>
     <string name="project_type_deck_card">Naloga Deck</string>
@@ -308,5 +309,8 @@
     <string name="gallery">Galerija</string>
     <string name="simple_attach">pripni</string>
     <string name="add_stack_widget">Dodaj gradnik seznama</string>
+    <string name="add_filter_widget">Dodaj gradnik filtra</string>
+    <string name="simple_order">Razvrstitev</string>
     <string name="edit_description">Uredi opis</string>
+    <string name="widget_upcoming_title">Prihajajoče naloge</string>
 </resources>

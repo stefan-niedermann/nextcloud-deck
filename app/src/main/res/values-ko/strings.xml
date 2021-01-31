@@ -118,9 +118,6 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">+버튼을 사용하여 새로운 리스트를 더하시오.</string>
     <string name="add_a_new_card_using_the_button">+ 버튼을 사용하여 새 카드를 추가</string>
-    <string name="update_deck">덱 업데이트하기</string>
-    <string name="your_deck_version_is_too_old">덱 버전이 너무 오래되었습니다.</string>
-    <string name="deck_outdated_please_update">너무 오래된 버전입니다(%1$s). 업데이트 해주십시오.</string>
     <string name="delete_board_message">모든 리스트와 카드를 포함한 이 보드를 영구적으로 지웁니다.</string>
     <string name="settings_theme_title">테마</string>
     <string name="settings_branding_title">브랜딩</string>
@@ -173,9 +170,11 @@
     <string name="filter_no_filter">모두</string>
     <string name="filter_overdue">기한 넘김</string>
     <string name="filter_today">오늘</string>
+    <string name="filter_tomorrow">내일</string>
     <string name="filter_week">다음 7일 동안</string>
     <string name="filter_month">다음 30일 동안</string>
     <string name="filter_no_due">기한 없음</string>
+    <string name="filter_later">나중에</string>
     <string name="filter_by_tag">태그로 필터링</string>
     <string name="filter_by_assigned_user">지정된 사용자로 필터링</string>
     <string name="filter_by_duedate">기한으로 필터링</string>
@@ -260,8 +259,9 @@
     <string name="card_does_not_yet_exist">카드가 아직 Deck에 없습니다.</string>
 
     <string name="widget_stack_title">목록</string>
+    <string name="widget_filter_title">필터</string>
     <string name="widget_stack_header_icon">위젯 헤더 아이콘</string>
-    <string name="widget_placeholder_icon">위젯 자리 표시 아이콘</string>
+    <string name="widget_placeholder_icon">위젯 위치 표시 아이콘</string>
     <string name="select_stack">목록 선택</string>
     <string name="project_type_deck_board">Deck 보드</string>
     <string name="project_type_deck_card">Deck 카드</string>
@@ -296,5 +296,8 @@
     <string name="gallery">갤러리</string>
     <string name="simple_attach">첨부하기</string>
     <string name="add_stack_widget">목록 위젯 추가</string>
+    <string name="add_filter_widget">필터 위젯 추가</string>
+    <string name="simple_order">순서</string>
     <string name="edit_description">설명 편집</string>
+    <string name="widget_upcoming_title">다음 카드들</string>
 </resources>

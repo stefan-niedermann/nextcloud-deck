@@ -118,9 +118,8 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">使用 + 按钮添加新列表</string>
     <string name="add_a_new_card_using_the_button">使用 + 按钮来创建一张卡片</string>
-    <string name="update_deck">更新看板</string>
-    <string name="your_deck_version_is_too_old">您的看板版本过旧</string>
-    <string name="deck_outdated_please_update">你的看板版本太旧（%1$s）。请更新到这个 Android 客户端。</string>
+    <string name="update_deck">更新 Deck 网页应用</string>
+    <string name="deck_outdated_please_update">你的 Deck 网页应用版本过旧 （%1$s）。请更新为使用安卓应用作为客户端。</string>
     <string name="delete_board_message">此操作将永久删除此面板，包括所有列表和卡片。</string>
     <string name="settings_theme_title">主题</string>
     <string name="settings_branding_title">添加商标</string>
@@ -173,9 +172,11 @@
     <string name="filter_no_filter">全部</string>
     <string name="filter_overdue">逾期</string>
     <string name="filter_today">今天</string>
+    <string name="filter_tomorrow">明天</string>
     <string name="filter_week">下个7天</string>
     <string name="filter_month">下个30天</string>
     <string name="filter_no_due">无截止日期</string>
+    <string name="filter_later">稍晚</string>
     <string name="filter_by_tag">标签筛选</string>
     <string name="filter_by_assigned_user">根据指定用户过滤</string>
     <string name="filter_by_duedate">根据截止日期过滤</string>
@@ -260,8 +261,9 @@
     <string name="card_does_not_yet_exist">卡片在 Deck 中还不存在</string>
 
     <string name="widget_stack_title">列表</string>
+    <string name="widget_filter_title">过滤器</string>
     <string name="widget_stack_header_icon">小部件标题图标</string>
-    <string name="widget_stack_placeholder_icon">小部件占位符图标 </string>
+    <string name="widget_placeholder_icon">小部件占位符图标 </string>
     <string name="select_stack">选择列表</string>
     <string name="project_type_deck_board">Deck 看板</string>
     <string name="project_type_deck_card">Deck 卡片</string>
@@ -296,5 +298,8 @@
     <string name="gallery">相册</string>
     <string name="simple_attach">附加</string>
     <string name="add_stack_widget">添加列表小部件</string>
+    <string name="add_filter_widget">添加过滤器小部件</string>
+    <string name="simple_order">顺序</string>
     <string name="edit_description">编辑描述</string>
+    <string name="widget_upcoming_title">即将到来的卡片 </string>
 </resources>

@@ -120,15 +120,18 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Lägg till en ny lista med + knappen</string>
     <string name="add_a_new_card_using_the_button">Lägg till ett nytt kort med + knappen</string>
-    <string name="update_deck">Uppdatera Deck</string>
-    <string name="your_deck_version_is_too_old">Din version är för gammal</string>
-    <string name="deck_outdated_please_update">Din version av Deck är för gammal (%1$s). Uppdatera för att använda den här Android-appen som klient.</string>
     <string name="delete_board_message">Detta kommer att permanent radera denna tavla inklusive alla listor och kort.</string>
+    <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Varumärke</string>
     <string name="settings_compact_title">Kompakt läge</string>
     <string name="settings_background_sync">Bakgrundssynkronisering</string>
     <string name="pref_value_wifi_and_mobile">Synkronisera med Wi-Fi och mobildata</string>
     <string name="pref_value_wifi_only">Synkronisera endast med Wi-Fi</string>
+    <string-array name="darkmode_entries">
+        <item>Systemstandard</item>
+        <item>Ljust</item>
+        <item>Mörkt</item>
+    </string-array>
     <string name="unassigned_user">Tog bort tilldelning %1$s</string>
     <string name="no_activities">Det finns inga aktiviteter på det här kortet. Du måste vara ansluten till internet för att läsa in och visa aktiviteter.</string>
     <string name="share_board">Dela tavla</string>
@@ -258,7 +261,6 @@
 
     <string name="widget_stack_title">Lista</string>
     <string name="widget_stack_header_icon">Ikon för widgetens sidhuvud</string>
-    <string name="widget_placeholder_icon">Ikon för widgetens platshållare</string>
     <string name="select_stack">Välj lista</string>
     <string name="project_type_deck_board">Deck-plank</string>
     <string name="project_type_deck_card">Deck-kort</string>
@@ -277,4 +279,22 @@
     <string name="simple_clone">Klona</string>
     <string name="user_avatar">Användar-avatar</string>
     <string name="simple_unassign">Ta bort tilldelning</string>
+    <string name="simple_contact">Kontakt</string>
+    <string name="simple_file">Fil</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="min_api_21">Denna funktion kräver minst Android 5</string>
+    <string name="take_photo">Ta en bild</string>
+    <string name="take_photo_switch_camera">Växla kamera</string>
+    <string name="take_photo_toggle_torch">Starta lampa</string>
+    <string name="show_all_contacts">Visa alla kontakter</string>
+    <string name="show_all_files">Visa alla filer</string>
+    <string name="recent">Senaste</string>
+    <string name="upload_a_new_attachment">Ladda upp ny bilaga</string>
+    <string name="contacts">Kontakter</string>
+    <string name="downloads">Nedladdningar</string>
+    <string name="files">Filer</string>
+    <string name="gallery">Galleri</string>
+    <string name="simple_attach">bifoga</string>
+    <string name="add_stack_widget">Lägg till listwidget</string>
+    <string name="edit_description">Ändra beskrivning</string>
     </resources>

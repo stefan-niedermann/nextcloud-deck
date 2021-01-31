@@ -120,9 +120,6 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Új lista hozzáadása a + gombbal</string>
     <string name="add_a_new_card_using_the_button">Új kártya hozzáadása a + gombbal</string>
-    <string name="update_deck">Kártyák frissítése</string>
-    <string name="your_deck_version_is_too_old">A Kártyák verziója túl régi</string>
-    <string name="deck_outdated_please_update">A Kártyák verziója túl régi (%1$s). Frissítse, hogy ezt az androidos alkalmazást használhassa kliensként.</string>
     <string name="delete_board_message">Ez véglegesen törli ezt a táblát az összes listával és kártyával együtt.</string>
     <string name="settings_branding_title">Márkázas</string>
     <string name="settings_compact_title">Kompakt mód</string>
@@ -258,7 +255,6 @@
 
     <string name="widget_stack_title">Lista</string>
     <string name="widget_stack_header_icon">Modul fejlécikonja</string>
-    <string name="widget_placeholder_icon">Modul helykitöltő ikonja</string>
     <string name="select_stack">Válasszon listát</string>
     <string name="project_type_deck_board">Kártyatábla</string>
     <string name="project_type_deck_card">Kártya</string>

@@ -124,9 +124,6 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Nový seznam přidáte tlačítkem +</string>
     <string name="add_a_new_card_using_the_button">Pro přidání nové karty použijte tlačítko +</string>
-    <string name="update_deck">Aktualizujte Deck</string>
-    <string name="your_deck_version_is_too_old">Vámi používaná verze Deck je příliš stará</string>
-    <string name="deck_outdated_please_update">Vámi používaná verze Deck na straně serveru je příliš stará (%1$s). Prosíme aktualizujte, abyste mohli používat tuto Android aplikaci jako klienta.</string>
     <string name="delete_board_message">Toto tabuli nadobro smaže, včetně všech seznamů a karet.</string>
     <string name="settings_theme_title">Vzhled</string>
     <string name="settings_branding_title">Opatření vlastním logem</string>
@@ -179,9 +176,11 @@
     <string name="filter_no_filter">Vše</string>
     <string name="filter_overdue">Po termínu</string>
     <string name="filter_today">Dnes</string>
+    <string name="filter_tomorrow">Zítra</string>
     <string name="filter_week">Příštích 7 dnů</string>
     <string name="filter_month">Příštích 30 dnů</string>
     <string name="filter_no_due">Žádný termín</string>
+    <string name="filter_later">Později</string>
     <string name="filter_by_tag">Filtrovat podle příznaků</string>
     <string name="filter_by_assigned_user">Filtrovat podle uživatele, který je úkolem pověřen</string>
     <string name="filter_by_duedate">Filtrovat podle termínu</string>
@@ -269,6 +268,7 @@
     <string name="card_does_not_yet_exist">Karta ještě neexistuje v Deck</string>
 
     <string name="widget_stack_title">Seznam</string>
+    <string name="widget_filter_title">Filtr</string>
     <string name="widget_stack_header_icon">Ikona hlavičky ovládacího prvku</string>
     <string name="widget_placeholder_icon">Ikona výplně ovládacího prvku</string>
     <string name="select_stack">Vybrat seznam</string>
@@ -308,5 +308,8 @@
     <string name="gallery">Galerie</string>
     <string name="simple_attach">přiložit</string>
     <string name="add_stack_widget">Přidat ovládací prvek seznam</string>
+    <string name="add_filter_widget">Přidat ovládací prvek filtru</string>
+    <string name="simple_order">Pořadí</string>
     <string name="edit_description">Upravit popis</string>
+    <string name="widget_upcoming_title">Nadcházející karty</string>
 </resources>
