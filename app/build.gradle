@@ -7,8 +7,8 @@ android {
         applicationId "it.niedermann.nextcloud.deck"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 1014002
-        versionName "1.14.2"
+        versionCode 1014003
+        versionName "1.14.3"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
