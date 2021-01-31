@@ -1294,6 +1294,7 @@ public class DataBaseAdapter {
             }
         }
 
+        handleWidgetTypeExtras(filterWidget, cardsResult);
 
         filterRelationsForCard(cardsResult);
 
@@ -1316,6 +1317,17 @@ public class DataBaseAdapter {
             result.add(new FilterWidgetCard(fullCard, stack, board));
         }
         return result;
+    }
+
+    private void handleWidgetTypeExtras(FilterWidget filterWidget, List<FullCard> cardsResult) {
+        if (filterWidget.getWidgetType() == EWidgetType.UPCOMING_WIDGET) {
+            // https://github.com/stefan-niedermann/nextcloud-deck/issues/800 all cards within non-shared boards need to be included
+            List<Long> accountIds = null;
+            if (filterWidget.getAccounts() != null && !filterWidget.getAccounts().isEmpty()) {
+                accountIds = filterWidget.getAccounts().stream().map(a -> a.getAccountId()).collect(Collectors.toList());
+            }
+            cardsResult.addAll(db.getCardDao().getFullCardsForNonSharedBoardsDirectly(accountIds));
+        }
     }
 
     public List<FilterWidget> getFilterWidgetsByType(EWidgetType type) {
