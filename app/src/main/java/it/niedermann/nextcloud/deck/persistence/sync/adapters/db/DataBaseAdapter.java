@@ -13,11 +13,14 @@ import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -190,7 +193,7 @@ public class DataBaseAdapter {
         }
     }
 
-    private void filterRelationsForCard(@Nullable List<FullCard> card) {
+    private void filterRelationsForCard(@Nullable Collection<FullCard> card) {
         if (card == null) {
             return;
         }
@@ -1243,7 +1246,7 @@ public class DataBaseAdapter {
     public List<FilterWidgetCard> getCardsForFilterWidget(Integer filterWidgetId) {
         FilterWidget filterWidget = getFilterWidgetByIdDirectly(filterWidgetId);
         FilterInformation filter = new FilterInformation();
-        List<FullCard> cardsResult = new ArrayList<>();
+        Set<FullCard> cardsResult = new HashSet<>();
         if (filterWidget.getDueType() != null) {
             filter.setDueType(filterWidget.getDueType());
         } else filter.setDueType(EDueType.NO_FILTER);
@@ -1322,7 +1325,7 @@ public class DataBaseAdapter {
         return result;
     }
 
-    private void handleWidgetTypeExtras(FilterWidget filterWidget, List<FullCard> cardsResult) {
+    private void handleWidgetTypeExtras(FilterWidget filterWidget, Collection<FullCard> cardsResult) {
         if (filterWidget.getWidgetType() == EWidgetType.UPCOMING_WIDGET) {
             // https://github.com/stefan-niedermann/nextcloud-deck/issues/800 all cards within non-shared boards need to be included
             List<Long> accountIds = null;
