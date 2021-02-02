@@ -7,8 +7,8 @@ android {
         applicationId "it.niedermann.nextcloud.deck"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 1014003
-        versionName "1.14.3"
+        versionCode 1014004
+        versionName "1.14.4"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -113,7 +113,7 @@ dependencies {
 
     // Tests
     testImplementation 'junit:junit:4.13.1'
-    testImplementation 'org.robolectric:robolectric:4.5'
+    testImplementation 'org.robolectric:robolectric:4.5.1'
     testImplementation 'org.mockito:mockito-core:3.7.7'
     def powermockVersion = "2.0.9"
     testImplementation "org.powermock:powermock-core:$powermockVersion"

@@ -1,0 +1,1 @@
+- 📆 Upcoming cards widget - assigned cards duplicates (#818)
