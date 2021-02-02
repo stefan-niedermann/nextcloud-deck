@@ -61,4 +61,7 @@ public interface StackDao extends GenericDao<Stack> {
 
     @Query("SELECT coalesce(MAX(`order`), -1) FROM stack s WHERE boardId = :localBoardId")
     Integer getHighestStackOrderInBoard(long localBoardId);
+
+    @Query("SELECT exists(select 1 from Stack s join Board b on s.boardId = b.localId where s.localId = :localStackId and exists(select 1 from AccessControl ac where ac.boardId = b.localId and status <> 3))")
+    boolean isStackOnSharedBoardDirectly(Long localStackId);
 }

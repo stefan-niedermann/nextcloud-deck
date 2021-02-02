@@ -1327,12 +1327,18 @@ public class DataBaseAdapter {
 
     private void handleWidgetTypeExtras(FilterWidget filterWidget, Collection<FullCard> cardsResult) {
         if (filterWidget.getWidgetType() == EWidgetType.UPCOMING_WIDGET) {
+            // https://github.com/stefan-niedermann/nextcloud-deck/issues/819 "no due" cards are only shown if they are on a shared board
+            for (FullCard fullCard : new ArrayList<>(cardsResult)) {
+                if (fullCard.getCard().getDueDate() == null && !db.getStackDao().isStackOnSharedBoardDirectly(fullCard.getCard().getStackId())){
+                    cardsResult.remove(fullCard);
+                }
+            }
             // https://github.com/stefan-niedermann/nextcloud-deck/issues/800 all cards within non-shared boards need to be included
             List<Long> accountIds = null;
             if (filterWidget.getAccounts() != null && !filterWidget.getAccounts().isEmpty()) {
                 accountIds = filterWidget.getAccounts().stream().map(a -> a.getAccountId()).collect(Collectors.toList());
             }
-            cardsResult.addAll(db.getCardDao().getFullCardsForNonSharedBoardsDirectly(accountIds));
+            cardsResult.addAll(db.getCardDao().getFullCardsForNonSharedBoardsWithDueDateForUpcomingCardsWidgetDirectly(accountIds));
         }
     }
 
