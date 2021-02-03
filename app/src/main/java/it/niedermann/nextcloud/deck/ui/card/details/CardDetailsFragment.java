@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -140,6 +141,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
 
     private void setupDescription() {
         if (viewModel.canEdit()) {
+            binding.descriptionViewer.setMovementMethod(LinkMovementMethod.getInstance());
             binding.descriptionBar.setOnClickListener((v) -> binding.descriptionEditor.requestFocus());
             binding.descriptionToggle.setOnClickListener((v) -> {
                 editorActive = !editorActive;
