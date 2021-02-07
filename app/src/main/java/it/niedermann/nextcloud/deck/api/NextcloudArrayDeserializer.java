@@ -35,8 +35,14 @@ public class NextcloudArrayDeserializer<T> implements JsonDeserializer<List<T>> 
                 JsonObject obj = jArr.get(i).getAsJsonObject();
                 items.add(JsonToEntityParser.parseJsonObject(obj, mType));
             }
+        } else if (json.isJsonObject()) {
+            try {
+                items.add(JsonToEntityParser.parseJsonObject(json.getAsJsonObject(), mType));
+            } catch (Exception e) {
+                throw new IllegalArgumentException("NextcloudArrayDeserializer got a Json Object, fallback parsing failed for input: " + json);
+            }
         } else {
-            throw new IllegalArgumentException("NextcloudArrayDeserializer got an non-array Json Object: " + json);
+            throw new IllegalArgumentException("NextcloudArrayDeserializer got a malformed Json Object: " + json);
         }
         return items;
 
