@@ -47,8 +47,9 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
         for (Mention mention : comment.getComment().getMentions()) {
             mentions.put(mention.getMentionId(), mention.getMentionDisplayName());
         }
-        binding.message.setMarkdownStringChangedListener(editListener);
+        binding.message.setText(comment.getComment().getMessage());
         binding.message.setMarkdownString(comment.getComment().getMessage(), mentions);
+        binding.message.setMarkdownStringChangedListener(editListener);
         binding.actorDisplayName.setText(comment.getComment().getActorDisplayName());
         binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(binding.creationDateTime.getContext(), comment.getComment().getCreationDateTime().toEpochMilli()));
 
@@ -101,5 +102,10 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
                 binding.parent.setMaxLines(previouslyCollapsed ? Integer.MAX_VALUE : commentParentMaxLines);
             });
         }
+    }
+
+    public void unbind() {
+        binding.message.setText("");
+        binding.message.setMarkdownStringChangedListener(null);
     }
 }
