@@ -72,6 +72,12 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
         });
     }
 
+    @Override
+    public void onViewRecycled(@NonNull ItemCommentViewHolder holder) {
+        super.onViewRecycled(holder);
+        holder.unbind();
+    }
+
     @SuppressWarnings("WeakerAccess")
     public void updateComments(@NonNull List<FullDeckComment> comments) {
         this.comments.clear();
