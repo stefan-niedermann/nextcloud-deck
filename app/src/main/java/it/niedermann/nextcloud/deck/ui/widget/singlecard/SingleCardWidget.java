@@ -7,12 +7,10 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RemoteViews;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 
@@ -61,7 +59,7 @@ public class SingleCardWidget extends AppWidgetProvider {
                         // Because otherwise using Reflection is the only way
                         views.setViewVisibility(R.id.card_due_date, View.VISIBLE);
                         views.setViewVisibility(R.id.card_due_date_image, View.VISIBLE);
-                        setImageDrawable(views, R.id.card_due_date_image, R.drawable.calendar_blank_grey600_24dp);
+                        views.setImageViewResource(R.id.card_due_date_image, R.drawable.calendar_blank_grey600_24dp);
                     } else {
                         views.setViewVisibility(R.id.card_due_date, View.GONE);
                         views.setViewVisibility(R.id.card_due_date_image, View.GONE);
@@ -77,8 +75,8 @@ public class SingleCardWidget extends AppWidgetProvider {
                     } else {
                         views.setViewVisibility(R.id.card_count_attachments, View.VISIBLE);
                         views.setViewVisibility(R.id.card_count_attachments_image, View.VISIBLE);
+                        views.setImageViewResource(R.id.card_count_attachments_image, R.drawable.ic_check_grey600_24dp);
                         setupCounter(views, R.id.card_count_attachments, attachmentsCount, counterMaxValue);
-                        setImageDrawable(views, R.id.card_count_attachments_image, R.drawable.ic_check_grey600_24dp);
                     }
 
                     final int commentsCount = fullModel.getFullCard().getCommentCount();
@@ -88,8 +86,8 @@ public class SingleCardWidget extends AppWidgetProvider {
                     } else {
                         views.setViewVisibility(R.id.card_count_comments, View.VISIBLE);
                         views.setViewVisibility(R.id.card_count_comments_image, View.VISIBLE);
+                        views.setImageViewResource(R.id.card_count_comments_image, R.drawable.ic_comment_white_24dp);
                         setupCounter(views, R.id.card_count_comments, commentsCount, counterMaxValue);
-                        setImageDrawable(views, R.id.card_count_comments_image, R.drawable.ic_comment_white_24dp);
                     }
 
                     final Card.TaskStatus taskStatus = fullModel.getFullCard().getCard().getTaskStatus();
@@ -97,7 +95,7 @@ public class SingleCardWidget extends AppWidgetProvider {
                         views.setViewVisibility(R.id.card_count_tasks, View.VISIBLE);
                         views.setViewVisibility(R.id.card_count_tasks_image, View.VISIBLE);
                         views.setTextViewText(R.id.card_count_tasks, context.getResources().getString(R.string.task_count, String.valueOf(taskStatus.doneCount), String.valueOf(taskStatus.taskCount)));
-                        setImageDrawable(views, R.id.card_count_tasks_image, R.drawable.ic_attach_file_grey600_24dp);
+                        views.setImageViewResource(R.id.card_count_tasks_image, R.drawable.ic_attach_file_grey600_24dp);
                     } else {
                         views.setViewVisibility(R.id.card_count_tasks, View.GONE);
                         views.setViewVisibility(R.id.card_count_tasks_image, View.GONE);
@@ -115,16 +113,10 @@ public class SingleCardWidget extends AppWidgetProvider {
     private static void setupCounter(@NonNull RemoteViews views, @IdRes int textViewId, int count, String counterMaxValue) {
         if (count > 99) {
             views.setTextViewText(textViewId, counterMaxValue);
-        } else if (count > 1 || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        } else if (count > 1) {
             views.setTextViewText(textViewId, String.valueOf(count));
         } else if (count == 1) {
             views.setTextViewText(textViewId, "");
-        }
-    }
-
-    private static void setImageDrawable(@NonNull RemoteViews views, @IdRes int imageView, @DrawableRes int image) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            views.setImageViewResource(imageView, image);
         }
     }
 

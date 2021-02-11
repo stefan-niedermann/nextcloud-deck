@@ -5,7 +5,7 @@ android {
     buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "it.niedermann.nextcloud.deck"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1014005
         versionName "1.14.5"
