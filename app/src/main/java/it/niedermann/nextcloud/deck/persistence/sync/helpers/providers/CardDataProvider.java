@@ -228,6 +228,10 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         Account account = callback.getAccount();
         for (JoinCardWithLabel changedLabelLocal : changedLabels) {
             Card card = dataBaseAdapter.getCardByLocalIdDirectly(account.getId(), changedLabelLocal.getCardId());
+            if (card == null) {
+                // https://github.com/stefan-niedermann/nextcloud-deck/issues/683#issuecomment-759116820
+                continue;
+            }
             if (this.stack == null) {
                 stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
             } else {
