@@ -66,7 +66,6 @@ import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
 import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.os.Build.VERSION_CODES.M;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -206,15 +205,11 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
         if (editViewModel.canEdit()) {
             binding.fab.setOnClickListener(v -> {
-                if (SDK_INT < LOLLIPOP) {
-                    openNativeFilePicker();
-                } else {
-                    binding.bottomNavigation.setSelectedItemId(R.id.gallery);
-                    showGalleryPicker();
-                    mBottomSheetBehaviour.setState(STATE_COLLAPSED);
-                    backPressedCallback.setEnabled(true);
-                    requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), backPressedCallback);
-                }
+                binding.bottomNavigation.setSelectedItemId(R.id.gallery);
+                showGalleryPicker();
+                mBottomSheetBehaviour.setState(STATE_COLLAPSED);
+                backPressedCallback.setEnabled(true);
+                requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), backPressedCallback);
             });
             binding.fab.show();
             binding.attachmentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -301,35 +296,29 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_PICK_FILE_PERMISSION);
             } else {
                 unbindPickerAdapter();
-                if (SDK_INT >= LOLLIPOP) {
-//                    if (SDK_INT >= Build.VERSION_CODES.Q) {
-//                        // TODO Only usable with Scoped Storage
-//                        pickerAdapter = new FileAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeFilePicker);
-//                    } else {
-                    pickerAdapter = new FileAdapterLegacy((uri, pair) -> {
-                        previewViewModel.prepareDialog(pair.first, pair.second);
-                        PreviewDialog.newInstance().show(getChildFragmentManager(), PreviewDialog.class.getSimpleName());
-                        observeOnce(previewViewModel.getResult(), getViewLifecycleOwner(), (submitPositive) -> {
-                            if (submitPositive) {
-                                onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri));
-                            }
-                        });
-                    }, this::openNativeFilePicker);
-//                    }
-                    removeGalleryItemDecoration();
-                    binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-                    binding.pickerRecyclerView.setAdapter(pickerAdapter);
-                }
+//              if (SDK_INT >= Build.VERSION_CODES.Q) {
+//                  // TODO Only usable with Scoped Storage
+//                  pickerAdapter = new FileAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeFilePicker);
+//              } else {
+                pickerAdapter = new FileAdapterLegacy((uri, pair) -> {
+                    previewViewModel.prepareDialog(pair.first, pair.second);
+                    PreviewDialog.newInstance().show(getChildFragmentManager(), PreviewDialog.class.getSimpleName());
+                    observeOnce(previewViewModel.getResult(), getViewLifecycleOwner(), (submitPositive) -> {
+                        if (submitPositive) {
+                            onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri));
+                        }
+                    });
+                }, this::openNativeFilePicker);
+//              }
+                removeGalleryItemDecoration();
+                binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+                binding.pickerRecyclerView.setAdapter(pickerAdapter);
             }
         }
     }
 
     private void openNativeCameraPicker() {
-        if (SDK_INT >= LOLLIPOP) {
-            startActivityForResult(TakePhotoActivity.createIntent(requireContext()), REQUEST_CODE_PICK_CAMERA);
-        } else {
-            ExceptionDialogFragment.newInstance(new UnsupportedOperationException("This feature requires Android 5"), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-        }
+        startActivityForResult(TakePhotoActivity.createIntent(requireContext()), REQUEST_CODE_PICK_CAMERA);
     }
 
     private void openNativeContactPicker() {
