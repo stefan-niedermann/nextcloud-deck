@@ -1333,11 +1333,19 @@ public class DataBaseAdapter {
                     cardsResult.remove(fullCard);
                 }
             }
-            // https://github.com/stefan-niedermann/nextcloud-deck/issues/800 all cards within non-shared boards need to be included
             List<Long> accountIds = null;
             if (filterWidget.getAccounts() != null && !filterWidget.getAccounts().isEmpty()) {
-                accountIds = filterWidget.getAccounts().stream().map(a -> a.getAccountId()).collect(Collectors.toList());
+                accountIds = filterWidget.getAccounts().stream().map(FilterWidgetAccount::getAccountId).collect(Collectors.toList());
             }
+            // https://github.com/stefan-niedermann/nextcloud-deck/issues/822 exclude archived cards and boards
+            List<Long> archivedStacks = db.getStackDao().getLocalStackIdsInArchivedBoardsByAccountIdsDirectly(accountIds);
+            for (Long archivedStack : archivedStacks) {
+                List<FullCard> archivedCards = cardsResult.stream()
+                        .filter(c -> c.getCard().isArchived() || archivedStack.equals(c.getCard().getStackId()))
+                        .collect(Collectors.toList());
+                cardsResult.removeAll(archivedCards);
+            }
+            // https://github.com/stefan-niedermann/nextcloud-deck/issues/800 all cards within non-shared boards need to be included
             cardsResult.addAll(db.getCardDao().getFullCardsForNonSharedBoardsWithDueDateForUpcomingCardsWidgetDirectly(accountIds));
         }
     }
