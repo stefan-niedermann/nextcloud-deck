@@ -125,6 +125,7 @@
     <string name="add_a_new_list_using_the_button">Nov seznam dodate s klikom na gumb +</string>
     <string name="add_a_new_card_using_the_button">Novo nalogo je mogoče dodati z gumbom +</string>
     <string name="update_deck">Posodobi spletni program Deck</string>
+    <string name="deck_outdated_please_update">Različica zbirke je prestara (%1$s). Za uporabo tega odjemalca je treba zbirko najprej posodobiti.</string>
     <string name="delete_board_message">S tem dejanjem bo zbirka z vsemi paketi nalog in nalogami trajno izbrisana.</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Prilagajanje oblikovanja</string>

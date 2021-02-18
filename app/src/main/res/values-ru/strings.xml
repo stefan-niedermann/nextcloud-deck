@@ -176,6 +176,7 @@
     <string name="filter_no_filter">Все</string>
     <string name="filter_overdue">Просроченные</string>
     <string name="filter_today">Сегодня</string>
+    <string name="filter_tomorrow">Завтра</string>
     <string name="filter_week">Следующие 7 дней</string>
     <string name="filter_month">Следующие 30 дней</string>
     <string name="filter_no_due">Без назначенной даты</string>
