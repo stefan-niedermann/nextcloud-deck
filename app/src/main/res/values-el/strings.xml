@@ -120,6 +120,8 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Προσθήκη νέας λίστας με το κουμπί +</string>
     <string name="add_a_new_card_using_the_button">Προσθέστε νέα κάρτα με το κουμπί +</string>
+    <string name="update_deck">Ενημέρωση εφαρμογής ιστού Deck</string>
+    <string name="deck_outdated_please_update">Η έκδοση της εφαρμογής ιστού Deck είναι πολύ παλαιά (%1$s). Παρακαλούμε αναβαθμίστε ώστε να μπορείτε να χρησιμοποιήσετε αυτή την εφαρμογή Android ως πελάτη.</string>
     <string name="delete_board_message">Μόνιμη διαγραφή πίνακα με όλες τις λίστες και κάρτες.</string>
     <string name="settings_theme_title">Θέμα</string>
     <string name="settings_branding_title">Επωνυμία</string>
@@ -172,9 +174,11 @@
     <string name="filter_no_filter">\'Ολα</string>
     <string name="filter_overdue">Εκπρόθεσμος</string>
     <string name="filter_today">Σήμερα</string>
+    <string name="filter_tomorrow">Αύριο</string>
     <string name="filter_week">Επόμενες 7 ημέρες</string>
     <string name="filter_month">Επόμενες 30 ημέρες</string>
     <string name="filter_no_due">Χωρίς ημερομηνία λήξης</string>
+    <string name="filter_later">Αργότερα</string>
     <string name="filter_by_tag">Φίλτρο ανά ετικέτα</string>
     <string name="filter_by_assigned_user">Φίλτρο ανά χρήστη</string>
     <string name="filter_by_duedate">Φίλτρο ανά ημερομηνία λήξης</string>
@@ -260,6 +264,7 @@
     <string name="card_does_not_yet_exist">Η κάρτα δεν υπάρχει ακόμα στο Deck</string>
 
     <string name="widget_stack_title">Λίστα</string>
+    <string name="widget_filter_title">Φίλτρο</string>
     <string name="widget_stack_header_icon">Εικονίδιο επικεφαλίδας του γραφικού στοιχείου</string>
     <string name="select_stack">Επιλέξτε λίστα</string>
     <string name="project_type_deck_board">Πίνακας του Deck</string>
@@ -296,5 +301,8 @@
     <string name="gallery">Εκθεσιακός χώρος</string>
     <string name="simple_attach">Επισυνάπτω</string>
     <string name="add_stack_widget">Προσθήκη λίστας widget</string>
+    <string name="add_filter_widget">Προσθήκη φίλτρου μικροεφαρμογής</string>
+    <string name="simple_order">Σειρά</string>
     <string name="edit_description">Επεξεργασία περιγραφής</string>
-    </resources>
+    <string name="widget_upcoming_title">Επερχόμενες κάρτες</string>
+</resources>

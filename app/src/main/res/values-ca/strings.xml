@@ -109,6 +109,7 @@
     <string name="no_lists_yet">Encara no hi ha llistes</string>
     <string name="do_you_want_to_save_your_changes">Voleu desar els canvis?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Voleu arxivar totes les targetes de %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Voleu arxivar totes les targetes filtrades de %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Això suprimirà permanentment %1$d targeta d\'aquesta llista.</item>
         <item quantity="other">Això suprimirà permanentment totes %1$d targetes d\'aquesta llista.</item>
@@ -119,12 +120,20 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Afegiu una nova llista usant el botó +</string>
     <string name="add_a_new_card_using_the_button">Afegiu una targeta nova mitjançant el botó +.</string>
+    <string name="update_deck">Actualitza l\'aplicació del tauler</string>
+    <string name="deck_outdated_please_update">La vostra versió del tauler és massa antiga (%1$s). Si us plau, actualitza\'l per poder utilitzar aquesta aplicació d\'Android com a client.</string>
     <string name="delete_board_message">Això suprimirà permanentment aquest tauler, incloent-hi totes les llistes i targetes.</string>
+    <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Marcatge</string>
     <string name="settings_compact_title">Mode compacte</string>
     <string name="settings_background_sync">Sincronització en segon pla</string>
     <string name="pref_value_wifi_and_mobile">Sincronitza per Wi-Fi i dades mòbils</string>
     <string name="pref_value_wifi_only">Sincronitza només per Wi-Fi</string>
+    <string-array name="darkmode_entries">
+        <item>Per defecte del sistema</item>
+        <item>Clar</item>
+        <item>Fosc</item>
+    </string-array>
     <string name="unassigned_user">%1$s sense assignar</string>
     <string name="no_activities">No hi ha activitats en aquesta targeta. Per carregar i mostrar activitats, heu d’estar connectat a Internet.</string>
     <string name="share_board">Comparteix el tauler</string>
@@ -165,9 +174,11 @@
     <string name="filter_no_filter">Totes</string>
     <string name="filter_overdue">Endarrerit</string>
     <string name="filter_today">Avui</string>
+    <string name="filter_tomorrow">Demà</string>
     <string name="filter_week">Propers 7 dies</string>
     <string name="filter_month">Propers 30 dies</string>
     <string name="filter_no_due">Sense venciment</string>
+    <string name="filter_later">Més tard</string>
     <string name="filter_by_tag">Filtra per etiqueta</string>
     <string name="filter_by_assigned_user">Filtra per usuari assignat</string>
     <string name="filter_by_duedate">Filtra per data de venciment</string>
@@ -253,7 +264,9 @@
     <string name="card_does_not_yet_exist">La targeta encara no existeix al Deck</string>
 
     <string name="widget_stack_title">Llista</string>
-    <string name="widget_stack_header_icon">Icona de capçalera de widget</string>
+    <string name="widget_filter_title">Filtra</string>
+    <string name="widget_stack_header_icon">Icona de capçalera de giny</string>
+    <string name="widget_placeholder_icon">Marcador de posició de la icona del giny</string>
     <string name="select_stack">Seleccionar llista</string>
     <string name="project_type_deck_board">Tauler de Deck</string>
     <string name="project_type_deck_card">Targeta de Deck</string>
@@ -268,5 +281,29 @@
     <string name="project_type_room">Sala de xerrades</string>
     <string name="simple_move">Mou</string>
     <string name="cannot_upload_files_without_permission">No es poden pujar fitxers sense permís</string>
+    <string name="clone_cards">Clonar targetes</string>
+    <string name="simple_clone">Clonar</string>
+    <string name="user_avatar">Utilitzar avatar</string>
     <string name="simple_unassign">No ho assignis</string>
-    </resources>
+    <string name="simple_contact">Contacte</string>
+    <string name="simple_file">Fitxer</string>
+    <string name="simple_camera">Càmera</string>
+    <string name="min_api_21">Aquesta característica requereix com a mínim Android 5</string>
+    <string name="take_photo">Prendre una fotografia</string>
+    <string name="take_photo_switch_camera">Canviar la càmera</string>
+    <string name="take_photo_toggle_torch">Commuta la llanterna</string>
+    <string name="show_all_contacts">Mostra tots els contactes</string>
+    <string name="show_all_files">Mostra tots els fitxers</string>
+    <string name="recent">Recent</string>
+    <string name="upload_a_new_attachment">Pujar un nou fitxer adjunt</string>
+    <string name="contacts">Contactes</string>
+    <string name="downloads">Baixades</string>
+    <string name="files">Fitxers</string>
+    <string name="gallery">Galeria</string>
+    <string name="simple_attach">Adjuntar</string>
+    <string name="add_stack_widget">Afegeix giny de llista</string>
+    <string name="add_filter_widget">Afegir un giny per filtrar</string>
+    <string name="simple_order">Ordre</string>
+    <string name="edit_description">Edita la descripció</string>
+    <string name="widget_upcoming_title">Properes targetes</string>
+</resources>

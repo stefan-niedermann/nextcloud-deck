@@ -56,7 +56,7 @@
     <string name="about_source_title">Källkod</string>
     <string name="about_source">Detta projekt finns på GitHub: %1$s</string>
     <string name="about_issues_title">Problem</string>
-    <string name="about_issues">Du kan rapportera buggar, förbättringsförslag och funktionsönskningar på GitHubs problemhanterare: %1$s</string>
+    <string name="about_issues">Du kan rapportera fel, förbättringsförslag och funktionsönskningar på GitHub- problemhanteraren: %1$s</string>
     <string name="about_translate_title">Översätt</string>
     <string name="about_translate">Gå med i Nextcloud-gruppen på Transifex och hjälp oss översätta denna app: %1$s</string>
     <string name="about_app_license_title">Applicens</string>
@@ -227,7 +227,7 @@
     <string name="error_dialog_account_might_not_be_authorized">Ditt Nextcloud-konto är eventuellt inte längre auktoriserat. </string>
     <string name="error_dialog_user_not_found_in_database">Den nuvarande användaren matchar inte användaren vi har i vår databas. Om ni använder LDAP i er Nextcloud-instans kan din Nextcloud-app ha lagrat ett gammalt användar-ID.</string>
     <string name="error_dialog_capabilities_not_parsable">Vi kunde inte hämta er servers förmågor. Vänligen säkerställ att er server fungerar som den ska och att klient-appar kan komma åt Nextcloud.</string>
-    <string name="error_dialog_attachment_upload_failed">En bifogad fil kunde inte laddas upp. Försök dela den på ett annat och sätt och vänligen berätta för oss om den här buggen.</string>
+    <string name="error_dialog_attachment_upload_failed">En bifogad fil kunde inte laddas upp. Försök dela den på ett annat och sätt och vänligen berätta för oss om det här felet.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Stäng av alla batterioptimeringar för Nextcloud och Deck-appen</string>
     <string name="error_action_open_deck_info">Öppna appinformation</string>
     <string name="error_action_open_network">Nätverksinställningar</string>
