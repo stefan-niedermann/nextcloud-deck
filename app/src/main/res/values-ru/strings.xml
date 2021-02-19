@@ -124,6 +124,8 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Нажмите кнопку «+» для добавления нового списка</string>
     <string name="add_a_new_card_using_the_button">Нажмите кнопку «+» для добавления новой карточки</string>
+    <string name="update_deck">Обновите приложение Карточки на сервере</string>
+    <string name="deck_outdated_please_update">На сервере установлена устаревшая версия приложение Карточки (%1$s). Обновите приложение на сервере, чтобы использовать приложение для Android.</string>
     <string name="delete_board_message">Это действие приведёт к удалению этой рабочей доски, всех списков и карточек.</string>
     <string name="settings_theme_title">Оформление</string>
     <string name="settings_branding_title">Брендирование</string>
@@ -180,6 +182,7 @@
     <string name="filter_week">Следующие 7 дней</string>
     <string name="filter_month">Следующие 30 дней</string>
     <string name="filter_no_due">Без назначенной даты</string>
+    <string name="filter_later">Позже</string>
     <string name="filter_by_tag">Отфильтровать по метке</string>
     <string name="filter_by_assigned_user">Отфильтровать по назначению</string>
     <string name="filter_by_duedate">Отфильтровать по сроку исполнения</string>
@@ -267,6 +270,7 @@
     <string name="card_does_not_yet_exist">Карточка не создана на доске</string>
 
     <string name="widget_stack_title">Список</string>
+    <string name="widget_filter_title">Фильтр</string>
     <string name="widget_stack_header_icon">иконка заголовка виджета</string>
     <string name="select_stack">Выберите список</string>
     <string name="project_type_deck_board">Доска</string>
@@ -305,5 +309,8 @@
     <string name="gallery">Галерея</string>
     <string name="simple_attach">вложить</string>
     <string name="add_stack_widget">Добавить виджет списка</string>
+    <string name="add_filter_widget">Добавить виджет фильтра</string>
+    <string name="simple_order">Порядок</string>
     <string name="edit_description">Изменить описание</string>
-    </resources>
+    <string name="widget_upcoming_title">Ожидающие выполнения</string>
+</resources>
