@@ -80,8 +80,7 @@ public class UpcomingWidget extends AppWidgetProvider {
 
         if (ACTION_APPWIDGET_UPDATE.equals(intent.getAction())) {
             if (intent.hasExtra(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
-                @SuppressWarnings("ConstantConditions")
-                int appWidgetId = intent.getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
+                final int appWidgetId = intent.getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
                 DeckLog.verbose(ACTION_APPWIDGET_UPDATE + " for " + UpcomingWidget.class.getSimpleName() + " with id " + appWidgetId + ", perform update.");
                 updateAppWidget(context, awm, new int[]{appWidgetId});
             } else {

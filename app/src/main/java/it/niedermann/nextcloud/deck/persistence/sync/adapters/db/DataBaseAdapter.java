@@ -637,7 +637,7 @@ public class DataBaseAdapter {
         notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.STACK, stack.getLocalId());
         if (db.getStackWidgetModelDao().containsStackLocalId(stack.getLocalId())) {
             DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about card changes for \"" + stack.getTitle() + "\"");
-            StackWidget.notifyDatasetChanged(context);
+            // FIXME StackWidget.notifyDatasetChanged(context);
         }
     }
 
@@ -721,7 +721,7 @@ public class DataBaseAdapter {
     private void notifyStackWidgetsIfNeeded(String cardTitle, long... affectedStackIds) {
         if (db.getStackWidgetModelDao().containsStackLocalId(affectedStackIds)) {
             DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about card changes for \"" + cardTitle + "\"");
-            StackWidget.notifyDatasetChanged(context);
+            // FIXME StackWidget.notifyDatasetChanged(context);
         }
     }
 
@@ -1438,7 +1438,7 @@ public class DataBaseAdapter {
 
     private void notifyAllWidgets() {
         SingleCardWidget.notifyDatasetChanged(context);
-        StackWidget.notifyDatasetChanged(context);
+        /// FIXME StackWidget.notifyDatasetChanged(context);
 //        UpcomingWidget.notifyDatasetChanged(context);
     }
 }

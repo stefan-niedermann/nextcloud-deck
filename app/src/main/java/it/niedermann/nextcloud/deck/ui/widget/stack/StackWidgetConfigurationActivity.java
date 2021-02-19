@@ -7,9 +7,17 @@ import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.Collections;
+
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetBoard;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetStack;
 import it.niedermann.nextcloud.deck.ui.PickStackActivity;
 
 public class StackWidgetConfigurationActivity extends PickStackActivity {
@@ -43,20 +51,23 @@ public class StackWidgetConfigurationActivity extends PickStackActivity {
 
     @Override
     protected void onSubmit(Account account, long boardId, long stackId) {
-        final Bundle extras = new Bundle();
+        final FilterWidget config = new FilterWidget(appWidgetId, EWidgetType.STACK_WIDGET);
+        final FilterWidgetAccount filterWidgetAccount = new FilterWidgetAccount(account.getId(), true);
+        filterWidgetAccount.setBoards(
+                Collections.singletonList(new FilterWidgetBoard(boardId,
+                        Collections.singletonList(new FilterWidgetStack(stackId)))));
+        config.setAccounts(Collections.singletonList(filterWidgetAccount));
+        stackWidgetConfigurationViewModel.addStackWidget(config, new IResponseCallback<Integer>(account) {
 
-        stackWidgetConfigurationViewModel.addStackWidget(appWidgetId, account.getId(), stackId, false);
-        Intent updateIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null,
-                getApplicationContext(), StackWidget.class);
-        extras.putSerializable(StackWidget.ACCOUNT_KEY, account);
-        extras.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-
-        // The `extras` bundle is added to the intent this way because using putExtras(extras) 
-        // would have the OS attempt to reassemle the data and cause a crash 
-        // when it finds classes that are only known to this application.
-        updateIntent.putExtra(StackWidget.BUNDLE_KEY, extras);
-        setResult(RESULT_OK, updateIntent);
-        getApplicationContext().sendBroadcast(updateIntent);
+            @Override
+            public void onResponse(Integer response) {
+                final Intent updateIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null,
+                        getApplicationContext(), StackWidget.class)
+                        .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+                setResult(RESULT_OK, updateIntent);
+                getApplicationContext().sendBroadcast(updateIntent);
+            }
+        });
 
         finish();
     }
