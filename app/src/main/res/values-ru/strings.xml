@@ -79,7 +79,7 @@
     <string name="card_not_found_message">Не удалось найти карточку. Возможно, она была недавно удалена.</string>
 
     <string name="add_account">Добавить аккаунт</string>
-    <string name="choose_account">Выбрать аккаунт</string>
+    <string name="choose_account">Выбрать учётную запись</string>
     <string name="add_card">Создать карточку</string>
     <string name="activity">Событие</string>
     <string name="add_list">Добавить список</string>
@@ -272,6 +272,7 @@
     <string name="widget_stack_title">Список</string>
     <string name="widget_filter_title">Фильтр</string>
     <string name="widget_stack_header_icon">иконка заголовка виджета</string>
+    <string name="widget_placeholder_icon">Иконка заглушки виджета</string>
     <string name="select_stack">Выберите список</string>
     <string name="project_type_deck_board">Доска</string>
     <string name="project_type_deck_card">Карточка</string>
