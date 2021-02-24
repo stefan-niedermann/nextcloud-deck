@@ -15,7 +15,6 @@ import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
-import it.niedermann.nextcloud.deck.ui.widget.upcoming.UpcomingWidget;
 
 import static android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE;
 
@@ -38,11 +37,11 @@ public class StackWidget extends AppWidgetProvider {
         if (ACTION_APPWIDGET_UPDATE.equals(intent.getAction())) {
             if (intent.hasExtra(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
                 final int appWidgetId = intent.getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
-                DeckLog.verbose(ACTION_APPWIDGET_UPDATE + " for " + UpcomingWidget.class.getSimpleName() + " with id " + appWidgetId + ", perform update.");
+                DeckLog.verbose(ACTION_APPWIDGET_UPDATE + " for " + StackWidget.class.getSimpleName() + " with id " + appWidgetId + ", perform update.");
                 updateAppWidget(context, awm, new int[]{appWidgetId});
             } else {
-                DeckLog.verbose(ACTION_APPWIDGET_UPDATE + " for " + UpcomingWidget.class.getSimpleName() + ": Triggering update for all widgets of this type.");
-                updateAppWidget(context, awm, awm.getAppWidgetIds(new ComponentName(context, UpcomingWidget.class)));
+                DeckLog.verbose(ACTION_APPWIDGET_UPDATE + " for " + StackWidget.class.getSimpleName() + ": Triggering update for all widgets of this type.");
+                updateAppWidget(context, awm, awm.getAppWidgetIds(new ComponentName(context, StackWidget.class)));
             }
         }
     }
