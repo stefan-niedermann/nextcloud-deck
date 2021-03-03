@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.converter;
 import androidx.annotation.Nullable;
 import androidx.room.TypeConverter;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.enums.ESortCriteria;
 import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
@@ -11,7 +12,12 @@ public class EnumConverter {
     // #### EWidgetType
     @TypeConverter
     public static EWidgetType toWidgetTypeEnum(Integer value) {
-        return value == null ? null : EWidgetType.findById(value);
+        try {
+            return value == null ? null : EWidgetType.findById(value);
+        } catch (IllegalArgumentException e) {
+            DeckLog.error(EWidgetType.class.getSimpleName() + " " + value + " not found. Falling back to generic " + EWidgetType.FILTER_WIDGET);
+            return EWidgetType.FILTER_WIDGET;
+        }
     }
 
     @TypeConverter

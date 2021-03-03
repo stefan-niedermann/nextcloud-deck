@@ -8,7 +8,7 @@
     <string name="drawer_end_account">最後帳戶</string>
     <string name="drawer_manage_accounts">帳戶管理</string>
 
-    <string name="simple_boards">專案</string>
+    <string name="simple_boards">面板</string>
     <string name="simple_add">新增</string>
     <string name="simple_save">儲存</string>
     <string name="simple_more">更多</string>
@@ -109,9 +109,20 @@
     <string name="no_lists_yet">尚無清單</string>
     <string name="do_you_want_to_save_your_changes">您想要儲存您做出的變更嗎？</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">請問您想要封存%1$s的所有卡片嗎？</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">請問您想要封存%1$s裏所有已篩選的卡片嗎？</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="other">這將永久刪除此清單中的所有 %1$d 卡片。</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="other">這將從 %1$d 卡片上刪除標籤。</item>
+    </plurals>
+    <string name="add_a_new_list_using_the_button">用 + 按鈕新增清單</string>
     <string name="add_a_new_card_using_the_button">用 + 按鈕新增卡片</string>
     <string name="update_deck">更新 Deck web app</string>
+    <string name="deck_outdated_please_update">您的 Deck web app 版本太舊（%1$s）。請更新以將此 Android 應用程式作客戶端。</string>
+    <string name="delete_board_message">這將永久刪除此面板，包括所有清單和卡片。</string>
     <string name="settings_theme_title">佈景主題</string>
+    <string name="settings_compact_title">緊湊模式</string>
     <string name="settings_background_sync">背景同步</string>
     <string name="pref_value_wifi_and_mobile">使用 Wi-Fi 及流動網路時同步</string>
     <string name="pref_value_wifi_only">只在使用 Wi-Fi 時同步</string>
@@ -124,7 +135,7 @@
     <string name="no_activities">此卡片沒有活動。您需要連線至網際網路，才能載入並顯示活動。</string>
     <string name="share_board">分享佈告欄</string>
     <string name="you_are_currently_offline">目前離線中</string>
-    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">您必須連線到網際網路才能新增帳戶。</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">您必須連線到互聯網才能新增帳戶。</string>
     <string name="owner">擁有者</string>
     <string name="attachment_delete_message">這會永久刪除此附件。</string>
     <string name="no_content">目前還沒有內容</string>
@@ -137,7 +148,10 @@
     <string name="action_card_move_title">移動 %1$s</string>
     <string name="please_add_an_account_first">請先增加一個帳戶</string>
     <string name="title_is_mandatory">必須有標題</string>
+    <string name="provide_at_least_a_title_or_description">提供至少一個標題或描述</string>
     <string name="welcome_text">歡迎來到 %1$s</string>
+    <string name="save_card_before_attachment">必須先保存卡片，然後才能添加附件。</string>
+    <string name="maintenance_mode_explanation">伺服器 %1$s 當前處於維護模式。 請與您的管理員聯繫或再試一次。</string>
     <string name="share_add_to_card">加到 card</string>
     <string name="share_success">成功新增 %1$s 至 %2$s</string>
     <string name="add_comment">增加留言</string>
@@ -150,6 +164,9 @@
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">用瀏覽器開啟</string>
     <string name="updating_card">更新卡片...</string>
+
+    <string name="move_list_right">向右移動清單</string>
+    <string name="move_list_left">向左移動列表</string>
 
     <string name="filter_no_filter">全部</string>
     <string name="filter_overdue">過期</string>
@@ -188,19 +205,34 @@
     <string name="maintenance_mode">伺服器正處於維護模式</string>
     <string name="server_misconfigured">伺服器配置錯誤</string>
     <string name="server_error">伺服器錯誤</string>
+    <string name="shared_error">尚不完全支持共享來自第三方應用程式的內容。 請嘗試先下載它，然後從您的本機文件管理器或庫中分享它。</string>
+    <string name="error_edit_activity_killed_by_android">Android 完成了編輯模式，因為它需要更多的系統資源來服務其他應用程式。</string>
+
     <string name="error_dialog_title">喔不 - 現在怎麼辦？🙁</string>
+    <string name="error_dialog_tip_clear_storage_might_help">如果問題仍然存在，請嘗試清除兩個應用程序的存儲：Nextcloud 和 Nextcloud Deck 以解決此問題。</string>
+    <string name="error_dialog_tip_database_upgrade_failed">數據庫升級失敗。 請報告問題，並清除存儲空間以正常使用該應用程序。</string>
+    <string name="error_dialog_tip_clear_storage">您可以通過打開應用程式信息並選擇 存儲→清除存儲 來清除存儲。</string>
+    <string name="error_dialog_tip_files_outdated">您的Nextcloud應用似乎已過時。請訪問 Play Store 或 F-Droid 以獲取最新版本。</string>
+    <string name="error_dialog_tip_files_force_stop">您的 Nextcloud 應用程式似乎有問題。請嘗試強制停止 Nextcloud 應用程式和 Nextcloud Deck 應用程式。</string>
+    <string name="error_dialog_tip_files_delete_storage">如果強行停止它們沒有幫助，則可以嘗試清除兩個應用程式的存儲。</string>
+    <string name="error_dialog_check_server_logs">您的Nextcloud設置存在問題。 請查看伺服器記錄檔案。</string>
+    <string name="error_dialog_check_maintenance">請檢查您的 Nextcloud 當前是否在維護模式。</string>
+    <string name="error_dialog_insufficient_storage">您的 Nextcloud 沒有剩餘可用的存儲空間。請刪除一些檔案，以將近端更改同步到雲中。</string>
     <string name="error_dialog_we_need_info">我們需要以下的技術資訊來幫助您：</string>
+    <string name="error_dialog_version_not_parsable">我們無法確定伺服器端 Deck 應用程式的版本。 請確保已安裝並啟用它。</string>
+    <string name="error_dialog_account_might_not_be_authorized">您的Nextcloud應用程序帳戶可能不再被授權。</string>
     <string name="error_action_open_deck_info">開啟 App 資訊</string>
     <string name="error_action_open_network">網路設定</string>
     <string name="error_action_server_logs">伺服器記錄</string>
     <string name="error_action_install">安裝</string>
     <string name="error_action_report_issue">回報</string>
     <string name="info_box_maintenance_mode">伺服器正處於維護模式</string>
-    <string name="info_box_version_not_supported">伺服器版本 %1$s 不被支援，請升級到 %2$s</string>
+    <string name="info_box_version_not_supported">不支援伺服器版本 %1$s，請升級到 %2$s</string>
     <string name="share_link">分享連結</string>
     <string name="archive_cards">封存卡片</string>
 
     <string name="manage_accounts">帳戶管理</string>
+    <string name="manage_list">管理清單</string>
     <string name="simple_reply">回覆</string>
     <string name="error_while_uploading_attachment">上傳附件 %1$s 時發生錯誤</string>
     <string name="append_text_to_description">附加到描述</string>
@@ -214,14 +246,26 @@
     <string name="clone_board">複製 board</string>
     <string name="cloning_board">正在複製 %1$s...</string>
     <string name="successfully_cloned_board">複製 %1$s 成功</string>
+    <string name="attachment_does_not_yet_exist">在看板中找不到附件。</string>
+    <string name="card_does_not_yet_exist">在看板中找不到卡片。</string>
+
     <string name="widget_stack_title">清單</string>
     <string name="widget_filter_title">篩選</string>
+    <string name="widget_stack_header_icon">小部件標題圖標</string>
+    <string name="widget_placeholder_icon">小部件佔位符圖標</string>
+    <string name="select_stack">選擇清單</string>
+    <string name="project_type_deck_board">Deck 面板</string>
+    <string name="project_type_deck_card">看板卡片</string>
     <string name="project_type_file">檔案</string>
     <string name="projects_title">專案項目</string>
     <plurals name="resources_count">
         <item quantity="other">%1$d 資源</item>
     </plurals>
+    <string name="no_assigned_label">未分派標籤</string>
+    <string name="single_card">單則卡片</string>
+    <string name="project_type_room">Talk 聊天室</string>
     <string name="simple_move">移動</string>
+    <string name="cannot_upload_files_without_permission">未經許可無法上傳文件</string>
     <string name="clone_cards">複製 cards</string>
     <string name="simple_clone">複製</string>
     <string name="user_avatar">用戶頭像</string>
@@ -229,9 +273,21 @@
     <string name="simple_contact">聯絡人</string>
     <string name="simple_file">檔案</string>
     <string name="simple_camera">相機</string>
+    <string name="min_api_21">此功能需要Android 5或更高版本</string>
+    <string name="take_photo">拍照</string>
+    <string name="take_photo_switch_camera">切換相機</string>
+    <string name="show_all_contacts">顯示所有聯絡人</string>
+    <string name="show_all_files">顯示全部檔案</string>
+    <string name="recent">最新</string>
+    <string name="upload_a_new_attachment">上傳新附件</string>
     <string name="contacts">聯絡人</string>
     <string name="downloads">下載</string>
     <string name="files">檔案</string>
     <string name="gallery">圖片庫</string>
+    <string name="simple_attach">附帶</string>
+    <string name="add_stack_widget">添加列表小工具</string>
+    <string name="add_filter_widget">添加過濾小工具</string>
+    <string name="simple_order">排序</string>
+    <string name="edit_description">編輯描述</string>
     <string name="widget_upcoming_title">接下來的 cards</string>
 </resources>

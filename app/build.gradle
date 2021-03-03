@@ -7,8 +7,8 @@ android {
         applicationId "it.niedermann.nextcloud.deck"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1014006
-        versionName "1.14.6"
+        versionCode 1015000
+        versionName "1.15.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -63,13 +63,13 @@ dependencies {
     // TabLayoutHelper
     implementation project(path: ':tab-layout-helper')
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
     // Android X
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.camera:camera-camera2:1.1.0-alpha01'
-    implementation 'androidx.camera:camera-lifecycle:1.1.0-alpha01'
-    implementation 'androidx.camera:camera-view:1.0.0-alpha21'
+    implementation 'androidx.camera:camera-camera2:1.1.0-alpha02'
+    implementation 'androidx.camera:camera-lifecycle:1.1.0-alpha02'
+    implementation 'androidx.camera:camera-view:1.0.0-alpha22'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.preference:preference:1.1.1'
@@ -85,7 +85,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     // Markdown
-    implementation 'com.github.stefan-niedermann:nextcloud-notes:v3.1.1'
+    implementation 'com.github.stefan-niedermann:nextcloud-notes:v3.1.4'
 
     // Single-Sign-On
     implementation 'com.github.nextcloud:Android-SingleSignOn:0.5.6'
@@ -114,7 +114,7 @@ dependencies {
     // Tests
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.robolectric:robolectric:4.5.1'
-    testImplementation 'org.mockito:mockito-core:3.7.7'
+    testImplementation 'org.mockito:mockito-core:3.8.0'
     def powermockVersion = "2.0.9"
     testImplementation "org.powermock:powermock-core:$powermockVersion"
     testImplementation "org.powermock:powermock-module-junit4:$powermockVersion"

@@ -1,9 +1,21 @@
 package it.niedermann.nextcloud.deck.util;
 
+import android.content.Context;
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
 
 public class CardUtil {
     private static final Pattern pLists = Pattern.compile("^\\s*[*+-]\\s+", Pattern.MULTILINE);
@@ -15,6 +27,28 @@ public class CardUtil {
 
     private CardUtil() {
         // You shall not pass
+    }
+
+    /**
+     * @return a human readable String containing the description, due date and tags of the given {@param fullCard}
+     */
+    @NonNull
+    public static String getCardContentAsString(@NonNull Context context, @NonNull FullCard fullCard) {
+        final Card card = fullCard.getCard();
+        String text = card.getDescription();
+        if(card.getDueDate() != null) {
+            if(!TextUtils.isEmpty(text)) {
+                text += "\n";
+            }
+            text += context.getString(R.string.share_content_duedate, card.getDueDate().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)));
+        }
+        if(fullCard.getLabels() != null && !fullCard.getLabels().isEmpty()) {
+            if(!TextUtils.isEmpty(text)) {
+                text += "\n";
+            }
+            text += context.getString(R.string.share_content_labels, fullCard.getLabels().stream().map(Label::getTitle).collect(Collectors.joining(", ")));
+        }
+        return text;
     }
 
     @NonNull

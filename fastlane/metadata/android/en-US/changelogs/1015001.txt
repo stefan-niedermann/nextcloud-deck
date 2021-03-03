@@ -1,0 +1,2 @@
+- 📤 Share content of a card (#854)
+- 🐞 Do not assign card when share link

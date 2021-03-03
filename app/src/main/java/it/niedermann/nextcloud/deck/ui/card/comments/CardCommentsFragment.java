@@ -71,7 +71,7 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
 
         commentsViewModel = new ViewModelProvider(this).get(CommentsViewModel.class);
 
-        adapter = new CardCommentsAdapter(requireContext(), mainViewModel.getAccount(), requireActivity().getMenuInflater(), this, this, getChildFragmentManager());
+        adapter = new CardCommentsAdapter(requireContext(), mainViewModel.getAccount(), requireActivity().getMenuInflater(), this, this, getChildFragmentManager(), this);
         binding.comments.setAdapter(adapter);
         binding.replyCommentCancelButton.setOnClickListener((v) -> commentsViewModel.setReplyToComment(null));
         ViewUtil.addAvatar(binding.avatar, mainViewModel.getAccount().getUrl(), mainViewModel.getAccount().getUserName(), DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
