@@ -25,6 +25,8 @@
     <dimen name="icon_size_details">24dp</dimen>
     <dimen name="empty_content_font_size">26sp</dimen>
 
+    <dimen name="widget_outer_radius">@dimen/spacer_1x</dimen>
+    <dimen name="widget_inner_radius">@dimen/spacer_1hx</dimen>
     <dimen name="widget_stack_card_padding">@dimen/spacer_1hx</dimen>
     <dimen name="widget_stack_icon_width">30dp</dimen>
     <dimen name="widget_stack_header_height">36dp</dimen>
