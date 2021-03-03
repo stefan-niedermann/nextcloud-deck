@@ -185,7 +185,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
         int itemId = menuItem.getItemId();
         final Account account = mainViewModel.getCurrentAccount();
         if (itemId == R.id.share_link) {
-            Intent shareIntent = new Intent()
+            final Intent shareIntent = new Intent()
                     .setAction(Intent.ACTION_SEND)
                     .setType(TEXT_PLAIN)
                     .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
@@ -194,6 +194,14 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
             context.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
             new Thread(() -> mainViewModel.assignUserToCard(mainViewModel.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard())).start();
             return true;
+        } else if (itemId == R.id.share_content) {
+            final Intent shareIntent = new Intent()
+                    .setAction(Intent.ACTION_SEND)
+                    .setType(TEXT_PLAIN)
+                    .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
+                    .putExtra(Intent.EXTRA_TITLE, fullCard.getCard().getTitle())
+                    .putExtra(Intent.EXTRA_TEXT, fullCard.getCard().getDescription());
+            context.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
         } else if (itemId == R.id.action_card_assign) {
             new Thread(() -> mainViewModel.assignUserToCard(mainViewModel.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard())).start();
             return true;
