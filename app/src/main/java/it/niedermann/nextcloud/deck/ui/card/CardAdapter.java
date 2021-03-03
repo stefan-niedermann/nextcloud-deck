@@ -37,6 +37,7 @@ import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.movecard.MoveCardDialogFragment;
+import it.niedermann.nextcloud.deck.util.CardUtil;
 
 import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -199,7 +200,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
                     .setType(TEXT_PLAIN)
                     .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
                     .putExtra(Intent.EXTRA_TITLE, fullCard.getCard().getTitle())
-                    .putExtra(Intent.EXTRA_TEXT, fullCard.getCard().getDescription());
+                    .putExtra(Intent.EXTRA_TEXT, CardUtil.getCardContentAsString(context, fullCard));
             context.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
         } else if (itemId == R.id.action_card_assign) {
             new Thread(() -> mainViewModel.assignUserToCard(mainViewModel.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard())).start();
