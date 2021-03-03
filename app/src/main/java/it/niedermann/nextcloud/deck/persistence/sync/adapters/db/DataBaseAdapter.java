@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import androidx.annotation.AnyThread;
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
@@ -1440,5 +1441,10 @@ public class DataBaseAdapter {
         SingleCardWidget.notifyDatasetChanged(context);
         /// FIXME StackWidget.notifyDatasetChanged(context);
 //        UpcomingWidget.notifyDatasetChanged(context);
+    }
+
+    @ColorInt
+    public Integer getBoardColorDirectly(long accountId, long localBoardId) {
+        return db.getBoardDao().getBoardColorByLocalIdDirectly(accountId, localBoardId);
     }
 }

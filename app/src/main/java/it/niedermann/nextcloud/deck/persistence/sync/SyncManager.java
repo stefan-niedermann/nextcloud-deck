@@ -2060,4 +2060,15 @@ public class SyncManager {
     public static boolean ignoreExceptionOnVoidError(Throwable t) {
         return t instanceof NullPointerException && "Attempt to invoke interface method 'void io.reactivex.disposables.Disposable.dispose()' on a null object reference".equals(t.getMessage());
     }
+
+    @WorkerThread
+    public Stack getStackDirectly(long stackLocalId) {
+        return dataBaseAdapter.getStackByLocalIdDirectly(stackLocalId);
+    }
+
+    @ColorInt
+    @WorkerThread
+    public Integer getBoardColorDirectly(long accountId, long localBoardId) {
+        return dataBaseAdapter.getBoardColorDirectly(accountId, localBoardId);
+    }
 }
