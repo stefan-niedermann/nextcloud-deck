@@ -146,6 +146,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
             binding.descriptionToggle.setOnClickListener((v) -> {
                 editorActive = !editorActive;
                 if (editorActive) {
+                    binding.descriptionEditor.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
                     binding.descriptionBar.setOnClickListener((view) -> binding.descriptionEditor.requestFocus());
                     binding.descriptionEditor.setVisibility(VISIBLE);
                     binding.descriptionViewer.setVisibility(GONE);
