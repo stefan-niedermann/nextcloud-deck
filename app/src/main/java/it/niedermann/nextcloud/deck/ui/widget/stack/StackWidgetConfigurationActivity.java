@@ -66,10 +66,10 @@ public class StackWidgetConfigurationActivity extends PickStackActivity {
                         .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
                 setResult(RESULT_OK, updateIntent);
                 getApplicationContext().sendBroadcast(updateIntent);
+
+                finish();
             }
         });
-
-        finish();
     }
 
     @Override
