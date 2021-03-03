@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="@dimen/widget_stack_card_padding"
-    android:background="@color/primary">
+    android:background="@drawable/widget_stack_entry_background">
 
         <TextView
             android:id="@+id/widget_entry_content_tv"
