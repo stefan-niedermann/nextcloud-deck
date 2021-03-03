@@ -192,7 +192,6 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
                     .putExtra(Intent.EXTRA_TITLE, fullCard.getCard().getTitle())
                     .putExtra(Intent.EXTRA_TEXT, account.getUrl() + context.getString(shareLinkRes, mainViewModel.getCurrentBoardRemoteId(), fullCard.getCard().getId()));
             context.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
-            new Thread(() -> mainViewModel.assignUserToCard(mainViewModel.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard())).start();
             return true;
         } else if (itemId == R.id.share_content) {
             final Intent shareIntent = new Intent()
