@@ -48,8 +48,8 @@ public class CardUtilTest {
         final Instant testDate = LocalDateTime.of(2011, 10, 6, 6, 30, 50, 100000).toInstant(ZoneOffset.UTC);
         card.setDueDate(testDate);
 
-//        assertEquals("Bar\n" +
-//                "Due date: Oct 6, 2011 8:30:50 AM", CardUtil.getCardContentAsString(appContext, fullCard));
+        assertTrue(CardUtil.getCardContentAsString(appContext, fullCard).startsWith("Bar\n" +
+                "Due date:"));
 
         card.setDueDate(null);
         final Label testLabel1 = new Label();
@@ -68,9 +68,10 @@ public class CardUtilTest {
 
         card.setDueDate(testDate);
 
-//        assertEquals("Bar\n" +
-//                "Due date: Oct 6, 2011 8:30:50 AM\n" +
-//                "Labels: Baz, Pow", CardUtil.getCardContentAsString(appContext, fullCard));
+        assertTrue(CardUtil.getCardContentAsString(appContext, fullCard).startsWith("Bar\n" +
+                "Due date:"));
+        assertTrue(CardUtil.getCardContentAsString(appContext, fullCard).endsWith("\n" +
+                "Labels: Baz, Pow"));
     }
 
     @Test
