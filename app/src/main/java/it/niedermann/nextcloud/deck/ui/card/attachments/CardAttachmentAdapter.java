@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui.card.attachments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -103,7 +102,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
                 onClickListener = (event) -> {
                     attachmentClickedListener.onAttachmentClicked(position);
                     final Intent intent = AttachmentsActivity.createIntent(context, account, cardLocalId, attachment.getLocalId());
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && context instanceof Activity) {
+                    if (context instanceof Activity) {
                         String transitionName = context.getString(R.string.transition_attachment_preview, String.valueOf(attachment.getLocalId()));
                         holder.getPreview().setTransitionName(transitionName);
                         context.startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, holder.getPreview(), transitionName).toBundle());

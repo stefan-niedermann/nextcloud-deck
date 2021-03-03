@@ -1,8 +1,11 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import android.annotation.SuppressLint;
+
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
@@ -17,9 +20,42 @@ public class CardPropagationDataProvider extends CardDataProvider {
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullCard> responder, FullCard entity) {
-        Card card = entity.getCard();
-        card.setStackId(stack.getId());
-        serverAdapter.createCard(board.getId(), stack.getId(), card, responder);
+        // make sure, all ancestors are synced properly
+        if (board.getId() == null) {
+            serverAdapter.createBoard(board, new IResponseCallback<FullBoard>(responder.getAccount()) {
+                @Override
+                public void onResponse(FullBoard response) {
+                    board.setId(response.getId());
+                    board.setEtag(response.getEtag());
+                    createOnServer(serverAdapter, dataBaseAdapter, accountId, responder, entity);
+                }
+
+                @SuppressLint("MissingSuperCall")
+                @Override
+                public void onError(Throwable throwable) {
+                    responder.onError(throwable);
+                }
+            });
+        } else  if (stack.getId() == null) {
+            serverAdapter.createStack(board, stack.getStack(), new IResponseCallback<FullStack>(responder.getAccount()) {
+                @Override
+                public void onResponse(FullStack response) {
+                    stack.setId(response.getId());
+                    stack.setEtag(response.getEtag());
+                    createOnServer(serverAdapter, dataBaseAdapter, accountId, responder, entity);
+                }
+
+                @SuppressLint("MissingSuperCall")
+                @Override
+                public void onError(Throwable throwable) {
+                    responder.onError(throwable);
+                }
+            });
+        } else {
+            Card card = entity.getCard();
+            card.setStackId(stack.getId());
+            serverAdapter.createCard(board.getId(), stack.getId(), card, responder);
+        }
     }
 
 

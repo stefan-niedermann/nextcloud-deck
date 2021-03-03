@@ -1,0 +1,1 @@
+- 👤 Comments tab: Instead of comments icon next to input box, show person’s avatar (#843)

@@ -11,7 +11,6 @@ import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.NetworkRequest;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -22,7 +21,6 @@ import android.widget.PopupMenu;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -216,21 +214,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     mainViewModel.setCurrentAccount(account);
                     if (!firstAccountAdded) {
                         DeckLog.info("Syncing the current account on app start");
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            registerAutoSyncOnNetworkAvailable();
-                        } else {
-                            mainViewModel.synchronize(new IResponseCallback<Boolean>(mainViewModel.getCurrentAccount()) {
-                                @Override
-                                public void onResponse(Boolean response) {
-                                }
-
-                                @Override
-                                public void onError(Throwable throwable) {
-                                    super.onError(throwable);
-                                    showSyncFailedSnackbar(throwable);
-                                }
-                            });
-                        }
+                        registerAutoSyncOnNetworkAvailable();
                         firstAccountAdded = false;
                     }
                     break;
@@ -878,7 +862,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void registerAutoSyncOnNetworkAvailable() {
         final ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkRequest.Builder builder = new NetworkRequest.Builder();

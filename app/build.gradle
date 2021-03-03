@@ -5,10 +5,10 @@ android {
     buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "it.niedermann.nextcloud.deck"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1014005
-        versionName "1.14.5"
+        versionCode 1014006
+        versionName "1.14.6"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -63,13 +63,13 @@ dependencies {
     // TabLayoutHelper
     implementation project(path: ':tab-layout-helper')
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
     // Android X
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.camera:camera-camera2:1.1.0-alpha01'
-    implementation 'androidx.camera:camera-lifecycle:1.1.0-alpha01'
-    implementation 'androidx.camera:camera-view:1.0.0-alpha21'
+    implementation 'androidx.camera:camera-camera2:1.1.0-alpha02'
+    implementation 'androidx.camera:camera-lifecycle:1.1.0-alpha02'
+    implementation 'androidx.camera:camera-view:1.0.0-alpha22'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.preference:preference:1.1.1'
@@ -110,12 +110,12 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.6.4'
 
     // ReactiveX
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.20'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
 
     // Tests
-    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.robolectric:robolectric:4.5.1'
-    testImplementation 'org.mockito:mockito-core:3.7.7'
+    testImplementation 'org.mockito:mockito-core:3.8.0'
     def powermockVersion = "2.0.9"
     testImplementation "org.powermock:powermock-core:$powermockVersion"
     testImplementation "org.powermock:powermock-module-junit4:$powermockVersion"

@@ -120,6 +120,8 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Ajoutez une nouvelle liste avec le bouton +</string>
     <string name="add_a_new_card_using_the_button">Ajouter une nouvelle carte en utilisant le bouton +.</string>
+    <string name="update_deck">Mettre à jour l\'application Web Deck</string>
+    <string name="deck_outdated_please_update">Votre version de l\'application Deck est trop ancienne (%1$s). Veuillez la mettre à jour afin de pouvoir utiliser cette application Android en tant que client.</string>
     <string name="delete_board_message">Cette action supprimera définitivement ce tableau, y compris la totalité de ses listes et de ses cartes.</string>
     <string name="settings_theme_title">Thème</string>
     <string name="settings_branding_title">Thème du serveur</string>

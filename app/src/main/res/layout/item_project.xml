@@ -16,7 +16,7 @@
         android:focusable="false"
         android:scaleType="center"
         android:layout_marginEnd="@dimen/spacer_2x"
-        app:srcCompat="@drawable/ic_projects_24" />
+        app:srcCompat="@drawable/ic_projects_16" />
 
     <LinearLayout
         android:layout_width="0dp"

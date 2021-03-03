@@ -2,6 +2,8 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
 import android.annotation.SuppressLint;
 
+import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,6 +31,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
 public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 
+    private static final String ALREADY_ARCHIVED_INDICATOR = "Operation not allowed. This card is archived.";
     protected Board board;
     protected FullStack stack;
 
@@ -167,7 +170,27 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
         CardUpdate update = toCardUpdate(entity);
         update.setStackId(stack.getId());
-        serverAdapter.updateCard(board.getId(), stack.getId(), update, callback);
+        // https://github.com/stefan-niedermann/nextcloud-deck/issues/787 resolve archiving-conflict
+        serverAdapter.updateCard(board.getId(), stack.getId(), update, new IResponseCallback<FullCard>(callback.getAccount()) {
+            @Override
+            public void onResponse(FullCard response) {
+                callback.onResponse(response);
+            }
+
+            @SuppressLint("MissingSuperCall")
+            @Override
+            public void onError(Throwable throwable) {
+                if (throwable.getClass() == NextcloudHttpRequestFailedException.class &&
+                        throwable.getCause() != null &&
+                        throwable.getCause().getClass() == IllegalStateException.class &&
+                        throwable.getCause().getMessage() != null &&
+                        throwable.getCause().getMessage().contains(ALREADY_ARCHIVED_INDICATOR)) {
+                    callback.onResponse(entity);
+                } else {
+                    callback.onError(throwable);
+                }
+            }
+        });
     }
 
     @Override
@@ -205,6 +228,10 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         Account account = callback.getAccount();
         for (JoinCardWithLabel changedLabelLocal : changedLabels) {
             Card card = dataBaseAdapter.getCardByLocalIdDirectly(account.getId(), changedLabelLocal.getCardId());
+            if (card == null) {
+                // https://github.com/stefan-niedermann/nextcloud-deck/issues/683#issuecomment-759116820
+                continue;
+            }
             if (this.stack == null) {
                 stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
             } else {

@@ -24,8 +24,6 @@ import java.time.LocalDate;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -79,10 +77,6 @@ public final class ViewUtil {
     }
 
     public static void setImageColor(@NonNull Context context, @NonNull ImageView imageView, @ColorRes int colorRes) {
-        if (SDK_INT >= LOLLIPOP) {
-            imageView.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(context, colorRes)));
-        } else {
-            imageView.setColorFilter(ContextCompat.getColor(context, colorRes));
-        }
+        imageView.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(context, colorRes)));
     }
 }
