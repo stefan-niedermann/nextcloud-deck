@@ -52,10 +52,12 @@ public class StackWidgetConfigurationActivity extends PickStackActivity {
     @Override
     protected void onSubmit(Account account, long boardId, long stackId) {
         final FilterWidget config = new FilterWidget(appWidgetId, EWidgetType.STACK_WIDGET);
-        final FilterWidgetAccount filterWidgetAccount = new FilterWidgetAccount(account.getId(), true);
+        final FilterWidgetAccount filterWidgetAccount = new FilterWidgetAccount(account.getId(), false);
+        filterWidgetAccount.setIncludeNoProject(false);
+        FilterWidgetBoard filterWidgetBoard = new FilterWidgetBoard(boardId, Collections.singletonList(new FilterWidgetStack(stackId)));
+        filterWidgetBoard.setIncludeNoLabel(false);
         filterWidgetAccount.setBoards(
-                Collections.singletonList(new FilterWidgetBoard(boardId,
-                        Collections.singletonList(new FilterWidgetStack(stackId)))));
+                Collections.singletonList(filterWidgetBoard));
         config.setAccounts(Collections.singletonList(filterWidgetAccount));
         stackWidgetConfigurationViewModel.addStackWidget(config, new IResponseCallback<Integer>(account) {
 
