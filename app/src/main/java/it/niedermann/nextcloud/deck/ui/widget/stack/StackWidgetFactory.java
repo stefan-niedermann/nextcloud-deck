@@ -10,6 +10,8 @@ import android.widget.RemoteViewsService;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -45,6 +47,7 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
             final List<FilterWidgetCard> response = syncManager.getCardsForFilterWidget(appWidgetId);
             DeckLog.verbose(StackWidget.class.getSimpleName() + " with id " + appWidgetId + " fetched " + response.size() + " cards from the database.");
             data.clear();
+            Collections.sort(response, Comparator.comparingLong(value -> value.getCard().getCard().getOrder()));
             data.addAll(response);
         } catch (NoSuchElementException e) {
             DeckLog.error("No " + StackWidget.class.getSimpleName() + " for appWidgetId " + appWidgetId + " found.");
