@@ -51,6 +51,10 @@ public class CardUtil {
         return text;
     }
 
+    public static boolean cardHasCommentsOrAttachments(@NonNull FullCard fullCard) {
+        return fullCard.getCommentCount() > 0 || (fullCard.getAttachments() != null && !fullCard.getAttachments().isEmpty());
+    }
+
     @NonNull
     public static String generateTitleFromDescription(@Nullable String description) {
         if(description == null) return "";

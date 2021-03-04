@@ -210,7 +210,9 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
             return true;
         } else if (itemId == R.id.action_card_move) {
             DeckLog.verbose("[Move card] Launch move dialog for " + Card.class.getSimpleName() + " \"" + fullCard.getCard().getTitle() + "\" (#" + fullCard.getLocalId() + ") from " + Stack.class.getSimpleName() + " #" + +stackId);
-            MoveCardDialogFragment.newInstance(fullCard.getAccountId(), mainViewModel.getCurrentBoardLocalId(), fullCard.getCard().getTitle(), fullCard.getLocalId()).show(fragmentManager, MoveCardDialogFragment.class.getSimpleName());
+            MoveCardDialogFragment
+                    .newInstance(fullCard.getAccountId(), mainViewModel.getCurrentBoardLocalId(), fullCard.getCard().getTitle(), fullCard.getLocalId(), CardUtil.cardHasCommentsOrAttachments(fullCard))
+                    .show(fragmentManager, MoveCardDialogFragment.class.getSimpleName());
             return true;
         } else if (itemId == R.id.action_card_archive) {
             final WrappedLiveData<FullCard> archiveLiveData = mainViewModel.archiveCard(fullCard);
