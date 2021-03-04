@@ -5,10 +5,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="drawer_header_background">Background image of drawer header</string>
-    <string name="drawer_current_account">Current account</string>
-    <string name="drawer_middle_account">Middle account</string>
-    <string name="drawer_end_account">Last account</string>
-    <string name="drawer_manage_accounts">Manage accounts</string>
 
     <string name="simple_boards">Boards</string>
     <string name="simple_add">Add</string>
