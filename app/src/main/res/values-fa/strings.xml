@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">کشو ناوبری را باز کنید</string>
     <string name="navigation_drawer_close">بستن کشو ناوبری</string>
 
-    <string name="drawer_header_background">تصویر پس زمینه منو</string>
-    <string name="drawer_current_account">حساب جاری</string>
-    <string name="drawer_middle_account">حساب میانه</string>
-    <string name="drawer_end_account">آخرین حساب</string>
-    <string name="drawer_manage_accounts">مدیریت حساب ها </string>
-
     <string name="simple_boards">تخته ها</string>
     <string name="simple_add">افزودن</string>
     <string name="simple_save">ذخیره</string>
@@ -136,11 +130,9 @@
     <string name="hours_6">۶ ساعت</string>
     <string name="action_card_move">انتقال کارت</string>
     <string name="action_card_move_title">حرکت%1$s</string>
-    <string name="please_add_an_account_first">لطفاً ابتدا یک حساب اضافه کنید</string>
     <string name="title_is_mandatory">عنوان اجباری است</string>
     <string name="provide_at_least_a_title_or_description">حداقل عنوان یا توصیفی ارائه دهید</string>
     <string name="welcome_text">به %1$s خوش آمدید</string>
-    <string name="save_card_before_attachment">قبل از افزودن پیوستها ، کارت باید ذخیره شود.</string>
     <string name="maintenance_mode_explanation">سرور %1$s در حال حاضر در حالت تعمیر و نگهداری است. لطفاً با مدیریت تماس بگیرید یا بعداً دوباره امتحان کنید.</string>
     <string name="share_add_to_card">افزودن به کارت</string>
     <string name="share_success">با موفقیت %1$s به %2$s اضافه شد</string>
@@ -190,9 +182,7 @@
     <string name="error_revoking_ac">هنگام لغو دسترسی %1$s خطایی رخ داد</string>
     <string name="error_create_label">هنگام ایجاد برچسب %1$s خطایی رخ داد</string>
     <string name="maintenance_mode">سرور در حالت تعمیر و نگهداری</string>
-    <string name="server_misconfigured">خطای تنظیمات سرور</string>
     <string name="server_error">خطای سرور</string>
-    <string name="shared_error">به اشتراک گذاری محتوا از برنامه های شخص ثالث هنوز به طور کامل پشتیبانی نمی شود. لطفاً ابتدا سعی کنید آن را بارگیری کنید و سپس آن را از مدیر پرونده یا گالری بومی خود به اشتراک بگذارید.</string>
     <string name="error_edit_activity_killed_by_android">Android حالت ویرایش را به پایان رساند زیرا به منابع سیستم بیشتری برای برنامه های دیگر نیاز داشت.</string>
 
     <string name="error_dialog_title">اوه نه - حالا چی؟ 🙁</string>
@@ -230,7 +220,6 @@
     <string name="manage_accounts">حساب ها را مدیریت کنید</string>
     <string name="manage_list">مدیریت لیست</string>
     <string name="simple_reply">پاسخ</string>
-    <string name="error_while_uploading_attachment">خطا هنگام بارگذاری پیوست:%1$s</string>
     <string name="append_text_to_description">به شرح اضافه کنید</string>
     <string name="add_text_as_comment">به نظرات اضافه کنید</string>
     <string name="progress_count">%1$d از %2$d</string>
@@ -262,7 +251,6 @@
     <string name="simple_contact">مخاطب</string>
     <string name="simple_file">فایل</string>
     <string name="simple_camera">دوربین</string>
-    <string name="min_api_21">این ویژگی حداقل به اندروید 5 نیاز دارد</string>
     <string name="take_photo">عکس گرفتن</string>
     <string name="take_photo_switch_camera">دوربین را عوض کنید</string>
     <string name="take_photo_toggle_torch">تغییر مشعل</string>

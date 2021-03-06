@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Ireki nabigatzeko menu lerrakorra</string>
     <string name="navigation_drawer_close">Itxi nabigatzeko menu lerrakorra</string>
 
-    <string name="drawer_header_background">Goiburuko kutxaren atzeko planoaren irudia</string>
-    <string name="drawer_current_account">Uneko kontua</string>
-    <string name="drawer_middle_account">Tarteko kontua</string>
-    <string name="drawer_end_account">Azken kontua</string>
-    <string name="drawer_manage_accounts">Kudeatu kontuak</string>
-
     <string name="simple_boards">Mahaiak</string>
     <string name="simple_add">Gehitu</string>
     <string name="simple_save">Gorde</string>
@@ -149,11 +143,9 @@
     <string name="hours_6">6 ordu</string>
     <string name="action_card_move">Mugitu txartela</string>
     <string name="action_card_move_title">Mugitu %1$s</string>
-    <string name="please_add_an_account_first">Gehitu kontu bat lehenengo</string>
     <string name="title_is_mandatory">Izenburua jartzea nahitaezkoa da</string>
     <string name="provide_at_least_a_title_or_description">Jarri gutxienez izenburu edo deskribapen bat</string>
     <string name="welcome_text">Ongi etorri %1$s(e)ra</string>
-    <string name="save_card_before_attachment">Txartela gorde egin behar da eranskinak gehitu aurretik.</string>
     <string name="maintenance_mode_explanation">%1$s zerbitzaria mantentze moduan dago. Mesedez jarri harremanetan zure administratzailearekin edo saiatu berriro.</string>
     <string name="share_add_to_card">Gehitu txartelera</string>
     <string name="share_success">%1$s ondo gehitu da %2$s -ra</string>
@@ -206,9 +198,7 @@
     <string name="error_revoking_ac">Errorea sarrera %1$s(r)entzako baliogabetzen</string>
     <string name="error_create_label">Errorea %1$s etiketa sortzen</string>
     <string name="maintenance_mode">Zerbitzaria mantentze-lanen moduan</string>
-    <string name="server_misconfigured">Zerbitzaria gaizki konfiguratuta</string>
     <string name="server_error">Zerbitzari akatsa</string>
-    <string name="shared_error">Hirugarrenen aplikazioetatik edukiak partekatzea ez da guztiz onartzen oraingoz. Saiatu lehenengo deskargatzen eta gero zure fitxategi kudeatzailetik edo galeriatik partekatzen.</string>
     <string name="error_edit_activity_killed_by_android">Androidek edizio modua eten du sistemako baliabide gehiago behar dituelako beste aplikazio batzuentzat.</string>
 
     <string name="error_dialog_title">Oh ez - Orain zer? 🙁</string>
@@ -246,7 +236,6 @@
     <string name="manage_accounts">Kudeatu kontuak</string>
     <string name="manage_list">Kudeatu zerrenda</string>
     <string name="simple_reply">Erantzun</string>
-    <string name="error_while_uploading_attachment">Errorea eranskin hau igotzean: %1$s</string>
     <string name="append_text_to_description">Erantsi deskripzioari</string>
     <string name="add_text_as_comment">Gehitu iruzkin gisa</string>
     <string name="progress_count">%2$dtik%1$d</string>
@@ -288,7 +277,6 @@
     <string name="simple_contact">Kontaktua</string>
     <string name="simple_file">Fitxategia</string>
     <string name="simple_camera">Kamera</string>
-    <string name="min_api_21">Eginbide honek gutxienez Android 5 behar du</string>
     <string name="take_photo">Argazkia atera</string>
     <string name="take_photo_switch_camera">Aldatu kamera</string>
     <string name="take_photo_toggle_torch">Txandakatu linterna</string>

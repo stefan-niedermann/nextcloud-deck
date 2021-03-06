@@ -4,12 +4,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="drawer_header_background">Background image of drawer header</string>
-    <string name="drawer_current_account">Current account</string>
-    <string name="drawer_middle_account">Middle account</string>
-    <string name="drawer_end_account">Last account</string>
-    <string name="drawer_manage_accounts">Manage accounts</string>
-
     <string name="simple_boards">Boards</string>
     <string name="simple_add">Add</string>
     <string name="simple_save">Save</string>
@@ -173,11 +167,9 @@
     <string name="hours_6">6 Hours</string>
     <string name="action_card_move">Move card</string>
     <string name="action_card_move_title">Move %1$s</string>
-    <string name="please_add_an_account_first">Please add an account first</string>
     <string name="title_is_mandatory">Title is mandatory</string>
     <string name="provide_at_least_a_title_or_description">Provide at least a title or description</string>
     <string name="welcome_text">Welcome to %1$s</string>
-    <string name="save_card_before_attachment">The card needs to be saved before attachments can be added.</string>
     <string name="maintenance_mode_explanation">The server %1$s is currently in maintenance mode. Please contact your administrator or try later again.</string>
     <string name="share_add_to_card">Add to card</string>
     <string name="share_success">Successfully added %1$s to %2$s</string>
@@ -230,9 +222,7 @@
     <string name="error_revoking_ac">Error while revoking the access for %1$s</string>
     <string name="error_create_label">Error while creating label %1$s</string>
     <string name="maintenance_mode">Server in maintenance mode</string>
-    <string name="server_misconfigured">Server misconfigured</string>
     <string name="server_error">Server error</string>
-    <string name="shared_error">Sharing content from 3rd-party apps is not yet fully supported. Please try to download it first and then share it from you native file manager or gallery.</string>
     <string name="error_edit_activity_killed_by_android">Android finished the edit mode because it needed more system resources for other apps.</string>
 
     <string name="error_dialog_title">Oh no - What now? 🙁</string>
@@ -267,13 +257,12 @@
     <string name="share_link">Share link</string>
     <string name="share_content">Share content</string>
     <string name="share_content_duedate">Due date: %1$s</string>
-    <string name="share_content_labels">Labels: %1$s</string>
+    <string name="share_content_labels">Tags: %1$s</string>
     <string name="archive_cards">Archive cards</string>
 
     <string name="manage_accounts">Manage accounts</string>
     <string name="manage_list">Manage list</string>
     <string name="simple_reply">Reply</string>
-    <string name="error_while_uploading_attachment">Error while uploading attachment: %1$s</string>
     <string name="append_text_to_description">Append to description</string>
     <string name="add_text_as_comment">Add as comment</string>
     <string name="progress_count">%1$d of %2$d</string>
@@ -315,7 +304,6 @@
     <string name="simple_contact">Contact</string>
     <string name="simple_file">File</string>
     <string name="simple_camera">Camera</string>
-    <string name="min_api_21">This feature requires at least Android 5</string>
     <string name="take_photo">Take a photo</string>
     <string name="take_photo_switch_camera">Switch camera</string>
     <string name="take_photo_toggle_torch">Toggle torch</string>

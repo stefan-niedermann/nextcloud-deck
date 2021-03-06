@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Collections;
 
+import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -72,6 +73,25 @@ public class CardUtilTest {
                 "Due date:"));
         assertTrue(CardUtil.getCardContentAsString(appContext, fullCard).endsWith("\n" +
                 "Labels: Baz, Pow"));
+    }
+
+    @Test
+    public void testCardHasCommentsOrAttachments() {
+        final FullCard fullCard = new FullCard();
+
+        assertFalse(CardUtil.cardHasCommentsOrAttachments(fullCard));
+
+        fullCard.setCommentIDs(Collections.singletonList(1L));
+        assertTrue(CardUtil.cardHasCommentsOrAttachments(fullCard));
+
+        fullCard.setCommentIDs(null);
+        assertFalse(CardUtil.cardHasCommentsOrAttachments(fullCard));
+
+        fullCard.setAttachments(Collections.singletonList(new Attachment()));
+        assertTrue(CardUtil.cardHasCommentsOrAttachments(fullCard));
+
+        fullCard.setCommentIDs(Collections.singletonList(1L));
+        assertTrue(CardUtil.cardHasCommentsOrAttachments(fullCard));
     }
 
     @Test

@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">開啟導覽列</string>
     <string name="navigation_drawer_close">關閉導覽列</string>
 
-    <string name="drawer_header_background">側滑選單背景圖片</string>
-    <string name="drawer_current_account">目前帳戶</string>
-    <string name="drawer_middle_account">中間帳戶</string>
-    <string name="drawer_end_account">最後帳戶</string>
-    <string name="drawer_manage_accounts">帳戶管理</string>
-
     <string name="simple_boards">面板</string>
     <string name="simple_add">新增</string>
     <string name="simple_save">儲存</string>
@@ -78,8 +72,8 @@
     <string name="card_not_found">找不到 card</string>
     <string name="card_not_found_message">找不到 card。或許它已經被刪除了？</string>
 
-    <string name="add_account">新增帳戶</string>
-    <string name="choose_account">選擇帳戶</string>
+    <string name="add_account">新增賬戶</string>
+    <string name="choose_account">選擇賬戶</string>
     <string name="add_card">增加新的卡片</string>
     <string name="activity">活動</string>
     <string name="add_list">新增清單</string>
@@ -102,9 +96,9 @@
     <string name="no_files_attached_to_this_card">沒有附加至此卡片的檔案。</string>
     <string name="attachments">附件</string>
     <string name="no_cards">尚無卡片</string>
-    <string name="no_account">沒有已設定的帳戶</string>
-    <string name="account_already_added">已加入帳戶</string>
-    <string name="account_is_getting_imported">已匯入帳戶</string>
+    <string name="no_account">沒有已設定的賬戶</string>
+    <string name="account_already_added">已加入賬戶</string>
+    <string name="account_is_getting_imported">已匯入賬戶</string>
     <string name="not_synced_yet">尚未同步完成</string>
     <string name="no_lists_yet">尚無清單</string>
     <string name="do_you_want_to_save_your_changes">您想要儲存您做出的變更嗎？</string>
@@ -135,7 +129,7 @@
     <string name="no_activities">此卡片沒有活動。您需要連線至網際網路，才能載入並顯示活動。</string>
     <string name="share_board">分享佈告欄</string>
     <string name="you_are_currently_offline">目前離線中</string>
-    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">您必須連線到互聯網才能新增帳戶。</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">您必須連線到互聯網才能新增賬戶。</string>
     <string name="owner">擁有者</string>
     <string name="attachment_delete_message">這會永久刪除此附件。</string>
     <string name="no_content">目前還沒有內容</string>
@@ -146,11 +140,9 @@
     <string name="hours_6">6 小時</string>
     <string name="action_card_move">移動卡片</string>
     <string name="action_card_move_title">移動 %1$s</string>
-    <string name="please_add_an_account_first">請先增加一個帳戶</string>
     <string name="title_is_mandatory">必須有標題</string>
     <string name="provide_at_least_a_title_or_description">提供至少一個標題或描述</string>
     <string name="welcome_text">歡迎來到 %1$s</string>
-    <string name="save_card_before_attachment">必須先保存卡片，然後才能添加附件。</string>
     <string name="maintenance_mode_explanation">伺服器 %1$s 當前處於維護模式。 請與您的管理員聯繫或再試一次。</string>
     <string name="share_add_to_card">加到 card</string>
     <string name="share_success">成功新增 %1$s 至 %2$s</string>
@@ -191,7 +183,7 @@
     <string name="tag_successfully_added">%1$s 成功新增</string>
     <string name="edit_tag">編輯 %1$s</string>
     <string name="filter_tags_title">標籤</string>
-    <string name="filter_user_title">使用者</string>
+    <string name="filter_user_title">用戶</string>
     <string name="filter_duedate_title">截止日</string>
 
     <string name="action_board_dearchive">撤消面板封存</string>
@@ -203,9 +195,7 @@
     <string name="error_revoking_ac">撤銷 %1$s 的存取產生錯誤</string>
     <string name="error_create_label">建立標籤 %1$s 產生錯誤</string>
     <string name="maintenance_mode">伺服器正處於維護模式</string>
-    <string name="server_misconfigured">伺服器配置錯誤</string>
     <string name="server_error">伺服器錯誤</string>
-    <string name="shared_error">尚不完全支持共享來自第三方應用程式的內容。 請嘗試先下載它，然後從您的本機文件管理器或庫中分享它。</string>
     <string name="error_edit_activity_killed_by_android">Android 完成了編輯模式，因為它需要更多的系統資源來服務其他應用程式。</string>
 
     <string name="error_dialog_title">喔不 - 現在怎麼辦？🙁</string>
@@ -215,12 +205,15 @@
     <string name="error_dialog_tip_files_outdated">您的Nextcloud應用似乎已過時。請訪問 Play Store 或 F-Droid 以獲取最新版本。</string>
     <string name="error_dialog_tip_files_force_stop">您的 Nextcloud 應用程式似乎有問題。請嘗試強制停止 Nextcloud 應用程式和 Nextcloud Deck 應用程式。</string>
     <string name="error_dialog_tip_files_delete_storage">如果強行停止它們沒有幫助，則可以嘗試清除兩個應用程式的存儲。</string>
+    <string name="error_dialog_timeout_toggle">檢查您的網絡連接。 有時候，切換流動數據或Wi-Fi可能會有所幫助。</string>
+    <string name="error_dialog_check_server">您伺服器的回應不正確。請檢查您是否可以通過 web 界面存取看板應用程式。</string>
     <string name="error_dialog_check_server_logs">您的Nextcloud設置存在問題。 請查看伺服器記錄檔案。</string>
     <string name="error_dialog_check_maintenance">請檢查您的 Nextcloud 當前是否在維護模式。</string>
     <string name="error_dialog_insufficient_storage">您的 Nextcloud 沒有剩餘可用的存儲空間。請刪除一些檔案，以將近端更改同步到雲中。</string>
     <string name="error_dialog_we_need_info">我們需要以下的技術資訊來幫助您：</string>
+    <string name="error_dialog_redirect">您的伺服器以 HTTP 302 狀態代碼回應，這表示您尚未在伺服器上安裝 Deck 應用程式或配置錯誤。這可能是由於 .htaccess 檔案中的自定義替換或 Nextcloud 應用程式（如OID客戶端）引起的。</string>
     <string name="error_dialog_version_not_parsable">我們無法確定伺服器端 Deck 應用程式的版本。 請確保已安裝並啟用它。</string>
-    <string name="error_dialog_account_might_not_be_authorized">您的Nextcloud應用程序帳戶可能不再被授權。</string>
+    <string name="error_dialog_account_might_not_be_authorized">您的Nextcloud應用程序賬戶可能不再被授權。</string>
     <string name="error_action_open_deck_info">開啟 App 資訊</string>
     <string name="error_action_open_network">網路設定</string>
     <string name="error_action_server_logs">伺服器記錄</string>
@@ -229,12 +222,14 @@
     <string name="info_box_maintenance_mode">伺服器正處於維護模式</string>
     <string name="info_box_version_not_supported">不支援伺服器版本 %1$s，請升級到 %2$s</string>
     <string name="share_link">分享連結</string>
+    <string name="share_content">分享內容</string>
+    <string name="share_content_duedate">到期日：%1$s</string>
+    <string name="share_content_labels">標籤：%1$s</string>
     <string name="archive_cards">封存卡片</string>
 
-    <string name="manage_accounts">帳戶管理</string>
+    <string name="manage_accounts">賬戶管理</string>
     <string name="manage_list">管理清單</string>
     <string name="simple_reply">回覆</string>
-    <string name="error_while_uploading_attachment">上傳附件 %1$s 時發生錯誤</string>
     <string name="append_text_to_description">附加到描述</string>
     <string name="add_text_as_comment">新增為留言</string>
     <string name="progress_count">%1$d 之 %2$d</string>
@@ -273,7 +268,6 @@
     <string name="simple_contact">聯絡人</string>
     <string name="simple_file">檔案</string>
     <string name="simple_camera">相機</string>
-    <string name="min_api_21">此功能需要Android 5或更高版本</string>
     <string name="take_photo">拍照</string>
     <string name="take_photo_switch_camera">切換相機</string>
     <string name="show_all_contacts">顯示所有聯絡人</string>

@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Obre el calaix de navegació</string>
     <string name="navigation_drawer_close">Tanca el calaix de navegació</string>
 
-    <string name="drawer_header_background">Imatge de fons de la capçalera del calaix</string>
-    <string name="drawer_current_account">Compte actual</string>
-    <string name="drawer_middle_account">Compte mitjà</string>
-    <string name="drawer_end_account">Darrer compte</string>
-    <string name="drawer_manage_accounts">Gestiona els comptes</string>
-
     <string name="simple_boards">Taulells</string>
     <string name="simple_add">Afegeix</string>
     <string name="simple_save">Desa</string>
@@ -149,11 +143,9 @@
     <string name="hours_6">6 hores</string>
     <string name="action_card_move">Mou la targeta</string>
     <string name="action_card_move_title">Mou %1$s</string>
-    <string name="please_add_an_account_first">Si us plau, afegiu primer un compte.</string>
     <string name="title_is_mandatory">El títol és obligatori</string>
     <string name="provide_at_least_a_title_or_description">Poseu-hi almenys un títol o descripció</string>
     <string name="welcome_text">Benvingut a %1$s</string>
-    <string name="save_card_before_attachment">S\'ha de desar la targeta abans de poder afegir-hi adjuncions.</string>
     <string name="maintenance_mode_explanation">El servidor %1$s és actualment en mode de manteniment. Si us plau, contacteu el vostre administrador o proveu de nou més tard.</string>
     <string name="share_add_to_card">Afegeix a la targeta</string>
     <string name="share_success">S\'ha afegit amb èxit %1$s a %2$s</string>
@@ -206,9 +198,7 @@
     <string name="error_revoking_ac">S\'ha produït un error revocant l\'accés per a %1$s</string>
     <string name="error_create_label">S\'ha produït un error quan es creava l\'etiqueta %1$s</string>
     <string name="maintenance_mode">Servidor en mode de manteniment</string>
-    <string name="server_misconfigured">El servidor no està ben configurat</string>
     <string name="server_error">Error del servidor</string>
-    <string name="shared_error">La compartició de contingut de terceres parts encara no està plenament suportada. Si us plau, intenteu baixar-vos-el primer i després compartiu-lo amb el vostre gestor de fitxers nadiu o la galeria.</string>
     <string name="error_edit_activity_killed_by_android">L\'Android ha tancat el mode d\'edició perquè necessitava més recursos del sistema per a altres aplicacions.</string>
 
     <string name="error_dialog_title">Oh no! - I ara què? 🙁</string>
@@ -246,7 +236,6 @@
     <string name="manage_accounts">Gestiona els comptes</string>
     <string name="manage_list">Gestiona la llista</string>
     <string name="simple_reply">Respon</string>
-    <string name="error_while_uploading_attachment">S\'ha produït un error en penjar el fitxer adjunt: %1$s</string>
     <string name="append_text_to_description">Apunteu a la descripció</string>
     <string name="add_text_as_comment">Afegir com a comentari</string>
     <string name="progress_count">%1$d de %2$d</string>
@@ -288,7 +277,6 @@
     <string name="simple_contact">Contacte</string>
     <string name="simple_file">Fitxer</string>
     <string name="simple_camera">Càmera</string>
-    <string name="min_api_21">Aquesta característica requereix com a mínim Android 5</string>
     <string name="take_photo">Prendre una fotografia</string>
     <string name="take_photo_switch_camera">Canviar la càmera</string>
     <string name="take_photo_toggle_torch">Commuta la llanterna</string>

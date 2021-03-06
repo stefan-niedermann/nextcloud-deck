@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Åpne navigasjonsskuff</string>
     <string name="navigation_drawer_close">Lukk navigasjonsskuff</string>
 
-    <string name="drawer_header_background">Bakgrunsbilde for innledning på meny</string>
-    <string name="drawer_current_account">Nåværende konto</string>
-    <string name="drawer_middle_account">Mellomkonto</string>
-    <string name="drawer_end_account">Siste konto</string>
-    <string name="drawer_manage_accounts">Håndter kontoer</string>
-
     <string name="simple_boards">Tavler</string>
     <string name="simple_add">Legg til</string>
     <string name="simple_save">Lagre</string>
@@ -146,11 +140,9 @@
     <string name="hours_6">6 timer</string>
     <string name="action_card_move">Flytt kort</string>
     <string name="action_card_move_title">Flytt %1$s</string>
-    <string name="please_add_an_account_first">Vennligst legg til en konto først</string>
     <string name="title_is_mandatory">Tittel er obligatorisk</string>
     <string name="provide_at_least_a_title_or_description">I det minste gi en tittel eller beskrivelse</string>
     <string name="welcome_text">Velkommen til %1$s</string>
-    <string name="save_card_before_attachment">Kortet må lagres før det kan legges til vedlegg.</string>
     <string name="maintenance_mode_explanation">Serveren %1$s er for øyeblikket i vedlikeholds modus. Vennligs kontakt din administrator eller prøv igjen senere.</string>
     <string name="share_add_to_card">Legg til i kort</string>
     <string name="share_success">%1$sble vellykket lagt til %2$s</string>
@@ -201,9 +193,7 @@
     <string name="error_revoking_ac">Feil ved tilbakekalling av tilgang for%1$s</string>
     <string name="error_create_label">Feil ved opprettelse av etikett %1$s</string>
     <string name="maintenance_mode">Server i vedlikeholdsmodus</string>
-    <string name="server_misconfigured">Server feilkonfigurert</string>
     <string name="server_error">Tjenerfeil</string>
-    <string name="shared_error">Deling av innhold fra 3dje-partsapper støttes ikke fullt ut. Prøv å laste den ned først og deretter dele den fra din lokale filbehandler eller ditt galleri.</string>
     <string name="error_edit_activity_killed_by_android">Android avsluttet redigeringsmodus fordi det trengte flere systemressurser til andre apper.</string>
 
     <string name="error_dialog_title">Å nei - Hva nå? 🙁</string>
@@ -241,7 +231,6 @@
     <string name="manage_accounts">Håndter kontoer</string>
     <string name="manage_list">Håndtere liste</string>
     <string name="simple_reply">Svar</string>
-    <string name="error_while_uploading_attachment">Feil ved opplasting av vedlegg: %1$s</string>
     <string name="append_text_to_description">Legg til beskrivelsen</string>
     <string name="add_text_as_comment">Legg til som kommentar</string>
     <string name="progress_count">%1$d av %2$d</string>
@@ -281,7 +270,6 @@
     <string name="simple_contact">Kontakt</string>
     <string name="simple_file">Fil</string>
     <string name="simple_camera">Kamera</string>
-    <string name="min_api_21">Denne funksjonen krever minst Android 5</string>
     <string name="take_photo">Ta et bilde</string>
     <string name="take_photo_switch_camera">Bytt kamera</string>
     <string name="show_all_contacts">Vis alle kontakter</string>

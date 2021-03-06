@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Open navigatie</string>
     <string name="navigation_drawer_close">Sluit navigatie</string>
 
-    <string name="drawer_header_background">Achtergrondafbeelding in het menu</string>
-    <string name="drawer_current_account">Huidige account</string>
-    <string name="drawer_middle_account">Gemiddelde account</string>
-    <string name="drawer_end_account">Laatste account</string>
-    <string name="drawer_manage_accounts">Accounts beheren </string>
-
     <string name="simple_boards">Bord</string>
     <string name="simple_add">Toevoegen</string>
     <string name="simple_save">Bewaren</string>
@@ -149,11 +143,9 @@
     <string name="hours_6">6 uur</string>
     <string name="action_card_move">Verplaats kaart</string>
     <string name="action_card_move_title">Verplaats %1$s</string>
-    <string name="please_add_an_account_first">Voeg eerst een account toe</string>
     <string name="title_is_mandatory">Titel is verplicht</string>
     <string name="provide_at_least_a_title_or_description">Geef ten minste een titel of beschrijving op</string>
     <string name="welcome_text">Welkom bij %1$s</string>
-    <string name="save_card_before_attachment">De kaart moet worden bewaard voordat er bijlagen aan kunnen worden toegevoegd.</string>
     <string name="maintenance_mode_explanation">De server %1$s is momenteel in onderhoud modus. Neem alstublieft contact op met de beheerder of probeer het later opnieuw</string>
     <string name="share_add_to_card">Toevoegen aan kaart</string>
     <string name="share_success">Succesvol %1$s toegevoegd aan %2$s</string>
@@ -206,9 +198,7 @@
     <string name="error_revoking_ac">Fout bij het intrekken van de toegang voor %1$s</string>
     <string name="error_create_label">Fout bij creëren label %1$s</string>
     <string name="maintenance_mode">Server in onderhoudsmodus</string>
-    <string name="server_misconfigured">Server verkeerd geconfigureerd</string>
     <string name="server_error">Serverfout</string>
-    <string name="shared_error">Het delen van content vanaf 3e-partij apps wordt nog niet volledig ondersteund. Probeer het eerst te downloaden en deel dan vanaf je eigen bestandsbeheerder of galerij.</string>
     <string name="error_edit_activity_killed_by_android">Android beëindigde de bewerkingsmodus omdat het meer systeembronnen nodig had voor andere apps.</string>
 
     <string name="error_dialog_title">Oh nee - wat nu? 🙁</string>
@@ -246,7 +236,6 @@
     <string name="manage_accounts">Accounts beheren </string>
     <string name="manage_list">Beheer lijst</string>
     <string name="simple_reply">Antwoord</string>
-    <string name="error_while_uploading_attachment">Fout tijdens het opladen van bijlage: %1$s</string>
     <string name="append_text_to_description">Toevoegen aan beschrijving</string>
     <string name="add_text_as_comment">Toevoegen als opmerking</string>
     <string name="progress_count">%1$d op %2$d</string>
@@ -288,7 +277,6 @@
     <string name="simple_contact">Contactpersoon</string>
     <string name="simple_file">Bestand</string>
     <string name="simple_camera">Camera</string>
-    <string name="min_api_21">Deze optie vereist minimaal Android 5</string>
     <string name="take_photo">Neem een foto</string>
     <string name="take_photo_switch_camera">Omschakelen camera</string>
     <string name="take_photo_toggle_torch">Omschakelen zaklamp</string>

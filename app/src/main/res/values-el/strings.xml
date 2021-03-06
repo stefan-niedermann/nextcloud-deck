@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Άνοιγμα συρταριού πλοήγησης</string>
     <string name="navigation_drawer_close">Κλείσιμο συρταριού πλοήγησης</string>
 
-    <string name="drawer_header_background">Φωτογραφία φόντου επικεφαλίδας συρταριού</string>
-    <string name="drawer_current_account">Τρέχον λογαριασμός</string>
-    <string name="drawer_middle_account">Μεσαίος λογαριασμός</string>
-    <string name="drawer_end_account">Τελευταίος λογαριασμός</string>
-    <string name="drawer_manage_accounts">Διαχείριση λογαριασμών</string>
-
     <string name="simple_boards">Πίνακες</string>
     <string name="simple_add">Προσθήκη</string>
     <string name="simple_save">Αποθήκευση</string>
@@ -149,11 +143,9 @@
     <string name="hours_6">6 ώρες</string>
     <string name="action_card_move">Μετακίνηση κάρτας</string>
     <string name="action_card_move_title">Μετακίνηση %1$s</string>
-    <string name="please_add_an_account_first">Παρακαλώ προσθέστε λογαριασμό πρώτα</string>
     <string name="title_is_mandatory">Υποχρεωτικός τίτλος</string>
     <string name="provide_at_least_a_title_or_description">Προσθέστε τουλάχιστον τίτλο ή περιγραφή</string>
     <string name="welcome_text">Καλώς ήρθατε στο %1$s</string>
-    <string name="save_card_before_attachment">Η κάρτα πρέπει να αποθηκευτεί πριν προστεθούν συνημμένα.</string>
     <string name="maintenance_mode_explanation">Ο διακομιστής %1$s είναι σε κατάσταση συντήρησης. Επικοινωνήστε με τον διαχειριστή ή δοκιμάστε αργότερα.</string>
     <string name="share_add_to_card">Προσθήκη στην κάρτα</string>
     <string name="share_success">Επιτυχής προσθήκη %1$s από %2$s</string>
@@ -206,9 +198,7 @@
     <string name="error_revoking_ac">Σφάλμα κατά την ανάκληση πρόσβασης για %1$s</string>
     <string name="error_create_label">Σφάλμα κατά τη δημιουργία ετικέτας %1$s</string>
     <string name="maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
-    <string name="server_misconfigured">Λάθος ρυθμίσεις διακομιστή</string>
     <string name="server_error">Σφάλμα διακομιστή</string>
-    <string name="shared_error">Ο διαμοιρασμός περιεχομένου από εφαρμογές τρίτων δεν υποστηρίζεται πλήρως ακόμη. Παρακαλώ κάνετε λήψη πρώτα και στη συνέχεια διαμοιράστε από τον διαχειριστή αρχείων σας ή την συλλογή σας.</string>
     <string name="error_edit_activity_killed_by_android">Το Android ολοκλήρωσε τη λειτουργία επεξεργασίας επειδή χρειαζόταν περισσότερους πόρους συστήματος για άλλες εφαρμογές.</string>
 
     <string name="error_dialog_title">Ωχ όχι - Τώρα τί; 🙁</string>
@@ -246,7 +236,6 @@
     <string name="manage_accounts">Διαχείριση λογαριασμών</string>
     <string name="manage_list">Διαχείριση λίστας</string>
     <string name="simple_reply">Απάντηση</string>
-    <string name="error_while_uploading_attachment">Σφάλμα κατά την μεταφόρτωση του συνημμένου: %1$s</string>
     <string name="append_text_to_description">Προσάρτηση στην περιγραφή</string>
     <string name="add_text_as_comment">Προσθήκη ως σχόλιο</string>
     <string name="progress_count">%1$d από %2$d</string>
@@ -287,7 +276,6 @@
     <string name="simple_contact">Επικοινωνία</string>
     <string name="simple_file">Αρχείο</string>
     <string name="simple_camera">Κάμερα</string>
-    <string name="min_api_21">Αυτή η λειτουργία απαιτεί τουλάχιστον Android 5</string>
     <string name="take_photo">Βγάλε μια φωτογραφία</string>
     <string name="take_photo_switch_camera">Εναλλαγή κάμερας</string>
     <string name="take_photo_toggle_torch">Εναλλαγή φακού</string>

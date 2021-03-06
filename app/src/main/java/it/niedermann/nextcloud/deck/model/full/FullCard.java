@@ -110,7 +110,7 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
     }
 
     public List<Attachment> getAttachments() {
-        if (!isAttachmentsSorted) {
+        if (!isAttachmentsSorted && attachments != null) {
             Collections.sort(attachments);
             isAttachmentsSorted = true;
         }

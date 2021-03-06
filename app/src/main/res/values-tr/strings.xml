@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Gezinme çekmecesini aç</string>
     <string name="navigation_drawer_close">Gezinme çekmecesini kapat</string>
 
-    <string name="drawer_header_background">Çekmece üst bilgisinin arka plan görseli</string>
-    <string name="drawer_current_account">Geçerli hesap</string>
-    <string name="drawer_middle_account">Orta hesap</string>
-    <string name="drawer_end_account">Son hesap</string>
-    <string name="drawer_manage_accounts">Hesap yönetimi</string>
-
     <string name="simple_boards">Katlar</string>
     <string name="simple_add">Ekle</string>
     <string name="simple_save">Kaydet</string>
@@ -149,11 +143,9 @@
     <string name="hours_6">6 Saat</string>
     <string name="action_card_move">Kartı taşı</string>
     <string name="action_card_move_title">%1$s Taşı</string>
-    <string name="please_add_an_account_first">Lütfen önce bir hesap ekleyin</string>
     <string name="title_is_mandatory">Başlığın yazılması zorunludur</string>
     <string name="provide_at_least_a_title_or_description">Lütfen en azından başlığı ya da açıklamayı yazın</string>
     <string name="welcome_text">%1$s panonuza hoşgeldiniz</string>
-    <string name="save_card_before_attachment">Ek dosyaları ekleyebilmek için kartın kaydedilmesi gerekiyor.</string>
     <string name="maintenance_mode_explanation">%1$s sunucusu şu anda bakım kipinde. Lütfen yöneticinizle görüşün ya da daha sonra yeniden deneyin.</string>
     <string name="share_add_to_card">Karta ekle</string>
     <string name="share_success">%1$s, %2$s üzerine eklendi</string>
@@ -206,9 +198,7 @@
     <string name="error_revoking_ac">%1$s için erişim izni geri alınırken sorun çıktı</string>
     <string name="error_create_label">%1$s etiketi eklenirken sorun çıktı</string>
     <string name="maintenance_mode">Sunucu bakım kipinde</string>
-    <string name="server_misconfigured">Sunucu yapılandırması hatalı</string>
     <string name="server_error">Sunucu sorunu</string>
-    <string name="shared_error">Üçüncü taraf uygulamalardaki içeriklerin paylaşılması henüz tam olarak desteklenmiyor. Lütfen önce indirmeyi ve sonra dosya yöneticisi ya da galeri ile paylaşmayı deneyin.</string>
     <string name="error_edit_activity_killed_by_android">Sistem kaynakları başka uygulamalar için gerektiğinden Android düzenleme kipini kapattı.</string>
 
     <string name="error_dialog_title">Hayıır. Şimdi ne olacak? 🙁</string>
@@ -241,12 +231,14 @@
     <string name="info_box_maintenance_mode">Sunucu bakım kipinde</string>
     <string name="info_box_version_not_supported">%1$s sunucu sürümü desteklenmiyor. Lütfen %2$s sürümüne güncelleyin</string>
     <string name="share_link">Bağlantıyı paylaş</string>
+    <string name="share_content">İçeriği paylaş</string>
+    <string name="share_content_duedate">Bitiş tarihi: %1$s</string>
+    <string name="share_content_labels">Etiketler: %1$s</string>
     <string name="archive_cards">Kartları arşivle</string>
 
     <string name="manage_accounts">Hesap yönetimi</string>
     <string name="manage_list">Liste yönetimi</string>
     <string name="simple_reply">Yanıtla</string>
-    <string name="error_while_uploading_attachment">Ek Dosyalara kaydedilirken hata: %1$s</string>
     <string name="append_text_to_description">Açıklamaya ekle</string>
     <string name="add_text_as_comment">Yorum olarak ekle</string>
     <string name="progress_count">%1$d / %2$d</string>
@@ -288,7 +280,6 @@
     <string name="simple_contact">Kişi</string>
     <string name="simple_file">Dosya</string>
     <string name="simple_camera">Kamera</string>
-    <string name="min_api_21">Bu özellik için en az Android 5 sürümü gereklidir</string>
     <string name="take_photo">Bir fotoğraf çekin</string>
     <string name="take_photo_switch_camera">Kamerayı değiştir</string>
     <string name="take_photo_toggle_torch">Feneri aç/kapat</string>
