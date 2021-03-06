@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
     <string name="navigation_drawer_close">Navigationsleiste schließen</string>
 
-    <string name="drawer_header_background">Hintergrundbild des Kopfbereiches</string>
-    <string name="drawer_current_account">Aktuelles Konto</string>
-    <string name="drawer_middle_account">Mittleres Konto</string>
-    <string name="drawer_end_account">Letztes Konto</string>
-    <string name="drawer_manage_accounts">Konten verwalten</string>
-
     <string name="simple_boards">Boards</string>
     <string name="simple_add">Hinzufügen</string>
     <string name="simple_save">Speichern</string>
@@ -149,11 +143,9 @@
     <string name="hours_6">6 Stunden</string>
     <string name="action_card_move">Karte verschieben</string>
     <string name="action_card_move_title">Verschiebe %1$s</string>
-    <string name="please_add_an_account_first">Bitte zuerst ein Konto hinzufügen</string>
     <string name="title_is_mandatory">Titel ist obligatorisch</string>
     <string name="provide_at_least_a_title_or_description">Mindestens einen Titel oder eine Beschreibung eingeben</string>
     <string name="welcome_text">Willkommen bei %1$s</string>
-    <string name="save_card_before_attachment">Die Karte muss gespeichert werden bevor Anhänge hinzugefügt werden können.</string>
     <string name="maintenance_mode_explanation">Der Server %1$s ist momentan im Wartungsmodus. Bitte nehmen Sie Kontakt mit Ihrem Administrator auf oder versuchen Sie es später nochmal!</string>
     <string name="share_add_to_card">Zur Karte hinzufügen</string>
     <string name="share_success">%1$s erfolgreich zu %2$s hinzugefügt</string>
@@ -206,9 +198,7 @@
     <string name="error_revoking_ac">Fehler beim Widerruf des Zugriffs für %1$s</string>
     <string name="error_create_label">Fehler beim Erstellen des Labels %1$s</string>
     <string name="maintenance_mode">Server befindet sich im Wartungsmodus</string>
-    <string name="server_misconfigured">Server falsch konfiguriert</string>
     <string name="server_error">Serverfehler</string>
-    <string name="shared_error">Das Teilen von Inhalten aus Apps von Drittanbietern wird noch nicht vollständig unterstützt. Bitte versuchen Sie zuerst, die Datei herunterzuladen und dann aus Ihrem Dateimanager oder aus Ihrer Galerie freizugeben.</string>
     <string name="error_edit_activity_killed_by_android">Android hat den Bearbeitungsmodus beendet, da mehr Systemressourcen für andere Apps benötigt wurden.</string>
 
     <string name="error_dialog_title">Oh nein - Was jetzt? 🙁</string>
@@ -241,12 +231,14 @@
     <string name="info_box_maintenance_mode">Server befindet sich im Wartungsmodus</string>
     <string name="info_box_version_not_supported">Serverversion %1$s wird nicht unterstützt. Bitte aktualisiere auf %2$s.</string>
     <string name="share_link">Link teilen</string>
+    <string name="share_content">Inhalt teilen</string>
+    <string name="share_content_duedate">Fälligkeitsdatum: %1$s</string>
+    <string name="share_content_labels">Etiketten: %1$s</string>
     <string name="archive_cards">Karten archivieren</string>
 
     <string name="manage_accounts">Konten verwalten</string>
     <string name="manage_list">Liste verwalten</string>
     <string name="simple_reply">Antworten</string>
-    <string name="error_while_uploading_attachment">Fehler beim Hochladen des Anhangs: %1$s</string>
     <string name="append_text_to_description">An Beschreibung anhängen</string>
     <string name="add_text_as_comment">Als Kommentar hinzufügen</string>
     <string name="progress_count">%1$d von %2$d</string>
@@ -288,7 +280,6 @@
     <string name="simple_contact">Kontakt</string>
     <string name="simple_file">Datei</string>
     <string name="simple_camera">Kamera</string>
-    <string name="min_api_21">Diese Funktion benötigt Android 5 oder neuer</string>
     <string name="take_photo">Foto aufnehmen</string>
     <string name="take_photo_switch_camera">Kamera wechseln</string>
     <string name="take_photo_toggle_torch">Taschenlampe umschalten</string>

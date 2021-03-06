@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Otevřít panel navigace</string>
     <string name="navigation_drawer_close">Zavřít navigační panel</string>
 
-    <string name="drawer_header_background">Obrázek na pozadí hlavičky panelu</string>
-    <string name="drawer_current_account">Stávající účet</string>
-    <string name="drawer_middle_account">Prostřední účet</string>
-    <string name="drawer_end_account">Poslední účet</string>
-    <string name="drawer_manage_accounts">Spravovat účty</string>
-
     <string name="simple_boards">Tabule</string>
     <string name="simple_add">Přidat</string>
     <string name="simple_save">Uložit</string>
@@ -153,11 +147,9 @@
     <string name="hours_6">každých 6 hodin</string>
     <string name="action_card_move">Přesunout kartu</string>
     <string name="action_card_move_title">Přesunout %1$s</string>
-    <string name="please_add_an_account_first">Nejprve přidejte účet</string>
     <string name="title_is_mandatory">Nadpis je třeba zadat</string>
     <string name="provide_at_least_a_title_or_description">Zadejte alespoň nadpis nebo popis</string>
     <string name="welcome_text">Vítejte v %1$s</string>
-    <string name="save_card_before_attachment">Aby bylo možné přidávat přílohy je třeba, aby karta byla nejprve uložena.</string>
     <string name="maintenance_mode_explanation">Na serveru %1$s v tuto chvíli probíhá údržba. Obraťte se na jeho správce nebo to zkuste později znovu.</string>
     <string name="share_add_to_card">Přidat do karty</string>
     <string name="share_success">%1$s úspěšně přidáno do %2$s</string>
@@ -210,9 +202,7 @@
     <string name="error_revoking_ac">Chyba při rušení přístupu pro %1$s</string>
     <string name="error_create_label">Chyba při vytváření štítku %1$s</string>
     <string name="maintenance_mode">Na serveru probíhá údržba</string>
-    <string name="server_misconfigured">Server není nastavený správně</string>
     <string name="server_error">Chyba serveru</string>
-    <string name="shared_error">Sdílení obsahu z aplikací třetích stran není zatím plně podporováno. Zkuste si obsah nejprve stáhnout a sdílet ho ze správce souborů nebo obrázků.</string>
     <string name="error_edit_activity_killed_by_android">Systém android ukončil režim úprav, protože potřeboval více systémových prostředků pro ostatní aplikace.</string>
 
     <string name="error_dialog_title">Ó ne– co teď? 🙁</string>
@@ -250,7 +240,6 @@
     <string name="manage_accounts">Spravovat účty</string>
     <string name="manage_list">Spravovat sloupec</string>
     <string name="simple_reply">Odpovědět</string>
-    <string name="error_while_uploading_attachment">Chyba při nahrávání přílohy: %1$s</string>
     <string name="append_text_to_description">Připojit k popisu</string>
     <string name="add_text_as_comment">Přidat jako komentář</string>
     <string name="progress_count">%1$d z %2$d</string>
@@ -296,7 +285,6 @@
     <string name="simple_contact">Kontakt</string>
     <string name="simple_file">Soubor</string>
     <string name="simple_camera">Kamera</string>
-    <string name="min_api_21">Tato funkce vyžaduje minimálně verzi 5 systému Android</string>
     <string name="take_photo">Vyfotit</string>
     <string name="take_photo_switch_camera">Přepnout kameru</string>
     <string name="take_photo_toggle_torch">Vyp/zap. přisvícení</string>

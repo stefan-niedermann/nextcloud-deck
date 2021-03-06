@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">ナビゲーションドロワーを開く</string>
     <string name="navigation_drawer_close">ナビゲーションドロワーを閉じる</string>
 
-    <string name="drawer_header_background">ドロワーヘッダーの背景イメージ</string>
-    <string name="drawer_current_account">現在のアカウント</string>
-    <string name="drawer_middle_account">ミドルアカウント</string>
-    <string name="drawer_end_account">最後のアカウント</string>
-    <string name="drawer_manage_accounts">アカウント管理</string>
-
     <string name="simple_boards">ボード</string>
     <string name="simple_add">追加</string>
     <string name="simple_save">保存</string>
@@ -139,11 +133,9 @@
     <string name="hours_6">6 時間</string>
     <string name="action_card_move">カードの移動</string>
     <string name="action_card_move_title">%1$sを移動</string>
-    <string name="please_add_an_account_first">初めにアカウントを追加してください</string>
     <string name="title_is_mandatory">タイトルは必須です</string>
     <string name="provide_at_least_a_title_or_description">少なくともタイトルまたは説明を入力してください</string>
     <string name="welcome_text">%1$sにようこそ</string>
-    <string name="save_card_before_attachment">添付を追加する前にカードを保存する必要があります。</string>
     <string name="maintenance_mode_explanation">サーバー%1$sは現在メンテナンスモードです。管理者に問い合わせるか後で試してください。</string>
     <string name="share_add_to_card">カードに追加</string>
     <string name="share_success">%1$sを%2$sに追加できました</string>
@@ -194,9 +186,7 @@
     <string name="error_revoking_ac">%1$sへのアクセス取消中のエラー</string>
     <string name="error_create_label">ラベル%1$s作成中のエラー</string>
     <string name="maintenance_mode">サーバーはメンテナンスモードです。</string>
-    <string name="server_misconfigured">サーバーの構成エラー</string>
     <string name="server_error">サーバーエラー</string>
-    <string name="shared_error">サードパーティーアプリからの共有はまだ完全にサポートされていません。まずダウンロードしてからネイティブなファイルマネージャーかギャラリーから共有することを試してください。</string>
     <string name="error_edit_activity_killed_by_android">Androidが編集モードを終了したのは、他のアプリが多くのシステムリソースを必要としていたからです。</string>
 
     <string name="error_dialog_title">おやまあ、どうしたことでしょう？🙁</string>
@@ -235,7 +225,6 @@
     <string name="manage_accounts">アカウント管理</string>
     <string name="manage_list">リスト管理</string>
     <string name="simple_reply">返信</string>
-    <string name="error_while_uploading_attachment">%1$s添付ファイルのアップロード中にエラーが発生しました</string>
     <string name="append_text_to_description">説明を追加</string>
     <string name="add_text_as_comment">コメントとして追加</string>
     <string name="progress_count">%1$dの%2$d</string>
@@ -273,7 +262,6 @@
     <string name="simple_contact">連絡先</string>
     <string name="simple_file">ファイル</string>
     <string name="simple_camera">カメラ</string>
-    <string name="min_api_21">この機能には少なくともAndroid5以上が必要です。</string>
     <string name="take_photo">写真を撮る</string>
     <string name="take_photo_switch_camera">カメラ切替</string>
     <string name="take_photo_toggle_torch">フラッシュを切替</string>

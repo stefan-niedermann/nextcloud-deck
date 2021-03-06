@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Deschideți sertarul de navigare</string>
     <string name="navigation_drawer_close">Închideți sertarul de navigare</string>
 
-    <string name="drawer_header_background">Imagine de fundal a antetului sertarului</string>
-    <string name="drawer_current_account">Cont curent</string>
-    <string name="drawer_middle_account">Cont de mijloc </string>
-    <string name="drawer_end_account">Ultimul cont</string>
-    <string name="drawer_manage_accounts">Administrare conturi</string>
-
     <string name="simple_boards">Panouri </string>
     <string name="simple_add">Adaugă</string>
     <string name="simple_save">Salvează</string>
@@ -151,11 +145,9 @@
     <string name="hours_6">6 Ore</string>
     <string name="action_card_move">Mută card</string>
     <string name="action_card_move_title">Mută %1$s</string>
-    <string name="please_add_an_account_first">Vă rugăm să adăugați mai întâi un cont</string>
     <string name="title_is_mandatory">Titlul este obligatoriu</string>
     <string name="provide_at_least_a_title_or_description">Furnizați cel puțin un titlu sau o descriere</string>
     <string name="welcome_text">Bine venit la %1$s</string>
-    <string name="save_card_before_attachment">Cardul trebuie salvat înainte de a putea fi adăugate atașamente.</string>
     <string name="maintenance_mode_explanation">Serverul %1$s  este în prezent în modul de mentenanță. Vă rugăm să contactați administratorul sau să încercați din nou mai târziu.</string>
     <string name="share_add_to_card">Adaugă la card</string>
     <string name="share_success">Adăugat cu succes%1$s la %2$s</string>
@@ -208,9 +200,7 @@
     <string name="error_revoking_ac">Eroare la revocarea accesului pentru %1$s</string>
     <string name="error_create_label">Eroare la crearea etichetei %1$s</string>
     <string name="maintenance_mode">Server în modul mentenanță</string>
-    <string name="server_misconfigured">Server configurat greșit</string>
     <string name="server_error">Eroare server</string>
-    <string name="shared_error">Partajarea conținutului din aplicații terțe 3 nu este încă pe deplin acceptată. Încercați mai întâi să-l descărcați și apoi să-l distribuiți de la managerul de fișiere nativ sau de la galerie.</string>
     <string name="error_edit_activity_killed_by_android">Android a închis modul de editare, deoarece avea nevoie de mai multe resurse de sistem pentru alte aplicații.</string>
 
     <string name="error_dialog_title">Ooo nu - Acum ce? 🙁</string>
@@ -248,7 +238,6 @@
     <string name="manage_accounts">Administrează conturi</string>
     <string name="manage_list">Administrează listă</string>
     <string name="simple_reply">Răspunde</string>
-    <string name="error_while_uploading_attachment">Eroare la încărcarea atașamentului: %1$s</string>
     <string name="append_text_to_description">Atașați la descriere</string>
     <string name="add_text_as_comment">Adaugă ca comentariu</string>
     <string name="progress_count">%1$d of %2$d</string>
@@ -292,7 +281,6 @@
     <string name="simple_contact">Contact</string>
     <string name="simple_file">Fișier</string>
     <string name="simple_camera">Camera</string>
-    <string name="min_api_21">Această funcție necesită cel puțin Android 5</string>
     <string name="take_photo">Fă o fotografie</string>
     <string name="take_photo_switch_camera">Schimbă camera</string>
     <string name="take_photo_toggle_torch">Comutați lanterna</string>

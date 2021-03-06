@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Открыть панель навигации</string>
     <string name="navigation_drawer_close">Закрыть панель навигации</string>
 
-    <string name="drawer_header_background">Фоновое изображение заголовка</string>
-    <string name="drawer_current_account">Текущая учётная запись</string>
-    <string name="drawer_middle_account">Средняя учётная запись</string>
-    <string name="drawer_end_account">Последняя учётная запись</string>
-    <string name="drawer_manage_accounts">Управление аккаунтами</string>
-
     <string name="simple_boards">Доски</string>
     <string name="simple_add">Добавить</string>
     <string name="simple_save">Сохранить</string>
@@ -153,11 +147,9 @@
     <string name="hours_6">6 часов</string>
     <string name="action_card_move">Переместить карточку</string>
     <string name="action_card_move_title">Перемещение %1$s</string>
-    <string name="please_add_an_account_first">Начните с добавления учётной записи</string>
     <string name="title_is_mandatory">Требуется указать заголовок</string>
     <string name="provide_at_least_a_title_or_description">Создайте заголовок или описание</string>
     <string name="welcome_text">Добро пожаловать в %1$s</string>
-    <string name="save_card_before_attachment">Перед добавлением вложений карточку необходимо сохранить.</string>
     <string name="maintenance_mode_explanation">Сервер %1$s в режиме обслуживания. Свяжитесь с вашим администратором или повторите попытку позже.</string>
     <string name="share_add_to_card">Добавить в карточку</string>
     <string name="share_success">%1$s добавлено в %2$s</string>
@@ -210,9 +202,7 @@
     <string name="error_revoking_ac">Не удалось отозвать доступ %1$s</string>
     <string name="error_create_label">Не удалось создать метку %1$s</string>
     <string name="maintenance_mode">Сервер находится в режиме обслуживания</string>
-    <string name="server_misconfigured">Сервер не настроен</string>
     <string name="server_error">Ошибка сервера</string>
-    <string name="shared_error">Публикация данных сторонних приложений пока не поддерживается полностью. Попробуйте загрузить эти данные, а после опубликовать их  из приложений Файлы или Фотографии.</string>
     <string name="error_edit_activity_killed_by_android">Android прекратил режим редактирования так как ему понадобилось больше системных ресурсов для других приложений.</string>
 
     <string name="error_dialog_title">О нет, что теперь? 🙁</string>
@@ -250,7 +240,6 @@
     <string name="manage_accounts">Управление аккаунтами</string>
     <string name="manage_list">Управлять списком</string>
     <string name="simple_reply">Ответить</string>
-    <string name="error_while_uploading_attachment">Ошибка передачи вложения «%1$s» на сервер.</string>
     <string name="append_text_to_description">Добавить в описание</string>
     <string name="add_text_as_comment">Добавить как комментарий</string>
     <string name="progress_count">%1$d из %2$d</string>
@@ -296,7 +285,6 @@
     <string name="simple_contact">Контакт</string>
     <string name="simple_file">Файл</string>
     <string name="simple_camera">Камера</string>
-    <string name="min_api_21">Эта возможность поддерживается на Android версии 5 и старше</string>
     <string name="take_photo">Сделать фотографию</string>
     <string name="take_photo_switch_camera">Переключить камеру</string>
     <string name="take_photo_toggle_torch">Подсветка</string>

@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Öppna navigeringspanelen</string>
     <string name="navigation_drawer_close">Stäng navigeringslådan</string>
 
-    <string name="drawer_header_background">Bakgrundsbild på appskärmsrubriken</string>
-    <string name="drawer_current_account">Nuvarande konto</string>
-    <string name="drawer_middle_account">Mittenkonto</string>
-    <string name="drawer_end_account">Sista konto</string>
-    <string name="drawer_manage_accounts">Hantera konton</string>
-
     <string name="simple_boards">Tavlor</string>
     <string name="simple_add">Lägg till</string>
     <string name="simple_save">Spara</string>
@@ -147,11 +141,9 @@
     <string name="hours_6">6 timmar</string>
     <string name="action_card_move">Flytta kort</string>
     <string name="action_card_move_title">Flytta %1$s</string>
-    <string name="please_add_an_account_first">Lägg till ett konto först</string>
     <string name="title_is_mandatory">Titel är obligatorisk</string>
     <string name="provide_at_least_a_title_or_description">Ange åtminstone en titel eller beskrivning</string>
     <string name="welcome_text">Välkommen till %1$s</string>
-    <string name="save_card_before_attachment">Kortet måste sparas innan bilagor kan läggas till.</string>
     <string name="maintenance_mode_explanation">Servern %1$s är för närvarande i underhållsläge. Kontakta din administratör eller försök igen senare.</string>
     <string name="share_add_to_card">Lägg till i kort</string>
     <string name="share_success">La till %1$s till %2$s</string>
@@ -202,9 +194,7 @@
     <string name="error_revoking_ac">Fel vid återkallande av åtkomst för %1$s</string>
     <string name="error_create_label">Fel vid skapandet av etiketten %1$s</string>
     <string name="maintenance_mode">Server i underhållsläge</string>
-    <string name="server_misconfigured">Server felkonfigurerad</string>
     <string name="server_error">Serverfel</string>
-    <string name="shared_error">Delning av innehåll från appar från tredje part stöds ännu inte helt. Vänligen försök att hämta det först och dela det sedan från din ursprungliga filhanterare eller galleri.</string>
     <string name="error_edit_activity_killed_by_android">Android avslutade redigeringsläget eftersom det behövde mer systemresurser för andra appar.</string>
 
     <string name="error_dialog_title">Å nej - Vad händer nu?🙁</string>
@@ -242,7 +232,6 @@
     <string name="manage_accounts">Hantera konton</string>
     <string name="manage_list">Hantera lista</string>
     <string name="simple_reply">Svara</string>
-    <string name="error_while_uploading_attachment">Fel vid uppladdning av bilaga: %1$s</string>
     <string name="append_text_to_description">Lägg till beskrivning</string>
     <string name="add_text_as_comment">Lägg till som kommentar</string>
     <string name="progress_count">%1$d av %2$d</string>
@@ -282,7 +271,6 @@
     <string name="simple_contact">Kontakt</string>
     <string name="simple_file">Fil</string>
     <string name="simple_camera">Kamera</string>
-    <string name="min_api_21">Denna funktion kräver minst Android 5</string>
     <string name="take_photo">Ta en bild</string>
     <string name="take_photo_switch_camera">Växla kamera</string>
     <string name="take_photo_toggle_torch">Starta lampa</string>
