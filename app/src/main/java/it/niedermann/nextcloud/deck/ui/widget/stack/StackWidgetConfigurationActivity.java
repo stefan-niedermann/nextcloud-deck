@@ -19,6 +19,7 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetBoard;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetStack;
 import it.niedermann.nextcloud.deck.ui.PickStackActivity;
+import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
 public class StackWidgetConfigurationActivity extends PickStackActivity {
     private int appWidgetId;
@@ -70,6 +71,14 @@ public class StackWidgetConfigurationActivity extends PickStackActivity {
                 getApplicationContext().sendBroadcast(updateIntent);
 
                 finish();
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+                ExceptionDialogFragment
+                        .newInstance(throwable, account)
+                        .show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
             }
         });
     }
