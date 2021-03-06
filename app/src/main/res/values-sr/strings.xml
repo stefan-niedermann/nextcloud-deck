@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Отвори навигациону фиоку</string>
     <string name="navigation_drawer_close">Затвори навигациону фиоку</string>
 
-    <string name="drawer_header_background">Позадинска слика заглавља фиоке</string>
-    <string name="drawer_current_account">Тренутни налог</string>
-    <string name="drawer_middle_account">Средишњи налог</string>
-    <string name="drawer_end_account">Последњи налог</string>
-    <string name="drawer_manage_accounts">Управљање налозима</string>
-
     <string name="simple_boards">Табле</string>
     <string name="simple_add">Додај</string>
     <string name="simple_save">Сачувај</string>
@@ -149,11 +143,9 @@
     <string name="hours_6">6 сати</string>
     <string name="action_card_move">Премести картицу</string>
     <string name="action_card_move_title">Премести %1$s</string>
-    <string name="please_add_an_account_first">Прво додајте налог</string>
     <string name="title_is_mandatory">Наслов је обавезан</string>
     <string name="provide_at_least_a_title_or_description">Дајте бар наслов или опис</string>
     <string name="welcome_text">Добродошли у %1$s</string>
-    <string name="save_card_before_attachment">Картица мора да се сачува пре него што може да јој се дода прилог.</string>
     <string name="maintenance_mode_explanation">Сервер %1$s је тренутно у режиму одржавања. Контактирајте администратора или покушајте касније.</string>
     <string name="share_add_to_card">Додај на картицу</string>
     <string name="share_success">Успешно додат %1$s на %2$s</string>
@@ -204,9 +196,7 @@
     <string name="error_revoking_ac">Грешка приликом уклањања приступа за %1$s</string>
     <string name="error_create_label">Грешка приликом креирања ознаке %1$s</string>
     <string name="maintenance_mode">Сервер у режиму одржавања</string>
-    <string name="server_misconfigured">Сервер није добро конфигурисан</string>
     <string name="server_error">Грешка на серверу</string>
-    <string name="shared_error">Дељење садржаја од апликација треће стране још није у потпуности подржано. Пробајте прво да преузмете садржај у целости и онда га поделите из менаџера фајлова или из галерије.</string>
     <string name="error_edit_activity_killed_by_android">Андроид нам је довршио режим измена пошто су системски ресурси требали другим апликацијама.</string>
 
     <string name="error_dialog_title">О, не - шта сад? 🙁</string>
@@ -244,7 +234,6 @@
     <string name="manage_accounts">Управљање налозима</string>
     <string name="manage_list">Управљај списком</string>
     <string name="simple_reply">Одговори</string>
-    <string name="error_while_uploading_attachment">Грешка приликом отпремања прилога: %1$s</string>
     <string name="append_text_to_description">Придодај на опис</string>
     <string name="add_text_as_comment">Додај као коментар</string>
     <string name="progress_count">%1$d од %2$d</string>
@@ -286,7 +275,6 @@
     <string name="simple_contact">Контакт</string>
     <string name="simple_file">Фајл</string>
     <string name="simple_camera">Камера</string>
-    <string name="min_api_21">Ова могућност захтева бар Андроид 5</string>
     <string name="take_photo">Сликај</string>
     <string name="take_photo_switch_camera">Пребаци камеру</string>
     <string name="show_all_contacts">Прикажи све контакте</string>

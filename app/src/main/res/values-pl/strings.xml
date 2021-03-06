@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Otwórz panel nawigacji</string>
     <string name="navigation_drawer_close">Zamknij panel nawigacji</string>
 
-    <string name="drawer_header_background">Tło nagłówka menu rozwijanego</string>
-    <string name="drawer_current_account">Bieżące konto</string>
-    <string name="drawer_middle_account">Konto poprzednie</string>
-    <string name="drawer_end_account">Ostatnie konto</string>
-    <string name="drawer_manage_accounts">Zarządzaj kontami</string>
-
     <string name="simple_boards">Tablice</string>
     <string name="simple_add">Dodaj</string>
     <string name="simple_save">Zapisz</string>
@@ -153,11 +147,9 @@
     <string name="hours_6">6 godzin</string>
     <string name="action_card_move">Przenieś kartę</string>
     <string name="action_card_move_title">Przenieś %1$s</string>
-    <string name="please_add_an_account_first">Najpierw dodaj konto</string>
     <string name="title_is_mandatory">Tytuł jest obowiązkowy</string>
     <string name="provide_at_least_a_title_or_description">Podaj co najmniej tytuł lub opis</string>
     <string name="welcome_text">Witamy w %1$s</string>
-    <string name="save_card_before_attachment">Kartę należy zapisać przed dodaniem załączników.</string>
     <string name="maintenance_mode_explanation">Serwer %1$s jest obecnie w trybie konserwacji. Skontaktuj się z administratorem lub spróbuj ponownie później.</string>
     <string name="share_add_to_card">Dodaj do karty</string>
     <string name="share_success">Pomyślnie dodano %1$s do %2$s</string>
@@ -210,9 +202,7 @@
     <string name="error_revoking_ac">Błąd podczas anulowania dostępu dla %1$s</string>
     <string name="error_create_label">Błąd podczas tworzenia etykiety %1$s</string>
     <string name="maintenance_mode">Serwer w trybie konserwacji</string>
-    <string name="server_misconfigured">Serwer źle skonfigurowany</string>
     <string name="server_error">Błąd serwera</string>
-    <string name="shared_error">Udostępnianie treści z aplikacji innych firm nie jest jeszcze w pełni obsługiwane. Spróbuj najpierw pobrać, a następnie udostępnić ją obecnemu menedżerowi plików lub galerii.</string>
     <string name="error_edit_activity_killed_by_android">Android zakończył tryb edycji, ponieważ potrzebował więcej zasobów systemowych dla innych aplikacji.</string>
 
     <string name="error_dialog_title">O nie - co teraz? 🙁</string>
@@ -245,12 +235,14 @@
     <string name="info_box_maintenance_mode">Serwer w trybie konserwacji</string>
     <string name="info_box_version_not_supported">Wersja serwera %1$s nie jest wspierana, zaktualizuj do wersji %2$s</string>
     <string name="share_link">Udostępnij link</string>
+    <string name="share_content">Udostępnij treść</string>
+    <string name="share_content_duedate">Data realizacji: %1$s</string>
+    <string name="share_content_labels">Etykiety: %1$s</string>
     <string name="archive_cards">Zarchiwizuj karty</string>
 
     <string name="manage_accounts">Zarządzaj kontami</string>
     <string name="manage_list">Zarządzaj listą</string>
     <string name="simple_reply">Odpowiedz</string>
-    <string name="error_while_uploading_attachment">Błąd podczas przesyłania załącznika: %1$s</string>
     <string name="append_text_to_description">Dołącz do opisu</string>
     <string name="add_text_as_comment">Dodaj jako komentarz</string>
     <string name="progress_count">%1$d z %2$d</string>
@@ -296,7 +288,6 @@
     <string name="simple_contact">Kontakt</string>
     <string name="simple_file">Plik</string>
     <string name="simple_camera">Aparat</string>
-    <string name="min_api_21">Funkcja ta wymaga co najmniej Androida 5</string>
     <string name="take_photo">Zrobić zdjęcie</string>
     <string name="take_photo_switch_camera">Przełącz aparat</string>
     <string name="take_photo_toggle_torch">Włącz latarkę</string>

@@ -1,10 +1,4 @@
 <resources>
-    <string name="drawer_header_background">Background image of drawer header</string>
-    <string name="drawer_current_account">Моментална сметка</string>
-    <string name="drawer_middle_account">Middle account</string>
-    <string name="drawer_end_account">Последна сметка</string>
-    <string name="drawer_manage_accounts">Управување со сметки</string>
-
     <string name="simple_boards">Табли</string>
     <string name="simple_add">Додади</string>
     <string name="simple_save">Зачувај</string>
@@ -130,11 +124,9 @@
     <string name="hours_6">6 часа</string>
     <string name="action_card_move">Премести картица</string>
     <string name="action_card_move_title">Премести %1$s</string>
-    <string name="please_add_an_account_first">Ве молиме прво додадете сметка</string>
     <string name="title_is_mandatory">Насловот е задолжителен</string>
     <string name="provide_at_least_a_title_or_description">Внесете барем наслов или опис</string>
     <string name="welcome_text">Добредојдовте во %1$s</string>
-    <string name="save_card_before_attachment">Потрено е прво картицата да е зачувана за да додадете прилог кон неа.</string>
     <string name="maintenance_mode_explanation">Серверот %1$s е моментално во мод за одржување. Контактирајте го администраторот или обидете се покасно.</string>
     <string name="share_add_to_card">Додади во картица</string>
     <string name="share_success">Успешно додадено %1$s во %2$s</string>
@@ -185,9 +177,7 @@
     <string name="error_revoking_ac">Грешка при одземање на пристапот на %1$s</string>
     <string name="error_create_label">решка при креирање на ознака %1$s</string>
     <string name="maintenance_mode">Серверот е во мод за одржување</string>
-    <string name="server_misconfigured">Серверот не е конфигуриран</string>
     <string name="server_error">Грешка на серверот</string>
-    <string name="shared_error">Споделување на содржини од 3-ти апликации сеуште не е целосно имплементирано. Обидете се со превземање на содржината и потоа споделете ја.</string>
     <string name="error_dialog_title">О не - Што сега? 🙁</string>
     <string name="error_dialog_timeout_instance">Нема одговор од серверот веќе некое време. Проверете дали серверот е достапен.</string>
     <string name="error_dialog_timeout_toggle">Проверете го вашиот интернет. Некогаш помага исклучување и повторно вклучување на интернетот.</string>
@@ -204,7 +194,6 @@
     <string name="manage_accounts">Управување со сметки</string>
     <string name="manage_list">Уреди ги листите</string>
     <string name="simple_reply">Одговор</string>
-    <string name="error_while_uploading_attachment">Грешка при прикачување на прилогот: %1$s</string>
     <string name="append_text_to_description">Додади во описот</string>
     <string name="add_text_as_comment">Додади како коментар</string>
     <string name="progress_count">%1$d од %2$d</string>

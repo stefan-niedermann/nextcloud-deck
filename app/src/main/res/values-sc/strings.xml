@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Aberi su calàsciu de navigatzione</string>
     <string name="navigation_drawer_close">Serra su calàsciu de navigatzione</string>
 
-    <string name="drawer_header_background">Immàgine de isfundu de s\'itestatzione de su calàsciu</string>
-    <string name="drawer_current_account">Contu atuale</string>
-    <string name="drawer_middle_account">Contu de mesu</string>
-    <string name="drawer_end_account">Ùrtimu contu</string>
-    <string name="drawer_manage_accounts">Gesti contos</string>
-
     <string name="simple_boards">Tabellas</string>
     <string name="simple_add">Agiunghe</string>
     <string name="simple_save">Sarva</string>
@@ -149,11 +143,9 @@
     <string name="hours_6">6 Oras</string>
     <string name="action_card_move">Tràmuda ischeda</string>
     <string name="action_card_move_title">Tràmuda %1$s</string>
-    <string name="please_add_an_account_first">Agiunghe unu contu prima, pro praghere</string>
     <string name="title_is_mandatory">Su tìtulu est obligatòriu</string>
     <string name="provide_at_least_a_title_or_description">Fruni a su mancu unu tìtulu e una descritzione</string>
     <string name="welcome_text">Benebènnidu in %1$s</string>
-    <string name="save_card_before_attachment">S\'ischeda tocat a l\'agiornare prima de agiùnghere unu contu.</string>
     <string name="maintenance_mode_explanation">Su serbidore %1$s immoe est in modalidade de mantenidura. Pro praghere, cuntata a s\'amministradore tuo o proa prus a tardu.</string>
     <string name="share_add_to_card">Agiùnghe a s\'ischeda</string>
     <string name="share_success">Agiuntu%1$s a %2$s in manera curreta</string>
@@ -206,9 +198,7 @@
     <string name="error_revoking_ac">Errore boghende s\'atzessu a %1$s</string>
     <string name="error_create_label">Errore creende eticheta%1$s</string>
     <string name="maintenance_mode">Serbidore in modalidade de mantenidura</string>
-    <string name="server_misconfigured">Serbidore cunfiguradu male</string>
     <string name="server_error">Errore serbidore</string>
-    <string name="shared_error">Sa cumpartzidura de is cuntenutos dae aplicatzione de tres partes no est suportada ancora. Pro praghere, prima proa a nche l\'iscarrigare e posca cumpartzi·ddu dae su gestore de su documentu nadivu o dae sa galleria.</string>
     <string name="error_edit_activity_killed_by_android">Android at agabbadu sa modalidade de modìfica ca rechediat prus risorsas de sistema pro àteras aplicatziones.</string>
 
     <string name="error_dialog_title">Oh no - E immoe? 🙁</string>
@@ -246,7 +236,6 @@
     <string name="manage_accounts">Gesti is contos</string>
     <string name="manage_list">Gesti sa lista</string>
     <string name="simple_reply">Risponde</string>
-    <string name="error_while_uploading_attachment">Errore carrighende s\'alligongiadu: %1$s</string>
     <string name="append_text_to_description">Agiunghe a sa descritzione</string>
     <string name="add_text_as_comment">Agiunghe comente cummentu</string>
     <string name="progress_count">%1$d de %2$d</string>
@@ -288,7 +277,6 @@
     <string name="simple_contact">Cuntata</string>
     <string name="simple_file">Documentu</string>
     <string name="simple_camera">Fotocamera</string>
-    <string name="min_api_21">Custa funtzionalidade rechedet a su mancu Android 5 </string>
     <string name="take_photo">Tira una foto</string>
     <string name="take_photo_switch_camera">Càmbia fotocàmera</string>
     <string name="take_photo_toggle_torch">Ativa sa tortza</string>

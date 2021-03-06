@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Ouvrir le tiroir de navigation</string>
     <string name="navigation_drawer_close">Fermer le tiroir de navigation</string>
 
-    <string name="drawer_header_background">Image d\'arrière-plan de l\'entête du menu-tiroir</string>
-    <string name="drawer_current_account">Compte actuel</string>
-    <string name="drawer_middle_account">Compte du milieu</string>
-    <string name="drawer_end_account">Dernier compte</string>
-    <string name="drawer_manage_accounts">Gérer les comptes</string>
-
     <string name="simple_boards">Tableaux</string>
     <string name="simple_add">Ajouter</string>
     <string name="simple_save">Enregistrer</string>
@@ -149,11 +143,9 @@
     <string name="hours_6">6 Heures</string>
     <string name="action_card_move">Déplacer la carte</string>
     <string name="action_card_move_title">Déplacer %1$s</string>
-    <string name="please_add_an_account_first">Veuillez d’abord ajouter un compte</string>
     <string name="title_is_mandatory">Le titre est obligatoire</string>
     <string name="provide_at_least_a_title_or_description">Renseignez le titre ou la description</string>
     <string name="welcome_text">Bienvenue sur %1$s</string>
-    <string name="save_card_before_attachment">Vous devez enregistrer la carte avant d\'ajouter une pièce jointe.</string>
     <string name="maintenance_mode_explanation">Le serveur %1$s est actuellement en maintenance. Veuillez contacter votre administrateur ou réessayer plus tard.</string>
     <string name="share_add_to_card">Ajouter à la carte</string>
     <string name="share_success">Ajout de %1$s à %2$s réussi</string>
@@ -206,9 +198,7 @@
     <string name="error_revoking_ac">Erreur lors de la suppression de l\'accès pour %1$s</string>
     <string name="error_create_label">Erreur lors de la création de l\'étiquette %1$s</string>
     <string name="maintenance_mode">Serveur en maintenance</string>
-    <string name="server_misconfigured">Problème de configuration serveur</string>
     <string name="server_error">Erreur du serveur</string>
-    <string name="shared_error">Le partage de contenu provenant d\'applications tierces n\'est pas encore totalement pris en charge. Veuillez essayer de le télécharger d\'abord, puis de le partager à partir de votre gestionnaire de fichiers ou de votre galerie.</string>
     <string name="error_edit_activity_killed_by_android">Android a mis fin au mode édition car il avait besoin de plus de ressources système pour les autres applications.</string>
 
     <string name="error_dialog_title">Oh non ! - Et maintenant ? 🙁</string>
@@ -246,7 +236,6 @@
     <string name="manage_accounts">Gérer les comptes</string>
     <string name="manage_list">Gérer la liste</string>
     <string name="simple_reply">Répondre</string>
-    <string name="error_while_uploading_attachment">Erreur pendant l\'envoi de la pièce jointe : %1$s</string>
     <string name="append_text_to_description">Ajouter à la description</string>
     <string name="add_text_as_comment">Ajouter en commentaire</string>
     <string name="progress_count">%1$d sur %2$d</string>
@@ -288,7 +277,6 @@
     <string name="simple_contact">Contact</string>
     <string name="simple_file">Fichier</string>
     <string name="simple_camera">Appareil photo</string>
-    <string name="min_api_21">Cette fonctionnalité est disponible à partir d\'Android 5</string>
     <string name="take_photo">Prendre une photo</string>
     <string name="take_photo_switch_camera">Changer d\'appareil photo</string>
     <string name="take_photo_toggle_torch">Allumer la lampe</string>
