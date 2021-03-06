@@ -465,16 +465,18 @@ public abstract class DeckDatabase extends RoomDatabase {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
 
-            Cursor cursor = database.query("select s.localId, s.boardId, s.accountId from `StackWidgetModel` w inner join `Stack` s on s.localId = w.stackId");
+            Cursor cursor = database.query("select s.localId, s.boardId, s.accountId, w.appWidgetId from `StackWidgetModel` w inner join `Stack` s on s.localId = w.stackId");
             while (cursor.moveToNext()) {
                 Long localStackId = cursor.getLong(0);
                 Long localBoardId = cursor.getLong(1);
                 Long accountId = cursor.getLong(2);
+                Long filterWidgetId = cursor.getLong(3);
 
                 // widget:
                 ContentValues values = new ContentValues();
                 values.put("widgetType", EWidgetType.STACK_WIDGET.getId());
-                long filterWidgetId = database.insert("FilterWidget", SQLiteDatabase.CONFLICT_NONE, values);
+                values.put("id", filterWidgetId);
+                database.insert("FilterWidget", SQLiteDatabase.CONFLICT_NONE, values);
 
                 // account
                 values = new ContentValues();
