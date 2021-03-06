@@ -60,19 +60,19 @@ public class CardUtilTest {
         fullCard.setLabels(Lists.newArrayList(testLabel1));
 
         assertEquals("Bar\n" +
-                "Labels: Baz", CardUtil.getCardContentAsString(appContext, fullCard));
+                "Tags: Baz", CardUtil.getCardContentAsString(appContext, fullCard));
 
         fullCard.setLabels(Lists.newArrayList(testLabel1, testLabel2));
 
         assertEquals("Bar\n" +
-                "Labels: Baz, Pow", CardUtil.getCardContentAsString(appContext, fullCard));
+                "Tags: Baz, Pow", CardUtil.getCardContentAsString(appContext, fullCard));
 
         card.setDueDate(testDate);
 
         assertTrue(CardUtil.getCardContentAsString(appContext, fullCard).startsWith("Bar\n" +
                 "Due date:"));
         assertTrue(CardUtil.getCardContentAsString(appContext, fullCard).endsWith("\n" +
-                "Labels: Baz, Pow"));
+                "Tags: Baz, Pow"));
     }
 
     @Test
