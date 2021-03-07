@@ -8,6 +8,7 @@
     <color name="bg_card">#121212</color>
     <color name="bg_card_wrapper">@color/primary</color>
 
+    <color name="widget_outer_background">#dd121212</color>
     <color name="widget_background">#dd000000</color>
     <color name="widget_foreground">#d8d8d8</color>
 </resources>

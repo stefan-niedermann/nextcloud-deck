@@ -25,7 +25,6 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetSort;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 
 import static android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE;
@@ -80,7 +79,6 @@ public class UpcomingWidget extends AppWidgetProvider {
 
         if (ACTION_APPWIDGET_UPDATE.equals(intent.getAction())) {
             if (intent.hasExtra(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
-                @SuppressWarnings("ConstantConditions")
                 int appWidgetId = intent.getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
                 DeckLog.verbose(ACTION_APPWIDGET_UPDATE + " for " + UpcomingWidget.class.getSimpleName() + " with id " + appWidgetId + ", perform update.");
                 updateAppWidget(context, awm, new int[]{appWidgetId});
@@ -116,12 +114,9 @@ public class UpcomingWidget extends AppWidgetProvider {
                 serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
                 serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME)));
 
-                final Intent intent = new Intent(Intent.ACTION_MAIN).setComponent(new ComponentName(context.getPackageName(), MainActivity.class.getName()));
-                final PendingIntent pendingIntent = PendingIntent.getActivity(context, PENDING_INTENT_OPEN_APP_RQ, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 final PendingIntent templatePI = PendingIntent.getActivity(context, PENDING_INTENT_EDIT_CARD_RQ,
                         new Intent(context, EditActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
-                views.setOnClickPendingIntent(R.id.widget_upcoming_header_rl, pendingIntent);
                 views.setPendingIntentTemplate(R.id.upcoming_widget_lv, templatePI);
                 views.setRemoteAdapter(R.id.upcoming_widget_lv, serviceIntent);
                 views.setEmptyView(R.id.upcoming_widget_lv, R.id.widget_upcoming_placeholder_iv);

@@ -14,9 +14,13 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
+        android:paddingStart="@dimen/spacer_1hx"
+        android:paddingTop="@dimen/spacer_1x"
+        android:paddingEnd="@null"
         android:textAppearance="?attr/textAppearanceListItem"
         android:textColor="@color/widget_foreground"
         android:textSize="16sp"
+        android:textStyle="bold"
         tools:maxLength="60"
         tools:text="@tools:sample/lorem/random" />
 </LinearLayout>
