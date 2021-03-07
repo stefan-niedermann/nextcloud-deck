@@ -35,7 +35,11 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectList;
+import it.niedermann.nextcloud.deck.model.ocs.projects.to.OcsProjectLink;
+import it.niedermann.nextcloud.deck.model.ocs.projects.to.OcsProjectNameForCreate;
+import it.niedermann.nextcloud.deck.model.ocs.projects.to.OcsProjectNameUpdate;
 import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
@@ -275,6 +279,28 @@ public class ServerAdapter {
         RequestHelper.request(provider, () -> provider.getDeckAPI().updateLabel(boardId, label.getId(), label), responseCallback);
     }
 
+    // ## PROJECTS
+    public void createProjectForCard(long remoteCardId, OcsProjectNameForCreate projectName, IResponseCallback<OcsProject> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().createProjectForCard(remoteCardId, projectName), responseCallback);
+    }
+
+    public void addCardToProject(long remoteProjectId, OcsProjectLink projectLink, IResponseCallback<OcsProject> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().addCardToProject(remoteProjectId, projectLink), responseCallback);
+    }
+
+    public void removeCardFromProject(long remoteProjectId, long remoteCardId, IResponseCallback<OcsProject> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().removeCardFromProject(remoteProjectId, remoteCardId), responseCallback);
+    }
+
+    public void updateProjectName(long remoteProjectId, OcsProjectNameUpdate projectNameUpdate, IResponseCallback<OcsProject> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().updateProjectName(remoteProjectId, projectNameUpdate), responseCallback);
+    }
+
+    // REORDER
     public void reorder(long boardId, long currentStackId, long cardId, long newStackId, int newPosition, IResponseCallback<List<FullCard>> responseCallback) {
         ensureInternetConnection();
         RequestHelper.request(provider, () -> provider.getDeckAPI().moveCard(boardId, currentStackId, cardId, new Reorder(newPosition, (int) newStackId)), responseCallback);

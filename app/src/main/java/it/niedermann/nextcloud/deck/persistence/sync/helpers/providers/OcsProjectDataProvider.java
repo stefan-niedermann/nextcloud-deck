@@ -10,8 +10,11 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectList;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
+import it.niedermann.nextcloud.deck.model.ocs.projects.to.OcsProjectNameForCreate;
+import it.niedermann.nextcloud.deck.model.ocs.projects.to.OcsProjectNameUpdate;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
 public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject> {
     private Card card;
@@ -54,7 +57,7 @@ public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject>
 
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, OcsProject entity, boolean setStatus) {
-        dataBaseAdapter.updateProjectDirectly(accountId, entity);
+        dataBaseAdapter.updateProjectDirectly(accountId, entity, setStatus);
         dataBaseAdapter.deleteProjectResourcesForProjectIdDirectly(entity.getLocalId());
         updateResources(dataBaseAdapter, accountId, entity);
     }
@@ -67,25 +70,23 @@ public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject>
     }
 
     private void updateResources(DataBaseAdapter dataBaseAdapter, Long accountId, OcsProject entity) {
-        if (entity.getResources() != null) {
-            for (OcsProjectResource resource : entity.getResources()) {
-                resource.setProjectId(entity.getLocalId());
-                resource.setLocalId(dataBaseAdapter.createProjectResourceDirectly(accountId, resource));
-                if ("deck-card".equals(resource.getType())) {
-                    dataBaseAdapter.assignCardToProjectIfMissng(accountId, entity.getLocalId(), resource.getId());
-                }
+        for (OcsProjectResource resource : entity.getResources()) {
+            resource.setProjectId(entity.getLocalId());
+            resource.setLocalId(dataBaseAdapter.createProjectResourceDirectly(accountId, resource));
+            if ("deck-card".equals(resource.getType())) {
+                dataBaseAdapter.assignCardToProjectIfMissng(accountId, entity.getLocalId(), resource.getId());
             }
         }
     }
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<OcsProject> responder, OcsProject entity) {
-        // Do Nothing
+        serverAdapter.createProjectForCard(card.getId(), new OcsProjectNameForCreate(entity.getName()), responder);
     }
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<OcsProject> callback, OcsProject entity) {
-        // Do Nothing
+        serverAdapter.updateProjectName(entity.getId(), new OcsProjectNameUpdate(entity.getName()), callback);
     }
 
     @Override
@@ -95,6 +96,12 @@ public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject>
 
     @Override
     public List<OcsProject> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Instant lastSync) {
-        return Collections.emptyList();
+        return dataBaseAdapter.getAllChangedProjectsDirectly(accountId);
+    }
+
+    @Override
+    public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
+        // TODO: projectResources!
+        super.goDeeperForUpSync(syncHelper, serverAdapter, dataBaseAdapter, callback);
     }
 }

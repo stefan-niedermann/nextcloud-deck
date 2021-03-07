@@ -1381,6 +1381,7 @@ public class DataBaseAdapter {
         return db.getBoardDao().getBoardForAccountByNameDirectly(account, title);
     }
 
+    // ## PROJECTS
     public OcsProject getProjectByRemoteIdDirectly(long accountId, Long remoteId) {
         return db.getOcsProjectDao().getProjectByRemoteIdDirectly(accountId, remoteId);
     }
@@ -1394,8 +1395,9 @@ public class DataBaseAdapter {
         db.getOcsProjectResourceDao().deleteByProjectId(localProjectId);
     }
 
-    public void updateProjectDirectly(long accountId, OcsProject entity) {
+    public void updateProjectDirectly(long accountId, OcsProject entity, boolean setStatus) {
         entity.setAccountId(accountId);
+        markAsEditedIfNeeded(entity, setStatus);
         db.getOcsProjectDao().update(entity);
     }
 
@@ -1440,5 +1442,9 @@ public class DataBaseAdapter {
         SingleCardWidget.notifyDatasetChanged(context);
         StackWidget.notifyDatasetChanged(context);
 //        UpcomingWidget.notifyDatasetChanged(context);
+    }
+
+    public List<OcsProject> getAllChangedProjectsDirectly(long accountId) {
+        return db.getOcsProjectDao().getLocallyChangedProjectsDirectly(accountId);
     }
 }
