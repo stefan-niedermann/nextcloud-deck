@@ -50,7 +50,7 @@ public class SingleCardWidgetFactory implements RemoteViewsService.RemoteViewsFa
 
     @Override
     public RemoteViews getViewAt(int position) {
-        final CharSequence description = getDescriptionOrNull(model);
+        final String description = getDescriptionOrNull(model);
         if (description == null) {
             return null;
         }
@@ -85,7 +85,7 @@ public class SingleCardWidgetFactory implements RemoteViewsService.RemoteViewsFa
     }
 
     @Nullable
-    public static CharSequence getDescriptionOrNull(@Nullable FullSingleCardWidgetModel model) {
+    public static String getDescriptionOrNull(@Nullable FullSingleCardWidgetModel model) {
         if (model == null || model.getFullCard() == null || model.getFullCard().getCard() == null || TextUtils.isEmpty(model.getFullCard().getCard().getDescription())) {
             return null;
         }

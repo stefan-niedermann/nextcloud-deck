@@ -85,7 +85,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     // Markdown
-    implementation 'com.github.stefan-niedermann:nextcloud-notes:v3.1.4'
+    implementation 'com.github.stefan-niedermann:nextcloud-notes:v3.2.0'
 
     // Single-Sign-On
     implementation 'com.github.nextcloud:Android-SingleSignOn:0.5.6'
