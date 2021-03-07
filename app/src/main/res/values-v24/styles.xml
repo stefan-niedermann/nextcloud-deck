@@ -4,5 +4,6 @@
     <style name="NavigationView">
         <item name="android:ellipsize">middle</item>
         <item name="android:listDivider">@null</item>
+        <item name="android:colorControlHighlight">@android:color/transparent</item>
     </style>
 </resources>

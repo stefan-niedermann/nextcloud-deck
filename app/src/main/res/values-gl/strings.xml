@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Abrir o caixón de navegación</string>
     <string name="navigation_drawer_close">Pechar o caixón de navegación</string>
 
-    <string name="drawer_header_background">Imaxe de fondo do cabeceira do caixón</string>
-    <string name="drawer_current_account">Conta actual</string>
-    <string name="drawer_middle_account">Conta media</string>
-    <string name="drawer_end_account">Última conta</string>
-    <string name="drawer_manage_accounts">Xestionar contas</string>
-
     <string name="simple_boards">Taboleiros</string>
     <string name="simple_add">Engadir</string>
     <string name="simple_save">Gardar</string>
@@ -102,7 +96,7 @@
     <string name="no_files_attached_to_this_card">Non hai ficheiros anexos a esta tarxeta.</string>
     <string name="attachments">Anexos</string>
     <string name="no_cards">Aínda non hai tarxetas</string>
-    <string name="no_account">Non hai contas configuradas.</string>
+    <string name="no_account">Non hai ningunha conta configurada</string>
     <string name="account_already_added">Foi engadida a conta</string>
     <string name="account_is_getting_imported">A conta está a importarse</string>
     <string name="not_synced_yet">Aínda non foi sincronizado</string>
@@ -120,9 +114,8 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Engadir unha nova lista co botón +</string>
     <string name="add_a_new_card_using_the_button">Engadir unha nova tarxeta co botón +</string>
-    <string name="update_deck">Actualizar o Deck</string>
-    <string name="your_deck_version_is_too_old">A versión do Deck é antiga de máis.</string>
-    <string name="deck_outdated_please_update">A versión do Deck é antiga de máis (%1$s). Actualice para usar esta apli de Android como cliente.</string>
+    <string name="update_deck">Actualizar a aplicación web Deck</string>
+    <string name="deck_outdated_please_update">A versión da súa aplicación web Deck é antiga de máis (%1$s). Actualice para usar esta apli de Android como cliente.</string>
     <string name="delete_board_message">Isto eliminará este taboleiro de xeito permanente incluíndo todas as listas e tarxetas.</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Xestión da marca</string>
@@ -130,6 +123,11 @@
     <string name="settings_background_sync">Sincronización do traballo en segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronización con wifi e con datos móbiles</string>
     <string name="pref_value_wifi_only">Sincronizar só con wifi</string>
+    <string-array name="darkmode_entries">
+        <item>Predeterminado do sistema</item>
+        <item>Claro</item>
+        <item>Escuro</item>
+    </string-array>
     <string name="unassigned_user">Desasignado %1$s</string>
     <string name="no_activities">Non hai actividades nesta tarxeta. Para cargar e amosar actividades necesita estar conectado á Internet.</string>
     <string name="share_board">Taboleiro compartido</string>
@@ -145,11 +143,9 @@
     <string name="hours_6">6 horas</string>
     <string name="action_card_move">Mover a tarxeta</string>
     <string name="action_card_move_title">Mover %1$s</string>
-    <string name="please_add_an_account_first">Engada antes unha conta</string>
     <string name="title_is_mandatory">O título é obrigatorio</string>
     <string name="provide_at_least_a_title_or_description">Forneza polo menos un título ou descrición</string>
     <string name="welcome_text">Dámoslle a benvida a %1$s</string>
-    <string name="save_card_before_attachment">Ten que gardar a tarxeta antes de engadir anexos.</string>
     <string name="maintenance_mode_explanation">O servidor %1$s está atopase en modo de mantemento. Póñase en contacto co seu administrador ou ténteo de novo máis tarde.</string>
     <string name="share_add_to_card">Engadir á tarxeta</string>
     <string name="share_success">%1$s foi engadido satisfactoriamente  a %2$s</string>
@@ -170,9 +166,11 @@
     <string name="filter_no_filter">Todo</string>
     <string name="filter_overdue">Caducado</string>
     <string name="filter_today">Hoxe</string>
+    <string name="filter_tomorrow">Mañá</string>
     <string name="filter_week">Próximos 7 días</string>
     <string name="filter_month">Próximos 30 días</string>
     <string name="filter_no_due">Sen data de caducidade</string>
+    <string name="filter_later">Despois</string>
     <string name="filter_by_tag">Filtrar pola etiqueta</string>
     <string name="filter_by_assigned_user">Filtrar polo usuario asignado</string>
     <string name="filter_by_duedate">Filtrar pola data de caducidade</string>
@@ -200,9 +198,7 @@
     <string name="error_revoking_ac">Produciuse un erro ao revogar o acceso a %1$s</string>
     <string name="error_create_label">Produciuse un erro ao crear a etiqueta %1$s</string>
     <string name="maintenance_mode">Servidor en modo de mantemento</string>
-    <string name="server_misconfigured">Configuración incorrecta do servidor</string>
     <string name="server_error">Produciuse un erro de servidor</string>
-    <string name="shared_error">Aínda non se admite totalmente compartir contido de aplicacións de terceiros. Tente descargalo e compártao despois no xestor de ficheiros ou na galería.</string>
     <string name="error_edit_activity_killed_by_android">Android rematou o modo de edición porque necesitaba máis recursos do sistema para outras aplicacións.</string>
 
     <string name="error_dialog_title">Vaites, e agora que? 🙁</string>
@@ -235,12 +231,14 @@
     <string name="info_box_maintenance_mode">Servidor en modo de mantemento</string>
     <string name="info_box_version_not_supported">A versión %1$s do servidor non é compatíbel, actualice a %2$s</string>
     <string name="share_link">Compartir ligazón</string>
+    <string name="share_content">Compartir o contido</string>
+    <string name="share_content_duedate">Data de caducidade: %1$s</string>
+    <string name="share_content_labels">Etiquetas: %1$s</string>
     <string name="archive_cards">Arquivar as tarxetas</string>
 
     <string name="manage_accounts">Xestionar contas</string>
     <string name="manage_list">Xestionar a lista</string>
     <string name="simple_reply">Responder</string>
-    <string name="error_while_uploading_attachment">Produciuse un erro ao enviar o anexo: %1$s</string>
     <string name="append_text_to_description">Anexo á descrición</string>
     <string name="add_text_as_comment">Engadir como comentario</string>
     <string name="progress_count">%1$d de %2$d</string>
@@ -258,8 +256,9 @@
     <string name="card_does_not_yet_exist">Aínda non existe a tarxeta no Deck</string>
 
     <string name="widget_stack_title">Lista</string>
+    <string name="widget_filter_title">Filtro</string>
     <string name="widget_stack_header_icon">Icona de cabeceira do trebello</string>
-    <string name="widget_stack_placeholder_icon">Icona de marcador de posición do trebello</string>
+    <string name="widget_placeholder_icon">Icona de marcador de posición do trebello</string>
     <string name="select_stack">Seleccionar a lista</string>
     <string name="project_type_deck_board">Taboleiro do Deck</string>
     <string name="project_type_deck_card">Tarxeta do Deck</string>
@@ -281,7 +280,6 @@
     <string name="simple_contact">Contacto</string>
     <string name="simple_file">Ficheiro</string>
     <string name="simple_camera">Cámara</string>
-    <string name="min_api_21">Esta función require polo menos Android 5</string>
     <string name="take_photo">Tirar unha foto</string>
     <string name="take_photo_switch_camera">Cambiar de cámara</string>
     <string name="take_photo_toggle_torch">Alternar o facho</string>
@@ -295,5 +293,8 @@
     <string name="gallery">Galería</string>
     <string name="simple_attach">anexar</string>
     <string name="add_stack_widget">Engadir o trebello de lista</string>
+    <string name="add_filter_widget">Engadir o trebello de filtro</string>
+    <string name="simple_order">Orde</string>
     <string name="edit_description">Editar a descrición</string>
+    <string name="widget_upcoming_title">Tarxetas próximas</string>
 </resources>

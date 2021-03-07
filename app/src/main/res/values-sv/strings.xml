@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Öppna navigeringspanelen</string>
     <string name="navigation_drawer_close">Stäng navigeringslådan</string>
 
-    <string name="drawer_header_background">Bakgrundsbild på appskärmsrubriken</string>
-    <string name="drawer_current_account">Nuvarande konto</string>
-    <string name="drawer_middle_account">Mittenkonto</string>
-    <string name="drawer_end_account">Sista konto</string>
-    <string name="drawer_manage_accounts">Hantera konton</string>
-
     <string name="simple_boards">Tavlor</string>
     <string name="simple_add">Lägg till</string>
     <string name="simple_save">Spara</string>
@@ -56,7 +50,7 @@
     <string name="about_source_title">Källkod</string>
     <string name="about_source">Detta projekt finns på GitHub: %1$s</string>
     <string name="about_issues_title">Problem</string>
-    <string name="about_issues">Du kan rapportera buggar, förbättringsförslag och funktionsönskningar på GitHubs problemhanterare: %1$s</string>
+    <string name="about_issues">Du kan rapportera fel, förbättringsförslag och funktionsönskningar på GitHub- problemhanteraren: %1$s</string>
     <string name="about_translate_title">Översätt</string>
     <string name="about_translate">Gå med i Nextcloud-gruppen på Transifex och hjälp oss översätta denna app: %1$s</string>
     <string name="about_app_license_title">Applicens</string>
@@ -120,15 +114,18 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Lägg till en ny lista med + knappen</string>
     <string name="add_a_new_card_using_the_button">Lägg till ett nytt kort med + knappen</string>
-    <string name="update_deck">Uppdatera Deck</string>
-    <string name="your_deck_version_is_too_old">Din version är för gammal</string>
-    <string name="deck_outdated_please_update">Din version av Deck är för gammal (%1$s). Uppdatera för att använda den här Android-appen som klient.</string>
     <string name="delete_board_message">Detta kommer att permanent radera denna tavla inklusive alla listor och kort.</string>
+    <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Varumärke</string>
     <string name="settings_compact_title">Kompakt läge</string>
     <string name="settings_background_sync">Bakgrundssynkronisering</string>
     <string name="pref_value_wifi_and_mobile">Synkronisera med Wi-Fi och mobildata</string>
     <string name="pref_value_wifi_only">Synkronisera endast med Wi-Fi</string>
+    <string-array name="darkmode_entries">
+        <item>Systemstandard</item>
+        <item>Ljust</item>
+        <item>Mörkt</item>
+    </string-array>
     <string name="unassigned_user">Tog bort tilldelning %1$s</string>
     <string name="no_activities">Det finns inga aktiviteter på det här kortet. Du måste vara ansluten till internet för att läsa in och visa aktiviteter.</string>
     <string name="share_board">Dela tavla</string>
@@ -144,11 +141,9 @@
     <string name="hours_6">6 timmar</string>
     <string name="action_card_move">Flytta kort</string>
     <string name="action_card_move_title">Flytta %1$s</string>
-    <string name="please_add_an_account_first">Lägg till ett konto först</string>
     <string name="title_is_mandatory">Titel är obligatorisk</string>
     <string name="provide_at_least_a_title_or_description">Ange åtminstone en titel eller beskrivning</string>
     <string name="welcome_text">Välkommen till %1$s</string>
-    <string name="save_card_before_attachment">Kortet måste sparas innan bilagor kan läggas till.</string>
     <string name="maintenance_mode_explanation">Servern %1$s är för närvarande i underhållsläge. Kontakta din administratör eller försök igen senare.</string>
     <string name="share_add_to_card">Lägg till i kort</string>
     <string name="share_success">La till %1$s till %2$s</string>
@@ -199,9 +194,7 @@
     <string name="error_revoking_ac">Fel vid återkallande av åtkomst för %1$s</string>
     <string name="error_create_label">Fel vid skapandet av etiketten %1$s</string>
     <string name="maintenance_mode">Server i underhållsläge</string>
-    <string name="server_misconfigured">Server felkonfigurerad</string>
     <string name="server_error">Serverfel</string>
-    <string name="shared_error">Delning av innehåll från appar från tredje part stöds ännu inte helt. Vänligen försök att hämta det först och dela det sedan från din ursprungliga filhanterare eller galleri.</string>
     <string name="error_edit_activity_killed_by_android">Android avslutade redigeringsläget eftersom det behövde mer systemresurser för andra appar.</string>
 
     <string name="error_dialog_title">Å nej - Vad händer nu?🙁</string>
@@ -224,7 +217,7 @@
     <string name="error_dialog_account_might_not_be_authorized">Ditt Nextcloud-konto är eventuellt inte längre auktoriserat. </string>
     <string name="error_dialog_user_not_found_in_database">Den nuvarande användaren matchar inte användaren vi har i vår databas. Om ni använder LDAP i er Nextcloud-instans kan din Nextcloud-app ha lagrat ett gammalt användar-ID.</string>
     <string name="error_dialog_capabilities_not_parsable">Vi kunde inte hämta er servers förmågor. Vänligen säkerställ att er server fungerar som den ska och att klient-appar kan komma åt Nextcloud.</string>
-    <string name="error_dialog_attachment_upload_failed">En bifogad fil kunde inte laddas upp. Försök dela den på ett annat och sätt och vänligen berätta för oss om den här buggen.</string>
+    <string name="error_dialog_attachment_upload_failed">En bifogad fil kunde inte laddas upp. Försök dela den på ett annat och sätt och vänligen berätta för oss om det här felet.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Stäng av alla batterioptimeringar för Nextcloud och Deck-appen</string>
     <string name="error_action_open_deck_info">Öppna appinformation</string>
     <string name="error_action_open_network">Nätverksinställningar</string>
@@ -239,7 +232,6 @@
     <string name="manage_accounts">Hantera konton</string>
     <string name="manage_list">Hantera lista</string>
     <string name="simple_reply">Svara</string>
-    <string name="error_while_uploading_attachment">Fel vid uppladdning av bilaga: %1$s</string>
     <string name="append_text_to_description">Lägg till beskrivning</string>
     <string name="add_text_as_comment">Lägg till som kommentar</string>
     <string name="progress_count">%1$d av %2$d</string>
@@ -258,7 +250,6 @@
 
     <string name="widget_stack_title">Lista</string>
     <string name="widget_stack_header_icon">Ikon för widgetens sidhuvud</string>
-    <string name="widget_stack_placeholder_icon">Ikon för widgetens platshållare</string>
     <string name="select_stack">Välj lista</string>
     <string name="project_type_deck_board">Deck-plank</string>
     <string name="project_type_deck_card">Deck-kort</string>
@@ -277,4 +268,21 @@
     <string name="simple_clone">Klona</string>
     <string name="user_avatar">Användar-avatar</string>
     <string name="simple_unassign">Ta bort tilldelning</string>
+    <string name="simple_contact">Kontakt</string>
+    <string name="simple_file">Fil</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="take_photo">Ta en bild</string>
+    <string name="take_photo_switch_camera">Växla kamera</string>
+    <string name="take_photo_toggle_torch">Starta lampa</string>
+    <string name="show_all_contacts">Visa alla kontakter</string>
+    <string name="show_all_files">Visa alla filer</string>
+    <string name="recent">Senaste</string>
+    <string name="upload_a_new_attachment">Ladda upp ny bilaga</string>
+    <string name="contacts">Kontakter</string>
+    <string name="downloads">Nedladdningar</string>
+    <string name="files">Filer</string>
+    <string name="gallery">Galleri</string>
+    <string name="simple_attach">bifoga</string>
+    <string name="add_stack_widget">Lägg till listwidget</string>
+    <string name="edit_description">Ändra beskrivning</string>
     </resources>

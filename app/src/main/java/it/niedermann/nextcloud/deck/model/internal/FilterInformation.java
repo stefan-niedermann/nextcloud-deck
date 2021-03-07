@@ -10,6 +10,7 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 
 public class FilterInformation implements Serializable {
 
@@ -21,10 +22,13 @@ public class FilterInformation implements Serializable {
     private EDueType dueType = EDueType.NO_FILTER;
     private boolean noAssignedLabel = false;
     private boolean noAssignedUser = false;
+    private boolean noAssignedProject = false;
     @NonNull
     private List<User> users = new ArrayList<>();
     @NonNull
     private List<Label> labels = new ArrayList<>();
+    @NonNull
+    private List<OcsProject> projects = new ArrayList<>();
     @NonNull
     private EArchiveStatus archiveStatus = EArchiveStatus.NON_ARCHIVED;
 
@@ -41,6 +45,8 @@ public class FilterInformation implements Serializable {
             this.noAssignedUser = filterInformation.isNoAssignedUser();
             this.noAssignedLabel = filterInformation.isNoAssignedLabel();
             this.archiveStatus = filterInformation.getArchiveStatus();
+            this.noAssignedProject = filterInformation.isNoAssignedProject();
+            this.projects = filterInformation.getProjects();
         }
     }
 
@@ -99,6 +105,31 @@ public class FilterInformation implements Serializable {
         this.archiveStatus = archiveStatus;
     }
 
+    public void setUsers(@NonNull List<User> users) {
+        this.users = users;
+    }
+
+    public boolean isNoAssignedProject() {
+        return noAssignedProject;
+    }
+
+    public void setNoAssignedProject(boolean noAssignedProject) {
+        this.noAssignedProject = noAssignedProject;
+    }
+
+    public void setLabels(@NonNull List<Label> labels) {
+        this.labels = labels;
+    }
+
+    @NonNull
+    public List<OcsProject> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(@NonNull List<OcsProject> projects) {
+        this.projects = projects;
+    }
+
     @NonNull
     public EArchiveStatus getArchiveStatus() {
         return archiveStatus;
@@ -126,8 +157,10 @@ public class FilterInformation implements Serializable {
         }
         return filterInformation.getDueType() != EDueType.NO_FILTER
                 || filterInformation.getUsers().size() > 0
+                || filterInformation.getProjects().size() > 0
                 || filterInformation.getLabels().size() > 0
                 || filterInformation.noAssignedUser
+                || filterInformation.noAssignedProject
                 || filterInformation.noAssignedLabel;
     }
 }

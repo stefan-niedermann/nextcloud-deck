@@ -1,0 +1,3 @@
+- 📤 Share content of a card (#854)
+- 🐞 Do not assign card when share link
+- ⚠️ Show only warning when moving a card if the card has attachments or comments (#804)

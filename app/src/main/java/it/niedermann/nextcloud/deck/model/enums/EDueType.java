@@ -8,17 +8,32 @@ import androidx.annotation.StringRes;
 import it.niedermann.nextcloud.deck.R;
 
 public enum EDueType {
-    NO_FILTER(R.string.filter_no_filter),
-    OVERDUE(R.string.filter_overdue),
-    TODAY(R.string.filter_today),
-    WEEK(R.string.filter_week),
-    MONTH(R.string.filter_month),
-    NO_DUE(R.string.filter_no_due);
+    NO_FILTER(1, R.string.filter_no_filter),
+    OVERDUE(2, R.string.filter_overdue),
+    TODAY(3, R.string.filter_today),
+    WEEK(4, R.string.filter_week),
+    MONTH(5, R.string.filter_month),
+    NO_DUE(6, R.string.filter_no_due);
 
-    private int value;
+    private final int value;
+    private final int id;
 
-    EDueType(@StringRes int value) {
+    EDueType(int id, @StringRes int value) {
         this.value = value;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public static EDueType findById(int id) {
+        for (EDueType s : EDueType.values()) {
+            if (s.getId() == id) {
+                return s;
+            }
+        }
+        throw new IllegalArgumentException("unknown " + EDueType.class.getSimpleName() + " key: " + id);
     }
 
     @NonNull

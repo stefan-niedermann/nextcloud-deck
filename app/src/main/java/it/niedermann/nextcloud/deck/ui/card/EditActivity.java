@@ -176,6 +176,12 @@ public class EditActivity extends BrandedActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish(); // close this activity as oppose to navigating up
+        return true;
+    }
+
     /**
      * Tries to save the current {@link FullCard} from the {@link EditCardViewModel} and then finishes this activity.
      */
@@ -211,7 +217,7 @@ public class EditActivity extends BrandedActivity {
         binding.tabLayout.removeAllTabs();
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), getLifecycle());
+        final CardTabAdapter adapter = new CardTabAdapter(this);
         final TabLayoutMediator mediator = new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> {
             tab.setIcon(!viewModel.isCreateMode() && viewModel.hasCommentsAbility()
                     ? tabIconsWithComments[position]
@@ -303,27 +309,27 @@ public class EditActivity extends BrandedActivity {
     }
 
     @NonNull
-    public static Intent createNewCardIntent(@NonNull Context context, @NonNull Account account, Long boardId, Long stackId, @NonNull String title) {
-        return createNewCardIntent(context, account, boardId, stackId)
+    public static Intent createNewCardIntent(@NonNull Context context, @NonNull Account account, Long boardLocalId, Long stackId, @NonNull String title) {
+        return createNewCardIntent(context, account, boardLocalId, stackId)
                 .putExtra(BUNDLE_KEY_TITLE, title);
     }
 
     @NonNull
-    public static Intent createNewCardIntent(@NonNull Context context, @NonNull Account account, Long boardId, Long stackId) {
-        return createBasicIntent(context, account, boardId)
+    public static Intent createNewCardIntent(@NonNull Context context, @NonNull Account account, Long boardLocalId, Long stackId) {
+        return createBasicIntent(context, account, boardLocalId)
                 .putExtra(BUNDLE_KEY_STACK_ID, stackId);
     }
 
     @NonNull
-    public static Intent createEditCardIntent(@NonNull Context context, @NonNull Account account, Long boardId, Long cardId) {
-        return createBasicIntent(context, account, boardId)
+    public static Intent createEditCardIntent(@NonNull Context context, @NonNull Account account, Long boardLocalId, Long cardId) {
+        return createBasicIntent(context, account, boardLocalId)
                 .putExtra(BUNDLE_KEY_CARD_ID, cardId);
     }
 
-    private static Intent createBasicIntent(@NonNull Context context, @NonNull Account account, Long boardId) {
+    private static Intent createBasicIntent(@NonNull Context context, @NonNull Account account, Long boardLocalId) {
         return new Intent(context, EditActivity.class)
                 .putExtra(BUNDLE_KEY_ACCOUNT, account)
-                .putExtra(BUNDLE_KEY_BOARD_ID, boardId)
+                .putExtra(BUNDLE_KEY_BOARD_ID, boardLocalId)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 }

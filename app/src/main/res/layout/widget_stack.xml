@@ -59,6 +59,6 @@
         android:textColor="@color/fg_secondary"
         app:srcCompat="@drawable/ic_local_movies_grey600_24dp"
         tools:visibility="gone"
-        android:contentDescription="@string/widget_stack_placeholder_icon" />
+        android:contentDescription="@string/widget_placeholder_icon" />
 
 </LinearLayout>

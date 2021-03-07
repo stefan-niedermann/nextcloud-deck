@@ -108,7 +108,7 @@ public abstract class PickStackActivity extends AppCompatActivity implements Bra
         }
     }
 
-    abstract protected void onSubmit(Account account, long boardId, long stackId);
+    abstract protected void onSubmit(Account account, long boardLocalId, long stackId);
 
     abstract protected boolean showBoardsWithoutEditPermission();
 }

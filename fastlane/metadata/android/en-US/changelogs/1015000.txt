@@ -1,0 +1,4 @@
+- ✅ Toggle checkboxes in description on click (#756)
+- 👤 Comments tab: Instead of comments icon next to input box, show person’s avatar (#843)
+- 📦 Updated icon of Nextcloud Projects
+- 🌎 Updated translations

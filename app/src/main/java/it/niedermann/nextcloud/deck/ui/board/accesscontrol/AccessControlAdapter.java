@@ -93,7 +93,8 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ViewUtil.addAvatar(acHolder.binding.avatar, account.getUrl(), ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
 
                 acHolder.binding.username.setText(ac.getUser().getDisplayname());
-                acHolder.binding.username.setCompoundDrawables(null, null, ac.getStatus() == DBStatus.LOCAL_EDITED.getId() ? context.getResources().getDrawable(R.drawable.ic_sync_blue_24dp) : null, null);
+                acHolder.binding.username.setCompoundDrawables(null, null, ac.getStatus() == DBStatus.LOCAL_EDITED.getId()
+                        ? ContextCompat.getDrawable(context, R.drawable.ic_sync_blue_24dp) : null, null);
                 acHolder.binding.delete.setOnClickListener((v) -> accessControlChangedListener.deleteAccessControl(ac));
 
                 if (hasManagePermission) {

@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">탐색 서랍 창 열기</string>
     <string name="navigation_drawer_close">탐색 서랍 창 닫기</string>
 
-    <string name="drawer_header_background">탐색 헤더의 배경 이미지</string>
-    <string name="drawer_current_account">현재 계정</string>
-    <string name="drawer_middle_account">중간 계정</string>
-    <string name="drawer_end_account">마지막 계정</string>
-    <string name="drawer_manage_accounts">계정 관리</string>
-
     <string name="simple_boards">게시판</string>
     <string name="simple_add">추가</string>
     <string name="simple_save">저장</string>
@@ -118,9 +112,6 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">+버튼을 사용하여 새로운 리스트를 더하시오.</string>
     <string name="add_a_new_card_using_the_button">+ 버튼을 사용하여 새 카드를 추가</string>
-    <string name="update_deck">덱 업데이트하기</string>
-    <string name="your_deck_version_is_too_old">덱 버전이 너무 오래되었습니다.</string>
-    <string name="deck_outdated_please_update">너무 오래된 버전입니다(%1$s). 업데이트 해주십시오.</string>
     <string name="delete_board_message">모든 리스트와 카드를 포함한 이 보드를 영구적으로 지웁니다.</string>
     <string name="settings_theme_title">테마</string>
     <string name="settings_branding_title">브랜딩</string>
@@ -148,11 +139,9 @@
     <string name="hours_6">6시간</string>
     <string name="action_card_move">카드 이동</string>
     <string name="action_card_move_title">%1$s 이동</string>
-    <string name="please_add_an_account_first">먼저 계정을 더해주십시오.</string>
     <string name="title_is_mandatory">필수사항입니다.</string>
     <string name="provide_at_least_a_title_or_description">적어도 제목이나 내용을 기술하시오.</string>
     <string name="welcome_text">%1$s에 오신 것을 환영합니다.</string>
-    <string name="save_card_before_attachment">첨부파일이 더해지기 전에 카드가 저장되어야합니다.</string>
     <string name="maintenance_mode_explanation">%1$s서버는 현재 유지보수 모드입니다. 관리자에게 연락하거나 나중에 시도해주십시오.</string>
     <string name="share_add_to_card">카드를 더하십시오.</string>
     <string name="share_success">%1$s가  %2$s에  성공적으로 더해졌습니다.</string>
@@ -173,9 +162,11 @@
     <string name="filter_no_filter">모두</string>
     <string name="filter_overdue">기한 넘김</string>
     <string name="filter_today">오늘</string>
+    <string name="filter_tomorrow">내일</string>
     <string name="filter_week">다음 7일 동안</string>
     <string name="filter_month">다음 30일 동안</string>
     <string name="filter_no_due">기한 없음</string>
+    <string name="filter_later">나중에</string>
     <string name="filter_by_tag">태그로 필터링</string>
     <string name="filter_by_assigned_user">지정된 사용자로 필터링</string>
     <string name="filter_by_duedate">기한으로 필터링</string>
@@ -203,9 +194,7 @@
     <string name="error_revoking_ac">%1$s에 대한 접근 취소 중에 에러가 발생했습니다.</string>
     <string name="error_create_label">%1$s라벨을 만드는 중에 에러가 발생했습니다.</string>
     <string name="maintenance_mode">서버가 유지 관리 모드임</string>
-    <string name="server_misconfigured">서버 설정이 잘못됐습니다.</string>
     <string name="server_error">서버 오류</string>
-    <string name="shared_error">다른 앱에 컨텐츠를 공유하는 것은 아직 지원되지 않습니다. 먼저 그것을 다운로드 하시고, 당신의 기기에 있는 파일 관리자나 갤러리로부터 공유하십시오.</string>
     <string name="error_edit_activity_killed_by_android">다른 앱에 시스템 자원이 더 필요하여 안드로이드가 편집모드를 종료했습니다.</string>
 
     <string name="error_dialog_title">세상에 - 무슨일이야?</string>
@@ -243,7 +232,6 @@
     <string name="manage_accounts">계정 관리</string>
     <string name="manage_list">목록 관리</string>
     <string name="simple_reply">답장</string>
-    <string name="error_while_uploading_attachment">%1$s 첨부 파일을 업로드하는 동안 오류가 발생했습니다.</string>
     <string name="append_text_to_description">설명에 추가</string>
     <string name="add_text_as_comment">댓글로 추가하기</string>
     <string name="progress_count">%2$d의 %1$d</string>
@@ -260,8 +248,9 @@
     <string name="card_does_not_yet_exist">카드가 아직 Deck에 없습니다.</string>
 
     <string name="widget_stack_title">목록</string>
+    <string name="widget_filter_title">필터</string>
     <string name="widget_stack_header_icon">위젯 헤더 아이콘</string>
-    <string name="widget_stack_placeholder_icon">위젯 자리 표시 아이콘</string>
+    <string name="widget_placeholder_icon">위젯 위치 표시 아이콘</string>
     <string name="select_stack">목록 선택</string>
     <string name="project_type_deck_board">Deck 보드</string>
     <string name="project_type_deck_card">Deck 카드</string>
@@ -282,7 +271,6 @@
     <string name="simple_contact">연락처</string>
     <string name="simple_file">파일</string>
     <string name="simple_camera">카메라</string>
-    <string name="min_api_21">이 기능을 사용하려면 적어도 Android 5가 필요합니다.</string>
     <string name="take_photo">사진 찍기</string>
     <string name="take_photo_switch_camera">카메라 전환</string>
     <string name="take_photo_toggle_torch">토치 전환</string>
@@ -296,5 +284,8 @@
     <string name="gallery">갤러리</string>
     <string name="simple_attach">첨부하기</string>
     <string name="add_stack_widget">목록 위젯 추가</string>
+    <string name="add_filter_widget">필터 위젯 추가</string>
+    <string name="simple_order">순서</string>
     <string name="edit_description">설명 편집</string>
+    <string name="widget_upcoming_title">다음 카드들</string>
 </resources>

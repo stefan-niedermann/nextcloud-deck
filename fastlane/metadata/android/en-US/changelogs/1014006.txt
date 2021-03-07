@@ -1,0 +1,2 @@
+- 📆 Upcoming cards widget: Do not show archived cards (#822)
+- 🌎 Updated translations

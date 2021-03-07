@@ -33,7 +33,7 @@ public interface BoardDao extends GenericDao<Board> {
     Board getBoardByRemoteIdDirectly(long accountId, long remoteId);
 
     @Query("SELECT * FROM board WHERE localId = :localId")
-    Board getBoardByIdDirectly(long localId);
+    Board getBoardByLocalIdDirectly(long localId);
 
     @Transaction
     @Query("SELECT * FROM board WHERE accountId = :accountId and id = :remoteId")
@@ -52,8 +52,11 @@ public interface BoardDao extends GenericDao<Board> {
     LiveData<FullBoard> getFullBoardById(final long accountId, final long localId);
 
 
-    @Query("SELECT b.* FROM board b JOIN stack s ON s.boardId = b.localId JOIN card c ON c.localId = :localCardId")
+    @Query("SELECT b.* FROM board b JOIN stack s ON s.boardId = b.localId JOIN card c ON s.localId = c.stackId where c.localId = :localCardId")
     Board getBoardByLocalCardIdDirectly(long localCardId);
+
+    @Query("SELECT b.localId FROM board b JOIN stack s ON s.boardId = b.localId JOIN card c ON s.localId = c.stackId where c.localId = :localCardId")
+    Long getBoardLocalIdByLocalCardIdDirectly(long localCardId);
 
     @Transaction
     @Query("SELECT b.* FROM board b JOIN stack s ON s.boardId = b.localId JOIN card c ON c.localId = :localCardId and c.stackId = s.localId")

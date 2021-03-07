@@ -136,6 +136,36 @@
             android:name=".ui.exception.ExceptionActivity"
             android:process=":error_activity" />
 
+<!--        <receiver-->
+<!--            android:name="it.niedermann.nextcloud.deck.ui.widget.filter.FilterWidget"-->
+<!--            android:label="@string/widget_filter_title">-->
+
+<!--            <intent-filter>-->
+<!--                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />-->
+<!--            </intent-filter>-->
+
+<!--            <meta-data-->
+<!--                android:name="android.appwidget.provider"-->
+<!--                android:resource="@xml/filter_widget_provider" />-->
+<!--        </receiver>-->
+
+        <service
+            android:name=".ui.widget.upcoming.UpcomingWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <receiver
+            android:name="it.niedermann.nextcloud.deck.ui.widget.upcoming.UpcomingWidget"
+            android:label="@string/widget_upcoming_title">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/upcoming_widget_provider" />
+        </receiver>
+
         <activity android:name=".ui.widget.stack.StackWidgetConfigurationActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
@@ -179,6 +209,10 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".ui.widget.singlecard.SingleCardWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <receiver
             android:name=".ui.widget.singlecard.SingleCardWidget"

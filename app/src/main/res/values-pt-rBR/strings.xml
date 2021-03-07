@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Abra a gaveta de navegação</string>
     <string name="navigation_drawer_close">Fechar a gaveta de navegação</string>
 
-    <string name="drawer_header_background">Imagem de fundo do cabeçalho da gaveta</string>
-    <string name="drawer_current_account">Conta atual</string>
-    <string name="drawer_middle_account">Conta do meio</string>
-    <string name="drawer_end_account">Última conta</string>
-    <string name="drawer_manage_accounts">Gerenciar contas</string>
-
     <string name="simple_boards">Painéis</string>
     <string name="simple_add">Adicionar</string>
     <string name="simple_save">Salvar</string>
@@ -120,9 +114,8 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Adicione uma nova lista usando o botão +</string>
     <string name="add_a_new_card_using_the_button">Adicionar um novo cartão usando o botão +</string>
-    <string name="update_deck">Atualizar o dock</string>
-    <string name="your_deck_version_is_too_old">Sua versão do dock é muito antiga.</string>
-    <string name="deck_outdated_please_update">Sua versão do Deck (%1$s) é muito antiga. Atualize-a para usar este aplicativo android como cliente.</string>
+    <string name="update_deck">Atualize o aplicativo web Deck</string>
+    <string name="deck_outdated_please_update">A versão do seu aplicativo web Deck é muito antiga (%1$s). Atualize-a para usar este aplicativo Android como cliente.</string>
     <string name="delete_board_message">Isso excluirá permanentemente este painel incluindo listas e cartões.</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Marcação</string>
@@ -130,6 +123,11 @@
     <string name="settings_background_sync">Sincronização em segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronizar com Wi-Fi e dados móveis</string>
     <string name="pref_value_wifi_only">Sincronizar apenas com Wi-Fi</string>
+    <string-array name="darkmode_entries">
+        <item>Padrão do sistema</item>
+        <item>Claro</item>
+        <item>Escuro</item>
+    </string-array>
     <string name="unassigned_user"> %1$s desatribuído</string>
     <string name="no_activities">Não há atividades neste cartão. Você precisa estar conectado com a internet para carregar e exibir atividades.</string>
     <string name="share_board">Compartilhar painel</string>
@@ -145,11 +143,9 @@
     <string name="hours_6">6 horas</string>
     <string name="action_card_move">Mover cartão</string>
     <string name="action_card_move_title">Mover %1$s</string>
-    <string name="please_add_an_account_first">Adicione uma conta primeiro</string>
     <string name="title_is_mandatory">O título é obrigatório</string>
     <string name="provide_at_least_a_title_or_description">Forneça ao menos um título ou descrição</string>
     <string name="welcome_text">Bem-vindo ao %1$s</string>
-    <string name="save_card_before_attachment">O cartão precisa ser salvo antes que anexos sejam adicionados.</string>
     <string name="maintenance_mode_explanation">O servidor %1$s está no modo de manutenção. Entre em contato com o administrador ou tente novamente mais tarde.</string>
     <string name="share_add_to_card">Adicionar ao cartão</string>
     <string name="share_success">%1$s adicionado com sucesso à %2$s</string>
@@ -170,9 +166,11 @@
     <string name="filter_no_filter">Tudo</string>
     <string name="filter_overdue">Vencidos</string>
     <string name="filter_today">Hoje</string>
+    <string name="filter_tomorrow">Amanhã</string>
     <string name="filter_week">Próximos 7 dias</string>
     <string name="filter_month">Próximos 30 dias</string>
     <string name="filter_no_due">Sem data de vencimento</string>
+    <string name="filter_later">Mais tarde</string>
     <string name="filter_by_tag">Filtrar por etiqueta</string>
     <string name="filter_by_assigned_user">Filtrar por usuário atribuído</string>
     <string name="filter_by_duedate">Filtrar por data de vencimento</string>
@@ -200,9 +198,7 @@
     <string name="error_revoking_ac">Ocorreu um erro ao revogar o acesso para %1$s</string>
     <string name="error_create_label">Erro ao criar o rótulo %1$s</string>
     <string name="maintenance_mode">Servidor em modo de manutenção</string>
-    <string name="server_misconfigured">Servidor mal configurado</string>
     <string name="server_error">Erro no servidor</string>
-    <string name="shared_error">O compartilhamento de conteúdo de aplicativos de terceiros ainda não é totalmente suportado. Tente baixá-lo primeiro e depois compartilhá-lo do seu gerenciador de arquivos nativo ou galeria.</string>
     <string name="error_edit_activity_killed_by_android">O Android terminou o modo de edição porque precisava de mais recursos do sistema para outros aplicativos.</string>
 
     <string name="error_dialog_title">Oh não - E agora? 🙁</string>
@@ -240,7 +236,6 @@
     <string name="manage_accounts">Gerenciar contas</string>
     <string name="manage_list">Gerenciar lista</string>
     <string name="simple_reply">Responder</string>
-    <string name="error_while_uploading_attachment">Erro ao enviar anexo: %1$s</string>
     <string name="append_text_to_description">Anexar à descrição</string>
     <string name="add_text_as_comment">Adicionar como comentário</string>
     <string name="progress_count">%1$d de %2$d</string>
@@ -258,8 +253,9 @@
     <string name="card_does_not_yet_exist">O cartão ainda não existe no Deck</string>
 
     <string name="widget_stack_title">Lista</string>
+    <string name="widget_filter_title">Filtrar</string>
     <string name="widget_stack_header_icon">Ícone do cabeçalho do widget</string>
-    <string name="widget_stack_placeholder_icon">Ícone de marcador de posição do widget</string>
+    <string name="widget_placeholder_icon">Ícone do marcador de posição do widget</string>
     <string name="select_stack">Selecionar lista</string>
     <string name="project_type_deck_board">Painel de deck</string>
     <string name="project_type_deck_card">Cartão de deck</string>
@@ -281,7 +277,6 @@
     <string name="simple_contact">Contato</string>
     <string name="simple_file">Arquivo</string>
     <string name="simple_camera">Câmera</string>
-    <string name="min_api_21">Este recurso requer pelo menos Android 5</string>
     <string name="take_photo">Tire uma foto</string>
     <string name="take_photo_switch_camera">Trocar câmera</string>
     <string name="take_photo_toggle_torch">Alternar tocha</string>
@@ -295,5 +290,8 @@
     <string name="gallery">Galeria</string>
     <string name="simple_attach">anexar</string>
     <string name="add_stack_widget">Adicionar widget de lista</string>
+    <string name="add_filter_widget">Adicionar widget de filtro</string>
+    <string name="simple_order">Pedido</string>
     <string name="edit_description">Editar descrição</string>
+    <string name="widget_upcoming_title">Próximos cartões</string>
 </resources>

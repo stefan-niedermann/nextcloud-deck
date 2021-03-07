@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card.comments;
 
+import android.text.method.LinkMovementMethod;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import it.niedermann.android.util.ClipboardUtil;
 import it.niedermann.android.util.DimensionUtil;
@@ -36,15 +38,18 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
     public ItemCommentViewHolder(ItemCommentBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
+        this.binding.message.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
-    public void bind(@NonNull FullDeckComment comment, @NonNull Account account, @ColorInt int mainColor, @NonNull MenuInflater inflater, @NonNull CommentDeletedListener deletedListener, @NonNull CommentSelectAsReplyListener selectAsReplyListener, @NonNull FragmentManager fragmentManager) {
+    public void bind(@NonNull FullDeckComment comment, @NonNull Account account, @ColorInt int mainColor, @NonNull MenuInflater inflater, @NonNull CommentDeletedListener deletedListener, @NonNull CommentSelectAsReplyListener selectAsReplyListener, @NonNull FragmentManager fragmentManager, @NonNull Consumer<CharSequence> editListener) {
         ViewUtil.addAvatar(binding.avatar, account.getUrl(), comment.getComment().getActorId(), DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
         final Map<String, String> mentions = new HashMap<>(comment.getComment().getMentions().size());
         for (Mention mention : comment.getComment().getMentions()) {
             mentions.put(mention.getMentionId(), mention.getMentionDisplayName());
         }
+        binding.message.setText(comment.getComment().getMessage());
         binding.message.setMarkdownString(comment.getComment().getMessage(), mentions);
+        binding.message.setMarkdownStringChangedListener(editListener);
         binding.actorDisplayName.setText(comment.getComment().getActorDisplayName());
         binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(binding.creationDateTime.getContext(), comment.getComment().getCreationDateTime().toEpochMilli()));
 
@@ -97,5 +102,10 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
                 binding.parent.setMaxLines(previouslyCollapsed ? Integer.MAX_VALUE : commentParentMaxLines);
             });
         }
+    }
+
+    public void unbind() {
+        binding.message.setText("");
+        binding.message.setMarkdownStringChangedListener(null);
     }
 }

@@ -12,7 +12,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.camera.core.Camera;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
@@ -36,10 +35,8 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 
-import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.IMAGE_JPEG;
 
-@RequiresApi(LOLLIPOP)
 public class TakePhotoActivity extends BrandedActivity {
 
     private ActivityTakePhotoBinding binding;
@@ -167,7 +164,6 @@ public class TakePhotoActivity extends BrandedActivity {
         }
     }
 
-    @RequiresApi(LOLLIPOP)
     public static Intent createIntent(@NonNull Context context) {
         return new Intent(context, TakePhotoActivity.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
     }

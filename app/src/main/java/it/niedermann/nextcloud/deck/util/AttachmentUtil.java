@@ -11,6 +11,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.Px;
+import androidx.annotation.WorkerThread;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -75,6 +76,11 @@ public class AttachmentUtil {
         return accountUrl + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachmentRemoteId;
     }
 
+    /**
+     * https://help.nextcloud.com/t/android-app-select-file-with-nextcloud-app-file-cant-be-read/103706
+     * Must not be called from the UI thread because the {@param currentUri} might refer to a not yet locally available file.
+     */
+    @WorkerThread
     public static File copyContentUriToTempFile(@NonNull Context context, @NonNull Uri currentUri, long accountId, Long localCardId) throws IOException, IllegalArgumentException {
         final InputStream inputStream = context.getContentResolver().openInputStream(currentUri);
         if (inputStream == null) {

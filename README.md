@@ -42,15 +42,16 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 * Translated in many languages 🌎
 
 ## 🏁 Planned features
-* [Improved Markdown support](https://github.com/stefan-niedermann/nextcloud-deck/issues/452)
-* [Filter Widget](https://github.com/stefan-niedermann/nextcloud-deck/issues/597)
-* Further stabilization of the UI and bugfixes
+* [Compress images before uploading as attachment](https://github.com/stefan-niedermann/nextcloud-deck/issues/587)
+* [Toggle checkboxes in description on click](https://github.com/stefan-niedermann/nextcloud-deck/issues/756)
+* Enhanced support for projects
 
 ## 👪 Join the team
 * Test the app with different devices
 * Report issues in the [issue tracker](https://github.com/stefan-niedermann/nextcloud-deck/issues)
 * [Pick a good first issue](https://github.com/stefan-niedermann/nextcloud-deck/labels/good%20first%20issue) :notebook:
 * Create a [Pull Request](https://opensource.guide/how-to-contribute/#opening-a-pull-request)
+* Help increasing the test coverage by contributing unit tests
 * Translate the app on [Transifex](https://www.transifex.com/nextcloud/nextcloud/android-deck/)
 * Send me a bottle of your favorite beer :beers: :wink:
 

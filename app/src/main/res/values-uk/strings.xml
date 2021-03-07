@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Розгорнути скриньку з навігацією</string>
     <string name="navigation_drawer_close">Згорнути скриньку з навігацією</string>
 
-    <string name="drawer_header_background">Фонове зображення заголовку скрині</string>
-    <string name="drawer_current_account">Поточний обліковий запис</string>
-    <string name="drawer_middle_account">Проміжний обліковий запис</string>
-    <string name="drawer_end_account">Останній обліковий запис</string>
-    <string name="drawer_manage_accounts">Облікові записи</string>
-
     <string name="simple_boards">Дошки</string>
     <string name="simple_add">Додати</string>
     <string name="simple_save">Зберегти</string>
@@ -123,9 +117,6 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Створюйте нові списки за допомогою кнопки (+)</string>
     <string name="add_a_new_card_using_the_button">Додавайте нові картки за допомогою кнопки (+)</string>
-    <string name="update_deck">Оновити</string>
-    <string name="your_deck_version_is_too_old">Версія вашого застосунку застаріла</string>
-    <string name="deck_outdated_please_update">Версія вашого застосунку застаріла (%1$s). Будь ласка, оновіть її для використання застосунку на мобільному пристрої в якості клієнта .</string>
     <string name="delete_board_message">Це безповоротно вилучіть дошку разом зі списками та картками</string>
     <string name="settings_branding_title">Оформлення</string>
     <string name="settings_background_sync">Фонова синхронізація</string>
@@ -146,11 +137,9 @@
     <string name="hours_6">6 годин</string>
     <string name="action_card_move">Пересунути картку</string>
     <string name="action_card_move_title">Пересунути %1$s</string>
-    <string name="please_add_an_account_first">Спочатку додайте обліковий запис</string>
     <string name="title_is_mandatory">Назва є обов\'язковою</string>
     <string name="provide_at_least_a_title_or_description">Щонайменше додайте назву чи опис</string>
     <string name="welcome_text">Вітаємо у %1$s</string>
-    <string name="save_card_before_attachment">Перед додаванням вмісту потрібно зберегти картку</string>
     <string name="maintenance_mode_explanation">Зараз сервер %1$s у режимі технічного обслуговування. Будь ласка, сконтактуйте з вашим адміністратором або спробуйте пізніше.</string>
     <string name="share_add_to_card">Додати до картки</string>
     <string name="share_success">Успішно додано %1$s до %2$s</string>
@@ -201,9 +190,7 @@
     <string name="error_revoking_ac">Помилка під час відкликання доступу для %1$s</string>
     <string name="error_create_label">Помилка під час створення ярлика %1$s</string>
     <string name="maintenance_mode">Сервер у режимі обслуговування</string>
-    <string name="server_misconfigured">Сервер налаштовано некоректно</string>
     <string name="server_error">Помилка серверу</string>
-    <string name="shared_error">Спільний доступ до вмісту з інших застосунків ще не підтримується повністю. Будь ласка, спробуйте спочатку звантажити цей вміст, а потім поділитися ним через вбудований менеджер файлів або галерею.</string>
     <string name="error_edit_activity_killed_by_android">Android вивантажив режим редагування через нестачу системних ресурсів.</string>
 
     <string name="error_dialog_title">От халепа!</string>
@@ -229,7 +216,6 @@
     <string name="manage_accounts">Облікові записи</string>
     <string name="manage_list">Керувати списком</string>
     <string name="simple_reply">Відповісти</string>
-    <string name="error_while_uploading_attachment">Помилка під час завантаження вкладення: %1$s</string>
     <string name="append_text_to_description">Додати до опису</string>
     <string name="add_text_as_comment">Додати коментар</string>
     <string name="progress_count">%1$d з %2$d</string>
@@ -244,7 +230,6 @@
 
     <string name="widget_stack_title">Список</string>
     <string name="widget_stack_header_icon">Піктограма заголовку віджету</string>
-    <string name="widget_stack_placeholder_icon">Піктограма поля віджету</string>
     <string name="select_stack">Виберіть список</string>
     <string name="project_type_file">Файл</string>
     <string name="projects_title">Проєкти</string>

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.LinkedList;
@@ -33,7 +34,7 @@ public class ManageLabelsAdapter extends RecyclerView.Adapter<ManageLabelsViewHo
     ManageLabelsAdapter(@NonNull ManageLabelListener listener, @NonNull Context context) {
         this.listener = listener;
         this.context = context;
-        this.mainColor = context.getResources().getColor(R.color.primary);
+        this.mainColor = ContextCompat.getColor(context, R.color.primary);
         setHasStableIds(true);
     }
 

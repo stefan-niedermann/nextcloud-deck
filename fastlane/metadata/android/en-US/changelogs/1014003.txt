@@ -1,0 +1,1 @@
+- 📆 Upcoming cards widget shows also not assigned cards from boards which are not shared (#800)

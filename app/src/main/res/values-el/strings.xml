@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Άνοιγμα συρταριού πλοήγησης</string>
     <string name="navigation_drawer_close">Κλείσιμο συρταριού πλοήγησης</string>
 
-    <string name="drawer_header_background">Φωτογραφία φόντου επικεφαλίδας συρταριού</string>
-    <string name="drawer_current_account">Τρέχον λογαριασμός</string>
-    <string name="drawer_middle_account">Μεσαίος λογαριασμός</string>
-    <string name="drawer_end_account">Τελευταίος λογαριασμός</string>
-    <string name="drawer_manage_accounts">Διαχείριση λογαριασμών</string>
-
     <string name="simple_boards">Πίνακες</string>
     <string name="simple_add">Προσθήκη</string>
     <string name="simple_save">Αποθήκευση</string>
@@ -109,6 +103,7 @@
     <string name="no_lists_yet">Χωρίς λίστες ακόμη</string>
     <string name="do_you_want_to_save_your_changes">Θέλετε να αποθηκεύσετε τις αλλαγές σας;</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Θέλετε να αρχειοθετήσετε όλες τις κάρτες του %1$s;</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Θέλετε να αρχειοθετήσετε όλες τις φιλτραρισμένες κάρτες του %1$s; </string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Μόνιμη διαγραφή %1$dτης κάρτας της λίστας.</item>
         <item quantity="other">Μόνιμη διαγραφή όλων %1$d των καρτών της λίστας.</item>
@@ -119,15 +114,20 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Προσθήκη νέας λίστας με το κουμπί +</string>
     <string name="add_a_new_card_using_the_button">Προσθέστε νέα κάρτα με το κουμπί +</string>
-    <string name="update_deck">Ενημέρωση Deck</string>
-    <string name="your_deck_version_is_too_old">Η έκδοσή σας είναι παλαιά.</string>
-    <string name="deck_outdated_please_update">Η έκδοσή σας είναι είναι παλαιά (%1$s). Παρακαλούμε αναβαθμίστε για επιπλέον χρήση.</string>
+    <string name="update_deck">Ενημέρωση εφαρμογής ιστού Deck</string>
+    <string name="deck_outdated_please_update">Η έκδοση της εφαρμογής ιστού Deck είναι πολύ παλαιά (%1$s). Παρακαλούμε αναβαθμίστε ώστε να μπορείτε να χρησιμοποιήσετε αυτή την εφαρμογή Android ως πελάτη.</string>
     <string name="delete_board_message">Μόνιμη διαγραφή πίνακα με όλες τις λίστες και κάρτες.</string>
+    <string name="settings_theme_title">Θέμα</string>
     <string name="settings_branding_title">Επωνυμία</string>
     <string name="settings_compact_title">Συμπαγής λειτουργία</string>
     <string name="settings_background_sync">Συγχρονισμός στο παρασκήνιο</string>
     <string name="pref_value_wifi_and_mobile">Συγχρονισμός σε Wi-Fi και δεδομένα κινητού</string>
     <string name="pref_value_wifi_only">Συγχρονισμός μόνο σε Wi-Fi</string>
+    <string-array name="darkmode_entries">
+        <item>Προεπιλογή συστήματος</item>
+        <item>Ανοιχτό</item>
+        <item>Σκούρο</item>
+    </string-array>
     <string name="unassigned_user">Αδιάθετα %1$s</string>
     <string name="no_activities">Δεν υπάρχουν δραστηριότητες σε αυτή την κάρτα. Θα πρέπει να είστε συνδεδεμένοι στο Ίντερνετ για να φορτώσετε και να εμφανίσετε δραστηριότητες.</string>
     <string name="share_board">Διαμοιρασμός πίνακα</string>
@@ -143,11 +143,9 @@
     <string name="hours_6">6 ώρες</string>
     <string name="action_card_move">Μετακίνηση κάρτας</string>
     <string name="action_card_move_title">Μετακίνηση %1$s</string>
-    <string name="please_add_an_account_first">Παρακαλώ προσθέστε λογαριασμό πρώτα</string>
     <string name="title_is_mandatory">Υποχρεωτικός τίτλος</string>
     <string name="provide_at_least_a_title_or_description">Προσθέστε τουλάχιστον τίτλο ή περιγραφή</string>
     <string name="welcome_text">Καλώς ήρθατε στο %1$s</string>
-    <string name="save_card_before_attachment">Η κάρτα πρέπει να αποθηκευτεί πριν προστεθούν συνημμένα.</string>
     <string name="maintenance_mode_explanation">Ο διακομιστής %1$s είναι σε κατάσταση συντήρησης. Επικοινωνήστε με τον διαχειριστή ή δοκιμάστε αργότερα.</string>
     <string name="share_add_to_card">Προσθήκη στην κάρτα</string>
     <string name="share_success">Επιτυχής προσθήκη %1$s από %2$s</string>
@@ -168,9 +166,11 @@
     <string name="filter_no_filter">\'Ολα</string>
     <string name="filter_overdue">Εκπρόθεσμος</string>
     <string name="filter_today">Σήμερα</string>
+    <string name="filter_tomorrow">Αύριο</string>
     <string name="filter_week">Επόμενες 7 ημέρες</string>
     <string name="filter_month">Επόμενες 30 ημέρες</string>
     <string name="filter_no_due">Χωρίς ημερομηνία λήξης</string>
+    <string name="filter_later">Αργότερα</string>
     <string name="filter_by_tag">Φίλτρο ανά ετικέτα</string>
     <string name="filter_by_assigned_user">Φίλτρο ανά χρήστη</string>
     <string name="filter_by_duedate">Φίλτρο ανά ημερομηνία λήξης</string>
@@ -198,9 +198,7 @@
     <string name="error_revoking_ac">Σφάλμα κατά την ανάκληση πρόσβασης για %1$s</string>
     <string name="error_create_label">Σφάλμα κατά τη δημιουργία ετικέτας %1$s</string>
     <string name="maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
-    <string name="server_misconfigured">Λάθος ρυθμίσεις διακομιστή</string>
     <string name="server_error">Σφάλμα διακομιστή</string>
-    <string name="shared_error">Ο διαμοιρασμός περιεχομένου από εφαρμογές τρίτων δεν υποστηρίζεται πλήρως ακόμη. Παρακαλώ κάνετε λήψη πρώτα και στη συνέχεια διαμοιράστε από τον διαχειριστή αρχείων σας ή την συλλογή σας.</string>
     <string name="error_edit_activity_killed_by_android">Το Android ολοκλήρωσε τη λειτουργία επεξεργασίας επειδή χρειαζόταν περισσότερους πόρους συστήματος για άλλες εφαρμογές.</string>
 
     <string name="error_dialog_title">Ωχ όχι - Τώρα τί; 🙁</string>
@@ -238,7 +236,6 @@
     <string name="manage_accounts">Διαχείριση λογαριασμών</string>
     <string name="manage_list">Διαχείριση λίστας</string>
     <string name="simple_reply">Απάντηση</string>
-    <string name="error_while_uploading_attachment">Σφάλμα κατά την μεταφόρτωση του συνημμένου: %1$s</string>
     <string name="append_text_to_description">Προσάρτηση στην περιγραφή</string>
     <string name="add_text_as_comment">Προσθήκη ως σχόλιο</string>
     <string name="progress_count">%1$d από %2$d</string>
@@ -256,8 +253,8 @@
     <string name="card_does_not_yet_exist">Η κάρτα δεν υπάρχει ακόμα στο Deck</string>
 
     <string name="widget_stack_title">Λίστα</string>
+    <string name="widget_filter_title">Φίλτρο</string>
     <string name="widget_stack_header_icon">Εικονίδιο επικεφαλίδας του γραφικού στοιχείου</string>
-    <string name="widget_stack_placeholder_icon">Εικονίδιο θέσης κράτησης του γραφικού στοιχείου</string>
     <string name="select_stack">Επιλέξτε λίστα</string>
     <string name="project_type_deck_board">Πίνακας του Deck</string>
     <string name="project_type_deck_card">Κάρτα του Deck</string>
@@ -272,5 +269,28 @@
     <string name="project_type_room">Δωμάτιο του Talk </string>
     <string name="simple_move">Μετακίνηση</string>
     <string name="cannot_upload_files_without_permission">Δεν μπορείτε να ανεβάσετε αρχεία χωρίς άδεια</string>
+    <string name="clone_cards">Κάρτες κλώνου</string>
+    <string name="simple_clone">Κλώνος</string>
+    <string name="user_avatar">Άβαταρ χρήστη</string>
     <string name="simple_unassign">Αποδέσμευση</string>
-    </resources>
+    <string name="simple_contact">Επικοινωνία</string>
+    <string name="simple_file">Αρχείο</string>
+    <string name="simple_camera">Κάμερα</string>
+    <string name="take_photo">Βγάλε μια φωτογραφία</string>
+    <string name="take_photo_switch_camera">Εναλλαγή κάμερας</string>
+    <string name="take_photo_toggle_torch">Εναλλαγή φακού</string>
+    <string name="show_all_contacts">Εμφάνιση όλων των επαφών</string>
+    <string name="show_all_files">Εμφάνιση όλων των αρχείων</string>
+    <string name="recent">Πρόσφατο</string>
+    <string name="upload_a_new_attachment">Ανεβάστε ένα νέο συνημμένο</string>
+    <string name="contacts">Επαφές</string>
+    <string name="downloads">Λήψεις</string>
+    <string name="files">Αρχεία</string>
+    <string name="gallery">Εκθεσιακός χώρος</string>
+    <string name="simple_attach">Επισυνάπτω</string>
+    <string name="add_stack_widget">Προσθήκη λίστας widget</string>
+    <string name="add_filter_widget">Προσθήκη φίλτρου μικροεφαρμογής</string>
+    <string name="simple_order">Σειρά</string>
+    <string name="edit_description">Επεξεργασία περιγραφής</string>
+    <string name="widget_upcoming_title">Επερχόμενες κάρτες</string>
+</resources>

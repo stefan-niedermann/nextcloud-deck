@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -133,19 +135,24 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         applyBrandToEditText(mainColor, binding.dueDateDate);
         applyBrandToEditText(mainColor, binding.dueDateTime);
         applyBrandToEditText(mainColor, binding.people);
+        binding.descriptionEditor.setSearchColor(mainColor);
+        binding.descriptionViewer.setSearchColor(mainColor);
     }
 
     private void setupDescription() {
         if (viewModel.canEdit()) {
+            binding.descriptionViewer.setMovementMethod(LinkMovementMethod.getInstance());
             binding.descriptionBar.setOnClickListener((v) -> binding.descriptionEditor.requestFocus());
             binding.descriptionToggle.setOnClickListener((v) -> {
                 editorActive = !editorActive;
                 if (editorActive) {
+                    binding.descriptionEditor.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
                     binding.descriptionBar.setOnClickListener((view) -> binding.descriptionEditor.requestFocus());
                     binding.descriptionEditor.setVisibility(VISIBLE);
                     binding.descriptionViewer.setVisibility(GONE);
                     binding.descriptionToggle.setImageResource(R.drawable.ic_baseline_eye_24);
                 } else {
+                    binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
                     binding.descriptionBar.setOnClickListener(null);
                     binding.descriptionEditor.setVisibility(GONE);
                     binding.descriptionViewer.setVisibility(VISIBLE);
@@ -153,15 +160,17 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                 }
             });
             binding.descriptionEditor.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
-            binding.descriptionEditor.getMarkdownString().observe(getViewLifecycleOwner(), (newText) -> {
+            final Observer<CharSequence> descriptionObserver = (description) -> {
+
                 if (viewModel.getFullCard() != null) {
-                    viewModel.getFullCard().getCard().setDescription(newText == null ? "" : newText.toString());
-                    binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
+                    viewModel.getFullCard().getCard().setDescription(description == null ? "" : description.toString());
                 } else {
-                    DeckLog.logError(new IllegalStateException(FullCard.class.getSimpleName() + " was empty when trying to setup description"));
+                    ExceptionDialogFragment.newInstance(new IllegalStateException(FullCard.class.getSimpleName() + " was empty when trying to setup description"), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 }
-                binding.descriptionToggle.setVisibility(TextUtils.isEmpty(newText) ? GONE : VISIBLE);
-            });
+                binding.descriptionToggle.setVisibility(TextUtils.isEmpty(description) ? GONE : VISIBLE);
+            };
+            binding.descriptionEditor.getMarkdownString().observe(getViewLifecycleOwner(), descriptionObserver);
+            binding.descriptionViewer.getMarkdownString().observe(getViewLifecycleOwner(), descriptionObserver);
         } else {
             binding.descriptionEditor.setEnabled(false);
             binding.descriptionEditor.setVisibility(VISIBLE);

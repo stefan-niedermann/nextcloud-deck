@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Åpne navigasjonsskuff</string>
     <string name="navigation_drawer_close">Lukk navigasjonsskuff</string>
 
-    <string name="drawer_header_background">Bakgrunsbilde for innledning på meny</string>
-    <string name="drawer_current_account">Nåværende konto</string>
-    <string name="drawer_middle_account">Mellomkonto</string>
-    <string name="drawer_end_account">Siste konto</string>
-    <string name="drawer_manage_accounts">Håndter kontoer</string>
-
     <string name="simple_boards">Tavler</string>
     <string name="simple_add">Legg til</string>
     <string name="simple_save">Lagre</string>
@@ -119,15 +113,18 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Legg til ny liste ved å bruke + knappen</string>
     <string name="add_a_new_card_using_the_button">Legg til nytt kort ved å bruke + knappen</string>
-    <string name="update_deck">Oppdater «deck»</string>
-    <string name="your_deck_version_is_too_old">Din tjenerversjon av «deck» er updatert</string>
-    <string name="deck_outdated_please_update">Din tjenerversjon av «deck» er utdatert (%1$s). Vennligst oppdater for å bruke denne android appen som klient.</string>
     <string name="delete_board_message">Dette vil uopprettelig slette denne tavlen inkludert alle lister og kort.</string>
+    <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Kompakt modus</string>
     <string name="settings_background_sync">Synkronisering i bakgrunnen</string>
     <string name="pref_value_wifi_and_mobile">Synkroniser med WiFi og mobil data</string>
     <string name="pref_value_wifi_only">Synkroniser kun med WiFi</string>
+    <string-array name="darkmode_entries">
+        <item>System standard</item>
+        <item>Lys</item>
+        <item>Mørk</item>
+    </string-array>
     <string name="unassigned_user">Ikke tildelt %1$s</string>
     <string name="no_activities">Det er ingen aktiviteter på dette kortet. Du må være koblet til internett for å kunne laste inn og vise aktivitetene.</string>
     <string name="share_board">Del tavle</string>
@@ -143,11 +140,9 @@
     <string name="hours_6">6 timer</string>
     <string name="action_card_move">Flytt kort</string>
     <string name="action_card_move_title">Flytt %1$s</string>
-    <string name="please_add_an_account_first">Vennligst legg til en konto først</string>
     <string name="title_is_mandatory">Tittel er obligatorisk</string>
     <string name="provide_at_least_a_title_or_description">I det minste gi en tittel eller beskrivelse</string>
     <string name="welcome_text">Velkommen til %1$s</string>
-    <string name="save_card_before_attachment">Kortet må lagres før det kan legges til vedlegg.</string>
     <string name="maintenance_mode_explanation">Serveren %1$s er for øyeblikket i vedlikeholds modus. Vennligs kontakt din administrator eller prøv igjen senere.</string>
     <string name="share_add_to_card">Legg til i kort</string>
     <string name="share_success">%1$sble vellykket lagt til %2$s</string>
@@ -198,9 +193,7 @@
     <string name="error_revoking_ac">Feil ved tilbakekalling av tilgang for%1$s</string>
     <string name="error_create_label">Feil ved opprettelse av etikett %1$s</string>
     <string name="maintenance_mode">Server i vedlikeholdsmodus</string>
-    <string name="server_misconfigured">Server feilkonfigurert</string>
     <string name="server_error">Tjenerfeil</string>
-    <string name="shared_error">Deling av innhold fra 3dje-partsapper støttes ikke fullt ut. Prøv å laste den ned først og deretter dele den fra din lokale filbehandler eller ditt galleri.</string>
     <string name="error_edit_activity_killed_by_android">Android avsluttet redigeringsmodus fordi det trengte flere systemressurser til andre apper.</string>
 
     <string name="error_dialog_title">Å nei - Hva nå? 🙁</string>
@@ -238,7 +231,6 @@
     <string name="manage_accounts">Håndter kontoer</string>
     <string name="manage_list">Håndtere liste</string>
     <string name="simple_reply">Svar</string>
-    <string name="error_while_uploading_attachment">Feil ved opplasting av vedlegg: %1$s</string>
     <string name="append_text_to_description">Legg til beskrivelsen</string>
     <string name="add_text_as_comment">Legg til som kommentar</string>
     <string name="progress_count">%1$d av %2$d</string>
@@ -257,7 +249,6 @@
 
     <string name="widget_stack_title">Liste</string>
     <string name="widget_stack_header_icon">Widget topptekstikon</string>
-    <string name="widget_stack_placeholder_icon">Widget plassholderikon</string>
     <string name="select_stack">Velg liste</string>
     <string name="project_type_deck_board">Deck tavle</string>
     <string name="project_type_deck_card">Deck kort</string>
@@ -272,4 +263,24 @@
     <string name="project_type_room">Talk rom</string>
     <string name="simple_move">Flytt</string>
     <string name="cannot_upload_files_without_permission">Kan ikke laste opp filer uten tillatelse</string>
+    <string name="clone_cards">Klone kort</string>
+    <string name="simple_clone">Klone</string>
+    <string name="user_avatar">Bruker avatar</string>
+    <string name="simple_unassign">Fjern tildeling</string>
+    <string name="simple_contact">Kontakt</string>
+    <string name="simple_file">Fil</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="take_photo">Ta et bilde</string>
+    <string name="take_photo_switch_camera">Bytt kamera</string>
+    <string name="show_all_contacts">Vis alle kontakter</string>
+    <string name="show_all_files">Vis alle filer</string>
+    <string name="recent">Nylig</string>
+    <string name="upload_a_new_attachment">Last opp nytt vedlegg</string>
+    <string name="contacts">Kontakter</string>
+    <string name="downloads">Nedlastinger</string>
+    <string name="files">Filer</string>
+    <string name="gallery">Galleri</string>
+    <string name="simple_attach">legg ved</string>
+    <string name="add_stack_widget">Legg til liste widget</string>
+    <string name="edit_description">Rediger beskrivelse</string>
     </resources>

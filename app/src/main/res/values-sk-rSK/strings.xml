@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Otvoriť navigačný panel</string>
     <string name="navigation_drawer_close">Zavrieť navigačný panel</string>
 
-    <string name="drawer_header_background">Obrázok na pozadí hlavičky panela</string>
-    <string name="drawer_current_account">Aktuálny účet</string>
-    <string name="drawer_middle_account">Stredný účet</string>
-    <string name="drawer_end_account">Posledný účet</string>
-    <string name="drawer_manage_accounts">Spravovať účty</string>
-
     <string name="simple_boards">Nástenky</string>
     <string name="simple_add">Pridať</string>
     <string name="simple_save">Uložiť</string>
@@ -123,9 +117,6 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Pridajte nový zoznam pomocou tlačidla +</string>
     <string name="add_a_new_card_using_the_button">Pridajte novú kartu pomocou tlačidla +</string>
-    <string name="update_deck">Aktualizovať balíček</string>
-    <string name="your_deck_version_is_too_old">Verzia vášho balíčka je príliš stará</string>
-    <string name="deck_outdated_please_update">Verzia vášho balíčka je príliš stará (%1$s). Ak chcete túto aplikáciu pre Android používať ako klienta, aktualizujte ju.</string>
     <string name="delete_board_message">Táto nástenka sa natrvalo odstráni, vrátane všetkých zoznamov a kariet.</string>
     <string name="settings_branding_title">Použitie vlastného loga</string>
     <string name="settings_compact_title">Kompaktný režim</string>
@@ -147,11 +138,9 @@
     <string name="hours_6">6 hodín</string>
     <string name="action_card_move">Presunúť kartu</string>
     <string name="action_card_move_title">Preusnúť %1$s</string>
-    <string name="please_add_an_account_first">Najskôr pridajte účet</string>
     <string name="title_is_mandatory">Názov je povinný</string>
     <string name="provide_at_least_a_title_or_description">Uveďte aspoň názov alebo popis</string>
     <string name="welcome_text">Vitajte v %1$s</string>
-    <string name="save_card_before_attachment">Pred pridaním príloh je potrebné kartu uložiť.</string>
     <string name="maintenance_mode_explanation">Server %1$s je v móde údržby. Kontaktujte svojho správcu alebo to skúste znova neskôr.</string>
     <string name="share_add_to_card">Pridať do košíka</string>
     <string name="share_success">%1$s úspešne pridané do %2$s</string>
@@ -202,9 +191,7 @@
     <string name="error_revoking_ac">Chyba pri zrušení prístupu pre %1$s</string>
     <string name="error_create_label">Pri vytváraní označenia %1$s sa vyskytla chyba</string>
     <string name="maintenance_mode">Server je v móde údržby</string>
-    <string name="server_misconfigured">Server je nesprávne nakonfigurovaný</string>
     <string name="server_error">Chyba servera</string>
-    <string name="shared_error">Zdieľanie obsahu z aplikácií tretích strán zatiaľ nie je úplne podporované. Skúste si ho najprv stiahnuť a potom ho zdieľajte zo svojho správcu súborov alebo z galérie.</string>
     <string name="error_edit_activity_killed_by_android">Android ukončil úpravy, pretože viac systémových prostriedkov potreboval pre ďalšie aplikácie.</string>
 
     <string name="error_dialog_title">Ale nie - Čo teraz? 🙁</string>
@@ -242,7 +229,6 @@
     <string name="manage_accounts">Spravovať účty</string>
     <string name="manage_list">Spravovať zoznam</string>
     <string name="simple_reply">Odpoveď</string>
-    <string name="error_while_uploading_attachment">Chyba pri nahrávaní prílohy: %1$s</string>
     <string name="append_text_to_description">Pripojiť k popisu</string>
     <string name="add_text_as_comment">Pridať ako komentár</string>
     <string name="progress_count">%1$d z %2$d</string>
@@ -263,7 +249,6 @@
 
     <string name="widget_stack_title">Zoznam</string>
     <string name="widget_stack_header_icon">Ikona hlavičky miniaplikácie</string>
-    <string name="widget_stack_placeholder_icon">Ikona zástupného symbolu miniaplikácie</string>
     <string name="select_stack">Vyberte zoznam</string>
     <string name="project_type_deck_board">Palubná doska</string>
     <string name="project_type_deck_card">Palubná karta</string>
