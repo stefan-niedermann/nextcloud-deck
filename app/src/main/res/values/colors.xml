@@ -39,6 +39,7 @@
         <item>#8855a8</item>
     </string-array>
 
-    <color name="widget_background">#ccf5f5f5</color>
-    <color name="widget_foreground">#212121</color>
+    <color name="widget_outer_background">#eef9f9f9</color>
+    <color name="widget_background">#ddffffff</color>
+    <color name="widget_foreground">#222222</color>
 </resources>

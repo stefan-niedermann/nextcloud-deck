@@ -4,30 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/widget_single_card_background"
+    android:background="@drawable/widget_outer_background"
     android:orientation="vertical">
-
-    <!-- Widget header -->
-    <RelativeLayout
-        android:id="@+id/widget_upcoming_header_rl"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/widget_stack_header_height"
-        android:padding="@dimen/widget_stack_card_padding">
-
-        <TextView
-            android:id="@+id/widget_upcoming_title_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:paddingStart="@dimen/widget_stack_card_padding"
-            android:paddingEnd="@dimen/widget_stack_card_padding"
-            android:text="@string/widget_upcoming_title"
-            android:textAppearance="?attr/textAppearanceBody1"
-            android:textColor="@color/widget_foreground"
-            android:textSize="18sp" />
-
-    </RelativeLayout>
-    <!-- End header -->
 
     <ListView
         android:id="@+id/upcoming_widget_lv"
@@ -35,7 +13,9 @@
         android:layout_height="wrap_content"
         android:divider="@android:color/transparent"
         android:dividerHeight="@dimen/spacer_1x"
-        android:padding="@dimen/spacer_1x"
+        android:paddingStart="@dimen/spacer_1x"
+        android:paddingEnd="@dimen/spacer_1x"
+        android:paddingBottom="@dimen/spacer_1x"
         tools:listitem="@layout/widget_stack_entry" />
 
     <ImageView
