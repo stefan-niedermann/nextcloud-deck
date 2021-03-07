@@ -22,6 +22,7 @@ import java.util.NoSuchElementException;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -63,6 +64,24 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
                 }
                 return null;
             }), Comparator.nullsLast(Comparator.naturalOrder()));
+            comparator.thenComparing(card -> {
+                if (card != null &&
+                        card.getCard() != null &&
+                        card.getCard().getCard().getDueDate() != null) {
+
+                    Card c = card.getCard().getCard();
+
+                    if (c.getLastModified() == null && c.getLastModifiedLocal() != null) {
+                        return c.getLastModifiedLocal();
+                    } else if (c.getLastModified() != null && c.getLastModifiedLocal() == null) {
+                        return c.getLastModified();
+                    } else {
+                        return c.getLastModifiedLocal().toEpochMilli() > c.getLastModified().toEpochMilli() ?
+                                c.getLastModifiedLocal() : c.getLastModified();
+                    }
+                }
+                return null;
+            }, Comparator.nullsLast(Comparator.naturalOrder()));
 
             Collections.sort(
                     response,
