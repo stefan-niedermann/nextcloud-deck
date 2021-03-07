@@ -18,16 +18,10 @@ Please use **[GitHub reactions](https://blog.github.com/2016-03-10-add-reactions
 <!-- A clear and concise description of what the bug is. -->
 
 
-
-**To reproduce**
-Issue is reproducible with an account from [try.nextcloud.com](https://try.nextcloud.com):
-- [ ] Yes
-- [ ] No
-
 Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
+1. Go to '…'
+2. Click on '…'
+3. Scroll down to '…'
 4. See error
 
 
@@ -54,11 +48,6 @@ Steps to reproduce the behavior:
   - [ ] Google Play Store (Beta channel)
   - [ ] F-Droid
   - [ ] Huawei AppGallery
-
-
-**Are you using LDAP?**
-- [ ] Yes
-- [ ] No
 
 
 **Stacktrace**
