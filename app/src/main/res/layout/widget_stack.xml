@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/widget_single_card_background"
+    android:background="@drawable/widget_outer_background"
     android:orientation="vertical">
 
     <!-- Widget header -->
@@ -30,7 +30,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textAppearance="?attr/textAppearanceBody1"
-            android:textSize="18sp"
+            android:textSize="16sp"
+            android:textStyle="bold"
             android:layout_toEndOf="@id/widget_stack_header_icon"
             android:gravity="center_vertical"
             android:paddingStart="@dimen/widget_stack_card_padding"
