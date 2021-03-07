@@ -1334,7 +1334,7 @@ public class DataBaseAdapter {
                 }
             }
             List<Long> accountIds = null;
-            if (filterWidget.getAccounts() != null && !filterWidget.getAccounts().isEmpty()) {
+            if (!filterWidget.getAccounts().isEmpty()) {
                 accountIds = filterWidget.getAccounts().stream().map(FilterWidgetAccount::getAccountId).collect(Collectors.toList());
             }
             // https://github.com/stefan-niedermann/nextcloud-deck/issues/822 exclude archived cards and boards
