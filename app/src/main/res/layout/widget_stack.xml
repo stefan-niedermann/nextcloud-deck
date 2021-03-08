@@ -12,7 +12,9 @@
         android:id="@+id/widget_stack_header_rl"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_stack_header_height"
-        android:padding="@dimen/widget_stack_card_padding">
+        android:paddingTop="@dimen/spacer_1x"
+        android:paddingStart="@dimen/spacer_1x"
+        android:paddingEnd="@dimen/spacer_1x">
 
         <ImageView
             android:id="@+id/widget_stack_header_icon"
