@@ -235,6 +235,9 @@
     <string name="info_box_maintenance_mode">Na serveru probíhá údržba</string>
     <string name="info_box_version_not_supported">Verze serveru %1$s není podporována, přejděte na verzi %2$s</string>
     <string name="share_link">Odkaz na sdílení</string>
+    <string name="share_content">Sdílet obsah</string>
+    <string name="share_content_duedate">Datum termínu: %1$s</string>
+    <string name="share_content_labels">Štítky: %1$s</string>
     <string name="archive_cards">Archivovat karty</string>
 
     <string name="manage_accounts">Spravovat účty</string>

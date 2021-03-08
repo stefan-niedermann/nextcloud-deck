@@ -162,8 +162,8 @@
 
     <string name="filter_no_filter">全部</string>
     <string name="filter_overdue">過期</string>
-    <string name="filter_today">今天</string>
-    <string name="filter_tomorrow">明天</string>
+    <string name="filter_today">今日</string>
+    <string name="filter_tomorrow">明日</string>
     <string name="filter_week">接下來 7 天</string>
     <string name="filter_month">接下來 30 天</string>
     <string name="filter_no_due">沒有到期日</string>
@@ -184,7 +184,7 @@
     <string name="edit_tag">編輯 %1$s</string>
     <string name="filter_tags_title">標籤</string>
     <string name="filter_user_title">用戶</string>
-    <string name="filter_duedate_title">截止日</string>
+    <string name="filter_duedate_title">到期日</string>
 
     <string name="action_board_dearchive">撤消面板封存</string>
     <string name="archived_boards">已封存面板</string>
@@ -224,7 +224,6 @@
     <string name="share_link">分享連結</string>
     <string name="share_content">分享內容</string>
     <string name="share_content_duedate">到期日：%1$s</string>
-    <string name="share_content_labels">標籤：%1$s</string>
     <string name="archive_cards">封存卡片</string>
 
     <string name="manage_accounts">賬戶管理</string>
