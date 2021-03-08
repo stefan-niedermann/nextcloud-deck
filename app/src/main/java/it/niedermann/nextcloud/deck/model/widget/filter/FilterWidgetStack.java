@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.model.widget.filter;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -31,6 +32,15 @@ public class FilterWidgetStack {
     private Long id;
     private Long filterBoardId;
     private Long stackId;
+
+    public FilterWidgetStack() {
+        // Default constructor
+    }
+
+    @Ignore
+    public FilterWidgetStack(Long stackId) {
+        this.stackId = stackId;
+    }
 
     public Long getId() {
         return id;

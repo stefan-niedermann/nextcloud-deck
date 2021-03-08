@@ -55,7 +55,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
             final List<FilterWidgetCard> response = syncManager.getCardsForFilterWidget(appWidgetId);
             DeckLog.verbose(UpcomingWidgetFactory.class.getSimpleName() + " with id " + appWidgetId + " fetched " + response.size() + " cards from the database.");
             data.clear();
-            Comparator<FilterWidgetCard> comparator = Comparator.comparing((card -> {
+            final Comparator<FilterWidgetCard> comparator = Comparator.comparing((card -> {
                 if (card != null &&
                         card.getCard() != null &&
                         card.getCard().getCard() != null &&

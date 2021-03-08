@@ -37,6 +37,16 @@ public class FilterWidgetBoard {
     private Long boardId;
     private boolean includeNoLabel = true;
 
+    public FilterWidgetBoard() {
+        // Default constructor
+    }
+
+    @Ignore
+    public FilterWidgetBoard(Long boardId, List<FilterWidgetStack> stacks) {
+        this.boardId = boardId;
+        this.stacks = stacks;
+    }
+
     @Ignore
     private List<FilterWidgetStack> stacks = new ArrayList<>();
 

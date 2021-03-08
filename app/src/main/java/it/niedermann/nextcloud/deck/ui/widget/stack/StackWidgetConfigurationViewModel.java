@@ -5,6 +5,8 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
 @SuppressWarnings("WeakerAccess")
@@ -17,7 +19,7 @@ public class StackWidgetConfigurationViewModel extends AndroidViewModel {
         this.syncManager = new SyncManager(application);
     }
 
-    public void addStackWidget(int appWidgetId, long accountId, long stackId, boolean darkTheme) {
-        syncManager.addStackWidget(appWidgetId, accountId, stackId, darkTheme);
+    public void addStackWidget(@NonNull FilterWidget config, @NonNull IResponseCallback<Integer> callback) {
+        syncManager.createFilterWidget(config, callback);
     }
 }

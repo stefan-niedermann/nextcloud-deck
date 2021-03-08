@@ -10,6 +10,8 @@ import android.widget.RemoteViewsService;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.NoSuchElementException;
+
 import it.niedermann.android.markdown.MarkdownUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullSingleCardWidgetModel;
@@ -35,7 +37,11 @@ public class SingleCardWidgetFactory implements RemoteViewsService.RemoteViewsFa
 
     @Override
     public void onDataSetChanged() {
-        this.model = syncManager.getSingleCardWidgetModelDirectly(appWidgetId);
+        try {
+            this.model = syncManager.getSingleCardWidgetModelDirectly(appWidgetId);
+        } catch (NoSuchElementException e) {
+            this.model = null;
+        }
     }
 
     @Override

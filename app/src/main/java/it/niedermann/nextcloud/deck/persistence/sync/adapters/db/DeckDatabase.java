@@ -1,8 +1,10 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 
 import androidx.annotation.ColorInt;
@@ -33,7 +35,6 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Permission;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
-import it.niedermann.nextcloud.deck.model.appwidgets.StackWidgetModel;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
@@ -43,6 +44,7 @@ import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.model.relations.UserInBoard;
 import it.niedermann.nextcloud.deck.model.relations.UserInGroup;
+import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetBoard;
@@ -78,7 +80,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.Jo
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.OcsProjectDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.OcsProjectResourceDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.SingleCardWidgetModelDao;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.StackWidgetModelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetAccountDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetBoardDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetDao;
@@ -108,7 +109,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.fil
                 DeckComment.class,
                 Mention.class,
                 SingleCardWidgetModel.class,
-                StackWidgetModel.class,
                 OcsProject.class,
                 OcsProjectResource.class,
                 JoinCardWithProject.class,
@@ -125,7 +125,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.fil
                 FilterWidgetSort.class,
         },
         exportSchema = false,
-        version = 26
+        version = 27
 )
 @TypeConverters({DateTypeConverter.class, EnumConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -461,6 +461,51 @@ public abstract class DeckDatabase extends RoomDatabase {
 
         }
     };
+    private static final Migration MIGRATION_26_27 = new Migration(26, 27) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+
+            Cursor cursor = database.query("select s.localId, s.boardId, s.accountId, w.appWidgetId from `StackWidgetModel` w inner join `Stack` s on s.localId = w.stackId");
+            while (cursor.moveToNext()) {
+                Long localStackId = cursor.getLong(0);
+                Long localBoardId = cursor.getLong(1);
+                Long accountId = cursor.getLong(2);
+                Long filterWidgetId = cursor.getLong(3);
+
+                // widget:
+                ContentValues values = new ContentValues();
+                values.put("widgetType", EWidgetType.STACK_WIDGET.getId());
+                values.put("id", filterWidgetId);
+                database.insert("FilterWidget", SQLiteDatabase.CONFLICT_NONE, values);
+
+                // account
+                values = new ContentValues();
+                values.put("filterWidgetId", filterWidgetId);
+                values.put("accountId", accountId);
+                values.put("includeNoUser", false);
+                values.put("includeNoProject", false);
+                long filterWidgetAccountId = database.insert("FilterWidgetAccount", SQLiteDatabase.CONFLICT_NONE, values);
+
+                // board
+                values = new ContentValues();
+                values.put("filterAccountId", filterWidgetAccountId);
+                values.put("boardId", localBoardId);
+                values.put("includeNoLabel", false);
+                long filterWidgetBoardId = database.insert("FilterWidgetBoard", SQLiteDatabase.CONFLICT_NONE, values);
+
+                // stack
+                values = new ContentValues();
+                values.put("filterBoardId", filterWidgetBoardId);
+                values.put("stackId", localStackId);
+                database.insert("FilterWidgetStack", SQLiteDatabase.CONFLICT_NONE, values);
+
+
+            }
+
+            // cleanup
+            database.execSQL("DROP TABLE `StackWidgetModel`");
+        }
+    };
 
     public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
         @Override
@@ -540,6 +585,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 })
                 .addMigrations(MIGRATION_24_25)
                 .addMigrations(MIGRATION_25_26)
+                .addMigrations(MIGRATION_26_27)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();
@@ -580,8 +626,6 @@ public abstract class DeckDatabase extends RoomDatabase {
     public abstract MentionDao getMentionDao();
 
     public abstract SingleCardWidgetModelDao getSingleCardWidgetModelDao();
-
-    public abstract StackWidgetModelDao getStackWidgetModelDao();
 
     public abstract OcsProjectDao getOcsProjectDao();
 
