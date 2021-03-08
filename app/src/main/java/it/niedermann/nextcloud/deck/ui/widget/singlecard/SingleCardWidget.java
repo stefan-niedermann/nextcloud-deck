@@ -75,7 +75,7 @@ public class SingleCardWidget extends AppWidgetProvider {
                     } else {
                         views.setViewVisibility(R.id.card_count_attachments, View.VISIBLE);
                         views.setViewVisibility(R.id.card_count_attachments_image, View.VISIBLE);
-                        views.setImageViewResource(R.id.card_count_attachments_image, R.drawable.ic_check_grey600_24dp);
+                        views.setImageViewResource(R.id.card_count_attachments_image, R.drawable.ic_attach_file_grey600_24dp);
                         setupCounter(views, R.id.card_count_attachments, attachmentsCount, counterMaxValue);
                     }
 
@@ -95,7 +95,7 @@ public class SingleCardWidget extends AppWidgetProvider {
                         views.setViewVisibility(R.id.card_count_tasks, View.VISIBLE);
                         views.setViewVisibility(R.id.card_count_tasks_image, View.VISIBLE);
                         views.setTextViewText(R.id.card_count_tasks, context.getResources().getString(R.string.task_count, String.valueOf(taskStatus.doneCount), String.valueOf(taskStatus.taskCount)));
-                        views.setImageViewResource(R.id.card_count_tasks_image, R.drawable.ic_attach_file_grey600_24dp);
+                        views.setImageViewResource(R.id.card_count_tasks_image, R.drawable.ic_check_grey600_24dp);
                     } else {
                         views.setViewVisibility(R.id.card_count_tasks, View.GONE);
                         views.setViewVisibility(R.id.card_count_tasks_image, View.GONE);
