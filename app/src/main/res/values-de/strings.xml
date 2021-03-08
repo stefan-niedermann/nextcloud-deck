@@ -233,7 +233,7 @@
     <string name="share_link">Link teilen</string>
     <string name="share_content">Inhalt teilen</string>
     <string name="share_content_duedate">Fälligkeitsdatum: %1$s</string>
-    <string name="share_content_labels">Etiketten: %1$s</string>
+    <string name="share_content_labels">Schlagworte: %1$s</string>
     <string name="archive_cards">Karten archivieren</string>
 
     <string name="manage_accounts">Konten verwalten</string>
