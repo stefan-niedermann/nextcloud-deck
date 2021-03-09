@@ -1,6 +1,7 @@
 1.15.3
 
 - 🌓 Use slightly darker color as card background
+- 🐞 Better handling of error when no camera is available
 
 1.15.2
 
