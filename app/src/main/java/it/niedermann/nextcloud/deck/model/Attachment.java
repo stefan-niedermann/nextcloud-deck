@@ -8,6 +8,7 @@ import androidx.room.Index;
 import java.io.Serializable;
 import java.time.Instant;
 
+import it.niedermann.nextcloud.deck.model.enums.EAttachmentType;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 @Entity(inheritSuperIndices = true,
@@ -24,7 +25,8 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 public class Attachment extends AbstractRemoteEntity implements Comparable<Attachment>, Serializable {
 
     private long cardId;
-    private String type = "deck_file";
+    // TODO use EAttachmentType
+    private EAttachmentType type = EAttachmentType.DECK_FILE;
     private String data;
     private Instant createdAt;
     private String createdBy;
@@ -48,11 +50,11 @@ public class Attachment extends AbstractRemoteEntity implements Comparable<Attac
         this.cardId = cardId;
     }
 
-    public String getType() {
+    public EAttachmentType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(EAttachmentType type) {
         this.type = type;
     }
 

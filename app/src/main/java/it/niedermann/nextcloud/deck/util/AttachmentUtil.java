@@ -22,6 +22,7 @@ import java.io.InputStream;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Attachment;
+import it.niedermann.nextcloud.deck.model.enums.EAttachmentType;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 
 /**
@@ -39,7 +40,9 @@ public class AttachmentUtil {
      * the {@link Attachment} itself will be returned instead.
      */
     public static String getThumbnailUrl(@NonNull Version version, @NonNull String accountUrl, @NonNull Long cardRemoteId, @NonNull Attachment attachment, @Px int previewSize) {
-        return version.supportsFileAttachments() && !TextUtils.isEmpty(String.valueOf(attachment.getFileId()))
+        return version.supportsFileAttachments() &&
+                EAttachmentType.FILE.equals(attachment.getType()) &&
+                !TextUtils.isEmpty(attachment.getFileId())
                 ? accountUrl + "/index.php/core/preview?fileId=" + attachment.getFileId() + "&x=" + previewSize + "&y=" + previewSize
                 : getRemoteOrLocalUrl(accountUrl, cardRemoteId, attachment);
     }

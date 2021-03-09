@@ -35,7 +35,7 @@ public class DataPropagationHelper {
         boolean connected = serverAdapter.hasInternetConnection();
         if (connected) {
             try {
-                provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, new IResponseCallback<T>(new Account(accountId)) {
+                provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, new IResponseCallback<T>(callback.getAccount()) {
                     @Override
                     public void onResponse(T response) {
                         new Thread(() -> {

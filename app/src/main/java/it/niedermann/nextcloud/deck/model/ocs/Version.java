@@ -157,9 +157,7 @@ public class Version implements Comparable<Version> {
      * @see <a href="https://github.com/nextcloud/deck/pull/2638">documentation in PR</a>
      */
     public boolean supportsFileAttachments() {
-        return false;
-//         TODO depends on https://github.com/nextcloud/deck/pull/2638
-//         return isGreaterOrEqualTo(VERSION_1_3_0);
+        return isGreaterOrEqualTo(VERSION_1_3_0);
     }
 
     /**
