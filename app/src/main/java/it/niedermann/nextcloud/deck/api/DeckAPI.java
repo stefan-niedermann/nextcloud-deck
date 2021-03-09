@@ -132,12 +132,12 @@ public interface DeckAPI {
     Observable<List<Attachment>> getAttachments(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
 
     @Multipart
-    @POST("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments?type=deck_file")
-    Observable<Attachment> uploadAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId,  @Part MultipartBody.Part type, @Part MultipartBody.Part attachment);
+    @POST("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
+    Observable<Attachment> uploadAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Part MultipartBody.Part type, @Part MultipartBody.Part attachment);
 
     @Multipart
-    @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments?type=deck_file")
-    Observable<Attachment>  updateAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId, @Part MultipartBody.Part type, @Part MultipartBody.Part attachment);
+    @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
+    Observable<Attachment> updateAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId, @Part MultipartBody.Part type, @Part MultipartBody.Part attachment);
 
     @DELETE("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}")
     Observable<Void> deleteAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
