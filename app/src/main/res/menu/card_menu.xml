@@ -6,6 +6,10 @@
         android:title="@string/share_link"
         app:showAsAction="never" />
     <item
+        android:id="@+id/share_content"
+        android:title="@string/share_content"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_card_assign"
         android:title="@string/action_card_assign"
         app:showAsAction="never" />

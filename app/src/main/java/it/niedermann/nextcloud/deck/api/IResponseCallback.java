@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.api;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -11,9 +12,10 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 
 public abstract class IResponseCallback<T> {
+    @Nullable
     protected Account account;
 
-    public IResponseCallback(Account account) {
+    public IResponseCallback(@Nullable Account account) {
         this.account = account;
     }
 
@@ -71,6 +73,7 @@ public abstract class IResponseCallback<T> {
         return false;
     }
 
+    @Nullable
     public Account getAccount() {
         return account;
     }

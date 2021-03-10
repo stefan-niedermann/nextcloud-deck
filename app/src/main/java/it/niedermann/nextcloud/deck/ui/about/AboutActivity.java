@@ -7,8 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Lifecycle;
+import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -40,10 +39,8 @@ public class AboutActivity extends BrandedActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
-        binding.viewPager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager(), getLifecycle(), (Account) getIntent().getSerializableExtra(BUNDLE_KEY_ACCOUNT)));
+        binding.viewPager.setAdapter(new TabsPagerAdapter(this, (Account) getIntent().getSerializableExtra(BUNDLE_KEY_ACCOUNT)));
         new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> tab.setText(tabTitles[position])).attach();
-
-        setResult(RESULT_OK);
     }
 
     private static class TabsPagerAdapter extends FragmentStateAdapter {
@@ -51,8 +48,8 @@ public class AboutActivity extends BrandedActivity {
         @Nullable
         private final Account account;
 
-        TabsPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, @Nullable Account account) {
-            super(fragmentManager, lifecycle);
+        TabsPagerAdapter(final FragmentActivity fa, @Nullable Account account) {
+            super(fa);
             this.account = account;
         }
 

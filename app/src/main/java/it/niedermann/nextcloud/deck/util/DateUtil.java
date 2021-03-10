@@ -22,14 +22,14 @@ public final class DateUtil {
             return context.getString(R.string.seconds_ago);
         } else {
             // in the future or past (larger than 60 seconds)
-            CharSequence dateString = DateUtils.getRelativeDateTimeString(
+            final CharSequence dateString = DateUtils.getRelativeDateTimeString(
                     context,
                     time,
                     DateUtils.SECOND_IN_MILLIS,
                     DateUtils.WEEK_IN_MILLIS,
                     0
             );
-            String[] parts = dateString.toString().split(",");
+            final String[] parts = dateString.toString().split(",");
             if (parts.length == DATE_TIME_PARTS_SIZE) {
                 if (parts[1].contains(":") && !parts[0].contains(":")) {
                     return parts[0];

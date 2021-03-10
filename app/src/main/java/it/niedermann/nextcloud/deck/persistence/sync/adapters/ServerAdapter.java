@@ -24,11 +24,13 @@ import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.RequestHelper;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.AccessControl;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.enums.EAttachmentType;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
@@ -281,10 +283,14 @@ public class ServerAdapter {
     }
 
     // ## ATTACHMENTS
-    public void uploadAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, String contentType, File attachment, IResponseCallback<Attachment> responseCallback) {
+    public void uploadAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, File attachment, IResponseCallback<Attachment> responseCallback) {
         ensureInternetConnection();
-        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", attachment.getName(), RequestBody.create(MediaType.parse(getMimeType(attachment)), attachment));
-        MultipartBody.Part typePart = MultipartBody.Part.createFormData("type", null, RequestBody.create(MediaType.parse(TEXT_PLAIN), "deck_file"));
+        final Account account = responseCallback.getAccount();
+        final String type = (account != null && account.getServerDeckVersionAsObject().supportsFileAttachments())
+                ? EAttachmentType.FILE.getValue()
+                : EAttachmentType.DECK_FILE.getValue();
+        final MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", attachment.getName(), RequestBody.create(MediaType.parse(getMimeType(attachment)), attachment));
+        final MultipartBody.Part typePart = MultipartBody.Part.createFormData("type", null, RequestBody.create(MediaType.parse(TEXT_PLAIN), type));
         RequestHelper.request(provider, () -> provider.getDeckAPI().uploadAttachment(remoteBoardId, remoteStackId, remoteCardId, typePart, filePart), responseCallback);
     }
 
@@ -304,9 +310,13 @@ public class ServerAdapter {
 
     public void updateAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, long remoteAttachmentId, String contentType, Uri attachmentUri, IResponseCallback<Attachment> responseCallback) {
         ensureInternetConnection();
-        File attachment = new File(attachmentUri.getPath());
-        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", attachment.getName(), RequestBody.create(MediaType.parse(contentType), attachment));
-        MultipartBody.Part typePart = MultipartBody.Part.createFormData("type", attachment.getName(), RequestBody.create(MediaType.parse(TEXT_PLAIN), "deck_file"));
+        final File attachment = new File(attachmentUri.getPath());
+        final Account account = responseCallback.getAccount();
+        final String type = (account != null && account.getServerDeckVersionAsObject().supportsFileAttachments())
+                ? EAttachmentType.FILE.getValue()
+                : EAttachmentType.DECK_FILE.getValue();
+        final MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", attachment.getName(), RequestBody.create(MediaType.parse(contentType), attachment));
+        final MultipartBody.Part typePart = MultipartBody.Part.createFormData("type", attachment.getName(), RequestBody.create(MediaType.parse(TEXT_PLAIN), type));
         RequestHelper.request(provider, () -> provider.getDeckAPI().updateAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId, typePart, filePart), responseCallback);
     }
 

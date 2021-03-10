@@ -58,7 +58,7 @@ public class MainViewModel extends AndroidViewModel {
 
     public void setCurrentAccount(Account currentAccount) {
         this.currentAccount.setValue(currentAccount);
-        this.currentAccountIsSupportedVersion = currentAccount.getServerDeckVersionAsObject().isSupported(getApplication().getApplicationContext());
+        this.currentAccountIsSupportedVersion = currentAccount.getServerDeckVersionAsObject().isSupported();
     }
 
     public void setCurrentBoard(@NonNull Board currentBoard) {

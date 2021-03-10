@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
@@ -42,9 +41,9 @@ public class SpannableUtil {
     public static void setTextWithURL(@NonNull TextView textView, @NonNull Resources resources, @StringRes int containerTextId, @StringRes int linkLabelId, @StringRes int urlId) {
         final String linkLabel = resources.getString(linkLabelId);
         final String finalText = resources.getString(containerTextId, linkLabel);
-        final SpannableStringBuilder finalTextBuilder = new SpannableStringBuilder(finalText);
-        finalTextBuilder.setSpan(new URLSpan(resources.getString(urlId)), finalText.indexOf(linkLabel), finalText.indexOf(linkLabel) + linkLabel.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        textView.setText(finalTextBuilder);
+        final SpannableString finalSpannable = new SpannableString(finalText);
+        finalSpannable.setSpan(new URLSpan(resources.getString(urlId)), finalText.indexOf(linkLabel), finalText.indexOf(linkLabel) + linkLabel.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textView.setText(finalSpannable);
         textView.setMovementMethod(new LinkMovementMethod());
     }
 }

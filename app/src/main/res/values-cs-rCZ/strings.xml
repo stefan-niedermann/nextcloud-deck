@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Otevřít panel navigace</string>
     <string name="navigation_drawer_close">Zavřít navigační panel</string>
 
-    <string name="drawer_header_background">Obrázek na pozadí hlavičky panelu</string>
-    <string name="drawer_current_account">Stávající účet</string>
-    <string name="drawer_middle_account">Prostřední účet</string>
-    <string name="drawer_end_account">Poslední účet</string>
-    <string name="drawer_manage_accounts">Spravovat účty</string>
-
     <string name="simple_boards">Tabule</string>
     <string name="simple_add">Přidat</string>
     <string name="simple_save">Uložit</string>
@@ -124,17 +118,20 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Nový seznam přidáte tlačítkem +</string>
     <string name="add_a_new_card_using_the_button">Pro přidání nové karty použijte tlačítko +</string>
-    <string name="update_deck">Aktualizujte Deck</string>
-    <string name="your_deck_version_is_too_old">Vámi používaná verze Deck je příliš stará</string>
-    <string name="deck_outdated_please_update">Vámi používaná verze Deck na straně serveru je příliš stará (%1$s). Prosíme aktualizujte, abyste mohli používat tuto Android aplikaci jako klienta.</string>
+    <string name="update_deck">Aktualizujte webovou aplikaci Deck</string>
+    <string name="deck_outdated_please_update">Webová aplikace Deck je na serveru zastaralá (%1$s). K použití této Android aplikace jí, prosím, aktualizujte.</string>
     <string name="delete_board_message">Toto tabuli nadobro smaže, včetně všech seznamů a karet.</string>
-    <string name="settings_theme_title">Tmavý motiv vzhledu</string>
+    <string name="settings_theme_title">Vzhled</string>
     <string name="settings_branding_title">Opatření vlastním logem</string>
     <string name="settings_compact_title">Kompaktní režim</string>
     <string name="settings_background_sync">Synchronizace na pozadí</string>
     <string name="pref_value_wifi_and_mobile">Synchr. přes Wi-Fi a mobilní data</string>
     <string name="pref_value_wifi_only">Synchr. pouze přes Wi-Fi</string>
-    <string name="pref_value_theme_light">Světlý</string>
+    <string-array name="darkmode_entries">
+        <item>Systémový výchozí</item>
+        <item>Světlý</item>
+        <item>Tmavý</item>
+    </string-array>
     <string name="unassigned_user">Nepřidělené %1$s</string>
     <string name="no_activities">Na této kartě nejsou žádné aktivity. Abyste mohli načíst a zobrazit aktivity, je třeba být připojení k Intenetu.</string>
     <string name="share_board">Sdílet tabuli</string>
@@ -150,11 +147,9 @@
     <string name="hours_6">každých 6 hodin</string>
     <string name="action_card_move">Přesunout kartu</string>
     <string name="action_card_move_title">Přesunout %1$s</string>
-    <string name="please_add_an_account_first">Nejprve přidejte účet</string>
     <string name="title_is_mandatory">Nadpis je třeba zadat</string>
     <string name="provide_at_least_a_title_or_description">Zadejte alespoň nadpis nebo popis</string>
     <string name="welcome_text">Vítejte v %1$s</string>
-    <string name="save_card_before_attachment">Aby bylo možné přidávat přílohy je třeba, aby karta byla nejprve uložena.</string>
     <string name="maintenance_mode_explanation">Na serveru %1$s v tuto chvíli probíhá údržba. Obraťte se na jeho správce nebo to zkuste později znovu.</string>
     <string name="share_add_to_card">Přidat do karty</string>
     <string name="share_success">%1$s úspěšně přidáno do %2$s</string>
@@ -175,9 +170,11 @@
     <string name="filter_no_filter">Vše</string>
     <string name="filter_overdue">Po termínu</string>
     <string name="filter_today">Dnes</string>
+    <string name="filter_tomorrow">Zítra</string>
     <string name="filter_week">Příštích 7 dnů</string>
     <string name="filter_month">Příštích 30 dnů</string>
     <string name="filter_no_due">Žádný termín</string>
+    <string name="filter_later">Později</string>
     <string name="filter_by_tag">Filtrovat podle příznaků</string>
     <string name="filter_by_assigned_user">Filtrovat podle uživatele, který je úkolem pověřen</string>
     <string name="filter_by_duedate">Filtrovat podle termínu</string>
@@ -205,12 +202,10 @@
     <string name="error_revoking_ac">Chyba při rušení přístupu pro %1$s</string>
     <string name="error_create_label">Chyba při vytváření štítku %1$s</string>
     <string name="maintenance_mode">Na serveru probíhá údržba</string>
-    <string name="server_misconfigured">Server není nastavený správně</string>
     <string name="server_error">Chyba serveru</string>
-    <string name="shared_error">Sdílení obsahu z aplikací třetích stran není zatím plně podporováno. Zkuste si obsah nejprve stáhnout a sdílet ho ze správce souborů nebo obrázků.</string>
     <string name="error_edit_activity_killed_by_android">Systém android ukončil režim úprav, protože potřeboval více systémových prostředků pro ostatní aplikace.</string>
 
-    <string name="error_dialog_title">Ó ne– co teď? 🙁</string>
+    <string name="error_dialog_title">Ó ne – co teď? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Prosím pokuste se vynutit ukončení aplikace a spusťte ji znovu. Možná se něco nepodařilo při spojení s aplikací Nextcloud.</string>
     <string name="error_dialog_tip_clear_storage_might_help">Pokud problém přetrvává, zkuste problém vyřešit vyčištěním úložišť obou aplikací: Nextcloud a Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Přechod na novější verzi databáze se nezdařil. Prosíme nahlaste tento problém vývojářům a aby bylo možné aplikaci normálně používat, vyčistěte úložiště.</string>
@@ -222,7 +217,7 @@
     <string name="error_dialog_timeout_toggle">Zkontrolujte nastavení sítě. Někdy může pomoci vypnout a zase zapnout mobilní data nebo Wi-Fi.</string>
     <string name="error_dialog_check_server">Odpověď od serveru nebyla správná. Zkontrolujte, zda k aplikaci Deck můžete přistupovat přes webové rozhraní.</string>
     <string name="error_dialog_check_server_logs">Je problém s nastavením vámi využívané instance Nextcloud. Podívejte se do souborů se záznamem událostí na serveru.</string>
-    <string name="error_dialog_check_maintenance">Zkontrolujte, zda vámi využívaná instance Nextcloud právě není v tuto chvíli v režimu údržby.</string>
+    <string name="error_dialog_check_maintenance">Zkontrolujte, zda vámi využívaná instance Nextcloud není právě v tuto chvíli v režimu údržby.</string>
     <string name="error_dialog_insufficient_storage">Na vámi využívané instanci Nexcloud nezbývá žádné volné místo na úložišti. Aby bylo možné synchronizovat vaše místní změny do vámi využívaného cloudu, je třeba nejprve smazat nějaké soubory.</string>
     <string name="error_dialog_we_need_info">Abychom vám mohli pomoci, potřebujeme následující technické údaje:</string>
     <string name="error_dialog_redirect">Vámi využívaný server odpověděl HTTP stavovým kódem 302, což ukazuje na to, že na serveru buď není nainstalovaná aplikace Deck, nebo je něco nesprávně nastavené. Toto může být způsobeno uživatelsky určenými přepsáními v souboru .htaccess nebo Nextcloud aplikacemi jako je OID klient.</string>
@@ -240,12 +235,14 @@
     <string name="info_box_maintenance_mode">Na serveru probíhá údržba</string>
     <string name="info_box_version_not_supported">Verze serveru %1$s není podporována, přejděte na verzi %2$s</string>
     <string name="share_link">Odkaz na sdílení</string>
+    <string name="share_content">Sdílet obsah</string>
+    <string name="share_content_duedate">Datum termínu: %1$s</string>
+    <string name="share_content_labels">Štítky: %1$s</string>
     <string name="archive_cards">Archivovat karty</string>
 
     <string name="manage_accounts">Spravovat účty</string>
     <string name="manage_list">Spravovat sloupec</string>
     <string name="simple_reply">Odpovědět</string>
-    <string name="error_while_uploading_attachment">Chyba při nahrávání přílohy: %1$s</string>
     <string name="append_text_to_description">Připojit k popisu</string>
     <string name="add_text_as_comment">Přidat jako komentář</string>
     <string name="progress_count">%1$d z %2$d</string>
@@ -265,8 +262,9 @@
     <string name="card_does_not_yet_exist">Karta ještě neexistuje v Deck</string>
 
     <string name="widget_stack_title">Seznam</string>
+    <string name="widget_filter_title">Filtr</string>
     <string name="widget_stack_header_icon">Ikona hlavičky ovládacího prvku</string>
-    <string name="widget_stack_placeholder_icon">Ikona výplně ovládacího prvku</string>
+    <string name="widget_placeholder_icon">Ikona výplně ovládacího prvku</string>
     <string name="select_stack">Vybrat seznam</string>
     <string name="project_type_deck_board">Tabule aplikace Deck</string>
     <string name="project_type_deck_card">Karta aplikace Deck</string>
@@ -290,7 +288,6 @@
     <string name="simple_contact">Kontakt</string>
     <string name="simple_file">Soubor</string>
     <string name="simple_camera">Kamera</string>
-    <string name="min_api_21">Tato funkce vyžaduje minimálně verzi 5 systému Android</string>
     <string name="take_photo">Vyfotit</string>
     <string name="take_photo_switch_camera">Přepnout kameru</string>
     <string name="take_photo_toggle_torch">Vyp/zap. přisvícení</string>
@@ -303,4 +300,9 @@
     <string name="files">Soubory</string>
     <string name="gallery">Galerie</string>
     <string name="simple_attach">přiložit</string>
-    </resources>
+    <string name="add_stack_widget">Přidat ovládací prvek seznam</string>
+    <string name="add_filter_widget">Přidat ovládací prvek filtru</string>
+    <string name="simple_order">Pořadí</string>
+    <string name="edit_description">Upravit popis</string>
+    <string name="widget_upcoming_title">Nadcházející karty</string>
+</resources>

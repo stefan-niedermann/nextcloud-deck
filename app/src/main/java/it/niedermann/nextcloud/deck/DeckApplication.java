@@ -2,13 +2,12 @@ package it.niedermann.nextcloud.deck;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 
 import androidx.annotation.NonNull;
 import androidx.multidex.MultiDexApplication;
 import androidx.preference.PreferenceManager;
 
-import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
-import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
 
 public class DeckApplication extends MultiDexApplication {
@@ -17,9 +16,12 @@ public class DeckApplication extends MultiDexApplication {
     public static final long NO_BOARD_ID = -1L;
     public static final long NO_STACK_ID = -1L;
 
+    private static String PREF_KEY_THEME;
+
     @Override
     public void onCreate() {
-        setAppTheme(isDarkTheme(getApplicationContext()));
+        PREF_KEY_THEME = getString(R.string.pref_key_dark_theme);
+        setAppTheme(getAppTheme(getApplicationContext()));
         super.onCreate();
     }
 
@@ -27,13 +29,37 @@ public class DeckApplication extends MultiDexApplication {
     // Day / Night theme
     // -----------------
 
-    public static void setAppTheme(boolean darkTheme) {
-        setDefaultNightMode(darkTheme ? MODE_NIGHT_YES : MODE_NIGHT_NO);
+    public static void setAppTheme(int setting) {
+        setDefaultNightMode(setting);
+    }
+
+    public static int getAppTheme(@NonNull Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String mode;
+        try {
+            mode = prefs.getString(PREF_KEY_THEME, context.getString(R.string.pref_value_theme_system_default));
+        } catch (ClassCastException e) {
+            boolean darkModeEnabled = prefs.getBoolean(PREF_KEY_THEME, false);
+            mode = darkModeEnabled ? context.getString(R.string.pref_value_theme_dark) : context.getString(R.string.pref_value_theme_light);
+        }
+        return Integer.parseInt(mode);
+    }
+
+    public static boolean isDarkThemeActive(@NonNull Context context, int darkModeSetting) {
+        if (darkModeSetting == Integer.parseInt(context.getString(R.string.pref_value_theme_system_default))) {
+            return isDarkThemeActive(context);
+        } else {
+            return darkModeSetting == Integer.parseInt(context.getString(R.string.pref_value_theme_dark));
+        }
+    }
+
+    public static boolean isDarkThemeActive(@NonNull Context context) {
+        int uiMode = context.getResources().getConfiguration().uiMode;
+        return (uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
     }
 
     public static boolean isDarkTheme(@NonNull Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return prefs.getBoolean(context.getString(R.string.pref_key_dark_theme), false);
+        return isDarkThemeActive(context, getAppTheme(context));
     }
 
     // --------------------------------------

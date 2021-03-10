@@ -58,5 +58,7 @@ fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
 
-# ide-stuff
-.idea
+app/build
+app/play
+app/fdroid
+app/dev

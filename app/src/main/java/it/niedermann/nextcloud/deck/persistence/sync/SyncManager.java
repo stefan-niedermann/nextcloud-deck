@@ -61,6 +61,8 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
+import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
@@ -103,10 +105,14 @@ public class SyncManager {
 
     @AnyThread
     public SyncManager(@NonNull Context context, @Nullable String ssoAccountName) {
-        appContext = context.getApplicationContext();
-        LastSyncUtil.init(appContext);
-        this.dataBaseAdapter = new DataBaseAdapter(appContext);
-        this.serverAdapter = new ServerAdapter(appContext, ssoAccountName);
+        this(context, new DataBaseAdapter(context.getApplicationContext()), new ServerAdapter(context.getApplicationContext(), ssoAccountName));
+        LastSyncUtil.init(context.getApplicationContext());
+    }
+
+    private SyncManager(@NonNull Context context, @NonNull DataBaseAdapter databaseAdapter, @NonNull ServerAdapter serverAdapter) {
+        this.appContext = context.getApplicationContext();
+        this.dataBaseAdapter = databaseAdapter;
+        this.serverAdapter = serverAdapter;
     }
 
     @AnyThread
@@ -209,7 +215,7 @@ public class SyncManager {
                 @Override
                 public void onResponse(Capabilities response) {
                     if (response != null && !response.isMaintenanceEnabled()) {
-                        if (response.getDeckVersion().isSupported(appContext)) {
+                        if (response.getDeckVersion().isSupported()) {
                             long accountId = callbackAccountId;
                             Instant lastSyncDate = LastSyncUtil.getLastSyncDate(callbackAccountId);
 
@@ -369,6 +375,11 @@ public class SyncManager {
         return dataBaseAdapter.readAccount(id);
     }
 
+    @WorkerThread
+    public Account readAccountDirectly(long id) {
+        return dataBaseAdapter.readAccountDirectly(id);
+    }
+
     @AnyThread
     public LiveData<Account> readAccount(@Nullable String name) {
         return dataBaseAdapter.readAccount(name);
@@ -377,6 +388,11 @@ public class SyncManager {
     @AnyThread
     public LiveData<List<Account>> readAccounts() {
         return dataBaseAdapter.readAccounts();
+    }
+
+    @WorkerThread
+    public List<Account> readAccountsDirectly() {
+        return dataBaseAdapter.getAllAccountsDirectly();
     }
 
     /**
@@ -423,6 +439,7 @@ public class SyncManager {
                         Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
                         acc.applyCapabilities(response.getResponse(), response.getHeaders().get("ETag"));
                         dataBaseAdapter.updateAccount(acc);
+                        callback.getAccount().setServerDeckVersion(acc.getServerDeckVersion());
                         callback.onResponse(response.getResponse());
                     }
 
@@ -814,6 +831,11 @@ public class SyncManager {
         return dataBaseAdapter.getStack(accountId, localStackId);
     }
 
+    @WorkerThread
+    public Long getBoardLocalIdByLocalCardIdDirectly(long localCardId) {
+        return dataBaseAdapter.getBoardLocalIdByLocalCardIdDirectly(localCardId);
+    }
+
     @AnyThread
     public WrappedLiveData<AccessControl> createAccessControl(long accountId, AccessControl entity) {
         WrappedLiveData<AccessControl> liveData = new WrappedLiveData<>();
@@ -1097,7 +1119,7 @@ public class SyncManager {
                             @SuppressLint("MissingSuperCall")
                             @Override
                             public void onError(Throwable throwable) {
-                                if (throwable.getClass() == DeckException.class && ((DeckException)throwable).getHint().equals(DeckException.Hint.DEPENDENCY_NOT_SYNCED_YET)) {
+                                if (throwable.getClass() == DeckException.class && ((DeckException) throwable).getHint().equals(DeckException.Hint.DEPENDENCY_NOT_SYNCED_YET)) {
                                     liveData.postValue(card);
                                 } else {
                                     liveData.postError(throwable);
@@ -1930,6 +1952,66 @@ public class SyncManager {
     // Widgets
     // -------------------
 
+    // # filter widget
+
+    @AnyThread
+    public void createFilterWidget(@NonNull FilterWidget filterWidget, @NonNull IResponseCallback<Integer> callback) {
+        doAsync(() -> {
+            try {
+                int filterWidgetId = dataBaseAdapter.createFilterWidgetDirectly(filterWidget);
+                callback.onResponse(filterWidgetId);
+            } catch (Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    @AnyThread
+    public void updateFilterWidget(@NonNull FilterWidget filterWidget, @NonNull IResponseCallback<Boolean> callback) {
+        doAsync(() -> {
+            try {
+                dataBaseAdapter.updateFilterWidgetDirectly(filterWidget);
+                callback.onResponse(Boolean.TRUE);
+            } catch (Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    @AnyThread
+    public void getFilterWidget(@NonNull Integer filterWidgetId, @NonNull IResponseCallback<FilterWidget> callback) {
+        doAsync(() -> {
+            try {
+                callback.onResponse(dataBaseAdapter.getFilterWidgetByIdDirectly(filterWidgetId));
+            } catch (Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    @AnyThread
+    public void deleteFilterWidget(int filterWidgetId, @NonNull IResponseCallback<Boolean> callback) {
+        doAsync(() -> {
+            try {
+                dataBaseAdapter.deleteFilterWidgetDirectly(filterWidgetId);
+                callback.onResponse(Boolean.TRUE);
+            } catch (Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public boolean filterWidgetExists(int id) {
+        return dataBaseAdapter.filterWidgetExists(id);
+    }
+
+    @WorkerThread
+    public List<FilterWidgetCard> getCardsForFilterWidget(@NonNull Integer filterWidgetId) {
+        return dataBaseAdapter.getCardsForFilterWidget(filterWidgetId);
+    }
+
+    // # single card widget
+
     /**
      * Can be called from a configuration screen or a picker.
      * Creates a new entry in the database, if row with given widgetId does not yet exist.
@@ -1940,10 +2022,10 @@ public class SyncManager {
     }
 
     @WorkerThread
-    public FullSingleCardWidgetModel getSingleCardWidgetModelDirectly(int widgetId) throws NoSuchElementException {
-        final FullSingleCardWidgetModel model = dataBaseAdapter.getFullSingleCardWidgetModel(widgetId);
+    public FullSingleCardWidgetModel getSingleCardWidgetModelDirectly(int appWidgetId) throws NoSuchElementException {
+        final FullSingleCardWidgetModel model = dataBaseAdapter.getFullSingleCardWidgetModel(appWidgetId);
         if (model == null) {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("There is no " + FullSingleCardWidgetModel.class.getSimpleName() + " with the given appWidgetId " + appWidgetId);
         }
         return model;
     }
@@ -1975,5 +2057,16 @@ public class SyncManager {
      */
     public static boolean ignoreExceptionOnVoidError(Throwable t) {
         return t instanceof NullPointerException && "Attempt to invoke interface method 'void io.reactivex.disposables.Disposable.dispose()' on a null object reference".equals(t.getMessage());
+    }
+
+    @WorkerThread
+    public Stack getStackDirectly(long stackLocalId) {
+        return dataBaseAdapter.getStackByLocalIdDirectly(stackLocalId);
+    }
+
+    @ColorInt
+    @WorkerThread
+    public Integer getBoardColorDirectly(long accountId, long localBoardId) {
+        return dataBaseAdapter.getBoardColorDirectly(accountId, localBoardId);
     }
 }

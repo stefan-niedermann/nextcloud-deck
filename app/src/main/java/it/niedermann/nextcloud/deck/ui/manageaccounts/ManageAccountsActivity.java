@@ -1,8 +1,11 @@
 package it.niedermann.nextcloud.deck.ui.manageaccounts;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -51,7 +54,6 @@ public class ManageAccountsActivity extends AppCompatActivity {
             viewModel.readAccounts().observe(this, (localAccounts -> {
                 if (localAccounts.size() == 0) {
                     Log.i(TAG, "No accounts, finishing " + ManageAccountsActivity.class.getSimpleName());
-                    setResult(AppCompatActivity.RESULT_FIRST_USER);
                     finish();
                 } else {
                     adapter.setAccounts(localAccounts);
@@ -63,5 +65,9 @@ public class ManageAccountsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         onSupportNavigateUp();
+    }
+    
+    public static Intent createIntent(@NonNull Context context) {
+        return new Intent(context, ManageAccountsActivity.class);
     }
 }

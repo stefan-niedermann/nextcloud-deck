@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card.comments;
 
+import android.text.method.LinkMovementMethod;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import it.niedermann.android.util.ClipboardUtil;
 import it.niedermann.android.util.DimensionUtil;
@@ -21,11 +25,10 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCommentBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
+import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
-
-import static it.niedermann.nextcloud.deck.util.ViewUtil.setupMentions;
 
 public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
     private final ItemCommentBinding binding;
@@ -35,15 +38,22 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
     public ItemCommentViewHolder(ItemCommentBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
+        this.binding.message.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
-    public void bind(@NonNull FullDeckComment comment, @NonNull Account account, @ColorInt int mainColor, @NonNull MenuInflater inflater, @NonNull CommentDeletedListener deletedListener, @NonNull CommentSelectAsReplyListener selectAsReplyListener, @NonNull FragmentManager fragmentManager) {
+    public void bind(@NonNull FullDeckComment comment, @NonNull Account account, @ColorInt int mainColor, @NonNull MenuInflater inflater, @NonNull CommentDeletedListener deletedListener, @NonNull CommentSelectAsReplyListener selectAsReplyListener, @NonNull FragmentManager fragmentManager, @NonNull Consumer<CharSequence> editListener) {
         ViewUtil.addAvatar(binding.avatar, account.getUrl(), comment.getComment().getActorId(), DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
+        final Map<String, String> mentions = new HashMap<>(comment.getComment().getMentions().size());
+        for (Mention mention : comment.getComment().getMentions()) {
+            mentions.put(mention.getMentionId(), mention.getMentionDisplayName());
+        }
         binding.message.setText(comment.getComment().getMessage());
+        binding.message.setMarkdownString(comment.getComment().getMessage(), mentions);
+        binding.message.setMarkdownStringChangedListener(editListener);
         binding.actorDisplayName.setText(comment.getComment().getActorDisplayName());
         binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(binding.creationDateTime.getContext(), comment.getComment().getCreationDateTime().toEpochMilli()));
-        itemView.setOnClickListener(View::showContextMenu);
 
+        itemView.setOnClickListener(View::showContextMenu);
         itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             inflater.inflate(R.menu.comment_menu, menu);
             menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> ClipboardUtil.INSTANCE.copyToClipboard(itemView.getContext(), comment.getComment().getMessage()));
@@ -72,11 +82,9 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
+        TooltipCompat.setTooltipText(binding.creationDateTime, comment.getComment().getCreationDateTime().atZone(ZoneId.systemDefault()).format(dateFormatter));
         DrawableCompat.setTint(binding.notSyncedYet.getDrawable(), mainColor);
         binding.notSyncedYet.setVisibility(DBStatus.LOCAL_EDITED.equals(comment.getStatusEnum()) ? View.VISIBLE : View.GONE);
-
-        TooltipCompat.setTooltipText(binding.creationDateTime, comment.getComment().getCreationDateTime().atZone(ZoneId.systemDefault()).format(dateFormatter));
-        setupMentions(account, comment.getComment().getMentions(), binding.message);
 
         if (comment.getParent() == null) {
             binding.parentContainer.setVisibility(View.GONE);
@@ -94,5 +102,10 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
                 binding.parent.setMaxLines(previouslyCollapsed ? Integer.MAX_VALUE : commentParentMaxLines);
             });
         }
+    }
+
+    public void unbind() {
+        binding.message.setText("");
+        binding.message.setMarkdownStringChangedListener(null);
     }
 }

@@ -11,7 +11,6 @@ import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.NetworkRequest;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -22,10 +21,10 @@ import android.widget.PopupMenu;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.util.Pair;
@@ -132,9 +131,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     private FilterViewModel filterViewModel;
     private PickStackViewModel pickStackViewModel;
 
-    protected static final int ACTIVITY_ABOUT = 1;
     protected static final int ACTIVITY_SETTINGS = 2;
-    public static final int ACTIVITY_MANAGE_ACCOUNTS = 4;
 
     @NonNull
     protected List<Account> accountsList = new ArrayList<>();
@@ -158,8 +155,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     private boolean firstAccountAdded = false;
     private ConnectivityManager.NetworkCallback networkCallback;
 
-    private String accountAlreadyAdded;
-    private String urlFragmentUpdateDeck;
     private String addList;
     private String addBoard;
     @Nullable
@@ -186,8 +181,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
         addList = getString(R.string.add_list);
         addBoard = getString(R.string.add_board);
-        accountAlreadyAdded = getString(R.string.account_already_added);
-        urlFragmentUpdateDeck = getString(R.string.url_fragment_update_deck);
 
         setSupportActionBar(binding.toolbar);
 
@@ -202,7 +195,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             if (hasAccounts) {
                 return mainViewModel.readAccounts();
             } else {
-                startActivityForResult(new Intent(this, ImportAccountActivity.class), ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT);
+                startActivityForResult(ImportAccountActivity.createIntent(this), ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT);
                 return null;
             }
         }).observe(this, (List<Account> accounts) -> {
@@ -221,21 +214,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     mainViewModel.setCurrentAccount(account);
                     if (!firstAccountAdded) {
                         DeckLog.info("Syncing the current account on app start");
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            registerAutoSyncOnNetworkAvailable();
-                        } else {
-                            mainViewModel.synchronize(new IResponseCallback<Boolean>(mainViewModel.getCurrentAccount()) {
-                                @Override
-                                public void onResponse(Boolean response) {
-                                }
-
-                                @Override
-                                public void onError(Throwable throwable) {
-                                    super.onError(throwable);
-                                    showSyncFailedSnackbar(throwable);
-                                }
-                            });
-                        }
+                        registerAutoSyncOnNetworkAvailable();
                         firstAccountAdded = false;
                     }
                     break;
@@ -264,18 +243,21 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     }
 
                     boardsList = boards;
+                    Board currentBoard = null;
 
                     if (boardsList.size() > 0) {
                         boolean currentBoardIdWasInList = false;
                         for (int i = 0; i < boardsList.size(); i++) {
                             if (lastBoardId == boardsList.get(i).getLocalId() || lastBoardId == NO_BOARD_ID) {
-                                setCurrentBoard(boardsList.get(i));
+                                currentBoard = boardsList.get(i);
+                                setCurrentBoard(currentBoard);
                                 currentBoardIdWasInList = true;
                                 break;
                             }
                         }
                         if (!currentBoardIdWasInList) {
-                            setCurrentBoard(boardsList.get(0));
+                            currentBoard = boardsList.get(0);
+                            setCurrentBoard(currentBoard);
                         }
 
                         binding.filter.setOnClickListener((v) -> FilterDialogFragment.newInstance().show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName()));
@@ -286,13 +268,14 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         binding.filter.setOnClickListener(null);
                     }
 
+                    final Board finalCurrentBoard = currentBoard;
                     if (hasArchivedBoardsLiveData != null && hasArchivedBoardsLiveDataObserver != null) {
                         hasArchivedBoardsLiveData.removeObserver(hasArchivedBoardsLiveDataObserver);
                     }
                     hasArchivedBoardsLiveData = mainViewModel.hasArchivedBoards(currentAccount.getId());
                     hasArchivedBoardsLiveDataObserver = (hasArchivedBoards) -> {
                         mainViewModel.setCurrentAccountHasArchivedBoards(Boolean.TRUE.equals(hasArchivedBoards));
-                        inflateBoardMenu();
+                        inflateBoardMenu(finalCurrentBoard);
                     };
                     hasArchivedBoardsLiveData.observe(this, hasArchivedBoardsLiveDataObserver);
                 };
@@ -300,7 +283,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
                 Glide
                         .with(binding.accountSwitcher.getContext())
-                        .load(currentAccount.getAvatarUrl(64))
+                        .load(currentAccount.getAvatarUrl(binding.accountSwitcher.getWidth()))
                         .placeholder(R.drawable.ic_baseline_account_circle_24)
                         .error(R.drawable.ic_baseline_account_circle_24)
                         .apply(RequestOptions.circleCropTransform())
@@ -311,10 +294,10 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 if (mainViewModel.isCurrentAccountIsSupportedVersion()) {
                     binding.infoBoxVersionNotSupported.setVisibility(View.GONE);
                 } else {
-                    binding.infoBoxVersionNotSupportedText.setText(getString(R.string.info_box_version_not_supported, mainViewModel.getCurrentAccount().getServerDeckVersion(), Version.minimumSupported(this).getOriginalVersion()));
+                    binding.infoBoxVersionNotSupportedText.setText(getString(R.string.info_box_version_not_supported, mainViewModel.getCurrentAccount().getServerDeckVersion(), Version.minimumSupported().getOriginalVersion()));
                     binding.infoBoxVersionNotSupportedText.setOnClickListener((v) -> {
                         Intent openURL = new Intent(Intent.ACTION_VIEW);
-                        openURL.setData(Uri.parse(mainViewModel.getCurrentAccount().getUrl() + urlFragmentUpdateDeck));
+                        openURL.setData(Uri.parse(mainViewModel.getCurrentAccount().getUrl() + getString(R.string.url_fragment_update_deck)));
                         startActivity(openURL);
                     });
                     binding.infoBoxVersionNotSupported.setVisibility(View.VISIBLE);
@@ -492,7 +475,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 boardsList.add(createdBoard.getBoard());
                 setCurrentBoard(createdBoard.getBoard());
 
-                inflateBoardMenu();
+                inflateBoardMenu(createdBoard.getBoard());
                 EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
             }
             boardsLiveData.observe(this, boardsLiveDataObserver);
@@ -517,8 +500,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     binding.swipeRefreshLayout.setRefreshing(false);
                 } else {
                     // If we notice after updating the capabilities, that the new version is not supported, but it was previously, recreate the activity to make sure all elements are disabled properly
-                    if (mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported(MainActivity.this) && !response.getDeckVersion().isSupported(MainActivity.this)) {
-                        recreate();
+                    if (mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported() && !response.getDeckVersion().isSupported()) {
+                        ActivityCompat.recreate(MainActivity.this);
                     }
                 }
             }
@@ -552,6 +535,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
         lastBoardId = board.getLocalId();
         saveCurrentBoardId(this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId());
+        binding.navigationView.setCheckedItem(boardsList.indexOf(board));
 
         binding.toolbar.setTitle(board.getTitle());
 
@@ -637,21 +621,22 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     }
 
     @UiThread
-    protected void inflateBoardMenu() {
+    protected void inflateBoardMenu(@Nullable Board currentBoard) {
         binding.navigationView.setItemIconTintList(null);
         Menu menu = binding.navigationView.getMenu();
         menu.clear();
-        DrawerMenuUtil.inflateBoards(this, menu, this.boardsList, mainViewModel.currentAccountHasArchivedBoards(), mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported(this));
+        DrawerMenuUtil.inflateBoards(this, menu, this.boardsList, mainViewModel.currentAccountHasArchivedBoards(), mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported());
+        binding.navigationView.setCheckedItem(boardsList.indexOf(currentBoard));
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case MENU_ID_ABOUT:
-                startActivityForResult(AboutActivity.createIntent(this, mainViewModel.getCurrentAccount()), MainActivity.ACTIVITY_ABOUT);
+                startActivity(AboutActivity.createIntent(this, mainViewModel.getCurrentAccount()));
                 break;
             case MENU_ID_SETTINGS:
-                startActivityForResult(new Intent(this, SettingsActivity.class), MainActivity.ACTIVITY_SETTINGS);
+                startActivityForResult(SettingsActivity.createIntent(this), MainActivity.ACTIVITY_SETTINGS);
                 break;
             case MENU_ID_ADD_BOARD:
                 EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
@@ -761,7 +746,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         switch (requestCode) {
             case MainActivity.ACTIVITY_SETTINGS:
                 if (resultCode == RESULT_OK) {
-                    recreate();
+                    ActivityCompat.recreate(this);
                 }
                 break;
             case ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT:
@@ -787,7 +772,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                     @Override
                                     public void onResponse(Capabilities response) {
                                         if (!response.isMaintenanceEnabled()) {
-                                            if (response.getDeckVersion().isSupported(getApplicationContext())) {
+                                            if (response.getDeckVersion().isSupported()) {
                                                 runOnUiThread(() -> {
                                                     mainViewModel.setSyncManager(importSyncManager);
                                                     mainViewModel.setCurrentAccount(account);
@@ -811,14 +796,14 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                                     });
                                                 });
                                             } else {
-                                                DeckLog.warn("Cannot import account because server version is too low (" + response.getDeckVersion() + "). Minimum server version is currently " + Version.minimumSupported(getApplicationContext()));
+                                                DeckLog.warn("Cannot import account because server version is too low (" + response.getDeckVersion() + "). Minimum server version is currently " + Version.minimumSupported());
                                                 runOnUiThread(() -> new BrandedAlertDialogBuilder(MainActivity.this)
                                                         .setTitle(R.string.update_deck)
                                                         .setMessage(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()))
                                                         .setNegativeButton(R.string.simple_discard, null)
                                                         .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {
                                                             final Intent openURL = new Intent(Intent.ACTION_VIEW);
-                                                            openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
+                                                            openURL.setData(Uri.parse(createdAccount.getUrl() + getString(R.string.url_fragment_update_deck)));
                                                             startActivity(openURL);
                                                             finish();
                                                         }).show());
@@ -855,7 +840,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                 final Throwable error = accountLiveData.getError();
                                 if (error instanceof SQLiteConstraintException) {
                                     DeckLog.warn("Account already added");
-                                    BrandedSnackbar.make(binding.coordinatorLayout, accountAlreadyAdded, Snackbar.LENGTH_LONG).show();
+                                    BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_already_added, Snackbar.LENGTH_LONG).show();
                                 } else {
                                     ExceptionDialogFragment.newInstance(error, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                                 }
@@ -877,7 +862,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void registerAutoSyncOnNetworkAvailable() {
         final ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkRequest.Builder builder = new NetworkRequest.Builder();

@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.time.Instant;
 
+import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabCommentsBinding;
@@ -28,13 +29,13 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
-import static it.niedermann.nextcloud.deck.util.ViewUtil.setupMentions;
 
 public class CardCommentsFragment extends BrandedFragment implements CommentEditedListener, CommentDeletedListener, CommentSelectAsReplyListener {
 
@@ -70,17 +71,18 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
 
         commentsViewModel = new ViewModelProvider(this).get(CommentsViewModel.class);
 
-        adapter = new CardCommentsAdapter(requireContext(), mainViewModel.getAccount(), requireActivity().getMenuInflater(), this, this, getChildFragmentManager());
+        adapter = new CardCommentsAdapter(requireContext(), mainViewModel.getAccount(), requireActivity().getMenuInflater(), this, this, getChildFragmentManager(), this);
         binding.comments.setAdapter(adapter);
-
         binding.replyCommentCancelButton.setOnClickListener((v) -> commentsViewModel.setReplyToComment(null));
+        ViewUtil.addAvatar(binding.avatar, mainViewModel.getAccount().getUrl(), mainViewModel.getAccount().getUserName(), DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
+
         commentsViewModel.getReplyToComment().observe(getViewLifecycleOwner(), (comment) -> {
             if (comment == null) {
                 binding.replyComment.setVisibility(GONE);
             } else {
-                binding.replyCommentText.setText(comment.getComment().getMessage());
+                binding.replyCommentText.setMarkdownString(comment.getComment().getMessage());
                 binding.replyComment.setVisibility(VISIBLE);
-                setupMentions(mainViewModel.getAccount(), comment.getComment().getMentions(), binding.replyCommentText);
+//                setupMentions(mainViewModel.getAccount(), comment.getComment().getMentions(), binding.replyCommentText);
             }
         });
         commentsViewModel.getFullCommentsForLocalCardId(mainViewModel.getFullCard().getLocalId()).observe(getViewLifecycleOwner(),

@@ -1,0 +1,6 @@
+- 📤 Share content of a card (#854)
+- 🐞 Do not assign card when share link
+- 📅 Upcoming cards: Sort secondary by last modified DESC (#845)
+- ⚠️ Show only warning when moving a card if the card has attachments or comments (#804)
+- Harmonize widget look & feel for Notes, News & Deck
+- Display checkboxes in widgets

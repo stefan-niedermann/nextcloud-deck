@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
     <string name="navigation_drawer_close">Navigationsleiste schließen</string>
 
-    <string name="drawer_header_background">Hintergrundbild des Kopfbereiches</string>
-    <string name="drawer_current_account">Aktuelles Konto</string>
-    <string name="drawer_middle_account">Mittleres Konto</string>
-    <string name="drawer_end_account">Letztes Konto</string>
-    <string name="drawer_manage_accounts">Konten verwalten</string>
-
     <string name="simple_boards">Boards</string>
     <string name="simple_add">Hinzufügen</string>
     <string name="simple_save">Speichern</string>
@@ -120,17 +114,20 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Eine neue Liste mit der + Taste hinzufügen</string>
     <string name="add_a_new_card_using_the_button">Eine neue Karte mit der + Taste hinzufügen</string>
-    <string name="update_deck">Deck aktualisieren</string>
-    <string name="your_deck_version_is_too_old">Ihre Deck-Version ist zu alt</string>
-    <string name="deck_outdated_please_update">Ihre Deck-Version ist zu alt (%1$s). Bitte aktualisieren Sie Deck um diese Android-App als Client verwenden zu können.</string>
+    <string name="update_deck">Deck Web-App aktualisieren</string>
+    <string name="deck_outdated_please_update">Ihre Deck Web-App-Version ist zu alt (%1$s). Bitte aktualisieren Sie, um diese Android-App als Client zu verwenden.</string>
     <string name="delete_board_message">Dies wird dieses Board endgültig inklusive aller Listen und Karten löschen.</string>
-    <string name="settings_theme_title">Dunkles Design</string>
+    <string name="settings_theme_title">Design</string>
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Kompakt-Modus</string>
     <string name="settings_background_sync">Hintergrundsynchronisierung</string>
     <string name="pref_value_wifi_and_mobile">Über WLAN und mobile Daten synchronisieren</string>
     <string name="pref_value_wifi_only">Nur über WLAN synchronisieren</string>
-    <string name="pref_value_theme_light">Hell</string>
+    <string-array name="darkmode_entries">
+        <item>Systemstandard</item>
+        <item>Hell</item>
+        <item>Dunkel</item>
+    </string-array>
     <string name="unassigned_user">Zuordnung von %1$s entfernt</string>
     <string name="no_activities">Auf dieser Karte sind keine Aktivitäten vorhanden. Sie müssen mit dem Internet verbunden sein, um Aktivitäten zu laden und anzuzeigen.</string>
     <string name="share_board">Board freigeben</string>
@@ -146,11 +143,9 @@
     <string name="hours_6">6 Stunden</string>
     <string name="action_card_move">Karte verschieben</string>
     <string name="action_card_move_title">Verschiebe %1$s</string>
-    <string name="please_add_an_account_first">Bitte zuerst ein Konto hinzufügen</string>
     <string name="title_is_mandatory">Titel ist obligatorisch</string>
     <string name="provide_at_least_a_title_or_description">Mindestens einen Titel oder eine Beschreibung eingeben</string>
     <string name="welcome_text">Willkommen bei %1$s</string>
-    <string name="save_card_before_attachment">Die Karte muss gespeichert werden bevor Anhänge hinzugefügt werden können.</string>
     <string name="maintenance_mode_explanation">Der Server %1$s ist momentan im Wartungsmodus. Bitte nehmen Sie Kontakt mit Ihrem Administrator auf oder versuchen Sie es später nochmal!</string>
     <string name="share_add_to_card">Zur Karte hinzufügen</string>
     <string name="share_success">%1$s erfolgreich zu %2$s hinzugefügt</string>
@@ -171,9 +166,11 @@
     <string name="filter_no_filter">Alle</string>
     <string name="filter_overdue">Überfällig</string>
     <string name="filter_today">Heute</string>
+    <string name="filter_tomorrow">Morgen</string>
     <string name="filter_week">Die nächsten 7 Tage</string>
     <string name="filter_month">Die nächsten 30 Tage</string>
     <string name="filter_no_due">Kein Fälligkeitsdatum</string>
+    <string name="filter_later">Später</string>
     <string name="filter_by_tag">Nach Schlagwort filtern</string>
     <string name="filter_by_assigned_user">Nach zugewiesenem Benutzer filtern</string>
     <string name="filter_by_duedate">Nach Fälligkeitsdatum filtern</string>
@@ -201,9 +198,7 @@
     <string name="error_revoking_ac">Fehler beim Widerruf des Zugriffs für %1$s</string>
     <string name="error_create_label">Fehler beim Erstellen des Labels %1$s</string>
     <string name="maintenance_mode">Server befindet sich im Wartungsmodus</string>
-    <string name="server_misconfigured">Server falsch konfiguriert</string>
     <string name="server_error">Serverfehler</string>
-    <string name="shared_error">Das Teilen von Inhalten aus Apps von Drittanbietern wird noch nicht vollständig unterstützt. Bitte versuchen Sie zuerst, die Datei herunterzuladen und dann aus Ihrem Dateimanager oder aus Ihrer Galerie freizugeben.</string>
     <string name="error_edit_activity_killed_by_android">Android hat den Bearbeitungsmodus beendet, da mehr Systemressourcen für andere Apps benötigt wurden.</string>
 
     <string name="error_dialog_title">Oh nein - Was jetzt? 🙁</string>
@@ -236,12 +231,14 @@
     <string name="info_box_maintenance_mode">Server befindet sich im Wartungsmodus</string>
     <string name="info_box_version_not_supported">Serverversion %1$s wird nicht unterstützt. Bitte aktualisiere auf %2$s.</string>
     <string name="share_link">Link teilen</string>
+    <string name="share_content">Inhalt teilen</string>
+    <string name="share_content_duedate">Fälligkeitsdatum: %1$s</string>
+    <string name="share_content_labels">Schlagworte: %1$s</string>
     <string name="archive_cards">Karten archivieren</string>
 
     <string name="manage_accounts">Konten verwalten</string>
     <string name="manage_list">Liste verwalten</string>
     <string name="simple_reply">Antworten</string>
-    <string name="error_while_uploading_attachment">Fehler beim Hochladen des Anhangs: %1$s</string>
     <string name="append_text_to_description">An Beschreibung anhängen</string>
     <string name="add_text_as_comment">Als Kommentar hinzufügen</string>
     <string name="progress_count">%1$d von %2$d</string>
@@ -259,8 +256,9 @@
     <string name="card_does_not_yet_exist">Karte existiert bislang nicht in Deck</string>
 
     <string name="widget_stack_title">Liste</string>
+    <string name="widget_filter_title">Filter</string>
     <string name="widget_stack_header_icon">Widget-Kopf-Icon</string>
-    <string name="widget_stack_placeholder_icon">Widget-Platzhalter-Symbol</string>
+    <string name="widget_placeholder_icon">Widget-Platzhalter-Symbol</string>
     <string name="select_stack">Liste auswählen</string>
     <string name="project_type_deck_board">Deck-Board</string>
     <string name="project_type_deck_card">Deck-Karte</string>
@@ -282,7 +280,6 @@
     <string name="simple_contact">Kontakt</string>
     <string name="simple_file">Datei</string>
     <string name="simple_camera">Kamera</string>
-    <string name="min_api_21">Diese Funktion benötigt Android 5 oder neuer</string>
     <string name="take_photo">Foto aufnehmen</string>
     <string name="take_photo_switch_camera">Kamera wechseln</string>
     <string name="take_photo_toggle_torch">Taschenlampe umschalten</string>
@@ -296,4 +293,8 @@
     <string name="gallery">Galerie</string>
     <string name="simple_attach">anhängen</string>
     <string name="add_stack_widget">Ein Listen-Widget hinzufügen</string>
+    <string name="add_filter_widget">Filter-Widget hinzufügen</string>
+    <string name="simple_order">Reihenfolge</string>
+    <string name="edit_description">Beschreibung bearbeiten</string>
+    <string name="widget_upcoming_title">Anstehende Karten</string>
 </resources>

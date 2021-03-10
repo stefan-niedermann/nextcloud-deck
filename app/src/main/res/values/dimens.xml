@@ -9,6 +9,8 @@
     <dimen name="compact_label_height">6dp</dimen>
     <dimen name="attachments_bottom_navigation_height">64dp</dimen>
 
+    <dimen name="font_size_description">18sp</dimen>
+
     <!-- Drawer header -->
     <dimen name="drawer_header_height">100dp</dimen>
     <dimen name="drawer_header_logo_size">42dp</dimen>
@@ -23,6 +25,8 @@
     <dimen name="icon_size_details">24dp</dimen>
     <dimen name="empty_content_font_size">26sp</dimen>
 
+    <dimen name="widget_outer_radius">@dimen/spacer_1x</dimen>
+    <dimen name="widget_inner_radius">@dimen/spacer_1hx</dimen>
     <dimen name="widget_stack_card_padding">@dimen/spacer_1hx</dimen>
     <dimen name="widget_stack_icon_width">30dp</dimen>
     <dimen name="widget_stack_header_height">36dp</dimen>

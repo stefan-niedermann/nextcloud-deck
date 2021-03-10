@@ -1,0 +1,1 @@
+- 📆 Fix Upcoming cards widget selection (#819)

@@ -30,6 +30,5 @@
 <!--        android:layout_height="match_parent"-->
 <!--        android:contentDescription="@null"-->
 <!--        android:transitionName="@string/transition_attachment_preview"-->
-<!--        tools:src="@drawable/ic_image_grey600_24dp"-->
-<!--        tools:targetApi="lollipop" />-->
+<!--        tools:src="@drawable/ic_image_grey600_24dp" />-->
 </LinearLayout>

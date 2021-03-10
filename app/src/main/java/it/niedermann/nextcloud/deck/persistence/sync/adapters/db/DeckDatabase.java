@@ -1,8 +1,10 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 
 import androidx.annotation.ColorInt;
@@ -17,6 +19,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -32,7 +35,6 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Permission;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
-import it.niedermann.nextcloud.deck.model.appwidgets.StackWidgetModel;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
@@ -42,8 +44,19 @@ import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.model.relations.UserInBoard;
 import it.niedermann.nextcloud.deck.model.relations.UserInGroup;
+import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetBoard;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetLabel;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetProject;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetSort;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetStack;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.converter.DateTypeConverter;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.converter.EnumConverter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccessControlDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccountDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.ActivityDao;
@@ -67,7 +80,14 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.Jo
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.OcsProjectDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.OcsProjectResourceDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.SingleCardWidgetModelDao;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.StackWidgetModelDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetAccountDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetBoardDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetLabelDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetProjectDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetSortDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetStackDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.filter.FilterWidgetUserDao;
 
 @Database(
         entities = {
@@ -89,17 +109,25 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.Sta
                 DeckComment.class,
                 Mention.class,
                 SingleCardWidgetModel.class,
-                StackWidgetModel.class,
                 OcsProject.class,
                 OcsProjectResource.class,
                 JoinCardWithProject.class,
                 UserInGroup.class,
                 UserInBoard.class,
+                // UpcomingWidget:
+                FilterWidget.class,
+                FilterWidgetAccount.class,
+                FilterWidgetBoard.class,
+                FilterWidgetStack.class,
+                FilterWidgetLabel.class,
+                FilterWidgetUser.class,
+                FilterWidgetProject.class,
+                FilterWidgetSort.class,
         },
         exportSchema = false,
-        version = 23
+        version = 28
 )
-@TypeConverters({DateTypeConverter.class})
+@TypeConverters({DateTypeConverter.class, EnumConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
 
 
@@ -283,8 +311,8 @@ public abstract class DeckDatabase extends RoomDatabase {
                     String colorAsString1 = cursor.getString(4); // color
                     String colorAsString2 = cursor.getString(5); // textColor
 
-                    @ColorInt Integer color1 = null;
-                    @ColorInt Integer color2 = null;
+                    @ColorInt int color1;
+                    @ColorInt int color2;
                     try {
                         color1 = Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(colorAsString1));
                         color2 = Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(colorAsString2));
@@ -315,7 +343,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 while (cursor.moveToNext()) {
                     String colorAsString1 = cursor.getString(8); // color
 
-                    @ColorInt Integer color1 = null;
+                    @ColorInt int color1;
                     try {
                         color1 = Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(colorAsString1));
                     } catch (Exception e) {
@@ -349,7 +377,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 while (cursor.moveToNext()) {
                     String colorAsString1 = cursor.getString(7); // color
 
-                    @ColorInt Integer color1 = null;
+                    @ColorInt int color1;
                     try {
                         color1 = Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(colorAsString1));
                     } catch (Exception e) {
@@ -391,6 +419,97 @@ public abstract class DeckDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `Activity` ADD `etag` TEXT");
             database.execSQL("ALTER TABLE `OcsProject` ADD `etag` TEXT");
             database.execSQL("ALTER TABLE `OcsProjectResource` ADD `etag` TEXT");
+        }
+    };
+    private static final Migration MIGRATION_24_25 = new Migration(24, 25) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // Reset etags (comments weren't loading due to bug)
+            database.execSQL("UPDATE `Account` SET `boardsEtag` = NULL");
+            database.execSQL("UPDATE `Board` SET `etag` = NULL");
+            database.execSQL("UPDATE `Stack` SET `etag` = NULL");
+            database.execSQL("UPDATE `Card` SET `etag` = NULL");
+        }
+    };
+
+    private static final Migration MIGRATION_25_26 = new Migration(25, 26) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE `FilterWidget` (`id` INTEGER PRIMARY KEY NOT NULL, `title` TEXT, `dueType` INTEGER, `widgetType` INTEGER NOT NULL)");
+            database.execSQL("CREATE TABLE `FilterWidgetAccount` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterWidgetId` INTEGER, `accountId` INTEGER, `includeNoUser` INTEGER NOT NULL, `includeNoProject` INTEGER NOT NULL, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterWidgetId`) REFERENCES `FilterWidget`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE TABLE `FilterWidgetBoard` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterAccountId` INTEGER, `boardId` INTEGER, `includeNoLabel` INTEGER NOT NULL, FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterAccountId`) REFERENCES `FilterWidgetAccount`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE TABLE `FilterWidgetLabel` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterBoardId` INTEGER, `labelId` INTEGER, FOREIGN KEY(`labelId`) REFERENCES `Label`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterBoardId`) REFERENCES `FilterWidgetBoard`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE TABLE `FilterWidgetSort` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterWidgetId` INTEGER, `direction` INTEGER NOT NULL, `criteria` INTEGER NOT NULL, `ruleOrder` INTEGER NOT NULL, FOREIGN KEY(`filterWidgetId`) REFERENCES `FilterWidget`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE TABLE `FilterWidgetStack` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterBoardId` INTEGER, `stackId` INTEGER, FOREIGN KEY(`stackId`) REFERENCES `Stack`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterBoardId`) REFERENCES `FilterWidgetBoard`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE TABLE `FilterWidgetUser` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterAccountId` INTEGER, `userId` INTEGER, FOREIGN KEY(`userId`) REFERENCES `User`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterAccountId`) REFERENCES `FilterWidgetAccount`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE TABLE `FilterWidgetProject` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `filterAccountId` INTEGER, `projectId` INTEGER, FOREIGN KEY(`projectId`) REFERENCES `OcsProject`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`filterAccountId`) REFERENCES `FilterWidgetAccount`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE INDEX `index_FilterWidgetAccount_filterWidgetId` ON `FilterWidgetAccount` (`filterWidgetId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetAccount_accountId` ON `FilterWidgetAccount` (`accountId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetBoard_boardId` ON `FilterWidgetBoard` (`boardId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetBoard_filterAccountId` ON `FilterWidgetBoard` (`filterAccountId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetLabel_filterBoardId` ON `FilterWidgetLabel` (`filterBoardId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetLabel_labelId` ON `FilterWidgetLabel` (`labelId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetSort_filterWidgetId` ON `FilterWidgetSort` (`filterWidgetId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetStack_filterBoardId` ON `FilterWidgetStack` (`filterBoardId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetStack_stackId` ON `FilterWidgetStack` (`stackId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetUser_filterAccountId` ON `FilterWidgetUser` (`filterAccountId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetUser_userId` ON `FilterWidgetUser` (`userId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetProject_filterAccountId` ON `FilterWidgetProject` (`filterAccountId`)");
+            database.execSQL("CREATE INDEX `idx_FilterWidgetProject_projectId` ON `FilterWidgetProject` (`projectId`)");
+            database.execSQL("CREATE INDEX `unique_idx_FilterWidgetSort_filterWidgetId_criteria` ON `FilterWidgetSort` (`filterWidgetId`, `criteria`)");
+            database.execSQL("CREATE INDEX `unique_idx_FilterWidgetSort_filterWidgetId_ruleOrder` ON `FilterWidgetSort` (`filterWidgetId`, `ruleOrder`)");
+
+        }
+    };
+    private static final Migration MIGRATION_26_27 = new Migration(26, 27) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+
+            Cursor cursor = database.query("select s.localId, s.boardId, s.accountId, w.appWidgetId from `StackWidgetModel` w inner join `Stack` s on s.localId = w.stackId");
+            while (cursor.moveToNext()) {
+                Long localStackId = cursor.getLong(0);
+                Long localBoardId = cursor.getLong(1);
+                Long accountId = cursor.getLong(2);
+                Long filterWidgetId = cursor.getLong(3);
+
+                // widget:
+                ContentValues values = new ContentValues();
+                values.put("widgetType", EWidgetType.STACK_WIDGET.getId());
+                values.put("id", filterWidgetId);
+                database.insert("FilterWidget", SQLiteDatabase.CONFLICT_NONE, values);
+
+                // account
+                values = new ContentValues();
+                values.put("filterWidgetId", filterWidgetId);
+                values.put("accountId", accountId);
+                values.put("includeNoUser", false);
+                values.put("includeNoProject", false);
+                long filterWidgetAccountId = database.insert("FilterWidgetAccount", SQLiteDatabase.CONFLICT_NONE, values);
+
+                // board
+                values = new ContentValues();
+                values.put("filterAccountId", filterWidgetAccountId);
+                values.put("boardId", localBoardId);
+                values.put("includeNoLabel", false);
+                long filterWidgetBoardId = database.insert("FilterWidgetBoard", SQLiteDatabase.CONFLICT_NONE, values);
+
+                // stack
+                values = new ContentValues();
+                values.put("filterBoardId", filterWidgetBoardId);
+                values.put("stackId", localStackId);
+                database.insert("FilterWidgetStack", SQLiteDatabase.CONFLICT_NONE, values);
+
+
+            }
+
+            // cleanup
+            database.execSQL("DROP TABLE `StackWidgetModel`");
+        }
+    };
+    private static final Migration MIGRATION_27_28 = new Migration(27, 28) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `Attachment` ADD COLUMN `fileId` INTEGER");
         }
     };
 
@@ -454,6 +573,26 @@ public abstract class DeckDatabase extends RoomDatabase {
                     }
                 })
                 .addMigrations(MIGRATION_22_23)
+                .addMigrations(new Migration(23, 24) {
+                    @Override
+                    public void migrate(@NonNull SupportSQLiteDatabase database) {
+                        // https://github.com/stefan-niedermann/nextcloud-deck/issues/392
+                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                        final String themePref = context.getString(R.string.pref_key_dark_theme);
+
+                        if (sharedPreferences.contains(themePref)) {
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            final boolean darkTheme = sharedPreferences.getBoolean(themePref, false);
+                            editor.remove(themePref);
+                            editor.putString(themePref, darkTheme ? context.getString(R.string.pref_value_theme_dark) : context.getString(R.string.pref_value_theme_light));
+                            editor.apply();
+                        }
+                    }
+                })
+                .addMigrations(MIGRATION_24_25)
+                .addMigrations(MIGRATION_25_26)
+                .addMigrations(MIGRATION_26_27)
+                .addMigrations(MIGRATION_27_28)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();
@@ -495,8 +634,6 @@ public abstract class DeckDatabase extends RoomDatabase {
 
     public abstract SingleCardWidgetModelDao getSingleCardWidgetModelDao();
 
-    public abstract StackWidgetModelDao getStackWidgetModelDao();
-
     public abstract OcsProjectDao getOcsProjectDao();
 
     public abstract OcsProjectResourceDao getOcsProjectResourceDao();
@@ -506,4 +643,21 @@ public abstract class DeckDatabase extends RoomDatabase {
     public abstract UserInGroupDao getUserInGroupDao();
 
     public abstract UserInBoardDao getUserInBoardDao();
+
+    public abstract FilterWidgetDao getFilterWidgetDao();
+
+    public abstract FilterWidgetAccountDao getFilterWidgetAccountDao();
+
+    public abstract FilterWidgetBoardDao getFilterWidgetBoardDao();
+
+    public abstract FilterWidgetStackDao getFilterWidgetStackDao();
+
+    public abstract FilterWidgetLabelDao getFilterWidgetLabelDao();
+
+    public abstract FilterWidgetUserDao getFilterWidgetUserDao();
+
+    public abstract FilterWidgetProjectDao getFilterWidgetProjectDao();
+
+    public abstract FilterWidgetSortDao getFilterWidgetSortDao();
+
 }

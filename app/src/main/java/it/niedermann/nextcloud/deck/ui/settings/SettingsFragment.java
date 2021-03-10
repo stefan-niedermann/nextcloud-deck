@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -21,7 +22,6 @@ import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMai
 public class SettingsFragment extends PreferenceFragmentCompat implements Branded {
 
     private BrandedSwitchPreference wifiOnlyPref;
-    private BrandedSwitchPreference themePref;
     private BrandedSwitchPreference brandingPref;
     private BrandedSwitchPreference compactPref;
 
@@ -41,14 +41,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
             DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_wifi_only) + "\"");
         }
 
-        themePref = findPreference(getString(R.string.pref_key_dark_theme));
+        Preference themePref = findPreference(getString(R.string.pref_key_dark_theme));
         if (themePref != null) {
             themePref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-                final Boolean darkTheme = (Boolean) newValue;
-                DeckLog.log("darkTheme: " + darkTheme);
-                setAppTheme(darkTheme);
+                setAppTheme(Integer.parseInt((String) newValue));
                 requireActivity().setResult(Activity.RESULT_OK);
-                requireActivity().recreate();
+                ActivityCompat.recreate(requireActivity());
                 return true;
             });
         } else {
@@ -61,7 +59,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
                 final Boolean branding = (Boolean) newValue;
                 DeckLog.log("branding: " + branding);
                 requireActivity().setResult(Activity.RESULT_OK);
-                requireActivity().recreate();
+                ActivityCompat.recreate(requireActivity());
                 return true;
             });
         } else {
@@ -93,7 +91,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
     @Override
     public void applyBrand(int mainColor) {
         wifiOnlyPref.applyBrand(mainColor);
-        themePref.applyBrand(mainColor);
         brandingPref.applyBrand(mainColor);
         compactPref.applyBrand(mainColor);
     }

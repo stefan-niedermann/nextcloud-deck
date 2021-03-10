@@ -23,6 +23,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.ActivityType;
+import it.niedermann.nextcloud.deck.model.enums.EAttachmentType;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
@@ -457,7 +458,7 @@ public class JsonToEntityParser {
         makeTraceableIfFails(() -> {
             a.setId(e.get("id").getAsLong());
             a.setCardId(e.get("cardId").getAsLong());
-            a.setType(e.get("type").getAsString());
+            a.setType(EAttachmentType.findByValue(e.get("type").getAsString()));
             a.setEtag(getNullAsNull(e.get("ETag")));
             a.setData(e.get("data").getAsString());
             a.setLastModified(getTimestampFromLong(e.get("lastModified")));
@@ -468,6 +469,9 @@ public class JsonToEntityParser {
                 JsonObject extendedData = e.getAsJsonObject("extendedData").getAsJsonObject();
                 a.setFilesize(extendedData.get("filesize").getAsLong());
                 a.setMimetype(extendedData.get("mimetype").getAsString());
+                if (extendedData.has("fileid") && !extendedData.get("fileid").isJsonNull()) {
+                    a.setFileId(extendedData.get("fileid").getAsLong());
+                }
                 if (extendedData.has("info") && !extendedData.get("info").isJsonNull()) {
                     JsonObject info = extendedData.getAsJsonObject("info").getAsJsonObject();
                     a.setDirname(info.get("dirname").getAsString());

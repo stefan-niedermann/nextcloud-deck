@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Apri il cassetto di navigazione</string>
     <string name="navigation_drawer_close">Chiudi il cassetto di navigazione</string>
 
-    <string name="drawer_header_background">Immagine di sfondo dell\'intestazione del cassetto</string>
-    <string name="drawer_current_account">Account attuale</string>
-    <string name="drawer_middle_account">Account centrale</string>
-    <string name="drawer_end_account">Ultimo account</string>
-    <string name="drawer_manage_accounts">Gestisci account</string>
-
     <string name="simple_boards">Lavagne</string>
     <string name="simple_add">Aggiungi</string>
     <string name="simple_save">Salva</string>
@@ -120,17 +114,20 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Aggiungi un nuovo elenco usando il pulsante +</string>
     <string name="add_a_new_card_using_the_button">Aggiungi una nuova scheda utilizzando il pulsante +</string>
-    <string name="update_deck">Aggiorna Deck</string>
-    <string name="your_deck_version_is_too_old">La tua versione di Deck è troppo datata</string>
-    <string name="deck_outdated_please_update">La tua versione di Deck è troppo datata (%1$s). Aggiorna per utilizzare questa applicazione Android come client.</string>
+    <string name="update_deck">Aggiorna l\'applicazione web Deck</string>
+    <string name="deck_outdated_please_update">La tua versione dell\'applicazione web Deck è troppo datata (%1$s). Aggiorna per utilizzare questa applicazione Android come client.</string>
     <string name="delete_board_message">Questo eliminerà definitivamente questa lavagna inclusi tutti gli elenchi e le schede.</string>
-    <string name="settings_theme_title">Tema scuro</string>
+    <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Marchio</string>
     <string name="settings_compact_title">Modalità compatta</string>
     <string name="settings_background_sync">Sincronizzazione in background</string>
     <string name="pref_value_wifi_and_mobile">Sincronizza su Wi-FI e dati mobili</string>
     <string name="pref_value_wifi_only">Sincronizza solo con Wi-Fi</string>
-    <string name="pref_value_theme_light">Chiaro</string>
+    <string-array name="darkmode_entries">
+        <item>Predefinito di sistema</item>
+        <item>Chiaro</item>
+        <item>Scuro</item>
+    </string-array>
     <string name="unassigned_user">Assegnazione di %1$s rimossa</string>
     <string name="no_activities">Non ci sono attività su questa scheda. Devi essere connesso a Internet per caricare e visualizzare le attività.</string>
     <string name="share_board">Condividi lavagna</string>
@@ -146,11 +143,9 @@
     <string name="hours_6">6 ore</string>
     <string name="action_card_move">Sposta scheda</string>
     <string name="action_card_move_title">Sposta %1$s</string>
-    <string name="please_add_an_account_first">Aggiungi prima un account</string>
     <string name="title_is_mandatory">Il titolo è obbligatorio</string>
     <string name="provide_at_least_a_title_or_description">Fornisci almeno un titolo e una descrizione</string>
     <string name="welcome_text">Benvenuto in %1$s</string>
-    <string name="save_card_before_attachment">La scheda deve essere salvata prima di poter aggiungere allegati.</string>
     <string name="maintenance_mode_explanation">Il server %1$s attualmente è in manutenzione. Contatta l\'amministratore o riprova più tardi.</string>
     <string name="share_add_to_card">Aggiungi a scheda</string>
     <string name="share_success">Aggiunto %1$s a %2$s correttamente</string>
@@ -171,9 +166,11 @@
     <string name="filter_no_filter">Tutti</string>
     <string name="filter_overdue">Scadenza</string>
     <string name="filter_today">Oggi</string>
+    <string name="filter_tomorrow">Domani</string>
     <string name="filter_week">7 giorni successivi</string>
     <string name="filter_month">30 giorni successivi</string>
     <string name="filter_no_due">Nessuna data di scadenza</string>
+    <string name="filter_later">Più tardi</string>
     <string name="filter_by_tag">Filtra per etichette</string>
     <string name="filter_by_assigned_user">Filtra per utente assegnato</string>
     <string name="filter_by_duedate">Filtra per data di scadenza</string>
@@ -201,9 +198,7 @@
     <string name="error_revoking_ac">Errore durante la revoca dell\'accesso a %1$s</string>
     <string name="error_create_label">Errore durante la creazione dell\'etichetta %1$s</string>
     <string name="maintenance_mode">Server in manutenzione</string>
-    <string name="server_misconfigured">Configurazione server non corretta</string>
     <string name="server_error">Errore del server</string>
-    <string name="shared_error">La condivisione della condivisione di contenuti di applicazioni di terze parti non è ancora supportata. Prova a scaricarli prima e poi condividili dal gestore dei file nativo o dalla galleria.</string>
     <string name="error_edit_activity_killed_by_android">Android ha terminato la modalità di modifica poiché richiedeva più risorse di sistema per le altre applicazioni.</string>
 
     <string name="error_dialog_title">Oh no - E adesso? 🙁</string>
@@ -241,7 +236,6 @@
     <string name="manage_accounts">Gestisci account</string>
     <string name="manage_list">Gestisci elenco</string>
     <string name="simple_reply">Rispondi</string>
-    <string name="error_while_uploading_attachment">Errore durante il caricamento dell\'allegato: %1$s</string>
     <string name="append_text_to_description">Aggiungi alla descrizione</string>
     <string name="add_text_as_comment">Aggiungi come commento</string>
     <string name="progress_count">%1$d di %2$d</string>
@@ -259,8 +253,9 @@
     <string name="card_does_not_yet_exist">La scheda non esiste ancora in Deck</string>
 
     <string name="widget_stack_title">Elenco</string>
+    <string name="widget_filter_title">Filtro</string>
     <string name="widget_stack_header_icon">Icona intestazione widget</string>
-    <string name="widget_stack_placeholder_icon">Icona segnaposto widget</string>
+    <string name="widget_placeholder_icon">Icona segnaposto dei widget</string>
     <string name="select_stack">Seleziona elenco</string>
     <string name="project_type_deck_board">Lavagna di Deck</string>
     <string name="project_type_deck_card">Scheda di Deck</string>
@@ -282,7 +277,6 @@
     <string name="simple_contact">Contatto</string>
     <string name="simple_file">File</string>
     <string name="simple_camera">Fotocamera</string>
-    <string name="min_api_21">Questa funzionalità richiede almeno Android 5</string>
     <string name="take_photo">Scatta una foto</string>
     <string name="take_photo_switch_camera">Cambia fotocamera</string>
     <string name="take_photo_toggle_torch">Attiva la torcia</string>
@@ -296,4 +290,8 @@
     <string name="gallery">Galleria</string>
     <string name="simple_attach">allega</string>
     <string name="add_stack_widget">Aggiungi widget elenco</string>
+    <string name="add_filter_widget">Aggiungi widget di filtro</string>
+    <string name="simple_order">Ordinamento</string>
+    <string name="edit_description">Modifica descrizione</string>
+    <string name="widget_upcoming_title">Prossime schede</string>
 </resources>

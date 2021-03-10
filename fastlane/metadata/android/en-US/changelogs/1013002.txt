@@ -1,0 +1,2 @@
+- 🌗 Dark mode following system default (#392) (by @fm-sys)
+- 🐞 Fix missing comments under some circumstances

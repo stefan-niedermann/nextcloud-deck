@@ -1,12 +1,14 @@
 package it.niedermann.nextcloud.deck.ui.card.comments.util;
 
 
+import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 
 public class CommentsUtil {
 
+    @Nullable
     public static Pair<String, Integer> getUserNameForMentionProposal(String text, int cursorPosition) {
-        Pair result = null;
+        Pair<String, Integer> result = null;
 
         if (text != null) {
             // find start of relevant substring

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/widget_single_card_background"
+    android:background="@drawable/widget_outer_background"
     android:orientation="vertical">
 
     <!-- Widget header -->
@@ -12,7 +12,9 @@
         android:id="@+id/widget_stack_header_rl"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_stack_header_height"
-        android:padding="@dimen/widget_stack_card_padding">
+        android:paddingTop="@dimen/spacer_1x"
+        android:paddingStart="@dimen/spacer_1x"
+        android:paddingEnd="@dimen/spacer_1x">
 
         <ImageView
             android:id="@+id/widget_stack_header_icon"
@@ -30,7 +32,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textAppearance="?attr/textAppearanceBody1"
-            android:textSize="18sp"
+            android:textSize="16sp"
+            android:textStyle="bold"
             android:layout_toEndOf="@id/widget_stack_header_icon"
             android:gravity="center_vertical"
             android:paddingStart="@dimen/widget_stack_card_padding"
@@ -59,6 +62,6 @@
         android:textColor="@color/fg_secondary"
         app:srcCompat="@drawable/ic_local_movies_grey600_24dp"
         tools:visibility="gone"
-        android:contentDescription="@string/widget_stack_placeholder_icon" />
+        android:contentDescription="@string/widget_placeholder_icon" />
 
 </LinearLayout>

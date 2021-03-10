@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Odpri bočno okno</string>
     <string name="navigation_drawer_close">Zapri bočno okno</string>
 
-    <string name="drawer_header_background">Slika ozadja glave bočnega okna</string>
-    <string name="drawer_current_account">Trenutni račun</string>
-    <string name="drawer_middle_account">Srednji račun</string>
-    <string name="drawer_end_account">Zadnji račun</string>
-    <string name="drawer_manage_accounts">Upravljanje z računi</string>
-
     <string name="simple_boards">Zbirke</string>
     <string name="simple_add">Dodaj</string>
     <string name="simple_save">Shrani</string>
@@ -124,17 +118,20 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Nov seznam dodate s klikom na gumb +</string>
     <string name="add_a_new_card_using_the_button">Novo nalogo je mogoče dodati z gumbom +</string>
-    <string name="update_deck">Posodobi zbirko</string>
-    <string name="your_deck_version_is_too_old">Različica zbirke je prestara</string>
+    <string name="update_deck">Posodobi spletni program Deck</string>
     <string name="deck_outdated_please_update">Različica zbirke je prestara (%1$s). Za uporabo tega odjemalca je treba zbirko najprej posodobiti.</string>
     <string name="delete_board_message">S tem dejanjem bo zbirka z vsemi paketi nalog in nalogami trajno izbrisana.</string>
-    <string name="settings_theme_title">Temna tema</string>
+    <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Prilagajanje oblikovanja</string>
     <string name="settings_compact_title">Stisnjen pogled</string>
     <string name="settings_background_sync"> Usklajevanje v ozadju</string>
     <string name="pref_value_wifi_and_mobile">Usklajuj na Wi-Fi in mobilni povezavi</string>
     <string name="pref_value_wifi_only">Usklajuj le na Wi-Fi</string>
-    <string name="pref_value_theme_light">Svetla</string>
+    <string-array name="darkmode_entries">
+        <item>Sistemsko privzeto</item>
+        <item>Svetla</item>
+        <item>Temna</item>
+    </string-array>
     <string name="unassigned_user">Uporabnik %1$s je odstranjen</string>
     <string name="no_activities">Na tej nalogi še ni zaznane nobene dejavnosti. Za prikaz dejavnosti mora biti vzpostavljena povezava z omrežjem.</string>
     <string name="share_board">Souporaba zbirke</string>
@@ -150,11 +147,9 @@
     <string name="hours_6">6 ur</string>
     <string name="action_card_move">Premakni nalogo</string>
     <string name="action_card_move_title">Premakni %1$s</string>
-    <string name="please_add_an_account_first">Najprej je treba dodati račun</string>
     <string name="title_is_mandatory">Naslov je obvezen</string>
     <string name="provide_at_least_a_title_or_description">Vpisati je treba vsaj naslov oziroma opis</string>
     <string name="welcome_text">Dobrodošli v %1$s</string>
-    <string name="save_card_before_attachment">Nalogo je treba shraniti, preden je mogoče dodati prilogo.</string>
     <string name="maintenance_mode_explanation">Strežnik %1$s je trenutno v načinu vzdrževanja. Stopite v stik s skrbnikom, ali pa poskusite kasneje.</string>
     <string name="share_add_to_card">Dodaj k nalogi</string>
     <string name="share_success">Uspešno dodano %1$s v %2$s</string>
@@ -175,9 +170,11 @@
     <string name="filter_no_filter">Vse</string>
     <string name="filter_overdue">Preteklo</string>
     <string name="filter_today">Danes</string>
+    <string name="filter_tomorrow">Jutri</string>
     <string name="filter_week">Naslednjih 7 dni</string>
     <string name="filter_month">Naslednjih 30 dni</string>
     <string name="filter_no_due">Ni datuma preteka</string>
+    <string name="filter_later">Kasneje</string>
     <string name="filter_by_tag">Filtriraj po oznaki</string>
     <string name="filter_by_assigned_user">Filtriraj po dodeljenem uporabniku</string>
     <string name="filter_by_duedate">Filtriraj po datumu preteka</string>
@@ -205,9 +202,7 @@
     <string name="error_revoking_ac">Prišlo je do napake med obnavljanjem dostopa do %1$s.</string>
     <string name="error_create_label">Prišlo je do napake med ustvarjanjem oznake %1$s.</string>
     <string name="maintenance_mode">Strežnik je v načinu vzdrževanja</string>
-    <string name="server_misconfigured">Strežnik je napačno nastavljen</string>
     <string name="server_error">Napaka strežnika</string>
-    <string name="shared_error">Souporaba vsebine prek programov iz tretje roke še ni povsem podprto. Datoteko najprej prejmite in omogočite souporabo prek datotek ali galerije.</string>
     <string name="error_edit_activity_killed_by_android">Urejevalni način je bil sistemsko zaustavljen, ker druge naprave zahtevajo več virov.</string>
 
     <string name="error_dialog_title">Ojoj, kaj pa zdaj? 🙁</string>
@@ -240,12 +235,13 @@
     <string name="info_box_maintenance_mode">Strežnik je v načinu vzdrževanja</string>
     <string name="info_box_version_not_supported">Različica strežnika %1$s ni podprta. Priporočljiva je posodobitev na različico %2$s.</string>
     <string name="share_link">Povezava za souporabo</string>
+    <string name="share_content_duedate">Datum preteka: %1$s</string>
+    <string name="share_content_labels">Oznake: %1$s</string>
     <string name="archive_cards">Arhiviraj naloge</string>
 
     <string name="manage_accounts">Upravljanje z računi</string>
     <string name="manage_list">Upravljanje seznama</string>
     <string name="simple_reply">Odgovori</string>
-    <string name="error_while_uploading_attachment">Prišlo je do napake med pošiljanjem priloge: %1$s</string>
     <string name="append_text_to_description">Pripni k opisu</string>
     <string name="add_text_as_comment">Dodaj opombo</string>
     <string name="progress_count">%1$d od %2$d</string>
@@ -265,8 +261,9 @@
     <string name="card_does_not_yet_exist">Naloga v Deck še ne obstaja</string>
 
     <string name="widget_stack_title">Seznam</string>
+    <string name="widget_filter_title">Filter</string>
     <string name="widget_stack_header_icon">Ikona glave gradnika</string>
-    <string name="widget_stack_placeholder_icon">Ikona ročnika gradnika</string>
+    <string name="widget_placeholder_icon">Ikona vsebnika gradnika</string>
     <string name="select_stack">Izbor seznama</string>
     <string name="project_type_deck_board">Zbirka Deck</string>
     <string name="project_type_deck_card">Naloga Deck</string>
@@ -290,7 +287,6 @@
     <string name="simple_contact">Stik</string>
     <string name="simple_file">Datoteka</string>
     <string name="simple_camera">Kamera</string>
-    <string name="min_api_21">Ta možnost zahteva vsaj sistem Android 5.</string>
     <string name="take_photo">Zajemi posnetek</string>
     <string name="take_photo_switch_camera">Preklopi kamero</string>
     <string name="take_photo_toggle_torch">Preklopi bliskavico</string>
@@ -304,4 +300,8 @@
     <string name="gallery">Galerija</string>
     <string name="simple_attach">pripni</string>
     <string name="add_stack_widget">Dodaj gradnik seznama</string>
+    <string name="add_filter_widget">Dodaj gradnik filtra</string>
+    <string name="simple_order">Razvrstitev</string>
+    <string name="edit_description">Uredi opis</string>
+    <string name="widget_upcoming_title">Prihajajoče naloge</string>
 </resources>

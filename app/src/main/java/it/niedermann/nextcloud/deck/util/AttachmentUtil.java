@@ -11,6 +11,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.Px;
+import androidx.annotation.WorkerThread;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,6 +22,7 @@ import java.io.InputStream;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Attachment;
+import it.niedermann.nextcloud.deck.model.enums.EAttachmentType;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 
 /**
@@ -38,7 +40,9 @@ public class AttachmentUtil {
      * the {@link Attachment} itself will be returned instead.
      */
     public static String getThumbnailUrl(@NonNull Version version, @NonNull String accountUrl, @NonNull Long cardRemoteId, @NonNull Attachment attachment, @Px int previewSize) {
-        return version.supportsFileAttachments() && !TextUtils.isEmpty(String.valueOf(attachment.getFileId()))
+        return version.supportsFileAttachments() &&
+                EAttachmentType.FILE.equals(attachment.getType()) &&
+                attachment.getFileId() != null
                 ? accountUrl + "/index.php/core/preview?fileId=" + attachment.getFileId() + "&x=" + previewSize + "&y=" + previewSize
                 : getRemoteOrLocalUrl(accountUrl, cardRemoteId, attachment);
     }
@@ -75,6 +79,11 @@ public class AttachmentUtil {
         return accountUrl + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachmentRemoteId;
     }
 
+    /**
+     * https://help.nextcloud.com/t/android-app-select-file-with-nextcloud-app-file-cant-be-read/103706
+     * Must not be called from the UI thread because the {@param currentUri} might refer to a not yet locally available file.
+     */
+    @WorkerThread
     public static File copyContentUriToTempFile(@NonNull Context context, @NonNull Uri currentUri, long accountId, Long localCardId) throws IOException, IllegalArgumentException {
         final InputStream inputStream = context.getContentResolver().openInputStream(currentUri);
         if (inputStream == null) {

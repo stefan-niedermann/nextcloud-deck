@@ -2,13 +2,6 @@
     <string name="navigation_drawer_open">کشو ناوبری را باز کنید</string>
     <string name="navigation_drawer_close">بستن کشو ناوبری</string>
 
-    <string name="drawer_header_background">تصویر پس زمینه هدر کشو</string>
-    <string name="drawer_current_account">حساب جاری</string>
-    <string name="drawer_middle_account">حساب میانه</string>
-    <string name="drawer_end_account">آخرین حساب</string>
-    <string name="drawer_manage_accounts">مدیریت حساب ها </string>
-
-    <!-- Simple values -->
     <string name="simple_boards">تخته ها</string>
     <string name="simple_add">افزودن</string>
     <string name="simple_save">ذخیره</string>
@@ -20,9 +13,11 @@
     <string name="simple_error">خطا</string>
     <string name="simple_exception">استثنا</string>
     <string name="simple_close">بستن</string>
-    <string name="simple_open">باز کن...</string>
+    <string name="simple_open">باز کردن</string>
+    <string name="simple_switch">تعویض</string>
     <string name="simple_filter">فیلتر</string>
-    <string name="simple_clear">معلوم</string>
+    <string name="simple_overdue">منقضی شده</string>
+    <string name="simple_clear">پاک کردن</string>
     <string name="simple_discard">دور انداختن</string>
     <string name="simple_update">به روز رسانی</string>
     <string name="simple_delete">حذف</string>
@@ -33,15 +28,19 @@
     <string name="simple_share">اشتراک گذاری</string>
     <string name="simple_select">انتخاب</string>
     <string name="simple_comment">نظر</string>
+    <string name="simple_disabled">غیر فعال</string>
+    <string name="simple_copied">کپی شد</string>
+    <string name="simple_archive">بایگانی</string>
+    <string name="simple_unassigned">تخصیص داده نشده</string>
+
     <string name="edit_board">ویرایش تابلو</string>
     <string name="archive_board"> بایگانی تابلو</string>
     <string name="delete_board">حذف تابلو</string>
     <string name="delete_something">حذف %1$s</string>
 
-    <!-- About -->
     <string name="about">درباره</string>
     <string name="about_version_title">نسخه</string>
-    <string name="about_version">شما در حال استفاده هستید %1$s</string>
+    <string name="about_version"> شما در حال استفاده %1$s هستید</string>
     <string name="about_maintainer_title">نگهدار</string>
     <string name="about_developers_title">توسعه دهندگان</string>
     <string name="about_translators_title">مترجم</string>
@@ -59,21 +58,27 @@
     <string name="about_app_license_button">مشاهده مجوز</string>
     <string name="about_icons_disclaimer_title">آیکون ها</string>
     <string name="about_icons_disclaimer_app_icon">برای مشاره آیکون اصلی %1$s را ببینید.</string>
-    <string name="about_icons_disclaimer_mdi">شمایل طراحی مواد</string>
+    <string name="about_icons_disclaimer_mdi_icons">تمام نمادهای دیگری که توسط این برنامه استفاده می شود%1$s توسط Google Inc ساخته شده و تحت مجوز Apache 2.0 دارای مجوز هستند.</string>
+    <string name="about_icons_disclaimer_mdi">آیکن های طراحی متریال</string>
     <string name="about_credits_tab_title">اعتبارات</string>
     <string name="about_contribution_tab_title">مشارکت</string>
     <string name="about_license_tab_title">مجوز کاربری</string>
-
     <string name="seconds_ago">ثانیه‌هایی پیش</string>
     <string name="edit">ویرایش</string>
     <string name="label_labels">برچسب ها را انتخاب کنید</string>
     <string name="label_description">توضیحات</string>
     <string name="hint_assign_people">اختصاص کاربران</string>
     <string name="hint_due_date_date">موعد مقرر</string>
+    <string name="card_not_found">کارت پیدا نشد</string>
+    <string name="card_not_found_message">کارت پیدا نشد شاید اخیراً حذف شده باشد.</string>
+
     <string name="add_account">ایحاد حساب کاربری</string>
     <string name="choose_account">حساب کاربری را انتخاب کنید</string>
     <string name="add_card">افزودن کارت</string>
-    <string name="activity">فعّالیت</string>
+    <string name="activity">فعالیت</string>
+    <string name="add_list">افزودن لیست</string>
+    <string name="rename_list">تغییر نام لیست</string>
+    <string name="delete_list">حذف لیست</string>
     <string name="label_menu">منو</string>
     <string name="action_card_assign">کارت را به من اختصاص دهید</string>
     <string name="action_card_unassign">جدا کردن کارت از من</string>
@@ -84,12 +89,6 @@
     <string name="label_clear_due_date">تاریخ مقرر را پاک کنید</string>
     <string name="label_add">افزودن%1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">خطایی ظاهر شد</string>
-    <string name="copied_to_clipboard">در حافظه رونویسی شد</string>
-    <string name="maintenance_mode">سرور در حالت تعمیر و نگهداری</string>
-    <string name="server_misconfigured">خطای تنظیمات سرور</string>
-    <string name="server_error">خطای سرور</string>
     <string name="card_edit_details">جزئیات</string>
     <string name="card_edit_attachments">پیوست ها</string>
     <string name="card_edit_activity">فعّالیت</string>
@@ -101,22 +100,27 @@
     <string name="account_already_added">حساب قبلاً اضافه شده است</string>
     <string name="account_is_getting_imported">حساب وارد می شود</string>
     <string name="not_synced_yet">هنوز همگام سازی نشده است</string>
+    <string name="no_lists_yet">هنوز لیست وجود ندارد</string>
     <string name="do_you_want_to_save_your_changes">آیا می خواهید تغییرات خود را ذخیره کنید؟</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">آیا می خواهید همه کارتهای %1$s بایگانی شود؟</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">آیا می خواهید همه کارت‌های فیلترشده %1$s بایگانی شوند؟</string>
+    <string name="add_a_new_list_using_the_button">با استفاده از دکمه + لیست جدیدی اضافه کنید</string>
     <string name="add_a_new_card_using_the_button">با استفاده از دکمه + یک کارت جدید اضافه کنید</string>
     <string name="update_deck">عرشه را به روز کنید</string>
-    <string name="your_deck_version_is_too_old">نسخه عرشه شما خیلی قدیمی است</string>
     <string name="deck_outdated_please_update">نسخه عرشه شما خیلی قدیمی است لطفاً برای استفاده از این برنامه اندرویدی به عنوان مشتری ، بروزرسانی کنید.</string>
+    <string name="delete_board_message">با این کار این صفحه شامل همه لیست ها و کارت ها برای همیشه حذف می شود.</string>
     <string name="settings_theme_title">تم تاریک</string>
+    <string name="settings_branding_title">نام تجاری</string>
+    <string name="settings_compact_title">حالت جمع و جور</string>
     <string name="settings_background_sync">همگام سازی پس زمینه</string>
     <string name="pref_value_wifi_and_mobile">همگام سازی داده های Wi-Fi و تلفن همراه</string>
     <string name="pref_value_wifi_only">همگام سازی فقط در Wi-Fi</string>
-    <string name="pref_value_theme_light">روشن</string>
     <string name="unassigned_user">دست نخورده %1$s</string>
     <string name="no_activities">هیچ فعالیتی در این کارت انجام نشده است. برای بارگیری و نمایش فعالیتها باید به اینترنت متصل شوید.</string>
     <string name="share_board">صفحه مشترک</string>
     <string name="you_are_currently_offline">شما در حال حاضر آفلاین هستید</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">برای اضافه کردن حساب باید به اینترنت متصل شوید.</string>
-    <string name="owner">Owner</string>
+    <string name="owner">مالک</string>
     <string name="attachment_delete_message">با این کار برای همیشه این پیوست حذف می شود.</string>
     <string name="no_content">هنوز محتوا موجود نیست</string>
     <string name="last_background_sync">آخرین همگام سازی پس زمینه:</string>
@@ -126,12 +130,139 @@
     <string name="hours_6">۶ ساعت</string>
     <string name="action_card_move">انتقال کارت</string>
     <string name="action_card_move_title">حرکت%1$s</string>
-    <string name="could_not_copy_to_clipboard">به کلیپ بورد کپی نشد</string>
+    <string name="title_is_mandatory">عنوان اجباری است</string>
+    <string name="provide_at_least_a_title_or_description">حداقل عنوان یا توصیفی ارائه دهید</string>
+    <string name="welcome_text">به %1$s خوش آمدید</string>
+    <string name="maintenance_mode_explanation">سرور %1$s در حال حاضر در حالت تعمیر و نگهداری است. لطفاً با مدیریت تماس بگیرید یا بعداً دوباره امتحان کنید.</string>
+    <string name="share_add_to_card">افزودن به کارت</string>
+    <string name="share_success">با موفقیت %1$s به %2$s اضافه شد</string>
     <string name="add_comment">افزودن نظر</string>
     <string name="card_edit_comments">نظرات</string>
     <string name="no_comments_yet">هنوز نظری ثبت نشده است</string>
+    <string name="no_boards">هنوز تابلویی وجود ندارد</string>
+    <string name="add_a_new_board_using_the_button">با استفاده از دکمه + یک صفحه جدید اضافه کنید</string>
+    <string name="choose_board">تخته را انتخاب کنید</string>
+    <string name="choose_list">لیست را انتخاب کنید</string>
     <string name="open_in_browser">باز کردن در مرورگر</string>
-    <!-- Filter -->
+    <string name="updating_card">درحال به روزرسانی کارت</string>
+
+    <string name="move_list_right">انتقال لیست به سمت راست</string>
+    <string name="move_list_left">انتقال لیست به سمت چپ</string>
+
     <string name="filter_no_filter">همه</string>
-    <string name="filter_today">Today</string>
+    <string name="filter_overdue">منقضی شده</string>
+    <string name="filter_today">امروز</string>
+    <string name="filter_week">7 روز آینده</string>
+    <string name="filter_month">30 روز آینده</string>
+    <string name="filter_no_due">تاریخ موعد ندارد</string>
+    <string name="filter_by_tag">فیلتر برچسب</string>
+    <string name="filter_by_assigned_user">فیلتر توسط کاربر اختصاص داده شده</string>
+    <string name="filter_by_duedate">فیلتر به سررسید</string>
+
+    <string name="archived_cards">کارتهای بایگانی شده</string>
+    <string name="action_card_dearchive">واگرد بایگانی کارت</string>
+    <string name="action_archived_cards">کارتهای بایگانی شده را مرور کنید</string>
+    <string name="attachment_already_exists">پیوست از قبل وجود دارد</string>
+    <string name="pick_custom_color">رنگ سفارشی را انتخاب کنید</string>
+    <string name="manage_tags">مدیریت برچسب ها</string>
+    <string name="add_tag">برچسب اضافه کنید</string>
+    <string name="tag_already_exists">%1$s از قبل وجود دارد</string>
+    <string name="tag_successfully_added">%1$s با موفقیت اضافه شد</string>
+    <string name="edit_tag">%1$s را ویرایش کنید</string>
+    <string name="filter_tags_title">برچسب ها</string>
+    <string name="filter_user_title">کاربران</string>
+    <string name="filter_duedate_title">تاریخ سررسید</string>
+
+    <string name="action_board_dearchive">واگرد بایگانی صفحه</string>
+    <string name="archived_boards">تابلوهای بایگانی شده</string>
+
+    <string name="error">خطایی ظاهر شد</string>
+    <string name="synchronization_failed">همگام سازی انجام نشد</string>
+    <string name="operation_not_yet_supported">هنوز پشتیبانی نشده است</string>
+    <string name="error_revoking_ac">هنگام لغو دسترسی %1$s خطایی رخ داد</string>
+    <string name="error_create_label">هنگام ایجاد برچسب %1$s خطایی رخ داد</string>
+    <string name="maintenance_mode">سرور در حالت تعمیر و نگهداری</string>
+    <string name="server_error">خطای سرور</string>
+    <string name="error_edit_activity_killed_by_android">Android حالت ویرایش را به پایان رساند زیرا به منابع سیستم بیشتری برای برنامه های دیگر نیاز داشت.</string>
+
+    <string name="error_dialog_title">اوه نه - حالا چی؟ 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">لطفا سعی کنید برنامه را به زور ببندید و دوباره آن را مجدداً راه اندازی کنید. ممکن است اتصال نادرستی به برنامه ابر سانا وجود داشته باشد.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">اگر این مشکل همچنان ادامه دارد ، سعی کنید فضای ذخیره سازی هر دو برنامه را پاک کنید: ابر سانا و کارت های سانا برای حل این مشکل.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">ارتقا پایگاه داده انجام نشد. لطفاً موضوع را گزارش کرده و فضای ذخیره سازی را پاک کنید تا به طور معمول از برنامه استفاده کنید.</string>
+    <string name="error_dialog_tip_clear_storage">با باز کردن اطلاعات برنامه و انتخاب ذخیره سازی → پاک کردن فضای ذخیره سازی ، می توانید فضای ذخیره سازی را پاک کنید.</string>
+    <string name="error_dialog_tip_files_outdated">به نظر می رسد برنامه ابرسانا شما قدیمی است. برای دریافت آخرین نسخه ، لطفاً به فروشگاه  مراجعه کنید.</string>
+    <string name="error_dialog_tip_files_force_stop">به نظر می رسد مشکلی در برنامه ابرسانا شما وجود ندارد. لطفا سعی کنید هر دو برنامه ابرسانا و برنامه کارت‌های سانا را مجبور به توقف کنید.</string>
+    <string name="error_dialog_tip_files_delete_storage">اگر متوقف کردن اجباری کمکی نکرد ، می توانید فضای ذخیره سازی هر دو برنامه را پاک کنید.</string>
+    <string name="error_dialog_timeout_instance">در زمان تعیین شده پاسخی از سرور شما دریافت نشده است. لطفاً مطمئن شوید که کار شما به خوبی اجرا می شود.</string>
+    <string name="error_dialog_timeout_toggle">اتصال شبکه خود را بررسی کنید. بعضی اوقات خاموش و روشن کردن مجدد داده تلفن همراه یا Wi-Fi می تواند کمک کند.</string>
+    <string name="error_dialog_check_server">پاسخ سرور شما درست نبود. لطفا بررسی کنید که آیا می توانید از طریق رابط وب به برنامه کارت‌های سانا دسترسی پیدا کنید یا خیر.</string>
+    <string name="error_dialog_check_server_logs">مشکلی در راه اندازی ابرسانا شما وجود دارد. لطفاً به پرونده های ثبت سرور نگاهی بیندازید.</string>
+    <string name="error_dialog_check_maintenance">لطفاً بررسی کنید که برنامک ابرسانا شما در حال حاضر در حالت تعمیر و نگهداری نیست.</string>
+    <string name="error_dialog_insufficient_storage">نمونه ابرسانا شما فضای ذخیره ای رایگان ندارد. لطفاً چند فایل را حذف کنید تا تغییرات محلی خود را در ابر خود همگام سازی کنید.</string>
+    <string name="error_dialog_we_need_info">برای کمک به شما به اطلاعات فنی زیر نیاز داریم:</string>
+    <string name="error_dialog_redirect">سرور شما با کد وضعیت HTTP 302 پاسخ داده است ، که این بدان معناست که شما برنامه کارت‌های سانا را بر روی سرور خود نصب نکرده اید یا چیزی اشتباه پیکربندی شده است. این می تواند به دلیل لغو سفارشی در پرونده .htaccess یا برنامه های ابرسانا مانند OID Client باشد.</string>
+    <string name="error_dialog_version_not_parsable">ما نمی توانیم نسخه برنامه کارت‌های سانا سمت سرور را تعیین کنیم. لطفاً از نصب و فعال بودن آن اطمینان حاصل کنید.</string>
+    <string name="error_dialog_account_might_not_be_authorized">حساب برنامه ابرسانا شما ممکن است دیگر مجاز نباشد.</string>
+    <string name="error_dialog_user_not_found_in_database">کاربر فعلی با کاربری که در پایگاه داده خود داریم مطابقت ندارد. اگر از LDAP در نمونه ابرسنا خود استفاده می کنید ، ممکن است برنامه ابرسانا شما شناسه کاربری قدیمی را ذخیره کرده باشد.</string>
+    <string name="error_dialog_capabilities_not_parsable">ما نمی توانیم قابلیت های سرور شما را واکشی کنیم. لطفاً اطمینان حاصل کنید که سرور شما به خوبی کار می کند و سایر برنامه های سرویس گیرنده قادر به دسترسی به ابرسانا هستند.</string>
+    <string name="error_dialog_attachment_upload_failed">پیوست بارگذاری نمی شود. لطفا سعی کنید آن را به روش دیگری به اشتراک بگذارید و در مورد این اشکال به ما اطلاع دهید.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">لطفاً تمام بهینه سازی های باتری را برای Nextcloud و برنامه Deck غیرفعال کنید.</string>
+    <string name="error_action_open_deck_info">اطلاعات برنامه را باز کنید</string>
+    <string name="error_action_open_network">تنظیمات شبکه</string>
+    <string name="error_action_server_logs">گزارش های سرور</string>
+    <string name="error_action_install">نصب</string>
+    <string name="error_action_report_issue">گزارش</string>
+    <string name="info_box_maintenance_mode">سرور در حالت تعمیر و نگهداری</string>
+    <string name="info_box_version_not_supported">نسخه سرور %1$s پشتیبانی نمی شود ، لطفاً آن را به %2$s به روز کنید</string>
+    <string name="share_link">لینک را به اشتراک بگذارید</string>
+    <string name="archive_cards">کارتها را بایگانی کنید</string>
+
+    <string name="manage_accounts">حساب ها را مدیریت کنید</string>
+    <string name="manage_list">مدیریت لیست</string>
+    <string name="simple_reply">پاسخ</string>
+    <string name="append_text_to_description">به شرح اضافه کنید</string>
+    <string name="add_text_as_comment">به نظرات اضافه کنید</string>
+    <string name="progress_count">%1$d از %2$d</string>
+    <string name="simple_report">گزارش</string>
+    <string name="error_action_open_battery_settings">تنظیمات باتری</string>
+    <string name="move_warning">هنگام انتقال کارت به صفحه دیگری ، هیچکدام از نظرات و پیوستها قابل انتقال نیستند.</string>
+    <string name="clone_board">تخته شبیه‌سازی</string>
+    <string name="cloning_board">شبیه سازی%1$s…</string>
+    <string name="successfully_cloned_board">با موفقیت شبیه‌سازی شد%1$s</string>
+    <string name="attachment_does_not_yet_exist">پیوست هنوز در Deck وجود ندارد</string>
+    <string name="card_does_not_yet_exist">کارت هنوز در deck وجود ندارد</string>
+
+    <string name="widget_stack_title">لیست</string>
+    <string name="widget_stack_header_icon">نماد عنوان ویجت</string>
+    <string name="select_stack">لیست را انتخاب کنید</string>
+    <string name="project_type_deck_board">تخته deck</string>
+    <string name="project_type_deck_card">کارت deck</string>
+    <string name="project_type_file">فایل</string>
+    <string name="projects_title">پروژه ها</string>
+    <string name="no_assigned_label">برچسب اختصاصی وجود ندارد</string>
+    <string name="single_card">کارت تک</string>
+    <string name="project_type_room">اتاق گفتگو</string>
+    <string name="simple_move">انتقال</string>
+    <string name="cannot_upload_files_without_permission">بدون مجوز بارگذاری پرونده ها امکان پذیر نیست</string>
+    <string name="clone_cards">شبیه سازی کارت</string>
+    <string name="simple_clone">شبیه سازی</string>
+    <string name="user_avatar">آواتار کاربر</string>
+    <string name="simple_unassign">واگذار نکردن</string>
+    <string name="simple_contact">مخاطب</string>
+    <string name="simple_file">فایل</string>
+    <string name="simple_camera">دوربین</string>
+    <string name="take_photo">عکس گرفتن</string>
+    <string name="take_photo_switch_camera">دوربین را عوض کنید</string>
+    <string name="take_photo_toggle_torch">تغییر مشعل</string>
+    <string name="show_all_contacts">نمایش تمام مخاطبین</string>
+    <string name="show_all_files">نمایش همه پرونده ها</string>
+    <string name="recent">اخیر</string>
+    <string name="upload_a_new_attachment">پیوست جدیدی بارگذاری کنید</string>
+    <string name="contacts">مخاطبین</string>
+    <string name="downloads">بارگیری ها</string>
+    <string name="files">فایل ها</string>
+    <string name="gallery">گالری</string>
+    <string name="simple_attach">ضمیمه کردن</string>
+    <string name="add_stack_widget">افزودن ابزارک لیست</string>
+    <string name="edit_description">ویرایش توضیحات</string>
     </resources>

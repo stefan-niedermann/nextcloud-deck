@@ -32,10 +32,12 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
     private static final String KEY_ORIGIN_BOARD_LOCAL_ID = "board_local_id";
     private static final String KEY_ORIGIN_CARD_TITLE = "card_title";
     private static final String KEY_ORIGIN_CARD_LOCAL_ID = "card_local_id";
+    private static final String KEY_ORIGIN_CARD_HAS_ATTACHMENTS_OR_COMMENTS = "card_has_attachments_or_comments";
     private Long originAccountId;
     private Long originBoardLocalId;
     private String originCardTitle;
     private Long originCardLocalId;
+    private boolean originCardHasAttachmentsOrComments;
 
     private DialogMoveCardBinding binding;
     private PickStackViewModel viewModel;
@@ -69,6 +71,7 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
         if (originBoardLocalId < 0) {
             throw new IllegalArgumentException("Missing " + KEY_ORIGIN_BOARD_LOCAL_ID);
         }
+        originCardHasAttachmentsOrComments = args.getBoolean(KEY_ORIGIN_CARD_HAS_ATTACHMENTS_OR_COMMENTS, false);
         originCardTitle = args.getString(KEY_ORIGIN_CARD_TITLE);
     }
 
@@ -104,7 +107,7 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
             binding.moveWarning.setVisibility(GONE);
         } else {
             binding.submit.setEnabled(true);
-            binding.moveWarning.setVisibility(board.getLocalId().equals(originBoardLocalId) ? GONE : VISIBLE);
+            binding.moveWarning.setVisibility(originCardHasAttachmentsOrComments && !board.getLocalId().equals(originBoardLocalId) ? VISIBLE : GONE);
         }
     }
 
@@ -115,13 +118,14 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
         binding.submit.setTextColor(mainColorStateList);
     }
 
-    public static DialogFragment newInstance(long originAccountId, long originBoardLocalId, String originCardTitle, Long originCardLocalId) {
+    public static DialogFragment newInstance(long originAccountId, long originBoardLocalId, String originCardTitle, Long originCardLocalId, boolean hasAttachmentsOrComments) {
         final DialogFragment dialogFragment = new MoveCardDialogFragment();
         final Bundle args = new Bundle();
         args.putLong(KEY_ORIGIN_ACCOUNT_ID, originAccountId);
         args.putLong(KEY_ORIGIN_BOARD_LOCAL_ID, originBoardLocalId);
         args.putString(KEY_ORIGIN_CARD_TITLE, originCardTitle);
         args.putLong(KEY_ORIGIN_CARD_LOCAL_ID, originCardLocalId);
+        args.putBoolean(KEY_ORIGIN_CARD_HAS_ATTACHMENTS_OR_COMMENTS, hasAttachmentsOrComments);
         dialogFragment.setArguments(args);
         return dialogFragment;
     }
