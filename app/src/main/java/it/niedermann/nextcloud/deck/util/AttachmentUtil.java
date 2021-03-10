@@ -42,7 +42,7 @@ public class AttachmentUtil {
     public static String getThumbnailUrl(@NonNull Version version, @NonNull String accountUrl, @NonNull Long cardRemoteId, @NonNull Attachment attachment, @Px int previewSize) {
         return version.supportsFileAttachments() &&
                 EAttachmentType.FILE.equals(attachment.getType()) &&
-                !TextUtils.isEmpty(attachment.getFileid())
+                attachment.getFileid() != null
                 ? accountUrl + "/index.php/core/preview?fileId=" + attachment.getFileid() + "&x=" + previewSize + "&y=" + previewSize
                 : getRemoteOrLocalUrl(accountUrl, cardRemoteId, attachment);
     }
