@@ -205,7 +205,7 @@
     <string name="server_error">Chyba serveru</string>
     <string name="error_edit_activity_killed_by_android">Systém android ukončil režim úprav, protože potřeboval více systémových prostředků pro ostatní aplikace.</string>
 
-    <string name="error_dialog_title">Ó ne– co teď? 🙁</string>
+    <string name="error_dialog_title">Ó ne – co teď? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Prosím pokuste se vynutit ukončení aplikace a spusťte ji znovu. Možná se něco nepodařilo při spojení s aplikací Nextcloud.</string>
     <string name="error_dialog_tip_clear_storage_might_help">Pokud problém přetrvává, zkuste problém vyřešit vyčištěním úložišť obou aplikací: Nextcloud a Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Přechod na novější verzi databáze se nezdařil. Prosíme nahlaste tento problém vývojářům a aby bylo možné aplikaci normálně používat, vyčistěte úložiště.</string>
@@ -217,7 +217,7 @@
     <string name="error_dialog_timeout_toggle">Zkontrolujte nastavení sítě. Někdy může pomoci vypnout a zase zapnout mobilní data nebo Wi-Fi.</string>
     <string name="error_dialog_check_server">Odpověď od serveru nebyla správná. Zkontrolujte, zda k aplikaci Deck můžete přistupovat přes webové rozhraní.</string>
     <string name="error_dialog_check_server_logs">Je problém s nastavením vámi využívané instance Nextcloud. Podívejte se do souborů se záznamem událostí na serveru.</string>
-    <string name="error_dialog_check_maintenance">Zkontrolujte, zda vámi využívaná instance Nextcloud právě není v tuto chvíli v režimu údržby.</string>
+    <string name="error_dialog_check_maintenance">Zkontrolujte, zda vámi využívaná instance Nextcloud není právě v tuto chvíli v režimu údržby.</string>
     <string name="error_dialog_insufficient_storage">Na vámi využívané instanci Nexcloud nezbývá žádné volné místo na úložišti. Aby bylo možné synchronizovat vaše místní změny do vámi využívaného cloudu, je třeba nejprve smazat nějaké soubory.</string>
     <string name="error_dialog_we_need_info">Abychom vám mohli pomoci, potřebujeme následující technické údaje:</string>
     <string name="error_dialog_redirect">Vámi využívaný server odpověděl HTTP stavovým kódem 302, což ukazuje na to, že na serveru buď není nainstalovaná aplikace Deck, nebo je něco nesprávně nastavené. Toto může být způsobeno uživatelsky určenými přepsáními v souboru .htaccess nebo Nextcloud aplikacemi jako je OID klient.</string>

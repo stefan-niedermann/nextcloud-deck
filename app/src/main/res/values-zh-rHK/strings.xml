@@ -199,12 +199,14 @@
     <string name="error_edit_activity_killed_by_android">Android 完成了編輯模式，因為它需要更多的系統資源來服務其他應用程式。</string>
 
     <string name="error_dialog_title">喔不 - 現在怎麼辦？🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">請嘗試強制關閉該應用，然後重新啟動。 與 Nextcloud 應用的連接可能不正確。</string>
     <string name="error_dialog_tip_clear_storage_might_help">如果問題仍然存在，請嘗試清除兩個應用程序的存儲：Nextcloud 和 Nextcloud Deck 以解決此問題。</string>
     <string name="error_dialog_tip_database_upgrade_failed">數據庫升級失敗。 請報告問題，並清除存儲空間以正常使用該應用程序。</string>
     <string name="error_dialog_tip_clear_storage">您可以通過打開應用程式信息並選擇 存儲→清除存儲 來清除存儲。</string>
     <string name="error_dialog_tip_files_outdated">您的Nextcloud應用似乎已過時。請訪問 Play Store 或 F-Droid 以獲取最新版本。</string>
     <string name="error_dialog_tip_files_force_stop">您的 Nextcloud 應用程式似乎有問題。請嘗試強制停止 Nextcloud 應用程式和 Nextcloud Deck 應用程式。</string>
     <string name="error_dialog_tip_files_delete_storage">如果強行停止它們沒有幫助，則可以嘗試清除兩個應用程式的存儲。</string>
+    <string name="error_dialog_timeout_instance">在指定的時間內，您的伺服器沒有響應。 請確保您的 Nextcloud 運行良好。</string>
     <string name="error_dialog_timeout_toggle">檢查您的網絡連接。 有時候，切換流動數據或Wi-Fi可能會有所幫助。</string>
     <string name="error_dialog_check_server">您伺服器的回應不正確。請檢查您是否可以通過 web 界面存取看板應用程式。</string>
     <string name="error_dialog_check_server_logs">您的Nextcloud設置存在問題。 請查看伺服器記錄檔案。</string>
@@ -214,6 +216,10 @@
     <string name="error_dialog_redirect">您的伺服器以 HTTP 302 狀態代碼回應，這表示您尚未在伺服器上安裝 Deck 應用程式或配置錯誤。這可能是由於 .htaccess 檔案中的自定義替換或 Nextcloud 應用程式（如OID客戶端）引起的。</string>
     <string name="error_dialog_version_not_parsable">我們無法確定伺服器端 Deck 應用程式的版本。 請確保已安裝並啟用它。</string>
     <string name="error_dialog_account_might_not_be_authorized">您的Nextcloud應用程序賬戶可能不再被授權。</string>
+    <string name="error_dialog_user_not_found_in_database">當前用戶與我們數據庫中的用戶不匹配。 如果您在 Nextcloud 實例上使用 LDAP，則 Nextcloud應用程式可能已存儲了舊的用戶ID。</string>
+    <string name="error_dialog_capabilities_not_parsable">我們無法獲取您的伺服器功能。 請確保您的伺服器運行良好，並且其他客戶端應用程式能夠訪問Nextcloud。</string>
+    <string name="error_dialog_attachment_upload_failed">無法上傳附件。 請嘗試以其他方式共享它，並讓我們知道此錯誤。</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">請禁用 Nextcloud 和 Deck 應用程式的所有電池優化。</string>
     <string name="error_action_open_deck_info">開啟 App 資訊</string>
     <string name="error_action_open_network">網路設定</string>
     <string name="error_action_server_logs">伺服器記錄</string>
@@ -224,6 +230,7 @@
     <string name="share_link">分享連結</string>
     <string name="share_content">分享內容</string>
     <string name="share_content_duedate">到期日：%1$s</string>
+    <string name="share_content_labels">標籤：%1$s</string>
     <string name="archive_cards">封存卡片</string>
 
     <string name="manage_accounts">賬戶管理</string>
@@ -237,6 +244,7 @@
     </plurals>
     <string name="simple_report">回報</string>
     <string name="error_action_open_battery_settings">電池設定</string>
+    <string name="move_warning">將卡片移至另一塊面板上時，註釋和附件均無法傳送。</string>
     <string name="clone_board">複製 board</string>
     <string name="cloning_board">正在複製 %1$s...</string>
     <string name="successfully_cloned_board">複製 %1$s 成功</string>
@@ -269,6 +277,7 @@
     <string name="simple_camera">相機</string>
     <string name="take_photo">拍照</string>
     <string name="take_photo_switch_camera">切換相機</string>
+    <string name="take_photo_toggle_torch">切換 torch</string>
     <string name="show_all_contacts">顯示所有聯絡人</string>
     <string name="show_all_files">顯示全部檔案</string>
     <string name="recent">最新</string>

@@ -236,6 +236,7 @@
     <string name="info_box_version_not_supported">Različica strežnika %1$s ni podprta. Priporočljiva je posodobitev na različico %2$s.</string>
     <string name="share_link">Povezava za souporabo</string>
     <string name="share_content_duedate">Datum preteka: %1$s</string>
+    <string name="share_content_labels">Oznake: %1$s</string>
     <string name="archive_cards">Arhiviraj naloge</string>
 
     <string name="manage_accounts">Upravljanje z računi</string>
