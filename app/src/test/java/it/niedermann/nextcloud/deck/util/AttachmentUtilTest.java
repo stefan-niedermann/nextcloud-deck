@@ -36,7 +36,7 @@ public class AttachmentUtilTest {
         // Given there is an invalid fileId...
         final Attachment attachment3 = new Attachment();
         attachment3.setId(999L);
-        attachment3.setFileId("");
+        attachment3.setFileid("");
         final String thumbnailUrl3 = AttachmentUtil.getThumbnailUrl(versionThatDoesSupportFileAttachments, accountUrl, 15L, attachment3, 205);
         // ... a fallback to the attachment itself should be returned
         assertEquals("https://example.com/index.php/apps/deck/cards/15/attachment/999", thumbnailUrl3);
@@ -44,7 +44,7 @@ public class AttachmentUtilTest {
         // Given the server version does not support file attachments yet...
         final Attachment attachment4 = new Attachment();
         attachment4.setId(111L);
-        attachment4.setFileId("222");
+        attachment4.setFileid("222");
         final String thumbnailUrl4 = AttachmentUtil.getThumbnailUrl(versionThatDoesNotSupportFileAttachments, accountUrl, 333L, attachment4, 444);
         // ... a fallback to the attachment itself should be returned
         assertEquals("https://example.com/index.php/apps/deck/cards/333/attachment/111", thumbnailUrl4);
