@@ -1,8 +1,8 @@
 package it.niedermann.nextcloud.deck.model;
 
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.io.Serializable;
@@ -38,9 +38,8 @@ public class Attachment extends AbstractRemoteEntity implements Comparable<Attac
     private String extension;
     private String filename;
     private String localPath;
-    // TODO should probably be a Long... depends on https://github.com/nextcloud/deck/pull/2638
-    @Ignore
-    private String fileId;
+    @Nullable
+    private Long fileid;
 
     public long getCardId() {
         return cardId;
@@ -146,20 +145,13 @@ public class Attachment extends AbstractRemoteEntity implements Comparable<Attac
         this.localPath = localPath;
     }
 
-    /**
-     * TODO depends on https://github.com/nextcloud/deck/pull/2638
-     */
-    @Ignore
-    public String getFileId() {
-        return this.fileId;
+    @Nullable
+    public Long getFileid() {
+        return this.fileid;
     }
 
-    /**
-     * TODO depends on https://github.com/nextcloud/deck/pull/2638
-     */
-    @Ignore
-    public void setFileId(String fileId) {
-        this.fileId = fileId;
+    public void setFileid(@Nullable Long fileid) {
+        this.fileid = fileid;
     }
 
     @Override
