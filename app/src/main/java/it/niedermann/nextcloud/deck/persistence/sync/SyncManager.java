@@ -215,7 +215,7 @@ public class SyncManager {
                 @Override
                 public void onResponse(Capabilities response) {
                     if (response != null && !response.isMaintenanceEnabled()) {
-                        if (response.getDeckVersion().isSupported(appContext)) {
+                        if (response.getDeckVersion().isSupported()) {
                             long accountId = callbackAccountId;
                             Instant lastSyncDate = LastSyncUtil.getLastSyncDate(callbackAccountId);
 

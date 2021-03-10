@@ -1,9 +1,6 @@
 package it.niedermann.nextcloud.deck.model.ocs;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
 import java.util.regex.Matcher;
@@ -15,11 +12,10 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 
 public class Version implements Comparable<Version> {
     private static final Pattern NUMBER_EXTRACTION_PATTERN = Pattern.compile("[0-9]+");
+    private static final Version VERSION_0_6_4 = new Version("0.6.4", 0, 6, 4);
     private static final Version VERSION_1_0_0 = new Version("1.0.0", 1, 0, 0);
     private static final Version VERSION_1_0_3 = new Version("1.0.3", 1, 0, 3);
     private static final Version VERSION_1_3_0 = new Version("1.3.0", 1, 3, 0);
-    @Nullable
-    private static Version VERSION_MINIMUM_SUPPORTED;
 
     private String originalVersion = "?";
     private int major = 0;
@@ -64,7 +60,7 @@ public class Version implements Comparable<Version> {
     public static Version of(String versionString) {
         int major = 0, minor = 0, micro = 0;
         if (versionString != null) {
-            String[] split = versionString.split("\\.");
+            final String[] split = versionString.split("\\.");
             if (split.length > 0) {
                 major = extractNumber(split[0]);
                 if (split.length > 1) {
@@ -87,18 +83,12 @@ public class Version implements Comparable<Version> {
     }
 
     @NonNull
-    public static Version minimumSupported(@NonNull Context context) {
-        if (VERSION_MINIMUM_SUPPORTED == null) {
-            final int minimumServerAppMajor = context.getResources().getInteger(R.integer.minimum_server_app_major);
-            final int minimumServerAppMinor = context.getResources().getInteger(R.integer.minimum_server_app_minor);
-            final int minimumServerAppPatch = context.getResources().getInteger(R.integer.minimum_server_app_patch);
-            VERSION_MINIMUM_SUPPORTED = new Version(minimumServerAppMajor + "." + minimumServerAppMinor + "." + minimumServerAppPatch, minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch);
-        }
-        return VERSION_MINIMUM_SUPPORTED;
+    public static Version minimumSupported() {
+        return VERSION_0_6_4;
     }
 
-    public boolean isSupported(@NonNull Context context) {
-        return isGreaterOrEqualTo(Version.minimumSupported(context));
+    public boolean isSupported() {
+        return isGreaterOrEqualTo(minimumSupported());
     }
 
     /**

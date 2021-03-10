@@ -47,9 +47,6 @@
     <string name="shared_preference_last_account" translatable="false">it.niedermann.nextcloud.deck.last_account</string>
     <string name="shared_preference_last_board_for_account_" translatable="false">it.niedermann.nextcloud.deck.last_board_for_account_</string>
     <string name="shared_preference_last_stack_for_account_and_board_" translatable="false">it.niedermann.nextcloud.deck.last_stack_for_board_</string>
-    <integer name="minimum_server_app_major" translatable="false">0</integer>
-    <integer name="minimum_server_app_minor" translatable="false">6</integer>
-    <integer name="minimum_server_app_patch" translatable="false">4</integer>
 
     <!-- Transitions -->
     <string name="transition_attachment_preview" translatable="false">transition_attachment_preview_%1$s</string>
