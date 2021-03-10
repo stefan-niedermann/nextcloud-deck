@@ -231,6 +231,9 @@
     <string name="info_box_maintenance_mode">Zerbitzaria mantentze-lanen moduan</string>
     <string name="info_box_version_not_supported">Zerbitzariaren %1$s bertsioa ez dago onartuta, mesedez eguneratu %2$s(e)ra</string>
     <string name="share_link">Partekatu esteka</string>
+    <string name="share_content">Partekatu edukia</string>
+    <string name="share_content_duedate">Epemuga:%1$s</string>
+    <string name="share_content_labels">Etiketak:%1$s</string>
     <string name="archive_cards">Artxibatu txartelak</string>
 
     <string name="manage_accounts">Kudeatu kontuak</string>
