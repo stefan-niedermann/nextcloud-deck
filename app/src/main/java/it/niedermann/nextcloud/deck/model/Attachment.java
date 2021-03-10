@@ -39,7 +39,7 @@ public class Attachment extends AbstractRemoteEntity implements Comparable<Attac
     private String filename;
     private String localPath;
     @Nullable
-    private Long fileid;
+    private Long fileId;
 
     public long getCardId() {
         return cardId;
@@ -146,12 +146,12 @@ public class Attachment extends AbstractRemoteEntity implements Comparable<Attac
     }
 
     @Nullable
-    public Long getFileid() {
-        return this.fileid;
+    public Long getFileId() {
+        return this.fileId;
     }
 
-    public void setFileid(@Nullable Long fileid) {
-        this.fileid = fileid;
+    public void setFileId(@Nullable Long fileId) {
+        this.fileId = fileId;
     }
 
     @Override

@@ -125,7 +125,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.fil
                 FilterWidgetSort.class,
         },
         exportSchema = false,
-        version = 27
+        version = 28
 )
 @TypeConverters({DateTypeConverter.class, EnumConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -506,6 +506,12 @@ public abstract class DeckDatabase extends RoomDatabase {
             database.execSQL("DROP TABLE `StackWidgetModel`");
         }
     };
+    private static final Migration MIGRATION_27_28 = new Migration(27, 28) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `Attachment` ADD COLUMN `fileId` INTEGER");
+        }
+    };
 
     public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
         @Override
@@ -586,6 +592,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 .addMigrations(MIGRATION_24_25)
                 .addMigrations(MIGRATION_25_26)
                 .addMigrations(MIGRATION_26_27)
+                .addMigrations(MIGRATION_27_28)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();

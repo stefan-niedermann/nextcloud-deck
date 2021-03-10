@@ -3,7 +3,8 @@ package it.niedermann.nextcloud.deck.model.enums;
 public enum EAttachmentType {
     // Do not change values. They match the Deck server apps values.
     DECK_FILE(1, "deck_file"),
-    FILE(2, "file");
+    FILE(2, "file"),
+    UNKNOWN(1337, "unknown");
 
     private final int id;
     private final String value;
@@ -23,7 +24,7 @@ public enum EAttachmentType {
                 return s;
             }
         }
-        throw new IllegalArgumentException("unknown " + EAttachmentType.class.getSimpleName() + " value: " + value);
+        return UNKNOWN;
     }
 
     public String getValue() {

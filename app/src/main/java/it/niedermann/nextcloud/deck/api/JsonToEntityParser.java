@@ -469,7 +469,9 @@ public class JsonToEntityParser {
                 JsonObject extendedData = e.getAsJsonObject("extendedData").getAsJsonObject();
                 a.setFilesize(extendedData.get("filesize").getAsLong());
                 a.setMimetype(extendedData.get("mimetype").getAsString());
-                a.setFileid(extendedData.get("fileid").getAsLong());
+                if (extendedData.has("fileid") && !extendedData.get("fileid").isJsonNull()) {
+                    a.setFileId(extendedData.get("fileid").getAsLong());
+                }
                 if (extendedData.has("info") && !extendedData.get("info").isJsonNull()) {
                     JsonObject info = extendedData.getAsJsonObject("info").getAsJsonObject();
                     a.setDirname(info.get("dirname").getAsString());
