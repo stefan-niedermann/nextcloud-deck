@@ -198,7 +198,7 @@
 
     <string name="error">Objevila se chyba</string>
     <string name="synchronization_failed">Synchronizace se nezdařila</string>
-    <string name="operation_not_yet_supported">Zatím nepodorováno</string>
+    <string name="operation_not_yet_supported">Zatím nepodporováno</string>
     <string name="error_revoking_ac">Chyba při rušení přístupu pro %1$s</string>
     <string name="error_create_label">Chyba při vytváření štítku %1$s</string>
     <string name="maintenance_mode">Na serveru probíhá údržba</string>
