@@ -17,6 +17,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
+import it.niedermann.nextcloud.deck.model.enums.EAttachmentType;
 import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 
@@ -37,10 +38,15 @@ public abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
         setNotSyncedYetStatus(!DBStatus.LOCAL_EDITED.equals(attachment.getStatusEnum()), mainColor);
         itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menuInflater.inflate(R.menu.attachment_menu, menu);
-            menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
-                DeleteAttachmentDialogFragment.newInstance(attachment).show(fragmentManager, DeleteAttachmentDialogFragment.class.getCanonicalName());
-                return false;
-            });
+            if(EAttachmentType.DECK_FILE.equals(attachment.getType())) {
+                menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
+                    DeleteAttachmentDialogFragment.newInstance(attachment).show(fragmentManager, DeleteAttachmentDialogFragment.class.getCanonicalName());
+                    return false;
+                });
+                menu.findItem(R.id.delete).setVisible(true);
+            } else {
+                menu.findItem(R.id.delete).setVisible(false);
+            }
             if (attachmentUri == null || attachment.getId() == null || cardRemoteId == null) {
                 menu.findItem(android.R.id.copyUrl).setVisible(false);
             } else {
