@@ -40,7 +40,7 @@ public class DefaultAttachmentViewHolder extends AttachmentViewHolder {
     public void bind(@NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull FragmentManager fragmentManager, Long cardRemoteId, Attachment attachment, @Nullable View.OnClickListener onClickListener, @ColorInt int mainColor) {
         super.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, mainColor);
         getPreview().setImageResource(getIconForMimeType(attachment.getMimetype()));
-        itemView.setOnClickListener((event) -> openAttachmentInBrowser(itemView.getContext(), account.getUrl(), cardRemoteId, attachment.getId()));
+        itemView.setOnClickListener((event) -> openAttachmentInBrowser(account, itemView.getContext(), cardRemoteId, attachment));
         binding.filename.setText(attachment.getBasename());
         binding.filesize.setText(Formatter.formatFileSize(binding.filesize.getContext(), attachment.getFilesize()));
         if (attachment.getLastModifiedLocal() != null) {
