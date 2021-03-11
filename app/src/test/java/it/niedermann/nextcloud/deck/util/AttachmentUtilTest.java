@@ -31,13 +31,13 @@ public class AttachmentUtilTest {
         attachment1.setFileId(1337L);
         attachment1.setType(EAttachmentType.FILE);
         final String thumbnailUrl1 = AttachmentUtil.getThumbnailUrl(accountThatDoesSupportFileAttachments, -1L, attachment1, 500);
-        assertEquals("https://example.com/index.php/core/preview?fileId=1337&x=500&y=500", thumbnailUrl1);
+        assertEquals("https://example.com/index.php/core/preview?fileId=1337&x=500&y=500&a=true", thumbnailUrl1);
 
         final Attachment attachment2 = new Attachment();
         attachment2.setFileId(815L);
         attachment2.setType(EAttachmentType.FILE);
         final String thumbnailUrl2 = AttachmentUtil.getThumbnailUrl(accountThatDoesSupportFileAttachments, 0L, attachment2, 4711);
-        assertEquals("https://example.com/index.php/core/preview?fileId=815&x=4711&y=4711", thumbnailUrl2);
+        assertEquals("https://example.com/index.php/core/preview?fileId=815&x=4711&y=4711&a=true", thumbnailUrl2);
 
         // Given there is an invalid fileId...
         final Attachment attachment3 = new Attachment();
