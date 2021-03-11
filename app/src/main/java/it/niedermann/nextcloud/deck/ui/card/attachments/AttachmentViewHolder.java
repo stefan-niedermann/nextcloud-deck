@@ -26,7 +26,10 @@ public abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(@NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull FragmentManager fragmentManager, Long cardRemoteId, Attachment attachment, @Nullable View.OnClickListener onClickListener, @ColorInt int mainColor) {
-        bind(menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, mainColor, AttachmentUtil.getRemoteOrLocalUrl(account.getUrl(), cardRemoteId, attachment));
+        final String downloadUrl = (attachment.getId() == null || cardRemoteId == null)
+                ? attachment.getLocalPath()
+                : AttachmentUtil.getCopyDownloadUrl(account, cardRemoteId, attachment);
+        bind(menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, mainColor, downloadUrl);
     }
 
     @CallSuper

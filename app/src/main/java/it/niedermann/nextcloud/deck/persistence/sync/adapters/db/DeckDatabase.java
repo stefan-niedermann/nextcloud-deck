@@ -125,7 +125,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.fil
                 FilterWidgetSort.class,
         },
         exportSchema = false,
-        version = 28
+        version = 29
 )
 @TypeConverters({DateTypeConverter.class, EnumConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -421,10 +421,13 @@ public abstract class DeckDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `OcsProjectResource` ADD `etag` TEXT");
         }
     };
+
+    /**
+     * Reset ETags (comments weren't loading due to bug)
+     */
     private static final Migration MIGRATION_24_25 = new Migration(24, 25) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-            // Reset etags (comments weren't loading due to bug)
             database.execSQL("UPDATE `Account` SET `boardsEtag` = NULL");
             database.execSQL("UPDATE `Board` SET `etag` = NULL");
             database.execSQL("UPDATE `Stack` SET `etag` = NULL");
@@ -506,12 +509,27 @@ public abstract class DeckDatabase extends RoomDatabase {
             database.execSQL("DROP TABLE `StackWidgetModel`");
         }
     };
+
     private static final Migration MIGRATION_27_28 = new Migration(27, 28) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `Attachment` ADD COLUMN `fileId` INTEGER");
         }
     };
+
+    /**
+     * Reset ETags for cards because <a href="https://github.com/nextcloud/deck/issues/2874">the attachments for this card might not be complete</a>.
+     */
+    private static final Migration MIGRATION_28_29 = new Migration(28, 29) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("UPDATE `Account` SET `boardsEtag` = NULL");
+            database.execSQL("UPDATE `Board` SET `etag` = NULL");
+            database.execSQL("UPDATE `Stack` SET `etag` = NULL");
+            database.execSQL("UPDATE `Card` SET `etag` = NULL");
+        }
+    };
+
 
     public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
         @Override
@@ -593,6 +611,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 .addMigrations(MIGRATION_25_26)
                 .addMigrations(MIGRATION_26_27)
                 .addMigrations(MIGRATION_27_28)
+                .addMigrations(MIGRATION_28_29)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();

@@ -222,7 +222,13 @@ public class ServerAdapter {
 
     public void getCard(long boardId, long stackId, long cardId, IResponseCallback<FullCard> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(provider, () -> provider.getDeckAPI().getCard(boardId, stackId, cardId, getLastSyncDateFormatted(responseCallback.getAccount().getId())), responseCallback);
+        RequestHelper.request(provider, () -> {
+            final Account account = responseCallback.getAccount();
+            if(account != null && account.getServerDeckVersionAsObject().supportsFileAttachments()) {
+                return provider.getDeckAPI().getCard_1_1(boardId, stackId, cardId, getLastSyncDateFormatted(responseCallback.getAccount().getId()));
+            }
+            return provider.getDeckAPI().getCard_1_0(boardId, stackId, cardId, getLastSyncDateFormatted(responseCallback.getAccount().getId()));
+        }, responseCallback);
     }
 
     public void createCard(long boardId, long stackId, Card card, IResponseCallback<FullCard> responseCallback) {
