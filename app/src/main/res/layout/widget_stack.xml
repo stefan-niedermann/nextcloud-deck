@@ -22,29 +22,29 @@
             android:paddingEnd="@dimen/spacer_1x"
             tools:ignore="UselessParent">
 
+            <ImageView
+                android:id="@+id/widget_stack_header_icon"
+                android:layout_width="@dimen/widget_font_size_header"
+                android:layout_height="@dimen/widget_font_size_header"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/widget_stack_header_icon"
+                android:src="@drawable/circle_grey600_8dp" />
+
             <TextView
                 android:id="@+id/widget_stack_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_toStartOf="@id/widget_stack_header_icon"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@id/widget_stack_header_icon"
                 android:gravity="center_vertical"
-                android:paddingStart="@null"
-                android:paddingEnd="@dimen/spacer_1x"
+                android:paddingStart="@dimen/spacer_1x"
+                android:paddingEnd="@null"
                 android:textAppearance="?attr/textAppearanceBody1"
                 android:textColor="@color/widget_foreground"
                 android:textSize="@dimen/widget_font_size_header"
                 android:textStyle="bold"
                 tools:text="@string/app_name" />
-
-            <ImageView
-                android:id="@+id/widget_stack_header_icon"
-                android:layout_width="@dimen/widget_font_size_header"
-                android:layout_height="@dimen/widget_font_size_header"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:contentDescription="@string/widget_stack_header_icon"
-                android:src="@drawable/circle_grey600_8dp" />
 
         </RelativeLayout>
     </LinearLayout>
