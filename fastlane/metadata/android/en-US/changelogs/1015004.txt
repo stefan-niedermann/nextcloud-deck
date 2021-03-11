@@ -1,0 +1,10 @@
+1.15.4
+
+- 📎 Enhanced support for Deck 1.3.x attachments
+
+
+1.15.3
+
+- 🌓 Use slightly darker color as card background
+- 🐞 Better handling of error when no camera is available
+- 📎 Enhanced support for Deck 1.3.x attachments
