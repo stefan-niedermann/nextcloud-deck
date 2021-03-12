@@ -117,7 +117,6 @@ public interface DeckAPI {
     /**
      * @see <a href="https://github.com/nextcloud/deck/issues/2874">This endpoint does only return {@link Attachment}s of type {@link EAttachmentType.DECK_FILE}</a>
      */
-    @Deprecated
     @SuppressWarnings("JavadocReference")
     @GET("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}")
     Observable<FullCard> getCard_1_0(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Header(MODIFIED_SINCE_HEADER) String lastSync);
