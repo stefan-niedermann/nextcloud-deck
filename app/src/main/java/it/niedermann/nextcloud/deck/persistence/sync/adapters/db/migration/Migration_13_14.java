@@ -3,6 +3,9 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.migration;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+/**
+ * Adds support for comment responses
+ */
 public class Migration_13_14 extends Migration {
 
     public Migration_13_14() {

@@ -9,6 +9,10 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 
+/**
+ * @see <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/570">Reinitializes the background synchronization</a> and
+ * <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/525">cleans up old shared preferences</a>
+ */
 public class Migration_14_15 extends Migration {
 
     @NonNull
@@ -21,9 +25,7 @@ public class Migration_14_15 extends Migration {
 
     @Override
     public void migrate(@NonNull SupportSQLiteDatabase database) {
-        // https://github.com/stefan-niedermann/nextcloud-deck/issues/570
         SyncWorker.update(context);
-        // https://github.com/stefan-niedermann/nextcloud-deck/issues/525
         PreferenceManager
                 .getDefaultSharedPreferences(context)
                 .edit()

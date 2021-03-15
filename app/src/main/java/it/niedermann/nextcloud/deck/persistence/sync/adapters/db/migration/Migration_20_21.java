@@ -9,6 +9,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import it.niedermann.android.util.ColorUtil;
 
+/**
+ * @see <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/556">Store colors as integer in database</a>
+ */
 public class Migration_20_21 extends Migration {
 
     public Migration_20_21() {
@@ -17,7 +20,6 @@ public class Migration_20_21 extends Migration {
 
     @Override
     public void migrate(SupportSQLiteDatabase database) {
-        // https://github.com/stefan-niedermann/nextcloud-deck/issues/556
         String suffix = "_new";
         {
             String tableName = "Account";

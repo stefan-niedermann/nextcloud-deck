@@ -3,6 +3,9 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.migration;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+/**
+ * Adds support for the Single note widget
+ */
 public class Migration_11_12 extends Migration {
 
     public Migration_11_12() {

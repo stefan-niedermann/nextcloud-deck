@@ -3,6 +3,11 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.migration;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+/**
+ * Fixes issues with LDAP users when filtering
+ * https://github.com/stefan-niedermann/nextcloud-deck/issues/492
+ * https://github.com/stefan-niedermann/nextcloud-deck/issues/631
+ */
 public class Migration_19_20 extends Migration {
 
     public Migration_19_20() {
@@ -11,8 +16,6 @@ public class Migration_19_20 extends Migration {
 
     @Override
     public void migrate(SupportSQLiteDatabase database) {
-        // https://github.com/stefan-niedermann/nextcloud-deck/issues/492
-        // https://github.com/stefan-niedermann/nextcloud-deck/issues/631
         database.execSQL("CREATE TABLE `UserInGroup` (`groupId` INTEGER NOT NULL, `memberId` INTEGER NOT NULL, " +
                 "primary KEY(`groupId`, `memberId`), " +
                 "FOREIGN KEY(`groupId`) REFERENCES `User`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE, " +

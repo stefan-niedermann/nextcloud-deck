@@ -3,6 +3,9 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.migration;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+/**
+ * Implement <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/597">Filter widget</a>
+ */
 public class Migration_25_26 extends Migration {
 
     public Migration_25_26() {

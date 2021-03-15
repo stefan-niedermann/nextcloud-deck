@@ -9,6 +9,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
 
+/**
+ * @see <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/767">Migrate Stack Widget to Filter Widget infrastructure</a>
+ */
 public class Migration_26_27 extends Migration {
 
     public Migration_26_27() {
@@ -25,7 +28,7 @@ public class Migration_26_27 extends Migration {
             Long accountId = cursor.getLong(2);
             Long filterWidgetId = cursor.getLong(3);
 
-            // widget:
+            // widget
             ContentValues values = new ContentValues();
             values.put("widgetType", EWidgetType.STACK_WIDGET.getId());
             values.put("id", filterWidgetId);
@@ -51,8 +54,6 @@ public class Migration_26_27 extends Migration {
             values.put("filterBoardId", filterWidgetBoardId);
             values.put("stackId", localStackId);
             database.insert("FilterWidgetStack", SQLiteDatabase.CONFLICT_NONE, values);
-
-
         }
 
         // cleanup
