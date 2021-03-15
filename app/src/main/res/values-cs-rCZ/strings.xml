@@ -119,7 +119,7 @@
     <string name="add_a_new_list_using_the_button">Nový seznam přidáte tlačítkem +</string>
     <string name="add_a_new_card_using_the_button">Pro přidání nové karty použijte tlačítko +</string>
     <string name="update_deck">Aktualizujte webovou aplikaci Deck</string>
-    <string name="deck_outdated_please_update">Webová aplikace Deck je na serveru zastaralá (%1$s). K použití této Android aplikace jí, prosím, aktualizujte.</string>
+    <string name="deck_outdated_please_update">Verze aplikace Deck na straně serveru (webová) je zastaralá (%1$s). Zaktualizujte ji tam prosím, abyste mohli používat tuto Android aplikaci jako klienta.</string>
     <string name="delete_board_message">Toto tabuli nadobro smaže, včetně všech seznamů a karet.</string>
     <string name="settings_theme_title">Vzhled</string>
     <string name="settings_branding_title">Opatření vlastním logem</string>
