@@ -57,8 +57,10 @@ public class CardProjectsFragment extends BrandedFragment {
             final CardProjectsAdapter adapter = new CardProjectsAdapter(mainViewModel.getFullCard().getProjects(), getChildFragmentManager());
             binding.projects.setAdapter(adapter);
             binding.projects.setVisibility(VISIBLE);
+            binding.emptyContentView.setVisibility(GONE);
         } else {
             binding.projects.setVisibility(GONE);
+            binding.emptyContentView.setVisibility(VISIBLE);
         }
 
         return binding.getRoot();

@@ -64,7 +64,7 @@ public class EditActivity extends BrandedActivity {
     private static final int[] tabIcons = new int[]{
             R.drawable.ic_home_grey600_24dp,
             R.drawable.ic_attach_file_grey600_24dp,
-            R.drawable.ic_projects_16,
+            R.drawable.ic_projects_24,
             R.drawable.ic_activity_light_grey
     };
 
@@ -72,7 +72,7 @@ public class EditActivity extends BrandedActivity {
             R.drawable.ic_home_grey600_24dp,
             R.drawable.ic_attach_file_grey600_24dp,
             R.drawable.type_comment_grey600_36dp,
-            R.drawable.ic_projects_16,
+            R.drawable.ic_projects_24,
             R.drawable.ic_activity_light_grey
     };
 
