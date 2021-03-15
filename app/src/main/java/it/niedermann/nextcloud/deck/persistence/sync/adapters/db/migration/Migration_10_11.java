@@ -8,6 +8,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 
+/**
+ * Removes duplicate labels and ensures uniqueness
+ */
 public class Migration_10_11 extends Migration {
 
     public Migration_10_11() {

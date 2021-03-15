@@ -3,6 +3,9 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.migration;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+/**
+ * Adds support for account colors, deck server versions and Nextcloud maintenance mode
+ */
 public class Migration_9_10 extends Migration {
 
     public Migration_9_10() {

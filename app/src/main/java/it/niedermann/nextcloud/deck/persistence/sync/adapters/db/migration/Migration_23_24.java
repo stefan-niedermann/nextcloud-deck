@@ -10,6 +10,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import it.niedermann.nextcloud.deck.R;
 
+/**
+ * <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/392">Dark mode following system default</a>
+ */
 public class Migration_23_24 extends Migration {
 
     @NonNull
@@ -22,7 +25,6 @@ public class Migration_23_24 extends Migration {
 
     @Override
     public void migrate(@NonNull SupportSQLiteDatabase database) {
-        // https://github.com/stefan-niedermann/nextcloud-deck/issues/392
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         final String themePref = context.getString(R.string.pref_key_dark_theme);
 

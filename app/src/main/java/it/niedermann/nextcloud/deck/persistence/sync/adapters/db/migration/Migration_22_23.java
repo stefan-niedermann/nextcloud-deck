@@ -3,6 +3,9 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.migration;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+/**
+ * @see <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/359">Implement ETags for synchronization Speed-Up</a>
+ */
 public class Migration_22_23 extends Migration {
 
     public Migration_22_23() {
@@ -11,7 +14,6 @@ public class Migration_22_23 extends Migration {
 
     @Override
     public void migrate(SupportSQLiteDatabase database) {
-        // https://github.com/stefan-niedermann/nextcloud-deck/issues/359
         database.execSQL("ALTER TABLE `Account` ADD `boardsEtag` TEXT");
         database.execSQL("ALTER TABLE `Board` ADD `etag` TEXT");
         database.execSQL("ALTER TABLE `Stack` ADD `etag` TEXT");

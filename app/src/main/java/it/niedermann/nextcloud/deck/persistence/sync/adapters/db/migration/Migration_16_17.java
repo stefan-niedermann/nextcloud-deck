@@ -3,6 +3,9 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.migration;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+/**
+ * @see <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/573">Adds support for projects</a>
+ */
 public class Migration_16_17 extends Migration {
 
     public Migration_16_17() {

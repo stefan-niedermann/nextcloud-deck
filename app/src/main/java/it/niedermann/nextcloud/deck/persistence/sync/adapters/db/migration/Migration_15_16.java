@@ -3,6 +3,9 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.migration;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+/**
+ * Adds support for Stack widget
+ */
 public class Migration_15_16 extends Migration {
 
     public Migration_15_16() {
