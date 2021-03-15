@@ -182,25 +182,5 @@
                 android:textSize="@dimen/font_size_description"
                 android:visibility="gone" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/projectsTitle"
-            style="?attr/textAppearanceOverline"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/details"
-            android:layout_marginStart="@dimen/icon_size_details"
-            android:layout_marginTop="@dimen/spacer_2x"
-            android:paddingStart="@dimen/spacer_4x"
-            android:paddingEnd="@null"
-            android:text="@string/projects_title" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/projects"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/projectsTitle"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_project" />
     </RelativeLayout>
 </ScrollView>

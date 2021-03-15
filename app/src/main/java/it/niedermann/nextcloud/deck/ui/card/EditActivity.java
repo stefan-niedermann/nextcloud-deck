@@ -49,6 +49,7 @@ public class EditActivity extends BrandedActivity {
     private static final int[] tabTitles = new int[]{
             R.string.card_edit_details,
             R.string.card_edit_attachments,
+            R.string.projects_title,
             R.string.card_edit_activity
     };
 
@@ -56,12 +57,14 @@ public class EditActivity extends BrandedActivity {
             R.string.card_edit_details,
             R.string.card_edit_attachments,
             R.string.card_edit_comments,
+            R.string.projects_title,
             R.string.card_edit_activity
     };
 
     private static final int[] tabIcons = new int[]{
             R.drawable.ic_home_grey600_24dp,
             R.drawable.ic_attach_file_grey600_24dp,
+            R.drawable.ic_projects_16,
             R.drawable.ic_activity_light_grey
     };
 
@@ -69,6 +72,7 @@ public class EditActivity extends BrandedActivity {
             R.drawable.ic_home_grey600_24dp,
             R.drawable.ic_attach_file_grey600_24dp,
             R.drawable.type_comment_grey600_36dp,
+            R.drawable.ic_projects_16,
             R.drawable.ic_activity_light_grey
     };
 

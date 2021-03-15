@@ -108,7 +108,6 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         setupLabels();
         setupDueDate();
         setupDescription();
-        setupProjects();
 
         return binding.getRoot();
     }
@@ -381,19 +380,6 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
             binding.clearDueDate.setVisibility(GONE);
         } else {
             binding.clearDueDate.setVisibility(VISIBLE);
-        }
-    }
-
-    private void setupProjects() {
-        if (viewModel.getFullCard().getProjects().size() > 0) {
-            binding.projectsTitle.setVisibility(VISIBLE);
-            binding.projects.setNestedScrollingEnabled(false);
-            final CardProjectsAdapter adapter = new CardProjectsAdapter(viewModel.getFullCard().getProjects(), getChildFragmentManager());
-            binding.projects.setAdapter(adapter);
-            binding.projects.setVisibility(VISIBLE);
-        } else {
-            binding.projectsTitle.setVisibility(GONE);
-            binding.projects.setVisibility(GONE);
         }
     }
 
