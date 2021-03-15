@@ -114,7 +114,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
             }
             case VIEW_TYPE_DEFAULT:
             default: {
-                onClickListener = (event) -> openAttachmentInBrowser(context, account.getUrl(), cardRemoteId, attachment.getId());
+                onClickListener = (event) -> openAttachmentInBrowser(account, context, cardRemoteId, attachment);
                 break;
             }
         }

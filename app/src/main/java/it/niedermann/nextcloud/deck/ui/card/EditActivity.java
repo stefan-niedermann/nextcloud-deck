@@ -128,7 +128,7 @@ public class EditActivity extends BrandedActivity {
             viewModel.setCanEdit(fullBoard.getBoard().isPermissionEdit());
             invalidateOptionsMenu();
             if (viewModel.isCreateMode()) {
-                viewModel.initializeNewCard(boardId, args.getLong(BUNDLE_KEY_STACK_ID), account.getServerDeckVersionAsObject().isSupported(this));
+                viewModel.initializeNewCard(boardId, args.getLong(BUNDLE_KEY_STACK_ID), account.getServerDeckVersionAsObject().isSupported());
                 invalidateOptionsMenu();
                 String title = args.getString(BUNDLE_KEY_TITLE);
                 if (!TextUtils.isEmpty(title)) {
@@ -149,7 +149,7 @@ public class EditActivity extends BrandedActivity {
                                 .setPositiveButton(R.string.simple_close, (a, b) -> super.finish())
                                 .show();
                     } else {
-                        viewModel.initializeExistingCard(boardId, fullCard, account.getServerDeckVersionAsObject().isSupported(this));
+                        viewModel.initializeExistingCard(boardId, fullCard, account.getServerDeckVersionAsObject().isSupported());
                         invalidateOptionsMenu();
                         setupViewPager();
                         setupTitle();

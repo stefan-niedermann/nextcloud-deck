@@ -49,3 +49,11 @@ This is necessary for two reasons:
 
 1. We have a rapid development cycle - bugs which have been reported weeks ago might no longer relevant
 2. We are loosing the context of a report or a question over the time. We have many things to care about and digging into an issue deep and then relying on an response which is not coming is a waste of our limited free time
+
+## Why don't you make an iOS app?
+
+We¹ believe, that the idea of Nextcloud - own your data - does not match the mindset of Apple and its products. We believe, that protecting your data is not possible on closed source operation systems like iOS. Yes, also Android often is not fully open source and distributed with proprietary stuff, but you have the choice and the possibility to use the app on the Android Open Source Project because the app does not depend on any proprietary libraries.
+Also licenses for SDKs, Hardware and distributing is ridiculous expensive for an FLOSS project.
+The API of the Deck server app is well documented and everyone is free to start an iOS client. Of course we appreciate a growing ecosystem even if we will not contribute to this part personally.
+
+¹ Disclaimer: "We" are not working for nor related to Nextcloud Inc. in any way. We are just a few volunteers which contribute to this app in our free time.

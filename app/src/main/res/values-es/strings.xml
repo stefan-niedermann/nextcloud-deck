@@ -231,6 +231,8 @@
     <string name="info_box_maintenance_mode">Servidor en modo de mantenimiento</string>
     <string name="info_box_version_not_supported">La versión %1$s del servidor no está soportada. Por favor, actualiza a %2$s</string>
     <string name="share_link">Compartir enlace</string>
+    <string name="share_content">Compartir contenido</string>
+    <string name="share_content_duedate">Fecha de vencimiento: %1$s</string>
     <string name="archive_cards">Tarjetas archivadas</string>
 
     <string name="manage_accounts">Gestionar cuentas</string>

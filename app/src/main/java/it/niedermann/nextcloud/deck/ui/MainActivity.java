@@ -294,7 +294,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 if (mainViewModel.isCurrentAccountIsSupportedVersion()) {
                     binding.infoBoxVersionNotSupported.setVisibility(View.GONE);
                 } else {
-                    binding.infoBoxVersionNotSupportedText.setText(getString(R.string.info_box_version_not_supported, mainViewModel.getCurrentAccount().getServerDeckVersion(), Version.minimumSupported(this).getOriginalVersion()));
+                    binding.infoBoxVersionNotSupportedText.setText(getString(R.string.info_box_version_not_supported, mainViewModel.getCurrentAccount().getServerDeckVersion(), Version.minimumSupported().getOriginalVersion()));
                     binding.infoBoxVersionNotSupportedText.setOnClickListener((v) -> {
                         Intent openURL = new Intent(Intent.ACTION_VIEW);
                         openURL.setData(Uri.parse(mainViewModel.getCurrentAccount().getUrl() + getString(R.string.url_fragment_update_deck)));
@@ -500,7 +500,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     binding.swipeRefreshLayout.setRefreshing(false);
                 } else {
                     // If we notice after updating the capabilities, that the new version is not supported, but it was previously, recreate the activity to make sure all elements are disabled properly
-                    if (mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported(MainActivity.this) && !response.getDeckVersion().isSupported(MainActivity.this)) {
+                    if (mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported() && !response.getDeckVersion().isSupported()) {
                         ActivityCompat.recreate(MainActivity.this);
                     }
                 }
@@ -625,7 +625,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.navigationView.setItemIconTintList(null);
         Menu menu = binding.navigationView.getMenu();
         menu.clear();
-        DrawerMenuUtil.inflateBoards(this, menu, this.boardsList, mainViewModel.currentAccountHasArchivedBoards(), mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported(this));
+        DrawerMenuUtil.inflateBoards(this, menu, this.boardsList, mainViewModel.currentAccountHasArchivedBoards(), mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported());
         binding.navigationView.setCheckedItem(boardsList.indexOf(currentBoard));
     }
 
@@ -772,7 +772,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                     @Override
                                     public void onResponse(Capabilities response) {
                                         if (!response.isMaintenanceEnabled()) {
-                                            if (response.getDeckVersion().isSupported(getApplicationContext())) {
+                                            if (response.getDeckVersion().isSupported()) {
                                                 runOnUiThread(() -> {
                                                     mainViewModel.setSyncManager(importSyncManager);
                                                     mainViewModel.setCurrentAccount(account);
@@ -796,7 +796,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                                     });
                                                 });
                                             } else {
-                                                DeckLog.warn("Cannot import account because server version is too low (" + response.getDeckVersion() + "). Minimum server version is currently " + Version.minimumSupported(getApplicationContext()));
+                                                DeckLog.warn("Cannot import account because server version is too low (" + response.getDeckVersion() + "). Minimum server version is currently " + Version.minimumSupported());
                                                 runOnUiThread(() -> new BrandedAlertDialogBuilder(MainActivity.this)
                                                         .setTitle(R.string.update_deck)
                                                         .setMessage(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()))

@@ -20,8 +20,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -33,6 +35,8 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     private final Context context;
     private final int appWidgetId;
     private final SyncManager syncManager;
+    private final int headerHorizontalPadding;
+    private final int headerVerticalPaddingNth;
 
     @NonNull
     private final List<Object> data = new ArrayList<>();
@@ -41,6 +45,8 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
         this.context = context;
         this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         this.syncManager = new SyncManager(context);
+        this.headerHorizontalPadding = DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1hx);
+        this.headerVerticalPaddingNth = DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_2x);
     }
 
     @Override
@@ -54,7 +60,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
             final List<FilterWidgetCard> response = syncManager.getCardsForFilterWidget(appWidgetId);
             DeckLog.verbose(UpcomingWidgetFactory.class.getSimpleName() + " with id " + appWidgetId + " fetched " + response.size() + " cards from the database.");
             data.clear();
-            Comparator<FilterWidgetCard> comparator = Comparator.comparing((card -> {
+            final Comparator<FilterWidgetCard> comparator = Comparator.comparing((card -> {
                 if (card != null &&
                         card.getCard() != null &&
                         card.getCard().getCard() != null &&
@@ -63,6 +69,24 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
                 }
                 return null;
             }), Comparator.nullsLast(Comparator.naturalOrder()));
+            comparator.thenComparing(card -> {
+                if (card != null &&
+                        card.getCard() != null &&
+                        card.getCard().getCard().getDueDate() != null) {
+
+                    Card c = card.getCard().getCard();
+
+                    if (c.getLastModified() == null && c.getLastModifiedLocal() != null) {
+                        return c.getLastModifiedLocal();
+                    } else if (c.getLastModified() != null && c.getLastModifiedLocal() == null) {
+                        return c.getLastModified();
+                    } else {
+                        return c.getLastModifiedLocal().toEpochMilli() > c.getLastModified().toEpochMilli() ?
+                                c.getLastModifiedLocal() : c.getLastModified();
+                    }
+                }
+                return null;
+            }, Comparator.nullsLast(Comparator.naturalOrder()));
 
             Collections.sort(
                     response,
@@ -105,6 +129,11 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
             final Separator separator = (Separator) data.get(i);
             widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_separator);
             widget_entry.setTextViewText(R.id.widget_entry_content_tv, separator.title);
+            if(i == 0) {
+                widget_entry.setViewPadding(R.id.widget_entry_content_tv, headerHorizontalPadding, 0, headerHorizontalPadding, 0);
+            } else {
+                widget_entry.setViewPadding(R.id.widget_entry_content_tv, headerHorizontalPadding, headerVerticalPaddingNth, headerHorizontalPadding, 0);
+            }
         } else {
             final FullCard card = ((FilterWidgetCard) data.get(i)).getCard();
             widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_stack_entry);

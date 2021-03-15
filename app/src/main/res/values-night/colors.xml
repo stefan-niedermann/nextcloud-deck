@@ -5,9 +5,10 @@
     <color name="fg_secondary">#666</color>
     <color name="bg_highlighted">#2a2a2a</color>
     <color name="bg_info_box">#222222</color>
-    <color name="bg_card">#121212</color>
+    <color name="bg_card">#1e1e1e</color>
     <color name="bg_card_wrapper">@color/primary</color>
 
-    <color name="widget_background">#cc212121</color>
-    <color name="widget_foreground">#ccf5f5f5</color>
+    <color name="widget_outer_background">#dd121212</color>
+    <color name="widget_background">#dd000000</color>
+    <color name="widget_foreground">#d8d8d8</color>
 </resources>

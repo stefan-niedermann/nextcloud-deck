@@ -28,10 +28,20 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
+
+/**
+ * @link <a href="https://deck.readthedocs.io/en/latest/API-Nextcloud/">Nextcloud REST API</a>
+ */
 public interface NextcloudServerAPI {
+
+
+    // Capabilities
 
     @GET("cloud/capabilities?format=json")
     Observable<ParsedResponse<Capabilities>> getCapabilities(@Header("If-None-Match") String eTag);
+
+
+    // Projects
 
     @GET("collaboration/resources/deck-card/{cardId}?format=json")
     Observable<OcsProjectList> getProjectsForCard(@Path("cardId") long cardId);
@@ -48,6 +58,9 @@ public interface NextcloudServerAPI {
     @POST("collaboration/resources/deck-card/{cardId}?format=json")
     Observable<OcsProject> createProjectForCard(@Path("cardId") long cardId, @Body OcsProjectNameForCreate ocsProjectName);
 
+
+    // Users
+
     @GET("apps/files_sharing/api/v1/sharees?format=json&perPage=20&itemType=0%2C1%2C7")
     Observable<OcsUserList> searchUser(@Query("search") String searchTerm);
 
@@ -57,8 +70,14 @@ public interface NextcloudServerAPI {
     @GET("cloud/users/{search}?format=json")
     Observable<OcsUser> getSingleUserData(@Path("search") String userUid);
 
+
+    // Activities
+
     @GET("apps/activity/api/v2/activity/filter?format=json&object_type=deck_card&limit=50&since=-1&sort=asc")
     Observable<List<Activity>> getActivitiesForCard(@Query("object_id") long cardId);
+
+
+    // Comments
 
     @Headers({
             "Accept: application/json",

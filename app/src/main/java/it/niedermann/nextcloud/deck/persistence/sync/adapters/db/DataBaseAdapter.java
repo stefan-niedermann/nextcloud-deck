@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import androidx.annotation.AnyThread;
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
@@ -69,7 +70,6 @@ import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetMode
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
-import it.niedermann.nextcloud.deck.ui.widget.stack.StackWidget;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
@@ -635,10 +635,10 @@ public class DataBaseAdapter {
         markAsEditedIfNeeded(stack, setStatus);
         db.getStackDao().update(stack);
         notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.STACK, stack.getLocalId());
-        if (db.getStackWidgetModelDao().containsStackLocalId(stack.getLocalId())) {
-            DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about card changes for \"" + stack.getTitle() + "\"");
-            StackWidget.notifyDatasetChanged(context);
-        }
+//        if (db.getStackWidgetModelDao().containsStackLocalId(stack.getLocalId())) {
+//            DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about card changes for \"" + stack.getTitle() + "\"");
+//            // FIXME StackWidget.notifyDatasetChanged(context);
+//        }
     }
 
     @WorkerThread
@@ -719,10 +719,10 @@ public class DataBaseAdapter {
     }
 
     private void notifyStackWidgetsIfNeeded(String cardTitle, long... affectedStackIds) {
-        if (db.getStackWidgetModelDao().containsStackLocalId(affectedStackIds)) {
-            DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about card changes for \"" + cardTitle + "\"");
-            StackWidget.notifyDatasetChanged(context);
-        }
+//        if (db.getStackWidgetModelDao().containsStackLocalId(affectedStackIds)) {
+//            DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about card changes for \"" + cardTitle + "\"");
+//            // FIXME StackWidget.notifyDatasetChanged(context);
+//        }
     }
 
     @WorkerThread
@@ -1157,11 +1157,12 @@ public class DataBaseAdapter {
         model.setStackId(stackId);
         model.setDarkTheme(darkTheme);
 
-        db.getStackWidgetModelDao().insert(model);
+//        db.getStackWidgetModelDao().insert(model);
     }
 
     public StackWidgetModel getStackWidgetModelDirectly(int appWidgetId) {
-        return db.getStackWidgetModelDao().getStackWidgetByAppWidgetIdDirectly(appWidgetId);
+//        return db.getStackWidgetModelDao().getStackWidgetByAppWidgetIdDirectly(appWidgetId);
+        return null;
     }
 
     public int createFilterWidgetDirectly(@NonNull FilterWidget filterWidget) {
@@ -1334,7 +1335,7 @@ public class DataBaseAdapter {
                 }
             }
             List<Long> accountIds = null;
-            if (filterWidget.getAccounts() != null && !filterWidget.getAccounts().isEmpty()) {
+            if (!filterWidget.getAccounts().isEmpty()) {
                 accountIds = filterWidget.getAccounts().stream().map(FilterWidgetAccount::getAccountId).collect(Collectors.toList());
             }
             // https://github.com/stefan-niedermann/nextcloud-deck/issues/822 exclude archived cards and boards
@@ -1366,7 +1367,7 @@ public class DataBaseAdapter {
     public void deleteStackWidget(int appWidgetId) {
         StackWidgetModel model = new StackWidgetModel();
         model.setAppWidgetId(appWidgetId);
-        db.getStackWidgetModelDao().delete(model);
+//        db.getStackWidgetModelDao().delete(model);
     }
 
     public LiveData<List<Account>> readAccountsForHostWithReadAccessToBoard(String host, long boardRemoteId) {
@@ -1440,11 +1441,16 @@ public class DataBaseAdapter {
 
     private void notifyAllWidgets() {
         SingleCardWidget.notifyDatasetChanged(context);
-        StackWidget.notifyDatasetChanged(context);
+        /// FIXME StackWidget.notifyDatasetChanged(context);
 //        UpcomingWidget.notifyDatasetChanged(context);
     }
 
     public List<OcsProject> getAllChangedProjectsDirectly(long accountId) {
         return db.getOcsProjectDao().getLocallyChangedProjectsDirectly(accountId);
+    }
+
+    @ColorInt
+    public Integer getBoardColorDirectly(long accountId, long localBoardId) {
+        return db.getBoardDao().getBoardColorByLocalIdDirectly(accountId, localBoardId);
     }
 }

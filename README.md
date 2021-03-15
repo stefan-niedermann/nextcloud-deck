@@ -43,7 +43,7 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 
 ## 🏁 Planned features
 * [Compress images before uploading as attachment](https://github.com/stefan-niedermann/nextcloud-deck/issues/587)
-* [Toggle checkboxes in description on click](https://github.com/stefan-niedermann/nextcloud-deck/issues/756)
+* [Search](https://github.com/stefan-niedermann/nextcloud-deck/issues/630)
 * Enhanced support for projects
 
 ## 👪 Join the team

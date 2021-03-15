@@ -9,6 +9,7 @@ import android.util.Size;
 import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -78,8 +79,9 @@ public class TakePhotoActivity extends BrandedActivity {
                     cameraProvider.unbindAll();
                     cameraProvider.bindToLifecycle(this, viewModel.getCameraSelector(), captureUseCase, previewUseCase);
                 });
-            } catch (ExecutionException | InterruptedException e) {
+            } catch (IllegalArgumentException | ExecutionException | InterruptedException e) {
                 DeckLog.logError(e);
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
                 finish();
             }
         }, ContextCompat.getMainExecutor(this));

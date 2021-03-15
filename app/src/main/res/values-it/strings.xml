@@ -231,6 +231,9 @@
     <string name="info_box_maintenance_mode">Server in manutenzione</string>
     <string name="info_box_version_not_supported">Versione del server %1$s non supportata, aggiorna a %2$s</string>
     <string name="share_link">Condividi collegamento</string>
+    <string name="share_content">Condividi il contenuto</string>
+    <string name="share_content_duedate">Data di scadenza: %1$s</string>
+    <string name="share_content_labels">Etichette: %1$s</string>
     <string name="archive_cards">Archivia schede</string>
 
     <string name="manage_accounts">Gestisci account</string>

@@ -136,7 +136,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                     @Override
                                     public void onResponse(Capabilities response) {
                                         if (!response.isMaintenanceEnabled()) {
-                                            if (response.getDeckVersion().isSupported(getApplicationContext())) {
+                                            if (response.getDeckVersion().isSupported()) {
                                                 syncManager.synchronize(new IResponseCallback<Boolean>(account) {
                                                     @Override
                                                     public void onResponse(Boolean response) {
