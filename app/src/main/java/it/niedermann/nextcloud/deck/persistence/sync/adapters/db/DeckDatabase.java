@@ -122,7 +122,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.migration.Migra
                 JoinCardWithProject.class,
                 UserInGroup.class,
                 UserInBoard.class,
-                // UpcomingWidget:
                 FilterWidget.class,
                 FilterWidgetAccount.class,
                 FilterWidgetBoard.class,
@@ -138,7 +137,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.migration.Migra
 @TypeConverters({DateTypeConverter.class, EnumConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
 
-
     private static final String DECK_DB_NAME = "NC_DECK_DB.db";
     private static volatile DeckDatabase instance;
 
@@ -146,7 +144,7 @@ public abstract class DeckDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            DeckLog.log("onCreate triggered!!!");
+            DeckLog.info("Database \"" + DECK_DB_NAME + "\" created.");
             LastSyncUtil.resetAll();
         }
     };
