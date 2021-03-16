@@ -318,7 +318,7 @@ public class DataBaseAdapter {
             }
         }
         if (filter.getArchiveStatus() != FilterInformation.EArchiveStatus.ALL) {
-            query.append(" and c.archived = " + (filter.getArchiveStatus() == FilterInformation.EArchiveStatus.ARCHIVED ? 1 : 0));
+            query.append(" and c.archived = ").append(filter.getArchiveStatus() == FilterInformation.EArchiveStatus.ARCHIVED ? 1 : 0);
         }
         query.append(" and status<>3 order by accountId asc, stackId asc, `order`, createdAt asc;");
         return new SimpleSQLiteQuery(query.toString(), args.toArray());
