@@ -333,7 +333,7 @@ public class ServerAdapter {
 
     public void deleteAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, @NonNull Attachment attachment, IResponseCallback<Void> responseCallback) {
         ensureInternetConnection();
-        if (EAttachmentType.DECK_FILE.equals(attachment.getType())) {
+        if (EAttachmentType.FILE.equals(attachment.getType())) {
             RequestHelper.request(provider, () -> provider.getDeckAPI().deleteFileAttachment(remoteBoardId, remoteStackId, remoteCardId, attachment.getId()), responseCallback);
         } else {
             RequestHelper.request(provider, () -> provider.getDeckAPI().deleteAttachment(remoteBoardId, remoteStackId, remoteCardId, attachment.getId()), responseCallback);
