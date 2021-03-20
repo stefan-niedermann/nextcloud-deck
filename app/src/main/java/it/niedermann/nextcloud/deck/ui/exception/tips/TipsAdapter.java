@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.exception.tips;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -16,6 +17,7 @@ import androidx.annotation.StringRes;
 import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nextcloud.android.sso.Constants;
 import com.nextcloud.android.sso.exceptions.NextcloudApiNotRespondingException;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotSupportedException;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
@@ -39,14 +41,15 @@ import static it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment.
 
 public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
 
+    private static final String[] APPS = new String[]{Constants.PACKAGE_NAME_PROD, Constants.PACKAGE_NAME_DEV};
     private static final Intent INTENT_APP_INFO = new Intent(ACTION_APPLICATION_DETAILS_SETTINGS)
             .setData(Uri.parse("package:" + BuildConfig.APPLICATION_ID))
             .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_deck_info);
 
     @NonNull
-    private Consumer<Intent> actionButtonClickedListener;
+    private final Consumer<Intent> actionButtonClickedListener;
     @NonNull
-    private List<TipsModel> tips = new LinkedList<>();
+    private final List<TipsModel> tips = new LinkedList<>();
 
     public TipsAdapter(@NonNull Consumer<Intent> actionButtonClickedListener) {
         this.actionButtonClickedListener = actionButtonClickedListener;
@@ -113,6 +116,19 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
             }
         } else if (throwable instanceof UploadAttachmentFailedException) {
             add(R.string.error_dialog_attachment_upload_failed);
+        } else if (throwable instanceof ClassNotFoundException) {
+            final Throwable cause = ((ClassNotFoundException) throwable).getCause();
+            if (cause != null) {
+                final String message = cause.getMessage();
+                if (message != null && message.toLowerCase().contains("certificate")) {
+                    final Intent filesOpenIntent = getOpenFilesIntent(context);
+                    if (filesOpenIntent == null) {
+                        add(R.string.error_dialog_certificate);
+                    } else {
+                        add(R.string.error_dialog_certificate, filesOpenIntent);
+                    }
+                }
+            }
         } else if (throwable instanceof DeckException) {
             switch (((DeckException) throwable).getHint()) {
                 case CAPABILITIES_VERSION_NOT_PARSABLE:
@@ -142,7 +158,7 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
             add(R.string.error_dialog_tip_clear_storage_might_help);
             add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
         } else if (throwable instanceof RuntimeException) {
-            if (throwable.getMessage() != null && throwable.getMessage().contains("database")) {
+            if (throwable.getMessage() != null && throwable.getMessage().toLowerCase().contains("database")) {
                 Intent reportIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.url_report_bug)))
                         .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_report_issue);
                 add(R.string.error_dialog_tip_database_upgrade_failed, reportIntent);
@@ -158,5 +174,19 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
     public void add(@StringRes int text, @Nullable Intent primaryAction) {
         tips.add(new TipsModel(text, primaryAction));
         notifyItemInserted(tips.size());
+    }
+
+    @Nullable
+    private static Intent getOpenFilesIntent(@NonNull Context context) {
+        final PackageManager pm = context.getPackageManager();
+        for (String app : APPS) {
+            try {
+                pm.getPackageInfo(app, PackageManager.GET_ACTIVITIES);
+                return pm.getLaunchIntentForPackage(app)
+                        .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_nextcloud_app);
+            } catch (PackageManager.NameNotFoundException ignored) {
+            }
+        }
+        return null;
     }
 }

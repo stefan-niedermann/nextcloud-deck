@@ -508,10 +508,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
             @Override
             public void onError(Throwable throwable) {
+                binding.swipeRefreshLayout.setRefreshing(false);
                 if (throwable instanceof OfflineException) {
                     DeckLog.info("Cannot refresh capabilities because device is offline.");
                 } else {
                     super.onError(throwable);
+                    ExceptionDialogFragment.newInstance(throwable, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 }
             }
         });
