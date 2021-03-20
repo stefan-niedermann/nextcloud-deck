@@ -8,7 +8,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 public class DeckLog {
+    private static boolean PERSIST_LOGS = false;
     private static final String TAG = DeckLog.class.getSimpleName();
+
+    public static void enablePeristentLogs(boolean persistLogs) {
+        PERSIST_LOGS = persistLogs;
+    }
 
     public enum Severity {
         VERBOSE, DEBUG, LOG, INFO, WARN, ERROR
@@ -46,6 +51,7 @@ public class DeckLog {
         } else {
             print = message;
         }
+        Log.v("brrr", "persistent logging: " + PERSIST_LOGS);
         switch (severity) {
             case VERBOSE:
                 Log.v(TAG, print);

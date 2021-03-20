@@ -17,12 +17,26 @@ public class DeckApplication extends MultiDexApplication {
     public static final long NO_STACK_ID = -1L;
 
     private static String PREF_KEY_THEME;
+    private static String PREF_KEY_DEBUGGING;
 
     @Override
     public void onCreate() {
         PREF_KEY_THEME = getString(R.string.pref_key_dark_theme);
-        setAppTheme(getAppTheme(getApplicationContext()));
+        PREF_KEY_DEBUGGING = getString(R.string.pref_key_debugging);
+        setAppTheme(getAppTheme(this));
+        DeckLog.enablePeristentLogs(isPersistentLoggingEnabled(this));
         super.onCreate();
+    }
+
+    // ---------
+    // Debugging
+    // ---------
+
+    public static boolean isPersistentLoggingEnabled(@NonNull Context context) {
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean enabled = sharedPreferences.getBoolean(PREF_KEY_DEBUGGING, false);
+        DeckLog.log("--- Read: " + PREF_KEY_DEBUGGING + " | " + enabled);
+        return enabled;
     }
 
     // -----------------
