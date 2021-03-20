@@ -224,7 +224,7 @@ public class ServerAdapter {
         ensureInternetConnection();
         RequestHelper.request(provider, () -> {
             final Account account = responseCallback.getAccount();
-            if(account != null && account.getServerDeckVersionAsObject().supportsFileAttachments()) {
+            if (account != null && account.getServerDeckVersionAsObject().supportsFileAttachments()) {
                 return provider.getDeckAPI().getCard_1_1(boardId, stackId, cardId, getLastSyncDateFormatted(responseCallback.getAccount().getId()));
             }
             return provider.getDeckAPI().getCard_1_0(boardId, stackId, cardId, getLastSyncDateFormatted(responseCallback.getAccount().getId()));
@@ -331,9 +331,13 @@ public class ServerAdapter {
         RequestHelper.request(provider, () -> provider.getDeckAPI().downloadAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId), responseCallback);
     }
 
-    public void deleteAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, long remoteAttachmentId, IResponseCallback<Void> responseCallback) {
+    public void deleteAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, @NonNull Attachment attachment, IResponseCallback<Void> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(provider, () -> provider.getDeckAPI().deleteAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId), responseCallback);
+        if (EAttachmentType.DECK_FILE.equals(attachment.getType())) {
+            RequestHelper.request(provider, () -> provider.getDeckAPI().deleteFileAttachment(remoteBoardId, remoteStackId, remoteCardId, attachment.getId()), responseCallback);
+        } else {
+            RequestHelper.request(provider, () -> provider.getDeckAPI().deleteAttachment(remoteBoardId, remoteStackId, remoteCardId, attachment.getId()), responseCallback);
+        }
     }
 
     public void restoreAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, long remoteAttachmentId, IResponseCallback<Attachment> responseCallback) {
