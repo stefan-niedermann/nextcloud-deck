@@ -37,7 +37,6 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:visibility="gone"
-            app:palette="@drawable/palette"
             app:selector="@drawable/wheel"
             tools:visibility="visible" />
 
