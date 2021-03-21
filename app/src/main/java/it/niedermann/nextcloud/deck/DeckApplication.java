@@ -28,6 +28,13 @@ public class DeckApplication extends MultiDexApplication {
         super.onCreate();
     }
 
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        DeckLog.clearDebugLog();
+        DeckLog.error("--- cleared log because of low memory ---");
+    }
+
     // ---------
     // Debugging
     // ---------
