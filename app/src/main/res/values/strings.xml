@@ -327,4 +327,5 @@
     <!-- Category header for a section in the settings which contain features for advanced users -->
     <string name="simple_expert_settings">Expert settings</string>
     <string name="copy_logs">Copy logs to clipboard</string>
+    <string name="app_logo">App logo</string>
 </resources>
