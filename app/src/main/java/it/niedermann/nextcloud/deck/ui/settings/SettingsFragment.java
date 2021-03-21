@@ -24,6 +24,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
     private BrandedSwitchPreference wifiOnlyPref;
     private BrandedSwitchPreference brandingPref;
     private BrandedSwitchPreference compactPref;
+    private BrandedSwitchPreference debuggingPref;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -77,6 +78,17 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
         } else {
             DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_background_sync) + "\"");
         }
+
+        debuggingPref = findPreference(getString(R.string.pref_key_debugging));
+        if (debuggingPref != null) {
+            debuggingPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
+                DeckLog.enablePeristentLogs((Boolean) newValue);
+                DeckLog.log("persistet debug logs: " + newValue);
+                return true;
+            });
+        } else {
+            DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_debugging) + "\"");
+        }
     }
 
     @Override
@@ -93,5 +105,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
         wifiOnlyPref.applyBrand(mainColor);
         brandingPref.applyBrand(mainColor);
         compactPref.applyBrand(mainColor);
+        debuggingPref.applyBrand(mainColor);
     }
 }

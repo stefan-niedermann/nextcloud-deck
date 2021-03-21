@@ -8,7 +8,17 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 public class DeckLog {
+
+    private static final StringBuffer DEBUG_LOG = new StringBuffer();
+    private static boolean PERSIST_LOGS = false;
     private static final String TAG = DeckLog.class.getSimpleName();
+
+    public static void enablePeristentLogs(boolean persistLogs) {
+        PERSIST_LOGS = persistLogs;
+        if (!persistLogs) {
+            clearDebugLog();
+        }
+    }
 
     public enum Severity {
         VERBOSE, DEBUG, LOG, INFO, WARN, ERROR
@@ -39,17 +49,15 @@ public class DeckLog {
     }
 
     private static void log(String message, Severity severity, int stackTracePosition) {
-        final String print;
-        if (BuildConfig.DEBUG) {
-            final StackTraceElement caller = Thread.currentThread().getStackTrace()[stackTracePosition];
-            print = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") → " + message;
-        } else {
-            print = message;
+        if (!(PERSIST_LOGS || BuildConfig.DEBUG)) {
+            return;
+        }
+        final StackTraceElement caller = Thread.currentThread().getStackTrace()[stackTracePosition];
+        final String print = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") → " + message;
+        if (PERSIST_LOGS) {
+            DEBUG_LOG.append(print).append("\n");
         }
         switch (severity) {
-            case VERBOSE:
-                Log.v(TAG, print);
-                break;
             case DEBUG:
                 Log.d(TAG, print);
                 break;
@@ -105,5 +113,13 @@ public class DeckLog {
             buff.append(")\n");
         }
         return buff.toString();
+    }
+
+    public static String getDebugLog() {
+        return DEBUG_LOG.toString();
+    }
+
+    public static void clearDebugLog() {
+        DEBUG_LOG.setLength(0);
     }
 }

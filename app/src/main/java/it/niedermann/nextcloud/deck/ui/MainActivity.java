@@ -53,6 +53,7 @@ import java.util.Objects;
 import it.niedermann.android.crosstabdnd.CrossTabDragAndDrop;
 import it.niedermann.android.tablayouthelper.TabLayoutHelper;
 import it.niedermann.android.tablayouthelper.TabTitleGenerator;
+import it.niedermann.android.util.ClipboardUtil;
 import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -191,6 +192,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.navigationView.setNavigationItemSelectedListener(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+        mainViewModel.isDebugModeEnabled().observe(this, (enabled) -> headerBinding.copyDebugLogs.setVisibility(enabled ? View.VISIBLE : View.GONE));
+        headerBinding.copyDebugLogs.setOnClickListener((v) -> ClipboardUtil.INSTANCE.copyToClipboard(this, DeckLog.getDebugLog()));
         switchMap(mainViewModel.hasAccounts(), hasAccounts -> {
             if (hasAccounts) {
                 return mainViewModel.readAccounts();
@@ -415,6 +418,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         headerBinding.headerView.setBackgroundColor(mainColor);
         @ColorInt final int headerTextColor = contrastRatioIsSufficientBigAreas(mainColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
         DrawableCompat.setTint(headerBinding.logo.getDrawable(), headerTextColor);
+        DrawableCompat.setTint(headerBinding.copyDebugLogs.getDrawable(), headerTextColor);
         headerBinding.appName.setTextColor(headerTextColor);
         DrawableCompat.setTint(binding.filterIndicator.getDrawable(), getSecondaryForegroundColorDependingOnTheme(this, mainColor));
     }

@@ -9,10 +9,13 @@ import androidx.core.util.Pair;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.preference.PreferenceManager;
 
 import java.io.File;
 import java.util.List;
 
+import it.niedermann.android.sharedpreferences.SharedPreferenceBooleanLiveData;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -46,6 +49,10 @@ public class MainViewModel extends AndroidViewModel {
     public MainViewModel(@NonNull Application application) {
         super(application);
         this.syncManager = new SyncManager(application);
+    }
+
+    public LiveData<Boolean> isDebugModeEnabled() {
+        return new SharedPreferenceBooleanLiveData(PreferenceManager.getDefaultSharedPreferences(getApplication()), getApplication().getString(R.string.pref_key_debugging), false);
     }
 
     public Account getCurrentAccount() {
