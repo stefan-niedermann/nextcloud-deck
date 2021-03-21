@@ -15,6 +15,9 @@ public class DeckLog {
 
     public static void enablePeristentLogs(boolean persistLogs) {
         PERSIST_LOGS = persistLogs;
+        if (!persistLogs) {
+            clearDebugLog();
+        }
     }
 
     public enum Severity {
@@ -47,7 +50,7 @@ public class DeckLog {
 
     private static void log(String message, Severity severity, int stackTracePosition) {
         if (!(PERSIST_LOGS || BuildConfig.DEBUG)) {
-           return;
+            return;
         }
         final StackTraceElement caller = Thread.currentThread().getStackTrace()[stackTracePosition];
         final String print = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") → " + message;

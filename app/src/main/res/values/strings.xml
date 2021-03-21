@@ -145,7 +145,6 @@
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Compact mode</string>
     <string name="settings_debugging">Debug logs</string>
-    <string name="settings_debugging_summary">Do not turn on permanently</string>
     <string name="settings_background_sync">Background synchronization</string>
     <string name="pref_value_wifi_and_mobile">Sync on Wi-Fi and mobile data</string>
     <string name="pref_value_wifi_only">Sync only on Wi-Fi</string>
@@ -325,5 +324,7 @@
     <string name="simple_order">Order</string>
     <string name="edit_description">Edit description</string>
     <string name="widget_upcoming_title">Upcoming cards</string>
-    <string name="simple_debugging">Debugging</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Expert settings</string>
+    <string name="copy_logs">Copy logs to clipboard</string>
 </resources>

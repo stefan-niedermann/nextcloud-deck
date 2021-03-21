@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/header_view"
     android:layout_width="match_parent"
     android:layout_height="@dimen/drawer_header_height"
@@ -29,4 +30,19 @@
         android:text="@string/app_name_short"
         android:textColor="@android:color/white"
         android:textSize="24sp" />
+
+    <ImageView
+        android:id="@+id/copyDebugLogs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="12dp"
+        android:contentDescription="@string/copy_logs"
+        android:padding="@dimen/spacer_2x"
+        android:src="@drawable/ic_bug_report_black_24dp"
+        android:visibility="gone"
+        app:tint="@android:color/white"
+        app:tooltipText="@string/copy_logs"
+        tools:visibility="visible" />
 </RelativeLayout>

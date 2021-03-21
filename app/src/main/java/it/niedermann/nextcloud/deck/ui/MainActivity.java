@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.PopupMenu;
 
 import androidx.annotation.ColorInt;
@@ -53,6 +52,7 @@ import java.util.Objects;
 import it.niedermann.android.crosstabdnd.CrossTabDragAndDrop;
 import it.niedermann.android.tablayouthelper.TabLayoutHelper;
 import it.niedermann.android.tablayouthelper.TabTitleGenerator;
+import it.niedermann.android.util.ClipboardUtil;
 import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -99,6 +99,8 @@ import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static androidx.lifecycle.Transformations.switchMap;
 import static it.niedermann.nextcloud.deck.DeckApplication.NO_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.DeckApplication.NO_BOARD_ID;
@@ -191,6 +193,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.navigationView.setNavigationItemSelectedListener(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+        mainViewModel.isDebugModeEnabled().observe(this, (enabled) -> headerBinding.copyDebugLogs.setVisibility(enabled ? VISIBLE : GONE));
+        headerBinding.copyDebugLogs.setOnClickListener((v) -> ClipboardUtil.INSTANCE.copyToClipboard(this, DeckLog.getDebugLog()));
         switchMap(mainViewModel.hasAccounts(), hasAccounts -> {
             if (hasAccounts) {
                 return mainViewModel.readAccounts();
@@ -290,9 +294,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         .into(binding.accountSwitcher);
 
                 DeckLog.verbose("Displaying maintenance mode info for " + mainViewModel.getCurrentAccount().getName() + ": " + mainViewModel.getCurrentAccount().isMaintenanceEnabled());
-                binding.infoBox.setVisibility(mainViewModel.getCurrentAccount().isMaintenanceEnabled() ? View.VISIBLE : View.GONE);
+                binding.infoBox.setVisibility(mainViewModel.getCurrentAccount().isMaintenanceEnabled() ? VISIBLE : GONE);
                 if (mainViewModel.isCurrentAccountIsSupportedVersion()) {
-                    binding.infoBoxVersionNotSupported.setVisibility(View.GONE);
+                    binding.infoBoxVersionNotSupported.setVisibility(GONE);
                 } else {
                     binding.infoBoxVersionNotSupportedText.setText(getString(R.string.info_box_version_not_supported, mainViewModel.getCurrentAccount().getServerDeckVersion(), Version.minimumSupported().getOriginalVersion()));
                     binding.infoBoxVersionNotSupportedText.setOnClickListener((v) -> {
@@ -300,7 +304,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         openURL.setData(Uri.parse(mainViewModel.getCurrentAccount().getUrl() + getString(R.string.url_fragment_update_deck)));
                         startActivity(openURL);
                     });
-                    binding.infoBoxVersionNotSupported.setVisibility(View.VISIBLE);
+                    binding.infoBoxVersionNotSupported.setVisibility(VISIBLE);
                 }
             });
 
@@ -364,7 +368,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 }
             });
             filterViewModel.getFilterInformation().observe(this, (info) ->
-                    binding.filterIndicator.setVisibility(filterViewModel.getFilterInformation().getValue() == null ? View.GONE : View.VISIBLE));
+                    binding.filterIndicator.setVisibility(filterViewModel.getFilterInformation().getValue() == null ? GONE : VISIBLE));
             binding.archivedCards.setOnClickListener((v) -> startActivity(ArchivedCardsActvitiy.createIntent(this, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), mainViewModel.currentBoardHasEditPermission())));
 
 
@@ -415,6 +419,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         headerBinding.headerView.setBackgroundColor(mainColor);
         @ColorInt final int headerTextColor = contrastRatioIsSufficientBigAreas(mainColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
         DrawableCompat.setTint(headerBinding.logo.getDrawable(), headerTextColor);
+        DrawableCompat.setTint(headerBinding.copyDebugLogs.getDrawable(), headerTextColor);
         headerBinding.appName.setTextColor(headerTextColor);
         DrawableCompat.setTint(binding.filterIndicator.getDrawable(), getSecondaryForegroundColorDependingOnTheme(this, mainColor));
     }
@@ -521,10 +526,10 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     protected void clearCurrentBoard() {
         binding.toolbar.setTitle(R.string.app_name_short);
-        binding.swipeRefreshLayout.setVisibility(View.GONE);
-        binding.listMenuButton.setVisibility(View.GONE);
-        binding.emptyContentViewStacks.setVisibility(View.GONE);
-        binding.emptyContentViewBoards.setVisibility(View.VISIBLE);
+        binding.swipeRefreshLayout.setVisibility(GONE);
+        binding.listMenuButton.setVisibility(GONE);
+        binding.emptyContentViewStacks.setVisibility(GONE);
+        binding.emptyContentViewBoards.setVisibility(VISIBLE);
     }
 
     protected void setCurrentBoard(@NonNull Board board) {
@@ -543,15 +548,15 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
         if (mainViewModel.currentBoardHasEditPermission()) {
             binding.fab.show();
-            binding.listMenuButton.setVisibility(View.VISIBLE);
+            binding.listMenuButton.setVisibility(VISIBLE);
         } else {
             binding.fab.hide();
-            binding.listMenuButton.setVisibility(View.GONE);
+            binding.listMenuButton.setVisibility(GONE);
             binding.emptyContentViewStacks.hideDescription();
         }
 
-        binding.emptyContentViewBoards.setVisibility(View.GONE);
-        binding.swipeRefreshLayout.setVisibility(View.VISIBLE);
+        binding.emptyContentViewBoards.setVisibility(GONE);
+        binding.swipeRefreshLayout.setVisibility(VISIBLE);
 
         stacksLiveData = mainViewModel.getStacksForBoard(mainViewModel.getCurrentAccount().getId(), board.getLocalId());
         stacksLiveData.observe(this, (List<Stack> stacks) -> {
@@ -561,10 +566,10 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             currentBoardStacksCount = stacks.size();
 
             if (currentBoardStacksCount == 0) {
-                binding.emptyContentViewStacks.setVisibility(View.VISIBLE);
+                binding.emptyContentViewStacks.setVisibility(VISIBLE);
                 currentBoardHasStacks = false;
             } else {
-                binding.emptyContentViewStacks.setVisibility(View.GONE);
+                binding.emptyContentViewStacks.setVisibility(GONE);
                 currentBoardHasStacks = true;
             }
             listMenu.findItem(R.id.archive_cards).setVisible(currentBoardHasStacks);

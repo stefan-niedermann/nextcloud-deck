@@ -41,13 +41,12 @@
             app:defaultValue="false" />
     </it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory>
 
-    <it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory android:title="@string/simple_debugging">
+    <it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory android:title="@string/simple_expert_settings">
 
         <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
             android:icon="@drawable/ic_bug_report_black_24dp"
             android:key="@string/pref_key_debugging"
             android:title="@string/settings_debugging"
-            android:summary="@string/settings_debugging_summary"
             app:defaultValue="false" />
     </it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory>
 </PreferenceScreen>
