@@ -9,7 +9,7 @@ import java.io.StringWriter;
 
 public class DeckLog {
 
-    private static StringBuffer DEBUG_LOG = new StringBuffer();
+    private static final StringBuffer DEBUG_LOG = new StringBuffer();
     private static boolean PERSIST_LOGS = false;
     private static final String TAG = DeckLog.class.getSimpleName();
 
@@ -120,6 +120,6 @@ public class DeckLog {
     }
 
     public static void clearDebugLog() {
-        DEBUG_LOG = new StringBuffer();
+        DEBUG_LOG.setLength(0);
     }
 }
