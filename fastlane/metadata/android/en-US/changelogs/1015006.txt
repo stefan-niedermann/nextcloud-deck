@@ -1,4 +1,1 @@
-- 🎨 Enable branding by default (#844)
-- 🎨 Use instance color for global elements for easier account distinction (#844)
 - 🐞 Fix endless refreshing spinner (#680)
-- 🐞 Make debug logs accessible (#880)
