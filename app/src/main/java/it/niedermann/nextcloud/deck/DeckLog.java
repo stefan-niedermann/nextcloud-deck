@@ -63,7 +63,7 @@ public class DeckLog {
             return;
         }
         final StackTraceElement caller = Thread.currentThread().getStackTrace()[stackTracePosition];
-        final String print = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") → " + message;
+        final String print = "(" + caller.getFileName() + ":" + caller.getLineNumber() + ") " + caller.getMethodName() + "() → " + message;
         if (PERSIST_LOGS) {
             DEBUG_LOG.append(print).append("\n");
         }
