@@ -75,7 +75,6 @@ import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
@@ -226,9 +225,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             binding.emptyContentView.hideDescription();
         }
         @Nullable Context context = requireContext();
-        applyBrand(isBrandingEnabled(context)
-                ? readBrandMainColor(context)
-                : ContextCompat.getColor(context, R.color.defaultBrand));
+        applyBrand(readBrandMainColor(context));
         return binding.getRoot();
     }
 

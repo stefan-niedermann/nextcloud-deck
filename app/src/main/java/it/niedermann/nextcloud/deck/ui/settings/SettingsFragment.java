@@ -1,28 +1,27 @@
 package it.niedermann.nextcloud.deck.ui.settings;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
-import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference;
 
 import static it.niedermann.nextcloud.deck.DeckApplication.setAppTheme;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 
-public class SettingsFragment extends PreferenceFragmentCompat implements Branded {
+public class SettingsFragment extends PreferenceFragmentCompat {
 
     private BrandedSwitchPreference wifiOnlyPref;
-    private BrandedSwitchPreference brandingPref;
     private BrandedSwitchPreference compactPref;
     private BrandedSwitchPreference debuggingPref;
 
@@ -46,19 +45,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
         if (themePref != null) {
             themePref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
                 setAppTheme(Integer.parseInt((String) newValue));
-                requireActivity().setResult(Activity.RESULT_OK);
-                ActivityCompat.recreate(requireActivity());
-                return true;
-            });
-        } else {
-            DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_dark_theme) + "\"");
-        }
-
-        brandingPref = findPreference(getString(R.string.pref_key_branding));
-        if (brandingPref != null) {
-            brandingPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-                final Boolean branding = (Boolean) newValue;
-                DeckLog.log("branding: " + branding);
                 requireActivity().setResult(Activity.RESULT_OK);
                 ActivityCompat.recreate(requireActivity());
                 return true;
@@ -92,19 +78,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        @Nullable Context context = getContext();
-        if (context != null) {
-            applyBrand(readBrandMainColor(context));
-        }
-    }
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-    @Override
-    public void applyBrand(int mainColor) {
-        wifiOnlyPref.applyBrand(mainColor);
-        brandingPref.applyBrand(mainColor);
-        compactPref.applyBrand(mainColor);
-        debuggingPref.applyBrand(mainColor);
+        DeckApplication.readCurrentAccountColor().observe(getViewLifecycleOwner(), (mainColor) -> {
+            wifiOnlyPref.applyBrand(mainColor);
+            compactPref.applyBrand(mainColor);
+            debuggingPref.applyBrand(mainColor);
+        });
     }
 }

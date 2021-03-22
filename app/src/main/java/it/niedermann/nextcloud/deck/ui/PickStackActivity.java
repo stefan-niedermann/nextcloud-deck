@@ -30,15 +30,12 @@ import it.niedermann.nextcloud.deck.ui.pickstack.PickStackViewModel;
 import static androidx.lifecycle.Transformations.switchMap;
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
 import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
 
 public abstract class PickStackActivity extends AppCompatActivity implements Branded, PickStackListener {
 
     protected ActivityPickStackBinding binding;
     protected PickStackViewModel viewModel;
-
-    private boolean brandingEnabled;
 
     private Account selectedAccount;
     private Board selectedBoard;
@@ -50,8 +47,6 @@ public abstract class PickStackActivity extends AppCompatActivity implements Bra
         super.onCreate(savedInstanceState);
 
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
-
-        brandingEnabled = isBrandingEnabled(this);
 
         binding = ActivityPickStackBinding.inflate(getLayoutInflater());
         viewModel = new ViewModelProvider(this).get(PickStackViewModel.class);
@@ -95,14 +90,12 @@ public abstract class PickStackActivity extends AppCompatActivity implements Bra
     @Override
     public void applyBrand(int mainColor) {
         try {
-            if (brandingEnabled) {
-                @ColorInt final int finalMainColor = contrastRatioIsSufficientBigAreas(mainColor, ContextCompat.getColor(this, R.color.primary))
-                        ? mainColor
-                        : isDarkTheme(this) ? Color.WHITE : Color.BLACK;
-                DrawableCompat.setTintList(binding.submit.getBackground(), ColorStateList.valueOf(finalMainColor));
-                binding.submit.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(finalMainColor));
-                binding.cancel.setTextColor(getSecondaryForegroundColorDependingOnTheme(this, mainColor));
-            }
+            @ColorInt final int finalMainColor = contrastRatioIsSufficientBigAreas(mainColor, ContextCompat.getColor(this, R.color.primary))
+                    ? mainColor
+                    : isDarkTheme(this) ? Color.WHITE : Color.BLACK;
+            DrawableCompat.setTintList(binding.submit.getBackground(), ColorStateList.valueOf(finalMainColor));
+            binding.submit.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(finalMainColor));
+            binding.cancel.setTextColor(getSecondaryForegroundColorDependingOnTheme(this, mainColor));
         } catch (Throwable t) {
             DeckLog.logError(t);
         }
