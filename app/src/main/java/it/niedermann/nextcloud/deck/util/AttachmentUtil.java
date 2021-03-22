@@ -11,13 +11,6 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.Px;
-import androidx.annotation.WorkerThread;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -97,59 +90,6 @@ public class AttachmentUtil {
     @Deprecated
     private static String getDeck_1_0_RemoteUrl(@NonNull String accountUrl, @NonNull Long cardRemoteId, @NonNull Long attachmentRemoteId) {
         return accountUrl + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachmentRemoteId;
-    }
-
-    /**
-     * https://help.nextcloud.com/t/android-app-select-file-with-nextcloud-app-file-cant-be-read/103706
-     * Must not be called from the UI thread because the {@param currentUri} might refer to a not yet locally available file.
-     */
-    @WorkerThread
-    public static File copyContentUriToTempFile(@NonNull Context context, @NonNull Uri currentUri, long accountId, Long localCardId) throws IOException, IllegalArgumentException {
-        final InputStream inputStream = context.getContentResolver().openInputStream(currentUri);
-        if (inputStream == null) {
-            throw new IOException("Could not open input stream for " + currentUri.getPath());
-        }
-        final File cacheFile = getTempCacheFile(context, "attachments/account-" + accountId + "/card-" + (localCardId == null ? "pending-creation" : localCardId) + '/' + UriUtils.getDisplayNameForUri(currentUri, context));
-        final FileOutputStream outputStream = new FileOutputStream(cacheFile);
-        byte[] buffer = new byte[4096];
-
-        int count;
-        while ((count = inputStream.read(buffer)) > 0) {
-            outputStream.write(buffer, 0, count);
-        }
-        DeckLog.verbose("----- wrote");
-        return cacheFile;
-    }
-
-    /**
-     * Creates a new {@link File}
-     */
-    public static File getTempCacheFile(@NonNull Context context, String fileName) throws IOException {
-        File cacheFile = new File(context.getApplicationContext().getFilesDir().getAbsolutePath() + "/" + fileName);
-
-        DeckLog.verbose("- Full path for new cache file: " + cacheFile.getAbsolutePath());
-
-        final File tempDir = cacheFile.getParentFile();
-        if (tempDir == null) {
-            throw new FileNotFoundException("could not cacheFile.getParentFile()");
-        }
-        if (!tempDir.exists()) {
-            DeckLog.verbose("-- The folder in which the new file should be created does not exist yet. Trying to create it...");
-            if (tempDir.mkdirs()) {
-                DeckLog.verbose("--- Creation successful");
-            } else {
-                throw new IOException("Directory for temporary file does not exist and could not be created.");
-            }
-        }
-
-        DeckLog.verbose("- Try to create actual cache file");
-        if (cacheFile.createNewFile()) {
-            DeckLog.verbose("-- Successfully created cache file");
-        } else {
-            throw new IOException("Failed to create cacheFile");
-        }
-
-        return cacheFile;
     }
 
     @DrawableRes

@@ -37,7 +37,7 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.util.AttachmentUtil.copyContentUriToTempFile;
+import static it.niedermann.nextcloud.deck.util.FilesUtil.copyContentUriToTempFile;
 import static java.net.HttpURLConnection.HTTP_CONFLICT;
 
 public class ShareTargetActivity extends MainActivity implements SelectCardListener {

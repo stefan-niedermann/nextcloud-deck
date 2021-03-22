@@ -328,4 +328,6 @@
     <string name="simple_expert_settings">Expert settings</string>
     <string name="copy_logs">Copy logs to clipboard</string>
     <string name="app_logo">App logo</string>
+    <string name="log_file">Log file</string>
+    <string name="copying_logs_to_file">Copying logs to file…</string>
 </resources>

@@ -53,7 +53,6 @@ import java.util.Objects;
 import it.niedermann.android.crosstabdnd.CrossTabDragAndDrop;
 import it.niedermann.android.tablayouthelper.TabLayoutHelper;
 import it.niedermann.android.tablayouthelper.TabTitleGenerator;
-import it.niedermann.android.util.ClipboardUtil;
 import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -193,7 +192,13 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         mainViewModel.isDebugModeEnabled().observe(this, (enabled) -> headerBinding.copyDebugLogs.setVisibility(enabled ? View.VISIBLE : View.GONE));
-        headerBinding.copyDebugLogs.setOnClickListener((v) -> ClipboardUtil.INSTANCE.copyToClipboard(this, DeckLog.getDebugLog()));
+        headerBinding.copyDebugLogs.setOnClickListener((v) -> {
+            try {
+                DeckLog.shareLogAsFile(this);
+            } catch (Exception e) {
+                ExceptionDialogFragment.newInstance(e, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+        });
         switchMap(mainViewModel.hasAccounts(), hasAccounts -> {
             if (hasAccounts) {
                 return mainViewModel.readAccounts();

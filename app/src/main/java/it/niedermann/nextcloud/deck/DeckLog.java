@@ -1,11 +1,21 @@
 package it.niedermann.nextcloud.deck;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
+import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
 public class DeckLog {
 
@@ -121,5 +131,21 @@ public class DeckLog {
 
     public static void clearDebugLog() {
         DEBUG_LOG.setLength(0);
+    }
+
+    /**
+     * Writes the current log to a temporary file and starts a share intent.
+     */
+    public static void shareLogAsFile(@NonNull Context context) throws IOException {
+        Toast.makeText(context, R.string.copying_logs_to_file, Toast.LENGTH_LONG).show();
+        final File logFile = new File(context.getCacheDir().getAbsolutePath() + "/log.txt");
+        final FileWriter writer = new FileWriter(logFile);
+        writer.write(DeckLog.getDebugLog());
+        writer.close();
+        context.startActivity(new Intent(Intent.ACTION_SEND)
+                .putExtra(Intent.EXTRA_TITLE, context.getString(R.string.log_file))
+                .putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", logFile))
+                .setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                .setType(MimeTypeUtil.TEXT_PLAIN));
     }
 }

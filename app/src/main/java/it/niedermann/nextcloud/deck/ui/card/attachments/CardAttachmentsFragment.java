@@ -79,7 +79,7 @@ import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEn
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
-import static it.niedermann.nextcloud.deck.util.AttachmentUtil.copyContentUriToTempFile;
+import static it.niedermann.nextcloud.deck.util.FilesUtil.copyContentUriToTempFile;
 import static java.net.HttpURLConnection.HTTP_CONFLICT;
 
 public class CardAttachmentsFragment extends BrandedFragment implements AttachmentDeletedListener, AttachmentClickedListener {
