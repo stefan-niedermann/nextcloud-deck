@@ -222,8 +222,10 @@
     <string name="error_dialog_user_not_found_in_database">Der aktuelle Benutzer stimmt nicht mit dem Benutzer überein, den wir in unserer Datenbank haben. Wenn Sie LDAP in Ihrer Nextcloud-Instanz verwenden, hat Ihre Nextcloud-App möglicherweise eine alte Benutzer-ID gespeichert.</string>
     <string name="error_dialog_capabilities_not_parsable">Funktionsumfang Ihres Serves konnte nicht nicht abgerufen werden. Stellen Sie sicher, dass Ihr Server ordnungsgemäß funktioniert und Client-Apps auf Nextcloud zugreifen können.</string>
     <string name="error_dialog_attachment_upload_failed">Ein Anhang konnte nicht hochgeladen werden. Bitte versuchen Sie es auf andere Weise zu teilen und teilen Sie uns diesen Fehler mit.</string>
+    <string name="error_dialog_certificate">Mit dem Zertifikat des Servers scheint etwas nicht zu stimmen. Bitte überprüfen Sie alle Konten in der Nextcloud-App für weitere Informationen. </string>
     <string name="error_dialog_tip_disable_battery_optimizations">Bitte alle Batterieoptimierungen für Nextcloud und die Deck-App deaktivieren.</string>
     <string name="error_action_open_deck_info">App-Informationen öffnen</string>
+    <string name="error_action_open_nextcloud_app">Nextcloud-App öffnen</string>
     <string name="error_action_open_network">Netzwerkeinstellungen</string>
     <string name="error_action_server_logs">Server-Protokolle</string>
     <string name="error_action_install">Installieren</string>
@@ -297,4 +299,4 @@
     <string name="simple_order">Reihenfolge</string>
     <string name="edit_description">Beschreibung bearbeiten</string>
     <string name="widget_upcoming_title">Anstehende Karten</string>
-</resources>
+    </resources>
