@@ -80,7 +80,6 @@ public class SyncHelper {
 
             @Override
             public void onError(Throwable throwable) {
-                super.onError(throwable);
                 if (throwable.getClass() == NextcloudHttpRequestFailedException.class) {
                     NextcloudHttpRequestFailedException requestFailedException = (NextcloudHttpRequestFailedException) throwable;
                     if (HttpURLConnection.HTTP_NOT_MODIFIED == requestFailedException.getStatusCode()){
@@ -90,7 +89,8 @@ public class SyncHelper {
                         return;
                     }
                 }
-                provider.onError(throwable, responseCallback);
+                super.onError(throwable);
+                provider.onError(responseCallback);
                 responseCallback.onError(throwable);
             }
         }, lastSync);
