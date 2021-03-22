@@ -377,6 +377,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
 
             binding.swipeRefreshLayout.setOnRefreshListener(() -> {
+                DeckLog.info("> Triggered manual refresh");
                 ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                 if (cm != null) {
                     NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
@@ -391,17 +392,23 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         DeckLog.info("Do not clear Glide caches, because the user currently does not have a working internet connection");
                     }
                 } else DeckLog.warn("ConnectivityManager is null");
+                DeckLog.info("> refreshCapabilities()");
                 refreshCapabilities(mainViewModel.getCurrentAccount());
+                DeckLog.info("> mainViewModel.synchronize()");
                 mainViewModel.synchronize(new IResponseCallback<Boolean>(mainViewModel.getCurrentAccount()) {
                     @Override
                     public void onResponse(Boolean response) {
-                        runOnUiThread(() -> binding.swipeRefreshLayout.setRefreshing(false));
+                        runOnUiThread(() -> {
+                            DeckLog.info("> +++ mainViewModel.synchronize() → onResponse → setRrefreshing(false)");
+                            binding.swipeRefreshLayout.setRefreshing(false);
+                        });
                     }
 
                     @Override
                     public void onError(Throwable throwable) {
                         super.onError(throwable);
                         runOnUiThread(() -> {
+                            DeckLog.info("> +++ mainViewModel.synchronize() → onError (" + throwable.getMessage() + ") → setRrefreshing(false)");
                             binding.swipeRefreshLayout.setRefreshing(false);
                             showSyncFailedSnackbar(throwable);
                         });
@@ -502,12 +509,16 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     }
 
     private void refreshCapabilities(final Account account) {
+        DeckLog.info("> refreshCapabilities()");
         mainViewModel.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
             @Override
             public void onResponse(Capabilities response) {
+                DeckLog.info("> refreshCapabilities() → onResponse");
                 if (response.isMaintenanceEnabled()) {
+                    DeckLog.info("> +++ refreshCapabilities() → onResponse → setRrefreshing(false)");
                     binding.swipeRefreshLayout.setRefreshing(false);
                 } else {
+                    DeckLog.info("> refreshCapabilities() → onResponse → maintenance enabled: true");
                     // If we notice after updating the capabilities, that the new version is not supported, but it was previously, recreate the activity to make sure all elements are disabled properly
                     if (mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported() && !response.getDeckVersion().isSupported()) {
                         ActivityCompat.recreate(MainActivity.this);
@@ -517,6 +528,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
             @Override
             public void onError(Throwable throwable) {
+                DeckLog.info("> +++ refreshCapabilities() → onError (" + throwable.getMessage() + ") → setRrefreshing(false)");
                 binding.swipeRefreshLayout.setRefreshing(false);
                 if (throwable instanceof OfflineException) {
                     DeckLog.info("Cannot refresh capabilities because device is offline.");
