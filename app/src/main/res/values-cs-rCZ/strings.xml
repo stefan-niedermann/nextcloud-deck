@@ -124,6 +124,7 @@
     <string name="settings_theme_title">Vzhled</string>
     <string name="settings_branding_title">Opatření vlastním logem</string>
     <string name="settings_compact_title">Kompaktní režim</string>
+    <string name="settings_debugging">Záznamy ladících událostí</string>
     <string name="settings_background_sync">Synchronizace na pozadí</string>
     <string name="pref_value_wifi_and_mobile">Synchr. přes Wi-Fi a mobilní data</string>
     <string name="pref_value_wifi_only">Synchr. pouze přes Wi-Fi</string>
@@ -226,8 +227,10 @@
     <string name="error_dialog_user_not_found_in_database">Stávající uživatel se neshoduje s uživatelem, který je v databázi. Pokud na své instanci Nextcloud používáte LDAP, je možné, že Nextcloud aplikace má uložený starý identifikátor uživatele.</string>
     <string name="error_dialog_capabilities_not_parsable">Nepodařilo se zjistit schopnosti serveru, který využíváte. Ověřte, že server v pořádku běží a ostatní klientské aplikace mohou k Nextcloud přistupovat.</string>
     <string name="error_dialog_attachment_upload_failed">Přílohu se nepodařilo nahrát. Zkuste ji nasdílet jiným způsobem a dejte nám o této chybě vědět.</string>
+    <string name="error_dialog_certificate">Zdá se, že s certifikátem serveru není něco v pořádku. Podrobnosti zjistíte kontrolou všech účtů v Nextcloud.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">V nastavení systému prosím pro aplikace Nextcloud a Deck vypněte veškeré optimalizace spotřeby energie z akumulátoru.</string>
     <string name="error_action_open_deck_info">Otevřít informace o aplikaci</string>
+    <string name="error_action_open_nextcloud_app">Otevřít aplikaci Nextcloud</string>
     <string name="error_action_open_network">Nastavení sítě</string>
     <string name="error_action_server_logs">Záznamy událostí na serveru</string>
     <string name="error_action_install">Nainstalovat</string>
@@ -305,4 +308,8 @@
     <string name="simple_order">Pořadí</string>
     <string name="edit_description">Upravit popis</string>
     <string name="widget_upcoming_title">Nadcházející karty</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Nastavení pro pokročilé uživatele</string>
+    <string name="copy_logs">Zkopírovat záznamy událostí do schránky</string>
+    <string name="app_logo">Logo aplikace</string>
     </resources>
