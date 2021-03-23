@@ -448,25 +448,28 @@ public class SyncManager {
                     public void onError(Throwable throwable) {
                         if (throwable instanceof NextcloudHttpRequestFailedException) {
                             NextcloudHttpRequestFailedException requestFailedException = (NextcloudHttpRequestFailedException) throwable;
+                            DeckLog.verbose("HTTP Status " + requestFailedException.getStatusCode());
                             if (requestFailedException.getStatusCode() == HTTP_UNAVAILABLE && requestFailedException.getCause() != null) {
-                                String errorString = requestFailedException.getCause().getMessage();
-                                Capabilities capabilities = GsonConfig.getGson().fromJson(errorString, Capabilities.class);
-                                DeckLog.verbose("HTTP Status " + HTTP_UNAVAILABLE + ": This server seems to be in maintenance mode.");
+                                final String errorString = requestFailedException.getCause().getMessage();
+                                final Capabilities capabilities = GsonConfig.getGson().fromJson(errorString, Capabilities.class);
+                                DeckLog.verbose("→ This server seems to be in maintenance mode.");
                                 if (capabilities.isMaintenanceEnabled()) {
+                                    DeckLog.verbose("→ Yes, it is in maintenance mode according to the capabilities");
                                     doAsync(() -> onResponse(ParsedResponse.of(capabilities)));
                                 } else {
+                                    DeckLog.error("→ No, it is not in maintenance mode according to the capabilities.");
                                     callback.onError(throwable);
                                 }
                             } else if (requestFailedException.getStatusCode() == HTTP_NOT_MODIFIED) {
-                                DeckLog.verbose("HTTP Status " + HTTP_NOT_MODIFIED + ": There haven't been any changes on the server side for this request.");
-                                //could be after maintenance. so we have to at least revert the maintenance flag
+                                DeckLog.verbose("→ There haven't been any changes on the server side for this request.");
+                                // could be after maintenance. so we have to at least revert the maintenance flag
                                 doAsync(() -> {
                                     Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
                                     if (acc.isMaintenanceEnabled()) {
                                         acc.setMaintenanceEnabled(false);
                                         dataBaseAdapter.updateAccount(acc);
                                     }
-                                    Capabilities capabilities = new Capabilities();
+                                    final Capabilities capabilities = new Capabilities();
                                     capabilities.setMaintenanceEnabled(false);
                                     capabilities.setDeckVersion(acc.getServerDeckVersionAsObject());
                                     capabilities.setTextColor(acc.getTextColor());

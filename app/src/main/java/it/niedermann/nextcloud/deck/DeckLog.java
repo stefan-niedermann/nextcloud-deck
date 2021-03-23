@@ -14,6 +14,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
@@ -22,6 +25,7 @@ public class DeckLog {
     private static final StringBuffer DEBUG_LOG = new StringBuffer();
     private static boolean PERSIST_LOGS = false;
     private static final String TAG = DeckLog.class.getSimpleName();
+    private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public static void enablePeristentLogs(boolean persistLogs) {
         PERSIST_LOGS = persistLogs;
@@ -63,9 +67,15 @@ public class DeckLog {
             return;
         }
         final StackTraceElement caller = Thread.currentThread().getStackTrace()[stackTracePosition];
-        final String print = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") → " + message;
+        final String print = "(" + caller.getFileName() + ":" + caller.getLineNumber() + ") " + caller.getMethodName() + "() → " + message;
         if (PERSIST_LOGS) {
-            DEBUG_LOG.append(print).append("\n");
+            DEBUG_LOG
+                    .append(dtf.format(Instant.now().atZone(ZoneId.systemDefault())))
+                    .append(" ")
+                    .append(severity.name())
+                    .append(" ")
+                    .append(print)
+                    .append("\n");
         }
         switch (severity) {
             case DEBUG:
