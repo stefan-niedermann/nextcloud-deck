@@ -53,6 +53,8 @@ import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 public class ServerAdapter {
 
     private final String prefKeyWifiOnly;
+    private final String prefKeyEtags;
+    final SharedPreferences sharedPreferences;
 
     @NonNull
     private final Context applicationContext;
@@ -65,7 +67,9 @@ public class ServerAdapter {
     public ServerAdapter(@NonNull Context applicationContext, @Nullable String ssoAccountName) {
         this.applicationContext = applicationContext;
         prefKeyWifiOnly = applicationContext.getResources().getString(R.string.pref_key_wifi_only);
+        prefKeyEtags = applicationContext.getResources().getString(R.string.pref_key_etags);
         provider = new ApiProvider(applicationContext, ssoAccountName);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
     }
 
     public String getServerUrl() {
@@ -90,7 +94,6 @@ public class ServerAdapter {
     public boolean hasInternetConnection() {
         ConnectivityManager cm = (ConnectivityManager) applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
             if (sharedPreferences.getBoolean(prefKeyWifiOnly, false)) {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                     Network network = cm.getActiveNetwork();
@@ -106,8 +109,6 @@ public class ServerAdapter {
                     }
                     return networkInfo.isConnected();
                 }
-
-
             } else {
                 return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
             }
@@ -128,9 +129,9 @@ public class ServerAdapter {
     }
 
     public void getBoards(IResponseCallback<ParsedResponse<List<FullBoard>>> responseCallback) {
-        RequestHelper.request(provider, () ->
-                        provider.getDeckAPI().getBoards(true, getLastSyncDateFormatted(responseCallback.getAccount().getId()), responseCallback.getAccount().getBoardsEtag()),
-                responseCallback);
+        RequestHelper.request(provider, () -> sharedPreferences.getBoolean(prefKeyEtags, true)
+                ? provider.getDeckAPI().getBoards(true, getLastSyncDateFormatted(responseCallback.getAccount().getId()), responseCallback.getAccount().getBoardsEtag())
+                : provider.getDeckAPI().getBoards(true, getLastSyncDateFormatted(responseCallback.getAccount().getId())), responseCallback);
     }
 
     public void getCapabilities(String eTag, IResponseCallback<ParsedResponse<Capabilities>> responseCallback) {
@@ -224,7 +225,7 @@ public class ServerAdapter {
         ensureInternetConnection();
         RequestHelper.request(provider, () -> {
             final Account account = responseCallback.getAccount();
-            if(account != null && account.getServerDeckVersionAsObject().supportsFileAttachments()) {
+            if (account != null && account.getServerDeckVersionAsObject().supportsFileAttachments()) {
                 return provider.getDeckAPI().getCard_1_1(boardId, stackId, cardId, getLastSyncDateFormatted(responseCallback.getAccount().getId()));
             }
             return provider.getDeckAPI().getCard_1_0(boardId, stackId, cardId, getLastSyncDateFormatted(responseCallback.getAccount().getId()));

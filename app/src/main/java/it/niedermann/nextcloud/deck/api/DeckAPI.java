@@ -62,6 +62,9 @@ public interface DeckAPI {
     @GET("v1.0/boards")
     Observable<ParsedResponse<List<FullBoard>>> getBoards(@Query("details") boolean verbose, @Header(MODIFIED_SINCE_HEADER) String lastSync, @Header(IF_NONE_MATCH) String eTag);
 
+    @GET("v1.0/boards")
+    Observable<ParsedResponse<List<FullBoard>>> getBoards(@Query("details") boolean verbose, @Header(MODIFIED_SINCE_HEADER) String lastSync);
+
 
     // Stacks
 

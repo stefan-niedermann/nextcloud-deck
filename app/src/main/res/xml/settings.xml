@@ -42,5 +42,12 @@
             android:key="@string/pref_key_debugging"
             android:title="@string/settings_debugging"
             app:defaultValue="false" />
+
+        <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
+            android:icon="@drawable/ic_baseline_speed_24"
+            android:key="@string/pref_key_etags"
+            android:summary="@string/settings_etags_summary"
+            android:title="@string/settings_etags"
+            app:defaultValue="true" />
     </it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory>
 </PreferenceScreen>

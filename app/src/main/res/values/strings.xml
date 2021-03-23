@@ -145,6 +145,8 @@
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Compact mode</string>
     <string name="settings_debugging">Debug logs</string>
+    <string name="settings_etags">ETags</string>
+    <string name="settings_etags_summary">Speed up synchronization using ETags</string>
     <string name="settings_background_sync">Background synchronization</string>
     <string name="pref_value_wifi_and_mobile">Sync on Wi-Fi and mobile data</string>
     <string name="pref_value_wifi_only">Sync only on Wi-Fi</string>

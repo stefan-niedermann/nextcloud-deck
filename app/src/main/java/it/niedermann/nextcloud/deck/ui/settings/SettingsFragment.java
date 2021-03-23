@@ -24,6 +24,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private BrandedSwitchPreference wifiOnlyPref;
     private BrandedSwitchPreference compactPref;
     private BrandedSwitchPreference debuggingPref;
+    private BrandedSwitchPreference eTagPref;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -75,6 +76,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         } else {
             DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_debugging) + "\"");
         }
+
+        eTagPref = findPreference(getString(R.string.pref_key_etags));
     }
 
     @Override
@@ -85,6 +88,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             wifiOnlyPref.applyBrand(mainColor);
             compactPref.applyBrand(mainColor);
             debuggingPref.applyBrand(mainColor);
+            eTagPref.applyBrand(mainColor);
         });
     }
 }
