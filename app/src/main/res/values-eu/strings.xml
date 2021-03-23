@@ -120,6 +120,7 @@
     <string name="settings_theme_title">Gaia</string>
     <string name="settings_branding_title">Marka</string>
     <string name="settings_compact_title">Modu trinkoa</string>
+    <string name="settings_debugging">Arazketa erregistroak</string>
     <string name="settings_background_sync">Atzeko planoko sinkronizazioa</string>
     <string name="pref_value_wifi_and_mobile">Sinkronizatu Wi-Fi eta datu mugikorrekin</string>
     <string name="pref_value_wifi_only">Sinkronizatu Wi-Fiarekin soilik</string>
@@ -222,8 +223,10 @@
     <string name="error_dialog_user_not_found_in_database">Egungo erabiltzailea ez dator bat gure datu-basean daukagun erabiltzailearekin. Zure Nextcloud instantzian LDAP erabiltzen ari bazara, baliteke zure Nextcloud aplikazioak erabiltzaile-ID zahar bat biltegiratu izana.</string>
     <string name="error_dialog_capabilities_not_parsable">Ezin izan ditugu zure zerbitzariko gaitasunak eskuratu. Ziurtatu zure zerbitzaria badabilela eta beste bezero aplikazioak Nexcloud atzitzeko gai direla.</string>
     <string name="error_dialog_attachment_upload_failed">Eranskin bat ezin izan da igo. Parteka ezazu beste bide batetik eta emaiguzu akats honen berri, mesedez.</string>
+    <string name="error_dialog_certificate">Badirudi zerbait gaizki dagoela zerbitzariaren ziurtagirian. Informazio gehiagorako, egiaztatu Nextcloud aplikazioko kontu guztiak.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Desgaitu bateria optimizazio guztiak Nextcloudentzat eta Deck aplikazioarentzat.</string>
     <string name="error_action_open_deck_info">Ireki aplikazioaren informazioa</string>
+    <string name="error_action_open_nextcloud_app">Ireki Nextcloud aplikazioa</string>
     <string name="error_action_open_network">Sareko ezarpenak</string>
     <string name="error_action_server_logs">Zerbitzariaren egunkariak</string>
     <string name="error_action_install">Instalatu</string>
@@ -297,4 +300,8 @@
     <string name="simple_order">Ordena</string>
     <string name="edit_description">Editatu deskribapena</string>
     <string name="widget_upcoming_title">Hurrengo txartelak</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Ezarpen adituak</string>
+    <string name="copy_logs">Kopiatu erregistroak arbelera</string>
+    <string name="app_logo">Aplikazioaren logotipoa</string>
     </resources>
