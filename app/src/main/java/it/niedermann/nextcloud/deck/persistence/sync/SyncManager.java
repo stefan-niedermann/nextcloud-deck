@@ -455,7 +455,7 @@ public class SyncManager {
                                 if (capabilities.isMaintenanceEnabled()) {
                                     doAsync(() -> onResponse(ParsedResponse.of(capabilities)));
                                 } else {
-                                    onError(throwable);
+                                    callback.onError(throwable);
                                 }
                             } else if (requestFailedException.getStatusCode() == HTTP_NOT_MODIFIED) {
                                 DeckLog.verbose("HTTP Status " + HTTP_NOT_MODIFIED + ": There haven't been any changes on the server side for this request.");
@@ -473,6 +473,8 @@ public class SyncManager {
                                     capabilities.setColor(acc.getColor());
                                     callback.onResponse(capabilities);
                                 });
+                            } else {
+                                callback.onError(throwable);
                             }
                         } else {
                             callback.onError(throwable);
