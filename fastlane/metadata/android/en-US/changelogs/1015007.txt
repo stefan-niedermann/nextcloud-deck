@@ -1,3 +1,4 @@
 - 🎨 Enable branding by default (#844)
 - 🎨 Use instance color for global elements for easier account distinction (#844)
+- 📥 Fix Sharing content to new Deck cards (#883)
 - 🐞 Make debug logs accessible (#880)
