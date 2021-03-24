@@ -304,4 +304,7 @@
     <string name="simple_expert_settings">Experteneinstellungen</string>
     <string name="copy_logs">Protokolldateien in die Zwischenablage kopieren</string>
     <string name="app_logo">App-Logo</string>
-    </resources>
+    <string name="log_file">Protokolldatei</string>
+    <string name="copying_logs_to_file">Protokolldateien in Datei kopieren…</string>
+    <string name="account_imported">Konto importiert</string>
+</resources>
