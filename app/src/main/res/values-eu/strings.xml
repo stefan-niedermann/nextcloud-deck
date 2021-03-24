@@ -304,4 +304,7 @@
     <string name="simple_expert_settings">Ezarpen adituak</string>
     <string name="copy_logs">Kopiatu erregistroak arbelera</string>
     <string name="app_logo">Aplikazioaren logotipoa</string>
-    </resources>
+    <string name="log_file">Erregistro fitxategia</string>
+    <string name="copying_logs_to_file">Erregistroak fitxategira kopiatzen...</string>
+    <string name="account_imported">Inportatutako kontua</string>
+</resources>
