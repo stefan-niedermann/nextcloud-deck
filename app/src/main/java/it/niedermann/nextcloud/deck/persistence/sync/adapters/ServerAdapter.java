@@ -129,9 +129,13 @@ public class ServerAdapter {
     }
 
     public void getBoards(IResponseCallback<ParsedResponse<List<FullBoard>>> responseCallback) {
-        RequestHelper.request(provider, () -> sharedPreferences.getBoolean(prefKeyEtags, true)
+        RequestHelper.request(provider, () -> isEtagsEnabled()
                 ? provider.getDeckAPI().getBoards(true, getLastSyncDateFormatted(responseCallback.getAccount().getId()), responseCallback.getAccount().getBoardsEtag())
                 : provider.getDeckAPI().getBoards(true, getLastSyncDateFormatted(responseCallback.getAccount().getId())), responseCallback);
+    }
+
+    public boolean isEtagsEnabled() {
+        return sharedPreferences.getBoolean(prefKeyEtags, true);
     }
 
     public void getCapabilities(String eTag, IResponseCallback<ParsedResponse<Capabilities>> responseCallback) {
