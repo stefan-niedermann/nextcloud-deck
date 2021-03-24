@@ -106,7 +106,7 @@ import static it.niedermann.nextcloud.deck.DeckApplication.NO_STACK_ID;
 import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentAccountId;
 import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentBoardId;
 import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentStackId;
-import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccountId;
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccount;
 import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentBoardId;
 import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentStackId;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -191,6 +191,13 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.navigationView.setNavigationItemSelectedListener(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+        DeckApplication.readCurrentAccountColor().observe(this, (accountColor) -> {
+            headerBinding.headerView.setBackgroundColor(accountColor);
+            @ColorInt final int headerTextColor = contrastRatioIsSufficientBigAreas(accountColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
+            DrawableCompat.setTint(headerBinding.logo.getDrawable(), headerTextColor);
+            DrawableCompat.setTint(headerBinding.copyDebugLogs.getDrawable(), headerTextColor);
+        });
+
         mainViewModel.isDebugModeEnabled().observe(this, (enabled) -> headerBinding.copyDebugLogs.setVisibility(enabled ? View.VISIBLE : View.GONE));
         headerBinding.copyDebugLogs.setOnClickListener((v) -> {
             try {
@@ -233,7 +240,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 SingleAccountHelper.setCurrentAccount(getApplicationContext(), mainViewModel.getCurrentAccount().getName());
                 mainViewModel.recreateSyncManager();
 
-                saveCurrentAccountId(this, mainViewModel.getCurrentAccount().getId());
+                saveCurrentAccount(this, mainViewModel.getCurrentAccount());
                 if (mainViewModel.getCurrentAccount().isMaintenanceEnabled()) {
                     refreshCapabilities(mainViewModel.getCurrentAccount());
                 }
@@ -428,11 +435,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         applyBrandToFAB(mainColor, binding.fab);
         // TODO We assume, that the background of the spinner is always white
         binding.swipeRefreshLayout.setColorSchemeColors(contrastRatioIsSufficient(Color.WHITE, mainColor) ? mainColor : DeckApplication.isDarkTheme(this) ? Color.DKGRAY : colorAccent);
-        headerBinding.headerView.setBackgroundColor(mainColor);
-        @ColorInt final int headerTextColor = contrastRatioIsSufficientBigAreas(mainColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
-        DrawableCompat.setTint(headerBinding.logo.getDrawable(), headerTextColor);
-        DrawableCompat.setTint(headerBinding.copyDebugLogs.getDrawable(), headerTextColor);
-        headerBinding.appName.setTextColor(headerTextColor);
         DrawableCompat.setTint(binding.filterIndicator.getDrawable(), getSecondaryForegroundColorDependingOnTheme(this, mainColor));
     }
 
@@ -799,14 +801,16 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                             if (response.getDeckVersion().isSupported()) {
                                                 runOnUiThread(() -> {
                                                     mainViewModel.setSyncManager(importSyncManager);
-                                                    mainViewModel.setCurrentAccount(account);
 
                                                     final Snackbar importSnackbar = BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
                                                     importSnackbar.show();
-                                                    importSyncManager.synchronize(new IResponseCallback<Boolean>(mainViewModel.getCurrentAccount()) {
+                                                    importSyncManager.synchronize(new IResponseCallback<Boolean>(createdAccount) {
                                                         @Override
                                                         public void onResponse(Boolean response) {
                                                             importSnackbar.dismiss();
+                                                            runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.account_imported), Snackbar.LENGTH_LONG)
+                                                                    .setAction(R.string.simple_switch, (a) -> mainViewModel.setCurrentAccount(createdAccount))
+                                                                    .show());
                                                         }
 
                                                         @Override

@@ -4,11 +4,18 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LiveData;
 import androidx.multidex.MultiDexApplication;
 import androidx.preference.PreferenceManager;
 
+import it.niedermann.android.sharedpreferences.SharedPreferenceIntLiveData;
+import it.niedermann.nextcloud.deck.model.Account;
+
 import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
 public class DeckApplication extends MultiDexApplication {
 
@@ -19,12 +26,17 @@ public class DeckApplication extends MultiDexApplication {
     private static String PREF_KEY_THEME;
     private static String PREF_KEY_DEBUGGING;
 
+    private static LiveData<Integer> currentAccountColor$;
+
     @Override
     public void onCreate() {
         PREF_KEY_THEME = getString(R.string.pref_key_dark_theme);
         PREF_KEY_DEBUGGING = getString(R.string.pref_key_debugging);
         setAppTheme(getAppTheme(this));
         DeckLog.enablePeristentLogs(isPersistentLoggingEnabled(this));
+        currentAccountColor$ = distinctUntilChanged(new SharedPreferenceIntLiveData(PreferenceManager.getDefaultSharedPreferences(this),
+                getString(R.string.shared_preference_last_account_color),
+                ContextCompat.getColor(this, R.color.defaultBrand)));
         super.onCreate();
     }
 
@@ -87,11 +99,24 @@ public class DeckApplication extends MultiDexApplication {
     // Current account / board / stack states
     // --------------------------------------
 
-    public static void saveCurrentAccountId(@NonNull Context context, long accountId) {
+    public static void saveCurrentAccount(@NonNull Context context, @NonNull Account account) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        DeckLog.log("--- Write: shared_preference_last_account" + " | " + accountId);
-        editor.putLong(context.getString(R.string.shared_preference_last_account), accountId);
+        DeckLog.log("--- Write: shared_preference_last_account" + " | " + account.getId());
+        editor.putLong(context.getString(R.string.shared_preference_last_account), account.getId());
+        DeckLog.log("--- Write: shared_preference_last_account_color" + " | " + account.getColor());
+        editor.putInt(context.getString(R.string.shared_preference_last_account_color), account.getColor());
         editor.apply();
+    }
+
+    public static LiveData<Integer> readCurrentAccountColor() {
+        return currentAccountColor$;
+    }
+
+    @ColorInt
+    public static int readCurrentAccountColor(@NonNull Context context) {
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        DeckLog.log("--- Read: shared_preference_last_account_color");
+        return sharedPreferences.getInt(context.getString(R.string.shared_preference_last_account_color), context.getApplicationContext().getResources().getColor(R.color.defaultBrand));
     }
 
     public static long readCurrentAccountId(@NonNull Context context) {

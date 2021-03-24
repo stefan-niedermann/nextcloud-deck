@@ -193,6 +193,9 @@ public class SyncManager {
             refreshCapabilities(new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
                 @Override
                 public void onResponse(Capabilities response) {
+                    // When importing an account, the create account color can only be applied after the initial capabilities refresh
+                    callbackAccount.setColor(response.getColor());
+
                     if (response != null && !response.isMaintenanceEnabled()) {
                         if (response.getDeckVersion().isSupported()) {
                             long accountId = callbackAccountId;

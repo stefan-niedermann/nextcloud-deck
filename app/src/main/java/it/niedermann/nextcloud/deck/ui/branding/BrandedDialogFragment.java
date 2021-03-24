@@ -5,7 +5,6 @@ import android.content.Context;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 
 public abstract class BrandedDialogFragment extends DialogFragment implements Branded {
@@ -16,9 +15,7 @@ public abstract class BrandedDialogFragment extends DialogFragment implements Br
 
         @Nullable Context context = getContext();
         if (context != null) {
-            if (isBrandingEnabled(context)) {
-                applyBrand(readBrandMainColor(context));
-            }
+            applyBrand(readBrandMainColor(context));
         }
     }
 }

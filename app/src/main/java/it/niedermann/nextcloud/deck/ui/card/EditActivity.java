@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -25,7 +26,9 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
@@ -34,7 +37,6 @@ import it.niedermann.nextcloud.deck.util.CardUtil;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
 
 public class EditActivity extends BrandedActivity {
     private static final String BUNDLE_KEY_ACCOUNT = "account";
@@ -42,6 +44,7 @@ public class EditActivity extends BrandedActivity {
     private static final String BUNDLE_KEY_STACK_ID = "stackId";
     private static final String BUNDLE_KEY_CARD_ID = "cardId";
     private static final String BUNDLE_KEY_TITLE = "title";
+    private static final String BUNDLE_KEY_DESCRIPTION = "description";
 
     private ActivityEditBinding binding;
     private EditCardViewModel viewModel;
@@ -126,14 +129,8 @@ public class EditActivity extends BrandedActivity {
             if (viewModel.isCreateMode()) {
                 viewModel.initializeNewCard(boardId, args.getLong(BUNDLE_KEY_STACK_ID), account.getServerDeckVersionAsObject().isSupported());
                 invalidateOptionsMenu();
-                String title = args.getString(BUNDLE_KEY_TITLE);
-                if (!TextUtils.isEmpty(title)) {
-                    if (title.length() > viewModel.getAccount().getServerDeckVersionAsObject().getCardTitleMaxLength()) {
-                        viewModel.getFullCard().getCard().setDescription(title);
-                    } else {
-                        viewModel.getFullCard().getCard().setTitle(title);
-                    }
-                }
+                fillTitleAndDescription(viewModel.getFullCard().getCard(), viewModel.getAccount().getServerDeckVersionAsObject(),
+                        args.getString(BUNDLE_KEY_TITLE), args.getString(BUNDLE_KEY_DESCRIPTION));
                 setupViewPager();
                 setupTitle();
             } else {
@@ -155,6 +152,34 @@ public class EditActivity extends BrandedActivity {
         }));
 
         DeckLog.verbose("Finished loading intent data: { accountId = " + viewModel.getAccount().getId() + " , cardId = " + cardId + " }");
+    }
+
+    private static void fillTitleAndDescription(@NonNull Card card, @NonNull Version version, @Nullable String title, @Nullable String description) {
+        if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(description)) {
+            assert title != null;
+            if (title.length() > version.getCardTitleMaxLength()) {
+                card.setTitle(title.substring(0, version.getCardTitleMaxLength()));
+            } else {
+                card.setTitle(title);
+            }
+            card.setDescription(description);
+        } else if (!TextUtils.isEmpty(title)) {
+            assert title != null;
+            if (title.length() > version.getCardTitleMaxLength()) {
+                card.setDescription(title);
+                card.setTitle(title.substring(0, version.getCardTitleMaxLength()));
+            } else {
+                card.setTitle(title);
+            }
+        } else if (!TextUtils.isEmpty(description)) {
+            assert description != null;
+            if (description.length() > version.getCardTitleMaxLength()) {
+                card.setDescription(description);
+                card.setTitle(description.substring(0, version.getCardTitleMaxLength()));
+            } else {
+                card.setTitle(description);
+            }
+        }
     }
 
     @Override
@@ -297,19 +322,23 @@ public class EditActivity extends BrandedActivity {
 
     @Override
     public void applyBrand(int mainColor) {
-        if (isBrandingEnabled(this)) {
-            final Drawable navigationIcon = binding.toolbar.getNavigationIcon();
-            if (navigationIcon == null) {
-                DeckLog.error("Expected navigationIcon to be present.");
-            } else {
-                DrawableCompat.setTint(binding.toolbar.getNavigationIcon(), colorAccent);
-            }
-            applyBrandToPrimaryTabLayout(mainColor, binding.tabLayout);
+        final Drawable navigationIcon = binding.toolbar.getNavigationIcon();
+        if (navigationIcon == null) {
+            DeckLog.error("Expected navigationIcon to be present.");
+        } else {
+            DrawableCompat.setTint(binding.toolbar.getNavigationIcon(), colorAccent);
         }
+        applyBrandToPrimaryTabLayout(mainColor, binding.tabLayout);
     }
 
     @NonNull
-    public static Intent createNewCardIntent(@NonNull Context context, @NonNull Account account, Long boardLocalId, Long stackId, @NonNull String title) {
+    public static Intent createNewCardIntent(@NonNull Context context, @NonNull Account account, Long boardLocalId, Long stackId, @Nullable String title, @Nullable String description) {
+        return createNewCardIntent(context, account, boardLocalId, stackId, title)
+                .putExtra(BUNDLE_KEY_DESCRIPTION, description);
+    }
+
+    @NonNull
+    public static Intent createNewCardIntent(@NonNull Context context, @NonNull Account account, Long boardLocalId, Long stackId, @Nullable String title) {
         return createNewCardIntent(context, account, boardLocalId, stackId)
                 .putExtra(BUNDLE_KEY_TITLE, title);
     }

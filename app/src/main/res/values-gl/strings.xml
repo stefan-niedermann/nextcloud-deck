@@ -120,6 +120,7 @@
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Xestión da marca</string>
     <string name="settings_compact_title">Modo compacto</string>
+    <string name="settings_debugging">Rexistros de depuración</string>
     <string name="settings_background_sync">Sincronización do traballo en segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronización con wifi e con datos móbiles</string>
     <string name="pref_value_wifi_only">Sincronizar só con wifi</string>
@@ -299,4 +300,8 @@
     <string name="simple_order">Orde</string>
     <string name="edit_description">Editar a descrición</string>
     <string name="widget_upcoming_title">Tarxetas próximas</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Axustes para expertos</string>
+    <string name="copy_logs">Copiar os rexistros ao portapapeis</string>
+    <string name="app_logo">Logotipo da apli</string>
     </resources>

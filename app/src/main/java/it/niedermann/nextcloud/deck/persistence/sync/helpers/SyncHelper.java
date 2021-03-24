@@ -27,11 +27,14 @@ public class SyncHelper {
     private long accountId;
     private IResponseCallback<Boolean> responseCallback;
     private final Instant lastSync;
+    private final boolean etagsEnabled;
 
     public SyncHelper(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, Instant lastSync) {
         this.serverAdapter = serverAdapter;
         this.dataBaseAdapter = dataBaseAdapter;
         this.lastSync = lastSync;
+        // check only once per sync
+        this.etagsEnabled = serverAdapter.isEtagsEnabled();
     }
 
     // Sync Server -> App
@@ -59,7 +62,7 @@ public class SyncHelper {
                                 DeckLog.warn("Conflicting changes on entity: " + existingEntity);
                                 // TODO: what to do?
                             } else {
-                                if (entityFromServer.getEtag() != null && entityFromServer.getEtag().equals(existingEntity.getEtag())) {
+                                if (etagsEnabled && entityFromServer.getEtag() != null &&  entityFromServer.getEtag().equals(existingEntity.getEtag())) {
                                     DeckLog.log("[" + provider.getClass().getSimpleName() + "] ETags do match! skipping " + existingEntity.getClass().getSimpleName() + " with localId: " + existingEntity.getLocalId());
                                     continue;
                                 }

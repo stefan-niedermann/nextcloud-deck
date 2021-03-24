@@ -124,6 +124,7 @@
     <string name="settings_theme_title">Motyw</string>
     <string name="settings_branding_title">Motyw serwera</string>
     <string name="settings_compact_title">Tryb kompaktowy</string>
+    <string name="settings_debugging">Logi debugowania</string>
     <string name="settings_background_sync">Synchronizacja w tle</string>
     <string name="pref_value_wifi_and_mobile">Synchronizacja w sieci Wi-Fi i komórkowej transmisji danych</string>
     <string name="pref_value_wifi_only">Synchronizuj tylko przez Wi-Fi</string>
@@ -307,4 +308,8 @@
     <string name="simple_order">Kolejność</string>
     <string name="edit_description">Edytuj opis</string>
     <string name="widget_upcoming_title">Nadchodzące karty</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Ustawienia eksperckie</string>
+    <string name="copy_logs">Kopiuj logi do schowka</string>
+    <string name="app_logo">Logo aplikacji</string>
     </resources>

@@ -120,6 +120,7 @@
     <string name="settings_theme_title">Design</string>
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Kompakt-Modus</string>
+    <string name="settings_debugging">Protokolldateien zur Fehlersuche</string>
     <string name="settings_background_sync">Hintergrundsynchronisierung</string>
     <string name="pref_value_wifi_and_mobile">Über WLAN und mobile Daten synchronisieren</string>
     <string name="pref_value_wifi_only">Nur über WLAN synchronisieren</string>
@@ -299,4 +300,8 @@
     <string name="simple_order">Reihenfolge</string>
     <string name="edit_description">Beschreibung bearbeiten</string>
     <string name="widget_upcoming_title">Anstehende Karten</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Experteneinstellungen</string>
+    <string name="copy_logs">Protokolldateien in die Zwischenablage kopieren</string>
+    <string name="app_logo">App-Logo</string>
     </resources>
