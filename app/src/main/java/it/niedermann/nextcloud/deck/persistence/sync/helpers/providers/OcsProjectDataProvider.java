@@ -33,6 +33,7 @@ public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject>
             public void onError(Throwable throwable) {
                 super.onError(throwable);
                 // dont break the sync!
+                // TODO i got here HTTP 404 once, maybe this should be considered?
                 DeckLog.logError(throwable);
                 responder.onResponse(Collections.emptyList());
             }
