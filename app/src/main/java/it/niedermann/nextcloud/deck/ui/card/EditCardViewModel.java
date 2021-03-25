@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -130,32 +131,33 @@ public class EditCardViewModel extends AndroidViewModel {
         return syncManager.getFullBoardById(accountId, localId);
     }
 
-    public WrappedLiveData<Label> createLabel(long accountId, Label label, long localBoardId) {
-        return syncManager.createLabel(accountId, label, localBoardId);
+    public void createLabel(long accountId, Label label, long localBoardId, @NonNull ResponseCallback<Label> callback) {
+        syncManager.createLabel(accountId, label, localBoardId, callback);
     }
 
     public LiveData<FullCardWithProjects> getFullCardWithProjectsByLocalId(long accountId, long cardLocalId) {
         return syncManager.getFullCardWithProjectsByLocalId(accountId, cardLocalId);
     }
 
-    public WrappedLiveData<FullCard> createFullCard(long accountId, long localBoardId, long localStackId, @NonNull FullCard card) {
-        return syncManager.createFullCard(accountId, localBoardId, localStackId, card);
-    }
-
-    public WrappedLiveData<FullCard> updateCard(@NonNull FullCard card) {
-        return syncManager.updateCard(card);
+    /**
+     * Saves the current {@link #fullCard}. If it is a new card, it will be created, otherwise it will be updated.
+     */
+    public WrappedLiveData<FullCard> saveCard() {
+        return isCreateMode()
+                ? syncManager.createFullCard(getAccount().getId(), getBoardId(), getFullCard().getCard().getStackId(), getFullCard())
+                : syncManager.updateCard(getFullCard());
     }
 
     public LiveData<List<Activity>> syncActivitiesForCard(@NonNull Card card) {
         return syncManager.syncActivitiesForCard(card);
     }
 
-    public WrappedLiveData<Attachment> addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file) {
-        return syncManager.addAttachmentToCard(accountId, localCardId, mimeType, file);
+    public void addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file, @NonNull ResponseCallback<Attachment> callback) {
+        syncManager.addAttachmentToCard(accountId, localCardId, mimeType, file, callback);
     }
 
-    public WrappedLiveData<Void> deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId) {
-        return syncManager.deleteAttachmentOfCard(accountId, localCardId, localAttachmentId);
+    public void deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId, @NonNull ResponseCallback<Void> callback) {
+        syncManager.deleteAttachmentOfCard(accountId, localCardId, localAttachmentId, callback);
     }
 
     public LiveData<Card> getCardByRemoteID(long accountId, long remoteId) {

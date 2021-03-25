@@ -19,22 +19,35 @@
     </it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory>
 
     <it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory android:title="@string/simple_appearance">
-        <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
-            android:defaultValue="@string/pref_value_theme_light"
+        <ListPreference
+            android:defaultValue="@string/pref_value_theme_system_default"
+            android:entries="@array/darkmode_entries"
+            android:entryValues="@array/darkMode_values"
             android:icon="@drawable/ic_brightness_2_grey600_24dp"
             android:key="@string/pref_key_dark_theme"
+            android:summary="%s"
             android:title="@string/settings_theme_title" />
-
-        <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
-            android:icon="@drawable/ic_format_paint_grey600_24dp"
-            android:key="@string/pref_key_branding"
-            android:title="@string/settings_branding_title"
-            app:defaultValue="false" />
 
         <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
             android:icon="@drawable/ic_baseline_compact_24"
             android:key="@string/pref_key_compact"
             android:title="@string/settings_compact_title"
             app:defaultValue="false" />
+    </it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory>
+
+    <it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory android:title="@string/simple_expert_settings">
+
+        <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
+            android:icon="@drawable/ic_bug_report_black_24dp"
+            android:key="@string/pref_key_debugging"
+            android:title="@string/settings_debugging"
+            app:defaultValue="false" />
+
+        <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
+            android:icon="@drawable/ic_baseline_speed_24"
+            android:key="@string/pref_key_etags"
+            android:summary="@string/settings_etags_summary"
+            android:title="@string/settings_etags"
+            app:defaultValue="true" />
     </it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory>
 </PreferenceScreen>

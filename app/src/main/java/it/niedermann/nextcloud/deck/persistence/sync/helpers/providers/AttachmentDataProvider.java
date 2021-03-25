@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 
 import java.io.File;
@@ -67,7 +68,7 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
     @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<Attachment> responder, Attachment entity) {
         File file = new File(entity.getLocalPath());
-        serverAdapter.uploadAttachment(board.getId(), stack.getId(), card.getId(), entity.getType(), file, new IResponseCallback<Attachment>(responder.getAccount()) {
+        serverAdapter.uploadAttachment(board.getId(), stack.getId(), card.getId(), file, new IResponseCallback<Attachment>(responder.getAccount()) {
             @Override
             public void onResponse(Attachment response) {
                 if (file.delete()) {
@@ -77,10 +78,11 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
                 }
             }
 
+            @SuppressLint("MissingSuperCall")
             @Override
             public void onError(Throwable throwable) {
                 if (!file.delete()) {
-                    DeckLog.error("Could not delete local file: " + file.getAbsolutePath());
+                    DeckLog.error("Could not delete local file:", file.getAbsolutePath());
                 }
                 // if (HandledServerErrors.ATTACHMENTS_FILE_ALREADY_EXISTS == HandledServerErrors.fromThrowable(throwable)) {
                 dataBaseAdapter.deleteAttachment(accountId, entity, false);

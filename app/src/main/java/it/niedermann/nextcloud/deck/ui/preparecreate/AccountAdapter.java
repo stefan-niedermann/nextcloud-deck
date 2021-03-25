@@ -50,7 +50,7 @@ public class AccountAdapter extends AbstractAdapter<Account> {
             }
 
             Glide.with(getContext())
-                    .load(new SingleSignOnUrl(item.getName(), item.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details))))
+                    .load(new SingleSignOnUrl(item.getName(), item.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.avatar_size))))
                     .placeholder(R.drawable.ic_baseline_account_circle_24)
                     .error(R.drawable.ic_baseline_account_circle_24)
                     .apply(RequestOptions.circleCropTransform())

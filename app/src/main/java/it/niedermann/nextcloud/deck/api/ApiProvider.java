@@ -18,19 +18,18 @@ import retrofit2.NextcloudRetrofitApiBuilder;
 /**
  * Created by david on 26.05.17.
  */
-
 public class ApiProvider {
 
-    private static final String DECK_API_ENDPOINT = "/index.php/apps/deck/api/v1.0/";
+    private static final String DECK_API_ENDPOINT = "/index.php/apps/deck/api/";
     private static final String NC_API_ENDPOINT = "/ocs/v2.php/";
 
     private DeckAPI deckAPI;
     private NextcloudServerAPI nextcloudAPI;
     @NonNull
-    private Context context;
-    private SingleSignOnAccount ssoAccount;
+    private final Context context;
     @Nullable
-    private String ssoAccountName;
+    private final String ssoAccountName;
+    private SingleSignOnAccount ssoAccount;
 
     public ApiProvider(Context context) {
         this(context, null);

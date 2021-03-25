@@ -124,12 +124,10 @@
     <string name="your_deck_version_is_too_old">גרסת החפיסה שלך ישנה מדי</string>
     <string name="deck_outdated_please_update">גרסת החפיסה שלך ישנה מדי (%1$s). נא לעדכן כדי להשתמש ביישומון Android זה כלקוח.</string>
     <string name="delete_board_message">פעולה זו תמחק את הלוח הזה על כל רשימותיו וכרטיסיו.</string>
-    <string name="settings_theme_title">ערכת עיצוב כהה</string>
     <string name="settings_branding_title">מיתוג</string>
     <string name="settings_background_sync">סנכרון ברקע</string>
     <string name="pref_value_wifi_and_mobile">עדכון דרך רשת אלחוטית ונתונים סלולריים</string>
     <string name="pref_value_wifi_only">סנכרון רק דרך רשת אלחוטית</string>
-    <string name="pref_value_theme_light">בהירה</string>
     <string name="unassigned_user">ההקצאה אל %1$s בוטלה</string>
     <string name="no_activities">אין פעילויות בכרטיס הזה. עליך להתחבר לאינטרנט כדי לטעון ולהציג פעילויות.</string>
     <string name="share_board">שיתוף לוח</string>
@@ -222,6 +220,8 @@
     <string name="simple_report">דיווח</string>
     <string name="clone_board">שכפול לוח</string>
     <string name="widget_stack_title">רשימה</string>
+    <string name="project_type_deck_board">לוח חסיפה</string>
+    <string name="project_type_deck_card">כרטיס בחסיפה</string>
     <string name="project_type_file">קובץ</string>
     <string name="projects_title">מיזמים</string>
     <string name="simple_move">העברה</string>

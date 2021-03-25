@@ -15,10 +15,10 @@ import java.util.Random;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.DialogBoardManageLabelsBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDeleteAlertDialogBuilder;
@@ -80,22 +80,26 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
             label.setTitle(binding.addLabelTitle.getText().toString());
             label.setColor(colors[new Random().nextInt(colors.length)]);
 
-            WrappedLiveData<Label> createLiveData = viewModel.createLabel(viewModel.getCurrentAccount().getId(), label, boardId);
-            observeOnce(createLiveData, this, (createdLabel) -> {
-                if (createLiveData.hasError()) {
-                    final Throwable error = createLiveData.getError();
-                    assert error != null;
-                    if (error instanceof SQLiteConstraintException) {
+            viewModel.createLabel(viewModel.getCurrentAccount().getId(), label, boardId, new ResponseCallback<Label>() {
+                @Override
+                public void onResponse(Label response) {
+                    Toast.makeText(requireContext(), getString(R.string.tag_successfully_added, label.getTitle()), Toast.LENGTH_LONG).show();
+                    requireActivity().runOnUiThread(() -> {
+                        binding.fab.setEnabled(true);
+                        binding.addLabelTitle.setText(null);
+                    });
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    requireActivity().runOnUiThread(() -> binding.fab.setEnabled(true));
+                    if (throwable instanceof SQLiteConstraintException) {
                         Toast.makeText(requireContext(), getString(R.string.tag_already_exists, label.getTitle()), Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(requireContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                        DeckLog.logError(error);
+                        Toast.makeText(requireContext(), throwable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                        ResponseCallback.super.onError(throwable);
                     }
-                } else {
-                    binding.addLabelTitle.setText(null);
-                    Toast.makeText(requireContext(), getString(R.string.tag_successfully_added, label.getTitle()), Toast.LENGTH_LONG).show();
                 }
-                binding.fab.setEnabled(true);
             });
         });
         binding.addLabelTitle.setOnEditorActionListener((v, actionId, event) -> binding.fab.performClick());
@@ -139,13 +143,18 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
     }
 
     private void deleteLabel(@NonNull Label label) {
-        final WrappedLiveData<Void> deleteLiveData = viewModel.deleteLabel(label);
-        observeOnce(deleteLiveData, this, (v) -> {
-            if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
-                final Throwable error = deleteLiveData.getError();
-                assert error != null;
-                Toast.makeText(requireContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                DeckLog.logError(deleteLiveData.getError());
+        viewModel.deleteLabel(label, new ResponseCallback<Void>() {
+            @Override
+            public void onResponse(Void response) {
+                DeckLog.info("Successfully deleted label", label.getTitle());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                    ResponseCallback.super.onError(throwable);
+                    Toast.makeText(requireContext(), throwable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -157,16 +166,19 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
 
     @Override
     public void onLabelUpdated(@NonNull Label label) {
-        WrappedLiveData<Label> updateLiveData = viewModel.updateLabel(label);
-        observeOnce(updateLiveData, this, (updatedLabel) -> {
-            if (updateLiveData.hasError()) {
-                final Throwable error = updateLiveData.getError();
-                assert error != null;
+        viewModel.updateLabel(label, new ResponseCallback<Label>() {
+            @Override
+            public void onResponse(Label label) {
+                DeckLog.verbose("Successfully update label", label.getTitle());
+            }
+
+            @Override
+            public void onError(Throwable error) {
                 if (error instanceof SQLiteConstraintException) {
                     Toast.makeText(requireContext(), getString(R.string.tag_already_exists, label.getTitle()), Toast.LENGTH_LONG).show();
                 } else {
+                    ResponseCallback.super.onError(error);
                     Toast.makeText(requireContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                    DeckLog.logError(updateLiveData.getError());
                 }
             }
         });

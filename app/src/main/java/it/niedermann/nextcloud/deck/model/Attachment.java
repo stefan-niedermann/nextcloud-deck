@@ -1,13 +1,14 @@
 package it.niedermann.nextcloud.deck.model;
 
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.io.Serializable;
 import java.time.Instant;
 
+import it.niedermann.nextcloud.deck.model.enums.EAttachmentType;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 @Entity(inheritSuperIndices = true,
@@ -24,7 +25,8 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 public class Attachment extends AbstractRemoteEntity implements Comparable<Attachment>, Serializable {
 
     private long cardId;
-    private String type = "deck_file";
+    // TODO use EAttachmentType
+    private EAttachmentType type = EAttachmentType.DECK_FILE;
     private String data;
     private Instant createdAt;
     private String createdBy;
@@ -36,9 +38,8 @@ public class Attachment extends AbstractRemoteEntity implements Comparable<Attac
     private String extension;
     private String filename;
     private String localPath;
-    // TODO should probably be a Long... depends on https://github.com/nextcloud/deck/pull/2638
-    @Ignore
-    private String fileId;
+    @Nullable
+    private Long fileId;
 
     public long getCardId() {
         return cardId;
@@ -48,11 +49,11 @@ public class Attachment extends AbstractRemoteEntity implements Comparable<Attac
         this.cardId = cardId;
     }
 
-    public String getType() {
+    public EAttachmentType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(EAttachmentType type) {
         this.type = type;
     }
 
@@ -144,19 +145,12 @@ public class Attachment extends AbstractRemoteEntity implements Comparable<Attac
         this.localPath = localPath;
     }
 
-    /**
-     * TODO depends on https://github.com/nextcloud/deck/pull/2638
-     */
-    @Ignore
-    public String getFileId() {
+    @Nullable
+    public Long getFileId() {
         return this.fileId;
     }
 
-    /**
-     * TODO depends on https://github.com/nextcloud/deck/pull/2638
-     */
-    @Ignore
-    public void setFileId(String fileId) {
+    public void setFileId(@Nullable Long fileId) {
         this.fileId = fileId;
     }
 

@@ -23,6 +23,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.ActivityType;
+import it.niedermann.nextcloud.deck.model.enums.EAttachmentType;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
@@ -75,7 +76,7 @@ public class JsonToEntityParser {
     }
 
     private static GroupMemberUIDs parseGroupMemberUIDs(JsonObject obj) {
-        DeckLog.verbose(obj.toString());
+        DeckLog.verbose(obj);
         GroupMemberUIDs uids = new GroupMemberUIDs();
         makeTraceableIfFails(() -> {
             JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
@@ -93,7 +94,7 @@ public class JsonToEntityParser {
     }
 
     private static OcsUserList parseOcsUserList(JsonObject obj) {
-        DeckLog.verbose(obj.toString());
+        DeckLog.verbose(obj);
         OcsUserList ocsUserList = new OcsUserList();
         makeTraceableIfFails(() -> {
             JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
@@ -118,7 +119,7 @@ public class JsonToEntityParser {
     }
 
     private static OcsUser parseSingleOcsUser(JsonObject obj) {
-        DeckLog.verbose(obj.toString());
+        DeckLog.verbose(obj);
         OcsUser ocsUser = new OcsUser();
         makeTraceableIfFails(() -> {
             JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
@@ -137,7 +138,7 @@ public class JsonToEntityParser {
     }
 
     private static OcsProjectList parseOcsProjectList(JsonObject obj) {
-        DeckLog.verbose(obj.toString());
+        DeckLog.verbose(obj);
         OcsProjectList projectList = new OcsProjectList();
         makeTraceableIfFails(() -> {
             JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
@@ -171,7 +172,7 @@ public class JsonToEntityParser {
     }
 
     private static OcsProjectResource parseOcsProjectResource(JsonObject obj) {
-        DeckLog.verbose(obj.toString());
+        DeckLog.verbose(obj);
         OcsProjectResource resource = new OcsProjectResource();
         makeTraceableIfFails(() -> {
             if (obj.has("id")) {
@@ -213,7 +214,7 @@ public class JsonToEntityParser {
     }
 
     private static OcsComment parseOcsComment(JsonObject obj) {
-        DeckLog.verbose(obj.toString());
+        DeckLog.verbose(obj);
         OcsComment comment = new OcsComment();
         makeTraceableIfFails(() -> {
             JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
@@ -229,7 +230,7 @@ public class JsonToEntityParser {
     }
 
     private static DeckComment parseDeckComment(JsonElement data) {
-        DeckLog.verbose(data.toString());
+        DeckLog.verbose(data);
         DeckComment deckComment = new DeckComment();
 
         makeTraceableIfFails(() -> {
@@ -261,7 +262,7 @@ public class JsonToEntityParser {
 
     private static Mention parseMention(JsonElement mentionJson) {
         Mention mention = new Mention();
-        DeckLog.verbose(mentionJson.toString());
+        DeckLog.verbose(mentionJson);
 
 
         makeTraceableIfFails(() -> {
@@ -278,7 +279,7 @@ public class JsonToEntityParser {
     protected static FullBoard parseBoard(JsonObject e) {
         FullBoard fullBoard = new FullBoard();
 
-        DeckLog.verbose(e.toString());
+        DeckLog.verbose(e);
         Board board = new Board();
 
         makeTraceableIfFails(() -> {
@@ -364,7 +365,7 @@ public class JsonToEntityParser {
     }
 
     protected static AccessControl parseAcl(JsonObject aclJson) {
-        DeckLog.verbose(aclJson.toString());
+        DeckLog.verbose(aclJson);
         AccessControl acl = new AccessControl();
 
         if (aclJson.has("participant") && !aclJson.get("participant").isJsonNull()) {
@@ -387,7 +388,7 @@ public class JsonToEntityParser {
     }
 
     protected static FullCard parseCard(JsonObject e) {
-        DeckLog.verbose(e.toString());
+        DeckLog.verbose(e);
         FullCard fullCard = new FullCard();
         Card card = new Card();
         fullCard.setCard(card);
@@ -452,12 +453,12 @@ public class JsonToEntityParser {
     }
 
     protected static Attachment parseAttachment(JsonObject e) {
-        DeckLog.verbose(e.toString());
+        DeckLog.verbose(e);
         Attachment a = new Attachment();
         makeTraceableIfFails(() -> {
             a.setId(e.get("id").getAsLong());
             a.setCardId(e.get("cardId").getAsLong());
-            a.setType(e.get("type").getAsString());
+            a.setType(EAttachmentType.findByValue(e.get("type").getAsString()));
             a.setEtag(getNullAsNull(e.get("ETag")));
             a.setData(e.get("data").getAsString());
             a.setLastModified(getTimestampFromLong(e.get("lastModified")));
@@ -468,6 +469,9 @@ public class JsonToEntityParser {
                 JsonObject extendedData = e.getAsJsonObject("extendedData").getAsJsonObject();
                 a.setFilesize(extendedData.get("filesize").getAsLong());
                 a.setMimetype(extendedData.get("mimetype").getAsString());
+                if (extendedData.has("fileid") && !extendedData.get("fileid").isJsonNull()) {
+                    a.setFileId(extendedData.get("fileid").getAsLong());
+                }
                 if (extendedData.has("info") && !extendedData.get("info").isJsonNull()) {
                     JsonObject info = extendedData.getAsJsonObject("info").getAsJsonObject();
                     a.setDirname(info.get("dirname").getAsString());
@@ -484,7 +488,7 @@ public class JsonToEntityParser {
     }
 
     protected static User parseUser(JsonElement userElement) {
-        DeckLog.verbose(userElement.toString());
+        DeckLog.verbose(userElement);
         if (userElement.isJsonNull()) {
             return null;
         }
@@ -509,7 +513,7 @@ public class JsonToEntityParser {
 
 
     protected static Capabilities parseCapabilities(JsonObject e) {
-        DeckLog.verbose(e.toString());
+        DeckLog.verbose(e);
         Capabilities capabilities = new Capabilities();
         // not traceable, we need the original DeckException for error handling
         if (e.has("ocs")) {
@@ -575,7 +579,7 @@ public class JsonToEntityParser {
     }
 
     protected static FullStack parseStack(JsonObject e) {
-        DeckLog.verbose(e.toString());
+        DeckLog.verbose(e);
         FullStack fullStack = new FullStack();
         Stack stack = new Stack();
         fullStack.setStack(stack);
@@ -605,7 +609,7 @@ public class JsonToEntityParser {
     }
 
     protected static List<Activity> parseActivity(JsonObject e) {
-        DeckLog.verbose(e.toString());
+        DeckLog.verbose(e);
         List<Activity> activityList = new ArrayList<>();
 
         makeTraceableIfFails(() -> {
@@ -633,7 +637,7 @@ public class JsonToEntityParser {
     }
 
     protected static Label parseLabel(JsonObject e) {
-        DeckLog.verbose(e.toString());
+        DeckLog.verbose(e);
         Label label = new Label();
         makeTraceableIfFails(() -> {
             label.setId(e.get("id").getAsLong());

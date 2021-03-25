@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import android.annotation.SuppressLint;
+
 import java.time.Instant;
 import java.util.List;
 
@@ -61,10 +63,11 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
                 responder.onResponse(response);
             }
 
+            @SuppressLint("MissingSuperCall")
             @Override
             public void onError(Throwable throwable) {
                 if (HandledServerErrors.LABELS_TITLE_MUST_BE_UNIQUE == HandledServerErrors.fromThrowable(throwable)) {
-                    DeckLog.log(throwable.getCause().getMessage() + ": " + entitiy.toString());
+                    DeckLog.log(throwable.getCause().getMessage() + ":", entitiy);
                     dataBaseAdapter.deleteLabelPhysically(entitiy);
                     responder.onResponse(entitiy);
                 } else {

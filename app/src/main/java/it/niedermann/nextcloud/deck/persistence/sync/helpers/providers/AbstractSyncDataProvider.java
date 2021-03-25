@@ -129,12 +129,10 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
         //do nothing
     }
 
-    public void onError(Throwable error, IResponseCallback<Boolean> responseCallback) {
+    public void onError(IResponseCallback<Boolean> responseCallback) {
         if (parent != null) {
             parent.childDone(this, responseCallback, false);
         }
-        //TODO: what to do? what side effect would the following have:
-//        responseCallback.onError(error);
     }
 
     public T applyUpdatesFromRemote(T localEntity, T remoteEntity, Long accountId) {

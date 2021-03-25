@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Открыть панель навигации</string>
     <string name="navigation_drawer_close">Закрыть панель навигации</string>
 
-    <string name="drawer_header_background">Фоновое изображение заголовка</string>
-    <string name="drawer_current_account">Текущая учётная запись</string>
-    <string name="drawer_middle_account">Средняя учётная запись</string>
-    <string name="drawer_end_account">Последняя учётная запись</string>
-    <string name="drawer_manage_accounts">Управление аккаунтами</string>
-
     <string name="simple_boards">Доски</string>
     <string name="simple_add">Добавить</string>
     <string name="simple_save">Сохранить</string>
@@ -79,7 +73,7 @@
     <string name="card_not_found_message">Не удалось найти карточку. Возможно, она была недавно удалена.</string>
 
     <string name="add_account">Добавить аккаунт</string>
-    <string name="choose_account">Выбрать аккаунт</string>
+    <string name="choose_account">Выбрать учётную запись</string>
     <string name="add_card">Создать карточку</string>
     <string name="activity">Событие</string>
     <string name="add_list">Добавить список</string>
@@ -124,17 +118,20 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Нажмите кнопку «+» для добавления нового списка</string>
     <string name="add_a_new_card_using_the_button">Нажмите кнопку «+» для добавления новой карточки</string>
-    <string name="update_deck">Обновление deck</string>
-    <string name="your_deck_version_is_too_old">Версия приложения устарела</string>
+    <string name="update_deck">Обновите приложение Карточки на сервере</string>
     <string name="deck_outdated_please_update">На сервере установлена устаревшая версия приложение Карточки (%1$s). Обновите приложение на сервере, чтобы использовать приложение для Android.</string>
     <string name="delete_board_message">Это действие приведёт к удалению этой рабочей доски, всех списков и карточек.</string>
-    <string name="settings_theme_title">Тёмное оформление</string>
+    <string name="settings_theme_title">Оформление</string>
     <string name="settings_branding_title">Брендирование</string>
     <string name="settings_compact_title">компактный режим</string>
     <string name="settings_background_sync">Синхр. в фоновом режиме</string>
     <string name="pref_value_wifi_and_mobile">Синхр. по Wi-Fi и мобильной связи</string>
     <string name="pref_value_wifi_only">Синхр. только по Wi-Fi</string>
-    <string name="pref_value_theme_light">Светлый</string>
+    <string-array name="darkmode_entries">
+        <item>Как в системе</item>
+        <item>Светлое</item>
+        <item>Тёмное</item>
+    </string-array>
     <string name="unassigned_user">Не назначено %1$s</string>
     <string name="no_activities">По этой карточке нет истории действий. Для получения такой информации необходимо подключение к интернету.</string>
     <string name="share_board">Поделиться</string>
@@ -150,11 +147,9 @@
     <string name="hours_6">6 часов</string>
     <string name="action_card_move">Переместить карточку</string>
     <string name="action_card_move_title">Перемещение %1$s</string>
-    <string name="please_add_an_account_first">Начните с добавления учётной записи</string>
     <string name="title_is_mandatory">Требуется указать заголовок</string>
     <string name="provide_at_least_a_title_or_description">Создайте заголовок или описание</string>
     <string name="welcome_text">Добро пожаловать в %1$s</string>
-    <string name="save_card_before_attachment">Перед добавлением вложений карточку необходимо сохранить.</string>
     <string name="maintenance_mode_explanation">Сервер %1$s в режиме обслуживания. Свяжитесь с вашим администратором или повторите попытку позже.</string>
     <string name="share_add_to_card">Добавить в карточку</string>
     <string name="share_success">%1$s добавлено в %2$s</string>
@@ -175,9 +170,11 @@
     <string name="filter_no_filter">Все</string>
     <string name="filter_overdue">Просроченные</string>
     <string name="filter_today">Сегодня</string>
+    <string name="filter_tomorrow">Завтра</string>
     <string name="filter_week">Следующие 7 дней</string>
     <string name="filter_month">Следующие 30 дней</string>
     <string name="filter_no_due">Без назначенной даты</string>
+    <string name="filter_later">Позже</string>
     <string name="filter_by_tag">Отфильтровать по метке</string>
     <string name="filter_by_assigned_user">Отфильтровать по назначению</string>
     <string name="filter_by_duedate">Отфильтровать по сроку исполнения</string>
@@ -205,9 +202,7 @@
     <string name="error_revoking_ac">Не удалось отозвать доступ %1$s</string>
     <string name="error_create_label">Не удалось создать метку %1$s</string>
     <string name="maintenance_mode">Сервер находится в режиме обслуживания</string>
-    <string name="server_misconfigured">Сервер не настроен</string>
     <string name="server_error">Ошибка сервера</string>
-    <string name="shared_error">Публикация данных сторонних приложений пока не поддерживается полностью. Попробуйте загрузить эти данные, а после опубликовать их  из приложений Файлы или Фотографии.</string>
     <string name="error_edit_activity_killed_by_android">Android прекратил режим редактирования так как ему понадобилось больше системных ресурсов для других приложений.</string>
 
     <string name="error_dialog_title">О нет, что теперь? 🙁</string>
@@ -245,7 +240,6 @@
     <string name="manage_accounts">Управление аккаунтами</string>
     <string name="manage_list">Управлять списком</string>
     <string name="simple_reply">Ответить</string>
-    <string name="error_while_uploading_attachment">Ошибка передачи вложения «%1$s» на сервер.</string>
     <string name="append_text_to_description">Добавить в описание</string>
     <string name="add_text_as_comment">Добавить как комментарий</string>
     <string name="progress_count">%1$d из %2$d</string>
@@ -265,8 +259,9 @@
     <string name="card_does_not_yet_exist">Карточка не создана на доске</string>
 
     <string name="widget_stack_title">Список</string>
+    <string name="widget_filter_title">Фильтр</string>
     <string name="widget_stack_header_icon">иконка заголовка виджета</string>
-    <string name="widget_stack_placeholder_icon">Подстановочный значок виджета</string>
+    <string name="widget_placeholder_icon">Иконка заглушки виджета</string>
     <string name="select_stack">Выберите список</string>
     <string name="project_type_deck_board">Доска</string>
     <string name="project_type_deck_card">Карточка</string>
@@ -290,7 +285,6 @@
     <string name="simple_contact">Контакт</string>
     <string name="simple_file">Файл</string>
     <string name="simple_camera">Камера</string>
-    <string name="min_api_21">Эта возможность поддерживается на Android версии 5 и старше</string>
     <string name="take_photo">Сделать фотографию</string>
     <string name="take_photo_switch_camera">Переключить камеру</string>
     <string name="take_photo_toggle_torch">Подсветка</string>
@@ -304,4 +298,8 @@
     <string name="gallery">Галерея</string>
     <string name="simple_attach">вложить</string>
     <string name="add_stack_widget">Добавить виджет списка</string>
-</resources>
+    <string name="add_filter_widget">Добавить виджет фильтра</string>
+    <string name="simple_order">Порядок</string>
+    <string name="edit_description">Изменить описание</string>
+    <string name="widget_upcoming_title">Ожидающие выполнения</string>
+    </resources>

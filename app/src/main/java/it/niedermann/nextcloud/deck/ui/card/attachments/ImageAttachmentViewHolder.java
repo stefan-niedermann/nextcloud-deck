@@ -37,10 +37,13 @@ public class ImageAttachmentViewHolder extends AttachmentViewHolder {
     }
 
     public void bind(@NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull FragmentManager fragmentManager, Long cardRemoteId, Attachment attachment, @Nullable View.OnClickListener onClickListener, @ColorInt int mainColor) {
-        super.bind(menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, mainColor, AttachmentUtil.getRemoteOrLocalUrl(account.getUrl(), cardRemoteId, attachment));
+        final String downloadUrl = (attachment.getId() == null || cardRemoteId == null)
+                ? attachment.getLocalPath()
+                : AttachmentUtil.getCopyDownloadUrl(account, cardRemoteId, attachment);
+        super.bind(menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, mainColor, downloadUrl);
 
         getPreview().post(() -> {
-            @Nullable final String uri = AttachmentUtil.getThumbnailUrl(account.getServerDeckVersionAsObject(), account.getUrl(), cardRemoteId, attachment, getPreview().getWidth());
+            @Nullable final String uri = AttachmentUtil.getThumbnailUrl(account, cardRemoteId, attachment, getPreview().getWidth());
             Glide.with(getPreview().getContext())
                     .load(uri)
                     .placeholder(R.drawable.ic_image_grey600_24dp)

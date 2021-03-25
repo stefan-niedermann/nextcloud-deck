@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Otwórz panel nawigacji</string>
     <string name="navigation_drawer_close">Zamknij panel nawigacji</string>
 
-    <string name="drawer_header_background">Tło nagłówka menu rozwijanego</string>
-    <string name="drawer_current_account">Bieżące konto</string>
-    <string name="drawer_middle_account">Konto poprzednie</string>
-    <string name="drawer_end_account">Ostatnie konto</string>
-    <string name="drawer_manage_accounts">Zarządzaj kontami</string>
-
     <string name="simple_boards">Tablice</string>
     <string name="simple_add">Dodaj</string>
     <string name="simple_save">Zapisz</string>
@@ -124,17 +118,21 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Dodaj nową listę za pomocą przycisku +</string>
     <string name="add_a_new_card_using_the_button">Dodaj nową kartę za pomocą przycisku +</string>
-    <string name="update_deck">Zaktualizuj deck</string>
-    <string name="your_deck_version_is_too_old">Twoja wersja deck jest nieaktualna</string>
-    <string name="deck_outdated_please_update">Twoja wersja deck (%1$s) jest nieaktualna. Zaktualizuj, aby używać tej aplikacji na Androida jako klienta.</string>
+    <string name="update_deck">Zaktualizuj aplikację internetową Deck</string>
+    <string name="deck_outdated_please_update">Twoja wersja aplikacji internetowej Deck jest za stara (%1$s). Zaktualizuj, aby używać tej aplikacji na Androida jako klienta.</string>
     <string name="delete_board_message">Spowoduje to trwałe usunięcie tej tablicy, w tym wszystkich list i kart.</string>
-    <string name="settings_theme_title">Ciemny motyw</string>
+    <string name="settings_theme_title">Motyw</string>
     <string name="settings_branding_title">Motyw serwera</string>
     <string name="settings_compact_title">Tryb kompaktowy</string>
+    <string name="settings_debugging">Logi debugowania</string>
     <string name="settings_background_sync">Synchronizacja w tle</string>
     <string name="pref_value_wifi_and_mobile">Synchronizacja w sieci Wi-Fi i komórkowej transmisji danych</string>
     <string name="pref_value_wifi_only">Synchronizuj tylko przez Wi-Fi</string>
-    <string name="pref_value_theme_light">Jasny</string>
+    <string-array name="darkmode_entries">
+        <item>Domyślne ustawienia systemu</item>
+        <item>Jasny</item>
+        <item>Ciemny</item>
+    </string-array>
     <string name="unassigned_user">Nieprzypisane %1$s</string>
     <string name="no_activities">Na tej karcie nie ma żadnych działań. Musisz być podłączony do Internetu, aby ładować i wyświetlać działania.</string>
     <string name="share_board">Udostępnij tablicę</string>
@@ -150,11 +148,9 @@
     <string name="hours_6">6 godzin</string>
     <string name="action_card_move">Przenieś kartę</string>
     <string name="action_card_move_title">Przenieś %1$s</string>
-    <string name="please_add_an_account_first">Najpierw dodaj konto</string>
     <string name="title_is_mandatory">Tytuł jest obowiązkowy</string>
     <string name="provide_at_least_a_title_or_description">Podaj co najmniej tytuł lub opis</string>
     <string name="welcome_text">Witamy w %1$s</string>
-    <string name="save_card_before_attachment">Kartę należy zapisać przed dodaniem załączników.</string>
     <string name="maintenance_mode_explanation">Serwer %1$s jest obecnie w trybie konserwacji. Skontaktuj się z administratorem lub spróbuj ponownie później.</string>
     <string name="share_add_to_card">Dodaj do karty</string>
     <string name="share_success">Pomyślnie dodano %1$s do %2$s</string>
@@ -175,9 +171,11 @@
     <string name="filter_no_filter">Wszystko</string>
     <string name="filter_overdue">Zaległe</string>
     <string name="filter_today">Dzisiaj</string>
+    <string name="filter_tomorrow">Jutro</string>
     <string name="filter_week">Następne 7 dni</string>
     <string name="filter_month">Następne 30 dni</string>
     <string name="filter_no_due">Brak daty ważności</string>
+    <string name="filter_later">Później</string>
     <string name="filter_by_tag">Filtruj według etykiety</string>
     <string name="filter_by_assigned_user">Filtruj według przypisanego użytkownika</string>
     <string name="filter_by_duedate">Filtruj według terminu</string>
@@ -205,9 +203,7 @@
     <string name="error_revoking_ac">Błąd podczas anulowania dostępu dla %1$s</string>
     <string name="error_create_label">Błąd podczas tworzenia etykiety %1$s</string>
     <string name="maintenance_mode">Serwer w trybie konserwacji</string>
-    <string name="server_misconfigured">Serwer źle skonfigurowany</string>
     <string name="server_error">Błąd serwera</string>
-    <string name="shared_error">Udostępnianie treści z aplikacji innych firm nie jest jeszcze w pełni obsługiwane. Spróbuj najpierw pobrać, a następnie udostępnić ją obecnemu menedżerowi plików lub galerii.</string>
     <string name="error_edit_activity_killed_by_android">Android zakończył tryb edycji, ponieważ potrzebował więcej zasobów systemowych dla innych aplikacji.</string>
 
     <string name="error_dialog_title">O nie - co teraz? 🙁</string>
@@ -231,8 +227,10 @@
     <string name="error_dialog_user_not_found_in_database">Bieżący użytkownik nie jest zgodny z użytkownikiem, którego mamy w naszej bazie danych. Jeśli używasz protokołu LDAP w swojej instancji Nextcloud, to Twoja aplikacja Nextcloud może przechowywać stary identyfikator użytkownika.</string>
     <string name="error_dialog_capabilities_not_parsable">Nie udało się sprawdzić możliwości Twojego serwera. Upewnij się, że serwer działa poprawnie oraz czy inne aplikacje klienckie mają dostęp do Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Nie można wysłać załącznika. Spróbuj udostępnić go w inny sposób oraz powiadom nas o tym błędzie.</string>
+    <string name="error_dialog_certificate">Wydaje się, że coś jest nie tak z certyfikatem serwera. Aby uzyskać więcej informacji, sprawdź wszystkie konta w aplikacji Nextcloud.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Wyłącz wszystkie optymalizacje baterii dla aplikacji Nextcloud i aplikacji Deck.</string>
     <string name="error_action_open_deck_info">Otwórz informacje o aplikacji</string>
+    <string name="error_action_open_nextcloud_app">Otwórz aplikację Nextcloud</string>
     <string name="error_action_open_network">Ustawienia sieci</string>
     <string name="error_action_server_logs">Logi serwera</string>
     <string name="error_action_install">Zainstaluj</string>
@@ -240,12 +238,14 @@
     <string name="info_box_maintenance_mode">Serwer w trybie konserwacji</string>
     <string name="info_box_version_not_supported">Wersja serwera %1$s nie jest wspierana, zaktualizuj do wersji %2$s</string>
     <string name="share_link">Udostępnij link</string>
+    <string name="share_content">Udostępnij treść</string>
+    <string name="share_content_duedate">Data realizacji: %1$s</string>
+    <string name="share_content_labels">Etykiety: %1$s</string>
     <string name="archive_cards">Zarchiwizuj karty</string>
 
     <string name="manage_accounts">Zarządzaj kontami</string>
     <string name="manage_list">Zarządzaj listą</string>
     <string name="simple_reply">Odpowiedz</string>
-    <string name="error_while_uploading_attachment">Błąd podczas przesyłania załącznika: %1$s</string>
     <string name="append_text_to_description">Dołącz do opisu</string>
     <string name="add_text_as_comment">Dodaj jako komentarz</string>
     <string name="progress_count">%1$d z %2$d</string>
@@ -265,8 +265,9 @@
     <string name="card_does_not_yet_exist">Karta nie istnieje jeszcze w Deck</string>
 
     <string name="widget_stack_title">Lista</string>
+    <string name="widget_filter_title">Filtr</string>
     <string name="widget_stack_header_icon">Ikona nagłówka widżetu</string>
-    <string name="widget_stack_placeholder_icon">Ikona zastępcza widżetu</string>
+    <string name="widget_placeholder_icon">Ikona zastępcza widżetu</string>
     <string name="select_stack">Wybierz listę</string>
     <string name="project_type_deck_board">Tablica Deck</string>
     <string name="project_type_deck_card">Karta Deck</string>
@@ -290,7 +291,6 @@
     <string name="simple_contact">Kontakt</string>
     <string name="simple_file">Plik</string>
     <string name="simple_camera">Aparat</string>
-    <string name="min_api_21">Funkcja ta wymaga co najmniej Androida 5</string>
     <string name="take_photo">Zrobić zdjęcie</string>
     <string name="take_photo_switch_camera">Przełącz aparat</string>
     <string name="take_photo_toggle_torch">Włącz latarkę</string>
@@ -304,4 +304,15 @@
     <string name="gallery">Galeria</string>
     <string name="simple_attach">dołącz</string>
     <string name="add_stack_widget">Dodaj widżet listy</string>
+    <string name="add_filter_widget">Dodaj widżet filtra</string>
+    <string name="simple_order">Kolejność</string>
+    <string name="edit_description">Edytuj opis</string>
+    <string name="widget_upcoming_title">Nadchodzące karty</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Ustawienia eksperckie</string>
+    <string name="copy_logs">Kopiuj logi do schowka</string>
+    <string name="app_logo">Logo aplikacji</string>
+    <string name="log_file">Plik dziennika</string>
+    <string name="copying_logs_to_file">Kopiowanie logów do pliku…</string>
+    <string name="account_imported">Konto zaimportowane</string>
 </resources>

@@ -1,9 +1,21 @@
 package it.niedermann.nextcloud.deck.util;
 
+import android.content.Context;
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
 
 public class CardUtil {
     private static final Pattern pLists = Pattern.compile("^\\s*[*+-]\\s+", Pattern.MULTILINE);
@@ -17,8 +29,34 @@ public class CardUtil {
         // You shall not pass
     }
 
+    /**
+     * @return a human readable String containing the description, due date and tags of the given {@param fullCard}
+     */
     @NonNull
-    public static String generateTitleFromDescription(String description) {
+    public static String getCardContentAsString(@NonNull Context context, @NonNull FullCard fullCard) {
+        final Card card = fullCard.getCard();
+        String text = card.getDescription();
+        if(card.getDueDate() != null) {
+            if(!TextUtils.isEmpty(text)) {
+                text += "\n";
+            }
+            text += context.getString(R.string.share_content_duedate, card.getDueDate().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)));
+        }
+        if(fullCard.getLabels() != null && !fullCard.getLabels().isEmpty()) {
+            if(!TextUtils.isEmpty(text)) {
+                text += "\n";
+            }
+            text += context.getString(R.string.share_content_labels, fullCard.getLabels().stream().map(Label::getTitle).collect(Collectors.joining(", ")));
+        }
+        return text;
+    }
+
+    public static boolean cardHasCommentsOrAttachments(@NonNull FullCard fullCard) {
+        return fullCard.getCommentCount() > 0 || (fullCard.getAttachments() != null && !fullCard.getAttachments().isEmpty());
+    }
+
+    @NonNull
+    public static String generateTitleFromDescription(@Nullable String description) {
         if(description == null) return "";
         return getLineWithoutMarkDown(description, 0);
     }
@@ -32,20 +70,19 @@ public class CardUtil {
      */
     @NonNull
     private static String getLineWithoutMarkDown(@NonNull String content, @SuppressWarnings("SameParameterValue") int lineNumber) {
-        String line = "";
         if (content.contains("\n")) {
-            String[] lines = content.split("\n");
+            final String[] lines = content.split("\n");
             int currentLine = lineNumber;
             while (currentLine < lines.length && isEmptyLine(lines[currentLine])) {
                 currentLine++;
             }
             if (currentLine < lines.length) {
-                line = removeMarkDown(lines[currentLine]);
+                return removeMarkDown(lines[currentLine]);
             }
         } else {
-            line = content;
+            return content;
         }
-        return line;
+        return "";
     }
 
     /**
@@ -61,7 +98,7 @@ public class CardUtil {
      * @param line String - a single Line which ends with \n
      * @return boolean isEmpty
      */
-    private static boolean isEmptyLine(@Nullable String line) {
+    private static boolean isEmptyLine(@NonNull String line) {
         return removeMarkDown(line).trim().length() == 0;
     }
 
@@ -72,9 +109,7 @@ public class CardUtil {
      * @return Plain Text-String
      */
     @NonNull
-    private static String removeMarkDown(@Nullable String s) {
-        if (s == null)
-            return "";
+    private static String removeMarkDown(@NonNull String s) {
         s = pLists.matcher(s).replaceAll("");
         s = pHeadings.matcher(s).replaceAll("$1");
         s = pHeadingLine.matcher(s).replaceAll("");

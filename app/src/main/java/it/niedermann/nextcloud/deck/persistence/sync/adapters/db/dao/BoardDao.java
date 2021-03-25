@@ -33,7 +33,7 @@ public interface BoardDao extends GenericDao<Board> {
     Board getBoardByRemoteIdDirectly(long accountId, long remoteId);
 
     @Query("SELECT * FROM board WHERE localId = :localId")
-    Board getBoardByIdDirectly(long localId);
+    Board getBoardByLocalIdDirectly(long localId);
 
     @Transaction
     @Query("SELECT * FROM board WHERE accountId = :accountId and id = :remoteId")
@@ -51,9 +51,11 @@ public interface BoardDao extends GenericDao<Board> {
     @Query("SELECT * FROM board WHERE accountId = :accountId and localId = :localId")
     LiveData<FullBoard> getFullBoardById(final long accountId, final long localId);
 
-
-    @Query("SELECT b.* FROM board b JOIN stack s ON s.boardId = b.localId JOIN card c ON c.localId = :localCardId")
+    @Query("SELECT b.* FROM board b JOIN stack s ON s.boardId = b.localId JOIN card c ON s.localId = c.stackId where c.localId = :localCardId")
     Board getBoardByLocalCardIdDirectly(long localCardId);
+
+    @Query("SELECT b.localId FROM board b JOIN stack s ON s.boardId = b.localId JOIN card c ON s.localId = c.stackId where c.localId = :localCardId")
+    Long getBoardLocalIdByLocalCardIdDirectly(long localCardId);
 
     @Transaction
     @Query("SELECT b.* FROM board b JOIN stack s ON s.boardId = b.localId JOIN card c ON c.localId = :localCardId and c.stackId = s.localId")
@@ -65,7 +67,6 @@ public interface BoardDao extends GenericDao<Board> {
 
     @Query("SELECT * FROM board WHERE accountId = :accountId and archived = 0 and permissionEdit = 1 and (deletedAt = 0 or deletedAt is null) and status <> 3 order by title asc")
     LiveData<List<Board>> getBoardsWithEditPermissionsForAccount(long accountId);
-
 
     @Query("SELECT b.localId " +
             "FROM card c " +
@@ -79,4 +80,7 @@ public interface BoardDao extends GenericDao<Board> {
 
     @Query("SELECT * FROM board WHERE accountId = :accountId and title = :title")
     Board getBoardForAccountByNameDirectly(long accountId, String title);
+
+    @Query("SELECT b.color FROM board b where b.localId = :localBoardId and b.accountId = :accountId")
+    Integer getBoardColorByLocalIdDirectly(long accountId, long localBoardId);
 }

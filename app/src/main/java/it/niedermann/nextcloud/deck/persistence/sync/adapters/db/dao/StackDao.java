@@ -38,6 +38,12 @@ public interface StackDao extends GenericDao<Stack> {
     @Query("SELECT * FROM stack WHERE accountId = :accountId and localId = :localId")
     LiveData<FullStack> getFullStack(long accountId, long localId);
 
+    @Query("SELECT localId FROM stack WHERE accountId = :accountId")
+    List<Long> getLocalStackIdsByAccountIdDirectly(long accountId);
+
+    @Query("SELECT localId FROM stack WHERE boardId = :localBoardId")
+    List<Long> getLocalStackIdsByLocalBoardIdDirectly(long localBoardId);
+
     @Transaction
     @Query("SELECT * FROM stack WHERE accountId = :accountId and boardId = :localBoardId and (status<>1 or id is null or lastModified <> lastModifiedLocal)")
     List<FullStack> getLocallyChangedStacksForBoardDirectly(long accountId, long localBoardId);
@@ -55,4 +61,10 @@ public interface StackDao extends GenericDao<Stack> {
 
     @Query("SELECT coalesce(MAX(`order`), -1) FROM stack s WHERE boardId = :localBoardId")
     Integer getHighestStackOrderInBoard(long localBoardId);
+
+    @Query("SELECT exists(select 1 from Stack s join Board b on s.boardId = b.localId where s.localId = :localStackId and exists(select 1 from AccessControl ac where ac.boardId = b.localId and status <> 3))")
+    boolean isStackOnSharedBoardDirectly(Long localStackId);
+
+    @Query("SELECT s.localId FROM stack s join Board b on s.boardId = b.localId where b.archived <> 0 and b.accountId in (:accountIds)")
+    List<Long> getLocalStackIdsInArchivedBoardsByAccountIdsDirectly(List<Long> accountIds);
 }

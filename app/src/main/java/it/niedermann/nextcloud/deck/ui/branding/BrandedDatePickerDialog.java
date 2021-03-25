@@ -21,7 +21,6 @@ import it.niedermann.nextcloud.deck.util.DeckColorUtil;
 
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 
 public class BrandedDatePickerDialog extends DatePickerDialog implements Branded {
@@ -31,9 +30,7 @@ public class BrandedDatePickerDialog extends DatePickerDialog implements Branded
         @Nullable Context context = getContext();
         if (context != null) {
             setThemeDark(isDarkTheme(context));
-            if (isBrandingEnabled(context)) {
-                applyBrand(readBrandMainColor(context));
-            }
+            applyBrand(readBrandMainColor(context));
         }
         return super.onCreateView(inflater, container, savedInstanceState);
     }

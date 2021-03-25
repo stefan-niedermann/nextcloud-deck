@@ -45,12 +45,13 @@ import id.zelory.compressor.constraint.SizeConstraint;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabAttachmentsBinding;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.model.Attachment;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
@@ -74,7 +75,6 @@ import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
 import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.os.Build.VERSION_CODES.M;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -84,11 +84,10 @@ import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
-import static it.niedermann.nextcloud.deck.util.AttachmentUtil.copyContentUriToTempFile;
+import static it.niedermann.nextcloud.deck.util.FilesUtil.copyContentUriToTempFile;
 import static java.net.HttpURLConnection.HTTP_CONFLICT;
 
 public class CardAttachmentsFragment extends BrandedFragment implements AttachmentDeletedListener, AttachmentClickedListener {
@@ -214,15 +213,11 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
         if (editViewModel.canEdit()) {
             binding.fab.setOnClickListener(v -> {
-                if (SDK_INT < LOLLIPOP) {
-                    openNativeFilePicker();
-                } else {
-                    binding.bottomNavigation.setSelectedItemId(R.id.gallery);
-                    showGalleryPicker();
-                    mBottomSheetBehaviour.setState(STATE_COLLAPSED);
-                    backPressedCallback.setEnabled(true);
-                    requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), backPressedCallback);
-                }
+                binding.bottomNavigation.setSelectedItemId(R.id.gallery);
+                showGalleryPicker();
+                mBottomSheetBehaviour.setState(STATE_COLLAPSED);
+                backPressedCallback.setEnabled(true);
+                requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), backPressedCallback);
             });
             binding.fab.show();
             binding.attachmentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -239,9 +234,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             binding.emptyContentView.hideDescription();
         }
         @Nullable Context context = requireContext();
-        applyBrand(isBrandingEnabled(context)
-                ? readBrandMainColor(context)
-                : ContextCompat.getColor(context, R.color.defaultBrand));
+        applyBrand(readBrandMainColor(context));
         return binding.getRoot();
     }
 
@@ -309,35 +302,29 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_PICK_FILE_PERMISSION);
             } else {
                 unbindPickerAdapter();
-                if (SDK_INT >= LOLLIPOP) {
-//                    if (SDK_INT >= Build.VERSION_CODES.Q) {
-//                        // TODO Only usable with Scoped Storage
-//                        pickerAdapter = new FileAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeFilePicker);
-//                    } else {
-                    pickerAdapter = new FileAdapterLegacy((uri, pair) -> {
-                        previewViewModel.prepareDialog(pair.first, pair.second);
-                        PreviewDialog.newInstance().show(getChildFragmentManager(), PreviewDialog.class.getSimpleName());
-                        observeOnce(previewViewModel.getResult(), getViewLifecycleOwner(), (submitPositive) -> {
-                            if (submitPositive) {
-                                onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri));
-                            }
-                        });
-                    }, this::openNativeFilePicker);
-//                    }
-                    removeGalleryItemDecoration();
-                    binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-                    binding.pickerRecyclerView.setAdapter(pickerAdapter);
-                }
+//              if (SDK_INT >= Build.VERSION_CODES.Q) {
+//                  // TODO Only usable with Scoped Storage
+//                  pickerAdapter = new FileAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeFilePicker);
+//              } else {
+                pickerAdapter = new FileAdapterLegacy((uri, pair) -> {
+                    previewViewModel.prepareDialog(pair.first, pair.second);
+                    PreviewDialog.newInstance().show(getChildFragmentManager(), PreviewDialog.class.getSimpleName());
+                    observeOnce(previewViewModel.getResult(), getViewLifecycleOwner(), (submitPositive) -> {
+                        if (submitPositive) {
+                            onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri));
+                        }
+                    });
+                }, this::openNativeFilePicker);
+//              }
+                removeGalleryItemDecoration();
+                binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+                binding.pickerRecyclerView.setAdapter(pickerAdapter);
             }
         }
     }
 
     private void openNativeCameraPicker() {
-        if (SDK_INT >= LOLLIPOP) {
-            startActivityForResult(TakePhotoActivity.createIntent(requireContext()), REQUEST_CODE_PICK_CAMERA);
-        } else {
-            ExceptionDialogFragment.newInstance(new UnsupportedOperationException("This feature requires Android 5"), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-        }
+        startActivityForResult(TakePhotoActivity.createIntent(requireContext()), REQUEST_CODE_PICK_CAMERA);
     }
 
     private void openNativeContactPicker() {
@@ -412,28 +399,38 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         super.onDestroy();
     }
 
-    private void uploadNewAttachmentFromUri(@NonNull Uri sourceUri, String mimeType) throws UploadAttachmentFailedException, IOException {
+    private void uploadNewAttachmentFromUri(@NonNull Uri sourceUri, String mimeType) throws UploadAttachmentFailedException {
         if (sourceUri == null) {
             throw new UploadAttachmentFailedException("sourceUri is null");
         }
         switch (sourceUri.getScheme()) {
             case ContentResolver.SCHEME_CONTENT:
             case ContentResolver.SCHEME_FILE: {
-                DeckLog.verbose("--- found content URL " + sourceUri.getPath());
-                final File originalFile = copyContentUriToTempFile(requireContext(), sourceUri, editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId());
-                if (MimeTypeUtil.isImage(mimeType)) {
-                    JavaCompressor.compress(
-                            (AppCompatActivity) requireActivity(),
-                            originalFile,
-                            (status, file) -> uploadNewAttachmentFromFile(status ? file : originalFile, mimeType),
-                            new ResolutionConstraint(1920, 1920),
-                            new SizeConstraint(1_000_000, 10, 10, 10),
-                            new FormatConstraint(Bitmap.CompressFormat.JPEG),
-                            new QualityConstraint(80)
-                    );
-                } else {
-                    uploadNewAttachmentFromFile(originalFile, mimeType);
-                }
+                DeckLog.verbose("--- found content URL", sourceUri.getPath());
+                // Separate Thread required because picked file might not yet be locally available
+                // https://github.com/stefan-niedermann/nextcloud-deck/issues/814
+                new Thread(() -> {
+                    try {
+                        final File originalFile = copyContentUriToTempFile(requireContext(), sourceUri, editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId());
+                        requireActivity().runOnUiThread(() -> {
+                            if (MimeTypeUtil.isImage(mimeType)) {
+                                JavaCompressor.compress(
+                                        (AppCompatActivity) requireActivity(),
+                                        originalFile,
+                                        (status, file) -> uploadNewAttachmentFromFile(status ? file : originalFile, mimeType),
+                                        new ResolutionConstraint(1920, 1920),
+                                        new SizeConstraint(1_000_000, 10, 10, 10),
+                                        new FormatConstraint(Bitmap.CompressFormat.JPEG),
+                                        new QualityConstraint(80)
+                                );
+                            } else {
+                                uploadNewAttachmentFromFile(originalFile, mimeType);
+                            }
+                        });
+                    } catch (IOException e) {
+                        requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(e, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                    }
+                }).start();
                 break;
             }
             default: {
@@ -464,22 +461,29 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         editViewModel.getFullCard().getAttachments().add(0, a);
         adapter.addAttachment(a);
         if (!editViewModel.isCreateMode()) {
-            WrappedLiveData<Attachment> liveData = editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload);
-            observeOnce(liveData, getViewLifecycleOwner(), (next) -> {
-                if (liveData.hasError()) {
-                    Throwable t = liveData.getError();
-                    if (t instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) t).getStatusCode() == HTTP_CONFLICT) {
-                        // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
+            editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload, new ResponseCallback<Attachment>() {
+                @Override
+                public void onResponse(Attachment response) {
+                    requireActivity().runOnUiThread(() -> {
                         editViewModel.getFullCard().getAttachments().remove(a);
-                        adapter.removeAttachment(a);
-                        BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
-                    } else {
-                        ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", t), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                    }
-                } else {
-                    editViewModel.getFullCard().getAttachments().remove(a);
-                    editViewModel.getFullCard().getAttachments().add(0, next);
-                    adapter.replaceAttachment(a, next);
+                        editViewModel.getFullCard().getAttachments().add(0, response);
+                        adapter.replaceAttachment(a, response);
+                    });
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    requireActivity().runOnUiThread(() -> {
+                        if (throwable instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) throwable).getStatusCode() == HTTP_CONFLICT) {
+                            ResponseCallback.super.onError(throwable);
+                            // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
+                            editViewModel.getFullCard().getAttachments().remove(a);
+                            adapter.removeAttachment(a);
+                            BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                        } else {
+                            ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", throwable), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                        }
+                    });
                 }
             });
         }
@@ -522,10 +526,18 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         adapter.removeAttachment(attachment);
         editViewModel.getFullCard().getAttachments().remove(attachment);
         if (!editViewModel.isCreateMode() && attachment.getLocalId() != null) {
-            final WrappedLiveData<Void> deleteLiveData = editViewModel.deleteAttachmentOfCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), attachment.getLocalId());
-            observeOnce(deleteLiveData, this, (next) -> {
-                if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
-                    ExceptionDialogFragment.newInstance(deleteLiveData.getError(), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            editViewModel.deleteAttachmentOfCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), attachment.getLocalId(), new ResponseCallback<Void>() {
+                @Override
+                public void onResponse(Void response) {
+                    DeckLog.info("Successfully delete", Attachment.class.getSimpleName(), attachment.getFilename(), "from", Card.class.getSimpleName(), editViewModel.getFullCard().getCard().getTitle());
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                        ResponseCallback.super.onError(throwable);
+                        requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                    }
                 }
             });
         }
@@ -539,7 +551,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     @Override
     public void applyBrand(int mainColor) {
         applyBrandToFAB(mainColor, binding.fab);
-        adapter.applyBrand(mainColor);
         @ColorInt final int finalMainColor = DeckColorUtil.contrastRatioIsSufficient(mainColor, primaryColor)
                 ? mainColor
                 : accentColor;
@@ -555,6 +566,13 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         );
         binding.bottomNavigation.setItemIconTintList(list);
         binding.bottomNavigation.setItemTextColor(list);
+
+        // applyBrand() is also called onStart
+        // adapter might be null at this point
+        // https://github.com/stefan-niedermann/nextcloud-deck/issues/782
+        if (adapter != null) {
+            adapter.applyBrand(mainColor);
+        }
     }
 
     public static Fragment newInstance() {

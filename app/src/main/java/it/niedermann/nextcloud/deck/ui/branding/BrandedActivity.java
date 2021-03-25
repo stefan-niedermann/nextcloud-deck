@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import it.niedermann.nextcloud.deck.R;
 
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.tintMenuIcon;
 
@@ -25,10 +24,8 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
         getTheme().resolveAttribute(R.attr.colorAccent, typedValue, true);
         colorAccent = typedValue.data;
 
-        if (isBrandingEnabled(this)) {
-            @ColorInt final int mainColor = readBrandMainColor(this);
-            applyBrand(mainColor);
-        }
+        @ColorInt final int mainColor = readBrandMainColor(this);
+        applyBrand(mainColor);
     }
 
     @Override

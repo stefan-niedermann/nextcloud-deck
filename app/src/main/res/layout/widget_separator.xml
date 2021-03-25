@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget_stack_entry"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/widget_stack_card_padding"
+    android:paddingEnd="@dimen/widget_stack_card_padding">
+
+    <TextView
+        android:id="@+id/widget_entry_content_tv"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:paddingStart="@dimen/spacer_1hx"
+        android:paddingTop="@dimen/spacer_2x"
+        android:paddingEnd="@dimen/spacer_1hx"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textColor="@color/widget_foreground"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:maxLength="60"
+        tools:text="@tools:sample/lorem/random" />
+</LinearLayout>

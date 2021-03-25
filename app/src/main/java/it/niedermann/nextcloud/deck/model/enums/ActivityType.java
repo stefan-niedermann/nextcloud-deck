@@ -43,7 +43,7 @@ public enum ActivityType {
                 return s;
             }
         }
-        DeckLog.error("unknown ActivityType path: " + id);
+        DeckLog.error("unknown ActivityType path:", id);
         return CHANGE;
     }
 
@@ -56,7 +56,7 @@ public enum ActivityType {
                 return s;
             }
         }
-        DeckLog.error("unknown ActivityType path: " + path);
+        DeckLog.error("unknown ActivityType path:", path);
         return CHANGE;
     }
 }

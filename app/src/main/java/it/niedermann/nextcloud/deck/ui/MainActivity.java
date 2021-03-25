@@ -11,9 +11,7 @@ import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.NetworkRequest;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,10 +20,10 @@ import android.widget.PopupMenu;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.util.Pair;
@@ -34,6 +32,7 @@ import androidx.core.view.ViewCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
@@ -58,6 +57,7 @@ import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityMainBinding;
 import it.niedermann.nextcloud.deck.databinding.NavHeaderMainBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
@@ -107,7 +107,7 @@ import static it.niedermann.nextcloud.deck.DeckApplication.NO_STACK_ID;
 import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentAccountId;
 import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentBoardId;
 import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentStackId;
-import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccountId;
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccount;
 import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentBoardId;
 import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentStackId;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -132,9 +132,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     private FilterViewModel filterViewModel;
     private PickStackViewModel pickStackViewModel;
 
-    protected static final int ACTIVITY_ABOUT = 1;
     protected static final int ACTIVITY_SETTINGS = 2;
-    public static final int ACTIVITY_MANAGE_ACCOUNTS = 4;
 
     @NonNull
     protected List<Account> accountsList = new ArrayList<>();
@@ -158,8 +156,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     private boolean firstAccountAdded = false;
     private ConnectivityManager.NetworkCallback networkCallback;
 
-    private String accountAlreadyAdded;
-    private String urlFragmentUpdateDeck;
     private String addList;
     private String addBoard;
     @Nullable
@@ -186,8 +182,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
         addList = getString(R.string.add_list);
         addBoard = getString(R.string.add_board);
-        accountAlreadyAdded = getString(R.string.account_already_added);
-        urlFragmentUpdateDeck = getString(R.string.url_fragment_update_deck);
 
         setSupportActionBar(binding.toolbar);
 
@@ -198,11 +192,26 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.navigationView.setNavigationItemSelectedListener(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+        DeckApplication.readCurrentAccountColor().observe(this, (accountColor) -> {
+            headerBinding.headerView.setBackgroundColor(accountColor);
+            @ColorInt final int headerTextColor = contrastRatioIsSufficientBigAreas(accountColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
+            DrawableCompat.setTint(headerBinding.logo.getDrawable(), headerTextColor);
+            DrawableCompat.setTint(headerBinding.copyDebugLogs.getDrawable(), headerTextColor);
+        });
+
+        mainViewModel.isDebugModeEnabled().observe(this, (enabled) -> headerBinding.copyDebugLogs.setVisibility(enabled ? View.VISIBLE : View.GONE));
+        headerBinding.copyDebugLogs.setOnClickListener((v) -> {
+            try {
+                DeckLog.shareLogAsFile(this);
+            } catch (Exception e) {
+                ExceptionDialogFragment.newInstance(e, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+        });
         switchMap(mainViewModel.hasAccounts(), hasAccounts -> {
             if (hasAccounts) {
                 return mainViewModel.readAccounts();
             } else {
-                startActivityForResult(new Intent(this, ImportAccountActivity.class), ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT);
+                startActivityForResult(ImportAccountActivity.createIntent(this), ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT);
                 return null;
             }
         }).observe(this, (List<Account> accounts) -> {
@@ -221,21 +230,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     mainViewModel.setCurrentAccount(account);
                     if (!firstAccountAdded) {
                         DeckLog.info("Syncing the current account on app start");
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            registerAutoSyncOnNetworkAvailable();
-                        } else {
-                            mainViewModel.synchronize(new IResponseCallback<Boolean>(mainViewModel.getCurrentAccount()) {
-                                @Override
-                                public void onResponse(Boolean response) {
-                                }
-
-                                @Override
-                                public void onError(Throwable throwable) {
-                                    super.onError(throwable);
-                                    showSyncFailedSnackbar(throwable);
-                                }
-                            });
-                        }
+                        registerAutoSyncOnNetworkAvailable();
                         firstAccountAdded = false;
                     }
                     break;
@@ -246,7 +241,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 SingleAccountHelper.setCurrentAccount(getApplicationContext(), mainViewModel.getCurrentAccount().getName());
                 mainViewModel.recreateSyncManager();
 
-                saveCurrentAccountId(this, mainViewModel.getCurrentAccount().getId());
+                saveCurrentAccount(this, mainViewModel.getCurrentAccount());
                 if (mainViewModel.getCurrentAccount().isMaintenanceEnabled()) {
                     refreshCapabilities(mainViewModel.getCurrentAccount());
                 }
@@ -264,18 +259,21 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     }
 
                     boardsList = boards;
+                    Board currentBoard = null;
 
                     if (boardsList.size() > 0) {
                         boolean currentBoardIdWasInList = false;
                         for (int i = 0; i < boardsList.size(); i++) {
                             if (lastBoardId == boardsList.get(i).getLocalId() || lastBoardId == NO_BOARD_ID) {
-                                setCurrentBoard(boardsList.get(i));
+                                currentBoard = boardsList.get(i);
+                                setCurrentBoard(currentBoard);
                                 currentBoardIdWasInList = true;
                                 break;
                             }
                         }
                         if (!currentBoardIdWasInList) {
-                            setCurrentBoard(boardsList.get(0));
+                            currentBoard = boardsList.get(0);
+                            setCurrentBoard(currentBoard);
                         }
 
                         binding.filter.setOnClickListener((v) -> FilterDialogFragment.newInstance().show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName()));
@@ -286,13 +284,14 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         binding.filter.setOnClickListener(null);
                     }
 
+                    final Board finalCurrentBoard = currentBoard;
                     if (hasArchivedBoardsLiveData != null && hasArchivedBoardsLiveDataObserver != null) {
                         hasArchivedBoardsLiveData.removeObserver(hasArchivedBoardsLiveDataObserver);
                     }
                     hasArchivedBoardsLiveData = mainViewModel.hasArchivedBoards(currentAccount.getId());
                     hasArchivedBoardsLiveDataObserver = (hasArchivedBoards) -> {
                         mainViewModel.setCurrentAccountHasArchivedBoards(Boolean.TRUE.equals(hasArchivedBoards));
-                        inflateBoardMenu();
+                        inflateBoardMenu(finalCurrentBoard);
                     };
                     hasArchivedBoardsLiveData.observe(this, hasArchivedBoardsLiveDataObserver);
                 };
@@ -300,21 +299,21 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
                 Glide
                         .with(binding.accountSwitcher.getContext())
-                        .load(currentAccount.getAvatarUrl(64))
+                        .load(currentAccount.getAvatarUrl(binding.accountSwitcher.getWidth()))
                         .placeholder(R.drawable.ic_baseline_account_circle_24)
                         .error(R.drawable.ic_baseline_account_circle_24)
                         .apply(RequestOptions.circleCropTransform())
                         .into(binding.accountSwitcher);
 
-                DeckLog.verbose("Displaying maintenance mode info for " + mainViewModel.getCurrentAccount().getName() + ": " + mainViewModel.getCurrentAccount().isMaintenanceEnabled());
+                DeckLog.verbose("Displaying maintenance mode info for", mainViewModel.getCurrentAccount().getName() + ":" + mainViewModel.getCurrentAccount().isMaintenanceEnabled());
                 binding.infoBox.setVisibility(mainViewModel.getCurrentAccount().isMaintenanceEnabled() ? View.VISIBLE : View.GONE);
                 if (mainViewModel.isCurrentAccountIsSupportedVersion()) {
                     binding.infoBoxVersionNotSupported.setVisibility(View.GONE);
                 } else {
-                    binding.infoBoxVersionNotSupportedText.setText(getString(R.string.info_box_version_not_supported, mainViewModel.getCurrentAccount().getServerDeckVersion(), Version.minimumSupported(this).getOriginalVersion()));
+                    binding.infoBoxVersionNotSupportedText.setText(getString(R.string.info_box_version_not_supported, mainViewModel.getCurrentAccount().getServerDeckVersion(), Version.minimumSupported().getOriginalVersion()));
                     binding.infoBoxVersionNotSupportedText.setOnClickListener((v) -> {
                         Intent openURL = new Intent(Intent.ACTION_VIEW);
-                        openURL.setData(Uri.parse(mainViewModel.getCurrentAccount().getUrl() + urlFragmentUpdateDeck));
+                        openURL.setData(Uri.parse(mainViewModel.getCurrentAccount().getUrl() + getString(R.string.url_fragment_update_deck)));
                         startActivity(openURL);
                     });
                     binding.infoBoxVersionNotSupported.setVisibility(View.VISIBLE);
@@ -329,7 +328,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             dragAndDrop.register(binding.viewPager, binding.stackTitles, getSupportFragmentManager());
             dragAndDrop.addItemMovedByDragListener((movedCard, stackId, position) -> {
                 mainViewModel.reorder(mainViewModel.getCurrentAccount().getId(), movedCard, stackId, position);
-                DeckLog.info("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
+                DeckLog.info("Card", movedCard.getCard().getTitle(), "was moved to Stack", stackId, "on position", position);
             });
 
 
@@ -429,10 +428,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         applyBrandToFAB(mainColor, binding.fab);
         // TODO We assume, that the background of the spinner is always white
         binding.swipeRefreshLayout.setColorSchemeColors(contrastRatioIsSufficient(Color.WHITE, mainColor) ? mainColor : DeckApplication.isDarkTheme(this) ? Color.DKGRAY : colorAccent);
-        headerBinding.headerView.setBackgroundColor(mainColor);
-        @ColorInt final int headerTextColor = contrastRatioIsSufficientBigAreas(mainColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
-        DrawableCompat.setTint(headerBinding.logo.getDrawable(), headerTextColor);
-        headerBinding.appName.setTextColor(headerTextColor);
         DrawableCompat.setTint(binding.filterIndicator.getDrawable(), getSecondaryForegroundColorDependingOnTheme(this, mainColor));
     }
 
@@ -446,27 +441,35 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @Override
     public void onCreateStack(String stackName) {
-        DeckLog.info("Create Stack in account " + mainViewModel.getCurrentAccount().getName() + " on board " + mainViewModel.getCurrentBoardLocalId());
-        WrappedLiveData<FullStack> createLiveData = mainViewModel.createStack(mainViewModel.getCurrentAccount().getId(), stackName, mainViewModel.getCurrentBoardLocalId());
-        observeOnce(createLiveData, this, (fullStack) -> {
-            if (createLiveData.hasError()) {
-                final Throwable error = createLiveData.getError();
-                assert error != null;
-                BrandedSnackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG)
+        DeckLog.info("Create Stack in account", mainViewModel.getCurrentAccount().getName(), "on board", mainViewModel.getCurrentBoardLocalId());
+        mainViewModel.createStack(mainViewModel.getCurrentAccount().getId(), stackName, mainViewModel.getCurrentBoardLocalId(), new ResponseCallback<FullStack>() {
+            @Override
+            public void onResponse(FullStack response) {
+                runOnUiThread(() -> binding.viewPager.setCurrentItem(stackAdapter.getItemCount()));
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                ResponseCallback.super.onError(error);
+                runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(error, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
-                        .show();
-            } else {
-                binding.viewPager.setCurrentItem(stackAdapter.getItemCount());
+                        .show());
             }
         });
     }
 
     @Override
     public void onUpdateStack(long localStackId, String stackName) {
-        final WrappedLiveData<FullStack> liveData = mainViewModel.updateStackTitle(localStackId, stackName);
-        observeOnce(liveData, this, (v) -> {
-            if (liveData.hasError()) {
-                ExceptionDialogFragment.newInstance(liveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        mainViewModel.updateStackTitle(localStackId, stackName, new ResponseCallback<FullStack>() {
+            @Override
+            public void onResponse(FullStack response) {
+                DeckLog.info("Successfully updated", Stack.class.getSimpleName(), "to", stackName);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                ResponseCallback.super.onError(throwable);
+                runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });
     }
@@ -481,30 +484,42 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         boardToCreate.setPermissionEdit(true);
         boardToCreate.setPermissionManage(true);
 
-        final WrappedLiveData<FullBoard> createLiveData = mainViewModel.createBoard(mainViewModel.getCurrentAccount().getId(), boardToCreate);
-        observeOnce(createLiveData, this, (createdBoard) -> {
-            if (createLiveData.hasError()) {
-                BrandedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(createLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
-                        .show();
+        mainViewModel.createBoard(mainViewModel.getCurrentAccount().getId(), boardToCreate, new ResponseCallback<FullBoard>() {
+            @Override
+            public void onResponse(FullBoard response) {
+                runOnUiThread(() -> {
+                    if (response != null) {
+                        boardsList.add(response.getBoard());
+                        setCurrentBoard(response.getBoard());
+                        inflateBoardMenu(response.getBoard());
+                        EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
+                    }
+                    boardsLiveData.observe(MainActivity.this, boardsLiveDataObserver);
+                });
             }
-            if (createdBoard != null && !createLiveData.hasError()) {
-                boardsList.add(createdBoard.getBoard());
-                setCurrentBoard(createdBoard.getBoard());
 
-                inflateBoardMenu();
-                EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
+            @Override
+            public void onError(Throwable throwable) {
+                ResponseCallback.super.onError(throwable);
+                runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                        .show());
             }
-            boardsLiveData.observe(this, boardsLiveDataObserver);
         });
     }
 
     @Override
     public void onUpdateBoard(FullBoard fullBoard) {
-        final WrappedLiveData<FullBoard> updateLiveData = mainViewModel.updateBoard(fullBoard);
-        observeOnce(updateLiveData, this, (next) -> {
-            if (updateLiveData.hasError()) {
-                ExceptionDialogFragment.newInstance(updateLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        mainViewModel.updateBoard(fullBoard, new ResponseCallback<FullBoard>() {
+            @Override
+            public void onResponse(FullBoard response) {
+                DeckLog.info("Successfully updated board", fullBoard.getBoard().getTitle());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                ResponseCallback.super.onError(throwable);
+                runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });
     }
@@ -517,18 +532,20 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     binding.swipeRefreshLayout.setRefreshing(false);
                 } else {
                     // If we notice after updating the capabilities, that the new version is not supported, but it was previously, recreate the activity to make sure all elements are disabled properly
-                    if (mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported(MainActivity.this) && !response.getDeckVersion().isSupported(MainActivity.this)) {
-                        recreate();
+                    if (mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported() && !response.getDeckVersion().isSupported()) {
+                        ActivityCompat.recreate(MainActivity.this);
                     }
                 }
             }
 
             @Override
             public void onError(Throwable throwable) {
+                binding.swipeRefreshLayout.setRefreshing(false);
                 if (throwable instanceof OfflineException) {
                     DeckLog.info("Cannot refresh capabilities because device is offline.");
                 } else {
                     super.onError(throwable);
+                    ExceptionDialogFragment.newInstance(throwable, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 }
             }
         });
@@ -552,6 +569,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
         lastBoardId = board.getLocalId();
         saveCurrentBoardId(this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId());
+        binding.navigationView.setCheckedItem(boardsList.indexOf(board));
 
         binding.toolbar.setTitle(board.getTitle());
 
@@ -637,21 +655,22 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     }
 
     @UiThread
-    protected void inflateBoardMenu() {
+    protected void inflateBoardMenu(@Nullable Board currentBoard) {
         binding.navigationView.setItemIconTintList(null);
         Menu menu = binding.navigationView.getMenu();
         menu.clear();
-        DrawerMenuUtil.inflateBoards(this, menu, this.boardsList, mainViewModel.currentAccountHasArchivedBoards(), mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported(this));
+        DrawerMenuUtil.inflateBoards(this, menu, this.boardsList, mainViewModel.currentAccountHasArchivedBoards(), mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported());
+        binding.navigationView.setCheckedItem(boardsList.indexOf(currentBoard));
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case MENU_ID_ABOUT:
-                startActivityForResult(AboutActivity.createIntent(this, mainViewModel.getCurrentAccount()), MainActivity.ACTIVITY_ABOUT);
+                startActivity(AboutActivity.createIntent(this, mainViewModel.getCurrentAccount()));
                 break;
             case MENU_ID_SETTINGS:
-                startActivityForResult(new Intent(this, SettingsActivity.class), MainActivity.ACTIVITY_SETTINGS);
+                startActivityForResult(SettingsActivity.createIntent(this), MainActivity.ACTIVITY_SETTINGS);
                 break;
             case MENU_ID_ADD_BOARD:
                 EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
@@ -681,10 +700,18 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                 : R.string.do_you_want_to_archive_all_cards_of_the_list, stack.getTitle()))
                         .setPositiveButton(R.string.simple_archive, (dialog, whichButton) -> {
                             final FilterInformation filterInformation = filterViewModel.getFilterInformation().getValue();
-                            final WrappedLiveData<Void> archiveStackLiveData = mainViewModel.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, filterInformation == null ? new FilterInformation() : filterInformation);
-                            observeOnce(archiveStackLiveData, this, (result) -> {
-                                if (archiveStackLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(archiveStackLiveData.getError())) {
-                                    ExceptionDialogFragment.newInstance(archiveStackLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                            mainViewModel.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, filterInformation == null ? new FilterInformation() : filterInformation, new ResponseCallback<Void>() {
+                                @Override
+                                public void onResponse(Void response) {
+                                    DeckLog.info("Successfully archived all cards in stack local id", stackLocalId);
+                                }
+
+                                @Override
+                                public void onError(Throwable throwable) {
+                                    if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                                        ResponseCallback.super.onError(throwable);
+                                        runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                                    }
                                 }
                             });
                         })
@@ -761,7 +788,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         switch (requestCode) {
             case MainActivity.ACTIVITY_SETTINGS:
                 if (resultCode == RESULT_OK) {
-                    recreate();
+                    ActivityCompat.recreate(this);
                 }
                 break;
             case ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT:
@@ -787,17 +814,19 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                     @Override
                                     public void onResponse(Capabilities response) {
                                         if (!response.isMaintenanceEnabled()) {
-                                            if (response.getDeckVersion().isSupported(getApplicationContext())) {
+                                            if (response.getDeckVersion().isSupported()) {
                                                 runOnUiThread(() -> {
                                                     mainViewModel.setSyncManager(importSyncManager);
-                                                    mainViewModel.setCurrentAccount(account);
 
                                                     final Snackbar importSnackbar = BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
                                                     importSnackbar.show();
-                                                    importSyncManager.synchronize(new IResponseCallback<Boolean>(mainViewModel.getCurrentAccount()) {
+                                                    importSyncManager.synchronize(new IResponseCallback<Boolean>(createdAccount) {
                                                         @Override
                                                         public void onResponse(Boolean response) {
                                                             importSnackbar.dismiss();
+                                                            runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.account_imported), Snackbar.LENGTH_LONG)
+                                                                    .setAction(R.string.simple_switch, (a) -> mainViewModel.setCurrentAccount(createdAccount))
+                                                                    .show());
                                                         }
 
                                                         @Override
@@ -811,14 +840,14 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                                     });
                                                 });
                                             } else {
-                                                DeckLog.warn("Cannot import account because server version is too low (" + response.getDeckVersion() + "). Minimum server version is currently " + Version.minimumSupported(getApplicationContext()));
+                                                DeckLog.warn("Cannot import account because server version is too low (" + response.getDeckVersion() + "). Minimum server version is currently", Version.minimumSupported());
                                                 runOnUiThread(() -> new BrandedAlertDialogBuilder(MainActivity.this)
                                                         .setTitle(R.string.update_deck)
                                                         .setMessage(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()))
                                                         .setNegativeButton(R.string.simple_discard, null)
                                                         .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {
                                                             final Intent openURL = new Intent(Intent.ACTION_VIEW);
-                                                            openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
+                                                            openURL.setData(Uri.parse(createdAccount.getUrl() + getString(R.string.url_fragment_update_deck)));
                                                             startActivity(openURL);
                                                             finish();
                                                         }).show());
@@ -855,7 +884,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                 final Throwable error = accountLiveData.getError();
                                 if (error instanceof SQLiteConstraintException) {
                                     DeckLog.warn("Account already added");
-                                    BrandedSnackbar.make(binding.coordinatorLayout, accountAlreadyAdded, Snackbar.LENGTH_LONG).show();
+                                    BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_already_added, Snackbar.LENGTH_LONG).show();
                                 } else {
                                     ExceptionDialogFragment.newInstance(error, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                                 }
@@ -877,7 +906,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void registerAutoSyncOnNetworkAvailable() {
         final ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkRequest.Builder builder = new NetworkRequest.Builder();
@@ -919,10 +947,18 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     @Override
     public void onStackDeleted(Long stackLocalId) {
         long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-        final WrappedLiveData<Void> deleteStackLiveData = mainViewModel.deleteStack(mainViewModel.getCurrentAccount().getId(), stackId, mainViewModel.getCurrentBoardLocalId());
-        observeOnce(deleteStackLiveData, this, (v) -> {
-            if (deleteStackLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteStackLiveData.getError())) {
-                ExceptionDialogFragment.newInstance(deleteStackLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        mainViewModel.deleteStack(mainViewModel.getCurrentAccount().getId(), stackId, mainViewModel.getCurrentBoardLocalId(), new ResponseCallback<Void>() {
+            @Override
+            public void onResponse(Void response) {
+                DeckLog.info("Successfully deleted stack with local id", stackLocalId, "and remote id", stackId);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                    ResponseCallback.super.onError(throwable);
+                    runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                }
             }
         });
     }
@@ -942,10 +978,18 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             }
         }
 
-        final WrappedLiveData<Void> deleteLiveData = mainViewModel.deleteBoard(board);
-        observeOnce(deleteLiveData, this, (next) -> {
-            if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
-                ExceptionDialogFragment.newInstance(deleteLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        mainViewModel.deleteBoard(board, new ResponseCallback<Void>() {
+            @Override
+            public void onResponse(Void response) {
+                DeckLog.info("Successfully deleted board", board.getTitle());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                    ResponseCallback.super.onError(throwable);
+                    runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                }
             }
         });
 
@@ -968,10 +1012,16 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @Override
     public void onArchive(@NonNull Board board) {
-        final WrappedLiveData<FullBoard> liveData = mainViewModel.archiveBoard(board);
-        observeOnce(liveData, this, (fullBoard) -> {
-            if (liveData.hasError()) {
-                ExceptionDialogFragment.newInstance(liveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        mainViewModel.archiveBoard(board, new ResponseCallback<FullBoard>() {
+            @Override
+            public void onResponse(FullBoard response) {
+                DeckLog.info("Successfully archived board", board.getTitle());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                ResponseCallback.super.onError(throwable);
+                runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });
     }
@@ -987,18 +1037,27 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     binding.drawerLayout.closeDrawer(GravityCompat.START);
                     final Snackbar snackbar = BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.cloning_board, board.getTitle()), Snackbar.LENGTH_INDEFINITE);
                     snackbar.show();
-                    final WrappedLiveData<FullBoard> liveData = mainViewModel.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColor(), checkedItems[0]);
-                    observeOnce(liveData, this, (fullBoard -> {
-                        snackbar.dismiss();
-                        if (liveData.hasError()) {
-                            ExceptionDialogFragment.newInstance(liveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                        } else {
-                            setCurrentBoard(fullBoard.getBoard());
-                            BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.successfully_cloned_board, fullBoard.getBoard().getTitle()), Snackbar.LENGTH_LONG)
-                                    .setAction(R.string.edit, v -> EditBoardDialogFragment.newInstance(fullBoard.getLocalId()).show(getSupportFragmentManager(), EditBoardDialogFragment.class.getSimpleName()))
-                                    .show();
+                    mainViewModel.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColor(), checkedItems[0], new ResponseCallback<FullBoard>() {
+                        @Override
+                        public void onResponse(FullBoard response) {
+                            runOnUiThread(() -> {
+                                snackbar.dismiss();
+                                setCurrentBoard(response.getBoard());
+                                BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.successfully_cloned_board, response.getBoard().getTitle()), Snackbar.LENGTH_LONG)
+                                        .setAction(R.string.edit, v -> EditBoardDialogFragment.newInstance(response.getLocalId()).show(getSupportFragmentManager(), EditBoardDialogFragment.class.getSimpleName()))
+                                        .show();
+                            });
                         }
-                    }));
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            ResponseCallback.super.onError(throwable);
+                            runOnUiThread(() -> {
+                                snackbar.dismiss();
+                                ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                            });
+                        }
+                    });
                 })
                 .setNeutralButton(android.R.string.cancel, null)
                 .show();

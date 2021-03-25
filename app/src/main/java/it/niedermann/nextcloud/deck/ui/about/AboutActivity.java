@@ -6,22 +6,22 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Lifecycle;
+import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityAboutBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
 
-public class AboutActivity extends BrandedActivity {
+public class AboutActivity extends AppCompatActivity {
     private static final String BUNDLE_KEY_ACCOUNT = "account";
 
     private ActivityAboutBinding binding;
@@ -39,11 +39,11 @@ public class AboutActivity extends BrandedActivity {
         binding = ActivityAboutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.toolbar);
-        binding.viewPager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager(), getLifecycle(), (Account) getIntent().getSerializableExtra(BUNDLE_KEY_ACCOUNT)));
-        new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> tab.setText(tabTitles[position])).attach();
+        DeckApplication.readCurrentAccountColor().observe(this, (mainColor) -> applyBrandToPrimaryTabLayout(mainColor, binding.tabLayout));
 
-        setResult(RESULT_OK);
+        setSupportActionBar(binding.toolbar);
+        binding.viewPager.setAdapter(new TabsPagerAdapter(this, (Account) getIntent().getSerializableExtra(BUNDLE_KEY_ACCOUNT)));
+        new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> tab.setText(tabTitles[position])).attach();
     }
 
     private static class TabsPagerAdapter extends FragmentStateAdapter {
@@ -51,8 +51,8 @@ public class AboutActivity extends BrandedActivity {
         @Nullable
         private final Account account;
 
-        TabsPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, @Nullable Account account) {
-            super(fragmentManager, lifecycle);
+        TabsPagerAdapter(final FragmentActivity fa, @Nullable Account account) {
+            super(fa);
             this.account = account;
         }
 
@@ -81,11 +81,6 @@ public class AboutActivity extends BrandedActivity {
     public boolean onSupportNavigateUp() {
         finish(); // close this activity as oppose to navigating up
         return true;
-    }
-
-    @Override
-    public void applyBrand(int mainColor) {
-        applyBrandToPrimaryTabLayout(mainColor, binding.tabLayout);
     }
 
     @NonNull

@@ -35,7 +35,7 @@ public class DataPropagationHelper {
         boolean connected = serverAdapter.hasInternetConnection();
         if (connected) {
             try {
-                provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, new IResponseCallback<T>(new Account(accountId)) {
+                provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, new IResponseCallback<T>(callback.getAccount()) {
                     @Override
                     public void onResponse(T response) {
                         new Thread(() -> {
@@ -53,11 +53,11 @@ public class DataPropagationHelper {
                     @Override
                     public void onError(Throwable throwable) {
                         super.onError(throwable);
-                        new Thread(() -> callback.onError(throwable, entity)).start();
+                        new Thread(() -> callback.onError(throwable)).start();
                     }
                 }, entity);
             } catch (Throwable t) {
-                callback.onError(t, entity);
+                callback.onError(t);
             }
         } else {
             callback.onResponse(entity);
@@ -90,12 +90,12 @@ public class DataPropagationHelper {
                     public void onError(Throwable throwable) {
                         super.onError(throwable);
                         new Thread(() -> {
-                            callback.onError(throwable, entity);
+                            callback.onError(throwable);
                         }).start();
                     }
                 }, entity);
             } catch (Throwable t) {
-                callback.onError(t, entity);
+                callback.onError(t);
             }
         } else {
             callback.onResponse(entity);

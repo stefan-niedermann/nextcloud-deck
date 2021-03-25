@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.ui.attachments;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,12 +36,10 @@ public class AttachmentViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(@NonNull Account account, @NonNull Attachment attachment, long cardRemoteId) {
         if (MimeTypeUtil.isImage(attachment.getMimetype())) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                binding.preview.setTransitionName(parentContext.getString(R.string.transition_attachment_preview, String.valueOf(attachment.getLocalId())));
-            }
+            binding.preview.setTransitionName(parentContext.getString(R.string.transition_attachment_preview, String.valueOf(attachment.getLocalId())));
             binding.preview.setImageResource(R.drawable.ic_image_grey600_24dp);
             binding.preview.post(() -> {
-                final String uri = AttachmentUtil.getThumbnailUrl(account.getServerDeckVersionAsObject(), account.getUrl(), cardRemoteId, attachment, binding.preview.getWidth());
+                final String uri = AttachmentUtil.getThumbnailUrl(account, cardRemoteId, attachment, binding.preview.getWidth(), binding.preview.getHeight());
                 Glide.with(parentContext)
                         .load(uri)
                         .listener(new RequestListener<Drawable>() {

@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">Avaa hakuvalikko</string>
     <string name="navigation_drawer_close">Sulje hakuvalikko</string>
 
-    <string name="drawer_header_background">Taustakuva \"Drawer\":in yläosassa</string>
-    <string name="drawer_current_account">Nykyinen tili</string>
-    <string name="drawer_middle_account">Keskimmäinen tili</string>
-    <string name="drawer_end_account">Viimeisin tili</string>
-    <string name="drawer_manage_accounts">Tilien hallinta</string>
-
     <string name="simple_boards">Taulut</string>
     <string name="simple_add">Lisää</string>
     <string name="simple_save">Tallenna</string>
@@ -119,17 +113,18 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Lisää uusi lista painamalla +</string>
     <string name="add_a_new_card_using_the_button">Lisää uusi kortti painamalla +</string>
-    <string name="update_deck">Päivitä pakka</string>
-    <string name="your_deck_version_is_too_old">Pakan versio on liian vanha</string>
-    <string name="deck_outdated_please_update">Deck-versiosi (%1$s) on liian vanha. Päivitä sovellus.</string>
     <string name="delete_board_message">Tämä poistaa tämän taulun ja sen listat ja kortit pysyvästi.</string>
-    <string name="settings_theme_title">Tumma teema</string>
+    <string name="settings_theme_title">Teema</string>
     <string name="settings_branding_title">Brändäys</string>
     <string name="settings_compact_title">Kompakti tila</string>
     <string name="settings_background_sync">Taustasynkronointi</string>
     <string name="pref_value_wifi_and_mobile">Synkronoi wifi- ja mobiilidatayhteydellä</string>
     <string name="pref_value_wifi_only">Synkronoi vain wifi-yhteydellä</string>
-    <string name="pref_value_theme_light">Vaalea</string>
+    <string-array name="darkmode_entries">
+        <item>Järjestelmän oletukset</item>
+        <item>Vaalea</item>
+        <item>Tumma</item>
+    </string-array>
     <string name="unassigned_user">Ei määritelty%1$s</string>
     <string name="no_activities">Tällä kortilla ei ole toimintoja. Tarvitset internetyhteyden toimintojen lataamiseen ja näyttämiseen.</string>
     <string name="share_board">Jaa taulu</string>
@@ -145,11 +140,9 @@
     <string name="hours_6">6 tuntia</string>
     <string name="action_card_move">Siirrä kortti</string>
     <string name="action_card_move_title">Siirrä %1$s</string>
-    <string name="please_add_an_account_first">Lisää ensin tili</string>
     <string name="title_is_mandatory">Otsikko on pakollinen</string>
     <string name="provide_at_least_a_title_or_description">Anna vähintään otsikko tai kuvaus</string>
     <string name="welcome_text">Tervetuloa kohteeseen %1$s</string>
-    <string name="save_card_before_attachment">Kortti pitää tallentaa ennen kuin liitetiedostoja voidaan lisätä.</string>
     <string name="maintenance_mode_explanation">Palvelin%1$s on juuri ylläpitotilassa. Ota yhteys järjestelmän ylläpitäjään tai yritä myöhemmin uudelleen.</string>
     <string name="share_add_to_card">Lisää kortille</string>
     <string name="share_success">Onnistuneesti lisätty %1$s kohteeseen %2$s</string>
@@ -170,9 +163,11 @@
     <string name="filter_no_filter">Kaikki</string>
     <string name="filter_overdue">Myöhässä</string>
     <string name="filter_today">Tänään</string>
+    <string name="filter_tomorrow">Huomenna</string>
     <string name="filter_week">Seuraavat 7 päivää</string>
     <string name="filter_month">Seuraavat 30 päivää</string>
     <string name="filter_no_due">Ei eräpäivää</string>
+    <string name="filter_later">Myöhemmin</string>
     <string name="filter_by_tag">Suodata tunnisteen perusteella</string>
     <string name="filter_by_assigned_user">Suodata määritetyn käyttäjän mukaan</string>
     <string name="filter_by_duedate">Suodata määräpäivän mukaan</string>
@@ -200,9 +195,7 @@
     <string name="error_revoking_ac">Virhe käyttöoikeuden kumoamisessa (%1$s)</string>
     <string name="error_create_label">Virhe nimikkeen luonnissa (%1$s)</string>
     <string name="maintenance_mode">Palvelin on huoltotilassa</string>
-    <string name="server_misconfigured">Virheelliset palvelimen asetukset</string>
     <string name="server_error">Palvelinvirhe</string>
-    <string name="shared_error">Sisällön jako 3. osapuolen sovelluksista ei ole vielä täysin tuettu. Lataa kohde ensin ja jaa se laitteen tiedostohallinnasta tai galleriasta.</string>
     <string name="error_edit_activity_killed_by_android">Android päätti muokkaustilan, koska resursseja tarvitaan muille sovelluksille.</string>
 
     <string name="error_dialog_title">Voi ei - Mitä nyt? 🙁</string>
@@ -230,16 +223,17 @@
     <string name="error_action_open_deck_info">Avaa sovelluksen tiedot</string>
     <string name="error_action_open_network">Verkkoasetukset</string>
     <string name="error_action_server_logs">Palvelimen lokit</string>
+    <string name="error_action_install">Asenna</string>
     <string name="error_action_report_issue">Raportti</string>
     <string name="info_box_maintenance_mode">Palvelin on huoltotilassa</string>
     <string name="info_box_version_not_supported">Palvelinversio %1$s ei ole tuettu, päivitä versioon %2$s</string>
     <string name="share_link">Jaa linkki</string>
+    <string name="share_content">Jaa sisältö</string>
     <string name="archive_cards">Arkistoi kortit</string>
 
     <string name="manage_accounts">Tilien hallinta</string>
     <string name="manage_list">Hallinnoi listaa</string>
     <string name="simple_reply">Vastaa</string>
-    <string name="error_while_uploading_attachment">Virhe liitteen lähttämisessä: %1$s</string>
     <string name="append_text_to_description">Lisää selitteeseen</string>
     <string name="add_text_as_comment">Lisää kommenttina</string>
     <string name="progress_count">%1$d / %2$d</string>
@@ -257,6 +251,7 @@
     <string name="card_does_not_yet_exist">Korttia ei vielä ole Deckissä</string>
 
     <string name="widget_stack_title">Lista</string>
+    <string name="widget_filter_title">Suodatin</string>
     <string name="select_stack">Valitse lista</string>
     <string name="project_type_deck_board">Deck-taulu</string>
     <string name="project_type_deck_card">Deck-kortti</string>
@@ -271,4 +266,12 @@
     <string name="project_type_room">Keskusteluhuone</string>
     <string name="simple_move">Siirrä</string>
     <string name="cannot_upload_files_without_permission">Tiedostojen lähettäminen ei ole mahdollista ilman käyttöoikeutta</string>
+    <string name="clone_cards">Kloonaa kortteja</string>
+    <string name="simple_clone">Kloonaa</string>
+    <string name="user_avatar">Käyttäjän avatar</string>
+    <string name="simple_file">Tiedosto</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="take_photo">Ota kuva</string>
+    <string name="take_photo_switch_camera">Vaihda kamera</string>
+    <string name="show_all_contacts">Näytä kaikki kontaktit</string>
     </resources>

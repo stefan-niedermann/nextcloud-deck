@@ -23,6 +23,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -37,7 +38,7 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.util.AttachmentUtil.copyContentUriToTempFile;
+import static it.niedermann.nextcloud.deck.util.FilesUtil.copyContentUriToTempFile;
 import static java.net.HttpURLConnection.HTTP_CONFLICT;
 
 public class ShareTargetActivity extends MainActivity implements SelectCardListener {
@@ -125,19 +126,23 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                     if (mimeType == null) {
                         throw new IllegalArgumentException("MimeType of uri is null. [" + uri + "]");
                     }
-                    runOnUiThread(() -> {
-                        final WrappedLiveData<Attachment> liveData = mainViewModel.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, tempFile);
-                        liveData.observe(ShareTargetActivity.this, (next) -> {
-                            if (liveData.hasError()) {
-                                if (liveData.getError() instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) liveData.getError()).getStatusCode() == HTTP_CONFLICT) {
+                    mainViewModel.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, tempFile, new ResponseCallback<Attachment>() {
+                        @Override
+                        public void onResponse(Attachment response) {
+                            runOnUiThread(shareProgressViewModel::increaseProgress);
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            runOnUiThread(() -> {
+                                if (throwable instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) throwable).getStatusCode() == HTTP_CONFLICT) {
+                                    ResponseCallback.super.onError(throwable);
                                     shareProgressViewModel.addDuplicateAttachment(tempFile.getName());
                                 } else {
-                                    shareProgressViewModel.addException(liveData.getError());
+                                    shareProgressViewModel.addException(throwable);
                                 }
-                            } else {
-                                shareProgressViewModel.increaseProgress();
-                            }
-                        });
+                            });
+                        }
                     });
                 } catch (Throwable t) {
                     runOnUiThread(() -> shareProgressViewModel.addException(new UploadAttachmentFailedException("Error while uploading attachment for uri [" + uri + "]", t)));
@@ -154,7 +159,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                     switch (which) {
                         case 0:
                             final String oldDescription = fullCard.getCard().getDescription();
-                            DeckLog.info("Adding to card #" + fullCard.getCard().getId() + " (" + fullCard.getCard().getTitle() + "): Text \"" + receivedText + "\"");
+                            DeckLog.info("Adding to card with id", fullCard.getCard().getId(), "(" + fullCard.getCard().getTitle() + "):", receivedText);
                             fullCard.getCard().setDescription(
                                     (oldDescription == null || oldDescription.length() == 0)
                                             ? receivedText

@@ -9,10 +9,12 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
+
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
 @SuppressWarnings("WeakerAccess")
 public class CommentsViewModel extends AndroidViewModel {
@@ -35,7 +37,7 @@ public class CommentsViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<FullDeckComment>> getFullCommentsForLocalCardId(long localCardId) {
-        return syncManager.getFullCommentsForLocalCardId(localCardId);
+        return distinctUntilChanged(syncManager.getFullCommentsForLocalCardId(localCardId));
     }
 
     public void addCommentToCard(long accountId, long cardId, @NonNull DeckComment comment) {
@@ -46,7 +48,7 @@ public class CommentsViewModel extends AndroidViewModel {
         syncManager.updateComment(accountId, localCardId, localCommentId, comment);
     }
 
-    public WrappedLiveData<Void> deleteComment(long accountId, long localCardId, long localCommentId) {
-        return syncManager.deleteComment(accountId, localCardId, localCommentId);
+    public void deleteComment(long accountId, long localCardId, long localCommentId, @NonNull ResponseCallback<Void> callback) {
+        syncManager.deleteComment(accountId, localCardId, localCommentId, callback);
     }
 }

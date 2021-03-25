@@ -2,12 +2,6 @@
     <string name="navigation_drawer_open">ナビゲーションドロワーを開く</string>
     <string name="navigation_drawer_close">ナビゲーションドロワーを閉じる</string>
 
-    <string name="drawer_header_background">ドロワーヘッダーの背景イメージ</string>
-    <string name="drawer_current_account">現在のアカウント</string>
-    <string name="drawer_middle_account">ミドルアカウント</string>
-    <string name="drawer_end_account">最後のアカウント</string>
-    <string name="drawer_manage_accounts">アカウント管理</string>
-
     <string name="simple_boards">ボード</string>
     <string name="simple_add">追加</string>
     <string name="simple_save">保存</string>
@@ -56,7 +50,7 @@
     <string name="about_source_title">ソースコード</string>
     <string name="about_source">このプロジェクトはGitHub:%1$sにホストされています。</string>
     <string name="about_issues_title">問題</string>
-    <string name="about_issues">GitHub の問題追跡ツールで、バグ、拡張の提案、機能のリクエストを報告できます: %1$s</string>
+    <string name="about_issues">GitHub の問題追跡ツールで、不具合、拡張の提案、機能のリクエストを報告できます: %1$s</string>
     <string name="about_translate_title">翻訳</string>
     <string name="about_translate">Transifex の Nextcloud チームに参加して、このアプリの翻訳を手伝ってください: %1$s</string>
     <string name="about_app_license_title">アプリ ライセンス</string>
@@ -118,17 +112,12 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">+ボタンで新しいリストを追加</string>
     <string name="add_a_new_card_using_the_button">+ボタンで新しいカードを追加</string>
-    <string name="update_deck">端末の更新</string>
-    <string name="your_deck_version_is_too_old">端末のバージョンが旧すぎます</string>
-    <string name="deck_outdated_please_update">Deckのバージョンが旧すぎます(%1$s)．このアンドロイドアプリをクライアントとして使うには更新してください．</string>
     <string name="delete_board_message">このボードと含まれるすべてのリストやカードは完全に削除されます．</string>
-    <string name="settings_theme_title">ダークテーマ</string>
     <string name="settings_branding_title">ブランディング</string>
     <string name="settings_compact_title">コンパクトモード</string>
     <string name="settings_background_sync">バックグラウンド同期</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fiおよびモバイル接続時に同期する</string>
     <string name="pref_value_wifi_only">Wi-Fi接続時のみ同期する</string>
-    <string name="pref_value_theme_light">明るい</string>
     <string name="unassigned_user">未割当の%1$s</string>
     <string name="no_activities">このカードにはアクティブティがありません。アクティブティをロードして表示するにはインターネットへの接続が必要です。</string>
     <string name="share_board">ボードを共有</string>
@@ -144,11 +133,9 @@
     <string name="hours_6">6 時間</string>
     <string name="action_card_move">カードの移動</string>
     <string name="action_card_move_title">%1$sを移動</string>
-    <string name="please_add_an_account_first">初めにアカウントを追加してください</string>
     <string name="title_is_mandatory">タイトルは必須です</string>
     <string name="provide_at_least_a_title_or_description">少なくともタイトルまたは説明を入力してください</string>
     <string name="welcome_text">%1$sにようこそ</string>
-    <string name="save_card_before_attachment">添付を追加する前にカードを保存する必要があります。</string>
     <string name="maintenance_mode_explanation">サーバー%1$sは現在メンテナンスモードです。管理者に問い合わせるか後で試してください。</string>
     <string name="share_add_to_card">カードに追加</string>
     <string name="share_success">%1$sを%2$sに追加できました</string>
@@ -199,9 +186,7 @@
     <string name="error_revoking_ac">%1$sへのアクセス取消中のエラー</string>
     <string name="error_create_label">ラベル%1$s作成中のエラー</string>
     <string name="maintenance_mode">サーバーはメンテナンスモードです。</string>
-    <string name="server_misconfigured">サーバーの構成エラー</string>
     <string name="server_error">サーバーエラー</string>
-    <string name="shared_error">サードパーティーアプリからの共有はまだ完全にサポートされていません。まずダウンロードしてからネイティブなファイルマネージャーかギャラリーから共有することを試してください。</string>
     <string name="error_edit_activity_killed_by_android">Androidが編集モードを終了したのは、他のアプリが多くのシステムリソースを必要としていたからです。</string>
 
     <string name="error_dialog_title">おやまあ、どうしたことでしょう？🙁</string>
@@ -225,7 +210,7 @@
     <string name="error_dialog_user_not_found_in_database">現在のユーザーは、データベースに登録されているユーザーと一致しません。NextcloudインスタンスでLDAPを使用している場合、Nextcloudアプリに古いユーザーIDが保存されている可能性があります。</string>
     <string name="error_dialog_capabilities_not_parsable">サーバーの機能を取得できませんでした。サーバーが正常に動作しており、他のクライアントアプリがNextcloudにアクセスできることを確認してください。</string>
     <string name="error_dialog_attachment_upload_failed">添付ファイルをアップロードできませんでした。別の方法で共有してみてください。
-また、このバグについて報告してください。</string>
+また、この不具合について報告してください。</string>
     <string name="error_dialog_tip_disable_battery_optimizations">NextcloudとDeckアプリのバッテリー最適化をすべて無効にしてください。</string>
     <string name="error_action_open_deck_info">アプリ情報を開く</string>
     <string name="error_action_open_network">ネットワーク設定</string>
@@ -240,7 +225,6 @@
     <string name="manage_accounts">アカウント管理</string>
     <string name="manage_list">リスト管理</string>
     <string name="simple_reply">返信</string>
-    <string name="error_while_uploading_attachment">%1$s添付ファイルのアップロード中にエラーが発生しました</string>
     <string name="append_text_to_description">説明を追加</string>
     <string name="add_text_as_comment">コメントとして追加</string>
     <string name="progress_count">%1$dの%2$d</string>
@@ -258,7 +242,6 @@
 
     <string name="widget_stack_title">リスト</string>
     <string name="widget_stack_header_icon">ウィジェットのヘッダーアイコン</string>
-    <string name="widget_stack_placeholder_icon">ウィジェットの代替アイコン</string>
     <string name="select_stack">リストを選択</string>
     <string name="project_type_deck_board">Deckボード</string>
     <string name="project_type_deck_card">Deckカード</string>
@@ -279,7 +262,6 @@
     <string name="simple_contact">連絡先</string>
     <string name="simple_file">ファイル</string>
     <string name="simple_camera">カメラ</string>
-    <string name="min_api_21">この機能には少なくともAndroid5以上が必要です。</string>
     <string name="take_photo">写真を撮る</string>
     <string name="take_photo_switch_camera">カメラ切替</string>
     <string name="take_photo_toggle_torch">フラッシュを切替</string>
@@ -293,4 +275,4 @@
     <string name="gallery">ギャラリー</string>
     <string name="simple_attach">参加</string>
     <string name="add_stack_widget">リストのウィジェットを追加</string>
-</resources>
+    </resources>

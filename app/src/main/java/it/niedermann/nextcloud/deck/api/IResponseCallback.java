@@ -1,42 +1,22 @@
 package it.niedermann.nextcloud.deck.api;
 
-import androidx.annotation.CallSuper;
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
 
 import java.util.Collection;
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 
-public abstract class IResponseCallback<T> {
+public abstract class IResponseCallback<T> implements ResponseCallback<T> {
+    @NonNull
     protected Account account;
 
-    public IResponseCallback(Account account) {
+    public IResponseCallback(@NonNull Account account) {
         this.account = account;
-    }
-
-    public abstract void onResponse(T response);
-
-    @CallSuper
-    public void onError(Throwable throwable) {
-        DeckLog.logError(throwable);
-    }
-
-    @CallSuper
-    public void onError(Throwable throwable, T locallyCreatedEntity) {
-        onError(throwable);
-    }
-
-    public static <T> IResponseCallback<T> getDefaultResponseCallback(Account account) {
-        return new IResponseCallback<T>(account) {
-            @Override
-            public void onResponse(T response) {
-                // Do Nothing
-            }
-
-        };
     }
 
     public void fillAccountIDs(T response) {
@@ -71,7 +51,26 @@ public abstract class IResponseCallback<T> {
         return false;
     }
 
+    @NonNull
     public Account getAccount() {
         return account;
+    }
+
+    /**
+     * Forwards responses and errors to the given {@param callback}
+     */
+    public static <T> IResponseCallback<T> from(@NonNull Account account, ResponseCallback<T> callback) {
+        return new IResponseCallback<T>(account) {
+            @Override
+            public void onResponse(T response) {
+                callback.onResponse(response);
+            }
+
+            @SuppressLint("MissingSuperCall")
+            @Override
+            public void onError(Throwable throwable) {
+                callback.onError(throwable);
+            }
+        };
     }
 }

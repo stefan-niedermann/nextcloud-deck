@@ -10,12 +10,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Collections;
 
+import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityArchivedBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.board.ArchiveBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
@@ -23,8 +24,6 @@ import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoardListener, EditBoardListener, ArchiveBoardListener {
 
@@ -58,14 +57,7 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         viewModel.setCurrentAccount(account);
 
-        adapter = new ArchivedBoardsAdapter(viewModel.isCurrentAccountIsSupportedVersion(), getSupportFragmentManager(), (board) -> {
-            final WrappedLiveData<FullBoard> liveData = viewModel.dearchiveBoard(board);
-            observeOnce(liveData, this, (fullBoard) -> {
-                if (liveData.hasError()) {
-                    ExceptionDialogFragment.newInstance(liveData.getError(), viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                }
-            });
-        });
+        adapter = new ArchivedBoardsAdapter(viewModel.isCurrentAccountIsSupportedVersion(), getSupportFragmentManager(), this::onArchive);
         binding.recyclerView.setAdapter(adapter);
 
         viewModel.getBoards(account.getId(), true).observe(this, (boards) -> {
@@ -89,36 +81,62 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
 
     @Override
     public void onBoardDeleted(Board board) {
-        final WrappedLiveData<Void> deleteLiveData = viewModel.deleteBoard(board);
-        observeOnce(deleteLiveData, this, (next) -> {
-            if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
-                ExceptionDialogFragment.newInstance(deleteLiveData.getError(), viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        viewModel.deleteBoard(board, new ResponseCallback<Void>() {
+            @Override
+            public void onResponse(Void response) {
+                DeckLog.info("Successfully deleted board", board.getTitle());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                    ResponseCallback.super.onError(throwable);
+                    runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                }
             }
         });
     }
 
     @Override
     public void onUpdateBoard(FullBoard fullBoard) {
-        final WrappedLiveData<FullBoard> updateLiveData = viewModel.updateBoard(fullBoard);
-        observeOnce(updateLiveData, this, (next) -> {
-            if (updateLiveData.hasError()) {
-                ExceptionDialogFragment.newInstance(updateLiveData.getError(), viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        viewModel.updateBoard(fullBoard, new ResponseCallback<FullBoard>() {
+            @Override
+            public void onResponse(FullBoard response) {
+                DeckLog.info("Successfully updated board", fullBoard.getBoard().getTitle());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                ResponseCallback.super.onError(throwable);
+                runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });
     }
 
     @Override
     public void onArchive(Board board) {
-        final WrappedLiveData<FullBoard> liveData = viewModel.dearchiveBoard(board);
-        observeOnce(liveData, this, (fullBoard) -> {
-            if (liveData.hasError()) {
-                ExceptionDialogFragment.newInstance(liveData.getError(), viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        viewModel.dearchiveBoard(board, new ResponseCallback<FullBoard>() {
+            @Override
+            public void onResponse(FullBoard response) {
+                DeckLog.info("Successfully dearchived board", response.getBoard().getTitle());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                ResponseCallback.super.onError(throwable);
+                runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });
     }
 
     @Override
     public void onClone(Board board) {
+        throw new IllegalStateException("Cloning boards is not available at " + ArchivedBoardsActvitiy.class.getSimpleName());
+    }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish(); // close this activity as oppose to navigating up
+        return true;
     }
 }

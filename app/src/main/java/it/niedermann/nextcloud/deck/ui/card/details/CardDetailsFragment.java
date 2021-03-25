@@ -4,9 +4,8 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -28,8 +28,6 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog.OnTimeSetListener;
-import com.yydcdut.markdown.MarkdownProcessor;
-import com.yydcdut.markdown.syntax.edit.EditFactory;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -43,10 +41,11 @@ import it.niedermann.android.util.ColorUtil;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabDetailsBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDatePickerDialog;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
@@ -57,11 +56,9 @@ import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeDialog;
 import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
-import it.niedermann.nextcloud.deck.util.MarkDownUtil;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
 
 public class CardDetailsFragment extends BrandedFragment implements OnDateSetListener, OnTimeSetListener, CardAssigneeListener {
@@ -72,6 +69,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
     private AppCompatActivity activity;
+    boolean editorActive = true;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -110,7 +108,6 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         setupDueDate();
         setupDescription();
         setupProjects();
-        binding.description.setText(viewModel.getFullCard().getCard().getDescription());
 
         return binding.getRoot();
     }
@@ -137,35 +134,48 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         applyBrandToEditText(mainColor, binding.dueDateDate);
         applyBrandToEditText(mainColor, binding.dueDateTime);
         applyBrandToEditText(mainColor, binding.people);
-        applyBrandToEditText(mainColor, binding.description);
+        binding.descriptionEditor.setSearchColor(mainColor);
+        binding.descriptionViewer.setSearchColor(mainColor);
     }
 
     private void setupDescription() {
         if (viewModel.canEdit()) {
-            MarkdownProcessor markdownProcessor = new MarkdownProcessor(requireContext());
-            markdownProcessor.config(MarkDownUtil.getMarkDownConfiguration(binding.description.getContext()).build());
-            markdownProcessor.factory(EditFactory.create());
-            markdownProcessor.live(binding.description);
-            binding.description.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if (viewModel.getFullCard() != null) {
-                        viewModel.getFullCard().getCard().setDescription(binding.description.getText().toString());
-                    }
-                }
-
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    // Nothing to do
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    // Nothing to do
+            binding.descriptionViewer.setMovementMethod(LinkMovementMethod.getInstance());
+            binding.descriptionBar.setOnClickListener((v) -> binding.descriptionEditor.requestFocus());
+            binding.descriptionToggle.setOnClickListener((v) -> {
+                editorActive = !editorActive;
+                if (editorActive) {
+                    binding.descriptionEditor.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
+                    binding.descriptionBar.setOnClickListener((view) -> binding.descriptionEditor.requestFocus());
+                    binding.descriptionEditor.setVisibility(VISIBLE);
+                    binding.descriptionViewer.setVisibility(GONE);
+                    binding.descriptionToggle.setImageResource(R.drawable.ic_baseline_eye_24);
+                } else {
+                    binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
+                    binding.descriptionBar.setOnClickListener(null);
+                    binding.descriptionEditor.setVisibility(GONE);
+                    binding.descriptionViewer.setVisibility(VISIBLE);
+                    binding.descriptionToggle.setImageResource(R.drawable.ic_edit_grey600_24dp);
                 }
             });
+            binding.descriptionEditor.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
+            final Observer<CharSequence> descriptionObserver = (description) -> {
+
+                if (viewModel.getFullCard() != null) {
+                    viewModel.getFullCard().getCard().setDescription(description == null ? "" : description.toString());
+                } else {
+                    ExceptionDialogFragment.newInstance(new IllegalStateException(FullCard.class.getSimpleName() + " was empty when trying to setup description"), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
+                binding.descriptionToggle.setVisibility(TextUtils.isEmpty(description) ? GONE : VISIBLE);
+            };
+            binding.descriptionEditor.getMarkdownString().observe(getViewLifecycleOwner(), descriptionObserver);
+            binding.descriptionViewer.getMarkdownString().observe(getViewLifecycleOwner(), descriptionObserver);
         } else {
-            binding.description.setEnabled(false);
+            binding.descriptionEditor.setEnabled(false);
+            binding.descriptionEditor.setVisibility(VISIBLE);
+            binding.descriptionViewer.setEnabled(false);
+            binding.descriptionViewer.setVisibility(GONE);
+            binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
         }
     }
 
@@ -233,18 +243,23 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                     newLabel.setBoardId(boardId);
                     newLabel.setTitle(((LabelAutoCompleteAdapter) binding.labels.getAdapter()).getLastFilterText());
                     newLabel.setLocalId(null);
-                    WrappedLiveData<Label> createLabelLiveData = viewModel.createLabel(accountId, newLabel, boardId);
-                    observeOnce(createLabelLiveData, CardDetailsFragment.this, createdLabel -> {
-                        if (createLabelLiveData.hasError()) {
-                            DeckLog.logError(createLabelLiveData.getError());
-                            BrandedSnackbar.make(requireView(), getString(R.string.error_create_label, newLabel.getTitle()), Snackbar.LENGTH_LONG)
-                                    .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(createLabelLiveData.getError(), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show();
-                        } else {
-                            newLabel.setLocalId(createdLabel.getLocalId());
-                            ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(createdLabel);
-                            viewModel.getFullCard().getLabels().add(createdLabel);
-                            binding.labelsGroup.addView(createChipFromLabel(newLabel));
-                            binding.labelsGroup.setVisibility(VISIBLE);
+                    viewModel.createLabel(accountId, newLabel, boardId, new ResponseCallback<Label>() {
+                        @Override
+                        public void onResponse(Label response) {
+                            requireActivity().runOnUiThread(() -> {
+                                newLabel.setLocalId(response.getLocalId());
+                                ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(response);
+                                viewModel.getFullCard().getLabels().add(response);
+                                binding.labelsGroup.addView(createChipFromLabel(newLabel));
+                                binding.labelsGroup.setVisibility(VISIBLE);
+                            });
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            ResponseCallback.super.onError(throwable);
+                            requireActivity().runOnUiThread(() -> BrandedSnackbar.make(requireView(), getString(R.string.error_create_label, newLabel.getTitle()), Snackbar.LENGTH_LONG)
+                                    .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show());
                         }
                     });
                 } else {

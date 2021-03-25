@@ -9,10 +9,10 @@ import android.util.Size;
 import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.camera.core.Camera;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
@@ -34,12 +34,10 @@ import it.niedermann.nextcloud.deck.databinding.ActivityTakePhotoBinding;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-import it.niedermann.nextcloud.deck.util.AttachmentUtil;
+import it.niedermann.nextcloud.deck.util.FilesUtil;
 
-import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.IMAGE_JPEG;
 
-@RequiresApi(LOLLIPOP)
 public class TakePhotoActivity extends BrandedActivity {
 
     private ActivityTakePhotoBinding binding;
@@ -81,8 +79,9 @@ public class TakePhotoActivity extends BrandedActivity {
                     cameraProvider.unbindAll();
                     cameraProvider.bindToLifecycle(this, viewModel.getCameraSelector(), captureUseCase, previewUseCase);
                 });
-            } catch (ExecutionException | InterruptedException e) {
+            } catch (IllegalArgumentException | ExecutionException | InterruptedException e) {
                 DeckLog.logError(e);
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
                 finish();
             }
         }, ContextCompat.getMainExecutor(this));
@@ -118,13 +117,13 @@ public class TakePhotoActivity extends BrandedActivity {
             binding.takePhoto.setEnabled(false);
             final String photoFileName = Instant.now().atZone(ZoneId.systemDefault()).format(fileNameFromCameraFormatter);
             try {
-                final File photoFile = AttachmentUtil.getTempCacheFile(this, "photos/" + photoFileName);
+                final File photoFile = FilesUtil.getTempCacheFile(this, "photos/" + photoFileName);
                 final ImageCapture.OutputFileOptions options = new ImageCapture.OutputFileOptions.Builder(photoFile).build();
                 captureUseCase.takePicture(options, ContextCompat.getMainExecutor(this), new ImageCapture.OnImageSavedCallback() {
                     @Override
                     public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                         final Uri savedUri = Uri.fromFile(photoFile);
-                        DeckLog.info("onImageSaved - savedUri: " + savedUri.toString());
+                        DeckLog.info("onImageSaved - savedUri:", savedUri.toString());
                         setResult(RESULT_OK, new Intent().setDataAndType(savedUri, IMAGE_JPEG));
                         finish();
                     }
@@ -167,7 +166,6 @@ public class TakePhotoActivity extends BrandedActivity {
         }
     }
 
-    @RequiresApi(LOLLIPOP)
     public static Intent createIntent(@NonNull Context context) {
         return new Intent(context, TakePhotoActivity.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
     }
