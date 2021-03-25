@@ -57,9 +57,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         compressImageAttachmentsPref = findPreference(getString(R.string.pref_key_compress_image_attachments));
         if (compressImageAttachmentsPref != null) {
             compressImageAttachmentsPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-                setAppTheme(Integer.parseInt((String) newValue));
-                requireActivity().setResult(Activity.RESULT_OK);
-                ActivityCompat.recreate(requireActivity());
+                DeckLog.log("compress image attachments:", newValue);
                 return true;
             });
         } else {
