@@ -37,6 +37,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.GsonConfig;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.LastSyncUtil;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.exceptions.DeckException;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.AccessControl;
@@ -564,12 +565,6 @@ public class SyncManager {
                     public void onResponse(FullBoard response) {
                         liveData.postValue(response);
                     }
-
-                    @SuppressLint("MissingSuperCall")
-                    @Override
-                    public void onError(Throwable throwable, FullBoard entity) {
-                        liveData.postError(throwable, entity);
-                    }
                 });
             }
         });
@@ -940,12 +935,6 @@ public class SyncManager {
                 @Override
                 public void onResponse(FullStack response) {
                     liveData.postValue(response);
-                }
-
-                @SuppressLint("MissingSuperCall")
-                @Override
-                public void onError(Throwable throwable, FullStack entity) {
-                    liveData.postError(throwable, entity);
                 }
             });
         });
@@ -1960,7 +1949,7 @@ public class SyncManager {
     // # filter widget
 
     @AnyThread
-    public void createFilterWidget(@NonNull FilterWidget filterWidget, @NonNull IResponseCallback<Integer> callback) {
+    public void createFilterWidget(@NonNull FilterWidget filterWidget, @NonNull ResponseCallback<Integer> callback) {
         doAsync(() -> {
             try {
                 int filterWidgetId = dataBaseAdapter.createFilterWidgetDirectly(filterWidget);
@@ -1984,7 +1973,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void getFilterWidget(@NonNull Integer filterWidgetId, @NonNull IResponseCallback<FilterWidget> callback) {
+    public void getFilterWidget(@NonNull Integer filterWidgetId, @NonNull ResponseCallback<FilterWidget> callback) {
         doAsync(() -> {
             try {
                 callback.onResponse(dataBaseAdapter.getFilterWidgetByIdDirectly(filterWidgetId));
@@ -1995,7 +1984,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void deleteFilterWidget(int filterWidgetId, @NonNull IResponseCallback<Boolean> callback) {
+    public void deleteFilterWidget(int filterWidgetId, @NonNull ResponseCallback<Boolean> callback) {
         doAsync(() -> {
             try {
                 dataBaseAdapter.deleteFilterWidgetDirectly(filterWidgetId);

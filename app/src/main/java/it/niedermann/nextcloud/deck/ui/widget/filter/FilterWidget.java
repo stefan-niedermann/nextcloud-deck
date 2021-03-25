@@ -9,7 +9,7 @@ import android.os.Bundle;
 
 import java.util.NoSuchElementException;
 
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
@@ -72,12 +72,7 @@ public class FilterWidget extends AppWidgetProvider {
         final SyncManager syncManager = new SyncManager(context);
 
         for (int appWidgetId : appWidgetIds) {
-            syncManager.deleteFilterWidget(appWidgetId, new IResponseCallback<Boolean>(null) {
-                @Override
-                public void onResponse(Boolean response) {
-
-                }
-            });
+            syncManager.deleteFilterWidget(appWidgetId, response -> DeckLog.verbose("Successfully deleted " + FilterWidget.class.getSimpleName() + " with id " + appWidgetId));
         }
     }
 }
