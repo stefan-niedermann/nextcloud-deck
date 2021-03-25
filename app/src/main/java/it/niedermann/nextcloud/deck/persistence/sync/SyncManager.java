@@ -864,8 +864,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<Void> deleteAccessControl(@NonNull AccessControl entity) {
-        WrappedLiveData<Void> liveData = new WrappedLiveData<>();
+    public void deleteAccessControl(@NonNull AccessControl entity, @NonNull ResponseCallback<Void> callback) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(entity.getAccountId());
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(entity.getAccountId(), entity.getBoardId());
@@ -877,17 +876,16 @@ public class SyncManager {
                             if (entity.getAccountId() == entity.getAccountId() && entity.getUser().getUid().equals(account.getUserName())) {
                                 dataBaseAdapter.deleteBoardPhysically(board.getBoard());
                             }
-                            liveData.postValue(response);
+                            callback.onResponse(response);
                         }
 
                         @SuppressLint("MissingSuperCall")
                         @Override
                         public void onError(Throwable throwable) {
-                            liveData.postError(throwable);
+                            callback.onError(throwable);
                         }
                     });
         });
-        return liveData;
     }
 
     public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {
@@ -1136,46 +1134,44 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<Void> archiveCardsInStack(long accountId, long stackLocalId, @NonNull FilterInformation filterInformation) {
-        WrappedLiveData<Void> liveData = new WrappedLiveData<>();
+    public void archiveCardsInStack(long accountId, long stackLocalId, @NonNull FilterInformation filterInformation, @NonNull ResponseCallback<Void> callback) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(stackLocalId);
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
             List<FullCard> cards = dataBaseAdapter.getFullCardsForStackDirectly(accountId, stackLocalId, filterInformation);
-            if (cards.size() > 0) {
-                CountDownLatch latch = new CountDownLatch(cards.size());
-                for (FullCard card : cards) {
-                    if (card.getCard().isArchived()) {
+            if (cards.size() <= 0) {
+                callback.onResponse(null);
+                return;
+            }
+            final CountDownLatch latch = new CountDownLatch(cards.size());
+            for (FullCard card : cards) {
+                if (card.getCard().isArchived()) {
+                    latch.countDown();
+                    continue;
+                }
+                card.getCard().setArchived(true);
+                updateCardForArchive(stack, board, card, new IResponseCallback<FullCard>(account) {
+                    @Override
+                    public void onResponse(FullCard response) {
                         latch.countDown();
-                        continue;
                     }
-                    card.getCard().setArchived(true);
-                    updateCardForArchive(stack, board, card, new IResponseCallback<FullCard>(account) {
-                        @Override
-                        public void onResponse(FullCard response) {
-                            latch.countDown();
-                        }
 
-                        @SuppressLint("MissingSuperCall")
-                        @Override
-                        public void onError(Throwable throwable) {
-                            latch.countDown();
-                            liveData.postError(throwable);
-                        }
-                    });
-                }
-                try {
-                    latch.await();
-                    liveData.postValue(null);
-                } catch (InterruptedException e) {
-                    liveData.postError(e);
-                }
-            } else {
-                liveData.postValue(null);
+                    @SuppressLint("MissingSuperCall")
+                    @Override
+                    public void onError(Throwable throwable) {
+                        latch.countDown();
+                        callback.onError(throwable);
+                    }
+                });
+            }
+            try {
+                latch.await();
+                callback.onResponse(null);
+            } catch (InterruptedException e) {
+                callback.onError(e);
             }
         });
-        return liveData;
     }
 
     @AnyThread
@@ -1289,7 +1285,6 @@ public class SyncManager {
     @AnyThread
     public WrappedLiveData<Void> moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
         return LiveDataHelper.wrapInLiveData(() -> {
-
             final FullCard originalCard = dataBaseAdapter.getFullCardByLocalIdDirectly(originAccountId, originCardLocalId);
             int newIndex = dataBaseAdapter.getHighestCardOrderInStack(targetStackLocalId) + 1;
             final FullBoard originalBoard = dataBaseAdapter.getFullBoardByLocalCardIdDirectly(originCardLocalId);

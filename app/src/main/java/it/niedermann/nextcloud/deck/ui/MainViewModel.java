@@ -183,8 +183,8 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.getAccessControlByLocalBoardId(accountId, id);
     }
 
-    public WrappedLiveData<Void> deleteAccessControl(@NonNull AccessControl entity) {
-        return syncManager.deleteAccessControl(entity);
+    public void deleteAccessControl(@NonNull AccessControl entity, @NonNull ResponseCallback<Void> callback) {
+        syncManager.deleteAccessControl(entity, callback);
     }
 
     public WrappedLiveData<Label> createLabel(long accountId, Label label, long localBoardId) {
@@ -235,8 +235,8 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.countCardsInStack(accountId, localStackId);
     }
 
-    public WrappedLiveData<Void> archiveCardsInStack(long accountId, long stackLocalId, @NonNull FilterInformation filterInformation) {
-        return syncManager.archiveCardsInStack(accountId, stackLocalId, filterInformation);
+    public void archiveCardsInStack(long accountId, long stackLocalId, @NonNull FilterInformation filterInformation, @NonNull ResponseCallback<Void> callback) {
+        syncManager.archiveCardsInStack(accountId, stackLocalId, filterInformation, callback);
     }
 
     public WrappedLiveData<FullCard> updateCard(@NonNull FullCard fullCard) {

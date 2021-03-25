@@ -682,10 +682,18 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                 : R.string.do_you_want_to_archive_all_cards_of_the_list, stack.getTitle()))
                         .setPositiveButton(R.string.simple_archive, (dialog, whichButton) -> {
                             final FilterInformation filterInformation = filterViewModel.getFilterInformation().getValue();
-                            final WrappedLiveData<Void> archiveStackLiveData = mainViewModel.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, filterInformation == null ? new FilterInformation() : filterInformation);
-                            observeOnce(archiveStackLiveData, this, (result) -> {
-                                if (archiveStackLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(archiveStackLiveData.getError())) {
-                                    ExceptionDialogFragment.newInstance(archiveStackLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                            mainViewModel.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, filterInformation == null ? new FilterInformation() : filterInformation, new ResponseCallback<Void>() {
+                                @Override
+                                public void onResponse(Void response) {
+                                    DeckLog.info("Successfully archived all cards in stack local id " + stackLocalId);
+                                }
+
+                                @Override
+                                public void onError(Throwable throwable) {
+                                    if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                                        ResponseCallback.super.onError(throwable);
+                                        ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                    }
                                 }
                             });
                         })
