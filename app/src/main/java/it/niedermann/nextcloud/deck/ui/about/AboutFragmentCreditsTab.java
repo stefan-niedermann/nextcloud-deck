@@ -55,7 +55,7 @@ public class AboutFragmentCreditsTab extends Fragment {
         binding.lastBackgroundSync.setText(
                 lastBackgroundSync == BACKGROUND_SYNC_NEVER_EXECUTED || settingsBackgroundSync.equals(backgroundSyncOffValue)
                         ? disabled(getString(R.string.simple_disabled), requireContext())
-                        : strong(DateUtil.getRelativeDateTimeString(getContext(), lastBackgroundSync))
+                        : strong(DateUtil.getRelativeDateTimeString(requireContext(), lastBackgroundSync))
         );
         binding.aboutMaintainer.setText(url(getString(R.string.about_maintainer), getString(R.string.url_maintainer)));
         binding.aboutMaintainer.setMovementMethod(new LinkMovementMethod());
