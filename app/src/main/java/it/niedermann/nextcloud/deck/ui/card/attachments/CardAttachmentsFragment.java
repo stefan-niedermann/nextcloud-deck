@@ -39,12 +39,13 @@ import java.util.Map;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabAttachmentsBinding;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.model.Attachment;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
@@ -425,22 +426,25 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                             editViewModel.getFullCard().getAttachments().add(0, a);
                             adapter.addAttachment(a);
                             if (!editViewModel.isCreateMode()) {
-                                WrappedLiveData<Attachment> liveData = editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload);
-                                observeOnce(liveData, getViewLifecycleOwner(), (next) -> {
-                                    if (liveData.hasError()) {
-                                        Throwable t = liveData.getError();
-                                        if (t instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) t).getStatusCode() == HTTP_CONFLICT) {
+                                editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload, new ResponseCallback<Attachment>() {
+                                    @Override
+                                    public void onResponse(Attachment response) {
+                                        editViewModel.getFullCard().getAttachments().remove(a);
+                                        editViewModel.getFullCard().getAttachments().add(0, response);
+                                        adapter.replaceAttachment(a, response);
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable throwable) {
+                                        if (throwable instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) throwable).getStatusCode() == HTTP_CONFLICT) {
+                                            ResponseCallback.super.onError(throwable);
                                             // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
                                             editViewModel.getFullCard().getAttachments().remove(a);
                                             adapter.removeAttachment(a);
                                             BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
                                         } else {
-                                            ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", t), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                            ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", throwable), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                                         }
-                                    } else {
-                                        editViewModel.getFullCard().getAttachments().remove(a);
-                                        editViewModel.getFullCard().getAttachments().add(0, next);
-                                        adapter.replaceAttachment(a, next);
                                     }
                                 });
                             }
@@ -494,10 +498,18 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         adapter.removeAttachment(attachment);
         editViewModel.getFullCard().getAttachments().remove(attachment);
         if (!editViewModel.isCreateMode() && attachment.getLocalId() != null) {
-            final WrappedLiveData<Void> deleteLiveData = editViewModel.deleteAttachmentOfCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), attachment.getLocalId());
-            observeOnce(deleteLiveData, this, (next) -> {
-                if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
-                    ExceptionDialogFragment.newInstance(deleteLiveData.getError(), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            editViewModel.deleteAttachmentOfCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), attachment.getLocalId(), new ResponseCallback<Void>() {
+                @Override
+                public void onResponse(Void response) {
+                    DeckLog.info("Successfully delete " + Attachment.class.getSimpleName() + " " + attachment.getFilename() + " from " + Card.class.getSimpleName() + " " + editViewModel.getFullCard().getCard().getTitle());
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                        ResponseCallback.super.onError(throwable);
+                        ExceptionDialogFragment.newInstance(throwable, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    }
                 }
             });
         }

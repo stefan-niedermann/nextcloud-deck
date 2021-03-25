@@ -12,4 +12,12 @@ public interface ResponseCallback<T> {
     default void onError(Throwable throwable) {
         DeckLog.logError(throwable);
     }
+
+    /**
+     * @return a default {@link ResponseCallback} which does nothing {@link #onResponse(Object)} and the default action fo {@link #onError(Throwable)}
+     */
+    static <T> ResponseCallback<T> empty() {
+        return response -> {
+        };
+    }
 }

@@ -23,6 +23,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -125,19 +126,23 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                     if (mimeType == null) {
                         throw new IllegalArgumentException("MimeType of uri is null. [" + uri + "]");
                     }
-                    runOnUiThread(() -> {
-                        final WrappedLiveData<Attachment> liveData = mainViewModel.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, tempFile);
-                        liveData.observe(ShareTargetActivity.this, (next) -> {
-                            if (liveData.hasError()) {
-                                if (liveData.getError() instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) liveData.getError()).getStatusCode() == HTTP_CONFLICT) {
+                    mainViewModel.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, tempFile, new ResponseCallback<Attachment>() {
+                        @Override
+                        public void onResponse(Attachment response) {
+                            runOnUiThread(shareProgressViewModel::increaseProgress);
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            runOnUiThread(() -> {
+                                if (throwable instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) throwable).getStatusCode() == HTTP_CONFLICT) {
+                                    ResponseCallback.super.onError(throwable);
                                     shareProgressViewModel.addDuplicateAttachment(tempFile.getName());
                                 } else {
-                                    shareProgressViewModel.addException(liveData.getError());
+                                    shareProgressViewModel.addException(throwable);
                                 }
-                            } else {
-                                shareProgressViewModel.increaseProgress();
-                            }
-                        });
+                            });
+                        }
                     });
                 } catch (Throwable t) {
                     runOnUiThread(() -> shareProgressViewModel.addException(new UploadAttachmentFailedException("Error while uploading attachment for uri [" + uri + "]", t)));

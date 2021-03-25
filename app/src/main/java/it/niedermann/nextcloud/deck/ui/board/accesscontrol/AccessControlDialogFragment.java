@@ -18,6 +18,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.DialogBoardShareBinding;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.User;
@@ -101,10 +102,16 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
 
     @Override
     public void updateAccessControl(AccessControl accessControl) {
-        WrappedLiveData<AccessControl> updateLiveData = viewModel.updateAccessControl(accessControl);
-        observeOnce(updateLiveData, requireActivity(), (next) -> {
-            if (updateLiveData.hasError()) {
-                ExceptionDialogFragment.newInstance(updateLiveData.getError(), viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        viewModel.updateAccessControl(accessControl, new ResponseCallback<AccessControl>() {
+            @Override
+            public void onResponse(AccessControl response) {
+                DeckLog.info("Successfully updated " + AccessControl.class.getSimpleName() + " for user " + accessControl.getUser().getDisplayname());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                ResponseCallback.super.onError(throwable);
+                ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
             }
         });
     }
@@ -132,10 +139,16 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         ac.setType(0L); // https://github.com/nextcloud/deck/blob/master/docs/API.md#post-boardsboardidacl---add-new-acl-rule
         ac.setUserId(user.getLocalId());
         ac.setUser(user);
-        final WrappedLiveData<AccessControl> createLiveData = viewModel.createAccessControl(viewModel.getCurrentAccount().getId(), ac);
-        observeOnce(createLiveData, this, (next) -> {
-            if (createLiveData.hasError()) {
-                ExceptionDialogFragment.newInstance(createLiveData.getError(), viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        viewModel.createAccessControl(viewModel.getCurrentAccount().getId(), ac, new ResponseCallback<AccessControl>() {
+            @Override
+            public void onResponse(AccessControl response) {
+                DeckLog.info("Successfully created " + AccessControl.class.getSimpleName() + " for user " + user.getDisplayname());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                ResponseCallback.super.onError(throwable);
+                ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
             }
         });
         binding.people.setText("");

@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.api;
 
+import android.annotation.SuppressLint;
+
 import androidx.annotation.NonNull;
 
 import java.util.Collection;
@@ -52,5 +54,23 @@ public abstract class IResponseCallback<T> implements ResponseCallback<T> {
     @NonNull
     public Account getAccount() {
         return account;
+    }
+
+    /**
+     * Forwards responses and errors to the given {@param callback}
+     */
+    public static <T> IResponseCallback<T> from(@NonNull Account account, ResponseCallback<T> callback) {
+        return new IResponseCallback<T>(account) {
+            @Override
+            public void onResponse(T response) {
+                callback.onResponse(response);
+            }
+
+            @SuppressLint("MissingSuperCall")
+            @Override
+            public void onError(Throwable throwable) {
+                callback.onError(throwable);
+            }
+        };
     }
 }

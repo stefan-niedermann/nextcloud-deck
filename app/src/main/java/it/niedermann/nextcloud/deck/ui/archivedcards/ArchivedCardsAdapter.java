@@ -7,16 +7,16 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LifecycleOwner;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.card.AbstractCardViewHolder;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
-
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 public class ArchivedCardsAdapter extends CardAdapter {
 
@@ -34,18 +34,32 @@ public class ArchivedCardsAdapter extends CardAdapter {
     public boolean onCardOptionsItemSelected(@NonNull MenuItem menuItem, @NonNull FullCard fullCard) {
         int itemId = menuItem.getItemId();
         if (itemId == R.id.action_card_dearchive) {
-            final WrappedLiveData<FullCard> liveData = mainViewModel.dearchiveCard(fullCard);
-            observeOnce(liveData, lifecycleOwner, (next) -> {
-                if (liveData.hasError()) {
-                    ExceptionDialogFragment.newInstance(liveData.getError(), mainViewModel.getCurrentAccount()).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
+            mainViewModel.dearchiveCard(fullCard, new ResponseCallback<FullCard>() {
+                @Override
+                public void onResponse(FullCard response) {
+                    DeckLog.info("Successfully dearchived " + Card.class.getSimpleName() + " " + fullCard.getCard().getTitle());
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    ResponseCallback.super.onError(throwable);
+                    ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
                 }
             });
             return true;
         } else if (itemId == R.id.action_card_delete) {
-            final WrappedLiveData<Void> liveData = mainViewModel.deleteCard(fullCard.getCard());
-            observeOnce(liveData, lifecycleOwner, (next) -> {
-                if (liveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(liveData.getError())) {
-                    ExceptionDialogFragment.newInstance(liveData.getError(), mainViewModel.getCurrentAccount()).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
+            mainViewModel.deleteCard(fullCard.getCard(), new ResponseCallback<Void>() {
+                @Override
+                public void onResponse(Void response) {
+                    DeckLog.info("Successfully deleted card " + fullCard.getCard().getTitle());
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                        ResponseCallback.super.onError(throwable);
+                        ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
+                    }
                 }
             });
             return true;

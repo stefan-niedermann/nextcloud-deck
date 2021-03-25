@@ -17,6 +17,7 @@ import java.util.List;
 import it.niedermann.android.sharedpreferences.SharedPreferenceBooleanLiveData;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -162,20 +163,20 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.cloneBoard(originAccountId, originBoardLocalId, targetAccountId, targetBoardColor, cloneCards);
     }
 
-    public WrappedLiveData<Void> deleteBoard(@NonNull Board board) {
-        return syncManager.deleteBoard(board);
+    public void deleteBoard(@NonNull Board board, @NonNull ResponseCallback<Void> callback) {
+        syncManager.deleteBoard(board, callback);
     }
 
     public LiveData<Boolean> hasArchivedBoards(long accountId) {
         return syncManager.hasArchivedBoards(accountId);
     }
 
-    public WrappedLiveData<AccessControl> createAccessControl(long accountId, AccessControl entity) {
-        return syncManager.createAccessControl(accountId, entity);
+    public void createAccessControl(long accountId, @NonNull AccessControl entity, @NonNull ResponseCallback<AccessControl> callback) {
+        syncManager.createAccessControl(accountId, entity, callback);
     }
 
-    public WrappedLiveData<AccessControl> updateAccessControl(@NonNull AccessControl entity) {
-        return syncManager.updateAccessControl(entity);
+    public void updateAccessControl(@NonNull AccessControl entity, @NonNull ResponseCallback<AccessControl> callback) {
+        syncManager.updateAccessControl(entity, callback);
     }
 
     public LiveData<List<AccessControl>> getAccessControlByLocalBoardId(long accountId, Long id) {
@@ -194,20 +195,20 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.countCardsWithLabel(localLabelId);
     }
 
-    public WrappedLiveData<Label> updateLabel(@NonNull Label label) {
-        return syncManager.updateLabel(label);
+    public void updateLabel(@NonNull Label label, @NonNull ResponseCallback<Label> callback) {
+        syncManager.updateLabel(label, callback);
     }
 
-    public WrappedLiveData<Void> deleteLabel(@NonNull Label label) {
-        return syncManager.deleteLabel(label);
+    public void deleteLabel(@NonNull Label label, @NonNull ResponseCallback<Void> callback) {
+        syncManager.deleteLabel(label, callback);
     }
 
     public LiveData<List<Stack>> getStacksForBoard(long accountId, long localBoardId) {
         return syncManager.getStacksForBoard(accountId, localBoardId);
     }
 
-    public WrappedLiveData<FullStack> createStack(long accountId, @NonNull String title, long boardLocalId) {
-        return syncManager.createStack(accountId, title, boardLocalId);
+    public void createStack(long accountId, @NonNull String title, long boardLocalId, @NonNull ResponseCallback<FullStack> callback) {
+        syncManager.createStack(accountId, title, boardLocalId, callback);
     }
 
     public LiveData<FullStack> getStack(long accountId, long localStackId) {
@@ -222,8 +223,8 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.updateStackTitle(localStackId, newTitle);
     }
 
-    public WrappedLiveData<Void> deleteStack(long accountId, long stackLocalId, long boardLocalId) {
-        return syncManager.deleteStack(accountId, stackLocalId, boardLocalId);
+    public void deleteStack(long accountId, long stackLocalId, long boardLocalId, @NonNull ResponseCallback<Void> callback) {
+        syncManager.deleteStack(accountId, stackLocalId, boardLocalId, callback);
     }
 
     public void reorder(long accountId, @NonNull FullCard movedCard, long newStackId, int newIndex) {
@@ -246,8 +247,8 @@ public class MainViewModel extends AndroidViewModel {
         syncManager.addCommentToCard(accountId, cardId, comment);
     }
 
-    public WrappedLiveData<Attachment> addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file) {
-        return syncManager.addAttachmentToCard(accountId, localCardId, mimeType, file);
+    public void addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file, @NonNull ResponseCallback<Attachment> callback) {
+        syncManager.addAttachmentToCard(accountId, localCardId, mimeType, file, callback);
     }
 
     public void addOrUpdateSingleCardWidget(int widgetId, long accountId, long boardId, long localCardId) {
@@ -278,15 +279,15 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.getUserByUidDirectly(accountId, uid);
     }
 
-    public WrappedLiveData<FullCard> archiveCard(@NonNull FullCard card) {
-        return syncManager.archiveCard(card);
+    public void archiveCard(@NonNull FullCard card, @NonNull ResponseCallback<FullCard> callback) {
+        syncManager.archiveCard(card, callback);
     }
 
-    public WrappedLiveData<FullCard> dearchiveCard(@NonNull FullCard card) {
-        return syncManager.dearchiveCard(card);
+    public void dearchiveCard(@NonNull FullCard card, @NonNull ResponseCallback<FullCard> callback) {
+        syncManager.dearchiveCard(card, callback);
     }
 
-    public WrappedLiveData<Void> deleteCard(@NonNull Card card) {
-        return syncManager.deleteCard(card);
+    public void deleteCard(@NonNull Card card, @NonNull ResponseCallback<Void> callback) {
+        syncManager.deleteCard(card, callback);
     }
 }
