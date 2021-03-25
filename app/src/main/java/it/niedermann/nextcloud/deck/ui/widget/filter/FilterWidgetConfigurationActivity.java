@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityFilterWidgetBinding;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
@@ -51,12 +50,7 @@ public class FilterWidgetConfigurationActivity extends AppCompatActivity {
         binding.submit.setOnClickListener((v) -> {
             final Bundle extras = new Bundle();
 
-            viewModel.updateFilterWidget(new IResponseCallback<Integer>(null) {
-                @Override
-                public void onResponse(Integer response) {
-
-                }
-            });
+            viewModel.updateFilterWidget(response -> DeckLog.verbose("Successfully updated", FilterWidget.class.getSimpleName(), "with id", appWidgetId));
             Intent updateIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, getApplicationContext(), FilterWidget.class);
             extras.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 

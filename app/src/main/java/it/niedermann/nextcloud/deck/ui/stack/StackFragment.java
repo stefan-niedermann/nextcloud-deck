@@ -81,7 +81,7 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
             return binding.getRoot();
         }
 
-        adapter = new CardAdapter(requireContext(), getChildFragmentManager(), stackId, mainViewModel, this,
+        adapter = new CardAdapter(requireActivity(), getChildFragmentManager(), stackId, mainViewModel, this,
                 (requireActivity() instanceof SelectCardListener)
                         ? (SelectCardListener) requireActivity()
                         : null);
@@ -159,7 +159,7 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
             if (liveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(liveData.getError())) {
                 ExceptionDialogFragment.newInstance(liveData.getError(), null).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
             } else {
-                DeckLog.log("Moved " + Card.class.getSimpleName() + " \"" + originCardLocalId + "\" to " + Stack.class.getSimpleName() + " \"" + targetStackLocalId + "\"");
+                DeckLog.log("Moved", Card.class.getSimpleName(), originCardLocalId, "to", Stack.class.getSimpleName(), targetStackLocalId);
             }
         });
     }

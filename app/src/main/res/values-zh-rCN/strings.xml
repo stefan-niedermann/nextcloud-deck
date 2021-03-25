@@ -118,6 +118,7 @@
     <string name="settings_theme_title">主题</string>
     <string name="settings_branding_title">添加商标</string>
     <string name="settings_compact_title">紧凑模式</string>
+    <string name="settings_debugging">调试日志</string>
     <string name="settings_background_sync">后台同步</string>
     <string name="pref_value_wifi_and_mobile">在有 Wi-Fi 和移动数据网络时同步</string>
     <string name="pref_value_wifi_only">仅在 Wi-Fi 下同步</string>
@@ -220,8 +221,10 @@
     <string name="error_dialog_user_not_found_in_database">当前用户与数据库中的用户不匹配。如果你在 Nextcloud 实例上使用 LDAP，那么 Nextcloud 应用程序可能存储了一个旧的用户ID。</string>
     <string name="error_dialog_capabilities_not_parsable">我们无法获取您服务器的容量。请确保您的服务器运行良好，其他客户端应用程序能够访问Nextcloud。</string>
     <string name="error_dialog_attachment_upload_failed">无法上传一个附件。请尝试用另一种方式分享它，并让我们知道这个bug。</string>
+    <string name="error_dialog_certificate">服务器的证书似乎有问题。请查看 Nextcloud 应用程序中的所有账户以获取更多信息。</string>
     <string name="error_dialog_tip_disable_battery_optimizations">请禁用针对 Nextcloud 和 Deck 应用程序的所有电池优化。</string>
     <string name="error_action_open_deck_info">打开应用信息</string>
+    <string name="error_action_open_nextcloud_app">打开 Nextcloud 应用</string>
     <string name="error_action_open_network">网络设置</string>
     <string name="error_action_server_logs">服务器日志</string>
     <string name="error_action_install">安装</string>
@@ -293,4 +296,11 @@
     <string name="simple_order">顺序</string>
     <string name="edit_description">编辑描述</string>
     <string name="widget_upcoming_title">即将到来的卡片 </string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">专家设置</string>
+    <string name="copy_logs">复制日志到剪贴板</string>
+    <string name="app_logo">应用图标</string>
+    <string name="log_file">日志文件</string>
+    <string name="copying_logs_to_file">正将日志复制到文件</string>
+    <string name="account_imported">账户已导入</string>
 </resources>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/widget_single_card_background"
     android:orientation="vertical"
-    android:paddingTop="@dimen/spacer_1x"
+    android:paddingTop="@dimen/spacer_1hx"
     android:paddingBottom="@dimen/spacer_1x"
     android:paddingStart="@dimen/spacer_2x"
     android:paddingEnd="@dimen/spacer_2x"
@@ -25,9 +25,9 @@
             android:paddingTop="@dimen/spacer_1hx"
             android:paddingBottom="@dimen/spacer_1hx"
             android:textColor="@color/widget_foreground"
-            android:textSize="16sp"
+            android:textSize="@dimen/widget_font_size_header"
             android:textStyle="bold"
-            tools:maxLength="40"
+            tools:maxLength="30"
             tools:text="@tools:sample/lorem/random" />
 
         <LinearLayout

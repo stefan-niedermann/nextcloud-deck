@@ -20,11 +20,11 @@ import java.time.Instant;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabCommentsBinding;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
@@ -33,7 +33,6 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 
@@ -142,10 +141,18 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
 
     @Override
     public void onCommentDeleted(Long localId) {
-        final WrappedLiveData<Void> deleteLiveData = commentsViewModel.deleteComment(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), localId);
-        observeOnce(deleteLiveData, this, (next) -> {
-            if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
-                ExceptionDialogFragment.newInstance(deleteLiveData.getError(), mainViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        commentsViewModel.deleteComment(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), localId, new ResponseCallback<Void>() {
+            @Override
+            public void onResponse(Void response) {
+                DeckLog.info("Successfully deleted comment with localId", localId);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                    ResponseCallback.super.onError(throwable);
+                    requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                }
             }
         });
     }

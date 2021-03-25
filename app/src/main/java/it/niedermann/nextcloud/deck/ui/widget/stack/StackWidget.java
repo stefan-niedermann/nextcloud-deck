@@ -13,9 +13,7 @@ import androidx.annotation.ColorInt;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Stack;
-import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
@@ -41,10 +39,10 @@ public class StackWidget extends AppWidgetProvider {
         if (ACTION_APPWIDGET_UPDATE.equals(intent.getAction())) {
             if (intent.hasExtra(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
                 final int appWidgetId = intent.getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
-                DeckLog.verbose(ACTION_APPWIDGET_UPDATE + " for " + StackWidget.class.getSimpleName() + " with id " + appWidgetId + ", perform update.");
+                DeckLog.verbose(ACTION_APPWIDGET_UPDATE, "for", StackWidget.class.getSimpleName(), "with id", appWidgetId, "→ perform update.");
                 updateAppWidget(context, awm, new int[]{appWidgetId});
             } else {
-                DeckLog.verbose(ACTION_APPWIDGET_UPDATE + " for " + StackWidget.class.getSimpleName() + ": Triggering update for all widgets of this type.");
+                DeckLog.verbose(ACTION_APPWIDGET_UPDATE, "→ Triggering update for all widgets of type", StackWidget.class.getSimpleName());
                 updateAppWidget(context, awm, awm.getAppWidgetIds(new ComponentName(context, StackWidget.class)));
             }
         }
@@ -56,13 +54,8 @@ public class StackWidget extends AppWidgetProvider {
         final SyncManager syncManager = new SyncManager(context);
 
         for (int appWidgetId : appWidgetIds) {
-            DeckLog.info("Delete " + StackWidget.class.getSimpleName() + " with id " + appWidgetId);
-            syncManager.deleteFilterWidget(appWidgetId, new IResponseCallback<Boolean>(null) {
-                @Override
-                public void onResponse(Boolean response) {
-                    DeckLog.verbose("Successfully deleted " + StackWidget.class.getSimpleName() + " with id " + appWidgetId);
-                }
-            });
+            DeckLog.info("Delete", StackWidget.class.getSimpleName(), "with id", appWidgetId);
+            syncManager.deleteFilterWidget(appWidgetId, response -> DeckLog.verbose("Successfully deleted " + StackWidget.class.getSimpleName() + " with id " + appWidgetId));
         }
     }
 
@@ -89,17 +82,14 @@ public class StackWidget extends AppWidgetProvider {
                     views.setRemoteAdapter(R.id.stack_widget_lv, serviceIntent);
                     views.setEmptyView(R.id.stack_widget_lv, R.id.widget_stack_placeholder_iv);
 
-                    syncManager.getFilterWidget(appWidgetId, new IResponseCallback<FilterWidget>(null) {
-                        @Override
-                        public void onResponse(FilterWidget response) {
-                            final Stack stack = syncManager.getStackDirectly(response.getAccounts().get(0).getBoards().get(0).getStacks().get(0).getStackId());
-                            @ColorInt final Integer boardColor = syncManager.getBoardColorDirectly(response.getAccounts().get(0).getAccountId(), response.getAccounts().get(0).getBoards().get(0).getBoardId());
-                            views.setTextViewText(R.id.widget_stack_title_tv, stack.getTitle());
-                            views.setInt(R.id.widget_stack_header_icon, "setColorFilter", boardColor);
+                    syncManager.getFilterWidget(appWidgetId, response -> {
+                        final Stack stack = syncManager.getStackDirectly(response.getAccounts().get(0).getBoards().get(0).getStacks().get(0).getStackId());
+                        @ColorInt final Integer boardColor = syncManager.getBoardColorDirectly(response.getAccounts().get(0).getAccountId(), response.getAccounts().get(0).getBoards().get(0).getBoardId());
+                        views.setTextViewText(R.id.widget_stack_title_tv, stack.getTitle());
+                        views.setInt(R.id.widget_stack_header_icon, "setColorFilter", boardColor);
 
-                            awm.notifyAppWidgetViewDataChanged(appWidgetId, R.id.stack_widget_lv);
-                            awm.updateAppWidget(appWidgetId, views);
-                        }
+                        awm.notifyAppWidgetViewDataChanged(appWidgetId, R.id.stack_widget_lv);
+                        awm.updateAppWidget(appWidgetId, views);
                     });
                 } else {
                     DeckLog.warn("Does not yet exist");

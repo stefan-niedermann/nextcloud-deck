@@ -232,9 +232,9 @@ public class DataBaseAdapter {
 
     @WorkerThread
     public List<FullCard> getFullCardsForStackDirectly(long accountId, long localStackId, @Nullable FilterInformation filter) {
-            return filter == null
-                    ? db.getCardDao().getFullCardsForStackDirectly(accountId, localStackId)
-                    : db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, accountId, localStackId));
+        return filter == null
+                ? db.getCardDao().getFullCardsForStackDirectly(accountId, localStackId)
+                : db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, accountId, localStackId));
     }
 
     @AnyThread
@@ -338,7 +338,7 @@ public class DataBaseAdapter {
             if (account.getUserName().equals(user.getUid())) {
                 for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
                     for (FilterWidgetAccount widgetAccount : widget.getAccounts()) {
-                        if (widgetAccount.getAccountId() == accountId &&  widgetAccount.getUsers().isEmpty()) {
+                        if (widgetAccount.getAccountId() == accountId && widgetAccount.getUsers().isEmpty()) {
                             FilterWidgetUser u = new FilterWidgetUser();
                             u.setFilterAccountId(widgetAccount.getId());
                             u.setUserId(newId);
@@ -432,7 +432,7 @@ public class DataBaseAdapter {
             // readded!
             existing.setStatusEnum(DBStatus.LOCAL_EDITED);
             db.getJoinCardWithUserDao().update(existing);
-            notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.USER,localUserId);
+            notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.USER, localUserId);
         } else if (existing != null) {
             return;
         } else {
@@ -441,7 +441,7 @@ public class DataBaseAdapter {
             join.setUserId(localUserId);
             join.setStatus(status.getId());
             db.getJoinCardWithUserDao().insert(join);
-            notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.USER,localUserId);
+            notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.USER, localUserId);
         }
     }
 
@@ -503,7 +503,7 @@ public class DataBaseAdapter {
             long id = db.getAccountDao().insert(account);
 
             new Thread(() -> {
-                DeckLog.verbose("Adding new created " + Account.class.getSimpleName() + " with " + id + " to all instances of " + EWidgetType.UPCOMING_WIDGET.name());
+                DeckLog.verbose("Adding new created", Account.class.getSimpleName(), " with ", id, " to all instances of ", EWidgetType.UPCOMING_WIDGET.name());
                 for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
                     widget.getAccounts().add(new FilterWidgetAccount(id, false));
                     updateFilterWidgetDirectly(widget);
@@ -711,7 +711,7 @@ public class DataBaseAdapter {
         Long originalStackLocalId = db.getCardDao().getLocalStackIdByLocalCardId(card.getLocalId());
         db.getCardDao().update(card);
         if (db.getSingleCardWidgetModelDao().containsCardLocalId(card.getLocalId())) {
-            DeckLog.info("Notifying " + SingleCardWidget.class.getSimpleName() + " about card changes for \"" + card.getTitle() + "\"");
+            DeckLog.info("Notifying", SingleCardWidget.class.getSimpleName(), "about card changes for", card.getTitle());
             SingleCardWidget.notifyDatasetChanged(context);
         }
         notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.STACK, originalStackLocalId);
@@ -1242,7 +1242,7 @@ public class DataBaseAdapter {
         new Thread(() -> {
             final List<EWidgetType> widgetTypesToNotify = db.getFilterWidgetDao().getChangedListTypesByEntity(type.toString(), entityId);
             for (EWidgetType t : widgetTypesToNotify) {
-                DeckLog.info("Notifying " + t.getWidgetClass().getSimpleName() + " about entity change: " + type.name() + " with ID " + entityId);
+                DeckLog.info("Notifying", t.getWidgetClass().getSimpleName(), "about entity change:", type.name(), "with ID", entityId);
                 context.sendBroadcast(new Intent(context, t.getWidgetClass()).setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE));
             }
         }).start();
@@ -1334,7 +1334,7 @@ public class DataBaseAdapter {
         if (filterWidget.getWidgetType() == EWidgetType.UPCOMING_WIDGET) {
             // https://github.com/stefan-niedermann/nextcloud-deck/issues/819 "no due" cards are only shown if they are on a shared board
             for (FullCard fullCard : new ArrayList<>(cardsResult)) {
-                if (fullCard.getCard().getDueDate() == null && !db.getStackDao().isStackOnSharedBoardDirectly(fullCard.getCard().getStackId())){
+                if (fullCard.getCard().getDueDate() == null && !db.getStackDao().isStackOnSharedBoardDirectly(fullCard.getCard().getStackId())) {
                     cardsResult.remove(fullCard);
                 }
             }

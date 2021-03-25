@@ -31,40 +31,31 @@ public abstract class BrandingUtil {
         // Util class
     }
 
-    public static boolean isBrandingEnabled(@NonNull Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return prefs.getBoolean(context.getString(R.string.pref_key_branding), true);
-    }
-
     @ColorInt
     public static int readBrandMainColor(@NonNull Context context) {
-        if (isBrandingEnabled(context)) {
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-            DeckLog.log("--- Read: shared_preference_theme_main");
-            return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_main), context.getApplicationContext().getResources().getColor(R.color.defaultBrand));
-        } else {
-            return ContextCompat.getColor(context, R.color.defaultBrand);
-        }
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        DeckLog.log("--- Read: shared_preference_theme_main");
+        return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_main), context.getApplicationContext().getResources().getColor(R.color.defaultBrand));
     }
 
     public static void saveBrandColors(@NonNull Context context, @ColorInt int mainColor) {
-        if (isBrandingEnabled(context) && context instanceof BrandedActivity) {
+        if (context instanceof BrandedActivity) {
             final BrandedActivity activity = (BrandedActivity) context;
             activity.applyBrand(mainColor);
         }
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        DeckLog.log("--- Write: shared_preference_theme_main" + " | " + mainColor);
+        final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        DeckLog.log("--- Write: shared_preference_theme_main |", mainColor);
         editor.putInt(context.getString(R.string.shared_preference_theme_main), mainColor);
         editor.apply();
     }
 
     public static void clearBrandColors(@NonNull Context context) {
-        if (isBrandingEnabled(context) && context instanceof BrandedActivity) {
+        if (context instanceof BrandedActivity) {
             final BrandedActivity activity = (BrandedActivity) context;
             activity.applyBrand(ContextCompat.getColor(context, R.color.defaultBrand));
         }
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        DeckLog.log("--- Write: Remove: shared_preference_theme_main" + " | ");
+        final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        DeckLog.log("--- Write: Remove: shared_preference_theme_main | ");
         editor.remove(context.getString(R.string.shared_preference_theme_main));
         editor.apply();
     }

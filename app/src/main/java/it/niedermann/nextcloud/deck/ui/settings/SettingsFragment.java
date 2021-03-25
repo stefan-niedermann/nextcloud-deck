@@ -1,29 +1,30 @@
 package it.niedermann.nextcloud.deck.ui.settings;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
-import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference;
 
 import static it.niedermann.nextcloud.deck.DeckApplication.setAppTheme;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 
-public class SettingsFragment extends PreferenceFragmentCompat implements Branded {
+public class SettingsFragment extends PreferenceFragmentCompat {
 
     private BrandedSwitchPreference wifiOnlyPref;
-    private BrandedSwitchPreference brandingPref;
     private BrandedSwitchPreference compactPref;
+    private BrandedSwitchPreference debuggingPref;
+    private BrandedSwitchPreference eTagPref;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -34,11 +35,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
         if (wifiOnlyPref != null) {
             wifiOnlyPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
                 final Boolean syncOnWifiOnly = (Boolean) newValue;
-                DeckLog.log("syncOnWifiOnly: " + syncOnWifiOnly);
+                DeckLog.log("syncOnWifiOnly:", syncOnWifiOnly);
                 return true;
             });
         } else {
-            DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_wifi_only) + "\"");
+            DeckLog.error("Could not find preference with key: ", getString(R.string.pref_key_wifi_only));
         }
 
         Preference themePref = findPreference(getString(R.string.pref_key_dark_theme));
@@ -50,20 +51,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
                 return true;
             });
         } else {
-            DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_dark_theme) + "\"");
-        }
-
-        brandingPref = findPreference(getString(R.string.pref_key_branding));
-        if (brandingPref != null) {
-            brandingPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-                final Boolean branding = (Boolean) newValue;
-                DeckLog.log("branding: " + branding);
-                requireActivity().setResult(Activity.RESULT_OK);
-                ActivityCompat.recreate(requireActivity());
-                return true;
-            });
-        } else {
-            DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_dark_theme) + "\"");
+            DeckLog.error("Could not find preference with key:", getString(R.string.pref_key_dark_theme));
         }
 
         compactPref = findPreference(getString(R.string.pref_key_compact));
@@ -75,23 +63,32 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
                 return true;
             });
         } else {
-            DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_background_sync) + "\"");
+            DeckLog.error("Could not find preference with key", getString(R.string.pref_key_background_sync));
         }
+
+        debuggingPref = findPreference(getString(R.string.pref_key_debugging));
+        if (debuggingPref != null) {
+            debuggingPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
+                DeckLog.enablePersistentLogs((Boolean) newValue);
+                DeckLog.log("persistet debug logs:", newValue);
+                return true;
+            });
+        } else {
+            DeckLog.error("Could not find preference with key:", getString(R.string.pref_key_debugging));
+        }
+
+        eTagPref = findPreference(getString(R.string.pref_key_etags));
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        @Nullable Context context = getContext();
-        if (context != null) {
-            applyBrand(readBrandMainColor(context));
-        }
-    }
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-    @Override
-    public void applyBrand(int mainColor) {
-        wifiOnlyPref.applyBrand(mainColor);
-        brandingPref.applyBrand(mainColor);
-        compactPref.applyBrand(mainColor);
+        DeckApplication.readCurrentAccountColor().observe(getViewLifecycleOwner(), (mainColor) -> {
+            wifiOnlyPref.applyBrand(mainColor);
+            compactPref.applyBrand(mainColor);
+            debuggingPref.applyBrand(mainColor);
+            eTagPref.applyBrand(mainColor);
+        });
     }
 }

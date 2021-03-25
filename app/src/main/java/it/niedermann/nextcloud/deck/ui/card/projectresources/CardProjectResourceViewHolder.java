@@ -86,14 +86,14 @@ public class CardProjectResourceViewHolder extends RecyclerView.ViewHolder {
                     break;
                 }
                 default: {
-                    DeckLog.info("Unknown resource type for " + resource.getName() + ": " + resource.getType());
+                    DeckLog.info("Unknown resource type for", resource.getName() + ":", resource.getType());
                     binding.type.setVisibility(GONE);
                     linkifyViewHolder(account, link);
                     break;
                 }
             }
         } else {
-            DeckLog.warn("Resource type for " + resource.getName() + " is null");
+            DeckLog.warn("Resource type for", resource.getName(), "is null");
             binding.type.setVisibility(GONE);
         }
     }

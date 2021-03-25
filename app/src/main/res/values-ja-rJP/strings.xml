@@ -50,7 +50,7 @@
     <string name="about_source_title">ソースコード</string>
     <string name="about_source">このプロジェクトはGitHub:%1$sにホストされています。</string>
     <string name="about_issues_title">問題</string>
-    <string name="about_issues">GitHub の問題追跡ツールで、バグ、拡張の提案、機能のリクエストを報告できます: %1$s</string>
+    <string name="about_issues">GitHub の問題追跡ツールで、不具合、拡張の提案、機能のリクエストを報告できます: %1$s</string>
     <string name="about_translate_title">翻訳</string>
     <string name="about_translate">Transifex の Nextcloud チームに参加して、このアプリの翻訳を手伝ってください: %1$s</string>
     <string name="about_app_license_title">アプリ ライセンス</string>
@@ -210,7 +210,7 @@
     <string name="error_dialog_user_not_found_in_database">現在のユーザーは、データベースに登録されているユーザーと一致しません。NextcloudインスタンスでLDAPを使用している場合、Nextcloudアプリに古いユーザーIDが保存されている可能性があります。</string>
     <string name="error_dialog_capabilities_not_parsable">サーバーの機能を取得できませんでした。サーバーが正常に動作しており、他のクライアントアプリがNextcloudにアクセスできることを確認してください。</string>
     <string name="error_dialog_attachment_upload_failed">添付ファイルをアップロードできませんでした。別の方法で共有してみてください。
-また、このバグについて報告してください。</string>
+また、この不具合について報告してください。</string>
     <string name="error_dialog_tip_disable_battery_optimizations">NextcloudとDeckアプリのバッテリー最適化をすべて無効にしてください。</string>
     <string name="error_action_open_deck_info">アプリ情報を開く</string>
     <string name="error_action_open_network">ネットワーク設定</string>

@@ -119,11 +119,12 @@
     <string name="add_a_new_list_using_the_button">Nový seznam přidáte tlačítkem +</string>
     <string name="add_a_new_card_using_the_button">Pro přidání nové karty použijte tlačítko +</string>
     <string name="update_deck">Aktualizujte webovou aplikaci Deck</string>
-    <string name="deck_outdated_please_update">Webová aplikace Deck je na serveru zastaralá (%1$s). K použití této Android aplikace jí, prosím, aktualizujte.</string>
+    <string name="deck_outdated_please_update">Verze aplikace Deck na straně serveru (webová) je zastaralá (%1$s). Zaktualizujte ji tam prosím, abyste mohli používat tuto Android aplikaci jako klienta.</string>
     <string name="delete_board_message">Toto tabuli nadobro smaže, včetně všech seznamů a karet.</string>
     <string name="settings_theme_title">Vzhled</string>
     <string name="settings_branding_title">Opatření vlastním logem</string>
     <string name="settings_compact_title">Kompaktní režim</string>
+    <string name="settings_debugging">Záznamy ladících událostí</string>
     <string name="settings_background_sync">Synchronizace na pozadí</string>
     <string name="pref_value_wifi_and_mobile">Synchr. přes Wi-Fi a mobilní data</string>
     <string name="pref_value_wifi_only">Synchr. pouze přes Wi-Fi</string>
@@ -198,7 +199,7 @@
 
     <string name="error">Objevila se chyba</string>
     <string name="synchronization_failed">Synchronizace se nezdařila</string>
-    <string name="operation_not_yet_supported">Zatím nepodorováno</string>
+    <string name="operation_not_yet_supported">Zatím nepodporováno</string>
     <string name="error_revoking_ac">Chyba při rušení přístupu pro %1$s</string>
     <string name="error_create_label">Chyba při vytváření štítku %1$s</string>
     <string name="maintenance_mode">Na serveru probíhá údržba</string>
@@ -226,8 +227,10 @@
     <string name="error_dialog_user_not_found_in_database">Stávající uživatel se neshoduje s uživatelem, který je v databázi. Pokud na své instanci Nextcloud používáte LDAP, je možné, že Nextcloud aplikace má uložený starý identifikátor uživatele.</string>
     <string name="error_dialog_capabilities_not_parsable">Nepodařilo se zjistit schopnosti serveru, který využíváte. Ověřte, že server v pořádku běží a ostatní klientské aplikace mohou k Nextcloud přistupovat.</string>
     <string name="error_dialog_attachment_upload_failed">Přílohu se nepodařilo nahrát. Zkuste ji nasdílet jiným způsobem a dejte nám o této chybě vědět.</string>
+    <string name="error_dialog_certificate">Zdá se, že s certifikátem serveru není něco v pořádku. Podrobnosti zjistíte kontrolou všech účtů v Nextcloud.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">V nastavení systému prosím pro aplikace Nextcloud a Deck vypněte veškeré optimalizace spotřeby energie z akumulátoru.</string>
     <string name="error_action_open_deck_info">Otevřít informace o aplikaci</string>
+    <string name="error_action_open_nextcloud_app">Otevřít aplikaci Nextcloud</string>
     <string name="error_action_open_network">Nastavení sítě</string>
     <string name="error_action_server_logs">Záznamy událostí na serveru</string>
     <string name="error_action_install">Nainstalovat</string>
@@ -305,4 +308,8 @@
     <string name="simple_order">Pořadí</string>
     <string name="edit_description">Upravit popis</string>
     <string name="widget_upcoming_title">Nadcházející karty</string>
-</resources>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Nastavení pro pokročilé uživatele</string>
+    <string name="copy_logs">Zkopírovat záznamy událostí do schránky</string>
+    <string name="app_logo">Logo aplikace</string>
+    </resources>

@@ -120,6 +120,7 @@
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Xestión da marca</string>
     <string name="settings_compact_title">Modo compacto</string>
+    <string name="settings_debugging">Rexistros de depuración</string>
     <string name="settings_background_sync">Sincronización do traballo en segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronización con wifi e con datos móbiles</string>
     <string name="pref_value_wifi_only">Sincronizar só con wifi</string>
@@ -222,8 +223,10 @@
     <string name="error_dialog_user_not_found_in_database">O usuario actual non coincide co que temos na nosa base de datos. Se está a usar LDAP na súa instancia do Nextcloud, é posíbel que a súa apli do Nextcloud teña almacenado un ID de usuario antigo.</string>
     <string name="error_dialog_capabilities_not_parsable">Non foi posíbel obter as funcionalidades do seu servidor. Asegúrese de que o seu servidor funciona correctamente e que outras aplis de cliente poidan acceder ao Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Non foi posíbel enviar un arquivo anexo. Probe compartilo doutro xeito e infórmenos deste erro.</string>
+    <string name="error_dialog_certificate">Semella que hai algo mal co certificado do servidor. Consulte todas as contas na apli Nextcloud para obter máis información.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Desactive todas as optimizacións de batería para Nextcloud e a apli Deck.</string>
     <string name="error_action_open_deck_info">Abrir a info da apli</string>
+    <string name="error_action_open_nextcloud_app">Abrir a apli Nextcloud</string>
     <string name="error_action_open_network">Axustes da rede</string>
     <string name="error_action_server_logs">Rexistros do servidor</string>
     <string name="error_action_install">Instalar</string>
@@ -297,4 +300,8 @@
     <string name="simple_order">Orde</string>
     <string name="edit_description">Editar a descrición</string>
     <string name="widget_upcoming_title">Tarxetas próximas</string>
-</resources>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Axustes para expertos</string>
+    <string name="copy_logs">Copiar os rexistros ao portapapeis</string>
+    <string name="app_logo">Logotipo da apli</string>
+    </resources>

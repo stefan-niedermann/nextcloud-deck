@@ -6,13 +6,13 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivitySettingsBinding;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
-public class SettingsActivity extends BrandedActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,11 +35,6 @@ public class SettingsActivity extends BrandedActivity {
     public boolean onSupportNavigateUp() {
         finish(); // close this activity as oppose to navigating up
         return true;
-    }
-
-    @Override
-    public void applyBrand(int mainColor) {
-        // Nothing to do...
     }
 
     @NonNull

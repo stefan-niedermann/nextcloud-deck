@@ -114,11 +114,17 @@
     <string name="add_a_new_list_using_the_button">Lisää uusi lista painamalla +</string>
     <string name="add_a_new_card_using_the_button">Lisää uusi kortti painamalla +</string>
     <string name="delete_board_message">Tämä poistaa tämän taulun ja sen listat ja kortit pysyvästi.</string>
+    <string name="settings_theme_title">Teema</string>
     <string name="settings_branding_title">Brändäys</string>
     <string name="settings_compact_title">Kompakti tila</string>
     <string name="settings_background_sync">Taustasynkronointi</string>
     <string name="pref_value_wifi_and_mobile">Synkronoi wifi- ja mobiilidatayhteydellä</string>
     <string name="pref_value_wifi_only">Synkronoi vain wifi-yhteydellä</string>
+    <string-array name="darkmode_entries">
+        <item>Järjestelmän oletukset</item>
+        <item>Vaalea</item>
+        <item>Tumma</item>
+    </string-array>
     <string name="unassigned_user">Ei määritelty%1$s</string>
     <string name="no_activities">Tällä kortilla ei ole toimintoja. Tarvitset internetyhteyden toimintojen lataamiseen ja näyttämiseen.</string>
     <string name="share_board">Jaa taulu</string>
@@ -157,9 +163,11 @@
     <string name="filter_no_filter">Kaikki</string>
     <string name="filter_overdue">Myöhässä</string>
     <string name="filter_today">Tänään</string>
+    <string name="filter_tomorrow">Huomenna</string>
     <string name="filter_week">Seuraavat 7 päivää</string>
     <string name="filter_month">Seuraavat 30 päivää</string>
     <string name="filter_no_due">Ei eräpäivää</string>
+    <string name="filter_later">Myöhemmin</string>
     <string name="filter_by_tag">Suodata tunnisteen perusteella</string>
     <string name="filter_by_assigned_user">Suodata määritetyn käyttäjän mukaan</string>
     <string name="filter_by_duedate">Suodata määräpäivän mukaan</string>
@@ -215,10 +223,12 @@
     <string name="error_action_open_deck_info">Avaa sovelluksen tiedot</string>
     <string name="error_action_open_network">Verkkoasetukset</string>
     <string name="error_action_server_logs">Palvelimen lokit</string>
+    <string name="error_action_install">Asenna</string>
     <string name="error_action_report_issue">Raportti</string>
     <string name="info_box_maintenance_mode">Palvelin on huoltotilassa</string>
     <string name="info_box_version_not_supported">Palvelinversio %1$s ei ole tuettu, päivitä versioon %2$s</string>
     <string name="share_link">Jaa linkki</string>
+    <string name="share_content">Jaa sisältö</string>
     <string name="archive_cards">Arkistoi kortit</string>
 
     <string name="manage_accounts">Tilien hallinta</string>
@@ -241,6 +251,7 @@
     <string name="card_does_not_yet_exist">Korttia ei vielä ole Deckissä</string>
 
     <string name="widget_stack_title">Lista</string>
+    <string name="widget_filter_title">Suodatin</string>
     <string name="select_stack">Valitse lista</string>
     <string name="project_type_deck_board">Deck-taulu</string>
     <string name="project_type_deck_card">Deck-kortti</string>
@@ -255,4 +266,12 @@
     <string name="project_type_room">Keskusteluhuone</string>
     <string name="simple_move">Siirrä</string>
     <string name="cannot_upload_files_without_permission">Tiedostojen lähettäminen ei ole mahdollista ilman käyttöoikeutta</string>
+    <string name="clone_cards">Kloonaa kortteja</string>
+    <string name="simple_clone">Kloonaa</string>
+    <string name="user_avatar">Käyttäjän avatar</string>
+    <string name="simple_file">Tiedosto</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="take_photo">Ota kuva</string>
+    <string name="take_photo_switch_camera">Vaihda kamera</string>
+    <string name="show_all_contacts">Näytä kaikki kontaktit</string>
     </resources>

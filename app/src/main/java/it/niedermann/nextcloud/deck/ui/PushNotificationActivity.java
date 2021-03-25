@@ -71,7 +71,7 @@ public class PushNotificationActivity extends AppCompatActivity {
             final String cardRemoteIdString = intent.getStringExtra(KEY_CARD_REMOTE_ID);
             final String accountString = intent.getStringExtra(KEY_ACCOUNT);
 
-            DeckLog.verbose("cardRemoteIdString = " + cardRemoteIdString);
+            DeckLog.verbose("cardRemoteIdString = ", cardRemoteIdString);
             if (ids.length == 2) {
                 if (cardRemoteIdString != null) {
                     try {
@@ -79,12 +79,12 @@ public class PushNotificationActivity extends AppCompatActivity {
                         observeOnce(viewModel.readAccount(accountString), this, (account -> {
                             if (account != null) {
                                 viewModel.setAccount(account.getName());
-                                DeckLog.verbose("account: " + account);
+                                DeckLog.verbose("account:", account);
                                 observeOnce(viewModel.getBoardByRemoteId(account.getId(), ids[0]), PushNotificationActivity.this, (board -> {
-                                    DeckLog.verbose("BoardLocalId " + board);
+                                    DeckLog.verbose("BoardLocalId:", board);
                                     if (board != null) {
                                         observeOnce(viewModel.getCardByRemoteID(account.getId(), cardRemoteId), PushNotificationActivity.this, (card -> {
-                                            DeckLog.verbose("Card: " + card);
+                                            DeckLog.verbose("Card:", card);
                                             if (card != null) {
                                                 viewModel.synchronizeCard(new IResponseCallback<Boolean>(account) {
                                                     @Override
@@ -99,18 +99,18 @@ public class PushNotificationActivity extends AppCompatActivity {
                                                     }
                                                 }, card);
                                             } else {
-                                                DeckLog.info("Card is not yet available locally. Synchronize board with localId " + board);
+                                                DeckLog.info("Card is not yet available locally. Synchronize board with localId", board);
 
                                                 viewModel.synchronizeBoard(new IResponseCallback<Boolean>(account) {
                                                     @Override
                                                     public void onResponse(Boolean response) {
                                                         runOnUiThread(() -> {
                                                             observeOnce(viewModel.getCardByRemoteID(account.getId(), cardRemoteId), PushNotificationActivity.this, (card -> {
-                                                                DeckLog.verbose("Card: " + card);
+                                                                DeckLog.verbose("Card:", card);
                                                                 if (card != null) {
                                                                     openCardOnSubmit(account, board.getLocalId(), card.getLocalId());
                                                                 } else {
-                                                                    DeckLog.warn("Something went wrong while synchronizing the card " + cardRemoteId + " (cardRemoteId). Given fullCard is null.");
+                                                                    DeckLog.warn("Something went wrong while synchronizing the card", cardRemoteId, " (cardRemoteId). Given fullCard is null.");
                                                                     applyBrandToSubmitButton(account);
                                                                     fallbackToBrowser(link);
                                                                 }
@@ -121,7 +121,7 @@ public class PushNotificationActivity extends AppCompatActivity {
                                                     @Override
                                                     public void onError(Throwable throwable) {
                                                         super.onError(throwable);
-                                                        DeckLog.warn("Something went wrong while synchronizing the board with localId " + board + ".");
+                                                        DeckLog.warn("Something went wrong while synchronizing the board with localId", board);
                                                         applyBrandToSubmitButton(account);
                                                         fallbackToBrowser(link);
                                                     }
@@ -129,13 +129,13 @@ public class PushNotificationActivity extends AppCompatActivity {
                                             }
                                         }));
                                     } else {
-                                        DeckLog.warn("Given localBoardId for cardRemoteId " + cardRemoteId + " is null.");
+                                        DeckLog.warn("Given localBoardId for cardRemoteId", cardRemoteId, "is null.");
                                         applyBrandToSubmitButton(account);
                                         fallbackToBrowser(link);
                                     }
                                 }));
                             } else {
-                                DeckLog.warn("Given account for " + accountString + " is null.");
+                                DeckLog.warn("Given account for", accountString, "is null.");
                                 fallbackToBrowser(link);
                             }
                         }));
@@ -144,11 +144,11 @@ public class PushNotificationActivity extends AppCompatActivity {
                         fallbackToBrowser(link);
                     }
                 } else {
-                    DeckLog.warn(KEY_CARD_REMOTE_ID + " is null.");
+                    DeckLog.warn(KEY_CARD_REMOTE_ID, "is null.");
                     fallbackToBrowser(link);
                 }
             } else {
-                DeckLog.warn("Link does not contain two IDs (expected one board id and one card id): " + link);
+                DeckLog.warn("Link does not contain two IDs (expected one board id and one card id):", link);
                 fallbackToBrowser(link);
             }
         } catch (Throwable t) {
@@ -196,7 +196,7 @@ public class PushNotificationActivity extends AppCompatActivity {
 
     @UiThread
     private void launchEditActivity(@NonNull Account account, Long boardId, Long cardId) {
-        DeckLog.info("starting " + EditActivity.class.getSimpleName() + " with [" + account + ", " + boardId + ", " + cardId + "]");
+        DeckLog.info("starting", EditActivity.class.getSimpleName(), "with [" + account + ", " + boardId + ", " + cardId + "]");
         startActivity(EditActivity.createEditCardIntent(this, account, boardId, cardId));
         finish();
     }

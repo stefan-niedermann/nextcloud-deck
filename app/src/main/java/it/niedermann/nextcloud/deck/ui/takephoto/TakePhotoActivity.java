@@ -34,7 +34,7 @@ import it.niedermann.nextcloud.deck.databinding.ActivityTakePhotoBinding;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-import it.niedermann.nextcloud.deck.util.AttachmentUtil;
+import it.niedermann.nextcloud.deck.util.FilesUtil;
 
 import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.IMAGE_JPEG;
 
@@ -117,13 +117,13 @@ public class TakePhotoActivity extends BrandedActivity {
             binding.takePhoto.setEnabled(false);
             final String photoFileName = Instant.now().atZone(ZoneId.systemDefault()).format(fileNameFromCameraFormatter);
             try {
-                final File photoFile = AttachmentUtil.getTempCacheFile(this, "photos/" + photoFileName);
+                final File photoFile = FilesUtil.getTempCacheFile(this, "photos/" + photoFileName);
                 final ImageCapture.OutputFileOptions options = new ImageCapture.OutputFileOptions.Builder(photoFile).build();
                 captureUseCase.takePicture(options, ContextCompat.getMainExecutor(this), new ImageCapture.OnImageSavedCallback() {
                     @Override
                     public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                         final Uri savedUri = Uri.fromFile(photoFile);
-                        DeckLog.info("onImageSaved - savedUri: " + savedUri.toString());
+                        DeckLog.info("onImageSaved - savedUri:", savedUri.toString());
                         setResult(RESULT_OK, new Intent().setDataAndType(savedUri, IMAGE_JPEG));
                         finish();
                     }

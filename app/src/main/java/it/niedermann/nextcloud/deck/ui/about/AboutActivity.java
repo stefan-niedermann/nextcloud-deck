@@ -6,21 +6,22 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityAboutBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
 
-public class AboutActivity extends BrandedActivity {
+public class AboutActivity extends AppCompatActivity {
     private static final String BUNDLE_KEY_ACCOUNT = "account";
 
     private ActivityAboutBinding binding;
@@ -37,6 +38,8 @@ public class AboutActivity extends BrandedActivity {
 
         binding = ActivityAboutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        DeckApplication.readCurrentAccountColor().observe(this, (mainColor) -> applyBrandToPrimaryTabLayout(mainColor, binding.tabLayout));
 
         setSupportActionBar(binding.toolbar);
         binding.viewPager.setAdapter(new TabsPagerAdapter(this, (Account) getIntent().getSerializableExtra(BUNDLE_KEY_ACCOUNT)));
@@ -78,11 +81,6 @@ public class AboutActivity extends BrandedActivity {
     public boolean onSupportNavigateUp() {
         finish(); // close this activity as oppose to navigating up
         return true;
-    }
-
-    @Override
-    public void applyBrand(int mainColor) {
-        applyBrandToPrimaryTabLayout(mainColor, binding.tabLayout);
     }
 
     @NonNull

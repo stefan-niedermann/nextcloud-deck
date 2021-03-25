@@ -114,12 +114,20 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Új lista hozzáadása a + gombbal</string>
     <string name="add_a_new_card_using_the_button">Új kártya hozzáadása a + gombbal</string>
+    <string name="update_deck">Kártyák web alkalmazás frissítése</string>
+    <string name="deck_outdated_please_update">A Kártyák verziója túl régi (%1$s). Frissítse, hogy ezt az androidos alkalmazást használhassa kliensként.</string>
     <string name="delete_board_message">Ez véglegesen törli ezt a táblát az összes listával és kártyával együtt.</string>
+    <string name="settings_theme_title">Téma</string>
     <string name="settings_branding_title">Márkázas</string>
     <string name="settings_compact_title">Kompakt mód</string>
     <string name="settings_background_sync">Háttér-szinkronizálás</string>
     <string name="pref_value_wifi_and_mobile">Szinkronizálás Wi-Fin és mobil adatkapcsolaton</string>
     <string name="pref_value_wifi_only">Szinkronizálás csak Wi-Fin</string>
+    <string-array name="darkmode_entries">
+        <item>Rendszer alapértelmezése</item>
+        <item>Világos</item>
+        <item>Sötét</item>
+    </string-array>
     <string name="unassigned_user">Nem hozzárendelt %1$s</string>
     <string name="no_activities">Még nincsenek tevékenységek ezen a kártyán. Internetkapcsolatra van szükség, hogy betöltse és megjelenítse a tevékenységeket.</string>
     <string name="share_board">Tábla megosztása</string>
@@ -158,9 +166,11 @@
     <string name="filter_no_filter">Mind</string>
     <string name="filter_overdue">Lejárt</string>
     <string name="filter_today">Ma</string>
+    <string name="filter_tomorrow">Holnap</string>
     <string name="filter_week">Következő 7 nap</string>
     <string name="filter_month">Következő 30 nap</string>
     <string name="filter_no_due">Nincs határidő</string>
+    <string name="filter_later">Később</string>
     <string name="filter_by_tag">Szűrés címke szerint</string>
     <string name="filter_by_assigned_user">Szűrés hozzárendelt felhasználó szerint</string>
     <string name="filter_by_duedate">Szűrés határidő szerint</string>
@@ -212,8 +222,10 @@
     <string name="error_dialog_user_not_found_in_database">A jelenlegi felhasználó nem egyezik az adatbázisban tárolttal. Ha LDAP-ot használt a Nextcloud példányán, akkor lehet, hogy a Nextcloud alkalmazás még egy régebbi felhasználóazonosítót tárol.</string>
     <string name="error_dialog_capabilities_not_parsable">A képességek lekérése a kiszolgálójáról sikertelen. Győződjön meg róla, hogy a kiszolgálója rendesen fut-e, és hogy más kliensalkalmazások elérik-e a Nextcloudod.</string>
     <string name="error_dialog_attachment_upload_failed">A melléklet nem tölthető fel. Próbálja meg máshogy megosztani, és tájékoztasson minket a hibáról.</string>
+    <string name="error_dialog_certificate">Valami nem stimmel a szerver tanúsítványával. Kérjük, további információkért ellenőrizze a Nextcloud alkalmazás összes fiókját.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Kapcsoljon ki minden energiatakarékossági beállítást a Nextcloud valamint a Kártyák alkalmazáshoz. </string>
     <string name="error_action_open_deck_info">Alkalmazásinformációk megnyitása</string>
+    <string name="error_action_open_nextcloud_app">Nextcloud alkalmazás megnyitása</string>
     <string name="error_action_open_network">Hálózati beállítások</string>
     <string name="error_action_server_logs">Kiszolgálónaplók</string>
     <string name="error_action_install">Telepítés</string>
@@ -221,6 +233,9 @@
     <string name="info_box_maintenance_mode">A kiszolgáló karbantartási módban van</string>
     <string name="info_box_version_not_supported">A kiszolgálóverzió nem támogatott: %1$s, frissítsen erre: %2$s</string>
     <string name="share_link">Hivatkozás megosztása</string>
+    <string name="share_content">Tartalom megosztása</string>
+    <string name="share_content_duedate">Határidő: %1$s</string>
+    <string name="share_content_labels">Címkék: %1$s</string>
     <string name="archive_cards">Archív kártyák</string>
 
     <string name="manage_accounts">Fiókok kezelése</string>
@@ -243,7 +258,9 @@
     <string name="card_does_not_yet_exist">A kártya még nem létezik a Kártyákban</string>
 
     <string name="widget_stack_title">Lista</string>
+    <string name="widget_filter_title">Szűrő</string>
     <string name="widget_stack_header_icon">Modul fejlécikonja</string>
+    <string name="widget_placeholder_icon">Modul helykitöltő ikonja</string>
     <string name="select_stack">Válasszon listát</string>
     <string name="project_type_deck_board">Kártyatábla</string>
     <string name="project_type_deck_card">Kártya</string>
@@ -262,5 +279,24 @@
     <string name="simple_clone">Klónozás</string>
     <string name="user_avatar">Felhasználói avatar</string>
     <string name="simple_unassign">Elvétel</string>
+    <string name="simple_contact">Kapcsolat</string>
+    <string name="simple_file">Fájl</string>
+    <string name="simple_camera">Fényképezőgép</string>
+    <string name="take_photo">Felvétel készítése</string>
+    <string name="take_photo_switch_camera">Fényképezőgép váltása</string>
+    <string name="take_photo_toggle_torch">Lámpa be/kikapcsolása</string>
+    <string name="show_all_contacts">Minden névjegy megjelenítése</string>
+    <string name="show_all_files">Minden fájl megjelenítése</string>
+    <string name="recent">Legutóbbiak</string>
+    <string name="upload_a_new_attachment">Új melléklet feltöltése</string>
+    <string name="contacts">Névjegyek</string>
+    <string name="downloads">Letöltések</string>
+    <string name="files">Fájlok</string>
+    <string name="gallery">Galéria</string>
+    <string name="simple_attach">csatolás</string>
     <string name="add_stack_widget">Lista felületi elem hozzáadása</string>
+    <string name="add_filter_widget">Szűrő modul hozzáadása</string>
+    <string name="simple_order">Rendezés</string>
+    <string name="edit_description">Leírás szerkesztése</string>
+    <string name="widget_upcoming_title">Közelgő kártyák</string>
     </resources>

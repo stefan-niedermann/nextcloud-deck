@@ -120,6 +120,7 @@
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Marcação</string>
     <string name="settings_compact_title">Modo compacto</string>
+    <string name="settings_debugging">Logs de debug</string>
     <string name="settings_background_sync">Sincronização em segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronizar com Wi-Fi e dados móveis</string>
     <string name="pref_value_wifi_only">Sincronizar apenas com Wi-Fi</string>
@@ -222,8 +223,10 @@
     <string name="error_dialog_user_not_found_in_database">O usuário atual não corresponde ao usuário que temos em nosso banco de dados. Se você estiver usando LDAP na sua instância do Nextcloud, seu aplicativo Nextcloud pode ter armazenado um ID do usuário antigo.</string>
     <string name="error_dialog_capabilities_not_parsable">Não foi possível buscar os recursos do seu servidor. Verifique se o servidor está funcionando bem e se outros aplicativos clientes podem acessar o Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Não foi possível carregar um anexo. Tente compartilhá-lo de outra maneira e informe-nos sobre esse bug.</string>
+    <string name="error_dialog_certificate">Algo parece estar errado com o certificado do servidor. Por favor, verifique todas as contas no aplicativo Nextcloud para maiores informações.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Desative todas as otimizações de bateria para o Nextcloud e o aplicativo Deck.</string>
     <string name="error_action_open_deck_info">Abra as informações do Aplicativo</string>
+    <string name="error_action_open_nextcloud_app">Abrir o aplicativo Nextcloud</string>
     <string name="error_action_open_network">Configurações da rede</string>
     <string name="error_action_server_logs">Logs do servidor</string>
     <string name="error_action_install">Instalar</string>
@@ -297,4 +300,11 @@
     <string name="simple_order">Pedido</string>
     <string name="edit_description">Editar descrição</string>
     <string name="widget_upcoming_title">Próximos cartões</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Configurações avançadas</string>
+    <string name="copy_logs">Copiar logs para área de transferência</string>
+    <string name="app_logo">Logo do aplicativo</string>
+    <string name="log_file">Arquivo de log</string>
+    <string name="copying_logs_to_file">Copiando registros para o arquivo…</string>
+    <string name="account_imported">Conta importada</string>
 </resources>

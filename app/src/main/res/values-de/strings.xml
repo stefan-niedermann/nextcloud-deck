@@ -120,6 +120,7 @@
     <string name="settings_theme_title">Design</string>
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Kompakt-Modus</string>
+    <string name="settings_debugging">Protokolldateien zur Fehlersuche</string>
     <string name="settings_background_sync">Hintergrundsynchronisierung</string>
     <string name="pref_value_wifi_and_mobile">Über WLAN und mobile Daten synchronisieren</string>
     <string name="pref_value_wifi_only">Nur über WLAN synchronisieren</string>
@@ -222,8 +223,10 @@
     <string name="error_dialog_user_not_found_in_database">Der aktuelle Benutzer stimmt nicht mit dem Benutzer überein, den wir in unserer Datenbank haben. Wenn Sie LDAP in Ihrer Nextcloud-Instanz verwenden, hat Ihre Nextcloud-App möglicherweise eine alte Benutzer-ID gespeichert.</string>
     <string name="error_dialog_capabilities_not_parsable">Funktionsumfang Ihres Serves konnte nicht nicht abgerufen werden. Stellen Sie sicher, dass Ihr Server ordnungsgemäß funktioniert und Client-Apps auf Nextcloud zugreifen können.</string>
     <string name="error_dialog_attachment_upload_failed">Ein Anhang konnte nicht hochgeladen werden. Bitte versuchen Sie es auf andere Weise zu teilen und teilen Sie uns diesen Fehler mit.</string>
+    <string name="error_dialog_certificate">Mit dem Zertifikat des Servers scheint etwas nicht zu stimmen. Bitte überprüfen Sie alle Konten in der Nextcloud-App für weitere Informationen. </string>
     <string name="error_dialog_tip_disable_battery_optimizations">Bitte alle Batterieoptimierungen für Nextcloud und die Deck-App deaktivieren.</string>
     <string name="error_action_open_deck_info">App-Informationen öffnen</string>
+    <string name="error_action_open_nextcloud_app">Nextcloud-App öffnen</string>
     <string name="error_action_open_network">Netzwerkeinstellungen</string>
     <string name="error_action_server_logs">Server-Protokolle</string>
     <string name="error_action_install">Installieren</string>
@@ -297,4 +300,11 @@
     <string name="simple_order">Reihenfolge</string>
     <string name="edit_description">Beschreibung bearbeiten</string>
     <string name="widget_upcoming_title">Anstehende Karten</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Experteneinstellungen</string>
+    <string name="copy_logs">Protokolldateien in die Zwischenablage kopieren</string>
+    <string name="app_logo">App-Logo</string>
+    <string name="log_file">Protokolldatei</string>
+    <string name="copying_logs_to_file">Protokolldateien in Datei kopieren…</string>
+    <string name="account_imported">Konto importiert</string>
 </resources>

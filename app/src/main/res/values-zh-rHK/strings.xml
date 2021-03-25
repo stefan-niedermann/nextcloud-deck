@@ -16,7 +16,7 @@
     <string name="simple_open">打開</string>
     <string name="simple_switch">切換</string>
     <string name="simple_filter">過濾</string>
-    <string name="simple_overdue">過期</string>
+    <string name="simple_overdue">逾期</string>
     <string name="simple_clear">清除</string>
     <string name="simple_discard">丟棄</string>
     <string name="simple_update">更新</string>
@@ -50,7 +50,7 @@
     <string name="about_source_title">原始碼</string>
     <string name="about_source">本項目寄存於 GitHub：%1$s</string>
     <string name="about_issues_title">問題</string>
-    <string name="about_issues">您可以在 GitHub 問題回報系統回報錯誤、改善建議及功能需求：%1$s</string>
+    <string name="about_issues">您可以在 GitHub 問題舉報系統舉報錯誤、改善建議及功能需求：%1$s</string>
     <string name="about_translate_title">翻譯</string>
     <string name="about_translate">歡迎加入 Transifex 的 Nextcloud 團隊並協助翻譯此 App：%1$s</string>
     <string name="about_app_license_title">程式授權條款</string>
@@ -58,7 +58,7 @@
     <string name="about_app_license_button">檢視授權條款</string>
     <string name="about_icons_disclaimer_title">圖示</string>
     <string name="about_icons_disclaimer_app_icon">原始圖示請見%1$s</string>
-    <string name="about_icons_disclaimer_mdi_icons">此應用程序使用的所有其他圖標 %1$s 均由Google Inc.製造，並根據Apache 2.0許可獲得許可。</string>
+    <string name="about_icons_disclaimer_mdi_icons">此應用程序使用的所有其他圖標 %1$s 均由Google Inc。製造，並根據Apache 2。0許可獲得許可。</string>
     <string name="about_icons_disclaimer_mdi">Material Design 圖示</string>
     <string name="about_credits_tab_title">致謝</string>
     <string name="about_contribution_tab_title">貢獻</string>
@@ -116,7 +116,9 @@
     <string name="deck_outdated_please_update">您的 Deck web app 版本太舊（%1$s）。請更新以將此 Android 應用程式作客戶端。</string>
     <string name="delete_board_message">這將永久刪除此面板，包括所有清單和卡片。</string>
     <string name="settings_theme_title">佈景主題</string>
+    <string name="settings_branding_title">品牌化</string>
     <string name="settings_compact_title">緊湊模式</string>
+    <string name="settings_debugging">除錯記錄</string>
     <string name="settings_background_sync">背景同步</string>
     <string name="pref_value_wifi_and_mobile">使用 Wi-Fi 及流動網路時同步</string>
     <string name="pref_value_wifi_only">只在使用 Wi-Fi 時同步</string>
@@ -155,13 +157,13 @@
     <string name="choose_list">選擇清單</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">用瀏覽器開啟</string>
-    <string name="updating_card">更新卡片...</string>
+    <string name="updating_card">更新卡片。。。</string>
 
     <string name="move_list_right">向右移動清單</string>
     <string name="move_list_left">向左移動列表</string>
 
     <string name="filter_no_filter">全部</string>
-    <string name="filter_overdue">過期</string>
+    <string name="filter_overdue">逾期</string>
     <string name="filter_today">今日</string>
     <string name="filter_tomorrow">明日</string>
     <string name="filter_week">接下來 7 天</string>
@@ -213,18 +215,20 @@
     <string name="error_dialog_check_maintenance">請檢查您的 Nextcloud 當前是否在維護模式。</string>
     <string name="error_dialog_insufficient_storage">您的 Nextcloud 沒有剩餘可用的存儲空間。請刪除一些檔案，以將近端更改同步到雲中。</string>
     <string name="error_dialog_we_need_info">我們需要以下的技術資訊來幫助您：</string>
-    <string name="error_dialog_redirect">您的伺服器以 HTTP 302 狀態代碼回應，這表示您尚未在伺服器上安裝 Deck 應用程式或配置錯誤。這可能是由於 .htaccess 檔案中的自定義替換或 Nextcloud 應用程式（如OID客戶端）引起的。</string>
+    <string name="error_dialog_redirect">您的伺服器以 HTTP 302 狀態代碼回應，這表示您尚未在伺服器上安裝 Deck 應用程式或配置錯誤。這可能是由於 。htaccess 檔案中的自定義替換或 Nextcloud 應用程式（如OID客戶端）引起的。</string>
     <string name="error_dialog_version_not_parsable">我們無法確定伺服器端 Deck 應用程式的版本。 請確保已安裝並啟用它。</string>
     <string name="error_dialog_account_might_not_be_authorized">您的Nextcloud應用程序賬戶可能不再被授權。</string>
     <string name="error_dialog_user_not_found_in_database">當前用戶與我們數據庫中的用戶不匹配。 如果您在 Nextcloud 實例上使用 LDAP，則 Nextcloud應用程式可能已存儲了舊的用戶ID。</string>
     <string name="error_dialog_capabilities_not_parsable">我們無法獲取您的伺服器功能。 請確保您的伺服器運行良好，並且其他客戶端應用程式能夠訪問Nextcloud。</string>
     <string name="error_dialog_attachment_upload_failed">無法上傳附件。 請嘗試以其他方式共享它，並讓我們知道此錯誤。</string>
+    <string name="error_dialog_certificate">伺服器的證書似乎有問題。請檢查 Nextcloud 應用程式中的所有賬戶，以獲取更多資訊。</string>
     <string name="error_dialog_tip_disable_battery_optimizations">請禁用 Nextcloud 和 Deck 應用程式的所有電池優化。</string>
     <string name="error_action_open_deck_info">開啟 App 資訊</string>
+    <string name="error_action_open_nextcloud_app">打開 Nextcloud 應用程式</string>
     <string name="error_action_open_network">網路設定</string>
     <string name="error_action_server_logs">伺服器記錄</string>
     <string name="error_action_install">安裝</string>
-    <string name="error_action_report_issue">回報</string>
+    <string name="error_action_report_issue">舉報</string>
     <string name="info_box_maintenance_mode">伺服器正處於維護模式</string>
     <string name="info_box_version_not_supported">不支援伺服器版本 %1$s，請升級到 %2$s</string>
     <string name="share_link">分享連結</string>
@@ -242,11 +246,11 @@
     <plurals name="progress_error_count">
         <item quantity="other">上載時發生%1$d個錯誤</item>
     </plurals>
-    <string name="simple_report">回報</string>
+    <string name="simple_report">舉報</string>
     <string name="error_action_open_battery_settings">電池設定</string>
     <string name="move_warning">將卡片移至另一塊面板上時，註釋和附件均無法傳送。</string>
     <string name="clone_board">複製 board</string>
-    <string name="cloning_board">正在複製 %1$s...</string>
+    <string name="cloning_board">正在複製 %1$s。。。</string>
     <string name="successfully_cloned_board">複製 %1$s 成功</string>
     <string name="attachment_does_not_yet_exist">在看板中找不到附件。</string>
     <string name="card_does_not_yet_exist">在看板中找不到卡片。</string>
@@ -292,4 +296,8 @@
     <string name="simple_order">排序</string>
     <string name="edit_description">編輯描述</string>
     <string name="widget_upcoming_title">接下來的 cards</string>
-</resources>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">專家設定</string>
+    <string name="copy_logs">將記錄複製到剪貼板</string>
+    <string name="app_logo">應用程式標識</string>
+    </resources>

@@ -20,6 +20,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -34,6 +35,8 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     private final Context context;
     private final int appWidgetId;
     private final SyncManager syncManager;
+    private final int headerHorizontalPadding;
+    private final int headerVerticalPaddingNth;
 
     @NonNull
     private final List<Object> data = new ArrayList<>();
@@ -42,6 +45,8 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
         this.context = context;
         this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         this.syncManager = new SyncManager(context);
+        this.headerHorizontalPadding = DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1hx);
+        this.headerVerticalPaddingNth = DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_2x);
     }
 
     @Override
@@ -53,7 +58,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     public void onDataSetChanged() {
         try {
             final List<FilterWidgetCard> response = syncManager.getCardsForFilterWidget(appWidgetId);
-            DeckLog.verbose(UpcomingWidgetFactory.class.getSimpleName() + " with id " + appWidgetId + " fetched " + response.size() + " cards from the database.");
+            DeckLog.verbose(UpcomingWidgetFactory.class.getSimpleName(), "with id", appWidgetId, "fetched", response.size(), "cards from the database.");
             data.clear();
             final Comparator<FilterWidgetCard> comparator = Comparator.comparing((card -> {
                 if (card != null &&
@@ -90,7 +95,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
             EUpcomingDueType lastDueType = null;
             for (FilterWidgetCard filterWidgetCard : response) {
                 final EUpcomingDueType nextDueType = getDueType(filterWidgetCard.getCard().getCard().getDueDate());
-                DeckLog.info(filterWidgetCard.getCard().getCard().getTitle() + ": " + nextDueType.name());
+                DeckLog.info(filterWidgetCard.getCard().getCard().getTitle() + ":", nextDueType.name());
                 if (!nextDueType.equals(lastDueType)) {
                     data.add(new Separator(nextDueType.toString(context)));
                     lastDueType = nextDueType;
@@ -98,7 +103,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
                 data.add(filterWidgetCard);
             }
         } catch (NoSuchElementException e) {
-            DeckLog.error("No " + UpcomingWidget.class.getSimpleName() + " for appWidgetId " + appWidgetId + " found.");
+            DeckLog.error("No", UpcomingWidget.class.getSimpleName(), "for appWidgetId", appWidgetId, "found.");
             DeckLog.logError(e);
         }
     }
@@ -116,7 +121,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     @Override
     public RemoteViews getViewAt(int i) {
         if (i > (data.size() - 1) || data.get(i) == null) {
-            DeckLog.error("No card or separator not found at position " + i);
+            DeckLog.error("No card or separator not found at position", i);
             return null;
         }
         final RemoteViews widget_entry;
@@ -124,6 +129,11 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
             final Separator separator = (Separator) data.get(i);
             widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_separator);
             widget_entry.setTextViewText(R.id.widget_entry_content_tv, separator.title);
+            if(i == 0) {
+                widget_entry.setViewPadding(R.id.widget_entry_content_tv, headerHorizontalPadding, 0, headerHorizontalPadding, 0);
+            } else {
+                widget_entry.setViewPadding(R.id.widget_entry_content_tv, headerHorizontalPadding, headerVerticalPaddingNth, headerHorizontalPadding, 0);
+            }
         } else {
             final FullCard card = ((FilterWidgetCard) data.get(i)).getCard();
             widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_stack_entry);

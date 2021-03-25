@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,13 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.google.android.flexbox.FlexboxLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/mdtp_transparent_black"
-        app:alignItems="center"
-        app:justifyContent="space_evenly">
+        android:paddingTop="@dimen/spacer_3x"
+        android:paddingBottom="@dimen/spacer_3x"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/switchCamera"
@@ -29,17 +30,22 @@
             android:tint="@android:color/white"
             app:backgroundTint="@color/defaultBrand"
             app:fabSize="mini"
+            app:layout_constraintBottom_toBottomOf="@id/takePhoto"
+            app:layout_constraintEnd_toStartOf="@id/takePhoto"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/takePhoto"
             tools:srcCompat="@drawable/ic_baseline_camera_front_24" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/takePhoto"
-            android:layout_marginTop="@dimen/spacer_3x"
-            android:layout_marginBottom="@dimen/spacer_3x"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/take_photo"
             android:tint="@android:color/white"
             app:backgroundTint="@color/defaultBrand"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/toggle_torch"
+            app:layout_constraintStart_toEndOf="@id/switchCamera"
             app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -50,6 +56,10 @@
             android:tint="@android:color/white"
             app:backgroundTint="@color/defaultBrand"
             app:fabSize="mini"
+            app:layout_constraintBottom_toBottomOf="@id/takePhoto"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/takePhoto"
+            app:layout_constraintTop_toTopOf="@id/takePhoto"
             tools:srcCompat="@drawable/ic_baseline_flash_on_24" />
-    </com.google.android.flexbox.FlexboxLayout>
-</RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

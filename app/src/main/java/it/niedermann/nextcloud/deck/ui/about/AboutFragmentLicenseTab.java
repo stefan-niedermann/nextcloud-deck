@@ -11,19 +11,21 @@ import android.view.ViewGroup;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.fragment.app.Fragment;
 
 import it.niedermann.android.util.ColorUtil;
+import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentAboutLicenseTabBinding;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
 import static it.niedermann.nextcloud.deck.util.SpannableUtil.setTextWithURL;
 
-public class AboutFragmentLicenseTab extends BrandedFragment {
+public class AboutFragmentLicenseTab extends Fragment {
 
     private FragmentAboutLicenseTabBinding binding;
 
@@ -37,11 +39,14 @@ public class AboutFragmentLicenseTab extends BrandedFragment {
     }
 
     @Override
-    public void applyBrand(int mainColor) {
-        @ColorInt final int finalMainColor = contrastRatioIsSufficientBigAreas(mainColor, ContextCompat.getColor(requireContext(), R.color.primary))
-                ? mainColor
-                : isDarkTheme(requireContext()) ? Color.WHITE : Color.BLACK;
-        DrawableCompat.setTintList(binding.aboutAppLicenseButton.getBackground(), ColorStateList.valueOf(finalMainColor));
-        binding.aboutAppLicenseButton.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(finalMainColor));
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        DeckApplication.readCurrentAccountColor().observe(getViewLifecycleOwner(), (mainColor) -> {
+            @ColorInt final int finalMainColor = contrastRatioIsSufficientBigAreas(mainColor, ContextCompat.getColor(requireContext(), R.color.primary))
+                    ? mainColor
+                    : isDarkTheme(requireContext()) ? Color.WHITE : Color.BLACK;
+            DrawableCompat.setTintList(binding.aboutAppLicenseButton.getBackground(), ColorStateList.valueOf(finalMainColor));
+            binding.aboutAppLicenseButton.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(finalMainColor));
+        });
     }
 }

@@ -20,7 +20,7 @@ public class TipsViewHolder extends RecyclerView.ViewHolder {
         binding = ItemTipBinding.bind(itemView);
     }
 
-    public void bind(TipsModel tip, Consumer<Intent> actionButtonClickedListener) {
+    public void bind(@NonNull TipsModel tip, @NonNull Consumer<Intent> actionButtonClickedListener) {
         binding.tip.setText(tip.getText());
         final Intent actionIntent = tip.getActionIntent();
         if (actionIntent != null && actionIntent.hasExtra(INTENT_EXTRA_BUTTON_TEXT)) {
