@@ -44,7 +44,7 @@ public abstract class BrandingUtil {
             activity.applyBrand(mainColor);
         }
         final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        DeckLog.log("--- Write: shared_preference_theme_main" + " | " + mainColor);
+        DeckLog.log("--- Write: shared_preference_theme_main |", mainColor);
         editor.putInt(context.getString(R.string.shared_preference_theme_main), mainColor);
         editor.apply();
     }
@@ -55,7 +55,7 @@ public abstract class BrandingUtil {
             activity.applyBrand(ContextCompat.getColor(context, R.color.defaultBrand));
         }
         final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        DeckLog.log("--- Write: Remove: shared_preference_theme_main" + " | ");
+        DeckLog.log("--- Write: Remove: shared_preference_theme_main | ");
         editor.remove(context.getString(R.string.shared_preference_theme_main));
         editor.apply();
     }

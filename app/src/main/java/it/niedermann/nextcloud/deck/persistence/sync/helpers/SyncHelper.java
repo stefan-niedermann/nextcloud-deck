@@ -48,7 +48,7 @@ public class SyncHelper {
                     for (T entityFromServer : response) {
                         if (entityFromServer == null) {
                             // see https://github.com/stefan-niedermann/nextcloud-deck/issues/574
-                            DeckLog.error("Skipped null value from server for DataProvider: " + provider.getClass().getSimpleName());
+                            DeckLog.error("Skipped null value from server for DataProvider:", provider.getClass().getSimpleName());
                             continue;
                         }
                         entityFromServer.setAccountId(accountId);
@@ -59,7 +59,7 @@ public class SyncHelper {
                         } else {
                             //TODO: how to handle deletes? what about archived?
                             if (existingEntity.getStatus() != DBStatus.UP_TO_DATE.getId()) {
-                                DeckLog.warn("Conflicting changes on entity: " + existingEntity);
+                                DeckLog.warn("Conflicting changes on entity:", existingEntity);
                                 // TODO: what to do?
                             } else {
                                 if (etagsEnabled && entityFromServer.getEtag() != null &&  entityFromServer.getEtag().equals(existingEntity.getEtag())) {

@@ -123,7 +123,7 @@ public class TakePhotoActivity extends BrandedActivity {
                     @Override
                     public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                         final Uri savedUri = Uri.fromFile(photoFile);
-                        DeckLog.info("onImageSaved - savedUri: " + savedUri.toString());
+                        DeckLog.info("onImageSaved - savedUri:", savedUri.toString());
                         setResult(RESULT_OK, new Intent().setDataAndType(savedUri, IMAGE_JPEG));
                         finish();
                     }

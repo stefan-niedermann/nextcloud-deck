@@ -305,7 +305,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         .apply(RequestOptions.circleCropTransform())
                         .into(binding.accountSwitcher);
 
-                DeckLog.verbose("Displaying maintenance mode info for " + mainViewModel.getCurrentAccount().getName() + ": " + mainViewModel.getCurrentAccount().isMaintenanceEnabled());
+                DeckLog.verbose("Displaying maintenance mode info for", mainViewModel.getCurrentAccount().getName() + ":" + mainViewModel.getCurrentAccount().isMaintenanceEnabled());
                 binding.infoBox.setVisibility(mainViewModel.getCurrentAccount().isMaintenanceEnabled() ? View.VISIBLE : View.GONE);
                 if (mainViewModel.isCurrentAccountIsSupportedVersion()) {
                     binding.infoBoxVersionNotSupported.setVisibility(View.GONE);
@@ -328,7 +328,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             dragAndDrop.register(binding.viewPager, binding.stackTitles, getSupportFragmentManager());
             dragAndDrop.addItemMovedByDragListener((movedCard, stackId, position) -> {
                 mainViewModel.reorder(mainViewModel.getCurrentAccount().getId(), movedCard, stackId, position);
-                DeckLog.info("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
+                DeckLog.info("Card", movedCard.getCard().getTitle(), "was moved to Stack", stackId, "on position", position);
             });
 
 
@@ -441,7 +441,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @Override
     public void onCreateStack(String stackName) {
-        DeckLog.info("Create Stack in account " + mainViewModel.getCurrentAccount().getName() + " on board " + mainViewModel.getCurrentBoardLocalId());
+        DeckLog.info("Create Stack in account", mainViewModel.getCurrentAccount().getName(), "on board", mainViewModel.getCurrentBoardLocalId());
         mainViewModel.createStack(mainViewModel.getCurrentAccount().getId(), stackName, mainViewModel.getCurrentBoardLocalId(), new ResponseCallback<FullStack>() {
             @Override
             public void onResponse(FullStack response) {
@@ -463,7 +463,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         mainViewModel.updateStackTitle(localStackId, stackName, new ResponseCallback<FullStack>() {
             @Override
             public void onResponse(FullStack response) {
-                DeckLog.info("Successfully updated " + Stack.class.getSimpleName() + " to " + stackName);
+                DeckLog.info("Successfully updated", Stack.class.getSimpleName(), "to", stackName);
             }
 
             @Override
@@ -513,7 +513,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         mainViewModel.updateBoard(fullBoard, new ResponseCallback<FullBoard>() {
             @Override
             public void onResponse(FullBoard response) {
-                DeckLog.info("Successfully updated board " + fullBoard.getBoard().getTitle());
+                DeckLog.info("Successfully updated board", fullBoard.getBoard().getTitle());
             }
 
             @Override
@@ -703,7 +703,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                             mainViewModel.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, filterInformation == null ? new FilterInformation() : filterInformation, new ResponseCallback<Void>() {
                                 @Override
                                 public void onResponse(Void response) {
-                                    DeckLog.info("Successfully archived all cards in stack local id " + stackLocalId);
+                                    DeckLog.info("Successfully archived all cards in stack local id", stackLocalId);
                                 }
 
                                 @Override
@@ -840,7 +840,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                                     });
                                                 });
                                             } else {
-                                                DeckLog.warn("Cannot import account because server version is too low (" + response.getDeckVersion() + "). Minimum server version is currently " + Version.minimumSupported());
+                                                DeckLog.warn("Cannot import account because server version is too low (" + response.getDeckVersion() + "). Minimum server version is currently", Version.minimumSupported());
                                                 runOnUiThread(() -> new BrandedAlertDialogBuilder(MainActivity.this)
                                                         .setTitle(R.string.update_deck)
                                                         .setMessage(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()))
@@ -950,7 +950,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         mainViewModel.deleteStack(mainViewModel.getCurrentAccount().getId(), stackId, mainViewModel.getCurrentBoardLocalId(), new ResponseCallback<Void>() {
             @Override
             public void onResponse(Void response) {
-                DeckLog.info("Successfully deleted stack with local id " + stackLocalId + " and remote id " + stackId);
+                DeckLog.info("Successfully deleted stack with local id", stackLocalId, "and remote id", stackId);
             }
 
             @Override
@@ -981,7 +981,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         mainViewModel.deleteBoard(board, new ResponseCallback<Void>() {
             @Override
             public void onResponse(Void response) {
-                DeckLog.info("Successfully deleted board " + board.getTitle());
+                DeckLog.info("Successfully deleted board", board.getTitle());
             }
 
             @Override
@@ -1015,7 +1015,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         mainViewModel.archiveBoard(board, new ResponseCallback<FullBoard>() {
             @Override
             public void onResponse(FullBoard response) {
-                DeckLog.info("Successfully archived board " + board.getTitle());
+                DeckLog.info("Successfully archived board", board.getTitle());
             }
 
             @Override

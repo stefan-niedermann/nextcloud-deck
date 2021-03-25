@@ -16,7 +16,7 @@ public class EnumConverter {
         try {
             return value == null ? null : EWidgetType.findById(value);
         } catch (IllegalArgumentException e) {
-            DeckLog.error(EWidgetType.class.getSimpleName() + " " + value + " not found. Falling back to generic " + EWidgetType.FILTER_WIDGET);
+            DeckLog.error(EWidgetType.class.getSimpleName(), value, "not found. Falling back to generic", EWidgetType.FILTER_WIDGET);
             return EWidgetType.FILTER_WIDGET;
         }
     }

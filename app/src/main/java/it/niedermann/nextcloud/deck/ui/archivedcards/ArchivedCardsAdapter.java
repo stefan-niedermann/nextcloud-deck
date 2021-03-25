@@ -37,7 +37,7 @@ public class ArchivedCardsAdapter extends CardAdapter {
             mainViewModel.dearchiveCard(fullCard, new ResponseCallback<FullCard>() {
                 @Override
                 public void onResponse(FullCard response) {
-                    DeckLog.info("Successfully dearchived " + Card.class.getSimpleName() + " " + fullCard.getCard().getTitle());
+                    DeckLog.info("Successfully dearchived", Card.class.getSimpleName(), fullCard.getCard().getTitle());
                 }
 
                 @Override
@@ -51,7 +51,7 @@ public class ArchivedCardsAdapter extends CardAdapter {
             mainViewModel.deleteCard(fullCard.getCard(), new ResponseCallback<Void>() {
                 @Override
                 public void onResponse(Void response) {
-                    DeckLog.info("Successfully deleted card " + fullCard.getCard().getTitle());
+                    DeckLog.info("Successfully deleted card", fullCard.getCard().getTitle());
                 }
 
                 @Override

@@ -84,7 +84,7 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
         viewModel.deleteBoard(board, new ResponseCallback<Void>() {
             @Override
             public void onResponse(Void response) {
-                DeckLog.info("Successfully deleted board " + board.getTitle());
+                DeckLog.info("Successfully deleted board", board.getTitle());
             }
 
             @Override
@@ -102,7 +102,7 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
         viewModel.updateBoard(fullBoard, new ResponseCallback<FullBoard>() {
             @Override
             public void onResponse(FullBoard response) {
-                DeckLog.info("Successfully updated board " + fullBoard.getBoard().getTitle());
+                DeckLog.info("Successfully updated board", fullBoard.getBoard().getTitle());
             }
 
             @Override
@@ -118,7 +118,7 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
         viewModel.dearchiveBoard(board, new ResponseCallback<FullBoard>() {
             @Override
             public void onResponse(FullBoard response) {
-                DeckLog.info("Successfully dearchived board " + response.getBoard().getTitle());
+                DeckLog.info("Successfully dearchived board", response.getBoard().getTitle());
             }
 
             @Override

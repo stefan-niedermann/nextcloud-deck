@@ -146,7 +146,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
         viewModel.deleteLabel(label, new ResponseCallback<Void>() {
             @Override
             public void onResponse(Void response) {
-                DeckLog.info("Successfully deleted label " + label.getTitle());
+                DeckLog.info("Successfully deleted label", label.getTitle());
             }
 
             @Override
@@ -169,7 +169,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
         viewModel.updateLabel(label, new ResponseCallback<Label>() {
             @Override
             public void onResponse(Label label) {
-                DeckLog.verbose("Successfully update label " + label.getTitle());
+                DeckLog.verbose("Successfully update label", label.getTitle());
             }
 
             @Override

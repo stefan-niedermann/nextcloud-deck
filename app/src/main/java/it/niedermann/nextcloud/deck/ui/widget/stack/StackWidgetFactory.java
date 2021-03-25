@@ -45,12 +45,12 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
     public void onDataSetChanged() {
         try {
             final List<FilterWidgetCard> response = syncManager.getCardsForFilterWidget(appWidgetId);
-            DeckLog.verbose(StackWidget.class.getSimpleName() + " with id " + appWidgetId + " fetched " + response.size() + " cards from the database.");
+            DeckLog.verbose(StackWidget.class.getSimpleName(), "with id", appWidgetId, "fetched", response.size(), "cards from the database.");
             data.clear();
             Collections.sort(response, Comparator.comparingLong(value -> value.getCard().getCard().getOrder()));
             data.addAll(response);
         } catch (NoSuchElementException e) {
-            DeckLog.error("No " + StackWidget.class.getSimpleName() + " for appWidgetId " + appWidgetId + " found.");
+            DeckLog.error("No", StackWidget.class.getSimpleName(), "for appWidgetId", appWidgetId, "found.");
             DeckLog.logError(e);
         }
     }
@@ -69,7 +69,7 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
     @Override
     public RemoteViews getViewAt(int i) {
         if (i > (data.size() - 1) || data.get(i) == null) {
-            DeckLog.error("No card or separator not found at position " + i);
+            DeckLog.error("No card or separator not found at position", i);
             return null;
         }
         final RemoteViews widget_entry;

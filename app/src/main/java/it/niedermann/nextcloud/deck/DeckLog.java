@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -34,36 +35,36 @@ public class DeckLog {
         VERBOSE, DEBUG, LOG, INFO, WARN, ERROR
     }
 
-    public static void verbose(String message) {
-        log(message, Severity.VERBOSE, 4);
+    public static void verbose(Object... message) {
+        log(Severity.VERBOSE, 4, message);
     }
 
-    public static void log(String message) {
-        log(message, Severity.DEBUG, 4);
+    public static void log(Object... message) {
+        log(Severity.DEBUG, 4, message);
     }
 
-    public static void info(String message) {
-        log(message, Severity.INFO, 4);
+    public static void info(Object... message) {
+        log(Severity.INFO, 4, message);
     }
 
-    public static void warn(String message) {
-        log(message, Severity.WARN, 4);
+    public static void warn(Object... message) {
+        log(Severity.WARN, 4, message);
     }
 
-    public static void error(String message) {
-        log(message, Severity.ERROR, 4);
+    public static void error(Object... message) {
+        log(Severity.ERROR, 4, message);
     }
 
-    public static void log(String message, Severity severity) {
-        log(message, severity, 3);
+    public static void log(Severity severity, Object... message) {
+        log(severity, 3, message);
     }
 
-    private static void log(String message, Severity severity, int stackTracePosition) {
+    private static void log(Severity severity, int stackTracePosition, Object... messages) {
         if (!(PERSIST_LOGS || BuildConfig.DEBUG)) {
             return;
         }
         final StackTraceElement caller = Thread.currentThread().getStackTrace()[stackTracePosition];
-        final String print = "(" + caller.getFileName() + ":" + caller.getLineNumber() + ") " + caller.getMethodName() + "() → " + message;
+        final String print = "(" + caller.getFileName() + ":" + caller.getLineNumber() + ") " + caller.getMethodName() + "() → " + TextUtils.join(" ", messages);
         if (PERSIST_LOGS) {
             DEBUG_LOG.append(print).append("\n");
         }

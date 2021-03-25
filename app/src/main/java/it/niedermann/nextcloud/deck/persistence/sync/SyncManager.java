@@ -272,12 +272,12 @@ public class SyncManager {
                             }
                         } else {
                             respondCallbacksAfterSync(callbacksQueueForSync, Boolean.FALSE, null);
-                            DeckLog.warn("No sync. Server version not supported: " + response.getDeckVersion().getOriginalVersion());
+                            DeckLog.warn("No sync. Server version not supported:", response.getDeckVersion().getOriginalVersion());
                         }
                     } else {
                         respondCallbacksAfterSync(callbacksQueueForSync, Boolean.FALSE, null);
                         if (response != null) {
-                            DeckLog.warn("No sync. Status maintenance mode: " + response.isMaintenanceEnabled());
+                            DeckLog.warn("No sync. Status maintenance mode:", response.isMaintenanceEnabled());
                         }
                     }
                 }
@@ -457,14 +457,14 @@ public class SyncManager {
                             if (requestFailedException.getStatusCode() == HTTP_UNAVAILABLE && requestFailedException.getCause() != null) {
                                 String errorString = requestFailedException.getCause().getMessage();
                                 Capabilities capabilities = GsonConfig.getGson().fromJson(errorString, Capabilities.class);
-                                DeckLog.verbose("HTTP Status " + HTTP_UNAVAILABLE + ": This server seems to be in maintenance mode.");
+                                DeckLog.verbose("HTTP Status", HTTP_UNAVAILABLE + ": This server seems to be in maintenance mode.");
                                 if (capabilities.isMaintenanceEnabled()) {
                                     doAsync(() -> onResponse(ParsedResponse.of(capabilities)));
                                 } else {
                                     onError(throwable);
                                 }
                             } else if (requestFailedException.getStatusCode() == HTTP_NOT_MODIFIED) {
-                                DeckLog.verbose("HTTP Status " + HTTP_NOT_MODIFIED + ": There haven't been any changes on the server side for this request.");
+                                DeckLog.verbose("HTTP Status", HTTP_NOT_MODIFIED + ": There haven't been any changes on the server side for this request.");
                                 //could be after maintenance. so we have to at least revert the maintenance flag
                                 doAsync(() -> {
                                     Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
@@ -668,7 +668,7 @@ public class SyncManager {
                                 if (newLabelId != null) {
                                     dataBaseAdapter.createJoinCardWithLabel(newLabelId, createdCardId, DBStatus.LOCAL_EDITED);
                                 } else
-                                    DeckLog.error("ID of created Label is null! Skipping assignment of \"" + oldLabel.getTitle() + "\"...");
+                                    DeckLog.error("ID of created Label is null! Skipping assignment of ", oldLabel.getTitle(), "…");
                             }
                         }
                         if (isSameAccount && oldCard.getAssignedUsers() != null) {
@@ -719,7 +719,7 @@ public class SyncManager {
                                 }
                             }).doSyncFor(new ActivityDataProvider(null, card));
                 } else {
-                    DeckLog.log("Can not fetch activities for card \"" + card.getTitle() + "\" because this card does not have a remote id yet.");
+                    DeckLog.log("Can not fetch activities for card ", card.getTitle(), "because this card does not have a remote id yet.");
                 }
             }
         });

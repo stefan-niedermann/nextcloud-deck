@@ -217,7 +217,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
             mainViewModel.archiveCard(fullCard, new ResponseCallback<FullCard>() {
                 @Override
                 public void onResponse(FullCard response) {
-                    DeckLog.info("Successfully archived " + Card.class.getSimpleName() + " " + fullCard.getCard().getTitle());
+                    DeckLog.info("Successfully archived", Card.class.getSimpleName(), fullCard.getCard().getTitle());
                 }
 
                 @Override
@@ -231,7 +231,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
             mainViewModel.deleteCard(fullCard.getCard(), new ResponseCallback<Void>() {
                 @Override
                 public void onResponse(Void response) {
-                    DeckLog.info("Successfully deleted card " + fullCard.getCard().getTitle());
+                    DeckLog.info("Successfully deleted card", fullCard.getCard().getTitle());
                 }
 
                 @Override

@@ -56,7 +56,7 @@ public class FilterWidgetFactory implements RemoteViewsService.RemoteViewsFactor
         RemoteViews widget_entry;
 
         if (i > (data.size() - 1) || data.get(i) == null) {
-            DeckLog.error("Card not found at position " + i);
+            DeckLog.error("Card not found at position", i);
             return null;
         }
 

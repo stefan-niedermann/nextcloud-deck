@@ -67,7 +67,7 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
             @Override
             public void onError(Throwable throwable) {
                 if (HandledServerErrors.LABELS_TITLE_MUST_BE_UNIQUE == HandledServerErrors.fromThrowable(throwable)) {
-                    DeckLog.log(throwable.getCause().getMessage() + ": " + entitiy.toString());
+                    DeckLog.log(throwable.getCause().getMessage() + ":", entitiy);
                     dataBaseAdapter.deleteLabelPhysically(entitiy);
                     responder.onResponse(entitiy);
                 } else {

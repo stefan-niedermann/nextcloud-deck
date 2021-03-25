@@ -26,7 +26,7 @@ public class NextcloudDeserializer<T> implements JsonDeserializer<T> {
 
     @Override
     public T deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
-        DeckLog.verbose(json.toString());
+        DeckLog.verbose(json);
         return JsonToEntityParser.parseJsonObject(json.getAsJsonObject(), mType);
 
     }

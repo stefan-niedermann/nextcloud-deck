@@ -81,7 +81,7 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
         binding = DialogMoveCardBinding.inflate(inflater);
         binding.title.setText(getString(R.string.action_card_move_title, originCardTitle));
         binding.submit.setOnClickListener((v) -> {
-            DeckLog.verbose("[Move card] Attempt to move to " + Stack.class.getSimpleName() + " #" + selectedStack.getLocalId());
+            DeckLog.verbose("[Move card] Attempt to move to", Stack.class.getSimpleName(), "#" + selectedStack.getLocalId());
             this.moveCardListener.move(originAccountId, originCardLocalId, selectedAccount.getId(), selectedBoard.getLocalId(), selectedStack.getLocalId());
             dismiss();
         });

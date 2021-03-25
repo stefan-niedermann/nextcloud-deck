@@ -39,10 +39,10 @@ public class StackWidget extends AppWidgetProvider {
         if (ACTION_APPWIDGET_UPDATE.equals(intent.getAction())) {
             if (intent.hasExtra(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
                 final int appWidgetId = intent.getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
-                DeckLog.verbose(ACTION_APPWIDGET_UPDATE + " for " + StackWidget.class.getSimpleName() + " with id " + appWidgetId + ", perform update.");
+                DeckLog.verbose(ACTION_APPWIDGET_UPDATE, "for", StackWidget.class.getSimpleName(), "with id", appWidgetId, "→ perform update.");
                 updateAppWidget(context, awm, new int[]{appWidgetId});
             } else {
-                DeckLog.verbose(ACTION_APPWIDGET_UPDATE + " for " + StackWidget.class.getSimpleName() + ": Triggering update for all widgets of this type.");
+                DeckLog.verbose(ACTION_APPWIDGET_UPDATE, "→ Triggering update for all widgets of type", StackWidget.class.getSimpleName());
                 updateAppWidget(context, awm, awm.getAppWidgetIds(new ComponentName(context, StackWidget.class)));
             }
         }
@@ -54,7 +54,7 @@ public class StackWidget extends AppWidgetProvider {
         final SyncManager syncManager = new SyncManager(context);
 
         for (int appWidgetId : appWidgetIds) {
-            DeckLog.info("Delete " + StackWidget.class.getSimpleName() + " with id " + appWidgetId);
+            DeckLog.info("Delete", StackWidget.class.getSimpleName(), "with id", appWidgetId);
             syncManager.deleteFilterWidget(appWidgetId, response -> DeckLog.verbose("Successfully deleted " + StackWidget.class.getSimpleName() + " with id " + appWidgetId));
         }
     }

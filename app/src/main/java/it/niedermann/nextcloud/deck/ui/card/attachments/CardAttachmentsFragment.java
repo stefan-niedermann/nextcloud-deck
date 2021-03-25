@@ -398,7 +398,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         switch (sourceUri.getScheme()) {
             case ContentResolver.SCHEME_CONTENT:
             case ContentResolver.SCHEME_FILE: {
-                DeckLog.verbose("--- found content URL " + sourceUri.getPath());
+                DeckLog.verbose("--- found content URL", sourceUri.getPath());
                 // Separate Thread required because picked file might not yet be locally available
                 // https://github.com/stefan-niedermann/nextcloud-deck/issues/814
                 new Thread(() -> {
@@ -505,7 +505,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             editViewModel.deleteAttachmentOfCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), attachment.getLocalId(), new ResponseCallback<Void>() {
                 @Override
                 public void onResponse(Void response) {
-                    DeckLog.info("Successfully delete " + Attachment.class.getSimpleName() + " " + attachment.getFilename() + " from " + Card.class.getSimpleName() + " " + editViewModel.getFullCard().getCard().getTitle());
+                    DeckLog.info("Successfully delete", Attachment.class.getSimpleName(), attachment.getFilename(), "from", Card.class.getSimpleName(), editViewModel.getFullCard().getCard().getTitle());
                 }
 
                 @Override

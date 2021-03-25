@@ -66,7 +66,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
         final FullDeckComment comment = comments.get(position);
         holder.bind(comment, account, mainColor, menuInflater, deletedListener, selectAsReplyListener, fragmentManager, (changedText) -> {
             if (!Objects.equals(changedText, comment.getComment().getMessage())) {
-                DeckLog.info("Toggled checkbox in comment #" + comment.getLocalId());
+                DeckLog.info("Toggled checkbox in comment with localId", comment.getLocalId());
                 this.editListener.onCommentEdited(comment.getLocalId(), changedText.toString());
             }
         });

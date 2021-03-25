@@ -103,7 +103,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         viewModel.updateAccessControl(accessControl, new ResponseCallback<AccessControl>() {
             @Override
             public void onResponse(AccessControl response) {
-                DeckLog.info("Successfully updated " + AccessControl.class.getSimpleName() + " for user " + accessControl.getUser().getDisplayname());
+                DeckLog.info("Successfully updated", AccessControl.class.getSimpleName(), "for user", accessControl.getUser().getDisplayname());
             }
 
             @Override
@@ -119,7 +119,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         viewModel.deleteAccessControl(ac, new ResponseCallback<Void>() {
             @Override
             public void onResponse(Void response) {
-                DeckLog.info("Successfully deleted access control for user " + ac.getUser().getDisplayname());
+                DeckLog.info("Successfully deleted access control for user", ac.getUser().getDisplayname());
             }
 
             @Override
@@ -147,7 +147,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         viewModel.createAccessControl(viewModel.getCurrentAccount().getId(), ac, new ResponseCallback<AccessControl>() {
             @Override
             public void onResponse(AccessControl response) {
-                DeckLog.info("Successfully created " + AccessControl.class.getSimpleName() + " for user " + user.getDisplayname());
+                DeckLog.info("Successfully created", AccessControl.class.getSimpleName(), "for user", user.getDisplayname());
             }
 
             @Override
