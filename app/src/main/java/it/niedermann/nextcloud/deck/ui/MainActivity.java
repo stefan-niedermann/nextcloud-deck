@@ -478,30 +478,40 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         boardToCreate.setPermissionEdit(true);
         boardToCreate.setPermissionManage(true);
 
-        final WrappedLiveData<FullBoard> createLiveData = mainViewModel.createBoard(mainViewModel.getCurrentAccount().getId(), boardToCreate);
-        observeOnce(createLiveData, this, (createdBoard) -> {
-            if (createLiveData.hasError()) {
+        mainViewModel.createBoard(mainViewModel.getCurrentAccount().getId(), boardToCreate, new ResponseCallback<FullBoard>() {
+            @Override
+            public void onResponse(FullBoard response) {
+                if (response != null) {
+                    boardsList.add(response.getBoard());
+                    setCurrentBoard(response.getBoard());
+                    inflateBoardMenu(response.getBoard());
+                    EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
+                }
+                boardsLiveData.observe(MainActivity.this, boardsLiveDataObserver);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                ResponseCallback.super.onError(throwable);
                 BrandedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(createLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                        .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
                         .show();
             }
-            if (createdBoard != null && !createLiveData.hasError()) {
-                boardsList.add(createdBoard.getBoard());
-                setCurrentBoard(createdBoard.getBoard());
-
-                inflateBoardMenu(createdBoard.getBoard());
-                EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
-            }
-            boardsLiveData.observe(this, boardsLiveDataObserver);
         });
     }
 
     @Override
     public void onUpdateBoard(FullBoard fullBoard) {
-        final WrappedLiveData<FullBoard> updateLiveData = mainViewModel.updateBoard(fullBoard);
-        observeOnce(updateLiveData, this, (next) -> {
-            if (updateLiveData.hasError()) {
-                ExceptionDialogFragment.newInstance(updateLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        mainViewModel.updateBoard(fullBoard, new ResponseCallback<FullBoard>() {
+            @Override
+            public void onResponse(FullBoard response) {
+                DeckLog.info("Successfully updated board " + fullBoard.getBoard().getTitle());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                ResponseCallback.super.onError(throwable);
+                ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
             }
         });
     }
@@ -1013,18 +1023,23 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     binding.drawerLayout.closeDrawer(GravityCompat.START);
                     final Snackbar snackbar = BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.cloning_board, board.getTitle()), Snackbar.LENGTH_INDEFINITE);
                     snackbar.show();
-                    final WrappedLiveData<FullBoard> liveData = mainViewModel.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColor(), checkedItems[0]);
-                    observeOnce(liveData, this, (fullBoard -> {
-                        snackbar.dismiss();
-                        if (liveData.hasError()) {
-                            ExceptionDialogFragment.newInstance(liveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                        } else {
-                            setCurrentBoard(fullBoard.getBoard());
-                            BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.successfully_cloned_board, fullBoard.getBoard().getTitle()), Snackbar.LENGTH_LONG)
-                                    .setAction(R.string.edit, v -> EditBoardDialogFragment.newInstance(fullBoard.getLocalId()).show(getSupportFragmentManager(), EditBoardDialogFragment.class.getSimpleName()))
+                    mainViewModel.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColor(), checkedItems[0], new ResponseCallback<FullBoard>() {
+                        @Override
+                        public void onResponse(FullBoard response) {
+                            snackbar.dismiss();
+                            setCurrentBoard(response.getBoard());
+                            BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.successfully_cloned_board, response.getBoard().getTitle()), Snackbar.LENGTH_LONG)
+                                    .setAction(R.string.edit, v -> EditBoardDialogFragment.newInstance(response.getLocalId()).show(getSupportFragmentManager(), EditBoardDialogFragment.class.getSimpleName()))
                                     .show();
                         }
-                    }));
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            snackbar.dismiss();
+                            ResponseCallback.super.onError(throwable);
+                            ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                        }
+                    });
                 })
                 .setNeutralButton(android.R.string.cancel, null)
                 .show();

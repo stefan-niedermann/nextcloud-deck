@@ -135,12 +135,12 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.readAccounts();
     }
 
-    public WrappedLiveData<FullBoard> createBoard(long accountId, @NonNull Board board) {
-        return syncManager.createBoard(accountId, board);
+    public void createBoard(long accountId, @NonNull Board board, @NonNull ResponseCallback<FullBoard> callback) {
+        syncManager.createBoard(accountId, board, callback);
     }
 
-    public WrappedLiveData<FullBoard> updateBoard(@NonNull FullBoard board) {
-        return syncManager.updateBoard(board);
+    public void updateBoard(@NonNull FullBoard board, @NonNull ResponseCallback<FullBoard> callback) {
+        syncManager.updateBoard(board, callback);
     }
 
     public LiveData<List<Board>> getBoards(long accountId, boolean archived) {
@@ -159,8 +159,8 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.dearchiveBoard(board);
     }
 
-    public WrappedLiveData<FullBoard> cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, @ColorInt int targetBoardColor, boolean cloneCards) {
-        return syncManager.cloneBoard(originAccountId, originBoardLocalId, targetAccountId, targetBoardColor, cloneCards);
+    public void cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, @ColorInt int targetBoardColor, boolean cloneCards, @NonNull ResponseCallback<FullBoard> callback) {
+        syncManager.cloneBoard(originAccountId, originBoardLocalId, targetAccountId, targetBoardColor, cloneCards, callback);
     }
 
     public void deleteBoard(@NonNull Board board, @NonNull ResponseCallback<Void> callback) {

@@ -109,10 +109,16 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
 
     @Override
     public void onUpdateBoard(FullBoard fullBoard) {
-        final WrappedLiveData<FullBoard> updateLiveData = viewModel.updateBoard(fullBoard);
-        observeOnce(updateLiveData, this, (next) -> {
-            if (updateLiveData.hasError()) {
-                ExceptionDialogFragment.newInstance(updateLiveData.getError(), viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        viewModel.updateBoard(fullBoard, new ResponseCallback<FullBoard>() {
+            @Override
+            public void onResponse(FullBoard response) {
+                DeckLog.info("Successfully updated board " + fullBoard.getBoard().getTitle());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                ResponseCallback.super.onError(throwable);
+                ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
             }
         });
     }
