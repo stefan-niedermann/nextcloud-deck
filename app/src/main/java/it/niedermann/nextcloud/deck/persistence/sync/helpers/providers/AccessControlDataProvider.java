@@ -65,7 +65,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
                 serverAdapter.getSingleUserData(uid, new IResponseCallback<OcsUser>(account) {
                     @Override
                     public void onResponse(OcsUser response) {
-                        DeckLog.log(response.toString());
+                        DeckLog.log(response);
                         User user = new User();
                         user.setUid(response.getId());
                         user.setPrimaryKey(response.getId());

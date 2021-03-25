@@ -103,13 +103,13 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         viewModel.updateAccessControl(accessControl, new ResponseCallback<AccessControl>() {
             @Override
             public void onResponse(AccessControl response) {
-                DeckLog.info("Successfully updated " + AccessControl.class.getSimpleName() + " for user " + accessControl.getUser().getDisplayname());
+                DeckLog.info("Successfully updated", AccessControl.class.getSimpleName(), "for user", accessControl.getUser().getDisplayname());
             }
 
             @Override
             public void onError(Throwable throwable) {
                 ResponseCallback.super.onError(throwable);
-                ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });
     }
@@ -119,16 +119,16 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         viewModel.deleteAccessControl(ac, new ResponseCallback<Void>() {
             @Override
             public void onResponse(Void response) {
-                DeckLog.info("Successfully deleted access control for user " + ac.getUser().getDisplayname());
+                DeckLog.info("Successfully deleted access control for user", ac.getUser().getDisplayname());
             }
 
             @Override
             public void onError(Throwable throwable) {
                 if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
                     ResponseCallback.super.onError(throwable);
-                    BrandedSnackbar.make(requireView(), getString(R.string.error_revoking_ac, ac.getUser().getDisplayname()), Snackbar.LENGTH_LONG)
+                    requireActivity().runOnUiThread(() -> BrandedSnackbar.make(requireView(), getString(R.string.error_revoking_ac, ac.getUser().getDisplayname()), Snackbar.LENGTH_LONG)
                             .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
-                            .show();
+                            .show());
                 }
             }
         });
@@ -147,13 +147,13 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         viewModel.createAccessControl(viewModel.getCurrentAccount().getId(), ac, new ResponseCallback<AccessControl>() {
             @Override
             public void onResponse(AccessControl response) {
-                DeckLog.info("Successfully created " + AccessControl.class.getSimpleName() + " for user " + user.getDisplayname());
+                DeckLog.info("Successfully created", AccessControl.class.getSimpleName(), "for user", user.getDisplayname());
             }
 
             @Override
             public void onError(Throwable throwable) {
                 ResponseCallback.super.onError(throwable);
-                ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });
         binding.people.setText("");

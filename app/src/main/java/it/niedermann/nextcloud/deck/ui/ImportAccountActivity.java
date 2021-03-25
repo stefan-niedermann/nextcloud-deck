@@ -128,7 +128,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                             } else {
                                 // Remember last account - THIS HAS TO BE DONE SYNCHRONOUSLY
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                DeckLog.log("--- Write: shared_preference_last_account" + " | " + createdAccount.getId());
+                                DeckLog.log("--- Write: shared_preference_last_account | ", createdAccount.getId());
                                 editor.putLong(sharedPreferenceLastAccount, createdAccount.getId());
                                 editor.commit();
 
@@ -207,7 +207,7 @@ public class ImportAccountActivity extends AppCompatActivity {
         DeckLog.log("Rolling back account creation for " + accountId);
         syncManager.deleteAccount(accountId);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        DeckLog.log("--- Remove: shared_preference_last_account" + " | " + accountId);
+        DeckLog.log("--- Remove: shared_preference_last_account |", accountId);
         editor.remove(sharedPreferenceLastAccount);
         editor.commit(); // Has to be done synchronously
         runOnUiThread(() -> binding.addButton.setEnabled(true));

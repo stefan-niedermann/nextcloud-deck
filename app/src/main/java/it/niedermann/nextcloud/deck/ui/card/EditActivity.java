@@ -151,7 +151,7 @@ public class EditActivity extends BrandedActivity {
             }
         }));
 
-        DeckLog.verbose("Finished loading intent data: { accountId = " + viewModel.getAccount().getId() + " , cardId = " + cardId + " }");
+        DeckLog.verbose("Finished loading intent data: { accountId =", viewModel.getAccount().getId(), "cardId =", cardId, "}");
     }
 
     private static void fillTitleAndDescription(@NonNull Card card, @NonNull Version version, @Nullable String title, @Nullable String description) {

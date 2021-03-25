@@ -145,7 +145,7 @@ public abstract class DeckDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            DeckLog.info("Database \"" + DECK_DB_NAME + "\" created.");
+            DeckLog.info("Database", DECK_DB_NAME, "created.");
             LastSyncUtil.resetAll();
         }
     };

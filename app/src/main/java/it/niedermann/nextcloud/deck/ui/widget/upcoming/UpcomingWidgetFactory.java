@@ -58,7 +58,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     public void onDataSetChanged() {
         try {
             final List<FilterWidgetCard> response = syncManager.getCardsForFilterWidget(appWidgetId);
-            DeckLog.verbose(UpcomingWidgetFactory.class.getSimpleName() + " with id " + appWidgetId + " fetched " + response.size() + " cards from the database.");
+            DeckLog.verbose(UpcomingWidgetFactory.class.getSimpleName(), "with id", appWidgetId, "fetched", response.size(), "cards from the database.");
             data.clear();
             final Comparator<FilterWidgetCard> comparator = Comparator.comparing((card -> {
                 if (card != null &&
@@ -95,7 +95,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
             EUpcomingDueType lastDueType = null;
             for (FilterWidgetCard filterWidgetCard : response) {
                 final EUpcomingDueType nextDueType = getDueType(filterWidgetCard.getCard().getCard().getDueDate());
-                DeckLog.info(filterWidgetCard.getCard().getCard().getTitle() + ": " + nextDueType.name());
+                DeckLog.info(filterWidgetCard.getCard().getCard().getTitle() + ":", nextDueType.name());
                 if (!nextDueType.equals(lastDueType)) {
                     data.add(new Separator(nextDueType.toString(context)));
                     lastDueType = nextDueType;
@@ -103,7 +103,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
                 data.add(filterWidgetCard);
             }
         } catch (NoSuchElementException e) {
-            DeckLog.error("No " + UpcomingWidget.class.getSimpleName() + " for appWidgetId " + appWidgetId + " found.");
+            DeckLog.error("No", UpcomingWidget.class.getSimpleName(), "for appWidgetId", appWidgetId, "found.");
             DeckLog.logError(e);
         }
     }
@@ -121,7 +121,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     @Override
     public RemoteViews getViewAt(int i) {
         if (i > (data.size() - 1) || data.get(i) == null) {
-            DeckLog.error("No card or separator not found at position " + i);
+            DeckLog.error("No card or separator not found at position", i);
             return null;
         }
         final RemoteViews widget_entry;

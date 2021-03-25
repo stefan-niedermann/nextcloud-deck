@@ -41,7 +41,7 @@ public class UpcomingWidget extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             new Thread(() -> {
                 if (syncManager.filterWidgetExists(appWidgetId)) {
-                    DeckLog.warn(UpcomingWidget.class.getSimpleName() + "with id " + appWidgetId + " already exists, perform update instead.");
+                    DeckLog.warn(UpcomingWidget.class.getSimpleName(), "with id", appWidgetId, "already exists, perform update instead.");
                     updateAppWidget(context, appWidgetManager, appWidgetIds);
                 } else {
                     final List<Account> accountsList = syncManager.readAccountsDirectly();
@@ -55,13 +55,13 @@ public class UpcomingWidget extends AppWidgetProvider {
                     syncManager.createFilterWidget(config, new ResponseCallback<Integer>() {
                         @Override
                         public void onResponse(Integer response) {
-                            DeckLog.verbose("Successfully created " + UpcomingWidget.class.getSimpleName() + "with id " + appWidgetId);
+                            DeckLog.verbose("Successfully created", UpcomingWidget.class.getSimpleName(), "with id", appWidgetId);
                             updateAppWidget(context, appWidgetManager, appWidgetIds);
                         }
 
                         @Override
                         public void onError(Throwable throwable) {
-                            DeckLog.error("Error while creating " + UpcomingWidget.class.getSimpleName() + "with id " + appWidgetId);
+                            DeckLog.error("Error while creating", UpcomingWidget.class.getSimpleName(), "with id", appWidgetId);
                             ResponseCallback.super.onError(throwable);
                             onDeleted(context, appWidgetIds);
                         }
@@ -80,10 +80,10 @@ public class UpcomingWidget extends AppWidgetProvider {
         if (ACTION_APPWIDGET_UPDATE.equals(intent.getAction())) {
             if (intent.hasExtra(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
                 final int appWidgetId = intent.getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
-                DeckLog.verbose(ACTION_APPWIDGET_UPDATE + " for " + UpcomingWidget.class.getSimpleName() + " with id " + appWidgetId + ", perform update.");
+                DeckLog.verbose(ACTION_APPWIDGET_UPDATE, "for", UpcomingWidget.class.getSimpleName(), "with id", appWidgetId, "→ perform update.");
                 updateAppWidget(context, awm, new int[]{appWidgetId});
             } else {
-                DeckLog.verbose(ACTION_APPWIDGET_UPDATE + " for " + UpcomingWidget.class.getSimpleName() + ": Triggering update for all widgets of this type.");
+                DeckLog.verbose(ACTION_APPWIDGET_UPDATE, "→ Triggering update for all widgets of type", UpcomingWidget.class.getSimpleName());
                 updateAppWidget(context, awm, awm.getAppWidgetIds(new ComponentName(context, UpcomingWidget.class)));
             }
         }
@@ -95,7 +95,7 @@ public class UpcomingWidget extends AppWidgetProvider {
         final SyncManager syncManager = new SyncManager(context);
 
         for (int appWidgetId : appWidgetIds) {
-            DeckLog.info("Delete " + UpcomingWidget.class.getSimpleName() + " with id " + appWidgetId);
+            DeckLog.info("Delete", UpcomingWidget.class.getSimpleName(), "with id", appWidgetId);
             syncManager.deleteFilterWidget(appWidgetId, response -> DeckLog.verbose("Successfully deleted " + UpcomingWidget.class.getSimpleName() + " with id " + appWidgetId));
         }
     }

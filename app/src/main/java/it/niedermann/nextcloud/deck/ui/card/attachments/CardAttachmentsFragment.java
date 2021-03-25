@@ -398,7 +398,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         switch (sourceUri.getScheme()) {
             case ContentResolver.SCHEME_CONTENT:
             case ContentResolver.SCHEME_FILE: {
-                DeckLog.verbose("--- found content URL " + sourceUri.getPath());
+                DeckLog.verbose("--- found content URL", sourceUri.getPath());
                 // Separate Thread required because picked file might not yet be locally available
                 // https://github.com/stefan-niedermann/nextcloud-deck/issues/814
                 new Thread(() -> {
@@ -429,22 +429,26 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                                 editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload, new ResponseCallback<Attachment>() {
                                     @Override
                                     public void onResponse(Attachment response) {
-                                        editViewModel.getFullCard().getAttachments().remove(a);
-                                        editViewModel.getFullCard().getAttachments().add(0, response);
-                                        adapter.replaceAttachment(a, response);
+                                        requireActivity().runOnUiThread(() -> {
+                                            editViewModel.getFullCard().getAttachments().remove(a);
+                                            editViewModel.getFullCard().getAttachments().add(0, response);
+                                            adapter.replaceAttachment(a, response);
+                                        });
                                     }
 
                                     @Override
                                     public void onError(Throwable throwable) {
-                                        if (throwable instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) throwable).getStatusCode() == HTTP_CONFLICT) {
-                                            ResponseCallback.super.onError(throwable);
-                                            // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
-                                            editViewModel.getFullCard().getAttachments().remove(a);
-                                            adapter.removeAttachment(a);
-                                            BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
-                                        } else {
-                                            ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", throwable), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                                        }
+                                        requireActivity().runOnUiThread(() -> {
+                                            if (throwable instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) throwable).getStatusCode() == HTTP_CONFLICT) {
+                                                ResponseCallback.super.onError(throwable);
+                                                // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
+                                                editViewModel.getFullCard().getAttachments().remove(a);
+                                                adapter.removeAttachment(a);
+                                                BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                                            } else {
+                                                ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", throwable), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                            }
+                                        });
                                     }
                                 });
                             }
@@ -501,14 +505,14 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             editViewModel.deleteAttachmentOfCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), attachment.getLocalId(), new ResponseCallback<Void>() {
                 @Override
                 public void onResponse(Void response) {
-                    DeckLog.info("Successfully delete " + Attachment.class.getSimpleName() + " " + attachment.getFilename() + " from " + Card.class.getSimpleName() + " " + editViewModel.getFullCard().getCard().getTitle());
+                    DeckLog.info("Successfully delete", Attachment.class.getSimpleName(), attachment.getFilename(), "from", Card.class.getSimpleName(), editViewModel.getFullCard().getCard().getTitle());
                 }
 
                 @Override
                 public void onError(Throwable throwable) {
                     if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
                         ResponseCallback.super.onError(throwable);
-                        ExceptionDialogFragment.newInstance(throwable, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                        requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                     }
                 }
             });

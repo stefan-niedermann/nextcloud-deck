@@ -51,14 +51,14 @@ public class FilesUtil {
     public static File getTempCacheFile(@NonNull Context context, String fileName) throws IOException {
         File cacheFile = new File(context.getApplicationContext().getFilesDir().getAbsolutePath() + "/" + fileName);
 
-        DeckLog.verbose("- Full path for new cache file: " + cacheFile.getAbsolutePath());
+        DeckLog.verbose("- Full path for new cache file:", cacheFile.getAbsolutePath());
 
         final File tempDir = cacheFile.getParentFile();
         if (tempDir == null) {
             throw new FileNotFoundException("could not cacheFile.getParentFile()");
         }
         if (!tempDir.exists()) {
-            DeckLog.verbose("-- The folder in which the new file should be created does not exist yet. Trying to create it...");
+            DeckLog.verbose("-- The folder in which the new file should be created does not exist yet. Trying to create it…");
             if (tempDir.mkdirs()) {
                 DeckLog.verbose("--- Creation successful");
             } else {

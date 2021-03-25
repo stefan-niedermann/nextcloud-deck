@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -27,7 +28,7 @@ public class DeckLog {
     private static final String TAG = DeckLog.class.getSimpleName();
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public static void enablePeristentLogs(boolean persistLogs) {
+    public static void enablePersistentLogs(boolean persistLogs) {
         PERSIST_LOGS = persistLogs;
         if (!persistLogs) {
             clearDebugLog();
@@ -38,36 +39,36 @@ public class DeckLog {
         VERBOSE, DEBUG, LOG, INFO, WARN, ERROR
     }
 
-    public static void verbose(String message) {
-        log(message, Severity.VERBOSE, 4);
+    public static void verbose(Object... message) {
+        log(Severity.VERBOSE, 4, message);
     }
 
-    public static void log(String message) {
-        log(message, Severity.DEBUG, 4);
+    public static void log(Object... message) {
+        log(Severity.DEBUG, 4, message);
     }
 
-    public static void info(String message) {
-        log(message, Severity.INFO, 4);
+    public static void info(Object... message) {
+        log(Severity.INFO, 4, message);
     }
 
-    public static void warn(String message) {
-        log(message, Severity.WARN, 4);
+    public static void warn(Object... message) {
+        log(Severity.WARN, 4, message);
     }
 
-    public static void error(String message) {
-        log(message, Severity.ERROR, 4);
+    public static void error(Object... message) {
+        log(Severity.ERROR, 4, message);
     }
 
-    public static void log(String message, Severity severity) {
-        log(message, severity, 3);
+    public static void log(@NonNull Severity severity, Object... message) {
+        log(severity, 3, message);
     }
 
-    private static void log(String message, Severity severity, int stackTracePosition) {
+    private static void log(@NonNull Severity severity, int stackTracePosition, Object... messages) {
         if (!(PERSIST_LOGS || BuildConfig.DEBUG)) {
             return;
         }
         final StackTraceElement caller = Thread.currentThread().getStackTrace()[stackTracePosition];
-        final String print = "(" + caller.getFileName() + ":" + caller.getLineNumber() + ") " + caller.getMethodName() + "() → " + message;
+        final String print = "(" + caller.getFileName() + ":" + caller.getLineNumber() + ") " + caller.getMethodName() + "() → " + TextUtils.join(" ", messages);
         if (PERSIST_LOGS) {
             DEBUG_LOG
                     .append(dtf.format(Instant.now().atZone(ZoneId.systemDefault())))
@@ -97,44 +98,25 @@ public class DeckLog {
     }
 
     public static void logError(@Nullable Throwable e) {
+        if (!(PERSIST_LOGS || BuildConfig.DEBUG)) {
+            return;
+        }
         if (e == null) {
             error("Could not log error because given error was null");
             return;
         }
         final StringWriter sw = new StringWriter();
         e.printStackTrace(new PrintWriter(sw));
-        String stacktrace = sw.toString(); // stack trace as a string
+        final String stacktrace = sw.toString();
         final StackTraceElement caller = Thread.currentThread().getStackTrace()[3];
-        final String source = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") -> ";
-        Log.e(TAG, source + stacktrace);
-    }
-
-    public static void printCurrentStacktrace() {
-        log(getCurrentStacktrace(4));
-    }
-
-    public static String getCurrentStacktrace() {
-        return getCurrentStacktrace(4);
-    }
-
-    private static String getCurrentStacktrace(@SuppressWarnings("SameParameterValue") int offset) {
-        final StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-        final StringBuilder buff = new StringBuilder();
-        for (int i = offset; i < elements.length; i++) {
-            final StackTraceElement s = elements[i];
-            buff.append("\tat ");
-            buff.append(s.getClassName());
-            buff.append(".");
-            buff.append(s.getMethodName());
-            buff.append("(");
-            buff.append(s.getFileName());
-            buff.append(":");
-            buff.append(s.getLineNumber());
-            buff.append(")\n");
+        final String print = "(" + caller.getFileName() + ":" + caller.getLineNumber() + ") " + caller.getMethodName() + "() → " + stacktrace;
+        if (PERSIST_LOGS) {
+            DEBUG_LOG.append(print).append("\n");
         }
-        return buff.toString();
+        Log.e(TAG, print);
     }
 
+    @NonNull
     public static String getDebugLog() {
         return DEBUG_LOG.toString();
     }

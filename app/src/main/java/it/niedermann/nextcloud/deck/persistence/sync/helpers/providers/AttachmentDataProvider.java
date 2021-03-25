@@ -82,7 +82,7 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
             @Override
             public void onError(Throwable throwable) {
                 if (!file.delete()) {
-                    DeckLog.error("Could not delete local file: " + file.getAbsolutePath());
+                    DeckLog.error("Could not delete local file:", file.getAbsolutePath());
                 }
                 // if (HandledServerErrors.ATTACHMENTS_FILE_ALREADY_EXISTS == HandledServerErrors.fromThrowable(throwable)) {
                 dataBaseAdapter.deleteAttachment(accountId, entity, false);

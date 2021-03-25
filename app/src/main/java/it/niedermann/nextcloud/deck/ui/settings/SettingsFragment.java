@@ -35,11 +35,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         if (wifiOnlyPref != null) {
             wifiOnlyPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
                 final Boolean syncOnWifiOnly = (Boolean) newValue;
-                DeckLog.log("syncOnWifiOnly: " + syncOnWifiOnly);
+                DeckLog.log("syncOnWifiOnly:", syncOnWifiOnly);
                 return true;
             });
         } else {
-            DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_wifi_only) + "\"");
+            DeckLog.error("Could not find preference with key: ", getString(R.string.pref_key_wifi_only));
         }
 
         Preference themePref = findPreference(getString(R.string.pref_key_dark_theme));
@@ -51,7 +51,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 return true;
             });
         } else {
-            DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_dark_theme) + "\"");
+            DeckLog.error("Could not find preference with key:", getString(R.string.pref_key_dark_theme));
         }
 
         compactPref = findPreference(getString(R.string.pref_key_compact));
@@ -63,18 +63,18 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 return true;
             });
         } else {
-            DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_background_sync) + "\"");
+            DeckLog.error("Could not find preference with key", getString(R.string.pref_key_background_sync));
         }
 
         debuggingPref = findPreference(getString(R.string.pref_key_debugging));
         if (debuggingPref != null) {
             debuggingPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-                DeckLog.enablePeristentLogs((Boolean) newValue);
-                DeckLog.log("persistet debug logs: " + newValue);
+                DeckLog.enablePersistentLogs((Boolean) newValue);
+                DeckLog.log("persistet debug logs:", newValue);
                 return true;
             });
         } else {
-            DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_debugging) + "\"");
+            DeckLog.error("Could not find preference with key:", getString(R.string.pref_key_debugging));
         }
 
         eTagPref = findPreference(getString(R.string.pref_key_etags));

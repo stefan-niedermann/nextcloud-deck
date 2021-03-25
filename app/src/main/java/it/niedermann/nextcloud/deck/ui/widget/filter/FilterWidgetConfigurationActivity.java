@@ -50,7 +50,7 @@ public class FilterWidgetConfigurationActivity extends AppCompatActivity {
         binding.submit.setOnClickListener((v) -> {
             final Bundle extras = new Bundle();
 
-            viewModel.updateFilterWidget(response -> DeckLog.verbose("Successfully updated " + FilterWidget.class.getSimpleName() + " with id " + appWidgetId));
+            viewModel.updateFilterWidget(response -> DeckLog.verbose("Successfully updated", FilterWidget.class.getSimpleName(), "with id", appWidgetId));
             Intent updateIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, getApplicationContext(), FilterWidget.class);
             extras.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 

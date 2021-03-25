@@ -159,7 +159,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                     switch (which) {
                         case 0:
                             final String oldDescription = fullCard.getCard().getDescription();
-                            DeckLog.info("Adding to card #" + fullCard.getCard().getId() + " (" + fullCard.getCard().getTitle() + "): Text \"" + receivedText + "\"");
+                            DeckLog.info("Adding to card with id", fullCard.getCard().getId(), "(" + fullCard.getCard().getTitle() + "):", receivedText);
                             fullCard.getCard().setDescription(
                                     (oldDescription == null || oldDescription.length() == 0)
                                             ? receivedText

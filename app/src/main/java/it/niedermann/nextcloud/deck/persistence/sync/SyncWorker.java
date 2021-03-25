@@ -40,7 +40,7 @@ public class SyncWorker extends Worker {
             sharedPreferencesEditor.putLong(getApplicationContext().getString(R.string.shared_preference_last_background_sync), System.currentTimeMillis());
             sharedPreferencesEditor.apply();
             boolean success = syncManager.synchronizeEverything();
-            DeckLog.info("Finishing background synchronization with result " + success);
+            DeckLog.info("Finishing background synchronization. Success: ", success);
             return success ? Result.failure() : Result.success();
         }
         return Result.success();
@@ -66,17 +66,17 @@ public class SyncWorker extends Worker {
             unit = TimeUnit.HOURS;
         }
         if (unit == null) {
-            DeckLog.info("Do not register a new " + SyncWorker.class.getSimpleName() + " because setting " + preferenceValue + " is not a valid time frame");
+            DeckLog.info("Do not register a new", SyncWorker.class.getSimpleName(), "because setting", preferenceValue, "is not a valid time frame");
         } else {
             final PeriodicWorkRequest work = new PeriodicWorkRequest.Builder(SyncWorker.class, repeatInterval, unit)
                     .setConstraints(constraints).build();
-            DeckLog.info("Registering " + SyncWorker.class.getSimpleName() + " running each " + repeatInterval + " " + unit);
+            DeckLog.info("Registering", SyncWorker.class.getSimpleName(), "running each", repeatInterval, unit);
             WorkManager.getInstance(context.getApplicationContext()).enqueueUniquePeriodicWork(SyncWorker.WORKER_TAG, ExistingPeriodicWorkPolicy.REPLACE, work);
         }
     }
 
     private static void deregister(@NonNull Context context) {
-        DeckLog.info("Deregistering all " + SyncWorker.class.getSimpleName() + " with tag \"" + WORKER_TAG + "\"");
+        DeckLog.info("Deregistering all", SyncWorker.class.getSimpleName(), "with tag", WORKER_TAG);
         WorkManager.getInstance(context.getApplicationContext()).cancelAllWorkByTag(WORKER_TAG);
     }
 }
