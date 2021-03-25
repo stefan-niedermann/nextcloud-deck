@@ -69,7 +69,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         debuggingPref = findPreference(getString(R.string.pref_key_debugging));
         if (debuggingPref != null) {
             debuggingPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-                DeckLog.enablePeristentLogs((Boolean) newValue);
+                DeckLog.enablePersistentLogs((Boolean) newValue);
                 DeckLog.log("persistet debug logs:", newValue);
                 return true;
             });

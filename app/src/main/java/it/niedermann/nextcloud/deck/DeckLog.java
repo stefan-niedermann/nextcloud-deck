@@ -24,7 +24,7 @@ public class DeckLog {
     private static boolean PERSIST_LOGS = false;
     private static final String TAG = DeckLog.class.getSimpleName();
 
-    public static void enablePeristentLogs(boolean persistLogs) {
+    public static void enablePersistentLogs(boolean persistLogs) {
         PERSIST_LOGS = persistLogs;
         if (!persistLogs) {
             clearDebugLog();

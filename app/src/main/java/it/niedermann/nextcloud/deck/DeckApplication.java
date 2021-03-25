@@ -33,7 +33,7 @@ public class DeckApplication extends MultiDexApplication {
         PREF_KEY_THEME = getString(R.string.pref_key_dark_theme);
         PREF_KEY_DEBUGGING = getString(R.string.pref_key_debugging);
         setAppTheme(getAppTheme(this));
-        DeckLog.enablePeristentLogs(isPersistentLoggingEnabled(this));
+        DeckLog.enablePersistentLogs(isPersistentLoggingEnabled(this));
         currentAccountColor$ = distinctUntilChanged(new SharedPreferenceIntLiveData(PreferenceManager.getDefaultSharedPreferences(this),
                 getString(R.string.shared_preference_last_account_color),
                 ContextCompat.getColor(this, R.color.defaultBrand)));
