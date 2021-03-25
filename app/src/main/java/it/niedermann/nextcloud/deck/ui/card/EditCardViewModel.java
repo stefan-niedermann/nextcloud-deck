@@ -131,8 +131,8 @@ public class EditCardViewModel extends AndroidViewModel {
         return syncManager.getFullBoardById(accountId, localId);
     }
 
-    public WrappedLiveData<Label> createLabel(long accountId, Label label, long localBoardId) {
-        return syncManager.createLabel(accountId, label, localBoardId);
+    public void createLabel(long accountId, Label label, long localBoardId, @NonNull ResponseCallback<Label> callback) {
+        syncManager.createLabel(accountId, label, localBoardId, callback);
     }
 
     public LiveData<FullCardWithProjects> getFullCardWithProjectsByLocalId(long accountId, long cardLocalId) {

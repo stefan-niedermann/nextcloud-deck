@@ -151,12 +151,12 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.getFullBoardById(accountId, localId);
     }
 
-    public WrappedLiveData<FullBoard> archiveBoard(@NonNull Board board) {
-        return syncManager.archiveBoard(board);
+    public void archiveBoard(@NonNull Board board, @NonNull ResponseCallback<FullBoard> callback) {
+        syncManager.archiveBoard(board, callback);
     }
 
-    public WrappedLiveData<FullBoard> dearchiveBoard(@NonNull Board board) {
-        return syncManager.dearchiveBoard(board);
+    public void dearchiveBoard(@NonNull Board board, @NonNull ResponseCallback<FullBoard> callback) {
+        syncManager.dearchiveBoard(board, callback);
     }
 
     public void cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, @ColorInt int targetBoardColor, boolean cloneCards, @NonNull ResponseCallback<FullBoard> callback) {
@@ -187,8 +187,8 @@ public class MainViewModel extends AndroidViewModel {
         syncManager.deleteAccessControl(entity, callback);
     }
 
-    public WrappedLiveData<Label> createLabel(long accountId, Label label, long localBoardId) {
-        return syncManager.createLabel(accountId, label, localBoardId);
+    public void createLabel(long accountId, Label label, long localBoardId, @NonNull ResponseCallback<Label> callback) {
+        syncManager.createLabel(accountId, label, localBoardId, callback);
     }
 
     public LiveData<Integer> countCardsWithLabel(long localLabelId) {
@@ -219,8 +219,8 @@ public class MainViewModel extends AndroidViewModel {
         syncManager.swapStackOrder(accountId, boardLocalId, stackLocalIds);
     }
 
-    public WrappedLiveData<FullStack> updateStackTitle(long localStackId, @NonNull String newTitle) {
-        return syncManager.updateStackTitle(localStackId, newTitle);
+    public void updateStackTitle(long localStackId, @NonNull String newTitle, @NonNull ResponseCallback<FullStack> callback) {
+        syncManager.updateStackTitle(localStackId, newTitle, callback);
     }
 
     public void deleteStack(long accountId, long stackLocalId, long boardLocalId, @NonNull ResponseCallback<Void> callback) {

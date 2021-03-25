@@ -20,7 +20,6 @@ import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.DialogBoardManageLabelsBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDeleteAlertDialogBuilder;
@@ -82,22 +81,24 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
             label.setTitle(binding.addLabelTitle.getText().toString());
             label.setColor(colors[new Random().nextInt(colors.length)]);
 
-            WrappedLiveData<Label> createLiveData = viewModel.createLabel(viewModel.getCurrentAccount().getId(), label, boardId);
-            observeOnce(createLiveData, this, (createdLabel) -> {
-                if (createLiveData.hasError()) {
-                    final Throwable error = createLiveData.getError();
-                    assert error != null;
-                    if (error instanceof SQLiteConstraintException) {
-                        Toast.makeText(requireContext(), getString(R.string.tag_already_exists, label.getTitle()), Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(requireContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                        DeckLog.logError(error);
-                    }
-                } else {
+            viewModel.createLabel(viewModel.getCurrentAccount().getId(), label, boardId, new ResponseCallback<Label>() {
+                @Override
+                public void onResponse(Label response) {
+                    binding.fab.setEnabled(true);
                     binding.addLabelTitle.setText(null);
                     Toast.makeText(requireContext(), getString(R.string.tag_successfully_added, label.getTitle()), Toast.LENGTH_LONG).show();
                 }
-                binding.fab.setEnabled(true);
+
+                @Override
+                public void onError(Throwable throwable) {
+                    binding.fab.setEnabled(true);
+                    if (throwable instanceof SQLiteConstraintException) {
+                        Toast.makeText(requireContext(), getString(R.string.tag_already_exists, label.getTitle()), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(requireContext(), throwable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                        ResponseCallback.super.onError(throwable);
+                    }
+                }
             });
         });
         binding.addLabelTitle.setOnEditorActionListener((v, actionId, event) -> binding.fab.performClick());

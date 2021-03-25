@@ -895,36 +895,19 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<FullStack> updateStackTitle(long localStackId, @NonNull String newTitle) {
-        WrappedLiveData<FullStack> liveData = new WrappedLiveData<>();
+    public void updateStackTitle(long localStackId, @NonNull String newTitle, @NonNull ResponseCallback<FullStack> callback) {
         doAsync(() -> {
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(localStackId);
             FullBoard fullBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(stack.getAccountId(), stack.getStack().getBoardId());
             Account account = dataBaseAdapter.getAccountByIdDirectly(stack.getAccountId());
             stack.getStack().setTitle(newTitle);
-            updateStack(account, fullBoard, stack, liveData);
+            updateStack(account, fullBoard, stack, callback);
         });
-        return liveData;
     }
 
     @AnyThread
-    private void updateStack(@NonNull Account account, @NonNull FullBoard board, @NonNull FullStack stack, @Nullable WrappedLiveData<FullStack> liveData) {
-        doAsync(() -> new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new StackDataProvider(null, board), stack, new IResponseCallback<FullStack>(account) {
-            @Override
-            public void onResponse(FullStack response) {
-                if (liveData != null) {
-                    liveData.postValue(response);
-                }
-            }
-
-            @SuppressLint("MissingSuperCall")
-            @Override
-            public void onError(Throwable throwable) {
-                if (liveData != null) {
-                    liveData.postError(throwable);
-                }
-            }
-        }));
+    private void updateStack(@NonNull Account account, @NonNull FullBoard board, @NonNull FullStack stack, @NonNull ResponseCallback<FullStack> callback) {
+        doAsync(() -> new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new StackDataProvider(null, board), stack, IResponseCallback.from(account, callback)));
     }
 
     /**
@@ -949,8 +932,8 @@ public class SyncManager {
             int orderFirst = stacks.first.getStack().getOrder();
             stacks.first.getStack().setOrder(stacks.second.getStack().getOrder());
             stacks.second.getStack().setOrder(orderFirst);
-            updateStack(account, fullBoard, stacks.first, null);
-            updateStack(account, fullBoard, stacks.second, null);
+            updateStack(account, fullBoard, stacks.first, ResponseCallback.empty());
+            updateStack(account, fullBoard, stacks.second, ResponseCallback.empty());
         });
     }
 
@@ -1041,7 +1024,6 @@ public class SyncManager {
                     }
                 }
             }
-
 
             if (serverAdapter.hasInternetConnection()) {
                 new SyncHelper(serverAdapter, dataBaseAdapter, null)
@@ -1151,35 +1133,29 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<FullBoard> archiveBoard(@NonNull Board board) {
-        WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
+    public void archiveBoard(@NonNull Board board, @NonNull ResponseCallback<FullBoard> callback) {
         doAsync(() -> {
             try {
                 FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
                 b.getBoard().setArchived(true);
-                updateBoard(b, ResponseCallback.empty());
-                liveData.postValue(b);
+                updateBoard(b, callback);
             } catch (Throwable e) {
-                liveData.postError(e);
+                callback.onError(e);
             }
         });
-        return liveData;
     }
 
     @AnyThread
-    public WrappedLiveData<FullBoard> dearchiveBoard(@NonNull Board board) {
-        WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
+    public void dearchiveBoard(@NonNull Board board, @NonNull ResponseCallback<FullBoard> callback) {
         doAsync(() -> {
             try {
                 FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
                 b.getBoard().setArchived(false);
-                updateBoard(b, ResponseCallback.empty());
-                liveData.postValue(b);
+                updateBoard(b, callback);
             } catch (Throwable e) {
-                liveData.postError(e);
+                callback.onError(e);
             }
         });
-        return liveData;
     }
 
     @AnyThread
@@ -1388,31 +1364,18 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<Label> createLabel(long accountId, Label label, long localBoardId) {
-        WrappedLiveData<Label> liveData = new WrappedLiveData<>();
+    public void createLabel(long accountId, Label label, long localBoardId, @NonNull ResponseCallback<Label> callback) {
         doAsync(() -> {
             Label existing = dataBaseAdapter.getLabelByBoardIdAndTitleDirectly(label.getBoardId(), label.getTitle());
             if (existing != null) {
-                liveData.postError(new SQLiteConstraintException("label \"" + label.getTitle() + "\" already exists for this board!"));
+                callback.onError(new SQLiteConstraintException("label \"" + label.getTitle() + "\" already exists for this board!"));
                 return;
             }
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(localBoardId);
             label.setAccountId(accountId);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new LabelDataProvider(null, board, null), label, new IResponseCallback<Label>(account) {
-                @Override
-                public void onResponse(Label response) {
-                    liveData.postValue(response);
-                }
-
-                @SuppressLint("MissingSuperCall")
-                @Override
-                public void onError(Throwable throwable) {
-                    liveData.postError(throwable);
-                }
-            }, (entity, response) -> response.setBoardId(board.getLocalId()));
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new LabelDataProvider(null, board, null), label, IResponseCallback.from(account, callback), (entity, response) -> response.setBoardId(board.getLocalId()));
         });
-        return liveData;
     }
 
     public MutableLiveData<Label> createAndAssignLabelToCard(long accountId, @NonNull Label label, long localCardId) {

@@ -41,11 +41,11 @@ import it.niedermann.android.util.ColorUtil;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabDetailsBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDatePickerDialog;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
@@ -59,7 +59,6 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
 
 public class CardDetailsFragment extends BrandedFragment implements OnDateSetListener, OnTimeSetListener, CardAssigneeListener {
@@ -244,18 +243,21 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                     newLabel.setBoardId(boardId);
                     newLabel.setTitle(((LabelAutoCompleteAdapter) binding.labels.getAdapter()).getLastFilterText());
                     newLabel.setLocalId(null);
-                    WrappedLiveData<Label> createLabelLiveData = viewModel.createLabel(accountId, newLabel, boardId);
-                    observeOnce(createLabelLiveData, CardDetailsFragment.this, createdLabel -> {
-                        if (createLabelLiveData.hasError()) {
-                            DeckLog.logError(createLabelLiveData.getError());
-                            BrandedSnackbar.make(requireView(), getString(R.string.error_create_label, newLabel.getTitle()), Snackbar.LENGTH_LONG)
-                                    .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(createLabelLiveData.getError(), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show();
-                        } else {
-                            newLabel.setLocalId(createdLabel.getLocalId());
-                            ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(createdLabel);
-                            viewModel.getFullCard().getLabels().add(createdLabel);
+                    viewModel.createLabel(accountId, newLabel, boardId, new ResponseCallback<Label>() {
+                        @Override
+                        public void onResponse(Label response) {
+                            newLabel.setLocalId(response.getLocalId());
+                            ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(response);
+                            viewModel.getFullCard().getLabels().add(response);
                             binding.labelsGroup.addView(createChipFromLabel(newLabel));
                             binding.labelsGroup.setVisibility(VISIBLE);
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            ResponseCallback.super.onError(throwable);
+                            BrandedSnackbar.make(requireView(), getString(R.string.error_create_label, newLabel.getTitle()), Snackbar.LENGTH_LONG)
+                                    .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show();
                         }
                     });
                 } else {

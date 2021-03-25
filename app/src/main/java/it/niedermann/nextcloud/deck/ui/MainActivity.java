@@ -460,10 +460,16 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @Override
     public void onUpdateStack(long localStackId, String stackName) {
-        final WrappedLiveData<FullStack> liveData = mainViewModel.updateStackTitle(localStackId, stackName);
-        observeOnce(liveData, this, (v) -> {
-            if (liveData.hasError()) {
-                ExceptionDialogFragment.newInstance(liveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        mainViewModel.updateStackTitle(localStackId, stackName, new ResponseCallback<FullStack>() {
+            @Override
+            public void onResponse(FullStack response) {
+                DeckLog.info("Successfully updated " + Stack.class.getSimpleName() + " to " + stackName);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                ResponseCallback.super.onError(throwable);
+                ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
             }
         });
     }
@@ -1004,10 +1010,16 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @Override
     public void onArchive(@NonNull Board board) {
-        final WrappedLiveData<FullBoard> liveData = mainViewModel.archiveBoard(board);
-        observeOnce(liveData, this, (fullBoard) -> {
-            if (liveData.hasError()) {
-                ExceptionDialogFragment.newInstance(liveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        mainViewModel.archiveBoard(board, new ResponseCallback<FullBoard>() {
+            @Override
+            public void onResponse(FullBoard response) {
+                DeckLog.info("Successfully archived board " + board.getTitle());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                ResponseCallback.super.onError(throwable);
+                ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
             }
         });
     }
