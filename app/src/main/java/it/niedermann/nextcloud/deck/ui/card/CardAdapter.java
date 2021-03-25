@@ -1,7 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.app.Activity;
 import android.content.ClipData;
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -52,7 +52,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
     protected final FragmentManager fragmentManager;
     private final long stackId;
     @NonNull
-    private final Context context;
+    protected final Activity activity;
     @Nullable
     private final SelectCardListener selectCardListener;
     @NonNull
@@ -66,17 +66,17 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
     @StringRes
     private final int shareLinkRes;
 
-    public CardAdapter(@NonNull Context context, @NonNull FragmentManager fragmentManager, long stackId, @NonNull MainViewModel mainViewModel, @NonNull LifecycleOwner lifecycleOwner, @Nullable SelectCardListener selectCardListener) {
-        this.context = context;
-        this.counterMaxValue = context.getString(R.string.counter_max_value);
+    public CardAdapter(@NonNull Activity activity, @NonNull FragmentManager fragmentManager, long stackId, @NonNull MainViewModel mainViewModel, @NonNull LifecycleOwner lifecycleOwner, @Nullable SelectCardListener selectCardListener) {
+        this.activity = activity;
+        this.counterMaxValue = this.activity.getString(R.string.counter_max_value);
         this.fragmentManager = fragmentManager;
         this.lifecycleOwner = lifecycleOwner;
         this.shareLinkRes = mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().getShareLinkResource();
         this.stackId = stackId;
         this.mainViewModel = mainViewModel;
         this.selectCardListener = selectCardListener;
-        this.mainColor = ContextCompat.getColor(context, R.color.defaultBrand);
-        this.compactMode = getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.pref_key_compact), false);
+        this.mainColor = ContextCompat.getColor(this.activity, R.color.defaultBrand);
+        this.compactMode = getDefaultSharedPreferences(this.activity).getBoolean(this.activity.getString(R.string.pref_key_compact), false);
         setHasStableIds(true);
     }
 
@@ -120,7 +120,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
         // Only enable details view if there is no one waiting for selecting a card.
         viewHolder.bindCardClickListener((v) -> {
             if (selectCardListener == null) {
-                context.startActivity(EditActivity.createEditCardIntent(context, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), fullCard.getLocalId()));
+                activity.startActivity(EditActivity.createEditCardIntent(activity, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), fullCard.getLocalId()));
             } else {
                 selectCardListener.onCardSelected(fullCard);
             }
@@ -176,7 +176,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
 
     @Override
     public void applyBrand(int mainColor) {
-        this.mainColor = getSecondaryForegroundColorDependingOnTheme(context, mainColor);
+        this.mainColor = getSecondaryForegroundColorDependingOnTheme(activity, mainColor);
         notifyDataSetChanged();
     }
 
@@ -190,8 +190,8 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
                     .setType(TEXT_PLAIN)
                     .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
                     .putExtra(Intent.EXTRA_TITLE, fullCard.getCard().getTitle())
-                    .putExtra(Intent.EXTRA_TEXT, account.getUrl() + context.getString(shareLinkRes, mainViewModel.getCurrentBoardRemoteId(), fullCard.getCard().getId()));
-            context.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
+                    .putExtra(Intent.EXTRA_TEXT, account.getUrl() + activity.getString(shareLinkRes, mainViewModel.getCurrentBoardRemoteId(), fullCard.getCard().getId()));
+            activity.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
             return true;
         } else if (itemId == R.id.share_content) {
             final Intent shareIntent = new Intent()
@@ -199,8 +199,8 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
                     .setType(TEXT_PLAIN)
                     .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
                     .putExtra(Intent.EXTRA_TITLE, fullCard.getCard().getTitle())
-                    .putExtra(Intent.EXTRA_TEXT, CardUtil.getCardContentAsString(context, fullCard));
-            context.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
+                    .putExtra(Intent.EXTRA_TEXT, CardUtil.getCardContentAsString(activity, fullCard));
+            activity.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
         } else if (itemId == R.id.action_card_assign) {
             new Thread(() -> mainViewModel.assignUserToCard(mainViewModel.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard())).start();
             return true;
@@ -223,7 +223,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
                 @Override
                 public void onError(Throwable throwable) {
                     ResponseCallback.super.onError(throwable);
-                    ExceptionDialogFragment.newInstance(throwable, account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
+                    activity.runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName()));
                 }
             });
             return true;
@@ -238,7 +238,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
                 public void onError(Throwable throwable) {
                     if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
                         ResponseCallback.super.onError(throwable);
-                        ExceptionDialogFragment.newInstance(throwable, account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
+                        activity.runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName()));
                     }
                 }
             });

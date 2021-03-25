@@ -445,15 +445,15 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         mainViewModel.createStack(mainViewModel.getCurrentAccount().getId(), stackName, mainViewModel.getCurrentBoardLocalId(), new ResponseCallback<FullStack>() {
             @Override
             public void onResponse(FullStack response) {
-                binding.viewPager.setCurrentItem(stackAdapter.getItemCount());
+                runOnUiThread(() -> binding.viewPager.setCurrentItem(stackAdapter.getItemCount()));
             }
 
             @Override
             public void onError(Throwable error) {
                 ResponseCallback.super.onError(error);
-                BrandedSnackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG)
+                runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(error, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
-                        .show();
+                        .show());
             }
         });
     }
@@ -469,7 +469,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             @Override
             public void onError(Throwable throwable) {
                 ResponseCallback.super.onError(throwable);
-                ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });
     }
@@ -487,21 +487,23 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         mainViewModel.createBoard(mainViewModel.getCurrentAccount().getId(), boardToCreate, new ResponseCallback<FullBoard>() {
             @Override
             public void onResponse(FullBoard response) {
-                if (response != null) {
-                    boardsList.add(response.getBoard());
-                    setCurrentBoard(response.getBoard());
-                    inflateBoardMenu(response.getBoard());
-                    EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
-                }
-                boardsLiveData.observe(MainActivity.this, boardsLiveDataObserver);
+                runOnUiThread(() -> {
+                    if (response != null) {
+                        boardsList.add(response.getBoard());
+                        setCurrentBoard(response.getBoard());
+                        inflateBoardMenu(response.getBoard());
+                        EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
+                    }
+                    boardsLiveData.observe(MainActivity.this, boardsLiveDataObserver);
+                });
             }
 
             @Override
             public void onError(Throwable throwable) {
                 ResponseCallback.super.onError(throwable);
-                BrandedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
+                runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
-                        .show();
+                        .show());
             }
         });
     }
@@ -517,7 +519,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             @Override
             public void onError(Throwable throwable) {
                 ResponseCallback.super.onError(throwable);
-                ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });
     }
@@ -708,7 +710,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                 public void onError(Throwable throwable) {
                                     if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
                                         ResponseCallback.super.onError(throwable);
-                                        ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                        runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                                     }
                                 }
                             });
@@ -955,7 +957,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             public void onError(Throwable throwable) {
                 if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
                     ResponseCallback.super.onError(throwable);
-                    ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                 }
             }
         });
@@ -986,7 +988,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             public void onError(Throwable throwable) {
                 if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
                     ResponseCallback.super.onError(throwable);
-                    ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                 }
             }
         });
@@ -1019,7 +1021,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             @Override
             public void onError(Throwable throwable) {
                 ResponseCallback.super.onError(throwable);
-                ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });
     }
@@ -1038,18 +1040,22 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     mainViewModel.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColor(), checkedItems[0], new ResponseCallback<FullBoard>() {
                         @Override
                         public void onResponse(FullBoard response) {
-                            snackbar.dismiss();
-                            setCurrentBoard(response.getBoard());
-                            BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.successfully_cloned_board, response.getBoard().getTitle()), Snackbar.LENGTH_LONG)
-                                    .setAction(R.string.edit, v -> EditBoardDialogFragment.newInstance(response.getLocalId()).show(getSupportFragmentManager(), EditBoardDialogFragment.class.getSimpleName()))
-                                    .show();
+                            runOnUiThread(() -> {
+                                snackbar.dismiss();
+                                setCurrentBoard(response.getBoard());
+                                BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.successfully_cloned_board, response.getBoard().getTitle()), Snackbar.LENGTH_LONG)
+                                        .setAction(R.string.edit, v -> EditBoardDialogFragment.newInstance(response.getLocalId()).show(getSupportFragmentManager(), EditBoardDialogFragment.class.getSimpleName()))
+                                        .show();
+                            });
                         }
 
                         @Override
                         public void onError(Throwable throwable) {
-                            snackbar.dismiss();
                             ResponseCallback.super.onError(throwable);
-                            ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                            runOnUiThread(() -> {
+                                snackbar.dismiss();
+                                ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                            });
                         }
                     });
                 })

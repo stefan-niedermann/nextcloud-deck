@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.board.managelabels;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
@@ -84,14 +83,16 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
             viewModel.createLabel(viewModel.getCurrentAccount().getId(), label, boardId, new ResponseCallback<Label>() {
                 @Override
                 public void onResponse(Label response) {
-                    binding.fab.setEnabled(true);
-                    binding.addLabelTitle.setText(null);
                     Toast.makeText(requireContext(), getString(R.string.tag_successfully_added, label.getTitle()), Toast.LENGTH_LONG).show();
+                    requireActivity().runOnUiThread(() -> {
+                        binding.fab.setEnabled(true);
+                        binding.addLabelTitle.setText(null);
+                    });
                 }
 
                 @Override
                 public void onError(Throwable throwable) {
-                    binding.fab.setEnabled(true);
+                    requireActivity().runOnUiThread(() -> binding.fab.setEnabled(true));
                     if (throwable instanceof SQLiteConstraintException) {
                         Toast.makeText(requireContext(), getString(R.string.tag_already_exists, label.getTitle()), Toast.LENGTH_LONG).show();
                     } else {
@@ -148,12 +149,11 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
                 DeckLog.info("Successfully deleted label " + label.getTitle());
             }
 
-            @SuppressLint("MissingSuperCall")
             @Override
             public void onError(Throwable throwable) {
                 if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                    ResponseCallback.super.onError(throwable);
                     Toast.makeText(requireContext(), throwable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                    DeckLog.logError(throwable);
                 }
             }
         });
@@ -172,14 +172,13 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
                 DeckLog.verbose("Successfully update label " + label.getTitle());
             }
 
-            @SuppressLint("MissingSuperCall")
             @Override
             public void onError(Throwable error) {
                 if (error instanceof SQLiteConstraintException) {
                     Toast.makeText(requireContext(), getString(R.string.tag_already_exists, label.getTitle()), Toast.LENGTH_LONG).show();
                 } else {
+                    ResponseCallback.super.onError(error);
                     Toast.makeText(requireContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                    DeckLog.logError(error);
                 }
             }
         });

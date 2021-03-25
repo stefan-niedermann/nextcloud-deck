@@ -109,7 +109,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
             @Override
             public void onError(Throwable throwable) {
                 ResponseCallback.super.onError(throwable);
-                ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });
     }
@@ -126,9 +126,9 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
             public void onError(Throwable throwable) {
                 if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
                     ResponseCallback.super.onError(throwable);
-                    BrandedSnackbar.make(requireView(), getString(R.string.error_revoking_ac, ac.getUser().getDisplayname()), Snackbar.LENGTH_LONG)
+                    requireActivity().runOnUiThread(() -> BrandedSnackbar.make(requireView(), getString(R.string.error_revoking_ac, ac.getUser().getDisplayname()), Snackbar.LENGTH_LONG)
                             .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
-                            .show();
+                            .show());
                 }
             }
         });
@@ -153,7 +153,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
             @Override
             public void onError(Throwable throwable) {
                 ResponseCallback.super.onError(throwable);
-                ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });
         binding.people.setText("");

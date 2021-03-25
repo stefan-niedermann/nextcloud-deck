@@ -91,7 +91,7 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
             public void onError(Throwable throwable) {
                 if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
                     ResponseCallback.super.onError(throwable);
-                    ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                 }
             }
         });
@@ -108,7 +108,7 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
             @Override
             public void onError(Throwable throwable) {
                 ResponseCallback.super.onError(throwable);
-                ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });
     }
@@ -124,7 +124,7 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
             @Override
             public void onError(Throwable throwable) {
                 ResponseCallback.super.onError(throwable);
-                ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });
     }

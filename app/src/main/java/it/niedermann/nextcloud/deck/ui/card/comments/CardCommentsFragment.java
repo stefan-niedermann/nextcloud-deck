@@ -151,7 +151,7 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
             public void onError(Throwable throwable) {
                 if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
                     ResponseCallback.super.onError(throwable);
-                    ExceptionDialogFragment.newInstance(throwable, mainViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                 }
             }
         });

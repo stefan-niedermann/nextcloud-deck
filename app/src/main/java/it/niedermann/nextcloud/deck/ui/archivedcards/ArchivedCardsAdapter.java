@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.archivedcards;
 
-import android.content.Context;
+import android.app.Activity;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -21,8 +21,8 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 public class ArchivedCardsAdapter extends CardAdapter {
 
     @SuppressWarnings("WeakerAccess")
-    public ArchivedCardsAdapter(@NonNull Context context, @NonNull FragmentManager fragmentManager, @NonNull MainViewModel viewModel, @NonNull LifecycleOwner lifecycleOwner) {
-        super(context, fragmentManager, 0L, viewModel, lifecycleOwner, null);
+    public ArchivedCardsAdapter(@NonNull Activity activity, @NonNull FragmentManager fragmentManager, @NonNull MainViewModel viewModel, @NonNull LifecycleOwner lifecycleOwner) {
+        super(activity, fragmentManager, 0L, viewModel, lifecycleOwner, null);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ArchivedCardsAdapter extends CardAdapter {
                 @Override
                 public void onError(Throwable throwable) {
                     ResponseCallback.super.onError(throwable);
-                    ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
+                    activity.runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName()));
                 }
             });
             return true;
@@ -58,7 +58,7 @@ public class ArchivedCardsAdapter extends CardAdapter {
                 public void onError(Throwable throwable) {
                     if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
                         ResponseCallback.super.onError(throwable);
-                        ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
+                        activity.runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName()));
                     }
                 }
             });

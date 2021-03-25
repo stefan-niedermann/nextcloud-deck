@@ -246,18 +246,20 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                     viewModel.createLabel(accountId, newLabel, boardId, new ResponseCallback<Label>() {
                         @Override
                         public void onResponse(Label response) {
-                            newLabel.setLocalId(response.getLocalId());
-                            ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(response);
-                            viewModel.getFullCard().getLabels().add(response);
-                            binding.labelsGroup.addView(createChipFromLabel(newLabel));
-                            binding.labelsGroup.setVisibility(VISIBLE);
+                            requireActivity().runOnUiThread(() -> {
+                                newLabel.setLocalId(response.getLocalId());
+                                ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(response);
+                                viewModel.getFullCard().getLabels().add(response);
+                                binding.labelsGroup.addView(createChipFromLabel(newLabel));
+                                binding.labelsGroup.setVisibility(VISIBLE);
+                            });
                         }
 
                         @Override
                         public void onError(Throwable throwable) {
                             ResponseCallback.super.onError(throwable);
-                            BrandedSnackbar.make(requireView(), getString(R.string.error_create_label, newLabel.getTitle()), Snackbar.LENGTH_LONG)
-                                    .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show();
+                            requireActivity().runOnUiThread(() -> BrandedSnackbar.make(requireView(), getString(R.string.error_create_label, newLabel.getTitle()), Snackbar.LENGTH_LONG)
+                                    .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show());
                         }
                     });
                 } else {
