@@ -55,11 +55,11 @@ public class DeckLog {
         log(Severity.ERROR, 4, message);
     }
 
-    public static void log(Severity severity, Object... message) {
+    public static void log(@NonNull Severity severity, Object... message) {
         log(severity, 3, message);
     }
 
-    private static void log(Severity severity, int stackTracePosition, Object... messages) {
+    private static void log(@NonNull Severity severity, int stackTracePosition, Object... messages) {
         if (!(PERSIST_LOGS || BuildConfig.DEBUG)) {
             return;
         }
@@ -88,44 +88,25 @@ public class DeckLog {
     }
 
     public static void logError(@Nullable Throwable e) {
+        if (!(PERSIST_LOGS || BuildConfig.DEBUG)) {
+            return;
+        }
         if (e == null) {
             error("Could not log error because given error was null");
             return;
         }
         final StringWriter sw = new StringWriter();
         e.printStackTrace(new PrintWriter(sw));
-        String stacktrace = sw.toString(); // stack trace as a string
+        final String stacktrace = sw.toString();
         final StackTraceElement caller = Thread.currentThread().getStackTrace()[3];
-        final String source = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") -> ";
-        Log.e(TAG, source + stacktrace);
-    }
-
-    public static void printCurrentStacktrace() {
-        log(getCurrentStacktrace(4));
-    }
-
-    public static String getCurrentStacktrace() {
-        return getCurrentStacktrace(4);
-    }
-
-    private static String getCurrentStacktrace(@SuppressWarnings("SameParameterValue") int offset) {
-        final StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-        final StringBuilder buff = new StringBuilder();
-        for (int i = offset; i < elements.length; i++) {
-            final StackTraceElement s = elements[i];
-            buff.append("\tat ");
-            buff.append(s.getClassName());
-            buff.append(".");
-            buff.append(s.getMethodName());
-            buff.append("(");
-            buff.append(s.getFileName());
-            buff.append(":");
-            buff.append(s.getLineNumber());
-            buff.append(")\n");
+        final String print = "(" + caller.getFileName() + ":" + caller.getLineNumber() + ") " + caller.getMethodName() + "() → " + stacktrace;
+        if (PERSIST_LOGS) {
+            DEBUG_LOG.append(print).append("\n");
         }
-        return buff.toString();
+        Log.e(TAG, print);
     }
 
+    @NonNull
     public static String getDebugLog() {
         return DEBUG_LOG.toString();
     }
