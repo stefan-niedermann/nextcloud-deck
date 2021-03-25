@@ -57,6 +57,7 @@ import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityMainBinding;
 import it.niedermann.nextcloud.deck.databinding.NavHeaderMainBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
@@ -449,16 +450,18 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     @Override
     public void onCreateStack(String stackName) {
         DeckLog.info("Create Stack in account " + mainViewModel.getCurrentAccount().getName() + " on board " + mainViewModel.getCurrentBoardLocalId());
-        WrappedLiveData<FullStack> createLiveData = mainViewModel.createStack(mainViewModel.getCurrentAccount().getId(), stackName, mainViewModel.getCurrentBoardLocalId());
-        observeOnce(createLiveData, this, (fullStack) -> {
-            if (createLiveData.hasError()) {
-                final Throwable error = createLiveData.getError();
-                assert error != null;
+        mainViewModel.createStack(mainViewModel.getCurrentAccount().getId(), stackName, mainViewModel.getCurrentBoardLocalId(), new ResponseCallback<FullStack>() {
+            @Override
+            public void onResponse(FullStack response) {
+                binding.viewPager.setCurrentItem(stackAdapter.getItemCount());
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                ResponseCallback.super.onError(error);
                 BrandedSnackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(error, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
                         .show();
-            } else {
-                binding.viewPager.setCurrentItem(stackAdapter.getItemCount());
             }
         });
     }
@@ -692,10 +695,18 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                 : R.string.do_you_want_to_archive_all_cards_of_the_list, stack.getTitle()))
                         .setPositiveButton(R.string.simple_archive, (dialog, whichButton) -> {
                             final FilterInformation filterInformation = filterViewModel.getFilterInformation().getValue();
-                            final WrappedLiveData<Void> archiveStackLiveData = mainViewModel.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, filterInformation == null ? new FilterInformation() : filterInformation);
-                            observeOnce(archiveStackLiveData, this, (result) -> {
-                                if (archiveStackLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(archiveStackLiveData.getError())) {
-                                    ExceptionDialogFragment.newInstance(archiveStackLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                            mainViewModel.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, filterInformation == null ? new FilterInformation() : filterInformation, new ResponseCallback<Void>() {
+                                @Override
+                                public void onResponse(Void response) {
+                                    DeckLog.info("Successfully archived all cards in stack local id " + stackLocalId);
+                                }
+
+                                @Override
+                                public void onError(Throwable throwable) {
+                                    if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                                        ResponseCallback.super.onError(throwable);
+                                        ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                    }
                                 }
                             });
                         })
@@ -931,10 +942,18 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     @Override
     public void onStackDeleted(Long stackLocalId) {
         long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-        final WrappedLiveData<Void> deleteStackLiveData = mainViewModel.deleteStack(mainViewModel.getCurrentAccount().getId(), stackId, mainViewModel.getCurrentBoardLocalId());
-        observeOnce(deleteStackLiveData, this, (v) -> {
-            if (deleteStackLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteStackLiveData.getError())) {
-                ExceptionDialogFragment.newInstance(deleteStackLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        mainViewModel.deleteStack(mainViewModel.getCurrentAccount().getId(), stackId, mainViewModel.getCurrentBoardLocalId(), new ResponseCallback<Void>() {
+            @Override
+            public void onResponse(Void response) {
+                DeckLog.info("Successfully deleted stack with local id " + stackLocalId + " and remote id " + stackId);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                    ResponseCallback.super.onError(throwable);
+                    ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
             }
         });
     }
@@ -954,10 +973,18 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             }
         }
 
-        final WrappedLiveData<Void> deleteLiveData = mainViewModel.deleteBoard(board);
-        observeOnce(deleteLiveData, this, (next) -> {
-            if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
-                ExceptionDialogFragment.newInstance(deleteLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        mainViewModel.deleteBoard(board, new ResponseCallback<Void>() {
+            @Override
+            public void onResponse(Void response) {
+                DeckLog.info("Successfully deleted board " + board.getTitle());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                    ResponseCallback.super.onError(throwable);
+                    ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
             }
         });
 

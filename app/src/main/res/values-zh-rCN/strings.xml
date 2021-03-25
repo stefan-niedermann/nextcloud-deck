@@ -300,4 +300,7 @@
     <string name="simple_expert_settings">专家设置</string>
     <string name="copy_logs">复制日志到剪贴板</string>
     <string name="app_logo">应用图标</string>
-    </resources>
+    <string name="log_file">日志文件</string>
+    <string name="copying_logs_to_file">正将日志复制到文件</string>
+    <string name="account_imported">账户已导入</string>
+</resources>

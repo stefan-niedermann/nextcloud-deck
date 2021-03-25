@@ -304,4 +304,7 @@
     <string name="simple_expert_settings">Configurações avançadas</string>
     <string name="copy_logs">Copiar logs para área de transferência</string>
     <string name="app_logo">Logo do aplicativo</string>
-    </resources>
+    <string name="log_file">Arquivo de log</string>
+    <string name="copying_logs_to_file">Copiando registros para o arquivo…</string>
+    <string name="account_imported">Conta importada</string>
+</resources>

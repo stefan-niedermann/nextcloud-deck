@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -151,12 +152,12 @@ public class EditCardViewModel extends AndroidViewModel {
         return syncManager.syncActivitiesForCard(card);
     }
 
-    public WrappedLiveData<Attachment> addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file) {
-        return syncManager.addAttachmentToCard(accountId, localCardId, mimeType, file);
+    public void addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file, @NonNull ResponseCallback<Attachment> callback) {
+        syncManager.addAttachmentToCard(accountId, localCardId, mimeType, file, callback);
     }
 
-    public WrappedLiveData<Void> deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId) {
-        return syncManager.deleteAttachmentOfCard(accountId, localCardId, localAttachmentId);
+    public void deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId, @NonNull ResponseCallback<Void> callback) {
+        syncManager.deleteAttachmentOfCard(accountId, localCardId, localAttachmentId, callback);
     }
 
     public LiveData<Card> getCardByRemoteID(long accountId, long remoteId) {

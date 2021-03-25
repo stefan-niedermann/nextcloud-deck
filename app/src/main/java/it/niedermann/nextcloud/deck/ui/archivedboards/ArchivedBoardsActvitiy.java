@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Collections;
 
+import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityArchivedBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -89,10 +91,18 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
 
     @Override
     public void onBoardDeleted(Board board) {
-        final WrappedLiveData<Void> deleteLiveData = viewModel.deleteBoard(board);
-        observeOnce(deleteLiveData, this, (next) -> {
-            if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
-                ExceptionDialogFragment.newInstance(deleteLiveData.getError(), viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        viewModel.deleteBoard(board, new ResponseCallback<Void>() {
+            @Override
+            public void onResponse(Void response) {
+                DeckLog.info("Successfully deleted board " + board.getTitle());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                    ResponseCallback.super.onError(throwable);
+                    ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
             }
         });
     }

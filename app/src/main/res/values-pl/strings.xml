@@ -312,4 +312,7 @@
     <string name="simple_expert_settings">Ustawienia eksperckie</string>
     <string name="copy_logs">Kopiuj logi do schowka</string>
     <string name="app_logo">Logo aplikacji</string>
-    </resources>
+    <string name="log_file">Plik dziennika</string>
+    <string name="copying_logs_to_file">Kopiowanie logów do pliku…</string>
+    <string name="account_imported">Konto zaimportowane</string>
+</resources>

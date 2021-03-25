@@ -24,6 +24,7 @@ import it.niedermann.android.crosstabdnd.DragAndDropAdapter;
 import it.niedermann.android.crosstabdnd.DraggedItemLocalState;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ItemCardCompactBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultOnlyTitleBinding;
@@ -32,7 +33,6 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
@@ -40,7 +40,6 @@ import it.niedermann.nextcloud.deck.ui.movecard.MoveCardDialogFragment;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
 import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 
@@ -215,18 +214,32 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
                     .show(fragmentManager, MoveCardDialogFragment.class.getSimpleName());
             return true;
         } else if (itemId == R.id.action_card_archive) {
-            final WrappedLiveData<FullCard> archiveLiveData = mainViewModel.archiveCard(fullCard);
-            observeOnce(archiveLiveData, lifecycleOwner, (v) -> {
-                if (archiveLiveData.hasError()) {
-                    ExceptionDialogFragment.newInstance(archiveLiveData.getError(), account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
+            mainViewModel.archiveCard(fullCard, new ResponseCallback<FullCard>() {
+                @Override
+                public void onResponse(FullCard response) {
+                    DeckLog.info("Successfully archived " + Card.class.getSimpleName() + " " + fullCard.getCard().getTitle());
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    ResponseCallback.super.onError(throwable);
+                    ExceptionDialogFragment.newInstance(throwable, account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
                 }
             });
             return true;
         } else if (itemId == R.id.action_card_delete) {
-            final WrappedLiveData<Void> deleteLiveData = mainViewModel.deleteCard(fullCard.getCard());
-            observeOnce(deleteLiveData, lifecycleOwner, (v) -> {
-                if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
-                    ExceptionDialogFragment.newInstance(deleteLiveData.getError(), account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
+            mainViewModel.deleteCard(fullCard.getCard(), new ResponseCallback<Void>() {
+                @Override
+                public void onResponse(Void response) {
+                    DeckLog.info("Successfully deleted card " + fullCard.getCard().getTitle());
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                        ResponseCallback.super.onError(throwable);
+                        ExceptionDialogFragment.newInstance(throwable, account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
+                    }
                 }
             });
             return true;

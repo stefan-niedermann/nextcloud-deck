@@ -35,6 +35,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.GsonConfig;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.LastSyncUtil;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.exceptions.DeckException;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.AccessControl;
@@ -510,12 +511,6 @@ public class SyncManager {
                     public void onResponse(FullBoard response) {
                         liveData.postValue(response);
                     }
-
-                    @SuppressLint("MissingSuperCall")
-                    @Override
-                    public void onError(Throwable throwable, FullBoard entity) {
-                        liveData.postError(throwable, entity);
-                    }
                 });
             }
         });
@@ -719,17 +714,15 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<Void> deleteComment(long accountId, long localCardId, long localCommentId) {
-        WrappedLiveData<Void> liveData = new WrappedLiveData<>();
+    public void deleteComment(long accountId, long localCardId, long localCommentId, @NonNull ResponseCallback<Void> callback) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
             DeckComment entity = dataBaseAdapter.getCommentByLocalIdDirectly(accountId, localCommentId);
             OcsComment commentEntity = OcsComment.of(entity);
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new DeckCommentsDataProvider(null, card),
-                    commentEntity, getCallbackToLiveDataConverter(account, liveData));
+                    commentEntity, IResponseCallback.from(account, callback));
         });
-        return liveData;
     }
 
     public LiveData<List<FullDeckComment>> getFullCommentsForLocalCardId(long localCardId) {
@@ -737,15 +730,13 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<Void> deleteBoard(@NonNull Board board) {
-        WrappedLiveData<Void> liveData = new WrappedLiveData<>();
+    public void deleteBoard(@NonNull Board board, @NonNull ResponseCallback<Void> callback) {
         doAsync(() -> {
             long accountId = board.getAccountId();
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullBoard fullBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, board.getLocalId());
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new BoardDataProvider(), fullBoard, getCallbackToLiveDataConverter(account, liveData));
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new BoardDataProvider(), fullBoard, IResponseCallback.from(account, callback));
         });
-        return liveData;
     }
 
     @AnyThread
@@ -784,19 +775,17 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<AccessControl> createAccessControl(long accountId, AccessControl entity) {
-        WrappedLiveData<AccessControl> liveData = new WrappedLiveData<>();
+    public void createAccessControl(long accountId, @NonNull AccessControl entity, @NonNull ResponseCallback<AccessControl> callback) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, entity.getBoardId());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(
-                    new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, getCallbackToLiveDataConverter(account, liveData), ((entity1, response) -> {
+                    new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, IResponseCallback.from(account, callback), ((entity1, response) -> {
                         response.setBoardId(entity.getBoardId());
                         response.setUserId(entity.getUser().getLocalId());
                     })
             );
         });
-        return liveData;
     }
 
     @WorkerThread
@@ -809,36 +798,17 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<AccessControl> updateAccessControl(@NonNull AccessControl entity) {
-        WrappedLiveData<AccessControl> liveData = new WrappedLiveData<>();
+    public void updateAccessControl(@NonNull AccessControl entity, @NonNull ResponseCallback<AccessControl> callback) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(entity.getAccountId());
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(entity.getAccountId(), entity.getBoardId());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(
-                    new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, getCallbackToLiveDataConverter(account, liveData));
+                    new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, IResponseCallback.from(account, callback));
         });
-        return liveData;
     }
 
     @AnyThread
-    private <T> IResponseCallback<T> getCallbackToLiveDataConverter(Account account, @NonNull WrappedLiveData<T> liveData) {
-        return new IResponseCallback<T>(account) {
-            @Override
-            public void onResponse(T response) {
-                liveData.postValue(response);
-            }
-
-            @SuppressLint("MissingSuperCall")
-            @Override
-            public void onError(Throwable throwable) {
-                liveData.postError(throwable);
-            }
-        };
-    }
-
-    @AnyThread
-    public WrappedLiveData<Void> deleteAccessControl(@NonNull AccessControl entity) {
-        WrappedLiveData<Void> liveData = new WrappedLiveData<>();
+    public void deleteAccessControl(@NonNull AccessControl entity, @NonNull ResponseCallback<Void> callback) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(entity.getAccountId());
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(entity.getAccountId(), entity.getBoardId());
@@ -850,17 +820,16 @@ public class SyncManager {
                             if (entity.getAccountId() == entity.getAccountId() && entity.getUser().getUid().equals(account.getUserName())) {
                                 dataBaseAdapter.deleteBoardPhysically(board.getBoard());
                             }
-                            liveData.postValue(response);
+                            callback.onResponse(response);
                         }
 
                         @SuppressLint("MissingSuperCall")
                         @Override
                         public void onError(Throwable throwable) {
-                            liveData.postError(throwable);
+                            callback.onError(throwable);
                         }
                     });
         });
-        return liveData;
     }
 
     public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {
@@ -868,8 +837,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<FullStack> createStack(long accountId, @NonNull String title, long boardLocalId) {
-        WrappedLiveData<FullStack> liveData = new WrappedLiveData<>();
+    public void createStack(long accountId, @NonNull String title, long boardLocalId, @NonNull ResponseCallback<FullStack> callback) {
         doAsync(() -> {
             Stack stack = new Stack(title, boardLocalId);
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
@@ -880,32 +848,18 @@ public class SyncManager {
             stack.setBoardId(board.getLocalId());
             fullStack.setStack(stack);
             fullStack.setAccountId(accountId);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new StackDataProvider(null, board), fullStack, new IResponseCallback<FullStack>(account) {
-                @Override
-                public void onResponse(FullStack response) {
-                    liveData.postValue(response);
-                }
-
-                @SuppressLint("MissingSuperCall")
-                @Override
-                public void onError(Throwable throwable, FullStack entity) {
-                    liveData.postError(throwable, entity);
-                }
-            });
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new StackDataProvider(null, board), fullStack, IResponseCallback.from(account, callback));
         });
-        return liveData;
     }
 
     @AnyThread
-    public WrappedLiveData<Void> deleteStack(long accountId, long stackLocalId, long boardLocalId) {
-        WrappedLiveData<Void> liveData = new WrappedLiveData<>();
+    public void deleteStack(long accountId, long stackLocalId, long boardLocalId, @NonNull ResponseCallback<Void> callback) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullStack fullStack = dataBaseAdapter.getFullStackByLocalIdDirectly(stackLocalId);
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, boardLocalId);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new StackDataProvider(null, board), fullStack, getCallbackToLiveDataConverter(account, liveData));
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new StackDataProvider(null, board), fullStack, IResponseCallback.from(account, callback));
         });
-        return liveData;
     }
 
     @AnyThread
@@ -1084,8 +1038,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<Void> deleteCard(@NonNull Card card) {
-        WrappedLiveData<Void> liveData = new WrappedLiveData<>();
+    public void deleteCard(@NonNull Card card, @NonNull ResponseCallback<Void> callback) {
         doAsync(() -> {
             FullCard fullCard = dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId());
             if (fullCard == null) {
@@ -1094,22 +1047,19 @@ public class SyncManager {
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new CardPropagationDataProvider(null, board, stack), fullCard, getCallbackToLiveDataConverter(account, liveData));
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new CardPropagationDataProvider(null, board, stack), fullCard, IResponseCallback.from(account, callback));
         });
-        return liveData;
     }
 
     @AnyThread
-    public WrappedLiveData<FullCard> archiveCard(@NonNull FullCard card) {
-        WrappedLiveData<FullCard> liveData = new WrappedLiveData<>();
+    public void archiveCard(@NonNull FullCard card, @NonNull ResponseCallback<FullCard> callback) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getCard().getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
             card.getCard().setArchived(true);
-            updateCardForArchive(stack, board, card, getCallbackToLiveDataConverter(account, liveData));
+            updateCardForArchive(stack, board, card, IResponseCallback.from(account, callback));
         });
-        return liveData;
     }
 
     private void updateCardForArchive(FullStack stack, Board board, FullCard card, @NonNull IResponseCallback<FullCard> callback) {
@@ -1117,59 +1067,55 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<FullCard> dearchiveCard(@NonNull FullCard card) {
-        WrappedLiveData<FullCard> liveData = new WrappedLiveData<>();
+    public void dearchiveCard(@NonNull FullCard card, @NonNull ResponseCallback<FullCard> callback) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getCard().getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
             card.getCard().setArchived(false);
-            updateCardForArchive(stack, board, card, getCallbackToLiveDataConverter(account, liveData));
+            updateCardForArchive(stack, board, card, IResponseCallback.from(account, callback));
         });
-        return liveData;
     }
 
     @AnyThread
-    public WrappedLiveData<Void> archiveCardsInStack(long accountId, long stackLocalId, @NonNull FilterInformation filterInformation) {
-        WrappedLiveData<Void> liveData = new WrappedLiveData<>();
+    public void archiveCardsInStack(long accountId, long stackLocalId, @NonNull FilterInformation filterInformation, @NonNull ResponseCallback<Void> callback) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(stackLocalId);
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
             List<FullCard> cards = dataBaseAdapter.getFullCardsForStackDirectly(accountId, stackLocalId, filterInformation);
-            if (cards.size() > 0) {
-                CountDownLatch latch = new CountDownLatch(cards.size());
-                for (FullCard card : cards) {
-                    if (card.getCard().isArchived()) {
+            if (cards.size() <= 0) {
+                callback.onResponse(null);
+                return;
+            }
+            final CountDownLatch latch = new CountDownLatch(cards.size());
+            for (FullCard card : cards) {
+                if (card.getCard().isArchived()) {
+                    latch.countDown();
+                    continue;
+                }
+                card.getCard().setArchived(true);
+                updateCardForArchive(stack, board, card, new IResponseCallback<FullCard>(account) {
+                    @Override
+                    public void onResponse(FullCard response) {
                         latch.countDown();
-                        continue;
                     }
-                    card.getCard().setArchived(true);
-                    updateCardForArchive(stack, board, card, new IResponseCallback<FullCard>(account) {
-                        @Override
-                        public void onResponse(FullCard response) {
-                            latch.countDown();
-                        }
 
-                        @SuppressLint("MissingSuperCall")
-                        @Override
-                        public void onError(Throwable throwable) {
-                            latch.countDown();
-                            liveData.postError(throwable);
-                        }
-                    });
-                }
-                try {
-                    latch.await();
-                    liveData.postValue(null);
-                } catch (InterruptedException e) {
-                    liveData.postError(e);
-                }
-            } else {
-                liveData.postValue(null);
+                    @SuppressLint("MissingSuperCall")
+                    @Override
+                    public void onError(Throwable throwable) {
+                        latch.countDown();
+                        callback.onError(throwable);
+                    }
+                });
+            }
+            try {
+                latch.await();
+                callback.onResponse(null);
+            } catch (InterruptedException e) {
+                callback.onError(e);
             }
         });
-        return liveData;
     }
 
     @AnyThread
@@ -1283,7 +1229,6 @@ public class SyncManager {
     @AnyThread
     public WrappedLiveData<Void> moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
         return LiveDataHelper.wrapInLiveData(() -> {
-
             final FullCard originalCard = dataBaseAdapter.getFullCardByLocalIdDirectly(originAccountId, originCardLocalId);
             int newIndex = dataBaseAdapter.getHighestCardOrderInStack(targetStackLocalId) + 1;
             final FullBoard originalBoard = dataBaseAdapter.getFullBoardByLocalCardIdDirectly(originCardLocalId);
@@ -1294,7 +1239,7 @@ public class SyncManager {
             }
             // ### get rid of original card where it is now.
             final Card originalInnerCard = originalCard.getCard();
-            deleteCard(new Card(originalInnerCard));
+            deleteCard(new Card(originalInnerCard), ResponseCallback.empty());
             // ### clone card itself
             originalInnerCard.setAccountId(targetAccountId);
             originalInnerCard.setId(null);
@@ -1469,27 +1414,23 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<Void> deleteLabel(@NonNull Label label) {
-        WrappedLiveData<Void> liveData = new WrappedLiveData<>();
+    public void deleteLabel(@NonNull Label label, @NonNull ResponseCallback<Void> callback) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(label.getAccountId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter)
-                    .deleteEntity(new LabelDataProvider(null, board, Collections.emptyList()), label, getCallbackToLiveDataConverter(account, liveData));
+                    .deleteEntity(new LabelDataProvider(null, board, Collections.emptyList()), label, IResponseCallback.from(account, callback));
         });
-        return liveData;
     }
 
     @AnyThread
-    public WrappedLiveData<Label> updateLabel(@NonNull Label label) {
-        WrappedLiveData<Label> liveData = new WrappedLiveData<>();
+    public void updateLabel(@NonNull Label label, @NonNull ResponseCallback<Label> callback) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(label.getAccountId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter)
-                    .updateEntity(new LabelDataProvider(null, board, Collections.emptyList()), label, getCallbackToLiveDataConverter(account, liveData));
+                    .updateEntity(new LabelDataProvider(null, board, Collections.emptyList()), label, IResponseCallback.from(account, callback));
         });
-        return liveData;
     }
 
     @AnyThread
@@ -1819,8 +1760,7 @@ public class SyncManager {
      * Also this leads to the attachment being present in the card forever with a DBStatus.LOCAL_EDITED
      */
     @AnyThread
-    public WrappedLiveData<Attachment> addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file) {
-        WrappedLiveData<Attachment> liveData = new WrappedLiveData<>();
+    public void addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file, @NonNull ResponseCallback<Attachment> callback) {
         doAsync(() -> {
             Attachment attachment = populateAttachmentEntityForFile(new Attachment(), localCardId, mimeType, file);
             final Instant now = Instant.now();
@@ -1832,10 +1772,9 @@ public class SyncManager {
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(
                     new AttachmentDataProvider(null, board, stack, card, Collections.singletonList(attachment)),
-                    attachment, getCallbackToLiveDataConverter(account, liveData)
+                    attachment, IResponseCallback.from(account, callback)
             );
         });
-        return liveData;
     }
 
     @AnyThread
@@ -1880,8 +1819,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<Void> deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId) {
-        WrappedLiveData<Void> liveData = new WrappedLiveData<>();
+    public void deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId, @NonNull ResponseCallback<Void> callback) {
         doAsync(() -> {
             if (serverAdapter.hasInternetConnection()) {
                 FullCard card = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, localCardId);
@@ -1891,10 +1829,9 @@ public class SyncManager {
                 Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
 
                 new DataPropagationHelper(serverAdapter, dataBaseAdapter)
-                        .deleteEntity(new AttachmentDataProvider(null, board, stack, card, Collections.singletonList(attachment)), attachment, getCallbackToLiveDataConverter(account, liveData));
+                        .deleteEntity(new AttachmentDataProvider(null, board, stack, card, Collections.singletonList(attachment)), attachment, IResponseCallback.from(account, callback));
             }
         });
-        return liveData;
     }
 
     // -------------------
@@ -1904,7 +1841,7 @@ public class SyncManager {
     // # filter widget
 
     @AnyThread
-    public void createFilterWidget(@NonNull FilterWidget filterWidget, @NonNull IResponseCallback<Integer> callback) {
+    public void createFilterWidget(@NonNull FilterWidget filterWidget, @NonNull ResponseCallback<Integer> callback) {
         doAsync(() -> {
             try {
                 int filterWidgetId = dataBaseAdapter.createFilterWidgetDirectly(filterWidget);
@@ -1928,7 +1865,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void getFilterWidget(@NonNull Integer filterWidgetId, @NonNull IResponseCallback<FilterWidget> callback) {
+    public void getFilterWidget(@NonNull Integer filterWidgetId, @NonNull ResponseCallback<FilterWidget> callback) {
         doAsync(() -> {
             try {
                 callback.onResponse(dataBaseAdapter.getFilterWidgetByIdDirectly(filterWidgetId));
@@ -1939,7 +1876,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void deleteFilterWidget(int filterWidgetId, @NonNull IResponseCallback<Boolean> callback) {
+    public void deleteFilterWidget(int filterWidgetId, @NonNull ResponseCallback<Boolean> callback) {
         doAsync(() -> {
             try {
                 dataBaseAdapter.deleteFilterWidgetDirectly(filterWidgetId);
