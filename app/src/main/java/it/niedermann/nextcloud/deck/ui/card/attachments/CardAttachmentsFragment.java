@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui.card.attachments;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -24,6 +25,7 @@ import androidx.core.app.SharedElementCallback;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -96,6 +98,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     private EditCardViewModel editViewModel;
     private PreviewDialogViewModel previewViewModel;
     private BottomSheetBehavior<LinearLayout> mBottomSheetBehaviour;
+    private boolean compressImagesOnUpload = true;
 
     private RecyclerView.ItemDecoration galleryItemDecoration;
 
@@ -235,6 +238,8 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         }
         @Nullable Context context = requireContext();
         applyBrand(readBrandMainColor(context));
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        compressImagesOnUpload = sharedPreferences.getBoolean(getString(R.string.pref_key_compress_image_attachments), true);
         return binding.getRoot();
     }
 
@@ -413,16 +418,21 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                     try {
                         final File originalFile = copyContentUriToTempFile(requireContext(), sourceUri, editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId());
                         requireActivity().runOnUiThread(() -> {
-                            if (MimeTypeUtil.isImage(mimeType)) {
-                                JavaCompressor.compress(
-                                        (AppCompatActivity) requireActivity(),
-                                        originalFile,
-                                        (status, file) -> uploadNewAttachmentFromFile(status ? file : originalFile, mimeType),
-                                        new ResolutionConstraint(1920, 1920),
-                                        new SizeConstraint(1_000_000, 10, 10, 10),
-                                        new FormatConstraint(Bitmap.CompressFormat.JPEG),
-                                        new QualityConstraint(80)
-                                );
+                            if (compressImagesOnUpload && MimeTypeUtil.isImage(mimeType)) {
+                                try {
+                                    JavaCompressor.compress(
+                                            (AppCompatActivity) requireActivity(),
+                                            originalFile,
+                                            (status, file) -> uploadNewAttachmentFromFile(status && file != null ? file : originalFile, mimeType),
+                                            new ResolutionConstraint(1920, 1920),
+                                            new SizeConstraint(1_000_000, 10, 10, 10),
+                                            new FormatConstraint(Bitmap.CompressFormat.JPEG),
+                                            new QualityConstraint(80)
+                                    );
+                                } catch (Throwable t) {
+                                    DeckLog.logError(t);
+                                    uploadNewAttachmentFromFile(originalFile, mimeType);
+                                }
                             } else {
                                 uploadNewAttachmentFromFile(originalFile, mimeType);
                             }

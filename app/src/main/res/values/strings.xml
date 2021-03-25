@@ -148,6 +148,8 @@
     <string name="settings_etags">Use ETags</string>
     <string name="settings_etags_summary">Speeds up synchronization</string>
     <string name="settings_background_sync">Background synchronization</string>
+    <string name="settings_compress_image_attachments">Compress images on upload</string>
+    <string name="settings_compress_image_attachments_summary">Faster upload, less quality</string>
     <string name="pref_value_wifi_and_mobile">Sync on Wi-Fi and mobile data</string>
     <string name="pref_value_wifi_only">Sync only on Wi-Fi</string>
     <string-array name="darkmode_entries">
