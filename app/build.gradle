@@ -92,7 +92,7 @@ dependencies {
     // Image compression
     implementation 'id.zelory:compressor:3.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.32"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3-native-mt"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3-native-mt"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
