@@ -31,6 +31,8 @@ public class FilterInformation implements Serializable {
     private List<OcsProject> projects = new ArrayList<>();
     @NonNull
     private EArchiveStatus archiveStatus = EArchiveStatus.NON_ARCHIVED;
+    @NonNull
+    private String filterText = "";
 
     public FilterInformation() {
         // Default constructor
@@ -47,7 +49,17 @@ public class FilterInformation implements Serializable {
             this.archiveStatus = filterInformation.getArchiveStatus();
             this.noAssignedProject = filterInformation.isNoAssignedProject();
             this.projects = filterInformation.getProjects();
+            this.filterText = filterInformation.getFilterText();
         }
+    }
+
+    public void setFilterText(@NonNull String filterText) {
+        this.filterText = filterText;
+    }
+
+    @NonNull
+    public String getFilterText() {
+        return this.filterText;
     }
 
     @NonNull
@@ -145,11 +157,12 @@ public class FilterInformation implements Serializable {
                 ", users=" + users +
                 ", labels=" + labels +
                 ", archiveStatus=" + archiveStatus +
+                ", filterText=" + filterText +
                 '}';
     }
 
     /**
-     * @return whether or not the given {@param filterInformation} has any actual filters set
+     * @return whether or not the given {@param filterInformation} has any actual filters except {@link #filterText}
      */
     public static boolean hasActiveFilter(@Nullable FilterInformation filterInformation) {
         if (filterInformation == null) {

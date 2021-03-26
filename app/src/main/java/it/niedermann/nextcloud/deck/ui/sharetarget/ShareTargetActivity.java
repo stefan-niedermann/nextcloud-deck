@@ -192,7 +192,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
         super.setCurrentBoard(board);
         binding.listMenuButton.setVisibility(View.GONE);
         binding.fab.setVisibility(View.GONE);
-        binding.toolbar.setTitle(R.string.simple_select);
+        binding.currentBoardName.setHint(R.string.simple_select);
     }
 
     @Override
