@@ -1447,4 +1447,12 @@ public class DataBaseAdapter {
     public Integer getBoardColorDirectly(long accountId, long localBoardId) {
         return db.getBoardDao().getBoardColorByLocalIdDirectly(accountId, localBoardId);
     }
+
+    public void deleteProjectResourcesByCardIdExceptGivenProjectIdsDirectly(long accountId, Long localCardId, List<Long> remoteProjectIDs) {
+        db.getJoinCardWithOcsProjectDao().deleteProjectResourcesByCardIdExceptGivenProjectIdsDirectly(accountId, localCardId, remoteProjectIDs);
+    }
+
+    public void deleteProjectResourcesByCardIdDirectly(Long localCardId) {
+        db.getJoinCardWithOcsProjectDao().deleteProjectResourcesByCardIdDirectly(localCardId);
+    }
 }

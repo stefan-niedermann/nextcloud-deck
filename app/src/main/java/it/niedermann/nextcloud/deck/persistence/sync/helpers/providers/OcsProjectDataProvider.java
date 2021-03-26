@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -64,6 +65,20 @@ public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject>
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, OcsProject ocsProject) {
         if (ocsProject != null && ocsProject.getLocalId() != null) {
             dataBaseAdapter.deleteProjectDirectly(ocsProject);
+        }
+    }
+
+    @Override
+    public void handleDeletes(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, List<OcsProject> entitiesFromServer) {
+        if (entitiesFromServer.isEmpty()){
+            dataBaseAdapter.deleteProjectResourcesByCardIdDirectly(card.getLocalId());
+            return;
+        }
+        List<Long> remoteProjectIDs = entitiesFromServer.stream()
+                .map(OcsProject::getId)
+                .collect(Collectors.toList());
+        if (!remoteProjectIDs.isEmpty()) {
+            dataBaseAdapter.deleteProjectResourcesByCardIdExceptGivenProjectIdsDirectly(accountId, card.getLocalId(), remoteProjectIDs);
         }
     }
 
