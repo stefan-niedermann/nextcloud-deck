@@ -90,7 +90,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     // Image compression
-    implementation 'id.zelory:compressor:3.0.0'
+    implementation 'id.zelory:compressor:3.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.31"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
