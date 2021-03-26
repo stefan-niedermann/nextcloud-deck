@@ -12,6 +12,8 @@ import android.net.NetworkInfo;
 import android.net.NetworkRequest;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -100,6 +102,8 @@ import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
+import static androidx.lifecycle.Transformations.map;
 import static androidx.lifecycle.Transformations.switchMap;
 import static it.niedermann.nextcloud.deck.DeckApplication.NO_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.DeckApplication.NO_BOARD_ID;
@@ -197,6 +201,23 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             @ColorInt final int headerTextColor = contrastRatioIsSufficientBigAreas(accountColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
             DrawableCompat.setTint(headerBinding.logo.getDrawable(), headerTextColor);
             DrawableCompat.setTint(headerBinding.copyDebugLogs.getDrawable(), headerTextColor);
+        });
+
+        binding.currentBoardName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterViewModel.setFilterText(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
         });
 
         mainViewModel.isDebugModeEnabled().observe(this, (enabled) -> headerBinding.copyDebugLogs.setVisibility(enabled ? View.VISIBLE : View.GONE));
@@ -379,8 +400,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     }
                 }
             });
-            filterViewModel.getFilterInformation().observe(this, (info) ->
-                    binding.filterIndicator.setVisibility(filterViewModel.getFilterInformation().getValue() == null ? View.GONE : View.VISIBLE));
+            distinctUntilChanged(map(filterViewModel.getFilterInformation(), FilterInformation::hasActiveFilter))
+                    .observe(this, (hasActiveFilter) -> binding.filterIndicator.setVisibility(hasActiveFilter ? View.VISIBLE : View.GONE));
             binding.archivedCards.setOnClickListener((v) -> startActivity(ArchivedCardsActvitiy.createIntent(this, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), mainViewModel.currentBoardHasEditPermission())));
 
 
@@ -552,7 +573,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     }
 
     protected void clearCurrentBoard() {
-        binding.toolbar.setTitle(R.string.app_name_short);
+        binding.currentBoardName.setHint(R.string.app_name_short);
         binding.swipeRefreshLayout.setVisibility(View.GONE);
         binding.listMenuButton.setVisibility(View.GONE);
         binding.emptyContentViewStacks.setVisibility(View.GONE);
@@ -565,13 +586,13 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         }
         saveBrandColors(this, board.getColor());
         mainViewModel.setCurrentBoard(board);
-        filterViewModel.clearFilterInformation();
+        filterViewModel.clearFilterInformation(true);
 
         lastBoardId = board.getLocalId();
         saveCurrentBoardId(this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId());
         binding.navigationView.setCheckedItem(boardsList.indexOf(board));
 
-        binding.toolbar.setTitle(board.getTitle());
+        binding.currentBoardName.setHint(board.getTitle());
 
         if (mainViewModel.currentBoardHasEditPermission()) {
             binding.fab.show();
@@ -901,6 +922,10 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     public void onBackPressed() {
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
+        } else if(binding.currentBoardName.hasFocus()) {
+            binding.currentBoardName.setText(null);
+            binding.currentBoardName.clearFocus();
+            binding.toolbar.requestFocus();
         } else {
             super.onBackPressed();
         }

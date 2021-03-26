@@ -93,7 +93,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
                 .setTitle(R.string.simple_filter)
                 .setView(binding.getRoot())
                 .setNeutralButton(android.R.string.cancel, null)
-                .setNegativeButton(R.string.simple_clear, (a, b) -> filterViewModel.clearFilterInformation())
+                .setNegativeButton(R.string.simple_clear, (a, b) -> filterViewModel.clearFilterInformation(false))
                 .setPositiveButton(R.string.simple_filter, (a, b) -> filterViewModel.publishFilterInformationDraft())
                 .create();
     }
