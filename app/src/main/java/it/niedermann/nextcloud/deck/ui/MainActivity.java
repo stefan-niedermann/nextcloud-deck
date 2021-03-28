@@ -17,6 +17,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.PopupMenu;
 
 import androidx.annotation.ColorInt;
@@ -77,7 +78,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 import it.niedermann.nextcloud.deck.ui.about.AboutActivity;
 import it.niedermann.nextcloud.deck.ui.accountswitcher.AccountSwitcherDialog;
 import it.niedermann.nextcloud.deck.ui.archivedboards.ArchivedBoardsActvitiy;
-import it.niedermann.nextcloud.deck.ui.archivedcards.ArchivedCardsActvitiy;
 import it.niedermann.nextcloud.deck.ui.board.ArchiveBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
@@ -203,7 +203,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             DrawableCompat.setTint(headerBinding.copyDebugLogs.getDrawable(), headerTextColor);
         });
 
-        binding.currentBoardName.addTextChangedListener(new TextWatcher() {
+        binding.filterText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -402,7 +402,16 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             });
             distinctUntilChanged(map(filterViewModel.getFilterInformation(), FilterInformation::hasActiveFilter))
                     .observe(this, (hasActiveFilter) -> binding.filterIndicator.setVisibility(hasActiveFilter ? View.VISIBLE : View.GONE));
-            binding.archivedCards.setOnClickListener((v) -> startActivity(ArchivedCardsActvitiy.createIntent(this, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), mainViewModel.currentBoardHasEditPermission())));
+//            binding.archivedCards.setOnClickListener((v) -> startActivity(ArchivedCardsActvitiy.createIntent(this, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), mainViewModel.currentBoardHasEditPermission())));
+            binding.enableSearch.setOnClickListener((v) -> {
+                binding.toolbar.setVisibility(View.GONE);
+                binding.searchToolbar.setVisibility(View.VISIBLE);
+                binding.searchToolbar.setNavigationOnClickListener(v1 -> onBackPressed());
+                binding.enableSearch.setVisibility(View.GONE);
+                binding.filterText.requestFocus();
+                final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(binding.filterText, InputMethodManager.SHOW_IMPLICIT);
+            });
 
 
             binding.swipeRefreshLayout.setOnRefreshListener(() -> {
@@ -584,7 +593,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     }
 
     protected void clearCurrentBoard() {
-        binding.currentBoardName.setHint(R.string.app_name_short);
+        binding.toolbar.setTitle(R.string.app_name_short);
+        binding.filterText.setHint(R.string.app_name_short);
         binding.swipeRefreshLayout.setVisibility(View.GONE);
         binding.listMenuButton.setVisibility(View.GONE);
         binding.emptyContentViewStacks.setVisibility(View.GONE);
@@ -603,7 +613,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         saveCurrentBoardId(this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId());
         binding.navigationView.setCheckedItem(boardsList.indexOf(board));
 
-        binding.currentBoardName.setHint(getString(R.string.search_in, board.getTitle()));
+        binding.toolbar.setTitle(board.getTitle());
+        binding.filterText.setHint(getString(R.string.search_in, board.getTitle()));
 
         if (mainViewModel.currentBoardHasEditPermission()) {
             binding.fab.show();
@@ -933,10 +944,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     public void onBackPressed() {
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
-        } else if(binding.currentBoardName.hasFocus()) {
-            binding.currentBoardName.setText(null);
-            binding.currentBoardName.clearFocus();
-            // TODO focus goes now to viewPager:first-child (recyclerview)
+        } else if (binding.searchToolbar.getVisibility() == View.VISIBLE) {
+            binding.filterText.setText(null);
+            binding.searchToolbar.setVisibility(View.GONE);
+            binding.enableSearch.setVisibility(View.VISIBLE);
+            binding.toolbar.setVisibility(View.VISIBLE);
         } else {
             super.onBackPressed();
         }
