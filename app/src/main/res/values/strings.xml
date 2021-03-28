@@ -336,4 +336,5 @@
     <string name="log_file">Log file</string>
     <string name="copying_logs_to_file">Copying logs to file…</string>
     <string name="account_imported">Account imported</string>
+    <string name="simple_search">Search</string>
 </resources>
