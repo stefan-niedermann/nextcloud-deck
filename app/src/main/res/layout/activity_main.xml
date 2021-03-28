@@ -105,12 +105,13 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacer_1x"
-                android:layout_marginTop="@dimen/spacer_1hx"
-                android:layout_marginEnd="@dimen/spacer_1x"
+                android:layout_marginStart="@dimen/spacer_2x"
+                android:layout_marginTop="@dimen/spacer_1x"
+                android:layout_marginEnd="@dimen/spacer_2x"
                 android:layout_marginBottom="@dimen/spacer_1hx"
-                android:elevation="@dimen/spacer_2x"
-                app:cardCornerRadius="@dimen/spacer_2x">
+                android:elevation="2dp"
+                app:strokeWidth="0dp"
+                app:cardCornerRadius="@dimen/spacer_1x">
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
