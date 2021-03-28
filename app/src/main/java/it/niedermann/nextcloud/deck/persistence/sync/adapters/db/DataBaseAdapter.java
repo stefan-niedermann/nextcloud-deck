@@ -8,6 +8,7 @@ import androidx.annotation.AnyThread;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
 import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 import androidx.sqlite.db.SimpleSQLiteQuery;
@@ -317,8 +318,14 @@ public class DataBaseAdapter {
                     throw new IllegalArgumentException("You need to add your new EDueType value\"" + filter.getDueType() + "\" here!");
             }
         }
+        if (filter.getFilterText() != null && !filter.getFilterText().isEmpty()) {
+            query.append(" and (c.description like ? or c.title like ?) ");
+            String filterText = "%"+filter.getFilterText()+"%";
+            args.add(filterText);
+            args.add(filterText);
+        }
         if (filter.getArchiveStatus() != FilterInformation.EArchiveStatus.ALL) {
-            query.append(" and c.archived = " + (filter.getArchiveStatus() == FilterInformation.EArchiveStatus.ARCHIVED ? 1 : 0));
+            query.append(" and c.archived = ").append(filter.getArchiveStatus() == FilterInformation.EArchiveStatus.ARCHIVED ? 1 : 0);
         }
         query.append(" and status<>3 order by accountId asc, stackId asc, `order`, createdAt asc;");
         return new SimpleSQLiteQuery(query.toString(), args.toArray());
@@ -361,7 +368,7 @@ public class DataBaseAdapter {
         notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.USER, user.getLocalId());
     }
 
-    @AnyThread
+    @UiThread
     public LiveData<Label> getLabelByRemoteId(long accountId, long remoteId) {
         return distinctUntilChanged(db.getLabelDao().getLabelByRemoteId(accountId, remoteId));
     }
@@ -1446,5 +1453,13 @@ public class DataBaseAdapter {
     @ColorInt
     public Integer getBoardColorDirectly(long accountId, long localBoardId) {
         return db.getBoardDao().getBoardColorByLocalIdDirectly(accountId, localBoardId);
+    }
+
+    public void deleteProjectResourcesByCardIdExceptGivenProjectIdsDirectly(long accountId, Long localCardId, List<Long> remoteProjectIDs) {
+        db.getJoinCardWithOcsProjectDao().deleteProjectResourcesByCardIdExceptGivenProjectIdsDirectly(accountId, localCardId, remoteProjectIDs);
+    }
+
+    public void deleteProjectResourcesByCardIdDirectly(Long localCardId) {
+        db.getJoinCardWithOcsProjectDao().deleteProjectResourcesByCardIdDirectly(localCardId);
     }
 }

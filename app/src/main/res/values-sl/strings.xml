@@ -124,7 +124,12 @@
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Prilagajanje oblikovanja</string>
     <string name="settings_compact_title">Stisnjen pogled</string>
+    <string name="settings_debugging">Razhroščevanje dnevnikov</string>
+    <string name="settings_etags">Uporabi oznake ETag</string>
+    <string name="settings_etags_summary">Pospeši usklajevanje</string>
     <string name="settings_background_sync"> Usklajevanje v ozadju</string>
+    <string name="settings_compress_image_attachments">Stisni slike pri pošiljanju</string>
+    <string name="settings_compress_image_attachments_summary">Hitrejše pošiljanje, a slabša kakovost</string>
     <string name="pref_value_wifi_and_mobile">Usklajuj na Wi-Fi in mobilni povezavi</string>
     <string name="pref_value_wifi_only">Usklajuj le na Wi-Fi</string>
     <string-array name="darkmode_entries">
@@ -228,6 +233,7 @@
     <string name="error_dialog_attachment_upload_failed">Priloge ni mogoče poslati. Souporabo omogočite na nek drug način, nam pa posredujte poročilo o hrošču.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Onemogočite vso optimizacijo porabe baterije za programa Nextcloud in Deck.</string>
     <string name="error_action_open_deck_info">Odpri podrobnosti programa</string>
+    <string name="error_action_open_nextcloud_app">Odpri program Nextcloud</string>
     <string name="error_action_open_network">Nastavitve omrežja</string>
     <string name="error_action_server_logs">Dnevniki strežnika</string>
     <string name="error_action_install">Namesti</string>
@@ -235,6 +241,7 @@
     <string name="info_box_maintenance_mode">Strežnik je v načinu vzdrževanja</string>
     <string name="info_box_version_not_supported">Različica strežnika %1$s ni podprta. Priporočljiva je posodobitev na različico %2$s.</string>
     <string name="share_link">Povezava za souporabo</string>
+    <string name="share_content">Souporaba vsebine</string>
     <string name="share_content_duedate">Datum preteka: %1$s</string>
     <string name="share_content_labels">Oznake: %1$s</string>
     <string name="archive_cards">Arhiviraj naloge</string>
@@ -304,4 +311,11 @@
     <string name="simple_order">Razvrstitev</string>
     <string name="edit_description">Uredi opis</string>
     <string name="widget_upcoming_title">Prihajajoče naloge</string>
-    </resources>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Napredne nastavitve</string>
+    <string name="copy_logs">Kopiraj dnevnike v odložišče</string>
+    <string name="app_logo">Logo programa</string>
+    <string name="log_file">Datoteka dnevnika</string>
+    <string name="copying_logs_to_file">Poteka kopiranje datotek dnevnikov ...</string>
+    <string name="account_imported">Račun je uvožen</string>
+</resources>

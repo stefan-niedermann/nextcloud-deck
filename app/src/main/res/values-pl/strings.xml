@@ -125,7 +125,11 @@
     <string name="settings_branding_title">Motyw serwera</string>
     <string name="settings_compact_title">Tryb kompaktowy</string>
     <string name="settings_debugging">Logi debugowania</string>
+    <string name="settings_etags">Użyj ETagów</string>
+    <string name="settings_etags_summary">Przyspiesza synchronizację</string>
     <string name="settings_background_sync">Synchronizacja w tle</string>
+    <string name="settings_compress_image_attachments">Kompresuj obrazy podczas wysyłania</string>
+    <string name="settings_compress_image_attachments_summary">Szybsze wysyłanie, niższa jakość</string>
     <string name="pref_value_wifi_and_mobile">Synchronizacja w sieci Wi-Fi i komórkowej transmisji danych</string>
     <string name="pref_value_wifi_only">Synchronizuj tylko przez Wi-Fi</string>
     <string-array name="darkmode_entries">
@@ -220,7 +224,7 @@
     <string name="error_dialog_check_server_logs">Wystąpił problem z konfiguracją Nextcloud. Zajrzyj do plików dziennika serwera.</string>
     <string name="error_dialog_check_maintenance">Sprawdź, czy Twoja instancja Nextcloud nie jest obecnie w trybie konserwacji.</string>
     <string name="error_dialog_insufficient_storage">W Twojej instancji Nextcloud nie ma już wolnego miejsca. Usuń niektóre pliki, aby zsynchronizować lokalne zmiany w chmurze.</string>
-    <string name="error_dialog_we_need_info">Potrzebujemy następujących informacji technicznych, aby Ci pomóc:</string>
+    <string name="error_dialog_we_need_info">Potrzebujemy następujących informacji technicznych, aby Tobie pomóc:</string>
     <string name="error_dialog_redirect">Twój serwer odpowiedział kodem stanu HTTP 302, co oznacza, że nie masz zainstalowanej aplikacji Deck na serwerze lub coś jest źle skonfigurowane. Może to być spowodowane niestandardowymi przekierowaniami pliku .htaccess lub aplikacjami Nextcloud, takimi jak OID Client.</string>
     <string name="error_dialog_version_not_parsable">Nie udało się ustalić wersji aplikacji Deck po stronie serwera. Upewnij się, że jest zainstalowany i włączony.</string>
     <string name="error_dialog_account_might_not_be_authorized">Konto Twojej aplikacji Nextcloud może nie być już autoryzowane.</string>

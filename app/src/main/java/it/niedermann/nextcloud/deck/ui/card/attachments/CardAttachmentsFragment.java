@@ -3,7 +3,9 @@ package it.niedermann.nextcloud.deck.ui.card.attachments;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -18,10 +20,12 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.SharedElementCallback;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,6 +40,10 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
+import id.zelory.compressor.constraint.FormatConstraint;
+import id.zelory.compressor.constraint.QualityConstraint;
+import id.zelory.compressor.constraint.ResolutionConstraint;
+import id.zelory.compressor.constraint.SizeConstraint;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -60,6 +68,8 @@ import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDia
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.takephoto.TakePhotoActivity;
 import it.niedermann.nextcloud.deck.util.DeckColorUtil;
+import it.niedermann.nextcloud.deck.util.JavaCompressor;
+import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 import it.niedermann.nextcloud.deck.util.VCardUtil;
 
 import static android.Manifest.permission.CAMERA;
@@ -88,6 +98,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     private EditCardViewModel editViewModel;
     private PreviewDialogViewModel previewViewModel;
     private BottomSheetBehavior<LinearLayout> mBottomSheetBehaviour;
+    private boolean compressImagesOnUpload = true;
 
     private RecyclerView.ItemDecoration galleryItemDecoration;
 
@@ -227,6 +238,8 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         }
         @Nullable Context context = requireContext();
         applyBrand(readBrandMainColor(context));
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        compressImagesOnUpload = sharedPreferences.getBoolean(getString(R.string.pref_key_compress_image_attachments), true);
         return binding.getRoot();
     }
 
@@ -403,54 +416,25 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 // https://github.com/stefan-niedermann/nextcloud-deck/issues/814
                 new Thread(() -> {
                     try {
-                        final File fileToUpload = copyContentUriToTempFile(requireContext(), sourceUri, editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId());
+                        final File originalFile = copyContentUriToTempFile(requireContext(), sourceUri, editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId());
                         requireActivity().runOnUiThread(() -> {
-                            for (Attachment existingAttachment : editViewModel.getFullCard().getAttachments()) {
-                                final String existingPath = existingAttachment.getLocalPath();
-                                if (existingPath != null && existingPath.equals(fileToUpload.getAbsolutePath())) {
-                                    BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
-                                    return;
+                            if (compressImagesOnUpload && MimeTypeUtil.isImage(mimeType)) {
+                                try {
+                                    JavaCompressor.compress(
+                                            (AppCompatActivity) requireActivity(),
+                                            originalFile,
+                                            (status, file) -> uploadNewAttachmentFromFile(status && file != null ? file : originalFile, mimeType),
+                                            new ResolutionConstraint(1920, 1920),
+                                            new SizeConstraint(1_000_000, 10, 10, 10),
+                                            new FormatConstraint(Bitmap.CompressFormat.JPEG),
+                                            new QualityConstraint(80)
+                                    );
+                                } catch (Throwable t) {
+                                    DeckLog.logError(t);
+                                    uploadNewAttachmentFromFile(originalFile, mimeType);
                                 }
-                            }
-                            final Instant now = Instant.now();
-                            final Attachment a = new Attachment();
-                            a.setMimetype(mimeType);
-                            a.setData(fileToUpload.getName());
-                            a.setFilename(fileToUpload.getName());
-                            a.setBasename(fileToUpload.getName());
-                            a.setFilesize(fileToUpload.length());
-                            a.setLocalPath(fileToUpload.getAbsolutePath());
-                            a.setLastModifiedLocal(now);
-                            a.setCreatedAt(now);
-                            a.setStatusEnum(DBStatus.LOCAL_EDITED);
-                            editViewModel.getFullCard().getAttachments().add(0, a);
-                            adapter.addAttachment(a);
-                            if (!editViewModel.isCreateMode()) {
-                                editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload, new ResponseCallback<Attachment>() {
-                                    @Override
-                                    public void onResponse(Attachment response) {
-                                        requireActivity().runOnUiThread(() -> {
-                                            editViewModel.getFullCard().getAttachments().remove(a);
-                                            editViewModel.getFullCard().getAttachments().add(0, response);
-                                            adapter.replaceAttachment(a, response);
-                                        });
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable throwable) {
-                                        requireActivity().runOnUiThread(() -> {
-                                            if (throwable instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) throwable).getStatusCode() == HTTP_CONFLICT) {
-                                                ResponseCallback.super.onError(throwable);
-                                                // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
-                                                editViewModel.getFullCard().getAttachments().remove(a);
-                                                adapter.removeAttachment(a);
-                                                BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
-                                            } else {
-                                                ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", throwable), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                                            }
-                                        });
-                                    }
-                                });
+                            } else {
+                                uploadNewAttachmentFromFile(originalFile, mimeType);
                             }
                         });
                     } catch (IOException e) {
@@ -462,6 +446,56 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             default: {
                 throw new UploadAttachmentFailedException("Unknown URI scheme: " + sourceUri.getScheme());
             }
+        }
+    }
+
+    private void uploadNewAttachmentFromFile(@NonNull File fileToUpload, String mimeType) {
+        for (Attachment existingAttachment : editViewModel.getFullCard().getAttachments()) {
+            final String existingPath = existingAttachment.getLocalPath();
+            if (existingPath != null && existingPath.equals(fileToUpload.getAbsolutePath())) {
+                BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                return;
+            }
+        }
+        final Instant now = Instant.now();
+        final Attachment a = new Attachment();
+        a.setMimetype(mimeType);
+        a.setData(fileToUpload.getName());
+        a.setFilename(fileToUpload.getName());
+        a.setBasename(fileToUpload.getName());
+        a.setFilesize(fileToUpload.length());
+        a.setLocalPath(fileToUpload.getAbsolutePath());
+        a.setLastModifiedLocal(now);
+        a.setCreatedAt(now);
+        a.setStatusEnum(DBStatus.LOCAL_EDITED);
+        editViewModel.getFullCard().getAttachments().add(0, a);
+        adapter.addAttachment(a);
+        if (!editViewModel.isCreateMode()) {
+            editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload, new ResponseCallback<Attachment>() {
+                @Override
+                public void onResponse(Attachment response) {
+                    requireActivity().runOnUiThread(() -> {
+                        editViewModel.getFullCard().getAttachments().remove(a);
+                        editViewModel.getFullCard().getAttachments().add(0, response);
+                        adapter.replaceAttachment(a, response);
+                    });
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    requireActivity().runOnUiThread(() -> {
+                        if (throwable instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) throwable).getStatusCode() == HTTP_CONFLICT) {
+                            ResponseCallback.super.onError(throwable);
+                            // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
+                            editViewModel.getFullCard().getAttachments().remove(a);
+                            adapter.removeAttachment(a);
+                            BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                        } else {
+                            ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", throwable), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                        }
+                    });
+                }
+            });
         }
     }
 

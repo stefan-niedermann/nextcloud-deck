@@ -23,6 +23,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     private BrandedSwitchPreference wifiOnlyPref;
     private BrandedSwitchPreference compactPref;
+    private BrandedSwitchPreference compressImageAttachmentsPref;
     private BrandedSwitchPreference debuggingPref;
     private BrandedSwitchPreference eTagPref;
 
@@ -31,7 +32,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         setPreferencesFromResource(R.xml.settings, rootKey);
 
         wifiOnlyPref = findPreference(getString(R.string.pref_key_wifi_only));
-
         if (wifiOnlyPref != null) {
             wifiOnlyPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
                 final Boolean syncOnWifiOnly = (Boolean) newValue;
@@ -54,8 +54,17 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             DeckLog.error("Could not find preference with key:", getString(R.string.pref_key_dark_theme));
         }
 
-        compactPref = findPreference(getString(R.string.pref_key_compact));
+        compressImageAttachmentsPref = findPreference(getString(R.string.pref_key_compress_image_attachments));
+        if (compressImageAttachmentsPref != null) {
+            compressImageAttachmentsPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
+                DeckLog.log("compress image attachments:", newValue);
+                return true;
+            });
+        } else {
+            DeckLog.error("Could not find preference with key:", getString(R.string.pref_key_compress_image_attachments));
+        }
 
+        compactPref = findPreference(getString(R.string.pref_key_compact));
         final ListPreference backgroundSyncPref = findPreference(getString(R.string.pref_key_background_sync));
         if (backgroundSyncPref != null) {
             backgroundSyncPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
@@ -87,6 +96,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         DeckApplication.readCurrentAccountColor().observe(getViewLifecycleOwner(), (mainColor) -> {
             wifiOnlyPref.applyBrand(mainColor);
             compactPref.applyBrand(mainColor);
+            compressImageAttachmentsPref.applyBrand(mainColor);
             debuggingPref.applyBrand(mainColor);
             eTagPref.applyBrand(mainColor);
         });

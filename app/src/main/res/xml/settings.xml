@@ -16,6 +16,13 @@
             android:key="@string/pref_key_background_sync"
             android:summary="%s"
             android:title="@string/settings_background_sync" />
+
+        <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
+            android:icon="@drawable/ic_baseline_photo_size_select_small_24"
+            android:key="@string/pref_key_compress_image_attachments"
+            android:title="@string/settings_compress_image_attachments"
+            android:summary="@string/settings_compress_image_attachments_summary"
+            app:defaultValue="true" />
     </it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory>
 
     <it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory android:title="@string/simple_appearance">

@@ -119,7 +119,11 @@
     <string name="settings_branding_title">品牌化</string>
     <string name="settings_compact_title">緊湊模式</string>
     <string name="settings_debugging">除錯記錄</string>
+    <string name="settings_etags">使用 ETags</string>
+    <string name="settings_etags_summary">加快同步</string>
     <string name="settings_background_sync">背景同步</string>
+    <string name="settings_compress_image_attachments">壓縮上傳圖像</string>
+    <string name="settings_compress_image_attachments_summary">上載速度更快，質素較差</string>
     <string name="pref_value_wifi_and_mobile">使用 Wi-Fi 及流動網路時同步</string>
     <string name="pref_value_wifi_only">只在使用 Wi-Fi 時同步</string>
     <string-array name="darkmode_entries">
@@ -300,4 +304,7 @@
     <string name="simple_expert_settings">專家設定</string>
     <string name="copy_logs">將記錄複製到剪貼板</string>
     <string name="app_logo">應用程式標識</string>
-    </resources>
+    <string name="log_file">記錄檔案</string>
+    <string name="copying_logs_to_file">將記錄複製到檔案...</string>
+    <string name="account_imported">已導入賬戶</string>
+</resources>

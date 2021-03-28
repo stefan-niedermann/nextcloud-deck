@@ -120,6 +120,7 @@
     <string name="settings_theme_title">Thema</string>
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Compacte modus</string>
+    <string name="settings_debugging">Debug logs</string>
     <string name="settings_background_sync">Achtergrond synchronisatie</string>
     <string name="pref_value_wifi_and_mobile">Sync met Wi-Fi en mobiele data</string>
     <string name="pref_value_wifi_only">Sync alleen met Wi-Fi</string>
@@ -222,8 +223,10 @@
     <string name="error_dialog_user_not_found_in_database">De huidige gebruiker komt niet overeen met de gebruiker die we in onze database hebben. Als je LDAP gebruikt op je Nextcloud-instantie, heeft je Nextcloud-app mogelijk een oude gebruikers-ID opgeslagen.</string>
     <string name="error_dialog_capabilities_not_parsable">We kunnen de mogelijkheden van je server niet vaststellen. Zorg ervoor dat je server goed werkt en dat andere client-apps toegang hebben tot Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Een bijlage kon niet worden opgeladen. Gelieve het op een andere manier te delen en ons in te lichten over deze fout.</string>
+    <string name="error_dialog_certificate">Er lijkt iets mis te zijn met het certificaat van de server. Controleer alle accounts in de Nextcloud-app voor meer informatie.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Gelieve de batterijoptimalisatie uit te schakelen voor de Nextcloud en Deck applicatie.</string>
     <string name="error_action_open_deck_info">Open App informatie</string>
+    <string name="error_action_open_nextcloud_app">Open Nextcloud app</string>
     <string name="error_action_open_network">Netwerk instellingen</string>
     <string name="error_action_server_logs">Server logbestanden</string>
     <string name="error_action_install">Installeren</string>
@@ -297,4 +300,11 @@
     <string name="simple_order">Volgorde</string>
     <string name="edit_description">Bewerk beschrijving</string>
     <string name="widget_upcoming_title">Aanstaande kaarten</string>
-    </resources>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Expert instellingen</string>
+    <string name="copy_logs">Kopiëren logs naar klembord</string>
+    <string name="app_logo">App logo</string>
+    <string name="log_file">Logbestand</string>
+    <string name="copying_logs_to_file">Kopiëren logs naar bestand...</string>
+    <string name="account_imported">Account geïmporteerd</string>
+</resources>

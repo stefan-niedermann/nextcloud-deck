@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import android.animation.AnimatorInflater;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -12,9 +13,12 @@ import android.net.NetworkInfo;
 import android.net.NetworkRequest;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.PopupMenu;
 
 import androidx.annotation.ColorInt;
@@ -75,7 +79,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 import it.niedermann.nextcloud.deck.ui.about.AboutActivity;
 import it.niedermann.nextcloud.deck.ui.accountswitcher.AccountSwitcherDialog;
 import it.niedermann.nextcloud.deck.ui.archivedboards.ArchivedBoardsActvitiy;
-import it.niedermann.nextcloud.deck.ui.archivedcards.ArchivedCardsActvitiy;
 import it.niedermann.nextcloud.deck.ui.board.ArchiveBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
@@ -100,6 +103,8 @@ import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
+import static androidx.lifecycle.Transformations.map;
 import static androidx.lifecycle.Transformations.switchMap;
 import static it.niedermann.nextcloud.deck.DeckApplication.NO_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.DeckApplication.NO_BOARD_ID;
@@ -197,6 +202,23 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             @ColorInt final int headerTextColor = contrastRatioIsSufficientBigAreas(accountColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
             DrawableCompat.setTint(headerBinding.logo.getDrawable(), headerTextColor);
             DrawableCompat.setTint(headerBinding.copyDebugLogs.getDrawable(), headerTextColor);
+        });
+
+        binding.filterText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterViewModel.setFilterText(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
         });
 
         mainViewModel.isDebugModeEnabled().observe(this, (enabled) -> headerBinding.copyDebugLogs.setVisibility(enabled ? View.VISIBLE : View.GONE));
@@ -379,9 +401,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     }
                 }
             });
-            filterViewModel.getFilterInformation().observe(this, (info) ->
-                    binding.filterIndicator.setVisibility(filterViewModel.getFilterInformation().getValue() == null ? View.GONE : View.VISIBLE));
-            binding.archivedCards.setOnClickListener((v) -> startActivity(ArchivedCardsActvitiy.createIntent(this, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), mainViewModel.currentBoardHasEditPermission())));
+            distinctUntilChanged(map(filterViewModel.getFilterInformation(), FilterInformation::hasActiveFilter))
+                    .observe(this, (hasActiveFilter) -> binding.filterIndicator.setVisibility(hasActiveFilter ? View.VISIBLE : View.GONE));
+//            binding.archivedCards.setOnClickListener((v) -> startActivity(ArchivedCardsActvitiy.createIntent(this, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), mainViewModel.currentBoardHasEditPermission())));
+            binding.enableSearch.setOnClickListener((v) -> showFilterTextToolbar());
+            binding.toolbar.setOnClickListener((v) -> showFilterTextToolbar());
 
 
             binding.swipeRefreshLayout.setOnRefreshListener(() -> {
@@ -400,12 +424,13 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         DeckLog.info("Do not clear Glide caches, because the user currently does not have a working internet connection");
                     }
                 } else DeckLog.warn("ConnectivityManager is null");
-                DeckLog.verbose("Trigger refresh capabilities for " + mainViewModel.getCurrentAccount().getName());
+                DeckLog.verbose("Trigger refresh capabilities for", mainViewModel.getCurrentAccount().getName());
                 refreshCapabilities(mainViewModel.getCurrentAccount());
-                DeckLog.verbose("Trigger synchronization for " + mainViewModel.getCurrentAccount().getName());
+                DeckLog.verbose("Trigger synchronization for", mainViewModel.getCurrentAccount().getName());
                 mainViewModel.synchronize(new IResponseCallback<Boolean>(mainViewModel.getCurrentAccount()) {
                     @Override
                     public void onResponse(Boolean response) {
+                        DeckLog.info("End of synchronization for " + mainViewModel.getCurrentAccount().getName() + " → Stop spinner.");
                         runOnUiThread(() -> {
                             DeckLog.info("End of synchronization for " + mainViewModel.getCurrentAccount().getName() + " → Stop spinner.");
                             binding.swipeRefreshLayout.setRefreshing(false);
@@ -533,11 +558,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     }
 
     private void refreshCapabilities(final Account account) {
-        DeckLog.verbose("Refreshing capabilities for " + account.getName());
+        DeckLog.verbose("Refreshing capabilities for", account.getName());
         mainViewModel.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
             @Override
             public void onResponse(Capabilities response) {
-                DeckLog.verbose("Finished refreshing capabilities for " + account.getName() + " successfully.");
+                DeckLog.verbose("Finished refreshing capabilities for", account.getName(), "successfully.");
                 if (response.isMaintenanceEnabled()) {
                     DeckLog.verbose("Maintenance mode is enabled → Stop spinner.");
                     binding.swipeRefreshLayout.setRefreshing(false);
@@ -552,7 +577,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
             @Override
             public void onError(Throwable throwable) {
-                DeckLog.warn("Error on refreshing capabilities for " + account.getName() + " (" + throwable.getMessage() + ") → Stop spinner.");
+                DeckLog.warn("Error on refreshing capabilities for", account.getName(), "(" + throwable.getMessage() + ") → Stop spinner.");
                 binding.swipeRefreshLayout.setRefreshing(false);
                 if (throwable instanceof OfflineException) {
                     DeckLog.info("Cannot refresh capabilities because device is offline.");
@@ -566,6 +591,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     protected void clearCurrentBoard() {
         binding.toolbar.setTitle(R.string.app_name_short);
+        binding.filterText.setHint(R.string.app_name_short);
         binding.swipeRefreshLayout.setVisibility(View.GONE);
         binding.listMenuButton.setVisibility(View.GONE);
         binding.emptyContentViewStacks.setVisibility(View.GONE);
@@ -578,13 +604,14 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         }
         saveBrandColors(this, board.getColor());
         mainViewModel.setCurrentBoard(board);
-        filterViewModel.clearFilterInformation();
+        filterViewModel.clearFilterInformation(true);
 
         lastBoardId = board.getLocalId();
         saveCurrentBoardId(this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId());
         binding.navigationView.setCheckedItem(boardsList.indexOf(board));
 
         binding.toolbar.setTitle(board.getTitle());
+        binding.filterText.setHint(getString(R.string.search_in, board.getTitle()));
 
         if (mainViewModel.currentBoardHasEditPermission()) {
             binding.fab.show();
@@ -914,9 +941,32 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     public void onBackPressed() {
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
+        } else if (binding.searchToolbar.getVisibility() == View.VISIBLE) {
+            hideFilterTextToolbar();
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void showFilterTextToolbar() {
+        binding.toolbar.setVisibility(View.GONE);
+        binding.searchToolbar.setVisibility(View.VISIBLE);
+        binding.searchToolbar.setNavigationOnClickListener(v1 -> onBackPressed());
+        binding.enableSearch.setVisibility(View.GONE);
+        binding.filterText.requestFocus();
+        final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(binding.filterText, InputMethodManager.SHOW_IMPLICIT);
+        binding.toolbarCard.setStateListAnimator(AnimatorInflater.loadStateListAnimator(this, R.animator.appbar_elevation_on));
+    }
+
+    private void hideFilterTextToolbar() {
+        binding.filterText.setText(null);
+        final InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        binding.searchToolbar.setVisibility(View.GONE);
+        binding.enableSearch.setVisibility(View.VISIBLE);
+        binding.toolbar.setVisibility(View.VISIBLE);
+        binding.toolbarCard.setStateListAnimator(AnimatorInflater.loadStateListAnimator(this, R.animator.appbar_elevation_off));
     }
 
     private void registerAutoSyncOnNetworkAvailable() {

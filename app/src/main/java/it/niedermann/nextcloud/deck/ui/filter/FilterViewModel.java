@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
@@ -40,8 +41,13 @@ public class FilterViewModel extends AndroidViewModel {
         this.filterInformation.postValue(hasActiveFilter(filterInformationDraft.getValue()) ? filterInformationDraft.getValue() : null);
     }
 
-    public void clearFilterInformation() {
-        this.filterInformationDraft.setValue(new FilterInformation());
+    public void clearFilterInformation(boolean alsoFilterText) {
+        final FilterInformation newFilterInformation = new FilterInformation();
+        if (alsoFilterText) {
+            final FilterInformation oldFilterInformation = this.filterInformation.getValue();
+            newFilterInformation.setFilterText(oldFilterInformation != null ? oldFilterInformation.getFilterText() : "");
+        }
+        this.filterInformationDraft.setValue(newFilterInformation);
         this.publishFilterInformationDraft();
         this.currentFilterTab = 0;
     }
@@ -104,6 +110,13 @@ public class FilterViewModel extends AndroidViewModel {
 
     public void setCurrentFilterTab(@IntRange(from = 0, to = 2) int newFilterTab) {
         this.currentFilterTab = newFilterTab;
+    }
+
+    public void setFilterText(@NonNull String filterText) {
+        DeckLog.info("New filterText:", filterText);
+        FilterInformation newDraft = new FilterInformation(filterInformation.getValue());
+        newDraft.setFilterText(filterText);
+        this.filterInformation.postValue(newDraft);
     }
 
     @IntRange(from = 0, to = 2)

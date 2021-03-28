@@ -125,7 +125,11 @@
     <string name="settings_branding_title">Opatření vlastním logem</string>
     <string name="settings_compact_title">Kompaktní režim</string>
     <string name="settings_debugging">Záznamy ladících událostí</string>
+    <string name="settings_etags">Použit identif. verze (ETag)</string>
+    <string name="settings_etags_summary">Zrychluje synchronizaci</string>
     <string name="settings_background_sync">Synchronizace na pozadí</string>
+    <string name="settings_compress_image_attachments">Při nahrání obrázky komprimovat</string>
+    <string name="settings_compress_image_attachments_summary">Rychlejší nahrávání, na úkor snížení kvality</string>
     <string name="pref_value_wifi_and_mobile">Synchr. přes Wi-Fi a mobilní data</string>
     <string name="pref_value_wifi_only">Synchr. pouze přes Wi-Fi</string>
     <string-array name="darkmode_entries">
@@ -312,4 +316,7 @@
     <string name="simple_expert_settings">Nastavení pro pokročilé uživatele</string>
     <string name="copy_logs">Zkopírovat záznamy událostí do schránky</string>
     <string name="app_logo">Logo aplikace</string>
-    </resources>
+    <string name="log_file">Soubor Log</string>
+    <string name="copying_logs_to_file">Kopíruju logy(záznamy) do souboru</string>
+    <string name="account_imported">Účet naimportován</string>
+</resources>

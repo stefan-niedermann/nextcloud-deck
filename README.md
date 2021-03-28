@@ -42,8 +42,6 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 * Translated in many languages 🌎
 
 ## 🏁 Planned features
-* [Compress images before uploading as attachment](https://github.com/stefan-niedermann/nextcloud-deck/issues/587)
-* [Search](https://github.com/stefan-niedermann/nextcloud-deck/issues/630)
 * Enhanced support for projects
 
 ## 👪 Join the team
