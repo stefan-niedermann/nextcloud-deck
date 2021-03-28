@@ -109,7 +109,6 @@
                 android:layout_marginStart="@dimen/spacer_2x"
                 android:layout_marginTop="@dimen/spacer_1x"
                 android:layout_marginEnd="@dimen/spacer_2x"
-                android:layout_marginBottom="@dimen/spacer_1hx"
                 app:cardCornerRadius="@dimen/spacer_1x"
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp">
