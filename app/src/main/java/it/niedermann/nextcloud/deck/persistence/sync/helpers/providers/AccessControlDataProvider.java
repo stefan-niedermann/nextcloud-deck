@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import androidx.annotation.Nullable;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -19,10 +21,10 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.util.AsyncUtil;
 public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessControl> {
 
     private static final Long TYPE_GROUP = 1L;
-    private List<AccessControl> acl;
-    private FullBoard board;
+    private final List<AccessControl> acl;
+    private final FullBoard board;
 
-    public AccessControlDataProvider(AbstractSyncDataProvider<?> parent, FullBoard board, List<AccessControl> acl) {
+    public AccessControlDataProvider(@Nullable AbstractSyncDataProvider<?> parent, FullBoard board, List<AccessControl> acl) {
         super(parent);
         this.board = board;
         this.acl = acl;
@@ -32,7 +34,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<List<AccessControl>> responder, Instant lastSync) {
         AsyncUtil.awaitAsyncWork(acl.size(), latch -> {
             for (AccessControl accessControl : acl) {
-                if (accessControl.getType() == TYPE_GROUP) {
+                if (TYPE_GROUP.equals(accessControl.getType())) {
                     serverAdapter.searchGroupMembers(accessControl.getUser().getUid(), new IResponseCallback<GroupMemberUIDs>(responder.getAccount()) {
                         @Override
                         public void onResponse(GroupMemberUIDs response) {

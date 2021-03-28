@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import androidx.annotation.Nullable;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +15,12 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
 public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
 
+    @Nullable
     protected AbstractSyncDataProvider<?> parent;
-    private List<AbstractSyncDataProvider<?>> children = new ArrayList<>();
+    private final List<AbstractSyncDataProvider<?>> children = new ArrayList<>();
     private boolean stillGoingDeeper = false;
 
-    public AbstractSyncDataProvider(AbstractSyncDataProvider<?> parent) {
+    public AbstractSyncDataProvider(@Nullable AbstractSyncDataProvider<?> parent) {
         this.parent = parent;
     }
 
@@ -68,6 +71,7 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
         children.add(child);
     }
 
+    @SuppressWarnings("UnnecessaryReturnStatement")
     public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<T>> responder, Instant lastSync) {
         return;
     }
