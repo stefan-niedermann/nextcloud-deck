@@ -936,7 +936,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         } else if(binding.currentBoardName.hasFocus()) {
             binding.currentBoardName.setText(null);
             binding.currentBoardName.clearFocus();
-            binding.toolbar.requestFocus();
+            // TODO focus goes now to viewPager:first-child (recyclerview)
         } else {
             super.onBackPressed();
         }
