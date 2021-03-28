@@ -26,7 +26,7 @@ public class CardUtil {
     private static final Pattern pSpace2 = Pattern.compile("\\s+$", Pattern.MULTILINE);
 
     private CardUtil() {
-        // You shall not pass
+        throw new UnsupportedOperationException("This class must not get instantiated");
     }
 
     /**

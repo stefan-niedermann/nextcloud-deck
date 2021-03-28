@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.api;
 
+import androidx.annotation.NonNull;
+
 import com.nextcloud.android.sso.api.NextcloudAPI;
 
 import io.reactivex.Observable;
@@ -14,7 +16,7 @@ public class RequestHelper {
         RxJavaPlugins.setErrorHandler(DeckLog::logError);
     }
 
-    public static <T> void request(final ApiProvider provider, final ObservableProvider<T> call, final IResponseCallback<T> callback) {
+    public static <T> void request(@NonNull final ApiProvider provider, @NonNull final ObservableProvider<T> call, @NonNull final IResponseCallback<T> callback) {
 
         if (provider.getDeckAPI() == null) {
             provider.initSsoApi(new NextcloudAPI.ApiConnectedListener() {
@@ -32,7 +34,7 @@ public class RequestHelper {
     }
 
     private static <T> void runRequest(final Observable<T> request, final IResponseCallback<T> callback) {
-        ResponseConsumer<T> cb = new ResponseConsumer<>(callback);
+        final ResponseConsumer<T> cb = new ResponseConsumer<>(callback);
         request.subscribeOn(Schedulers.newThread())
                 .subscribe(cb, cb.getExceptionConsumer());
     }
@@ -44,15 +46,17 @@ public class RequestHelper {
 
     public static class ResponseConsumer<T> implements Consumer<T> {
 
-        private IResponseCallback<T> callback;
-        private Consumer<Throwable> exceptionConsumer = new Consumer<Throwable>() {
+        @NonNull
+        private final IResponseCallback<T> callback;
+        @NonNull
+        private final Consumer<Throwable> exceptionConsumer = new Consumer<Throwable>() {
             @Override
             public void accept(final Throwable throwable) {
                 callback.onError(throwable);
             }
         };
 
-        private ResponseConsumer(IResponseCallback<T> callback) {
+        private ResponseConsumer(@NonNull IResponseCallback<T> callback) {
             this.callback = callback;
         }
 
@@ -62,6 +66,7 @@ public class RequestHelper {
             callback.onResponse(t);
         }
 
+        @NonNull
         private Consumer<Throwable> getExceptionConsumer() {
             return exceptionConsumer;
         }

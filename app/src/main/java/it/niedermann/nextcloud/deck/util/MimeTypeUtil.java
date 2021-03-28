@@ -6,6 +6,10 @@ import java.util.Locale;
 
 public class MimeTypeUtil {
 
+    private MimeTypeUtil() {
+        throw new UnsupportedOperationException("This class must not get instantiated");
+    }
+
     public static final String IMAGE_JPEG = "image/jpeg";
     public static final String TEXT_PLAIN = "text/plain";
     public static final String TEXT_VCARD = "text/vcard";

@@ -23,6 +23,10 @@ import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
 public class DeckLog {
 
+    private DeckLog() {
+        throw new UnsupportedOperationException("This class must not get instantiated");
+    }
+
     private static final StringBuffer DEBUG_LOG = new StringBuffer();
     private static boolean PERSIST_LOGS = false;
     private static final String TAG = DeckLog.class.getSimpleName();

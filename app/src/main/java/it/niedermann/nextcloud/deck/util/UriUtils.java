@@ -17,7 +17,7 @@ import java.util.Locale;
 public final class UriUtils {
 
     private UriUtils() {
-        // utility class -> private constructor
+        throw new UnsupportedOperationException("This class must not get instantiated");
     }
 
     @NonNull

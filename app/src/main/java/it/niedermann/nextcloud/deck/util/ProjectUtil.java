@@ -12,6 +12,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 public class ProjectUtil {
 
     private ProjectUtil() {
+        throw new UnsupportedOperationException("This class must not get instantiated");
     }
 
     @NonNull

@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.PopupMenu;
 
+import androidx.annotation.AnyThread;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -406,9 +407,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
             binding.swipeRefreshLayout.setOnRefreshListener(() -> {
                 DeckLog.info("Triggered manual refresh");
-                ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                final ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                 if (cm != null) {
-                    NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
+                    final NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
                     if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
                         DeckLog.info("Clearing Glide memory cache");
                         Glide.get(this).clearMemory();
@@ -419,7 +420,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     } else {
                         DeckLog.info("Do not clear Glide caches, because the user currently does not have a working internet connection");
                     }
-                } else DeckLog.warn("ConnectivityManager is null");
+                } else {
+                    DeckLog.warn(ConnectivityManager.class.getSimpleName(), "is null");
+                }
                 DeckLog.verbose("Trigger refresh capabilities for", mainViewModel.getCurrentAccount().getName());
                 refreshCapabilities(mainViewModel.getCurrentAccount());
                 DeckLog.verbose("Trigger synchronization for", mainViewModel.getCurrentAccount().getName());
@@ -433,12 +436,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     @Override
                     public void onError(Throwable throwable) {
                         super.onError(throwable);
-                        runOnUiThread(() -> {
-                            DeckLog.logError(throwable);
-                            DeckLog.info("End of synchronization for " + mainViewModel.getCurrentAccount().getName() + " → Stop spinner.");
-                            binding.swipeRefreshLayout.setRefreshing(false);
-                            showSyncFailedSnackbar(throwable);
-                        });
+                        DeckLog.info("End of synchronization for " + mainViewModel.getCurrentAccount().getName() + " → Stop spinner.");
+                        showSyncFailedSnackbar(throwable);
+                        runOnUiThread(() -> binding.swipeRefreshLayout.setRefreshing(false));
                     }
                 });
             });
@@ -637,7 +637,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             int stackPositionInAdapter = 0;
             stackAdapter.setStacks(stacks);
 
-            long currentStackId = readCurrentStackId(this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId());
+            final long currentStackId = readCurrentStackId(this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId());
             for (int i = 0; i < currentBoardStacksCount; i++) {
                 if (stacks.get(i).getLocalId() == currentStackId || currentStackId == NO_STACK_ID) {
                     stackPositionInAdapter = i;
@@ -1054,10 +1054,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
 
     /**
-     * Displays a snackbar for an exception of a failed sync, but only if the cause wasn't maintenance mode (this should be handled by a TextView instead of a snackbar).
+     * Displays a {@link BrandedSnackbar} for an exception of a failed sync, but only if the cause wasn't maintenance mode (this should be handled by a TextView instead of a snackbar).
      *
      * @param throwable the cause of the failed sync
      */
+    @AnyThread
     private void showSyncFailedSnackbar(@NonNull Throwable throwable) {
         if (!(throwable instanceof NextcloudHttpRequestFailedException) || ((NextcloudHttpRequestFailedException) throwable).getStatusCode() != HttpURLConnection.HTTP_UNAVAILABLE) {
             runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)

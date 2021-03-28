@@ -19,6 +19,11 @@ import androidx.core.content.ContextCompat;
 import it.niedermann.nextcloud.deck.R;
 
 public class SpannableUtil {
+    
+    private SpannableUtil() {
+        throw new UnsupportedOperationException("This class must not get instantiated");
+    }
+
     public static SpannableString strong(@NonNull CharSequence text) {
         final SpannableString span = new SpannableString(text);
         span.setSpan(new StyleSpan(Typeface.BOLD), 0, span.length(), 0);

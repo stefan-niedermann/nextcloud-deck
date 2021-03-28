@@ -18,7 +18,7 @@ import it.niedermann.nextcloud.deck.R;
 public class VCardUtil {
 
     private VCardUtil() {
-        // You shall not pass
+        throw new UnsupportedOperationException("This class must not get instantiated");
     }
 
     public static Uri getVCardContentUri(@NonNull Context context, @NonNull Uri contactUri) throws NoSuchElementException {

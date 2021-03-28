@@ -27,7 +27,7 @@ public class DrawerMenuUtil {
     public static final int MENU_ID_ARCHIVED_BOARDS = -4;
 
     private DrawerMenuUtil() {
-
+        throw new UnsupportedOperationException("This class must not get instantiated");
     }
 
     public static <T extends FragmentActivity & ArchiveBoardListener> void inflateBoards(
@@ -36,15 +36,15 @@ public class DrawerMenuUtil {
             @NonNull List<Board> boards,
             boolean hasArchivedBoards,
             boolean currentServerVersionIsSupported) {
-        SubMenu boardsMenu = menu.addSubMenu(R.string.simple_boards);
+        final SubMenu boardsMenu = menu.addSubMenu(R.string.simple_boards);
         int index = 0;
         for (Board board : boards) {
-            MenuItem m = boardsMenu
+            final MenuItem m = boardsMenu
                     .add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, board.getColor()))
                     .setCheckable(true);
             if (currentServerVersionIsSupported) {
                 if (board.isPermissionManage()) {
-                    AppCompatImageButton contextMenu = new AppCompatImageButton(context);
+                    final AppCompatImageButton contextMenu = new AppCompatImageButton(context);
                     contextMenu.setBackgroundDrawable(null);
                     contextMenu.setImageDrawable(ViewUtil.getTintedImageView(context, R.drawable.ic_menu, ContextCompat.getColor(context, R.color.grey600)));
                     contextMenu.setOnClickListener((v) -> {
@@ -82,7 +82,7 @@ public class DrawerMenuUtil {
                     });
                     m.setActionView(contextMenu);
                 } else if (board.isPermissionShare()) {
-                    AppCompatImageButton contextMenu = new AppCompatImageButton(context);
+                    final AppCompatImageButton contextMenu = new AppCompatImageButton(context);
                     contextMenu.setBackgroundDrawable(null);
                     contextMenu.setImageDrawable(ViewUtil.getTintedImageView(context, R.drawable.ic_share_grey600_18dp, ContextCompat.getColor(context, R.color.grey600)));
                     contextMenu.setOnClickListener((v) -> AccessControlDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), AccessControlDialogFragment.class.getSimpleName()));

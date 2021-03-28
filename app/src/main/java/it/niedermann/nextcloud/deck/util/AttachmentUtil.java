@@ -26,6 +26,7 @@ import it.niedermann.nextcloud.deck.model.ocs.Version;
 public class AttachmentUtil {
 
     private AttachmentUtil() {
+        throw new UnsupportedOperationException("This class must not get instantiated");
     }
 
     /**

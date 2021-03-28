@@ -18,6 +18,7 @@ public interface ResponseCallback<T> {
      */
     static <T> ResponseCallback<T> empty() {
         return response -> {
+            // Does nothing on default
         };
     }
 }

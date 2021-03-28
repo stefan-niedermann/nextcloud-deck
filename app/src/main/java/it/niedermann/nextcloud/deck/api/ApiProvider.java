@@ -31,10 +31,6 @@ public class ApiProvider {
     private final String ssoAccountName;
     private SingleSignOnAccount ssoAccount;
 
-    public ApiProvider(Context context) {
-        this(context, null);
-    }
-
     public ApiProvider(@NonNull Context context, @Nullable String ssoAccountName) {
         this.context = context;
         this.ssoAccountName = ssoAccountName;

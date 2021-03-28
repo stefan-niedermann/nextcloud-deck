@@ -11,6 +11,10 @@ import it.niedermann.android.util.ColorUtil;
 
 public final class DeckColorUtil {
 
+    private DeckColorUtil() {
+        throw new UnsupportedOperationException("This class must not get instantiated");
+    }
+
     private static final Map<ColorPair, Boolean> CONTRAST_RATIO_SUFFICIENT_CACHE = new HashMap<>();
 
     public static boolean contrastRatioIsSufficient(@ColorInt int colorOne, @ColorInt int colorTwo) {

@@ -13,6 +13,7 @@ public final class DateUtil {
     private static final int DATE_TIME_PARTS_SIZE = 2;
 
     private DateUtil() {
+        throw new UnsupportedOperationException("This class must not get instantiated");
     }
 
     public static CharSequence getRelativeDateTimeString(@NonNull Context context, long time) {

@@ -21,6 +21,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 public class FilesUtil {
 
     private FilesUtil() {
+        throw new UnsupportedOperationException("This class must not get instantiated");
     }
 
     /**

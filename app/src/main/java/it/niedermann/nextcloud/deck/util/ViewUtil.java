@@ -28,7 +28,9 @@ import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public final class ViewUtil {
+
     private ViewUtil() {
+        throw new UnsupportedOperationException("This class must not get instantiated");
     }
 
     public static void addAvatar(@NonNull ImageView avatar, @NonNull String baseUrl, @NonNull String userId, @DrawableRes int errorResource) {
