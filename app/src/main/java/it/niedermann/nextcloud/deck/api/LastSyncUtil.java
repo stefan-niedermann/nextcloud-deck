@@ -3,6 +3,8 @@ package it.niedermann.nextcloud.deck.api;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.annotation.NonNull;
+
 import java.time.Instant;
 
 import it.niedermann.nextcloud.deck.R;
@@ -11,10 +13,10 @@ public class LastSyncUtil {
 
     private static final String LAST_SYNC_KEY = "lS_";
     private static LastSyncUtil INSTANCE;
-    private SharedPreferences lastSyncPref;
+    private final SharedPreferences lastSyncPref;
 
 
-    private LastSyncUtil(Context applicationContext) {
+    private LastSyncUtil(@NonNull Context applicationContext) {
         lastSyncPref = applicationContext.getSharedPreferences(
                 applicationContext.getString(R.string.shared_preference_last_sync),
                 Context.MODE_PRIVATE

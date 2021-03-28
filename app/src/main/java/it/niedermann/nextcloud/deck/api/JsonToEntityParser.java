@@ -641,7 +641,7 @@ public class JsonToEntityParser {
         Label label = new Label();
         makeTraceableIfFails(() -> {
             label.setId(e.get("id").getAsLong());
-            //todo: last modified!
+            // TODO last modified!
 //          label.setLastModified(get);
             label.setTitle(getNullAsEmptyString(e.get("title")));
             label.setEtag(getNullAsNull(e.get("ETag")));
