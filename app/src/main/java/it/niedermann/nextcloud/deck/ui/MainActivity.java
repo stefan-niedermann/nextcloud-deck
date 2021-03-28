@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import android.animation.AnimatorInflater;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -952,6 +953,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.filterText.requestFocus();
         final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(binding.filterText, InputMethodManager.SHOW_IMPLICIT);
+        binding.toolbarCard.setStateListAnimator(AnimatorInflater.loadStateListAnimator(this, R.animator.appbar_elevation_on));
     }
 
     private void hideFilterTextToolbar() {
@@ -961,6 +963,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.searchToolbar.setVisibility(View.GONE);
         binding.enableSearch.setVisibility(View.VISIBLE);
         binding.toolbar.setVisibility(View.VISIBLE);
+        binding.toolbarCard.setStateListAnimator(AnimatorInflater.loadStateListAnimator(this, R.animator.appbar_elevation_off));
     }
 
     private void registerAutoSyncOnNetworkAvailable() {
