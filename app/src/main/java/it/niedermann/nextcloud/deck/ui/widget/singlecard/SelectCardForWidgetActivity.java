@@ -60,7 +60,7 @@ public class SelectCardForWidgetActivity extends MainActivity implements SelectC
         super.setCurrentBoard(board);
         binding.listMenuButton.setVisibility(View.GONE);
         binding.fab.setVisibility(View.GONE);
-        binding.currentBoardName.setHint(R.string.simple_select);
+        binding.toolbar.setTitle(R.string.simple_select);
     }
 
     @Override
