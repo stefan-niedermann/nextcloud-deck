@@ -690,7 +690,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     @UiThread
     protected void inflateBoardMenu(@Nullable Board currentBoard) {
         binding.navigationView.setItemIconTintList(null);
-        Menu menu = binding.navigationView.getMenu();
+        final Menu menu = binding.navigationView.getMenu();
         menu.clear();
         DrawerMenuUtil.inflateBoards(this, menu, this.boardsList, mainViewModel.currentAccountHasArchivedBoards(), mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported());
         binding.navigationView.setCheckedItem(boardsList.indexOf(currentBoard));
