@@ -49,30 +49,21 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <TextView
                     android:id="@+id/info_box_version_not_supported"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|bottom"
                     android:background="@color/danger"
+                    android:drawablePadding="@dimen/spacer_1hx"
+                    android:textSize="14sp"
                     android:gravity="center"
-                    android:padding="@dimen/spacer_1hx"
-                    android:visibility="gone"
-                    tools:visibility="visible">
-
-                    <TextView
-                        android:id="@+id/info_box_version_not_supported_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="@dimen/spacer_1hx"
-                        android:gravity="center"
-                        android:paddingStart="@dimen/spacer_1hx"
-                        android:paddingEnd="@dimen/spacer_1hx"
-                        android:text="@string/info_box_version_not_supported"
-                        android:textColor="@android:color/white"
-                        app:drawableStartCompat="@drawable/ic_warning_white_24dp" />
-
-                </LinearLayout>
+                    android:paddingStart="@dimen/spacer_2x"
+                    android:paddingTop="@dimen/spacer_1x"
+                    android:paddingEnd="@dimen/spacer_2x"
+                    android:paddingBottom="@dimen/spacer_1x"
+                    android:text="@string/info_box_version_not_supported"
+                    android:textColor="@android:color/white"
+                    app:drawableStartCompat="@drawable/ic_warning_white_24dp" />
 
                 <it.niedermann.nextcloud.deck.ui.view.EmptyContentView
                     android:id="@+id/empty_content_view_boards"

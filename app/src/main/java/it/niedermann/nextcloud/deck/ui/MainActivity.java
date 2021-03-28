@@ -327,17 +327,13 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         .apply(RequestOptions.circleCropTransform())
                         .into(binding.accountSwitcher);
 
-                DeckLog.verbose("Displaying maintenance mode info for", mainViewModel.getCurrentAccount().getName() + ":" + mainViewModel.getCurrentAccount().isMaintenanceEnabled());
+                DeckLog.verbose("Displaying maintenance mode info for", mainViewModel.getCurrentAccount().getName() + ":", mainViewModel.getCurrentAccount().isMaintenanceEnabled());
                 binding.infoBox.setVisibility(mainViewModel.getCurrentAccount().isMaintenanceEnabled() ? View.VISIBLE : View.GONE);
                 if (mainViewModel.isCurrentAccountIsSupportedVersion()) {
                     binding.infoBoxVersionNotSupported.setVisibility(View.GONE);
                 } else {
-                    binding.infoBoxVersionNotSupportedText.setText(getString(R.string.info_box_version_not_supported, mainViewModel.getCurrentAccount().getServerDeckVersion(), Version.minimumSupported().getOriginalVersion()));
-                    binding.infoBoxVersionNotSupportedText.setOnClickListener((v) -> {
-                        Intent openURL = new Intent(Intent.ACTION_VIEW);
-                        openURL.setData(Uri.parse(mainViewModel.getCurrentAccount().getUrl() + getString(R.string.url_fragment_update_deck)));
-                        startActivity(openURL);
-                    });
+                    binding.infoBoxVersionNotSupported.setText(getString(R.string.info_box_version_not_supported, mainViewModel.getCurrentAccount().getServerDeckVersion(), Version.minimumSupported().getOriginalVersion()));
+                    binding.infoBoxVersionNotSupported.setOnClickListener((v) -> startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(mainViewModel.getCurrentAccount().getUrl() + getString(R.string.url_fragment_update_deck)))));
                     binding.infoBoxVersionNotSupported.setVisibility(View.VISIBLE);
                 }
             });
