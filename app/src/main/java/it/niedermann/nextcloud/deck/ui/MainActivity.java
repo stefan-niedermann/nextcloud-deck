@@ -603,7 +603,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         saveCurrentBoardId(this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId());
         binding.navigationView.setCheckedItem(boardsList.indexOf(board));
 
-        binding.currentBoardName.setHint(board.getTitle());
+        binding.currentBoardName.setHint(getString(R.string.search_in, board.getTitle()));
 
         if (mainViewModel.currentBoardHasEditPermission()) {
             binding.fab.show();
