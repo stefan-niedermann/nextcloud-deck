@@ -2,7 +2,7 @@
     <string name="navigation_drawer_open">Abra a gaveta de navegação</string>
     <string name="navigation_drawer_close">Fechar a gaveta de navegação</string>
 
-    <string name="simple_boards">Painéis</string>
+    <string name="simple_boards">Quadros</string>
     <string name="simple_add">Adicionar</string>
     <string name="simple_save">Salvar</string>
     <string name="simple_more">Mais</string>
@@ -121,7 +121,11 @@
     <string name="settings_branding_title">Marcação</string>
     <string name="settings_compact_title">Modo compacto</string>
     <string name="settings_debugging">Logs de debug</string>
+    <string name="settings_etags">Use EEtiquetas</string>
+    <string name="settings_etags_summary">Acelera a sincronização </string>
     <string name="settings_background_sync">Sincronização em segundo plano</string>
+    <string name="settings_compress_image_attachments">Compactar imagens no envio </string>
+    <string name="settings_compress_image_attachments_summary">Envio mais rápido, menos qualidade </string>
     <string name="pref_value_wifi_and_mobile">Sincronizar com Wi-Fi e dados móveis</string>
     <string name="pref_value_wifi_only">Sincronizar apenas com Wi-Fi</string>
     <string-array name="darkmode_entries">
@@ -235,7 +239,7 @@
     <string name="info_box_version_not_supported">A versão %1$s do servidor não é suportada, atualize para %2$s</string>
     <string name="share_link">Link de compartilhamento</string>
     <string name="share_content">Compartilhar conteúdo</string>
-    <string name="share_content_duedate">Data de Vencimento: %1$s</string>
+    <string name="share_content_duedate">Data de vencimento: %1$s</string>
     <string name="share_content_labels">Etiquetas: %1$s</string>
     <string name="archive_cards">Cartões arquivados</string>
 
