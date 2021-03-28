@@ -431,10 +431,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     @Override
                     public void onResponse(Boolean response) {
                         DeckLog.info("End of synchronization for " + mainViewModel.getCurrentAccount().getName() + " → Stop spinner.");
-                        runOnUiThread(() -> {
-                            DeckLog.info("End of synchronization for " + mainViewModel.getCurrentAccount().getName() + " → Stop spinner.");
-                            binding.swipeRefreshLayout.setRefreshing(false);
-                        });
+                        runOnUiThread(() -> binding.swipeRefreshLayout.setRefreshing(false));
                     }
 
                     @Override
