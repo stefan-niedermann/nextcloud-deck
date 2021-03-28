@@ -403,15 +403,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             distinctUntilChanged(map(filterViewModel.getFilterInformation(), FilterInformation::hasActiveFilter))
                     .observe(this, (hasActiveFilter) -> binding.filterIndicator.setVisibility(hasActiveFilter ? View.VISIBLE : View.GONE));
 //            binding.archivedCards.setOnClickListener((v) -> startActivity(ArchivedCardsActvitiy.createIntent(this, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), mainViewModel.currentBoardHasEditPermission())));
-            binding.enableSearch.setOnClickListener((v) -> {
-                binding.toolbar.setVisibility(View.GONE);
-                binding.searchToolbar.setVisibility(View.VISIBLE);
-                binding.searchToolbar.setNavigationOnClickListener(v1 -> onBackPressed());
-                binding.enableSearch.setVisibility(View.GONE);
-                binding.filterText.requestFocus();
-                final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(binding.filterText, InputMethodManager.SHOW_IMPLICIT);
-            });
+            binding.enableSearch.setOnClickListener((v) -> showFilterTextToolbar());
+            binding.toolbar.setOnClickListener((v) -> showFilterTextToolbar());
 
 
             binding.swipeRefreshLayout.setOnRefreshListener(() -> {
@@ -934,13 +927,29 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
         } else if (binding.searchToolbar.getVisibility() == View.VISIBLE) {
-            binding.filterText.setText(null);
-            binding.searchToolbar.setVisibility(View.GONE);
-            binding.enableSearch.setVisibility(View.VISIBLE);
-            binding.toolbar.setVisibility(View.VISIBLE);
+            hideFilterTextToolbar();
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void showFilterTextToolbar() {
+        binding.toolbar.setVisibility(View.GONE);
+        binding.searchToolbar.setVisibility(View.VISIBLE);
+        binding.searchToolbar.setNavigationOnClickListener(v1 -> onBackPressed());
+        binding.enableSearch.setVisibility(View.GONE);
+        binding.filterText.requestFocus();
+        final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(binding.filterText, InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    private void hideFilterTextToolbar() {
+        binding.filterText.setText(null);
+        final InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        binding.searchToolbar.setVisibility(View.GONE);
+        binding.enableSearch.setVisibility(View.VISIBLE);
+        binding.toolbar.setVisibility(View.VISIBLE);
     }
 
     private void registerAutoSyncOnNetworkAvailable() {
