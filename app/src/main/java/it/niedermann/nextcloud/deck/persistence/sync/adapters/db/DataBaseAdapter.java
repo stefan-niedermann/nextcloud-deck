@@ -319,7 +319,7 @@ public class DataBaseAdapter {
             }
         }
         if (filter.getFilterText() != null && !filter.getFilterText().isEmpty()) {
-            query.append("and (c.description like ? or c.title like ?)");
+            query.append(" and (c.description like ? or c.title like ?) ");
             String filterText = "%"+filter.getFilterText()+"%";
             args.add(filterText);
             args.add(filterText);
