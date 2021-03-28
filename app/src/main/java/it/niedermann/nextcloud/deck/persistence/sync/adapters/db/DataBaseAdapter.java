@@ -318,6 +318,12 @@ public class DataBaseAdapter {
                     throw new IllegalArgumentException("You need to add your new EDueType value\"" + filter.getDueType() + "\" here!");
             }
         }
+        if (filter.getFilterText() != null && !filter.getFilterText().isEmpty()) {
+            query.append("and (c.description like ? or c.title like ?)");
+            String filterText = "%"+filter.getFilterText()+"%";
+            args.add(filterText);
+            args.add(filterText);
+        }
         if (filter.getArchiveStatus() != FilterInformation.EArchiveStatus.ALL) {
             query.append(" and c.archived = ").append(filter.getArchiveStatus() == FilterInformation.EArchiveStatus.ARCHIVED ? 1 : 0);
         }
