@@ -21,15 +21,18 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AbstractS
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.IRelationshipProvider;
 
 public class SyncHelper {
+    @NonNull
     private final ServerAdapter serverAdapter;
+    @NonNull
     private final DataBaseAdapter dataBaseAdapter;
     private Account account;
     private long accountId;
     private IResponseCallback<Boolean> responseCallback;
+    @Nullable
     private final Instant lastSync;
     private final boolean etagsEnabled;
 
-    public SyncHelper(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, Instant lastSync) {
+    public SyncHelper(@NonNull ServerAdapter serverAdapter, @NonNull DataBaseAdapter dataBaseAdapter, @Nullable Instant lastSync) {
         this.serverAdapter = serverAdapter;
         this.dataBaseAdapter = dataBaseAdapter;
         this.lastSync = lastSync;
@@ -84,7 +87,7 @@ public class SyncHelper {
             @Override
             public void onError(Throwable throwable) {
                 if (throwable.getClass() == NextcloudHttpRequestFailedException.class) {
-                    NextcloudHttpRequestFailedException requestFailedException = (NextcloudHttpRequestFailedException) throwable;
+                    final NextcloudHttpRequestFailedException requestFailedException = (NextcloudHttpRequestFailedException) throwable;
                     if (HttpURLConnection.HTTP_NOT_MODIFIED == requestFailedException.getStatusCode()){
                         DeckLog.log("[" + provider.getClass().getSimpleName() + "] ETags do match! skipping this one.");
                         // well, etags say we're fine here. no need to go deeper.
