@@ -1,5 +1,10 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.util.function.BiConsumer;
+
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
@@ -9,19 +14,21 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AbstractSyncDataProvider;
 
 public class DataPropagationHelper {
-    private ServerAdapter serverAdapter;
-    private DataBaseAdapter dataBaseAdapter;
+    @NonNull
+    private final ServerAdapter serverAdapter;
+    @NonNull
+    private final DataBaseAdapter dataBaseAdapter;
 
-    public DataPropagationHelper(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter) {
+    public DataPropagationHelper(@NonNull ServerAdapter serverAdapter, @NonNull DataBaseAdapter dataBaseAdapter) {
         this.serverAdapter = serverAdapter;
         this.dataBaseAdapter = dataBaseAdapter;
     }
 
-
-    public <T extends IRemoteEntity> void createEntity(final AbstractSyncDataProvider<T> provider, T entity, IResponseCallback<T> callback){
+    public <T extends IRemoteEntity> void createEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, IResponseCallback<T> callback){
         createEntity(provider, entity, callback, null);
     }
-    public <T extends IRemoteEntity> void createEntity(final AbstractSyncDataProvider<T> provider, T entity, IResponseCallback<T> callback, OnResponseAction<T> actionOnResponse){
+
+    public <T extends IRemoteEntity> void createEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, IResponseCallback<T> callback, @Nullable BiConsumer<T, T> actionOnResponse){
         final long accountId = callback.getAccount().getId();
         entity.setStatus(DBStatus.LOCAL_EDITED.getId());
         long newID;
@@ -32,8 +39,7 @@ public class DataPropagationHelper {
             return;
         }
         entity.setLocalId(newID);
-        boolean connected = serverAdapter.hasInternetConnection();
-        if (connected) {
+        if (serverAdapter.hasInternetConnection()) {
             try {
                 provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, new IResponseCallback<T>(callback.getAccount()) {
                     @Override
@@ -42,7 +48,7 @@ public class DataPropagationHelper {
                             response.setAccountId(accountId);
                             response.setLocalId(newID);
                             if (actionOnResponse != null) {
-                                actionOnResponse.onResponse(entity, response);
+                                actionOnResponse.accept(entity, response);
                             }
                             response.setStatus(DBStatus.UP_TO_DATE.getId());
                             provider.updateInDB(dataBaseAdapter, accountId, response, false);
@@ -64,7 +70,7 @@ public class DataPropagationHelper {
         }
     }
 
-    public <T extends IRemoteEntity> void updateEntity(final AbstractSyncDataProvider<T> provider, T entity, IResponseCallback<T> callback){
+    public <T extends IRemoteEntity> void updateEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, @NonNull IResponseCallback<T> callback){
         final long accountId = callback.getAccount().getId();
         entity.setStatus(DBStatus.LOCAL_EDITED.getId());
         try {
@@ -73,8 +79,7 @@ public class DataPropagationHelper {
             callback.onError(t);
             return;
         }
-        boolean connected = serverAdapter.hasInternetConnection();
-        if (entity.getId() != null && connected) {
+        if (entity.getId() != null && serverAdapter.hasInternetConnection()) {
             try {
                 provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, new IResponseCallback<T>(new Account(accountId)) {
                     @Override
@@ -89,9 +94,7 @@ public class DataPropagationHelper {
                     @Override
                     public void onError(Throwable throwable) {
                         super.onError(throwable);
-                        new Thread(() -> {
-                            callback.onError(throwable);
-                        }).start();
+                        new Thread(() -> callback.onError(throwable)).start();
                     }
                 }, entity);
             } catch (Throwable t) {
@@ -101,11 +104,11 @@ public class DataPropagationHelper {
             callback.onResponse(entity);
         }
     }
-    public <T extends IRemoteEntity> void deleteEntity(final AbstractSyncDataProvider<T> provider, T entity, IResponseCallback<Void> callback){
+
+    public <T extends IRemoteEntity> void deleteEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, @NonNull IResponseCallback<Void> callback){
         final long accountId = callback.getAccount().getId();
         provider.deleteInDB(dataBaseAdapter, accountId, entity);
-        boolean connected = serverAdapter.hasInternetConnection();
-        if (entity.getId() != null && connected) {
+        if (entity.getId() != null && serverAdapter.hasInternetConnection()) {
             try {
                 provider.deleteOnServer(serverAdapter, accountId, new IResponseCallback<Void>(new Account(accountId)) {
                     @Override
@@ -119,21 +122,14 @@ public class DataPropagationHelper {
                     @Override
                     public void onError(Throwable throwable) {
                         super.onError(throwable);
-                        new Thread(() -> {
-                            callback.onError(throwable);
-                        }).start();
+                        new Thread(() -> callback.onError(throwable)).start();
                     }
                 }, entity, dataBaseAdapter);
             } catch (Throwable t) {
                 callback.onError(t);
             }
-
         } else {
             callback.onResponse(null);
         }
-    }
-
-    public interface OnResponseAction <T> {
-        void onResponse(T entity, T response);
     }
 }

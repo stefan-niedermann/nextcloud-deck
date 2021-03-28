@@ -63,7 +63,9 @@
                     android:text="@string/info_box_version_not_supported"
                     android:textColor="@android:color/white"
                     android:textSize="14sp"
-                    app:drawableStartCompat="@drawable/ic_warning_white_24dp" />
+                    android:visibility="gone"
+                    app:drawableStartCompat="@drawable/ic_warning_white_24dp"
+                    tools:visibility="visible" />
 
                 <it.niedermann.nextcloud.deck.ui.view.EmptyContentView
                     android:id="@+id/empty_content_view_boards"
