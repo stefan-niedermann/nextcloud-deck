@@ -121,7 +121,11 @@
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Kompakt-Modus</string>
     <string name="settings_debugging">Protokolldateien zur Fehlersuche</string>
+    <string name="settings_etags">ETags verwenden</string>
+    <string name="settings_etags_summary">Beschleunigt die Synchronisation</string>
     <string name="settings_background_sync">Hintergrundsynchronisierung</string>
+    <string name="settings_compress_image_attachments">Bilder vor dem Hochladen komprimieren</string>
+    <string name="settings_compress_image_attachments_summary">Schnelleres hochladen, weniger Qualität</string>
     <string name="pref_value_wifi_and_mobile">Über WLAN und mobile Daten synchronisieren</string>
     <string name="pref_value_wifi_only">Nur über WLAN synchronisieren</string>
     <string-array name="darkmode_entries">

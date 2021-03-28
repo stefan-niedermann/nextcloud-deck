@@ -120,7 +120,12 @@
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Markalama</string>
     <string name="settings_compact_title">Sıkışık kip</string>
+    <string name="settings_debugging">Hata ayıklama günlükleri</string>
+    <string name="settings_etags">ETag kullanılsın</string>
+    <string name="settings_etags_summary">Eşitlemeyi hızlandırır</string>
     <string name="settings_background_sync">Arka planda eşitleme</string>
+    <string name="settings_compress_image_attachments">Görseller yüklenirken sıkıştırılsın</string>
+    <string name="settings_compress_image_attachments_summary">Daha hızlı yükleme, daha düşük kalite</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fi ve mobil veri ile eşitlensin</string>
     <string name="pref_value_wifi_only">Yalnız Wi-Fi ile eşitlensin</string>
     <string-array name="darkmode_entries">
@@ -222,8 +227,10 @@
     <string name="error_dialog_user_not_found_in_database">Geçerli kullanıcı veritabanımızdaki kullanıcı ile eşleşmiyor. Nextcloud kopyanızda LDAP kullanıyorsanız, Nextcloud uygulamanızda eski bir kullanıcı kodu kayıtlı olabilir.</string>
     <string name="error_dialog_capabilities_not_parsable">Sunucunuzun özellikleri alınamadı. Lütfen sunucunuzun düzgün çalışır durumda olduğundan ve diğer istemci uygulamalarının Nextcloud sunucusuna erişebildiğinden emin olun.</string>
     <string name="error_dialog_attachment_upload_failed">Bir ek dosya yüklenemedi. Lütfen dosyayı başka bir şekilde paylaşın ve bu hatayı bize bildirin.</string>
+    <string name="error_dialog_certificate">Sunucu sertifikasında bir sorun var gibi görünüyor. Lütfen ayrıntılı bilgi almak için Nextcloud uygulamasındaki tüm hesaplara bakın.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Lütfen Nextcloud ve Pano uygulaması için tüm pil iyileştirmelerini devre dışı bırakın.</string>
     <string name="error_action_open_deck_info">Uygulama bilgilerini aç</string>
+    <string name="error_action_open_nextcloud_app">Nextcloud uygulamasını aç</string>
     <string name="error_action_open_network">Ağ ayarları</string>
     <string name="error_action_server_logs">Sunucu günlükleri</string>
     <string name="error_action_install">Kur</string>
@@ -297,4 +304,11 @@
     <string name="simple_order">Sıralama</string>
     <string name="edit_description">Açıklamayı düzenle</string>
     <string name="widget_upcoming_title">Yaklaşan kartlar</string>
-    </resources>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Uzman ayarları</string>
+    <string name="copy_logs">Günlükleri panoya kopyala</string>
+    <string name="app_logo">Uygulama logosu</string>
+    <string name="log_file">Günlük dosyası</string>
+    <string name="copying_logs_to_file">Günlükler dosyaya kopyalanıyor…</string>
+    <string name="account_imported">Hesap içe aktarıldı</string>
+</resources>
