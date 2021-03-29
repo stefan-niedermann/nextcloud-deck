@@ -319,4 +319,4 @@
     <string name="log_file">Soubor Log</string>
     <string name="copying_logs_to_file">Kopíruju logy(záznamy) do souboru</string>
     <string name="account_imported">Účet naimportován</string>
-</resources>
+    </resources>

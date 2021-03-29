@@ -103,7 +103,7 @@
     <string name="no_lists_yet">Még nincsenek listák</string>
     <string name="do_you_want_to_save_your_changes">Biztos, hogy menti a változásokat?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Biztos, hogy archiválja a(z) %1$s összes kártyáját?</string>
-    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Kívánja a %1$s minden szűrt kártyáját arhiválni?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Biztos, hogy archiválja a(z) %1$s összes szűrt kártyáját?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Ez véglegesen töröl %1$d kártyát a listából.</item>
         <item quantity="other">Ez véglegesen törli mind a(z) %1$d kártyát a listából.</item>
@@ -114,13 +114,18 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Új lista hozzáadása a + gombbal</string>
     <string name="add_a_new_card_using_the_button">Új kártya hozzáadása a + gombbal</string>
-    <string name="update_deck">Kártyák web alkalmazás frissítése</string>
+    <string name="update_deck">Kártyák webalkalmazás frissítése</string>
     <string name="deck_outdated_please_update">A Kártyák verziója túl régi (%1$s). Frissítse, hogy ezt az androidos alkalmazást használhassa kliensként.</string>
     <string name="delete_board_message">Ez véglegesen törli ezt a táblát az összes listával és kártyával együtt.</string>
     <string name="settings_theme_title">Téma</string>
     <string name="settings_branding_title">Márkázas</string>
     <string name="settings_compact_title">Kompakt mód</string>
+    <string name="settings_debugging">Hibakeresési naplók</string>
+    <string name="settings_etags">ETag címkék használata</string>
+    <string name="settings_etags_summary">Felgyorsítja a szinkronizációt</string>
     <string name="settings_background_sync">Háttér-szinkronizálás</string>
+    <string name="settings_compress_image_attachments">Feltöltéskor tömöríti a képeket</string>
+    <string name="settings_compress_image_attachments_summary">Gyorsabb feltöltés, alacsonyabb minőség</string>
     <string name="pref_value_wifi_and_mobile">Szinkronizálás Wi-Fin és mobil adatkapcsolaton</string>
     <string name="pref_value_wifi_only">Szinkronizálás csak Wi-Fin</string>
     <string-array name="darkmode_entries">
@@ -277,7 +282,7 @@
     <string name="cannot_upload_files_without_permission">Engedély nélkül nem tölthetők fel fájlok</string>
     <string name="clone_cards">Kártyák klónozása</string>
     <string name="simple_clone">Klónozás</string>
-    <string name="user_avatar">Felhasználói avatar</string>
+    <string name="user_avatar">Felhasználói profilkép</string>
     <string name="simple_unassign">Elvétel</string>
     <string name="simple_contact">Kapcsolat</string>
     <string name="simple_file">Fájl</string>
@@ -299,4 +304,11 @@
     <string name="simple_order">Rendezés</string>
     <string name="edit_description">Leírás szerkesztése</string>
     <string name="widget_upcoming_title">Közelgő kártyák</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Szakértő beállítások</string>
+    <string name="copy_logs">Naplók vágólapra másolása</string>
+    <string name="app_logo">Alkalmazáslogó</string>
+    <string name="log_file">Naplófájl</string>
+    <string name="copying_logs_to_file">Naplók fájlba másolása…</string>
+    <string name="account_imported">Fiók importálva</string>
     </resources>

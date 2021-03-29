@@ -311,4 +311,4 @@
     <string name="log_file">Günlük dosyası</string>
     <string name="copying_logs_to_file">Günlükler dosyaya kopyalanıyor…</string>
     <string name="account_imported">Hesap içe aktarıldı</string>
-</resources>
+    </resources>

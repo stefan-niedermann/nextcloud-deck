@@ -318,4 +318,4 @@
     <string name="log_file">Datoteka dnevnika</string>
     <string name="copying_logs_to_file">Poteka kopiranje datotek dnevnikov ...</string>
     <string name="account_imported">Račun je uvožen</string>
-</resources>
+    </resources>

@@ -319,4 +319,4 @@
     <string name="log_file">Plik dziennika</string>
     <string name="copying_logs_to_file">Kopiowanie logów do pliku…</string>
     <string name="account_imported">Konto zaimportowane</string>
-</resources>
+    </resources>

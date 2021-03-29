@@ -307,4 +307,4 @@
     <string name="log_file">日志文件</string>
     <string name="copying_logs_to_file">正将日志复制到文件</string>
     <string name="account_imported">账户已导入</string>
-</resources>
+    </resources>
