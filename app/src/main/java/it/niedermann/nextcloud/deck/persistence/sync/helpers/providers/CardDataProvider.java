@@ -286,6 +286,12 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
                 continue;
             }
             Card card = dataBaseAdapter.getCardByRemoteIdDirectly(account.getId(), changedUser.getCardId());
+
+            if (card == null) {
+                // weird constellation... see https://github.com/stefan-niedermann/nextcloud-deck/issues/874
+                // this shouldn't actually happen, but does as it seems. the card cant be found by remote id (exists!) and account-ID.
+                continue;
+            }
             if (this.stack == null) {
                 stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
             } else {
