@@ -311,4 +311,4 @@
     <string name="log_file">Protokolldatei</string>
     <string name="copying_logs_to_file">Protokolldateien in Datei kopieren…</string>
     <string name="account_imported">Konto importiert</string>
-</resources>
+    </resources>
