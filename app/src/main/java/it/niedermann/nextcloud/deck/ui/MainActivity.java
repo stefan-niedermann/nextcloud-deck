@@ -941,7 +941,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     private void registerAutoSyncOnNetworkAvailable() {
         final ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkRequest.Builder builder = new NetworkRequest.Builder();
+        final NetworkRequest.Builder builder = new NetworkRequest.Builder();
 
         if (connectivityManager != null) {
             if (networkCallback == null) {
@@ -979,7 +979,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @Override
     public void onStackDeleted(Long stackLocalId) {
-        long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
+        final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
         mainViewModel.deleteStack(mainViewModel.getCurrentAccount().getId(), stackId, mainViewModel.getCurrentBoardLocalId(), new ResponseCallback<Void>() {
             @Override
             public void onResponse(Void response) {
