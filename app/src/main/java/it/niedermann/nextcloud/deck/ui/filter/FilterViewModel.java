@@ -17,7 +17,8 @@ import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
-import static it.niedermann.nextcloud.deck.model.internal.FilterInformation.hasActiveFilter;
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
+import static androidx.lifecycle.Transformations.map;
 
 @SuppressWarnings("WeakerAccess")
 public class FilterViewModel extends AndroidViewModel {
@@ -38,7 +39,7 @@ public class FilterViewModel extends AndroidViewModel {
     }
 
     public void publishFilterInformationDraft() {
-        this.filterInformation.postValue(hasActiveFilter(filterInformationDraft.getValue()) ? filterInformationDraft.getValue() : null);
+        this.filterInformation.postValue(FilterInformation.hasActiveFilter(filterInformationDraft.getValue()) ? filterInformationDraft.getValue() : null);
     }
 
     public void clearFilterInformation(boolean alsoFilterText) {
@@ -55,6 +56,11 @@ public class FilterViewModel extends AndroidViewModel {
     @NonNull
     public LiveData<FilterInformation> getFilterInformationDraft() {
         return this.filterInformationDraft;
+    }
+
+    @NonNull
+    public LiveData<Boolean> hasActiveFilter() {
+        return distinctUntilChanged(map(getFilterInformation(), FilterInformation::hasActiveFilter));
     }
 
     public void createFilterInformationDraft() {

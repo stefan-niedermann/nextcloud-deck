@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.Network;
-import android.net.NetworkInfo;
 import android.net.NetworkRequest;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,7 +26,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -102,10 +100,9 @@ import it.niedermann.nextcloud.deck.ui.stack.EditStackListener;
 import it.niedermann.nextcloud.deck.ui.stack.OnScrollListener;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
+import it.niedermann.nextcloud.deck.util.CustomAppGlideModule;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 
-import static androidx.lifecycle.Transformations.distinctUntilChanged;
-import static androidx.lifecycle.Transformations.map;
 import static androidx.lifecycle.Transformations.switchMap;
 import static it.niedermann.nextcloud.deck.DeckApplication.NO_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.DeckApplication.NO_BOARD_ID;
@@ -140,8 +137,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     protected static final int ACTIVITY_SETTINGS = 2;
 
-    @NonNull
-    protected List<Account> accountsList = new ArrayList<>();
     protected SharedPreferences sharedPreferences;
     private StackAdapter stackAdapter;
     long lastBoardId;
@@ -244,11 +239,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 return;
             }
 
-            accountsList = accounts;
-
             long lastAccountId = readCurrentAccountId(this);
 
-            for (Account account : accountsList) {
+            for (Account account : accounts) {
                 if (lastAccountId == account.getId() || lastAccountId == NO_ACCOUNT_ID) {
                     mainViewModel.setCurrentAccount(account);
                     if (!firstAccountAdded) {
@@ -343,13 +336,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             binding.viewPager.setAdapter(stackAdapter);
             binding.viewPager.setOffscreenPageLimit(2);
 
-            CrossTabDragAndDrop<StackFragment, CardAdapter, FullCard> dragAndDrop = new CrossTabDragAndDrop<>(getResources(), ViewCompat.getLayoutDirection(binding.getRoot()) == ViewCompat.LAYOUT_DIRECTION_LTR);
+            final CrossTabDragAndDrop<StackFragment, CardAdapter, FullCard> dragAndDrop = new CrossTabDragAndDrop<>(getResources(), ViewCompat.getLayoutDirection(binding.getRoot()) == ViewCompat.LAYOUT_DIRECTION_LTR);
             dragAndDrop.register(binding.viewPager, binding.stackTitles, getSupportFragmentManager());
             dragAndDrop.addItemMovedByDragListener((movedCard, stackId, position) -> {
                 mainViewModel.reorder(mainViewModel.getCurrentAccount().getId(), movedCard, stackId, position);
                 DeckLog.info("Card", movedCard.getCard().getTitle(), "was moved to Stack", stackId, "on position", position);
             });
-
 
             final PopupMenu listMenuPopup = new PopupMenu(this, binding.listMenuButton);
             listMenu = listMenuPopup.getMenu();
@@ -398,8 +390,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     }
                 }
             });
-            distinctUntilChanged(map(filterViewModel.getFilterInformation(), FilterInformation::hasActiveFilter))
-                    .observe(this, (hasActiveFilter) -> binding.filterIndicator.setVisibility(hasActiveFilter ? View.VISIBLE : View.GONE));
+            filterViewModel.hasActiveFilter().observe(this, (hasActiveFilter) -> binding.filterIndicator.setVisibility(hasActiveFilter ? View.VISIBLE : View.GONE));
 //            binding.archivedCards.setOnClickListener((v) -> startActivity(ArchivedCardsActvitiy.createIntent(this, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), mainViewModel.currentBoardHasEditPermission())));
             binding.enableSearch.setOnClickListener((v) -> showFilterTextToolbar());
             binding.toolbar.setOnClickListener((v) -> showFilterTextToolbar());
@@ -407,24 +398,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
             binding.swipeRefreshLayout.setOnRefreshListener(() -> {
                 DeckLog.info("Triggered manual refresh");
-                final ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-                if (cm != null) {
-                    final NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
-                    if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
-                        DeckLog.info("Clearing Glide memory cache");
-                        Glide.get(this).clearMemory();
-                        new Thread(() -> {
-                            DeckLog.info("Clearing Glide disk cache");
-                            Glide.get(getApplicationContext()).clearDiskCache();
-                        }).start();
-                    } else {
-                        DeckLog.info("Do not clear Glide caches, because the user currently does not have a working internet connection");
-                    }
-                } else {
-                    DeckLog.warn(ConnectivityManager.class.getSimpleName(), "is null");
-                }
+
+                CustomAppGlideModule.clearCache(this);
+
                 DeckLog.verbose("Trigger refresh capabilities for", mainViewModel.getCurrentAccount().getName());
                 refreshCapabilities(mainViewModel.getCurrentAccount());
+
                 DeckLog.verbose("Trigger synchronization for", mainViewModel.getCurrentAccount().getName());
                 mainViewModel.synchronize(new IResponseCallback<Boolean>(mainViewModel.getCurrentAccount()) {
                     @Override
@@ -443,9 +422,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 });
             });
         });
-        binding.accountSwitcher.setOnClickListener((v) -> AccountSwitcherDialog.newInstance()
-                .show(getSupportFragmentManager(), AccountSwitcherDialog.class.getSimpleName()));
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        binding.accountSwitcher.setOnClickListener((v) -> AccountSwitcherDialog.newInstance().show(getSupportFragmentManager(), AccountSwitcherDialog.class.getSimpleName()));
     }
 
     @Override
