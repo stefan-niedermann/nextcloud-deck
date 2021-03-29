@@ -81,7 +81,7 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
             return binding.getRoot();
         }
 
-        adapter = new CardAdapter(requireActivity(), getChildFragmentManager(), stackId, mainViewModel, this,
+        adapter = new CardAdapter(requireActivity(), getChildFragmentManager(), stackId, mainViewModel,
                 (requireActivity() instanceof SelectCardListener)
                         ? (SelectCardListener) requireActivity()
                         : null);

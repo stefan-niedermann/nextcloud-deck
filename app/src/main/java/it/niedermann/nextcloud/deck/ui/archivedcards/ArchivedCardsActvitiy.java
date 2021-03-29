@@ -64,7 +64,7 @@ public class ArchivedCardsActvitiy extends BrandedActivity {
         LiveDataHelper.observeOnce(viewModel.getFullBoardById(account.getId(), boardId), this, (fullBoard) -> {
             viewModel.setCurrentBoard(fullBoard.getBoard());
 
-            adapter = new ArchivedCardsAdapter(this, getSupportFragmentManager(), viewModel, this);
+            adapter = new ArchivedCardsAdapter(this, getSupportFragmentManager(), viewModel);
             binding.recyclerView.setAdapter(adapter);
 
             viewModel.getArchivedFullCardsForBoard(account.getId(), boardId).observe(this, (fullCards) -> adapter.setCardList(fullCards));

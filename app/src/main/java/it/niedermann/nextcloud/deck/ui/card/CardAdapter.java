@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -58,19 +57,16 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
     @NonNull
     protected List<FullCard> cardList = new ArrayList<>();
     @NonNull
-    protected LifecycleOwner lifecycleOwner;
-    @NonNull
     protected String counterMaxValue;
     @ColorInt
     protected int mainColor;
     @StringRes
     private final int shareLinkRes;
 
-    public CardAdapter(@NonNull Activity activity, @NonNull FragmentManager fragmentManager, long stackId, @NonNull MainViewModel mainViewModel, @NonNull LifecycleOwner lifecycleOwner, @Nullable SelectCardListener selectCardListener) {
+    public CardAdapter(@NonNull Activity activity, @NonNull FragmentManager fragmentManager, long stackId, @NonNull MainViewModel mainViewModel, @Nullable SelectCardListener selectCardListener) {
         this.activity = activity;
         this.counterMaxValue = this.activity.getString(R.string.counter_max_value);
         this.fragmentManager = fragmentManager;
-        this.lifecycleOwner = lifecycleOwner;
         this.shareLinkRes = mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().getShareLinkResource();
         this.stackId = stackId;
         this.mainViewModel = mainViewModel;

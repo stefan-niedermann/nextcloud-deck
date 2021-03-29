@@ -5,7 +5,6 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.LifecycleOwner;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -21,8 +20,8 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 public class ArchivedCardsAdapter extends CardAdapter {
 
     @SuppressWarnings("WeakerAccess")
-    public ArchivedCardsAdapter(@NonNull Activity activity, @NonNull FragmentManager fragmentManager, @NonNull MainViewModel viewModel, @NonNull LifecycleOwner lifecycleOwner) {
-        super(activity, fragmentManager, 0L, viewModel, lifecycleOwner, null);
+    public ArchivedCardsAdapter(@NonNull Activity activity, @NonNull FragmentManager fragmentManager, @NonNull MainViewModel viewModel) {
+        super(activity, fragmentManager, 0L, viewModel, null);
     }
 
     @Override
