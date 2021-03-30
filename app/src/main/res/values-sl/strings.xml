@@ -129,6 +129,7 @@
     <string name="settings_etags_summary">Pospeši usklajevanje</string>
     <string name="settings_background_sync"> Usklajevanje v ozadju</string>
     <string name="settings_compress_image_attachments">Stisni slike pri pošiljanju</string>
+    <string name="search_in">Poišči v %1$s</string>
     <string name="settings_compress_image_attachments_summary">Hitrejše pošiljanje, a slabša kakovost</string>
     <string name="pref_value_wifi_and_mobile">Usklajuj na Wi-Fi in mobilni povezavi</string>
     <string name="pref_value_wifi_only">Usklajuj le na Wi-Fi</string>
@@ -231,6 +232,7 @@
     <string name="error_dialog_user_not_found_in_database">Trenutno izbrani uporabnik nima ustreznih dovoljenj. Če uporabljate LDAP ima morda progam Nextcloud shranjen star ID uporabnika.</string>
     <string name="error_dialog_capabilities_not_parsable">Ni mogoče pridobiti podatkov o zmožnostih strežnika. Prepričajte se, da strežnik teče in da imajo programi dostop do okolja Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Priloge ni mogoče poslati. Souporabo omogočite na nek drug način, nam pa posredujte poročilo o hrošču.</string>
+    <string name="error_dialog_certificate">Prišlo je do napake pri branju potrdila strežnika. Preverite vse račune v programu Nextcloud za več podrobnosti.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Onemogočite vso optimizacijo porabe baterije za programa Nextcloud in Deck.</string>
     <string name="error_action_open_deck_info">Odpri podrobnosti programa</string>
     <string name="error_action_open_nextcloud_app">Odpri program Nextcloud</string>
@@ -318,4 +320,5 @@
     <string name="log_file">Datoteka dnevnika</string>
     <string name="copying_logs_to_file">Poteka kopiranje datotek dnevnikov ...</string>
     <string name="account_imported">Račun je uvožen</string>
-    </resources>
+    <string name="simple_search">Poišči</string>
+</resources>
