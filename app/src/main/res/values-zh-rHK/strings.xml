@@ -305,6 +305,6 @@
     <string name="copy_logs">將記錄複製到剪貼板</string>
     <string name="app_logo">應用程式標識</string>
     <string name="log_file">記錄檔案</string>
-    <string name="copying_logs_to_file">將記錄複製到檔案...</string>
+    <string name="copying_logs_to_file">將記錄複製到檔案…</string>
     <string name="account_imported">已導入賬戶</string>
     </resources>

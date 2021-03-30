@@ -125,6 +125,7 @@
     <string name="settings_etags_summary">Acelera a sincronização </string>
     <string name="settings_background_sync">Sincronização em segundo plano</string>
     <string name="settings_compress_image_attachments">Compactar imagens no envio </string>
+    <string name="search_in">Pesquisar em %1$s</string>
     <string name="settings_compress_image_attachments_summary">Envio mais rápido, menos qualidade </string>
     <string name="pref_value_wifi_and_mobile">Sincronizar com Wi-Fi e dados móveis</string>
     <string name="pref_value_wifi_only">Sincronizar apenas com Wi-Fi</string>
@@ -311,4 +312,5 @@
     <string name="log_file">Arquivo de log</string>
     <string name="copying_logs_to_file">Copiando registros para o arquivo…</string>
     <string name="account_imported">Conta importada</string>
-    </resources>
+    <string name="simple_search">Pesquisar</string>
+</resources>
