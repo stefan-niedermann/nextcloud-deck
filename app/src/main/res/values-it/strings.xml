@@ -120,7 +120,13 @@
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Marchio</string>
     <string name="settings_compact_title">Modalità compatta</string>
+    <string name="settings_debugging">Registri di debug</string>
+    <string name="settings_etags">Usa ETag</string>
+    <string name="settings_etags_summary">Velocizza la sincronizzazione</string>
     <string name="settings_background_sync">Sincronizzazione in background</string>
+    <string name="settings_compress_image_attachments">Comprimi immagini per l\'invio</string>
+    <string name="search_in">Cerca in %1$s</string>
+    <string name="settings_compress_image_attachments_summary">Invio più veloce, minore qualità</string>
     <string name="pref_value_wifi_and_mobile">Sincronizza su Wi-FI e dati mobili</string>
     <string name="pref_value_wifi_only">Sincronizza solo con Wi-Fi</string>
     <string-array name="darkmode_entries">
@@ -222,8 +228,10 @@
     <string name="error_dialog_user_not_found_in_database">L\'utente attuale non corrisponde all\'utente presente nel nostro database. Se stai usando LDAP sulla tua istanza di Nextcloud, la tua applicazione potrebbe aver memorizzato un vecchio identificativo utente.</string>
     <string name="error_dialog_capabilities_not_parsable">Non siamo riusciti a recuperare le funzionalità del tuo server. Assicurati che il server sia in esecuzione e che le altre applicazioni siano in grado di accedere a Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Un allegato non può essere caricato. Prova a condividerlo in un altro modo e informaci di questo problema.</string>
+    <string name="error_dialog_certificate">Sembra ci sia qualcosa di sbagliato nel certificato del server. Controlla tutti gli account nell\'app Nextcloud per maggiori informazioni.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Disabilita tutte le ottimizzazioni della batteria per le applicazioni Nextcloud e Deck.</string>
     <string name="error_action_open_deck_info">Apri Informazioni applicazione</string>
+    <string name="error_action_open_nextcloud_app">Apri app Nextcloud</string>
     <string name="error_action_open_network">Impostazioni di rete</string>
     <string name="error_action_server_logs">Log del server</string>
     <string name="error_action_install">Installa</string>
@@ -297,4 +305,12 @@
     <string name="simple_order">Ordinamento</string>
     <string name="edit_description">Modifica descrizione</string>
     <string name="widget_upcoming_title">Prossime schede</string>
-    </resources>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Impostazioni esperto</string>
+    <string name="copy_logs">Copia registri negli appunti</string>
+    <string name="app_logo">Logo app</string>
+    <string name="log_file">File registro</string>
+    <string name="copying_logs_to_file">Copia dei registri su file…</string>
+    <string name="account_imported">Account importato</string>
+    <string name="simple_search">Cerca</string>
+</resources>

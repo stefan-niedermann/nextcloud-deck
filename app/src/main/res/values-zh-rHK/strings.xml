@@ -123,6 +123,7 @@
     <string name="settings_etags_summary">加快同步</string>
     <string name="settings_background_sync">背景同步</string>
     <string name="settings_compress_image_attachments">壓縮上傳圖像</string>
+    <string name="search_in">%1$s 內搜尋</string>
     <string name="settings_compress_image_attachments_summary">上載速度更快，質素較差</string>
     <string name="pref_value_wifi_and_mobile">使用 Wi-Fi 及流動網路時同步</string>
     <string name="pref_value_wifi_only">只在使用 Wi-Fi 時同步</string>
@@ -307,4 +308,5 @@
     <string name="log_file">記錄檔案</string>
     <string name="copying_logs_to_file">將記錄複製到檔案…</string>
     <string name="account_imported">已導入賬戶</string>
-    </resources>
+    <string name="simple_search">搜尋</string>
+</resources>
