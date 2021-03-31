@@ -1,0 +1,13 @@
+1.16.0
+
+- 🌎 Updated translations
+- 🐞 Catch unlikely sync error (#874)
+
+1.15.9
+
+- 🐞 Fix toolbar background in dark theme (#905)
+
+1.15.8
+
+- 🔍 Search (#630)
+- 🖼 Compress images before uploading as attachment (#587)
