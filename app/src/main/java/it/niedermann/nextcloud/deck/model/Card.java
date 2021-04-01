@@ -91,11 +91,12 @@ public class Card extends AbstractRemoteEntity {
         this.commentsUnread = card.getCommentsUnread();
     }
 
+    @NonNull
     public TaskStatus getTaskStatus() {
         if (taskStatus == null) {
             int count = 0, done = 0;
             if (description != null) {
-                Matcher matcher = PATTERN_MD_TASK.matcher(description);
+                final Matcher matcher = PATTERN_MD_TASK.matcher(description);
                 while (matcher.find()) {
                     count++;
                     char c = matcher.group().charAt(1);

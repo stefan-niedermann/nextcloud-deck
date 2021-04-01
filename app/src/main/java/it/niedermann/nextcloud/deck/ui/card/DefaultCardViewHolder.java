@@ -29,7 +29,7 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 
 public class DefaultCardViewHolder extends AbstractCardViewHolder {
-    private ItemCardDefaultBinding binding;
+    private final ItemCardDefaultBinding binding;
 
     @SuppressWarnings("WeakerAccess")
     public DefaultCardViewHolder(@NonNull ItemCardDefaultBinding binding) {

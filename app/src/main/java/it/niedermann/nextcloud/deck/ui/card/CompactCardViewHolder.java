@@ -21,7 +21,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 
 public class CompactCardViewHolder extends AbstractCardViewHolder {
-    private ItemCardCompactBinding binding;
+    private final ItemCardCompactBinding binding;
 
     @SuppressWarnings("WeakerAccess")
     public CompactCardViewHolder(@NonNull ItemCardCompactBinding binding) {

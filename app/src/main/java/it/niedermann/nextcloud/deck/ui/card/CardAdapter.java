@@ -101,7 +101,8 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
             if (fullCard.getAttachments().size() == 0
                     && fullCard.getAssignedUsers().size() == 0
                     && fullCard.getLabels().size() == 0
-                    && fullCard.getCommentCount() == 0) {
+                    && fullCard.getCommentCount() == 0
+                    && fullCard.getCard().getTaskStatus().taskCount == 0) {
                 return R.layout.item_card_default_only_title;
             }
             return R.layout.item_card_default;

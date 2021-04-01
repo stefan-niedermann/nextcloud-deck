@@ -14,7 +14,7 @@ import com.google.android.material.card.MaterialCardView;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultOnlyTitleBinding;
 
 public class DefaultCardOnlyTitleViewHolder extends AbstractCardViewHolder {
-    private ItemCardDefaultOnlyTitleBinding binding;
+    private final ItemCardDefaultOnlyTitleBinding binding;
 
     @SuppressWarnings("WeakerAccess")
     public DefaultCardOnlyTitleViewHolder(@NonNull ItemCardDefaultOnlyTitleBinding binding) {
