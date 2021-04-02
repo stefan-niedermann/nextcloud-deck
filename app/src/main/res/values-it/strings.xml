@@ -228,10 +228,10 @@
     <string name="error_dialog_user_not_found_in_database">L\'utente attuale non corrisponde all\'utente presente nel nostro database. Se stai usando LDAP sulla tua istanza di Nextcloud, la tua applicazione potrebbe aver memorizzato un vecchio identificativo utente.</string>
     <string name="error_dialog_capabilities_not_parsable">Non siamo riusciti a recuperare le funzionalità del tuo server. Assicurati che il server sia in esecuzione e che le altre applicazioni siano in grado di accedere a Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Un allegato non può essere caricato. Prova a condividerlo in un altro modo e informaci di questo problema.</string>
-    <string name="error_dialog_certificate">Sembra ci sia qualcosa di sbagliato nel certificato del server. Controlla tutti gli account nell\'app Nextcloud per maggiori informazioni.</string>
+    <string name="error_dialog_certificate">Sembra ci sia qualche problema nel certificato del server. Controlla tutti gli account nell\'applicazione Nextcloud per maggiori informazioni.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Disabilita tutte le ottimizzazioni della batteria per le applicazioni Nextcloud e Deck.</string>
     <string name="error_action_open_deck_info">Apri Informazioni applicazione</string>
-    <string name="error_action_open_nextcloud_app">Apri app Nextcloud</string>
+    <string name="error_action_open_nextcloud_app">Apri l\'applicazione Nextcloud</string>
     <string name="error_action_open_network">Impostazioni di rete</string>
     <string name="error_action_server_logs">Log del server</string>
     <string name="error_action_install">Installa</string>
@@ -308,7 +308,7 @@
     <!-- Category header for a section in the settings which contain features for advanced users -->
     <string name="simple_expert_settings">Impostazioni esperto</string>
     <string name="copy_logs">Copia registri negli appunti</string>
-    <string name="app_logo">Logo app</string>
+    <string name="app_logo">Logo applicazione</string>
     <string name="log_file">File registro</string>
     <string name="copying_logs_to_file">Copia dei registri su file…</string>
     <string name="account_imported">Account importato</string>

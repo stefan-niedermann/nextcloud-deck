@@ -125,6 +125,7 @@
     <string name="settings_etags_summary">Versnelt synchronizatie</string>
     <string name="settings_background_sync">Achtergrond synchronisatie</string>
     <string name="settings_compress_image_attachments">Comprimeer afbeeldingen tijdens uploaden</string>
+    <string name="search_in">Zoeken in %1$s</string>
     <string name="settings_compress_image_attachments_summary">Snellere upload, lagere kwaliteit</string>
     <string name="pref_value_wifi_and_mobile">Sync met Wi-Fi en mobiele data</string>
     <string name="pref_value_wifi_only">Sync alleen met Wi-Fi</string>
@@ -311,4 +312,5 @@
     <string name="log_file">Logbestand</string>
     <string name="copying_logs_to_file">Kopiëren logs naar bestand...</string>
     <string name="account_imported">Account geïmporteerd</string>
-    </resources>
+    <string name="simple_search">Zoeken</string>
+</resources>
