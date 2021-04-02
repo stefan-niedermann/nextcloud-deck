@@ -116,10 +116,13 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Dodaj novi popis s pomoću gumba +</string>
     <string name="add_a_new_card_using_the_button">Dodaj novu karticu s pomoću gumba +</string>
+    <string name="update_deck">Ažuriraj web-aplikaciju Deck</string>
+    <string name="deck_outdated_please_update">Vaša inačica web-aplikacije Deck je prestara (%1$s). Ažurirajte je kako biste se koristili ovom aplikacijom za Android kao klijentom.</string>
     <string name="delete_board_message">Trajno ćete izbrisati ovu ploču, uključujući sve stogove i kartice.</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Brendiranje</string>
     <string name="settings_compact_title">Kompaktni način rada</string>
+    <string name="settings_debugging">Otkloni pogreške iz zapisa</string>
     <string name="settings_background_sync">Pozadinska sinkronizacija</string>
     <string name="pref_value_wifi_and_mobile">Sinkronizacija putem bežičnih (Wi-Fi) i mobilnih podataka</string>
     <string name="pref_value_wifi_only">Sinkroniziraj samo putem bežične (Wi-Fi) mreže</string>
@@ -166,9 +169,11 @@
     <string name="filter_no_filter">Sve</string>
     <string name="filter_overdue">Kasni</string>
     <string name="filter_today">Danas</string>
+    <string name="filter_tomorrow">Sutra</string>
     <string name="filter_week">Sljedećih 7 dana</string>
     <string name="filter_month">Sljedećih 30 dana</string>
     <string name="filter_no_due">Nema datuma dospijeća</string>
+    <string name="filter_later">Kasnije</string>
     <string name="filter_by_tag">Filtriraj prema oznaci</string>
     <string name="filter_by_assigned_user">Filtriraj prema dodijeljenom korisniku</string>
     <string name="filter_by_duedate">Filtriraj prema datumu dospijeća</string>
@@ -220,8 +225,10 @@
     <string name="error_dialog_user_not_found_in_database">Trenutačni korisnik ne odgovara korisniku kojeg imamo u našoj bazi podataka. Ako upotrebljavate LDAP na svojoj instanci Nextclouda, vaša aplikacija Nextcloud možda je pohranila stari ID korisnika.</string>
     <string name="error_dialog_capabilities_not_parsable">Nismo uspjeli dohvatiti mogućnosti vašeg poslužitelja. Provjerite radi li vaš poslužitelj pravilno i mogu li druge korisničke aplikacije pristupiti Nextcloudu.</string>
     <string name="error_dialog_attachment_upload_failed">Nije moguće otpremiti privitak. Pokušajte ga podijeliti na neki drugi način i javite nam pojedinosti o ovoj pogrešci.</string>
+    <string name="error_dialog_certificate">Čini se da nešto nije u redu s certifikatom poslužitelja. Za više informacija provjerite sve račune u aplikaciji Nextcloud.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Onemogućite sve optimizacije baterije za aplikacije Nextcloud i Deck.</string>
     <string name="error_action_open_deck_info">Otvori informacije o aplikaciji</string>
+    <string name="error_action_open_nextcloud_app">Otvori aplikaciju Nextcloud</string>
     <string name="error_action_open_network">Postavke mreže</string>
     <string name="error_action_server_logs">Zapisi poslužitelja</string>
     <string name="error_action_install">Instaliraj</string>
@@ -229,6 +236,9 @@
     <string name="info_box_maintenance_mode">Poslužitelj u načinu održavanja</string>
     <string name="info_box_version_not_supported">Inačica poslužitelja %1$s nije podržana, ažurirajte poslužitelj na inačicu %2$s</string>
     <string name="share_link">Dijeli poveznicu</string>
+    <string name="share_content">Dijeli sadržaj</string>
+    <string name="share_content_duedate">Datum dospijeća: %1$s</string>
+    <string name="share_content_labels">Oznake: %1$s</string>
     <string name="archive_cards">Arhiviraj kartice</string>
 
     <string name="manage_accounts">Upravljaj računima</string>
@@ -252,7 +262,9 @@
     <string name="card_does_not_yet_exist">Kartica ne postoji u aplikaciji Deck</string>
 
     <string name="widget_stack_title">Popis</string>
+    <string name="widget_filter_title">Filtar</string>
     <string name="widget_stack_header_icon">Ikona zaglavlja widgeta</string>
+    <string name="widget_placeholder_icon">Privremena ikona widgeta</string>
     <string name="select_stack">Odaberi popis</string>
     <string name="project_type_deck_board">Deck ploča</string>
     <string name="project_type_deck_card">Deck kartica</string>
@@ -288,5 +300,15 @@
     <string name="gallery">Galerija</string>
     <string name="simple_attach">priloži</string>
     <string name="add_stack_widget">Dodaj widget s popisom</string>
+    <string name="add_filter_widget">Dodaj widget s filtrom</string>
+    <string name="simple_order">Redoslijed</string>
     <string name="edit_description">Uredi opis</string>
+    <string name="widget_upcoming_title">Nadolazeće kartice</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Napredne postavke</string>
+    <string name="copy_logs">Kopiraj zapise u međuspremnik</string>
+    <string name="app_logo">Logotip aplikacije</string>
+    <string name="log_file">Datoteka zapisa</string>
+    <string name="copying_logs_to_file">Kopiranje zapisa u datoteku…</string>
+    <string name="account_imported">Račun je uvezen</string>
     </resources>

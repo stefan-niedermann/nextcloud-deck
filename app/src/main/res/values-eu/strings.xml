@@ -122,6 +122,7 @@
     <string name="settings_compact_title">Modu trinkoa</string>
     <string name="settings_debugging">Arazketa erregistroak</string>
     <string name="settings_background_sync">Atzeko planoko sinkronizazioa</string>
+    <string name="search_in">Bilatu %1$s(e)n</string>
     <string name="pref_value_wifi_and_mobile">Sinkronizatu Wi-Fi eta datu mugikorrekin</string>
     <string name="pref_value_wifi_only">Sinkronizatu Wi-Fiarekin soilik</string>
     <string-array name="darkmode_entries">
@@ -307,4 +308,5 @@
     <string name="log_file">Erregistro fitxategia</string>
     <string name="copying_logs_to_file">Erregistroak fitxategira kopiatzen...</string>
     <string name="account_imported">Inportatutako kontua</string>
-    </resources>
+    <string name="simple_search">Bilatu</string>
+</resources>
