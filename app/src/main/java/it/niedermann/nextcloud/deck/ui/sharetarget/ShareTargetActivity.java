@@ -30,14 +30,12 @@ import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.util.FilesUtil.copyContentUriToTempFile;
 import static java.net.HttpURLConnection.HTTP_CONFLICT;
 
@@ -165,14 +163,20 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                                             ? receivedText
                                             : oldDescription + "\n\n" + receivedText
                             );
-                            WrappedLiveData<FullCard> liveData = mainViewModel.updateCard(fullCard);
-                            observeOnce(liveData, this, (next) -> {
-                                if (liveData.hasError()) {
-                                    cardSelected = false;
-                                    ExceptionDialogFragment.newInstance(liveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                                } else {
+                            mainViewModel.updateCard(fullCard, new ResponseCallback<FullCard>() {
+                                @Override
+                                public void onResponse(FullCard response) {
                                     Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
-                                    finish();
+                                    runOnUiThread(() -> finish());
+                                }
+
+                                @Override
+                                public void onError(Throwable throwable) {
+                                    ResponseCallback.super.onError(throwable);
+                                    runOnUiThread(() -> {
+                                        cardSelected = false;
+                                        ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                    });
                                 }
                             });
                             break;

@@ -26,7 +26,6 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
@@ -158,10 +157,12 @@ public class EditCardViewModel extends AndroidViewModel {
     /**
      * Saves the current {@link #fullCard}. If it is a new card, it will be created, otherwise it will be updated.
      */
-    public WrappedLiveData<FullCard> saveCard() {
-        return isCreateMode()
-                ? syncManager.createFullCard(getAccount().getId(), getBoardId(), getFullCard().getCard().getStackId(), getFullCard())
-                : syncManager.updateCard(getFullCard());
+    public void saveCard(@NonNull ResponseCallback<FullCard> callback) {
+        if (isCreateMode()) {
+            syncManager.createFullCard(getAccount().getId(), getBoardId(), getFullCard().getCard().getStackId(), getFullCard(), callback);
+        } else {
+            syncManager.updateCard(getFullCard(), callback);
+        }
     }
 
     public LiveData<List<Activity>> syncActivitiesForCard(@NonNull Card card) {

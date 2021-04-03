@@ -30,7 +30,6 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
@@ -233,12 +232,7 @@ public class EditActivity extends AppCompatActivity {
                         .setOnDismissListener(dialog -> viewModel.setPendingCreation(false))
                         .show();
             } else {
-                final WrappedLiveData<FullCard> save$ = viewModel.saveCard();
-                save$.observe(this, (fullCard) -> {
-                    if (save$.hasError()) {
-                        DeckLog.logError(save$.getError());
-                    }
-                });
+                viewModel.saveCard(response -> DeckLog.info("Successfully saved card", response.getCard().getTitle()));
                 super.finish();
             }
         }

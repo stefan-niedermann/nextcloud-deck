@@ -991,8 +991,7 @@ public class SyncManager {
 //    }
 
     @AnyThread
-    public WrappedLiveData<FullCard> createFullCard(long accountId, long localBoardId, long localStackId, @NonNull FullCard card) {
-        WrappedLiveData<FullCard> liveData = new WrappedLiveData<>();
+    public void createFullCard(long accountId, long localBoardId, long localStackId, @NonNull FullCard card, @NonNull ResponseCallback<FullCard> callback) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
@@ -1034,25 +1033,24 @@ public class SyncManager {
                         .setResponseCallback(new IResponseCallback<Boolean>(account) {
                             @Override
                             public void onResponse(Boolean response) {
-                                liveData.postValue(card);
+                                callback.onResponse(card);
                             }
 
                             @SuppressLint("MissingSuperCall")
                             @Override
                             public void onError(Throwable throwable) {
                                 if (throwable.getClass() == DeckException.class && ((DeckException) throwable).getHint().equals(DeckException.Hint.DEPENDENCY_NOT_SYNCED_YET)) {
-                                    liveData.postValue(card);
+                                    callback.onResponse(card);
                                 } else {
-                                    liveData.postError(throwable);
+                                    callback.onError(throwable);
                                 }
                             }
                         })
                         .doUpSyncFor(new CardDataProvider(null, board, stack));
             } else {
-                liveData.postValue(card);
+                callback.onResponse(card);
             }
         });
-        return liveData;
     }
 
     @AnyThread
@@ -1163,10 +1161,9 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<FullCard> updateCard(@NonNull FullCard card) {
-        WrappedLiveData<FullCard> liveData = new WrappedLiveData<>();
+    public void updateCard(@NonNull FullCard card, @NonNull ResponseCallback<FullCard> callback) {
         doAsync(() -> {
-            FullCard fullCardFromDB = dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId());
+            final FullCard fullCardFromDB = dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId());
             if (fullCardFromDB == null) {
                 throw new IllegalArgumentException("card to update does not exist.");
             }
@@ -1201,20 +1198,19 @@ public class SyncManager {
                         .setResponseCallback(new IResponseCallback<Boolean>(account) {
                             @Override
                             public void onResponse(Boolean response) {
-                                liveData.postValue(dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId()));
+                                callback.onResponse(dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId()));
                             }
 
                             @SuppressLint("MissingSuperCall")
                             @Override
                             public void onError(Throwable throwable) {
-                                liveData.postError(throwable);
+                                callback.onError(throwable);
                             }
                         }).doUpSyncFor(new CardPropagationDataProvider(null, board, stack));
             } else {
-                liveData.postValue(card);
+                callback.onResponse(card);
             }
         });
-        return liveData;
     }
 
     /**

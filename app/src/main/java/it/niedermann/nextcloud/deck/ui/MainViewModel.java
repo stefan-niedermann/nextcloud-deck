@@ -239,8 +239,8 @@ public class MainViewModel extends AndroidViewModel {
         syncManager.archiveCardsInStack(accountId, stackLocalId, filterInformation, callback);
     }
 
-    public WrappedLiveData<FullCard> updateCard(@NonNull FullCard fullCard) {
-        return syncManager.updateCard(fullCard);
+    public void updateCard(@NonNull FullCard fullCard, @NonNull ResponseCallback<FullCard> callback) {
+        syncManager.updateCard(fullCard, callback);
     }
 
     public void addCommentToCard(long accountId, long cardId, @NonNull DeckComment comment) {
