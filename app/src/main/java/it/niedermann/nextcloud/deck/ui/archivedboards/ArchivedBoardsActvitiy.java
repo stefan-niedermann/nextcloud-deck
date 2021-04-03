@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Collections;
@@ -21,11 +22,10 @@ import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.board.ArchiveBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
-public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoardListener, EditBoardListener, ArchiveBoardListener {
+public class ArchivedBoardsActvitiy extends AppCompatActivity implements DeleteBoardListener, EditBoardListener, ArchiveBoardListener {
 
     private static final String BUNDLE_KEY_ACCOUNT = "accountId";
 
@@ -65,11 +65,6 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
             adapter.setBoards(boards == null ? Collections.emptyList() : boards);
         });
 
-    }
-
-    @Override
-    public void applyBrand(int mainColor) {
-        // Nothing to do...
     }
 
     @NonNull

@@ -19,13 +19,12 @@ import com.bumptech.glide.RequestBuilder;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogPreviewBinding;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 
-public class PreviewDialog extends BrandedDialogFragment {
+public class PreviewDialog extends DialogFragment {
 
     private DialogPreviewBinding binding;
     private PreviewDialogViewModel viewModel;
@@ -83,10 +82,6 @@ public class PreviewDialog extends BrandedDialogFragment {
     public void onCancel(@NonNull DialogInterface dialog) {
         viewModel.setResult(false);
         super.onCancel(dialog);
-    }
-
-    @Override
-    public void applyBrand(int mainColor) {
     }
 
     @Override

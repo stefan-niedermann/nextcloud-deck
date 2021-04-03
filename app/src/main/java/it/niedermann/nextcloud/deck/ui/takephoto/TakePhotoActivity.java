@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.Camera;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
@@ -29,16 +30,16 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutionException;
 
+import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.ActivityTakePhotoBinding;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.FilesUtil;
 
 import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.IMAGE_JPEG;
 
-public class TakePhotoActivity extends BrandedActivity {
+public class TakePhotoActivity extends AppCompatActivity {
 
     private ActivityTakePhotoBinding binding;
     private TakePhotoViewModel viewModel;
@@ -60,6 +61,9 @@ public class TakePhotoActivity extends BrandedActivity {
         viewModel = new ViewModelProvider(this).get(TakePhotoViewModel.class);
 
         setContentView(binding.getRoot());
+
+        // TODO do not only rely on current board color in case a card has been opened from a widget
+        DeckApplication.readCurrentBoardColor().observe(this, this::applyBoardColorBrand);
 
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
         cameraProviderFuture.addListener(() -> {
@@ -170,8 +174,7 @@ public class TakePhotoActivity extends BrandedActivity {
         return new Intent(context, TakePhotoActivity.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
     }
 
-    @Override
-    public void applyBrand(int mainColor) {
+    private void applyBoardColorBrand(int mainColor) {
         final ColorStateList colorStateList = ColorStateList.valueOf(mainColor);
         for (View v : brandedViews) {
             v.setBackgroundTintList(colorStateList);

@@ -6,17 +6,17 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.deck.databinding.ActivityArchivedBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackViewModel;
 
-public class ArchivedCardsActvitiy extends BrandedActivity {
+public class ArchivedCardsActvitiy extends AppCompatActivity {
 
     private static final String BUNDLE_KEY_ACCOUNT = "accountId";
     private static final String BUNDLE_KEY_BOARD_ID = "boardId";
@@ -70,11 +70,6 @@ public class ArchivedCardsActvitiy extends BrandedActivity {
             viewModel.getArchivedFullCardsForBoard(account.getId(), boardId).observe(this, (fullCards) -> adapter.setCardList(fullCards));
         });
 
-    }
-
-    @Override
-    public void applyBrand(int mainColor) {
-        // Nothing to do...
     }
 
     @NonNull

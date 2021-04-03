@@ -2,15 +2,19 @@ package it.niedermann.nextcloud.deck.ui.card;
 
 import android.app.Application;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -23,6 +27,8 @@ import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
+
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
 @SuppressWarnings("WeakerAccess")
 public class EditCardViewModel extends AndroidViewModel {
@@ -37,10 +43,20 @@ public class EditCardViewModel extends AndroidViewModel {
     private boolean pendingCreation = false;
     private boolean canEdit = false;
     private boolean createMode = false;
+    private final MutableLiveData<Integer> brandingColor$ = new MutableLiveData<>();
 
     public EditCardViewModel(@NonNull Application application) {
         super(application);
         this.syncManager = new SyncManager(application);
+        this.brandingColor$.setValue(ContextCompat.getColor(application, R.color.primary));
+    }
+
+    public LiveData<Integer> getBrandingColor() {
+        return distinctUntilChanged(this.brandingColor$);
+    }
+
+    public void setBrandingColor(@ColorInt int brandingColor) {
+        this.brandingColor$.setValue(brandingColor);
     }
 
     /**

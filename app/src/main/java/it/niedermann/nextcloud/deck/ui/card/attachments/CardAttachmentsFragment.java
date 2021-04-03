@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -54,7 +53,6 @@ import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.AbstractPickerAdapter;
@@ -86,13 +84,12 @@ import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
 import static it.niedermann.nextcloud.deck.util.FilesUtil.copyContentUriToTempFile;
 import static java.net.HttpURLConnection.HTTP_CONFLICT;
 
-public class CardAttachmentsFragment extends BrandedFragment implements AttachmentDeletedListener, AttachmentClickedListener {
+public class CardAttachmentsFragment extends Fragment implements AttachmentDeletedListener, AttachmentClickedListener {
 
     private FragmentCardEditTabAttachmentsBinding binding;
     private EditCardViewModel editViewModel;
@@ -236,11 +233,15 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             binding.fab.hide();
             binding.emptyContentView.hideDescription();
         }
-        @Nullable Context context = requireContext();
-        applyBrand(readBrandMainColor(context));
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         compressImagesOnUpload = sharedPreferences.getBoolean(getString(R.string.pref_key_compress_image_attachments), true);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        editViewModel.getBrandingColor().observe(getViewLifecycleOwner(), this::applyBrand);
     }
 
     @Override
@@ -558,11 +559,10 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         this.clickedItemPosition = position;
     }
 
-    @Override
-    public void applyBrand(int mainColor) {
-        applyBrandToFAB(mainColor, binding.fab);
-        @ColorInt final int finalMainColor = DeckColorUtil.contrastRatioIsSufficient(mainColor, primaryColor)
-                ? mainColor
+    private void applyBrand(@ColorInt int boardColor) {
+        applyBrandToFAB(boardColor, binding.fab);
+        @ColorInt final int finalMainColor = DeckColorUtil.contrastRatioIsSufficient(boardColor, primaryColor)
+                ? boardColor
                 : accentColor;
         final ColorStateList list = new ColorStateList(
                 new int[][]{
@@ -576,13 +576,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         );
         binding.bottomNavigation.setItemIconTintList(list);
         binding.bottomNavigation.setItemTextColor(list);
-
-        // applyBrand() is also called onStart
-        // adapter might be null at this point
-        // https://github.com/stefan-niedermann/nextcloud-deck/issues/782
-        if (adapter != null) {
-            adapter.applyBrand(mainColor);
-        }
+        adapter.applyBrand(boardColor);
     }
 
     public static Fragment newInstance() {

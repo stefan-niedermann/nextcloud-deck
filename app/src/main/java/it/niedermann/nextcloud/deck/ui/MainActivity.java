@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -82,7 +84,6 @@ import it.niedermann.nextcloud.deck.ui.board.ArchiveBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
@@ -126,7 +127,7 @@ import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ARCHIVED_BOARDS;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_SETTINGS;
 
-public class MainActivity extends BrandedActivity implements DeleteStackListener, EditStackListener, DeleteBoardListener, EditBoardListener, ArchiveBoardListener, OnScrollListener, OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements DeleteStackListener, EditStackListener, DeleteBoardListener, EditBoardListener, ArchiveBoardListener, OnScrollListener, OnNavigationItemSelectedListener {
 
     protected ActivityMainBinding binding;
     protected NavHeaderMainBinding headerBinding;
@@ -137,6 +138,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     protected static final int ACTIVITY_SETTINGS = 2;
 
+    @ColorInt
+    private int colorAccent;
     protected SharedPreferences sharedPreferences;
     private StackAdapter stackAdapter;
     long lastBoardId;
@@ -173,6 +176,10 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
         setTheme(R.style.AppTheme);
 
+        final TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorAccent, typedValue, true);
+        colorAccent = typedValue.data;
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         headerBinding = NavHeaderMainBinding.bind(binding.navigationView.getHeaderView(0));
         setContentView(binding.getRoot());
@@ -193,12 +200,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.navigationView.setNavigationItemSelectedListener(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        DeckApplication.readCurrentAccountColor().observe(this, (accountColor) -> {
-            headerBinding.headerView.setBackgroundColor(accountColor);
-            @ColorInt final int headerTextColor = contrastRatioIsSufficientBigAreas(accountColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
-            DrawableCompat.setTint(headerBinding.logo.getDrawable(), headerTextColor);
-            DrawableCompat.setTint(headerBinding.copyDebugLogs.getDrawable(), headerTextColor);
-        });
+        DeckApplication.readCurrentAccountColor().observe(this, this::applyAccountBranding);
+        DeckApplication.readCurrentBoardColor().observe(this, this::applyBoardBranding);
 
         binding.filterText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -425,13 +428,19 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.accountSwitcher.setOnClickListener((v) -> AccountSwitcherDialog.newInstance().show(getSupportFragmentManager(), AccountSwitcherDialog.class.getSimpleName()));
     }
 
-    @Override
-    public void applyBrand(@ColorInt int mainColor) {
+    private void applyBoardBranding(@ColorInt int mainColor) {
         applyBrandToPrimaryTabLayout(mainColor, binding.stackTitles);
         applyBrandToFAB(mainColor, binding.fab);
         // TODO We assume, that the background of the spinner is always white
         binding.swipeRefreshLayout.setColorSchemeColors(contrastRatioIsSufficient(Color.WHITE, mainColor) ? mainColor : DeckApplication.isDarkTheme(this) ? Color.DKGRAY : colorAccent);
         DrawableCompat.setTint(binding.filterIndicator.getDrawable(), getSecondaryForegroundColorDependingOnTheme(this, mainColor));
+    }
+
+    private void applyAccountBranding(@ColorInt int accountColor) {
+        headerBinding.headerView.setBackgroundColor(accountColor);
+        @ColorInt final int headerTextColor = contrastRatioIsSufficientBigAreas(accountColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
+        DrawableCompat.setTint(headerBinding.logo.getDrawable(), headerTextColor);
+        DrawableCompat.setTint(headerBinding.copyDebugLogs.getDrawable(), headerTextColor);
     }
 
     @Override

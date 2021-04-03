@@ -27,6 +27,7 @@ public class DeckApplication extends MultiDexApplication {
     private static String PREF_KEY_DEBUGGING;
 
     private static LiveData<Integer> currentAccountColor$;
+    private static LiveData<Integer> currentBoardColor$;
 
     @Override
     public void onCreate() {
@@ -34,8 +35,12 @@ public class DeckApplication extends MultiDexApplication {
         PREF_KEY_DEBUGGING = getString(R.string.pref_key_debugging);
         setAppTheme(getAppTheme(this));
         DeckLog.enablePersistentLogs(isPersistentLoggingEnabled(this));
-        currentAccountColor$ = distinctUntilChanged(new SharedPreferenceIntLiveData(PreferenceManager.getDefaultSharedPreferences(this),
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        currentAccountColor$ = distinctUntilChanged(new SharedPreferenceIntLiveData(sharedPreferences,
                 getString(R.string.shared_preference_last_account_color),
+                ContextCompat.getColor(this, R.color.defaultBrand)));
+        currentBoardColor$ = distinctUntilChanged(new SharedPreferenceIntLiveData(sharedPreferences,
+                getString(R.string.shared_preference_theme_main),
                 ContextCompat.getColor(this, R.color.defaultBrand)));
         super.onCreate();
     }
@@ -106,6 +111,10 @@ public class DeckApplication extends MultiDexApplication {
 
     public static LiveData<Integer> readCurrentAccountColor() {
         return currentAccountColor$;
+    }
+
+    public static LiveData<Integer> readCurrentBoardColor() {
+        return currentBoardColor$;
     }
 
     @ColorInt

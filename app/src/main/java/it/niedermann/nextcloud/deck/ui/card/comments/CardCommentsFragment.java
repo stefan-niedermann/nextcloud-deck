@@ -25,7 +25,6 @@ import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabCommentsBindi
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
@@ -36,7 +35,7 @@ import static android.view.View.VISIBLE;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 
-public class CardCommentsFragment extends BrandedFragment implements CommentEditedListener, CommentDeletedListener, CommentSelectAsReplyListener {
+public class CardCommentsFragment extends Fragment implements CommentEditedListener, CommentDeletedListener, CommentSelectAsReplyListener {
 
     private FragmentCardEditTabCommentsBinding binding;
     private EditCardViewModel mainViewModel;
@@ -132,6 +131,7 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
             binding.message.requestFocus();
             requireActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
+        mainViewModel.getBrandingColor().observe(getViewLifecycleOwner(), this::applyBrand);
     }
 
     @Override
@@ -157,8 +157,7 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
         });
     }
 
-    @Override
-    public void applyBrand(int mainColor) {
+    private void applyBrand(int mainColor) {
         applyBrandToEditText(mainColor, binding.message);
         applyBrandToFAB(mainColor, binding.fab);
     }

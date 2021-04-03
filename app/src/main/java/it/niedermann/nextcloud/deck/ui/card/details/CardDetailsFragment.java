@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.Px;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -47,7 +49,6 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDatePickerDialog;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedTimePickerDialog;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
@@ -61,7 +62,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
 
-public class CardDetailsFragment extends BrandedFragment implements OnDateSetListener, OnTimeSetListener, CardAssigneeListener {
+public class CardDetailsFragment extends Fragment implements OnDateSetListener, OnTimeSetListener, CardAssigneeListener {
 
     private FragmentCardEditTabDetailsBinding binding;
     private EditCardViewModel viewModel;
@@ -113,6 +114,12 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewModel.getBrandingColor().observe(getViewLifecycleOwner(), this::applyBrand);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
@@ -123,19 +130,14 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         if (dpd != null) dpd.setOnDateSetListener(this);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void applyBrand(int mainColor) {
-        applyBrandToEditText(mainColor, binding.labels);
-        applyBrandToEditText(mainColor, binding.dueDateDate);
-        applyBrandToEditText(mainColor, binding.dueDateTime);
-        applyBrandToEditText(mainColor, binding.people);
-        binding.descriptionEditor.setSearchColor(mainColor);
-        binding.descriptionViewer.setSearchColor(mainColor);
+    private void applyBrand(@ColorInt int boardColor) {
+        // TODO apply correct branding on the BrandedDatePicker
+        applyBrandToEditText(boardColor, binding.labels);
+        applyBrandToEditText(boardColor, binding.dueDateDate);
+        applyBrandToEditText(boardColor, binding.dueDateTime);
+        applyBrandToEditText(boardColor, binding.people);
+        binding.descriptionEditor.setSearchColor(boardColor);
+        binding.descriptionViewer.setSearchColor(boardColor);
     }
 
     private void setupDescription() {

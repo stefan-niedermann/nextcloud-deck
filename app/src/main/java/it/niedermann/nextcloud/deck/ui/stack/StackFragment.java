@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import it.niedermann.android.crosstabdnd.DragAndDropTab;
+import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.FragmentStackBinding;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -26,7 +27,6 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
@@ -35,7 +35,7 @@ import it.niedermann.nextcloud.deck.ui.movecard.MoveCardListener;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
-public class StackFragment extends BrandedFragment implements DragAndDropTab<CardAdapter>, MoveCardListener {
+public class StackFragment extends Fragment implements DragAndDropTab<CardAdapter>, MoveCardListener {
 
     private static final String KEY_STACK_ID = "stackId";
 
@@ -124,6 +124,12 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
         return binding.getRoot();
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        DeckApplication.readCurrentBoardColor().observe(getViewLifecycleOwner(), this::applyBrand);
+    }
+
     @Nullable
     @Override
     public CardAdapter getAdapter() {
@@ -135,8 +141,7 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
         return binding.recyclerView;
     }
 
-    @Override
-    public void applyBrand(int mainColor) {
+    private void applyBrand(int mainColor) {
         if (this.adapter != null) {
             this.adapter.applyBrand(mainColor);
         }
