@@ -19,10 +19,9 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogProjectResourcesBinding;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 
-public class CardProjectResourcesDialog extends BrandedDialogFragment {
+public class CardProjectResourcesDialog extends DialogFragment {
 
     private static final String KEY_RESOURCES = "resources";
     private static final String KEY_PROJECT_NAME = "projectName";
@@ -31,7 +30,7 @@ public class CardProjectResourcesDialog extends BrandedDialogFragment {
 
     private String projectName;
     @NonNull
-    private List<OcsProjectResource> resources = new ArrayList<>();
+    private final List<OcsProjectResource> resources = new ArrayList<>();
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -65,11 +64,6 @@ public class CardProjectResourcesDialog extends BrandedDialogFragment {
         final CardProjectResourceAdapter adapter = new CardProjectResourceAdapter(viewModel, resources, requireActivity());
         binding.getRoot().setAdapter(adapter);
         super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public void applyBrand(int mainColor) {
-
     }
 
     public static DialogFragment newInstance(@Nullable String projectName, @NonNull List<OcsProjectResource> resources) {

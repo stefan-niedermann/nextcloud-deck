@@ -22,7 +22,6 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogPreviewBinding;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDeleteAlertDialogBuilder;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDialog;
 
@@ -31,7 +30,7 @@ import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 /**
  * TODO maybe this can be merged with {@link PreviewDialog}
  */
-public class CardAssigneeDialog extends BrandedDialogFragment {
+public class CardAssigneeDialog extends DialogFragment {
 
     private static final String KEY_USER = "user";
     private DialogPreviewBinding binding;
@@ -100,10 +99,6 @@ public class CardAssigneeDialog extends BrandedDialogFragment {
                 .error(R.drawable.ic_person_grey600_24dp)
                 .into(binding.avatar));
         binding.title.setText(user.getDisplayname());
-    }
-
-    @Override
-    public void applyBrand(int mainColor) {
     }
 
     public static DialogFragment newInstance(@NonNull User user) {

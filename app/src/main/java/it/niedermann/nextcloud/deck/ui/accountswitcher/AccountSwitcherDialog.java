@@ -17,16 +17,16 @@ import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledExcepti
 import com.nextcloud.android.sso.ui.UiExceptionManager;
 
 import it.niedermann.android.util.DimensionUtil;
+import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogAccountSwitcherBinding;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.manageaccounts.ManageAccountsActivity;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
-public class AccountSwitcherDialog extends BrandedDialogFragment {
+public class AccountSwitcherDialog extends DialogFragment {
 
     private AccountSwitcherAdapter adapter;
     private DialogAccountSwitcherBinding binding;
@@ -61,6 +61,8 @@ public class AccountSwitcherDialog extends BrandedDialogFragment {
             adapter.setAccounts(accounts);
         });
 
+        observeOnce(DeckApplication.readCurrentBoardColor(), requireActivity(), this::applyBrand);
+
         binding.accountsList.setAdapter(adapter);
 
         binding.addAccount.setOnClickListener((v) -> {
@@ -91,8 +93,7 @@ public class AccountSwitcherDialog extends BrandedDialogFragment {
         return new AccountSwitcherDialog();
     }
 
-    @Override
-    public void applyBrand(int mainColor) {
+    private void applyBrand(int mainColor) {
 //        applyBrandToLayerDrawable((LayerDrawable) binding.check.getDrawable(), R.id.area, mainColor);
     }
 }

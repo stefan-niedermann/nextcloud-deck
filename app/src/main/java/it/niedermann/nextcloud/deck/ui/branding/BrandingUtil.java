@@ -28,34 +28,26 @@ import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSuf
 public abstract class BrandingUtil {
 
     private BrandingUtil() {
-        // Util class
+        throw new UnsupportedOperationException("This class must not get instantiated");
     }
 
     @ColorInt
     public static int readBrandMainColor(@NonNull Context context) {
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        DeckLog.log("--- Read: shared_preference_theme_main");
+        DeckLog.log("--- Read:", context.getString(R.string.shared_preference_theme_main));
         return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_main), context.getApplicationContext().getResources().getColor(R.color.defaultBrand));
     }
 
     public static void saveBrandColors(@NonNull Context context, @ColorInt int mainColor) {
-        if (context instanceof BrandedActivity) {
-            final BrandedActivity activity = (BrandedActivity) context;
-            activity.applyBrand(mainColor);
-        }
         final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        DeckLog.log("--- Write: shared_preference_theme_main |", mainColor);
+        DeckLog.log("--- Write:", context.getString(R.string.shared_preference_theme_main), "|", mainColor);
         editor.putInt(context.getString(R.string.shared_preference_theme_main), mainColor);
         editor.apply();
     }
 
     public static void clearBrandColors(@NonNull Context context) {
-        if (context instanceof BrandedActivity) {
-            final BrandedActivity activity = (BrandedActivity) context;
-            activity.applyBrand(ContextCompat.getColor(context, R.color.defaultBrand));
-        }
         final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        DeckLog.log("--- Write: Remove: shared_preference_theme_main | ");
+        DeckLog.log("--- Remove:", context.getString(R.string.shared_preference_theme_main));
         editor.remove(context.getString(R.string.shared_preference_theme_main));
         editor.apply();
     }
@@ -68,7 +60,7 @@ public abstract class BrandingUtil {
         if (contrastRatioIsSufficient(mainColor, ContextCompat.getColor(context, R.color.primary))) {
             return mainColor;
         }
-        DeckLog.verbose("Contrast ratio between brand color " + String.format("#%06X", (0xFFFFFF & mainColor)) + " and primary theme background is too low. Falling back to WHITE/BLACK as brand color.");
+        DeckLog.verbose("Contrast ratio between brand color", String.format("#%06X", (0xFFFFFF & mainColor)), "and primary theme background is too low. Falling back to WHITE/BLACK as brand color.");
         return isDarkTheme(context) ? Color.WHITE : Color.BLACK;
     }
 
