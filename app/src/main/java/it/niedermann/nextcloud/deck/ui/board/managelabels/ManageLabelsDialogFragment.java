@@ -6,7 +6,10 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.annotation.AnyThread;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -83,20 +86,20 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
             viewModel.createLabel(viewModel.getCurrentAccount().getId(), label, boardId, new ResponseCallback<Label>() {
                 @Override
                 public void onResponse(Label response) {
-                    Toast.makeText(requireContext(), getString(R.string.tag_successfully_added, label.getTitle()), Toast.LENGTH_LONG).show();
                     requireActivity().runOnUiThread(() -> {
                         binding.fab.setEnabled(true);
                         binding.addLabelTitle.setText(null);
                     });
+                    toastFromThread(getString(R.string.tag_successfully_added, label.getTitle()));
                 }
 
                 @Override
                 public void onError(Throwable throwable) {
                     requireActivity().runOnUiThread(() -> binding.fab.setEnabled(true));
                     if (throwable instanceof SQLiteConstraintException) {
-                        Toast.makeText(requireContext(), getString(R.string.tag_already_exists, label.getTitle()), Toast.LENGTH_LONG).show();
+                        toastFromThread(getString(R.string.tag_already_exists, label.getTitle()));
                     } else {
-                        Toast.makeText(requireContext(), throwable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                        toastFromThread(throwable.getLocalizedMessage());
                         ResponseCallback.super.onError(throwable);
                     }
                 }
@@ -153,7 +156,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
             public void onError(Throwable throwable) {
                 if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
                     ResponseCallback.super.onError(throwable);
-                    Toast.makeText(requireContext(), throwable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    toastFromThread(throwable.getLocalizedMessage());
                 }
             }
         });
@@ -169,18 +172,26 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
         viewModel.updateLabel(label, new ResponseCallback<Label>() {
             @Override
             public void onResponse(Label label) {
-                DeckLog.verbose("Successfully update label", label.getTitle());
+                DeckLog.info("Successfully update label", label.getTitle());
             }
 
             @Override
             public void onError(Throwable error) {
                 if (error instanceof SQLiteConstraintException) {
-                    Toast.makeText(requireContext(), getString(R.string.tag_already_exists, label.getTitle()), Toast.LENGTH_LONG).show();
+                    toastFromThread(getString(R.string.tag_already_exists, label.getTitle()));
                 } else {
                     ResponseCallback.super.onError(error);
-                    Toast.makeText(requireContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    toastFromThread(error.getLocalizedMessage());
                 }
             }
         });
+    }
+
+    /**
+     * Ensures that the {@param message} gets toasted on the {@link UiThread} to avoid <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/917">crashes</a>.
+     */
+    @AnyThread
+    private void toastFromThread(@Nullable String message) {
+        requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show());
     }
 }

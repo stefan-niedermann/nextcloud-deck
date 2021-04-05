@@ -1,6 +1,7 @@
 1.16.1
 
 - ✅ Number of tasks in a checklist is not shown unless there is a comment on the card too (#910)
+- 🐞 Crash when adding labels (#917)
 
 1.16.0
 
