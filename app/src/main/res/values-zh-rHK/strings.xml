@@ -58,7 +58,7 @@
     <string name="about_app_license_button">檢視授權條款</string>
     <string name="about_icons_disclaimer_title">圖示</string>
     <string name="about_icons_disclaimer_app_icon">原始圖示請見%1$s</string>
-    <string name="about_icons_disclaimer_mdi_icons">此應用程序使用的所有其他圖標 %1$s 均由Google Inc。製造，並根據Apache 2。0許可獲得許可。</string>
+    <string name="about_icons_disclaimer_mdi_icons">此應用程序使用的所有其他圖標 %1$s 均由Google Inc。製造，並根據Apache 2.0許可獲得許可。</string>
     <string name="about_icons_disclaimer_mdi">Material Design 圖示</string>
     <string name="about_credits_tab_title">致謝</string>
     <string name="about_contribution_tab_title">貢獻</string>
@@ -162,7 +162,7 @@
     <string name="choose_list">選擇清單</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">用瀏覽器開啟</string>
-    <string name="updating_card">更新卡片。。。</string>
+    <string name="updating_card">更新卡片...</string>
 
     <string name="move_list_right">向右移動清單</string>
     <string name="move_list_left">向左移動列表</string>
@@ -255,7 +255,7 @@
     <string name="error_action_open_battery_settings">電池設定</string>
     <string name="move_warning">將卡片移至另一塊面板上時，註釋和附件均無法傳送。</string>
     <string name="clone_board">複製 board</string>
-    <string name="cloning_board">正在複製 %1$s。。。</string>
+    <string name="cloning_board">正在複製 %1$s...</string>
     <string name="successfully_cloned_board">複製 %1$s 成功</string>
     <string name="attachment_does_not_yet_exist">在看板中找不到附件。</string>
     <string name="card_does_not_yet_exist">在看板中找不到卡片。</string>
