@@ -145,7 +145,7 @@
     <string name="action_card_move_title">Tràmuda %1$s</string>
     <string name="title_is_mandatory">Su tìtulu est obligatòriu</string>
     <string name="provide_at_least_a_title_or_description">Fruni a su mancu unu tìtulu e una descritzione</string>
-    <string name="welcome_text">Benebènnidu in %1$s</string>
+    <string name="welcome_text">Ti donamus sa benebènnida in %1$s</string>
     <string name="maintenance_mode_explanation">Su serbidore %1$s immoe est in modalidade de mantenidura. Pro praghere, cuntata a s\'amministradore tuo o proa prus a tardu.</string>
     <string name="share_add_to_card">Agiùnghe a s\'ischeda</string>
     <string name="share_success">Agiuntu%1$s a %2$s in manera curreta</string>
