@@ -82,6 +82,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.LabelData
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.BoardWithAclDownSyncDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.BoardWithStacksAndLabelsUpSyncDataProvider;
+import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.wrapInLiveData;
 import static java.net.HttpURLConnection.HTTP_NOT_MODIFIED;
@@ -1896,8 +1897,8 @@ public class SyncManager {
     }
 
     @WorkerThread
-    public List<FilterWidgetCard> getCardsForFilterWidget(@NonNull FilterWidget filterWidget) {
-        return dataBaseAdapter.getCardsForFilterWidget(filterWidget);
+    public LiveData<List<UpcomingCardsAdapterItem>> getCardsForFilterWidget(@NonNull FilterWidget filterWidget) {
+        return dataBaseAdapter.getCardsForUpcomingCard();
     }
 
     // # single card widget
