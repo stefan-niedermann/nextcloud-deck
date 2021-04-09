@@ -86,6 +86,7 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
                         ? (SelectCardListener) requireActivity()
                         : null);
         binding.recyclerView.setAdapter(adapter);
+        binding.loadingSpinner.show();
 
         if (onScrollListener != null) {
             binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -104,6 +105,7 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
         }
 
         final Observer<List<FullCard>> cardsObserver = (fullCards) -> activity.runOnUiThread(() -> {
+            binding.loadingSpinner.hide();
             if (fullCards != null && fullCards.size() > 0) {
                 binding.emptyContentView.setVisibility(View.GONE);
                 adapter.setCardList(fullCards);
