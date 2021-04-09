@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,10 +17,9 @@ import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetSort;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
+import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-
-import static androidx.lifecycle.Transformations.map;
-import static androidx.lifecycle.Transformations.switchMap;
 
 @SuppressWarnings("WeakerAccess")
 public class UpcomingCardsViewModel extends AndroidViewModel {
@@ -32,23 +32,26 @@ public class UpcomingCardsViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<UpcomingCardsAdapterItem>> getUpcomingCards() {
-        return switchMap(syncManager.readAccounts(), (accounts) -> {
+        final MutableLiveData<List<UpcomingCardsAdapterItem>> ret = new MutableLiveData<>();
+        new Thread(() -> {
+            List<Account> accounts = syncManager.readAccountsDirectly();
+
             final FilterWidget config = new FilterWidget();
             config.setWidgetType(EWidgetType.UPCOMING_WIDGET);
             config.setSorts(new FilterWidgetSort(ESortCriteria.DUE_DATE, true));
             config.setAccounts(accounts.stream().map(account -> {
                 final FilterWidgetAccount fwa = new FilterWidgetAccount(account.getId(), false);
-                // TODO syncManager.getUserByUidDirectly(account.getId(), account.getUserName()).getLocalId())
-//                fwa.setUsers(new FilterWidgetUser(new User(1L, "stefan"));
+                fwa.setUsers(new FilterWidgetUser(syncManager.getUserByUidDirectly(account.getId(), account.getUserName()).getLocalId()));
                 return fwa;
             }).collect(Collectors.toList()));
-            return map(this.syncManager.getCardsForFilterWidget(new FilterWidget()),
-                    (filterWidgetCards) -> {
-                        return filterWidgetCards.stream().map((filterWidgetCard -> {
-                            final Board board = filterWidgetCard.getBoard();
-                            return new UpcomingCardsAdapterItem(filterWidgetCard.getCard(), new Account(), board.getId(), board.getLocalId(), board.isPermissionEdit());
-                        })).collect(Collectors.toList());
-                    });
-        });
+            List<FilterWidgetCard> filterWidgetCards = this.syncManager.getCardsForFilterWidget(new FilterWidget());
+            ret.postValue(filterWidgetCards.stream().map((filterWidgetCard -> {
+                final Board board = syncManager.getBoardById(
+                        syncManager.getBoardLocalIdByLocalCardIdDirectly(filterWidgetCard.getCard().getLocalId())
+                );
+                return new UpcomingCardsAdapterItem(filterWidgetCard.getCard(), new Account(), board.getId(), board.getLocalId(), board.isPermissionEdit());
+            })).collect(Collectors.toList()));
+        }).start();
+        return ret;
     }
 }

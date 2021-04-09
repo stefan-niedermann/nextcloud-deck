@@ -872,6 +872,10 @@ public class SyncManager {
         return dataBaseAdapter.getFullBoardById(accountId, localId);
     }
 
+    public Board getBoardById(Long localId) {
+        return dataBaseAdapter.getBoardByLocalIdDirectly(localId);
+    }
+
     @AnyThread
     public void createStack(long accountId, @NonNull String title, long boardLocalId, @NonNull ResponseCallback<FullStack> callback) {
         doAsync(() -> {
@@ -1892,10 +1896,8 @@ public class SyncManager {
     }
 
     @WorkerThread
-    public LiveData<List<FilterWidgetCard>> getCardsForFilterWidget(@NonNull FilterWidget filterWidget) {
-        return wrapInLiveData(() -> {
-            return dataBaseAdapter.getCardsForFilterWidget(filterWidget);
-        });
+    public List<FilterWidgetCard> getCardsForFilterWidget(@NonNull FilterWidget filterWidget) {
+        return dataBaseAdapter.getCardsForFilterWidget(filterWidget);
     }
 
     // # single card widget
