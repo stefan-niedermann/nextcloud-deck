@@ -40,6 +40,8 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
+        binding.loadingSpinner.show();
+
         final UpcomingCardsAdapter adapter = new UpcomingCardsAdapter(this, getSupportFragmentManager(),
                 viewModel::assignUser,
                 viewModel::unassignUser,
@@ -72,6 +74,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
         );
         binding.recyclerView.setAdapter(adapter);
         viewModel.getUpcomingCards().observe(this, items -> {
+            binding.loadingSpinner.hide();
             if (items.size() > 0) {
                 binding.recyclerView.setVisibility(View.VISIBLE);
                 binding.emptyContentView.setVisibility(View.GONE);
