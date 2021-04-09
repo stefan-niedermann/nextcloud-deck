@@ -8,12 +8,7 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,8 +23,9 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
+import it.niedermann.nextcloud.deck.ui.upcomingcards.EUpcomingDueType;
 
-import static java.time.temporal.ChronoUnit.DAYS;
+import static it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsUtil.getDueType;
 
 public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private final Context context;
@@ -165,53 +161,6 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     @Override
     public boolean hasStableIds() {
         return true;
-    }
-
-    @NonNull
-    private static EUpcomingDueType getDueType(@Nullable Instant dueDate) {
-        if (dueDate == null) {
-            return EUpcomingDueType.NO_DUE;
-        }
-
-        long diff = DAYS.between(LocalDate.now(), dueDate.atZone(ZoneId.systemDefault()).toLocalDate());
-
-        if (diff > 7) {
-            return EUpcomingDueType.LATER;
-        } else if (diff > 1) {
-            return EUpcomingDueType.WEEK;
-        } else if (diff > 0) {
-            return EUpcomingDueType.TOMORROW;
-        } else if (diff == 0) {
-            return EUpcomingDueType.TODAY;
-        } else {
-            return EUpcomingDueType.OVERDUE;
-        }
-    }
-
-    private enum EUpcomingDueType {
-        OVERDUE(1, R.string.filter_overdue),
-        TODAY(2, R.string.filter_today),
-        TOMORROW(3, R.string.filter_tomorrow),
-        WEEK(4, R.string.filter_week),
-        LATER(5, R.string.filter_later),
-        NO_DUE(6, R.string.filter_no_due);
-
-        private final int value;
-        private final int id;
-
-        EUpcomingDueType(int id, @StringRes int value) {
-            this.value = value;
-            this.id = id;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        @NonNull
-        public String toString(Context context) {
-            return context.getString(this.value);
-        }
     }
 
     private static class Separator {
