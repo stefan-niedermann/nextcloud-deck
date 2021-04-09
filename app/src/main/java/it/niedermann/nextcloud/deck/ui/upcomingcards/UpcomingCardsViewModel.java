@@ -9,7 +9,6 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
 import static androidx.lifecycle.Transformations.map;
@@ -26,7 +25,7 @@ public class UpcomingCardsViewModel extends AndroidViewModel {
 
     public LiveData<List<UpcomingCardsAdapterItem>> getUpcomingCards() {
         // FIXME remove mapping after https://github.com/stefan-niedermann/nextcloud-deck/issues/923
-        return map(this.syncManager.getCardsForFilterWidget(new FilterWidget()), (cards) ->
+        return map(this.syncManager.getCardsForUpcomingCards(), (cards) ->
                 cards.stream().filter(card -> card.getAccount() != null).collect(Collectors.toList())
         );
     }

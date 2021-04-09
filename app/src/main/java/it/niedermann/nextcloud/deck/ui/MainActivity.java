@@ -101,7 +101,7 @@ import it.niedermann.nextcloud.deck.ui.stack.EditStackListener;
 import it.niedermann.nextcloud.deck.ui.stack.OnScrollListener;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
-import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsActvitiy;
+import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsActivity;
 import it.niedermann.nextcloud.deck.util.CustomAppGlideModule;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 
@@ -700,7 +700,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 startActivity(ArchivedBoardsActvitiy.createIntent(MainActivity.this, mainViewModel.getCurrentAccount()));
                 break;
             case MENU_ID_UPCOMING_CARDS:
-                startActivity(UpcomingCardsActvitiy.createIntent(MainActivity.this));
+                startActivity(UpcomingCardsActivity.createIntent(MainActivity.this));
                 break;
             default:
                 setCurrentBoard(boardsList.get(item.getItemId()));

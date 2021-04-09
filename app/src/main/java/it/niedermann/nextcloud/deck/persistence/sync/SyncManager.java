@@ -1897,8 +1897,13 @@ public class SyncManager {
     }
 
     @WorkerThread
-    public LiveData<List<UpcomingCardsAdapterItem>> getCardsForFilterWidget(@NonNull FilterWidget filterWidget) {
+    public LiveData<List<UpcomingCardsAdapterItem>> getCardsForUpcomingCards() {
         return dataBaseAdapter.getCardsForUpcomingCard();
+    }
+
+    @WorkerThread
+    public List<UpcomingCardsAdapterItem> getCardsForUpcomingCardsForWidget() {
+        return dataBaseAdapter.getCardsForUpcomingCardForWidget();
     }
 
     // # single card widget

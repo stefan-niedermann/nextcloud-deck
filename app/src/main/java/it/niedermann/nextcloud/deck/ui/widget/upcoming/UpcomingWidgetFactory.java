@@ -10,22 +10,19 @@ import android.widget.RemoteViewsService;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
-import it.niedermann.nextcloud.deck.ui.upcomingcards.EUpcomingDueType;
-
-import static it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsUtil.getDueType;
+import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
+import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterSectionItem;
+import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsUtil;
 
 public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private final Context context;
@@ -53,51 +50,10 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     @Override
     public void onDataSetChanged() {
         try {
-            final List<FilterWidgetCard> response = syncManager.getCardsForFilterWidget(appWidgetId);
+            final List<UpcomingCardsAdapterItem> response = syncManager.getCardsForUpcomingCardsForWidget().stream().filter(card -> card.getAccount() != null).collect(Collectors.toList());
             DeckLog.verbose(UpcomingWidgetFactory.class.getSimpleName(), "with id", appWidgetId, "fetched", response.size(), "cards from the database.");
             data.clear();
-            final Comparator<FilterWidgetCard> comparator = Comparator.comparing((card -> {
-                if (card != null &&
-                        card.getCard() != null &&
-                        card.getCard().getCard() != null &&
-                        card.getCard().getCard().getDueDate() != null) {
-                    return card.getCard().getCard().getDueDate();
-                }
-                return null;
-            }), Comparator.nullsLast(Comparator.naturalOrder()));
-            comparator.thenComparing(card -> {
-                if (card != null &&
-                        card.getCard() != null &&
-                        card.getCard().getCard().getDueDate() != null) {
-
-                    Card c = card.getCard().getCard();
-
-                    if (c.getLastModified() == null && c.getLastModifiedLocal() != null) {
-                        return c.getLastModifiedLocal();
-                    } else if (c.getLastModified() != null && c.getLastModifiedLocal() == null) {
-                        return c.getLastModified();
-                    } else {
-                        return c.getLastModifiedLocal().toEpochMilli() > c.getLastModified().toEpochMilli() ?
-                                c.getLastModifiedLocal() : c.getLastModified();
-                    }
-                }
-                return null;
-            }, Comparator.nullsLast(Comparator.naturalOrder()));
-
-            Collections.sort(
-                    response,
-                    comparator
-            );
-            EUpcomingDueType lastDueType = null;
-            for (FilterWidgetCard filterWidgetCard : response) {
-                final EUpcomingDueType nextDueType = getDueType(filterWidgetCard.getCard().getCard().getDueDate());
-                DeckLog.info(filterWidgetCard.getCard().getCard().getTitle() + ":", nextDueType.name());
-                if (!nextDueType.equals(lastDueType)) {
-                    data.add(new Separator(nextDueType.toString(context)));
-                    lastDueType = nextDueType;
-                }
-                data.add(filterWidgetCard);
-            }
+            data.addAll(UpcomingCardsUtil.addDueDateSeparators(context, response));
         } catch (NoSuchElementException e) {
             DeckLog.error("No", UpcomingWidget.class.getSimpleName(), "for appWidgetId", appWidgetId, "found.");
             DeckLog.logError(e);
@@ -121,17 +77,17 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
             return null;
         }
         final RemoteViews widget_entry;
-        if (data.get(i).getClass() == Separator.class) {
-            final Separator separator = (Separator) data.get(i);
+        if (data.get(i).getClass() == UpcomingCardsAdapterSectionItem.class || data.get(i) instanceof UpcomingCardsAdapterSectionItem) {
+            final UpcomingCardsAdapterSectionItem separator = (UpcomingCardsAdapterSectionItem) data.get(i);
             widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_separator);
-            widget_entry.setTextViewText(R.id.widget_entry_content_tv, separator.title);
-            if(i == 0) {
+            widget_entry.setTextViewText(R.id.widget_entry_content_tv, separator.getTitle());
+            if (i == 0) {
                 widget_entry.setViewPadding(R.id.widget_entry_content_tv, headerHorizontalPadding, 0, headerHorizontalPadding, 0);
             } else {
                 widget_entry.setViewPadding(R.id.widget_entry_content_tv, headerHorizontalPadding, headerVerticalPaddingNth, headerHorizontalPadding, 0);
             }
-        } else {
-            final FullCard card = ((FilterWidgetCard) data.get(i)).getCard();
+        } else if (data.get(i).getClass() == UpcomingCardsAdapterItem.class || data.get(i) instanceof UpcomingCardsAdapterItem) {
+            final FullCard card = ((UpcomingCardsAdapterItem) data.get(i)).getFullCard();
             widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_stack_entry);
             widget_entry.setTextViewText(R.id.widget_entry_content_tv, card.getCard().getTitle());
 
@@ -139,6 +95,9 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
             final Intent intent = EditActivity.createEditCardIntent(context, syncManager.readAccountDirectly(card.getAccountId()), syncManager.getBoardLocalIdByLocalCardIdDirectly(localCardId), localCardId);
             intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
             widget_entry.setOnClickFillInIntent(R.id.widget_stack_entry, intent);
+        } else {
+            DeckLog.logError(new IllegalStateException("Expected items to be instance of " + UpcomingCardsAdapterSectionItem.class.getSimpleName() + " or " + UpcomingCardsAdapterItem.class.getSimpleName()));
+            return null;
         }
         return widget_entry;
     }
@@ -161,13 +120,5 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     @Override
     public boolean hasStableIds() {
         return true;
-    }
-
-    private static class Separator {
-        public String title;
-
-        private Separator(String title) {
-            this.title = title;
-        }
     }
 }
