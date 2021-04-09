@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.util;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SubMenu;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -25,6 +24,7 @@ public class DrawerMenuUtil {
     public static final int MENU_ID_ADD_BOARD = -2;
     public static final int MENU_ID_SETTINGS = -3;
     public static final int MENU_ID_ARCHIVED_BOARDS = -4;
+    public static final int MENU_ID_UPCOMING_CARDS = -5;
 
     private DrawerMenuUtil() {
         throw new UnsupportedOperationException("This class must not get instantiated");
@@ -36,10 +36,10 @@ public class DrawerMenuUtil {
             @NonNull List<Board> boards,
             boolean hasArchivedBoards,
             boolean currentServerVersionIsSupported) {
-        final SubMenu boardsMenu = menu.addSubMenu(R.string.simple_boards);
+        menu.add(Menu.NONE, MENU_ID_UPCOMING_CARDS, Menu.NONE, R.string.widget_upcoming_title).setIcon(R.drawable.calendar_blank_grey600_24dp);
         int index = 0;
         for (Board board : boards) {
-            final MenuItem m = boardsMenu
+            final MenuItem m = menu
                     .add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, board.getColor()))
                     .setCheckable(true);
             if (currentServerVersionIsSupported) {
@@ -92,11 +92,11 @@ public class DrawerMenuUtil {
         }
 
         if (hasArchivedBoards) {
-            boardsMenu.add(Menu.NONE, MENU_ID_ARCHIVED_BOARDS, Menu.NONE, R.string.archived_boards).setIcon(ViewUtil.getTintedImageView(context, R.drawable.ic_archive_white_24dp, ContextCompat.getColor(context, R.color.grey600)));
+            menu.add(Menu.NONE, MENU_ID_ARCHIVED_BOARDS, Menu.NONE, R.string.archived_boards).setIcon(ViewUtil.getTintedImageView(context, R.drawable.ic_archive_white_24dp, ContextCompat.getColor(context, R.color.grey600)));
         }
 
         if (currentServerVersionIsSupported) {
-            boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, R.string.add_board).setIcon(R.drawable.ic_add_grey_24dp);
+            menu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, R.string.add_board).setIcon(R.drawable.ic_add_grey_24dp);
         }
 
         menu.add(Menu.NONE, MENU_ID_SETTINGS, Menu.NONE, R.string.simple_settings).setIcon(R.drawable.ic_settings_grey600_24dp);

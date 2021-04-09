@@ -101,6 +101,7 @@ import it.niedermann.nextcloud.deck.ui.stack.EditStackListener;
 import it.niedermann.nextcloud.deck.ui.stack.OnScrollListener;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
+import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsActvitiy;
 import it.niedermann.nextcloud.deck.util.CustomAppGlideModule;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 
@@ -126,6 +127,7 @@ import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ARCHIVED_BOARDS;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_SETTINGS;
+import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_UPCOMING_CARDS;
 
 public class MainActivity extends AppCompatActivity implements DeleteStackListener, EditStackListener, DeleteBoardListener, EditBoardListener, ArchiveBoardListener, OnScrollListener, OnNavigationItemSelectedListener {
 
@@ -696,6 +698,9 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 break;
             case MENU_ID_ARCHIVED_BOARDS:
                 startActivity(ArchivedBoardsActvitiy.createIntent(MainActivity.this, mainViewModel.getCurrentAccount()));
+                break;
+            case MENU_ID_UPCOMING_CARDS:
+                startActivity(UpcomingCardsActvitiy.createIntent(MainActivity.this));
                 break;
             default:
                 setCurrentBoard(boardsList.get(item.getItemId()));

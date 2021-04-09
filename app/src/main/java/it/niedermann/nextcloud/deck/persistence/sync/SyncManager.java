@@ -66,7 +66,6 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.extrawurst.UserSearchLiveData;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
@@ -84,6 +83,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackData
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.BoardWithAclDownSyncDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.BoardWithStacksAndLabelsUpSyncDataProvider;
 
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.wrapInLiveData;
 import static java.net.HttpURLConnection.HTTP_NOT_MODIFIED;
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 
@@ -1236,7 +1236,7 @@ public class SyncManager {
     @SuppressWarnings("JavadocReference")
     @AnyThread
     public WrappedLiveData<Void> moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
-        return LiveDataHelper.wrapInLiveData(() -> {
+        return wrapInLiveData(() -> {
             final FullCard originalCard = dataBaseAdapter.getFullCardByLocalIdDirectly(originAccountId, originCardLocalId);
             int newIndex = dataBaseAdapter.getHighestCardOrderInStack(targetStackLocalId) + 1;
             final FullBoard originalBoard = dataBaseAdapter.getFullBoardByLocalCardIdDirectly(originCardLocalId);
@@ -1889,6 +1889,13 @@ public class SyncManager {
     @WorkerThread
     public List<FilterWidgetCard> getCardsForFilterWidget(@NonNull Integer filterWidgetId) {
         return dataBaseAdapter.getCardsForFilterWidget(filterWidgetId);
+    }
+
+    @WorkerThread
+    public LiveData<List<FilterWidgetCard>> getCardsForFilterWidget(@NonNull FilterWidget filterWidget) {
+        return wrapInLiveData(() -> {
+            return dataBaseAdapter.getCardsForFilterWidget(filterWidget);
+        });
     }
 
     // # single card widget
