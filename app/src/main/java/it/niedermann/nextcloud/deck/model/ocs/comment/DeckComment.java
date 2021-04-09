@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
@@ -28,6 +29,11 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
                         entity = DeckComment.class,
                         parentColumns = "localId",
                         childColumns = "parentId", onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = Account.class,
+                        parentColumns = "id",
+                        childColumns = "accountId", onDelete = ForeignKey.CASCADE
                 )
         }
 )

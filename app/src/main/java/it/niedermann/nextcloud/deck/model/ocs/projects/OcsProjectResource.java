@@ -9,6 +9,7 @@ import androidx.room.RoomWarnings;
 
 import java.io.Serializable;
 
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 @SuppressWarnings(RoomWarnings.INDEX_FROM_PARENT_IS_DROPPED)
@@ -25,6 +26,11 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
                         entity = OcsProject.class,
                         parentColumns = "localId",
                         childColumns = "projectId", onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = Account.class,
+                        parentColumns = "id",
+                        childColumns = "accountId", onDelete = ForeignKey.CASCADE
                 )
         }
 )
@@ -78,6 +84,7 @@ public class OcsProjectResource extends AbstractRemoteEntity implements Serializ
 
     /**
      * Caution: the Link might be a full url or only the relative path!
+     *
      * @return The link to the Resource
      */
     @Nullable

@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.model;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
@@ -8,7 +9,18 @@ import java.io.Serializable;
 
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
-@Entity(inheritSuperIndices = true, indices = {@Index(value = "uid", name = "user_uid")})
+@Entity(inheritSuperIndices = true,
+        indices = {
+                @Index(value = "uid", name = "user_uid")
+        },
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Account.class,
+                        parentColumns = "id",
+                        childColumns = "accountId", onDelete = ForeignKey.CASCADE
+                )
+        }
+)
 public class User extends AbstractRemoteEntity implements Serializable {
 
 
