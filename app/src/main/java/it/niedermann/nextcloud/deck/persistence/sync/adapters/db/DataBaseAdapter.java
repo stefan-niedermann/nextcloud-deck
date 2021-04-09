@@ -1256,6 +1256,7 @@ public class DataBaseAdapter {
     public LiveData<List<UpcomingCardsAdapterItem>> getCardsForUpcomingCard() {
         LiveData<List<FullCard>> upcomingCardsLiveData = db.getCardDao().getUpcomingCards();
         return LiveDataHelper.postCustomValue(upcomingCardsLiveData, cardsResult -> {
+            filterRelationsForCard(cardsResult);
             List<UpcomingCardsAdapterItem> result = new ArrayList<>(cardsResult.size());
             Map<Long, Account> accountCache = new HashMap<>();
             for (FullCard fullCard : cardsResult) {
