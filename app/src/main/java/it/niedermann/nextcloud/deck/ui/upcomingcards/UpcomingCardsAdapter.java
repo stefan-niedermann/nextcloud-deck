@@ -70,7 +70,7 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        if (viewType == 0) {
+        if (viewType == R.layout.item_section) {
             return new UpcomingCardsSectionViewHolder(ItemSectionBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
         } else if (viewType == R.layout.item_card_compact) {
             return new CompactCardViewHolder(ItemCardCompactBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
@@ -108,17 +108,21 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         final Object item = items.get(position);
         if (item.getClass() == UpcomingCardsAdapterSectionItem.class || item instanceof UpcomingCardsAdapterSectionItem) {
-            final UpcomingCardsAdapterSectionItem cardItem = (UpcomingCardsAdapterSectionItem) item;
             if (viewHolder.getClass() == UpcomingCardsSectionViewHolder.class || viewHolder instanceof UpcomingCardsSectionViewHolder) {
+                final UpcomingCardsAdapterSectionItem cardItem = (UpcomingCardsAdapterSectionItem) item;
                 ((UpcomingCardsSectionViewHolder) viewHolder).bind(cardItem.getTitle());
             } else {
-                throw new IllegalStateException("Item at position " + position  + " is a " + item.getClass().getSimpleName() + " but viewHolder is no " + UpcomingCardsSectionViewHolder.class.getSimpleName());
+                throw new IllegalStateException("Item at position " + position + " is a " + item.getClass().getSimpleName() + " but viewHolder is no " + UpcomingCardsSectionViewHolder.class.getSimpleName());
             }
         } else if (item.getClass() == UpcomingCardsAdapterItem.class || item instanceof UpcomingCardsAdapterItem) {
-            final UpcomingCardsAdapterItem cardItem = (UpcomingCardsAdapterItem) item;
-            AbstractCardViewHolder cardViewHolder = ((AbstractCardViewHolder) viewHolder);
-            cardViewHolder.bind(cardItem.getFullCard(), cardItem.getAccount(), cardItem.getCurrentBoardRemoteId(), false, R.menu.card_menu, (a, b) -> true, counterMaxValue, mainColor);
-            cardViewHolder.bindCardClickListener((v) -> activity.startActivity(EditActivity.createEditCardIntent(activity, cardItem.getAccount(), cardItem.getCurrentBoardLocalId(), cardItem.getFullCard().getLocalId())));
+            if (viewHolder.getClass() == AbstractCardViewHolder.class || viewHolder instanceof AbstractCardViewHolder) {
+                final UpcomingCardsAdapterItem cardItem = (UpcomingCardsAdapterItem) item;
+                AbstractCardViewHolder cardViewHolder = ((AbstractCardViewHolder) viewHolder);
+                cardViewHolder.bind(cardItem.getFullCard(), cardItem.getAccount(), cardItem.getCurrentBoardRemoteId(), false, R.menu.card_menu, (a, b) -> true, counterMaxValue, mainColor);
+                cardViewHolder.bindCardClickListener((v) -> activity.startActivity(EditActivity.createEditCardIntent(activity, cardItem.getAccount(), cardItem.getCurrentBoardLocalId(), cardItem.getFullCard().getLocalId())));
+            } else {
+                throw new IllegalStateException("Item at position " + position + " is a " + item.getClass().getSimpleName() + " but viewHolder is no " + AbstractCardViewHolder.class.getSimpleName());
+            }
         } else {
             throw new IllegalStateException(item.getClass().getSimpleName() + " must be a " + UpcomingCardsAdapterSectionItem.class.getSimpleName() + " or " + UpcomingCardsAdapterItem.class.getSimpleName());
         }
