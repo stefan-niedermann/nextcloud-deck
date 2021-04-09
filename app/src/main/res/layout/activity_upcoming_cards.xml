@@ -26,6 +26,13 @@
         android:visibility="gone"
         app:title="@string/no_cards" />
 
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/loadingSpinner"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
