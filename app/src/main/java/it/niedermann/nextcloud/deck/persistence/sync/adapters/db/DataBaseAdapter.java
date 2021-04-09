@@ -71,6 +71,7 @@ import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
+import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
@@ -1252,11 +1253,26 @@ public class DataBaseAdapter {
         }).start();
     }
 
-    public List<FilterWidgetCard> getCardsForFilterWidget(Integer filterWidgetId) {
-        return getCardsForFilterWidget(getFilterWidgetByIdDirectly(filterWidgetId));
+    public LiveData<List<UpcomingCardsAdapterItem>> getCardsForUpcomingCard() {
+        LiveData<List<FullCard>> upcomingCardsLiveData = db.getCardDao().getUpcomingCards();
+        return LiveDataHelper.postCustomValue(upcomingCardsLiveData, cardsResult -> {
+            List<UpcomingCardsAdapterItem> result = new ArrayList<>(cardsResult.size());
+            Map<Long, Account> accountCache = new HashMap<>();
+            for (FullCard fullCard : cardsResult) {
+                Board board = db.getBoardDao().getBoardByLocalCardIdDirectly(fullCard.getLocalId());
+                Account account = accountCache.get(fullCard.getAccountId());
+                if (account == null) {
+                    account = db.getAccountDao().getAccountByIdDirectly(fullCard.getAccountId());
+                    accountCache.put(fullCard.getAccountId(), account);
+                }
+                result.add(new UpcomingCardsAdapterItem(fullCard, account, board.getLocalId(), board.getId(), board.isPermissionEdit()));
+            }
+            return result;
+        });
     }
 
-    public List<FilterWidgetCard> getCardsForFilterWidget(@NonNull FilterWidget filterWidget) {
+    public List<FilterWidgetCard> getCardsForFilterWidget(@NonNull Integer filterWidgetId) {
+        FilterWidget filterWidget = getFilterWidgetByIdDirectly(filterWidgetId);
         FilterInformation filter = new FilterInformation();
         Set<FullCard> cardsResult = new HashSet<>();
         if (filterWidget.getDueType() != null) {
