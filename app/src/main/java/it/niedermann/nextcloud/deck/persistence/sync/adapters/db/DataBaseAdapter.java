@@ -1256,7 +1256,7 @@ public class DataBaseAdapter {
         return getCardsForFilterWidget(getFilterWidgetByIdDirectly(filterWidgetId));
     }
 
-    public List<FilterWidgetCard> getCardsForFilterWidget(FilterWidget filterWidget) {
+    public List<FilterWidgetCard> getCardsForFilterWidget(@NonNull FilterWidget filterWidget) {
         FilterInformation filter = new FilterInformation();
         Set<FullCard> cardsResult = new HashSet<>();
         if (filterWidget.getDueType() != null) {
