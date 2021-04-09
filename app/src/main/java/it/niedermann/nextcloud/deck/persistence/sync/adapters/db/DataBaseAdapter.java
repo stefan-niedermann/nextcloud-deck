@@ -14,6 +14,8 @@ import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -1255,21 +1257,28 @@ public class DataBaseAdapter {
 
     public LiveData<List<UpcomingCardsAdapterItem>> getCardsForUpcomingCard() {
         LiveData<List<FullCard>> upcomingCardsLiveData = db.getCardDao().getUpcomingCards();
-        return LiveDataHelper.postCustomValue(upcomingCardsLiveData, cardsResult -> {
-            filterRelationsForCard(cardsResult);
-            List<UpcomingCardsAdapterItem> result = new ArrayList<>(cardsResult.size());
-            Map<Long, Account> accountCache = new HashMap<>();
-            for (FullCard fullCard : cardsResult) {
-                Board board = db.getBoardDao().getBoardByLocalCardIdDirectly(fullCard.getLocalId());
-                Account account = accountCache.get(fullCard.getAccountId());
-                if (account == null) {
-                    account = db.getAccountDao().getAccountByIdDirectly(fullCard.getAccountId());
-                    accountCache.put(fullCard.getAccountId(), account);
-                }
-                result.add(new UpcomingCardsAdapterItem(fullCard, account, board.getLocalId(), board.getId(), board.isPermissionEdit()));
+        return LiveDataHelper.postCustomValue(upcomingCardsLiveData, this::cardResultsToUpcomingCardsAdapterItems);
+    }
+
+    public List<UpcomingCardsAdapterItem> getCardsForUpcomingCardForWidget() {
+        return cardResultsToUpcomingCardsAdapterItems(db.getCardDao().getUpcomingCardsDirectly());
+    }
+
+    @NotNull
+    private List<UpcomingCardsAdapterItem> cardResultsToUpcomingCardsAdapterItems(List<FullCard> cardsResult) {
+        filterRelationsForCard(cardsResult);
+        List<UpcomingCardsAdapterItem> result = new ArrayList<>(cardsResult.size());
+        Map<Long, Account> accountCache = new HashMap<>();
+        for (FullCard fullCard : cardsResult) {
+            Board board = db.getBoardDao().getBoardByLocalCardIdDirectly(fullCard.getLocalId());
+            Account account = accountCache.get(fullCard.getAccountId());
+            if (account == null) {
+                account = db.getAccountDao().getAccountByIdDirectly(fullCard.getAccountId());
+                accountCache.put(fullCard.getAccountId(), account);
             }
-            return result;
-        });
+            result.add(new UpcomingCardsAdapterItem(fullCard, account, board.getLocalId(), board.getId(), board.isPermissionEdit()));
+        }
+        return result;
     }
 
     public List<FilterWidgetCard> getCardsForFilterWidget(@NonNull Integer filterWidgetId) {
