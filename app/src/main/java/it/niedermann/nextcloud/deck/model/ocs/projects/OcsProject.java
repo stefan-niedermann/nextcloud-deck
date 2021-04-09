@@ -2,12 +2,14 @@ package it.niedermann.nextcloud.deck.model.ocs.projects;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 @Entity(inheritSuperIndices = true,
@@ -15,6 +17,11 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
                 @Index(value = "accountId", name = "index_project_accID"),
         },
         foreignKeys = {
+                @ForeignKey(
+                        entity = Account.class,
+                        parentColumns = "id",
+                        childColumns = "accountId", onDelete = ForeignKey.CASCADE
+                )
         }
 )
 public class OcsProject extends AbstractRemoteEntity {

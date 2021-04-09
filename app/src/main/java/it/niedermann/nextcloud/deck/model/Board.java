@@ -26,7 +26,12 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
                 @ForeignKey(
                         entity = User.class,
                         parentColumns = "localId",
-                        childColumns = "ownerId", onDelete = ForeignKey.SET_NULL
+                        childColumns = "ownerId", onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = Account.class,
+                        parentColumns = "id",
+                        childColumns = "accountId", onDelete = ForeignKey.CASCADE
                 )
         }
 )

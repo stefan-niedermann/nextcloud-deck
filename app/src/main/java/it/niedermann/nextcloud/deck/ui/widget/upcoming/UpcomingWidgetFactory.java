@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -50,7 +49,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     @Override
     public void onDataSetChanged() {
         try {
-            final List<UpcomingCardsAdapterItem> response = syncManager.getCardsForUpcomingCardsForWidget().stream().filter(card -> card.getAccount() != null).collect(Collectors.toList());
+            final List<UpcomingCardsAdapterItem> response = syncManager.getCardsForUpcomingCardsForWidget();
             DeckLog.verbose(UpcomingWidgetFactory.class.getSimpleName(), "with id", appWidgetId, "fetched", response.size(), "cards from the database.");
             data.clear();
             data.addAll(UpcomingCardsUtil.addDueDateSeparators(context, response));
