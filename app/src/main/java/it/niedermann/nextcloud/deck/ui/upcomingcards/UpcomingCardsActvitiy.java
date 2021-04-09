@@ -28,6 +28,7 @@ public class UpcomingCardsActvitiy extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
 
         final UpcomingCardsAdapter adapter = new UpcomingCardsAdapter(this, getSupportFragmentManager());
+        binding.recyclerView.setAdapter(adapter);
         viewModel = new ViewModelProvider(this).get(UpcomingCardsViewModel.class);
         viewModel.getUpcomingCards().observe(this, adapter::setCardList);
     }
