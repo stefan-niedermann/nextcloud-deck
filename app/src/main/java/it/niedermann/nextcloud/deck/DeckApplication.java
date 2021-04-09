@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -8,7 +9,6 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
-import androidx.multidex.MultiDexApplication;
 import androidx.preference.PreferenceManager;
 
 import it.niedermann.android.sharedpreferences.SharedPreferenceIntLiveData;
@@ -17,7 +17,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
-public class DeckApplication extends MultiDexApplication {
+public class DeckApplication extends Application {
 
     public static final long NO_ACCOUNT_ID = -1L;
     public static final long NO_BOARD_ID = -1L;
