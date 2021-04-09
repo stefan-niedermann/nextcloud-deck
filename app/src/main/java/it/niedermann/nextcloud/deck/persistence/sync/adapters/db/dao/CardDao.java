@@ -16,6 +16,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 @Dao
 public interface CardDao extends GenericDao<Card> {
 
+    @Transaction
     @Query("SELECT c.* FROM card c " +
                 "join stack s on s.localId = c.stackId " +
                 "join board b on b.localId = s.boardId " +
