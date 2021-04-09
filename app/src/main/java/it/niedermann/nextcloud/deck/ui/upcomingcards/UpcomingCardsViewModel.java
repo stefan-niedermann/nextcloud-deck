@@ -7,9 +7,12 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+
+import static androidx.lifecycle.Transformations.map;
 
 @SuppressWarnings("WeakerAccess")
 public class UpcomingCardsViewModel extends AndroidViewModel {
@@ -22,27 +25,9 @@ public class UpcomingCardsViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<UpcomingCardsAdapterItem>> getUpcomingCards() {
-        return  this.syncManager.getCardsForFilterWidget(new FilterWidget());
-//        final MutableLiveData<List<UpcomingCardsAdapterItem>> ret = new MutableLiveData<>();
-//        new Thread(() -> {
-//            List<Account> accounts = syncManager.readAccountsDirectly();
-//
-//            final FilterWidget config = new FilterWidget();
-//            config.setWidgetType(EWidgetType.UPCOMING_WIDGET);
-//            config.setSorts(new FilterWidgetSort(ESortCriteria.DUE_DATE, true));
-//            config.setAccounts(accounts.stream().map(account -> {
-//                final FilterWidgetAccount fwa = new FilterWidgetAccount(account.getId(), false);
-//                fwa.setUsers(new FilterWidgetUser(syncManager.getUserByUidDirectly(account.getId(), account.getUserName()).getLocalId()));
-//                return fwa;
-//            }).collect(Collectors.toList()));
-//            List<FilterWidgetCard> filterWidgetCards = this.syncManager.getCardsForFilterWidget(new FilterWidget());
-//            ret.postValue(filterWidgetCards.stream().map((filterWidgetCard -> {
-//                final Board board = syncManager.getBoardById(
-//                        syncManager.getBoardLocalIdByLocalCardIdDirectly(filterWidgetCard.getCard().getLocalId())
-//                );
-//                return new UpcomingCardsAdapterItem(filterWidgetCard.getCard(), new Account(), board.getId(), board.getLocalId(), board.isPermissionEdit());
-//            })).collect(Collectors.toList()));
-//        }).start();
-//        return ret;
+        // FIXME remove mapping after https://github.com/stefan-niedermann/nextcloud-deck/issues/923
+        return map(this.syncManager.getCardsForFilterWidget(new FilterWidget()), (cards) ->
+                cards.stream().filter(card -> card.getAccount() != null).collect(Collectors.toList())
+        );
     }
 }

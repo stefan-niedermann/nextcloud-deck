@@ -1,24 +1,34 @@
 package it.niedermann.nextcloud.deck.ui.upcomingcards;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCardCompactBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultOnlyTitleBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemSectionBinding;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.card.AbstractCardViewHolder;
 import it.niedermann.nextcloud.deck.ui.card.CompactCardViewHolder;
@@ -27,6 +37,7 @@ import it.niedermann.nextcloud.deck.ui.card.DefaultCardViewHolder;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 
 import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
+import static java.time.temporal.ChronoUnit.DAYS;
 
 public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -135,8 +146,97 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public void setItems(@NonNull List<UpcomingCardsAdapterItem> items) {
         this.items.clear();
-        this.items.add(new UpcomingCardsAdapterSectionItem("Hello there"));
-        this.items.addAll(items);
+
+        final Comparator<UpcomingCardsAdapterItem> comparator = Comparator.comparing((card -> {
+            if (card != null &&
+                    card.getFullCard() != null &&
+                    card.getFullCard().getCard() != null &&
+                    card.getFullCard().getCard().getDueDate() != null) {
+                return card.getFullCard().getCard().getDueDate();
+            }
+            return null;
+        }), Comparator.nullsLast(Comparator.naturalOrder()));
+        comparator.thenComparing(card -> {
+            if (card != null &&
+                    card.getFullCard() != null &&
+                    card.getFullCard().getCard().getDueDate() != null) {
+
+                Card c = card.getFullCard().getCard();
+
+                if (c.getLastModified() == null && c.getLastModifiedLocal() != null) {
+                    return c.getLastModifiedLocal();
+                } else if (c.getLastModified() != null && c.getLastModifiedLocal() == null) {
+                    return c.getLastModified();
+                } else {
+                    return c.getLastModifiedLocal().toEpochMilli() > c.getLastModified().toEpochMilli() ?
+                            c.getLastModifiedLocal() : c.getLastModified();
+                }
+            }
+            return null;
+        }, Comparator.nullsLast(Comparator.naturalOrder()));
+
+        Collections.sort(
+                items,
+                comparator
+        );
+        EUpcomingDueType lastDueType = null;
+        for (UpcomingCardsAdapterItem filterWidgetCard : items) {
+            final EUpcomingDueType nextDueType = getDueType(filterWidgetCard.getFullCard().getCard().getDueDate());
+            DeckLog.info(filterWidgetCard.getFullCard().getCard().getTitle() + ":", nextDueType.name());
+            if (!nextDueType.equals(lastDueType)) {
+                this.items.add(new UpcomingCardsAdapterSectionItem(nextDueType.toString(activity)));
+                lastDueType = nextDueType;
+            }
+            this.items.add(filterWidgetCard);
+        }
+
         notifyDataSetChanged();
+    }
+
+    @NonNull
+    private static EUpcomingDueType getDueType(@Nullable Instant dueDate) {
+        if (dueDate == null) {
+            return EUpcomingDueType.NO_DUE;
+        }
+
+        long diff = DAYS.between(LocalDate.now(), dueDate.atZone(ZoneId.systemDefault()).toLocalDate());
+
+        if (diff > 7) {
+            return EUpcomingDueType.LATER;
+        } else if (diff > 1) {
+            return EUpcomingDueType.WEEK;
+        } else if (diff > 0) {
+            return EUpcomingDueType.TOMORROW;
+        } else if (diff == 0) {
+            return EUpcomingDueType.TODAY;
+        } else {
+            return EUpcomingDueType.OVERDUE;
+        }
+    }
+
+    private enum EUpcomingDueType {
+        OVERDUE(1, R.string.filter_overdue),
+        TODAY(2, R.string.filter_today),
+        TOMORROW(3, R.string.filter_tomorrow),
+        WEEK(4, R.string.filter_week),
+        LATER(5, R.string.filter_later),
+        NO_DUE(6, R.string.filter_no_due);
+
+        private final int value;
+        private final int id;
+
+        EUpcomingDueType(int id, @StringRes int value) {
+            this.value = value;
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        @NonNull
+        public String toString(Context context) {
+            return context.getString(this.value);
+        }
     }
 }
