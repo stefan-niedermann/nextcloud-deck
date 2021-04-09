@@ -98,7 +98,7 @@
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
 
         <activity
-            android:name=".ui.upcomingcards.UpcomingCardsActvitiy"
+            android:name=".ui.upcomingcards.UpcomingCardsActivity"
             android:label="@string/widget_upcoming_title"
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
 
