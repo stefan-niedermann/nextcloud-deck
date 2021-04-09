@@ -47,7 +47,7 @@ public class UpcomingCardsUtil {
     }
 
     /**
-     * @return a {@link Collection} of the given {@param items}, separated by {@param UpcomingCardsAdapterSectionItem}.
+     * @return a {@link Collection} of the given {@param items}, sorted and separated by {@link UpcomingCardsAdapterSectionItem}.
      */
     public static Collection<Object> addDueDateSeparators(@NonNull Context context, @NonNull List<UpcomingCardsAdapterItem> items) {
         final Collection<Object> ret = new ArrayList<>();
