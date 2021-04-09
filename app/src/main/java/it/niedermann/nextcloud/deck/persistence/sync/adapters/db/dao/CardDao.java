@@ -16,6 +16,16 @@ import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 @Dao
 public interface CardDao extends GenericDao<Card> {
 
+    @Query("SELECT c.* FROM card c " +
+                "join stack s on s.localId = c.stackId " +
+                "join board b on b.localId = s.boardId " +
+            "WHERE b.archived = 0 and c.archived = 0 and b.status <> 3 and s.status <> 3 and c.status <> 3 " +
+                "and (c.dueDate is not null or exists(select 1 from AccessControl ac where ac.boardId = b.localId and ac.status <> 3))" +
+                "and (exists(select 1 from JoinCardWithUser j where j.cardId = c.localId and j.userId in (select u.localId from user u where u.uid in (select uid from Account))) " +
+                    "or not exists(select 1 from AccessControl ac where ac.boardId = b.localId and ac.status <> 3))" +
+            "ORDER BY c.dueDate asc")
+    LiveData<List<FullCard>> getUpcomingCards();
+
     @Query("SELECT * FROM card WHERE stackId = :localStackId order by `order`, createdAt asc")
     LiveData<List<Card>> getCardsForStack(final long localStackId);
 
