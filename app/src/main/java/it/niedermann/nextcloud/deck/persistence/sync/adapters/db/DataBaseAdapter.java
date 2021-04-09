@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import androidx.annotation.AnyThread;
 import androidx.annotation.ColorInt;
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
@@ -609,7 +610,7 @@ public class DataBaseAdapter {
         return db.getStackDao().getFullStacksForBoardDirectly(accountId, localBoardId);
     }
 
-    @AnyThread
+    @MainThread
     public LiveData<FullStack> getStack(long accountId, long localStackId) {
         return distinctUntilChanged(db.getStackDao().getFullStack(accountId, localStackId));
     }
@@ -1252,7 +1253,10 @@ public class DataBaseAdapter {
     }
 
     public List<FilterWidgetCard> getCardsForFilterWidget(Integer filterWidgetId) {
-        FilterWidget filterWidget = getFilterWidgetByIdDirectly(filterWidgetId);
+        return getCardsForFilterWidget(getFilterWidgetByIdDirectly(filterWidgetId));
+    }
+
+    public List<FilterWidgetCard> getCardsForFilterWidget(FilterWidget filterWidget) {
         FilterInformation filter = new FilterInformation();
         Set<FullCard> cardsResult = new HashSet<>();
         if (filterWidget.getDueType() != null) {
