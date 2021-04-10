@@ -15,7 +15,6 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogTextColorInputBinding;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
@@ -48,7 +47,7 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
 
         final Bundle args = getArguments();
 
-        AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
 
         if (args != null && args.containsKey(KEY_BOARD_ID)) {
             dialogBuilder.setTitle(R.string.edit_board);

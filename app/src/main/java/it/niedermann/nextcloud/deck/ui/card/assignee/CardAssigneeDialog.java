@@ -21,7 +21,7 @@ import java.io.Serializable;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogPreviewBinding;
 import it.niedermann.nextcloud.deck.model.User;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDeleteAlertDialogBuilder;
+import it.niedermann.nextcloud.deck.ui.branding.DeleteAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDialog;
 
@@ -69,7 +69,7 @@ public class CardAssigneeDialog extends DialogFragment {
         binding = DialogPreviewBinding.inflate(LayoutInflater.from(requireContext()));
         viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
 
-        AlertDialog.Builder dialogBuilder = new BrandedDeleteAlertDialogBuilder(requireContext());
+        AlertDialog.Builder dialogBuilder = new DeleteAlertDialogBuilder(requireContext());
 
         if (viewModel.canEdit() && cardAssigneeListener != null) {
             dialogBuilder.setPositiveButton(R.string.simple_unassign, (d, w) -> cardAssigneeListener.onUnassignUser(user));

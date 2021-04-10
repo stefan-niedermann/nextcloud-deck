@@ -18,7 +18,6 @@ import java.util.Objects;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogProjectResourcesBinding;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 
 public class CardProjectResourcesDialog extends DialogFragment {
@@ -50,7 +49,7 @@ public class CardProjectResourcesDialog extends DialogFragment {
         binding = DialogProjectResourcesBinding.inflate(LayoutInflater.from(requireContext()));
         viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
 
-        AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
 
         return dialogBuilder
                 .setTitle(projectName)

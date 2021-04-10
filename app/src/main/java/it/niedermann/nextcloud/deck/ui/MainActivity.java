@@ -27,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -84,7 +85,6 @@ import it.niedermann.nextcloud.deck.ui.board.ArchiveBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
@@ -717,7 +717,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             final Stack stack = stackAdapter.getItem(binding.viewPager.getCurrentItem());
             final long stackLocalId = stack.getLocalId();
             observeOnce(mainViewModel.countCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId), MainActivity.this, (numberOfCards) -> {
-                new BrandedAlertDialogBuilder(this)
+                new AlertDialog.Builder(this)
                         .setTitle(R.string.archive_cards)
                         .setMessage(getString(FilterInformation.hasActiveFilter(filterViewModel.getFilterInformation().getValue())
                                 ? R.string.do_you_want_to_archive_all_cards_of_the_filtered_list
@@ -865,7 +865,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                                 });
                                             } else {
                                                 DeckLog.warn("Cannot import account because server version is too low (" + response.getDeckVersion() + "). Minimum server version is currently", Version.minimumSupported());
-                                                runOnUiThread(() -> new BrandedAlertDialogBuilder(MainActivity.this)
+                                                runOnUiThread(() -> new AlertDialog.Builder(MainActivity.this)
                                                         .setTitle(R.string.update_deck)
                                                         .setMessage(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()))
                                                         .setNegativeButton(R.string.simple_discard, null)
@@ -879,7 +879,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                             }
                                         } else {
                                             DeckLog.warn("Cannot import account because server version is currently in maintenance mode.");
-                                            runOnUiThread(() -> new BrandedAlertDialogBuilder(MainActivity.this)
+                                            runOnUiThread(() -> new AlertDialog.Builder(MainActivity.this)
                                                     .setTitle(R.string.maintenance_mode)
                                                     .setMessage(getString(R.string.maintenance_mode_explanation, createdAccount.getUrl()))
                                                     .setPositiveButton(R.string.simple_close, null)
@@ -894,7 +894,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                         mainViewModel.deleteAccount(createdAccount.getId());
                                         if (throwable instanceof OfflineException) {
                                             DeckLog.warn("Cannot import account because device is currently offline.");
-                                            runOnUiThread(() -> new BrandedAlertDialogBuilder(MainActivity.this)
+                                            runOnUiThread(() -> new AlertDialog.Builder(MainActivity.this)
                                                     .setTitle(R.string.you_are_currently_offline)
                                                     .setMessage(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account)
                                                     .setPositiveButton(R.string.simple_close, null)
@@ -1078,7 +1078,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     public void onClone(Board board) {
         final String[] animals = {getString(R.string.clone_cards)};
         final boolean[] checkedItems = {false};
-        new BrandedAlertDialogBuilder(this)
+        new AlertDialog.Builder(this)
                 .setTitle(R.string.clone_board)
                 .setMultiChoiceItems(animals, checkedItems, (dialog, which, isChecked) -> checkedItems[0] = isChecked)
                 .setPositiveButton(R.string.simple_clone, (dialog, which) -> {

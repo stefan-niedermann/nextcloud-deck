@@ -17,7 +17,6 @@ import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogStackCreateBinding;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
 import static it.niedermann.nextcloud.deck.DeckApplication.NO_STACK_ID;
@@ -46,7 +45,7 @@ public class EditStackDialogFragment extends BrandedDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         binding = DialogStackCreateBinding.inflate(requireActivity().getLayoutInflater());
 
-        AlertDialog.Builder builder = new BrandedAlertDialogBuilder(requireActivity())
+        final AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity())
                 .setView(binding.getRoot())
                 .setNeutralButton(android.R.string.cancel, null);
         if (getArguments() == null) {

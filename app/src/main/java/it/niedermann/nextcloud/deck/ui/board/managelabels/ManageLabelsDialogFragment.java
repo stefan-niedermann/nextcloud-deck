@@ -23,9 +23,8 @@ import it.niedermann.nextcloud.deck.databinding.DialogBoardManageLabelsBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDeleteAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
+import it.niedermann.nextcloud.deck.ui.branding.DeleteAlertDialogBuilder;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
@@ -64,7 +63,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
         super.onCreate(savedInstanceState);
 
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        final AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
         binding = DialogBoardManageLabelsBinding.inflate(requireActivity().getLayoutInflater());
         colors = getResources().getStringArray(R.array.board_default_colors);
         adapter = new ManageLabelsAdapter(this, requireContext());
@@ -133,7 +132,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
     public void requestDelete(@NonNull Label label) {
         observeOnce(viewModel.countCardsWithLabel(label.getLocalId()), this, (count) -> {
             if (count > 0) {
-                new BrandedDeleteAlertDialogBuilder(requireContext())
+                new DeleteAlertDialogBuilder(requireContext())
                         .setTitle(getString(R.string.delete_something, label.getTitle()))
                         .setMessage(getResources().getQuantityString(R.plurals.do_you_want_to_delete_the_label, count, count))
                         .setPositiveButton(R.string.simple_delete, (dialog, which) -> deleteLabel(label))

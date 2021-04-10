@@ -25,7 +25,6 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
@@ -67,7 +66,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         super.onCreate(savedInstanceState);
 
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        final AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
 
         binding = DialogBoardShareBinding.inflate(requireActivity().getLayoutInflater());
         adapter = new AccessControlAdapter(viewModel.getCurrentAccount(), this, requireContext());
