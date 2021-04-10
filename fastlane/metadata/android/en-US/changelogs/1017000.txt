@@ -1,0 +1,3 @@
+- 📅 Upcoming cards (#690)
+- 📅 Improve results of upcoming cards widget
+- 🗂 Clean up and avoid orphaned data after deleting an account (#923)
