@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.util.Pair;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -16,11 +17,15 @@ import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGrant
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
 import com.nextcloud.android.sso.ui.UiExceptionManager;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogAccountSwitcherBinding;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.manageaccounts.ManageAccountsActivity;
 
@@ -38,7 +43,10 @@ public class AccountSwitcherDialog extends DialogFragment {
         binding = DialogAccountSwitcherBinding.inflate(requireActivity().getLayoutInflater());
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
-        binding.accountName.setText(viewModel.getCurrentAccount().getUserName());
+        new Thread(() -> {
+            final String displayName = viewModel.getUserByUidDirectly(viewModel.getCurrentAccount().getId(), viewModel.getCurrentAccount().getUserName()).getDisplayname();
+            requireActivity().runOnUiThread(() -> binding.accountName.setText(displayName));
+        }).start();
         binding.accountHost.setText(Uri.parse(viewModel.getCurrentAccount().getUrl()).getHost());
         binding.check.setSelected(true);
 
@@ -58,7 +66,10 @@ public class AccountSwitcherDialog extends DialogFragment {
 
         observeOnce(viewModel.readAccounts(), requireActivity(), (accounts) -> {
             accounts.remove(viewModel.getCurrentAccount());
-            adapter.setAccounts(accounts);
+            new Thread(() -> {
+                List<Pair<Account, String>> accountUserPairs = accounts.stream().map(account -> new Pair<>(account, viewModel.getUserByUidDirectly(account.getId(), account.getUserName()).getDisplayname())).collect(Collectors.toList());
+                requireActivity().runOnUiThread(() -> adapter.setAccounts(accountUserPairs));
+            }).start();
         });
 
         observeOnce(DeckApplication.readCurrentBoardColor(), requireActivity(), this::applyBrand);

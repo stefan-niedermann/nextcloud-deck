@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 public class AccountSwitcherAdapter extends RecyclerView.Adapter<AccountSwitcherViewHolder> {
 
     @NonNull
-    private final List<Account> localAccounts = new ArrayList<>();
+    private final List<Pair<Account, String>> localAccounts = new ArrayList<>();
     @NonNull
     private final Consumer<Account> onAccountClick;
 
@@ -27,7 +28,7 @@ public class AccountSwitcherAdapter extends RecyclerView.Adapter<AccountSwitcher
 
     @Override
     public long getItemId(int position) {
-        return localAccounts.get(position).getId();
+        return localAccounts.get(position).first.getId();
     }
 
     @NonNull
@@ -38,7 +39,7 @@ public class AccountSwitcherAdapter extends RecyclerView.Adapter<AccountSwitcher
 
     @Override
     public void onBindViewHolder(@NonNull AccountSwitcherViewHolder holder, int position) {
-        holder.bind(localAccounts.get(position), onAccountClick);
+        holder.bind(localAccounts.get(position).first, localAccounts.get(position).second, onAccountClick);
     }
 
     @Override
@@ -46,7 +47,7 @@ public class AccountSwitcherAdapter extends RecyclerView.Adapter<AccountSwitcher
         return localAccounts.size();
     }
 
-    public void setAccounts(@NonNull List<Account> localAccounts) {
+    public void setAccounts(@NonNull List<Pair<Account, String>> localAccounts) {
         this.localAccounts.clear();
         this.localAccounts.addAll(localAccounts);
         notifyDataSetChanged();
