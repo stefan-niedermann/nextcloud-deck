@@ -30,13 +30,21 @@
                     android:contentDescription="@null"
                     app:srcCompat="@drawable/ic_label_grey600_24dp" />
 
-                <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
-                    android:id="@+id/labels"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/labelsWrapper"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:completionThreshold="1"
-                    android:hint="@string/label_labels"
-                    android:inputType="text" />
+                    android:hint="@string/label_labels">
+
+                    <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
+                        android:id="@+id/labels"
+                        style="@style/Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:completionThreshold="1"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
             <com.google.android.material.chip.ChipGroup
@@ -60,41 +68,58 @@
                     android:contentDescription="@null"
                     app:srcCompat="@drawable/calendar_blank_grey600_24dp" />
 
-                <EditText
-                    android:id="@+id/dueDateDate"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dueDateDateWrapper"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:enabled="true"
-                    android:focusable="false"
                     android:hint="@string/hint_due_date_date"
-                    android:importantForAutofill="no"
-                    android:inputType="date"
-                    android:maxLines="1"
-                    tools:text="01/07/2020" />
+                    android:paddingStart="0dp"
+                    android:paddingEnd="@dimen/spacer_2x">
 
-                <EditText
-                    android:id="@+id/dueDateTime"
+                    <EditText
+                        android:id="@+id/dueDateDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="true"
+                        android:focusable="false"
+                        android:importantForAutofill="no"
+                        android:inputType="date"
+                        android:maxLines="1"
+                        tools:text="01/07/2020" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dueDateTimeWrapper"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:enabled="true"
-                    android:focusable="false"
-                    android:hint="@string/hint_due_date_time"
-                    android:importantForAutofill="no"
-                    android:inputType="datetime"
-                    android:maxLines="1"
-                    android:minLines="0"
-                    android:textAlignment="center"
-                    tools:text="11:45" />
+                    android:hint="@string/hint_due_date_time">
+
+                    <EditText
+                        android:id="@+id/dueDateTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="true"
+                        android:focusable="false"
+                        android:importantForAutofill="no"
+                        android:inputType="datetime"
+                        android:maxLines="1"
+                        android:minLines="0"
+                        android:textAlignment="center"
+                        tools:text="11:45" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageView
                     android:id="@+id/clearDueDate"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:contentDescription="@string/label_clear_due_date"
-                    android:paddingStart="@dimen/spacer_1x"
+                    android:paddingStart="@dimen/spacer_2x"
                     android:paddingEnd="@dimen/spacer_1x"
                     app:srcCompat="@drawable/ic_close_circle_grey600" />
             </LinearLayout>
@@ -112,13 +137,21 @@
                     android:contentDescription="@null"
                     app:srcCompat="@drawable/ic_person_grey600_24dp" />
 
-                <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
-                    android:id="@+id/people"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/peopleWrapper"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:completionThreshold="1"
-                    android:hint="@string/hint_assign_people"
-                    android:inputType="text" />
+                    android:hint="@string/hint_assign_people">
+
+                    <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
+                        android:id="@+id/people"
+                        style="@style/Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:completionThreshold="1"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -164,22 +197,34 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <it.niedermann.android.markdown.MarkdownEditorImpl
-                android:id="@+id/descriptionEditor"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/descriptionEditorWrapper"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacer_1x"
-                android:textColor="?attr/colorAccent"
-                android:textSize="@dimen/font_size_description" />
+                android:hint="@string/label_description">
+
+                <it.niedermann.android.markdown.MarkdownEditorImpl
+                    android:id="@+id/descriptionEditor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacer_1x"
+                    android:padding="@dimen/spacer_2x"
+                    android:textColor="?attr/colorAccent"
+                    android:textSize="@dimen/font_size_description" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <it.niedermann.android.markdown.MarkdownViewerImpl
                 android:id="@+id/descriptionViewer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacer_2x"
+                android:layout_marginTop="@dimen/spacer_1hx"
+                android:padding="@dimen/spacer_2x"
                 android:textColor="?attr/colorAccent"
                 android:textIsSelectable="true"
                 android:textSize="@dimen/font_size_description"
+                android:translationY="1dp"
                 android:visibility="gone" />
         </LinearLayout>
 

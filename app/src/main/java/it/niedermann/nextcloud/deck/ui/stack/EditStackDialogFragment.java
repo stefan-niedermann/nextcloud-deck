@@ -21,7 +21,7 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
 import static it.niedermann.nextcloud.deck.DeckApplication.NO_STACK_ID;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
 
 public class EditStackDialogFragment extends BrandedDialogFragment {
     private static final String KEY_STACK_ID = "stack_id";
@@ -91,6 +91,6 @@ public class EditStackDialogFragment extends BrandedDialogFragment {
 
     @Override
     public void applyBrand(int mainColor) {
-        applyBrandToEditText(mainColor, binding.input);
+        applyBrandToEditTextInputLayout(mainColor, binding.inputWrapper);
     }
 }

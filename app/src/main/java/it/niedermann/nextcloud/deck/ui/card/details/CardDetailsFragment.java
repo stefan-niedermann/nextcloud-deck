@@ -60,7 +60,7 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
 
 public class CardDetailsFragment extends Fragment implements OnDateSetListener, OnTimeSetListener, CardAssigneeListener {
 
@@ -132,10 +132,11 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
 
     private void applyBrand(@ColorInt int boardColor) {
         // TODO apply correct branding on the BrandedDatePicker
-        applyBrandToEditText(boardColor, binding.labels);
-        applyBrandToEditText(boardColor, binding.dueDateDate);
-        applyBrandToEditText(boardColor, binding.dueDateTime);
-        applyBrandToEditText(boardColor, binding.people);
+        applyBrandToEditTextInputLayout(boardColor, binding.labelsWrapper);
+        applyBrandToEditTextInputLayout(boardColor, binding.dueDateDateWrapper);
+        applyBrandToEditTextInputLayout(boardColor, binding.dueDateTimeWrapper);
+        applyBrandToEditTextInputLayout(boardColor, binding.peopleWrapper);
+        applyBrandToEditTextInputLayout(boardColor, binding.descriptionEditorWrapper);
         binding.descriptionEditor.setSearchColor(boardColor);
         binding.descriptionViewer.setSearchColor(boardColor);
     }
@@ -149,13 +150,13 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
                 if (editorActive) {
                     binding.descriptionEditor.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
                     binding.descriptionBar.setOnClickListener((view) -> binding.descriptionEditor.requestFocus());
-                    binding.descriptionEditor.setVisibility(VISIBLE);
+                    binding.descriptionEditorWrapper.setVisibility(VISIBLE);
                     binding.descriptionViewer.setVisibility(GONE);
                     binding.descriptionToggle.setImageResource(R.drawable.ic_baseline_eye_24);
                 } else {
                     binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
                     binding.descriptionBar.setOnClickListener(null);
-                    binding.descriptionEditor.setVisibility(GONE);
+                    binding.descriptionEditorWrapper.setVisibility(GONE);
                     binding.descriptionViewer.setVisibility(VISIBLE);
                     binding.descriptionToggle.setImageResource(R.drawable.ic_edit_grey600_24dp);
                 }
@@ -174,7 +175,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
             binding.descriptionViewer.getMarkdownString().observe(getViewLifecycleOwner(), descriptionObserver);
         } else {
             binding.descriptionEditor.setEnabled(false);
-            binding.descriptionEditor.setVisibility(VISIBLE);
+            binding.descriptionEditorWrapper.setVisibility(VISIBLE);
             binding.descriptionViewer.setEnabled(false);
             binding.descriptionViewer.setVisibility(GONE);
             binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());

@@ -19,7 +19,7 @@ import it.niedermann.nextcloud.deck.databinding.DialogAddCommentBinding;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
 
 public class CardCommentsEditDialogFragment extends BrandedDialogFragment {
     private static final String BUNDLE_KEY_COMMENT_ID = "commentId";
@@ -80,7 +80,7 @@ public class CardCommentsEditDialogFragment extends BrandedDialogFragment {
 
     @Override
     public void applyBrand(int mainColor) {
-        applyBrandToEditText(mainColor, binding.input);
+        applyBrandToEditTextInputLayout(mainColor, binding.inputWrapper);
     }
 }
 
