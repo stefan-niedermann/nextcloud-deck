@@ -144,18 +144,15 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
     private void setupDescription() {
         if (viewModel.canEdit()) {
             binding.descriptionViewer.setMovementMethod(LinkMovementMethod.getInstance());
-            binding.descriptionBar.setOnClickListener((v) -> binding.descriptionEditor.requestFocus());
             binding.descriptionToggle.setOnClickListener((v) -> {
                 editorActive = !editorActive;
                 if (editorActive) {
                     binding.descriptionEditor.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
-                    binding.descriptionBar.setOnClickListener((view) -> binding.descriptionEditor.requestFocus());
                     binding.descriptionEditorWrapper.setVisibility(VISIBLE);
                     binding.descriptionViewer.setVisibility(GONE);
                     binding.descriptionToggle.setImageResource(R.drawable.ic_baseline_eye_24);
                 } else {
                     binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
-                    binding.descriptionBar.setOnClickListener(null);
                     binding.descriptionEditorWrapper.setVisibility(GONE);
                     binding.descriptionViewer.setVisibility(VISIBLE);
                     binding.descriptionToggle.setImageResource(R.drawable.ic_edit_grey600_24dp);
