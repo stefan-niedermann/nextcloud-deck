@@ -59,6 +59,7 @@ import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
 import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
 
@@ -166,7 +167,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
                 } else {
                     ExceptionDialogFragment.newInstance(new IllegalStateException(FullCard.class.getSimpleName() + " was empty when trying to setup description"), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 }
-                binding.descriptionToggle.setVisibility(TextUtils.isEmpty(description) ? GONE : VISIBLE);
+                binding.descriptionToggle.setVisibility(TextUtils.isEmpty(description) ? INVISIBLE : VISIBLE);
             };
             binding.descriptionEditor.getMarkdownString().observe(getViewLifecycleOwner(), descriptionObserver);
             binding.descriptionViewer.getMarkdownString().observe(getViewLifecycleOwner(), descriptionObserver);
@@ -280,7 +281,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
             }
             binding.labelsGroup.setVisibility(VISIBLE);
         } else {
-            binding.labelsGroup.setVisibility(View.INVISIBLE);
+            binding.labelsGroup.setVisibility(INVISIBLE);
         }
     }
 
