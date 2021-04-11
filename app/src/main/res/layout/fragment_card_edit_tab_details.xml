@@ -188,7 +188,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="bottom"
-                    android:layout_marginEnd="@dimen/spacer_1x"
+                    android:layout_marginEnd="6dp"
                     android:background="?attr/colorPrimary"
                     android:contentDescription="@string/edit_description"
                     android:paddingStart="@dimen/spacer_1hx"
