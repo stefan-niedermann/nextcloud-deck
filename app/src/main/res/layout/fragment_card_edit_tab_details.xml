@@ -135,59 +135,71 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacer_1x"
-                    android:layout_marginBottom="@dimen/spacer_1x"
                     android:layout_weight="1"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     tools:listitem="@tools:sample/avatars" />
-
-                <ImageView
-                    android:id="@+id/descriptionToggle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/edit_description"
-                    android:padding="@dimen/spacer_1x"
-                    android:visibility="invisible"
-                    app:srcCompat="@drawable/ic_baseline_eye_24"
-                    tools:visibility="visible" />
             </LinearLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/descriptionEditorWrapper"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/label_description">
+                android:layout_height="wrap_content">
 
-                <it.niedermann.android.markdown.MarkdownEditorImpl
-                    android:id="@+id/descriptionEditor"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/descriptionEditorWrapper"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacer_1x"
+                    android:hint="@string/label_description">
+
+                    <it.niedermann.android.markdown.MarkdownEditorImpl
+                        android:id="@+id/descriptionEditor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacer_1x"
+                        android:paddingStart="@dimen/spacer_1x"
+                        android:paddingTop="@dimen/spacer_2x"
+                        android:paddingEnd="@dimen/spacer_1x"
+                        android:paddingBottom="@dimen/spacer_2x"
+                        android:textColor="?attr/colorAccent"
+                        android:textSize="@dimen/font_size_description" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <it.niedermann.android.markdown.MarkdownViewerImpl
+                    android:id="@+id/descriptionViewer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
                     android:paddingStart="@dimen/spacer_1x"
                     android:paddingTop="@dimen/spacer_2x"
                     android:paddingEnd="@dimen/spacer_1x"
                     android:paddingBottom="@dimen/spacer_2x"
                     android:textColor="?attr/colorAccent"
-                    android:textSize="@dimen/font_size_description" />
+                    android:textIsSelectable="true"
+                    android:textSize="@dimen/font_size_description"
+                    android:translationY="1dp"
+                    android:visibility="gone" />
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <it.niedermann.android.markdown.MarkdownViewerImpl
-                android:id="@+id/descriptionViewer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacer_1hx"
-                android:paddingStart="@dimen/spacer_1x"
-                android:paddingTop="@dimen/spacer_2x"
-                android:paddingEnd="@dimen/spacer_1x"
-                android:paddingBottom="@dimen/spacer_2x"
-                android:textColor="?attr/colorAccent"
-                android:textIsSelectable="true"
-                android:textSize="@dimen/font_size_description"
-                android:translationY="1dp"
-                android:visibility="gone" />
+                <ImageButton
+                    android:id="@+id/descriptionToggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="bottom"
+                    android:layout_marginEnd="@dimen/spacer_1x"
+                    android:background="?attr/colorPrimary"
+                    android:contentDescription="@string/edit_description"
+                    android:paddingStart="@dimen/spacer_1hx"
+                    android:paddingTop="@dimen/spacer_1x"
+                    android:paddingEnd="@dimen/spacer_1hx"
+                    android:paddingBottom="@dimen/spacer_1hx"
+                    android:translationY="-7dp"
+                    android:visibility="invisible"
+                    app:srcCompat="@drawable/ic_baseline_eye_24"
+                    tools:visibility="visible" />
+            </RelativeLayout>
         </LinearLayout>
 
         <TextView
