@@ -1,0 +1,9 @@
+1.17.1
+
+- ✨ New input design
+
+1.17.0
+
+- 📅 Upcoming cards (#690)
+- 📅 Improve results of upcoming cards widget
+- 🗂 Clean up and avoid orphaned data after deleting an account (#923)
