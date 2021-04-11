@@ -125,20 +125,13 @@
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/assignees"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/assignees"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacer_1x"
-                    android:layout_weight="1"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    tools:listitem="@tools:sample/avatars" />
-            </LinearLayout>
+                android:layout_marginTop="@dimen/spacer_1x"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:listitem="@tools:sample/avatars" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
