@@ -14,6 +14,9 @@
 
     <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:navigationBarColor">@color/primary</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
@@ -41,6 +44,7 @@
         <!-- https://github.com/stefan-niedermann/nextcloud-deck/issues/444 -->
         <item name="android:ellipsize">end</item>
         <item name="android:listDivider">@null</item>
+        <item name="android:colorControlHighlight">@android:color/transparent</item>
     </style>
 
     <style name="TransparentTheme" parent="Theme.AppCompat.NoActionBar">
