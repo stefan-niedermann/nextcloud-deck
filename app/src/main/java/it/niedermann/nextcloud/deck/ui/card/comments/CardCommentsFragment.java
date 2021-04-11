@@ -32,7 +32,6 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 
@@ -159,7 +158,6 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
     }
 
     private void applyBrand(int mainColor) {
-        applyBrandToEditText(mainColor, binding.message);
         applyBrandToFAB(mainColor, binding.fab);
         applyBrandToEditTextInputLayout(mainColor, binding.messageWrapper);
     }

@@ -13,7 +13,7 @@ import it.niedermann.nextcloud.deck.databinding.DialogTextColorInputBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
 
 public class EditLabelDialogFragment extends BrandedDialogFragment {
 
@@ -84,6 +84,6 @@ public class EditLabelDialogFragment extends BrandedDialogFragment {
 
     @Override
     public void applyBrand(int mainColor) {
-        applyBrandToEditText(mainColor, binding.input);
+        applyBrandToEditTextInputLayout(mainColor, binding.inputWrapper);
     }
 }
