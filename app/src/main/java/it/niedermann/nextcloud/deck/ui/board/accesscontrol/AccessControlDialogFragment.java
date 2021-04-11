@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
@@ -25,15 +26,14 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
 import static it.niedermann.nextcloud.deck.ui.board.accesscontrol.AccessControlAdapter.HEADER_ITEM_LOCAL_ID;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
 
-public class AccessControlDialogFragment extends BrandedDialogFragment implements AccessControlChangedListener, OnItemClickListener {
+public class AccessControlDialogFragment extends DialogFragment implements AccessControlChangedListener, OnItemClickListener {
 
     private MainViewModel viewModel;
     private DialogBoardShareBinding binding;
@@ -84,6 +84,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
                     binding.people.setAdapter(userAutoCompleteAdapter);
                     binding.people.setOnItemClickListener(this);
                 });
+                applyBrand(fullBoard.getBoard().getColor());
             } else {
                 // Happens when someone revokes his own access → board gets deleted locally → LiveData fires, but no board
                 // see https://github.com/stefan-niedermann/nextcloud-deck/issues/410
@@ -159,9 +160,8 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         userAutoCompleteAdapter.exclude(user);
     }
 
-    @Override
-    public void applyBrand(int mainColor) {
-        applyBrandToEditText(mainColor, binding.people);
+    public void applyBrand(@ColorInt int mainColor) {
+        applyBrandToEditTextInputLayout(mainColor, binding.peopleWrapper);
         this.adapter.applyBrand(mainColor);
     }
 

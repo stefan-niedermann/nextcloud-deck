@@ -7,14 +7,24 @@
     android:orientation="vertical"
     android:padding="?attr/dialogPreferredPadding">
 
-    <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
-        android:id="@+id/people"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/peopleWrapper"
+        style="@style/TextInputLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacer_2x"
-        android:completionThreshold="1"
         android:hint="@string/hint_assign_people"
-        android:inputType="text" />
+        android:labelFor="@id/people">
+
+        <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
+            android:id="@+id/people"
+            style="@style/Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacer_2x"
+            android:completionThreshold="1"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/peopleList"
