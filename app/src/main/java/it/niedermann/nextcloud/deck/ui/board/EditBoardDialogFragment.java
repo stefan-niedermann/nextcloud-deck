@@ -62,7 +62,7 @@ public class EditBoardDialogFragment extends DialogFragment {
                     String title = this.fullBoard.getBoard().getTitle();
                     binding.input.setText(title);
                     binding.input.setSelection(title.length());
-                    applyBrand(fb.getBoard().getColor());
+                    applyBrandToEditTextInputLayout(fb.getBoard().getColor(), binding.inputWrapper);
                     binding.colorChooser.selectColor(fullBoard.getBoard().getColor());
                 }
             });
@@ -70,7 +70,6 @@ public class EditBoardDialogFragment extends DialogFragment {
             dialogBuilder.setTitle(R.string.add_board);
             dialogBuilder.setPositiveButton(R.string.simple_add, (dialog, which) -> editBoardListener.onCreateBoard(binding.input.getText().toString(), binding.colorChooser.getSelectedColor()));
             binding.colorChooser.selectColor(ContextCompat.getColor(requireContext(), R.color.board_default_color));
-            applyBrand(ContextCompat.getColor(requireContext(), R.color.accent));
         }
 
         return dialogBuilder
@@ -93,9 +92,5 @@ public class EditBoardDialogFragment extends DialogFragment {
 
     public static DialogFragment newInstance() {
         return newInstance(null);
-    }
-
-    public void applyBrand(int mainColor) {
-        applyBrandToEditTextInputLayout(mainColor, binding.inputWrapper);
     }
 }

@@ -24,6 +24,11 @@
         <item name="android:background">?attr/colorPrimary</item>
     </style>
 
+    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/text_input_layout_color</item>
+        <item name="hintTextColor">@color/text_input_layout_color</item>
+    </style>
+
     <!-- Default is a light theme with the dark blue brand -->
     <style name="AppTheme" parent="BaseTheme" />
 
