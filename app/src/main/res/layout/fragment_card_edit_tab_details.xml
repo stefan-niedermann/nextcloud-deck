@@ -54,6 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:hint="@string/hint_due_date_date"
+                    android:labelFor="@id/dueDateDate"
                     android:paddingStart="0dp"
                     android:paddingEnd="@dimen/spacer_2x"
                     app:startIconDrawable="@drawable/calendar_blank_grey600_24dp">
@@ -77,7 +78,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:hint="@string/hint_due_date_time">
+                    android:hint="@string/hint_due_date_time"
+                    android:labelFor="@id/dueDateTime">
 
                     <EditText
                         android:id="@+id/dueDateTime"
