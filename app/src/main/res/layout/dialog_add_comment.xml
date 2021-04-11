@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/inputWrapper"
+    style="@style/TextInputLayoutStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:hint="@string/simple_comment"
+    android:labelFor="@id/input"
     android:padding="?attr/dialogPreferredPadding">
 
     <EditText
         android:id="@+id/input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/simple_comment"
         android:imeOptions="actionDone"
         android:importantForAutofill="no"
         android:inputType="text" />
 
-</FrameLayout>
+</com.google.android.material.textfield.TextInputLayout>

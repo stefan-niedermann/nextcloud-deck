@@ -6,17 +6,26 @@
     android:orientation="vertical"
     android:padding="?attr/dialogPreferredPadding">
 
-    <EditText
-        android:id="@+id/input"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputWrapper"
+        style="@style/TextInputLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/simple_title"
-        android:imeOptions="actionDone"
-        android:importantForAutofill="no"
-        android:inputType="text">
+        android:labelFor="@id/input">
 
-        <requestFocus />
-    </EditText>
+        <EditText
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="text">
+
+            <requestFocus />
+        </EditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <it.niedermann.nextcloud.deck.ui.view.ColorChooser
         android:id="@+id/colorChooser"

@@ -109,7 +109,10 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:orientation="horizontal"
-            android:padding="@dimen/spacer_2x">
+            android:paddingStart="@dimen/spacer_2x"
+            android:paddingTop="@dimen/spacer_1x"
+            android:paddingEnd="@dimen/spacer_2x"
+            android:paddingBottom="@dimen/spacer_1x">
 
             <ImageView
                 android:id="@+id/avatar"
@@ -118,27 +121,34 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/spacer_1x"
                 android:contentDescription="@null"
+                android:translationY="@dimen/spacer_1qx"
                 app:srcCompat="@drawable/ic_person_grey600_24dp"
                 tools:srcCompat="@tools:sample/avatars" />
 
-            <EditText
-                android:id="@+id/message"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/messageWrapper"
+                style="@style/TextInputLayoutStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/spacer_1x"
                 android:layout_marginEnd="@dimen/spacer_2x"
                 android:layout_weight="1"
-                android:autofillHints="@null"
                 android:hint="@string/add_comment"
-                android:imeOptions="flagNoExtractUi|actionSend"
-                android:inputType="text"
-                android:maxLength="@integer/comment_max_length"
-                android:paddingEnd="@dimen/spacer_1x"
-                tools:ignore="RtlSymmetry">
+                android:labelFor="@id/message">
 
-                <requestFocus />
-            </EditText>
+                <EditText
+                    android:id="@+id/message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="@null"
+                    android:imeOptions="flagNoExtractUi|actionSend"
+                    android:inputType="text"
+                    android:maxLength="@integer/comment_max_length">
+
+                    <requestFocus />
+                </EditText>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab"
@@ -146,6 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:contentDescription="@string/add_comment"
+                android:translationY="@dimen/spacer_1qx"
                 app:backgroundTint="@color/defaultBrand"
                 app:fabSize="mini"
                 app:srcCompat="@drawable/ic_send_white_24dp" />

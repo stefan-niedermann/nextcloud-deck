@@ -17,33 +17,28 @@
             android:orientation="vertical"
             android:padding="@dimen/spacer_2x">
 
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/labelsWrapper"
+                style="@style/TextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacer_2x"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="@dimen/icon_size_details"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/spacer_2x"
-                    android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_label_grey600_24dp" />
+                android:hint="@string/label_labels"
+                app:startIconDrawable="@drawable/ic_label_grey600_24dp">
 
                 <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
                     android:id="@+id/labels"
+                    style="@style/Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:completionThreshold="1"
-                    android:hint="@string/label_labels"
                     android:inputType="text" />
-            </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/labelsGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
                 android:animateLayoutChanges="true" />
 
             <LinearLayout
@@ -52,135 +47,148 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacer_2x">
 
-
-                <ImageView
-                    android:layout_width="@dimen/icon_size_details"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/spacer_2x"
-                    android:contentDescription="@null"
-                    app:srcCompat="@drawable/calendar_blank_grey600_24dp" />
-
-                <EditText
-                    android:id="@+id/dueDateDate"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dueDateDateWrapper"
+                    style="@style/TextInputLayoutStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:enabled="true"
-                    android:focusable="false"
                     android:hint="@string/hint_due_date_date"
-                    android:importantForAutofill="no"
-                    android:inputType="date"
-                    android:maxLines="1"
-                    tools:text="01/07/2020" />
+                    android:labelFor="@id/dueDateDate"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="@dimen/spacer_2x"
+                    app:startIconDrawable="@drawable/calendar_blank_grey600_24dp">
 
-                <EditText
-                    android:id="@+id/dueDateTime"
+                    <EditText
+                        android:id="@+id/dueDateDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="true"
+                        android:focusable="false"
+                        android:importantForAutofill="no"
+                        android:inputType="date"
+                        android:maxLines="1"
+                        tools:text="01/07/2020" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dueDateTimeWrapper"
+                    style="@style/TextInputLayoutStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:enabled="true"
-                    android:focusable="false"
                     android:hint="@string/hint_due_date_time"
-                    android:importantForAutofill="no"
-                    android:inputType="datetime"
-                    android:maxLines="1"
-                    android:minLines="0"
-                    android:textAlignment="center"
-                    tools:text="11:45" />
+                    android:labelFor="@id/dueDateTime">
+
+                    <EditText
+                        android:id="@+id/dueDateTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:enabled="true"
+                        android:focusable="false"
+                        android:importantForAutofill="no"
+                        android:inputType="datetime"
+                        android:maxLines="1"
+                        android:minLines="0"
+                        android:textAlignment="center"
+                        tools:text="11:45" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageView
                     android:id="@+id/clearDueDate"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:contentDescription="@string/label_clear_due_date"
-                    android:paddingStart="@dimen/spacer_1x"
+                    android:paddingStart="@dimen/spacer_2x"
+                    android:paddingTop="@dimen/spacer_1x"
                     android:paddingEnd="@dimen/spacer_1x"
+                    android:paddingBottom="@dimen/spacer_1x"
+                    android:translationY="@dimen/spacer_1hx"
                     app:srcCompat="@drawable/ic_close_circle_grey600" />
             </LinearLayout>
 
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/peopleWrapper"
+                style="@style/TextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacer_2x"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="@dimen/icon_size_details"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/spacer_2x"
-                    android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_person_grey600_24dp" />
+                android:hint="@string/hint_assign_people"
+                app:startIconDrawable="@drawable/ic_person_grey600_24dp">
 
                 <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
                     android:id="@+id/people"
+                    style="@style/Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:completionThreshold="1"
-                    android:hint="@string/hint_assign_people"
                     android:inputType="text" />
-            </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/assignees"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
                 android:layout_marginTop="@dimen/spacer_1x"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 tools:listitem="@tools:sample/avatars" />
 
-            <LinearLayout
-                android:id="@+id/descriptionBar"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:layout_width="@dimen/icon_size_details"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/descriptionEditorWrapper"
+                    style="@style/TextInputLayoutStyle"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/spacer_2x"
-                    android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_baseline_subject_24" />
+                    android:layout_marginTop="@dimen/spacer_1x"
+                    android:hint="@string/label_description">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/descriptionToggle"
-                        android:layout_width="wrap_content"
+                    <it.niedermann.android.markdown.MarkdownEditorImpl
+                        android:id="@+id/descriptionEditor"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/edit_description"
-                        android:paddingStart="@dimen/spacer_1x"
-                        android:paddingEnd="@dimen/spacer_1x"
-                        android:visibility="gone"
-                        app:srcCompat="@drawable/ic_baseline_eye_24"
-                        tools:visibility="gone" />
-                </LinearLayout>
-            </LinearLayout>
+                        android:layout_marginTop="@dimen/spacer_1x"
+                        android:padding="@dimen/spacer_2x"
+                        android:textColor="?attr/colorAccent"
+                        android:textSize="@dimen/font_size_description" />
 
-            <it.niedermann.android.markdown.MarkdownEditorImpl
-                android:id="@+id/descriptionEditor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacer_1x"
-                android:textColor="?attr/colorAccent"
-                android:textSize="@dimen/font_size_description" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <it.niedermann.android.markdown.MarkdownViewerImpl
-                android:id="@+id/descriptionViewer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacer_2x"
-                android:textColor="?attr/colorAccent"
-                android:textIsSelectable="true"
-                android:textSize="@dimen/font_size_description"
-                android:visibility="gone" />
+                <it.niedermann.android.markdown.MarkdownViewerImpl
+                    android:id="@+id/descriptionViewer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:padding="@dimen/spacer_2x"
+                    android:textColor="?attr/colorAccent"
+                    android:textIsSelectable="true"
+                    android:textSize="@dimen/font_size_description"
+                    android:translationY="1dp"
+                    android:visibility="gone" />
+
+                <ImageButton
+                    android:id="@+id/descriptionToggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="bottom"
+                    android:layout_marginEnd="6dp"
+                    android:background="?attr/colorPrimary"
+                    android:contentDescription="@string/edit_description"
+                    android:paddingStart="@dimen/spacer_1hx"
+                    android:paddingTop="@dimen/spacer_1x"
+                    android:paddingEnd="@dimen/spacer_1hx"
+                    android:paddingBottom="@dimen/spacer_1hx"
+                    android:translationY="-7dp"
+                    android:visibility="invisible"
+                    app:srcCompat="@drawable/ic_baseline_eye_24"
+                    tools:visibility="visible" />
+            </RelativeLayout>
         </LinearLayout>
 
         <TextView

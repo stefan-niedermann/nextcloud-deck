@@ -23,7 +23,6 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterBinding;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
@@ -51,7 +50,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
 
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 
-        final AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
 
         binding = DialogFilterBinding.inflate(requireActivity().getLayoutInflater());
         binding.viewPager.setAdapter(new TabsPagerAdapter(this));

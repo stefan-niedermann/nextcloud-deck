@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -30,7 +31,6 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
@@ -138,7 +138,7 @@ public class EditActivity extends AppCompatActivity {
             } else {
                 observeOnce(viewModel.getFullCardWithProjectsByLocalId(account.getId(), cardId), EditActivity.this, (fullCard) -> {
                     if (fullCard == null) {
-                        new BrandedAlertDialogBuilder(this)
+                        new AlertDialog.Builder(this)
                                 .setTitle(R.string.card_not_found)
                                 .setMessage(R.string.card_not_found_message)
                                 .setPositiveButton(R.string.simple_close, (a, b) -> super.finish())
@@ -225,7 +225,7 @@ public class EditActivity extends AppCompatActivity {
             viewModel.getFullCard().getCard().setTitle(viewModel.getFullCard().getCard().getTitle().trim());
             binding.title.setText(viewModel.getFullCard().getCard().getTitle());
             if (viewModel.getFullCard().getCard().getTitle().isEmpty()) {
-                new BrandedAlertDialogBuilder(this)
+                new AlertDialog.Builder(this)
                         .setTitle(R.string.title_is_mandatory)
                         .setMessage(R.string.provide_at_least_a_title_or_description)
                         .setPositiveButton(android.R.string.ok, null)
@@ -303,7 +303,7 @@ public class EditActivity extends AppCompatActivity {
     @Override
     public void finish() {
         if (!viewModel.hasChanges() && viewModel.canEdit()) {
-            new BrandedAlertDialogBuilder(this)
+            new AlertDialog.Builder(this)
                     .setTitle(R.string.simple_save)
                     .setMessage(R.string.do_you_want_to_save_your_changes)
                     .setPositiveButton(R.string.simple_save, (dialog, whichButton) -> saveAndFinish())

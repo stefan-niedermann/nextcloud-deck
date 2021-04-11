@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,7 +19,6 @@ import com.bumptech.glide.RequestBuilder;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogPreviewBinding;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -65,7 +65,7 @@ public class PreviewDialog extends DialogFragment {
             }
         });
 
-        return new BrandedAlertDialogBuilder(requireContext())
+        return new AlertDialog.Builder(requireContext())
                 .setPositiveButton(R.string.simple_attach, (d, w) -> {
                     viewModel.setResult(true);
                     dismiss();

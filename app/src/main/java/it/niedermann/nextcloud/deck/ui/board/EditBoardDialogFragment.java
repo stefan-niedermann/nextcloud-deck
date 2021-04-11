@@ -15,12 +15,10 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogTextColorInputBinding;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
 
-public class EditBoardDialogFragment extends BrandedDialogFragment {
+public class EditBoardDialogFragment extends DialogFragment {
 
     private DialogTextColorInputBinding binding;
 
@@ -48,7 +46,7 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
 
         final Bundle args = getArguments();
 
-        AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
 
         if (args != null && args.containsKey(KEY_BOARD_ID)) {
             dialogBuilder.setTitle(R.string.edit_board);
@@ -64,6 +62,7 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
                     String title = this.fullBoard.getBoard().getTitle();
                     binding.input.setText(title);
                     binding.input.setSelection(title.length());
+                    applyBrandToEditTextInputLayout(fb.getBoard().getColor(), binding.inputWrapper);
                     binding.colorChooser.selectColor(fullBoard.getBoard().getColor());
                 }
             });
@@ -93,10 +92,5 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
 
     public static DialogFragment newInstance() {
         return newInstance(null);
-    }
-
-    @Override
-    public void applyBrand(int mainColor) {
-        applyBrandToEditText(mainColor, binding.input);
     }
 }

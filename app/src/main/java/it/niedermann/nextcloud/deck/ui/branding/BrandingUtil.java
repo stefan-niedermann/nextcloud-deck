@@ -16,6 +16,7 @@ import androidx.preference.PreferenceManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textfield.TextInputLayout;
 
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -97,6 +98,11 @@ public abstract class BrandingUtil {
                         ContextCompat.getColor(editText.getContext(), R.color.fg_secondary)
                 }
         ));
+    }
+
+    public static void applyBrandToEditTextInputLayout(@ColorInt int color, @NonNull TextInputLayout til) {
+        til.setBoxStrokeColor(contrastRatioIsSufficientBigAreas(color, ContextCompat.getColor(til.getContext(), R.color.primary)) ? color : ContextCompat.getColor(til.getContext(), R.color.accent));
+        til.setHintTextColor(ColorStateList.valueOf(contrastRatioIsSufficient(color, ContextCompat.getColor(til.getContext(), R.color.primary)) ? color : ContextCompat.getColor(til.getContext(), R.color.accent)));
     }
 
     public static void tintMenuIcon(@NonNull MenuItem menuItem, @ColorInt int color) {

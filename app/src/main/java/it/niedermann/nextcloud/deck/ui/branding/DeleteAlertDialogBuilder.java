@@ -4,21 +4,30 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.widget.Button;
 
-import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
 import it.niedermann.nextcloud.deck.R;
 
-public class BrandedDeleteAlertDialogBuilder extends BrandedAlertDialogBuilder {
+public class DeleteAlertDialogBuilder extends AlertDialog.Builder {
 
-    public BrandedDeleteAlertDialogBuilder(Context context) {
+    protected AlertDialog dialog;
+
+    public DeleteAlertDialogBuilder(Context context) {
         super(context);
     }
 
-    @CallSuper
+    @NonNull
     @Override
-    public void applyBrand(int mainColor) {
-        super.applyBrand(mainColor);
+    public AlertDialog create() {
+        this.dialog = super.create();
+        applyBrand();
+        dialog.setOnShowListener(dialog -> applyBrand());
+        return dialog;
+    }
+
+    public void applyBrand() {
         final Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         if (positiveButton != null) {
             positiveButton.setTextColor(ContextCompat.getColor(getContext(), R.color.danger));

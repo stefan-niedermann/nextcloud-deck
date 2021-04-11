@@ -8,6 +8,8 @@
         <item name="android:windowBackground">?attr/colorPrimary</item>
         <item name="textAppearanceHeadline1">@style/Deck.TextAppearance.Headline1</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+        <item name="android:colorControlNormal">?attr/colorAccent</item>
+        <item name="android:colorControlActivated">?attr/colorAccent</item>
     </style>
 
     <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
@@ -20,6 +22,11 @@
 
     <style name="toolbarStyle" parent="@style/Widget.AppCompat.Toolbar">
         <item name="android:background">?attr/colorPrimary</item>
+    </style>
+
+    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/text_input_layout_color</item>
+        <item name="hintTextColor">@color/text_input_layout_color</item>
     </style>
 
     <!-- Default is a light theme with the dark blue brand -->

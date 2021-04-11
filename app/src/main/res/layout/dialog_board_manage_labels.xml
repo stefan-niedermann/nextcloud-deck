@@ -13,15 +13,24 @@
         android:layout_marginBottom="@dimen/spacer_2x"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/add_label_title"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addLabelTitleWrapper"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacer_1x"
             android:layout_weight="1"
             android:hint="@string/add_tag"
-            android:imeOptions="actionSend"
-            android:importantForAutofill="no"
-            android:inputType="text" />
+            android:labelFor="@id/add_label_title">
+
+            <EditText
+                android:id="@+id/add_label_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionSend"
+                android:importantForAutofill="no"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -29,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:contentDescription="@string/add_comment"
+            android:translationY="@dimen/spacer_1qx"
             app:backgroundTint="@color/defaultBrand"
             app:fabSize="mini"
             app:srcCompat="@drawable/ic_send_white_24dp" />
