@@ -32,7 +32,10 @@ public class Migration_30_31 extends Migration {
                 indexCreates.add(cursor.getString(0));
             }
             String newTableName = "`" + table + "_tmp`";
-            String create = originalCreateStatement.replace("CREATE TABLE `" + table + "`", "CREATE TABLE " + newTableName);
+            String newCreate = "CREATE TABLE " + newTableName;
+            String create = originalCreateStatement.replace("CREATE TABLE `" + table + "`", newCreate)
+                    .replace("CREATE TABLE \"" + table + "\"", newCreate)
+                    .replace("CREATE TABLE '" + table + "'", newCreate);
             create = create.substring(0, create.lastIndexOf(')'));
             create += ", FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON DELETE CASCADE )";
             if ("Board".equals(table)) {
