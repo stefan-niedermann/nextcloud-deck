@@ -269,7 +269,6 @@
     <string name="single_card">Carte unique</string>
     <string name="project_type_room">Salon de discussion</string>
     <string name="simple_move">Déplacer</string>
-    <string name="cannot_upload_files_without_permission">Impossible de téléverser des fichiers sans permission</string>
     <string name="clone_cards">Cloner les cartes</string>
     <string name="simple_clone">Cloner</string>
     <string name="user_avatar">Avatar utilisateur</string>

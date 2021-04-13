@@ -279,7 +279,6 @@
     <string name="single_card">Egyetlen kártya</string>
     <string name="project_type_room">Beszélgetés szoba</string>
     <string name="simple_move">Áthelyezés</string>
-    <string name="cannot_upload_files_without_permission">Engedély nélkül nem tölthetők fel fájlok</string>
     <string name="clone_cards">Kártyák klónozása</string>
     <string name="simple_clone">Klónozás</string>
     <string name="user_avatar">Felhasználói profilkép</string>

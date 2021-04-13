@@ -268,7 +268,6 @@
     <string name="single_card">Απλή καρτέλα</string>
     <string name="project_type_room">Δωμάτιο του Talk </string>
     <string name="simple_move">Μετακίνηση</string>
-    <string name="cannot_upload_files_without_permission">Δεν μπορείτε να ανεβάσετε αρχεία χωρίς άδεια</string>
     <string name="clone_cards">Κάρτες κλώνου</string>
     <string name="simple_clone">Κλώνος</string>
     <string name="user_avatar">Άβαταρ χρήστη</string>
