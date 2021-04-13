@@ -269,7 +269,6 @@
     <string name="single_card">Targeta única</string>
     <string name="project_type_room">Sala de xerrades</string>
     <string name="simple_move">Mou</string>
-    <string name="cannot_upload_files_without_permission">No es poden pujar fitxers sense permís</string>
     <string name="clone_cards">Clonar targetes</string>
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Utilitzar avatar</string>

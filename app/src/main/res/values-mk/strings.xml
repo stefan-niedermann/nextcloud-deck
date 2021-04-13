@@ -219,7 +219,6 @@
     <string name="single_card">Единечна картица</string>
     <string name="project_type_room">Соба за разговор</string>
     <string name="simple_move">Премести</string>
-    <string name="cannot_upload_files_without_permission">Неможете да прикачувате датотеки без дозвола</string>
     <string name="clone_cards">Клинирај картици</string>
     <string name="simple_clone">Клонирај</string>
     <string name="simple_contact">Контакт</string>

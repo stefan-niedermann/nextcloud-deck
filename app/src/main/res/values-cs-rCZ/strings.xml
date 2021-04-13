@@ -288,7 +288,6 @@
     <string name="single_card">Jedna karta</string>
     <string name="project_type_room">Diskuzní místnost</string>
     <string name="simple_move">Přesunout</string>
-    <string name="cannot_upload_files_without_permission">Není možné nahrávat soubory bez oprávnění</string>
     <string name="clone_cards">Klonovat karty</string>
     <string name="simple_clone">Klonovat</string>
     <string name="user_avatar">Zástupný obrázek uživatele</string>

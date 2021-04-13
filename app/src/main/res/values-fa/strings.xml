@@ -243,7 +243,6 @@
     <string name="single_card">کارت تک</string>
     <string name="project_type_room">اتاق گفتگو</string>
     <string name="simple_move">انتقال</string>
-    <string name="cannot_upload_files_without_permission">بدون مجوز بارگذاری پرونده ها امکان پذیر نیست</string>
     <string name="clone_cards">شبیه سازی کارت</string>
     <string name="simple_clone">شبیه سازی</string>
     <string name="user_avatar">آواتار کاربر</string>

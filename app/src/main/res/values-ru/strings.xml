@@ -277,7 +277,6 @@
     <string name="single_card">Отдельная карточка</string>
     <string name="project_type_room">Комната конференции</string>
     <string name="simple_move">Переместить</string>
-    <string name="cannot_upload_files_without_permission">Отсутствуют права для загрузки файла</string>
     <string name="clone_cards">Скопировать карточку</string>
     <string name="simple_clone">Скопировать</string>
     <string name="user_avatar">Изображение профиля</string>

@@ -182,7 +182,7 @@
 
     <string name="error">エラーが見つかりました</string>
     <string name="synchronization_failed">同期に失敗</string>
-    <string name="operation_not_yet_supported">未サポート</string>
+    <string name="operation_not_yet_supported">まだ対応していません</string>
     <string name="error_revoking_ac">%1$sへのアクセス取消中のエラー</string>
     <string name="error_create_label">ラベル%1$s作成中のエラー</string>
     <string name="maintenance_mode">サーバーはメンテナンスモードです。</string>
@@ -254,7 +254,6 @@
     <string name="single_card">1つのカード</string>
     <string name="project_type_room">トークルーム</string>
     <string name="simple_move">移動</string>
-    <string name="cannot_upload_files_without_permission">権限が無いためアップロードできません</string>
     <string name="clone_cards">カードを複製</string>
     <string name="simple_clone">複製</string>
     <string name="user_avatar">ユーザーのアバター</string>

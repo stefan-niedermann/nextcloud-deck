@@ -50,7 +50,7 @@
     <string name="about_source_title">Cod sursă</string>
     <string name="about_source">Acest proiect este găzduit pe GitHub: %1$s</string>
     <string name="about_issues_title">Probleme</string>
-    <string name="about_issues">Puteți raporta erori, propuneri de îmbunătățiri și cereri de caracteristici la urmăritorul de probleme GitHub: %1$s</string>
+    <string name="about_issues">Puteți raporta erori, propuneri de îmbunătățiri și cereri de caracteristici în tracker-ul de probleme GitHub: %1$s</string>
     <string name="about_translate_title">Tradu</string>
     <string name="about_translate">Alăturați-vă echipei Nextcloud de pe Transifex și ajutați-ne să traducem această aplicație:%1$s</string>
     <string name="about_app_license_title">Licența aplicației</string>
@@ -122,7 +122,9 @@
     <string name="settings_theme_title">Teme</string>
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Mod compact</string>
+    <string name="settings_debugging">Log-uri depanare</string>
     <string name="settings_background_sync">Sincronizare de fundal</string>
+    <string name="settings_compress_image_attachments">Comprimă imaginile la urcare</string>
     <string name="pref_value_wifi_and_mobile">Sincronizare pe Wi-Fi și date mobile</string>
     <string name="pref_value_wifi_only">Sincronizare doare pe Wi-Fi</string>
     <string-array name="darkmode_entries">
@@ -226,6 +228,7 @@
     <string name="error_dialog_attachment_upload_failed">Un atașament nu a putut fi încărcat. Vă rugăm să încercați să îl partajați într-un alt mod și să ne informați despre această eroare.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Vă rugăm să dezactivați toate optimizările bateriei pentru Nextcloud și aplicația Deck.</string>
     <string name="error_action_open_deck_info">Deschide info-ul aplicației </string>
+    <string name="error_action_open_nextcloud_app">Deschide app-ul Nextcolud</string>
     <string name="error_action_open_network">Setări de rețea </string>
     <string name="error_action_server_logs">Log-urile serverului</string>
     <string name="error_action_install">Instalează</string>
@@ -273,7 +276,6 @@
     <string name="single_card">Card unic</string>
     <string name="project_type_room">Camera de Talk</string>
     <string name="simple_move">Mută</string>
-    <string name="cannot_upload_files_without_permission">Fișierele nu pot fi încărcate fără permisiune</string>
     <string name="clone_cards">Clonează carduri</string>
     <string name="simple_clone">Clonează</string>
     <string name="user_avatar">Avatar utilizator</string>

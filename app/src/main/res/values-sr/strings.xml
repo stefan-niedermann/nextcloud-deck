@@ -267,7 +267,6 @@
     <string name="single_card">Засебна картица</string>
     <string name="project_type_room">Причаоница</string>
     <string name="simple_move">Помери</string>
-    <string name="cannot_upload_files_without_permission">Не могу да отпремим фајлове без дозвола</string>
     <string name="clone_cards">Клонирај картице</string>
     <string name="simple_clone">Клонирај</string>
     <string name="user_avatar">Кориснички аватар</string>

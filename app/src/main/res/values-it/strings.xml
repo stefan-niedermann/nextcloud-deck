@@ -280,7 +280,6 @@
     <string name="single_card">Scheda singola</string>
     <string name="project_type_room">Stanza di Talk</string>
     <string name="simple_move">Sposta</string>
-    <string name="cannot_upload_files_without_permission">Impossible caricare file senza permesso</string>
     <string name="clone_cards">Clona schede</string>
     <string name="simple_clone">Clona</string>
     <string name="user_avatar">Avatar dell\'utente</string>

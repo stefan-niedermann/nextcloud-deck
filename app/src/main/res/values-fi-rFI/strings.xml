@@ -265,7 +265,6 @@
     <string name="single_card">Yksittäinen kortti</string>
     <string name="project_type_room">Keskusteluhuone</string>
     <string name="simple_move">Siirrä</string>
-    <string name="cannot_upload_files_without_permission">Tiedostojen lähettäminen ei ole mahdollista ilman käyttöoikeutta</string>
     <string name="clone_cards">Kloonaa kortteja</string>
     <string name="simple_clone">Kloonaa</string>
     <string name="user_avatar">Käyttäjän avatar</string>

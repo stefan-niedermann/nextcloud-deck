@@ -263,7 +263,6 @@
     <string name="single_card">Enskilt kort</string>
     <string name="project_type_room">Talk-rum</string>
     <string name="simple_move">Flytta</string>
-    <string name="cannot_upload_files_without_permission">Kan inte ladda upp filer utan tillåtelse</string>
     <string name="clone_cards">Klona kort</string>
     <string name="simple_clone">Klona</string>
     <string name="user_avatar">Användar-avatar</string>
