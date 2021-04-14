@@ -26,6 +26,7 @@ public class Migration_30_31 extends Migration {
         database.execSQL("CREATE INDEX `index_AccessControl_id` ON `AccessControl` (`id`)");
         database.execSQL("CREATE INDEX `index_AccessControl_lastModifiedLocal` ON `AccessControl` (`lastModifiedLocal`)");
         database.execSQL("CREATE UNIQUE INDEX `index_AccessControl_accountId_id` ON `AccessControl` (`accountId`, `id`)");
+        database.execSQL("DROP TABLE IF EXISTS `Activity_tmp`");
         database.execSQL("CREATE TABLE `Activity_tmp` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER NOT NULL, `id` INTEGER, `status` INTEGER NOT NULL, `lastModified` INTEGER, `lastModifiedLocal` INTEGER, `etag` TEXT, `cardId` INTEGER NOT NULL, `subject` TEXT, `type` INTEGER NOT NULL, FOREIGN KEY(`cardId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON DELETE CASCADE )");
         database.execSQL("DELETE FROM `Activity` where accountId not in (select id from `Account`)");
         database.execSQL("UPDATE `Activity` SET `type` = 2 WHERE `type` IS NULL");
