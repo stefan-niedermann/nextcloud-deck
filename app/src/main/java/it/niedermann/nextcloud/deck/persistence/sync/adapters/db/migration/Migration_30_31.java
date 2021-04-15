@@ -17,6 +17,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
  * The problem with this approach was that various different Android environments had different String quotes
  * (<code>"</code>, <code>'</code>, <code>`</code>) which messed up table name replacement logic.<br />
  * Fixed by explicitly creating each table manually.
+ * <p>
+ * Affected app versions: <code>1017000 (1.17.2)</code> - <code>1017002 (1.17.2)</code>
  * </li>
  * <li>
  *     <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/935">2. issue: SQLiteConstraintException</a>
@@ -25,6 +27,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
  * Fixed by explicitly selecting the values of each column manually instead of using a wildcard
  * <p>
  * To fix states where the migration was partially successful, the <code>*_tmp</code> tables will be dropped, so a half migration can successfully continue.
+ * <p>
+ * Affected app versions: <code>1017000 (1.17.3)</code> - <code>1017002 (1.17.6)</code>
  * </li>
  * </ul>
  */
