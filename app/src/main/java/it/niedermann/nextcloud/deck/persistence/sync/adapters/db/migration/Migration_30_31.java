@@ -5,7 +5,28 @@ import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 /**
- * <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/923">Foreign keys don't cascade (Cards stay in the database after deleting an Account)</a>
+ * <strong><a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/923">Foreign keys don't cascade (Cards stay in the database after deleting an Account)</a></strong>
+ * <p>
+ * This migration had two issues in the past:
+ * <ul>
+ *     <li>
+ * <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/936">1. Issue: SQLiteException</a>
+ * <p>
+ * <code>SQLiteException: table "Board" already exists (code 1): , while compiling: CREATE TABLE "Board" […]</code><br />
+ * Caused by directly selecting the <code>CREATE</code> statements of the tables and executing them again.<br />
+ * The problem with this approach was that various different Android environments had different String quotes
+ * (<code>"</code>, <code>'</code>, <code>`</code>) which messed up table name replacement logic.<br />
+ * Fixed by explicitly creating each table manually.
+ * </li>
+ * <li>
+ *     <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/935">2. issue: SQLiteConstraintException</a>
+ * <p>
+ * <code>SQLiteConstraintException: NOT NULL constraint failed: Activity_tmp.type (code 1299 SQLITE_CONSTRAINT_NOTNULL[1299])</code><br />
+ * Fixed by explicitly selecting the values of each column manually instead of using a wildcard
+ * <p>
+ * To fix states where the migration was partially successful, the <code>*_tmp</code> tables will be dropped, so a half migration can successfully continue.
+ * </li>
+ * </ul>
  */
 public class Migration_30_31 extends Migration {
 
