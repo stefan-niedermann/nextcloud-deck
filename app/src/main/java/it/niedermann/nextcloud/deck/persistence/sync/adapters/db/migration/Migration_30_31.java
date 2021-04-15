@@ -18,7 +18,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
  * (<code>"</code>, <code>'</code>, <code>`</code>) which messed up table name replacement logic.<br />
  * Fixed by explicitly creating each table manually.
  * <p>
- * Affected app versions: <code>1017000 (1.17.2)</code> - <code>1017002 (1.17.2)</code>
+ * Affected app versions: <code>1017000 (1.17.0)</code> - <code>1017002 (1.17.2)</code>
  * </li>
  * <li>
  *     <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/935">2. issue: SQLiteConstraintException</a>
