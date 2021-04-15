@@ -310,4 +310,5 @@
     <string name="log_file">Naplófájl</string>
     <string name="copying_logs_to_file">Naplók fájlba másolása…</string>
     <string name="account_imported">Fiók importálva</string>
-    </resources>
+    <string name="simple_search">Keresés</string>
+</resources>

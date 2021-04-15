@@ -276,6 +276,7 @@
     <string name="single_card">單則卡片</string>
     <string name="project_type_room">Talk 聊天室</string>
     <string name="simple_move">移動</string>
+    <string name="cannot_upload_files_without_permission">未經許可無法上傳文件</string>
     <string name="clone_cards">複製 cards</string>
     <string name="simple_clone">複製</string>
     <string name="user_avatar">用戶頭像</string>
