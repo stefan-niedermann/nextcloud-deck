@@ -280,6 +280,7 @@
     <string name="single_card">Cartão único</string>
     <string name="project_type_room">Sala de conversação</string>
     <string name="simple_move">Mover</string>
+    <string name="cannot_upload_files_without_permission">Não é possível fazer envio de arquivos sem permissão </string>
     <string name="clone_cards">Clonar cartões</string>
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Avatar do usuário</string>
