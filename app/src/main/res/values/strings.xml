@@ -144,6 +144,8 @@
     <string name="settings_theme_title">Theme</string>
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Compact mode</string>
+    <string name="settings_cover_images_title">Cover images</string>
+    <string name="settings_cover_images_summary">Attachments uploaded with Deck ≥ 1.3.0</string>
     <string name="settings_debugging">Debug logs</string>
     <string name="settings_etags">Use ETags</string>
     <string name="settings_etags_summary">Speeds up synchronization</string>

@@ -20,8 +20,8 @@
         <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
             android:icon="@drawable/ic_baseline_photo_size_select_small_24"
             android:key="@string/pref_key_compress_image_attachments"
-            android:title="@string/settings_compress_image_attachments"
             android:summary="@string/settings_compress_image_attachments_summary"
+            android:title="@string/settings_compress_image_attachments"
             app:defaultValue="true" />
     </it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory>
 
@@ -40,6 +40,13 @@
             android:key="@string/pref_key_compact"
             android:title="@string/settings_compact_title"
             app:defaultValue="false" />
+
+        <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
+            android:icon="@drawable/ic_image_grey600_24dp"
+            android:key="@string/pref_key_cover_images"
+            android:summary="@string/settings_cover_images_summary"
+            android:title="@string/settings_cover_images_title"
+            app:defaultValue="true" />
     </it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory>
 
     <it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory android:title="@string/simple_expert_settings">

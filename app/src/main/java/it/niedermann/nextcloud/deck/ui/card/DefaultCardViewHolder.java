@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,19 +15,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 
 import org.jetbrains.annotations.Contract;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultBinding;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Card.TaskStatus;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.util.AttachmentUtil;
+import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
 public class DefaultCardViewHolder extends AbstractCardViewHolder {
     private final ItemCardDefaultBinding binding;
@@ -58,6 +65,25 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
         } else {
             setupCounter(binding.cardCountAttachments, counterMaxValue, attachmentsCount);
             binding.cardCountAttachments.setVisibility(View.VISIBLE);
+        }
+
+        binding.coverImages.removeAllViews();
+        final List<Attachment> coverImages = fullCard.getAttachments()
+                .stream()
+                .filter(attachment -> MimeTypeUtil.isImage(attachment.getMimetype()))
+                .limit(3)
+                .collect(Collectors.toList());
+        binding.coverImages.setVisibility(coverImages.size() > 0 ? View.VISIBLE : View.GONE);
+        binding.coverImages.setColumnCount(coverImages.size());
+        for (int i = 0; i < coverImages.size(); i++) {
+            DeckLog.info("Card", fullCard.getCard().getTitle(), "Attachment:", coverImages.get(i).getBasename());
+            final ImageView coverImage = new ImageView(binding.coverImages.getContext());
+            coverImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            binding.coverImages.addView(coverImage, new GridLayout.LayoutParams(
+                    GridLayout.spec(0, GridLayout.CENTER),
+                    GridLayout.spec(i, GridLayout.CENTER)));
+            final int finalI = i;
+            coverImage.post(() -> Glide.with(coverImage).load(AttachmentUtil.getThumbnailUrl(account, fullCard.getId(), coverImages.get(finalI), binding.coverImages.getWidth(), binding.coverImages.getHeight())).into(coverImage));
         }
 
         final int commentsCount = fullCard.getCommentCount();
