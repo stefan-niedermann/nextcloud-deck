@@ -8,6 +8,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -53,6 +54,7 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
     private final Consumer<FullCard> archiveCard;
     @NonNull
     private final Consumer<Card> deleteCard;
+    private final int maxCoverImages;
 
     public UpcomingCardsAdapter(@NonNull Activity activity, @NonNull FragmentManager fragmentManager,
                                 @NonNull BiConsumer<Account, Card> assignCard,
@@ -68,6 +70,9 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.unassignCard = unassignCard;
         this.archiveCard = archiveCard;
         this.deleteCard = deleteCard;
+        this.maxCoverImages = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(activity.getString(R.string.pref_key_cover_images), true)
+                ? activity.getResources().getInteger(R.integer.max_cover_images)
+                : 0;
         setHasStableIds(true);
     }
 
@@ -93,11 +98,11 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (viewType == R.layout.item_section) {
             return new UpcomingCardsSectionViewHolder(ItemSectionBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
         } else if (viewType == R.layout.item_card_compact) {
-            return new CompactCardViewHolder(ItemCardCompactBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
+            return new CompactCardViewHolder(ItemCardCompactBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false), this.maxCoverImages);
         } else if (viewType == R.layout.item_card_default_only_title) {
             return new DefaultCardOnlyTitleViewHolder(ItemCardDefaultOnlyTitleBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
         }
-        return new DefaultCardViewHolder(ItemCardDefaultBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
+        return new DefaultCardViewHolder(ItemCardDefaultBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false), this.maxCoverImages);
     }
 
     @Override
@@ -135,7 +140,8 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 throw new IllegalStateException("Item at position " + position + " is a " + item.getClass().getSimpleName() + " but viewHolder is no " + UpcomingCardsSectionViewHolder.class.getSimpleName());
             }
         } else if (item.getClass() == UpcomingCardsAdapterItem.class || item instanceof UpcomingCardsAdapterItem) {
-            if (viewHolder.getClass() == AbstractCardViewHolder.class || viewHolder instanceof AbstractCardViewHolder) {
+            viewHolder.getClass();
+            if (viewHolder instanceof AbstractCardViewHolder) {
                 final UpcomingCardsAdapterItem cardItem = (UpcomingCardsAdapterItem) item;
                 AbstractCardViewHolder cardViewHolder = ((AbstractCardViewHolder) viewHolder);
                 cardViewHolder.bind(cardItem.getFullCard(), cardItem.getAccount(), cardItem.getCurrentBoardRemoteId(), cardItem.currentBoardHasEditPermission(), R.menu.card_menu,

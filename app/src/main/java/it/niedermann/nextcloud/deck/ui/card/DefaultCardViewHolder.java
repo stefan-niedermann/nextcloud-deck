@@ -30,16 +30,19 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 
 public class DefaultCardViewHolder extends AbstractCardViewHolder {
     private final ItemCardDefaultBinding binding;
+    private final int maxCoverImagesCount;
 
     @SuppressWarnings("WeakerAccess")
-    public DefaultCardViewHolder(@NonNull ItemCardDefaultBinding binding) {
+    public DefaultCardViewHolder(@NonNull ItemCardDefaultBinding binding, int maxCoverImagesCount) {
         super(binding.getRoot());
         this.binding = binding;
+        this.maxCoverImagesCount = maxCoverImagesCount;
     }
 
     /**
      * Removes all {@link OnClickListener} and {@link OnLongClickListener}
      */
+    @Override
     public void bind(@NonNull FullCard fullCard, @NonNull Account account, @Nullable Long boardRemoteId, boolean hasEditPermission, @MenuRes int optionsMenu, @NonNull CardOptionsItemSelectedListener optionsItemsSelectedListener, @NonNull String counterMaxValue, @ColorInt int mainColor) {
         super.bind(fullCard, account, boardRemoteId, hasEditPermission, optionsMenu, optionsItemsSelectedListener, counterMaxValue, mainColor);
 
@@ -51,6 +54,8 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
         } else {
             binding.overlappingAvatars.setVisibility(View.GONE);
         }
+
+        setupCoverImages(account, binding.coverImages, fullCard, maxCoverImagesCount);
 
         final int attachmentsCount = fullCard.getAttachments().size();
         if (attachmentsCount == 0) {

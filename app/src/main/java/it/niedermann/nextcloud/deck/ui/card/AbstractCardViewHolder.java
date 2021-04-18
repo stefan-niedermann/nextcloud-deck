@@ -5,7 +5,9 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.CallSuper;
@@ -17,20 +19,25 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 
 import org.jetbrains.annotations.Contract;
 
 import java.time.ZoneId;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
+import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
@@ -106,6 +113,38 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
         final Context context = cardDueDate.getContext();
         cardDueDate.setText(DateUtil.getRelativeDateTimeString(context, card.getDueDate().toEpochMilli()));
         ViewUtil.themeDueDate(context, cardDueDate, card.getDueDate().atZone(ZoneId.systemDefault()).toLocalDate());
+    }
+
+    protected static void setupCoverImages(@NonNull Account account, @NonNull ViewGroup coverImagesHolder, @NonNull FullCard fullCard, int maxCoverImagesCount) {
+        coverImagesHolder.removeAllViews();
+        if (maxCoverImagesCount > 0) {
+            final List<Attachment> coverImages = fullCard.getAttachments()
+                    .stream()
+                    .filter(attachment -> MimeTypeUtil.isImage(attachment.getMimetype()))
+                    .limit(maxCoverImagesCount)
+                    .collect(Collectors.toList());
+            if (coverImages.size() > 0) {
+                coverImagesHolder.setVisibility(View.VISIBLE);
+                coverImagesHolder.post(() -> {
+                    for (Attachment coverImage : coverImages) {
+                        final ImageView coverImageView = new ImageView(coverImagesHolder.getContext());
+                        final int coverWidth = coverImagesHolder.getWidth() / coverImages.size();
+                        final int coverHeight = coverImagesHolder.getHeight();
+                        coverImageView.setLayoutParams(new LinearLayout.LayoutParams(coverWidth, coverHeight));
+                        coverImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        coverImagesHolder.addView(coverImageView);
+                        Glide.with(coverImageView)
+                                .load(AttachmentUtil.getThumbnailUrl(account, fullCard.getId(), coverImage, coverWidth, coverHeight))
+                                .placeholder(R.color.bg_info_box)
+                                .into(coverImageView);
+                    }
+                });
+            } else {
+                coverImagesHolder.setVisibility(View.GONE);
+            }
+        } else {
+            coverImagesHolder.setVisibility(View.GONE);
+        }
     }
 
     @Contract("null, _ -> false")

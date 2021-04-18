@@ -23,6 +23,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     private BrandedSwitchPreference wifiOnlyPref;
     private BrandedSwitchPreference compactPref;
+    private BrandedSwitchPreference coverImagesPref;
     private BrandedSwitchPreference compressImageAttachmentsPref;
     private BrandedSwitchPreference debuggingPref;
     private BrandedSwitchPreference eTagPref;
@@ -32,48 +33,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         setPreferencesFromResource(R.xml.settings, rootKey);
 
         wifiOnlyPref = findPreference(getString(R.string.pref_key_wifi_only));
-        if (wifiOnlyPref != null) {
-            wifiOnlyPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-                final Boolean syncOnWifiOnly = (Boolean) newValue;
-                DeckLog.log("syncOnWifiOnly:", syncOnWifiOnly);
-                return true;
-            });
-        } else {
-            DeckLog.error("Could not find preference with key: ", getString(R.string.pref_key_wifi_only));
-        }
-
-        Preference themePref = findPreference(getString(R.string.pref_key_dark_theme));
-        if (themePref != null) {
-            themePref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-                setAppTheme(Integer.parseInt((String) newValue));
-                requireActivity().setResult(Activity.RESULT_OK);
-                ActivityCompat.recreate(requireActivity());
-                return true;
-            });
-        } else {
-            DeckLog.error("Could not find preference with key:", getString(R.string.pref_key_dark_theme));
-        }
-
-        compressImageAttachmentsPref = findPreference(getString(R.string.pref_key_compress_image_attachments));
-        if (compressImageAttachmentsPref != null) {
-            compressImageAttachmentsPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-                DeckLog.log("compress image attachments:", newValue);
-                return true;
-            });
-        } else {
-            DeckLog.error("Could not find preference with key:", getString(R.string.pref_key_compress_image_attachments));
-        }
-
+        coverImagesPref = findPreference(getString(R.string.pref_key_cover_images));
         compactPref = findPreference(getString(R.string.pref_key_compact));
-        final ListPreference backgroundSyncPref = findPreference(getString(R.string.pref_key_background_sync));
-        if (backgroundSyncPref != null) {
-            backgroundSyncPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-                SyncWorker.update(requireContext().getApplicationContext(), (String) newValue);
-                return true;
-            });
-        } else {
-            DeckLog.error("Could not find preference with key", getString(R.string.pref_key_background_sync));
-        }
+        compressImageAttachmentsPref = findPreference(getString(R.string.pref_key_compress_image_attachments));
+        eTagPref = findPreference(getString(R.string.pref_key_etags));
 
         debuggingPref = findPreference(getString(R.string.pref_key_debugging));
         if (debuggingPref != null) {
@@ -86,7 +49,27 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             DeckLog.error("Could not find preference with key:", getString(R.string.pref_key_debugging));
         }
 
-        eTagPref = findPreference(getString(R.string.pref_key_etags));
+        final ListPreference backgroundSyncPref = findPreference(getString(R.string.pref_key_background_sync));
+        if (backgroundSyncPref != null) {
+            backgroundSyncPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
+                SyncWorker.update(requireContext().getApplicationContext(), (String) newValue);
+                return true;
+            });
+        } else {
+            DeckLog.error("Could not find preference with key", getString(R.string.pref_key_background_sync));
+        }
+
+        final Preference themePref = findPreference(getString(R.string.pref_key_dark_theme));
+        if (themePref != null) {
+            themePref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
+                setAppTheme(Integer.parseInt((String) newValue));
+                requireActivity().setResult(Activity.RESULT_OK);
+                ActivityCompat.recreate(requireActivity());
+                return true;
+            });
+        } else {
+            DeckLog.error("Could not find preference with key:", getString(R.string.pref_key_dark_theme));
+        }
     }
 
     @Override
@@ -96,6 +79,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         DeckApplication.readCurrentAccountColor().observe(getViewLifecycleOwner(), (mainColor) -> {
             wifiOnlyPref.applyBrand(mainColor);
             compactPref.applyBrand(mainColor);
+            coverImagesPref.applyBrand(mainColor);
             compressImageAttachmentsPref.applyBrand(mainColor);
             debuggingPref.applyBrand(mainColor);
             eTagPref.applyBrand(mainColor);

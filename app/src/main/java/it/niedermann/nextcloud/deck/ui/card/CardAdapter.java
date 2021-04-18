@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -62,6 +63,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
     protected int mainColor;
     @StringRes
     private final int shareLinkRes;
+    protected final int maxCoverImages;
 
     public CardAdapter(@NonNull Activity activity, @NonNull FragmentManager fragmentManager, long stackId, @NonNull MainViewModel mainViewModel, @Nullable SelectCardListener selectCardListener) {
         this.activity = activity;
@@ -73,6 +75,9 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
         this.selectCardListener = selectCardListener;
         this.mainColor = ContextCompat.getColor(this.activity, R.color.defaultBrand);
         this.compactMode = getDefaultSharedPreferences(this.activity).getBoolean(this.activity.getString(R.string.pref_key_compact), false);
+        this.maxCoverImages = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(activity.getString(R.string.pref_key_cover_images), true)
+                ? activity.getResources().getInteger(R.integer.max_cover_images)
+                : 0;
         setHasStableIds(true);
     }
 
@@ -85,11 +90,11 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
     @Override
     public AbstractCardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         if (viewType == R.layout.item_card_compact) {
-            return new CompactCardViewHolder(ItemCardCompactBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
+            return new CompactCardViewHolder(ItemCardCompactBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false), this.maxCoverImages);
         } else if (viewType == R.layout.item_card_default_only_title) {
             return new DefaultCardOnlyTitleViewHolder(ItemCardDefaultOnlyTitleBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
         }
-        return new DefaultCardViewHolder(ItemCardDefaultBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
+        return new DefaultCardViewHolder(ItemCardDefaultBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false), this.maxCoverImages);
     }
 
     @Override
