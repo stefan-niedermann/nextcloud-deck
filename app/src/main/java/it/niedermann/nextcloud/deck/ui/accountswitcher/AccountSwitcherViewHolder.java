@@ -25,8 +25,8 @@ public class AccountSwitcherViewHolder extends RecyclerView.ViewHolder {
         binding = ItemAccountChooseBinding.bind(itemView);
     }
 
-    public void bind(@NonNull Account account, @NonNull String displayName, @NonNull Consumer<Account> onAccountClick) {
-        binding.accountName.setText(displayName);
+    public void bind(@NonNull Account account, @NonNull Consumer<Account> onAccountClick) {
+        binding.accountName.setText(account.getUserDisplayName());
         binding.accountHost.setText(Uri.parse(account.getUrl()).getHost());
         Glide.with(itemView.getContext())
                 .load(new SingleSignOnUrl(account.getName(), account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.accountItemAvatar.getContext(), R.dimen.avatar_size))))
