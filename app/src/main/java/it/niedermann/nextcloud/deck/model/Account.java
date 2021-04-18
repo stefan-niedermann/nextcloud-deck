@@ -34,6 +34,9 @@ public class Account implements Serializable {
     @NonNull
     private String userName;
 
+    @Ignore
+    private String userDisplayName;
+
     @NonNull
     private String url;
 
@@ -181,6 +184,14 @@ public class Account implements Serializable {
 
     public void setMaintenanceEnabled(boolean maintenanceEnabled) {
         this.maintenanceEnabled = maintenanceEnabled;
+    }
+
+    public String getUserDisplayName() {
+        return userDisplayName;
+    }
+
+    public void setUserDisplayName(String userDisplayName) {
+        this.userDisplayName = userDisplayName;
     }
 
     public String getEtag() {

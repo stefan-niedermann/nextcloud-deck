@@ -535,13 +535,31 @@ public class DataBaseAdapter {
         db.getAccountDao().update(account);
     }
 
+    @AnyThread
     public LiveData<Account> readAccount(long id) {
-        return distinctUntilChanged(db.getAccountDao().getAccountById(id));
+        return fillAccountsUserName(db.getAccountDao().getAccountById(id));
     }
 
+    @AnyThread
     public LiveData<Account> readAccount(String name) {
-        return LiveDataHelper.wrapInLiveData(() -> db.getAccountDao().getAccountByNameDirectly(name));
-//        return distinctUntilChanged(db.getAccountDao().getAccountByName(name));
+        return fillAccountsUserName(db.getAccountDao().getAccountByName(name));
+    }
+
+    @AnyThread
+    public LiveData<List<Account>> readAccounts() {
+        return fillAccountsListUserName(db.getAccountDao().getAllAccounts());
+    }
+
+    private LiveData<Account> fillAccountsUserName(LiveData<Account> source) {
+        return LiveDataHelper.interceptLiveData(source, data -> data.setUserDisplayName(db.getUserDao().getUserNameByUidDirectly(data.getId(), data.getUserName())));
+    }
+
+    private LiveData<List<Account>> fillAccountsListUserName(LiveData<List<Account>> source) {
+        return LiveDataHelper.interceptLiveData(source, data -> {
+            for (Account a : data) {
+                a.setUserDisplayName(db.getUserDao().getUserNameByUidDirectly(a.getId(), a.getUserName()));
+            }
+        });
     }
 
     @WorkerThread
@@ -549,9 +567,6 @@ public class DataBaseAdapter {
         return db.getAccountDao().getAccountByIdDirectly(id);
     }
 
-    public LiveData<List<Account>> readAccounts() {
-        return distinctUntilChanged(db.getAccountDao().getAllAccounts());
-    }
 
     public LiveData<List<Board>> getBoards(long accountId) {
         return distinctUntilChanged(db.getBoardDao().getBoardsForAccount(accountId));

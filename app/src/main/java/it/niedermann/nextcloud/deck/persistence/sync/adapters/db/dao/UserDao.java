@@ -20,6 +20,9 @@ public interface UserDao extends GenericDao<User> {
     @Query("SELECT * FROM user WHERE accountId = :accountId and uid = :uid")
     LiveData<User> getUserByUid(final long accountId, final String uid);
 
+    @Query("SELECT u.displayname FROM user u WHERE accountId = :accountId and uid = :uid")
+    String getUserNameByUidDirectly(final long accountId, final String uid);
+
     @Query("SELECT u.* FROM user u WHERE accountId = :accountId " +
             "    AND NOT EXISTS (" +
             "            select 1 from joincardwithuser ju" +
