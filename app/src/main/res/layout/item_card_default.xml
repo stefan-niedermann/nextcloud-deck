@@ -19,16 +19,16 @@
         android:orientation="vertical"
         android:paddingBottom="@dimen/spacer_1x">
 
-        <GridLayout
+        <LinearLayout
             android:id="@+id/coverImages"
             android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:layout_marginBottom="@dimen/spacer_1x"
-            android:columnCount="3"
-            android:rowCount="1"
-            android:visibility="gone"
-            android:layout_columnWeight="1"
             android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_marginBottom="@dimen/spacer_1x"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:background="@color/bg_info_box"
             tools:visibility="visible" />
 
         <LinearLayout

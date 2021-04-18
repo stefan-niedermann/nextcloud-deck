@@ -12,7 +12,17 @@
     android:focusable="true"
     app:cardElevation="@dimen/spacer_1qx"
     app:cardBackgroundColor="@color/bg_card">
-
+    
+    <LinearLayout
+        android:id="@+id/coverImages"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_marginBottom="@dimen/spacer_1x"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <LinearLayout
         android:layout_width="match_parent"

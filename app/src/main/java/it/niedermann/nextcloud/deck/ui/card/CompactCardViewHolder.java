@@ -32,6 +32,7 @@ public class CompactCardViewHolder extends AbstractCardViewHolder {
     /**
      * Removes all {@link OnClickListener} and {@link OnLongClickListener}
      */
+    @Override
     public void bind(@NonNull FullCard fullCard, @NonNull Account account, @Nullable Long boardRemoteId, boolean hasEditPermission, @MenuRes int optionsMenu, @NonNull CardOptionsItemSelectedListener optionsItemsSelectedListener, @NonNull String counterMaxValue, @ColorInt int mainColor) {
         super.bind(fullCard, account, boardRemoteId, hasEditPermission, optionsMenu, optionsItemsSelectedListener, counterMaxValue, mainColor);
 

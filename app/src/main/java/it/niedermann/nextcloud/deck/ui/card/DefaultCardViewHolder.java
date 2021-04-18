@@ -5,8 +5,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
@@ -23,7 +23,6 @@ import org.jetbrains.annotations.Contract;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultBinding;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -37,16 +36,19 @@ import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
 public class DefaultCardViewHolder extends AbstractCardViewHolder {
     private final ItemCardDefaultBinding binding;
+    private final int maxCoverImagesCount;
 
     @SuppressWarnings("WeakerAccess")
-    public DefaultCardViewHolder(@NonNull ItemCardDefaultBinding binding) {
+    public DefaultCardViewHolder(@NonNull ItemCardDefaultBinding binding, int maxCoverImagesCount) {
         super(binding.getRoot());
         this.binding = binding;
+        this.maxCoverImagesCount = maxCoverImagesCount;
     }
 
     /**
      * Removes all {@link OnClickListener} and {@link OnLongClickListener}
      */
+    @Override
     public void bind(@NonNull FullCard fullCard, @NonNull Account account, @Nullable Long boardRemoteId, boolean hasEditPermission, @MenuRes int optionsMenu, @NonNull CardOptionsItemSelectedListener optionsItemsSelectedListener, @NonNull String counterMaxValue, @ColorInt int mainColor) {
         super.bind(fullCard, account, boardRemoteId, hasEditPermission, optionsMenu, optionsItemsSelectedListener, counterMaxValue, mainColor);
 
@@ -59,31 +61,42 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
             binding.overlappingAvatars.setVisibility(View.GONE);
         }
 
+        binding.coverImages.removeAllViews();
+        if (maxCoverImagesCount > 0) {
+            final List<Attachment> coverImages = fullCard.getAttachments()
+                    .stream()
+                    .filter(attachment -> MimeTypeUtil.isImage(attachment.getMimetype()))
+                    .limit(context.getResources().getInteger(R.integer.max_cover_images))
+                    .collect(Collectors.toList());
+            if (coverImages.size() > 0) {
+                binding.coverImages.setVisibility(View.VISIBLE);
+                binding.coverImages.post(() -> {
+                    for (Attachment coverImage : coverImages) {
+                        final ImageView coverImageView = new ImageView(binding.coverImages.getContext());
+                        final int coverWidth = binding.coverImages.getWidth() / coverImages.size();
+                        final int coverHeight = binding.coverImages.getHeight();
+                        coverImageView.setLayoutParams(new LinearLayout.LayoutParams(coverWidth, coverHeight));
+                        coverImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        binding.coverImages.addView(coverImageView);
+                        Glide.with(coverImageView)
+                                .load(AttachmentUtil.getThumbnailUrl(account, fullCard.getId(), coverImage, coverWidth, coverHeight))
+                                .placeholder(R.color.bg_info_box)
+                                .into(coverImageView);
+                    }
+                });
+            } else {
+                binding.coverImages.setVisibility(View.GONE);
+            }
+        } else {
+            binding.coverImages.setVisibility(View.GONE);
+        }
+
         final int attachmentsCount = fullCard.getAttachments().size();
         if (attachmentsCount == 0) {
             binding.cardCountAttachments.setVisibility(View.GONE);
         } else {
             setupCounter(binding.cardCountAttachments, counterMaxValue, attachmentsCount);
             binding.cardCountAttachments.setVisibility(View.VISIBLE);
-        }
-
-        binding.coverImages.removeAllViews();
-        final List<Attachment> coverImages = fullCard.getAttachments()
-                .stream()
-                .filter(attachment -> MimeTypeUtil.isImage(attachment.getMimetype()))
-                .limit(3)
-                .collect(Collectors.toList());
-        binding.coverImages.setVisibility(coverImages.size() > 0 ? View.VISIBLE : View.GONE);
-        binding.coverImages.setColumnCount(coverImages.size());
-        for (int i = 0; i < coverImages.size(); i++) {
-            DeckLog.info("Card", fullCard.getCard().getTitle(), "Attachment:", coverImages.get(i).getBasename());
-            final ImageView coverImage = new ImageView(binding.coverImages.getContext());
-            coverImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            binding.coverImages.addView(coverImage, new GridLayout.LayoutParams(
-                    GridLayout.spec(0, GridLayout.CENTER),
-                    GridLayout.spec(i, GridLayout.CENTER)));
-            final int finalI = i;
-            coverImage.post(() -> Glide.with(coverImage).load(AttachmentUtil.getThumbnailUrl(account, fullCard.getId(), coverImages.get(finalI), binding.coverImages.getWidth(), binding.coverImages.getHeight())).into(coverImage));
         }
 
         final int commentsCount = fullCard.getCommentCount();

@@ -44,7 +44,6 @@
         <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
             android:icon="@drawable/ic_image_grey600_24dp"
             android:key="@string/pref_key_cover_images"
-            android:summary="@string/settings_cover_images_summary"
             android:title="@string/settings_cover_images_title"
             app:defaultValue="true" />
     </it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory>
