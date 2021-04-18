@@ -90,7 +90,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
     @Override
     public AbstractCardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         if (viewType == R.layout.item_card_compact) {
-            return new CompactCardViewHolder(ItemCardCompactBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
+            return new CompactCardViewHolder(ItemCardCompactBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false), this.maxCoverImages);
         } else if (viewType == R.layout.item_card_default_only_title) {
             return new DefaultCardOnlyTitleViewHolder(ItemCardDefaultOnlyTitleBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
         }

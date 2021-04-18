@@ -22,11 +22,13 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 
 public class CompactCardViewHolder extends AbstractCardViewHolder {
     private final ItemCardCompactBinding binding;
+    private final int maxCoverImagesCount;
 
     @SuppressWarnings("WeakerAccess")
-    public CompactCardViewHolder(@NonNull ItemCardCompactBinding binding) {
+    public CompactCardViewHolder(@NonNull ItemCardCompactBinding binding, int maxCoverImagesCount) {
         super(binding.getRoot());
         this.binding = binding;
+        this.maxCoverImagesCount = maxCoverImagesCount;
     }
 
     /**
@@ -36,7 +38,9 @@ public class CompactCardViewHolder extends AbstractCardViewHolder {
     public void bind(@NonNull FullCard fullCard, @NonNull Account account, @Nullable Long boardRemoteId, boolean hasEditPermission, @MenuRes int optionsMenu, @NonNull CardOptionsItemSelectedListener optionsItemsSelectedListener, @NonNull String counterMaxValue, @ColorInt int mainColor) {
         super.bind(fullCard, account, boardRemoteId, hasEditPermission, optionsMenu, optionsItemsSelectedListener, counterMaxValue, mainColor);
 
-        List<Label> labels = fullCard.getLabels();
+        setupCoverImages(account, binding.coverImages, fullCard, maxCoverImagesCount);
+
+        final List<Label> labels = fullCard.getLabels();
         if (labels != null && labels.size() > 0) {
             binding.labels.updateLabels(labels);
             binding.labels.setVisibility(View.VISIBLE);

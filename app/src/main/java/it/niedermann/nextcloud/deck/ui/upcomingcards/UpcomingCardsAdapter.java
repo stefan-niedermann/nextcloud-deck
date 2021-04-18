@@ -98,7 +98,7 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (viewType == R.layout.item_section) {
             return new UpcomingCardsSectionViewHolder(ItemSectionBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
         } else if (viewType == R.layout.item_card_compact) {
-            return new CompactCardViewHolder(ItemCardCompactBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
+            return new CompactCardViewHolder(ItemCardCompactBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false), this.maxCoverImages);
         } else if (viewType == R.layout.item_card_default_only_title) {
             return new DefaultCardOnlyTitleViewHolder(ItemCardDefaultOnlyTitleBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
         }

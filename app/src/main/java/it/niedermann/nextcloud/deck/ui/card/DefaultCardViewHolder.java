@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
@@ -15,24 +14,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 
 import org.jetbrains.annotations.Contract;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Card.TaskStatus;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.util.AttachmentUtil;
-import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
 public class DefaultCardViewHolder extends AbstractCardViewHolder {
     private final ItemCardDefaultBinding binding;
@@ -61,35 +55,7 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
             binding.overlappingAvatars.setVisibility(View.GONE);
         }
 
-        binding.coverImages.removeAllViews();
-        if (maxCoverImagesCount > 0) {
-            final List<Attachment> coverImages = fullCard.getAttachments()
-                    .stream()
-                    .filter(attachment -> MimeTypeUtil.isImage(attachment.getMimetype()))
-                    .limit(context.getResources().getInteger(R.integer.max_cover_images))
-                    .collect(Collectors.toList());
-            if (coverImages.size() > 0) {
-                binding.coverImages.setVisibility(View.VISIBLE);
-                binding.coverImages.post(() -> {
-                    for (Attachment coverImage : coverImages) {
-                        final ImageView coverImageView = new ImageView(binding.coverImages.getContext());
-                        final int coverWidth = binding.coverImages.getWidth() / coverImages.size();
-                        final int coverHeight = binding.coverImages.getHeight();
-                        coverImageView.setLayoutParams(new LinearLayout.LayoutParams(coverWidth, coverHeight));
-                        coverImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        binding.coverImages.addView(coverImageView);
-                        Glide.with(coverImageView)
-                                .load(AttachmentUtil.getThumbnailUrl(account, fullCard.getId(), coverImage, coverWidth, coverHeight))
-                                .placeholder(R.color.bg_info_box)
-                                .into(coverImageView);
-                    }
-                });
-            } else {
-                binding.coverImages.setVisibility(View.GONE);
-            }
-        } else {
-            binding.coverImages.setVisibility(View.GONE);
-        }
+        setupCoverImages(account, binding.coverImages, fullCard, maxCoverImagesCount);
 
         final int attachmentsCount = fullCard.getAttachments().size();
         if (attachmentsCount == 0) {
