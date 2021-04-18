@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.manageaccounts;
 
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -22,7 +23,7 @@ import static android.view.View.VISIBLE;
 
 public class ManageAccountViewHolder extends RecyclerView.ViewHolder {
 
-    private ItemAccountChooseBinding binding;
+    private final ItemAccountChooseBinding binding;
 
     public ManageAccountViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -30,7 +31,11 @@ public class ManageAccountViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(@NonNull Account account, @NonNull Consumer<Account> onAccountClick, @Nullable Consumer<Account> onAccountDelete, boolean isCurrentAccount) {
-        binding.accountName.setText(account.getUserName());
+        binding.accountName.setText(
+                TextUtils.isEmpty(account.getUserDisplayName())
+                        ? account.getUserName()
+                        : account.getUserDisplayName()
+        );
         binding.accountHost.setText(Uri.parse(account.getUrl()).getHost());
         Glide.with(itemView.getContext())
                 .load(new SingleSignOnUrl(account.getName(), account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.accountItemAvatar.getContext(), R.dimen.avatar_size))))

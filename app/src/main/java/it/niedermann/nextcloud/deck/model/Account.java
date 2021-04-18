@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.Px;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -33,6 +34,10 @@ public class Account implements Serializable {
 
     @NonNull
     private String userName;
+
+    @Ignore
+    @Nullable
+    private String userDisplayName;
 
     @NonNull
     private String url;
@@ -181,6 +186,15 @@ public class Account implements Serializable {
 
     public void setMaintenanceEnabled(boolean maintenanceEnabled) {
         this.maintenanceEnabled = maintenanceEnabled;
+    }
+
+    @Nullable
+    public String getUserDisplayName() {
+        return userDisplayName;
+    }
+
+    public void setUserDisplayName(@Nullable String userDisplayName) {
+        this.userDisplayName = userDisplayName;
     }
 
     public String getEtag() {
