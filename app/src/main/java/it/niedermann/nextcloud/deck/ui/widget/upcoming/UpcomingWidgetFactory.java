@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui.widget.upcoming;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -18,7 +17,6 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterSectionItem;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsUtil;
@@ -85,15 +83,12 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
             } else {
                 widget_entry.setViewPadding(R.id.widget_entry_content_tv, headerHorizontalPadding, headerVerticalPaddingNth, headerHorizontalPadding, 0);
             }
+            widget_entry.setOnClickFillInIntent(R.id.widget_stack_entry, UpcomingWidget.fillOpenPendingIntent());
         } else if (data.get(i).getClass() == UpcomingCardsAdapterItem.class || data.get(i) instanceof UpcomingCardsAdapterItem) {
             final FullCard card = ((UpcomingCardsAdapterItem) data.get(i)).getFullCard();
             widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_stack_entry);
             widget_entry.setTextViewText(R.id.widget_entry_content_tv, card.getCard().getTitle());
-
-            final Long localCardId = card.getCard().getLocalId();
-            final Intent intent = EditActivity.createEditCardIntent(context, syncManager.readAccountDirectly(card.getAccountId()), syncManager.getBoardLocalIdByLocalCardIdDirectly(localCardId), localCardId);
-            intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
-            widget_entry.setOnClickFillInIntent(R.id.widget_stack_entry, intent);
+            widget_entry.setOnClickFillInIntent(R.id.widget_stack_entry, UpcomingWidget.fillEditPendingIntent(card.getAccountId(), card.getLocalId()));
         } else {
             DeckLog.logError(new IllegalStateException("Expected items to be instance of " + UpcomingCardsAdapterSectionItem.class.getSimpleName() + " or " + UpcomingCardsAdapterItem.class.getSimpleName()));
             return null;

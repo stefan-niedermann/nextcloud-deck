@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
@@ -30,8 +31,10 @@ import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import static android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE;
 
 public class UpcomingWidget extends AppWidgetProvider {
-    private static final int PENDING_INTENT_OPEN_APP_RQ = 0;
-    private static final int PENDING_INTENT_EDIT_CARD_RQ = 1;
+    private static final String PENDING_INTENT_ACTION_EDIT = "edit";
+    private static final String PENDING_INTENT_ACTION_OPEN = "open";
+    private static final String PENDING_INTENT_PARAM_LOCAL_CARD_ID = "localCardId";
+    private static final String PENDING_INTENT_PARAM_ACCOUNT_ID = "accountId";
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -86,6 +89,17 @@ public class UpcomingWidget extends AppWidgetProvider {
                 DeckLog.verbose(ACTION_APPWIDGET_UPDATE, "→ Triggering update for all widgets of type", UpcomingWidget.class.getSimpleName());
                 updateAppWidget(context, awm, awm.getAppWidgetIds(new ComponentName(context, UpcomingWidget.class)));
             }
+        } else if (PENDING_INTENT_ACTION_EDIT.equals(intent.getAction())) {
+            if (intent.hasExtra(PENDING_INTENT_PARAM_ACCOUNT_ID) && intent.hasExtra(PENDING_INTENT_PARAM_LOCAL_CARD_ID)) {
+                new Thread(() -> {
+                    final SyncManager syncManager = new SyncManager(context);
+                    context.startActivity(EditActivity.createEditCardIntent(context, syncManager.readAccountDirectly(intent.getLongExtra(PENDING_INTENT_PARAM_ACCOUNT_ID, -1)), syncManager.getBoardLocalIdByLocalCardIdDirectly(intent.getLongExtra(PENDING_INTENT_PARAM_LOCAL_CARD_ID, -1)), intent.getLongExtra(PENDING_INTENT_PARAM_LOCAL_CARD_ID, -1)));
+                }).start();
+            } else {
+                DeckLog.error(PENDING_INTENT_PARAM_ACCOUNT_ID, "and", PENDING_INTENT_PARAM_LOCAL_CARD_ID, "must be provided for action", PENDING_INTENT_ACTION_EDIT);
+            }
+        } else if (PENDING_INTENT_ACTION_OPEN.equals(intent.getAction())) {
+            context.startActivity(context.getPackageManager().getLaunchIntentForPackage(BuildConfig.APPLICATION_ID));
         }
     }
 
@@ -109,8 +123,7 @@ public class UpcomingWidget extends AppWidgetProvider {
                 serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
                 serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME)));
 
-                final PendingIntent templatePI = PendingIntent.getActivity(context, PENDING_INTENT_EDIT_CARD_RQ,
-                        new Intent(context, EditActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+                final PendingIntent templatePI = PendingIntent.getBroadcast(context, appWidgetId, new Intent(context, UpcomingWidget.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
                 views.setPendingIntentTemplate(R.id.upcoming_widget_lv, templatePI);
                 views.setRemoteAdapter(R.id.upcoming_widget_lv, serviceIntent);
@@ -120,5 +133,17 @@ public class UpcomingWidget extends AppWidgetProvider {
                 awm.updateAppWidget(appWidgetId, views);
             }).start();
         }
+    }
+
+    static Intent fillEditPendingIntent(long accountId, long localCardId) {
+        return new Intent()
+                .setAction(PENDING_INTENT_ACTION_EDIT)
+                .putExtra(PENDING_INTENT_PARAM_ACCOUNT_ID, accountId)
+                .putExtra(PENDING_INTENT_PARAM_LOCAL_CARD_ID, localCardId);
+    }
+
+    static Intent fillOpenPendingIntent() {
+        return new Intent()
+                .setAction(PENDING_INTENT_ACTION_OPEN);
     }
 }

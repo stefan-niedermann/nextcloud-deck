@@ -1,2 +1,3 @@
 - 🖼 Cover images for cards (optional)
+- 🆕 Upcoming widget: clicking on a time separator now opens last board (#932)
 - 👤 Show display name instead of user id in account switcher (#864)
