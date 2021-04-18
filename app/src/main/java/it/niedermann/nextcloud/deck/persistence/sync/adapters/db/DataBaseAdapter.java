@@ -324,7 +324,7 @@ public class DataBaseAdapter {
         }
         if (filter.getFilterText() != null && !filter.getFilterText().isEmpty()) {
             query.append(" and (c.description like ? or c.title like ?) ");
-            String filterText = "%"+filter.getFilterText()+"%";
+            String filterText = "%" + filter.getFilterText() + "%";
             args.add(filterText);
             args.add(filterText);
         }
@@ -551,11 +551,11 @@ public class DataBaseAdapter {
     }
 
     private LiveData<Account> fillAccountsUserName(LiveData<Account> source) {
-        return LiveDataHelper.interceptLiveData(source, data -> data.setUserDisplayName(db.getUserDao().getUserNameByUidDirectly(data.getId(), data.getUserName())));
+        return LiveDataHelper.interceptLiveData(distinctUntilChanged(source), data -> data.setUserDisplayName(db.getUserDao().getUserNameByUidDirectly(data.getId(), data.getUserName())));
     }
 
     private LiveData<List<Account>> fillAccountsListUserName(LiveData<List<Account>> source) {
-        return LiveDataHelper.interceptLiveData(source, data -> {
+        return LiveDataHelper.interceptLiveData(distinctUntilChanged(source), data -> {
             for (Account a : data) {
                 a.setUserDisplayName(db.getUserDao().getUserNameByUidDirectly(a.getId(), a.getUserName()));
             }

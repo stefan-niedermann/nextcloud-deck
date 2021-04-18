@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui.accountswitcher;
 import android.app.Dialog;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -21,6 +22,7 @@ import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogAccountSwitcherBinding;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.manageaccounts.ManageAccountsActivity;
 
@@ -38,12 +40,17 @@ public class AccountSwitcherDialog extends DialogFragment {
         binding = DialogAccountSwitcherBinding.inflate(requireActivity().getLayoutInflater());
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
-        binding.accountName.setText(viewModel.getCurrentAccount().getUserDisplayName());
-        binding.accountHost.setText(Uri.parse(viewModel.getCurrentAccount().getUrl()).getHost());
+        final Account currentAccount = viewModel.getCurrentAccount();
+        binding.accountName.setText(
+                TextUtils.isEmpty(currentAccount.getUserDisplayName())
+                        ? currentAccount.getUserName()
+                        : currentAccount.getUserDisplayName()
+        );
+        binding.accountHost.setText(Uri.parse(currentAccount.getUrl()).getHost());
         binding.check.setSelected(true);
 
         Glide.with(requireContext())
-                .load(viewModel.getCurrentAccount().getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.currentAccountItemAvatar.getContext(), R.dimen.avatar_size)))
+                .load(currentAccount.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.currentAccountItemAvatar.getContext(), R.dimen.avatar_size)))
                 .placeholder(R.drawable.ic_baseline_account_circle_24)
                 .error(R.drawable.ic_baseline_account_circle_24)
                 .apply(RequestOptions.circleCropTransform())
