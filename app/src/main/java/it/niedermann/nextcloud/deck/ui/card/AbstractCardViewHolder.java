@@ -121,7 +121,7 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
             final List<Attachment> coverImages = fullCard.getAttachments()
                     .stream()
                     .filter(attachment -> MimeTypeUtil.isImage(attachment.getMimetype()))
-                    .limit(coverImagesHolder.getResources().getInteger(R.integer.max_cover_images))
+                    .limit(maxCoverImagesCount)
                     .collect(Collectors.toList());
             if (coverImages.size() > 0) {
                 coverImagesHolder.setVisibility(View.VISIBLE);

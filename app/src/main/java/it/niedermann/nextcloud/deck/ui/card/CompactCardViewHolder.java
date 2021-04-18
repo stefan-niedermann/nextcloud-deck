@@ -38,7 +38,7 @@ public class CompactCardViewHolder extends AbstractCardViewHolder {
     public void bind(@NonNull FullCard fullCard, @NonNull Account account, @Nullable Long boardRemoteId, boolean hasEditPermission, @MenuRes int optionsMenu, @NonNull CardOptionsItemSelectedListener optionsItemsSelectedListener, @NonNull String counterMaxValue, @ColorInt int mainColor) {
         super.bind(fullCard, account, boardRemoteId, hasEditPermission, optionsMenu, optionsItemsSelectedListener, counterMaxValue, mainColor);
 
-        setupCoverImages(account, binding.coverImages, fullCard, maxCoverImagesCount);
+        setupCoverImages(account, binding.coverImages, fullCard, Math.min(maxCoverImagesCount, 1));
 
         final List<Label> labels = fullCard.getLabels();
         if (labels != null && labels.size() > 0) {
