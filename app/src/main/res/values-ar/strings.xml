@@ -1,0 +1,234 @@
+<resources>
+    <string name="simple_boards">الالواح</string>
+    <string name="simple_add">إضافة</string>
+    <string name="simple_save">حفظ</string>
+    <string name="simple_more">المزيد</string>
+    <string name="simple_title">العنوان</string>
+    <string name="simple_copy">أنسخ</string>
+    <string name="simple_synchronization">المزامنة</string>
+    <string name="simple_appearance">المظهر</string>
+    <string name="simple_error">خطأ</string>
+    <string name="simple_exception">استثناء</string>
+    <string name="simple_close">إغلاق</string>
+    <string name="simple_open">افتح</string>
+    <string name="simple_switch">تبديل</string>
+    <string name="simple_filter">فلتر</string>
+    <string name="simple_overdue">تأخر</string>
+    <string name="simple_clear">مسح </string>
+    <string name="simple_discard">إلغاء</string>
+    <string name="simple_update">تحديث</string>
+    <string name="simple_delete">حذف </string>
+    <string name="simple_rename">إعادة التسمية</string>
+    <string name="simple_settings">الإعدادات</string>
+    <string name="simple_undo">تراجع</string>
+    <string name="simple_manage">إدارة </string>
+    <string name="simple_share">شارك</string>
+    <string name="simple_select">تحديد</string>
+    <string name="simple_comment">تعليق</string>
+    <string name="simple_disabled">معطّل</string>
+    <string name="simple_copied">نُسخت </string>
+    <string name="simple_archive">الأرشيف</string>
+    <string name="simple_unassigned">غير معيين </string>
+
+    <string name="edit_board">تعديل اللوح</string>
+    <string name="archive_board">ارشف اللو</string>
+    <string name="delete_board">مسح اللوح</string>
+    <string name="delete_something">حذف %1$s</string>
+
+    <string name="about">عن</string>
+    <string name="about_version_title">الإصدار</string>
+    <string name="about_version">استهلكتَ حاليا %1$s</string>
+    <string name="about_maintainer_title">مشرف</string>
+    <string name="about_developers_title">المطوّرون</string>
+    <string name="about_translators_title">المترجِمون</string>
+    <string name="about_testers_title"> المجَرِّبون</string>
+    <string name="about_source_title">الشفرة المصدرية</string>
+    <string name="about_issues_title">المشاكل</string>
+    <string name="about_translate_title">ترجمة</string>
+    <string name="about_app_license_title">رخصة التطبيق</string>
+    <string name="about_app_license">التطبيق مسجل تحت شهادة جنو العامة الاصدار 3+</string>
+    <string name="about_app_license_button">عرض الرخصة</string>
+    <string name="about_icons_disclaimer_title">الأيقونات</string>
+    <string name="about_credits_tab_title">الشكر ل</string>
+    <string name="about_contribution_tab_title">المساهمة</string>
+    <string name="about_license_tab_title">الرخصة</string>
+    <string name="seconds_ago">ثوان مضت</string>
+    <string name="edit">تعديل</string>
+    <string name="label_labels">اختر وسما</string>
+    <string name="label_description">الوصف</string>
+    <string name="hint_assign_people">المستخدمين المعنيين</string>
+    <string name="hint_due_date_date">تاريخ الانجاز</string>
+    <string name="card_not_found">لم يتم العثور على البطاقة </string>
+    <string name="add_account">أضف حسابا</string>
+    <string name="choose_account">إختر حسابًا</string>
+    <string name="add_card">إضافة بطاقة جديدة</string>
+    <string name="activity">نشاط</string>
+    <string name="add_list">إضافة قائمة</string>
+    <string name="rename_list">إعادة تسمية القائمة</string>
+    <string name="delete_list">حذف القائمة</string>
+    <string name="label_menu">القائمة </string>
+    <string name="action_card_archive">أرشفة البطاقة</string>
+    <string name="action_card_delete">حذف البطاقة</string>
+    <string name="add_board">إضافة لوح</string>
+
+    <string name="label_clear_due_date">مسح حسب التاريخ </string>
+    <string name="label_add">اضف %1$s</string>
+
+    <string name="card_edit_details">التفاصيل</string>
+    <string name="card_edit_attachments">المرفقات</string>
+    <string name="card_edit_activity">النشاط</string>
+    <string name="no_files_attached_to_this_card">لا يوجد ملفات مرفقة لهذه البطاقة.</string>
+    <string name="attachments">المرفقات</string>
+    <string name="no_cards">توجد بطاقات حتى الآن</string>
+    <string name="no_account">لم يتم إعداد أي حساب بعد.</string>
+    <string name="account_already_added">تمت إضافة الحساب بالفعل </string>
+    <string name="account_is_getting_imported">يتم استيراد الحساب </string>
+    <string name="no_lists_yet">لا توجد قائمة حتى الآن</string>
+    <string name="do_you_want_to_save_your_changes">هل تريد حفظ التغييرات؟ </string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">هل تريد أرشفة جميع بطاقات %1$s؟</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">هل تريد أرشفة جميع البطاقات المفلترة %1$s؟ </string>
+    <string name="add_a_new_list_using_the_button">إضافة قائمة جديدة باستخدام زر + </string>
+    <string name="add_a_new_card_using_the_button">إضافة بطاقة جديدة باستخدام زر +</string>
+    <string name="settings_theme_title">المظهر</string>
+    <string name="settings_branding_title">وسم</string>
+    <string name="settings_background_sync">مزامنة في خلفية النظام</string>
+    <string name="settings_compress_image_attachments">ضغط الصور عند التحميل</string>
+    <string name="search_in">البحث في %1$s</string>
+    <string name="settings_compress_image_attachments_summary">تحميل أسرع، بجودة أقل </string>
+    <string name="pref_value_wifi_and_mobile">مزامنة على الوايفاي و بيانات الهاتف</string>
+    <string name="pref_value_wifi_only">زامن فقط على الوايفاي</string>
+    <string-array name="darkmode_entries">
+        <item>النظام الإفتراضي </item>
+        <item>فاتح</item>
+        <item>داكن</item>
+    </string-array>
+    <string name="unassigned_user">غير معيين %1$s</string>
+    <string name="no_activities">لا يوجد أي نشاط على هذه البطاقة. يجب أن تكون متصلًا بالإنترنت لتحميل الأنشطة وعرضها. </string>
+    <string name="share_board">مشاركة لوح </string>
+    <string name="you_are_currently_offline">أنت حاليًا غير متصل </string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">يجب أن تكون متصلًا بالانترنت لإضافة حساب.</string>
+    <string name="owner">المالك</string>
+    <string name="attachment_delete_message">ستحذف هذه المرفقات بشكل دائم</string>
+    <string name="no_content">لا يوجد محتوى حتى الآن</string>
+    <string name="last_background_sync">آخر مزامنة في الخلفية:</string>
+    <string name="simple_off">إيقاف</string>
+    <string name="minutes_15">15 دقيقة</string>
+    <string name="hour_1">ساعة</string>
+    <string name="hours_6">6 ساعات</string>
+    <string name="action_card_move">حرك البطاقة</string>
+    <string name="action_card_move_title">نقل %1$s</string>
+    <string name="title_is_mandatory">العنوان إلزامي </string>
+    <string name="provide_at_least_a_title_or_description">أدخل عنوانًا أو وصفًا على الأقل</string>
+    <string name="welcome_text">مرحبًا بك في %1$s</string>
+    <string name="maintenance_mode_explanation">سيرفر %1$s حاليًا في وضع الصيانة. فضلًا تواصل مع المسؤول أو أعد المحاولة لاحقًا. </string>
+    <string name="share_add_to_card">إضافة بطاقة</string>
+    <string name="share_success">تم إضافة %1$s إلى %2$s بنجاح </string>
+    <string name="add_comment">أضف تعليق</string>
+    <string name="card_edit_comments">تعليقات</string>
+    <string name="no_comments_yet">لا يوجد تعليقات حتى الآن </string>
+    <string name="no_boards">لا يوجد لوح حتى الآن</string>
+    <string name="add_a_new_board_using_the_button">إضافة بطاقة جديدة باستخدام زر +</string>
+    <string name="choose_board">اختر لوح </string>
+    <string name="choose_list">اختر قائمة</string>
+    <string name="task_count">%1$s/%2$s</string>
+    <string name="open_in_browser">فتح في المتصفح</string>
+    <string name="updating_card">تحديث البطاقة...</string>
+
+    <string name="move_list_right">نقل القائمة لليمين </string>
+    <string name="move_list_left">نقل القائمة لليسار</string>
+
+    <string name="filter_no_filter">الكل</string>
+    <string name="filter_overdue">تأخر</string>
+    <string name="filter_today">اليوم</string>
+    <string name="filter_tomorrow">غدا</string>
+    <string name="filter_week">ال 7 ايام القادمة</string>
+    <string name="filter_month">ال 30 يوم القادمة</string>
+    <string name="filter_no_due">لا تأريخ انجاز</string>
+    <string name="filter_later">لاحقا</string>
+    <string name="filter_by_tag">تصفية بواسطة الوسم</string>
+    <string name="filter_by_assigned_user">تصفية بواسطة المستخدم الموكل اليه</string>
+    <string name="filter_by_duedate">تصفية بواسطة تأريخ الانجاز</string>
+
+    <string name="archived_cards">البطاقات المؤرشفة</string>
+    <string name="action_card_dearchive">التراجع عن أرشفة البطاقة </string>
+    <string name="action_archived_cards">تصفح البطاقات المؤرشفة </string>
+    <string name="attachment_already_exists">المرفقات موجودة بالفعل </string>
+    <string name="pick_custom_color">اختر لون مخصص</string>
+    <string name="manage_tags">إدارة الوسوم</string>
+    <string name="add_tag">إضافة وسما</string>
+    <string name="tag_already_exists">%1$s موجود مسبقًا</string>
+    <string name="tag_successfully_added">تم إضافة %1$s بنجاح </string>
+    <string name="edit_tag">تعديل %1$s</string>
+    <string name="filter_tags_title">الوسوم</string>
+    <string name="filter_user_title">المستخدمين:</string>
+    <string name="filter_duedate_title">تاريخ الانجاز</string>
+
+    <string name="action_board_dearchive">التراجع عن أرشفة اللوح</string>
+    <string name="archived_boards">الالواح المؤرشفة</string>
+
+    <string name="error">حدث خطأ</string>
+    <string name="synchronization_failed">المزامنة فشلت</string>
+    <string name="operation_not_yet_supported">غير مدعوم حتى الآن</string>
+    <string name="maintenance_mode">الخادوم في وضع الصيانة</string>
+    <string name="server_error">خطا في الخادم</string>
+    <string name="error_dialog_title">آه لا، ماذا الان؟🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">الرجاء محاولة اجبار اغلاق التطبيق واعادة تشغيله، ربما هنالك خطأ في الاتصال مع تطبيق نيكست كلاود nextcloud</string>
+    <string name="error_dialog_tip_clear_storage">يمكنك مسح التخزين عن طريق فتح معلومات التطبيق واختيار التخزين ← مسح التخزين.</string>
+    <string name="error_dialog_tip_files_outdated">تطبيقك نيكست كلاود (Nexcloud) يبدو انه مهمل (لم يحدث منذ زمن). رجاءا زُر بلي ستور او اف-درويد (f-droid) لتحصل على اخر اصدار.</string>
+    <string name="error_dialog_tip_files_delete_storage">إذا لم يساعد إيقافهم بالقوة ، فيمكنك محاولة مسح تخزين كلا التطبيقين.</string>
+    <string name="error_dialog_timeout_instance">لم يكن هناك استجابة من الخادم الخاص بك في الوقت المحدد. يرجى التأكد من أن الخادم الخاص بك يعمل بشكل جيد.</string>
+    <string name="error_dialog_check_server_logs">هناك مشكلة في إعداد Nextcloud الخاص بك. يرجى إلقاء نظرة على ملفات سجل الخادم.</string>
+    <string name="error_dialog_check_maintenance">يرجى التحقق مما إذا كان خادم Nextcloud الخاص بك ليس في وضع الصيانة حاليًا.</string>
+    <string name="error_dialog_insufficient_storage">خادم Nextcloud الخاص بك ليس لديه مساحة تخزين فارغة متبقية. يرجى حذف بعض الملفات لمزامنة التغييرات المحلية الخاصة بك في السحابة الخاصة بك.</string>
+    <string name="error_dialog_we_need_info">نحتاج إلى المعلومات الفنية التالية لمساعدتك:</string>
+    <string name="error_action_open_deck_info">افتح معلومات التطبيق</string>
+    <string name="error_action_open_network">اعدادات الشبكة</string>
+    <string name="error_action_install">تثبيت</string>
+    <string name="error_action_report_issue">ابلغ عنه</string>
+    <string name="info_box_maintenance_mode">الخادوم في وضع الصيانة</string>
+    <string name="share_link">مشاركة الرابط</string>
+    <string name="share_content">مشاركة محتوى </string>
+    <string name="share_content_duedate">التاريخ المحدد: %1$s</string>
+    <string name="share_content_labels">الوسوم: %1$s</string>
+    <string name="archive_cards">أرشفة البطاقات</string>
+
+    <string name="manage_accounts">إدارة الحسابات</string>
+    <string name="simple_reply">رد</string>
+    <string name="add_text_as_comment">أضف كتعليق</string>
+    <string name="progress_count">%1$d من %2$d</string>
+    <string name="simple_report">ابلغ عنه</string>
+    <string name="error_action_open_battery_settings">إعدادات البطارية</string>
+    <string name="move_warning">لا يمكن نقل لا التعليقات ولا المرفقات عند نقل البطاقة إلى لوحة أخرى </string>
+    <string name="clone_board">استنسخ اللوح</string>
+    <string name="cloning_board">إغلاق %1$s...</string>
+    <string name="widget_stack_title">قائمة</string>
+    <string name="widget_filter_title">تصفية</string>
+    <string name="select_stack">اختر قائمة </string>
+    <string name="project_type_file">الملف</string>
+    <string name="projects_title">المشاريع</string>
+    <string name="single_card">بطاقة مفردة</string>
+    <string name="simple_move">نقل</string>
+    <string name="simple_contact">التواصل</string>
+    <string name="simple_file">ملف</string>
+    <string name="simple_camera">الكاميرا</string>
+    <string name="take_photo">التقاط صورة</string>
+    <string name="take_photo_switch_camera">تغيير الكاميرا</string>
+    <string name="take_photo_toggle_torch">تشغيل / تعطيل الكشاف</string>
+    <string name="show_all_contacts">إظهار كافة جهات الإتصال</string>
+    <string name="show_all_files">أظهر جميع الملفات</string>
+    <string name="recent">الحديثة</string>
+    <string name="upload_a_new_attachment">رفع مرفق جديد</string>
+    <string name="contacts">جهات الإتصال</string>
+    <string name="downloads">التنزيلات</string>
+    <string name="files">الملفات</string>
+    <string name="gallery">معرض الصور</string>
+    <string name="simple_attach">إرفاق</string>
+    <string name="edit_description">تعديل الوصف</string>
+    <string name="widget_upcoming_title">البطاقات القادمة</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">إعدادات متقدمة</string>
+    <string name="app_logo">شعار التطبيق</string>
+    <string name="log_file">ملف السجل </string>
+    <string name="account_imported">تم استيراد الحساب</string>
+    <string name="simple_search">البحث</string>
+</resources>

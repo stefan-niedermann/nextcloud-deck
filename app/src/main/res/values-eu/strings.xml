@@ -121,8 +121,12 @@
     <string name="settings_branding_title">Marka</string>
     <string name="settings_compact_title">Modu trinkoa</string>
     <string name="settings_debugging">Arazketa erregistroak</string>
+    <string name="settings_etags">Erabili ETags</string>
+    <string name="settings_etags_summary">Sinkronizazioa bizkortzen du</string>
     <string name="settings_background_sync">Atzeko planoko sinkronizazioa</string>
+    <string name="settings_compress_image_attachments">Konprimatu irudiak kargatzerakoan</string>
     <string name="search_in">Bilatu %1$s(e)n</string>
+    <string name="settings_compress_image_attachments_summary">Kargatze arinagoa, kalitate gutxiago</string>
     <string name="pref_value_wifi_and_mobile">Sinkronizatu Wi-Fi eta datu mugikorrekin</string>
     <string name="pref_value_wifi_only">Sinkronizatu Wi-Fiarekin soilik</string>
     <string-array name="darkmode_entries">
@@ -276,6 +280,7 @@
     <string name="single_card">Txartel bakana</string>
     <string name="project_type_room">Talk gela</string>
     <string name="simple_move">Mugitu</string>
+    <string name="cannot_upload_files_without_permission">Ezin dira fitxategiak baimenik gabe kargatu</string>
     <string name="clone_cards">Klonatu txartelak</string>
     <string name="simple_clone">Klonatu</string>
     <string name="user_avatar">Erabltzaile-avatarra</string>
