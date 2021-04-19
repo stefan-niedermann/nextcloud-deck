@@ -23,6 +23,8 @@ import it.niedermann.nextcloud.deck.databinding.ItemPickerNativeBinding;
 import static android.provider.BaseColumns._ID;
 import static android.provider.MediaStore.Files.FileColumns.DATE_ADDED;
 import static android.provider.MediaStore.Files.FileColumns.DATE_MODIFIED;
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE;
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 import static android.provider.MediaStore.Files.FileColumns.MIME_TYPE;
 import static android.provider.MediaStore.Files.FileColumns.SIZE;
 import static android.provider.MediaStore.Files.FileColumns.TITLE;
@@ -35,12 +37,7 @@ public class FileAdapter extends AbstractCursorPickerAdapter<RecyclerView.ViewHo
     private final int mimeTypeColumnIndex;
 
     public FileAdapter(@NonNull Context context, @NonNull BiConsumer<Uri, Pair<String, RequestBuilder<?>>> onSelect, @NonNull Runnable onSelectPicker) {
-        super(context, onSelect, onSelectPicker, _ID, context.getContentResolver().query(
-                MediaStore.Files.getContentUri("external"),
-                new String[]{_ID, TITLE, SIZE, DATE_MODIFIED, MIME_TYPE},
-//                MEDIA_TYPE + " != ?", new String[]{String.valueOf(MEDIA_TYPE_IMAGE)},
-                null, null,
-                DATE_ADDED + " DESC"));
+        super(context, onSelect, onSelectPicker, _ID, context.getContentResolver().query(MediaStore.Files.getContentUri("external"), new String[]{_ID, TITLE, SIZE, DATE_MODIFIED, MIME_TYPE}, MEDIA_TYPE + " != ?", new String[]{String.valueOf(MEDIA_TYPE_IMAGE)}, DATE_ADDED + " DESC"));
         displayNameColumnIndex = cursor.getColumnIndex(TITLE);
         sizeColumnIndex = cursor.getColumnIndex(SIZE);
         modifiedColumnIndex = cursor.getColumnIndex(DATE_MODIFIED);

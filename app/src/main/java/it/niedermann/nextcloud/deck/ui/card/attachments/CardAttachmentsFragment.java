@@ -303,6 +303,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                 requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_PICK_FILE_PERMISSION);
             } else {
                 openNativeFilePicker();
+//                unbindPickerAdapter();
 //                pickerAdapter = new FileAdapter(requireContext(), (uri, pair) -> {
 //                    previewViewModel.prepareDialog(pair.first, pair.second);
 //                    PreviewDialog.newInstance().show(getChildFragmentManager(), PreviewDialog.class.getSimpleName());
@@ -312,6 +313,9 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 //                        }
 //                    });
 //                }, this::openNativeFilePicker);
+//                removeGalleryItemDecoration();
+//                binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+//                binding.pickerRecyclerView.setAdapter(pickerAdapter);
             }
         }
     }
