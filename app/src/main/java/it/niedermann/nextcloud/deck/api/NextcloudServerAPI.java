@@ -45,7 +45,7 @@ public interface NextcloudServerAPI {
 
     // Users
 
-    @GET("apps/files_sharing/api/v1/sharees?format=json&perPage=20&itemType=0%2C1%2C7")
+    @GET("apps/files_sharing/api/v1/sharees?format=json&lookup=false&perPage=20&itemType=0%2C1%2C7")
     Observable<OcsUserList> searchUser(@Query("search") String searchTerm);
 
     @GET("cloud/groups/{search}?format=json")
