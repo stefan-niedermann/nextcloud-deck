@@ -9,7 +9,6 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.Size;
 import androidx.annotation.WorkerThread;
 import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
@@ -27,7 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
@@ -98,8 +96,6 @@ public class SyncManager {
     @NonNull
     private final ServerAdapter serverAdapter;
 
-    private static final Map<Long, List<IResponseCallback<Boolean>>> RUNNING_SYNCS = new ConcurrentHashMap<>();
-
     @AnyThread
     public SyncManager(@NonNull Context context) {
         this(context, null);
@@ -131,7 +127,7 @@ public class SyncManager {
     public boolean synchronizeEverything() {
         List<Account> accounts = dataBaseAdapter.getAllAccountsDirectly();
         if (accounts.size() > 0) {
-            final AtomicBoolean success = new AtomicBoolean();
+            final AtomicBoolean success = new AtomicBoolean(true);
             CountDownLatch latch = new CountDownLatch(accounts.size());
             try {
                 for (Account account : accounts) {
@@ -161,11 +157,6 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void synchronize(@NonNull IResponseCallback<Boolean> responseCallback) {
-        synchronize(Collections.singletonList(responseCallback));
-    }
-
-    @AnyThread
     public void synchronizeBoard(@NonNull IResponseCallback<Boolean> responseCallback, long localBoadId) {
         doAsync(() -> {
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(responseCallback.getAccount().getId(), localBoadId);
@@ -190,11 +181,8 @@ public class SyncManager {
         });
     }
 
-    private void synchronize(@NonNull @Size(min = 1) List<IResponseCallback<Boolean>> responseCallbacks) {
-        if (responseCallbacks == null || responseCallbacks.size() < 1) {
-            return;
-        }
-        IResponseCallback<Boolean> responseCallback = responseCallbacks.get(0);
+    @AnyThread
+    public void synchronize(@NonNull IResponseCallback<Boolean> responseCallback) {
         Account callbackAccount = responseCallback.getAccount();
         if (callbackAccount == null) {
             throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must not be null.");
@@ -203,16 +191,7 @@ public class SyncManager {
         if (callbackAccountId == null) {
             throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must contain a valid id, but given id was null.");
         }
-        List<IResponseCallback<Boolean>> queuedCallbacks = RUNNING_SYNCS.get(callbackAccountId);
-        if (queuedCallbacks != null) {
-            queuedCallbacks.addAll(responseCallbacks);
-            return;
-        } else {
-            RUNNING_SYNCS.put(callbackAccountId, new ArrayList<>(responseCallbacks));
-        }
         doAsync(() -> {
-            List<IResponseCallback<Boolean>> existingQueue = RUNNING_SYNCS.get(callbackAccountId);
-            List<IResponseCallback<Boolean>> callbacksQueueForSync = existingQueue == null ? new ArrayList<>() : new ArrayList<>(existingQueue);
             refreshCapabilities(new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
                 @Override
                 public void onResponse(Capabilities response) {
@@ -234,15 +213,14 @@ public class SyncManager {
                                     syncHelper.setResponseCallback(new IResponseCallback<Boolean>(account) {
                                         @Override
                                         public void onResponse(Boolean response) {
-                                            // TODO deactivate for dev
                                             LastSyncUtil.setLastSyncDate(accountId, Instant.now());
-                                            respondCallbacksAfterSync(callbacksQueueForSync, response, null);
+                                            responseCallback.onResponse(response);
                                         }
 
                                         @Override
                                         public void onError(Throwable throwable) {
                                             super.onError(throwable);
-                                            respondCallbacksAfterSync(callbacksQueueForSync, null, throwable);
+                                            responseCallback.onResponse(response);
                                         }
                                     });
                                     doAsync(() -> {
@@ -250,7 +228,7 @@ public class SyncManager {
                                             syncHelper.doUpSyncFor(new BoardDataProvider());
                                         } catch (Throwable e) {
                                             DeckLog.logError(e);
-                                            respondCallbacksAfterSync(callbacksQueueForSync, null, e);
+                                            responseCallback.onError(e);
                                         }
                                     });
 
@@ -259,7 +237,7 @@ public class SyncManager {
                                 @Override
                                 public void onError(Throwable throwable) {
                                     super.onError(throwable);
-                                    respondCallbacksAfterSync(callbacksQueueForSync, null, throwable);
+                                    responseCallback.onError(throwable);
                                 }
                             };
 
@@ -269,14 +247,14 @@ public class SyncManager {
                                 syncHelper.doSyncFor(new BoardDataProvider());
                             } catch (Throwable e) {
                                 DeckLog.logError(e);
-                                respondCallbacksAfterSync(callbacksQueueForSync, null, e);
+                                responseCallback.onError(e);
                             }
                         } else {
-                            respondCallbacksAfterSync(callbacksQueueForSync, Boolean.FALSE, null);
                             DeckLog.warn("No sync. Server version not supported:", response.getDeckVersion().getOriginalVersion());
+                            responseCallback.onResponse(Boolean.FALSE);
                         }
                     } else {
-                        respondCallbacksAfterSync(callbacksQueueForSync, Boolean.FALSE, null);
+                        responseCallback.onResponse(Boolean.FALSE);
                         if (response != null) {
                             DeckLog.warn("No sync. Status maintenance mode:", response.isMaintenanceEnabled());
                         }
@@ -284,43 +262,6 @@ public class SyncManager {
                 }
             });
         });
-    }
-
-    private void respondCallbacksAfterSync(List<IResponseCallback<Boolean>> callbacksQueueForSync, Boolean response, Throwable throwable) {
-        if (callbacksQueueForSync == null || callbacksQueueForSync.isEmpty()) {
-            return;
-        }
-        // notify done callbacks
-        DeckLog.info("SyncQueue: responding sync for " + callbacksQueueForSync.size() + " queued callbacks!");
-        List<IResponseCallback<Boolean>> callbacksQueue = new ArrayList<>(callbacksQueueForSync);
-        if (throwable == null) {
-            //success:
-            for (IResponseCallback<Boolean> callback : callbacksQueue) {
-                if (callback != null) callback.onResponse(response);
-            }
-        } else {
-            // failure:
-            for (IResponseCallback<Boolean> callback : callbacksQueue) {
-                if (callback != null) callback.onError(throwable);
-            }
-        }
-        // remove done callbacks from queue
-        IResponseCallback<Boolean> firstCallbackOfAccount = callbacksQueue.iterator().next();
-        List<IResponseCallback<Boolean>> queuedCallbacks = RUNNING_SYNCS.get(firstCallbackOfAccount.getAccount().getId());
-        if (queuedCallbacks == null) {
-            return;
-        }
-        for (IResponseCallback<Boolean> callback : callbacksQueue) {
-            queuedCallbacks.remove(callback);
-        }
-        // cleanup if done, or proceed if not
-        if (queuedCallbacks.isEmpty()) {
-            RUNNING_SYNCS.remove(firstCallbackOfAccount.getAccount().getId());
-        } else {
-            DeckLog.info("SyncQueue: starting sync for " + queuedCallbacks.size() + " queued callbacks!");
-            RUNNING_SYNCS.remove(firstCallbackOfAccount.getAccount().getId());
-            synchronize(queuedCallbacks);
-        }
     }
 
 //
@@ -684,9 +625,7 @@ public class SyncManager {
                     }
                 }
             }
-            // dont trigger concurrent syncs!
-            List<IResponseCallback<Boolean>> queuedSync = RUNNING_SYNCS.get(targetAccountId);
-            if ((queuedSync == null || queuedSync.isEmpty()) && serverAdapter.hasInternetConnection()) {
+            if (serverAdapter.hasInternetConnection()) {
                 Account targetAccount = dataBaseAdapter.getAccountByIdDirectly(targetAccountId);
                 ServerAdapter serverAdapterToUse = this.serverAdapter;
                 if (originAccountId != targetAccountId) {
