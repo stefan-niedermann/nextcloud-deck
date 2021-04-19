@@ -58,7 +58,6 @@ import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.AbstractPickerAdapter;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.ContactAdapter;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.FileAdapter;
-import it.niedermann.nextcloud.deck.ui.card.attachments.picker.FileAdapterLegacy;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.GalleryAdapter;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.GalleryItemDecoration;
 import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDialog;
@@ -139,6 +138,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                 showContactPicker();
             } else if (item.getItemId() == R.id.files) {
                 showFilePicker();
+                return false;
             }
             return true;
         });
@@ -235,13 +235,8 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         }
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         compressImagesOnUpload = sharedPreferences.getBoolean(getString(R.string.pref_key_compress_image_attachments), true);
-        return binding.getRoot();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         editViewModel.getBrandingColor().observe(getViewLifecycleOwner(), this::applyBrand);
+        return binding.getRoot();
     }
 
     @Override
@@ -303,28 +298,24 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     }
 
     private void showFilePicker() {
-        if (!(pickerAdapter instanceof FileAdapter) && !(pickerAdapter instanceof FileAdapterLegacy)) {
+        if (!(pickerAdapter instanceof FileAdapter)) {
             if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE)) {
                 requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_PICK_FILE_PERMISSION);
             } else {
-                unbindPickerAdapter();
-//              if (SDK_INT >= Build.VERSION_CODES.Q) {
-//                  // TODO Only usable with Scoped Storage
-//                  pickerAdapter = new FileAdapter(requireContext(), uri -> onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri)), this::openNativeFilePicker);
-//              } else {
-                pickerAdapter = new FileAdapterLegacy((uri, pair) -> {
-                    previewViewModel.prepareDialog(pair.first, pair.second);
-                    PreviewDialog.newInstance().show(getChildFragmentManager(), PreviewDialog.class.getSimpleName());
-                    observeOnce(previewViewModel.getResult(), getViewLifecycleOwner(), (submitPositive) -> {
-                        if (submitPositive) {
-                            onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri));
-                        }
-                    });
-                }, this::openNativeFilePicker);
-//              }
-                removeGalleryItemDecoration();
-                binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-                binding.pickerRecyclerView.setAdapter(pickerAdapter);
+                openNativeFilePicker();
+//                unbindPickerAdapter();
+//                pickerAdapter = new FileAdapter(requireContext(), (uri, pair) -> {
+//                    previewViewModel.prepareDialog(pair.first, pair.second);
+//                    PreviewDialog.newInstance().show(getChildFragmentManager(), PreviewDialog.class.getSimpleName());
+//                    observeOnce(previewViewModel.getResult(), getViewLifecycleOwner(), (submitPositive) -> {
+//                        if (submitPositive) {
+//                            onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri));
+//                        }
+//                    });
+//                }, this::openNativeFilePicker);
+//                removeGalleryItemDecoration();
+//                binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+//                binding.pickerRecyclerView.setAdapter(pickerAdapter);
             }
         }
     }
