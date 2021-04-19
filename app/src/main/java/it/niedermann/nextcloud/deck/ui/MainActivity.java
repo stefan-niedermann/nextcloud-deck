@@ -264,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
                 saveCurrentAccount(this, mainViewModel.getCurrentAccount());
                 if (mainViewModel.getCurrentAccount().isMaintenanceEnabled()) {
-                    refreshCapabilities(mainViewModel.getCurrentAccount());
+                    refreshCapabilities(mainViewModel.getCurrentAccount(), null);
                 }
 
                 lastBoardId = readCurrentBoardId(this, mainViewModel.getCurrentAccount().getId());
@@ -407,23 +407,23 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 CustomAppGlideModule.clearCache(this);
 
                 DeckLog.verbose("Trigger refresh capabilities for", mainViewModel.getCurrentAccount().getName());
-                refreshCapabilities(mainViewModel.getCurrentAccount());
+                refreshCapabilities(mainViewModel.getCurrentAccount(), () -> {
+                    DeckLog.verbose("Trigger synchronization for", mainViewModel.getCurrentAccount().getName());
+                    mainViewModel.synchronize(new IResponseCallback<Boolean>(mainViewModel.getCurrentAccount()) {
+                        @Override
+                        public void onResponse(Boolean response) {
+                            DeckLog.info("End of synchronization for " + mainViewModel.getCurrentAccount().getName() + " → Stop spinner.");
+                            runOnUiThread(() -> binding.swipeRefreshLayout.setRefreshing(false));
+                        }
 
-                DeckLog.verbose("Trigger synchronization for", mainViewModel.getCurrentAccount().getName());
-                mainViewModel.synchronize(new IResponseCallback<Boolean>(mainViewModel.getCurrentAccount()) {
-                    @Override
-                    public void onResponse(Boolean response) {
-                        DeckLog.info("End of synchronization for " + mainViewModel.getCurrentAccount().getName() + " → Stop spinner.");
-                        runOnUiThread(() -> binding.swipeRefreshLayout.setRefreshing(false));
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-                        super.onError(throwable);
-                        DeckLog.info("End of synchronization for " + mainViewModel.getCurrentAccount().getName() + " → Stop spinner.");
-                        showSyncFailedSnackbar(throwable);
-                        runOnUiThread(() -> binding.swipeRefreshLayout.setRefreshing(false));
-                    }
+                        @Override
+                        public void onError(Throwable throwable) {
+                            super.onError(throwable);
+                            DeckLog.info("End of synchronization for " + mainViewModel.getCurrentAccount().getName() + " → Stop spinner.");
+                            showSyncFailedSnackbar(throwable);
+                            runOnUiThread(() -> binding.swipeRefreshLayout.setRefreshing(false));
+                        }
+                    });
                 });
             });
         });
@@ -538,33 +538,39 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         });
     }
 
-    private void refreshCapabilities(final Account account) {
+    private void refreshCapabilities(final Account account, @Nullable Runnable runAfter) {
         DeckLog.verbose("Refreshing capabilities for", account.getName());
         mainViewModel.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 DeckLog.verbose("Finished refreshing capabilities for", account.getName(), "successfully.");
                 if (response.isMaintenanceEnabled()) {
-                    DeckLog.verbose("Maintenance mode is enabled → Stop spinner.");
-                    binding.swipeRefreshLayout.setRefreshing(false);
+                    DeckLog.verbose("Maintenance mode is enabled.");
                 } else {
-                    DeckLog.verbose("Maintenance mode is disabled → Stop spinner.");
+                    DeckLog.verbose("Maintenance mode is disabled.");
                     // If we notice after updating the capabilities, that the new version is not supported, but it was previously, recreate the activity to make sure all elements are disabled properly
                     if (mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported() && !response.getDeckVersion().isSupported()) {
                         ActivityCompat.recreate(MainActivity.this);
                     }
                 }
+
+                if (runAfter != null) {
+                    runAfter.run();
+                }
             }
 
             @Override
             public void onError(Throwable throwable) {
-                DeckLog.warn("Error on refreshing capabilities for", account.getName(), "(" + throwable.getMessage() + ") → Stop spinner.");
-                binding.swipeRefreshLayout.setRefreshing(false);
-                if (throwable instanceof OfflineException) {
+                DeckLog.warn("Error on refreshing capabilities for", account.getName(), "(" + throwable.getMessage() + ").");
+                if (throwable.getClass() == OfflineException.class || throwable instanceof OfflineException) {
                     DeckLog.info("Cannot refresh capabilities because device is offline.");
                 } else {
                     super.onError(throwable);
                     ExceptionDialogFragment.newInstance(throwable, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
+
+                if (runAfter != null) {
+                    runAfter.run();
                 }
             }
         });
@@ -972,7 +978,11 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                             @Override
                             public void onError(Throwable throwable) {
                                 super.onError(throwable);
-                                showSyncFailedSnackbar(throwable);
+                                if (throwable.getClass() == OfflineException.class || throwable instanceof OfflineException) {
+                                    DeckLog.error("Do not show synchronization failed snackbar because it is an ", OfflineException.class.getSimpleName(), "- assuming the user has wi-fi disabled but \"Sync only on wi-fi\" enabled");
+                                } else {
+                                    showSyncFailedSnackbar(throwable);
+                                }
                             }
                         });
                     }

@@ -260,6 +260,12 @@ public class SyncManager {
                         }
                     }
                 }
+
+                @SuppressLint("MissingSuperCall")
+                @Override
+                public void onError(Throwable throwable) {
+                    responseCallback.onError(throwable);
+                }
             });
         });
     }

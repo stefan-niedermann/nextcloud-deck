@@ -33,6 +33,7 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.exceptions.DeckException;
+import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.model.Account;
 
@@ -79,6 +80,9 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
             add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
         } else if (throwable instanceof NextcloudFilesAppNotSupportedException) {
             add(R.string.error_dialog_tip_files_outdated);
+        } else if (throwable instanceof OfflineException) {
+            add(R.string.error_dialog_tip_offline);
+            add(R.string.error_dialog_tip_sync_only_on_wifi);
         } else if (throwable instanceof NextcloudApiNotRespondingException) {
             if (VERSION.SDK_INT >= VERSION_CODES.M) {
                 add(R.string.error_dialog_tip_disable_battery_optimizations, new Intent().setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS).putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_battery_settings));
