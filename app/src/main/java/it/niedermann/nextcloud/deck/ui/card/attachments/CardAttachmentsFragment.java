@@ -138,6 +138,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                 showContactPicker();
             } else if (item.getItemId() == R.id.files) {
                 showFilePicker();
+                return false;
             }
             return true;
         });
@@ -234,13 +235,8 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         }
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         compressImagesOnUpload = sharedPreferences.getBoolean(getString(R.string.pref_key_compress_image_attachments), true);
-        return binding.getRoot();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         editViewModel.getBrandingColor().observe(getViewLifecycleOwner(), this::applyBrand);
+        return binding.getRoot();
     }
 
     @Override
@@ -306,7 +302,6 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
             if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE)) {
                 requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_PICK_FILE_PERMISSION);
             } else {
-                mBottomSheetBehaviour.setState(STATE_HIDDEN);
                 openNativeFilePicker();
 //                pickerAdapter = new FileAdapter(requireContext(), (uri, pair) -> {
 //                    previewViewModel.prepareDialog(pair.first, pair.second);
