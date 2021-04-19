@@ -69,23 +69,25 @@ public class GalleryAdapter extends AbstractCursorPickerAdapter<RecyclerView.Vie
             }
             case VIEW_TYPE_ITEM: {
                 final long id = getItemId(position);
-                bindExecutor.execute(() -> {
-                    try {
-                        final Bitmap thumbnail;
-                        if (SDK_INT >= Q) {
-                            thumbnail = contentResolver.loadThumbnail(ContentUris.withAppendedId(
-                                    EXTERNAL_CONTENT_URI, id), new Size(512, 384), null);
-                        } else {
-                            thumbnail = MediaStore.Images.Thumbnails.getThumbnail(
-                                    contentResolver, id,
-                                    MediaStore.Images.Thumbnails.MINI_KIND, null);
+                if (!bindExecutor.isTerminated()) {
+                    bindExecutor.execute(() -> {
+                        try {
+                            final Bitmap thumbnail;
+                            if (SDK_INT >= Q) {
+                                thumbnail = contentResolver.loadThumbnail(ContentUris.withAppendedId(
+                                        EXTERNAL_CONTENT_URI, id), new Size(512, 384), null);
+                            } else {
+                                thumbnail = MediaStore.Images.Thumbnails.getThumbnail(
+                                        contentResolver, id,
+                                        MediaStore.Images.Thumbnails.MINI_KIND, null);
+                            }
+                            new Handler(Looper.getMainLooper()).post(() -> ((GalleryItemViewHolder) holder).bind(ContentUris.withAppendedId(
+                                    EXTERNAL_CONTENT_URI, id), thumbnail, onSelect));
+                        } catch (IOException ignored) {
+                            new Handler(Looper.getMainLooper()).post(((GalleryItemViewHolder) holder)::bindError);
                         }
-                        new Handler(Looper.getMainLooper()).post(() -> ((GalleryItemViewHolder) holder).bind(ContentUris.withAppendedId(
-                                EXTERNAL_CONTENT_URI, id), thumbnail, onSelect));
-                    } catch (IOException ignored) {
-                        new Handler(Looper.getMainLooper()).post(((GalleryItemViewHolder) holder)::bindError);
-                    }
-                });
+                    });
+                }
             }
         }
     }

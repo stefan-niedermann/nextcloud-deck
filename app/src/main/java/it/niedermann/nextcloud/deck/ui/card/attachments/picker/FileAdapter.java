@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.RequestBuilder;
@@ -21,16 +20,13 @@ import java.util.function.BiConsumer;
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentDefaultBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemPickerNativeBinding;
 
-import static android.provider.MediaStore.Downloads.DATE_ADDED;
-import static android.provider.MediaStore.Downloads.DATE_MODIFIED;
-import static android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI;
-import static android.provider.MediaStore.Downloads.MIME_TYPE;
-import static android.provider.MediaStore.Downloads.SIZE;
-import static android.provider.MediaStore.Downloads.TITLE;
-import static android.provider.MediaStore.Downloads._ID;
-import static java.util.Objects.requireNonNull;
+import static android.provider.BaseColumns._ID;
+import static android.provider.MediaStore.Files.FileColumns.DATE_ADDED;
+import static android.provider.MediaStore.Files.FileColumns.DATE_MODIFIED;
+import static android.provider.MediaStore.Files.FileColumns.MIME_TYPE;
+import static android.provider.MediaStore.Files.FileColumns.SIZE;
+import static android.provider.MediaStore.Files.FileColumns.TITLE;
 
-@RequiresApi(api = 29)
 public class FileAdapter extends AbstractCursorPickerAdapter<RecyclerView.ViewHolder> {
 
     private final int displayNameColumnIndex;
@@ -38,8 +34,13 @@ public class FileAdapter extends AbstractCursorPickerAdapter<RecyclerView.ViewHo
     private final int modifiedColumnIndex;
     private final int mimeTypeColumnIndex;
 
-    private FileAdapter(@NonNull Context context, @NonNull BiConsumer<Uri, Pair<String, RequestBuilder<?>>> onSelect, @NonNull Runnable onSelectPicker) {
-        super(context, onSelect, onSelectPicker, _ID, requireNonNull(context.getContentResolver().query(EXTERNAL_CONTENT_URI, new String[]{_ID, TITLE, SIZE, DATE_MODIFIED, MIME_TYPE}, null, null, DATE_ADDED + " DESC")));
+    public FileAdapter(@NonNull Context context, @NonNull BiConsumer<Uri, Pair<String, RequestBuilder<?>>> onSelect, @NonNull Runnable onSelectPicker) {
+        super(context, onSelect, onSelectPicker, _ID, context.getContentResolver().query(
+                MediaStore.Files.getContentUri("external"),
+                new String[]{_ID, TITLE, SIZE, DATE_MODIFIED, MIME_TYPE},
+//                MEDIA_TYPE + " != ?", new String[]{String.valueOf(MEDIA_TYPE_IMAGE)},
+                null, null,
+                DATE_ADDED + " DESC"));
         displayNameColumnIndex = cursor.getColumnIndex(TITLE);
         sizeColumnIndex = cursor.getColumnIndex(SIZE);
         modifiedColumnIndex = cursor.getColumnIndex(DATE_MODIFIED);
