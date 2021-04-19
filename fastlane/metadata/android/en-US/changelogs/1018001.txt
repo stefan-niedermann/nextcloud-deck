@@ -1,0 +1,10 @@
+1.18.1
+
+- ⚙️ Replaces the preview of downloaded files in the attachment picker with a direct access to the native system file picker (See https://github.com/stefan-niedermann/nextcloud-deck/pull/943#issue-617868203)
+
+1.18.0
+
+- 🖼 Cover images for cards (optional)
+- 🆕 Upcoming widget: clicking on a time separator now opens last board (#932)
+- 👤 Show display name instead of user id in account switcher (#864)
+- 🐞 Fix some more cases for endless refresh spinners (#680)
