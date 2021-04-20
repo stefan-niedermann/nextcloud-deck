@@ -120,6 +120,7 @@
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Marcação</string>
     <string name="settings_compact_title">Modo compacto</string>
+    <string name="settings_cover_images_title">Imagens de capa</string>
     <string name="settings_debugging">Logs de debug</string>
     <string name="settings_etags">Use EEtiquetas</string>
     <string name="settings_etags_summary">Acelera a sincronização </string>

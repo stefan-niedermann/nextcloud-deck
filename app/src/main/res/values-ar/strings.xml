@@ -1,4 +1,7 @@
 <resources>
+    <string name="navigation_drawer_open">فتح التنقل </string>
+    <string name="navigation_drawer_close">إقفال التنقل </string>
+
     <string name="simple_boards">الالواح</string>
     <string name="simple_add">إضافة</string>
     <string name="simple_save">حفظ</string>
@@ -41,14 +44,22 @@
     <string name="about_maintainer_title">مشرف</string>
     <string name="about_developers_title">المطوّرون</string>
     <string name="about_translators_title">المترجِمون</string>
+    <string name="about_translators_transifex">مجتمع نكست كلاود على %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title"> المجَرِّبون</string>
     <string name="about_source_title">الشفرة المصدرية</string>
+    <string name="about_source">هذا المشروع مستضاف على جيت هب: %1$s</string>
     <string name="about_issues_title">المشاكل</string>
+    <string name="about_issues">يمكنك الإبلاغ عن الأخطاء، ترشيح مزايا أو طلب تحسين على GitHub issue tracker:%1$s</string>
     <string name="about_translate_title">ترجمة</string>
+    <string name="about_translate">إنضم إلى فريق نكست كلاود على Transifex وساعد في ترجمة هذا التطبيق: %1$s</string>
     <string name="about_app_license_title">رخصة التطبيق</string>
     <string name="about_app_license">التطبيق مسجل تحت شهادة جنو العامة الاصدار 3+</string>
     <string name="about_app_license_button">عرض الرخصة</string>
     <string name="about_icons_disclaimer_title">الأيقونات</string>
+    <string name="about_icons_disclaimer_app_icon">لرؤية الأيقونة الأصلية %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">جميع الأيقونات الأخرى التي يستخدمها هذا  التطبيق  %1$s من صنع  Google Inc. ومرخصة بموجب ترخيص Apache 2.0.</string>
+    <string name="about_icons_disclaimer_mdi">مادة تصميم الأيقونات </string>
     <string name="about_credits_tab_title">الشكر ل</string>
     <string name="about_contribution_tab_title">المساهمة</string>
     <string name="about_license_tab_title">الرخصة</string>
@@ -59,6 +70,8 @@
     <string name="hint_assign_people">المستخدمين المعنيين</string>
     <string name="hint_due_date_date">تاريخ الانجاز</string>
     <string name="card_not_found">لم يتم العثور على البطاقة </string>
+    <string name="card_not_found_message">لا يمكن العثور على البطاقة. ربما تم حذفها موخرًا. </string>
+
     <string name="add_account">أضف حسابا</string>
     <string name="choose_account">إختر حسابًا</string>
     <string name="add_card">إضافة بطاقة جديدة</string>
@@ -67,6 +80,8 @@
     <string name="rename_list">إعادة تسمية القائمة</string>
     <string name="delete_list">حذف القائمة</string>
     <string name="label_menu">القائمة </string>
+    <string name="action_card_assign">تعيين البطاقة إلي </string>
+    <string name="action_card_unassign">إلغاء تعيين البطاقة إلي </string>
     <string name="action_card_archive">أرشفة البطاقة</string>
     <string name="action_card_delete">حذف البطاقة</string>
     <string name="add_board">إضافة لوح</string>
@@ -77,20 +92,29 @@
     <string name="card_edit_details">التفاصيل</string>
     <string name="card_edit_attachments">المرفقات</string>
     <string name="card_edit_activity">النشاط</string>
+    <string name="about_server_app_version_text">إصدار خادم التطبيق:</string>
     <string name="no_files_attached_to_this_card">لا يوجد ملفات مرفقة لهذه البطاقة.</string>
     <string name="attachments">المرفقات</string>
     <string name="no_cards">توجد بطاقات حتى الآن</string>
     <string name="no_account">لم يتم إعداد أي حساب بعد.</string>
     <string name="account_already_added">تمت إضافة الحساب بالفعل </string>
     <string name="account_is_getting_imported">يتم استيراد الحساب </string>
+    <string name="not_synced_yet">لم يتم التزامن حتى الآن</string>
     <string name="no_lists_yet">لا توجد قائمة حتى الآن</string>
     <string name="do_you_want_to_save_your_changes">هل تريد حفظ التغييرات؟ </string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">هل تريد أرشفة جميع بطاقات %1$s؟</string>
     <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">هل تريد أرشفة جميع البطاقات المفلترة %1$s؟ </string>
     <string name="add_a_new_list_using_the_button">إضافة قائمة جديدة باستخدام زر + </string>
     <string name="add_a_new_card_using_the_button">إضافة بطاقة جديدة باستخدام زر +</string>
+    <string name="update_deck">تحديث تطبيق Deck</string>
+    <string name="deck_outdated_please_update">إصدار تطبيق Deck الخاص بك قديم جدًا (%1$s). يرجى تحديثه لاستعمال تطبيق أندرويد كعميل.</string>
+    <string name="delete_board_message"> سوف يحذف هذا اللوح ويتضمن ذلك جميع القوائم والبطاقات.</string>
     <string name="settings_theme_title">المظهر</string>
     <string name="settings_branding_title">وسم</string>
+    <string name="settings_cover_images_title">صور الغلاف</string>
+    <string name="settings_debugging">سجلات تصحيح الأخطاء </string>
+    <string name="settings_etags">استخدم ETags</string>
+    <string name="settings_etags_summary">تسريع التزامن  </string>
     <string name="settings_background_sync">مزامنة في خلفية النظام</string>
     <string name="settings_compress_image_attachments">ضغط الصور عند التحميل</string>
     <string name="search_in">البحث في %1$s</string>
@@ -147,7 +171,7 @@
     <string name="filter_later">لاحقا</string>
     <string name="filter_by_tag">تصفية بواسطة الوسم</string>
     <string name="filter_by_assigned_user">تصفية بواسطة المستخدم الموكل اليه</string>
-    <string name="filter_by_duedate">تصفية بواسطة تأريخ الانجاز</string>
+    <string name="filter_by_duedate">تصفية حسب تاريخ الإنجاز</string>
 
     <string name="archived_cards">البطاقات المؤرشفة</string>
     <string name="action_card_dearchive">التراجع عن أرشفة البطاقة </string>
@@ -169,23 +193,43 @@
     <string name="error">حدث خطأ</string>
     <string name="synchronization_failed">المزامنة فشلت</string>
     <string name="operation_not_yet_supported">غير مدعوم حتى الآن</string>
-    <string name="maintenance_mode">الخادوم في وضع الصيانة</string>
-    <string name="server_error">خطا في الخادم</string>
+    <string name="error_revoking_ac">حدث خطأ أثناء إلغاء الوصول لـ %1$s</string>
+    <string name="error_create_label">حدث خطأ أثناء إنشاء علامة %1$s</string>
+    <string name="maintenance_mode">الخادم في وضع الصيانة</string>
+    <string name="server_error">خطأ في الخادم</string>
+    <string name="error_edit_activity_killed_by_android">أنهى Android وضع التحرير لأنه بحاجه إلى المزيد من موارد النظام للتطبيقات الأخرى.</string>
+
     <string name="error_dialog_title">آه لا، ماذا الان؟🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">الرجاء محاولة اجبار اغلاق التطبيق واعادة تشغيله، ربما هنالك خطأ في الاتصال مع تطبيق نيكست كلاود nextcloud</string>
+    <string name="error_dialog_tip_clear_storage_might_help">إذا تكررت المشكلة، حاول تنظيف مساحة التخزين في التطبيقين كلاهما: نكست كلاود، ونكست كلاود Deck لحل هذه المشكلة.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">فشلت ترقية قاعدة البيانات. يرجى الإبلاغ عن المشكلة ومسح التخزين لاستخدام التطبيق مجددًا.</string>
     <string name="error_dialog_tip_clear_storage">يمكنك مسح التخزين عن طريق فتح معلومات التطبيق واختيار التخزين ← مسح التخزين.</string>
-    <string name="error_dialog_tip_files_outdated">تطبيقك نيكست كلاود (Nexcloud) يبدو انه مهمل (لم يحدث منذ زمن). رجاءا زُر بلي ستور او اف-درويد (f-droid) لتحصل على اخر اصدار.</string>
+    <string name="error_dialog_tip_files_outdated">يبدو أن تطبيقك نكست كلاود مهمل، لم يحدث منذ زمن. يرجى زيارة  بلي ستور أو اف-درويد (f-droid) للحصول على آخر إصدار.</string>
+    <string name="error_dialog_tip_files_force_stop">يبدو أن هناك خطأ ما في تطبيق نكست كلاود الخاص بك. يرجى محاولة فرض إيقاف كلا من تطبيق نكست كلاود وتطبيق Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">إذا لم يساعد إيقافهم بالقوة ، فيمكنك محاولة مسح تخزين كلا التطبيقين.</string>
     <string name="error_dialog_timeout_instance">لم يكن هناك استجابة من الخادم الخاص بك في الوقت المحدد. يرجى التأكد من أن الخادم الخاص بك يعمل بشكل جيد.</string>
+    <string name="error_dialog_timeout_toggle">تحقق من اتصالك بالشبكة. يمكن أن يساعد إيقاف بيانات الهاتف المحمول أو إيقاف تشغيل Wi-Fi وتشغيله مرة أخرى أحيانا.</string>
+    <string name="error_dialog_check_server">لم تكن استجابة الخادم الخاص بك صحيحة. يرجى التحقق مما إذا كان يمكنك الوصول إلى تطبيق Deck عبر واجهة الويب.</string>
     <string name="error_dialog_check_server_logs">هناك مشكلة في إعداد Nextcloud الخاص بك. يرجى إلقاء نظرة على ملفات سجل الخادم.</string>
     <string name="error_dialog_check_maintenance">يرجى التحقق مما إذا كان خادم Nextcloud الخاص بك ليس في وضع الصيانة حاليًا.</string>
     <string name="error_dialog_insufficient_storage">خادم Nextcloud الخاص بك ليس لديه مساحة تخزين فارغة متبقية. يرجى حذف بعض الملفات لمزامنة التغييرات المحلية الخاصة بك في السحابة الخاصة بك.</string>
     <string name="error_dialog_we_need_info">نحتاج إلى المعلومات الفنية التالية لمساعدتك:</string>
+    <string name="error_dialog_redirect">استجاب خادمك برمز حالة HTTP 302 ، مما يعني أنك لم تقم بتثبيت تطبيق Deck على الخادم الخاص بك أو أنه تم تكوين شيء ما بشكل خاطئ. يمكن أن يحدث هذا بسبب التجاوزات المخصصة في ملف htaccess أو تطبيقات Nextcloud مثل عميل OID.</string>
+    <string name="error_dialog_version_not_parsable">لم نتمكن من تحديد إصدار تطبيق Deck من ناحية الخادم. يرجى التأكد من تثبيته وتمكينه.</string>
+    <string name="error_dialog_account_might_not_be_authorized">ربما حسابك في نكست كلاود لم يعد مصرحًا به </string>
+    <string name="error_dialog_user_not_found_in_database">لا يتطابق المستخدم الحالي مع المستخدم الموجود لدينا في قاعدة البيانات. إذا كنت تستخدم بروتوكول الوصول الخفيف إلى الدليل (LDAP) على حالة نكست كلاود الخاص بك، فربما قام تطبيق نكست كلاود بتخزين معرف مستخدم قديم.</string>
+    <string name="error_dialog_capabilities_not_parsable">لم نتمكن من جلب إمكانيات الخادم الخاص بك. يرجى التأكد من أن الخادم الخاص بك يعمل بشكل جيد وأن تطبيقات العميل الأخرى قادرة على الوصول إلى نكست كلاود.</string>
+    <string name="error_dialog_attachment_upload_failed">لا يمكن رفع المرفق، يرجى محاولة مشاركته بطريقة أخرى وإخبارنا بهذا الخطأ.</string>
+    <string name="error_dialog_certificate">يبدو أن هناك خطأ ما في شهادة الخادم، من فضلك قم بمراجعة جميع الحسابات في تطبيق نكست كلاود لمزيد من المعلومات.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">يرجى تعطيل جميع تحسينات البطارية لنكست كلاود وتطبيق Deck.</string>
     <string name="error_action_open_deck_info">افتح معلومات التطبيق</string>
-    <string name="error_action_open_network">اعدادات الشبكة</string>
+    <string name="error_action_open_nextcloud_app">فتح تطبيق نكست كلاود</string>
+    <string name="error_action_open_network">إعدادات الشبكة</string>
+    <string name="error_action_server_logs">سجلات الخادم </string>
     <string name="error_action_install">تثبيت</string>
     <string name="error_action_report_issue">ابلغ عنه</string>
-    <string name="info_box_maintenance_mode">الخادوم في وضع الصيانة</string>
+    <string name="info_box_maintenance_mode">الخادم في وضع الصيانة</string>
+    <string name="info_box_version_not_supported">إصدار الخادم %1$s غير مدعوم، من فضلك قم بالتحديث إلى %2$s</string>
     <string name="share_link">مشاركة الرابط</string>
     <string name="share_content">مشاركة محتوى </string>
     <string name="share_content_duedate">التاريخ المحدد: %1$s</string>
@@ -193,7 +237,9 @@
     <string name="archive_cards">أرشفة البطاقات</string>
 
     <string name="manage_accounts">إدارة الحسابات</string>
+    <string name="manage_list">إدارة القائمة </string>
     <string name="simple_reply">رد</string>
+    <string name="append_text_to_description">إلحاق بالوصف </string>
     <string name="add_text_as_comment">أضف كتعليق</string>
     <string name="progress_count">%1$d من %2$d</string>
     <string name="simple_report">ابلغ عنه</string>
@@ -201,13 +247,26 @@
     <string name="move_warning">لا يمكن نقل لا التعليقات ولا المرفقات عند نقل البطاقة إلى لوحة أخرى </string>
     <string name="clone_board">استنسخ اللوح</string>
     <string name="cloning_board">إغلاق %1$s...</string>
+    <string name="successfully_cloned_board">استنسخ بنجاح %1$s</string>
+    <string name="attachment_does_not_yet_exist">المرفق غير موجود حتى الآن في Deck</string>
+    <string name="card_does_not_yet_exist">البطاقة غير موجودة حتى الآن في Deck</string>
+
     <string name="widget_stack_title">قائمة</string>
     <string name="widget_filter_title">تصفية</string>
     <string name="select_stack">اختر قائمة </string>
+    <string name="project_type_deck_board">لوح Deck</string>
+    <string name="project_type_deck_card">بطاقة Deck</string>
     <string name="project_type_file">الملف</string>
     <string name="projects_title">المشاريع</string>
+    <string name="no_assigned_label">لا يوجد وسم معين</string>
     <string name="single_card">بطاقة مفردة</string>
+    <string name="project_type_room">غرفة الدردشة</string>
     <string name="simple_move">نقل</string>
+    <string name="cannot_upload_files_without_permission">لا يمكن رفع الملفات من دون إذن </string>
+    <string name="clone_cards">استنسخ البطاقة </string>
+    <string name="simple_clone">استنسخ</string>
+    <string name="user_avatar">صورة المستخدم الشخصية </string>
+    <string name="simple_unassign">إلغاء التعيين</string>
     <string name="simple_contact">التواصل</string>
     <string name="simple_file">ملف</string>
     <string name="simple_camera">الكاميرا</string>
@@ -223,12 +282,17 @@
     <string name="files">الملفات</string>
     <string name="gallery">معرض الصور</string>
     <string name="simple_attach">إرفاق</string>
+    <string name="add_stack_widget">إضافة قائمة الودجات </string>
+    <string name="add_filter_widget">إضافة تصفية الودجات</string>
+    <string name="simple_order">طلب</string>
     <string name="edit_description">تعديل الوصف</string>
     <string name="widget_upcoming_title">البطاقات القادمة</string>
     <!-- Category header for a section in the settings which contain features for advanced users -->
     <string name="simple_expert_settings">إعدادات متقدمة</string>
+    <string name="copy_logs">نسخ السجلات إلى الحافظة </string>
     <string name="app_logo">شعار التطبيق</string>
     <string name="log_file">ملف السجل </string>
+    <string name="copying_logs_to_file">نسخ السجلات إلى الملف </string>
     <string name="account_imported">تم استيراد الحساب</string>
     <string name="simple_search">البحث</string>
 </resources>

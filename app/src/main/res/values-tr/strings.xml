@@ -120,6 +120,7 @@
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Markalama</string>
     <string name="settings_compact_title">Sıkışık kip</string>
+    <string name="settings_cover_images_title">Kapak görselleri</string>
     <string name="settings_debugging">Hata ayıklama günlükleri</string>
     <string name="settings_etags">ETag kullanılsın</string>
     <string name="settings_etags_summary">Eşitlemeyi hızlandırır</string>

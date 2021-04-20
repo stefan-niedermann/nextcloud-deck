@@ -120,6 +120,7 @@
     <string name="settings_theme_title">Design</string>
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Kompakt-Modus</string>
+    <string name="settings_cover_images_title">Coverbilder</string>
     <string name="settings_debugging">Protokolldateien zur Fehlersuche</string>
     <string name="settings_etags">ETags verwenden</string>
     <string name="settings_etags_summary">Beschleunigt die Synchronisation</string>

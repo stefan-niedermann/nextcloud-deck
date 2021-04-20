@@ -124,6 +124,7 @@
     <string name="settings_theme_title">Motyw</string>
     <string name="settings_branding_title">Motyw serwera</string>
     <string name="settings_compact_title">Tryb kompaktowy</string>
+    <string name="settings_cover_images_title">Obrazy okładek</string>
     <string name="settings_debugging">Logi debugowania</string>
     <string name="settings_etags">Użyj ETagów</string>
     <string name="settings_etags_summary">Przyspiesza synchronizację</string>
