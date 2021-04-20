@@ -65,7 +65,7 @@
     <string name="about_license_tab_title">Giấy phép</string>
     <string name="seconds_ago">vài giây trước</string>
     <string name="edit">Chỉnh sửa</string>
-    <string name="label_labels">Chọn thẻ</string>
+    <string name="label_labels">Chọn nhãn</string>
     <string name="label_description">Mô tả</string>
     <string name="hint_assign_people">Chỉ định người dùng</string>
     <string name="hint_due_date_date">Thời hạn</string>
@@ -118,6 +118,7 @@
     <string name="settings_theme_title">Chủ đề</string>
     <string name="settings_branding_title">Nhãn hiệu</string>
     <string name="settings_compact_title">Chế độ thu gọn</string>
+    <string name="settings_cover_images_title">Hình ảnh trang bìa</string>
     <string name="settings_debugging">Nhật ký gỡ lỗi</string>
     <string name="settings_etags">Sử dụng ETag</string>
     <string name="settings_etags_summary">Tăng tốc đồng bộ hoá</string>
@@ -175,7 +176,7 @@
     <string name="filter_month">30 ngày tiếp theo</string>
     <string name="filter_no_due">Không có thời hạn</string>
     <string name="filter_later">Để sau</string>
-    <string name="filter_by_tag">Lọc theo thẻ</string>
+    <string name="filter_by_tag">Lọc theo nhãn</string>
     <string name="filter_by_assigned_user">Lọc theo người dùng được phân công</string>
     <string name="filter_by_duedate">Lọc theo thời hạn</string>
 
@@ -184,12 +185,12 @@
     <string name="action_archived_cards">Duyệt các thẻ đã lưu trữ</string>
     <string name="attachment_already_exists">Tệp đính kèm đã tồn tại</string>
     <string name="pick_custom_color">Chọn màu tuỳ chỉnh</string>
-    <string name="manage_tags">Quản lý thẻ</string>
-    <string name="add_tag">Thêm thẻ</string>
+    <string name="manage_tags">Quản lý nhãn</string>
+    <string name="add_tag">Thêm nhãn</string>
     <string name="tag_already_exists">%1$s đã tồn tại</string>
     <string name="tag_successfully_added">Đã thêm %1$s thành công</string>
     <string name="edit_tag">Chỉnh sửa %1$s</string>
-    <string name="filter_tags_title">Thẻ</string>
+    <string name="filter_tags_title">Nhãn</string>
     <string name="filter_user_title">Người dùng</string>
     <string name="filter_duedate_title">Thời hạn</string>
 
@@ -239,7 +240,7 @@
     <string name="share_link">Chia sẽ liên kết</string>
     <string name="share_content">Chia sẻ nội dung</string>
     <string name="share_content_duedate">Thời hạn: %1$s</string>
-    <string name="share_content_labels">Thẻ: %1$s</string>
+    <string name="share_content_labels">Nhãn: %1$s</string>
     <string name="archive_cards">Lưu trữ thẻ</string>
 
     <string name="manage_accounts">Quản lý tài khoản</string>
@@ -272,7 +273,7 @@
     <plurals name="resources_count">
         <item quantity="other">%1$d tài nguyên</item>
     </plurals>
-    <string name="no_assigned_label">Không có thẻ nào được phân</string>
+    <string name="no_assigned_label">Không có nhãn nào được phân</string>
     <string name="single_card">Thẻ đơn</string>
     <string name="project_type_room">Phòng trò chuyện</string>
     <string name="simple_move">Dịch chuyển</string>

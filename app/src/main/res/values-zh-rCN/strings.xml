@@ -118,6 +118,7 @@
     <string name="settings_theme_title">主题</string>
     <string name="settings_branding_title">添加商标</string>
     <string name="settings_compact_title">紧凑模式</string>
+    <string name="settings_cover_images_title">封面图片</string>
     <string name="settings_debugging">调试日志</string>
     <string name="settings_etags">使用 ETags</string>
     <string name="settings_etags_summary">加快同步</string>
