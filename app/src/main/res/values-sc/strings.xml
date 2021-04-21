@@ -274,8 +274,8 @@
     <string name="user_avatar">Avatar de s\'utente</string>
     <string name="simple_unassign">Disassigna</string>
     <string name="simple_contact">Cuntata</string>
-    <string name="simple_file">Documentu</string>
-    <string name="simple_camera">Fotocamera</string>
+    <string name="simple_file">Archìviu</string>
+    <string name="simple_camera">Fotocàmera</string>
     <string name="take_photo">Tira una foto</string>
     <string name="take_photo_switch_camera">Càmbia fotocàmera</string>
     <string name="take_photo_toggle_torch">Ativa sa tortza</string>
@@ -285,7 +285,7 @@
     <string name="upload_a_new_attachment">Carriga un\'alligongiadu nou</string>
     <string name="contacts">Cuntatos</string>
     <string name="downloads">Iscarrigados</string>
-    <string name="files">Documentos</string>
+    <string name="files">Archìvios</string>
     <string name="gallery">Galleria</string>
     <string name="simple_attach">alligòngia</string>
     <string name="add_stack_widget">Agiunghe lista widget</string>
