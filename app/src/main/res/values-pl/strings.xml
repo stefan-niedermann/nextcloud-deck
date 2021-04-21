@@ -218,6 +218,8 @@
     <string name="error_dialog_tip_database_upgrade_failed">Aktualizacja bazy danych nie powiodła się. Zgłoś problem oraz wyczyść pamięć, aby ponownie korzystać z aplikacji.</string>
     <string name="error_dialog_tip_clear_storage">Możesz wyczyścić pamięć, otwierając informacje o aplikacji i wybierając Pamięć → Wyczyść pamięć podręczną.</string>
     <string name="error_dialog_tip_files_outdated">Twoja aplikacja Nextcloud wydaje się, że jest nieaktualna. Odwiedź Sklep Play lub F-Droid, aby pobrać najnowszą wersję.</string>
+    <string name="error_dialog_tip_offline">Wygląda na to, że próbujesz uruchomić synchronizację bez połączenia z internetem.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Jeśli włączyłeś ustawienie \"Synchronizuj tylko przez Wi-Fi\", możesz synchronizować tylko wtedy, gdy masz połączenie z Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Wydaje się, że coś jest nie tak z Twoją aplikacją Nextcloud. Spróbuj wymusić zatrzymanie aplikacji Nextcloud i Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Jeśli nie pomoże ich zatrzymanie, możesz spróbować wyczyścić pamięć obu aplikacji.</string>
     <string name="error_dialog_timeout_instance">W określonym czasie nie było odpowiedzi z Twojego serwera. Upewnij się, że instancja działa poprawnie.</string>

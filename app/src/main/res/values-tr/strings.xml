@@ -214,6 +214,8 @@
     <string name="error_dialog_tip_database_upgrade_failed">Veritabanı güncellenemedi. Lütfen sorunu bildirin ve uygulamayı normal şekilde kullanabilmek için depolamayı temizleyin.</string>
     <string name="error_dialog_tip_clear_storage">Depolamayı temizlemek için uygulama bilgilerini açın ve Depolama (Hafıza) → Depolamayı temizle (Veriyi sil) seçin.</string>
     <string name="error_dialog_tip_files_outdated">Nextcloud uygulamanız eski görünüyor. Lütfen son sürümü almak için Play Store ya da F-Droid mağazalarına gidin.</string>
+    <string name="error_dialog_tip_offline">İnternet bağlantısı olmadan bir eşitleme başlatmaya çalıştınız gibi görünüyor.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">\"Yalnız Wi-Fi ile eşitlensin\" seçeneğini etkinleştirdiyseniz, yalnız Wi-Fi bağlantısı varken eşitleme yapabilirsiniz.</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloud uygulamanızda bir sorun var gibi görünüyor. Lütfen hem Nextcloud uygulamasını hem de Nextcloud Tahta uygulamasını zorla kapatmayı deneyin.</string>
     <string name="error_dialog_tip_files_delete_storage">Zorla durdurmak sorunu çözmediyse iki uygulamanın da depolamalarını temizlemeyi deneyebilirsiniz.</string>
     <string name="error_dialog_timeout_instance">Belirtilen sürede sunucunuzdan bir yanıt alınamadı. Lütfen kopyanızın düzgün çalıştığından emin olun.</string>
