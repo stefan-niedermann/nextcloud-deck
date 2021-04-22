@@ -76,7 +76,7 @@ dependencies {
     implementation 'androidx.camera:camera-view:1.0.0-alpha23'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.preference:preference:1.1.1'
-    def roomVersion = "2.2.6"
+    def roomVersion = "2.3.0"
     implementation "androidx.room:room-runtime:$roomVersion"
     annotationProcessor "androidx.room:room-compiler:$roomVersion"
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
