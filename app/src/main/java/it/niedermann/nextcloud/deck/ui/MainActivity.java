@@ -643,7 +643,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 if (stacks.size() > position) {
                     return stacks.get(position).getTitle();
                 } else {
-                    DeckLog.logError(new IllegalStateException("Could not generate tab title for position " + position + " because list size is only " + currentBoardStacksCount));
+                    DeckLog.warn("Could not generate tab title for position " + position + " because list size is only " + currentBoardStacksCount);
                     return "ERROR";
                 }
             };
