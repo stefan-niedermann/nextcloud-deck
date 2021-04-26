@@ -212,6 +212,8 @@
     <string name="error_dialog_tip_database_upgrade_failed">數據庫升級失敗。 請報告問題，並清除存儲空間以正常使用該應用程序。</string>
     <string name="error_dialog_tip_clear_storage">您可以通過打開應用程式信息並選擇 存儲→清除存儲 來清除存儲。</string>
     <string name="error_dialog_tip_files_outdated">您的Nextcloud應用似乎已過時。請訪問 Play Store 或 F-Droid 以獲取最新版本。</string>
+    <string name="error_dialog_tip_offline">似乎您試圖在沒有Internet連接的情況下觸發同步。</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">如果啟用了“僅在Wi-Fi上同步”設置，則只能在連接到Wi-Fi時進行同步。</string>
     <string name="error_dialog_tip_files_force_stop">您的 Nextcloud 應用程式似乎有問題。請嘗試強制停止 Nextcloud 應用程式和 Nextcloud Deck 應用程式。</string>
     <string name="error_dialog_tip_files_delete_storage">如果強行停止它們沒有幫助，則可以嘗試清除兩個應用程式的存儲。</string>
     <string name="error_dialog_timeout_instance">在指定的時間內，您的伺服器沒有響應。 請確保您的 Nextcloud 運行良好。</string>
