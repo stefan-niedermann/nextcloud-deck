@@ -124,6 +124,7 @@
     <string name="settings_theme_title">Оформление</string>
     <string name="settings_branding_title">Брендирование</string>
     <string name="settings_compact_title">компактный режим</string>
+    <string name="settings_cover_images_title">Обложки</string>
     <string name="settings_debugging">Отладочные журналы</string>
     <string name="settings_etags">Использовать ETag</string>
     <string name="settings_etags_summary">Ускоряет синхронизацию</string>
@@ -217,6 +218,8 @@
     <string name="error_dialog_tip_database_upgrade_failed">Не удалось выполнить обновление базы данных. Сообщите об этой ошибке разработчикам. Чтобы продолжить использовать приложение, требуется выполнить очистку данных приложения.</string>
     <string name="error_dialog_tip_clear_storage">Для очистки хранилища на откройте приложение «Настройки» и выберите Приложения → Nextcloud / Nextcloud Deck → Хранилище → Очистить хранилище</string>
     <string name="error_dialog_tip_files_outdated">Ваше приложение Nextcloud устарело. Установите новую версию с Play Store или F-Droid.</string>
+    <string name="error_dialog_tip_offline">Похоже, вы пытались запустить синхронизацию без подключения к Интернету. </string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Если вы включили параметр «Синхронизация только по Wi-Fi», вы можете синхронизировать только при подключении к Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Похоже, что с приложением Nextcloud ведёт себя неожиданным образом. Попробуйте принудительно остановить приложения Nextcloud и Nextcloud Карточки. </string>
     <string name="error_dialog_tip_files_delete_storage">Если принудительная остановка не поможет, попробуйте очистить хранилище обоих приложений.</string>
     <string name="error_dialog_timeout_instance">Не получено сообщений от вашего сервера за указанное время. Пожалуйста убедитесь что все работает.</string>
@@ -243,6 +246,7 @@
     <string name="info_box_maintenance_mode">Сервер находится в режиме обслуживания</string>
     <string name="info_box_version_not_supported">Версия сервера %1$s не поддерживается, необходимо выполнить обновление до версии %2$s</string>
     <string name="share_link">Предоставление общего доступа по ссылке</string>
+    <string name="share_content">Поделиться содержимым</string>
     <string name="share_content_duedate">Срок исполнения: %1$s</string>
     <string name="share_content_labels">Метки: %1$s</string>
     <string name="archive_cards">Архивировать карточки</string>
@@ -312,5 +316,12 @@
     <string name="simple_order">Порядок</string>
     <string name="edit_description">Изменить описание</string>
     <string name="widget_upcoming_title">Ожидающие выполнения</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Экспорт настроек</string>
+    <string name="copy_logs">Скопировать журналы в буфер обмена</string>
+    <string name="app_logo">Логотип приложения</string>
+    <string name="log_file">Файл журнала</string>
+    <string name="copying_logs_to_file">Копирование журналов в файл…</string>
     <string name="account_imported">Аккаунт импортирован</string>
-    </resources>
+    <string name="simple_search">Поиск</string>
+</resources>

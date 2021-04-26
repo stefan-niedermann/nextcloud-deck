@@ -124,6 +124,7 @@
     <string name="settings_theme_title">Vzhled</string>
     <string name="settings_branding_title">Opatření vlastním logem</string>
     <string name="settings_compact_title">Kompaktní režim</string>
+    <string name="settings_cover_images_title">Titulní obrázky</string>
     <string name="settings_debugging">Záznamy ladících událostí</string>
     <string name="settings_etags">Použit identif. verze (ETag)</string>
     <string name="settings_etags_summary">Zrychluje synchronizaci</string>
@@ -217,6 +218,8 @@
     <string name="error_dialog_tip_database_upgrade_failed">Přechod na novější verzi databáze se nezdařil. Prosíme nahlaste tento problém vývojářům a aby bylo možné aplikaci normálně používat, vyčistěte úložiště.</string>
     <string name="error_dialog_tip_clear_storage">Úložiště můžete vyčistit otevřením informací o aplikací a vybráním Úložiště → Vyčistit úložiště.</string>
     <string name="error_dialog_tip_files_outdated">Zdá se, že aplikace Nextcloud, nainstalovaná na vašem zařízení, je staré verze. Přejděte prosím do Play Store nebo F-Droid a nainstalujte si nejnovější verzi.</string>
+    <string name="error_dialog_tip_offline">Vypadá to, že jste se pokusili zahájit synchronizaci bez internetového připojení.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Pokud máte zapnuto \"Synchr. pouze přes Wi-Fi\" v Nastavení, můžete synchronizovat pouze pokud jste připojeni k Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Zdá se, že s vaší aplikací Nextcloud není něco v pořádku. Zkuste vynutit zastavení obojího – aplikace Nextcloud a Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Pokud vynucení jejich zastavení nepomůže, můžete zkusit vyčistit úložiště obou aplikací.</string>
     <string name="error_dialog_timeout_instance">Server neodpověděl do určené doby. Ověřte, že vámi využívaná instance je v pořádku spuštěná.</string>
@@ -288,6 +291,7 @@
     <string name="single_card">Jedna karta</string>
     <string name="project_type_room">Diskuzní místnost</string>
     <string name="simple_move">Přesunout</string>
+    <string name="cannot_upload_files_without_permission">Není možné nahrávat soubory bez oprávnění</string>
     <string name="clone_cards">Klonovat karty</string>
     <string name="simple_clone">Klonovat</string>
     <string name="user_avatar">Zástupný obrázek uživatele</string>

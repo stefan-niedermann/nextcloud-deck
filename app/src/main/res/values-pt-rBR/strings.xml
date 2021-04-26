@@ -214,6 +214,8 @@
     <string name="error_dialog_tip_database_upgrade_failed">A atualização do banco de dados falhou. Relate o problema e limpe o armazenamento para usar o aplicativo normalmente.</string>
     <string name="error_dialog_tip_clear_storage">Você pode limpar o armazenamento abrindo as informações do aplicativo e selecionando Armazenamento → Limpar Armazenamento</string>
     <string name="error_dialog_tip_files_outdated">Seu aplicativo Nextcloud parece estar desatualizado. Visite a Play Store ou o F-Droid para obter a versão mais recente.</string>
+    <string name="error_dialog_tip_offline">Parece que você tentou desencadear uma sincronização sem uma conexão com a internet.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Se você habilitou a configuração \"Sincronizar apenas em Wi-Fi\", você só poderá sincronizar quando estiver conectado a um Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Parece que algo está errado com seu aplicativo Nextcloud. Tente forçar a parada de ambos, o aplicativo Nextcloud e o Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Se forçar a parada deles não resolver, tente limpar o armazenamento dos dois aplicativos.</string>
     <string name="error_dialog_timeout_instance">Não houve resposta do seu servidor no tempo especificado. Verifique se sua instância está funcionando bem.</string>
