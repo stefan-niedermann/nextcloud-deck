@@ -122,7 +122,7 @@
     <string name="settings_compact_title">Modo compacto</string>
     <string name="settings_cover_images_title">Imagens de capa</string>
     <string name="settings_debugging">Logs de debug</string>
-    <string name="settings_etags">Use EEtiquetas</string>
+    <string name="settings_etags">Usar ETags</string>
     <string name="settings_etags_summary">Acelera a sincronização </string>
     <string name="settings_background_sync">Sincronização em segundo plano</string>
     <string name="settings_compress_image_attachments">Compactar imagens no envio </string>
@@ -192,7 +192,7 @@
     <string name="tag_already_exists">%1$s já existe</string>
     <string name="tag_successfully_added">%1$s adicionado com sucesso</string>
     <string name="edit_tag">Editar %1$s</string>
-    <string name="filter_tags_title">Marcações</string>
+    <string name="filter_tags_title">Etiquetas</string>
     <string name="filter_user_title">Usuários</string>
     <string name="filter_duedate_title">Data de vencimento</string>
 
@@ -279,7 +279,7 @@
         <item quantity="one">%1$d recurso</item>
         <item quantity="other">%1$d recursos</item>
     </plurals>
-    <string name="no_assigned_label">Nenhum rótulo atribuído</string>
+    <string name="no_assigned_label">Nenhuma etiqueta atribuída</string>
     <string name="single_card">Cartão único</string>
     <string name="project_type_room">Sala de conversação</string>
     <string name="simple_move">Mover</string>

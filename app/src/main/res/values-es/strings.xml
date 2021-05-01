@@ -73,7 +73,7 @@
     <string name="card_not_found_message">No se ha podido encontrar la tarjeta. Quizás se ha eliminado recientemente.</string>
 
     <string name="add_account">Añadir cuenta</string>
-    <string name="choose_account">Elige una cuenta</string>
+    <string name="choose_account">Elija una cuenta</string>
     <string name="add_card">Añadir nueva tarjeta</string>
     <string name="activity">Actividad</string>
     <string name="add_list">Agregar lista</string>
@@ -232,7 +232,7 @@
     <string name="info_box_version_not_supported">La versión %1$s del servidor no está soportada. Por favor, actualiza a %2$s</string>
     <string name="share_link">Compartir enlace</string>
     <string name="share_content">Compartir contenido</string>
-    <string name="share_content_duedate">Fecha de vencimiento: %1$s</string>
+    <string name="share_content_duedate">Fecha de caducidad: %1$s</string>
     <string name="archive_cards">Tarjetas archivadas</string>
 
     <string name="manage_accounts">Gestionar cuentas</string>
