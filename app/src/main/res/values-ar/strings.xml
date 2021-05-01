@@ -104,6 +104,22 @@
     <string name="do_you_want_to_save_your_changes">هل تريد حفظ التغييرات؟ </string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">هل تريد أرشفة جميع بطاقات %1$s؟</string>
     <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">هل تريد أرشفة جميع البطاقات المفلترة %1$s؟ </string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="zero">سوف يحذف هذا %1$d جميع البطاقات من هذه القائمة </item>
+        <item quantity="one">سوف يحذف هذا %1$d جميع البطاقات من هذه القائمة </item>
+        <item quantity="two">سوف يحذف هذا %1$d جميع البطاقات من هذه القائمة </item>
+        <item quantity="few">سوف يحذف هذا %1$d جميع البطاقات من هذه القائمة </item>
+        <item quantity="many">سوف يحذف هذا %1$d جميع البطاقات من هذه القائمة </item>
+        <item quantity="other">سوف يحذف هذا %1$d جميع البطاقات من هذه القائمة </item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="zero">سيؤدي هذا إلى إزالة التسمية %1$d من البطاقات.</item>
+        <item quantity="one">سيؤدي هذا إلى إزالة التسمية %1$d من البطاقات.</item>
+        <item quantity="two">سيؤدي هذا إلى إزالة التسمية %1$d من البطاقات.</item>
+        <item quantity="few">سيؤدي هذا إلى إزالة التسمية %1$d من البطاقات.</item>
+        <item quantity="many">سيؤدي هذا إلى إزالة التسمية %1$d من البطاقات.</item>
+        <item quantity="other">سيؤدي هذا إلى إزالة التسمية %1$d من البطاقات.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">إضافة قائمة جديدة باستخدام زر + </string>
     <string name="add_a_new_card_using_the_button">إضافة بطاقة جديدة باستخدام زر +</string>
     <string name="update_deck">تحديث تطبيق Deck</string>
@@ -244,6 +260,15 @@
     <string name="append_text_to_description">إلحاق بالوصف </string>
     <string name="add_text_as_comment">أضف كتعليق</string>
     <string name="progress_count">%1$d من %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="zero">%1$d خطأ أثناء الرفع
+ </item>
+        <item quantity="one">%1$d خطأ أثناء الرفع </item>
+        <item quantity="two"> %1$d خطأ أثناء الرفع </item>
+        <item quantity="few">%1$d خطأ أثناء الرفع </item>
+        <item quantity="many"> %1$d خطأ أثناء الرفع </item>
+        <item quantity="other">%1$d خطأ أثناء الرفع </item>
+    </plurals>
     <string name="simple_report">ابلغ عنه</string>
     <string name="error_action_open_battery_settings">إعدادات البطارية</string>
     <string name="move_warning">لا يمكن نقل لا التعليقات ولا المرفقات عند نقل البطاقة إلى لوحة أخرى </string>
@@ -260,6 +285,14 @@
     <string name="project_type_deck_card">بطاقة Deck</string>
     <string name="project_type_file">الملف</string>
     <string name="projects_title">المشاريع</string>
+    <plurals name="resources_count">
+        <item quantity="zero">%1$dالمصادر </item>
+        <item quantity="one">%1$dالمصادر</item>
+        <item quantity="two">%1$d المصادر</item>
+        <item quantity="few">%1$dالمصادر</item>
+        <item quantity="many">%1$dالمصادر</item>
+        <item quantity="other">%1$dالمصادر</item>
+    </plurals>
     <string name="no_assigned_label">لا يوجد وسم معين</string>
     <string name="single_card">بطاقة مفردة</string>
     <string name="project_type_room">غرفة الدردشة</string>
