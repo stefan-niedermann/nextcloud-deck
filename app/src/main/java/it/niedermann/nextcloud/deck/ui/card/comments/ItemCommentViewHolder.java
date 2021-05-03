@@ -48,7 +48,7 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
             mentions.put(mention.getMentionId(), mention.getMentionDisplayName());
         }
         binding.message.setText(comment.getComment().getMessage());
-        binding.message.setMarkdownString(comment.getComment().getMessage(), mentions);
+        binding.message.setMarkdownStringAndHighlightMentions(comment.getComment().getMessage(), mentions);
         binding.message.setMarkdownStringChangedListener(editListener);
         binding.actorDisplayName.setText(comment.getComment().getActorDisplayName());
         binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(binding.creationDateTime.getContext(), comment.getComment().getCreationDateTime().toEpochMilli()));
