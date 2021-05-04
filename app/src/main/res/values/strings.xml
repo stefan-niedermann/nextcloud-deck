@@ -263,7 +263,7 @@
     <string name="error_action_server_logs">Server logs</string>
     <string name="error_action_install">Install</string>
     <string name="error_action_report_issue">Report</string>
-    <string name="info_box_maintenance_mode">Server in maintenance mode</string>
+    <string name="info_box_maintenance_mode">Server is in maintenance mode</string>
     <string name="info_box_version_not_supported">Server version %1$s not supported, please update to %2$s</string>
     <string name="share_link">Share link</string>
     <string name="share_content">Share content</string>
