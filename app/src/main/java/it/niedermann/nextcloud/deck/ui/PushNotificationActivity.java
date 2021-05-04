@@ -24,6 +24,10 @@ import it.niedermann.nextcloud.deck.util.ProjectUtil;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
+/**
+ * Warning: Do not move this class to another package or folder!
+ * The integration of the Nextcloud Android app <a href="https://github.com/nextcloud/android/blob/master/src/main/java/com/nextcloud/client/integrations/deck/DeckApiImpl.java#L42">assumes it to be at this location</a>.
+ */
 public class PushNotificationActivity extends AppCompatActivity {
 
     private ActivityPushNotificationBinding binding;
@@ -33,16 +37,17 @@ public class PushNotificationActivity extends AppCompatActivity {
     private static final String KEY_SUBJECT = "subject";
     private static final String KEY_MESSAGE = "message";
     private static final String KEY_LINK = "link";
-    private static final String KEY_CARD_REMOTE_ID = "objectId";
     private static final String KEY_ACCOUNT = "account";
+    // Optional
+    private static final String KEY_CARD_REMOTE_ID = "objectId";
 
     @Override
     protected void onResume() {
         super.onResume();
 
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
-        final Intent intent = getIntent();
 
+        final Intent intent = getIntent();
         if (intent == null) {
             throw new IllegalArgumentException("Could not retrieve intent");
         }
@@ -62,89 +67,80 @@ public class PushNotificationActivity extends AppCompatActivity {
         }
 
         final String link = intent.getStringExtra(KEY_LINK);
-        final long[] ids;
         try {
-            ids = ProjectUtil.extractBoardIdAndCardIdFromUrl(link);
+            final long[] ids = ProjectUtil.extractBoardIdAndCardIdFromUrl(link);
 
             binding.cancel.setOnClickListener((v) -> finish());
-
-            final String cardRemoteIdString = intent.getStringExtra(KEY_CARD_REMOTE_ID);
             final String accountString = intent.getStringExtra(KEY_ACCOUNT);
 
-            DeckLog.verbose("cardRemoteIdString = ", cardRemoteIdString);
             if (ids.length == 2) {
-                if (cardRemoteIdString != null) {
-                    try {
-                        final int cardRemoteId = Integer.parseInt(cardRemoteIdString);
-                        observeOnce(viewModel.readAccount(accountString), this, (account -> {
-                            if (account != null) {
-                                viewModel.setAccount(account.getName());
-                                DeckLog.verbose("account:", account);
-                                observeOnce(viewModel.getBoardByRemoteId(account.getId(), ids[0]), PushNotificationActivity.this, (board -> {
-                                    DeckLog.verbose("BoardLocalId:", board);
-                                    if (board != null) {
-                                        observeOnce(viewModel.getCardByRemoteID(account.getId(), cardRemoteId), PushNotificationActivity.this, (card -> {
-                                            DeckLog.verbose("Card:", card);
-                                            if (card != null) {
-                                                viewModel.synchronizeCard(new IResponseCallback<Boolean>(account) {
-                                                    @Override
-                                                    public void onResponse(Boolean response) {
-                                                        openCardOnSubmit(account, board.getLocalId(), card.getLocalId());
-                                                    }
+                final String cardRemoteIdString = intent.getExtras().getString(KEY_CARD_REMOTE_ID, String.valueOf(ids[1]));
+                DeckLog.verbose("cardRemoteIdString = ", cardRemoteIdString);
+                try {
+                    final int cardRemoteId = Integer.parseInt(cardRemoteIdString);
+                    observeOnce(viewModel.readAccount(accountString), this, (account -> {
+                        if (account != null) {
+                            viewModel.setAccount(account.getName());
+                            DeckLog.verbose("account:", account);
+                            observeOnce(viewModel.getBoardByRemoteId(account.getId(), ids[0]), PushNotificationActivity.this, (board -> {
+                                DeckLog.verbose("BoardLocalId:", board);
+                                if (board != null) {
+                                    observeOnce(viewModel.getCardByRemoteID(account.getId(), cardRemoteId), PushNotificationActivity.this, (card -> {
+                                        DeckLog.verbose("Card:", card);
+                                        if (card != null) {
+                                            viewModel.synchronizeCard(new IResponseCallback<Boolean>(account) {
+                                                @Override
+                                                public void onResponse(Boolean response) {
+                                                    openCardOnSubmit(account, board.getLocalId(), card.getLocalId());
+                                                }
 
-                                                    @Override
-                                                    public void onError(Throwable throwable) {
-                                                        super.onError(throwable);
-                                                        openCardOnSubmit(account, board.getLocalId(), card.getLocalId());
-                                                    }
-                                                }, card);
-                                            } else {
-                                                DeckLog.info("Card is not yet available locally. Synchronize board with localId", board);
+                                                @Override
+                                                public void onError(Throwable throwable) {
+                                                    super.onError(throwable);
+                                                    openCardOnSubmit(account, board.getLocalId(), card.getLocalId());
+                                                }
+                                            }, card);
+                                        } else {
+                                            DeckLog.info("Card is not yet available locally. Synchronize board with localId", board);
 
-                                                viewModel.synchronizeBoard(new IResponseCallback<Boolean>(account) {
-                                                    @Override
-                                                    public void onResponse(Boolean response) {
-                                                        runOnUiThread(() -> {
-                                                            observeOnce(viewModel.getCardByRemoteID(account.getId(), cardRemoteId), PushNotificationActivity.this, (card -> {
-                                                                DeckLog.verbose("Card:", card);
-                                                                if (card != null) {
-                                                                    openCardOnSubmit(account, board.getLocalId(), card.getLocalId());
-                                                                } else {
-                                                                    DeckLog.warn("Something went wrong while synchronizing the card", cardRemoteId, " (cardRemoteId). Given fullCard is null.");
-                                                                    applyBrandToSubmitButton(account);
-                                                                    fallbackToBrowser(link);
-                                                                }
-                                                            }));
-                                                        });
-                                                    }
+                                            viewModel.synchronizeBoard(new IResponseCallback<Boolean>(account) {
+                                                @Override
+                                                public void onResponse(Boolean response) {
+                                                    runOnUiThread(() -> observeOnce(viewModel.getCardByRemoteID(account.getId(), cardRemoteId), PushNotificationActivity.this, (card -> {
+                                                        DeckLog.verbose("Card:", card);
+                                                        if (card != null) {
+                                                            openCardOnSubmit(account, board.getLocalId(), card.getLocalId());
+                                                        } else {
+                                                            DeckLog.warn("Something went wrong while synchronizing the card", cardRemoteId, " (cardRemoteId). Given fullCard is null.");
+                                                            applyBrandToSubmitButton(account);
+                                                            fallbackToBrowser(link);
+                                                        }
+                                                    })));
+                                                }
 
-                                                    @Override
-                                                    public void onError(Throwable throwable) {
-                                                        super.onError(throwable);
-                                                        DeckLog.warn("Something went wrong while synchronizing the board with localId", board);
-                                                        applyBrandToSubmitButton(account);
-                                                        fallbackToBrowser(link);
-                                                    }
-                                                }, board.getLocalId());
-                                            }
-                                        }));
-                                    } else {
-                                        DeckLog.warn("Given localBoardId for cardRemoteId", cardRemoteId, "is null.");
-                                        applyBrandToSubmitButton(account);
-                                        fallbackToBrowser(link);
-                                    }
-                                }));
-                            } else {
-                                DeckLog.warn("Given account for", accountString, "is null.");
-                                fallbackToBrowser(link);
-                            }
-                        }));
-                    } catch (NumberFormatException e) {
-                        DeckLog.logError(e);
-                        fallbackToBrowser(link);
-                    }
-                } else {
-                    DeckLog.warn(KEY_CARD_REMOTE_ID, "is null.");
+                                                @Override
+                                                public void onError(Throwable throwable) {
+                                                    super.onError(throwable);
+                                                    DeckLog.warn("Something went wrong while synchronizing the board with localId", board);
+                                                    applyBrandToSubmitButton(account);
+                                                    fallbackToBrowser(link);
+                                                }
+                                            }, board.getLocalId());
+                                        }
+                                    }));
+                                } else {
+                                    DeckLog.warn("Given localBoardId for cardRemoteId", cardRemoteId, "is null.");
+                                    applyBrandToSubmitButton(account);
+                                    fallbackToBrowser(link);
+                                }
+                            }));
+                        } else {
+                            DeckLog.warn("Given account for", accountString, "is null.");
+                            fallbackToBrowser(link);
+                        }
+                    }));
+                } catch (NumberFormatException e) {
+                    DeckLog.logError(e);
                     fallbackToBrowser(link);
                 }
             } else {
