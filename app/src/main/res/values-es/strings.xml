@@ -120,7 +120,14 @@
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Modo compacto</string>
+    <string name="settings_cover_images_title">Imagen de la cubierta</string>
+    <string name="settings_debugging">Logs de depuración</string>
+    <string name="settings_etags">Usar ETags</string>
+    <string name="settings_etags_summary">Aumenta la velocidad de sincronización</string>
     <string name="settings_background_sync">Sincronización en segundo plano</string>
+    <string name="settings_compress_image_attachments">Comprime las imágenes al subir</string>
+    <string name="search_in">Buscar en %1$s</string>
+    <string name="settings_compress_image_attachments_summary">Subida más rápida, menor calidad</string>
     <string name="pref_value_wifi_and_mobile">Sincronizar sobre Wi-Fi y datos móviles</string>
     <string name="pref_value_wifi_only">Sincronizar solo sobre Wi-Fi</string>
     <string-array name="darkmode_entries">
@@ -207,6 +214,8 @@
     <string name="error_dialog_tip_database_upgrade_failed">Falló la actualización de la base de datos. Por favor, informe del problema y limpie el almacenamiento para usar la aplicación de manera normal.</string>
     <string name="error_dialog_tip_clear_storage">Puedes limpiar el almacenamiento abriendo la información de la app y seleccionando Almacenamiento → Eliminar datos.</string>
     <string name="error_dialog_tip_files_outdated">Su aplicación Nextcloud parece que está desactualizada. Por favor visite la Play Store o F-Droid para conseguir la versión más reciente.</string>
+    <string name="error_dialog_tip_offline">Parece que has intentado lanzar una sincronización sin tener conexión a internet.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Si has habilitado \"Sincronizar solo con Wi-Fi\", solo podrás sincronizar cuando estés conectado a un Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Algo parece ir mal en tu app de Nextcloud. Por favor, intenta forzar el cierre de ambas, Nextcloud y Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Si pararlas no ayuda, puede intentar borrar el almacenamiento de ambas aplicaciones.</string>
     <string name="error_dialog_timeout_instance">No hubo una respuesta de su servidor en un tiempo determinado. Por favor asegúrese de que su instancia está funcionando sin problemas.</string>
@@ -222,8 +231,10 @@
     <string name="error_dialog_user_not_found_in_database">El usuario actual no coincide con el usuario que tenemos en nuestra base de datos. Si estás usando LDAP en tu instancia de Nextcloud, tu app de Nextcloud puede haber almacenado una ID de usuario antigua.</string>
     <string name="error_dialog_capabilities_not_parsable">No se ha podido comprobar las capacidades de su servidor. Por favor compruebe que su servidor está funcionando bien y que otras aplicaciones de cliente son capaces de acceder a Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">No se ha podido subir un adjunto. Por favor, intenta compartirlo de otra forma y comunícanos este fallo.</string>
+    <string name="error_dialog_certificate">Algo parece ir mal con el certificado del servidor. Por favor, compruebe todas las cuentas en la app Nextcloud para más información.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Por favor, desactiva todas las optimizaciones de la batería para Nextcloud y la aplicación Deck.</string>
     <string name="error_action_open_deck_info">Abrir info de la app</string>
+    <string name="error_action_open_nextcloud_app">Abrir app de Nextcloud</string>
     <string name="error_action_open_network">Configuración de red</string>
     <string name="error_action_server_logs">Registros del servidor</string>
     <string name="error_action_install">Instalar</string>
@@ -233,6 +244,7 @@
     <string name="share_link">Compartir enlace</string>
     <string name="share_content">Compartir contenido</string>
     <string name="share_content_duedate">Fecha de caducidad: %1$s</string>
+    <string name="share_content_labels">Tags: %1$s</string>
     <string name="archive_cards">Tarjetas archivadas</string>
 
     <string name="manage_accounts">Gestionar cuentas</string>
@@ -271,6 +283,7 @@
     <string name="single_card">Carta única</string>
     <string name="project_type_room">Sala de conversación</string>
     <string name="simple_move">Mover</string>
+    <string name="cannot_upload_files_without_permission">No se pueden subir archivos sin permiso</string>
     <string name="clone_cards">Clonar tarjetas</string>
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Usar avatar</string>
@@ -295,4 +308,12 @@
     <string name="simple_order">Ordenar</string>
     <string name="edit_description">Editar descripción</string>
     <string name="widget_upcoming_title">Próximas tarjetas</string>
-    </resources>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Ajustes Experto</string>
+    <string name="copy_logs">Copiar registros en el portapapeles</string>
+    <string name="app_logo">App logo</string>
+    <string name="log_file">Archivo de registro</string>
+    <string name="copying_logs_to_file">Copiando registros al archivo…</string>
+    <string name="account_imported">Cuenta importada</string>
+    <string name="simple_search">Buscar</string>
+</resources>

@@ -120,6 +120,7 @@
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Marchio</string>
     <string name="settings_compact_title">Modalità compatta</string>
+    <string name="settings_cover_images_title">Immagini di copertina</string>
     <string name="settings_debugging">Registri di debug</string>
     <string name="settings_etags">Usa ETag</string>
     <string name="settings_etags_summary">Velocizza la sincronizzazione</string>
@@ -213,6 +214,8 @@
     <string name="error_dialog_tip_database_upgrade_failed">L\'aggiornamento del database non è riuscito. Segnala il problema e cancella l\'archiviazione per utilizzare l\'applicazione normalmente.</string>
     <string name="error_dialog_tip_clear_storage">Puoi a cancellare l\'archiviazione aprendo le informazioni dell\'applicazione e selezionando Archiviazione → Cancella archiviazione.</string>
     <string name="error_dialog_tip_files_outdated">La tua applicazione di Nextcloud sembra essere datata. Visita il Play Store o F-Droid per ottenere l\'ultima versione.</string>
+    <string name="error_dialog_tip_offline">Sembra che tu abbia provato ad eseguire una sincronizzazione senza connessione internet.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Se hai attivato l\'impostazione \"Sincronizza solo con Wi-Fi\", puoi sincronizzare solo quando sei connesso ad un Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Sembra che ci sia un problema con la tua applicazione di Nextcloud. Prova a fermare entrambe le applicazioni Nextcloud e Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Se fermarle non aiuta, puoi provare a cancellare l\'archiviazione di entrambe le applicazioni.</string>
     <string name="error_dialog_timeout_instance">Non è stata ricevuta una risposta dal server nel tempo stabilito. Assicurati che la tua istanza sia correttamente in esecuzione.</string>
