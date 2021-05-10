@@ -197,7 +197,6 @@
     <string name="operation_not_yet_supported">Δεν υποστηρίζεται ακόμη</string>
     <string name="error_revoking_ac">Σφάλμα κατά την ανάκληση πρόσβασης για %1$s</string>
     <string name="error_create_label">Σφάλμα κατά τη δημιουργία ετικέτας %1$s</string>
-    <string name="maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
     <string name="server_error">Σφάλμα διακομιστή</string>
     <string name="error_edit_activity_killed_by_android">Το Android ολοκλήρωσε τη λειτουργία επεξεργασίας επειδή χρειαζόταν περισσότερους πόρους συστήματος για άλλες εφαρμογές.</string>
 
@@ -228,7 +227,6 @@
     <string name="error_action_server_logs">Αρχεία καταγραφής διακομιστή</string>
     <string name="error_action_install">Εγκατάσταση</string>
     <string name="error_action_report_issue">Αναφορά</string>
-    <string name="info_box_maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
     <string name="info_box_version_not_supported">Η έκδοση του διακομιστή %1$s δεν υποστηρίζεται, παρακαλούμε αναβαθμίστε στην %2$s</string>
     <string name="share_link">Διαμοιρασμός συνδέσμου</string>
     <string name="archive_cards">Αρχειοθετημένες κάρτες</string>

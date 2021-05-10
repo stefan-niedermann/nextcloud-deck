@@ -185,7 +185,6 @@
     <string name="operation_not_yet_supported">まだ対応していません</string>
     <string name="error_revoking_ac">%1$sへのアクセス取消中のエラー</string>
     <string name="error_create_label">ラベル%1$s作成中のエラー</string>
-    <string name="maintenance_mode">サーバーはメンテナンスモードです。</string>
     <string name="server_error">サーバーエラー</string>
     <string name="error_edit_activity_killed_by_android">Androidが編集モードを終了したのは、他のアプリが多くのシステムリソースを必要としていたからです。</string>
 
@@ -217,7 +216,6 @@
     <string name="error_action_server_logs">サーバーログ</string>
     <string name="error_action_install">インストール</string>
     <string name="error_action_report_issue">報告</string>
-    <string name="info_box_maintenance_mode">サーバーはメンテナンスモードです。</string>
     <string name="info_box_version_not_supported">サーバーのバージョン%1$sはサポートしていませんので、%2$sにアップデートしてください。</string>
     <string name="share_link">URLで共有</string>
     <string name="archive_cards">カードをアーカイブ</string>

@@ -202,7 +202,7 @@
     <string name="operation_not_yet_supported">尚未支持</string>
     <string name="error_revoking_ac">撤回 %1$s 的权限时出错</string>
     <string name="error_create_label">创建标签 %1$s 时出错</string>
-    <string name="maintenance_mode">服务器处于维护模式</string>
+    <string name="maintenance_mode">服务器处于维护模式下 </string>
     <string name="server_error">服务器错误</string>
     <string name="error_edit_activity_killed_by_android">安卓系统结束了编辑模式，因为它需要为其他应用程序提供更多的系统资源。</string>
 
@@ -237,7 +237,7 @@
     <string name="error_action_server_logs">服务器日志</string>
     <string name="error_action_install">安装</string>
     <string name="error_action_report_issue">报告</string>
-    <string name="info_box_maintenance_mode">服务器处于维护模式</string>
+    <string name="info_box_maintenance_mode">服务器处于维护模式下 </string>
     <string name="info_box_version_not_supported">服务器版本 %1$s 不受支持，请更新到 %2$s</string>
     <string name="share_link">共享链接</string>
     <string name="share_content">共享内容</string>

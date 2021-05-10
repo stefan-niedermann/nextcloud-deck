@@ -190,7 +190,6 @@
     <string name="operation_not_yet_supported">Zatiaľ nepodporované</string>
     <string name="error_revoking_ac">Chyba pri zrušení prístupu pre %1$s</string>
     <string name="error_create_label">Pri vytváraní označenia %1$s sa vyskytla chyba</string>
-    <string name="maintenance_mode">Server je v móde údržby</string>
     <string name="server_error">Chyba servera</string>
     <string name="error_edit_activity_killed_by_android">Android ukončil úpravy, pretože viac systémových prostriedkov potreboval pre ďalšie aplikácie.</string>
 
@@ -221,7 +220,6 @@
     <string name="error_action_server_logs">Záznamy udalostí na serveri</string>
     <string name="error_action_install">Inštalovať</string>
     <string name="error_action_report_issue">Hlásenie</string>
-    <string name="info_box_maintenance_mode">Server je v móde údržby</string>
     <string name="info_box_version_not_supported">Verzia servera %1$s nie je podporovaná, aktualizujte ju na %2$s</string>
     <string name="share_link">Sprístupniť odkaz</string>
     <string name="archive_cards">Archivovať karty</string>

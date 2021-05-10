@@ -198,7 +198,6 @@
     <string name="operation_not_yet_supported">Aínda non está admitido</string>
     <string name="error_revoking_ac">Produciuse un erro ao revogar o acceso a %1$s</string>
     <string name="error_create_label">Produciuse un erro ao crear a etiqueta %1$s</string>
-    <string name="maintenance_mode">Servidor en modo de mantemento</string>
     <string name="server_error">Produciuse un erro de servidor</string>
     <string name="error_edit_activity_killed_by_android">Android rematou o modo de edición porque necesitaba máis recursos do sistema para outras aplicacións.</string>
 
@@ -231,7 +230,6 @@
     <string name="error_action_server_logs">Rexistros do servidor</string>
     <string name="error_action_install">Instalar</string>
     <string name="error_action_report_issue">Informe</string>
-    <string name="info_box_maintenance_mode">Servidor en modo de mantemento</string>
     <string name="info_box_version_not_supported">A versión %1$s do servidor non é compatíbel, actualice a %2$s</string>
     <string name="share_link">Compartir ligazón</string>
     <string name="share_content">Compartir o contido</string>

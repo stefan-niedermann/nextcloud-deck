@@ -208,7 +208,7 @@
     <string name="operation_not_yet_supported">Jeszcze nie obsługiwane</string>
     <string name="error_revoking_ac">Błąd podczas anulowania dostępu dla %1$s</string>
     <string name="error_create_label">Błąd podczas tworzenia etykiety %1$s</string>
-    <string name="maintenance_mode">Serwer w trybie konserwacji</string>
+    <string name="maintenance_mode">Serwer jest w trybie konserwacji</string>
     <string name="server_error">Błąd serwera</string>
     <string name="error_edit_activity_killed_by_android">Android zakończył tryb edycji, ponieważ potrzebował więcej zasobów systemowych dla innych aplikacji.</string>
 
@@ -243,7 +243,7 @@
     <string name="error_action_server_logs">Logi serwera</string>
     <string name="error_action_install">Zainstaluj</string>
     <string name="error_action_report_issue">Raport</string>
-    <string name="info_box_maintenance_mode">Serwer w trybie konserwacji</string>
+    <string name="info_box_maintenance_mode">Serwer jest w trybie konserwacji</string>
     <string name="info_box_version_not_supported">Wersja serwera %1$s nie jest wspierana, zaktualizuj do wersji %2$s</string>
     <string name="share_link">Udostępnij link</string>
     <string name="share_content">Udostępnij treść</string>

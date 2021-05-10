@@ -193,7 +193,6 @@
     <string name="operation_not_yet_supported">Stöds inte än</string>
     <string name="error_revoking_ac">Fel vid återkallande av åtkomst för %1$s</string>
     <string name="error_create_label">Fel vid skapandet av etiketten %1$s</string>
-    <string name="maintenance_mode">Server i underhållsläge</string>
     <string name="server_error">Serverfel</string>
     <string name="error_edit_activity_killed_by_android">Android avslutade redigeringsläget eftersom det behövde mer systemresurser för andra appar.</string>
 
@@ -224,7 +223,6 @@
     <string name="error_action_server_logs">Serverloggar</string>
     <string name="error_action_install">Installera</string>
     <string name="error_action_report_issue">Rapportera</string>
-    <string name="info_box_maintenance_mode">Server i underhållsläge</string>
     <string name="info_box_version_not_supported">Serverversion %1$s stöds inte, uppdatera till %2$s</string>
     <string name="share_link">Dela länk</string>
     <string name="archive_cards">Arkivera kort</string>

@@ -204,7 +204,7 @@
     <string name="operation_not_yet_supported">Non ancora supportato</string>
     <string name="error_revoking_ac">Errore durante la revoca dell\'accesso a %1$s</string>
     <string name="error_create_label">Errore durante la creazione dell\'etichetta %1$s</string>
-    <string name="maintenance_mode">Server in manutenzione</string>
+    <string name="maintenance_mode">Il server è in modalità di manutenzione</string>
     <string name="server_error">Errore del server</string>
     <string name="error_edit_activity_killed_by_android">Android ha terminato la modalità di modifica poiché richiedeva più risorse di sistema per le altre applicazioni.</string>
 
@@ -214,8 +214,8 @@
     <string name="error_dialog_tip_database_upgrade_failed">L\'aggiornamento del database non è riuscito. Segnala il problema e cancella l\'archiviazione per utilizzare l\'applicazione normalmente.</string>
     <string name="error_dialog_tip_clear_storage">Puoi a cancellare l\'archiviazione aprendo le informazioni dell\'applicazione e selezionando Archiviazione → Cancella archiviazione.</string>
     <string name="error_dialog_tip_files_outdated">La tua applicazione di Nextcloud sembra essere datata. Visita il Play Store o F-Droid per ottenere l\'ultima versione.</string>
-    <string name="error_dialog_tip_offline">Sembra che tu abbia provato ad eseguire una sincronizzazione senza connessione internet.</string>
-    <string name="error_dialog_tip_sync_only_on_wifi">Se hai attivato l\'impostazione \"Sincronizza solo con Wi-Fi\", puoi sincronizzare solo quando sei connesso ad un Wi-Fi.</string>
+    <string name="error_dialog_tip_offline">Sembra che tu abbia provato a eseguire una sincronizzazione senza connessione internet.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Se hai attivato l\'impostazione \"Sincronizza solo con Wi-Fi\", puoi sincronizzare solo quando sei connesso a una rete Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Sembra che ci sia un problema con la tua applicazione di Nextcloud. Prova a fermare entrambe le applicazioni Nextcloud e Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Se fermarle non aiuta, puoi provare a cancellare l\'archiviazione di entrambe le applicazioni.</string>
     <string name="error_dialog_timeout_instance">Non è stata ricevuta una risposta dal server nel tempo stabilito. Assicurati che la tua istanza sia correttamente in esecuzione.</string>
@@ -239,7 +239,7 @@
     <string name="error_action_server_logs">Log del server</string>
     <string name="error_action_install">Installa</string>
     <string name="error_action_report_issue">Segnala</string>
-    <string name="info_box_maintenance_mode">Server in manutenzione</string>
+    <string name="info_box_maintenance_mode">Il server è in modalità di manutenzione</string>
     <string name="info_box_version_not_supported">Versione del server %1$s non supportata, aggiorna a %2$s</string>
     <string name="share_link">Condividi collegamento</string>
     <string name="share_content">Condividi il contenuto</string>

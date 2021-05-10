@@ -193,7 +193,6 @@
     <string name="operation_not_yet_supported">아직 지원되지 않습니다!</string>
     <string name="error_revoking_ac">%1$s에 대한 접근 취소 중에 에러가 발생했습니다.</string>
     <string name="error_create_label">%1$s라벨을 만드는 중에 에러가 발생했습니다.</string>
-    <string name="maintenance_mode">서버가 유지 관리 모드임</string>
     <string name="server_error">서버 오류</string>
     <string name="error_edit_activity_killed_by_android">다른 앱에 시스템 자원이 더 필요하여 안드로이드가 편집모드를 종료했습니다.</string>
 
@@ -224,7 +223,6 @@
     <string name="error_action_server_logs">서버 기록</string>
     <string name="error_action_install">설치</string>
     <string name="error_action_report_issue">보고</string>
-    <string name="info_box_maintenance_mode">서버가 유지 관리 모드임</string>
     <string name="info_box_version_not_supported">%1$s서버 버전은 지원되지 않습니다. %2$s로 업데이트 해주십시오.</string>
     <string name="share_link">링크 공유</string>
     <string name="archive_cards">카드들 보관</string>

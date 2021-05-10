@@ -200,7 +200,6 @@
     <string name="operation_not_yet_supported">Još nije podržano</string>
     <string name="error_revoking_ac">Pogreška pri opozivanju prava pristupa za %1$s</string>
     <string name="error_create_label">Pogreška pri stvaranju oznake %1$s</string>
-    <string name="maintenance_mode">Poslužitelj u načinu održavanja</string>
     <string name="server_error">Greška poslužitelja</string>
     <string name="error_edit_activity_killed_by_android">Android je zatvorio način uređivanja jer treba više resursa sustava za ostale aplikacije.</string>
 
@@ -233,7 +232,6 @@
     <string name="error_action_server_logs">Zapisi poslužitelja</string>
     <string name="error_action_install">Instaliraj</string>
     <string name="error_action_report_issue">Prijavi</string>
-    <string name="info_box_maintenance_mode">Poslužitelj u načinu održavanja</string>
     <string name="info_box_version_not_supported">Inačica poslužitelja %1$s nije podržana, ažurirajte poslužitelj na inačicu %2$s</string>
     <string name="share_link">Dijeli poveznicu</string>
     <string name="share_content">Dijeli sadržaj</string>
