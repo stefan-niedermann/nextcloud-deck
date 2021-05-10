@@ -203,7 +203,6 @@
     <string name="operation_not_yet_supported">Még nem támogatott</string>
     <string name="error_revoking_ac">Hiba a(z) %1$s elérésének visszavonásakor</string>
     <string name="error_create_label">Hiba a(z) %1$s címke létrehozásakor</string>
-    <string name="maintenance_mode">A kiszolgáló karbantartási módban van</string>
     <string name="server_error">Kiszolgálóhiba</string>
     <string name="error_edit_activity_killed_by_android">Az Android befejezte a szerkesztési módot, mert több rendszererőforrás szükséges a többi alkalmazás számára.</string>
 
@@ -236,7 +235,6 @@
     <string name="error_action_server_logs">Kiszolgálónaplók</string>
     <string name="error_action_install">Telepítés</string>
     <string name="error_action_report_issue">Jelentés</string>
-    <string name="info_box_maintenance_mode">A kiszolgáló karbantartási módban van</string>
     <string name="info_box_version_not_supported">A kiszolgálóverzió nem támogatott: %1$s, frissítsen erre: %2$s</string>
     <string name="share_link">Hivatkozás megosztása</string>
     <string name="share_content">Tartalom megosztása</string>

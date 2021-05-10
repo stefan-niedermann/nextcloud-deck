@@ -192,7 +192,6 @@
     <string name="operation_not_yet_supported">Ikke støttet enda</string>
     <string name="error_revoking_ac">Feil ved tilbakekalling av tilgang for%1$s</string>
     <string name="error_create_label">Feil ved opprettelse av etikett %1$s</string>
-    <string name="maintenance_mode">Server i vedlikeholdsmodus</string>
     <string name="server_error">Tjenerfeil</string>
     <string name="error_edit_activity_killed_by_android">Android avsluttet redigeringsmodus fordi det trengte flere systemressurser til andre apper.</string>
 
@@ -223,7 +222,6 @@
     <string name="error_action_server_logs">Serverlogger</string>
     <string name="error_action_install">Installer</string>
     <string name="error_action_report_issue">Rapporter</string>
-    <string name="info_box_maintenance_mode">Server i vedlikeholdsmodus</string>
     <string name="info_box_version_not_supported">Server versjon %1$ser ikke støttet, vennligst oppgrader til %2$s</string>
     <string name="share_link">Share link</string>
     <string name="archive_cards">Arkiver kortene</string>

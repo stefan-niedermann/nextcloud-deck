@@ -208,7 +208,6 @@
     <string name="operation_not_yet_supported">Ещё не поддерживается</string>
     <string name="error_revoking_ac">Не удалось отозвать доступ %1$s</string>
     <string name="error_create_label">Не удалось создать метку %1$s</string>
-    <string name="maintenance_mode">Сервер находится в режиме обслуживания</string>
     <string name="server_error">Ошибка сервера</string>
     <string name="error_edit_activity_killed_by_android">Android прекратил режим редактирования так как ему понадобилось больше системных ресурсов для других приложений.</string>
 
@@ -243,7 +242,6 @@
     <string name="error_action_server_logs">Журналы сервера</string>
     <string name="error_action_install">Установить</string>
     <string name="error_action_report_issue">Сообщить</string>
-    <string name="info_box_maintenance_mode">Сервер находится в режиме обслуживания</string>
     <string name="info_box_version_not_supported">Версия сервера %1$s не поддерживается, необходимо выполнить обновление до версии %2$s</string>
     <string name="share_link">Предоставление общего доступа по ссылке</string>
     <string name="share_content">Поделиться содержимым</string>

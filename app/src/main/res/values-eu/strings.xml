@@ -204,7 +204,7 @@
     <string name="operation_not_yet_supported">Oraingoz ez da onartzen</string>
     <string name="error_revoking_ac">Errorea sarrera %1$s(r)entzako baliogabetzen</string>
     <string name="error_create_label">Errorea %1$s etiketa sortzen</string>
-    <string name="maintenance_mode">Zerbitzaria mantentze-lanen moduan</string>
+    <string name="maintenance_mode">Zerbitzaria mantentze moduan dago</string>
     <string name="server_error">Zerbitzari akatsa</string>
     <string name="error_edit_activity_killed_by_android">Androidek edizio modua eten du sistemako baliabide gehiago behar dituelako beste aplikazio batzuentzat.</string>
 
@@ -239,7 +239,7 @@
     <string name="error_action_server_logs">Zerbitzariaren egunkariak</string>
     <string name="error_action_install">Instalatu</string>
     <string name="error_action_report_issue">Jakinarazi</string>
-    <string name="info_box_maintenance_mode">Zerbitzaria mantentze-lanen moduan</string>
+    <string name="info_box_maintenance_mode">Zerbitzaria mantentze moduan dago</string>
     <string name="info_box_version_not_supported">Zerbitzariaren %1$s bertsioa ez dago onartuta, mesedez eguneratu %2$s(e)ra</string>
     <string name="share_link">Partekatu esteka</string>
     <string name="share_content">Partekatu edukia</string>

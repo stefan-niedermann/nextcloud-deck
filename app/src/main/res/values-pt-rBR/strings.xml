@@ -204,7 +204,7 @@
     <string name="operation_not_yet_supported">Ainda não suportado</string>
     <string name="error_revoking_ac">Ocorreu um erro ao revogar o acesso para %1$s</string>
     <string name="error_create_label">Erro ao criar o rótulo %1$s</string>
-    <string name="maintenance_mode">Servidor em modo de manutenção</string>
+    <string name="maintenance_mode">O servidor está em modo de manutenção </string>
     <string name="server_error">Erro no servidor</string>
     <string name="error_edit_activity_killed_by_android">O Android terminou o modo de edição porque precisava de mais recursos do sistema para outros aplicativos.</string>
 
@@ -239,7 +239,7 @@
     <string name="error_action_server_logs">Logs do servidor</string>
     <string name="error_action_install">Instalar</string>
     <string name="error_action_report_issue">Reportar</string>
-    <string name="info_box_maintenance_mode">Servidor em modo de manutenção</string>
+    <string name="info_box_maintenance_mode">O servidor está em modo de manutenção </string>
     <string name="info_box_version_not_supported">A versão %1$s do servidor não é suportada, atualize para %2$s</string>
     <string name="share_link">Link de compartilhamento</string>
     <string name="share_content">Compartilhar conteúdo</string>

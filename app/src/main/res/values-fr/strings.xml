@@ -197,7 +197,6 @@
     <string name="operation_not_yet_supported">Non supporté actuellement</string>
     <string name="error_revoking_ac">Erreur lors de la suppression de l\'accès pour %1$s</string>
     <string name="error_create_label">Erreur lors de la création de l\'étiquette %1$s</string>
-    <string name="maintenance_mode">Serveur en maintenance</string>
     <string name="server_error">Erreur du serveur</string>
     <string name="error_edit_activity_killed_by_android">Android a mis fin au mode édition car il avait besoin de plus de ressources système pour les autres applications.</string>
 
@@ -228,7 +227,6 @@
     <string name="error_action_server_logs">Journaux serveur</string>
     <string name="error_action_install">Installer</string>
     <string name="error_action_report_issue">Signaler</string>
-    <string name="info_box_maintenance_mode">Serveur en maintenance</string>
     <string name="info_box_version_not_supported">Version du serveur %1$s non prise en charge, veuillez mettre à jour en  %2$s</string>
     <string name="share_link">Lien de partage</string>
     <string name="archive_cards">Archiver les cartes</string>

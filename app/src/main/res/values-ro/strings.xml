@@ -201,7 +201,6 @@
     <string name="operation_not_yet_supported">Deocamdată indisponibil</string>
     <string name="error_revoking_ac">Eroare la revocarea accesului pentru %1$s</string>
     <string name="error_create_label">Eroare la crearea etichetei %1$s</string>
-    <string name="maintenance_mode">Server în modul mentenanță</string>
     <string name="server_error">Eroare server</string>
     <string name="error_edit_activity_killed_by_android">Android a închis modul de editare, deoarece avea nevoie de mai multe resurse de sistem pentru alte aplicații.</string>
 
@@ -233,7 +232,6 @@
     <string name="error_action_server_logs">Log-urile serverului</string>
     <string name="error_action_install">Instalează</string>
     <string name="error_action_report_issue">Raport</string>
-    <string name="info_box_maintenance_mode">Server în modul mentenanță</string>
     <string name="info_box_version_not_supported">Versiune de server %1$s nesuportată,  vă rugăm să actualizați la%2$s</string>
     <string name="share_link">Partajează link-ul</string>
     <string name="archive_cards">Arhivează carduri</string>

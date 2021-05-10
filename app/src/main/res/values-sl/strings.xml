@@ -208,7 +208,7 @@
     <string name="operation_not_yet_supported">Možnost še ni podprta</string>
     <string name="error_revoking_ac">Prišlo je do napake med obnavljanjem dostopa do %1$s.</string>
     <string name="error_create_label">Prišlo je do napake med ustvarjanjem oznake %1$s.</string>
-    <string name="maintenance_mode">Strežnik je v načinu vzdrževanja</string>
+    <string name="maintenance_mode">Strežnik je v načinu vzdrževanja.</string>
     <string name="server_error">Napaka strežnika</string>
     <string name="error_edit_activity_killed_by_android">Urejevalni način je bil sistemsko zaustavljen, ker druge naprave zahtevajo več virov.</string>
 
@@ -219,6 +219,7 @@
     <string name="error_dialog_tip_clear_storage">Shrambo je mogoče počistiti med podrobnostmi programa Shramba → Počisti shrambo.</string>
     <string name="error_dialog_tip_files_outdated">Program Nextcloud je očitno starejše različice. Posodobite jo prek Trgovine Play ali s posodabljalnikom F-Droid.</string>
     <string name="error_dialog_tip_offline">Kaže, da ste sprožili usklajevanje brez ustrezno vzpostavljene povezave z omrežjem.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Če je izbrana možnost »Usklajuj le prek povezave Wi-Fi«, je usklajevanje mogoče izključno ob uporabi povezave Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Kaže, da je nekaj narobe s programom Nextcloud. Poskusite vsiljeno zaustaviti programa Nextcloud in Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Vsiljeno zaustavljanje ni imelo ustreznega učinka. Poskusite lahko še počistiti podatke shrambe obeh programov.</string>
     <string name="error_dialog_timeout_instance">V podanem času program ni pridobil ustreznega odziva strežnika. Prepričajte se, da program deluje pravilno.</string>
@@ -242,7 +243,7 @@
     <string name="error_action_server_logs">Dnevniki strežnika</string>
     <string name="error_action_install">Namesti</string>
     <string name="error_action_report_issue">Poročilo</string>
-    <string name="info_box_maintenance_mode">Strežnik je v načinu vzdrževanja</string>
+    <string name="info_box_maintenance_mode">Strežnik je v načinu vzdrževanja.</string>
     <string name="info_box_version_not_supported">Različica strežnika %1$s ni podprta. Priporočljiva je posodobitev na različico %2$s.</string>
     <string name="share_link">Povezava za souporabo</string>
     <string name="share_content">Souporaba vsebine</string>

@@ -181,7 +181,6 @@
     <string name="operation_not_yet_supported">هنوز پشتیبانی نشده است</string>
     <string name="error_revoking_ac">هنگام لغو دسترسی %1$s خطایی رخ داد</string>
     <string name="error_create_label">هنگام ایجاد برچسب %1$s خطایی رخ داد</string>
-    <string name="maintenance_mode">سرور در حالت تعمیر و نگهداری</string>
     <string name="server_error">خطای سرور</string>
     <string name="error_edit_activity_killed_by_android">Android حالت ویرایش را به پایان رساند زیرا به منابع سیستم بیشتری برای برنامه های دیگر نیاز داشت.</string>
 
@@ -212,7 +211,6 @@
     <string name="error_action_server_logs">گزارش های سرور</string>
     <string name="error_action_install">نصب</string>
     <string name="error_action_report_issue">گزارش</string>
-    <string name="info_box_maintenance_mode">سرور در حالت تعمیر و نگهداری</string>
     <string name="info_box_version_not_supported">نسخه سرور %1$s پشتیبانی نمی شود ، لطفاً آن را به %2$s به روز کنید</string>
     <string name="share_link">لینک را به اشتراک بگذارید</string>
     <string name="archive_cards">کارتها را بایگانی کنید</string>

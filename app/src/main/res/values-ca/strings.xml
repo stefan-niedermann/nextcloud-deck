@@ -197,7 +197,6 @@
     <string name="operation_not_yet_supported">Encara no està suportat</string>
     <string name="error_revoking_ac">S\'ha produït un error revocant l\'accés per a %1$s</string>
     <string name="error_create_label">S\'ha produït un error quan es creava l\'etiqueta %1$s</string>
-    <string name="maintenance_mode">Servidor en mode de manteniment</string>
     <string name="server_error">Error del servidor</string>
     <string name="error_edit_activity_killed_by_android">L\'Android ha tancat el mode d\'edició perquè necessitava més recursos del sistema per a altres aplicacions.</string>
 
@@ -228,7 +227,6 @@
     <string name="error_action_server_logs">Bitàcoles del servidor</string>
     <string name="error_action_install">Instal·lació</string>
     <string name="error_action_report_issue">Informar</string>
-    <string name="info_box_maintenance_mode">Servidor en mode de manteniment</string>
     <string name="info_box_version_not_supported">La versió del servidor %1$s no està suportada, si us plau, actualitzeu a %2$s.</string>
     <string name="share_link">Enllaç de compartició</string>
     <string name="archive_cards">Arxiva les targetes</string>

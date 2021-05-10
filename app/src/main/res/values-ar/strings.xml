@@ -211,7 +211,6 @@
     <string name="operation_not_yet_supported">غير مدعوم حتى الآن</string>
     <string name="error_revoking_ac">حدث خطأ أثناء إلغاء الوصول لـ %1$s</string>
     <string name="error_create_label">حدث خطأ أثناء إنشاء علامة %1$s</string>
-    <string name="maintenance_mode">الخادم في وضع الصيانة</string>
     <string name="server_error">خطأ في الخادم</string>
     <string name="error_edit_activity_killed_by_android">أنهى Android وضع التحرير لأنه بحاجه إلى المزيد من موارد النظام للتطبيقات الأخرى.</string>
 
@@ -246,7 +245,6 @@
     <string name="error_action_server_logs">سجلات الخادم </string>
     <string name="error_action_install">تثبيت</string>
     <string name="error_action_report_issue">ابلغ عنه</string>
-    <string name="info_box_maintenance_mode">الخادم في وضع الصيانة</string>
     <string name="info_box_version_not_supported">إصدار الخادم %1$s غير مدعوم، من فضلك قم بالتحديث إلى %2$s</string>
     <string name="share_link">مشاركة الرابط</string>
     <string name="share_content">مشاركة محتوى </string>

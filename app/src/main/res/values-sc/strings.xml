@@ -197,7 +197,6 @@
     <string name="operation_not_yet_supported">Ancora non suportadu</string>
     <string name="error_revoking_ac">Errore boghende s\'atzessu a %1$s</string>
     <string name="error_create_label">Errore creende eticheta%1$s</string>
-    <string name="maintenance_mode">Serbidore in modalidade de mantenidura</string>
     <string name="server_error">Errore serbidore</string>
     <string name="error_edit_activity_killed_by_android">Android at agabbadu sa modalidade de modìfica ca rechediat prus risorsas de sistema pro àteras aplicatziones.</string>
 
@@ -228,7 +227,6 @@
     <string name="error_action_server_logs">Log Serbidore</string>
     <string name="error_action_install">Installa</string>
     <string name="error_action_report_issue">Sinnala</string>
-    <string name="info_box_maintenance_mode">Serbidore in modalidade de mantenidura</string>
     <string name="info_box_version_not_supported">Versione de su serbidore %1$s non suportada, agiornala a %2$s</string>
     <string name="share_link">Cumpartzi su ligòngiu</string>
     <string name="archive_cards">Archìvia is ischedas</string>
