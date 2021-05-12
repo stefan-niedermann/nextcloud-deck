@@ -96,7 +96,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
 
     // Markdown
-    implementation 'com.github.stefan-niedermann:nextcloud-notes:v3.4.1'
+    implementation 'com.github.stefan-niedermann:nextcloud-notes:3.4.2'
 
     // Single-Sign-On
     implementation 'com.github.nextcloud:Android-SingleSignOn:0.5.6'
