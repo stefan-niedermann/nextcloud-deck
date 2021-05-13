@@ -32,7 +32,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.lifecycle.LiveData;
@@ -759,20 +758,10 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                     EditStackDialogFragment.newInstance(fullStack.getLocalId(), fullStack.getStack().getTitle())
                             .show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName()));
             return true;
-        } else if (itemId == R.id.move_list_left) {
+        } else if (itemId == R.id.move_list_left || itemId == R.id.move_list_right) {
             final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
             // TODO error handling
-            final int stackLeftPosition = binding.viewPager.getCurrentItem() - 1;
-            final long stackLeftId = stackAdapter.getItem(stackLeftPosition).getLocalId();
-            mainViewModel.swapStackOrder(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId(), new Pair<>(stackId, stackLeftId));
-            stackMoved = true;
-            return true;
-        } else if (itemId == R.id.move_list_right) {
-            final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-            // TODO error handling
-            final int stackRightPosition = binding.viewPager.getCurrentItem() + 1;
-            final long stackRightId = stackAdapter.getItem(stackRightPosition).getLocalId();
-            mainViewModel.swapStackOrder(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId(), new Pair<>(stackId, stackRightId));
+            mainViewModel.reorderStack(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId(), stackId, itemId == R.id.move_list_right);
             stackMoved = true;
             return true;
         } else if (itemId == R.id.delete_list) {

@@ -5,7 +5,6 @@ import android.app.Application;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.util.Pair;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -215,8 +214,8 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.getStack(accountId, localStackId);
     }
 
-    public void swapStackOrder(long accountId, long boardLocalId, @NonNull Pair<Long, Long> stackLocalIds) {
-        syncManager.swapStackOrder(accountId, boardLocalId, stackLocalIds);
+    public void reorderStack(long accountId, long boardLocalId, long stackLocalId, boolean moveToRight) {
+        syncManager.reorderStack(accountId, boardLocalId, stackLocalId, moveToRight);
     }
 
     public void updateStackTitle(long localStackId, @NonNull String newTitle, @NonNull ResponseCallback<FullStack> callback) {
