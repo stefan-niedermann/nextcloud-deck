@@ -151,7 +151,7 @@
     <string name="action_card_move">Kartı taşı</string>
     <string name="action_card_move_title">%1$s Taşı</string>
     <string name="title_is_mandatory">Başlığın yazılması zorunludur</string>
-    <string name="provide_at_least_a_title_or_description">Lütfen en azından başlığı ya da açıklamayı yazın</string>
+    <string name="provide_at_least_a_title_or_description">Lütfen en azından bir başlık ya da açıklama yazın</string>
     <string name="welcome_text">%1$s panonuza hoşgeldiniz</string>
     <string name="maintenance_mode_explanation">%1$s sunucusu şu anda bakım kipinde. Lütfen yöneticinizle görüşün ya da daha sonra yeniden deneyin.</string>
     <string name="share_add_to_card">Karta ekle</string>

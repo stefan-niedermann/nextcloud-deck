@@ -120,6 +120,7 @@
     <string name="settings_theme_title">Thème</string>
     <string name="settings_branding_title">Thème du serveur</string>
     <string name="settings_compact_title">Mode compact</string>
+    <string name="settings_cover_images_title">Images de couverture</string>
     <string name="settings_background_sync">Synchronisation en tâche de fond</string>
     <string name="pref_value_wifi_and_mobile">Synchroniser en Wifi et données mobiles</string>
     <string name="pref_value_wifi_only">Synchroniser uniquement en Wi-Fi</string>
@@ -197,6 +198,7 @@
     <string name="operation_not_yet_supported">Non supporté actuellement</string>
     <string name="error_revoking_ac">Erreur lors de la suppression de l\'accès pour %1$s</string>
     <string name="error_create_label">Erreur lors de la création de l\'étiquette %1$s</string>
+    <string name="maintenance_mode">Le serveur est en mode maintenance</string>
     <string name="server_error">Erreur du serveur</string>
     <string name="error_edit_activity_killed_by_android">Android a mis fin au mode édition car il avait besoin de plus de ressources système pour les autres applications.</string>
 
@@ -223,12 +225,16 @@
     <string name="error_dialog_attachment_upload_failed">Une pièce jointe n’a pas pu être téléversée. Veuillez essayer de la partager d’une autre façon et faites-nous part de ce bogue.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Merci de bien vouloir désactiver toutes les optimisations de batterie pour Nextcloud ainsi que pour l\'application Deck.</string>
     <string name="error_action_open_deck_info">Ouvrir les informations de l\'application</string>
+    <string name="error_action_open_nextcloud_app">Ouvrir l\'application Nextcloud</string>
     <string name="error_action_open_network">Paramètres réseau</string>
     <string name="error_action_server_logs">Journaux serveur</string>
     <string name="error_action_install">Installer</string>
     <string name="error_action_report_issue">Signaler</string>
+    <string name="info_box_maintenance_mode">Le serveur est en mode maintenance</string>
     <string name="info_box_version_not_supported">Version du serveur %1$s non prise en charge, veuillez mettre à jour en  %2$s</string>
     <string name="share_link">Lien de partage</string>
+    <string name="share_content_duedate">Date d\'échéance : %1$s</string>
+    <string name="share_content_labels">Tags : %1$s</string>
     <string name="archive_cards">Archiver les cartes</string>
 
     <string name="manage_accounts">Gérer les comptes</string>
@@ -291,4 +297,10 @@
     <string name="simple_order">Ordre</string>
     <string name="edit_description">Modifier la description</string>
     <string name="widget_upcoming_title">Cartes à venir</string>
-    </resources>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Paramètres expert</string>
+    <string name="app_logo">Logo de l\'application</string>
+    <string name="copying_logs_to_file">Copie des logs dans un fichier...</string>
+    <string name="account_imported">Compte importé</string>
+    <string name="simple_search">Chercher</string>
+</resources>
