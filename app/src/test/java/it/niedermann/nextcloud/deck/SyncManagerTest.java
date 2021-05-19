@@ -19,6 +19,8 @@ import org.robolectric.annotation.Config;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -32,6 +34,7 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
@@ -198,5 +201,53 @@ public class SyncManagerTest {
         syncManager.synchronizeCard(responseCallback, card);
 
         verify(responseCallback, times(1)).onError(any(OfflineException.class));
+    }
+
+    @Test
+    public void testCreateAccount() throws InterruptedException {
+        final Account account = new Account(1337L, "Test", "Peter", "example.com");
+        final WrappedLiveData<Account> result = new WrappedLiveData<>();
+        result.setValue(account);
+        when(dataBaseAdapter.createAccount(any(Account.class))).thenReturn(result);
+
+        TestUtil.getOrAwaitValue(syncManager.createAccount(account));
+
+        verify(dataBaseAdapter, times(1)).createAccount(account);
+    }
+
+    @Test
+    public void testHasInternetConnection() {
+        when(serverAdapter.hasInternetConnection()).thenReturn(true);
+        assertTrue(syncManager.hasInternetConnection());
+
+        when(serverAdapter.hasInternetConnection()).thenReturn(false);
+        assertFalse(syncManager.hasInternetConnection());
+    }
+
+    @Test
+    public void testReadAccountDirectly() {
+        final Account account = new Account(1337L, "Test", "Peter", "example.com");
+        when(dataBaseAdapter.readAccountDirectly(1337L)).thenReturn(account);
+        assertEquals(account, syncManager.readAccountDirectly(1337L));
+    }
+
+    @Test
+    public void testReadAccounts() throws InterruptedException {
+        final List<Account> accounts = Collections.singletonList(new Account(1337L, "Test", "Peter", "example.com"));
+        final WrappedLiveData<List<Account>> wrappedAccounts = new WrappedLiveData<>();
+        wrappedAccounts.setValue(accounts);
+        when(dataBaseAdapter.readAccounts()).thenReturn(wrappedAccounts);
+
+        final List<Account> result = TestUtil.getOrAwaitValue(syncManager.readAccounts());
+
+        verify(dataBaseAdapter, times(1)).readAccounts();
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    public void testReadAccountsDirectly() {
+        final List<Account> accounts = Collections.singletonList(new Account(1337L, "Test", "Peter", "example.com"));
+        when(dataBaseAdapter.getAllAccountsDirectly()).thenReturn(accounts);
+        assertEquals(1, syncManager.readAccountsDirectly().size());
     }
 }
