@@ -65,7 +65,7 @@ public class SyncHelper {
                                 DeckLog.warn("Conflicting changes on entity:", existingEntity);
                                 // TODO: what to do?
                             } else {
-                                if (etagsEnabled && entityFromServer.getEtag() != null &&  entityFromServer.getEtag().equals(existingEntity.getEtag())) {
+                                if (etagsEnabled && entityFromServer.getEtag() != null && entityFromServer.getEtag().equals(existingEntity.getEtag())) {
                                     DeckLog.log("[" + provider.getClass().getSimpleName() + "] ETags do match! skipping " + existingEntity.getClass().getSimpleName() + " with localId: " + existingEntity.getLocalId());
                                     continue;
                                 }
@@ -88,7 +88,7 @@ public class SyncHelper {
             public void onError(Throwable throwable) {
                 if (throwable.getClass() == NextcloudHttpRequestFailedException.class) {
                     final NextcloudHttpRequestFailedException requestFailedException = (NextcloudHttpRequestFailedException) throwable;
-                    if (HttpURLConnection.HTTP_NOT_MODIFIED == requestFailedException.getStatusCode()){
+                    if (HttpURLConnection.HTTP_NOT_MODIFIED == requestFailedException.getStatusCode()) {
                         DeckLog.log("[" + provider.getClass().getSimpleName() + "] ETags do match! skipping this one.");
                         // well, etags say we're fine here. no need to go deeper.
                         provider.childDone(provider, responseCallback, false);
@@ -194,5 +194,9 @@ public class SyncHelper {
         this.account = responseCallback.getAccount();
         accountId = account.getId();
         return this;
+    }
+
+    public interface Factory {
+        SyncHelper create(@NonNull ServerAdapter serverAdapter, @NonNull DataBaseAdapter dataBaseAdapter, @Nullable Instant lastSync);
     }
 }
