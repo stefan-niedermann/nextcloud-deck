@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck;
 
+import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.os.Build;
 
@@ -10,6 +11,7 @@ import androidx.test.core.app.ApplicationProvider;
 
 import com.google.common.util.concurrent.MoreExecutors;
 import com.nextcloud.android.sso.api.ParsedResponse;
+import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -47,6 +49,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -269,6 +272,9 @@ public class SyncManagerTest {
         when(mockedResponse.getResponse()).thenReturn(serverResponse);
         when(mockedResponse.getHeaders()).thenReturn(Map.of("ETag", "New-ETag"));
         when(dataBaseAdapter.getAccountByIdDirectly(anyLong())).thenReturn(account);
+
+        // Happy path
+
         doAnswer(invocation -> {
             assertEquals("The old eTag must be passed to the " + ServerAdapter.class.getSimpleName(),
                     "This-Is-The-Old_ETag", invocation.getArgument(0));
@@ -281,9 +287,137 @@ public class SyncManagerTest {
         syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
             @Override
             public void onResponse(Capabilities response) {
+
+
+
+
+
+                // FIXME WTF why doesn't this fail?!
+                fail("FOO");
+
+
+
+
+
                 assertEquals("Capabilities from server must be returned to the original callback",
                         Version.of("1.0.0"), response.getDeckVersion());
                 verify(dataBaseAdapter).updateAccount(argThat(account -> "New-ETag".equals(account.getEtag())));
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                fail(throwable.getMessage());
+            }
+        });
+
+
+        // HTTP 304 - Not modified
+
+        account.setMaintenanceEnabled(true);
+        doAnswer(invocation -> {
+            //noinspection unchecked
+            ((IResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
+                    .onError(new NextcloudHttpRequestFailedException(304, new RuntimeException()));
+            return null;
+        }).when(serverAdapter).getCapabilities(anyString(), any());
+
+        syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
+            @Override
+            public void onResponse(Capabilities response) {
+                assertEquals("Capabilities from server must be returned to the original callback",
+                        Version.of("1.0.0"), response.getDeckVersion());
+                assertFalse("The maintenance mode must be turned off after a HTTP 304 to avoid stucking \"offline\" and start a real request the next time - the maintenance mode might be off the next time.",
+                        account.isMaintenanceEnabled());
+                verify(dataBaseAdapter).updateAccount(argThat(account -> "This-Is-The-Old_ETag".equals(account.getEtag())));
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                fail("HTTP 304 means nothing has been modified - This is not an error.");
+            }
+        });
+
+
+        // HTTP 500 - Server error
+
+        doAnswer(invocation -> {
+            //noinspection unchecked
+            ((IResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
+                    .onError(new NextcloudHttpRequestFailedException(500, new RuntimeException()));
+            return null;
+        }).when(serverAdapter).getCapabilities(anyString(), any());
+
+        syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
+            @Override
+            public void onResponse(Capabilities response) {
+                fail("In case of an HTTP 500 the callback must not be responded successfully.");
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                assertEquals(NextcloudHttpRequestFailedException.class, throwable.getClass());
+                assertEquals(500, ((NextcloudHttpRequestFailedException) throwable).getStatusCode());
+            }
+        });
+
+
+        // HTTP 503 - Maintenance mode
+
+        doAnswer(invocation -> {
+            //noinspection unchecked
+            ((IResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
+                    .onError(new NextcloudHttpRequestFailedException(503, new RuntimeException("{\"ocs\": {\"meta\": {\"status\": 503}, \"data\": {\"version\": {\"major\": 20, \"minor\": 0, \"patch\": 1}}}}")));
+            return null;
+        }).when(serverAdapter).getCapabilities(anyString(), any());
+
+        syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
+            @Override
+            public void onResponse(Capabilities response) {
+                assertEquals(Version.of("20.0.1"), response.getNextcloudVersion());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                fail("Enabled maintenance mode should still return the capabilities");
+            }
+        });
+
+
+        // Anything else went wrong during the request
+
+        doAnswer(invocation -> {
+            //noinspection unchecked
+            ((IResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
+                    .onError(new NetworkErrorException());
+            return null;
+        }).when(serverAdapter).getCapabilities(anyString(), any());
+
+        syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
+            @Override
+            public void onResponse(Capabilities response) {
+                fail("In case of any other exception the callback must not be responded successfully.");
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                assertEquals(NetworkErrorException.class, throwable.getClass());
+            }
+        });
+
+
+        // No network available
+
+        doThrow(new OfflineException()).when(serverAdapter).getCapabilities(anyString(), any());
+
+        syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
+            @Override
+            public void onResponse(Capabilities response) {
+                fail("In case of an " + OfflineException.class.getSimpleName() + " the callback must not be responded successfully.");
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                assertEquals(OfflineException.class, throwable.getClass());
             }
         });
     }
