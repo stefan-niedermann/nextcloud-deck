@@ -10,7 +10,11 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
-
+/**
+ * Abstract implementation of {@link ResponseCallback} which is aware of an {@link Account}.
+ *
+ * @param <T> payload type of the {@link #onResponse(T)} method
+ */
 public abstract class IResponseCallback<T> implements ResponseCallback<T> {
     @NonNull
     protected Account account;

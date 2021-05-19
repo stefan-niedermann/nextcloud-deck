@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.test.core.app.ApplicationProvider;
 
 import com.google.common.util.concurrent.MoreExecutors;
+import com.nextcloud.android.sso.api.ParsedResponse;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -21,6 +22,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -31,6 +33,8 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
+import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
@@ -45,6 +49,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -249,5 +256,35 @@ public class SyncManagerTest {
         final List<Account> accounts = Collections.singletonList(new Account(1337L, "Test", "Peter", "example.com"));
         when(dataBaseAdapter.getAllAccountsDirectly()).thenReturn(accounts);
         assertEquals(1, syncManager.readAccountsDirectly().size());
+    }
+
+    @Test
+    public void testRefreshCapabilities() {
+        final Account account = new Account(1337L, "Test", "Peter", "example.com");
+        account.setEtag("This-Is-The-Old_ETag");
+        //noinspection unchecked
+        final ParsedResponse<Capabilities> mockedResponse = mock(ParsedResponse.class);
+        final Capabilities serverResponse = new Capabilities();
+        serverResponse.setDeckVersion(Version.of("1.0.0"));
+        when(mockedResponse.getResponse()).thenReturn(serverResponse);
+        when(mockedResponse.getHeaders()).thenReturn(Map.of("ETag", "New-ETag"));
+        when(dataBaseAdapter.getAccountByIdDirectly(anyLong())).thenReturn(account);
+        doAnswer(invocation -> {
+            assertEquals("The old eTag must be passed to the " + ServerAdapter.class.getSimpleName(),
+                    "This-Is-The-Old_ETag", invocation.getArgument(0));
+            //noinspection unchecked
+            ((IResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
+                    .onResponse(mockedResponse);
+            return null;
+        }).when(serverAdapter).getCapabilities(anyString(), any());
+
+        syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
+            @Override
+            public void onResponse(Capabilities response) {
+                assertEquals("Capabilities from server must be returned to the original callback",
+                        Version.of("1.0.0"), response.getDeckVersion());
+                verify(dataBaseAdapter).updateAccount(argThat(account -> "New-ETag".equals(account.getEtag())));
+            }
+        });
     }
 }
