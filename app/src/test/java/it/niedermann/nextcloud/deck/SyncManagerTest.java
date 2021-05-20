@@ -4,6 +4,7 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,6 +14,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.nextcloud.android.sso.api.ParsedResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,12 +24,15 @@ import org.robolectric.annotation.Config;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -36,6 +41,7 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -43,6 +49,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AbstractSyncDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
 
@@ -409,5 +416,81 @@ public class SyncManagerTest {
                 assertEquals(OfflineException.class, throwable.getClass());
             }
         }).get();
+    }
+
+    @Test
+    public void testSynchronize() {
+        LastSyncUtil.init(ApplicationProvider.getApplicationContext());
+        final Account account = new Account(1337L, "Test", "Peter", "example.com");
+        final Capabilities capabilities = new Capabilities();
+        capabilities.setDeckVersion(Version.minimumSupported());
+        final SyncHelper syncHelper_positive = new SyncHelperMock<>(true);
+        when(syncHelperFactory.create(any(), any(), any())).thenReturn(syncHelper_positive);
+
+        final SyncManager syncManagerSpy = spy(syncManager);
+        // Act as if refreshing capabilities is always successful
+        doAnswer((invocation -> {
+            ((IResponseCallback<Capabilities>) invocation.getArgument(0)).onResponse(capabilities);
+            return null;
+        })).when(syncManagerSpy).refreshCapabilities(any());
+
+        // Actual method invocation
+        final ResponseCallback<Boolean> finalCallback = spy(new ResponseCallback<Boolean>(account) {
+            @Override
+            public void onResponse(Boolean response) {
+            }
+        });
+        syncManagerSpy.synchronize(finalCallback);
+
+        verify(finalCallback, times(1)).onResponse(any());
+
+
+        // Bad path
+
+        final SyncHelper syncHelper_negative = new SyncHelperMock<>(false);
+        when(syncHelperFactory.create(any(), any(), any())).thenReturn(syncHelper_negative);
+
+        syncManagerSpy.synchronize(finalCallback);
+
+        verify(finalCallback, times(1)).onError(any());
+    }
+
+    /**
+     * A simple {@link SyncHelper} implementation which directly responds to sync requests
+     *
+     * @param <T>
+     */
+    private class SyncHelperMock<T> extends SyncHelper {
+        private IResponseCallback<Boolean> cb;
+        private final boolean success;
+
+        private SyncHelperMock(boolean success) {
+            super(serverAdapter, dataBaseAdapter, Instant.now());
+            this.success = success;
+        }
+
+        @Override
+        public SyncHelper setResponseCallback(@NonNull @NotNull ResponseCallback<Boolean> callback) {
+            this.cb = callback;
+            return this;
+        }
+
+        @Override
+        public <T extends IRemoteEntity> void doSyncFor(@NonNull @NotNull AbstractSyncDataProvider<T> provider) {
+            if(success) {
+                cb.onResponse(true);
+            } else {
+                cb.onError(new RuntimeException("Bad path mocking"));
+            }
+        }
+
+        @Override
+        public <T extends IRemoteEntity> void doUpSyncFor(@NonNull @NotNull AbstractSyncDataProvider<T> provider) {
+            if(success) {
+                cb.onResponse(true);
+            } else {
+                cb.onError(new RuntimeException("Bad path mocking"));
+            }
+        }
     }
 }
