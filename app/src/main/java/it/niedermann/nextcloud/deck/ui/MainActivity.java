@@ -440,6 +440,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     private void applyAccountBranding(@ColorInt int accountColor) {
         headerBinding.headerView.setBackgroundColor(accountColor);
         @ColorInt final int headerTextColor = contrastRatioIsSufficientBigAreas(accountColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
+        headerBinding.appName.setTextColor(headerTextColor);
         DrawableCompat.setTint(headerBinding.logo.getDrawable(), headerTextColor);
         DrawableCompat.setTint(headerBinding.copyDebugLogs.getDrawable(), headerTextColor);
     }
