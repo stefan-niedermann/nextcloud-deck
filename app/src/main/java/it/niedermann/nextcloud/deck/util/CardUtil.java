@@ -9,21 +9,15 @@ import androidx.annotation.Nullable;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import it.niedermann.android.markdown.MarkdownUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 
 public class CardUtil {
-    private static final Pattern pLists = Pattern.compile("^\\s*[*+-]\\s+", Pattern.MULTILINE);
-    private static final Pattern pHeadings = Pattern.compile("^#+\\s+(.*?)\\s*#*$", Pattern.MULTILINE);
-    private static final Pattern pHeadingLine = Pattern.compile("^(?:=*|-*)$", Pattern.MULTILINE);
-    private static final Pattern pEmphasis = Pattern.compile("(\\*+|_+)(.*?)\\1", Pattern.MULTILINE);
-    private static final Pattern pSpace1 = Pattern.compile("^\\s+", Pattern.MULTILINE);
-    private static final Pattern pSpace2 = Pattern.compile("\\s+$", Pattern.MULTILINE);
 
     private CardUtil() {
         throw new UnsupportedOperationException("This class must not get instantiated");
@@ -77,7 +71,7 @@ public class CardUtil {
                 currentLine++;
             }
             if (currentLine < lines.length) {
-                return removeMarkDown(lines[currentLine]);
+                return MarkdownUtil.removeMarkdown(lines[currentLine]);
             }
         } else {
             return content;
@@ -99,23 +93,6 @@ public class CardUtil {
      * @return boolean isEmpty
      */
     private static boolean isEmptyLine(@NonNull String line) {
-        return removeMarkDown(line).trim().length() == 0;
-    }
-
-    /**
-     * Strips all MarkDown from the given String
-     *
-     * @param s String - MarkDown
-     * @return Plain Text-String
-     */
-    @NonNull
-    private static String removeMarkDown(@NonNull String s) {
-        s = pLists.matcher(s).replaceAll("");
-        s = pHeadings.matcher(s).replaceAll("$1");
-        s = pHeadingLine.matcher(s).replaceAll("");
-        s = pEmphasis.matcher(s).replaceAll("$2");
-        s = pSpace1.matcher(s).replaceAll("");
-        s = pSpace2.matcher(s).replaceAll("");
-        return s;
+        return MarkdownUtil.removeMarkdown(line).trim().length() == 0;
     }
 }
