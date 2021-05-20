@@ -55,6 +55,7 @@ public class ResponseCallbackTest {
     @Test
     public void testFrom() {
         // No lambda, since Mockito requires a non final class for a spy
+        //noinspection Convert2Lambda
         final IResponseCallback<Void> originalCallback = new IResponseCallback<Void>() {
             @Override
             public void onResponse(Void response) {
