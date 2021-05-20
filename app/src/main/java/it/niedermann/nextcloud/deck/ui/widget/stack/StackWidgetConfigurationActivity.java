@@ -11,7 +11,7 @@ import java.util.Collections;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
@@ -60,7 +60,7 @@ public class StackWidgetConfigurationActivity extends PickStackActivity {
         filterWidgetAccount.setBoards(
                 Collections.singletonList(filterWidgetBoard));
         config.setAccounts(Collections.singletonList(filterWidgetAccount));
-        stackWidgetConfigurationViewModel.addStackWidget(config, new IResponseCallback<Integer>(account) {
+        stackWidgetConfigurationViewModel.addStackWidget(config, new ResponseCallback<Integer>(account) {
 
             @Override
             public void onResponse(Integer response) {

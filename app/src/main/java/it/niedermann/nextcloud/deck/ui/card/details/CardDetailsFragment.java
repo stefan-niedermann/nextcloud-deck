@@ -43,7 +43,7 @@ import it.niedermann.android.util.ColorUtil;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabDetailsBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
@@ -244,7 +244,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
                     newLabel.setBoardId(boardId);
                     newLabel.setTitle(((LabelAutoCompleteAdapter) binding.labels.getAdapter()).getLastFilterText());
                     newLabel.setLocalId(null);
-                    viewModel.createLabel(accountId, newLabel, boardId, new ResponseCallback<Label>() {
+                    viewModel.createLabel(accountId, newLabel, boardId, new IResponseCallback<Label>() {
                         @Override
                         public void onResponse(Label response) {
                             requireActivity().runOnUiThread(() -> {
@@ -258,7 +258,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
 
                         @Override
                         public void onError(Throwable throwable) {
-                            ResponseCallback.super.onError(throwable);
+                            IResponseCallback.super.onError(throwable);
                             requireActivity().runOnUiThread(() -> BrandedSnackbar.make(requireView(), getString(R.string.error_create_label, newLabel.getTitle()), Snackbar.LENGTH_LONG)
                                     .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show());
                         }

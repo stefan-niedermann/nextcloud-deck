@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.exceptions.DeckException;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -28,7 +28,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullStack>> responder, Instant lastSync) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<FullStack>> responder, Instant lastSync) {
         serverAdapter.getStacks(board.getId(), responder);
     }
 
@@ -56,7 +56,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
-    public void goDeeper(SyncHelper syncHelper, FullStack existingEntity, FullStack entityFromServer, IResponseCallback<Boolean> callback) {
+    public void goDeeper(SyncHelper syncHelper, FullStack existingEntity, FullStack entityFromServer, ResponseCallback<Boolean> callback) {
         boolean serverHasCards = entityFromServer.getCards() != null && !entityFromServer.getCards().isEmpty();
         boolean weHaveCards = existingEntity.getCards() != null && !existingEntity.getCards().isEmpty();
         if (serverHasCards || weHaveCards) {
@@ -74,7 +74,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullStack> responder, FullStack entity) {
+    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullStack> responder, FullStack entity) {
         if (board.getId() == null) {
             throw new DeckException(DeckException.Hint.DEPENDENCY_NOT_SYNCED_YET, "Board for this stack is not synced yet. Perform a full sync (pull to referesh) as soon as you are online again.");
         }
@@ -89,7 +89,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullStack entity, DataBaseAdapter dataBaseAdapter) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, FullStack entity, DataBaseAdapter dataBaseAdapter) {
         entity.getStack().setBoardId(board.getId());
         serverAdapter.deleteStack(board.getBoard(), entity.getStack(), callback);
     }
@@ -107,7 +107,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
-    public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
+    public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, ResponseCallback<Boolean> callback) {
         List<FullCard> changedCards = dataBaseAdapter.getLocallyChangedCardsDirectly(callback.getAccount().getId());
         if (changedCards != null && !changedCards.isEmpty()) {
             for (FullCard changedCard : changedCards) {
@@ -131,7 +131,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullStack> callback, FullStack entity) {
+    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullStack> callback, FullStack entity) {
         entity.getStack().setBoardId(board.getId());
         serverAdapter.updateStack(board.getBoard(), entity.getStack(), callback);
     }

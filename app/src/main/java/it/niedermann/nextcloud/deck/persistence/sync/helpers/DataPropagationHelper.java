@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 
 import java.util.function.BiConsumer;
 
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
@@ -24,11 +24,11 @@ public class DataPropagationHelper {
         this.dataBaseAdapter = dataBaseAdapter;
     }
 
-    public <T extends IRemoteEntity> void createEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, IResponseCallback<T> callback){
+    public <T extends IRemoteEntity> void createEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, ResponseCallback<T> callback){
         createEntity(provider, entity, callback, null);
     }
 
-    public <T extends IRemoteEntity> void createEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, IResponseCallback<T> callback, @Nullable BiConsumer<T, T> actionOnResponse){
+    public <T extends IRemoteEntity> void createEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, ResponseCallback<T> callback, @Nullable BiConsumer<T, T> actionOnResponse){
         final long accountId = callback.getAccount().getId();
         entity.setStatus(DBStatus.LOCAL_EDITED.getId());
         long newID;
@@ -41,7 +41,7 @@ public class DataPropagationHelper {
         entity.setLocalId(newID);
         if (serverAdapter.hasInternetConnection()) {
             try {
-                provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, new IResponseCallback<T>(callback.getAccount()) {
+                provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<T>(callback.getAccount()) {
                     @Override
                     public void onResponse(T response) {
                         new Thread(() -> {
@@ -70,7 +70,7 @@ public class DataPropagationHelper {
         }
     }
 
-    public <T extends IRemoteEntity> void updateEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, @NonNull IResponseCallback<T> callback){
+    public <T extends IRemoteEntity> void updateEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, @NonNull ResponseCallback<T> callback){
         final long accountId = callback.getAccount().getId();
         entity.setStatus(DBStatus.LOCAL_EDITED.getId());
         try {
@@ -81,7 +81,7 @@ public class DataPropagationHelper {
         }
         if (entity.getId() != null && serverAdapter.hasInternetConnection()) {
             try {
-                provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, new IResponseCallback<T>(new Account(accountId)) {
+                provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<T>(new Account(accountId)) {
                     @Override
                     public void onResponse(T response) {
                         new Thread(() -> {
@@ -105,12 +105,12 @@ public class DataPropagationHelper {
         }
     }
 
-    public <T extends IRemoteEntity> void deleteEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, @NonNull IResponseCallback<Void> callback){
+    public <T extends IRemoteEntity> void deleteEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, @NonNull ResponseCallback<Void> callback){
         final long accountId = callback.getAccount().getId();
         provider.deleteInDB(dataBaseAdapter, accountId, entity);
         if (entity.getId() != null && serverAdapter.hasInternetConnection()) {
             try {
-                provider.deleteOnServer(serverAdapter, accountId, new IResponseCallback<Void>(new Account(accountId)) {
+                provider.deleteOnServer(serverAdapter, accountId, new ResponseCallback<Void>(new Account(accountId)) {
                     @Override
                     public void onResponse(Void response) {
                         new Thread(() -> {

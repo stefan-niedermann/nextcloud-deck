@@ -24,7 +24,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -124,7 +124,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                     if (mimeType == null) {
                         throw new IllegalArgumentException("MimeType of uri is null. [" + uri + "]");
                     }
-                    mainViewModel.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, tempFile, new ResponseCallback<Attachment>() {
+                    mainViewModel.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, tempFile, new IResponseCallback<Attachment>() {
                         @Override
                         public void onResponse(Attachment response) {
                             runOnUiThread(shareProgressViewModel::increaseProgress);
@@ -134,7 +134,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                         public void onError(Throwable throwable) {
                             runOnUiThread(() -> {
                                 if (throwable instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) throwable).getStatusCode() == HTTP_CONFLICT) {
-                                    ResponseCallback.super.onError(throwable);
+                                    IResponseCallback.super.onError(throwable);
                                     shareProgressViewModel.addDuplicateAttachment(tempFile.getName());
                                 } else {
                                     shareProgressViewModel.addException(throwable);
@@ -163,7 +163,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                                             ? receivedText
                                             : oldDescription + "\n\n" + receivedText
                             );
-                            mainViewModel.updateCard(fullCard, new ResponseCallback<FullCard>() {
+                            mainViewModel.updateCard(fullCard, new IResponseCallback<FullCard>() {
                                 @Override
                                 public void onResponse(FullCard response) {
                                     Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
@@ -172,7 +172,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
 
                                 @Override
                                 public void onError(Throwable throwable) {
-                                    ResponseCallback.super.onError(throwable);
+                                    IResponseCallback.super.onError(throwable);
                                     runOnUiThread(() -> {
                                         cardSelected = false;
                                         ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());

@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -48,7 +48,7 @@ public class CommentsViewModel extends AndroidViewModel {
         syncManager.updateComment(accountId, localCardId, localCommentId, comment);
     }
 
-    public void deleteComment(long accountId, long localCardId, long localCommentId, @NonNull ResponseCallback<Void> callback) {
+    public void deleteComment(long accountId, long localCardId, long localCommentId, @NonNull IResponseCallback<Void> callback) {
         syncManager.deleteComment(accountId, localCardId, localCommentId, callback);
     }
 }

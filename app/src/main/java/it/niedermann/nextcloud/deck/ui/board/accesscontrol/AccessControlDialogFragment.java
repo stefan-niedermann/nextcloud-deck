@@ -19,7 +19,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.DialogBoardShareBinding;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.User;
@@ -100,7 +100,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
 
     @Override
     public void updateAccessControl(AccessControl accessControl) {
-        viewModel.updateAccessControl(accessControl, new ResponseCallback<AccessControl>() {
+        viewModel.updateAccessControl(accessControl, new IResponseCallback<AccessControl>() {
             @Override
             public void onResponse(AccessControl response) {
                 DeckLog.info("Successfully updated", AccessControl.class.getSimpleName(), "for user", accessControl.getUser().getDisplayname());
@@ -108,7 +108,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
 
             @Override
             public void onError(Throwable throwable) {
-                ResponseCallback.super.onError(throwable);
+                IResponseCallback.super.onError(throwable);
                 requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });
@@ -116,7 +116,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
 
     @Override
     public void deleteAccessControl(AccessControl ac) {
-        viewModel.deleteAccessControl(ac, new ResponseCallback<Void>() {
+        viewModel.deleteAccessControl(ac, new IResponseCallback<Void>() {
             @Override
             public void onResponse(Void response) {
                 DeckLog.info("Successfully deleted access control for user", ac.getUser().getDisplayname());
@@ -125,7 +125,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
             @Override
             public void onError(Throwable throwable) {
                 if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
-                    ResponseCallback.super.onError(throwable);
+                    IResponseCallback.super.onError(throwable);
                     requireActivity().runOnUiThread(() -> BrandedSnackbar.make(requireView(), getString(R.string.error_revoking_ac, ac.getUser().getDisplayname()), Snackbar.LENGTH_LONG)
                             .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
                             .show());
@@ -144,7 +144,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
         ac.setType(0L); // https://github.com/nextcloud/deck/blob/master/docs/API.md#post-boardsboardidacl---add-new-acl-rule
         ac.setUserId(user.getLocalId());
         ac.setUser(user);
-        viewModel.createAccessControl(viewModel.getCurrentAccount().getId(), ac, new ResponseCallback<AccessControl>() {
+        viewModel.createAccessControl(viewModel.getCurrentAccount().getId(), ac, new IResponseCallback<AccessControl>() {
             @Override
             public void onResponse(AccessControl response) {
                 DeckLog.info("Successfully created", AccessControl.class.getSimpleName(), "for user", user.getDisplayname());
@@ -152,7 +152,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
 
             @Override
             public void onError(Throwable throwable) {
-                ResponseCallback.super.onError(throwable);
+                IResponseCallback.super.onError(throwable);
                 requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });

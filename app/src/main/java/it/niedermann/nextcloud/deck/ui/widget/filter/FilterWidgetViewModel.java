@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
@@ -27,7 +27,7 @@ public class FilterWidgetViewModel extends AndroidViewModel {
         return this.config$;
     }
 
-    public void updateFilterWidget(@NonNull ResponseCallback<Integer> callback) {
+    public void updateFilterWidget(@NonNull IResponseCallback<Integer> callback) {
         syncManager.createFilterWidget(config$.getValue(), callback);
     }
 }

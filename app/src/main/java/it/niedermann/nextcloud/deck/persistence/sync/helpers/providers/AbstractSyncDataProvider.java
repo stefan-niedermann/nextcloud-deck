@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
@@ -72,11 +72,11 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
     }
 
     @SuppressWarnings("UnnecessaryReturnStatement")
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<T>> responder, Instant lastSync) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<T>> responder, Instant lastSync) {
         return;
     }
 
-    public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<List<T>> responder, Instant lastSync) {
+    public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<List<T>> responder, Instant lastSync) {
         // Overridden, because we also need the DB-Adapter at some points here (see ACL data provider)
         getAllFromServer(serverAdapter, accountId, responder, lastSync);
     }
@@ -97,17 +97,17 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
         deleteInDB(dataBaseAdapter, accountId, t);
     }
 
-    public void goDeeper(SyncHelper syncHelper, T existingEntity, T entityFromServer, IResponseCallback<Boolean> callback) {
+    public void goDeeper(SyncHelper syncHelper, T existingEntity, T entityFromServer, ResponseCallback<Boolean> callback) {
         childDone(this, callback, true);
     }
 
-    public abstract void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<T> responder, T entity);
+    public abstract void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<T> responder, T entity);
 
-    public abstract void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<T> callback, T entity);
+    public abstract void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<T> callback, T entity);
 
-    public abstract void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, T entity, DataBaseAdapter dataBaseAdapter);
+    public abstract void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, T entity, DataBaseAdapter dataBaseAdapter);
 
-    public void childDone(AbstractSyncDataProvider<?> child, IResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
+    public void childDone(AbstractSyncDataProvider<?> child, ResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
         children.remove(child);
         if (!stillGoingDeeper && children.isEmpty()) {
             if (parent != null) {
@@ -118,7 +118,7 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
         }
     }
 
-    public void doneGoingDeeper(IResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
+    public void doneGoingDeeper(ResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
         stillGoingDeeper = false;
         childDone(this, responseCallback, syncChangedSomething);
     }
@@ -129,11 +129,11 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
 
     public abstract List<T> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Instant lastSync);
 
-    public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
+    public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, ResponseCallback<Boolean> callback) {
         //do nothing
     }
 
-    public void onError(IResponseCallback<Boolean> responseCallback) {
+    public void onError(ResponseCallback<Boolean> responseCallback) {
         if (parent != null) {
             parent.childDone(this, responseCallback, false);
         }

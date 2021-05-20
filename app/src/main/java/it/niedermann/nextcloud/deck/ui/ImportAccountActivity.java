@@ -24,7 +24,7 @@ import com.nextcloud.android.sso.ui.UiExceptionManager;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityImportAccountBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -132,12 +132,12 @@ public class ImportAccountActivity extends AppCompatActivity {
                                 editor.putLong(sharedPreferenceLastAccount, createdAccount.getId());
                                 editor.commit();
 
-                                syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(createdAccount) {
+                                syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(createdAccount) {
                                     @Override
                                     public void onResponse(Capabilities response) {
                                         if (!response.isMaintenanceEnabled()) {
                                             if (response.getDeckVersion().isSupported()) {
-                                                syncManager.synchronize(new IResponseCallback<Boolean>(account) {
+                                                syncManager.synchronize(new ResponseCallback<Boolean>(account) {
                                                     @Override
                                                     public void onResponse(Boolean response) {
                                                         restoreWifiPref();

@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
@@ -19,7 +19,7 @@ public class StackWidgetConfigurationViewModel extends AndroidViewModel {
         this.syncManager = new SyncManager(application);
     }
 
-    public void addStackWidget(@NonNull FilterWidget config, @NonNull IResponseCallback<Integer> callback) {
+    public void addStackWidget(@NonNull FilterWidget config, @NonNull ResponseCallback<Integer> callback) {
         syncManager.createFilterWidget(config, callback);
     }
 }

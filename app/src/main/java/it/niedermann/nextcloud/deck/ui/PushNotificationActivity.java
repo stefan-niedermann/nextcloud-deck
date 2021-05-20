@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityPushNotificationBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
@@ -88,7 +88,7 @@ public class PushNotificationActivity extends AppCompatActivity {
                                     observeOnce(viewModel.getCardByRemoteID(account.getId(), cardRemoteId), PushNotificationActivity.this, (card -> {
                                         DeckLog.verbose("Card:", card);
                                         if (card != null) {
-                                            viewModel.synchronizeCard(new IResponseCallback<Boolean>(account) {
+                                            viewModel.synchronizeCard(new ResponseCallback<Boolean>(account) {
                                                 @Override
                                                 public void onResponse(Boolean response) {
                                                     openCardOnSubmit(account, board.getLocalId(), card.getLocalId());
@@ -103,7 +103,7 @@ public class PushNotificationActivity extends AppCompatActivity {
                                         } else {
                                             DeckLog.info("Card is not yet available locally. Synchronize board with localId", board);
 
-                                            viewModel.synchronizeBoard(new IResponseCallback<Boolean>(account) {
+                                            viewModel.synchronizeBoard(new ResponseCallback<Boolean>(account) {
                                                 @Override
                                                 public void onResponse(Boolean response) {
                                                     runOnUiThread(() -> observeOnce(viewModel.getCardByRemoteID(account.getId(), cardRemoteId), PushNotificationActivity.this, (card -> {

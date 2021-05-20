@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import it.niedermann.nextcloud.deck.DeckLog;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
@@ -31,11 +31,11 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<List<AccessControl>> responder, Instant lastSync) {
+    public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<List<AccessControl>> responder, Instant lastSync) {
         AsyncUtil.awaitAsyncWork(acl.size(), latch -> {
             for (AccessControl accessControl : acl) {
                 if (TYPE_GROUP.equals(accessControl.getType())) {
-                    serverAdapter.searchGroupMembers(accessControl.getUser().getUid(), new IResponseCallback<GroupMemberUIDs>(responder.getAccount()) {
+                    serverAdapter.searchGroupMembers(accessControl.getUser().getUid(), new ResponseCallback<GroupMemberUIDs>(responder.getAccount()) {
                         @Override
                         public void onResponse(GroupMemberUIDs response) {
                             accessControl.setGroupMemberUIDs(response);
@@ -64,7 +64,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
             User user = dataBaseAdapter.getUserByUidDirectly(account.getId(), uid);
             if (user == null) {
                 // unknown user. fetch!
-                serverAdapter.getSingleUserData(uid, new IResponseCallback<OcsUser>(account) {
+                serverAdapter.getSingleUserData(uid, new ResponseCallback<OcsUser>(account) {
                     @Override
                     public void onResponse(OcsUser response) {
                         DeckLog.log(response);
@@ -148,7 +148,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<AccessControl> responder, AccessControl entity) {
+    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<AccessControl> responder, AccessControl entity) {
         AccessControl acl = new AccessControl(entity);
         acl.setBoardId(board.getBoard().getId());
         if (acl.getUser() == null && acl.getUserId() != null) {
@@ -158,7 +158,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<AccessControl> callback, AccessControl entity) {
+    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<AccessControl> callback, AccessControl entity) {
         serverAdapter.updateAccessControl(board.getBoard().getId(), entity, callback);
     }
 
@@ -174,7 +174,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, AccessControl entity, DataBaseAdapter dataBaseAdapter) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, AccessControl entity, DataBaseAdapter dataBaseAdapter) {
         serverAdapter.deleteAccessControl(board.getBoard().getId(), entity, callback);
     }
 

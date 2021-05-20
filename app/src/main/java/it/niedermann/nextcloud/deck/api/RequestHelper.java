@@ -16,7 +16,7 @@ public class RequestHelper {
         RxJavaPlugins.setErrorHandler(DeckLog::logError);
     }
 
-    public static <T> void request(@NonNull final ApiProvider provider, @NonNull final ObservableProvider<T> call, @NonNull final IResponseCallback<T> callback) {
+    public static <T> void request(@NonNull final ApiProvider provider, @NonNull final ObservableProvider<T> call, @NonNull final ResponseCallback<T> callback) {
 
         if (provider.getDeckAPI() == null) {
             provider.initSsoApi(new NextcloudAPI.ApiConnectedListener() {
@@ -33,7 +33,7 @@ public class RequestHelper {
         runRequest(call.getObservableFromCall(), callback);
     }
 
-    private static <T> void runRequest(final Observable<T> request, final IResponseCallback<T> callback) {
+    private static <T> void runRequest(final Observable<T> request, final ResponseCallback<T> callback) {
         final ResponseConsumer<T> cb = new ResponseConsumer<>(callback);
         request.subscribeOn(Schedulers.newThread())
                 .subscribe(cb, cb.getExceptionConsumer());
@@ -47,7 +47,7 @@ public class RequestHelper {
     public static class ResponseConsumer<T> implements Consumer<T> {
 
         @NonNull
-        private final IResponseCallback<T> callback;
+        private final ResponseCallback<T> callback;
         @NonNull
         private final Consumer<Throwable> exceptionConsumer = new Consumer<Throwable>() {
             @Override
@@ -56,7 +56,7 @@ public class RequestHelper {
             }
         };
 
-        private ResponseConsumer(@NonNull IResponseCallback<T> callback) {
+        private ResponseConsumer(@NonNull ResponseCallback<T> callback) {
             this.callback = callback;
         }
 

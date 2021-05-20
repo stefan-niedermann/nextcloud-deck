@@ -142,7 +142,7 @@ public class SyncManager {
             CountDownLatch latch = new CountDownLatch(accounts.size());
             try {
                 for (Account account : accounts) {
-                    new SyncManager(dataBaseAdapter.getContext(), account.getName()).synchronize(new IResponseCallback<Boolean>(account) {
+                    new SyncManager(dataBaseAdapter.getContext(), account.getName()).synchronize(new ResponseCallback<Boolean>(account) {
                         @Override
                         public void onResponse(Boolean response) {
                             success.set(success.get() && Boolean.TRUE.equals(response));
@@ -168,7 +168,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void synchronizeBoard(@NonNull IResponseCallback<Boolean> responseCallback, long localBoadId) {
+    public void synchronizeBoard(@NonNull ResponseCallback<Boolean> responseCallback, long localBoadId) {
         executor.submit(() -> {
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(responseCallback.getAccount().getId(), localBoadId);
             try {
@@ -182,7 +182,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void synchronizeCard(@NonNull IResponseCallback<Boolean> responseCallback, @NonNull Card card) {
+    public void synchronizeCard(@NonNull ResponseCallback<Boolean> responseCallback, @NonNull Card card) {
         executor.submit(() -> {
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
@@ -197,17 +197,17 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void synchronize(@NonNull IResponseCallback<Boolean> responseCallback) {
+    public void synchronize(@NonNull ResponseCallback<Boolean> responseCallback) {
         Account callbackAccount = responseCallback.getAccount();
         if (callbackAccount == null) {
-            throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must not be null.");
+            throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + ResponseCallback.class.getSimpleName() + " must not be null.");
         }
         Long callbackAccountId = callbackAccount.getId();
         if (callbackAccountId == null) {
-            throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must contain a valid id, but given id was null.");
+            throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + ResponseCallback.class.getSimpleName() + " must contain a valid id, but given id was null.");
         }
         executor.submit(() -> {
-            refreshCapabilities(new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
+            refreshCapabilities(new ResponseCallback<Capabilities>(responseCallback.getAccount()) {
                 @Override
                 public void onResponse(Capabilities response) {
                     if (response != null) {
@@ -222,10 +222,10 @@ public class SyncManager {
 
                             final SyncHelper syncHelper = syncHelperFactory.create(serverAdapter, dataBaseAdapter, lastSyncDate);
 
-                            IResponseCallback<Boolean> callback = new IResponseCallback<Boolean>(callbackAccount) {
+                            ResponseCallback<Boolean> callback = new ResponseCallback<Boolean>(callbackAccount) {
                                 @Override
                                 public void onResponse(Boolean response) {
-                                    syncHelper.setResponseCallback(new IResponseCallback<Boolean>(account) {
+                                    syncHelper.setResponseCallback(new ResponseCallback<Boolean>(account) {
                                         @Override
                                         public void onResponse(Boolean response) {
                                             LastSyncUtil.setLastSyncDate(accountId, Instant.now());
@@ -384,7 +384,7 @@ public class SyncManager {
             executor.submit(() -> {
                 for (Account account : accounts) {
                     syncHelperFactory.create(serverAdapter, dataBaseAdapter, null)
-                            .setResponseCallback(new IResponseCallback<Boolean>(account) {
+                            .setResponseCallback(new ResponseCallback<Boolean>(account) {
                                 @Override
                                 public void onResponse(Boolean response) {
                                     liveData.postValue(dataBaseAdapter.readAccountsForHostWithReadAccessToBoardDirectly(host, boardRemoteId));
@@ -398,11 +398,11 @@ public class SyncManager {
     }
 
     @AnyThread
-    public Future<?> refreshCapabilities(@NonNull IResponseCallback<Capabilities> callback) {
+    public Future<?> refreshCapabilities(@NonNull ResponseCallback<Capabilities> callback) {
         return executor.submit(() -> {
             try {
                 Account accountForEtag = dataBaseAdapter.getAccountByIdDirectly(callback.getAccount().getId());
-                serverAdapter.getCapabilities(accountForEtag.getEtag(), new IResponseCallback<ParsedResponse<Capabilities>>(callback.getAccount()) {
+                serverAdapter.getCapabilities(accountForEtag.getEtag(), new ResponseCallback<ParsedResponse<Capabilities>>(callback.getAccount()) {
                     @Override
                     public void onResponse(ParsedResponse<Capabilities> response) {
                         Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
@@ -514,7 +514,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void createBoard(long accountId, @NonNull Board board, @NonNull ResponseCallback<FullBoard> callback) {
+    public void createBoard(long accountId, @NonNull Board board, @NonNull IResponseCallback<FullBoard> callback) {
         executor.submit(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
@@ -527,7 +527,7 @@ public class SyncManager {
                 fullBoard.setBoard(board);
                 board.setAccountId(accountId);
                 fullBoard.setAccountId(accountId);
-                new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new BoardDataProvider(), fullBoard, IResponseCallback.from(account, callback));
+                new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new BoardDataProvider(), fullBoard, ResponseCallback.from(account, callback));
             }
         });
     }
@@ -540,7 +540,7 @@ public class SyncManager {
      *                   Does <strong>not</strong> clone any {@link Card} or {@link AccessControl} from the origin {@link Board}.
      */
     @AnyThread
-    public void cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, @ColorInt int targetBoardColor, boolean cloneCards, @NonNull ResponseCallback<FullBoard> callback) {
+    public void cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, @ColorInt int targetBoardColor, boolean cloneCards, @NonNull IResponseCallback<FullBoard> callback) {
         executor.submit(() -> {
             Account originAccount = dataBaseAdapter.getAccountByIdDirectly(originAccountId);
             User newOwner = dataBaseAdapter.getUserByUidDirectly(originAccountId, originAccount.getUserName());
@@ -653,7 +653,7 @@ public class SyncManager {
                     serverAdapterToUse = new ServerAdapter(appContext, targetAccount.getName());
                 }
                 syncHelperFactory.create(serverAdapterToUse, dataBaseAdapter, null)
-                        .setResponseCallback(new IResponseCallback<Boolean>(targetAccount) {
+                        .setResponseCallback(new ResponseCallback<Boolean>(targetAccount) {
                             @Override
                             public void onResponse(Boolean response) {
                                 callback.onResponse(dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, newBoardId));
@@ -677,7 +677,7 @@ public class SyncManager {
             if (serverAdapter.hasInternetConnection()) {
                 if (card.getId() != null) {
                     syncHelperFactory.create(serverAdapter, dataBaseAdapter, null)
-                            .setResponseCallback(new IResponseCallback<Boolean>(dataBaseAdapter.getAccountByIdDirectly(card.getAccountId())) {
+                            .setResponseCallback(new ResponseCallback<Boolean>(dataBaseAdapter.getAccountByIdDirectly(card.getAccountId())) {
                                 @Override
                                 public void onResponse(Boolean response) {
                                     // do nothing
@@ -697,7 +697,7 @@ public class SyncManager {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, cardId);
             OcsComment commentEntity = OcsComment.of(comment);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new DeckCommentsDataProvider(null, card), commentEntity, new IResponseCallback<OcsComment>(account) {
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new DeckCommentsDataProvider(null, card), commentEntity, new ResponseCallback<OcsComment>(account) {
                 @Override
                 public void onResponse(OcsComment response) {
                     // nothing so far
@@ -714,7 +714,7 @@ public class SyncManager {
             DeckComment entity = dataBaseAdapter.getCommentByLocalIdDirectly(accountId, localCommentId);
             entity.setMessage(comment);
             OcsComment commentEntity = OcsComment.of(entity);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new DeckCommentsDataProvider(null, card), commentEntity, new IResponseCallback<OcsComment>(account) {
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new DeckCommentsDataProvider(null, card), commentEntity, new ResponseCallback<OcsComment>(account) {
                 @Override
                 public void onResponse(OcsComment response) {
                     // nothing so far
@@ -724,14 +724,14 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void deleteComment(long accountId, long localCardId, long localCommentId, @NonNull ResponseCallback<Void> callback) {
+    public void deleteComment(long accountId, long localCardId, long localCommentId, @NonNull IResponseCallback<Void> callback) {
         executor.submit(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
             DeckComment entity = dataBaseAdapter.getCommentByLocalIdDirectly(accountId, localCommentId);
             OcsComment commentEntity = OcsComment.of(entity);
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new DeckCommentsDataProvider(null, card),
-                    commentEntity, IResponseCallback.from(account, callback));
+                    commentEntity, ResponseCallback.from(account, callback));
         });
     }
 
@@ -740,21 +740,21 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void deleteBoard(@NonNull Board board, @NonNull ResponseCallback<Void> callback) {
+    public void deleteBoard(@NonNull Board board, @NonNull IResponseCallback<Void> callback) {
         executor.submit(() -> {
             long accountId = board.getAccountId();
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullBoard fullBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, board.getLocalId());
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new BoardDataProvider(), fullBoard, IResponseCallback.from(account, callback));
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new BoardDataProvider(), fullBoard, ResponseCallback.from(account, callback));
         });
     }
 
     @AnyThread
-    public void updateBoard(@NonNull FullBoard board, @NonNull ResponseCallback<FullBoard> callback) {
+    public void updateBoard(@NonNull FullBoard board, @NonNull IResponseCallback<FullBoard> callback) {
         executor.submit(() -> {
             long accountId = board.getAccountId();
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new BoardDataProvider(), board, IResponseCallback.from(account, callback));
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new BoardDataProvider(), board, ResponseCallback.from(account, callback));
         });
     }
 
@@ -772,12 +772,12 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void createAccessControl(long accountId, @NonNull AccessControl entity, @NonNull ResponseCallback<AccessControl> callback) {
+    public void createAccessControl(long accountId, @NonNull AccessControl entity, @NonNull IResponseCallback<AccessControl> callback) {
         executor.submit(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, entity.getBoardId());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(
-                    new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, IResponseCallback.from(account, callback), ((entity1, response) -> {
+                    new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, ResponseCallback.from(account, callback), ((entity1, response) -> {
                         response.setBoardId(entity.getBoardId());
                         response.setUserId(entity.getUser().getLocalId());
                     })
@@ -795,22 +795,22 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void updateAccessControl(@NonNull AccessControl entity, @NonNull ResponseCallback<AccessControl> callback) {
+    public void updateAccessControl(@NonNull AccessControl entity, @NonNull IResponseCallback<AccessControl> callback) {
         executor.submit(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(entity.getAccountId());
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(entity.getAccountId(), entity.getBoardId());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(
-                    new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, IResponseCallback.from(account, callback));
+                    new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, ResponseCallback.from(account, callback));
         });
     }
 
     @AnyThread
-    public void deleteAccessControl(@NonNull AccessControl entity, @NonNull ResponseCallback<Void> callback) {
+    public void deleteAccessControl(@NonNull AccessControl entity, @NonNull IResponseCallback<Void> callback) {
         executor.submit(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(entity.getAccountId());
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(entity.getAccountId(), entity.getBoardId());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(
-                    new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, new IResponseCallback<Void>(account) {
+                    new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, new ResponseCallback<Void>(account) {
                         @Override
                         public void onResponse(Void response) {
                             // revoked own board-access?
@@ -838,7 +838,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void createStack(long accountId, @NonNull String title, long boardLocalId, @NonNull ResponseCallback<FullStack> callback) {
+    public void createStack(long accountId, @NonNull String title, long boardLocalId, @NonNull IResponseCallback<FullStack> callback) {
         executor.submit(() -> {
             Stack stack = new Stack(title, boardLocalId);
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
@@ -849,22 +849,22 @@ public class SyncManager {
             stack.setBoardId(board.getLocalId());
             fullStack.setStack(stack);
             fullStack.setAccountId(accountId);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new StackDataProvider(null, board), fullStack, IResponseCallback.from(account, callback));
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new StackDataProvider(null, board), fullStack, ResponseCallback.from(account, callback));
         });
     }
 
     @AnyThread
-    public void deleteStack(long accountId, long stackLocalId, long boardLocalId, @NonNull ResponseCallback<Void> callback) {
+    public void deleteStack(long accountId, long stackLocalId, long boardLocalId, @NonNull IResponseCallback<Void> callback) {
         executor.submit(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullStack fullStack = dataBaseAdapter.getFullStackByLocalIdDirectly(stackLocalId);
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, boardLocalId);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new StackDataProvider(null, board), fullStack, IResponseCallback.from(account, callback));
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new StackDataProvider(null, board), fullStack, ResponseCallback.from(account, callback));
         });
     }
 
     @AnyThread
-    public void updateStackTitle(long localStackId, @NonNull String newTitle, @NonNull ResponseCallback<FullStack> callback) {
+    public void updateStackTitle(long localStackId, @NonNull String newTitle, @NonNull IResponseCallback<FullStack> callback) {
         executor.submit(() -> {
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(localStackId);
             FullBoard fullBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(stack.getAccountId(), stack.getStack().getBoardId());
@@ -875,8 +875,8 @@ public class SyncManager {
     }
 
     @AnyThread
-    private void updateStack(@NonNull Account account, @NonNull FullBoard board, @NonNull FullStack stack, @NonNull ResponseCallback<FullStack> callback) {
-        executor.submit(() -> new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new StackDataProvider(null, board), stack, IResponseCallback.from(account, callback)));
+    private void updateStack(@NonNull Account account, @NonNull FullBoard board, @NonNull FullStack stack, @NonNull IResponseCallback<FullStack> callback) {
+        executor.submit(() -> new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new StackDataProvider(null, board), stack, ResponseCallback.from(account, callback)));
     }
 
     /**
@@ -912,7 +912,7 @@ public class SyncManager {
                     rightStack.getStack().setOrder(lastOrderValue);
                     s.getStack().setOrder(lastOrderValue + 1);
                     // update the other one
-                    updateStack(account, fullBoard, rightStack, ResponseCallback.empty());
+                    updateStack(account, fullBoard, rightStack, IResponseCallback.empty());
                     // ensure the current one is updated as well
                     currentStackChanged = true;
                     stacks.set(i, stacks.get(i + 1));
@@ -921,7 +921,7 @@ public class SyncManager {
                 }
 
                 if (currentStackChanged) {
-                    updateStack(account, fullBoard, s, ResponseCallback.empty());
+                    updateStack(account, fullBoard, s, IResponseCallback.empty());
                 }
             }
         });
@@ -977,7 +977,7 @@ public class SyncManager {
 //    }
 
     @AnyThread
-    public void createFullCard(long accountId, long localBoardId, long localStackId, @NonNull FullCard card, @NonNull ResponseCallback<FullCard> callback) {
+    public void createFullCard(long accountId, long localBoardId, long localStackId, @NonNull FullCard card, @NonNull IResponseCallback<FullCard> callback) {
         executor.submit(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
@@ -1016,7 +1016,7 @@ public class SyncManager {
 
             if (serverAdapter.hasInternetConnection()) {
                 syncHelperFactory.create(serverAdapter, dataBaseAdapter, null)
-                        .setResponseCallback(new IResponseCallback<Boolean>(account) {
+                        .setResponseCallback(new ResponseCallback<Boolean>(account) {
                             @Override
                             public void onResponse(Boolean response) {
                                 callback.onResponse(card);
@@ -1040,7 +1040,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void deleteCard(@NonNull Card card, @NonNull ResponseCallback<Void> callback) {
+    public void deleteCard(@NonNull Card card, @NonNull IResponseCallback<Void> callback) {
         executor.submit(() -> {
             FullCard fullCard = dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId());
             if (fullCard == null) {
@@ -1049,38 +1049,38 @@ public class SyncManager {
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new CardPropagationDataProvider(null, board, stack), fullCard, IResponseCallback.from(account, callback));
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new CardPropagationDataProvider(null, board, stack), fullCard, ResponseCallback.from(account, callback));
         });
     }
 
     @AnyThread
-    public void archiveCard(@NonNull FullCard card, @NonNull ResponseCallback<FullCard> callback) {
+    public void archiveCard(@NonNull FullCard card, @NonNull IResponseCallback<FullCard> callback) {
         executor.submit(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getCard().getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
             card.getCard().setArchived(true);
-            updateCardForArchive(stack, board, card, IResponseCallback.from(account, callback));
+            updateCardForArchive(stack, board, card, ResponseCallback.from(account, callback));
         });
     }
 
-    private void updateCardForArchive(FullStack stack, Board board, FullCard card, @NonNull IResponseCallback<FullCard> callback) {
+    private void updateCardForArchive(FullStack stack, Board board, FullCard card, @NonNull ResponseCallback<FullCard> callback) {
         new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new CardDataProvider(null, board, stack), card, callback);
     }
 
     @AnyThread
-    public void dearchiveCard(@NonNull FullCard card, @NonNull ResponseCallback<FullCard> callback) {
+    public void dearchiveCard(@NonNull FullCard card, @NonNull IResponseCallback<FullCard> callback) {
         executor.submit(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getCard().getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
             card.getCard().setArchived(false);
-            updateCardForArchive(stack, board, card, IResponseCallback.from(account, callback));
+            updateCardForArchive(stack, board, card, ResponseCallback.from(account, callback));
         });
     }
 
     @AnyThread
-    public void archiveCardsInStack(long accountId, long stackLocalId, @NonNull FilterInformation filterInformation, @NonNull ResponseCallback<Void> callback) {
+    public void archiveCardsInStack(long accountId, long stackLocalId, @NonNull FilterInformation filterInformation, @NonNull IResponseCallback<Void> callback) {
         executor.submit(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(stackLocalId);
@@ -1097,7 +1097,7 @@ public class SyncManager {
                     continue;
                 }
                 card.getCard().setArchived(true);
-                updateCardForArchive(stack, board, card, new IResponseCallback<FullCard>(account) {
+                updateCardForArchive(stack, board, card, new ResponseCallback<FullCard>(account) {
                     @Override
                     public void onResponse(FullCard response) {
                         latch.countDown();
@@ -1121,7 +1121,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void archiveBoard(@NonNull Board board, @NonNull ResponseCallback<FullBoard> callback) {
+    public void archiveBoard(@NonNull Board board, @NonNull IResponseCallback<FullBoard> callback) {
         executor.submit(() -> {
             try {
                 FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
@@ -1134,7 +1134,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void dearchiveBoard(@NonNull Board board, @NonNull ResponseCallback<FullBoard> callback) {
+    public void dearchiveBoard(@NonNull Board board, @NonNull IResponseCallback<FullBoard> callback) {
         executor.submit(() -> {
             try {
                 FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
@@ -1147,7 +1147,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void updateCard(@NonNull FullCard card, @NonNull ResponseCallback<FullCard> callback) {
+    public void updateCard(@NonNull FullCard card, @NonNull IResponseCallback<FullCard> callback) {
         executor.submit(() -> {
             final FullCard fullCardFromDB = dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId());
             if (fullCardFromDB == null) {
@@ -1181,7 +1181,7 @@ public class SyncManager {
             if (serverAdapter.hasInternetConnection()) {
                 Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
                 syncHelperFactory.create(serverAdapter, dataBaseAdapter, null)
-                        .setResponseCallback(new IResponseCallback<Boolean>(account) {
+                        .setResponseCallback(new ResponseCallback<Boolean>(account) {
                             @Override
                             public void onResponse(Boolean response) {
                                 callback.onResponse(dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId()));
@@ -1233,7 +1233,7 @@ public class SyncManager {
             }
             // ### get rid of original card where it is now.
             final Card originalInnerCard = originalCard.getCard();
-            deleteCard(new Card(originalInnerCard), ResponseCallback.empty());
+            deleteCard(new Card(originalInnerCard), IResponseCallback.empty());
             // ### clone card itself
             originalInnerCard.setAccountId(targetAccountId);
             originalInnerCard.setId(null);
@@ -1256,7 +1256,7 @@ public class SyncManager {
             if (originAccountId != targetAccountId) {
                 serverToUse = new ServerAdapter(appContext, targetAccount.getName());
             }
-            new DataPropagationHelper(serverToUse, dataBaseAdapter).createEntity(new CardPropagationDataProvider(null, targetBoard.getBoard(), targetFullStack), fullCardForServerPropagation, new IResponseCallback<FullCard>(targetAccount) {
+            new DataPropagationHelper(serverToUse, dataBaseAdapter).createEntity(new CardPropagationDataProvider(null, targetBoard.getBoard(), targetFullStack), fullCardForServerPropagation, new ResponseCallback<FullCard>(targetAccount) {
                 @Override
                 public void onResponse(FullCard response) {
                     originalInnerCard.setId(response.getId());
@@ -1350,7 +1350,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void createLabel(long accountId, Label label, long localBoardId, @NonNull ResponseCallback<Label> callback) {
+    public void createLabel(long accountId, Label label, long localBoardId, @NonNull IResponseCallback<Label> callback) {
         executor.submit(() -> {
             Label existing = dataBaseAdapter.getLabelByBoardIdAndTitleDirectly(label.getBoardId(), label.getTitle());
             if (existing != null) {
@@ -1360,7 +1360,7 @@ public class SyncManager {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(localBoardId);
             label.setAccountId(accountId);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new LabelDataProvider(null, board, null), label, IResponseCallback.from(account, callback), (entity, response) -> response.setBoardId(board.getLocalId()));
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new LabelDataProvider(null, board, null), label, ResponseCallback.from(account, callback), (entity, response) -> response.setBoardId(board.getLocalId()));
         });
     }
 
@@ -1375,7 +1375,7 @@ public class SyncManager {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             Board board = dataBaseAdapter.getBoardByLocalCardIdDirectly(localCardId);
             label.setAccountId(accountId);
-            new DataPropagationHelper(serverAdapterToUse, dataBaseAdapter).createEntity(new LabelDataProvider(null, board, null), label, new IResponseCallback<Label>(account) {
+            new DataPropagationHelper(serverAdapterToUse, dataBaseAdapter).createEntity(new LabelDataProvider(null, board, null), label, new ResponseCallback<Label>(account) {
                 @Override
                 public void onResponse(Label response) {
                     assignLabelToCard(response, dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId));
@@ -1395,22 +1395,22 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void deleteLabel(@NonNull Label label, @NonNull ResponseCallback<Void> callback) {
+    public void deleteLabel(@NonNull Label label, @NonNull IResponseCallback<Void> callback) {
         executor.submit(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(label.getAccountId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter)
-                    .deleteEntity(new LabelDataProvider(null, board, Collections.emptyList()), label, IResponseCallback.from(account, callback));
+                    .deleteEntity(new LabelDataProvider(null, board, Collections.emptyList()), label, ResponseCallback.from(account, callback));
         });
     }
 
     @AnyThread
-    public void updateLabel(@NonNull Label label, @NonNull ResponseCallback<Label> callback) {
+    public void updateLabel(@NonNull Label label, @NonNull IResponseCallback<Label> callback) {
         executor.submit(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(label.getAccountId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter)
-                    .updateEntity(new LabelDataProvider(null, board, Collections.emptyList()), label, IResponseCallback.from(account, callback));
+                    .updateEntity(new LabelDataProvider(null, board, Collections.emptyList()), label, ResponseCallback.from(account, callback));
         });
     }
 
@@ -1428,7 +1428,7 @@ public class SyncManager {
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
             if (serverAdapter.hasInternetConnection()) {
-                serverAdapter.assignUserToCard(board.getId(), stack.getId(), card.getId(), user.getUid(), new IResponseCallback<Void>(account) {
+                serverAdapter.assignUserToCard(board.getId(), stack.getId(), card.getId(), user.getUid(), new ResponseCallback<Void>(account) {
 
                     @Override
                     public void onResponse(Void response) {
@@ -1457,7 +1457,7 @@ public class SyncManager {
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
             if (serverAdapterToUse.hasInternetConnection()) {
-                serverAdapterToUse.assignLabelToCard(board.getId(), stack.getId(), card.getId(), label.getId(), new IResponseCallback<Void>(account) {
+                serverAdapterToUse.assignLabelToCard(board.getId(), stack.getId(), card.getId(), label.getId(), new ResponseCallback<Void>(account) {
 
                     @Override
                     public void onResponse(Void response) {
@@ -1476,7 +1476,7 @@ public class SyncManager {
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
             if (serverAdapter.hasInternetConnection()) {
-                serverAdapter.unassignLabelFromCard(board.getId(), stack.getId(), card.getId(), label.getId(), new IResponseCallback<Void>(account) {
+                serverAdapter.unassignLabelFromCard(board.getId(), stack.getId(), card.getId(), label.getId(), new ResponseCallback<Void>(account) {
                     @Override
                     public void onResponse(Void response) {
                         dataBaseAdapter.deleteJoinedLabelForCardPhysically(card.getLocalId(), label.getLocalId());
@@ -1494,7 +1494,7 @@ public class SyncManager {
                 Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
                 Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
                 Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
-                serverAdapter.unassignUserFromCard(board.getId(), stack.getId(), card.getId(), user.getUid(), new IResponseCallback<Void>(account) {
+                serverAdapter.unassignUserFromCard(board.getId(), stack.getId(), card.getId(), user.getUid(), new ResponseCallback<Void>(account) {
                     @Override
                     public void onResponse(Void response) {
                         dataBaseAdapter.deleteJoinedUserForCardPhysically(card.getLocalId(), user.getLocalId());
@@ -1646,7 +1646,7 @@ public class SyncManager {
                 Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(movedCard.getCard().getStackId());
                 FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, stack.getBoardId());
                 Account account = dataBaseAdapter.getAccountByIdDirectly(movedCard.getCard().getAccountId());
-                syncHelperFactory.create(serverAdapter, dataBaseAdapter, Instant.now()).setResponseCallback(new IResponseCallback<Boolean>(account) {
+                syncHelperFactory.create(serverAdapter, dataBaseAdapter, Instant.now()).setResponseCallback(new ResponseCallback<Boolean>(account) {
                     @Override
                     public void onResponse(Boolean response) {
                         // doNothing();
@@ -1741,7 +1741,7 @@ public class SyncManager {
      * Also this leads to the attachment being present in the card forever with a DBStatus.LOCAL_EDITED
      */
     @AnyThread
-    public void addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file, @NonNull ResponseCallback<Attachment> callback) {
+    public void addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file, @NonNull IResponseCallback<Attachment> callback) {
         executor.submit(() -> {
             Attachment attachment = populateAttachmentEntityForFile(new Attachment(), localCardId, mimeType, file);
             final Instant now = Instant.now();
@@ -1753,7 +1753,7 @@ public class SyncManager {
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(
                     new AttachmentDataProvider(null, board, stack, card, Collections.singletonList(attachment)),
-                    attachment, IResponseCallback.from(account, callback)
+                    attachment, ResponseCallback.from(account, callback)
             );
         });
     }
@@ -1770,7 +1770,7 @@ public class SyncManager {
                 Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
                 Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
                 new DataPropagationHelper(serverAdapter, dataBaseAdapter)
-                        .updateEntity(new AttachmentDataProvider(null, board, stack, card, Collections.singletonList(attachment)), attachment, new IResponseCallback<Attachment>(account) {
+                        .updateEntity(new AttachmentDataProvider(null, board, stack, card, Collections.singletonList(attachment)), attachment, new ResponseCallback<Attachment>(account) {
                             @Override
                             public void onResponse(Attachment response) {
                                 liveData.postValue(response);
@@ -1800,7 +1800,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId, @NonNull ResponseCallback<Void> callback) {
+    public void deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId, @NonNull IResponseCallback<Void> callback) {
         executor.submit(() -> {
             if (serverAdapter.hasInternetConnection()) {
                 FullCard card = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, localCardId);
@@ -1810,7 +1810,7 @@ public class SyncManager {
                 Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
 
                 new DataPropagationHelper(serverAdapter, dataBaseAdapter)
-                        .deleteEntity(new AttachmentDataProvider(null, board, stack, card, Collections.singletonList(attachment)), attachment, IResponseCallback.from(account, callback));
+                        .deleteEntity(new AttachmentDataProvider(null, board, stack, card, Collections.singletonList(attachment)), attachment, ResponseCallback.from(account, callback));
             }
         });
     }
@@ -1822,7 +1822,7 @@ public class SyncManager {
     // # filter widget
 
     @AnyThread
-    public void createFilterWidget(@NonNull FilterWidget filterWidget, @NonNull ResponseCallback<Integer> callback) {
+    public void createFilterWidget(@NonNull FilterWidget filterWidget, @NonNull IResponseCallback<Integer> callback) {
         executor.submit(() -> {
             try {
                 int filterWidgetId = dataBaseAdapter.createFilterWidgetDirectly(filterWidget);
@@ -1834,7 +1834,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void updateFilterWidget(@NonNull FilterWidget filterWidget, @NonNull IResponseCallback<Boolean> callback) {
+    public void updateFilterWidget(@NonNull FilterWidget filterWidget, @NonNull ResponseCallback<Boolean> callback) {
         executor.submit(() -> {
             try {
                 dataBaseAdapter.updateFilterWidgetDirectly(filterWidget);
@@ -1846,7 +1846,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void getFilterWidget(@NonNull Integer filterWidgetId, @NonNull ResponseCallback<FilterWidget> callback) {
+    public void getFilterWidget(@NonNull Integer filterWidgetId, @NonNull IResponseCallback<FilterWidget> callback) {
         executor.submit(() -> {
             try {
                 callback.onResponse(dataBaseAdapter.getFilterWidgetByIdDirectly(filterWidgetId));
@@ -1857,7 +1857,7 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void deleteFilterWidget(int filterWidgetId, @NonNull ResponseCallback<Boolean> callback) {
+    public void deleteFilterWidget(int filterWidgetId, @NonNull IResponseCallback<Boolean> callback) {
         executor.submit(() -> {
             try {
                 dataBaseAdapter.deleteFilterWidgetDirectly(filterWidgetId);

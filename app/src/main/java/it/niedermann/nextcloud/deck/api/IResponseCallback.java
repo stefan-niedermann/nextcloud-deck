@@ -1,80 +1,24 @@
 package it.niedermann.nextcloud.deck.api;
 
-import android.annotation.SuppressLint;
+import androidx.annotation.CallSuper;
 
-import androidx.annotation.NonNull;
+import it.niedermann.nextcloud.deck.DeckLog;
 
-import java.util.Collection;
-import java.util.List;
+public interface IResponseCallback<T> {
 
-import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
+    void onResponse(T response);
 
-/**
- * Abstract implementation of {@link ResponseCallback} which is aware of an {@link Account}.
- *
- * @param <T> payload type of the {@link #onResponse(T)} method
- */
-public abstract class IResponseCallback<T> implements ResponseCallback<T> {
-    @NonNull
-    protected Account account;
-
-    public IResponseCallback(@NonNull Account account) {
-        this.account = account;
-    }
-
-    public void fillAccountIDs(T response) {
-        if (response != null) {
-            if (isListOfRemoteEntity(response)) {
-                fillAccountIDs((Collection<AbstractRemoteEntity>) response);
-            } else if (isRemoteEntity(response)) {
-                fillAccountIDs((AbstractRemoteEntity) response);
-            }
-        }
-    }
-
-    private void fillAccountIDs(AbstractRemoteEntity response) {
-        response.setAccountId(this.account.getId());
-    }
-
-    private void fillAccountIDs(Collection<AbstractRemoteEntity> response) {
-        for (AbstractRemoteEntity entity : response) {
-            entity.setAccountId(this.account.getId());
-        }
-    }
-
-    private boolean isRemoteEntity(T response) {
-        return response instanceof AbstractRemoteEntity;
-    }
-
-    private boolean isListOfRemoteEntity(T response) {
-        if (response instanceof List) {
-            List<?> collection = (List) response;
-            return collection.size() > 0 && collection.get(0) instanceof AbstractRemoteEntity;
-        }
-        return false;
-    }
-
-    @NonNull
-    public Account getAccount() {
-        return account;
+    @CallSuper
+    default void onError(Throwable throwable) {
+        DeckLog.logError(throwable);
     }
 
     /**
-     * Forwards responses and errors to the given {@param callback}
+     * @return a default {@link IResponseCallback} which does nothing {@link #onResponse(Object)} and the default action fo {@link #onError(Throwable)}
      */
-    public static <T> IResponseCallback<T> from(@NonNull Account account, ResponseCallback<T> callback) {
-        return new IResponseCallback<T>(account) {
-            @Override
-            public void onResponse(T response) {
-                callback.onResponse(response);
-            }
-
-            @SuppressLint("MissingSuperCall")
-            @Override
-            public void onError(Throwable throwable) {
-                callback.onError(throwable);
-            }
+    static <T> IResponseCallback<T> empty() {
+        return response -> {
+            // Does nothing on default
         };
     }
 }

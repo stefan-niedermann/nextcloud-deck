@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Label;
@@ -30,8 +30,8 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<List<FullBoard>> responder, Instant lastSync) {
-        serverAdapter.getBoards(new IResponseCallback<ParsedResponse<List<FullBoard>>>(responder.getAccount()) {
+    public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<List<FullBoard>> responder, Instant lastSync) {
+        serverAdapter.getBoards(new ResponseCallback<ParsedResponse<List<FullBoard>>>(responder.getAccount()) {
             @Override
             public void onResponse(ParsedResponse<List<FullBoard>> response) {
                 String etag = response.getHeaders().get("ETag");
@@ -126,7 +126,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
 
     @Override
-    public void goDeeper(SyncHelper syncHelper, FullBoard existingEntity, FullBoard entityFromServer, IResponseCallback<Boolean> callback) {
+    public void goDeeper(SyncHelper syncHelper, FullBoard existingEntity, FullBoard entityFromServer, ResponseCallback<Boolean> callback) {
         List<Label> labels = entityFromServer.getLabels();
         if (labels != null && !labels.isEmpty()) {
             syncHelper.doSyncFor(new LabelDataProvider(this, existingEntity.getBoard(), labels));
@@ -146,7 +146,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullBoard> responder, FullBoard entity) {
+    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullBoard> responder, FullBoard entity) {
         serverAdapter.createBoard(entity.getBoard(), responder);
     }
 
@@ -156,7 +156,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
+    public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, ResponseCallback<Boolean> callback) {
         Long accountId = callback.getAccount().getId();
         List<Label> locallyChangedLabels = dataBaseAdapter.getLocallyChangedLabels(accountId);
         AsyncUtil.awaitAsyncWork(locallyChangedLabels.size(), (countDownLatch) -> {
@@ -191,7 +191,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullBoard> callback, FullBoard entity) {
+    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullBoard> callback, FullBoard entity) {
         serverAdapter.updateBoard(entity.getBoard(), callback);
     }
 
@@ -206,7 +206,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullBoard entity, DataBaseAdapter dataBaseAdapter) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, FullBoard entity, DataBaseAdapter dataBaseAdapter) {
         serverAdapter.deleteBoard(entity.getBoard(), callback);
     }
 

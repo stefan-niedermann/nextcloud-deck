@@ -46,7 +46,7 @@ import id.zelory.compressor.constraint.SizeConstraint;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabAttachmentsBinding;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -463,7 +463,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         editViewModel.getFullCard().getAttachments().add(0, a);
         adapter.addAttachment(a);
         if (!editViewModel.isCreateMode()) {
-            editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload, new ResponseCallback<Attachment>() {
+            editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload, new IResponseCallback<Attachment>() {
                 @Override
                 public void onResponse(Attachment response) {
                     requireActivity().runOnUiThread(() -> {
@@ -477,7 +477,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                 public void onError(Throwable throwable) {
                     requireActivity().runOnUiThread(() -> {
                         if (throwable instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) throwable).getStatusCode() == HTTP_CONFLICT) {
-                            ResponseCallback.super.onError(throwable);
+                            IResponseCallback.super.onError(throwable);
                             // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
                             editViewModel.getFullCard().getAttachments().remove(a);
                             adapter.removeAttachment(a);
@@ -528,7 +528,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         adapter.removeAttachment(attachment);
         editViewModel.getFullCard().getAttachments().remove(attachment);
         if (!editViewModel.isCreateMode() && attachment.getLocalId() != null) {
-            editViewModel.deleteAttachmentOfCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), attachment.getLocalId(), new ResponseCallback<Void>() {
+            editViewModel.deleteAttachmentOfCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), attachment.getLocalId(), new IResponseCallback<Void>() {
                 @Override
                 public void onResponse(Void response) {
                     DeckLog.info("Successfully delete", Attachment.class.getSimpleName(), attachment.getFilename(), "from", Card.class.getSimpleName(), editViewModel.getFullCard().getCard().getTitle());
@@ -537,7 +537,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                 @Override
                 public void onError(Throwable throwable) {
                     if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
-                        ResponseCallback.super.onError(throwable);
+                        IResponseCallback.super.onError(throwable);
                         requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                     }
                 }

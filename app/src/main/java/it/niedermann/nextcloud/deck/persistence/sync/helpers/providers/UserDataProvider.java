@@ -3,7 +3,7 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 import java.time.Instant;
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -27,7 +27,7 @@ public class UserDataProvider extends AbstractSyncDataProvider<User> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<User>> responder, Instant lastSync) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<User>> responder, Instant lastSync) {
         responder.onResponse(users);
     }
 
@@ -52,7 +52,7 @@ public class UserDataProvider extends AbstractSyncDataProvider<User> {
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<User> responder, User entity) {
+    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<User> responder, User entity) {
         //TODO: implement
     }
 
@@ -62,7 +62,7 @@ public class UserDataProvider extends AbstractSyncDataProvider<User> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, User entity, DataBaseAdapter dataBaseAdapter) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, User entity, DataBaseAdapter dataBaseAdapter) {
         //TODO: implement
     }
 
@@ -72,7 +72,7 @@ public class UserDataProvider extends AbstractSyncDataProvider<User> {
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<User> callback, User entity) {
+    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<User> callback, User entity) {
         //TODO: implement
     }
 }

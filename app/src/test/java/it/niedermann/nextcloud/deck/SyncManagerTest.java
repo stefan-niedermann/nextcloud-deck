@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -146,10 +146,10 @@ public class SyncManagerTest {
     }
 
     /**
-     * When {@link SyncManager#synchronizeBoard(IResponseCallback, long)} is triggered, it should
-     * pass the given {@link IResponseCallback} to the {@link SyncHelper} and trigger a
+     * When {@link SyncManager#synchronizeBoard(ResponseCallback, long)} is triggered, it should
+     * pass the given {@link ResponseCallback} to the {@link SyncHelper} and trigger a
      * {@link SyncHelper#doSyncFor(AbstractSyncDataProvider)}.
-     * {@link OfflineException} should be caught and passed to the {@link IResponseCallback}
+     * {@link OfflineException} should be caught and passed to the {@link ResponseCallback}
      */
     @SuppressWarnings("JavadocReference")
     @Test
@@ -161,7 +161,7 @@ public class SyncManagerTest {
         doNothing().when(syncHelper).doSyncFor(any());
         when(syncHelperFactory.create(any(), any(), any())).thenReturn(syncHelper);
 
-        final IResponseCallback<Boolean> responseCallback = spy(new IResponseCallback<Boolean>(new Account(1L)) {
+        final ResponseCallback<Boolean> responseCallback = spy(new ResponseCallback<Boolean>(new Account(1L)) {
             @Override
             public void onResponse(Boolean response) {
 
@@ -192,7 +192,7 @@ public class SyncManagerTest {
         doNothing().when(syncHelper).doSyncFor(any());
         when(syncHelperFactory.create(any(), any(), any())).thenReturn(syncHelper);
 
-        final IResponseCallback<Boolean> responseCallback = spy(new IResponseCallback<Boolean>(new Account(1L)) {
+        final ResponseCallback<Boolean> responseCallback = spy(new ResponseCallback<Boolean>(new Account(1L)) {
             @Override
             public void onResponse(Boolean response) {
 
@@ -280,12 +280,12 @@ public class SyncManagerTest {
             assertEquals("The old eTag must be passed to the " + ServerAdapter.class.getSimpleName(),
                     "This-Is-The-Old_ETag", invocation.getArgument(0));
             //noinspection unchecked
-            ((IResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
+            ((ResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
                     .onResponse(mockedResponse);
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
-        syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
+        syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 assertEquals("Capabilities from server must be returned to the original callback",
@@ -305,12 +305,12 @@ public class SyncManagerTest {
         account.setMaintenanceEnabled(true);
         doAnswer(invocation -> {
             //noinspection unchecked
-            ((IResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
+            ((ResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
                     .onError(new NextcloudHttpRequestFailedException(304, new RuntimeException()));
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
-        syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
+        syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 assertEquals("Capabilities from server must be returned to the original callback",
@@ -331,12 +331,12 @@ public class SyncManagerTest {
 
         doAnswer(invocation -> {
             //noinspection unchecked
-            ((IResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
+            ((ResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
                     .onError(new NextcloudHttpRequestFailedException(500, new RuntimeException()));
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
-        syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
+        syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 fail("In case of an HTTP 500 the callback must not be responded successfully.");
@@ -354,12 +354,12 @@ public class SyncManagerTest {
 
         doAnswer(invocation -> {
             //noinspection unchecked
-            ((IResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
+            ((ResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
                     .onError(new NextcloudHttpRequestFailedException(503, new RuntimeException("{\"ocs\": {\"meta\": {\"statuscode\": 503}, \"data\": {\"version\": {\"major\": 20, \"minor\": 0, \"patch\": 1}}}}")));
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
-        syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
+        syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 assertEquals(Version.of("20.0.1"), response.getNextcloudVersion());
@@ -376,12 +376,12 @@ public class SyncManagerTest {
 
         doAnswer(invocation -> {
             //noinspection unchecked
-            ((IResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
+            ((ResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
                     .onError(new NetworkErrorException());
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
-        syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
+        syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 fail("In case of any other exception the callback must not be responded successfully.");
@@ -398,7 +398,7 @@ public class SyncManagerTest {
 
         doThrow(new OfflineException()).when(serverAdapter).getCapabilities(anyString(), any());
 
-        syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
+        syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 fail("In case of an " + OfflineException.class.getSimpleName() + " the callback must not be responded successfully.");

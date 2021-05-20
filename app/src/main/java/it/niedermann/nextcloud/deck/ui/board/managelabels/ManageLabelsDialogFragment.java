@@ -18,7 +18,7 @@ import java.util.Random;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.DialogBoardManageLabelsBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -82,7 +82,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
             label.setTitle(binding.addLabelTitle.getText().toString());
             label.setColor(colors[new Random().nextInt(colors.length)]);
 
-            viewModel.createLabel(viewModel.getCurrentAccount().getId(), label, boardId, new ResponseCallback<Label>() {
+            viewModel.createLabel(viewModel.getCurrentAccount().getId(), label, boardId, new IResponseCallback<Label>() {
                 @Override
                 public void onResponse(Label response) {
                     requireActivity().runOnUiThread(() -> {
@@ -99,7 +99,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
                         toastFromThread(getString(R.string.tag_already_exists, label.getTitle()));
                     } else {
                         toastFromThread(throwable.getLocalizedMessage());
-                        ResponseCallback.super.onError(throwable);
+                        IResponseCallback.super.onError(throwable);
                     }
                 }
             });
@@ -145,7 +145,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
     }
 
     private void deleteLabel(@NonNull Label label) {
-        viewModel.deleteLabel(label, new ResponseCallback<Void>() {
+        viewModel.deleteLabel(label, new IResponseCallback<Void>() {
             @Override
             public void onResponse(Void response) {
                 DeckLog.info("Successfully deleted label", label.getTitle());
@@ -154,7 +154,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
             @Override
             public void onError(Throwable throwable) {
                 if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
-                    ResponseCallback.super.onError(throwable);
+                    IResponseCallback.super.onError(throwable);
                     toastFromThread(throwable.getLocalizedMessage());
                 }
             }
@@ -168,7 +168,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
 
     @Override
     public void onLabelUpdated(@NonNull Label label) {
-        viewModel.updateLabel(label, new ResponseCallback<Label>() {
+        viewModel.updateLabel(label, new IResponseCallback<Label>() {
             @Override
             public void onResponse(Label label) {
                 DeckLog.info("Successfully update label", label.getTitle());
@@ -179,7 +179,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
                 if (error instanceof SQLiteConstraintException) {
                     toastFromThread(getString(R.string.tag_already_exists, label.getTitle()));
                 } else {
-                    ResponseCallback.super.onError(error);
+                    IResponseCallback.super.onError(error);
                     toastFromThread(error.getLocalizedMessage());
                 }
             }

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectList;
@@ -23,8 +23,8 @@ public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject>
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<OcsProject>> responder, Instant lastSync) {
-        serverAdapter.getProjectsForCard(card.getId(), new IResponseCallback<OcsProjectList>(responder.getAccount()) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<OcsProject>> responder, Instant lastSync) {
+        serverAdapter.getProjectsForCard(card.getId(), new ResponseCallback<OcsProjectList>(responder.getAccount()) {
             @Override
             public void onResponse(OcsProjectList response) {
                 responder.onResponse(response.getProjects());
@@ -95,17 +95,17 @@ public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject>
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<OcsProject> responder, OcsProject entity) {
+    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<OcsProject> responder, OcsProject entity) {
         // Do Nothing
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<OcsProject> callback, OcsProject entity) {
+    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<OcsProject> callback, OcsProject entity) {
         // Do Nothing
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, OcsProject entity, DataBaseAdapter dataBaseAdapter) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, OcsProject entity, DataBaseAdapter dataBaseAdapter) {
         // Do Nothing
     }
 

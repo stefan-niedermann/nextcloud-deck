@@ -408,7 +408,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 DeckLog.verbose("Trigger refresh capabilities for", mainViewModel.getCurrentAccount().getName());
                 refreshCapabilities(mainViewModel.getCurrentAccount(), () -> {
                     DeckLog.verbose("Trigger synchronization for", mainViewModel.getCurrentAccount().getName());
-                    mainViewModel.synchronize(new IResponseCallback<Boolean>(mainViewModel.getCurrentAccount()) {
+                    mainViewModel.synchronize(new ResponseCallback<Boolean>(mainViewModel.getCurrentAccount()) {
                         @Override
                         public void onResponse(Boolean response) {
                             DeckLog.info("End of synchronization for " + mainViewModel.getCurrentAccount().getName() + " → Stop spinner.");
@@ -455,7 +455,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     @Override
     public void onCreateStack(String stackName) {
         DeckLog.info("Create Stack in account", mainViewModel.getCurrentAccount().getName(), "on board", mainViewModel.getCurrentBoardLocalId());
-        mainViewModel.createStack(mainViewModel.getCurrentAccount().getId(), stackName, mainViewModel.getCurrentBoardLocalId(), new ResponseCallback<FullStack>() {
+        mainViewModel.createStack(mainViewModel.getCurrentAccount().getId(), stackName, mainViewModel.getCurrentBoardLocalId(), new IResponseCallback<FullStack>() {
             @Override
             public void onResponse(FullStack response) {
                 runOnUiThread(() -> binding.viewPager.setCurrentItem(stackAdapter.getItemCount()));
@@ -463,7 +463,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
             @Override
             public void onError(Throwable error) {
-                ResponseCallback.super.onError(error);
+                IResponseCallback.super.onError(error);
                 runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(error, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
                         .show());
@@ -473,7 +473,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
     @Override
     public void onUpdateStack(long localStackId, String stackName) {
-        mainViewModel.updateStackTitle(localStackId, stackName, new ResponseCallback<FullStack>() {
+        mainViewModel.updateStackTitle(localStackId, stackName, new IResponseCallback<FullStack>() {
             @Override
             public void onResponse(FullStack response) {
                 DeckLog.info("Successfully updated", Stack.class.getSimpleName(), "to", stackName);
@@ -481,7 +481,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
             @Override
             public void onError(Throwable throwable) {
-                ResponseCallback.super.onError(throwable);
+                IResponseCallback.super.onError(throwable);
                 runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });
@@ -497,7 +497,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         boardToCreate.setPermissionEdit(true);
         boardToCreate.setPermissionManage(true);
 
-        mainViewModel.createBoard(mainViewModel.getCurrentAccount().getId(), boardToCreate, new ResponseCallback<FullBoard>() {
+        mainViewModel.createBoard(mainViewModel.getCurrentAccount().getId(), boardToCreate, new IResponseCallback<FullBoard>() {
             @Override
             public void onResponse(FullBoard response) {
                 runOnUiThread(() -> {
@@ -513,7 +513,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
             @Override
             public void onError(Throwable throwable) {
-                ResponseCallback.super.onError(throwable);
+                IResponseCallback.super.onError(throwable);
                 runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
                         .show());
@@ -523,7 +523,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
     @Override
     public void onUpdateBoard(FullBoard fullBoard) {
-        mainViewModel.updateBoard(fullBoard, new ResponseCallback<FullBoard>() {
+        mainViewModel.updateBoard(fullBoard, new IResponseCallback<FullBoard>() {
             @Override
             public void onResponse(FullBoard response) {
                 DeckLog.info("Successfully updated board", fullBoard.getBoard().getTitle());
@@ -531,7 +531,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
             @Override
             public void onError(Throwable throwable) {
-                ResponseCallback.super.onError(throwable);
+                IResponseCallback.super.onError(throwable);
                 runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });
@@ -539,7 +539,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
     private void refreshCapabilities(final Account account, @Nullable Runnable runAfter) {
         DeckLog.verbose("Refreshing capabilities for", account.getName());
-        mainViewModel.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
+        mainViewModel.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 DeckLog.verbose("Finished refreshing capabilities for", account.getName(), "successfully.");
@@ -729,7 +729,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                 : R.string.do_you_want_to_archive_all_cards_of_the_list, stack.getTitle()))
                         .setPositiveButton(R.string.simple_archive, (dialog, whichButton) -> {
                             final FilterInformation filterInformation = filterViewModel.getFilterInformation().getValue();
-                            mainViewModel.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, filterInformation == null ? new FilterInformation() : filterInformation, new ResponseCallback<Void>() {
+                            mainViewModel.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, filterInformation == null ? new FilterInformation() : filterInformation, new IResponseCallback<Void>() {
                                 @Override
                                 public void onResponse(Void response) {
                                     DeckLog.info("Successfully archived all cards in stack local id", stackLocalId);
@@ -738,7 +738,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                 @Override
                                 public void onError(Throwable throwable) {
                                     if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
-                                        ResponseCallback.super.onError(throwable);
+                                        IResponseCallback.super.onError(throwable);
                                         runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                                     }
                                 }
@@ -828,7 +828,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                 }
 
                                 final SyncManager importSyncManager = new SyncManager(this, account.name);
-                                importSyncManager.refreshCapabilities(new IResponseCallback<Capabilities>(createdAccount) {
+                                importSyncManager.refreshCapabilities(new ResponseCallback<Capabilities>(createdAccount) {
                                     @SuppressLint("StringFormatInvalid")
                                     @Override
                                     public void onResponse(Capabilities response) {
@@ -839,7 +839,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
                                                     final Snackbar importSnackbar = BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
                                                     importSnackbar.show();
-                                                    importSyncManager.synchronize(new IResponseCallback<Boolean>(createdAccount) {
+                                                    importSyncManager.synchronize(new ResponseCallback<Boolean>(createdAccount) {
                                                         @Override
                                                         public void onResponse(Boolean response) {
                                                             importSnackbar.dismiss();
@@ -958,7 +958,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                     @Override
                     public void onAvailable(@NonNull Network network) {
                         DeckLog.log("Got Network connection");
-                        mainViewModel.synchronize(new IResponseCallback<Boolean>(mainViewModel.getCurrentAccount()) {
+                        mainViewModel.synchronize(new ResponseCallback<Boolean>(mainViewModel.getCurrentAccount()) {
                             @Override
                             public void onResponse(Boolean response) {
                                 DeckLog.log("Auto-Sync after connection available successful");
@@ -993,7 +993,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     @Override
     public void onStackDeleted(Long stackLocalId) {
         final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-        mainViewModel.deleteStack(mainViewModel.getCurrentAccount().getId(), stackId, mainViewModel.getCurrentBoardLocalId(), new ResponseCallback<Void>() {
+        mainViewModel.deleteStack(mainViewModel.getCurrentAccount().getId(), stackId, mainViewModel.getCurrentBoardLocalId(), new IResponseCallback<Void>() {
             @Override
             public void onResponse(Void response) {
                 DeckLog.info("Successfully deleted stack with local id", stackLocalId, "and remote id", stackId);
@@ -1002,7 +1002,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             @Override
             public void onError(Throwable throwable) {
                 if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
-                    ResponseCallback.super.onError(throwable);
+                    IResponseCallback.super.onError(throwable);
                     runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                 }
             }
@@ -1024,7 +1024,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             }
         }
 
-        mainViewModel.deleteBoard(board, new ResponseCallback<Void>() {
+        mainViewModel.deleteBoard(board, new IResponseCallback<Void>() {
             @Override
             public void onResponse(Void response) {
                 DeckLog.info("Successfully deleted board", board.getTitle());
@@ -1033,7 +1033,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             @Override
             public void onError(Throwable throwable) {
                 if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
-                    ResponseCallback.super.onError(throwable);
+                    IResponseCallback.super.onError(throwable);
                     runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                 }
             }
@@ -1059,7 +1059,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
     @Override
     public void onArchive(@NonNull Board board) {
-        mainViewModel.archiveBoard(board, new ResponseCallback<FullBoard>() {
+        mainViewModel.archiveBoard(board, new IResponseCallback<FullBoard>() {
             @Override
             public void onResponse(FullBoard response) {
                 DeckLog.info("Successfully archived board", board.getTitle());
@@ -1067,7 +1067,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
             @Override
             public void onError(Throwable throwable) {
-                ResponseCallback.super.onError(throwable);
+                IResponseCallback.super.onError(throwable);
                 runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });
@@ -1084,7 +1084,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                     binding.drawerLayout.closeDrawer(GravityCompat.START);
                     final Snackbar snackbar = BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.cloning_board, board.getTitle()), Snackbar.LENGTH_INDEFINITE);
                     snackbar.show();
-                    mainViewModel.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColor(), checkedItems[0], new ResponseCallback<FullBoard>() {
+                    mainViewModel.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColor(), checkedItems[0], new IResponseCallback<FullBoard>() {
                         @Override
                         public void onResponse(FullBoard response) {
                             runOnUiThread(() -> {
@@ -1098,7 +1098,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
                         @Override
                         public void onError(Throwable throwable) {
-                            ResponseCallback.super.onError(throwable);
+                            IResponseCallback.super.onError(throwable);
                             runOnUiThread(() -> {
                                 snackbar.dismiss();
                                 ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());

@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.deck.DeckLog;
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityUpcomingCardsBinding;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
@@ -45,7 +45,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
         final UpcomingCardsAdapter adapter = new UpcomingCardsAdapter(this, getSupportFragmentManager(),
                 viewModel::assignUser,
                 viewModel::unassignUser,
-                (fullCard) -> viewModel.archiveCard(fullCard, new ResponseCallback<FullCard>() {
+                (fullCard) -> viewModel.archiveCard(fullCard, new IResponseCallback<FullCard>() {
                     @Override
                     public void onResponse(FullCard response) {
                         DeckLog.info("Successfully archived", Card.class.getSimpleName(), fullCard.getCard().getTitle());
@@ -53,11 +53,11 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
 
                     @Override
                     public void onError(Throwable throwable) {
-                        ResponseCallback.super.onError(throwable);
+                        IResponseCallback.super.onError(throwable);
                         runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                     }
                 }),
-                (card) -> viewModel.deleteCard(card, new ResponseCallback<Void>() {
+                (card) -> viewModel.deleteCard(card, new IResponseCallback<Void>() {
                     @Override
                     public void onResponse(Void response) {
                         DeckLog.info("Successfully deleted card", card.getTitle());
@@ -66,7 +66,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
                     @Override
                     public void onError(Throwable throwable) {
                         if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
-                            ResponseCallback.super.onError(throwable);
+                            IResponseCallback.super.onError(throwable);
                             runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                         }
                     }

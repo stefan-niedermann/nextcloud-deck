@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import it.niedermann.nextcloud.deck.DeckLog;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
@@ -27,7 +27,7 @@ public class SyncHelper {
     private final DataBaseAdapter dataBaseAdapter;
     private Account account;
     private long accountId;
-    private IResponseCallback<Boolean> responseCallback;
+    private ResponseCallback<Boolean> responseCallback;
     @Nullable
     private final Instant lastSync;
     private final boolean etagsEnabled;
@@ -43,7 +43,7 @@ public class SyncHelper {
     // Sync Server -> App
     public <T extends IRemoteEntity> void doSyncFor(@NonNull final AbstractSyncDataProvider<T> provider) {
         provider.registerChildInParent(provider);
-        provider.getAllFromServer(serverAdapter, dataBaseAdapter, accountId, new IResponseCallback<List<T>>(account) {
+        provider.getAllFromServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<List<T>>(account) {
             @Override
             public void onResponse(List<T> response) {
                 if (response != null) {
@@ -132,8 +132,8 @@ public class SyncHelper {
         }
     }
 
-    private <T extends IRemoteEntity> IResponseCallback<Void> getDeleteCallback(@NonNull AbstractSyncDataProvider<T> provider, T entity) {
-        return new IResponseCallback<Void>(account) {
+    private <T extends IRemoteEntity> ResponseCallback<Void> getDeleteCallback(@NonNull AbstractSyncDataProvider<T> provider, T entity) {
+        return new ResponseCallback<Void>(account) {
             @Override
             public void onResponse(Void response) {
                 provider.deletePhysicallyInDB(dataBaseAdapter, accountId, entity);
@@ -148,8 +148,8 @@ public class SyncHelper {
         };
     }
 
-    private <T extends IRemoteEntity> IResponseCallback<T> getUpdateCallback(@NonNull AbstractSyncDataProvider<T> provider, @NonNull T entity, @Nullable CountDownLatch countDownLatch) {
-        return new IResponseCallback<T>(account) {
+    private <T extends IRemoteEntity> ResponseCallback<T> getUpdateCallback(@NonNull AbstractSyncDataProvider<T> provider, @NonNull T entity, @Nullable CountDownLatch countDownLatch) {
+        return new ResponseCallback<T>(account) {
             @Override
             public void onResponse(T response) {
                 response.setAccountId(this.account.getId());
@@ -189,7 +189,7 @@ public class SyncHelper {
         return remoteEntity;
     }
 
-    public SyncHelper setResponseCallback(@NonNull IResponseCallback<Boolean> callback) {
+    public SyncHelper setResponseCallback(@NonNull ResponseCallback<Boolean> callback) {
         this.responseCallback = callback;
         this.account = responseCallback.getAccount();
         accountId = account.getId();

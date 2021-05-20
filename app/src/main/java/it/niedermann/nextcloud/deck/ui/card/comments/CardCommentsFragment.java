@@ -20,7 +20,7 @@ import java.time.Instant;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabCommentsBinding;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
@@ -141,7 +141,7 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
 
     @Override
     public void onCommentDeleted(Long localId) {
-        commentsViewModel.deleteComment(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), localId, new ResponseCallback<Void>() {
+        commentsViewModel.deleteComment(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), localId, new IResponseCallback<Void>() {
             @Override
             public void onResponse(Void response) {
                 DeckLog.info("Successfully deleted comment with localId", localId);
@@ -150,7 +150,7 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
             @Override
             public void onError(Throwable throwable) {
                 if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
-                    ResponseCallback.super.onError(throwable);
+                    IResponseCallback.super.onError(throwable);
                     requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                 }
             }

@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import java.util.Collections;
 
 import it.niedermann.nextcloud.deck.DeckLog;
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityArchivedBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -76,7 +76,7 @@ public class ArchivedBoardsActvitiy extends AppCompatActivity implements DeleteB
 
     @Override
     public void onBoardDeleted(Board board) {
-        viewModel.deleteBoard(board, new ResponseCallback<Void>() {
+        viewModel.deleteBoard(board, new IResponseCallback<Void>() {
             @Override
             public void onResponse(Void response) {
                 DeckLog.info("Successfully deleted board", board.getTitle());
@@ -85,7 +85,7 @@ public class ArchivedBoardsActvitiy extends AppCompatActivity implements DeleteB
             @Override
             public void onError(Throwable throwable) {
                 if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
-                    ResponseCallback.super.onError(throwable);
+                    IResponseCallback.super.onError(throwable);
                     runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                 }
             }
@@ -94,7 +94,7 @@ public class ArchivedBoardsActvitiy extends AppCompatActivity implements DeleteB
 
     @Override
     public void onUpdateBoard(FullBoard fullBoard) {
-        viewModel.updateBoard(fullBoard, new ResponseCallback<FullBoard>() {
+        viewModel.updateBoard(fullBoard, new IResponseCallback<FullBoard>() {
             @Override
             public void onResponse(FullBoard response) {
                 DeckLog.info("Successfully updated board", fullBoard.getBoard().getTitle());
@@ -102,7 +102,7 @@ public class ArchivedBoardsActvitiy extends AppCompatActivity implements DeleteB
 
             @Override
             public void onError(Throwable throwable) {
-                ResponseCallback.super.onError(throwable);
+                IResponseCallback.super.onError(throwable);
                 runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });
@@ -110,7 +110,7 @@ public class ArchivedBoardsActvitiy extends AppCompatActivity implements DeleteB
 
     @Override
     public void onArchive(Board board) {
-        viewModel.dearchiveBoard(board, new ResponseCallback<FullBoard>() {
+        viewModel.dearchiveBoard(board, new IResponseCallback<FullBoard>() {
             @Override
             public void onResponse(FullBoard response) {
                 DeckLog.info("Successfully dearchived board", response.getBoard().getTitle());
@@ -118,7 +118,7 @@ public class ArchivedBoardsActvitiy extends AppCompatActivity implements DeleteB
 
             @Override
             public void onError(Throwable throwable) {
-                ResponseCallback.super.onError(throwable);
+                IResponseCallback.super.onError(throwable);
                 runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
             }
         });

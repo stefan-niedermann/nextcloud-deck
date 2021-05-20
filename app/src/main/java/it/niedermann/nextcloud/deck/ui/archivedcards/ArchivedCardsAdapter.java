@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentManager;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -33,7 +33,7 @@ public class ArchivedCardsAdapter extends CardAdapter {
     public boolean onCardOptionsItemSelected(@NonNull MenuItem menuItem, @NonNull FullCard fullCard) {
         int itemId = menuItem.getItemId();
         if (itemId == R.id.action_card_dearchive) {
-            mainViewModel.dearchiveCard(fullCard, new ResponseCallback<FullCard>() {
+            mainViewModel.dearchiveCard(fullCard, new IResponseCallback<FullCard>() {
                 @Override
                 public void onResponse(FullCard response) {
                     DeckLog.info("Successfully dearchived", Card.class.getSimpleName(), fullCard.getCard().getTitle());
@@ -41,13 +41,13 @@ public class ArchivedCardsAdapter extends CardAdapter {
 
                 @Override
                 public void onError(Throwable throwable) {
-                    ResponseCallback.super.onError(throwable);
+                    IResponseCallback.super.onError(throwable);
                     activity.runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName()));
                 }
             });
             return true;
         } else if (itemId == R.id.action_card_delete) {
-            mainViewModel.deleteCard(fullCard.getCard(), new ResponseCallback<Void>() {
+            mainViewModel.deleteCard(fullCard.getCard(), new IResponseCallback<Void>() {
                 @Override
                 public void onResponse(Void response) {
                     DeckLog.info("Successfully deleted card", fullCard.getCard().getTitle());
@@ -56,7 +56,7 @@ public class ArchivedCardsAdapter extends CardAdapter {
                 @Override
                 public void onError(Throwable throwable) {
                     if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
-                        ResponseCallback.super.onError(throwable);
+                        IResponseCallback.super.onError(throwable);
                         activity.runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName()));
                     }
                 }

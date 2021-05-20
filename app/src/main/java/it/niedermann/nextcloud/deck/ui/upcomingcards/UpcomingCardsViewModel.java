@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -37,11 +37,11 @@ public class UpcomingCardsViewModel extends AndroidViewModel {
         new Thread(() -> syncManager.unassignUserFromCard(syncManager.getUserByUidDirectly(card.getAccountId(), account.getUserName()), card)).start();
     }
 
-    public void archiveCard(@NonNull FullCard card, @NonNull ResponseCallback<FullCard> callback) {
+    public void archiveCard(@NonNull FullCard card, @NonNull IResponseCallback<FullCard> callback) {
         syncManager.archiveCard(card, callback);
     }
 
-    public void deleteCard(@NonNull Card card, @NonNull ResponseCallback<Void> callback) {
+    public void deleteCard(@NonNull Card card, @NonNull IResponseCallback<Void> callback) {
         syncManager.deleteCard(card, callback);
     }
 

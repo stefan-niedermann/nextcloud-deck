@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.ESortCriteria;
 import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
@@ -55,7 +55,7 @@ public class UpcomingWidget extends AppWidgetProvider {
                         fwa.setUsers(new FilterWidgetUser(syncManager.getUserByUidDirectly(account.getId(), account.getUserName()).getLocalId()));
                         return fwa;
                     }).collect(Collectors.toList()));
-                    syncManager.createFilterWidget(config, new ResponseCallback<Integer>() {
+                    syncManager.createFilterWidget(config, new IResponseCallback<Integer>() {
                         @Override
                         public void onResponse(Integer response) {
                             DeckLog.verbose("Successfully created", UpcomingWidget.class.getSimpleName(), "with id", appWidgetId);
@@ -65,7 +65,7 @@ public class UpcomingWidget extends AppWidgetProvider {
                         @Override
                         public void onError(Throwable throwable) {
                             DeckLog.error("Error while creating", UpcomingWidget.class.getSimpleName(), "with id", appWidgetId);
-                            ResponseCallback.super.onError(throwable);
+                            IResponseCallback.super.onError(throwable);
                             onDeleted(context, appWidgetIds);
                         }
                     });

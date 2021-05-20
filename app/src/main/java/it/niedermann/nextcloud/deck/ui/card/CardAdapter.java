@@ -24,7 +24,7 @@ import it.niedermann.android.crosstabdnd.DragAndDropAdapter;
 import it.niedermann.android.crosstabdnd.DraggedItemLocalState;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ItemCardCompactBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultOnlyTitleBinding;
@@ -216,7 +216,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
                     .show(fragmentManager, MoveCardDialogFragment.class.getSimpleName());
             return true;
         } else if (itemId == R.id.action_card_archive) {
-            mainViewModel.archiveCard(fullCard, new ResponseCallback<FullCard>() {
+            mainViewModel.archiveCard(fullCard, new IResponseCallback<FullCard>() {
                 @Override
                 public void onResponse(FullCard response) {
                     DeckLog.info("Successfully archived", Card.class.getSimpleName(), fullCard.getCard().getTitle());
@@ -224,13 +224,13 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
 
                 @Override
                 public void onError(Throwable throwable) {
-                    ResponseCallback.super.onError(throwable);
+                    IResponseCallback.super.onError(throwable);
                     activity.runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName()));
                 }
             });
             return true;
         } else if (itemId == R.id.action_card_delete) {
-            mainViewModel.deleteCard(fullCard.getCard(), new ResponseCallback<Void>() {
+            mainViewModel.deleteCard(fullCard.getCard(), new IResponseCallback<Void>() {
                 @Override
                 public void onResponse(Void response) {
                     DeckLog.info("Successfully deleted card", fullCard.getCard().getTitle());
@@ -239,7 +239,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
                 @Override
                 public void onError(Throwable throwable) {
                     if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
-                        ResponseCallback.super.onError(throwable);
+                        IResponseCallback.super.onError(throwable);
                         activity.runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName()));
                     }
                 }

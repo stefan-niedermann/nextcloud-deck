@@ -15,7 +15,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -146,7 +146,7 @@ public class EditCardViewModel extends AndroidViewModel {
         return syncManager.getFullBoardById(accountId, localId);
     }
 
-    public void createLabel(long accountId, Label label, long localBoardId, @NonNull ResponseCallback<Label> callback) {
+    public void createLabel(long accountId, Label label, long localBoardId, @NonNull IResponseCallback<Label> callback) {
         syncManager.createLabel(accountId, label, localBoardId, callback);
     }
 
@@ -157,7 +157,7 @@ public class EditCardViewModel extends AndroidViewModel {
     /**
      * Saves the current {@link #fullCard}. If it is a new card, it will be created, otherwise it will be updated.
      */
-    public void saveCard(@NonNull ResponseCallback<FullCard> callback) {
+    public void saveCard(@NonNull IResponseCallback<FullCard> callback) {
         if (isCreateMode()) {
             syncManager.createFullCard(getAccount().getId(), getBoardId(), getFullCard().getCard().getStackId(), getFullCard(), callback);
         } else {
@@ -169,11 +169,11 @@ public class EditCardViewModel extends AndroidViewModel {
         return syncManager.syncActivitiesForCard(card);
     }
 
-    public void addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file, @NonNull ResponseCallback<Attachment> callback) {
+    public void addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file, @NonNull IResponseCallback<Attachment> callback) {
         syncManager.addAttachmentToCard(accountId, localCardId, mimeType, file, callback);
     }
 
-    public void deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId, @NonNull ResponseCallback<Void> callback) {
+    public void deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId, @NonNull IResponseCallback<Void> callback) {
         syncManager.deleteAttachmentOfCard(accountId, localCardId, localAttachmentId, callback);
     }
 

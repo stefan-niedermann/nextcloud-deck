@@ -110,11 +110,11 @@ public class MainViewModel extends AndroidViewModel {
         this.syncManager = syncManager;
     }
 
-    public void synchronize(@NonNull IResponseCallback<Boolean> responseCallback) {
+    public void synchronize(@NonNull ResponseCallback<Boolean> responseCallback) {
         syncManager.synchronize(responseCallback);
     }
 
-    public void refreshCapabilities(@NonNull IResponseCallback<Capabilities> callback) {
+    public void refreshCapabilities(@NonNull ResponseCallback<Capabilities> callback) {
         syncManager.refreshCapabilities(callback);
     }
 
@@ -134,11 +134,11 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.readAccounts();
     }
 
-    public void createBoard(long accountId, @NonNull Board board, @NonNull ResponseCallback<FullBoard> callback) {
+    public void createBoard(long accountId, @NonNull Board board, @NonNull IResponseCallback<FullBoard> callback) {
         syncManager.createBoard(accountId, board, callback);
     }
 
-    public void updateBoard(@NonNull FullBoard board, @NonNull ResponseCallback<FullBoard> callback) {
+    public void updateBoard(@NonNull FullBoard board, @NonNull IResponseCallback<FullBoard> callback) {
         syncManager.updateBoard(board, callback);
     }
 
@@ -150,19 +150,19 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.getFullBoardById(accountId, localId);
     }
 
-    public void archiveBoard(@NonNull Board board, @NonNull ResponseCallback<FullBoard> callback) {
+    public void archiveBoard(@NonNull Board board, @NonNull IResponseCallback<FullBoard> callback) {
         syncManager.archiveBoard(board, callback);
     }
 
-    public void dearchiveBoard(@NonNull Board board, @NonNull ResponseCallback<FullBoard> callback) {
+    public void dearchiveBoard(@NonNull Board board, @NonNull IResponseCallback<FullBoard> callback) {
         syncManager.dearchiveBoard(board, callback);
     }
 
-    public void cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, @ColorInt int targetBoardColor, boolean cloneCards, @NonNull ResponseCallback<FullBoard> callback) {
+    public void cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, @ColorInt int targetBoardColor, boolean cloneCards, @NonNull IResponseCallback<FullBoard> callback) {
         syncManager.cloneBoard(originAccountId, originBoardLocalId, targetAccountId, targetBoardColor, cloneCards, callback);
     }
 
-    public void deleteBoard(@NonNull Board board, @NonNull ResponseCallback<Void> callback) {
+    public void deleteBoard(@NonNull Board board, @NonNull IResponseCallback<Void> callback) {
         syncManager.deleteBoard(board, callback);
     }
 
@@ -170,11 +170,11 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.hasArchivedBoards(accountId);
     }
 
-    public void createAccessControl(long accountId, @NonNull AccessControl entity, @NonNull ResponseCallback<AccessControl> callback) {
+    public void createAccessControl(long accountId, @NonNull AccessControl entity, @NonNull IResponseCallback<AccessControl> callback) {
         syncManager.createAccessControl(accountId, entity, callback);
     }
 
-    public void updateAccessControl(@NonNull AccessControl entity, @NonNull ResponseCallback<AccessControl> callback) {
+    public void updateAccessControl(@NonNull AccessControl entity, @NonNull IResponseCallback<AccessControl> callback) {
         syncManager.updateAccessControl(entity, callback);
     }
 
@@ -182,11 +182,11 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.getAccessControlByLocalBoardId(accountId, id);
     }
 
-    public void deleteAccessControl(@NonNull AccessControl entity, @NonNull ResponseCallback<Void> callback) {
+    public void deleteAccessControl(@NonNull AccessControl entity, @NonNull IResponseCallback<Void> callback) {
         syncManager.deleteAccessControl(entity, callback);
     }
 
-    public void createLabel(long accountId, Label label, long localBoardId, @NonNull ResponseCallback<Label> callback) {
+    public void createLabel(long accountId, Label label, long localBoardId, @NonNull IResponseCallback<Label> callback) {
         syncManager.createLabel(accountId, label, localBoardId, callback);
     }
 
@@ -194,11 +194,11 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.countCardsWithLabel(localLabelId);
     }
 
-    public void updateLabel(@NonNull Label label, @NonNull ResponseCallback<Label> callback) {
+    public void updateLabel(@NonNull Label label, @NonNull IResponseCallback<Label> callback) {
         syncManager.updateLabel(label, callback);
     }
 
-    public void deleteLabel(@NonNull Label label, @NonNull ResponseCallback<Void> callback) {
+    public void deleteLabel(@NonNull Label label, @NonNull IResponseCallback<Void> callback) {
         syncManager.deleteLabel(label, callback);
     }
 
@@ -206,7 +206,7 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.getStacksForBoard(accountId, localBoardId);
     }
 
-    public void createStack(long accountId, @NonNull String title, long boardLocalId, @NonNull ResponseCallback<FullStack> callback) {
+    public void createStack(long accountId, @NonNull String title, long boardLocalId, @NonNull IResponseCallback<FullStack> callback) {
         syncManager.createStack(accountId, title, boardLocalId, callback);
     }
 
@@ -218,11 +218,11 @@ public class MainViewModel extends AndroidViewModel {
         syncManager.reorderStack(accountId, boardLocalId, stackLocalId, moveToRight);
     }
 
-    public void updateStackTitle(long localStackId, @NonNull String newTitle, @NonNull ResponseCallback<FullStack> callback) {
+    public void updateStackTitle(long localStackId, @NonNull String newTitle, @NonNull IResponseCallback<FullStack> callback) {
         syncManager.updateStackTitle(localStackId, newTitle, callback);
     }
 
-    public void deleteStack(long accountId, long stackLocalId, long boardLocalId, @NonNull ResponseCallback<Void> callback) {
+    public void deleteStack(long accountId, long stackLocalId, long boardLocalId, @NonNull IResponseCallback<Void> callback) {
         syncManager.deleteStack(accountId, stackLocalId, boardLocalId, callback);
     }
 
@@ -234,11 +234,11 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.countCardsInStack(accountId, localStackId);
     }
 
-    public void archiveCardsInStack(long accountId, long stackLocalId, @NonNull FilterInformation filterInformation, @NonNull ResponseCallback<Void> callback) {
+    public void archiveCardsInStack(long accountId, long stackLocalId, @NonNull FilterInformation filterInformation, @NonNull IResponseCallback<Void> callback) {
         syncManager.archiveCardsInStack(accountId, stackLocalId, filterInformation, callback);
     }
 
-    public void updateCard(@NonNull FullCard fullCard, @NonNull ResponseCallback<FullCard> callback) {
+    public void updateCard(@NonNull FullCard fullCard, @NonNull IResponseCallback<FullCard> callback) {
         syncManager.updateCard(fullCard, callback);
     }
 
@@ -246,7 +246,7 @@ public class MainViewModel extends AndroidViewModel {
         syncManager.addCommentToCard(accountId, cardId, comment);
     }
 
-    public void addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file, @NonNull ResponseCallback<Attachment> callback) {
+    public void addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file, @NonNull IResponseCallback<Attachment> callback) {
         syncManager.addAttachmentToCard(accountId, localCardId, mimeType, file, callback);
     }
 
@@ -278,15 +278,15 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.getUserByUidDirectly(accountId, uid);
     }
 
-    public void archiveCard(@NonNull FullCard card, @NonNull ResponseCallback<FullCard> callback) {
+    public void archiveCard(@NonNull FullCard card, @NonNull IResponseCallback<FullCard> callback) {
         syncManager.archiveCard(card, callback);
     }
 
-    public void dearchiveCard(@NonNull FullCard card, @NonNull ResponseCallback<FullCard> callback) {
+    public void dearchiveCard(@NonNull FullCard card, @NonNull IResponseCallback<FullCard> callback) {
         syncManager.dearchiveCard(card, callback);
     }
 
-    public void deleteCard(@NonNull Card card, @NonNull ResponseCallback<Void> callback) {
+    public void deleteCard(@NonNull Card card, @NonNull IResponseCallback<Void> callback) {
         syncManager.deleteCard(card, callback);
     }
 }

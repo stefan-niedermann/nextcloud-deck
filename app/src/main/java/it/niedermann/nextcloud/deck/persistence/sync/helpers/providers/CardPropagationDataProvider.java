@@ -2,7 +2,7 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
 import android.annotation.SuppressLint;
 
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
@@ -19,10 +19,10 @@ public class CardPropagationDataProvider extends CardDataProvider {
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullCard> responder, FullCard entity) {
+    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullCard> responder, FullCard entity) {
         // make sure, all ancestors are synced properly
         if (board.getId() == null) {
-            serverAdapter.createBoard(board, new IResponseCallback<FullBoard>(responder.getAccount()) {
+            serverAdapter.createBoard(board, new ResponseCallback<FullBoard>(responder.getAccount()) {
                 @Override
                 public void onResponse(FullBoard response) {
                     board.setId(response.getId());
@@ -37,7 +37,7 @@ public class CardPropagationDataProvider extends CardDataProvider {
                 }
             });
         } else  if (stack.getId() == null) {
-            serverAdapter.createStack(board, stack.getStack(), new IResponseCallback<FullStack>(responder.getAccount()) {
+            serverAdapter.createStack(board, stack.getStack(), new ResponseCallback<FullStack>(responder.getAccount()) {
                 @Override
                 public void onResponse(FullStack response) {
                     stack.setId(response.getId());
@@ -66,7 +66,7 @@ public class CardPropagationDataProvider extends CardDataProvider {
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
+    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullCard> callback, FullCard entity) {
         CardUpdate update = toCardUpdate(entity);
         update.setStackId(stack.getId());
         serverAdapter.updateCard(board.getId(), stack.getId(), update, callback);
@@ -83,7 +83,7 @@ public class CardPropagationDataProvider extends CardDataProvider {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullCard entity, DataBaseAdapter dataBaseAdapter) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, FullCard entity, DataBaseAdapter dataBaseAdapter) {
         serverAdapter.deleteCard(board.getId(), stack.getId(), entity.getCard(), callback);
     }
 }

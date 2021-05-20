@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -42,11 +42,11 @@ public class PushNotificationViewModel extends AndroidViewModel {
         return accountSpecificSyncManager.getCardByRemoteID(accountId, remoteId);
     }
 
-    public void synchronizeCard(@NonNull IResponseCallback<Boolean> responseCallback, Card card) {
+    public void synchronizeCard(@NonNull ResponseCallback<Boolean> responseCallback, Card card) {
         accountSpecificSyncManager.synchronizeCard(responseCallback, card);
     }
 
-    public void synchronizeBoard(@NonNull IResponseCallback<Boolean> responseCallback, long localBoadId) {
+    public void synchronizeBoard(@NonNull ResponseCallback<Boolean> responseCallback, long localBoadId) {
         accountSpecificSyncManager.synchronizeBoard(responseCallback, localBoadId);
     }
 }
