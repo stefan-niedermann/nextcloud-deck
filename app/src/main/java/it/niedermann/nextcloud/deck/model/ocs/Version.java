@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.model.ocs;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -113,6 +114,19 @@ public class Version implements Comparable<Version> {
             return 1;
         }
         return 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Version version = (Version) o;
+        return compareTo(version) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(originalVersion, major, minor, patch);
     }
 
     @NonNull
