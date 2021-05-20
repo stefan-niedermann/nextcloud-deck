@@ -54,8 +54,12 @@ public class ResponseCallbackTest {
 
     @Test
     public void testFrom() {
-        final IResponseCallback<Void> originalCallback = response -> {
-            // Do nothing...
+        // No lambda, since Mockito requires a non final class for a spy
+        final IResponseCallback<Void> originalCallback = new IResponseCallback<Void>() {
+            @Override
+            public void onResponse(Void response) {
+                // Do nothing...
+            }
         };
         final IResponseCallback<Void> originalCallbackSpy = spy(originalCallback);
         final ResponseCallback<Void> callback = ResponseCallback.from(mock(Account.class), originalCallbackSpy);
