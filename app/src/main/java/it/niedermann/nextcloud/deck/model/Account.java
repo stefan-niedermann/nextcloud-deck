@@ -42,13 +42,16 @@ public class Account implements Serializable {
     @NonNull
     private String url;
 
+    /**
+     * See {@link Capabilities#DEFAULT_COLOR}
+     */
     @NonNull
     @ColumnInfo(defaultValue = "0")
-    private Integer color = 0;
+    private Integer color = Capabilities.DEFAULT_COLOR;
 
     @NonNull
     @ColumnInfo(defaultValue = "0")
-    private Integer textColor = 0;
+    private Integer textColor = Capabilities.DEFAULT_COLOR;
 
     @NonNull
     @ColumnInfo(defaultValue = "0.6.4")
@@ -96,8 +99,8 @@ public class Account implements Serializable {
                 textColor = capabilities.getTextColor();
             } catch (Exception e) {
                 DeckLog.logError(e);
-                color = 0;
-                color = 0;
+                color = Capabilities.DEFAULT_COLOR;
+                textColor = Capabilities.DEFAUL_TEXT_COLOR;
             }
             if (capabilities.getDeckVersion() != null) {
                 serverDeckVersion = capabilities.getDeckVersion().getOriginalVersion();
