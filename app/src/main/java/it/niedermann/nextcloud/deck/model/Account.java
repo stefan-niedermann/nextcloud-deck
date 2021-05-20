@@ -15,6 +15,7 @@ import androidx.room.PrimaryKey;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
@@ -229,34 +230,26 @@ public class Account implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Account account = (Account) o;
-
-        if (maintenanceEnabled != account.maintenanceEnabled) return false;
-        if (id != null ? !id.equals(account.id) : account.id != null) return false;
-        if (!name.equals(account.name)) return false;
-        if (!userName.equals(account.userName)) return false;
-        if (!url.equals(account.url)) return false;
-        if (!color.equals(account.color)) return false;
-        if (!textColor.equals(account.textColor)) return false;
-        if (!serverDeckVersion.equals(account.serverDeckVersion)) return false;
-        return etag != null ? etag.equals(account.etag) : account.etag == null;
+        return maintenanceEnabled == account.maintenanceEnabled &&
+                Objects.equals(id, account.id) &&
+                name.equals(account.name) &&
+                userName.equals(account.userName) &&
+                Objects.equals(userDisplayName, account.userDisplayName) &&
+                url.equals(account.url) &&
+                color.equals(account.color) &&
+                textColor.equals(account.textColor) &&
+                serverDeckVersion.equals(account.serverDeckVersion) &&
+                Objects.equals(etag, account.etag) &&
+                Objects.equals(boardsEtag, account.boardsEtag);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + name.hashCode();
-        result = 31 * result + userName.hashCode();
-        result = 31 * result + url.hashCode();
-        result = 31 * result + color.hashCode();
-        result = 31 * result + textColor.hashCode();
-        result = 31 * result + serverDeckVersion.hashCode();
-        result = 31 * result + (maintenanceEnabled ? 1 : 0);
-        result = 31 * result + (etag != null ? etag.hashCode() : 0);
-        return result;
+        return Objects.hash(id, name, userName, userDisplayName, url, color, textColor, serverDeckVersion, maintenanceEnabled, etag, boardsEtag);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Account{" +
