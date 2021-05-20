@@ -420,16 +420,15 @@ public class SyncManagerTest {
 
     @Test
     public void testSynchronize() {
+        final SyncManager syncManagerSpy = spy(syncManager);
+
         LastSyncUtil.init(ApplicationProvider.getApplicationContext());
         final Account account = new Account(1337L, "Test", "Peter", "example.com");
         final Capabilities capabilities = new Capabilities();
         capabilities.setDeckVersion(Version.minimumSupported());
-        final SyncHelper syncHelper_positive = new SyncHelperMock<>(true);
-        when(syncHelperFactory.create(any(), any(), any())).thenReturn(syncHelper_positive);
-
-        final SyncManager syncManagerSpy = spy(syncManager);
         // Act as if refreshing capabilities is always successful
         doAnswer((invocation -> {
+            //noinspection unchecked
             ((IResponseCallback<Capabilities>) invocation.getArgument(0)).onResponse(capabilities);
             return null;
         })).when(syncManagerSpy).refreshCapabilities(any());
@@ -440,6 +439,13 @@ public class SyncManagerTest {
             public void onResponse(Boolean response) {
             }
         });
+
+
+        // Happy path
+
+        final SyncHelper syncHelper_positive = new SyncHelperMock<>(true);
+        when(syncHelperFactory.create(any(), any(), any())).thenReturn(syncHelper_positive);
+
         syncManagerSpy.synchronize(finalCallback);
 
         verify(finalCallback, times(1)).onResponse(any());
