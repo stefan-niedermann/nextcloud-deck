@@ -537,17 +537,17 @@ public class DataBaseAdapter {
 
     @AnyThread
     public LiveData<Account> readAccount(long id) {
-        return fillAccountsUserName(db.getAccountDao().getAccountById(id));
+        return distinctUntilChanged(fillAccountsUserName(db.getAccountDao().getAccountById(id)));
     }
 
     @AnyThread
     public LiveData<Account> readAccount(String name) {
-        return fillAccountsUserName(db.getAccountDao().getAccountByName(name));
+        return distinctUntilChanged(fillAccountsUserName(db.getAccountDao().getAccountByName(name)));
     }
 
     @AnyThread
     public LiveData<List<Account>> readAccounts() {
-        return fillAccountsListUserName(db.getAccountDao().getAllAccounts());
+        return distinctUntilChanged(fillAccountsListUserName(db.getAccountDao().getAllAccounts()));
     }
 
     private LiveData<Account> fillAccountsUserName(LiveData<Account> source) {

@@ -257,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 }
             }
 
+            mainViewModel.getCurrentAccountLiveData().removeObservers(this);
             mainViewModel.getCurrentAccountLiveData().observe(this, (currentAccount) -> {
                 SingleAccountHelper.setCurrentAccount(getApplicationContext(), mainViewModel.getCurrentAccount().getName());
                 mainViewModel.recreateSyncManager();
@@ -836,16 +837,18 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                         if (!response.isMaintenanceEnabled()) {
                                             if (response.getDeckVersion().isSupported()) {
                                                 runOnUiThread(() -> {
-                                                    mainViewModel.setSyncManager(importSyncManager);
-
                                                     final Snackbar importSnackbar = BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
                                                     importSnackbar.show();
                                                     importSyncManager.synchronize(new ResponseCallback<Boolean>(createdAccount) {
                                                         @Override
-                                                        public void onResponse(Boolean response) {
+                                                        public void onResponse(Boolean syncSuccess) {
                                                             importSnackbar.dismiss();
                                                             runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.account_imported), Snackbar.LENGTH_LONG)
-                                                                    .setAction(R.string.simple_switch, (a) -> mainViewModel.setCurrentAccount(createdAccount))
+                                                                    .setAction(R.string.simple_switch, (a) -> {
+                                                                        createdAccount.setColor(response.getColor());
+                                                                        mainViewModel.setSyncManager(importSyncManager);
+                                                                        mainViewModel.setCurrentAccount(createdAccount);
+                                                                    })
                                                                     .show());
                                                         }
 
