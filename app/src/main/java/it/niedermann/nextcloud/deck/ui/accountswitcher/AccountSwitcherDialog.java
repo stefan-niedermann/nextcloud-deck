@@ -17,6 +17,9 @@ import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGrant
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
 import com.nextcloud.android.sso.ui.UiExceptionManager;
 
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -63,10 +66,9 @@ public class AccountSwitcherDialog extends DialogFragment {
             dismiss();
         }));
 
-        observeOnce(viewModel.readAccounts(), requireActivity(), (accounts) -> {
-            accounts.remove(viewModel.getCurrentAccount());
-            adapter.setAccounts(accounts);
-        });
+        observeOnce(viewModel.readAccounts(), requireActivity(), (accounts) ->
+                adapter.setAccounts(accounts.stream().filter(account ->
+                        !Objects.equals(account.getId(), viewModel.getCurrentAccount().getId())).collect(Collectors.toList())));
 
         observeOnce(DeckApplication.readCurrentBoardColor(), requireActivity(), this::applyBrand);
 
