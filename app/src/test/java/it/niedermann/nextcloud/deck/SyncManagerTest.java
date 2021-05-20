@@ -56,6 +56,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackData
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
@@ -451,7 +452,21 @@ public class SyncManagerTest {
         verify(finalCallback, times(1)).onResponse(any());
 
 
-        // Bad path
+        // Bad paths
+
+        assertThrows(IllegalArgumentException.class, () -> syncManagerSpy.synchronize(new ResponseCallback<Boolean>(new Account(null)) {
+            @Override
+            public void onResponse(Boolean response) {
+
+            }
+        }));
+
+        assertThrows(IllegalArgumentException.class, () -> syncManagerSpy.synchronize(new ResponseCallback<Boolean>(null) {
+            @Override
+            public void onResponse(Boolean response) {
+
+            }
+        }));
 
         final SyncHelper syncHelper_negative = new SyncHelperMock<>(false);
         when(syncHelperFactory.create(any(), any(), any())).thenReturn(syncHelper_negative);
