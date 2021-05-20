@@ -498,7 +498,7 @@ public class SyncManagerTest {
 
         @Override
         public <T extends IRemoteEntity> void doSyncFor(@NonNull @NotNull AbstractSyncDataProvider<T> provider) {
-            if(success) {
+            if (success) {
                 cb.onResponse(true);
             } else {
                 cb.onError(new RuntimeException("Bad path mocking"));
@@ -507,7 +507,7 @@ public class SyncManagerTest {
 
         @Override
         public <T extends IRemoteEntity> void doUpSyncFor(@NonNull @NotNull AbstractSyncDataProvider<T> provider) {
-            if(success) {
+            if (success) {
                 cb.onResponse(true);
             } else {
                 cb.onError(new RuntimeException("Bad path mocking"));

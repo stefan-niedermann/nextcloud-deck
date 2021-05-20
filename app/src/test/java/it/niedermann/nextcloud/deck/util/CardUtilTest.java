@@ -108,64 +108,37 @@ public class CardUtilTest {
     }
 
     @Test
-    public void getLineWithoutMarkDown() {
-        try {
-            final Method getLineWithoutMarkDown = CardUtil.class.getDeclaredMethod("getLineWithoutMarkDown", String.class, int.class);
-            getLineWithoutMarkDown.setAccessible(true);
-            final String content = "" +
-                    "# Heading\n" +
-                    "- Test \n" +
-                    "\n" +
-                    "\n" +
-                    "This is **bold**";
-            assertEquals("Test", getLineWithoutMarkDown.invoke(null, "Test", 0));
-            assertEquals("Heading", getLineWithoutMarkDown.invoke(null, content, 0));
-            assertEquals("Test", getLineWithoutMarkDown.invoke(null, content, 1));
-            assertEquals("This is bold", getLineWithoutMarkDown.invoke(null, content, 2));
-            assertEquals("This is bold", getLineWithoutMarkDown.invoke(null, content, 3));
-            assertEquals("This is bold", getLineWithoutMarkDown.invoke(null, content, 4));
-            assertEquals("", getLineWithoutMarkDown.invoke(null, content, 5));
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
+    public void getLineWithoutMarkDown() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        final Method getLineWithoutMarkDown = CardUtil.class.getDeclaredMethod("getLineWithoutMarkDown", String.class, int.class);
+        getLineWithoutMarkDown.setAccessible(true);
+        final String content = "" +
+                "# Heading\n" +
+                "- Test \n" +
+                "\n" +
+                "\n" +
+                "This is **bold**";
+        assertEquals("Test", getLineWithoutMarkDown.invoke(null, "Test", 0));
+        assertEquals("Heading", getLineWithoutMarkDown.invoke(null, content, 0));
+        assertEquals("Test", getLineWithoutMarkDown.invoke(null, content, 1));
+        assertEquals("This is bold", getLineWithoutMarkDown.invoke(null, content, 2));
+        assertEquals("This is bold", getLineWithoutMarkDown.invoke(null, content, 3));
+        assertEquals("This is bold", getLineWithoutMarkDown.invoke(null, content, 4));
+        assertEquals("", getLineWithoutMarkDown.invoke(null, content, 5));
     }
 
     @Test
     @SuppressWarnings("ConstantConditions")
-    public void isEmptyLine() {
-        try {
-            final Method isEmptyLine = CardUtil.class.getDeclaredMethod("isEmptyLine", String.class);
-            isEmptyLine.setAccessible(true);
-            assertTrue((Boolean) isEmptyLine.invoke(null, ""));
-            assertTrue((Boolean) isEmptyLine.invoke(null, "#   "));
-            assertTrue((Boolean) isEmptyLine.invoke(null, "\n"));
-            assertTrue((Boolean) isEmptyLine.invoke(null, "- "));
-            assertTrue((Boolean) isEmptyLine.invoke(null, "****"));
-            assertFalse((Boolean) isEmptyLine.invoke(null, "*italic*"));
-            assertFalse((Boolean) isEmptyLine.invoke(null, "__bold__"));
-            assertFalse((Boolean) isEmptyLine.invoke(null, "_italic_"));
-            assertFalse((Boolean) isEmptyLine.invoke(null, "# Headline\n\n**bold** \n_italic_"));
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
+    public void isEmptyLine() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        final Method isEmptyLine = CardUtil.class.getDeclaredMethod("isEmptyLine", String.class);
+        isEmptyLine.setAccessible(true);
+        assertTrue((Boolean) isEmptyLine.invoke(null, ""));
+        assertTrue((Boolean) isEmptyLine.invoke(null, "#   "));
+        assertTrue((Boolean) isEmptyLine.invoke(null, "\n"));
+        assertTrue((Boolean) isEmptyLine.invoke(null, "- "));
+        assertTrue((Boolean) isEmptyLine.invoke(null, "****"));
+        assertFalse((Boolean) isEmptyLine.invoke(null, "*italic*"));
+        assertFalse((Boolean) isEmptyLine.invoke(null, "__bold__"));
+        assertFalse((Boolean) isEmptyLine.invoke(null, "_italic_"));
+        assertFalse((Boolean) isEmptyLine.invoke(null, "# Headline\n\n**bold** \n_italic_"));
     }
-
-    @Test
-    public void removeMarkDown() {
-        try {
-            final Method removeMarkDown = CardUtil.class.getDeclaredMethod("removeMarkDown", String.class);
-            removeMarkDown.setAccessible(true);
-            assertEquals("", removeMarkDown.invoke(null, ""));
-            assertEquals("Headline", removeMarkDown.invoke(null, "# Headline"));
-            assertEquals("Item", removeMarkDown.invoke(null, "- Item"));
-            assertEquals("bold", removeMarkDown.invoke(null, "**bold**"));
-            assertEquals("italic", removeMarkDown.invoke(null, "*italic*"));
-            assertEquals("bold", removeMarkDown.invoke(null, "__bold__"));
-            assertEquals("italic", removeMarkDown.invoke(null, "_italic_"));
-            assertEquals("Headline\nbold\nitalic", removeMarkDown.invoke(null, "# Headline\n\n**bold** \n_italic_"));
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
