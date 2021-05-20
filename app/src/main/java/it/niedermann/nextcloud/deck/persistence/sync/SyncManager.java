@@ -28,6 +28,7 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -397,8 +398,8 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void refreshCapabilities(@NonNull IResponseCallback<Capabilities> callback) {
-        executor.submit(() -> {
+    public Future<?> refreshCapabilities(@NonNull IResponseCallback<Capabilities> callback) {
+        return executor.submit(() -> {
             try {
                 Account accountForEtag = dataBaseAdapter.getAccountByIdDirectly(callback.getAccount().getId());
                 serverAdapter.getCapabilities(accountForEtag.getEtag(), new IResponseCallback<ParsedResponse<Capabilities>>(callback.getAccount()) {

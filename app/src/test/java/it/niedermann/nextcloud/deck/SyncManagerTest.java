@@ -25,6 +25,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -262,7 +263,7 @@ public class SyncManagerTest {
     }
 
     @Test
-    public void testRefreshCapabilities() {
+    public void testRefreshCapabilities() throws ExecutionException, InterruptedException {
         final Account account = new Account(1337L, "Test", "Peter", "example.com");
         account.setEtag("This-Is-The-Old_ETag");
         //noinspection unchecked
@@ -287,18 +288,6 @@ public class SyncManagerTest {
         syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
             @Override
             public void onResponse(Capabilities response) {
-
-
-
-
-
-                // FIXME WTF why doesn't this fail?!
-                fail("FOO");
-
-
-
-
-
                 assertEquals("Capabilities from server must be returned to the original callback",
                         Version.of("1.0.0"), response.getDeckVersion());
                 verify(dataBaseAdapter).updateAccount(argThat(account -> "New-ETag".equals(account.getEtag())));
@@ -308,7 +297,7 @@ public class SyncManagerTest {
             public void onError(Throwable throwable) {
                 fail(throwable.getMessage());
             }
-        });
+        }).get();
 
 
         // HTTP 304 - Not modified
@@ -335,7 +324,7 @@ public class SyncManagerTest {
             public void onError(Throwable throwable) {
                 fail("HTTP 304 means nothing has been modified - This is not an error.");
             }
-        });
+        }).get();
 
 
         // HTTP 500 - Server error
@@ -358,7 +347,7 @@ public class SyncManagerTest {
                 assertEquals(NextcloudHttpRequestFailedException.class, throwable.getClass());
                 assertEquals(500, ((NextcloudHttpRequestFailedException) throwable).getStatusCode());
             }
-        });
+        }).get();
 
 
         // HTTP 503 - Maintenance mode
@@ -366,7 +355,7 @@ public class SyncManagerTest {
         doAnswer(invocation -> {
             //noinspection unchecked
             ((IResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
-                    .onError(new NextcloudHttpRequestFailedException(503, new RuntimeException("{\"ocs\": {\"meta\": {\"status\": 503}, \"data\": {\"version\": {\"major\": 20, \"minor\": 0, \"patch\": 1}}}}")));
+                    .onError(new NextcloudHttpRequestFailedException(503, new RuntimeException("{\"ocs\": {\"meta\": {\"statuscode\": 503}, \"data\": {\"version\": {\"major\": 20, \"minor\": 0, \"patch\": 1}}}}")));
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
@@ -380,7 +369,7 @@ public class SyncManagerTest {
             public void onError(Throwable throwable) {
                 fail("Enabled maintenance mode should still return the capabilities");
             }
-        });
+        }).get();
 
 
         // Anything else went wrong during the request
@@ -402,7 +391,7 @@ public class SyncManagerTest {
             public void onError(Throwable throwable) {
                 assertEquals(NetworkErrorException.class, throwable.getClass());
             }
-        });
+        }).get();
 
 
         // No network available
@@ -419,6 +408,6 @@ public class SyncManagerTest {
             public void onError(Throwable throwable) {
                 assertEquals(OfflineException.class, throwable.getClass());
             }
-        });
+        }).get();
     }
 }
