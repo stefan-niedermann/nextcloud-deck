@@ -9,7 +9,7 @@ public class Capabilities {
     @ColorInt
     public static final int DEFAULT_COLOR = -16743735; // #0082C9;
     @ColorInt
-    public static final int DEFAUL_TEXT_COLOR = Color.WHITE;
+    public static final int DEFAULT_TEXT_COLOR = Color.WHITE;
 
     private Version deckVersion;
     private Version nextcloudVersion;
@@ -17,7 +17,7 @@ public class Capabilities {
     @ColorInt
     private int color = DEFAULT_COLOR;
     @ColorInt
-    private int textColor = DEFAUL_TEXT_COLOR;
+    private int textColor = DEFAULT_TEXT_COLOR;
     private boolean maintenanceEnabled = false;
 
     public Capabilities() {

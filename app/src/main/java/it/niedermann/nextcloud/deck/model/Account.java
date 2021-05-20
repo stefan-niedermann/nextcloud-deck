@@ -51,7 +51,7 @@ public class Account implements Serializable {
 
     @NonNull
     @ColumnInfo(defaultValue = "0")
-    private Integer textColor = Capabilities.DEFAULT_COLOR;
+    private Integer textColor = Capabilities.DEFAULT_TEXT_COLOR;
 
     @NonNull
     @ColumnInfo(defaultValue = "0.6.4")
@@ -100,7 +100,7 @@ public class Account implements Serializable {
             } catch (Exception e) {
                 DeckLog.logError(e);
                 color = Capabilities.DEFAULT_COLOR;
-                textColor = Capabilities.DEFAUL_TEXT_COLOR;
+                textColor = Capabilities.DEFAULT_TEXT_COLOR;
             }
             if (capabilities.getDeckVersion() != null) {
                 serverDeckVersion = capabilities.getDeckVersion().getOriginalVersion();

@@ -8,6 +8,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil;
 
 import static org.junit.Assert.assertEquals;
@@ -30,8 +31,8 @@ public class AccountDaoTest extends AbstractDaoTest {
 
         assertEquals("test", account.getUserName());
         assertEquals("https://example.com", account.getUrl());
-        assertEquals(Integer.valueOf(0), account.getColor());
-        assertEquals(Integer.valueOf(0), account.getTextColor());
+        assertEquals(Integer.valueOf(Capabilities.DEFAULT_COLOR), account.getColor());
+        assertEquals(Integer.valueOf(Capabilities.DEFAULT_TEXT_COLOR), account.getTextColor());
         assertEquals("0.6.4", account.getServerDeckVersion());
         assertEquals("https://example.com/index.php/avatar/test/1337", account.getAvatarUrl(1337));
         assertEquals(1, db.getAccountDao().countAccountsDirectly());
