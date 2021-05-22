@@ -34,7 +34,7 @@
     <string name="simple_unassigned">غير معيين </string>
 
     <string name="edit_board">تعديل اللوح</string>
-    <string name="archive_board">ارشف اللو</string>
+    <string name="archive_board">أرشفة اللوح </string>
     <string name="delete_board">مسح اللوح</string>
     <string name="delete_something">حذف %1$s</string>
 
@@ -46,7 +46,7 @@
     <string name="about_translators_title">المترجِمون</string>
     <string name="about_translators_transifex">مجتمع نكست كلاود على %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title"> المجَرِّبون</string>
+    <string name="about_testers_title">المجَرِّبون</string>
     <string name="about_source_title">الشفرة المصدرية</string>
     <string name="about_source">هذا المشروع مستضاف على جيت هب: %1$s</string>
     <string name="about_issues_title">المشاكل</string>
@@ -68,12 +68,12 @@
     <string name="label_labels">اختر وسما</string>
     <string name="label_description">الوصف</string>
     <string name="hint_assign_people">المستخدمين المعنيين</string>
-    <string name="hint_due_date_date">تاريخ الانجاز</string>
+    <string name="hint_due_date_date">تاريخ الإنجاز</string>
     <string name="card_not_found">لم يتم العثور على البطاقة </string>
     <string name="card_not_found_message">لا يمكن العثور على البطاقة. ربما تم حذفها موخرًا. </string>
 
     <string name="add_account">أضف حسابا</string>
-    <string name="choose_account">إختر حسابًا</string>
+    <string name="choose_account">اختر حسابًا</string>
     <string name="add_card">إضافة بطاقة جديدة</string>
     <string name="activity">نشاط</string>
     <string name="add_list">إضافة قائمة</string>
@@ -95,7 +95,7 @@
     <string name="about_server_app_version_text">إصدار خادم التطبيق:</string>
     <string name="no_files_attached_to_this_card">لا يوجد ملفات مرفقة لهذه البطاقة.</string>
     <string name="attachments">المرفقات</string>
-    <string name="no_cards">توجد بطاقات حتى الآن</string>
+    <string name="no_cards">لا توجد بطاقات حتى الآن</string>
     <string name="no_account">لم يتم إعداد أي حساب بعد.</string>
     <string name="account_already_added">تمت إضافة الحساب بالفعل </string>
     <string name="account_is_getting_imported">يتم استيراد الحساب </string>
@@ -127,6 +127,7 @@
     <string name="delete_board_message"> سوف يحذف هذا اللوح ويتضمن ذلك جميع القوائم والبطاقات.</string>
     <string name="settings_theme_title">المظهر</string>
     <string name="settings_branding_title">وسم</string>
+    <string name="settings_compact_title">النمط المضغوط</string>
     <string name="settings_cover_images_title">صور الغلاف</string>
     <string name="settings_debugging">سجلات تصحيح الأخطاء </string>
     <string name="settings_etags">استخدم ETags</string>
@@ -153,7 +154,7 @@
     <string name="last_background_sync">آخر مزامنة في الخلفية:</string>
     <string name="simple_off">إيقاف</string>
     <string name="minutes_15">15 دقيقة</string>
-    <string name="hour_1">ساعة</string>
+    <string name="hour_1">1 ساعة</string>
     <string name="hours_6">6 ساعات</string>
     <string name="action_card_move">حرك البطاقة</string>
     <string name="action_card_move_title">نقل %1$s</string>
@@ -181,12 +182,12 @@
     <string name="filter_overdue">تأخر</string>
     <string name="filter_today">اليوم</string>
     <string name="filter_tomorrow">غدا</string>
-    <string name="filter_week">ال 7 ايام القادمة</string>
+    <string name="filter_week">ال 7 أيام القادمة</string>
     <string name="filter_month">ال 30 يوم القادمة</string>
     <string name="filter_no_due">لا تأريخ انجاز</string>
     <string name="filter_later">لاحقا</string>
     <string name="filter_by_tag">تصفية بواسطة الوسم</string>
-    <string name="filter_by_assigned_user">تصفية بواسطة المستخدم الموكل اليه</string>
+    <string name="filter_by_assigned_user">تصفية بواسطة المستخدم الموكل إليه</string>
     <string name="filter_by_duedate">تصفية حسب تاريخ الإنجاز</string>
 
     <string name="archived_cards">البطاقات المؤرشفة</string>
@@ -211,15 +212,16 @@
     <string name="operation_not_yet_supported">غير مدعوم حتى الآن</string>
     <string name="error_revoking_ac">حدث خطأ أثناء إلغاء الوصول لـ %1$s</string>
     <string name="error_create_label">حدث خطأ أثناء إنشاء علامة %1$s</string>
+    <string name="maintenance_mode">الخادم في وضع الصيانة</string>
     <string name="server_error">خطأ في الخادم</string>
     <string name="error_edit_activity_killed_by_android">أنهى Android وضع التحرير لأنه بحاجه إلى المزيد من موارد النظام للتطبيقات الأخرى.</string>
 
     <string name="error_dialog_title">آه لا، ماذا الان؟🙁</string>
-    <string name="error_dialog_tip_token_mismatch_retry">الرجاء محاولة اجبار اغلاق التطبيق واعادة تشغيله، ربما هنالك خطأ في الاتصال مع تطبيق نيكست كلاود nextcloud</string>
+    <string name="error_dialog_tip_token_mismatch_retry">الرجاء محاولة إغلاق التطبيق وإعادة تشغيله، ربما هنالك خطأ في الإتصال مع تطبيق نيكست كلاود nextcloud</string>
     <string name="error_dialog_tip_clear_storage_might_help">إذا تكررت المشكلة، حاول تنظيف مساحة التخزين في التطبيقين كلاهما: نكست كلاود، ونكست كلاود Deck لحل هذه المشكلة.</string>
     <string name="error_dialog_tip_database_upgrade_failed">فشلت ترقية قاعدة البيانات. يرجى الإبلاغ عن المشكلة ومسح التخزين لاستخدام التطبيق مجددًا.</string>
     <string name="error_dialog_tip_clear_storage">يمكنك مسح التخزين عن طريق فتح معلومات التطبيق واختيار التخزين ← مسح التخزين.</string>
-    <string name="error_dialog_tip_files_outdated">يبدو أن تطبيقك نكست كلاود مهمل، لم يحدث منذ زمن. يرجى زيارة  بلي ستور أو اف-درويد (f-droid) للحصول على آخر إصدار.</string>
+    <string name="error_dialog_tip_files_outdated">يبدو أن تطبيقك نكست كلاود مهمل، ولم يحدث منذ زمن. يرجى زيارة  بلي ستور أو اف-درويد (f-droid) للحصول على آخر إصدار.</string>
     <string name="error_dialog_tip_offline">يبدو أنك حاولت البدء بالمزامنة بدون اتصال بالإنترنت.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">إذا قمت بتعطيل إعدادات \"التزامن فقط على شبكة الإنترنت Wi-Fi \" سيمكنك التزامن فقط عندما تكون متصلًا بشبكة الإنترنت. </string>
     <string name="error_dialog_tip_files_force_stop">يبدو أن هناك خطأ ما في تطبيق نكست كلاود الخاص بك. يرجى محاولة فرض إيقاف كلا من تطبيق نكست كلاود وتطبيق Nextcloud Deck.</string>
@@ -245,6 +247,7 @@
     <string name="error_action_server_logs">سجلات الخادم </string>
     <string name="error_action_install">تثبيت</string>
     <string name="error_action_report_issue">ابلغ عنه</string>
+    <string name="info_box_maintenance_mode">الخادم في وضع الصيانة</string>
     <string name="info_box_version_not_supported">إصدار الخادم %1$s غير مدعوم، من فضلك قم بالتحديث إلى %2$s</string>
     <string name="share_link">مشاركة الرابط</string>
     <string name="share_content">مشاركة محتوى </string>
@@ -278,6 +281,8 @@
 
     <string name="widget_stack_title">قائمة</string>
     <string name="widget_filter_title">تصفية</string>
+    <string name="widget_stack_header_icon">أيقونة رأسية</string>
+    <string name="widget_placeholder_icon">أيقونة العنصر النائب</string>
     <string name="select_stack">اختر قائمة </string>
     <string name="project_type_deck_board">لوح Deck</string>
     <string name="project_type_deck_card">بطاقة Deck</string>
