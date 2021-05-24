@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -83,14 +85,17 @@ public class DataBaseAdapter {
     private final DeckDatabase db;
     @NonNull
     private final Context context;
+    @NonNull
+    private final ExecutorService widgetNotifierExecutor;
 
     public DataBaseAdapter(@NonNull Context applicationContext) {
-        this(applicationContext, DeckDatabase.getInstance(applicationContext));
+        this(applicationContext, DeckDatabase.getInstance(applicationContext), Executors.newCachedThreadPool());
     }
 
-    private DataBaseAdapter(@NonNull Context applicationContext, @NonNull DeckDatabase db) {
+    private DataBaseAdapter(@NonNull Context applicationContext, @NonNull DeckDatabase db, @NonNull ExecutorService widgetNotifierExecutor) {
         this.context = applicationContext;
         this.db = db;
+        this.widgetNotifierExecutor = widgetNotifierExecutor;
     }
 
     @NonNull
@@ -344,23 +349,21 @@ public class DataBaseAdapter {
     public long createUser(long accountId, User user) {
         user.setAccountId(accountId);
         long newId = db.getUserDao().insert(user);
-        new Thread(() -> {
-            Account account = db.getAccountDao().getAccountByIdDirectly(accountId);
-            if (account.getUserName().equals(user.getUid())) {
-                for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
-                    for (FilterWidgetAccount widgetAccount : widget.getAccounts()) {
-                        if (widgetAccount.getAccountId() == accountId && widgetAccount.getUsers().isEmpty()) {
-                            FilterWidgetUser u = new FilterWidgetUser();
-                            u.setFilterAccountId(widgetAccount.getId());
-                            u.setUserId(newId);
-                            widgetAccount.getUsers().add(u);
-                            updateFilterWidgetDirectly(widget);
-                        }
+        Account account = db.getAccountDao().getAccountByIdDirectly(accountId);
+        if (account.getUserName().equals(user.getUid())) {
+            for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
+                for (FilterWidgetAccount widgetAccount : widget.getAccounts()) {
+                    if (widgetAccount.getAccountId() == accountId && widgetAccount.getUsers().isEmpty()) {
+                        FilterWidgetUser u = new FilterWidgetUser();
+                        u.setFilterAccountId(widgetAccount.getId());
+                        u.setUserId(newId);
+                        widgetAccount.getUsers().add(u);
+                        updateFilterWidgetDirectly(widget);
                     }
                 }
             }
-            notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.USER, newId);
-        }).start();
+        }
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.USER, newId);
         return newId;
     }
 
@@ -513,14 +516,14 @@ public class DataBaseAdapter {
         return LiveDataHelper.wrapInLiveData(() -> {
             long id = db.getAccountDao().insert(account);
 
-            new Thread(() -> {
+            widgetNotifierExecutor.submit(() -> {
                 DeckLog.verbose("Adding new created", Account.class.getSimpleName(), " with ", id, " to all instances of ", EWidgetType.UPCOMING_WIDGET.name());
                 for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
                     widget.getAccounts().add(new FilterWidgetAccount(id, false));
                     updateFilterWidgetDirectly(widget);
                 }
                 notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.ACCOUNT, id);
-            }).start();
+            });
             return readAccountDirectly(id);
         });
     }
@@ -697,7 +700,6 @@ public class DataBaseAdapter {
         card.setAccountId(accountId);
         long newCardId = db.getCardDao().insert(card);
 
-        notifyStackWidgetsIfNeeded(card.getTitle(), card.getStackId());
         notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.STACK, card.getStackId());
 
         return newCardId;
@@ -722,7 +724,6 @@ public class DataBaseAdapter {
             deleteCardPhysically(card);
         }
 
-        notifyStackWidgetsIfNeeded(card.getTitle(), card.getStackId());
         notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.STACK, card.getStackId());
     }
 
@@ -736,19 +737,13 @@ public class DataBaseAdapter {
         markAsEditedIfNeeded(card, setStatus);
         Long originalStackLocalId = db.getCardDao().getLocalStackIdByLocalCardId(card.getLocalId());
         db.getCardDao().update(card);
-        if (db.getSingleCardWidgetModelDao().containsCardLocalId(card.getLocalId())) {
-            DeckLog.info("Notifying", SingleCardWidget.class.getSimpleName(), "about card changes for", card.getTitle());
-            SingleCardWidget.notifyDatasetChanged(context);
-        }
+        widgetNotifierExecutor.submit(() -> {
+            if (db.getSingleCardWidgetModelDao().containsCardLocalId(card.getLocalId())) {
+                DeckLog.info("Notifying", SingleCardWidget.class.getSimpleName(), "about card changes for", card.getTitle());
+                SingleCardWidget.notifyDatasetChanged(context);
+            }
+        });
         notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.STACK, originalStackLocalId);
-        notifyStackWidgetsIfNeeded(card.getTitle(), card.getStackId(), originalStackLocalId);
-    }
-
-    private void notifyStackWidgetsIfNeeded(String cardTitle, long... affectedStackIds) {
-//        if (db.getStackWidgetModelDao().containsStackLocalId(affectedStackIds)) {
-//            DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about card changes for \"" + cardTitle + "\"");
-//            // FIXME StackWidget.notifyDatasetChanged(context);
-//        }
     }
 
     @WorkerThread
@@ -1260,16 +1255,6 @@ public class DataBaseAdapter {
         return filterWidget;
     }
 
-    public void notifyFilterWidgetsAboutChangedEntity(@NonNull FilterWidget.EChangedEntityType type, Long entityId) {
-        new Thread(() -> {
-            final List<EWidgetType> widgetTypesToNotify = db.getFilterWidgetDao().getChangedListTypesByEntity(type.toString(), entityId);
-            for (EWidgetType t : widgetTypesToNotify) {
-                DeckLog.info("Notifying", t.getWidgetClass().getSimpleName(), "about entity change:", type.name(), "with ID", entityId);
-                context.sendBroadcast(new Intent(context, t.getWidgetClass()).setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE));
-            }
-        }).start();
-    }
-
     public LiveData<List<UpcomingCardsAdapterItem>> getCardsForUpcomingCard() {
         LiveData<List<FullCard>> upcomingCardsLiveData = db.getCardDao().getUpcomingCards();
         return LiveDataHelper.postCustomValue(upcomingCardsLiveData, this::cardResultsToUpcomingCardsAdapterItems);
@@ -1489,8 +1474,18 @@ public class DataBaseAdapter {
         }
     }
 
+    private void notifyFilterWidgetsAboutChangedEntity(@NonNull FilterWidget.EChangedEntityType type, Long entityId) {
+        widgetNotifierExecutor.submit(() -> {
+            final List<EWidgetType> widgetTypesToNotify = db.getFilterWidgetDao().getChangedListTypesByEntity(type.toString(), entityId);
+            for (EWidgetType t : widgetTypesToNotify) {
+                DeckLog.info("Notifying", t.getWidgetClass().getSimpleName(), "about entity change:", type.name(), "with ID", entityId);
+                context.sendBroadcast(new Intent(context, t.getWidgetClass()).setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE));
+            }
+        });
+    }
+
     private void notifyAllWidgets() {
-        SingleCardWidget.notifyDatasetChanged(context);
+        widgetNotifierExecutor.submit(() -> SingleCardWidget.notifyDatasetChanged(context));
         /// FIXME StackWidget.notifyDatasetChanged(context);
 //        UpcomingWidget.notifyDatasetChanged(context);
     }

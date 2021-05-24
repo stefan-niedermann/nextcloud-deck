@@ -6,6 +6,8 @@ import android.os.Build;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 
+import com.google.common.util.concurrent.MoreExecutors;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +21,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -41,14 +44,14 @@ public class DataBaseAdapterTest {
 
     @Before
     public void createAdapter() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        final Constructor<DataBaseAdapter> constructor = DataBaseAdapter.class.getDeclaredConstructor(Context.class, DeckDatabase.class);
+        final Constructor<DataBaseAdapter> constructor = DataBaseAdapter.class.getDeclaredConstructor(Context.class, DeckDatabase.class, ExecutorService.class);
         if (Modifier.isPrivate(constructor.getModifiers())) {
             constructor.setAccessible(true);
             db = Room
                     .inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), DeckDatabase.class)
                     .allowMainThreadQueries()
                     .build();
-            adapter = constructor.newInstance(ApplicationProvider.getApplicationContext(), db);
+            adapter = constructor.newInstance(ApplicationProvider.getApplicationContext(), db, MoreExecutors.newDirectExecutorService());
         }
     }
 
