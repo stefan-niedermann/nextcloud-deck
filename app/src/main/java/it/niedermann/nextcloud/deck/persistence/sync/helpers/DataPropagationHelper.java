@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.concurrent.ExecutorService;
 import java.util.function.BiConsumer;
 
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
@@ -18,10 +19,13 @@ public class DataPropagationHelper {
     private final ServerAdapter serverAdapter;
     @NonNull
     private final DataBaseAdapter dataBaseAdapter;
+    @NonNull
+    private final ExecutorService executor;
 
-    public DataPropagationHelper(@NonNull ServerAdapter serverAdapter, @NonNull DataBaseAdapter dataBaseAdapter) {
+    public DataPropagationHelper(@NonNull ServerAdapter serverAdapter, @NonNull DataBaseAdapter dataBaseAdapter, @NonNull ExecutorService executor) {
         this.serverAdapter = serverAdapter;
         this.dataBaseAdapter = dataBaseAdapter;
+        this.executor = executor;
     }
 
     public <T extends IRemoteEntity> void createEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, ResponseCallback<T> callback){
@@ -44,7 +48,7 @@ public class DataPropagationHelper {
                 provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<T>(callback.getAccount()) {
                     @Override
                     public void onResponse(T response) {
-                        new Thread(() -> {
+                        executor.submit(() -> {
                             response.setAccountId(accountId);
                             response.setLocalId(newID);
                             if (actionOnResponse != null) {
@@ -53,13 +57,13 @@ public class DataPropagationHelper {
                             response.setStatus(DBStatus.UP_TO_DATE.getId());
                             provider.updateInDB(dataBaseAdapter, accountId, response, false);
                             callback.onResponse(response);
-                        }).start();
+                        });
                     }
 
                     @Override
                     public void onError(Throwable throwable) {
                         super.onError(throwable);
-                        new Thread(() -> callback.onError(throwable)).start();
+                        executor.submit(() -> callback.onError(throwable));
                     }
                 }, entity);
             } catch (Throwable t) {
@@ -84,17 +88,17 @@ public class DataPropagationHelper {
                 provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<T>(new Account(accountId)) {
                     @Override
                     public void onResponse(T response) {
-                        new Thread(() -> {
+                        executor.submit(() -> {
                             entity.setStatus(DBStatus.UP_TO_DATE.getId());
                             provider.updateInDB(dataBaseAdapter, accountId, entity, false);
                             callback.onResponse(entity);
-                        }).start();
+                        });
                     }
 
                     @Override
                     public void onError(Throwable throwable) {
                         super.onError(throwable);
-                        new Thread(() -> callback.onError(throwable)).start();
+                        executor.submit(() -> callback.onError(throwable));
                     }
                 }, entity);
             } catch (Throwable t) {
@@ -113,16 +117,16 @@ public class DataPropagationHelper {
                 provider.deleteOnServer(serverAdapter, accountId, new ResponseCallback<Void>(new Account(accountId)) {
                     @Override
                     public void onResponse(Void response) {
-                        new Thread(() -> {
+                        executor.submit(() -> {
                             provider.deletePhysicallyInDB(dataBaseAdapter, accountId, entity);
                             callback.onResponse(null);
-                        }).start();
+                        });
                     }
 
                     @Override
                     public void onError(Throwable throwable) {
                         super.onError(throwable);
-                        new Thread(() -> callback.onError(throwable)).start();
+                        executor.submit(() -> callback.onError(throwable));
                     }
                 }, entity, dataBaseAdapter);
             } catch (Throwable t) {
