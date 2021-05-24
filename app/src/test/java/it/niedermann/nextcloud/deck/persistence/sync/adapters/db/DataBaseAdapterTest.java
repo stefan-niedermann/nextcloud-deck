@@ -20,6 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
@@ -81,7 +82,7 @@ public class DataBaseAdapterTest {
             add(user);
         }};
 
-        final Method fillSqlWithListValues = DataBaseAdapter.class.getDeclaredMethod("fillSqlWithListValues", StringBuilder.class, List.class, List.class);
+        final Method fillSqlWithListValues = DataBaseAdapter.class.getDeclaredMethod("fillSqlWithListValues", StringBuilder.class, Collection.class, List.class);
         fillSqlWithListValues.setAccessible(true);
         fillSqlWithListValues.invoke(adapter, builder, args, entities);
         assertEquals("?", builder.toString());
@@ -98,7 +99,7 @@ public class DataBaseAdapterTest {
             add(leet);
         }};
 
-        final Method fillSqlWithListValues = DataBaseAdapter.class.getDeclaredMethod("fillSqlWithListValues", StringBuilder.class, List.class, List.class);
+        final Method fillSqlWithListValues = DataBaseAdapter.class.getDeclaredMethod("fillSqlWithListValues", StringBuilder.class, Collection.class, List.class);
         fillSqlWithListValues.setAccessible(true);
         fillSqlWithListValues.invoke(adapter, builder, args, entities);
         assertEquals("?", builder.toString());
@@ -115,7 +116,7 @@ public class DataBaseAdapterTest {
             add(leet+1);
         }};
 
-        final Method fillSqlWithListValues = DataBaseAdapter.class.getDeclaredMethod("fillSqlWithListValues", StringBuilder.class, List.class, List.class);
+        final Method fillSqlWithListValues = DataBaseAdapter.class.getDeclaredMethod("fillSqlWithListValues", StringBuilder.class, Collection.class, List.class);
         fillSqlWithListValues.setAccessible(true);
         fillSqlWithListValues.invoke(adapter, builder, args, entities);
         assertEquals("?, ?", builder.toString());

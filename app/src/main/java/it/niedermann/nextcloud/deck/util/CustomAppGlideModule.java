@@ -12,10 +12,16 @@ import com.bumptech.glide.Registry;
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.module.AppGlideModule;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import it.niedermann.nextcloud.deck.DeckLog;
 
 @GlideModule
 public class CustomAppGlideModule extends AppGlideModule {
+
+    private static final ExecutorService clearDiskCacheExecutor = Executors.newSingleThreadExecutor();
+
     @Override
     public void registerComponents(@NonNull Context context, @NonNull Glide glide, @NonNull Registry registry) {
         super.registerComponents(context, glide, registry);
@@ -29,10 +35,10 @@ public class CustomAppGlideModule extends AppGlideModule {
             if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
                 DeckLog.info("Clearing Glide memory cache");
                 Glide.get(context).clearMemory();
-                new Thread(() -> {
+                clearDiskCacheExecutor.submit(() -> {
                     DeckLog.info("Clearing Glide disk cache");
                     Glide.get(context.getApplicationContext()).clearDiskCache();
-                }).start();
+                });
             } else {
                 DeckLog.info("Do not clear Glide caches, because the user currently does not have a working internet connection");
             }
