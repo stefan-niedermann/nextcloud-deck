@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.card.details;
 
-import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.Px;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -70,18 +68,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
     private AssigneeAdapter adapter;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
-    private AppCompatActivity activity;
     boolean editorActive = true;
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (context instanceof AppCompatActivity) {
-            this.activity = (AppCompatActivity) context;
-        } else {
-            throw new ClassCastException("Calling context must be an " + AppCompatActivity.class.getCanonicalName());
-        }
-    }
 
     public static Fragment newInstance() {
         return new CardDetailsFragment();
@@ -92,7 +79,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
                              ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentCardEditTabDetailsBinding.inflate(inflater, container, false);
-        viewModel = new ViewModelProvider(activity).get(EditCardViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
 
         // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
         // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
@@ -236,7 +223,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         if (viewModel.canEdit()) {
             Long localCardId = viewModel.getFullCard().getCard().getLocalId();
             localCardId = localCardId == null ? -1 : localCardId;
-            binding.labels.setAdapter(new LabelAutoCompleteAdapter(activity, accountId, boardId, localCardId));
+            binding.labels.setAdapter(new LabelAutoCompleteAdapter(requireActivity(), accountId, boardId, localCardId));
             binding.labels.setOnItemClickListener((adapterView, view, position, id) -> {
                 final Label label = (Label) adapterView.getItemAtPosition(position);
                 if (LabelAutoCompleteAdapter.ITEM_CREATE == label.getLocalId()) {
@@ -286,7 +273,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
     }
 
     private Chip createChipFromLabel(Label label) {
-        final Chip chip = new Chip(activity);
+        final Chip chip = new Chip(requireContext());
         chip.setText(label.getTitle());
         if (viewModel.canEdit()) {
             chip.setCloseIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_close_circle_grey600));
@@ -325,7 +312,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         if (viewModel.canEdit()) {
             Long localCardId = viewModel.getFullCard().getCard().getLocalId();
             localCardId = localCardId == null ? -1 : localCardId;
-            binding.people.setAdapter(new UserAutoCompleteAdapter(activity, viewModel.getAccount(), viewModel.getBoardId(), localCardId));
+            binding.people.setAdapter(new UserAutoCompleteAdapter(requireActivity(), viewModel.getAccount(), viewModel.getBoardId(), localCardId));
             binding.people.setOnItemClickListener((adapterView, view, position, id) -> {
                 User user = (User) adapterView.getItemAtPosition(position);
                 viewModel.getFullCard().getAssignedUsers().add(user);
