@@ -87,6 +87,7 @@ dependencies {
 
     // Image compression
     implementation 'id.zelory:compressor:3.0.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
 
     // Markdown
     implementation 'com.github.stefan-niedermann:nextcloud-notes:3.4.3'
