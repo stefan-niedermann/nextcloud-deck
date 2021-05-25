@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.nextcloud.android.sso.api.NextcloudAPI;
 
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -36,12 +37,13 @@ public class RequestHelper {
             });
         }
 
-        return runRequest(call.getObservableFromCall(), callback);
+        return runRequest(call.getObservableFromCall(), new ResponseConsumer<>(callback));
     }
 
-    private static <T> Disposable runRequest(final Observable<T> request, final ResponseCallback<T> callback) {
-        final ResponseConsumer<T> cb = new ResponseConsumer<>(callback);
-        return request.subscribeOn(Schedulers.from(executor))
+    private static <T> Disposable runRequest(final Observable<T> request, final ResponseConsumer<T> cb) {
+        return request
+                .subscribeOn(Schedulers.from(executor))
+                .doOnDispose(() -> cb.getExceptionConsumer().accept(new CancellationException()))
                 .subscribe(cb, cb.getExceptionConsumer());
     }
 

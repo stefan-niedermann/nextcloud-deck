@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.exceptions.DeckException;
@@ -42,12 +44,10 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<FullCard>> responder, Instant lastSync) {
-
-
+    public Disposable getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<FullCard>> responder, Instant lastSync) {
         if (stack.getCards() == null || stack.getCards().isEmpty()) {
             responder.onResponse(new ArrayList<>());
-            return;
+            return new CompositeDisposable();
         }
         List<FullCard> result = Collections.synchronizedList(new ArrayList<>());
         for (Card card : stack.getCards()) {
@@ -67,6 +67,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
                 }
             });
         }
+        return new CompositeDisposable();
     }
 
     @Override
@@ -136,7 +137,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 
         syncHelper.fixRelations(new CardLabelRelationshipProvider(existingEntity.getCard(), existingEntity.getLabels()));
         if (assignedUsers != null && !assignedUsers.isEmpty()) {
-            syncHelper.doSyncFor(new UserDataProvider(this, board, stack, existingEntity, existingEntity.getAssignedUsers()));
+            syncHelper.doSyncFor(new UserDataProvider(this, existingEntity.getAssignedUsers()));
         }
 
         syncHelper.fixRelations(new CardUserRelationshipProvider(existingEntity.getCard(), existingEntity.getAssignedUsers()));
@@ -155,23 +156,23 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullCard> responder, FullCard entity) {
+    public Disposable createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullCard> responder, FullCard entity) {
         if (stack.getId() == null) {
             responder.onError(new DeckException(DeckException.Hint.DEPENDENCY_NOT_SYNCED_YET, "Stack \"" +
                     stack.getStack().getTitle() + "\" for Card \"" + entity.getCard().getTitle() +
                     "\" is not synced yet. Perform a full sync (pull to refresh) as soon as you are online again."));
-            return;
+            return new CompositeDisposable();
         }
         entity.getCard().setStackId(stack.getId());
-        serverAdapter.createCard(board.getId(), stack.getId(), entity.getCard(), responder);
+        return serverAdapter.createCard(board.getId(), stack.getId(), entity.getCard(), responder);
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullCard> callback, FullCard entity) {
+    public Disposable updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullCard> callback, FullCard entity) {
         CardUpdate update = toCardUpdate(entity);
         update.setStackId(stack.getId());
         // https://github.com/stefan-niedermann/nextcloud-deck/issues/787 resolve archiving-conflict
-        serverAdapter.updateCard(board.getId(), stack.getId(), update, new ResponseCallback<FullCard>(callback.getAccount()) {
+        return serverAdapter.updateCard(board.getId(), stack.getId(), update, new ResponseCallback<FullCard>(callback.getAccount()) {
             @Override
             public void onResponse(FullCard response) {
                 callback.onResponse(response);
@@ -199,8 +200,8 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, FullCard entity, DataBaseAdapter dataBaseAdapter) {
-        serverAdapter.deleteCard(board.getId(), stack.getId(), entity.getCard(), callback);
+    public Disposable deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, FullCard entity, DataBaseAdapter dataBaseAdapter) {
+        return serverAdapter.deleteCard(board.getId(), stack.getId(), entity.getCard(), callback);
     }
 
     @Override

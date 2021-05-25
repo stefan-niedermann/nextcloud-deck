@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -23,8 +25,8 @@ public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject>
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<OcsProject>> responder, Instant lastSync) {
-        serverAdapter.getProjectsForCard(card.getId(), new ResponseCallback<OcsProjectList>(responder.getAccount()) {
+    public Disposable getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<OcsProject>> responder, Instant lastSync) {
+        return serverAdapter.getProjectsForCard(card.getId(), new ResponseCallback<OcsProjectList>(responder.getAccount()) {
             @Override
             public void onResponse(OcsProjectList response) {
                 responder.onResponse(response.getProjects());
@@ -95,18 +97,18 @@ public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject>
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<OcsProject> responder, OcsProject entity) {
-        // Do Nothing
+    public Disposable createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<OcsProject> responder, OcsProject entity) {
+        return new CompositeDisposable();
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<OcsProject> callback, OcsProject entity) {
-        // Do Nothing
+    public Disposable updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<OcsProject> callback, OcsProject entity) {
+        return new CompositeDisposable();
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, OcsProject entity, DataBaseAdapter dataBaseAdapter) {
-        // Do Nothing
+    public Disposable deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, OcsProject entity, DataBaseAdapter dataBaseAdapter) {
+        return new CompositeDisposable();
     }
 
     @Override

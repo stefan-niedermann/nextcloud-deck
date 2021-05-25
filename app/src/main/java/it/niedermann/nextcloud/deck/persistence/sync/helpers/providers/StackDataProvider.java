@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
+import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.exceptions.DeckException;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -28,8 +29,8 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<FullStack>> responder, Instant lastSync) {
-        serverAdapter.getStacks(board.getId(), responder);
+    public Disposable getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<FullStack>> responder, Instant lastSync) {
+        return serverAdapter.getStacks(board.getId(), responder);
     }
 
     @Override
@@ -74,12 +75,12 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullStack> responder, FullStack entity) {
+    public Disposable createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullStack> responder, FullStack entity) {
         if (board.getId() == null) {
             throw new DeckException(DeckException.Hint.DEPENDENCY_NOT_SYNCED_YET, "Board for this stack is not synced yet. Perform a full sync (pull to referesh) as soon as you are online again.");
         }
         entity.getStack().setBoardId(board.getId());
-        serverAdapter.createStack(board.getBoard(), entity.getStack(), responder);
+        return serverAdapter.createStack(board.getBoard(), entity.getStack(), responder);
     }
 
     @Override
@@ -89,9 +90,9 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, FullStack entity, DataBaseAdapter dataBaseAdapter) {
+    public Disposable deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, FullStack entity, DataBaseAdapter dataBaseAdapter) {
         entity.getStack().setBoardId(board.getId());
-        serverAdapter.deleteStack(board.getBoard(), entity.getStack(), callback);
+        return serverAdapter.deleteStack(board.getBoard(), entity.getStack(), callback);
     }
 
     @Override
@@ -131,9 +132,9 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullStack> callback, FullStack entity) {
+    public Disposable updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullStack> callback, FullStack entity) {
         entity.getStack().setBoardId(board.getId());
-        serverAdapter.updateStack(board.getBoard(), entity.getStack(), callback);
+        return serverAdapter.updateStack(board.getBoard(), entity.getStack(), callback);
     }
 
     @Override

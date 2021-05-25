@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -30,8 +31,8 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<List<FullBoard>> responder, Instant lastSync) {
-        serverAdapter.getBoards(new ResponseCallback<ParsedResponse<List<FullBoard>>>(responder.getAccount()) {
+    public Disposable getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<List<FullBoard>> responder, Instant lastSync) {
+        return serverAdapter.getBoards(new ResponseCallback<ParsedResponse<List<FullBoard>>>(responder.getAccount()) {
             @Override
             public void onResponse(ParsedResponse<List<FullBoard>> response) {
                 String etag = response.getHeaders().get("ETag");
@@ -146,8 +147,8 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullBoard> responder, FullBoard entity) {
-        serverAdapter.createBoard(entity.getBoard(), responder);
+    public Disposable createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullBoard> responder, FullBoard entity) {
+        return serverAdapter.createBoard(entity.getBoard(), responder);
     }
 
     @Override
@@ -191,8 +192,8 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullBoard> callback, FullBoard entity) {
-        serverAdapter.updateBoard(entity.getBoard(), callback);
+    public Disposable updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullBoard> callback, FullBoard entity) {
+        return serverAdapter.updateBoard(entity.getBoard(), callback);
     }
 
     @Override
@@ -206,8 +207,8 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, FullBoard entity, DataBaseAdapter dataBaseAdapter) {
-        serverAdapter.deleteBoard(entity.getBoard(), callback);
+    public Disposable deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, FullBoard entity, DataBaseAdapter dataBaseAdapter) {
+        return serverAdapter.deleteBoard(entity.getBoard(), callback);
     }
 
     @Override

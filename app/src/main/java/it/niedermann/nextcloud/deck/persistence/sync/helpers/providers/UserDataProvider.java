@@ -3,32 +3,26 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 import java.time.Instant;
 import java.util.List;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
-import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.User;
-import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 
 public class UserDataProvider extends AbstractSyncDataProvider<User> {
 
-    private Board board;
-    private FullStack stack;
-    private FullCard card;
-    private List<User> users;
+    private final List<User> users;
 
-    public UserDataProvider(AbstractSyncDataProvider<?> parent, Board board, FullStack stack, FullCard card, List<User> users) {
+    public UserDataProvider(AbstractSyncDataProvider<?> parent, List<User> users) {
         super(parent);
-        this.board = board;
-        this.stack = stack;
-        this.card = card;
         this.users = users;
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<User>> responder, Instant lastSync) {
+    public Disposable getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<User>> responder, Instant lastSync) {
         responder.onResponse(users);
+        return new CompositeDisposable();
     }
 
     @Override
@@ -52,8 +46,9 @@ public class UserDataProvider extends AbstractSyncDataProvider<User> {
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<User> responder, User entity) {
+    public Disposable createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<User> responder, User entity) {
         //TODO: implement
+        return new CompositeDisposable();
     }
 
     @Override
@@ -62,8 +57,9 @@ public class UserDataProvider extends AbstractSyncDataProvider<User> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, User entity, DataBaseAdapter dataBaseAdapter) {
+    public Disposable deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, User entity, DataBaseAdapter dataBaseAdapter) {
         //TODO: implement
+        return new CompositeDisposable();
     }
 
     @Override
@@ -72,7 +68,8 @@ public class UserDataProvider extends AbstractSyncDataProvider<User> {
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<User> callback, User entity) {
+    public Disposable updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<User> callback, User entity) {
         //TODO: implement
+        return new CompositeDisposable();
     }
 }

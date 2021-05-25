@@ -31,6 +31,8 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.TestUtil;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.LastSyncUtil;
@@ -159,7 +161,6 @@ public class SyncManagerTest {
      * {@link SyncHelper#doSyncFor(AbstractSyncDataProvider)}.
      * {@link OfflineException} should be caught and passed to the {@link ResponseCallback}
      */
-    @SuppressWarnings("JavadocReference")
     @Test
     public void testSynchronizeBoard() {
         final SyncHelper syncHelper = mock(SyncHelper.class);
@@ -497,12 +498,13 @@ public class SyncManagerTest {
         }
 
         @Override
-        public <T extends IRemoteEntity> void doSyncFor(@NonNull @NotNull AbstractSyncDataProvider<T> provider) {
+        public <T extends IRemoteEntity> Disposable doSyncFor(@NonNull @NotNull AbstractSyncDataProvider<T> provider) {
             if (success) {
                 cb.onResponse(true);
             } else {
                 cb.onError(new RuntimeException("Bad path mocking"));
             }
+            return new CompositeDisposable();
         }
 
         @Override

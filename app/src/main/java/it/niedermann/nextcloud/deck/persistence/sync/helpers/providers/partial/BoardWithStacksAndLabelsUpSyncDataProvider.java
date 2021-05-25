@@ -13,15 +13,15 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.BoardData
 
 public class BoardWithStacksAndLabelsUpSyncDataProvider extends BoardDataProvider {
 
-    private FullBoard board;
+    private final FullBoard fullBoard;
 
     public BoardWithStacksAndLabelsUpSyncDataProvider(FullBoard boardToSync) {
-        board = boardToSync;
+        fullBoard = boardToSync;
     }
 
     @Override
     public List<FullBoard> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Instant lastSync) {
-        return Collections.singletonList(board);
+        return Collections.singletonList(fullBoard);
     }
 
     @Override

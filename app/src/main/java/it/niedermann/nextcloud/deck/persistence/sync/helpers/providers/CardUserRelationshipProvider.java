@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
-import java.util.List;
+import java.util.Collection;
 
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
@@ -9,10 +9,10 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter
 
 public class CardUserRelationshipProvider implements IRelationshipProvider {
 
-    private Card card;
-    private List<User> users;
+    private final Card card;
+    private final Collection<User> users;
 
-    public CardUserRelationshipProvider(Card card, List<User> users) {
+    public CardUserRelationshipProvider(Card card, Collection<User> users) {
         this.card = card;
         this.users = users;
     }

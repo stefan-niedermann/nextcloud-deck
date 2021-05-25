@@ -6,6 +6,8 @@ import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
@@ -23,8 +25,8 @@ public class ActivityDataProvider extends AbstractSyncDataProvider<Activity> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<Activity>> responder, Instant lastSync) {
-        serverAdapter.getActivitiesForCard(card.getId(), responder);
+    public Disposable getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<Activity>> responder, Instant lastSync) {
+        return serverAdapter.getActivitiesForCard(card.getId(), responder);
     }
 
     @Override
@@ -53,18 +55,18 @@ public class ActivityDataProvider extends AbstractSyncDataProvider<Activity> {
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<Activity> responder, Activity entity) {
-        // nope.
+    public Disposable createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<Activity> responder, Activity entity) {
+        return new CompositeDisposable();
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<Activity> callback, Activity entity) {
-        // nope.
+    public Disposable updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<Activity> callback, Activity entity) {
+        return new CompositeDisposable();
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, Activity entity, DataBaseAdapter dataBaseAdapter) {
-        // nope.
+    public Disposable deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, Activity entity, DataBaseAdapter dataBaseAdapter) {
+        return new CompositeDisposable();
     }
 
     @Override

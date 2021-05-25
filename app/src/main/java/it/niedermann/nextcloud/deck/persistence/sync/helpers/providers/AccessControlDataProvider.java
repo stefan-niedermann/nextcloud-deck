@@ -6,6 +6,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
+import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
@@ -31,7 +32,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<List<AccessControl>> responder, Instant lastSync) {
+    public Disposable getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<List<AccessControl>> responder, Instant lastSync) {
         AsyncUtil.awaitAsyncWork(acl.size(), latch -> {
             for (AccessControl accessControl : acl) {
                 if (TYPE_GROUP.equals(accessControl.getType())) {
@@ -56,6 +57,8 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
         });
 
         responder.onResponse(acl);
+        // TODO dummy is not really disposable
+        return super.getAllFromServer(serverAdapter, accountId, responder, lastSync);
     }
 
     private void ensureGroupMembersInDB(Account account, DataBaseAdapter dataBaseAdapter, ServerAdapter serverAdapter, GroupMemberUIDs response) {
@@ -148,18 +151,18 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<AccessControl> responder, AccessControl entity) {
+    public Disposable createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<AccessControl> responder, AccessControl entity) {
         AccessControl acl = new AccessControl(entity);
         acl.setBoardId(board.getBoard().getId());
         if (acl.getUser() == null && acl.getUserId() != null) {
             acl.setUser(dataBaseAdapter.getUserByLocalIdDirectly(acl.getUserId()));
         }
-        serverAdapter.createAccessControl(board.getBoard().getId(), acl, responder);
+        return serverAdapter.createAccessControl(board.getBoard().getId(), acl, responder);
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<AccessControl> callback, AccessControl entity) {
-        serverAdapter.updateAccessControl(board.getBoard().getId(), entity, callback);
+    public Disposable updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<AccessControl> callback, AccessControl entity) {
+        return serverAdapter.updateAccessControl(board.getBoard().getId(), entity, callback);
     }
 
     @Override
@@ -174,8 +177,8 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, AccessControl entity, DataBaseAdapter dataBaseAdapter) {
-        serverAdapter.deleteAccessControl(board.getBoard().getId(), entity, callback);
+    public Disposable deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, AccessControl entity, DataBaseAdapter dataBaseAdapter) {
+        return serverAdapter.deleteAccessControl(board.getBoard().getId(), entity, callback);
     }
 
     @Override

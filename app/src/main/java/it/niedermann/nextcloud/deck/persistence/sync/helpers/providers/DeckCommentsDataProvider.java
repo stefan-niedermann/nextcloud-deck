@@ -1,10 +1,13 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import android.annotation.SuppressLint;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -24,8 +27,8 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<OcsComment>> responder, Instant lastSync) {
-        serverAdapter.getCommentsForRemoteCardId(card.getId(), new ResponseCallback<OcsComment>(responder.getAccount()) {
+    public Disposable getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<OcsComment>> responder, Instant lastSync) {
+        return serverAdapter.getCommentsForRemoteCardId(card.getId(), new ResponseCallback<OcsComment>(responder.getAccount()) {
             @Override
             public void onResponse(OcsComment response) {
                 if (response == null) {
@@ -37,6 +40,7 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
                 responder.onResponse(comments);
             }
 
+            @SuppressLint("MissingSuperCall")
             @Override
             public void onError(Throwable throwable) {
                 responder.onError(throwable);
@@ -107,30 +111,30 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<OcsComment> responder, OcsComment entity) {
+    public Disposable createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<OcsComment> responder, OcsComment entity) {
         DeckComment comment = entity.getSingle();
         comment.setObjectId(card.getId());
         if (comment.getParentId() != null) {
             comment.setParentId(dataBaseAdapter.getRemoteCommentIdForLocalIdDirectly(comment.getParentId()));
         }
-        serverAdapter.createCommentForCard(comment, responder);
+        return serverAdapter.createCommentForCard(comment, responder);
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<OcsComment> callback, OcsComment entity) {
+    public Disposable updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<OcsComment> callback, OcsComment entity) {
         DeckComment comment = entity.getSingle();
         comment.setObjectId(card.getId());
         if (comment.getParentId() != null) {
             comment.setParentId(dataBaseAdapter.getRemoteCommentIdForLocalIdDirectly(comment.getParentId()));
         }
-        serverAdapter.updateCommentForCard(comment, callback);
+        return serverAdapter.updateCommentForCard(comment, callback);
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, OcsComment entity, DataBaseAdapter dataBaseAdapter) {
+    public Disposable deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, OcsComment entity, DataBaseAdapter dataBaseAdapter) {
         DeckComment comment = entity.getSingle();
         comment.setObjectId(card.getId());
-        serverAdapter.deleteCommentForCard(comment, callback);
+        return serverAdapter.deleteCommentForCard(comment, callback);
     }
 
     @Override

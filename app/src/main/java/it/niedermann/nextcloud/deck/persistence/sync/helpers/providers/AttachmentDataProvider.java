@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -33,8 +35,9 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<Attachment>> responder, Instant lastSync) {
+    public Disposable getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<Attachment>> responder, Instant lastSync) {
         responder.onResponse(attachments);
+        return new CompositeDisposable();
     }
 
     @Override
@@ -66,9 +69,9 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<Attachment> responder, Attachment entity) {
+    public Disposable createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<Attachment> responder, Attachment entity) {
         File file = new File(entity.getLocalPath());
-        serverAdapter.uploadAttachment(board.getId(), stack.getId(), card.getId(), file, new ResponseCallback<Attachment>(responder.getAccount()) {
+        return serverAdapter.uploadAttachment(board.getId(), stack.getId(), card.getId(), file, new ResponseCallback<Attachment>(responder.getAccount()) {
             @Override
             public void onResponse(Attachment response) {
                 if (file.delete()) {
@@ -93,16 +96,16 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<Attachment> callback, Attachment entity) {
+    public Disposable updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<Attachment> callback, Attachment entity) {
         Uri uri = Uri.fromFile(new File(entity.getLocalPath()));
         String type = dataBaseAdapter.getContext().getContentResolver().getType(uri);
-        serverAdapter.updateAttachment(board.getId(), stack.getId(), card.getId(), entity.getId(), type, uri, callback);
+        return serverAdapter.updateAttachment(board.getId(), stack.getId(), card.getId(), entity.getId(), type, uri, callback);
 
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, Attachment entity, DataBaseAdapter dataBaseAdapter) {
-        serverAdapter.deleteAttachment(board.getId(), stack.getId(), card.getId(), entity.getId(), callback);
+    public Disposable deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, Attachment entity, DataBaseAdapter dataBaseAdapter) {
+        return serverAdapter.deleteAttachment(board.getId(), stack.getId(), card.getId(), entity.getId(), callback);
     }
 
     @Override

@@ -6,6 +6,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
@@ -71,14 +73,13 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
         children.add(child);
     }
 
-    @SuppressWarnings("UnnecessaryReturnStatement")
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<T>> responder, Instant lastSync) {
-        return;
+    public Disposable getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<T>> responder, Instant lastSync) {
+        return new CompositeDisposable();
     }
 
-    public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<List<T>> responder, Instant lastSync) {
+    public Disposable getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<List<T>> responder, Instant lastSync) {
         // Overridden, because we also need the DB-Adapter at some points here (see ACL data provider)
-        getAllFromServer(serverAdapter, accountId, responder, lastSync);
+        return getAllFromServer(serverAdapter, accountId, responder, lastSync);
     }
 
     public abstract T getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, T entity);
@@ -101,11 +102,11 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
         childDone(this, callback, true);
     }
 
-    public abstract void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<T> responder, T entity);
+    public abstract Disposable createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<T> responder, T entity);
 
-    public abstract void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<T> callback, T entity);
+    public abstract Disposable updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<T> callback, T entity);
 
-    public abstract void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, T entity, DataBaseAdapter dataBaseAdapter);
+    public abstract Disposable deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, T entity, DataBaseAdapter dataBaseAdapter);
 
     public void childDone(AbstractSyncDataProvider<?> child, ResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
         children.remove(child);

@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
+import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -42,9 +43,9 @@ public class SyncHelper {
     }
 
     // Sync Server -> App
-    public <T extends IRemoteEntity> void doSyncFor(@NonNull final AbstractSyncDataProvider<T> provider) {
+    public <T extends IRemoteEntity> Disposable doSyncFor(@NonNull final AbstractSyncDataProvider<T> provider) {
         provider.registerChildInParent(provider);
-        provider.getAllFromServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<List<T>>(account) {
+        return provider.getAllFromServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<List<T>>(account) {
             @Override
             public void onResponse(List<T> response) {
                 if (response != null) {

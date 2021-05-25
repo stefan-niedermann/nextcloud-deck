@@ -5,6 +5,8 @@ import android.annotation.SuppressLint;
 import java.time.Instant;
 import java.util.List;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.exceptions.HandledServerErrors;
@@ -30,8 +32,9 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<Label>> responder, Instant lastSync) {
+    public Disposable getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<Label>> responder, Instant lastSync) {
         responder.onResponse(labels);
+        return new CompositeDisposable();
     }
 
     @Override
@@ -83,9 +86,9 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<Label> responder, Label entity) {
+    public Disposable createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<Label> responder, Label entity) {
         entity.setBoardId(board.getId());
-        serverAdapter.createLabel(board.getId(), entity, getLabelUniqueHandler(dataBaseAdapter, entity, responder));
+        return serverAdapter.createLabel(board.getId(), entity, getLabelUniqueHandler(dataBaseAdapter, entity, responder));
     }
 
     @Override
@@ -94,8 +97,8 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, Label entity, DataBaseAdapter dataBaseAdapter) {
-        serverAdapter.deleteLabel(board.getId(), entity, callback);
+    public Disposable deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, Label entity, DataBaseAdapter dataBaseAdapter) {
+        return serverAdapter.deleteLabel(board.getId(), entity, callback);
     }
 
     @Override
@@ -104,8 +107,8 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<Label> callback, Label entity) {
-        serverAdapter.updateLabel(board.getId(), entity, getLabelUniqueHandler(dataBaseAdapter, entity, callback));
+    public Disposable updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<Label> callback, Label entity) {
+        return serverAdapter.updateLabel(board.getId(), entity, getLabelUniqueHandler(dataBaseAdapter, entity, callback));
     }
 
     @Override

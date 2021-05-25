@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
 import android.annotation.SuppressLint;
 
+import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -19,10 +20,10 @@ public class CardPropagationDataProvider extends CardDataProvider {
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullCard> responder, FullCard entity) {
+    public Disposable createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullCard> responder, FullCard entity) {
         // make sure, all ancestors are synced properly
         if (board.getId() == null) {
-            serverAdapter.createBoard(board, new ResponseCallback<FullBoard>(responder.getAccount()) {
+            return serverAdapter.createBoard(board, new ResponseCallback<FullBoard>(responder.getAccount()) {
                 @Override
                 public void onResponse(FullBoard response) {
                     board.setId(response.getId());
@@ -37,7 +38,7 @@ public class CardPropagationDataProvider extends CardDataProvider {
                 }
             });
         } else  if (stack.getId() == null) {
-            serverAdapter.createStack(board, stack.getStack(), new ResponseCallback<FullStack>(responder.getAccount()) {
+            return serverAdapter.createStack(board, stack.getStack(), new ResponseCallback<FullStack>(responder.getAccount()) {
                 @Override
                 public void onResponse(FullStack response) {
                     stack.setId(response.getId());
@@ -54,7 +55,7 @@ public class CardPropagationDataProvider extends CardDataProvider {
         } else {
             Card card = entity.getCard();
             card.setStackId(stack.getId());
-            serverAdapter.createCard(board.getId(), stack.getId(), card, responder);
+            return serverAdapter.createCard(board.getId(), stack.getId(), card, responder);
         }
     }
 
@@ -66,10 +67,10 @@ public class CardPropagationDataProvider extends CardDataProvider {
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullCard> callback, FullCard entity) {
+    public Disposable updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullCard> callback, FullCard entity) {
         CardUpdate update = toCardUpdate(entity);
         update.setStackId(stack.getId());
-        serverAdapter.updateCard(board.getId(), stack.getId(), update, callback);
+        return serverAdapter.updateCard(board.getId(), stack.getId(), update, callback);
     }
 
     @Override
@@ -83,7 +84,7 @@ public class CardPropagationDataProvider extends CardDataProvider {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, FullCard entity, DataBaseAdapter dataBaseAdapter) {
-        serverAdapter.deleteCard(board.getId(), stack.getId(), entity.getCard(), callback);
+    public Disposable deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, FullCard entity, DataBaseAdapter dataBaseAdapter) {
+        return serverAdapter.deleteCard(board.getId(), stack.getId(), entity.getCard(), callback);
     }
 }
