@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
@@ -105,33 +106,35 @@ public class SyncHelper {
     }
 
     // Sync App -> Server
-    public <T extends IRemoteEntity> void doUpSyncFor(@NonNull AbstractSyncDataProvider<T> provider) {
-        doUpSyncFor(provider, null);
+    public <T extends IRemoteEntity> Disposable doUpSyncFor(@NonNull AbstractSyncDataProvider<T> provider) {
+        return doUpSyncFor(provider, null);
     }
 
-    public <T extends IRemoteEntity> void doUpSyncFor(@NonNull AbstractSyncDataProvider<T> provider, @Nullable CountDownLatch countDownLatch) {
+    public <T extends IRemoteEntity> Disposable doUpSyncFor(@NonNull AbstractSyncDataProvider<T> provider, @Nullable CountDownLatch countDownLatch) {
+        final CompositeDisposable disposable = new CompositeDisposable();
         final List<T> allFromDB = provider.getAllChangedFromDB(dataBaseAdapter, accountId, lastSync);
         if (allFromDB != null && !allFromDB.isEmpty()) {
             for (T entity : allFromDB) {
                 if (entity.getId() != null) {
                     if (entity.getStatusEnum() == DBStatus.LOCAL_DELETED) {
-                        provider.deleteOnServer(serverAdapter, accountId, getDeleteCallback(provider, entity), entity, dataBaseAdapter);
+                        disposable.add(provider.deleteOnServer(serverAdapter, accountId, getDeleteCallback(provider, entity), entity, dataBaseAdapter));
                         if (countDownLatch != null) {
                             countDownLatch.countDown();
                         }
                     } else {
-                        provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, getUpdateCallback(provider, entity, countDownLatch), entity);
+                        disposable.add(provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, getUpdateCallback(provider, entity, countDownLatch), entity));
                     }
                 } else {
-                    provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, getUpdateCallback(provider, entity, countDownLatch), entity);
+                    disposable.add(provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, getUpdateCallback(provider, entity, countDownLatch), entity));
                 }
             }
         } else {
-            provider.goDeeperForUpSync(this, serverAdapter, dataBaseAdapter, responseCallback);
+            disposable.add(provider.goDeeperForUpSync(this, serverAdapter, dataBaseAdapter, responseCallback));
             if (countDownLatch != null) {
                 countDownLatch.countDown();
             }
         }
+        return disposable;
     }
 
     private <T extends IRemoteEntity> ResponseCallback<Void> getDeleteCallback(@NonNull AbstractSyncDataProvider<T> provider, T entity) {

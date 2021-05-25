@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.exceptions.DeckException;
@@ -108,7 +109,8 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
-    public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, ResponseCallback<Boolean> callback) {
+    public Disposable goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, ResponseCallback<Boolean> callback) {
+        final CompositeDisposable disposable = new CompositeDisposable();
         List<FullCard> changedCards = dataBaseAdapter.getLocallyChangedCardsDirectly(callback.getAccount().getId());
         if (changedCards != null && !changedCards.isEmpty()) {
             for (FullCard changedCard : changedCards) {
@@ -121,14 +123,15 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
                         syncedStacks.add(stackId);
                         Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
                         changedCard.getCard().setStackId(stack.getId());
-                        syncHelper.doUpSyncFor(new CardDataProvider(this, board, stack));
+                        disposable.add(syncHelper.doUpSyncFor(new CardDataProvider(this, board, stack)));
                     }
                 }
             }
         } else {
             // no changed cards? maybe users or Labels! So we have to go deeper!
-            new CardDataProvider(this, null, null).goDeeperForUpSync(syncHelper, serverAdapter, dataBaseAdapter, callback);
+            disposable.add(new CardDataProvider(this, null, null).goDeeperForUpSync(syncHelper, serverAdapter, dataBaseAdapter, callback));
         }
+        return disposable;
     }
 
     @Override

@@ -2,6 +2,8 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial;
 
 import java.util.List;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
@@ -15,10 +17,9 @@ public class BoardWithAclDownSyncDataProvider extends BoardDataProvider {
 
     @Override
     public void goDeeper(SyncHelper syncHelper, FullBoard existingEntity, FullBoard entityFromServer, ResponseCallback<Boolean> callback) {
-
         List<AccessControl> acl = entityFromServer.getParticipants();
-        if (acl != null && !acl.isEmpty()){
-            for (AccessControl ac : acl){
+        if (acl != null && !acl.isEmpty()) {
+            for (AccessControl ac : acl) {
                 ac.setBoardId(existingEntity.getLocalId());
             }
             syncHelper.doSyncFor(new AccessControlDataProvider(this, existingEntity, acl));
@@ -26,7 +27,7 @@ public class BoardWithAclDownSyncDataProvider extends BoardDataProvider {
     }
 
     @Override
-    public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, ResponseCallback<Boolean> callback) {
-        // do nothing!
+    public Disposable goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, ResponseCallback<Boolean> callback) {
+        return new CompositeDisposable();
     }
 }

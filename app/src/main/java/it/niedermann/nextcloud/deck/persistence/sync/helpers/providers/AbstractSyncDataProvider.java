@@ -130,8 +130,8 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
 
     public abstract List<T> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Instant lastSync);
 
-    public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, ResponseCallback<Boolean> callback) {
-        //do nothing
+    public Disposable goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, ResponseCallback<Boolean> callback) {
+        return new CompositeDisposable();
     }
 
     public void onError(ResponseCallback<Boolean> responseCallback) {

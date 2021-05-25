@@ -13,6 +13,7 @@ import androidx.preference.PreferenceManager;
 import java.io.File;
 import java.util.List;
 
+import io.reactivex.disposables.Disposable;
 import it.niedermann.android.sharedpreferences.SharedPreferenceBooleanLiveData;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -110,8 +111,8 @@ public class MainViewModel extends AndroidViewModel {
         this.syncManager = syncManager;
     }
 
-    public void synchronize(@NonNull ResponseCallback<Boolean> responseCallback) {
-        syncManager.synchronize(responseCallback);
+    public Disposable synchronize(@NonNull ResponseCallback<Boolean> responseCallback) {
+        return syncManager.synchronize(responseCallback);
     }
 
     public void refreshCapabilities(@NonNull ResponseCallback<Capabilities> callback) {

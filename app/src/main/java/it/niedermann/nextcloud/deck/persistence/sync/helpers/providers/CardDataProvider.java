@@ -216,7 +216,8 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     }
 
     @Override
-    public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, ResponseCallback<Boolean> callback) {
+    public Disposable goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, ResponseCallback<Boolean> callback) {
+        final CompositeDisposable disposable = new CompositeDisposable();
         FullStack stack;
         Board board;
         List<JoinCardWithLabel> changedLabels;
@@ -250,25 +251,25 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
                 if (changedLabel.getLabelId() == null || changedLabel.getCardId() == null) {
                     dataBaseAdapter.deleteJoinedLabelForCardPhysicallyByRemoteIDs(account.getId(), changedLabel.getCardId(), changedLabel.getLabelId());
                 } else {
-                    serverAdapter.unassignLabelFromCard(board.getId(), stack.getId(), changedLabel.getCardId(), changedLabel.getLabelId(), new ResponseCallback<Void>(account) {
+                    disposable.add(serverAdapter.unassignLabelFromCard(board.getId(), stack.getId(), changedLabel.getCardId(), changedLabel.getLabelId(), new ResponseCallback<Void>(account) {
                         @Override
                         public void onResponse(Void response) {
                             dataBaseAdapter.deleteJoinedLabelForCardPhysicallyByRemoteIDs(account.getId(), changedLabel.getCardId(), changedLabel.getLabelId());
                         }
-                    });
+                    }));
                 }
             } else if (changedLabel.getStatusEnum() == DBStatus.LOCAL_EDITED) {
                 if (changedLabel.getLabelId() == null || changedLabel.getCardId() == null) {
                     // Sync next time, the card should be available on server then.
                     continue;
                 } else {
-                    serverAdapter.assignLabelToCard(board.getId(), stack.getId(), changedLabel.getCardId(), changedLabel.getLabelId(), new ResponseCallback<Void>(account) {
+                    disposable.add(serverAdapter.assignLabelToCard(board.getId(), stack.getId(), changedLabel.getCardId(), changedLabel.getLabelId(), new ResponseCallback<Void>(account) {
                         @Override
                         public void onResponse(Void response) {
                             Label label = dataBaseAdapter.getLabelByRemoteIdDirectly(account.getId(), changedLabel.getLabelId());
                             dataBaseAdapter.setStatusForJoinCardWithLabel(card.getLocalId(), label.getLocalId(), DBStatus.UP_TO_DATE.getId());
                         }
-                    });
+                    }));
                 }
 
             }
@@ -306,19 +307,19 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             }
             User user = dataBaseAdapter.getUserByLocalIdDirectly(changedUser.getUserId());
             if (changedUser.getStatusEnum() == DBStatus.LOCAL_DELETED) {
-                serverAdapter.unassignUserFromCard(board.getId(), stack.getId(), changedUser.getCardId(), user.getUid(), new ResponseCallback<Void>(account) {
+                disposable.add(serverAdapter.unassignUserFromCard(board.getId(), stack.getId(), changedUser.getCardId(), user.getUid(), new ResponseCallback<Void>(account) {
                     @Override
                     public void onResponse(Void response) {
                         dataBaseAdapter.deleteJoinedUserForCardPhysicallyByRemoteIDs(account.getId(), changedUser.getCardId(), user.getUid());
                     }
-                });
+                }));
             } else if (changedUser.getStatusEnum() == DBStatus.LOCAL_EDITED) {
-                serverAdapter.assignUserToCard(board.getId(), stack.getId(), changedUser.getCardId(), user.getUid(), new ResponseCallback<Void>(account) {
+                disposable.add(serverAdapter.assignUserToCard(board.getId(), stack.getId(), changedUser.getCardId(), user.getUid(), new ResponseCallback<Void>(account) {
                     @Override
                     public void onResponse(Void response) {
                         dataBaseAdapter.setStatusForJoinCardWithUser(card.getLocalId(), user.getLocalId(), DBStatus.UP_TO_DATE.getId());
                     }
-                });
+                }));
             }
         }
 
@@ -346,6 +347,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         }
 
         callback.onResponse(Boolean.TRUE);
+        return disposable;
     }
 
     @Override

@@ -508,12 +508,13 @@ public class SyncManagerTest {
         }
 
         @Override
-        public <T extends IRemoteEntity> void doUpSyncFor(@NonNull @NotNull AbstractSyncDataProvider<T> provider) {
+        public <T extends IRemoteEntity> Disposable doUpSyncFor(@NonNull @NotNull AbstractSyncDataProvider<T> provider) {
             if (success) {
                 cb.onResponse(true);
             } else {
                 cb.onError(new RuntimeException("Bad path mocking"));
             }
+            return new CompositeDisposable();
         }
     }
 }

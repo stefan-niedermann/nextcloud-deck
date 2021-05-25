@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
@@ -157,27 +158,28 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, ResponseCallback<Boolean> callback) {
+    public Disposable goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, ResponseCallback<Boolean> callback) {
+        final CompositeDisposable disposable = new CompositeDisposable();
         Long accountId = callback.getAccount().getId();
         List<Label> locallyChangedLabels = dataBaseAdapter.getLocallyChangedLabels(accountId);
         AsyncUtil.awaitAsyncWork(locallyChangedLabels.size(), (countDownLatch) -> {
             for (Label label : locallyChangedLabels) {
                 Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
                 label.setBoardId(board.getId());
-                syncHelper.doUpSyncFor(new LabelDataProvider(this, board, Collections.singletonList(label)), countDownLatch);
+                disposable.add(syncHelper.doUpSyncFor(new LabelDataProvider(this, board, Collections.singletonList(label)), countDownLatch));
             }
         });
 
         List<Long> localBoardIDsWithChangedACL = dataBaseAdapter.getBoardIDsOfLocallyChangedAccessControl(accountId);
         for (Long boardId : localBoardIDsWithChangedACL) {
-            syncHelper.doUpSyncFor(new AccessControlDataProvider(this, dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, boardId), new ArrayList<>()));
+            disposable.add(syncHelper.doUpSyncFor(new AccessControlDataProvider(this, dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, boardId), new ArrayList<>())));
         }
 
         Set<Long> syncedBoards = new HashSet<>();
         List<FullStack> locallyChangedStacks = dataBaseAdapter.getLocallyChangedStacks(accountId);
         if (locallyChangedStacks.size() < 1) {
             // no changed stacks? maybe cards! So we have to go deeper!
-            new StackDataProvider(this, null).goDeeperForUpSync(syncHelper, serverAdapter, dataBaseAdapter, callback);
+            disposable.add(new StackDataProvider(this, null).goDeeperForUpSync(syncHelper, serverAdapter, dataBaseAdapter, callback));
         } else {
             for (FullStack locallyChangedStack : locallyChangedStacks) {
                 long boardId = locallyChangedStack.getStack().getBoardId();
@@ -185,10 +187,11 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
                 if (added) {
                     FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, boardId);
                     locallyChangedStack.getStack().setBoardId(board.getId());
-                    syncHelper.doUpSyncFor(new StackDataProvider(this, board));
+                    disposable.add(syncHelper.doUpSyncFor(new StackDataProvider(this, board)));
                 }
             }
         }
+        return disposable;
     }
 
     @Override

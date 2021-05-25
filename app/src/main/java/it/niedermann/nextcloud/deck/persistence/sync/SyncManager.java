@@ -33,6 +33,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.GsonConfig;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -168,36 +170,41 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void synchronizeBoard(@NonNull ResponseCallback<Boolean> responseCallback, long localBoadId) {
+    public Disposable synchronizeBoard(@NonNull ResponseCallback<Boolean> responseCallback, long localBoadId) {
+        final CompositeDisposable disposable = new CompositeDisposable();
         executor.submit(() -> {
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(responseCallback.getAccount().getId(), localBoadId);
             try {
-                syncHelperFactory.create(serverAdapter, dataBaseAdapter, null)
+                disposable.add(syncHelperFactory.create(serverAdapter, dataBaseAdapter, null)
                         .setResponseCallback(responseCallback)
-                        .doSyncFor(new StackDataProvider(null, board));
+                        .doSyncFor(new StackDataProvider(null, board)));
             } catch (OfflineException e) {
                 responseCallback.onError(e);
             }
         });
+        return disposable;
     }
 
     @AnyThread
-    public void synchronizeCard(@NonNull ResponseCallback<Boolean> responseCallback, @NonNull Card card) {
+    public Disposable synchronizeCard(@NonNull ResponseCallback<Boolean> responseCallback, @NonNull Card card) {
+        final CompositeDisposable disposable = new CompositeDisposable();
         executor.submit(() -> {
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
             try {
-                syncHelperFactory.create(serverAdapter, dataBaseAdapter, null)
+                disposable.add(syncHelperFactory.create(serverAdapter, dataBaseAdapter, null)
                         .setResponseCallback(responseCallback)
-                        .doSyncFor(new CardDataProvider(null, board, stack));
+                        .doSyncFor(new CardDataProvider(null, board, stack)));
             } catch (OfflineException e) {
                 responseCallback.onError(e);
             }
         });
+        return disposable;
     }
 
     @AnyThread
-    public void synchronize(@NonNull ResponseCallback<Boolean> responseCallback) {
+    public Disposable synchronize(@NonNull ResponseCallback<Boolean> responseCallback) {
+        final CompositeDisposable disposable = new CompositeDisposable();
         Account callbackAccount = responseCallback.getAccount();
         if (callbackAccount == null) {
             throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + ResponseCallback.class.getSimpleName() + " must not be null.");
@@ -235,7 +242,7 @@ public class SyncManager {
                                     });
                                     executor.submit(() -> {
                                         try {
-                                            syncHelper.doUpSyncFor(new BoardDataProvider());
+                                            disposable.add(syncHelper.doUpSyncFor(new BoardDataProvider()));
                                         } catch (Throwable e) {
                                             DeckLog.logError(e);
                                             responseCallback.onError(e);
@@ -254,7 +261,7 @@ public class SyncManager {
                             syncHelper.setResponseCallback(callback);
 
                             try {
-                                syncHelper.doSyncFor(new BoardDataProvider());
+                                disposable.add(syncHelper.doSyncFor(new BoardDataProvider()));
                             } catch (Throwable e) {
                                 DeckLog.logError(e);
                                 responseCallback.onError(e);
@@ -278,6 +285,7 @@ public class SyncManager {
                 }
             });
         });
+        return disposable;
     }
 
 //
