@@ -253,20 +253,15 @@ public class EditActivity extends AppCompatActivity {
                     : tabTitles[position]
             );
         });
-        runOnUiThread(() -> {
-            binding.pager.setOffscreenPageLimit(2);
-            binding.pager.setAdapter(adapter);
-            mediator.attach();
-        });
 
+        binding.pager.setAdapter(adapter);
         if (!viewModel.isCreateMode() && viewModel.hasCommentsAbility()) {
-            runOnUiThread(() -> {
-                mediator.detach();
-                adapter.enableComments();
-                binding.pager.setOffscreenPageLimit(3);
-                mediator.attach();
-            });
+            adapter.enableComments();
+            binding.pager.setOffscreenPageLimit(3);
+        } else {
+            binding.pager.setOffscreenPageLimit(2);
         }
+        mediator.attach();
     }
 
     private void setupTitle() {
