@@ -25,12 +25,13 @@ public class SyncHelper {
     private final ServerAdapter serverAdapter;
     @NonNull
     private final DataBaseAdapter dataBaseAdapter;
-    private Account account;
-    private long accountId;
-    private ResponseCallback<Boolean> responseCallback;
     @Nullable
     private final Instant lastSync;
     private final boolean etagsEnabled;
+
+    private Account account;
+    private long accountId;
+    private ResponseCallback<Boolean> responseCallback;
 
     public SyncHelper(@NonNull ServerAdapter serverAdapter, @NonNull DataBaseAdapter dataBaseAdapter, @Nullable Instant lastSync) {
         this.serverAdapter = serverAdapter;

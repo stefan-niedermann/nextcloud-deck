@@ -15,7 +15,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 
 public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject> {
-    private Card card;
+    private final Card card;
 
     public OcsProjectDataProvider(AbstractSyncDataProvider<?> parent, Card card) {
         super(parent);
