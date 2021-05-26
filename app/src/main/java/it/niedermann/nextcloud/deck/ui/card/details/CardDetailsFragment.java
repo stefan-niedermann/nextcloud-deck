@@ -133,10 +133,10 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
             binding.descriptionViewer.setMovementMethod(LinkMovementMethod.getInstance());
             viewModel.descriptionIsPreviewMode().observe(getViewLifecycleOwner(), (isPreview) -> {
                 if (isPreview) {
-                    toggleView(binding.descriptionViewer, binding.descriptionEditorWrapper, binding.descriptionViewer);
+                    toggleEditorView(isPreview, binding.descriptionViewer, binding.descriptionEditorWrapper, binding.descriptionViewer);
                     binding.descriptionToggle.setImageResource(R.drawable.ic_edit_grey600_24dp);
                 } else {
-                    toggleView(binding.descriptionEditorWrapper, binding.descriptionViewer, binding.descriptionEditor);
+                    toggleEditorView(isPreview, binding.descriptionEditorWrapper, binding.descriptionViewer, binding.descriptionEditor);
                     binding.descriptionToggle.setImageResource(R.drawable.ic_baseline_eye_24);
                 }
             });
@@ -150,7 +150,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         }
     }
 
-    private void toggleView(@NonNull View viewToShow, @NonNull View viewToHide, @NonNull MarkdownEditor editorToShow) {
+    private void toggleEditorView(boolean isPreview, @NonNull View viewToShow, @NonNull View viewToHide, @NonNull MarkdownEditor editorToShow) {
         editorToShow.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
         if (!editorToShow.getMarkdownString().hasActiveObservers()) {
             editorToShow.getMarkdownString().observe(getViewLifecycleOwner(), (description) -> {
@@ -159,7 +159,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
                 } else {
                     ExceptionDialogFragment.newInstance(new IllegalStateException(FullCard.class.getSimpleName() + " was empty when trying to setup description"), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 }
-                binding.descriptionToggle.setVisibility(TextUtils.isEmpty(description) ? INVISIBLE : VISIBLE);
+                binding.descriptionToggle.setVisibility(TextUtils.isEmpty(description) && !isPreview ? INVISIBLE : VISIBLE);
             });
         }
         viewToHide.setVisibility(GONE);
