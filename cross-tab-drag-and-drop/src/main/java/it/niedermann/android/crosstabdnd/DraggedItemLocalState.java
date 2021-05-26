@@ -2,6 +2,7 @@ package it.niedermann.android.crosstabdnd;
 
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +15,7 @@ public class DraggedItemLocalState<
         TabFragment extends Fragment & DragAndDropTab<ItemAdapter>,
         ItemAdapter extends RecyclerView.Adapter<?> & DragAndDropAdapter<ItemModel>,
         ItemModel> {
-    private ItemModel draggedCard;
+    private final ItemModel draggedCard;
     /** The original dragged view */
     private final View originalDraggedView;
     /** The currently dragged view (can change when the tab changes */
@@ -33,18 +34,19 @@ public class DraggedItemLocalState<
         this.positionInCardAdapter = positionInCardAdapter;
     }
 
-    protected void onDragStart(ViewPager2 viewPager, FragmentManager fm) {
+    protected void onDragStart(@NonNull ViewPager2 viewPager, @NonNull FragmentManager fm) {
         this.currentTabId = Objects.requireNonNull(viewPager.getAdapter()).getItemId(viewPager.getCurrentItem());
         this.recyclerView = DragAndDropUtil.<TabFragment>getTabFragment(fm, currentTabId).getRecyclerView();
     }
 
-    protected void onTabChanged(ViewPager2 viewPager, FragmentManager fm) {
+    protected void onTabChanged(@NonNull ViewPager2 viewPager, @NonNull FragmentManager fm) {
         if (insertedListener != null) {
             this.recyclerView.removeOnChildAttachStateChangeListener(insertedListener);
             this.insertedListener = null;
         }
         this.currentTabId = Objects.requireNonNull(viewPager.getAdapter()).getItemId(viewPager.getCurrentItem());
         this.recyclerView = DragAndDropUtil.<TabFragment>getTabFragment(fm, currentTabId).getRecyclerView();
+        //noinspection unchecked
         this.itemAdapter = (ItemAdapter) recyclerView.getAdapter();
     }
 

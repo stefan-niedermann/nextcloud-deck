@@ -2,6 +2,8 @@ package it.niedermann.android.crosstabdnd;
 
 import android.os.Handler;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 @SuppressWarnings("WeakerAccess")
@@ -19,7 +21,7 @@ public class ScrollHelper implements Runnable {
     private RecyclerView currentRecyclerView;
     private final Handler handler = new Handler();
 
-    public void startScroll(RecyclerView recyclerView, ScrollDirection scrollDirection) {
+    public void startScroll(@NonNull RecyclerView recyclerView, @Nullable ScrollDirection scrollDirection) {
         this.scrollDirection = scrollDirection;
         this.currentRecyclerView = recyclerView;
         if (!shouldScroll) {

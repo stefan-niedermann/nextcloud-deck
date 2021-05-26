@@ -12,6 +12,7 @@ public class DragAndDropUtil {
         // Util class
     }
 
+    @SuppressWarnings("unchecked")
     protected static <T> T getTabFragment(@NonNull FragmentManager fm, @Nullable Long currentStackId) throws IllegalArgumentException {
         return (T) fm.findFragmentByTag("f" + currentStackId);
     }
