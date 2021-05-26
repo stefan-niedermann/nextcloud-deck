@@ -31,7 +31,7 @@ import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
-import static androidx.lifecycle.Transformations.map;
+import static androidx.lifecycle.Transformations.switchMap;
 
 @SuppressWarnings("WeakerAccess")
 public class EditCardViewModel extends AndroidViewModel {
@@ -59,25 +59,36 @@ public class EditCardViewModel extends AndroidViewModel {
 
     public LiveData<Boolean> descriptionIsPreviewMode() {
         if (isCreateMode()) {
-            return descriptionIsPreview;
+            return distinctUntilChanged(descriptionIsPreview);
         } else {
-            return map(distinctUntilChanged(new SharedPreferenceBooleanLiveData(sharedPreferences, getApplication().getString(R.string.shared_preference_description_preview), false)), (isPreview) -> {
-                this.descriptionIsPreview.setValue(isPreview);
-                return isPreview;
-            });
+            return distinctUntilChanged(
+                    switchMap(distinctUntilChanged(
+                            new SharedPreferenceBooleanLiveData(sharedPreferences, getApplication().getString(R.string.shared_preference_description_preview), false)), (isPreview) -> {
+                        this.descriptionIsPreview.setValue(isPreview);
+                        return descriptionIsPreview;
+                    }));
         }
     }
 
+    /**
+     * Will set toggle description mode and persist the new state if not in {@link #createMode}.
+     */
     public void toggleDescriptionPreviewMode() {
         final boolean newValue = Boolean.FALSE.equals(descriptionIsPreview.getValue());
-        if (isCreateMode()) {
-            descriptionIsPreview.setValue(newValue);
-        } else {
+        descriptionIsPreview.setValue(newValue);
+        if (!isCreateMode()) {
             sharedPreferences
                     .edit()
                     .putBoolean(getApplication().getString(R.string.shared_preference_description_preview), newValue)
                     .apply();
         }
+    }
+
+    /**
+     * This will <strong>not</strong> persist but only set the description mode to edit once.
+     */
+    public void setDescriptionIsEditMode() {
+        descriptionIsPreview.setValue(false);
     }
 
     public LiveData<Integer> getBrandingColor() {

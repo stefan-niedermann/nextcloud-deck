@@ -134,7 +134,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
             viewModel.descriptionIsPreviewMode().observe(getViewLifecycleOwner(), (isPreview) -> {
                 if (isPreview) {
                     if (TextUtils.isEmpty(viewModel.getFullCard().getCard().getDescription())) {
-                        binding.getRoot().post(() -> viewModel.toggleDescriptionPreviewMode());
+                        viewModel.setDescriptionIsEditMode();
                     }
                     toggleEditorView(binding.descriptionViewer, binding.descriptionEditorWrapper, binding.descriptionViewer);
                     binding.descriptionToggle.setImageResource(R.drawable.ic_edit_grey600_24dp);
