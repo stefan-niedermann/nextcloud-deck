@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -8,11 +9,13 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.preference.PreferenceManager;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.niedermann.android.sharedpreferences.SharedPreferenceBooleanLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -28,6 +31,7 @@ import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
+import static androidx.lifecycle.Transformations.map;
 
 @SuppressWarnings("WeakerAccess")
 public class EditCardViewModel extends AndroidViewModel {
@@ -43,11 +47,37 @@ public class EditCardViewModel extends AndroidViewModel {
     private boolean canEdit = false;
     private boolean createMode = false;
     private final MutableLiveData<Integer> brandingColor$ = new MutableLiveData<>();
+    private final SharedPreferences sharedPreferences;
+    private final MutableLiveData<Boolean> descriptionIsPreview = new MutableLiveData<>(false);
 
     public EditCardViewModel(@NonNull Application application) {
         super(application);
         this.syncManager = new SyncManager(application);
         this.brandingColor$.setValue(ContextCompat.getColor(application, R.color.primary));
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(application);
+    }
+
+    public LiveData<Boolean> descriptionIsPreviewMode() {
+        if (isCreateMode()) {
+            return descriptionIsPreview;
+        } else {
+            return map(distinctUntilChanged(new SharedPreferenceBooleanLiveData(sharedPreferences, getApplication().getString(R.string.shared_preference_description_preview), false)), (isPreview) -> {
+                this.descriptionIsPreview.setValue(isPreview);
+                return isPreview;
+            });
+        }
+    }
+
+    public void toggleDescriptionPreviewMode() {
+        final boolean newValue = Boolean.FALSE.equals(descriptionIsPreview.getValue());
+        if (isCreateMode()) {
+            descriptionIsPreview.setValue(newValue);
+        } else {
+            sharedPreferences
+                    .edit()
+                    .putBoolean(getApplication().getString(R.string.shared_preference_description_preview), newValue)
+                    .apply();
+        }
     }
 
     public LiveData<Integer> getBrandingColor() {
@@ -136,6 +166,9 @@ public class EditCardViewModel extends AndroidViewModel {
 
     public void setCreateMode(boolean createMode) {
         this.createMode = createMode;
+        if (createMode) {
+            this.descriptionIsPreview.setValue(false);
+        }
     }
 
     public long getBoardId() {
