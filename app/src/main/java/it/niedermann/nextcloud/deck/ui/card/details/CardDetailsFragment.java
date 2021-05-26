@@ -131,11 +131,8 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
     private void setupDescription() {
         if (viewModel.canEdit()) {
             binding.descriptionViewer.setMovementMethod(LinkMovementMethod.getInstance());
-            viewModel.descriptionIsPreviewMode().observe(getViewLifecycleOwner(), (isPreview) -> {
-                if (isPreview) {
-                    if (TextUtils.isEmpty(viewModel.getFullCard().getCard().getDescription())) {
-                        viewModel.setDescriptionIsEditMode();
-                    }
+            viewModel.getDescriptionMode().observe(getViewLifecycleOwner(), (isPreviewMode) -> {
+                if (isPreviewMode) {
                     toggleEditorView(binding.descriptionViewer, binding.descriptionEditorWrapper, binding.descriptionViewer);
                     binding.descriptionToggle.setImageResource(R.drawable.ic_edit_grey600_24dp);
                 } else {

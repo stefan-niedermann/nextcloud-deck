@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.card;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -57,21 +58,28 @@ public class EditCardViewModel extends AndroidViewModel {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(application);
     }
 
-    public LiveData<Boolean> descriptionIsPreviewMode() {
+    /**
+     * The result {@link LiveData} will emit <code>true</code> if the preview mode is enabled and <code>false</code> if the edit mode is enabled.
+     * In {@link #createMode} it will not emit the last persisted state but only a temporary value.
+     */
+    public LiveData<Boolean> getDescriptionMode() {
         if (isCreateMode()) {
             return distinctUntilChanged(descriptionIsPreview);
         } else {
-            return distinctUntilChanged(
-                    switchMap(distinctUntilChanged(
-                            new SharedPreferenceBooleanLiveData(sharedPreferences, getApplication().getString(R.string.shared_preference_description_preview), false)), (isPreview) -> {
-                        this.descriptionIsPreview.setValue(isPreview);
-                        return descriptionIsPreview;
-                    }));
+            return distinctUntilChanged(switchMap(distinctUntilChanged(new SharedPreferenceBooleanLiveData(sharedPreferences, getApplication().getString(R.string.shared_preference_description_preview), false)), (isPreview) -> {
+                // When we are in preview mode but the description of the card is empty, we explicitly switch to the edit mode
+                if (isPreview && TextUtils.isEmpty(getFullCard().getCard().getDescription())) {
+                    descriptionIsPreview.setValue(false);
+                } else {
+                    descriptionIsPreview.setValue(isPreview);
+                }
+                return descriptionIsPreview;
+            }));
         }
     }
 
     /**
-     * Will set toggle description mode and persist the new state if not in {@link #createMode}.
+     * Will toggle the edit / preview mode and persist the new state if not in {@link #createMode}.
      */
     public void toggleDescriptionPreviewMode() {
         final boolean newValue = Boolean.FALSE.equals(descriptionIsPreview.getValue());
@@ -82,13 +90,6 @@ public class EditCardViewModel extends AndroidViewModel {
                     .putBoolean(getApplication().getString(R.string.shared_preference_description_preview), newValue)
                     .apply();
         }
-    }
-
-    /**
-     * This will <strong>not</strong> persist but only set the description mode to edit once.
-     */
-    public void setDescriptionIsEditMode() {
-        descriptionIsPreview.setValue(false);
     }
 
     public LiveData<Integer> getBrandingColor() {
