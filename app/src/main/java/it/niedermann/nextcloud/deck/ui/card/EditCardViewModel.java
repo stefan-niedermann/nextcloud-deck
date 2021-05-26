@@ -68,7 +68,11 @@ public class EditCardViewModel extends AndroidViewModel {
         } else {
             return distinctUntilChanged(switchMap(distinctUntilChanged(new SharedPreferenceBooleanLiveData(sharedPreferences, getApplication().getString(R.string.shared_preference_description_preview), false)), (isPreview) -> {
                 // When we are in preview mode but the description of the card is empty, we explicitly switch to the edit mode
-                if (isPreview && TextUtils.isEmpty(getFullCard().getCard().getDescription())) {
+                final FullCardWithProjects fullCard = getFullCard();
+                if (fullCard == null) {
+                    throw new IllegalStateException("Description mode must be queried after initializing " + EditCardViewModel.class.getSimpleName() + " with a card.");
+                }
+                if (isPreview && TextUtils.isEmpty(fullCard.getCard().getDescription())) {
                     descriptionIsPreview.setValue(false);
                 } else {
                     descriptionIsPreview.setValue(isPreview);
