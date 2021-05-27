@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -8,11 +10,13 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.preference.PreferenceManager;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.niedermann.android.sharedpreferences.SharedPreferenceBooleanLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -28,6 +32,7 @@ import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
+import static androidx.lifecycle.Transformations.switchMap;
 
 @SuppressWarnings("WeakerAccess")
 public class EditCardViewModel extends AndroidViewModel {
@@ -43,11 +48,52 @@ public class EditCardViewModel extends AndroidViewModel {
     private boolean canEdit = false;
     private boolean createMode = false;
     private final MutableLiveData<Integer> brandingColor$ = new MutableLiveData<>();
+    private final SharedPreferences sharedPreferences;
+    private final MutableLiveData<Boolean> descriptionIsPreview = new MutableLiveData<>(false);
 
     public EditCardViewModel(@NonNull Application application) {
         super(application);
         this.syncManager = new SyncManager(application);
         this.brandingColor$.setValue(ContextCompat.getColor(application, R.color.primary));
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(application);
+    }
+
+    /**
+     * The result {@link LiveData} will emit <code>true</code> if the preview mode is enabled and <code>false</code> if the edit mode is enabled.
+     * In {@link #createMode} it will not emit the last persisted state but only a temporary value.
+     */
+    public LiveData<Boolean> getDescriptionMode() {
+        if (isCreateMode()) {
+            return distinctUntilChanged(descriptionIsPreview);
+        } else {
+            return distinctUntilChanged(switchMap(distinctUntilChanged(new SharedPreferenceBooleanLiveData(sharedPreferences, getApplication().getString(R.string.shared_preference_description_preview), false)), (isPreview) -> {
+                // When we are in preview mode but the description of the card is empty, we explicitly switch to the edit mode
+                final FullCardWithProjects fullCard = getFullCard();
+                if (fullCard == null) {
+                    throw new IllegalStateException("Description mode must be queried after initializing " + EditCardViewModel.class.getSimpleName() + " with a card.");
+                }
+                if (isPreview && TextUtils.isEmpty(fullCard.getCard().getDescription())) {
+                    descriptionIsPreview.setValue(false);
+                } else {
+                    descriptionIsPreview.setValue(isPreview);
+                }
+                return descriptionIsPreview;
+            }));
+        }
+    }
+
+    /**
+     * Will toggle the edit / preview mode and persist the new state if not in {@link #createMode}.
+     */
+    public void toggleDescriptionPreviewMode() {
+        final boolean newValue = Boolean.FALSE.equals(descriptionIsPreview.getValue());
+        descriptionIsPreview.setValue(newValue);
+        if (!isCreateMode()) {
+            sharedPreferences
+                    .edit()
+                    .putBoolean(getApplication().getString(R.string.shared_preference_description_preview), newValue)
+                    .apply();
+        }
     }
 
     public LiveData<Integer> getBrandingColor() {
@@ -136,6 +182,9 @@ public class EditCardViewModel extends AndroidViewModel {
 
     public void setCreateMode(boolean createMode) {
         this.createMode = createMode;
+        if (createMode) {
+            this.descriptionIsPreview.setValue(false);
+        }
     }
 
     public long getBoardId() {

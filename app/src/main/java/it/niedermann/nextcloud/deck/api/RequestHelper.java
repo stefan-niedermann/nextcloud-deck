@@ -23,7 +23,6 @@ public class RequestHelper {
     }
 
     public static <T> Disposable request(@NonNull final ApiProvider provider, @NonNull final ObservableProvider<T> call, @NonNull final ResponseCallback<T> callback) {
-
         if (provider.getDeckAPI() == null) {
             provider.initSsoApi(new NextcloudAPI.ApiConnectedListener() {
                 @Override
@@ -36,22 +35,17 @@ public class RequestHelper {
             });
         }
 
-        return runRequest(call.getObservableFromCall(), callback);
-    }
-
-    private static <T> Disposable runRequest(final Observable<T> request, final ResponseCallback<T> callback) {
         final ResponseConsumer<T> cb = new ResponseConsumer<>(callback);
-        return request.subscribeOn(Schedulers.from(executor))
+        return call.getObservableFromCall()
+                .subscribeOn(Schedulers.from(executor))
                 .subscribe(cb, cb.getExceptionConsumer());
     }
-
 
     public interface ObservableProvider<T> {
         Observable<T> getObservableFromCall();
     }
 
     public static class ResponseConsumer<T> implements Consumer<T> {
-
         @NonNull
         private final ResponseCallback<T> callback;
         @NonNull

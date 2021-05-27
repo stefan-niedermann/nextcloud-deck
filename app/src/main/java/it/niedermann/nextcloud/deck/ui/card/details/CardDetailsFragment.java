@@ -18,7 +18,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -37,6 +36,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
+import it.niedermann.android.markdown.MarkdownEditor;
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -68,7 +68,6 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
     private AssigneeAdapter adapter;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
-    boolean editorActive = true;
 
     public static Fragment newInstance() {
         return new CardDetailsFragment();
@@ -132,32 +131,16 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
     private void setupDescription() {
         if (viewModel.canEdit()) {
             binding.descriptionViewer.setMovementMethod(LinkMovementMethod.getInstance());
-            binding.descriptionToggle.setOnClickListener((v) -> {
-                editorActive = !editorActive;
-                if (editorActive) {
-                    binding.descriptionEditor.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
-                    binding.descriptionEditorWrapper.setVisibility(VISIBLE);
-                    binding.descriptionViewer.setVisibility(GONE);
-                    binding.descriptionToggle.setImageResource(R.drawable.ic_baseline_eye_24);
-                } else {
-                    binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
-                    binding.descriptionEditorWrapper.setVisibility(GONE);
-                    binding.descriptionViewer.setVisibility(VISIBLE);
+            viewModel.getDescriptionMode().observe(getViewLifecycleOwner(), (isPreviewMode) -> {
+                if (isPreviewMode) {
+                    toggleEditorView(binding.descriptionViewer, binding.descriptionEditorWrapper, binding.descriptionViewer);
                     binding.descriptionToggle.setImageResource(R.drawable.ic_edit_grey600_24dp);
+                } else {
+                    toggleEditorView(binding.descriptionEditorWrapper, binding.descriptionViewer, binding.descriptionEditor);
+                    binding.descriptionToggle.setImageResource(R.drawable.ic_baseline_eye_24);
                 }
             });
-            binding.descriptionEditor.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
-            final Observer<CharSequence> descriptionObserver = (description) -> {
-
-                if (viewModel.getFullCard() != null) {
-                    viewModel.getFullCard().getCard().setDescription(description == null ? "" : description.toString());
-                } else {
-                    ExceptionDialogFragment.newInstance(new IllegalStateException(FullCard.class.getSimpleName() + " was empty when trying to setup description"), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                }
-                binding.descriptionToggle.setVisibility(TextUtils.isEmpty(description) ? INVISIBLE : VISIBLE);
-            };
-            binding.descriptionEditor.getMarkdownString().observe(getViewLifecycleOwner(), descriptionObserver);
-            binding.descriptionViewer.getMarkdownString().observe(getViewLifecycleOwner(), descriptionObserver);
+            binding.descriptionToggle.setOnClickListener((v) -> viewModel.toggleDescriptionPreviewMode());
         } else {
             binding.descriptionEditor.setEnabled(false);
             binding.descriptionEditorWrapper.setVisibility(VISIBLE);
@@ -165,6 +148,22 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
             binding.descriptionViewer.setVisibility(GONE);
             binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
         }
+    }
+
+    private void toggleEditorView(@NonNull View viewToShow, @NonNull View viewToHide, @NonNull MarkdownEditor editorToShow) {
+        editorToShow.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
+        if (!editorToShow.getMarkdownString().hasActiveObservers()) {
+            editorToShow.getMarkdownString().observe(getViewLifecycleOwner(), (description) -> {
+                if (viewModel.getFullCard() != null) {
+                    viewModel.getFullCard().getCard().setDescription(description == null ? "" : description.toString());
+                } else {
+                    ExceptionDialogFragment.newInstance(new IllegalStateException(FullCard.class.getSimpleName() + " was empty when trying to setup description"), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
+                binding.descriptionToggle.setVisibility(TextUtils.isEmpty(description) ? INVISIBLE : VISIBLE);
+            });
+        }
+        viewToHide.setVisibility(GONE);
+        viewToShow.setVisibility(VISIBLE);
     }
 
     private void setupDueDate() {
