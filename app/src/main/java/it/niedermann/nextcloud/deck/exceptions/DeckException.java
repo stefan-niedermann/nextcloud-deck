@@ -9,7 +9,7 @@ public class DeckException extends IllegalArgumentException {
         DEPENDENCY_NOT_SYNCED_YET
     }
 
-    private Hint hint;
+    private final Hint hint;
 
     public DeckException(Hint hint, String message) {
         super(message);
