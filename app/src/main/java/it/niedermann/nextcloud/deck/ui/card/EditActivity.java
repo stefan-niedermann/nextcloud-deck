@@ -325,18 +325,7 @@ public class EditActivity extends AppCompatActivity {
         applyBrandToPrimaryTabLayout(mainColor, binding.tabLayout);
     }
 
-    @NonNull
-    public static Intent createNewCardIntent(@NonNull Context context, @NonNull Account account, Long boardLocalId, Long stackId, @Nullable String title, @Nullable String description) {
-        return createNewCardIntent(context, account, boardLocalId, stackId, title)
-                .putExtra(BUNDLE_KEY_DESCRIPTION, description);
-    }
-
-    @NonNull
-    public static Intent createNewCardIntent(@NonNull Context context, @NonNull Account account, Long boardLocalId, Long stackId, @Nullable String title) {
-        return createNewCardIntent(context, account, boardLocalId, stackId)
-                .putExtra(BUNDLE_KEY_TITLE, title);
-    }
-
+    @Deprecated
     @NonNull
     public static Intent createNewCardIntent(@NonNull Context context, @NonNull Account account, Long boardLocalId, Long stackId) {
         return createBasicIntent(context, account, boardLocalId)

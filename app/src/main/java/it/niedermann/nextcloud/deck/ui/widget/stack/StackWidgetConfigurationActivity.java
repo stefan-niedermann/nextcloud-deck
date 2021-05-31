@@ -1,9 +1,11 @@
 package it.niedermann.nextcloud.deck.ui.widget.stack;
 
+import android.annotation.SuppressLint;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -11,6 +13,7 @@ import java.util.Collections;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
@@ -19,7 +22,6 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetBoard;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetStack;
 import it.niedermann.nextcloud.deck.ui.PickStackActivity;
-import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
 public class StackWidgetConfigurationActivity extends PickStackActivity {
     private int appWidgetId;
@@ -51,7 +53,7 @@ public class StackWidgetConfigurationActivity extends PickStackActivity {
     }
 
     @Override
-    protected void onSubmit(Account account, long boardId, long stackId) {
+    protected void onSubmit(Account account, long boardId, long stackId, @NonNull IResponseCallback<Void> callback) {
         final FilterWidget config = new FilterWidget(appWidgetId, EWidgetType.STACK_WIDGET);
         final FilterWidgetAccount filterWidgetAccount = new FilterWidgetAccount(account.getId(), false);
         filterWidgetAccount.setIncludeNoProject(false);
@@ -60,8 +62,8 @@ public class StackWidgetConfigurationActivity extends PickStackActivity {
         filterWidgetAccount.setBoards(
                 Collections.singletonList(filterWidgetBoard));
         config.setAccounts(Collections.singletonList(filterWidgetAccount));
-        stackWidgetConfigurationViewModel.addStackWidget(config, new ResponseCallback<Integer>(account) {
 
+        stackWidgetConfigurationViewModel.addStackWidget(config, new ResponseCallback<Integer>(account) {
             @Override
             public void onResponse(Integer response) {
                 final Intent updateIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null,
@@ -69,16 +71,14 @@ public class StackWidgetConfigurationActivity extends PickStackActivity {
                         .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
                 setResult(RESULT_OK, updateIntent);
                 getApplicationContext().sendBroadcast(updateIntent);
-
+                callback.onResponse(null);
                 finish();
             }
 
             @Override
+            @SuppressLint("MissingSuperCall")
             public void onError(Throwable throwable) {
-                super.onError(throwable);
-                ExceptionDialogFragment
-                        .newInstance(throwable, account)
-                        .show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                callback.onError(throwable);
             }
         });
     }

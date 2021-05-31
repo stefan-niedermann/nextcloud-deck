@@ -3,6 +3,9 @@ package it.niedermann.nextcloud.deck.ui;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -17,11 +20,14 @@ import java.util.List;
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityPickStackBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
+import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
+import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackFragment;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackListener;
@@ -34,13 +40,8 @@ import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSuf
 
 public abstract class PickStackActivity extends AppCompatActivity implements Branded, PickStackListener {
 
-    protected ActivityPickStackBinding binding;
-    protected PickStackViewModel viewModel;
-
-    private Account selectedAccount;
-    private Board selectedBoard;
-    private Stack selectedStack;
-
+    private ActivityPickStackBinding binding;
+    private PickStackViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,20 +72,58 @@ public abstract class PickStackActivity extends AppCompatActivity implements Bra
                     .commit();
         });
         binding.cancel.setOnClickListener((v) -> finish());
-        binding.submit.setOnClickListener((v) -> onSubmit(selectedAccount, selectedBoard.getLocalId(), selectedStack.getLocalId()));
+        binding.submit.setOnClickListener((v) -> {
+            viewModel.setSubmitInProgress(true);
+            onSubmit(viewModel.getAccount(), viewModel.getBoardLocalId(), viewModel.getStackLocalId(), new IResponseCallback<Void>() {
+                @Override
+                public void onResponse(Void response) {
+                    runOnUiThread(() -> viewModel.setSubmitInProgress(false));
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    IResponseCallback.super.onError(throwable);
+                    runOnUiThread(() -> {
+                        viewModel.setSubmitInProgress(false);
+                        ExceptionDialogFragment
+                                .newInstance(throwable, viewModel.getAccount())
+                                .show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    });
+                }
+            });
+        });
+        viewModel.submitButtonEnabled().observe(this, (enabled) -> binding.submit.setEnabled(enabled));
+        if (requireContent()) {
+            viewModel.setContentIsSatisfied(false);
+            binding.inputWrapper.setVisibility(View.VISIBLE);
+            binding.input.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    // Nothing to do here...
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    viewModel.setContentIsSatisfied(s != null && !s.toString().trim().isEmpty());
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    // Nothing to do here...
+                }
+            });
+        } else {
+            viewModel.setContentIsSatisfied(true);
+        }
     }
 
     @Override
     public void onStackPicked(@NonNull Account account, @Nullable Board board, @Nullable Stack stack) {
-        this.selectedAccount = account;
-        this.selectedBoard = board;
-        this.selectedStack = stack;
-        if (board == null) {
-            binding.submit.setEnabled(false);
-        } else {
-            applyBrand(board.getColor());
-            binding.submit.setEnabled(stack != null);
-        }
+        viewModel.setSelected(account, board, stack);
+        applyBrand(board == null
+                ? ContextCompat.getColor(this, R.color.accent)
+                : board.getColor()
+        );
     }
 
     @Override
@@ -96,12 +135,23 @@ public abstract class PickStackActivity extends AppCompatActivity implements Bra
             DrawableCompat.setTintList(binding.submit.getBackground(), ColorStateList.valueOf(finalMainColor));
             binding.submit.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(finalMainColor));
             binding.cancel.setTextColor(getSecondaryForegroundColorDependingOnTheme(this, mainColor));
+            BrandingUtil.applyBrandToEditTextInputLayout(mainColor, binding.inputWrapper);
         } catch (Throwable t) {
             DeckLog.logError(t);
         }
     }
 
-    abstract protected void onSubmit(Account account, long boardLocalId, long stackId);
+    abstract protected void onSubmit(Account account, long boardLocalId, long stackId, @NonNull IResponseCallback<Void> callback);
 
     abstract protected boolean showBoardsWithoutEditPermission();
+
+    protected boolean requireContent() {
+        return false;
+    }
+
+    @NonNull
+    protected String getContent() {
+        final Editable text = binding.input.getText();
+        return text == null ? "" : text.toString();
+    }
 }

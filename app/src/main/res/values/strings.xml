@@ -340,4 +340,7 @@
     <string name="copying_logs_to_file">Copying logs to file…</string>
     <string name="account_imported">Account imported</string>
     <string name="simple_search">Search</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Title (mandatory)</string>
+    <string name="saving_new_card">Saving new card…</string>
 </resources>
