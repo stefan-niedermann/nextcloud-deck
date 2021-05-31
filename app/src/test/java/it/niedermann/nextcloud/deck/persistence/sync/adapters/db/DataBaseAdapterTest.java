@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
 import android.content.Context;
-import android.os.Build;
 
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
@@ -13,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -37,7 +35,6 @@ import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckData
 import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(sdk = {Build.VERSION_CODES.P})
 public class DataBaseAdapterTest {
 
     private DeckDatabase db;
@@ -86,7 +83,7 @@ public class DataBaseAdapterTest {
         fillSqlWithListValues.setAccessible(true);
         fillSqlWithListValues.invoke(adapter, builder, args, entities);
         assertEquals("?", builder.toString());
-        assertEquals(user.getLocalId(), ((IRemoteEntity)args.get(0)).getLocalId());
+        assertEquals(user.getLocalId(), ((IRemoteEntity) args.get(0)).getLocalId());
     }
 
     @Test
@@ -105,6 +102,7 @@ public class DataBaseAdapterTest {
         assertEquals("?", builder.toString());
         assertEquals(leet, args.get(0));
     }
+
     @Test
     public void testFillSqlWithMultipleListValues() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         final User user = createUser(db.getUserDao(), createAccount(db.getAccountDao()));
@@ -113,7 +111,7 @@ public class DataBaseAdapterTest {
         final Long leet = 1337L;
         final List<?> entities = new ArrayList<Long>(2) {{
             add(leet);
-            add(leet+1);
+            add(leet + 1);
         }};
 
         final Method fillSqlWithListValues = DataBaseAdapter.class.getDeclaredMethod("fillSqlWithListValues", StringBuilder.class, Collection.class, List.class);
@@ -121,7 +119,7 @@ public class DataBaseAdapterTest {
         fillSqlWithListValues.invoke(adapter, builder, args, entities);
         assertEquals("?, ?", builder.toString());
         assertEquals(leet, args.get(0));
-        assertEquals(leet+1, args.get(1));
+        assertEquals(leet + 1, args.get(1));
     }
 
 }
