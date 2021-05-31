@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.util;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
@@ -13,12 +12,10 @@ import androidx.test.core.app.ApplicationProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(sdk = {Build.VERSION_CODES.P})
 public class SpannableUtilTest {
 
     @Test

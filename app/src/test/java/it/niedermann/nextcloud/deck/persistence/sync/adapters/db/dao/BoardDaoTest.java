@@ -1,11 +1,8 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao;
 
-import android.os.Build;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 import java.time.Instant;
 import java.util.List;
@@ -28,7 +25,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(sdk = {Build.VERSION_CODES.P})
 public class BoardDaoTest extends AbstractDaoTest {
 
     @Test

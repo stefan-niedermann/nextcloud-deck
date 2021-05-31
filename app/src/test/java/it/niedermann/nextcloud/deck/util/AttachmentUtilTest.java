@@ -1,11 +1,8 @@
 package it.niedermann.nextcloud.deck.util;
 
-import android.os.Build;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -14,7 +11,6 @@ import it.niedermann.nextcloud.deck.model.enums.EAttachmentType;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(sdk = {Build.VERSION_CODES.P})
 public class AttachmentUtilTest {
 
     @Test
@@ -51,7 +47,7 @@ public class AttachmentUtilTest {
         final Attachment attachment4 = new Attachment();
         attachment4.setId(111L);
         attachment4.setFileId(222L);
-        final String thumbnailUrl4 = AttachmentUtil.getThumbnailUrl(accountThatDoesNotSupportFileAttachments,333L, attachment4, 444);
+        final String thumbnailUrl4 = AttachmentUtil.getThumbnailUrl(accountThatDoesNotSupportFileAttachments, 333L, attachment4, 444);
         // ... a fallback to the attachment itself should be returned
         assertEquals("https://example.com/index.php/apps/deck/cards/333/attachment/111", thumbnailUrl4);
     }
