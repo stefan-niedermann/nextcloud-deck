@@ -25,7 +25,7 @@ public class AccountDaoTest extends AbstractDaoTest {
         long id = db.getAccountDao().insert(accountToCreate);
         final Account account = db.getAccountDao().getAccountByIdDirectly(id);
 
-        assertEquals("test", account.getUserName());
+        assertEquals("dtest", account.getUserName());
         assertEquals("https://example.com", account.getUrl());
         assertEquals(Integer.valueOf(Capabilities.DEFAULT_COLOR), account.getColor());
         assertEquals(Integer.valueOf(Capabilities.DEFAULT_TEXT_COLOR), account.getTextColor());
