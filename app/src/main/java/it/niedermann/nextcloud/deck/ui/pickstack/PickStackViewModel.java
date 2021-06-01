@@ -41,20 +41,24 @@ public class PickStackViewModel extends AndroidViewModel {
         return distinctUntilChanged(submitButtonEnabled$);
     }
 
-    public void setContentIsSatisfied(boolean isSatisfied) {
-        this.contentIsSatisfied = isSatisfied;
-        this.submitButtonEnabled$.setValue(!saveInProgress && contentIsSatisfied && selectedBoard != null && selectedStack != null);
+    public void setContentIsSatisfied(boolean contentIsSatisfied) {
+        this.contentIsSatisfied = contentIsSatisfied;
+        updateSubmitButtonState();
     }
 
-    public void setSelected(@NonNull Account account, @Nullable Board board, @Nullable Stack stack) {
-        this.selectedAccount = account;
-        this.selectedBoard = board;
-        this.selectedStack = stack;
-        this.submitButtonEnabled$.setValue(!saveInProgress && contentIsSatisfied && selectedBoard != null && selectedStack != null);
+    public void setSelected(@NonNull Account selectedAccount, @Nullable Board selectedBoard, @Nullable Stack selectedStack) {
+        this.selectedAccount = selectedAccount;
+        this.selectedBoard = selectedBoard;
+        this.selectedStack = selectedStack;
+        updateSubmitButtonState();
     }
 
     public void setSubmitInProgress(boolean saveInProgress) {
         this.saveInProgress = saveInProgress;
+        updateSubmitButtonState();
+    }
+
+    private void updateSubmitButtonState() {
         this.submitButtonEnabled$.setValue(!saveInProgress && contentIsSatisfied && selectedBoard != null && selectedStack != null);
     }
 
