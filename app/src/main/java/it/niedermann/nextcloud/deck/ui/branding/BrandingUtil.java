@@ -103,6 +103,8 @@ public abstract class BrandingUtil {
     public static void applyBrandToEditTextInputLayout(@ColorInt int color, @NonNull TextInputLayout til) {
         til.setBoxStrokeColor(contrastRatioIsSufficientBigAreas(color, ContextCompat.getColor(til.getContext(), R.color.primary)) ? color : ContextCompat.getColor(til.getContext(), R.color.accent));
         til.setHintTextColor(ColorStateList.valueOf(contrastRatioIsSufficient(color, ContextCompat.getColor(til.getContext(), R.color.primary)) ? color : ContextCompat.getColor(til.getContext(), R.color.accent)));
+        til.setErrorTextColor(ColorStateList.valueOf(ContextCompat.getColor(til.getContext(), R.color.danger)));
+        til.setBoxStrokeErrorColor(ColorStateList.valueOf(ContextCompat.getColor(til.getContext(), R.color.danger)));
     }
 
     public static void tintMenuIcon(@NonNull MenuItem menuItem, @ColorInt int color) {

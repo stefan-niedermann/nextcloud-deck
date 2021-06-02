@@ -79,6 +79,14 @@ public class MainViewModel extends AndroidViewModel {
         return this.currentBoard.getLocalId();
     }
 
+    @ColorInt
+    public Integer getCurrentBoardColor() {
+        if (currentBoard == null) {
+            throw new IllegalStateException("getCurrentBoardColor() called before setCurrentBoard()");
+        }
+        return this.currentBoard.getColor();
+    }
+
     public Long getCurrentBoardRemoteId() {
         if (currentBoard == null) {
             throw new IllegalStateException("getCurrentBoardRemoteId() called before setCurrentBoard()");
@@ -288,5 +296,9 @@ public class MainViewModel extends AndroidViewModel {
 
     public void deleteCard(@NonNull Card card, @NonNull IResponseCallback<Void> callback) {
         syncManager.deleteCard(card, callback);
+    }
+
+    public void saveCard(long accountId, long boardLocalId, long stackLocalId, @NonNull FullCard fullCard, @NonNull IResponseCallback<FullCard> callback) {
+        syncManager.createFullCard(accountId, boardLocalId, stackLocalId, fullCard, callback);
     }
 }

@@ -84,6 +84,7 @@ public class PrepareCreateViewModel extends AndroidViewModel {
         }
     }
 
+    // TODO Move to CardUtil
     public FullCard createFullCard(@NonNull Version version, @NonNull String content) {
         if (TextUtils.isEmpty(content)) {
             throw new IllegalArgumentException("Content must not be empty.");
