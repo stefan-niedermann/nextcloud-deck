@@ -16,30 +16,11 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.model.ocs.Version;
 
 public class CardUtil {
 
     private CardUtil() {
         throw new UnsupportedOperationException("This class must not get instantiated");
-    }
-
-    public static FullCard createFullCard(@NonNull Version version, @NonNull String content) {
-        if (TextUtils.isEmpty(content)) {
-            throw new IllegalArgumentException("Content must not be empty.");
-        }
-        final FullCard fullCard = new FullCard();
-        final Card card = new Card();
-        final int maxLength = version.getCardTitleMaxLength();
-        if (content.length() > maxLength) {
-            card.setTitle(content.substring(0, maxLength).trim());
-            card.setDescription(content.substring(maxLength).trim());
-        } else {
-            card.setTitle(content);
-            card.setDescription(null);
-        }
-        fullCard.setCard(card);
-        return fullCard;
     }
 
     /**

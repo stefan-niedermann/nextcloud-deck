@@ -1,0 +1,187 @@
+package it.niedermann.nextcloud.deck.ui.branding;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.res.ColorStateList;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
+
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.databinding.DialogNewCardBinding;
+import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.ui.card.EditActivity;
+import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.deck.ui.preparecreate.PrepareCreateViewModel;
+
+public class NewCardDialog extends DialogFragment {
+
+    private PrepareCreateViewModel viewModel;
+
+    private static final String ARG_ACCOUNT = "account";
+    private static final String ARG_BOARD_LOCAL_ID = "board_id";
+    private static final String ARG_STACK_LOCAL_ID = "stack_id";
+    private static final String ARG_BRAND = "brand";
+
+    private Account account;
+    private long boardLocalId;
+    private long stackLocalId;
+    @ColorInt
+    private int color;
+
+    private DialogNewCardBinding binding;
+    private final AtomicBoolean waitingForListener = new AtomicBoolean(false);
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        final Bundle args = getArguments();
+        if (args == null) {
+            throw new IllegalArgumentException("Provide " + ARG_ACCOUNT + ", " + ARG_BOARD_LOCAL_ID + " and " + ARG_STACK_LOCAL_ID);
+        }
+        account = (Account) args.getSerializable(ARG_ACCOUNT);
+        boardLocalId = args.getLong(ARG_BOARD_LOCAL_ID);
+        stackLocalId = args.getLong(ARG_STACK_LOCAL_ID);
+        color = args.getInt(ARG_BRAND);
+        viewModel = new ViewModelProvider(requireActivity()).get(PrepareCreateViewModel.class);
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        binding = DialogNewCardBinding.inflate(requireActivity().getLayoutInflater());
+
+        BrandingUtil.applyBrandToEditTextInputLayout(color, binding.inputWrapper);
+        binding.progressCircular.setIndeterminateTintList(ColorStateList.valueOf(BrandingUtil.getSecondaryForegroundColorDependingOnTheme(requireContext(), color)));
+
+        binding.input.setOnEditorActionListener((textView, actionId, event) -> {
+            //noinspection SwitchStatementWithTooFewBranches
+            switch (actionId) {
+                case EditorInfo.IME_ACTION_DONE:
+                    new SaveListener(true).onClick(binding.getRoot());
+                    return true;
+            }
+            return false;
+        });
+        binding.input.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Nothing to do
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!TextUtils.isEmpty(binding.input.getText())) {
+                    binding.inputWrapper.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Nothing to do
+            }
+        });
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity())
+                .setTitle(R.string.add_card)
+                .setView(binding.getRoot())
+                .setPositiveButton(R.string.edit, null)
+                .setNegativeButton(R.string.simple_save, null)
+                .setNeutralButton(android.R.string.cancel, null);
+
+        final AlertDialog dialog = builder.create();
+        dialog.setOnShowListener((v) -> {
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new SaveListener(true));
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(new SaveListener(false));
+        });
+        return dialog;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding.input.requestFocus();
+        requireDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    private class SaveListener implements View.OnClickListener {
+        private final boolean openOnSuccess;
+
+        private SaveListener(boolean openOnSuccess) {
+            this.openOnSuccess = openOnSuccess;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (!waitingForListener.get()) {
+                binding.inputWrapper.setVisibility(View.INVISIBLE);
+                binding.progressCircular.setVisibility(View.VISIBLE);
+                final Editable currentUserInput = binding.input.getText();
+                if (TextUtils.isEmpty(currentUserInput)) {
+                    binding.inputWrapper.setError(getString(R.string.title_is_mandatory));
+                    binding.progressCircular.setVisibility(View.GONE);
+                    binding.inputWrapper.setVisibility(View.VISIBLE);
+                    binding.input.requestFocus();
+                    waitingForListener.set(false);
+                } else {
+                    assert currentUserInput != null;
+                    final FullCard fullCard = viewModel.createFullCard(account.getServerDeckVersionAsObject(), currentUserInput.toString());
+                    viewModel.saveCard(account.getId(), boardLocalId, stackLocalId, fullCard, new IResponseCallback<FullCard>() {
+                        @Override
+                        public void onResponse(FullCard createdCard) {
+                            requireActivity().runOnUiThread(() -> {
+                                if (openOnSuccess) {
+                                    startActivity(EditActivity.createEditCardIntent(requireContext(), account, boardLocalId, createdCard.getLocalId()));
+                                }
+                                dismiss();
+                            });
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            IResponseCallback.super.onError(throwable);
+                            waitingForListener.set(false);
+                            requireActivity().runOnUiThread(() -> {
+                                binding.progressCircular.setVisibility(View.GONE);
+                                binding.inputWrapper.setVisibility(View.VISIBLE);
+                                ExceptionDialogFragment
+                                        .newInstance(throwable, account)
+                                        .show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                            });
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    public static DialogFragment newInstance(@NonNull Account account, long boardLocalId, long stackLocalId, @ColorInt int brand) {
+        final DialogFragment fragment = new NewCardDialog();
+        final Bundle args = new Bundle();
+        args.putSerializable(ARG_ACCOUNT, account);
+        args.putLong(ARG_BOARD_LOCAL_ID, boardLocalId);
+        args.putLong(ARG_STACK_LOCAL_ID, stackLocalId);
+        args.putInt(ARG_BRAND, brand);
+        fragment.setArguments(args);
+        return fragment;
+    }
+}

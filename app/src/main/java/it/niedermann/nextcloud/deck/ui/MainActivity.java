@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui;
 import android.animation.AnimatorInflater;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
@@ -14,7 +13,6 @@ import android.net.NetworkRequest;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -34,7 +32,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.lifecycle.LiveData;
@@ -48,7 +45,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.android.material.textfield.TextInputLayout;
 import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.exceptions.AccountImportCancelledException;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
@@ -57,9 +53,7 @@ import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.function.BiConsumer;
 
 import it.niedermann.android.crosstabdnd.CrossTabDragAndDrop;
 import it.niedermann.android.tablayouthelper.TabLayoutHelper;
@@ -91,14 +85,14 @@ import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
-import it.niedermann.nextcloud.deck.ui.branding.InputAlertDialogBuilder;
+import it.niedermann.nextcloud.deck.ui.branding.NewCardDialog;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
-import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.filter.FilterDialogFragment;
 import it.niedermann.nextcloud.deck.ui.filter.FilterViewModel;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackViewModel;
+import it.niedermann.nextcloud.deck.ui.preparecreate.PrepareCreateViewModel;
 import it.niedermann.nextcloud.deck.ui.settings.SettingsActivity;
 import it.niedermann.nextcloud.deck.ui.stack.DeleteStackDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.DeleteStackListener;
@@ -108,7 +102,6 @@ import it.niedermann.nextcloud.deck.ui.stack.OnScrollListener;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsActivity;
-import it.niedermann.nextcloud.deck.util.CardUtil;
 import it.niedermann.nextcloud.deck.util.CustomAppGlideModule;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 
@@ -143,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
     protected MainViewModel mainViewModel;
     private FilterViewModel filterViewModel;
+    private PrepareCreateViewModel prepareCreateViewModel;
     private PickStackViewModel pickStackViewModel;
 
     protected static final int ACTIVITY_SETTINGS = 2;
@@ -196,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         filterViewModel = new ViewModelProvider(this).get(FilterViewModel.class);
         pickStackViewModel = new ViewModelProvider(this).get(PickStackViewModel.class);
+        prepareCreateViewModel = new ViewModelProvider(this).get(PrepareCreateViewModel.class);
 
         addList = getString(R.string.add_list);
         addBoard = getString(R.string.add_board);
@@ -365,60 +360,12 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             binding.fab.setOnClickListener((v) -> {
                 if (this.boardsList.size() > 0) {
                     try {
-                        Long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-                        new InputAlertDialogBuilder(this, getLayoutInflater(), mainViewModel.getCurrentBoardColor(), Map.of(
-                                DialogInterface.BUTTON_POSITIVE, new Pair<Integer, BiConsumer<TextInputLayout, IResponseCallback<Boolean>>>(R.string.edit, (til, callback) -> {
-                                    if (TextUtils.isEmpty(til.getEditText().getText())) {
-                                        til.setError(getString(R.string.title_is_mandatory));
-                                        callback.onResponse(false);
-                                    } else {
-                                        final FullCard fullCard = CardUtil.createFullCard(mainViewModel.getCurrentAccount().getServerDeckVersionAsObject(), til.getEditText().getText().toString());
-                                        mainViewModel.saveCard(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId(), stackId, fullCard, new IResponseCallback<FullCard>() {
-                                            @Override
-                                            public void onResponse(FullCard createdCard) {
-                                                runOnUiThread(() -> startActivity(EditActivity.createEditCardIntent(MainActivity.this, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), createdCard.getLocalId())));
-                                                callback.onResponse(true);
-                                            }
-
-                                            @Override
-                                            public void onError(Throwable throwable) {
-                                                IResponseCallback.super.onError(throwable);
-                                                runOnUiThread(() -> ExceptionDialogFragment
-                                                        .newInstance(throwable, mainViewModel.getCurrentAccount())
-                                                        .show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
-                                                callback.onError(throwable);
-                                            }
-                                        });
-                                    }
-                                }),
-                                DialogInterface.BUTTON_NEGATIVE, new Pair<Integer, BiConsumer<TextInputLayout, IResponseCallback<Boolean>>>(R.string.simple_save, (til, callback) -> {
-                                    if (TextUtils.isEmpty(til.getEditText().getText())) {
-                                        til.setError(getString(R.string.title_is_mandatory));
-                                        callback.onResponse(false);
-                                    } else {
-                                        final FullCard fullCard = CardUtil.createFullCard(mainViewModel.getCurrentAccount().getServerDeckVersionAsObject(), til.getEditText().getText().toString());
-                                        mainViewModel.saveCard(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId(), stackId, fullCard, new IResponseCallback<FullCard>() {
-                                            @Override
-                                            public void onResponse(FullCard createdCard) {
-                                                callback.onResponse(true);
-                                                // TODO Scroll to the created card
-                                            }
-
-                                            @Override
-                                            public void onError(Throwable throwable) {
-                                                IResponseCallback.super.onError(throwable);
-                                                callback.onError(throwable);
-                                                runOnUiThread(() -> ExceptionDialogFragment
-                                                        .newInstance(throwable, mainViewModel.getCurrentAccount())
-                                                        .show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
-                                            }
-                                        });
-                                    }
-                                })
-                        ), R.string.simple_title)
-                                .setTitle(R.string.add_card)
-                                .setNeutralButton(android.R.string.cancel, null)
-                                .show();
+                        NewCardDialog.newInstance(
+                                mainViewModel.getCurrentAccount(),
+                                mainViewModel.getCurrentBoardLocalId(),
+                                stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId(),
+                                mainViewModel.getCurrentBoardColor()
+                        ).show(getSupportFragmentManager(), NewCardDialog.class.getSimpleName());
                     } catch (IndexOutOfBoundsException e) {
                         EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
                     }
