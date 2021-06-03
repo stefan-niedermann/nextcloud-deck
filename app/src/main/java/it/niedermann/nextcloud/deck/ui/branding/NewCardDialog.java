@@ -19,9 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
-
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -31,6 +30,8 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.preparecreate.PrepareCreateViewModel;
+
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
 public class NewCardDialog extends DialogFragment {
 
@@ -48,7 +49,7 @@ public class NewCardDialog extends DialogFragment {
     private int color;
 
     private DialogNewCardBinding binding;
-    private final AtomicBoolean waitingForListener = new AtomicBoolean(false);
+    private final MutableLiveData<Boolean> isPending = new MutableLiveData<>(false);
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -100,6 +101,16 @@ public class NewCardDialog extends DialogFragment {
             }
         });
 
+        distinctUntilChanged(isPending).observe(this, (isPending) -> {
+            if (isPending) {
+                binding.inputWrapper.setVisibility(View.INVISIBLE);
+                binding.progressCircular.setVisibility(View.VISIBLE);
+            } else {
+                binding.inputWrapper.setVisibility(View.VISIBLE);
+                binding.progressCircular.setVisibility(View.GONE);
+            }
+        });
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity())
                 .setTitle(R.string.add_card)
                 .setView(binding.getRoot())
@@ -108,10 +119,12 @@ public class NewCardDialog extends DialogFragment {
                 .setNeutralButton(android.R.string.cancel, null);
 
         final AlertDialog dialog = builder.create();
+
         dialog.setOnShowListener((v) -> {
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new SaveListener(true));
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(new SaveListener(false));
         });
+
         return dialog;
     }
 
@@ -132,16 +145,13 @@ public class NewCardDialog extends DialogFragment {
 
         @Override
         public void onClick(View v) {
-            if (!waitingForListener.get()) {
-                binding.inputWrapper.setVisibility(View.INVISIBLE);
-                binding.progressCircular.setVisibility(View.VISIBLE);
+            if (Boolean.FALSE.equals(isPending.getValue())) {
+                isPending.setValue(true);
                 final Editable currentUserInput = binding.input.getText();
                 if (TextUtils.isEmpty(currentUserInput)) {
                     binding.inputWrapper.setError(getString(R.string.title_is_mandatory));
-                    binding.progressCircular.setVisibility(View.GONE);
-                    binding.inputWrapper.setVisibility(View.VISIBLE);
                     binding.input.requestFocus();
-                    waitingForListener.set(false);
+                    isPending.setValue(false);
                 } else {
                     assert currentUserInput != null;
                     final FullCard fullCard = viewModel.createFullCard(account.getServerDeckVersionAsObject(), currentUserInput.toString());
@@ -159,10 +169,8 @@ public class NewCardDialog extends DialogFragment {
                         @Override
                         public void onError(Throwable throwable) {
                             IResponseCallback.super.onError(throwable);
-                            waitingForListener.set(false);
                             requireActivity().runOnUiThread(() -> {
-                                binding.progressCircular.setVisibility(View.GONE);
-                                binding.inputWrapper.setVisibility(View.VISIBLE);
+                                isPending.setValue(false);
                                 ExceptionDialogFragment
                                         .newInstance(throwable, account)
                                         .show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
