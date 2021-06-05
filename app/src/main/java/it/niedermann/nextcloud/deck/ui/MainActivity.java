@@ -92,7 +92,6 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.filter.FilterDialogFragment;
 import it.niedermann.nextcloud.deck.ui.filter.FilterViewModel;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackViewModel;
-import it.niedermann.nextcloud.deck.ui.preparecreate.PrepareCreateViewModel;
 import it.niedermann.nextcloud.deck.ui.settings.SettingsActivity;
 import it.niedermann.nextcloud.deck.ui.stack.DeleteStackDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.DeleteStackListener;
@@ -136,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
     protected MainViewModel mainViewModel;
     private FilterViewModel filterViewModel;
-    private PrepareCreateViewModel prepareCreateViewModel;
     private PickStackViewModel pickStackViewModel;
 
     protected static final int ACTIVITY_SETTINGS = 2;
@@ -190,7 +188,6 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         filterViewModel = new ViewModelProvider(this).get(FilterViewModel.class);
         pickStackViewModel = new ViewModelProvider(this).get(PickStackViewModel.class);
-        prepareCreateViewModel = new ViewModelProvider(this).get(PrepareCreateViewModel.class);
 
         addList = getString(R.string.add_list);
         addBoard = getString(R.string.add_board);
