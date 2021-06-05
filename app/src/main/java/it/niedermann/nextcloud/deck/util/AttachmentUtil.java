@@ -86,7 +86,7 @@ public class AttachmentUtil {
     }
 
     /**
-     * Attention! This does only work for attachments of type "deck_file" which are a legacy of Deck API 1.0
+     * Attention! This does only work for attachments of type {@link EAttachmentType#DECK_FILE} which are a legacy of Deck API 1.0
      */
     @Deprecated
     private static String getDeck_1_0_RemoteUrl(@NonNull String accountUrl, @NonNull Long cardRemoteId, @NonNull Long attachmentRemoteId) {
