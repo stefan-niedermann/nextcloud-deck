@@ -46,20 +46,6 @@ public class EditCardViewModelTest {
     }
 
     @Test
-    public void getDescriptionMode_createMode() throws InterruptedException {
-        assertThrows(IllegalStateException.class, () -> TestUtil.getOrAwaitValue(viewModel.getDescriptionMode()));
-
-        viewModel.setCreateMode(true);
-        viewModel.initializeNewCard(1, 1, true);
-
-        sharedPrefs.edit().putBoolean(context.getString(R.string.shared_preference_description_preview), true).commit();
-        assertFalse(TestUtil.getOrAwaitValue(viewModel.getDescriptionMode()));
-
-        sharedPrefs.edit().putBoolean(context.getString(R.string.shared_preference_description_preview), false).commit();
-        assertFalse(TestUtil.getOrAwaitValue(viewModel.getDescriptionMode()));
-    }
-
-    @Test
     public void getDescriptionMode_editMode_preview() throws InterruptedException {
         sharedPrefs.edit().putBoolean(context.getString(R.string.shared_preference_description_preview), true).commit();
         final FullCardWithProjects fullCardWithProjects = new FullCardWithProjects();
@@ -67,7 +53,6 @@ public class EditCardViewModelTest {
 
         assertThrows(IllegalStateException.class, () -> TestUtil.getOrAwaitValue(viewModel.getDescriptionMode()));
 
-        viewModel.setCreateMode(false);
         viewModel.initializeExistingCard(0, fullCardWithProjects, true);
 
         fullCardWithProjects.getCard().setDescription("Description");
@@ -90,7 +75,6 @@ public class EditCardViewModelTest {
 
         assertThrows(IllegalStateException.class, () -> TestUtil.getOrAwaitValue(viewModel.getDescriptionMode()));
 
-        viewModel.setCreateMode(false);
         viewModel.initializeExistingCard(0, fullCardWithProjects, true);
 
         fullCardWithProjects.getCard().setDescription("Description");
@@ -104,24 +88,6 @@ public class EditCardViewModelTest {
     }
 
     @Test
-    public void toggleDescriptionPreviewMode_create() throws InterruptedException {
-        sharedPrefs.edit().putBoolean(context.getString(R.string.shared_preference_description_preview), false).commit();
-
-        assertThrows(IllegalStateException.class, () -> TestUtil.getOrAwaitValue(viewModel.getDescriptionMode()));
-
-        viewModel.setCreateMode(true);
-        viewModel.initializeNewCard(1, 1, true);
-
-        assertFalse(TestUtil.getOrAwaitValue(viewModel.getDescriptionMode()));
-
-        viewModel.toggleDescriptionPreviewMode();
-        assertTrue(TestUtil.getOrAwaitValue(viewModel.getDescriptionMode()));
-
-        assertFalse("Stored state must not be changed in create mode, even if the description mode is toggled",
-                sharedPrefs.getBoolean(context.getString(R.string.shared_preference_description_preview), true));
-    }
-
-    @Test
     public void toggleDescriptionPreviewMode_edit() throws InterruptedException {
         sharedPrefs.edit().putBoolean(context.getString(R.string.shared_preference_description_preview), false).commit();
         final FullCardWithProjects fullCardWithProjects = new FullCardWithProjects();
@@ -129,7 +95,6 @@ public class EditCardViewModelTest {
 
         assertThrows(IllegalStateException.class, () -> TestUtil.getOrAwaitValue(viewModel.getDescriptionMode()));
 
-        viewModel.setCreateMode(false);
         viewModel.initializeExistingCard(0, fullCardWithProjects, true);
 
         assertFalse(TestUtil.getOrAwaitValue(viewModel.getDescriptionMode()));

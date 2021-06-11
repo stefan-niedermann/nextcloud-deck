@@ -36,21 +36,16 @@ public class CardActivityFragment extends Fragment {
             return binding.getRoot();
         }
 
-        if (!viewModel.isCreateMode()) {
-            viewModel.syncActivitiesForCard(viewModel.getFullCard().getCard()).observe(getViewLifecycleOwner(), (activities -> {
-                if (activities == null || activities.size() == 0) {
-                    binding.emptyContentView.setVisibility(View.VISIBLE);
-                    binding.activitiesList.setVisibility(View.GONE);
-                } else {
-                    binding.emptyContentView.setVisibility(View.GONE);
-                    binding.activitiesList.setVisibility(View.VISIBLE);
-                    binding.activitiesList.setAdapter(new CardActivityAdapter(activities, requireActivity().getMenuInflater()));
-                }
-            }));
-        } else {
-            binding.emptyContentView.setVisibility(View.VISIBLE);
-            binding.activitiesList.setVisibility(View.GONE);
-        }
+        viewModel.syncActivitiesForCard(viewModel.getFullCard().getCard()).observe(getViewLifecycleOwner(), (activities -> {
+            if (activities == null || activities.size() == 0) {
+                binding.emptyContentView.setVisibility(View.VISIBLE);
+                binding.activitiesList.setVisibility(View.GONE);
+            } else {
+                binding.emptyContentView.setVisibility(View.GONE);
+                binding.activitiesList.setVisibility(View.VISIBLE);
+                binding.activitiesList.setAdapter(new CardActivityAdapter(activities, requireActivity().getMenuInflater()));
+            }
+        }));
         return binding.getRoot();
     }
 }
