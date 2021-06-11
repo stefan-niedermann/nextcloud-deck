@@ -43,7 +43,7 @@ public class EditCardViewModel extends AndroidViewModel {
     private FullCardWithProjects fullCard;
     private boolean isSupportedVersion = false;
     private boolean hasCommentsAbility = false;
-    private boolean pendingCreation = false;
+    private boolean pendingSaveOperation = false;
     private boolean canEdit = false;
     private final MutableLiveData<Integer> brandingColor$ = new MutableLiveData<>();
     private final SharedPreferences sharedPreferences;
@@ -134,12 +134,12 @@ public class EditCardViewModel extends AndroidViewModel {
         return fullCard;
     }
 
-    public boolean isPendingCreation() {
-        return pendingCreation;
+    public boolean isPendingSaveOperation() {
+        return pendingSaveOperation;
     }
 
-    public void setPendingCreation(boolean pendingCreation) {
-        this.pendingCreation = pendingCreation;
+    public void setPendingSaveOperation(boolean pendingSaveOperation) {
+        this.pendingSaveOperation = pendingSaveOperation;
     }
 
     public boolean canEdit() {

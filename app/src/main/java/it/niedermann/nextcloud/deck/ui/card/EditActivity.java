@@ -26,6 +26,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
@@ -42,6 +43,9 @@ public class EditActivity extends AppCompatActivity {
     private ActivityEditBinding binding;
     private EditCardViewModel viewModel;
 
+    /**
+     * @deprecated This is only here to maintain compatibility with {@link Version#supportsComments()}
+     */
     private static final int[] tabTitles = new int[]{
             R.string.card_edit_details,
             R.string.card_edit_attachments,
@@ -55,6 +59,9 @@ public class EditActivity extends AppCompatActivity {
             R.string.card_edit_activity
     };
 
+    /**
+     * @deprecated This is only here to maintain compatibility with {@link Version#supportsComments()}
+     */
     private static final int[] tabIcons = new int[]{
             R.drawable.ic_home_grey600_24dp,
             R.drawable.ic_attach_file_grey600_24dp,
@@ -67,7 +74,6 @@ public class EditActivity extends AppCompatActivity {
             R.drawable.type_comment_grey600_36dp,
             R.drawable.ic_activity_light_grey
     };
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,14 +102,8 @@ public class EditActivity extends AppCompatActivity {
     private void loadDataFromIntent() {
         final Bundle args = getIntent().getExtras();
 
-        if (args == null || !args.containsKey(BUNDLE_KEY_ACCOUNT) || !args.containsKey(BUNDLE_KEY_BOARD_LOCAL_ID)) {
-            throw new IllegalArgumentException("Provide at least " + BUNDLE_KEY_ACCOUNT + " and " + BUNDLE_KEY_BOARD_LOCAL_ID + " of the card that should be edited or created.");
-        }
-
-        long cardLocalId = args.getLong(BUNDLE_KEY_CARD_LOCAL_ID);
-
-        if (cardLocalId <= 0L) {
-            throw new IllegalArgumentException("Invalid cardLocalId: " + cardLocalId);
+        if (args == null || !args.containsKey(BUNDLE_KEY_ACCOUNT) || !args.containsKey(BUNDLE_KEY_BOARD_LOCAL_ID) || !args.containsKey(BUNDLE_KEY_CARD_LOCAL_ID)) {
+            throw new IllegalArgumentException("Provide at least " + BUNDLE_KEY_ACCOUNT + " and " + BUNDLE_KEY_BOARD_LOCAL_ID + " and " + BUNDLE_KEY_CARD_LOCAL_ID + " of the card that should be edited.");
         }
 
         final Account account = (Account) args.getSerializable(BUNDLE_KEY_ACCOUNT);
@@ -112,9 +112,17 @@ public class EditActivity extends AppCompatActivity {
         }
         viewModel.setAccount(account);
 
-        final long boardId = args.getLong(BUNDLE_KEY_BOARD_LOCAL_ID);
+        final long cardLocalId = args.getLong(BUNDLE_KEY_CARD_LOCAL_ID);
+        if (cardLocalId <= 0L) {
+            throw new IllegalArgumentException(BUNDLE_KEY_CARD_LOCAL_ID + " must be a positive long but was " + cardLocalId);
+        }
 
-        observeOnce(viewModel.getFullBoardById(account.getId(), boardId), EditActivity.this, (fullBoard -> {
+        final long boardLocalId = args.getLong(BUNDLE_KEY_BOARD_LOCAL_ID);
+        if (boardLocalId <= 0L) {
+            throw new IllegalArgumentException(BUNDLE_KEY_BOARD_LOCAL_ID + " must be a positive integer but was " + boardLocalId);
+        }
+
+        observeOnce(viewModel.getFullBoardById(account.getId(), boardLocalId), EditActivity.this, (fullBoard -> {
             viewModel.setBrandingColor(fullBoard.getBoard().getColor());
             viewModel.setCanEdit(fullBoard.getBoard().isPermissionEdit());
             invalidateOptionsMenu();
@@ -126,7 +134,7 @@ public class EditActivity extends AppCompatActivity {
                             .setPositiveButton(R.string.simple_close, (a, b) -> super.finish())
                             .show();
                 } else {
-                    viewModel.initializeExistingCard(boardId, fullCard, account.getServerDeckVersionAsObject().isSupported());
+                    viewModel.initializeExistingCard(boardLocalId, fullCard, account.getServerDeckVersionAsObject().isSupported());
                     invalidateOptionsMenu();
                     setupViewPager();
                     setupTitle();
@@ -169,8 +177,8 @@ public class EditActivity extends AppCompatActivity {
      * Tries to save the current {@link FullCard} from the {@link EditCardViewModel} and then finishes this activity.
      */
     private void saveAndFinish() {
-        if (!viewModel.isPendingCreation()) {
-            viewModel.setPendingCreation(true);
+        if (!viewModel.isPendingSaveOperation()) {
+            viewModel.setPendingSaveOperation(true);
             final String title = viewModel.getFullCard().getCard().getTitle();
             if (title == null || title.trim().isEmpty()) {
                 viewModel.getFullCard().getCard().setTitle(CardUtil.generateTitleFromDescription(viewModel.getFullCard().getCard().getDescription()));
@@ -182,7 +190,7 @@ public class EditActivity extends AppCompatActivity {
                         .setTitle(R.string.title_is_mandatory)
                         .setMessage(R.string.provide_at_least_a_title_or_description)
                         .setPositiveButton(android.R.string.ok, null)
-                        .setOnDismissListener(dialog -> viewModel.setPendingCreation(false))
+                        .setOnDismissListener(dialog -> viewModel.setPendingSaveOperation(false))
                         .show();
             } else {
                 viewModel.saveCard(response -> DeckLog.info("Successfully saved card", response.getCard().getTitle()));
