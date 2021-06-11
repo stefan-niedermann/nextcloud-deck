@@ -19,7 +19,6 @@ import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import java.io.File;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -46,7 +45,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
 
     private String receivedText;
     @NonNull
-    List<Parcelable> mStreamsToUpload = new ArrayList<>(1);
+    final List<Parcelable> mStreamsToUpload = new ArrayList<>(1);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +59,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
             isFile = !MimeTypeUtil.isTextPlain(receivedType);
             if (isFile) {
                 if (Intent.ACTION_SEND.equals(receivedIntent.getAction())) {
-                    mStreamsToUpload = Collections.singletonList(receivedIntent.getParcelableExtra(Intent.EXTRA_STREAM));
+                    mStreamsToUpload.add(receivedIntent.getParcelableExtra(Intent.EXTRA_STREAM));
                 } else if (Intent.ACTION_SEND_MULTIPLE.equals(receivedIntent.getAction())) {
                     @Nullable List<Parcelable> listOfParcelables = receivedIntent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
                     if (listOfParcelables != null) {
@@ -101,7 +100,8 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
     }
 
     private void appendFilesAndFinish(@NonNull FullCard fullCard) {
-        ShareProgressDialogFragment.newInstance().show(getSupportFragmentManager(), ShareProgressDialogFragment.class.getSimpleName());
+        ShareProgressDialogFragment.newInstance(mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), fullCard.getLocalId())
+                .show(getSupportFragmentManager(), ShareProgressDialogFragment.class.getSimpleName());
         final ShareProgressViewModel shareProgressViewModel = new ViewModelProvider(this).get(ShareProgressViewModel.class);
         shareProgressViewModel.setMax(mStreamsToUpload.size());
         shareProgressViewModel.targetCardTitle = fullCard.getCard().getTitle();

@@ -29,12 +29,12 @@ public class FilesUtil {
      * Must not be called from the UI thread because the {@param currentUri} might refer to a not yet locally available file.
      */
     @WorkerThread
-    public static File copyContentUriToTempFile(@NonNull Context context, @NonNull Uri currentUri, long accountId, Long localCardId) throws IOException, IllegalArgumentException {
+    public static File copyContentUriToTempFile(@NonNull Context context, @NonNull Uri currentUri, long accountId, long localCardId) throws IOException, IllegalArgumentException {
         final InputStream inputStream = context.getContentResolver().openInputStream(currentUri);
         if (inputStream == null) {
             throw new IOException("Could not open input stream for " + currentUri.getPath());
         }
-        final File cacheFile = getTempCacheFile(context, "attachments/account-" + accountId + "/card-" + (localCardId == null ? "pending-creation" : localCardId) + '/' + UriUtils.getDisplayNameForUri(currentUri, context));
+        final File cacheFile = getTempCacheFile(context, "attachments/account-" + accountId + "/card-" + localCardId + '/' + UriUtils.getDisplayNameForUri(currentUri, context));
         final FileOutputStream outputStream = new FileOutputStream(cacheFile);
         byte[] buffer = new byte[4096];
 

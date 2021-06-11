@@ -7,7 +7,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 
+import java.io.File;
+
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
@@ -25,6 +28,10 @@ public class PrepareCreateViewModel extends AndroidViewModel {
 
     public void saveCard(long accountId, long boardLocalId, long stackLocalId, @NonNull FullCard fullCard, @NonNull IResponseCallback<FullCard> callback) {
         syncManager.createFullCard(accountId, boardLocalId, stackLocalId, fullCard, callback);
+    }
+
+    public void addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file, @NonNull IResponseCallback<Attachment> callback) {
+        syncManager.addAttachmentToCard(accountId, localCardId, mimeType, file, callback);
     }
 
     @SuppressWarnings("ConstantConditions")

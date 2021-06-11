@@ -136,6 +136,16 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/*" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
         </activity>
 
         <activity
@@ -154,19 +164,6 @@
         <activity
             android:name=".ui.exception.ExceptionActivity"
             android:process=":error_activity" />
-
-<!--        <receiver-->
-<!--            android:name="it.niedermann.nextcloud.deck.ui.widget.filter.FilterWidget"-->
-<!--            android:label="@string/widget_filter_title">-->
-
-<!--            <intent-filter>-->
-<!--                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />-->
-<!--            </intent-filter>-->
-
-<!--            <meta-data-->
-<!--                android:name="android.appwidget.provider"-->
-<!--                android:resource="@xml/filter_widget_provider" />-->
-<!--        </receiver>-->
 
         <service
             android:name=".ui.widget.upcoming.UpcomingWidgetService"

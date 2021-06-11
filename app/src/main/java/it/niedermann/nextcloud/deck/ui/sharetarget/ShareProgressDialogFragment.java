@@ -7,18 +7,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import java.util.Collection;
 
 import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogShareProgressBinding;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
+import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.exception.ExceptionUtil;
 
@@ -30,10 +34,39 @@ public class ShareProgressDialogFragment extends BrandedDialogFragment {
     private DialogShareProgressBinding binding;
     private ShareProgressViewModel viewModel;
 
+    private static final String BUNDLE_KEY_ACCOUNT = "account";
+    private static final String BUNDLE_KEY_BOARD_LOCAL_ID = "boardLocalId";
+    private static final String BUNDLE_KEY_CARD_LOCAL_ID = "cardLocalId";
+
+    private Account account;
+    private long boardLocalId;
+    private long cardLocalId;
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         viewModel = new ViewModelProvider(requireActivity()).get(ShareProgressViewModel.class);
+
+        final Bundle args = requireArguments();
+
+        if (!args.containsKey(BUNDLE_KEY_ACCOUNT) || !args.containsKey(BUNDLE_KEY_BOARD_LOCAL_ID) || !args.containsKey(BUNDLE_KEY_CARD_LOCAL_ID)) {
+            throw new IllegalArgumentException("Provide at least " + BUNDLE_KEY_ACCOUNT + " and " + BUNDLE_KEY_BOARD_LOCAL_ID + " and " + BUNDLE_KEY_CARD_LOCAL_ID + " of the card that should be edited.");
+        }
+
+        account = (Account) args.getSerializable(BUNDLE_KEY_ACCOUNT);
+        if (account == null) {
+            throw new IllegalArgumentException(BUNDLE_KEY_ACCOUNT + " must not be null.");
+        }
+
+        cardLocalId = args.getLong(BUNDLE_KEY_CARD_LOCAL_ID);
+        if (cardLocalId <= 0L) {
+            throw new IllegalArgumentException(BUNDLE_KEY_CARD_LOCAL_ID + " must be a positive long but was " + cardLocalId);
+        }
+
+        boardLocalId = args.getLong(BUNDLE_KEY_BOARD_LOCAL_ID);
+        if (boardLocalId <= 0L) {
+            throw new IllegalArgumentException(BUNDLE_KEY_BOARD_LOCAL_ID + " must be a positive integer but was " + boardLocalId);
+        }
     }
 
     @NonNull
@@ -57,10 +90,15 @@ public class ShareProgressDialogFragment extends BrandedDialogFragment {
             binding.progressText.setText(getString(R.string.progress_count, progress, viewModel.getMaxValue()));
             final Integer currentMaxValue = viewModel.getMaxValue();
             if (currentMaxValue != null && progress >= currentMaxValue) {
-                if (!viewModel.hasExceptions() && !viewModel.hasAlreadyDuplicateAttachments()) {
-                    Toast.makeText(requireContext(), getString(R.string.share_success, String.valueOf(currentMaxValue), viewModel.targetCardTitle), Toast.LENGTH_LONG).show();
-                    dismiss();
+                binding.proceedButton.setEnabled(true);
+                binding.proceedButton.setOnClickListener((v) -> requireActivity().startActivity(EditActivity.createEditCardIntent(requireContext(), account, boardLocalId, cardLocalId)));
+                final Collection<Throwable> exceptions = viewModel.getExceptions().getValue();
+                if (exceptions == null || exceptions.size() == 0) {
+                    requireActivity().finish();
+                    binding.proceedButton.callOnClick();
                 }
+            } else {
+                binding.proceedButton.setEnabled(false);
             }
         });
 
@@ -76,9 +114,11 @@ public class ShareProgressDialogFragment extends BrandedDialogFragment {
                     ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException(debugInfos.toString()), null)
                             .show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 });
-                binding.errors.setVisibility(View.VISIBLE);
+                binding.errorCounter.setVisibility(View.VISIBLE);
+                binding.errorReportButton.setVisibility(View.VISIBLE);
             } else {
-                binding.errors.setVisibility(View.GONE);
+                binding.errorCounter.setVisibility(View.GONE);
+                binding.errorReportButton.setVisibility(View.GONE);
             }
         });
 
@@ -110,8 +150,14 @@ public class ShareProgressDialogFragment extends BrandedDialogFragment {
         requireActivity().finish();
     }
 
-    public static ShareProgressDialogFragment newInstance() {
-        return new ShareProgressDialogFragment();
+    public static DialogFragment newInstance(@NonNull Account account, long boardLocalId, long cardLocalId) {
+        final DialogFragment fragment = new ShareProgressDialogFragment();
+        final Bundle args = new Bundle();
+        args.putSerializable(BUNDLE_KEY_ACCOUNT, account);
+        args.putSerializable(BUNDLE_KEY_BOARD_LOCAL_ID, boardLocalId);
+        args.putSerializable(BUNDLE_KEY_CARD_LOCAL_ID, cardLocalId);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -119,5 +165,6 @@ public class ShareProgressDialogFragment extends BrandedDialogFragment {
         binding.progress.getProgressDrawable().setColorFilter(
                 getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor), Mode.SRC_IN);
         binding.errorReportButton.setTextColor(getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor));
+        binding.proceedButton.setTextColor(getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor));
     }
 }
