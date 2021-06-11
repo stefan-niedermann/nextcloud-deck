@@ -37,10 +37,7 @@ public class ImageAttachmentViewHolder extends AttachmentViewHolder {
     }
 
     public void bind(@NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull FragmentManager fragmentManager, Long cardRemoteId, Attachment attachment, @Nullable View.OnClickListener onClickListener, @ColorInt int mainColor) {
-        final String downloadUrl = (attachment.getId() == null || cardRemoteId == null)
-                ? attachment.getLocalPath()
-                : AttachmentUtil.getCopyDownloadUrl(account, cardRemoteId, attachment);
-        super.bind(menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, mainColor, downloadUrl);
+        super.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, mainColor);
 
         getPreview().post(() -> {
             @Nullable final String uri = AttachmentUtil.getThumbnailUrl(account, cardRemoteId, attachment, getPreview().getWidth());

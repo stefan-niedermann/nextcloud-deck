@@ -885,9 +885,9 @@ public class SyncManager {
     @AnyThread
     public void reorderStack(long accountId, long boardLocalId, long stackLocalId, boolean moveToRight) {
         executor.submit(() -> {
-            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
-            FullBoard fullBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, boardLocalId);
-            List<FullStack> stacks = dataBaseAdapter.getFullStacksForBoardDirectly(accountId, boardLocalId);
+            final Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            final FullBoard fullBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, boardLocalId);
+            final List<FullStack> stacks = dataBaseAdapter.getFullStacksForBoardDirectly(accountId, boardLocalId);
 
             int lastOrderValue = -1;
             boolean moveDone = false;
@@ -930,12 +930,12 @@ public class SyncManager {
         return dataBaseAdapter.getFullCardsForStack(accountId, localStackId, filter);
     }
 
-    public LiveData<Integer> countCardsInStack(long accountId, long localStackId) {
-        return dataBaseAdapter.countCardsInStack(accountId, localStackId);
+    public void countCardsInStackDirectly(long accountId, long localStackId, @NonNull IResponseCallback<Integer> callback) {
+        executor.submit(() -> dataBaseAdapter.countCardsInStackDirectly(accountId, localStackId, callback));
     }
 
-    public LiveData<Integer> countCardsWithLabel(long localLabelId) {
-        return dataBaseAdapter.countCardsWithLabel(localLabelId);
+    public void countCardsWithLabel(long localLabelId, @NonNull IResponseCallback<Integer> callback) {
+        executor.submit(() -> dataBaseAdapter.countCardsWithLabel(localLabelId, callback));
     }
 
     // TODO implement, see https://github.com/stefan-niedermann/nextcloud-deck/issues/395

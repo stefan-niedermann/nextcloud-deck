@@ -4,7 +4,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.annotation.CallSuper;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,15 +26,9 @@ public abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(@NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull FragmentManager fragmentManager, Long cardRemoteId, Attachment attachment, @Nullable View.OnClickListener onClickListener, @ColorInt int mainColor) {
-        final String downloadUrl = (attachment.getId() == null || cardRemoteId == null)
+        final String attachmentUri = (attachment.getId() == null || cardRemoteId == null)
                 ? attachment.getLocalPath()
-                : AttachmentUtil.getCopyDownloadUrl(account, cardRemoteId, attachment);
-        bind(menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, mainColor, downloadUrl);
-    }
-
-    @CallSuper
-    public void bind(@NonNull MenuInflater menuInflater, @NonNull FragmentManager fragmentManager, Long cardRemoteId, Attachment attachment, @Nullable View.OnClickListener onClickListener, @ColorInt int mainColor, @Nullable String attachmentUri) {
-        setNotSyncedYetStatus(!DBStatus.LOCAL_EDITED.equals(attachment.getStatusEnum()), mainColor);
+                : AttachmentUtil.getCopyDownloadUrl(account, cardRemoteId, attachment);        setNotSyncedYetStatus(!DBStatus.LOCAL_EDITED.equals(attachment.getStatusEnum()), mainColor);
         itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menuInflater.inflate(R.menu.attachment_menu, menu);
             if(EAttachmentType.DECK_FILE.equals(attachment.getType())) {

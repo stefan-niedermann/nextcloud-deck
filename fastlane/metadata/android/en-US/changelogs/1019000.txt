@@ -1,1 +1,2 @@
 - ✏️ Remember edit / preview mode for description (#971)
+- 🖼 Support preview for images which are hosted on a Nextcloud instance (#963)
