@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +32,7 @@ import it.niedermann.nextcloud.deck.ui.preparecreate.PrepareCreateViewModel;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
-public class NewCardDialog extends DialogFragment {
+public class NewCardDialog extends DialogFragment implements DialogInterface.OnClickListener {
 
     private PrepareCreateViewModel viewModel;
 
@@ -70,18 +69,24 @@ public class NewCardDialog extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         binding = DialogNewCardBinding.inflate(requireActivity().getLayoutInflater());
 
+        final AlertDialog dialog = new AlertDialog.Builder(requireActivity())
+                .setTitle(R.string.add_card)
+                .setView(binding.getRoot())
+                .setPositiveButton(R.string.edit, null)
+                .setNegativeButton(R.string.simple_save, null)
+                .create();
+
+        dialog.setOnShowListener(d -> {
+            final boolean inputIsValid = inputIsValid(binding.input.getText());
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(inputIsValid);
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> NewCardDialog.this.onClick(dialog, DialogInterface.BUTTON_POSITIVE));
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setEnabled(inputIsValid);
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(v -> NewCardDialog.this.onClick(dialog, DialogInterface.BUTTON_NEGATIVE));
+        });
+
         BrandingUtil.applyBrandToEditTextInputLayout(color, binding.inputWrapper);
         binding.progressCircular.setIndeterminateTintList(ColorStateList.valueOf(BrandingUtil.getSecondaryForegroundColorDependingOnTheme(requireContext(), color)));
 
-        binding.input.setOnEditorActionListener((textView, actionId, event) -> {
-            //noinspection SwitchStatementWithTooFewBranches
-            switch (actionId) {
-                case EditorInfo.IME_ACTION_DONE:
-                    new SaveListener(true).onClick(binding.getRoot());
-                    return true;
-            }
-            return false;
-        });
         binding.input.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -90,9 +95,12 @@ public class NewCardDialog extends DialogFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!TextUtils.isEmpty(binding.input.getText())) {
+                final boolean inputIsValid = inputIsValid(binding.input.getText());
+                if (inputIsValid) {
                     binding.inputWrapper.setError(null);
                 }
+                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(inputIsValid);
+                dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setEnabled(inputIsValid);
             }
 
             @Override
@@ -111,18 +119,14 @@ public class NewCardDialog extends DialogFragment {
             }
         });
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity())
-                .setTitle(R.string.add_card)
-                .setView(binding.getRoot())
-                .setPositiveButton(R.string.edit, null)
-                .setNegativeButton(R.string.simple_save, null)
-                .setNeutralButton(android.R.string.cancel, null);
-
-        final AlertDialog dialog = builder.create();
-
-        dialog.setOnShowListener((v) -> {
-            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new SaveListener(true));
-            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(new SaveListener(false));
+        binding.input.setOnEditorActionListener((textView, actionId, event) -> {
+            //noinspection SwitchStatementWithTooFewBranches
+            switch (actionId) {
+                case EditorInfo.IME_ACTION_DONE:
+                    onClick(dialog, DialogInterface.BUTTON_POSITIVE);
+                    return true;
+            }
+            return false;
         });
 
         return dialog;
@@ -136,50 +140,56 @@ public class NewCardDialog extends DialogFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    private class SaveListener implements View.OnClickListener {
-        private final boolean openOnSuccess;
-
-        private SaveListener(boolean openOnSuccess) {
-            this.openOnSuccess = openOnSuccess;
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        final boolean openOnSuccess;
+        switch (which) {
+            case DialogInterface.BUTTON_POSITIVE:
+                openOnSuccess = true;
+                break;
+            case DialogInterface.BUTTON_NEGATIVE:
+                openOnSuccess = false;
+                break;
+            default:
+                return;
         }
+        if (Boolean.FALSE.equals(isPending.getValue())) {
+            isPending.setValue(true);
+            final Editable currentUserInput = binding.input.getText();
+            if (inputIsValid(currentUserInput)) {
+                final FullCard fullCard = viewModel.createFullCard(account.getServerDeckVersionAsObject(), currentUserInput.toString());
+                viewModel.saveCard(account.getId(), boardLocalId, stackLocalId, fullCard, new IResponseCallback<FullCard>() {
+                    @Override
+                    public void onResponse(FullCard createdCard) {
+                        requireActivity().runOnUiThread(() -> {
+                            if (openOnSuccess) {
+                                startActivity(EditActivity.createEditCardIntent(requireContext(), account, boardLocalId, createdCard.getLocalId()));
+                            }
+                            dismiss();
+                        });
+                    }
 
-        @Override
-        public void onClick(View v) {
-            if (Boolean.FALSE.equals(isPending.getValue())) {
-                isPending.setValue(true);
-                final Editable currentUserInput = binding.input.getText();
-                if (TextUtils.isEmpty(currentUserInput)) {
-                    binding.inputWrapper.setError(getString(R.string.title_is_mandatory));
-                    binding.input.requestFocus();
-                    isPending.setValue(false);
-                } else {
-                    assert currentUserInput != null;
-                    final FullCard fullCard = viewModel.createFullCard(account.getServerDeckVersionAsObject(), currentUserInput.toString());
-                    viewModel.saveCard(account.getId(), boardLocalId, stackLocalId, fullCard, new IResponseCallback<FullCard>() {
-                        @Override
-                        public void onResponse(FullCard createdCard) {
-                            requireActivity().runOnUiThread(() -> {
-                                if (openOnSuccess) {
-                                    startActivity(EditActivity.createEditCardIntent(requireContext(), account, boardLocalId, createdCard.getLocalId()));
-                                }
-                                dismiss();
-                            });
-                        }
-
-                        @Override
-                        public void onError(Throwable throwable) {
-                            IResponseCallback.super.onError(throwable);
-                            requireActivity().runOnUiThread(() -> {
-                                isPending.setValue(false);
-                                ExceptionDialogFragment
-                                        .newInstance(throwable, account)
-                                        .show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                            });
-                        }
-                    });
-                }
+                    @Override
+                    public void onError(Throwable throwable) {
+                        IResponseCallback.super.onError(throwable);
+                        requireActivity().runOnUiThread(() -> {
+                            isPending.setValue(false);
+                            ExceptionDialogFragment
+                                    .newInstance(throwable, account)
+                                    .show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                        });
+                    }
+                });
+            } else {
+                binding.inputWrapper.setError(getString(R.string.title_is_mandatory));
+                binding.input.requestFocus();
+                isPending.setValue(false);
             }
         }
+    }
+
+    private static boolean inputIsValid(@Nullable CharSequence input) {
+        return input != null && !input.toString().trim().isEmpty();
     }
 
     public static DialogFragment newInstance(@NonNull Account account, long boardLocalId, long stackLocalId, @ColorInt int brand) {
