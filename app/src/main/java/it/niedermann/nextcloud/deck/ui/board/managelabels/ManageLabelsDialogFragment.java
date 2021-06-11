@@ -26,7 +26,6 @@ import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.branding.DeleteAlertDialogBuilder;
 
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 
@@ -130,7 +129,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
 
     @Override
     public void requestDelete(@NonNull Label label) {
-        observeOnce(viewModel.countCardsWithLabel(label.getLocalId()), this, (count) -> {
+        viewModel.countCardsWithLabel(label.getLocalId(), (count) -> requireActivity().runOnUiThread(() -> {
             if (count > 0) {
                 new DeleteAlertDialogBuilder(requireContext())
                         .setTitle(getString(R.string.delete_something, label.getTitle()))
@@ -141,7 +140,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
             } else {
                 deleteLabel(label);
             }
-        });
+        }));
     }
 
     private void deleteLabel(@NonNull Label label) {

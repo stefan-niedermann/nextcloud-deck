@@ -723,33 +723,33 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         if (itemId == R.id.archive_cards) {
             final Stack stack = stackAdapter.getItem(binding.viewPager.getCurrentItem());
             final long stackLocalId = stack.getLocalId();
-            observeOnce(mainViewModel.countCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId), MainActivity.this, (numberOfCards) -> {
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.archive_cards)
-                        .setMessage(getString(FilterInformation.hasActiveFilter(filterViewModel.getFilterInformation().getValue())
-                                ? R.string.do_you_want_to_archive_all_cards_of_the_filtered_list
-                                : R.string.do_you_want_to_archive_all_cards_of_the_list, stack.getTitle()))
-                        .setPositiveButton(R.string.simple_archive, (dialog, whichButton) -> {
-                            final FilterInformation filterInformation = filterViewModel.getFilterInformation().getValue();
-                            mainViewModel.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, filterInformation == null ? new FilterInformation() : filterInformation, new IResponseCallback<Void>() {
-                                @Override
-                                public void onResponse(Void response) {
-                                    DeckLog.info("Successfully archived all cards in stack local id", stackLocalId);
-                                }
-
-                                @Override
-                                public void onError(Throwable throwable) {
-                                    if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
-                                        IResponseCallback.super.onError(throwable);
-                                        runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+            mainViewModel.countCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, (numberOfCards) -> runOnUiThread(() ->
+                    new AlertDialog.Builder(this)
+                            .setTitle(R.string.archive_cards)
+                            .setMessage(getString(FilterInformation.hasActiveFilter(filterViewModel.getFilterInformation().getValue())
+                                    ? R.string.do_you_want_to_archive_all_cards_of_the_filtered_list
+                                    : R.string.do_you_want_to_archive_all_cards_of_the_list, stack.getTitle()))
+                            .setPositiveButton(R.string.simple_archive, (dialog, whichButton) -> {
+                                final FilterInformation filterInformation = filterViewModel.getFilterInformation().getValue();
+                                mainViewModel.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, filterInformation == null ? new FilterInformation() : filterInformation, new IResponseCallback<Void>() {
+                                    @Override
+                                    public void onResponse(Void response) {
+                                        DeckLog.info("Successfully archived all cards in stack local id", stackLocalId);
                                     }
-                                }
-                            });
-                        })
-                        .setNeutralButton(android.R.string.cancel, null)
-                        .create()
-                        .show();
-            });
+
+                                    @Override
+                                    public void onError(Throwable throwable) {
+                                        if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                                            IResponseCallback.super.onError(throwable);
+                                            runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                                        }
+                                    }
+                                });
+                            })
+                            .setNeutralButton(android.R.string.cancel, null)
+                            .create()
+                            .show()
+            ));
             return true;
         } else if (itemId == R.id.add_list) {
             EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
@@ -768,13 +768,13 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             return true;
         } else if (itemId == R.id.delete_list) {
             final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-            observeOnce(mainViewModel.countCardsInStack(mainViewModel.getCurrentAccount().getId(), stackId), MainActivity.this, (numberOfCards) -> {
+            mainViewModel.countCardsInStack(mainViewModel.getCurrentAccount().getId(), stackId, (numberOfCards) -> runOnUiThread(() -> {
                 if (numberOfCards != null && numberOfCards > 0) {
                     DeleteStackDialogFragment.newInstance(stackId, numberOfCards).show(getSupportFragmentManager(), DeleteStackDialogFragment.class.getCanonicalName());
                 } else {
                     onStackDeleted(stackId);
                 }
-            });
+            }));
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -31,6 +31,7 @@ import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -1109,12 +1110,14 @@ public class DataBaseAdapter {
         return db.getBoardDao().getLocalBoardIdByCardRemoteIdAndAccountId(cardRemoteId, accountId);
     }
 
-    public LiveData<Integer> countCardsInStack(long accountId, long localStackId) {
-        return db.getCardDao().countCardsInStack(accountId, localStackId);
+    @WorkerThread
+    public void countCardsInStackDirectly(long accountId, long localStackId, @NonNull IResponseCallback<Integer> callback) {
+        callback.onResponse(db.getCardDao().countCardsInStackDirectly(accountId, localStackId));
     }
 
-    public LiveData<Integer> countCardsWithLabel(long localLabelId) {
-        return db.getJoinCardWithLabelDao().countCardsWithLabel(localLabelId);
+    @WorkerThread
+    public void countCardsWithLabel(long localLabelId, @NonNull IResponseCallback<Integer> callback) {
+        callback.onResponse(db.getJoinCardWithLabelDao().countCardsWithLabelDirectly(localLabelId));
     }
 
     @WorkerThread

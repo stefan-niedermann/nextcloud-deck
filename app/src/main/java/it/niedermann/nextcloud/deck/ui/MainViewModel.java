@@ -190,8 +190,8 @@ public class MainViewModel extends AndroidViewModel {
         syncManager.createLabel(accountId, label, localBoardId, callback);
     }
 
-    public LiveData<Integer> countCardsWithLabel(long localLabelId) {
-        return syncManager.countCardsWithLabel(localLabelId);
+    public void countCardsWithLabel(long localLabelId, @NonNull IResponseCallback<Integer> callback) {
+        syncManager.countCardsWithLabel(localLabelId, callback);
     }
 
     public void updateLabel(@NonNull Label label, @NonNull IResponseCallback<Label> callback) {
@@ -230,8 +230,8 @@ public class MainViewModel extends AndroidViewModel {
         syncManager.reorder(accountId, movedCard, newStackId, newIndex);
     }
 
-    public LiveData<Integer> countCardsInStack(long accountId, long localStackId) {
-        return syncManager.countCardsInStack(accountId, localStackId);
+    public void countCardsInStack(long accountId, long localStackId, @NonNull IResponseCallback<Integer> callback) {
+        syncManager.countCardsInStackDirectly(accountId, localStackId, callback);
     }
 
     public void archiveCardsInStack(long accountId, long stackLocalId, @NonNull FilterInformation filterInformation, @NonNull IResponseCallback<Void> callback) {
