@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
@@ -44,13 +43,14 @@ public class EditBoardDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         binding = DialogTextColorInputBinding.inflate(requireActivity().getLayoutInflater());
 
+        final AlertDialog.Builder builder = new AlertDialog.Builder(requireContext())
+                .setView(binding.getRoot())
+                .setNeutralButton(android.R.string.cancel, null);
+
         final Bundle args = getArguments();
-
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
-
         if (args != null && args.containsKey(KEY_BOARD_ID)) {
-            dialogBuilder.setTitle(R.string.edit_board);
-            dialogBuilder.setPositiveButton(R.string.simple_save, (dialog, which) -> {
+            builder.setTitle(R.string.edit_board);
+            builder.setPositiveButton(R.string.simple_save, (dialog, which) -> {
                 this.fullBoard.board.setColor(binding.colorChooser.getSelectedColor());
                 this.fullBoard.board.setTitle(binding.input.getText().toString());
                 this.editBoardListener.onUpdateBoard(fullBoard);
@@ -67,30 +67,25 @@ public class EditBoardDialogFragment extends DialogFragment {
                 }
             });
         } else {
-            dialogBuilder.setTitle(R.string.add_board);
-            dialogBuilder.setPositiveButton(R.string.simple_add, (dialog, which) -> editBoardListener.onCreateBoard(binding.input.getText().toString(), binding.colorChooser.getSelectedColor()));
+            builder.setTitle(R.string.add_board);
+            builder.setPositiveButton(R.string.simple_add, (dialog, which) -> editBoardListener.onCreateBoard(binding.input.getText().toString(), binding.colorChooser.getSelectedColor()));
             binding.colorChooser.selectColor(ContextCompat.getColor(requireContext(), R.color.board_default_color));
         }
 
-        return dialogBuilder
-                .setView(binding.getRoot())
-                .setNeutralButton(android.R.string.cancel, null)
-                .create();
+        return builder.create();
     }
 
-    public static DialogFragment newInstance(@Nullable Long boardId) {
+    public static DialogFragment newInstance(long boardId) {
         final DialogFragment dialog = new EditBoardDialogFragment();
 
-        if (boardId != null) {
-            Bundle args = new Bundle();
-            args.putLong(KEY_BOARD_ID, boardId);
-            dialog.setArguments(args);
-        }
+        final Bundle args = new Bundle();
+        args.putLong(KEY_BOARD_ID, boardId);
+        dialog.setArguments(args);
 
         return dialog;
     }
 
     public static DialogFragment newInstance() {
-        return newInstance(null);
+        return new EditBoardDialogFragment();
     }
 }
