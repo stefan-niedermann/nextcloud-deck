@@ -3,6 +3,10 @@ package it.niedermann.nextcloud.deck.ui.board;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,6 +14,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogTextColorInputBinding;
@@ -76,6 +82,14 @@ public class EditBoardDialogFragment extends DialogFragment {
                 .setView(binding.getRoot())
                 .setNeutralButton(android.R.string.cancel, null)
                 .create();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding.input.requestFocus();
+        Objects.requireNonNull(requireDialog().getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     public static DialogFragment newInstance(@Nullable Long boardId) {
