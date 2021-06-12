@@ -51,9 +51,9 @@ public class EditStackDialogFragment extends BrandedDialogFragment {
             builder.setTitle(R.string.add_list)
                     .setPositiveButton(R.string.simple_add, (dialog, which) -> editStackListener.onCreateStack(binding.input.getText().toString()));
         } else {
-            binding.input.setText(requireArguments().getString(KEY_OLD_TITLE));
+            binding.input.setText(args.getString(KEY_OLD_TITLE));
             builder.setTitle(R.string.rename_list)
-                    .setPositiveButton(R.string.simple_rename, (dialog, which) -> editStackListener.onUpdateStack(requireArguments().getLong(KEY_STACK_ID), binding.input.getText().toString()));
+                    .setPositiveButton(R.string.simple_rename, (dialog, which) -> editStackListener.onUpdateStack(args.getLong(KEY_STACK_ID), binding.input.getText().toString()));
         }
         return builder.create();
     }
