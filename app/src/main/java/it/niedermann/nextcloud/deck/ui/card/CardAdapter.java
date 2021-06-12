@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import it.niedermann.android.crosstabdnd.DragAndDropAdapter;
 import it.niedermann.android.crosstabdnd.DraggedItemLocalState;
@@ -45,6 +47,7 @@ import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 
 public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> implements DragAndDropAdapter<FullCard>, CardOptionsItemSelectedListener, Branded {
 
+    private final ExecutorService executor;
     private final boolean compactMode;
     @NonNull
     protected final MainViewModel mainViewModel;
@@ -66,6 +69,10 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
     protected final int maxCoverImages;
 
     public CardAdapter(@NonNull Activity activity, @NonNull FragmentManager fragmentManager, long stackId, @NonNull MainViewModel mainViewModel, @Nullable SelectCardListener selectCardListener) {
+        this(activity, fragmentManager, stackId, mainViewModel, selectCardListener, Executors.newSingleThreadExecutor());
+    }
+
+    private CardAdapter(@NonNull Activity activity, @NonNull FragmentManager fragmentManager, long stackId, @NonNull MainViewModel mainViewModel, @Nullable SelectCardListener selectCardListener, @NonNull ExecutorService executor) {
         this.activity = activity;
         this.counterMaxValue = this.activity.getString(R.string.counter_max_value);
         this.fragmentManager = fragmentManager;
@@ -79,6 +86,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
                 ? activity.getResources().getInteger(R.integer.max_cover_images)
                 : 0;
         setHasStableIds(true);
+        this.executor = executor;
     }
 
     @Override
@@ -204,10 +212,10 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
                     .putExtra(Intent.EXTRA_TEXT, CardUtil.getCardContentAsString(activity, fullCard));
             activity.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
         } else if (itemId == R.id.action_card_assign) {
-            new Thread(() -> mainViewModel.assignUserToCard(mainViewModel.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard())).start();
+            executor.submit(() -> mainViewModel.assignUserToCard(mainViewModel.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard()));
             return true;
         } else if (itemId == R.id.action_card_unassign) {
-            new Thread(() -> mainViewModel.unassignUserFromCard(mainViewModel.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard())).start();
+            executor.submit(() -> mainViewModel.unassignUserFromCard(mainViewModel.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard()));
             return true;
         } else if (itemId == R.id.action_card_move) {
             DeckLog.verbose("[Move card] Launch move dialog for " + Card.class.getSimpleName() + " \"" + fullCard.getCard().getTitle() + "\" (#" + fullCard.getLocalId() + ") from " + Stack.class.getSimpleName() + " #" + +stackId);

@@ -38,6 +38,8 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import id.zelory.compressor.constraint.FormatConstraint;
 import id.zelory.compressor.constraint.QualityConstraint;
@@ -95,6 +97,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     private PreviewDialogViewModel previewViewModel;
     private BottomSheetBehavior<LinearLayout> mBottomSheetBehaviour;
     private boolean compressImagesOnUpload = true;
+    private final ExecutorService executor = Executors.newCachedThreadPool();
 
     private RecyclerView.ItemDecoration galleryItemDecoration;
 
@@ -406,7 +409,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                 DeckLog.verbose("--- found content URL", sourceUri.getPath());
                 // Separate Thread required because picked file might not yet be locally available
                 // https://github.com/stefan-niedermann/nextcloud-deck/issues/814
-                new Thread(() -> {
+                executor.submit(() -> {
                     try {
                         final File originalFile = copyContentUriToTempFile(requireContext(), sourceUri, editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId());
                         requireActivity().runOnUiThread(() -> {
@@ -432,7 +435,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                     } catch (IOException e) {
                         requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(e, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                     }
-                }).start();
+                });
                 break;
             }
             default: {
