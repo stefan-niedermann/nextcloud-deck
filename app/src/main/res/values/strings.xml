@@ -174,7 +174,7 @@
     <string name="hours_6">6 hours</string>
     <string name="action_card_move">Move card</string>
     <string name="action_card_move_title">Move %1$s</string>
-    <string name="title_is_mandatory">Title is mandatory</string>
+    <string name="title_is_mandatory">Title is required</string>
     <string name="provide_at_least_a_title_or_description">Provide at least a title or description</string>
     <string name="welcome_text">Welcome to %1$s</string>
     <string name="maintenance_mode_explanation">The server %1$s is currently in maintenance mode. Please contact your administrator or try later again.</string>
@@ -341,6 +341,6 @@
     <string name="account_imported">Account imported</string>
     <string name="simple_search">Search</string>
     <!-- Label for a title input field that is required to be filled out -->
-    <string name="title_mandatory">Title (mandatory)</string>
+    <string name="title_mandatory">Title (required)</string>
     <string name="saving_new_card">Saving new card…</string>
 </resources>
