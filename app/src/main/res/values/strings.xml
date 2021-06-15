@@ -3,6 +3,7 @@
     <string name="app_name_short" translatable="false">Deck</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="hint_search_deck">Search deck</string>
 
     <string name="simple_boards">Boards</string>
     <string name="simple_add">Add</string>
@@ -34,6 +35,7 @@
     <string name="simple_copied">Copied</string>
     <string name="simple_archive">Archive</string>
     <string name="simple_unassigned">Unassigned</string>
+    <string name="hint_error_appeared">An error appeared.</string>
 
     <string name="edit_board">Edit board</string>
     <string name="archive_board">Archive board</string>
