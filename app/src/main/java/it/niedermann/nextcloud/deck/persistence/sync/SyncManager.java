@@ -317,8 +317,18 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<Account> createAccount(@NonNull Account account) {
-        return dataBaseAdapter.createAccount(account);
+    public void createAccount(@NonNull Account account, @NonNull IResponseCallback<Account> callback) {
+        executor.submit(() -> {
+            try {
+                final Account createdAccount = dataBaseAdapter.createAccountDirectly(account);
+                if (createdAccount == null) {
+                    throw new RuntimeException("Created account is null. Source: " + account);
+                }
+                callback.onResponse(createdAccount);
+            } catch (Throwable t) {
+                callback.onError(t);
+            }
+        });
     }
 
     public boolean hasInternetConnection() {
@@ -510,12 +520,12 @@ public class SyncManager {
     @AnyThread
     public void createBoard(long accountId, @NonNull Board board, @NonNull IResponseCallback<FullBoard> callback) {
         executor.submit(() -> {
-            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
-            User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
+            final Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            final User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
             if (owner == null) {
-                callback.onError(new Exception("Owner is null. This can be the case if the Deck app has never before been opened in the webinterface"));
+                callback.onError(new IllegalStateException("Owner is null. This can be the case if the Deck app has never before been opened in the webinterface"));
             } else {
-                FullBoard fullBoard = new FullBoard();
+                final FullBoard fullBoard = new FullBoard();
                 board.setOwnerId(owner.getLocalId());
                 fullBoard.setOwner(owner);
                 fullBoard.setBoard(board);
@@ -720,10 +730,10 @@ public class SyncManager {
     @AnyThread
     public void deleteComment(long accountId, long localCardId, long localCommentId, @NonNull IResponseCallback<Void> callback) {
         executor.submit(() -> {
-            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
-            Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
-            DeckComment entity = dataBaseAdapter.getCommentByLocalIdDirectly(accountId, localCommentId);
-            OcsComment commentEntity = OcsComment.of(entity);
+            final Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            final Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
+            final DeckComment entity = dataBaseAdapter.getCommentByLocalIdDirectly(accountId, localCommentId);
+            final OcsComment commentEntity = OcsComment.of(entity);
             new DataPropagationHelper(serverAdapter, dataBaseAdapter, executor).deleteEntity(new DeckCommentsDataProvider(null, card),
                     commentEntity, ResponseCallback.from(account, callback));
         });

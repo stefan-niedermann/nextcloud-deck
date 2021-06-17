@@ -77,7 +77,6 @@ import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.about.AboutActivity;
 import it.niedermann.nextcloud.deck.ui.accountswitcher.AccountSwitcherDialog;
 import it.niedermann.nextcloud.deck.ui.archivedboards.ArchivedBoardsActvitiy;
@@ -834,14 +833,11 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             default:
                 try {
                     AccountImporter.onActivityResult(requestCode, resultCode, data, this, (account) -> {
-                        final WrappedLiveData<Account> accountLiveData = mainViewModel.createAccount(new Account(account.name, account.userId, account.url));
-                        accountLiveData.observe(this, (createdAccount) -> {
-                            if (!accountLiveData.hasError()) {
-                                if (createdAccount == null) {
-                                    throw new IllegalStateException("Created account must not be null");
-                                }
-
-                                final SyncManager importSyncManager = new SyncManager(this, account.name);
+                        final Account accountToCreate = new Account(account.name, account.userId, account.url);
+                        mainViewModel.createAccount(accountToCreate, new IResponseCallback<Account>() {
+                            @Override
+                            public void onResponse(Account createdAccount) {
+                                final SyncManager importSyncManager = new SyncManager(MainActivity.this, account.name);
                                 importSyncManager.refreshCapabilities(new ResponseCallback<Capabilities>(createdAccount) {
                                     @SuppressLint("StringFormatInvalid")
                                     @Override
@@ -915,13 +911,16 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                         }
                                     }
                                 });
-                            } else {
-                                final Throwable error = accountLiveData.getError();
+                            }
+
+                            @Override
+                            public void onError(Throwable error) {
+                                IResponseCallback.super.onError(error);
                                 if (error instanceof SQLiteConstraintException) {
                                     DeckLog.warn("Account already added");
                                     BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_already_added, Snackbar.LENGTH_LONG).show();
                                 } else {
-                                    ExceptionDialogFragment.newInstance(error, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                    ExceptionDialogFragment.newInstance(error, accountToCreate).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                                 }
                             }
                         });

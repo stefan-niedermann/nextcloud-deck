@@ -220,15 +220,14 @@ public class SyncManagerTest {
     }
 
     @Test
-    public void testCreateAccount() throws InterruptedException {
+    @SuppressWarnings("unchecked")
+    public void testCreateAccount() {
         final Account account = new Account(1337L, "Test", "Peter", "example.com");
-        final WrappedLiveData<Account> result = new WrappedLiveData<>();
-        result.setValue(account);
-        when(dataBaseAdapter.createAccount(any(Account.class))).thenReturn(result);
-
-        TestUtil.getOrAwaitValue(syncManager.createAccount(account));
-
-        verify(dataBaseAdapter, times(1)).createAccount(account);
+        final IResponseCallback<Account> callback = mock(IResponseCallback.class);
+        when(dataBaseAdapter.createAccountDirectly(any(Account.class))).thenReturn(account);
+        syncManager.createAccount(account, callback);
+        verify(dataBaseAdapter, times(1)).createAccountDirectly(account);
+        verify(callback, times(1)).onResponse(account);
     }
 
     @Test

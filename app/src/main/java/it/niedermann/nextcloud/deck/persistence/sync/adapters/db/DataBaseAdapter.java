@@ -75,7 +75,6 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
 
@@ -514,20 +513,19 @@ public class DataBaseAdapter {
         db.getLabelDao().delete(label);
     }
 
-    public WrappedLiveData<Account> createAccount(Account account) {
-        return LiveDataHelper.wrapInLiveData(() -> {
-            final long id = db.getAccountDao().insert(account);
+    @WorkerThread
+    public Account createAccountDirectly(@NonNull Account account) {
+        final long id = db.getAccountDao().insert(account);
 
-            widgetNotifierExecutor.submit(() -> {
-                DeckLog.verbose("Adding new created", Account.class.getSimpleName(), " with ", id, " to all instances of ", EWidgetType.UPCOMING_WIDGET.name());
-                for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
-                    widget.getAccounts().add(new FilterWidgetAccount(id, false));
-                    updateFilterWidgetDirectly(widget);
-                }
-                notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.ACCOUNT, id);
-            });
-            return readAccountDirectly(id);
+        widgetNotifierExecutor.submit(() -> {
+            DeckLog.verbose("Adding new created", Account.class.getSimpleName(), " with ", id, " to all instances of ", EWidgetType.UPCOMING_WIDGET.name());
+            for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
+                widget.getAccounts().add(new FilterWidgetAccount(id, false));
+                updateFilterWidgetDirectly(widget);
+            }
+            notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.ACCOUNT, id);
         });
+        return readAccountDirectly(id);
     }
 
     public void deleteAccount(long id) {
@@ -586,15 +584,6 @@ public class DataBaseAdapter {
 
     public LiveData<List<Board>> getBoardsWithEditPermission(long accountId) {
         return distinctUntilChanged(db.getBoardDao().getBoardsWithEditPermissionsForAccount(accountId));
-    }
-
-    public WrappedLiveData<Board> createBoard(long accountId, @NonNull Board board) {
-        return LiveDataHelper.wrapInLiveData(() -> {
-            board.setAccountId(accountId);
-            final long id = db.getBoardDao().insert(board);
-            notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.BOARD, id);
-            return db.getBoardDao().getBoardByLocalIdDirectly(id);
-        });
     }
 
     @WorkerThread
