@@ -17,12 +17,9 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.movecard.MoveCardListener;
-
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 public class UpcomingCardsActivity extends AppCompatActivity implements MoveCardListener {
 
@@ -94,12 +91,18 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
 
     @Override
     public void move(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
-        final WrappedLiveData<Void> liveData = viewModel.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId);
-        observeOnce(liveData, this, (next) -> {
-            if (liveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(liveData.getError())) {
-                ExceptionDialogFragment.newInstance(liveData.getError(), null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-            } else {
+        viewModel.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId, new IResponseCallback<Void>() {
+            @Override
+            public void onResponse(Void response) {
                 DeckLog.log("Moved", Card.class.getSimpleName(), originCardLocalId, "to", Stack.class.getSimpleName(), targetStackLocalId);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                IResponseCallback.super.onError(throwable);
+                if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                    ExceptionDialogFragment.newInstance(throwable, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
             }
         });
     }

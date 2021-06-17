@@ -266,8 +266,8 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.getFullCardsForStack(accountId, localStackId, filter);
     }
 
-    public WrappedLiveData<Void> moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
-        return syncManager.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId);
+    public void moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId, @NonNull IResponseCallback<Void> callback) {
+        syncManager.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId, callback);
     }
 
     public LiveData<List<FullCard>> getArchivedFullCardsForBoard(long accountId, long localBoardId) {

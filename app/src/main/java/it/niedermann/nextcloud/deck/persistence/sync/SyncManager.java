@@ -84,7 +84,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.B
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.BoardWithStacksAndLabelsUpSyncDataProvider;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.wrapInLiveData;
 import static java.net.HttpURLConnection.HTTP_NOT_MODIFIED;
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 
@@ -1216,20 +1215,22 @@ public class SyncManager {
      */
     @SuppressWarnings("JavadocReference")
     @AnyThread
-    public WrappedLiveData<Void> moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
-        return wrapInLiveData(() -> {
+    public void moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId, @NonNull IResponseCallback<Void> callback) {
+        executor.submit(() -> {
             final FullCard originalCard = dataBaseAdapter.getFullCardByLocalIdDirectly(originAccountId, originCardLocalId);
-            int newIndex = dataBaseAdapter.getHighestCardOrderInStack(targetStackLocalId) + 1;
+            final int newIndex = dataBaseAdapter.getHighestCardOrderInStack(targetStackLocalId) + 1;
             final FullBoard originalBoard = dataBaseAdapter.getFullBoardByLocalCardIdDirectly(originCardLocalId);
             // ### maybe shortcut possible? (just moved to another stack)
             if (targetBoardLocalId == originalBoard.getLocalId()) {
                 reorder(originAccountId, originalCard, targetStackLocalId, newIndex);
-                return null;
+                callback.onResponse(null);
+                return;
             }
             // ### get rid of original card where it is now.
             final Card originalInnerCard = originalCard.getCard();
             deleteCard(new Card(originalInnerCard), IResponseCallback.empty());
             // ### clone card itself
+            // TODO Why not use copy constructor? Attention, something might missing, e. g. accountId
             originalInnerCard.setAccountId(targetAccountId);
             originalInnerCard.setId(null);
             originalInnerCard.setLocalId(null);
@@ -1247,6 +1248,7 @@ public class SyncManager {
             final FullStack targetFullStack = dataBaseAdapter.getFullStackByLocalIdDirectly(targetStackLocalId);
             final User userOfTargetAccount = dataBaseAdapter.getUserByUidDirectly(targetAccountId, targetAccount.getUserName());
             final CountDownLatch latch = new CountDownLatch(1);
+
             ServerAdapter serverToUse = serverAdapter;
             if (originAccountId != targetAccountId) {
                 serverToUse = new ServerAdapter(appContext, targetAccount.getName());
@@ -1260,9 +1262,9 @@ public class SyncManager {
                 }
 
                 @Override
+                @SuppressLint("MissingSuperCall")
                 public void onError(Throwable throwable) {
-                    super.onError(throwable);
-                    throw new RuntimeException("unable to create card in moveCard target", throwable);
+                    callback.onError(new RuntimeException("unable to create card in moveCard target", throwable));
                 }
             }, (FullCard entity, FullCard response) -> {
                 response.getCard().setUserId(userOfTargetAccount.getLocalId());
@@ -1274,11 +1276,10 @@ public class SyncManager {
             try {
                 latch.await();
             } catch (InterruptedException e) {
-                DeckLog.logError(e);
-                throw new RuntimeException("error fulfilling countDownLatch", e);
+                callback.onError(new RuntimeException("error fulfilling countDownLatch", e));
             }
 
-            long newCardId = originalInnerCard.getLocalId();
+            final long newCardId = originalInnerCard.getLocalId();
 
             // ### clone labels, assign them
             // prepare
@@ -1319,7 +1320,7 @@ public class SyncManager {
             }
 
             // ### Clone assigned users
-            Account originalAccount = dataBaseAdapter.getAccountByIdDirectly(originAccountId);
+            final Account originalAccount = dataBaseAdapter.getAccountByIdDirectly(originAccountId);
             // same instance? otherwise doesn't make sense
             if (originalAccount.getUrl().equalsIgnoreCase(targetAccount.getUrl())) {
                 for (User assignedUser : originalCard.getAssignedUsers()) {
@@ -1339,8 +1340,7 @@ public class SyncManager {
                     }
                 }
             }
-            // since this is LiveData<Void>
-            return null;
+            callback.onResponse(null);
         });
     }
 
