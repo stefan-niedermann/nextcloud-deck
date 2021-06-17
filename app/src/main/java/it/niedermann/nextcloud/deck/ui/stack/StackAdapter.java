@@ -44,6 +44,19 @@ public class StackAdapter extends FragmentStateAdapter {
                 : position + 1;
     }
 
+    /**
+     * @return the position of the {@link Stack} where {@link Stack#getLocalId()} equals {@param stackLocalId}.
+     * @throws NoSuchElementException in case the searched {@param stackLocalId} is not in the list.
+     */
+    public int getPosition(long stackLocalId) throws NoSuchElementException {
+        for (int i = 0; i < stackList.size(); i++) {
+            if (stackList.get(i).getLocalId() == stackLocalId) {
+                return i;
+            }
+        }
+        throw new NoSuchElementException("Stack with localId " + stackLocalId + " is not in the current list.");
+    }
+
     @Override
     public long getItemId(int position) {
         return stackList.get(position).getLocalId();

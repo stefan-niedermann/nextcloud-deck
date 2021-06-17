@@ -465,7 +465,14 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         mainViewModel.createStack(mainViewModel.getCurrentAccount().getId(), stackName, mainViewModel.getCurrentBoardLocalId(), new IResponseCallback<FullStack>() {
             @Override
             public void onResponse(FullStack response) {
-                runOnUiThread(() -> binding.viewPager.setCurrentItem(stackAdapter.getItemCount()));
+                DeckApplication.saveCurrentStackId(MainActivity.this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId(), response.getLocalId());
+                binding.viewPager.post(() -> {
+                    try {
+                        binding.viewPager.setCurrentItem(stackAdapter.getPosition(response.getLocalId()));
+                    } catch (NoSuchElementException e) {
+                        DeckLog.logError(e);
+                    }
+                });
             }
 
             @Override
