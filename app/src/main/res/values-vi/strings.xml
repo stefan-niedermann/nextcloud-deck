@@ -1,7 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Mở ngăn điều hướng</string>
     <string name="navigation_drawer_close">Đóng ngăn điều hướng</string>
-
     <string name="simple_boards">Dự án</string>
     <string name="simple_add">Thêm</string>
     <string name="simple_save">Lưu</string>
@@ -32,7 +31,6 @@
     <string name="simple_copied">Đã sao chép</string>
     <string name="simple_archive">Lưu trữ</string>
     <string name="simple_unassigned">Chưa được phân công</string>
-
     <string name="edit_board">Chỉnh sửa dự án</string>
     <string name="archive_board">Lưu trữ dự án</string>
     <string name="delete_board">Xóa dự án</string>
@@ -148,7 +146,6 @@
     <string name="hours_6">6 tiếng</string>
     <string name="action_card_move">Di chuyển thẻ</string>
     <string name="action_card_move_title">Di chuyển %1$s</string>
-    <string name="title_is_mandatory">Tiêu đề là bắt buộc</string>
     <string name="provide_at_least_a_title_or_description">Hãy cung cấp ít nhất là một tiêu đề hoặc mô tả</string>
     <string name="welcome_text">Chào mừng đến %1$s</string>
     <string name="maintenance_mode_explanation">Máy chủ %1$s hiện tại đang trong chế độ bảo trì. Vui lòng liên hệ với quản trị viên của bạn hoặc thử lại sau.</string>
@@ -312,4 +309,5 @@
     <string name="copying_logs_to_file">Đang sao chép nhật ký vào tệp...</string>
     <string name="account_imported">Đã nhập tài khoản</string>
     <string name="simple_search">Tìm kiếm</string>
+    <string name="saving_new_card">Đang lưu thẻ mới...</string>
 </resources>

@@ -1,11 +1,12 @@
 <resources>
     <string name="navigation_drawer_open">Gezinme çekmecesini aç</string>
     <string name="navigation_drawer_close">Gezinme çekmecesini kapat</string>
+    <string name="hint_search_deck">Tahta ara</string>
 
-    <string name="simple_boards">Katlar</string>
+    <string name="simple_boards">Kartlar</string>
     <string name="simple_add">Ekle</string>
     <string name="simple_save">Kaydet</string>
-    <string name="simple_more">Daha Fazla</string>
+    <string name="simple_more">Diğer</string>
     <string name="simple_title">Başlık</string>
     <string name="simple_copy">kopyala</string>
     <string name="simple_synchronization">Eşitleme</string>
@@ -26,17 +27,16 @@
     <string name="simple_undo">Geri al</string>
     <string name="simple_manage">yönet</string>
     <string name="simple_share">paylaş</string>
-    <string name="simple_select">Seçin</string>
+    <string name="simple_select">Seç</string>
     <string name="simple_comment">Açıklama</string>
     <string name="simple_disabled">devre dışı</string>
     <string name="simple_copied">Kopyalandı</string>
     <string name="simple_archive">Arşivle</string>
     <string name="simple_unassigned">Atanmamış</string>
-
     <string name="edit_board">Panoyu düzenle</string>
     <string name="archive_board">Panoyu arşivle</string>
     <string name="delete_board">Panoyu sil</string>
-    <string name="delete_something">%1$s Sil</string>
+    <string name="delete_something">%1$s sil</string>
 
     <string name="about">Hakkında</string>
     <string name="about_version_title">Sürüm</string>
@@ -60,12 +60,12 @@
     <string name="about_icons_disclaimer_app_icon">Özgün simge için %1$s üzerine bakın.</string>
     <string name="about_icons_disclaimer_mdi_icons">Bu uygulama tarafından kullanılan tüm simgeler %1$s Google Inc. tarafından oluşturulmuştur ve Apache 2.0 Lisansı koşullarına göre lisanslanmıştır.</string>
     <string name="about_icons_disclaimer_mdi">Material Design Icons</string>
-    <string name="about_credits_tab_title">Emeği Geçenler</string>
-    <string name="about_contribution_tab_title">Katkıda Bulunanlar</string>
+    <string name="about_credits_tab_title">Emeği geçenler</string>
+    <string name="about_contribution_tab_title">Katkıda bulunanlar</string>
     <string name="about_license_tab_title">Lisans</string>
     <string name="seconds_ago">saniye önce</string>
     <string name="edit">Düzenle</string>
-    <string name="label_labels">Etiketleri Seçin</string>
+    <string name="label_labels">Etiketleri seçin</string>
     <string name="label_description">Açıklama</string>
     <string name="hint_assign_people">Kullanıcı ata</string>
     <string name="hint_due_date_date">Bitiş tarihi</string>
@@ -131,7 +131,7 @@
     <string name="pref_value_wifi_and_mobile">Wi-Fi ve mobil veri ile eşitlensin</string>
     <string name="pref_value_wifi_only">Yalnız Wi-Fi ile eşitlensin</string>
     <string-array name="darkmode_entries">
-        <item>Sistem Varsayılanı</item>
+        <item>Sistem varsayılanı</item>
         <item>Açık</item>
         <item>Koyu</item>
     </string-array>
@@ -145,14 +145,14 @@
     <string name="no_content">Henüz bir içerik yok</string>
     <string name="last_background_sync">Son arka planda eşitleme:</string>
     <string name="simple_off">Kapalı</string>
-    <string name="minutes_15">15 Dakika</string>
-    <string name="hour_1">1 Saat</string>
-    <string name="hours_6">6 Saat</string>
+    <string name="minutes_15">15 dakika</string>
+    <string name="hour_1">1 saat</string>
+    <string name="hours_6">6 saat</string>
     <string name="action_card_move">Kartı taşı</string>
-    <string name="action_card_move_title">%1$s Taşı</string>
+    <string name="action_card_move_title">%1$s taşı</string>
     <string name="title_is_mandatory">Başlığın yazılması zorunludur</string>
     <string name="provide_at_least_a_title_or_description">Lütfen en azından bir başlık ya da açıklama yazın</string>
-    <string name="welcome_text">%1$s panonuza hoşgeldiniz</string>
+    <string name="welcome_text">%1$s panonuza hoş geldiniz</string>
     <string name="maintenance_mode_explanation">%1$s sunucusu şu anda bakım kipinde. Lütfen yöneticinizle görüşün ya da daha sonra yeniden deneyin.</string>
     <string name="share_add_to_card">Karta ekle</string>
     <string name="share_success">%1$s, %2$s üzerine eklendi</string>
@@ -283,7 +283,7 @@
     <string name="single_card">Tek kart</string>
     <string name="project_type_room">Talk odası</string>
     <string name="simple_move">Taşı</string>
-    <string name="cannot_upload_files_without_permission">İzin olmadan dosya yüklenemez</string>
+    <string name="cannot_upload_files_without_permission">İzinler olmadan dosyalar yüklenemez</string>
     <string name="clone_cards">Kartları kopyala</string>
     <string name="simple_clone">Kopyala</string>
     <string name="user_avatar">Kullanıcı avatarı</string>
@@ -316,4 +316,7 @@
     <string name="copying_logs_to_file">Günlükler dosyaya kopyalanıyor…</string>
     <string name="account_imported">Hesap içe aktarıldı</string>
     <string name="simple_search">Arama</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Başlık (zorunlu)</string>
+    <string name="saving_new_card">Yeni kart kaydediliyor…</string>
 </resources>

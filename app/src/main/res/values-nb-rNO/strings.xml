@@ -1,7 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Åpne navigasjonsskuff</string>
     <string name="navigation_drawer_close">Lukk navigasjonsskuff</string>
-
     <string name="simple_boards">Tavler</string>
     <string name="simple_add">Legg til</string>
     <string name="simple_save">Lagre</string>
@@ -32,7 +31,6 @@
     <string name="simple_copied">Kopiert</string>
     <string name="simple_archive">Arkiv</string>
     <string name="simple_unassigned">Ikke tildelt</string>
-
     <string name="edit_board">Rediger tavle</string>
     <string name="archive_board">Arkiver tavle</string>
     <string name="delete_board">Slett tavle</string>
@@ -135,12 +133,8 @@
     <string name="no_content">Ikke noe innhold enda</string>
     <string name="last_background_sync">Siste bakgrunnssynkronisering:</string>
     <string name="simple_off">ett kvarter</string>
-    <string name="minutes_15">15 minutter</string>
-    <string name="hour_1">1 time</string>
-    <string name="hours_6">6 timer</string>
     <string name="action_card_move">Flytt kort</string>
     <string name="action_card_move_title">Flytt %1$s</string>
-    <string name="title_is_mandatory">Tittel er obligatorisk</string>
     <string name="provide_at_least_a_title_or_description">I det minste gi en tittel eller beskrivelse</string>
     <string name="welcome_text">Velkommen til %1$s</string>
     <string name="maintenance_mode_explanation">Serveren %1$s er for øyeblikket i vedlikeholds modus. Vennligs kontakt din administrator eller prøv igjen senere.</string>
