@@ -364,7 +364,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                 mainViewModel.getCurrentBoardColor()
                         ).show(getSupportFragmentManager(), NewCardDialog.class.getSimpleName());
                     } catch (IndexOutOfBoundsException e) {
-                        EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
+                        EditStackDialogFragment.newInstance().show(getSupportFragmentManager(), addList);
                     }
                 } else {
                     EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
@@ -511,7 +511,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                         boardsList.add(response.getBoard());
                         setCurrentBoard(response.getBoard());
                         inflateBoardMenu(response.getBoard());
-                        EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
+                        EditStackDialogFragment.newInstance().show(getSupportFragmentManager(), addList);
                     }
                     boardsLiveData.observe(MainActivity.this, boardsLiveDataObserver);
                 });
@@ -756,7 +756,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             ));
             return true;
         } else if (itemId == R.id.add_list) {
-            EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
+            EditStackDialogFragment.newInstance().show(getSupportFragmentManager(), addList);
             return true;
         } else if (itemId == R.id.rename_list) {
             final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();

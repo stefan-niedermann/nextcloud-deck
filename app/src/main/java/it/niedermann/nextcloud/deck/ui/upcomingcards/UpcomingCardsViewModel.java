@@ -7,6 +7,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -19,10 +21,12 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 public class UpcomingCardsViewModel extends AndroidViewModel {
 
     private final SyncManager syncManager;
+    private final ExecutorService executor;
 
     public UpcomingCardsViewModel(@NonNull Application application) {
         super(application);
         this.syncManager = new SyncManager(application);
+        this.executor = Executors.newCachedThreadPool();
     }
 
     public LiveData<List<UpcomingCardsAdapterItem>> getUpcomingCards() {
@@ -30,11 +34,11 @@ public class UpcomingCardsViewModel extends AndroidViewModel {
     }
 
     public void assignUser(@NonNull Account account, @NonNull Card card) {
-        new Thread(() -> syncManager.assignUserToCard(syncManager.getUserByUidDirectly(card.getAccountId(), account.getUserName()), card)).start();
+        executor.submit(() -> syncManager.assignUserToCard(syncManager.getUserByUidDirectly(card.getAccountId(), account.getUserName()), card));
     }
 
     public void unassignUser(@NonNull Account account, @NonNull Card card) {
-        new Thread(() -> syncManager.unassignUserFromCard(syncManager.getUserByUidDirectly(card.getAccountId(), account.getUserName()), card)).start();
+        executor.submit(() -> syncManager.unassignUserFromCard(syncManager.getUserByUidDirectly(card.getAccountId(), account.getUserName()), card));
     }
 
     public void archiveCard(@NonNull FullCard card, @NonNull IResponseCallback<FullCard> callback) {
