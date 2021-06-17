@@ -15,6 +15,8 @@ import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 
 import java.util.NoSuchElementException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -25,11 +27,13 @@ import it.niedermann.nextcloud.deck.util.DateUtil;
 
 public class SingleCardWidget extends AppWidgetProvider {
 
+    private final ExecutorService executor = Executors.newCachedThreadPool();
+
     void updateAppWidget(Context context, AppWidgetManager awm, int[] appWidgetIds) {
         final SyncManager syncManager = new SyncManager(context);
 
         for (int appWidgetId : appWidgetIds) {
-            new Thread(() -> {
+            executor.submit(() -> {
                 try {
                     final FullSingleCardWidgetModel fullModel = syncManager.getSingleCardWidgetModelDirectly(appWidgetId);
 
@@ -106,7 +110,7 @@ public class SingleCardWidget extends AppWidgetProvider {
                 } catch (NoSuchElementException e) {
                     // onUpdate has been triggered before the user finished configuring the widget
                 }
-            }).start();
+            });
         }
     }
 

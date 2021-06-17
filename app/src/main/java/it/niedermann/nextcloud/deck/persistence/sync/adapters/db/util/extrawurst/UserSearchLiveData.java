@@ -18,12 +18,12 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter
 public class UserSearchLiveData extends MediatorLiveData<List<User>> implements Debouncer.Callback<Long> {
 
     private static final int DEBOUNCE_TIME = 300; // ms
-    private DataBaseAdapter db;
-    private ServerAdapter server;
+    private final DataBaseAdapter db;
+    private final ServerAdapter server;
     long accountId;
     String searchTerm;
     long notYetAssignedInACL;
-    private Debouncer<Long> debouncer = new Debouncer<>(this, DEBOUNCE_TIME);
+    private final Debouncer<Long> debouncer = new Debouncer<>(this, DEBOUNCE_TIME);
 
     public UserSearchLiveData(DataBaseAdapter db, ServerAdapter server) {
         this.db = db;
