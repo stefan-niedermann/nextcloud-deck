@@ -79,9 +79,9 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
         dialog.setOnShowListener(d -> {
             final boolean inputIsValid = inputIsValid(binding.input.getText());
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(inputIsValid);
-            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> NewCardDialog.this.onClick(dialog, DialogInterface.BUTTON_POSITIVE));
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> onClick(dialog, DialogInterface.BUTTON_POSITIVE));
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setEnabled(inputIsValid);
-            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(v -> NewCardDialog.this.onClick(dialog, DialogInterface.BUTTON_NEGATIVE));
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(v -> onClick(dialog, DialogInterface.BUTTON_NEGATIVE));
         });
 
         BrandingUtil.applyBrandToEditTextInputLayout(color, binding.inputWrapper);
