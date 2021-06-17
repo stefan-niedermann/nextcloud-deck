@@ -53,6 +53,7 @@ import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import it.niedermann.android.crosstabdnd.CrossTabDragAndDrop;
@@ -771,12 +772,12 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             stackMoved = true;
             return true;
         } else if (itemId == R.id.delete_list) {
-            final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-            mainViewModel.countCardsInStack(mainViewModel.getCurrentAccount().getId(), stackId, (numberOfCards) -> runOnUiThread(() -> {
+            final long stackLocalId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
+            mainViewModel.countCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, (numberOfCards) -> runOnUiThread(() -> {
                 if (numberOfCards != null && numberOfCards > 0) {
-                    DeleteStackDialogFragment.newInstance(stackId, numberOfCards).show(getSupportFragmentManager(), DeleteStackDialogFragment.class.getCanonicalName());
+                    DeleteStackDialogFragment.newInstance(stackLocalId, numberOfCards).show(getSupportFragmentManager(), DeleteStackDialogFragment.class.getCanonicalName());
                 } else {
-                    onStackDeleted(stackId);
+                    onStackDeleted(stackLocalId);
                 }
             }));
             return true;
@@ -999,12 +1000,19 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     }
 
     @Override
-    public void onStackDeleted(Long stackLocalId) {
-        final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-        mainViewModel.deleteStack(mainViewModel.getCurrentAccount().getId(), stackId, mainViewModel.getCurrentBoardLocalId(), new IResponseCallback<Void>() {
+    public void onStackDeleted(long stackLocalId) {
+        int nextStackPosition;
+        try {
+            nextStackPosition = stackAdapter.getNeighbourPosition(binding.viewPager.getCurrentItem());
+        } catch (NoSuchElementException | IndexOutOfBoundsException e) {
+            nextStackPosition = 0;
+            DeckLog.logError(e);
+        }
+        binding.viewPager.setCurrentItem(nextStackPosition);
+        mainViewModel.deleteStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, mainViewModel.getCurrentBoardLocalId(), new IResponseCallback<Void>() {
             @Override
             public void onResponse(Void response) {
-                DeckLog.info("Successfully deleted stack with local id", stackLocalId, "and remote id", stackId);
+                DeckLog.info("Successfully deleted stack with local id", stackLocalId, "and remote id", stackLocalId);
             }
 
             @Override
