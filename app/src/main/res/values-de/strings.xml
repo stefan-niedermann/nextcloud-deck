@@ -1,6 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
     <string name="navigation_drawer_close">Navigationsleiste schließen</string>
+    <string name="hint_search_deck">Deck durchsuchen</string>
 
     <string name="simple_boards">Boards</string>
     <string name="simple_add">Hinzufügen</string>
@@ -32,7 +33,6 @@
     <string name="simple_copied">Kopiert</string>
     <string name="simple_archive">Archivieren</string>
     <string name="simple_unassigned">Nicht zugewiesen</string>
-
     <string name="edit_board">Board bearbeiten</string>
     <string name="archive_board">Board archivieren</string>
     <string name="delete_board">Board löschen</string>
@@ -150,7 +150,7 @@
     <string name="hours_6">6 Stunden</string>
     <string name="action_card_move">Karte verschieben</string>
     <string name="action_card_move_title">Verschiebe %1$s</string>
-    <string name="title_is_mandatory">Titel ist obligatorisch</string>
+    <string name="title_is_mandatory">Titel ist erforderlich</string>
     <string name="provide_at_least_a_title_or_description">Mindestens einen Titel oder eine Beschreibung eingeben</string>
     <string name="welcome_text">Willkommen bei %1$s</string>
     <string name="maintenance_mode_explanation">Der Server %1$s ist momentan im Wartungsmodus. Bitte nehmen Sie Kontakt mit Ihrem Administrator auf oder versuchen Sie es später nochmal!</string>
@@ -283,7 +283,7 @@
     <string name="single_card">Einzelne Karte</string>
     <string name="project_type_room">Talk-Raum</string>
     <string name="simple_move">Verschieben</string>
-    <string name="cannot_upload_files_without_permission">Dateien können nicht ohne Berechtigung hochgeladen werden</string>
+    <string name="cannot_upload_files_without_permission">Dateien können ohne Berechtigung nicht hochgeladen werden</string>
     <string name="clone_cards">Karten klonen</string>
     <string name="simple_clone">Klonen</string>
     <string name="user_avatar">Benutzer-Avatar</string>
@@ -316,4 +316,7 @@
     <string name="copying_logs_to_file">Protokolldateien in Datei kopieren…</string>
     <string name="account_imported">Konto importiert</string>
     <string name="simple_search">Suche</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Titel (erforderlich)</string>
+    <string name="saving_new_card">Speichere neue Karte …</string>
 </resources>

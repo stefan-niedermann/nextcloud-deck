@@ -1,7 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Abrir o caixón de navegación</string>
     <string name="navigation_drawer_close">Pechar o caixón de navegación</string>
-
     <string name="simple_boards">Taboleiros</string>
     <string name="simple_add">Engadir</string>
     <string name="simple_save">Gardar</string>
@@ -32,7 +31,6 @@
     <string name="simple_copied">Copiada</string>
     <string name="simple_archive">Aquivar</string>
     <string name="simple_unassigned">Sen asignar</string>
-
     <string name="edit_board">Editar taboleiro</string>
     <string name="archive_board">Arquivar taboleiro</string>
     <string name="delete_board">Eliminar taboleiro</string>
@@ -139,12 +137,8 @@
     <string name="no_content">Aínda non hai contido</string>
     <string name="last_background_sync">Última sincronización do traballo en segundo plano:</string>
     <string name="simple_off">Apagado</string>
-    <string name="minutes_15">15 minutos</string>
-    <string name="hour_1">1 hora</string>
-    <string name="hours_6">6 horas</string>
     <string name="action_card_move">Mover a tarxeta</string>
     <string name="action_card_move_title">Mover %1$s</string>
-    <string name="title_is_mandatory">O título é obrigatorio</string>
     <string name="provide_at_least_a_title_or_description">Forneza polo menos un título ou descrición</string>
     <string name="welcome_text">Dámoslle a benvida a %1$s</string>
     <string name="maintenance_mode_explanation">O servidor %1$s está atopase en modo de mantemento. Póñase en contacto co seu administrador ou ténteo de novo máis tarde.</string>

@@ -1,7 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Öppna navigeringspanelen</string>
     <string name="navigation_drawer_close">Stäng navigeringslådan</string>
-
     <string name="simple_boards">Tavlor</string>
     <string name="simple_add">Lägg till</string>
     <string name="simple_save">Spara</string>
@@ -32,7 +31,6 @@
     <string name="simple_copied">Kopierad</string>
     <string name="simple_archive">Arkivera</string>
     <string name="simple_unassigned">Ej tilldelad</string>
-
     <string name="edit_board">Ändra tavla</string>
     <string name="archive_board">Arkivera tavla</string>
     <string name="delete_board">Ta bort tavla</string>
@@ -129,19 +127,15 @@
     <string name="unassigned_user">Tog bort tilldelning %1$s</string>
     <string name="no_activities">Det finns inga aktiviteter på det här kortet. Du måste vara ansluten till internet för att läsa in och visa aktiviteter.</string>
     <string name="share_board">Dela tavla</string>
-    <string name="you_are_currently_offline">Du är för närvarande offline</string>
+    <string name="you_are_currently_offline">Du är för närvarande frånkopplad</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Du måste vara ansluten till internet för att lägga till ett konto.</string>
     <string name="owner">Ägare</string>
     <string name="attachment_delete_message">Detta kommer att radera den här bilagan permanent.</string>
     <string name="no_content">Inget innehåll än</string>
     <string name="last_background_sync">Senaste bakgrundssynk:</string>
     <string name="simple_off">Av</string>
-    <string name="minutes_15">15 minuter</string>
-    <string name="hour_1">1 timme</string>
-    <string name="hours_6">6 timmar</string>
     <string name="action_card_move">Flytta kort</string>
     <string name="action_card_move_title">Flytta %1$s</string>
-    <string name="title_is_mandatory">Titel är obligatorisk</string>
     <string name="provide_at_least_a_title_or_description">Ange åtminstone en titel eller beskrivning</string>
     <string name="welcome_text">Välkommen till %1$s</string>
     <string name="maintenance_mode_explanation">Servern %1$s är för närvarande i underhållsläge. Kontakta din administratör eller försök igen senare.</string>
@@ -250,7 +244,7 @@
     <string name="widget_stack_header_icon">Ikon för widgetens sidhuvud</string>
     <string name="select_stack">Välj lista</string>
     <string name="project_type_deck_board">Deck-plank</string>
-    <string name="project_type_deck_card">Deck-kort</string>
+    <string name="project_type_deck_card">Kortlek-kort</string>
     <string name="project_type_file">Fil</string>
     <string name="projects_title">Projekt</string>
     <plurals name="resources_count">

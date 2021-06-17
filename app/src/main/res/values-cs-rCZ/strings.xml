@@ -1,6 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">Otevřít panel navigace</string>
     <string name="navigation_drawer_close">Zavřít navigační panel</string>
+    <string name="hint_search_deck">Hledat sloupec</string>
 
     <string name="simple_boards">Tabule</string>
     <string name="simple_add">Přidat</string>
@@ -32,7 +33,6 @@
     <string name="simple_copied">Zkopírováno</string>
     <string name="simple_archive">Archiv</string>
     <string name="simple_unassigned">Nepřiřazeno</string>
-
     <string name="edit_board">Upravit tabuli</string>
     <string name="archive_board">Archivovat tabuli</string>
     <string name="delete_board">Smazat tabuli</string>
@@ -149,12 +149,12 @@
     <string name="no_content">Zatím žádný osah</string>
     <string name="last_background_sync">Nejnovější synchronizace na pozadí:</string>
     <string name="simple_off">Vypnuto</string>
-    <string name="minutes_15">každých 15 minut</string>
-    <string name="hour_1">každou hodinu</string>
-    <string name="hours_6">každých 6 hodin</string>
+    <string name="minutes_15">15 minut</string>
+    <string name="hour_1">1 hodina</string>
+    <string name="hours_6">6 hodin</string>
     <string name="action_card_move">Přesunout kartu</string>
     <string name="action_card_move_title">Přesunout %1$s</string>
-    <string name="title_is_mandatory">Nadpis je třeba zadat</string>
+    <string name="title_is_mandatory">Je třeba zadat nadpis</string>
     <string name="provide_at_least_a_title_or_description">Zadejte alespoň nadpis nebo popis</string>
     <string name="welcome_text">Vítejte v %1$s</string>
     <string name="maintenance_mode_explanation">Na serveru %1$s v tuto chvíli probíhá údržba. Obraťte se na jeho správce nebo to zkuste později znovu.</string>
@@ -219,7 +219,7 @@
     <string name="error_dialog_tip_clear_storage">Úložiště můžete vyčistit otevřením informací o aplikací a vybráním Úložiště → Vyčistit úložiště.</string>
     <string name="error_dialog_tip_files_outdated">Zdá se, že aplikace Nextcloud, nainstalovaná na vašem zařízení, je staré verze. Přejděte prosím do Play Store nebo F-Droid a nainstalujte si nejnovější verzi.</string>
     <string name="error_dialog_tip_offline">Vypadá to, že jste se pokusili zahájit synchronizaci bez internetového připojení.</string>
-    <string name="error_dialog_tip_sync_only_on_wifi">Pokud máte zapnuto \"Synchr. pouze přes Wi-Fi\" v Nastavení, můžete synchronizovat pouze pokud jste připojeni k Wi-Fi.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Pokud máte zapnuté nastavení „Synchr. pouze přes Wi-Fi“ – synchronizovat tedy můžete pouze pokud jste připojeni k Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Zdá se, že s vaší aplikací Nextcloud není něco v pořádku. Zkuste vynutit zastavení obojího – aplikace Nextcloud a Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Pokud vynucení jejich zastavení nepomůže, můžete zkusit vyčistit úložiště obou aplikací.</string>
     <string name="error_dialog_timeout_instance">Server neodpověděl do určené doby. Ověřte, že vámi využívaná instance je v pořádku spuštěná.</string>
@@ -324,4 +324,7 @@
     <string name="copying_logs_to_file">Kopíruju logy(záznamy) do souboru</string>
     <string name="account_imported">Účet naimportován</string>
     <string name="simple_search">Hledat</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Nadpis (vyžadován)</string>
+    <string name="saving_new_card">Ukládání nové karty…</string>
 </resources>

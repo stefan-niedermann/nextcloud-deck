@@ -1,6 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">開啟導覽列</string>
     <string name="navigation_drawer_close">關閉導覽列</string>
+    <string name="hint_search_deck">搜尋看板</string>
 
     <string name="simple_boards">面板</string>
     <string name="simple_add">新增</string>
@@ -32,7 +33,6 @@
     <string name="simple_copied">已複製</string>
     <string name="simple_archive">封存</string>
     <string name="simple_unassigned">已取消分派</string>
-
     <string name="edit_board">編輯面板</string>
     <string name="archive_board">封存面板</string>
     <string name="delete_board">刪除面板</string>
@@ -143,12 +143,12 @@
     <string name="no_content">目前還沒有內容</string>
     <string name="last_background_sync">上次背景同步時間：</string>
     <string name="simple_off">關閉</string>
-    <string name="minutes_15">15 分鐘</string>
+    <string name="minutes_15">15分鐘</string>
     <string name="hour_1">1 小時</string>
-    <string name="hours_6">6 小時</string>
+    <string name="hours_6">6小時</string>
     <string name="action_card_move">移動卡片</string>
     <string name="action_card_move_title">移動 %1$s</string>
-    <string name="title_is_mandatory">必須有標題</string>
+    <string name="title_is_mandatory">標題為必填</string>
     <string name="provide_at_least_a_title_or_description">提供至少一個標題或描述</string>
     <string name="welcome_text">歡迎來到 %1$s</string>
     <string name="maintenance_mode_explanation">伺服器 %1$s 當前處於維護模式。 請與您的管理員聯繫或再試一次。</string>
@@ -312,4 +312,7 @@
     <string name="copying_logs_to_file">將記錄複製到檔案…</string>
     <string name="account_imported">已導入賬戶</string>
     <string name="simple_search">搜尋</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">標題（必填）</string>
+    <string name="saving_new_card">正在儲存新卡片...</string>
 </resources>

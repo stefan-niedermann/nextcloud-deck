@@ -1,6 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">Otwórz panel nawigacji</string>
     <string name="navigation_drawer_close">Zamknij panel nawigacji</string>
+    <string name="hint_search_deck">Szukaj tablicy</string>
 
     <string name="simple_boards">Tablice</string>
     <string name="simple_add">Dodaj</string>
@@ -32,7 +33,6 @@
     <string name="simple_copied">Skopiowano</string>
     <string name="simple_archive">Archiwizuj</string>
     <string name="simple_unassigned">Nieprzypisane</string>
-
     <string name="edit_board">Edytuj tablicę</string>
     <string name="archive_board">Zarchiwizuj tablicę</string>
     <string name="delete_board">Usuń tablicę</string>
@@ -154,7 +154,7 @@
     <string name="hours_6">6 godzin</string>
     <string name="action_card_move">Przenieś kartę</string>
     <string name="action_card_move_title">Przenieś %1$s</string>
-    <string name="title_is_mandatory">Tytuł jest obowiązkowy</string>
+    <string name="title_is_mandatory">Tytuł jest wymagany</string>
     <string name="provide_at_least_a_title_or_description">Podaj co najmniej tytuł lub opis</string>
     <string name="welcome_text">Witamy w %1$s</string>
     <string name="maintenance_mode_explanation">Serwer %1$s jest obecnie w trybie konserwacji. Skontaktuj się z administratorem lub spróbuj ponownie później.</string>
@@ -291,7 +291,7 @@
     <string name="single_card">Pojedyncza karta</string>
     <string name="project_type_room">Pokój rozmów</string>
     <string name="simple_move">Przenieś</string>
-    <string name="cannot_upload_files_without_permission">Nie można wysyłać plików bez uprawnienia</string>
+    <string name="cannot_upload_files_without_permission">Nie można przesłać plików bez uprawnień</string>
     <string name="clone_cards">Klonuj karty</string>
     <string name="simple_clone">Klonuj</string>
     <string name="user_avatar">Awatar użytkownika</string>
@@ -324,4 +324,7 @@
     <string name="copying_logs_to_file">Kopiowanie logów do pliku…</string>
     <string name="account_imported">Konto zaimportowane</string>
     <string name="simple_search">Szukaj</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Tytuł (wymagane)</string>
+    <string name="saving_new_card">Zapisuję nową kartę…</string>
 </resources>
