@@ -1,7 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">فتح التنقل </string>
     <string name="navigation_drawer_close">إقفال التنقل </string>
-
     <string name="simple_boards">الالواح</string>
     <string name="simple_add">إضافة</string>
     <string name="simple_save">حفظ</string>
@@ -32,7 +31,6 @@
     <string name="simple_copied">نُسخت </string>
     <string name="simple_archive">الأرشيف</string>
     <string name="simple_unassigned">غير معيين </string>
-
     <string name="edit_board">تعديل اللوح</string>
     <string name="archive_board">أرشفة اللوح </string>
     <string name="delete_board">مسح اللوح</string>
@@ -153,12 +151,8 @@
     <string name="no_content">لا يوجد محتوى حتى الآن</string>
     <string name="last_background_sync">آخر مزامنة في الخلفية:</string>
     <string name="simple_off">إيقاف</string>
-    <string name="minutes_15">15 دقيقة</string>
-    <string name="hour_1">1 ساعة</string>
-    <string name="hours_6">6 ساعات</string>
     <string name="action_card_move">حرك البطاقة</string>
     <string name="action_card_move_title">نقل %1$s</string>
-    <string name="title_is_mandatory">العنوان إلزامي </string>
     <string name="provide_at_least_a_title_or_description">أدخل عنوانًا أو وصفًا على الأقل</string>
     <string name="welcome_text">مرحبًا بك في %1$s</string>
     <string name="maintenance_mode_explanation">سيرفر %1$s حاليًا في وضع الصيانة. فضلًا تواصل مع المسؤول أو أعد المحاولة لاحقًا. </string>
@@ -300,7 +294,6 @@
     <string name="single_card">بطاقة مفردة</string>
     <string name="project_type_room">غرفة الدردشة</string>
     <string name="simple_move">نقل</string>
-    <string name="cannot_upload_files_without_permission">لا يمكن رفع الملفات من دون إذن </string>
     <string name="clone_cards">استنسخ البطاقة </string>
     <string name="simple_clone">استنسخ</string>
     <string name="user_avatar">صورة المستخدم الشخصية </string>
@@ -333,4 +326,4 @@
     <string name="copying_logs_to_file">نسخ السجلات إلى الملف </string>
     <string name="account_imported">تم استيراد الحساب</string>
     <string name="simple_search">البحث</string>
-</resources>
+    </resources>

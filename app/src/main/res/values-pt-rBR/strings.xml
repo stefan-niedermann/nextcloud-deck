@@ -1,6 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">Abra a gaveta de navegação</string>
     <string name="navigation_drawer_close">Fechar a gaveta de navegação</string>
+    <string name="hint_search_deck">Deck de pesquisa </string>
 
     <string name="simple_boards">Quadros</string>
     <string name="simple_add">Adicionar</string>
@@ -32,7 +33,6 @@
     <string name="simple_copied">Copiado</string>
     <string name="simple_archive">Arquivados</string>
     <string name="simple_unassigned">Não atribuído</string>
-
     <string name="edit_board">Editar painel</string>
     <string name="archive_board">Arquivar painel</string>
     <string name="delete_board">Excluir painel</string>
@@ -150,7 +150,7 @@
     <string name="hours_6">6 horas</string>
     <string name="action_card_move">Mover cartão</string>
     <string name="action_card_move_title">Mover %1$s</string>
-    <string name="title_is_mandatory">O título é obrigatório</string>
+    <string name="title_is_mandatory">O Título é obrigatório </string>
     <string name="provide_at_least_a_title_or_description">Forneça ao menos um título ou descrição</string>
     <string name="welcome_text">Bem-vindo ao %1$s</string>
     <string name="maintenance_mode_explanation">O servidor %1$s está no modo de manutenção. Entre em contato com o administrador ou tente novamente mais tarde.</string>
@@ -214,7 +214,7 @@
     <string name="error_dialog_tip_database_upgrade_failed">A atualização do banco de dados falhou. Relate o problema e limpe o armazenamento para usar o aplicativo normalmente.</string>
     <string name="error_dialog_tip_clear_storage">Você pode limpar o armazenamento abrindo as informações do aplicativo e selecionando Armazenamento → Limpar Armazenamento</string>
     <string name="error_dialog_tip_files_outdated">Seu aplicativo Nextcloud parece estar desatualizado. Visite a Play Store ou o F-Droid para obter a versão mais recente.</string>
-    <string name="error_dialog_tip_offline">Parece que você tentou desencadear uma sincronização sem uma conexão com a internet.</string>
+    <string name="error_dialog_tip_offline">Parece que você tentou iniciar uma sincronização sem uma conexão com a internet.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Se você habilitou a configuração \"Sincronizar apenas em Wi-Fi\", você só poderá sincronizar quando estiver conectado a um Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Parece que algo está errado com seu aplicativo Nextcloud. Tente forçar a parada de ambos, o aplicativo Nextcloud e o Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Se forçar a parada deles não resolver, tente limpar o armazenamento dos dois aplicativos.</string>
@@ -283,7 +283,7 @@
     <string name="single_card">Cartão único</string>
     <string name="project_type_room">Sala de conversação</string>
     <string name="simple_move">Mover</string>
-    <string name="cannot_upload_files_without_permission">Não é possível fazer envio de arquivos sem permissão </string>
+    <string name="cannot_upload_files_without_permission">Não é possível enviar arquivos sem permissão</string>
     <string name="clone_cards">Clonar cartões</string>
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Avatar do usuário</string>
@@ -316,4 +316,7 @@
     <string name="copying_logs_to_file">Copiando registros para o arquivo…</string>
     <string name="account_imported">Conta importada</string>
     <string name="simple_search">Pesquisar</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Título (obrigatório) </string>
+    <string name="saving_new_card">Salvando novo cartão…</string>
 </resources>

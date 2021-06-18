@@ -198,21 +198,19 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
             }
         });
         binding.attachmentsList.setLayoutManager(glm);
-        if (!editViewModel.isCreateMode()) {
-            // https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html?m=1
-            // https://github.com/android/animation-samples/blob/master/GridToPager/app/src/main/java/com/google/samples/gridtopager/fragment/ImagePagerFragment.java
-            setExitSharedElementCallback(new SharedElementCallback() {
-                @Override
-                public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                    AttachmentViewHolder selectedViewHolder = (AttachmentViewHolder) binding.attachmentsList
-                            .findViewHolderForAdapterPosition(clickedItemPosition);
-                    if (selectedViewHolder != null) {
-                        sharedElements.put(names.get(0), selectedViewHolder.getPreview());
-                    }
+        // https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html?m=1
+        // https://github.com/android/animation-samples/blob/master/GridToPager/app/src/main/java/com/google/samples/gridtopager/fragment/ImagePagerFragment.java
+        setExitSharedElementCallback(new SharedElementCallback() {
+            @Override
+            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                AttachmentViewHolder selectedViewHolder = (AttachmentViewHolder) binding.attachmentsList
+                        .findViewHolderForAdapterPosition(clickedItemPosition);
+                if (selectedViewHolder != null) {
+                    sharedElements.put(names.get(0), selectedViewHolder.getPreview());
                 }
-            });
-            adapter.setAttachments(editViewModel.getFullCard().getAttachments(), editViewModel.getFullCard().getId());
-        }
+            }
+        });
+        adapter.setAttachments(editViewModel.getFullCard().getAttachments(), editViewModel.getFullCard().getId());
 
         if (editViewModel.canEdit()) {
             binding.fab.setOnClickListener(v -> {
@@ -465,33 +463,31 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         a.setStatusEnum(DBStatus.LOCAL_EDITED);
         editViewModel.getFullCard().getAttachments().add(0, a);
         adapter.addAttachment(a);
-        if (!editViewModel.isCreateMode()) {
-            editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload, new IResponseCallback<Attachment>() {
-                @Override
-                public void onResponse(Attachment response) {
-                    requireActivity().runOnUiThread(() -> {
-                        editViewModel.getFullCard().getAttachments().remove(a);
-                        editViewModel.getFullCard().getAttachments().add(0, response);
-                        adapter.replaceAttachment(a, response);
-                    });
-                }
+        editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload, new IResponseCallback<Attachment>() {
+            @Override
+            public void onResponse(Attachment response) {
+                requireActivity().runOnUiThread(() -> {
+                    editViewModel.getFullCard().getAttachments().remove(a);
+                    editViewModel.getFullCard().getAttachments().add(0, response);
+                    adapter.replaceAttachment(a, response);
+                });
+            }
 
-                @Override
-                public void onError(Throwable throwable) {
-                    requireActivity().runOnUiThread(() -> {
-                        if (throwable instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) throwable).getStatusCode() == HTTP_CONFLICT) {
-                            IResponseCallback.super.onError(throwable);
-                            // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
-                            editViewModel.getFullCard().getAttachments().remove(a);
-                            adapter.removeAttachment(a);
-                            BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
-                        } else {
-                            ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", throwable), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                        }
-                    });
-                }
-            });
-        }
+            @Override
+            public void onError(Throwable throwable) {
+                requireActivity().runOnUiThread(() -> {
+                    if (throwable instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) throwable).getStatusCode() == HTTP_CONFLICT) {
+                        IResponseCallback.super.onError(throwable);
+                        // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
+                        editViewModel.getFullCard().getAttachments().remove(a);
+                        adapter.removeAttachment(a);
+                        BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                    } else {
+                        ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", throwable), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -530,7 +526,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     public void onAttachmentDeleted(Attachment attachment) {
         adapter.removeAttachment(attachment);
         editViewModel.getFullCard().getAttachments().remove(attachment);
-        if (!editViewModel.isCreateMode() && attachment.getLocalId() != null) {
+        if (attachment.getLocalId() != null) {
             editViewModel.deleteAttachmentOfCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), attachment.getLocalId(), new IResponseCallback<Void>() {
                 @Override
                 public void onResponse(Void response) {

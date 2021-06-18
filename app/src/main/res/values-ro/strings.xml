@@ -1,7 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Deschideți sertarul de navigare</string>
     <string name="navigation_drawer_close">Închideți sertarul de navigare</string>
-
     <string name="simple_boards">Panouri </string>
     <string name="simple_add">Adaugă</string>
     <string name="simple_save">Salvează</string>
@@ -32,7 +31,6 @@
     <string name="simple_copied">Copiat</string>
     <string name="simple_archive">Arhivă</string>
     <string name="simple_unassigned">Nealocat</string>
-
     <string name="edit_board">Editează panou</string>
     <string name="archive_board">Arhivează panou</string>
     <string name="delete_board">Șterge panou</string>
@@ -122,7 +120,9 @@
     <string name="settings_theme_title">Teme</string>
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Mod compact</string>
+    <string name="settings_cover_images_title">Imagine de copertă </string>
     <string name="settings_debugging">Log-uri depanare</string>
+    <string name="settings_etags">Folosește Etag-uri</string>
     <string name="settings_etags_summary">Creste viteza de sincronizare</string>
     <string name="settings_background_sync">Sincronizare de fundal</string>
     <string name="settings_compress_image_attachments">Comprimă imaginile la urcare</string>
@@ -145,12 +145,11 @@
     <string name="no_content">Nu există conținut încă</string>
     <string name="last_background_sync">Ultima sincronizare de fundal:</string>
     <string name="simple_off">Oprit</string>
-    <string name="minutes_15">15 Minute</string>
-    <string name="hour_1">1 Oră</string>
-    <string name="hours_6">6 Ore</string>
+    <string name="minutes_15">15 minute</string>
+    <string name="hour_1">1 oră</string>
+    <string name="hours_6">6 ore</string>
     <string name="action_card_move">Mută card</string>
     <string name="action_card_move_title">Mută %1$s</string>
-    <string name="title_is_mandatory">Titlul este obligatoriu</string>
     <string name="provide_at_least_a_title_or_description">Furnizați cel puțin un titlu sau o descriere</string>
     <string name="welcome_text">Bine venit la %1$s</string>
     <string name="maintenance_mode_explanation">Serverul %1$s  este în prezent în modul de mentenanță. Vă rugăm să contactați administratorul sau să încercați din nou mai târziu.</string>
@@ -231,6 +230,7 @@
     <string name="error_dialog_user_not_found_in_database">Utilizatorul actual nu se potrivește cu cel pe care îl avem în baza noastră de date. Dacă utilizați LDAP în instanța dvs. Nextcloud, este posibil ca aplicația dvs. Nextcloud să fi stocat un vechi ID de utilizator.</string>
     <string name="error_dialog_capabilities_not_parsable">Nu am putut prelua capacitățile serverului dvs. Vă rugăm să vă asigurați că serverul dvs. funcționează bine și că alte aplicații client pot accesa Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Un atașament nu a putut fi încărcat. Vă rugăm să încercați să îl partajați într-un alt mod și să ne informați despre această eroare.</string>
+    <string name="error_dialog_certificate">Ceva pare să fie în neregulă cu certificatul serverului. Te rog verifică toate conturile de Nextcloud app pentru mai multe informații.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Vă rugăm să dezactivați toate optimizările bateriei pentru Nextcloud și aplicația Deck.</string>
     <string name="error_action_open_deck_info">Deschide info-ul aplicației </string>
     <string name="error_action_open_nextcloud_app">Deschide app-ul Nextcolud</string>
@@ -238,8 +238,10 @@
     <string name="error_action_server_logs">Log-urile serverului</string>
     <string name="error_action_install">Instalează</string>
     <string name="error_action_report_issue">Raport</string>
+    <string name="info_box_maintenance_mode">Serverul este în modul mentenanță. </string>
     <string name="info_box_version_not_supported">Versiune de server %1$s nesuportată,  vă rugăm să actualizați la%2$s</string>
     <string name="share_link">Partajează link-ul</string>
+    <string name="share_content">Distribuie conținut </string>
     <string name="archive_cards">Arhivează carduri</string>
 
     <string name="manage_accounts">Administrează conturi</string>
@@ -304,4 +306,5 @@
     <string name="simple_order">Ordine</string>
     <string name="edit_description">Editează descriere</string>
     <string name="widget_upcoming_title">Carduri viitoare</string>
+    <string name="app_logo">Logo-ul aplicației </string>
     </resources>

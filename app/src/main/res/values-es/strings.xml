@@ -1,7 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Abrir cajón de navegación</string>
     <string name="navigation_drawer_close">Cerrar cajón de navegación</string>
-
     <string name="simple_boards">Tableros</string>
     <string name="simple_add">Añadir</string>
     <string name="simple_save">Guardar</string>
@@ -32,7 +31,6 @@
     <string name="simple_copied">Copiado</string>
     <string name="simple_archive">Archivar</string>
     <string name="simple_unassigned">No asignado</string>
-
     <string name="edit_board">Editar tablero</string>
     <string name="archive_board">Archivar tablero</string>
     <string name="delete_board">Eliminar tablero</string>
@@ -145,12 +143,8 @@
     <string name="no_content">Aún no hay contenido</string>
     <string name="last_background_sync">Última sincronización en segundo plano:</string>
     <string name="simple_off">Off</string>
-    <string name="minutes_15">15 Minutos</string>
-    <string name="hour_1">1 Hora</string>
-    <string name="hours_6">6 Horas</string>
     <string name="action_card_move">Mover tarjeta</string>
     <string name="action_card_move_title">Mover %1$s</string>
-    <string name="title_is_mandatory">El título es obligatorio</string>
     <string name="provide_at_least_a_title_or_description">Indique al menos un título o una descripción</string>
     <string name="welcome_text">Bienvenido a %1$s</string>
     <string name="maintenance_mode_explanation">El servidor %1$s está actualmente en modo de mantenimiento. Por favor, contacta con tu administrador o vuelve a intentarlo más tarde.</string>
@@ -283,7 +277,7 @@
     <string name="single_card">Carta única</string>
     <string name="project_type_room">Sala de conversación</string>
     <string name="simple_move">Mover</string>
-    <string name="cannot_upload_files_without_permission">No se pueden subir archivos sin permiso</string>
+    <string name="cannot_upload_files_without_permission">No se puede subir archivos sin permiso</string>
     <string name="clone_cards">Clonar tarjetas</string>
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Usar avatar</string>
@@ -316,4 +310,4 @@
     <string name="copying_logs_to_file">Copiando registros al archivo…</string>
     <string name="account_imported">Cuenta importada</string>
     <string name="simple_search">Buscar</string>
-</resources>
+    </resources>

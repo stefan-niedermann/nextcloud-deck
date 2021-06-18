@@ -65,40 +65,11 @@ public class LiveDataHelper {
         liveData.observe(owner, tempObserver);
     }
 
-    public static <T> WrappedLiveData<T> wrapInLiveData(final LiveDataWrapper<T> liveDataWrapper) {
-        final WrappedLiveData<T> liveData = new WrappedLiveData<>();
-
-        executor.submit(() -> {
-            try {
-                liveDataWrapper.postResult(liveData);
-            } catch (Throwable t) {
-                liveData.postError(t);
-            }
-        });
-
-        return liveData;
-    }
-
     public interface DataChangeProcessor<T> {
         void onDataChanged(T data);
     }
 
     public interface DataTransformator<I, O> {
         O transform(I data);
-    }
-
-    public interface LiveDataWrapper<T> {
-        T getData();
-
-        default void postResult(WrappedLiveData<T> liveData) {
-            liveData.setError(null);
-            T data = null;
-            try {
-                data = getData();
-            } catch (RuntimeException e) {
-                liveData.setError(e);
-            }
-            liveData.postValue(data);
-        }
     }
 }

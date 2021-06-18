@@ -1,7 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Открыть панель навигации</string>
     <string name="navigation_drawer_close">Закрыть панель навигации</string>
-
     <string name="simple_boards">Доски</string>
     <string name="simple_add">Добавить</string>
     <string name="simple_save">Сохранить</string>
@@ -32,7 +31,6 @@
     <string name="simple_copied">Скопировано</string>
     <string name="simple_archive">Переместить в архив</string>
     <string name="simple_unassigned">не назначен</string>
-
     <string name="edit_board">Редактировать доску</string>
     <string name="archive_board">Переместить доску в архив</string>
     <string name="delete_board">Удалить доску</string>
@@ -149,12 +147,8 @@
     <string name="no_content">Содержимого ещё нет</string>
     <string name="last_background_sync">Последняя фоновая синхронизация:</string>
     <string name="simple_off">Отключены</string>
-    <string name="minutes_15">15 минут</string>
-    <string name="hour_1">1 час</string>
-    <string name="hours_6">6 часов</string>
     <string name="action_card_move">Переместить карточку</string>
     <string name="action_card_move_title">Перемещение %1$s</string>
-    <string name="title_is_mandatory">Требуется указать заголовок</string>
     <string name="provide_at_least_a_title_or_description">Создайте заголовок или описание</string>
     <string name="welcome_text">Добро пожаловать в %1$s</string>
     <string name="maintenance_mode_explanation">Сервер %1$s в режиме обслуживания. Свяжитесь с вашим администратором или повторите попытку позже.</string>
@@ -289,7 +283,6 @@
     <string name="single_card">Отдельная карточка</string>
     <string name="project_type_room">Комната конференции</string>
     <string name="simple_move">Переместить</string>
-    <string name="cannot_upload_files_without_permission">Отсутствуют права для загрузки файла</string>
     <string name="clone_cards">Скопировать карточку</string>
     <string name="simple_clone">Скопировать</string>
     <string name="user_avatar">Изображение профиля</string>
@@ -322,4 +315,4 @@
     <string name="copying_logs_to_file">Копирование журналов в файл…</string>
     <string name="account_imported">Аккаунт импортирован</string>
     <string name="simple_search">Поиск</string>
-</resources>
+    </resources>

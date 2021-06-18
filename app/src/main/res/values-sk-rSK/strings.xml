@@ -1,7 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Otvoriť navigačný panel</string>
     <string name="navigation_drawer_close">Zavrieť navigačný panel</string>
-
     <string name="simple_boards">Nástenky</string>
     <string name="simple_add">Pridať</string>
     <string name="simple_save">Uložiť</string>
@@ -32,7 +31,6 @@
     <string name="simple_copied">Skopírované</string>
     <string name="simple_archive">Archivovať</string>
     <string name="simple_unassigned">Nepriradený</string>
-
     <string name="edit_board">Upraviť nástenku</string>
     <string name="archive_board">Archivovať nástenku</string>
     <string name="delete_board">Zmazať nástenku</string>
@@ -118,11 +116,21 @@
     <string name="add_a_new_list_using_the_button">Pridajte nový zoznam pomocou tlačidla +</string>
     <string name="add_a_new_card_using_the_button">Pridajte novú kartu pomocou tlačidla +</string>
     <string name="delete_board_message">Táto nástenka sa natrvalo odstráni, vrátane všetkých zoznamov a kariet.</string>
+    <string name="settings_theme_title">Vzhľad</string>
     <string name="settings_branding_title">Použitie vlastného loga</string>
     <string name="settings_compact_title">Kompaktný režim</string>
+    <string name="settings_debugging">Ladiaci záznam</string>
+    <string name="settings_etags">Použiť ETagy</string>
+    <string name="settings_etags_summary">Urýchliť synchronizáciu</string>
     <string name="settings_background_sync">Synchronizácia na pozadí</string>
+    <string name="search_in">Hľadať v %1$s</string>
     <string name="pref_value_wifi_and_mobile">Synchronizovať na Wi-Fi a mobilných dátach</string>
     <string name="pref_value_wifi_only">Synchronizovať len na Wi-Fi</string>
+    <string-array name="darkmode_entries">
+        <item>Predvolené systémom</item>
+        <item>Svetlé</item>
+        <item>Tmavé</item>
+    </string-array>
     <string name="unassigned_user">Nepriradené %1$s</string>
     <string name="no_activities">Na tejto karte nie sú žiadne aktivity. Na načítanie a zobrazenie aktivít musíte byť pripojení k internetu.</string>
     <string name="share_board">Zdieľať nástenku</string>
@@ -138,7 +146,6 @@
     <string name="hours_6">6 hodín</string>
     <string name="action_card_move">Presunúť kartu</string>
     <string name="action_card_move_title">Preusnúť %1$s</string>
-    <string name="title_is_mandatory">Názov je povinný</string>
     <string name="provide_at_least_a_title_or_description">Uveďte aspoň názov alebo popis</string>
     <string name="welcome_text">Vitajte v %1$s</string>
     <string name="maintenance_mode_explanation">Server %1$s je v móde údržby. Kontaktujte svojho správcu alebo to skúste znova neskôr.</string>
@@ -161,9 +168,11 @@
     <string name="filter_no_filter">Všetko</string>
     <string name="filter_overdue">Po termíne</string>
     <string name="filter_today">Dnes</string>
+    <string name="filter_tomorrow">Zajtra</string>
     <string name="filter_week">Následujúcich 7 dní</string>
     <string name="filter_month">Následujúcich 30 dní</string>
     <string name="filter_no_due">Bez termínu</string>
+    <string name="filter_later">Neskôr</string>
     <string name="filter_by_tag">Filtrovať podľa štítkov</string>
     <string name="filter_by_assigned_user">Filtrovať podľa priradeného používateľa</string>
     <string name="filter_by_duedate">Filtrovať podľa termínu</string>
@@ -190,6 +199,7 @@
     <string name="operation_not_yet_supported">Zatiaľ nepodporované</string>
     <string name="error_revoking_ac">Chyba pri zrušení prístupu pre %1$s</string>
     <string name="error_create_label">Pri vytváraní označenia %1$s sa vyskytla chyba</string>
+    <string name="maintenance_mode">Server je v móde údržby</string>
     <string name="server_error">Chyba servera</string>
     <string name="error_edit_activity_killed_by_android">Android ukončil úpravy, pretože viac systémových prostriedkov potreboval pre ďalšie aplikácie.</string>
 
@@ -199,6 +209,7 @@
     <string name="error_dialog_tip_database_upgrade_failed">Aktualizácia databázy zlyhala. Nahláste problém a vymažte ukladací priestor, aby ste aplikáciu mohli normálne používať.</string>
     <string name="error_dialog_tip_clear_storage">Úložisko môžete vyčistiť otvorením informácii o aplikácii a výberom Úložisko → Vyčistiť úložisko.</string>
     <string name="error_dialog_tip_files_outdated">Váš Nextcloud vyzerá byť zastaralý. Navštívte Play Store alebo F-Droid pre získanie najnovšej verzie.</string>
+    <string name="error_dialog_tip_offline">Vyzerá, že sa snažíte spustiť synchronizáciu bez pripojenia k internetu.</string>
     <string name="error_dialog_tip_files_force_stop">Zdá sa, že s Nextcloudom niečo nie je v poriadku. Pokúste sa vynútiť zastavenie aplikácie Nextcloud aj aplikácie Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Ak ich ukončenie nepomôže, môžete skúsiť vyčistiť úložiská oboch aplikácií.</string>
     <string name="error_dialog_timeout_instance">Server dlho neodpovedal. Uistite sa, vami využívaná inštancia funguje dobre.</string>
@@ -216,12 +227,17 @@
     <string name="error_dialog_attachment_upload_failed">Prílohu nebolo možné nahrať. Skúste to zdieľať iným spôsobom a dajte nám vedieť o tejto chybe.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Vypnite všetky optimalizácie batérie pre aplikácie Nextcloud a Deck.</string>
     <string name="error_action_open_deck_info">Otvoriť informácie o aplikácii</string>
+    <string name="error_action_open_nextcloud_app">Otvoriť aplikáciu Nextcloud</string>
     <string name="error_action_open_network">Nastavenia siete</string>
     <string name="error_action_server_logs">Záznamy udalostí na serveri</string>
     <string name="error_action_install">Inštalovať</string>
     <string name="error_action_report_issue">Hlásenie</string>
+    <string name="info_box_maintenance_mode">Server je v móde údržby</string>
     <string name="info_box_version_not_supported">Verzia servera %1$s nie je podporovaná, aktualizujte ju na %2$s</string>
     <string name="share_link">Sprístupniť odkaz</string>
+    <string name="share_content">Zdieľať obsah</string>
+    <string name="share_content_duedate">K dátumu: %1$s</string>
+    <string name="share_content_labels">Tagy: %1$s</string>
     <string name="archive_cards">Archivovať karty</string>
 
     <string name="manage_accounts">Spravovať účty</string>
@@ -246,7 +262,9 @@
     <string name="card_does_not_yet_exist">Karta ešte na nástenke neexistuje</string>
 
     <string name="widget_stack_title">Zoznam</string>
+    <string name="widget_filter_title">Filter</string>
     <string name="widget_stack_header_icon">Ikona hlavičky miniaplikácie</string>
+    <string name="widget_placeholder_icon">Ikona zástupného symbolu miniaplikácie</string>
     <string name="select_stack">Vyberte zoznam</string>
     <string name="project_type_deck_board">Palubná doska</string>
     <string name="project_type_deck_card">Palubná karta</string>
@@ -262,4 +280,32 @@
     <string name="single_card">Jedna karta</string>
     <string name="project_type_room">Diskusná miestnosť</string>
     <string name="simple_move">Presunúť</string>
-    </resources>
+    <string name="cannot_upload_files_without_permission">Nie je možné nahrávať súbory bez povolenia</string>
+    <string name="clone_cards">Duplikovať karty</string>
+    <string name="simple_clone">Duplikovať</string>
+    <string name="user_avatar">Avatar užívateľa</string>
+    <string name="simple_contact">Kontakt</string>
+    <string name="simple_file">Súbor</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="take_photo">Urobiť fotografiu</string>
+    <string name="take_photo_switch_camera">Prepnúť kameru</string>
+    <string name="take_photo_toggle_torch">Prepnúť baterku</string>
+    <string name="show_all_contacts">Zobraziť všetky kontakty</string>
+    <string name="show_all_files">Zobraziť všetky súbory</string>
+    <string name="recent">Nedávne</string>
+    <string name="upload_a_new_attachment">Nahrať novú prílohu</string>
+    <string name="contacts">Kontakty</string>
+    <string name="downloads">Sťahovania</string>
+    <string name="files">Súbory</string>
+    <string name="gallery">Galéria</string>
+    <string name="add_stack_widget">Pridať ovládací prvok zoznamu</string>
+    <string name="add_filter_widget">Pridať ovládací prvok filteru</string>
+    <string name="simple_order">Zoradiť</string>
+    <string name="edit_description">Upraviť popis</string>
+    <string name="widget_upcoming_title">Nadchádzajúce karty</string>
+    <string name="copy_logs">Skopírovať logy do schránky</string>
+    <string name="app_logo">Logo aplikácie</string>
+    <string name="account_imported">Účet naimportovaný</string>
+    <string name="simple_search">Hľadať</string>
+    <string name="saving_new_card">Ukladám novú kartu...</string>
+</resources>

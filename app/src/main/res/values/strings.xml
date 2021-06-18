@@ -73,6 +73,10 @@
     <string name="about_license_tab_title">License</string>
     <string name="seconds_ago">seconds ago</string>
     <string name="edit">Edit</string>
+    <!-- After specifying the title of a new card, save it and then directly start it in edit mode -->
+    <string name="save_and_edit">@string/edit</string>
+    <!-- After specifying the title of a new card, save it and return to the list of cards -->
+    <string name="save_and_close">@string/simple_save</string>
     <string name="label_labels">Select Tags</string>
     <string name="label_description">Description</string>
     <string name="hint_assign_people">Assign users</string>

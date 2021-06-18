@@ -24,6 +24,7 @@ import com.nextcloud.android.sso.ui.UiExceptionManager;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityImportAccountBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
@@ -31,7 +32,6 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
@@ -114,20 +114,12 @@ public class ImportAccountActivity extends AppCompatActivity {
 
                         SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
                         SyncManager syncManager = new SyncManager(ImportAccountActivity.this);
-                        final WrappedLiveData<Account> accountLiveData = syncManager.createAccount(new Account(account.name, account.userId, account.url));
-                        accountLiveData.observe(ImportAccountActivity.this, (Account createdAccount) -> {
-                            if (accountLiveData.hasError()) {
-                                final Throwable error = accountLiveData.getError();
-                                if (error instanceof SQLiteConstraintException) {
-                                    DeckLog.error("Account has already been added, this should not be the case");
-                                }
-                                assert error != null;
-                                setStatusText(error.getMessage());
-                                runOnUiThread(() -> ExceptionDialogFragment.newInstance(error, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
-                                restoreWifiPref();
-                            } else {
+                        final Account accountToCreate = new Account(account.name, account.userId, account.url);
+                        syncManager.createAccount(accountToCreate, new IResponseCallback<Account>() {
+                            @Override
+                            public void onResponse(Account createdAccount) {
                                 // Remember last account - THIS HAS TO BE DONE SYNCHRONOUSLY
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                final SharedPreferences.Editor editor = sharedPreferences.edit();
                                 DeckLog.log("--- Write: shared_preference_last_account | ", createdAccount.getId());
                                 editor.putLong(sharedPreferenceLastAccount, createdAccount.getId());
                                 editor.commit();
@@ -157,11 +149,8 @@ public class ImportAccountActivity extends AppCompatActivity {
                                             } else {
                                                 setStatusText(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()));
                                                 runOnUiThread(() -> {
-                                                    binding.updateDeckButton.setOnClickListener((v) -> {
-                                                        Intent openURL = new Intent(Intent.ACTION_VIEW);
-                                                        openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
-                                                        startActivity(openURL);
-                                                    });
+                                                    binding.updateDeckButton.setOnClickListener((v) -> startActivity(new Intent(Intent.ACTION_VIEW)
+                                                            .setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck))));
                                                     binding.updateDeckButton.setVisibility(View.VISIBLE);
                                                 });
                                                 rollbackAccountCreation(syncManager, createdAccount.getId());
@@ -184,6 +173,17 @@ public class ImportAccountActivity extends AppCompatActivity {
                                         rollbackAccountCreation(syncManager, createdAccount.getId());
                                     }
                                 });
+                            }
+
+                            @Override
+                            public void onError(Throwable error) {
+                                IResponseCallback.super.onError(error);
+                                if (error instanceof SQLiteConstraintException) {
+                                    DeckLog.error("Account has already been added, this should not be the case");
+                                }
+                                setStatusText(error.getMessage());
+                                runOnUiThread(() -> ExceptionDialogFragment.newInstance(error, accountToCreate).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                                restoreWifiPref();
                             }
                         });
                     }

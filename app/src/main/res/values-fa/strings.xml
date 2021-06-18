@@ -1,7 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">کشو ناوبری را باز کنید</string>
     <string name="navigation_drawer_close">بستن کشو ناوبری</string>
-
     <string name="simple_boards">تخته ها</string>
     <string name="simple_add">افزودن</string>
     <string name="simple_save">ذخیره</string>
@@ -32,7 +31,6 @@
     <string name="simple_copied">کپی شد</string>
     <string name="simple_archive">بایگانی</string>
     <string name="simple_unassigned">تخصیص داده نشده</string>
-
     <string name="edit_board">ویرایش تابلو</string>
     <string name="archive_board"> بایگانی تابلو</string>
     <string name="delete_board">حذف تابلو</string>
@@ -125,12 +123,8 @@
     <string name="no_content">هنوز محتوا موجود نیست</string>
     <string name="last_background_sync">آخرین همگام سازی پس زمینه:</string>
     <string name="simple_off">خاموش</string>
-    <string name="minutes_15">یک ربع</string>
-    <string name="hour_1">۱ ساعت</string>
-    <string name="hours_6">۶ ساعت</string>
     <string name="action_card_move">انتقال کارت</string>
     <string name="action_card_move_title">حرکت%1$s</string>
-    <string name="title_is_mandatory">عنوان اجباری است</string>
     <string name="provide_at_least_a_title_or_description">حداقل عنوان یا توصیفی ارائه دهید</string>
     <string name="welcome_text">به %1$s خوش آمدید</string>
     <string name="maintenance_mode_explanation">سرور %1$s در حال حاضر در حالت تعمیر و نگهداری است. لطفاً با مدیریت تماس بگیرید یا بعداً دوباره امتحان کنید.</string>

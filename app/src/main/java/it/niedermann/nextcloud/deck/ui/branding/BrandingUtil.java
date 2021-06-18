@@ -6,7 +6,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.MenuItem;
-import android.widget.EditText;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -80,29 +79,15 @@ public abstract class BrandingUtil {
         tabLayout.setSelectedTabIndicatorColor(contrastRatioIsSufficient ? mainColor : finalMainColor);
     }
 
-    public static void applyBrandToEditText(@ColorInt int mainColor, @NonNull EditText editText) {
-        @ColorInt final int finalMainColor = getSecondaryForegroundColorDependingOnTheme(editText.getContext(), mainColor);
-        DrawableCompat.setTintList(editText.getBackground(), new ColorStateList(
-                new int[][]{
-                        new int[]{android.R.attr.state_active},
-                        new int[]{android.R.attr.state_activated},
-                        new int[]{android.R.attr.state_focused},
-                        new int[]{android.R.attr.state_pressed},
-                        new int[]{}
-                },
-                new int[]{
-                        finalMainColor,
-                        finalMainColor,
-                        finalMainColor,
-                        finalMainColor,
-                        ContextCompat.getColor(editText.getContext(), R.color.fg_secondary)
-                }
-        ));
-    }
-
     public static void applyBrandToEditTextInputLayout(@ColorInt int color, @NonNull TextInputLayout til) {
-        til.setBoxStrokeColor(contrastRatioIsSufficientBigAreas(color, ContextCompat.getColor(til.getContext(), R.color.primary)) ? color : ContextCompat.getColor(til.getContext(), R.color.accent));
-        til.setHintTextColor(ColorStateList.valueOf(contrastRatioIsSufficient(color, ContextCompat.getColor(til.getContext(), R.color.primary)) ? color : ContextCompat.getColor(til.getContext(), R.color.accent)));
+        final int colorPrimary = ContextCompat.getColor(til.getContext(), R.color.primary);
+        final int colorAccent = ContextCompat.getColor(til.getContext(), R.color.accent);
+        final ColorStateList colorDanger = ColorStateList.valueOf(ContextCompat.getColor(til.getContext(), R.color.danger));
+        til.setBoxStrokeColor(contrastRatioIsSufficientBigAreas(color, colorPrimary) ? color : colorAccent);
+        til.setHintTextColor(ColorStateList.valueOf(contrastRatioIsSufficient(color, colorPrimary) ? color : colorAccent));
+        til.setErrorTextColor(colorDanger);
+        til.setBoxStrokeErrorColor(colorDanger);
+        til.setErrorIconTintList(colorDanger);
     }
 
     public static void tintMenuIcon(@NonNull MenuItem menuItem, @ColorInt int color) {

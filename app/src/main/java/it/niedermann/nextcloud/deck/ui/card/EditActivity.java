@@ -6,15 +6,12 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -28,7 +25,6 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
@@ -39,16 +35,17 @@ import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandTo
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.tintMenuIcon;
 
 public class EditActivity extends AppCompatActivity {
+
     private static final String BUNDLE_KEY_ACCOUNT = "account";
-    private static final String BUNDLE_KEY_BOARD_ID = "boardId";
-    private static final String BUNDLE_KEY_STACK_ID = "stackId";
-    private static final String BUNDLE_KEY_CARD_ID = "cardId";
-    private static final String BUNDLE_KEY_TITLE = "title";
-    private static final String BUNDLE_KEY_DESCRIPTION = "description";
+    private static final String BUNDLE_KEY_BOARD_LOCAL_ID = "boardLocalId";
+    private static final String BUNDLE_KEY_CARD_LOCAL_ID = "cardLocalId";
 
     private ActivityEditBinding binding;
     private EditCardViewModel viewModel;
 
+    /**
+     * @deprecated This is only here to maintain compatibility with {@link Version#supportsComments()}
+     */
     private static final int[] tabTitles = new int[]{
             R.string.card_edit_details,
             R.string.card_edit_attachments,
@@ -62,6 +59,9 @@ public class EditActivity extends AppCompatActivity {
             R.string.card_edit_activity
     };
 
+    /**
+     * @deprecated This is only here to maintain compatibility with {@link Version#supportsComments()}
+     */
     private static final int[] tabIcons = new int[]{
             R.drawable.ic_home_grey600_24dp,
             R.drawable.ic_attach_file_grey600_24dp,
@@ -74,7 +74,6 @@ public class EditActivity extends AppCompatActivity {
             R.drawable.type_comment_grey600_36dp,
             R.drawable.ic_activity_light_grey
     };
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,17 +102,8 @@ public class EditActivity extends AppCompatActivity {
     private void loadDataFromIntent() {
         final Bundle args = getIntent().getExtras();
 
-        if (args == null || !args.containsKey(BUNDLE_KEY_ACCOUNT) || !args.containsKey(BUNDLE_KEY_BOARD_ID)) {
-            throw new IllegalArgumentException("Provide at least " + BUNDLE_KEY_ACCOUNT + " and " + BUNDLE_KEY_BOARD_ID + " of the card that should be edited or created.");
-        }
-
-        long cardId = args.getLong(BUNDLE_KEY_CARD_ID);
-
-        if (cardId == 0L) {
-            viewModel.setCreateMode(true);
-            if (!args.containsKey(BUNDLE_KEY_STACK_ID)) {
-                throw new IllegalArgumentException("When creating a card, passing the " + BUNDLE_KEY_STACK_ID + " is mandatory");
-            }
+        if (args == null || !args.containsKey(BUNDLE_KEY_ACCOUNT) || !args.containsKey(BUNDLE_KEY_BOARD_LOCAL_ID) || !args.containsKey(BUNDLE_KEY_CARD_LOCAL_ID)) {
+            throw new IllegalArgumentException("Provide at least " + BUNDLE_KEY_ACCOUNT + " and " + BUNDLE_KEY_BOARD_LOCAL_ID + " and " + BUNDLE_KEY_CARD_LOCAL_ID + " of the card that should be edited.");
         }
 
         final Account account = (Account) args.getSerializable(BUNDLE_KEY_ACCOUNT);
@@ -122,66 +112,37 @@ public class EditActivity extends AppCompatActivity {
         }
         viewModel.setAccount(account);
 
-        final long boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
+        final long cardLocalId = args.getLong(BUNDLE_KEY_CARD_LOCAL_ID);
+        if (cardLocalId <= 0L) {
+            throw new IllegalArgumentException(BUNDLE_KEY_CARD_LOCAL_ID + " must be a positive long but was " + cardLocalId);
+        }
 
-        observeOnce(viewModel.getFullBoardById(account.getId(), boardId), EditActivity.this, (fullBoard -> {
+        final long boardLocalId = args.getLong(BUNDLE_KEY_BOARD_LOCAL_ID);
+        if (boardLocalId <= 0L) {
+            throw new IllegalArgumentException(BUNDLE_KEY_BOARD_LOCAL_ID + " must be a positive integer but was " + boardLocalId);
+        }
+
+        observeOnce(viewModel.getFullBoardById(account.getId(), boardLocalId), EditActivity.this, (fullBoard -> {
             viewModel.setBrandingColor(fullBoard.getBoard().getColor());
             viewModel.setCanEdit(fullBoard.getBoard().isPermissionEdit());
             invalidateOptionsMenu();
-            if (viewModel.isCreateMode()) {
-                viewModel.initializeNewCard(boardId, args.getLong(BUNDLE_KEY_STACK_ID), account.getServerDeckVersionAsObject().isSupported());
-                invalidateOptionsMenu();
-                fillTitleAndDescription(viewModel.getFullCard().getCard(), viewModel.getAccount().getServerDeckVersionAsObject(),
-                        args.getString(BUNDLE_KEY_TITLE), args.getString(BUNDLE_KEY_DESCRIPTION));
-                setupViewPager();
-                setupTitle();
-            } else {
-                observeOnce(viewModel.getFullCardWithProjectsByLocalId(account.getId(), cardId), EditActivity.this, (fullCard) -> {
-                    if (fullCard == null) {
-                        new AlertDialog.Builder(this)
-                                .setTitle(R.string.card_not_found)
-                                .setMessage(R.string.card_not_found_message)
-                                .setPositiveButton(R.string.simple_close, (a, b) -> super.finish())
-                                .show();
-                    } else {
-                        viewModel.initializeExistingCard(boardId, fullCard, account.getServerDeckVersionAsObject().isSupported());
-                        invalidateOptionsMenu();
-                        setupViewPager();
-                        setupTitle();
-                    }
-                });
-            }
+            observeOnce(viewModel.getFullCardWithProjectsByLocalId(account.getId(), cardLocalId), EditActivity.this, (fullCard) -> {
+                if (fullCard == null) {
+                    new AlertDialog.Builder(this)
+                            .setTitle(R.string.card_not_found)
+                            .setMessage(R.string.card_not_found_message)
+                            .setPositiveButton(R.string.simple_close, (a, b) -> super.finish())
+                            .show();
+                } else {
+                    viewModel.initializeExistingCard(boardLocalId, fullCard, account.getServerDeckVersionAsObject().isSupported());
+                    invalidateOptionsMenu();
+                    setupViewPager();
+                    setupTitle();
+                }
+            });
         }));
 
-        DeckLog.verbose("Finished loading intent data: { accountId =", viewModel.getAccount().getId(), "cardId =", cardId, "}");
-    }
-
-    private static void fillTitleAndDescription(@NonNull Card card, @NonNull Version version, @Nullable String title, @Nullable String description) {
-        if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(description)) {
-            assert title != null;
-            if (title.length() > version.getCardTitleMaxLength()) {
-                card.setTitle(title.substring(0, version.getCardTitleMaxLength()));
-            } else {
-                card.setTitle(title);
-            }
-            card.setDescription(description);
-        } else if (!TextUtils.isEmpty(title)) {
-            assert title != null;
-            if (title.length() > version.getCardTitleMaxLength()) {
-                card.setDescription(title);
-                card.setTitle(title.substring(0, version.getCardTitleMaxLength()));
-            } else {
-                card.setTitle(title);
-            }
-        } else if (!TextUtils.isEmpty(description)) {
-            assert description != null;
-            if (description.length() > version.getCardTitleMaxLength()) {
-                card.setDescription(description);
-                card.setTitle(description.substring(0, version.getCardTitleMaxLength()));
-            } else {
-                card.setTitle(description);
-            }
-        }
+        DeckLog.verbose("Finished loading intent data: { accountId =", viewModel.getAccount().getId(), "cardId =", cardLocalId, "}");
     }
 
     @Override
@@ -216,8 +177,8 @@ public class EditActivity extends AppCompatActivity {
      * Tries to save the current {@link FullCard} from the {@link EditCardViewModel} and then finishes this activity.
      */
     private void saveAndFinish() {
-        if (!viewModel.isPendingCreation()) {
-            viewModel.setPendingCreation(true);
+        if (!viewModel.isPendingSaveOperation()) {
+            viewModel.setPendingSaveOperation(true);
             final String title = viewModel.getFullCard().getCard().getTitle();
             if (title == null || title.trim().isEmpty()) {
                 viewModel.getFullCard().getCard().setTitle(CardUtil.generateTitleFromDescription(viewModel.getFullCard().getCard().getDescription()));
@@ -229,7 +190,7 @@ public class EditActivity extends AppCompatActivity {
                         .setTitle(R.string.title_is_mandatory)
                         .setMessage(R.string.provide_at_least_a_title_or_description)
                         .setPositiveButton(android.R.string.ok, null)
-                        .setOnDismissListener(dialog -> viewModel.setPendingCreation(false))
+                        .setOnDismissListener(dialog -> viewModel.setPendingSaveOperation(false))
                         .show();
             } else {
                 viewModel.saveCard(response -> DeckLog.info("Successfully saved card", response.getCard().getTitle()));
@@ -244,18 +205,18 @@ public class EditActivity extends AppCompatActivity {
 
         final CardTabAdapter adapter = new CardTabAdapter(this);
         final TabLayoutMediator mediator = new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> {
-            tab.setIcon(!viewModel.isCreateMode() && viewModel.hasCommentsAbility()
+            tab.setIcon(viewModel.hasCommentsAbility()
                     ? tabIconsWithComments[position]
                     : tabIcons[position]
             );
-            tab.setContentDescription(!viewModel.isCreateMode() && viewModel.hasCommentsAbility()
+            tab.setContentDescription(viewModel.hasCommentsAbility()
                     ? tabTitlesWithComments[position]
                     : tabTitles[position]
             );
         });
 
         binding.pager.setAdapter(adapter);
-        if (!viewModel.isCreateMode() && viewModel.hasCommentsAbility()) {
+        if (viewModel.hasCommentsAbility()) {
             adapter.enableComments();
             binding.pager.setOffscreenPageLimit(3);
         } else {
@@ -268,14 +229,7 @@ public class EditActivity extends AppCompatActivity {
         binding.title.setText(viewModel.getFullCard().getCard().getTitle());
         binding.title.setFilters(new InputFilter[]{new InputFilter.LengthFilter(viewModel.getAccount().getServerDeckVersionAsObject().getCardTitleMaxLength())});
         if (viewModel.canEdit()) {
-            if (viewModel.isCreateMode()) {
-                binding.title.requestFocus();
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                if (viewModel.getFullCard().getCard().getTitle() != null) {
-                    binding.title.setSelection(viewModel.getFullCard().getCard().getTitle().length());
-                }
-            }
-            binding.title.setHint(getString(viewModel.isCreateMode() ? R.string.simple_add : R.string.edit));
+            binding.title.setHint(R.string.edit);
             binding.title.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -325,23 +279,12 @@ public class EditActivity extends AppCompatActivity {
         applyBrandToPrimaryTabLayout(mainColor, binding.tabLayout);
     }
 
-    @Deprecated
     @NonNull
-    public static Intent createNewCardIntent(@NonNull Context context, @NonNull Account account, Long boardLocalId, Long stackId) {
-        return createBasicIntent(context, account, boardLocalId)
-                .putExtra(BUNDLE_KEY_STACK_ID, stackId);
-    }
-
-    @NonNull
-    public static Intent createEditCardIntent(@NonNull Context context, @NonNull Account account, Long boardLocalId, Long cardId) {
-        return createBasicIntent(context, account, boardLocalId)
-                .putExtra(BUNDLE_KEY_CARD_ID, cardId);
-    }
-
-    private static Intent createBasicIntent(@NonNull Context context, @NonNull Account account, Long boardLocalId) {
+    public static Intent createEditCardIntent(@NonNull Context context, @NonNull Account account, long boardLocalId, long cardLocalId) {
         return new Intent(context, EditActivity.class)
                 .putExtra(BUNDLE_KEY_ACCOUNT, account)
-                .putExtra(BUNDLE_KEY_BOARD_ID, boardLocalId)
+                .putExtra(BUNDLE_KEY_BOARD_LOCAL_ID, boardLocalId)
+                .putExtra(BUNDLE_KEY_CARD_LOCAL_ID, cardLocalId)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 }
