@@ -72,8 +72,8 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
         final AlertDialog dialog = new AlertDialog.Builder(requireActivity())
                 .setTitle(R.string.add_card)
                 .setView(binding.getRoot())
-                .setPositiveButton(R.string.save_and_edit, null)
-                .setNegativeButton(R.string.save_and_close, null)
+                .setPositiveButton(R.string.edit, null)
+                .setNegativeButton(R.string.simple_save, null)
                 .create();
 
         dialog.setOnShowListener(d -> {
