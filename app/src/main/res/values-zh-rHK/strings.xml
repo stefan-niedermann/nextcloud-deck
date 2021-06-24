@@ -33,6 +33,8 @@
     <string name="simple_copied">已複製</string>
     <string name="simple_archive">封存</string>
     <string name="simple_unassigned">已取消分派</string>
+    <string name="hint_error_appeared">發生錯誤</string>
+
     <string name="edit_board">編輯面板</string>
     <string name="archive_board">封存面板</string>
     <string name="delete_board">刪除面板</string>

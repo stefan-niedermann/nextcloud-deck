@@ -33,6 +33,8 @@
     <string name="simple_copied">Zkopírováno</string>
     <string name="simple_archive">Archiv</string>
     <string name="simple_unassigned">Nepřiřazeno</string>
+    <string name="hint_error_appeared">Objevila se chyba</string>
+
     <string name="edit_board">Upravit tabuli</string>
     <string name="archive_board">Archivovat tabuli</string>
     <string name="delete_board">Smazat tabuli</string>
@@ -287,7 +289,7 @@
         <item quantity="many">%1$d prostředků</item>
         <item quantity="other">%1$d prostředky</item>
     </plurals>
-    <string name="no_assigned_label">Nepřiřazena značka</string>
+    <string name="no_assigned_label">Nepřiřazena žádná značka</string>
     <string name="single_card">Jedna karta</string>
     <string name="project_type_room">Diskuzní místnost</string>
     <string name="simple_move">Přesunout</string>
@@ -320,8 +322,8 @@
     <string name="simple_expert_settings">Nastavení pro pokročilé uživatele</string>
     <string name="copy_logs">Zkopírovat záznamy událostí do schránky</string>
     <string name="app_logo">Logo aplikace</string>
-    <string name="log_file">Soubor Log</string>
-    <string name="copying_logs_to_file">Kopíruju logy(záznamy) do souboru</string>
+    <string name="log_file">Soubor se záznamem událostí</string>
+    <string name="copying_logs_to_file">Kopírování záznamů událostí do souboru…</string>
     <string name="account_imported">Účet naimportován</string>
     <string name="simple_search">Hledat</string>
     <!-- Label for a title input field that is required to be filled out -->

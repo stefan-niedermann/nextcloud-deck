@@ -31,6 +31,8 @@
     <string name="simple_copied">Kopiatuta</string>
     <string name="simple_archive">Artxibatu</string>
     <string name="simple_unassigned">Esleitu gabea</string>
+    <string name="hint_error_appeared">Errore bat agertu da</string>
+
     <string name="edit_board">Editatu mahaia</string>
     <string name="archive_board">Artxibatu mahaia</string>
     <string name="delete_board">Ezabatu mahaia</string>
