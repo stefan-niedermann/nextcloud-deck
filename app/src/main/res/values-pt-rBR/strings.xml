@@ -33,6 +33,8 @@
     <string name="simple_copied">Copiado</string>
     <string name="simple_archive">Arquivados</string>
     <string name="simple_unassigned">Não atribuído</string>
+    <string name="hint_error_appeared">Um erro apareceu </string>
+
     <string name="edit_board">Editar painel</string>
     <string name="archive_board">Arquivar painel</string>
     <string name="delete_board">Excluir painel</string>

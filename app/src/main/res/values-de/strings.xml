@@ -33,6 +33,8 @@
     <string name="simple_copied">Kopiert</string>
     <string name="simple_archive">Archivieren</string>
     <string name="simple_unassigned">Nicht zugewiesen</string>
+    <string name="hint_error_appeared">Es ist ein Fehler aufgetreten</string>
+
     <string name="edit_board">Board bearbeiten</string>
     <string name="archive_board">Board archivieren</string>
     <string name="delete_board">Board löschen</string>

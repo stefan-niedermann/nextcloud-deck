@@ -33,6 +33,8 @@
     <string name="simple_copied">Skopiowano</string>
     <string name="simple_archive">Archiwizuj</string>
     <string name="simple_unassigned">Nieprzypisane</string>
+    <string name="hint_error_appeared">Wystąpił błąd</string>
+
     <string name="edit_board">Edytuj tablicę</string>
     <string name="archive_board">Zarchiwizuj tablicę</string>
     <string name="delete_board">Usuń tablicę</string>

@@ -31,6 +31,8 @@
     <string name="simple_copied">Copiato</string>
     <string name="simple_archive">Archivio</string>
     <string name="simple_unassigned">Non assegnato</string>
+    <string name="hint_error_appeared">Si è verificato un errore</string>
+
     <string name="edit_board">Modifica lavagna</string>
     <string name="archive_board">Archivia lavagna</string>
     <string name="delete_board">Elimina lavagna</string>
