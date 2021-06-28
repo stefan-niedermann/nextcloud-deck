@@ -1,6 +1,8 @@
 <resources>
     <string name="navigation_drawer_open">Ireki nabigatzeko menu lerrakorra</string>
     <string name="navigation_drawer_close">Itxi nabigatzeko menu lerrakorra</string>
+    <string name="hint_search_deck">Bilatu bilduma</string>
+
     <string name="simple_boards">Mahaiak</string>
     <string name="simple_add">Gehitu</string>
     <string name="simple_save">Gorde</string>
@@ -150,6 +152,7 @@
     <string name="hours_6">6 ordu</string>
     <string name="action_card_move">Mugitu txartela</string>
     <string name="action_card_move_title">Mugitu %1$s</string>
+    <string name="title_is_mandatory">Izenburua beharrezkoa da</string>
     <string name="provide_at_least_a_title_or_description">Jarri gutxienez izenburu edo deskribapen bat</string>
     <string name="welcome_text">Ongi etorri %1$s(e)ra</string>
     <string name="maintenance_mode_explanation">%1$s zerbitzaria mantentze moduan dago. Mesedez jarri harremanetan zure administratzailearekin edo saiatu berriro.</string>
@@ -315,5 +318,7 @@
     <string name="copying_logs_to_file">Erregistroak fitxategira kopiatzen...</string>
     <string name="account_imported">Inportatutako kontua</string>
     <string name="simple_search">Bilatu</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Izenburua (beharrezkoa)</string>
     <string name="saving_new_card">Txartel berria gordetzen...</string>
 </resources>

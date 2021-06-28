@@ -33,6 +33,8 @@
     <string name="simple_copied">Kopyalandı</string>
     <string name="simple_archive">Arşivle</string>
     <string name="simple_unassigned">Atanmamış</string>
+    <string name="hint_error_appeared">Bir sorun çıktı</string>
+
     <string name="edit_board">Panoyu düzenle</string>
     <string name="archive_board">Panoyu arşivle</string>
     <string name="delete_board">Panoyu sil</string>
