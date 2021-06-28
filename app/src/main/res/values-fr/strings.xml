@@ -31,6 +31,8 @@
     <string name="simple_copied">Copié</string>
     <string name="simple_archive">Archiver</string>
     <string name="simple_unassigned">Non assigné(s)</string>
+    <string name="hint_error_appeared">Une erreur est survenue</string>
+
     <string name="edit_board">Modifier le tableau</string>
     <string name="archive_board">Archiver le tableau</string>
     <string name="delete_board">Supprimer le tableau</string>
@@ -148,6 +150,7 @@
     <string name="hours_6">6 heures</string>
     <string name="action_card_move">Déplacer la carte</string>
     <string name="action_card_move_title">Déplacer %1$s</string>
+    <string name="title_is_mandatory">Un titre est requis</string>
     <string name="provide_at_least_a_title_or_description">Renseignez le titre ou la description</string>
     <string name="welcome_text">Bienvenue sur %1$s</string>
     <string name="maintenance_mode_explanation">Le serveur %1$s est actuellement en maintenance. Veuillez contacter votre administrateur ou réessayer plus tard.</string>
