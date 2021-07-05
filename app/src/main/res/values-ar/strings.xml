@@ -103,6 +103,7 @@
     <string name="do_you_want_to_archive_all_cards_of_the_list">هل تريد أرشفة جميع بطاقات %1$s؟</string>
     <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">هل تريد أرشفة جميع البطاقات المفلترة %1$s؟ </string>
     <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="zero">سوف يحذف هذا %1$d جميع البطاقات من هذه القائمة </item>
         <item quantity="one">سوف يحذف هذا %1$d جميع البطاقات من هذه القائمة </item>
         <item quantity="two">سوف يحذف هذا %1$d جميع البطاقات من هذه القائمة </item>
         <item quantity="few">سوف يحذف هذا %1$d جميع البطاقات من هذه القائمة </item>
@@ -110,6 +111,7 @@
         <item quantity="other">سوف يحذف هذا %1$d جميع البطاقات من هذه القائمة </item>
     </plurals>
     <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="zero">سيؤدي هذا إلى إزالة التسمية %1$d من البطاقات.</item>
         <item quantity="one">سيؤدي هذا إلى إزالة التسمية %1$d من البطاقات.</item>
         <item quantity="two">سيؤدي هذا إلى إزالة التسمية %1$d من البطاقات.</item>
         <item quantity="few">سيؤدي هذا إلى إزالة التسمية %1$d من البطاقات.</item>
@@ -254,6 +256,8 @@
     <string name="add_text_as_comment">أضف كتعليق</string>
     <string name="progress_count">%1$d من %2$d</string>
     <plurals name="progress_error_count">
+        <item quantity="zero">%1$d خطأ أثناء الرفع
+ </item>
         <item quantity="one">%1$d خطأ أثناء الرفع </item>
         <item quantity="two"> %1$d خطأ أثناء الرفع </item>
         <item quantity="few">%1$d خطأ أثناء الرفع </item>
@@ -279,6 +283,7 @@
     <string name="project_type_file">الملف</string>
     <string name="projects_title">المشاريع</string>
     <plurals name="resources_count">
+        <item quantity="zero">%1$dالمصادر </item>
         <item quantity="one">%1$dالمصادر</item>
         <item quantity="two">%1$d المصادر</item>
         <item quantity="few">%1$dالمصادر</item>
