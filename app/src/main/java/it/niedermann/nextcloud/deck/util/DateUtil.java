@@ -1,11 +1,13 @@
 package it.niedermann.nextcloud.deck.util;
 
 import android.content.Context;
+import android.os.Build;
 import android.text.format.DateUtils;
 
 import androidx.annotation.NonNull;
 
 import java.time.ZonedDateTime;
+import java.util.Locale;
 
 import it.niedermann.nextcloud.deck.R;
 
@@ -23,14 +25,22 @@ public final class DateUtil {
             return context.getString(R.string.seconds_ago);
         } else {
             // in the future or past (larger than 60 seconds)
-            final CharSequence dateString = DateUtils.getRelativeDateTimeString(
+            final String dateString = DateUtils.getRelativeDateTimeString(
                     context,
                     time,
                     DateUtils.SECOND_IN_MILLIS,
                     DateUtils.WEEK_IN_MILLIS,
                     0
-            );
-            final String[] parts = dateString.toString().split(",");
+            ).toString();
+
+            // https://github.com/stefan-niedermann/nextcloud-deck/issues/1034
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R && Locale.getDefault().getDisplayLanguage().startsWith("fr_")) {
+                if (dateString.endsWith(". à 00:00")) {
+                    return dateString.substring(0, dateString.length() - 8);
+                }
+            }
+
+            final String[] parts = dateString.split(",");
             if (parts.length == DATE_TIME_PARTS_SIZE) {
                 if (parts[1].contains(":") && !parts[0].contains(":")) {
                     return parts[0];
@@ -40,7 +50,7 @@ public final class DateUtil {
             }
             // dateString contains unexpected format.
             // fallback: use relative date time string from android api as is.
-            return dateString.toString();
+            return dateString;
         }
     }
 }
