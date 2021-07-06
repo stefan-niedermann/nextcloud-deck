@@ -31,11 +31,11 @@ public final class DateUtil {
                     DateUtils.SECOND_IN_MILLIS,
                     DateUtils.WEEK_IN_MILLIS,
                     0
-            ).toString();
+            ).toString().trim();
 
             // https://github.com/stefan-niedermann/nextcloud-deck/issues/1034
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R && Locale.getDefault().getDisplayLanguage().startsWith("fr_")) {
-                if (dateString.endsWith(". à 00:00")) {
+                if (dateString.matches("\\. ([^0-9] )?[0-9]{1,2}:[0-9]{2}$")) {
                     return dateString.substring(0, dateString.length() - 8);
                 }
             }
