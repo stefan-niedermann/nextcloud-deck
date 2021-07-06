@@ -8,11 +8,14 @@ import androidx.annotation.NonNull;
 
 import java.time.ZonedDateTime;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import it.niedermann.nextcloud.deck.R;
 
 public final class DateUtil {
     private static final int DATE_TIME_PARTS_SIZE = 2;
+    private static final Pattern FRENCH_TIME_SUFFIX = Pattern.compile("\\. ([^0-9] )?[0-9]{1,2}:[0-9]{2}$");
 
     private DateUtil() {
         throw new UnsupportedOperationException("This class must not get instantiated");
@@ -35,8 +38,9 @@ public final class DateUtil {
 
             // https://github.com/stefan-niedermann/nextcloud-deck/issues/1034
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R && Locale.getDefault().getDisplayLanguage().startsWith("fr_")) {
-                if (dateString.matches("\\. ([^0-9] )?[0-9]{1,2}:[0-9]{2}$")) {
-                    return dateString.substring(0, dateString.length() - 8);
+                Matcher matcher = FRENCH_TIME_SUFFIX.matcher(dateString);
+                if (matcher.find()) {
+                    return dateString.substring(0, dateString.length() - matcher.group().length());
                 }
             }
 
