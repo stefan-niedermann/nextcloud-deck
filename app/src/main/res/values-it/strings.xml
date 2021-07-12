@@ -1,7 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Apri il cassetto di navigazione</string>
     <string name="navigation_drawer_close">Chiudi il cassetto di navigazione</string>
-
     <string name="simple_boards">Lavagne</string>
     <string name="simple_add">Aggiungi</string>
     <string name="simple_save">Salva</string>
@@ -32,6 +31,7 @@
     <string name="simple_copied">Copiato</string>
     <string name="simple_archive">Archivio</string>
     <string name="simple_unassigned">Non assegnato</string>
+    <string name="hint_error_appeared">Si è verificato un errore</string>
 
     <string name="edit_board">Modifica lavagna</string>
     <string name="archive_board">Archivia lavagna</string>
@@ -150,7 +150,7 @@
     <string name="hours_6">6 ore</string>
     <string name="action_card_move">Sposta scheda</string>
     <string name="action_card_move_title">Sposta %1$s</string>
-    <string name="title_is_mandatory">Il titolo è obbligatorio</string>
+    <string name="title_is_mandatory">Il titolo è richiesto</string>
     <string name="provide_at_least_a_title_or_description">Fornisci almeno un titolo e una descrizione</string>
     <string name="welcome_text">Benvenuto in %1$s</string>
     <string name="maintenance_mode_explanation">Il server %1$s attualmente è in manutenzione. Contatta l\'amministratore o riprova più tardi.</string>
@@ -316,4 +316,7 @@
     <string name="copying_logs_to_file">Copia dei registri su file…</string>
     <string name="account_imported">Account importato</string>
     <string name="simple_search">Cerca</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Titolo (richiesto)</string>
+    <string name="saving_new_card">Salvataggio della nuova scheda...</string>
 </resources>

@@ -1,6 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">打开导航条</string>
     <string name="navigation_drawer_close">关闭导航条</string>
+    <string name="hint_search_deck">搜索 deck</string>
 
     <string name="simple_boards">面板</string>
     <string name="simple_add">添加</string>
@@ -32,6 +33,7 @@
     <string name="simple_copied">已复制</string>
     <string name="simple_archive">归档</string>
     <string name="simple_unassigned">未分配</string>
+    <string name="hint_error_appeared">发生了一个错误</string>
 
     <string name="edit_board">编辑面板</string>
     <string name="archive_board">归档面板</string>
@@ -143,9 +145,9 @@
     <string name="no_content">暂无内容</string>
     <string name="last_background_sync">上次后台同步时间：</string>
     <string name="simple_off">关闭</string>
-    <string name="minutes_15">15 分钟</string>
-    <string name="hour_1">1 小时</string>
-    <string name="hours_6">6 小时</string>
+    <string name="minutes_15">15 分钟 </string>
+    <string name="hour_1">1 小时 </string>
+    <string name="hours_6">6 小时 </string>
     <string name="action_card_move">移动卡片</string>
     <string name="action_card_move_title">移动 %1$s</string>
     <string name="title_is_mandatory">标题是必需的</string>
@@ -279,7 +281,7 @@
     <string name="single_card">单张卡片</string>
     <string name="project_type_room">聊天室</string>
     <string name="simple_move">移动</string>
-    <string name="cannot_upload_files_without_permission">没有权限无法上传文件 </string>
+    <string name="cannot_upload_files_without_permission">没有权限无法上传文件</string>
     <string name="clone_cards">克隆卡片</string>
     <string name="simple_clone">克隆</string>
     <string name="user_avatar">用户头像</string>
@@ -312,4 +314,7 @@
     <string name="copying_logs_to_file">正将日志复制到文件</string>
     <string name="account_imported">账户已导入</string>
     <string name="simple_search">搜索</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">标题 (必填)</string>
+    <string name="saving_new_card">保存新卡片中 ...</string>
 </resources>

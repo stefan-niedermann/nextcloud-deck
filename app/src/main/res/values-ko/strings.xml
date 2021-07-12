@@ -1,7 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">탐색 서랍 창 열기</string>
     <string name="navigation_drawer_close">탐색 서랍 창 닫기</string>
-
     <string name="simple_boards">게시판</string>
     <string name="simple_add">추가</string>
     <string name="simple_save">저장</string>
@@ -32,7 +31,6 @@
     <string name="simple_copied">복사됨</string>
     <string name="simple_archive">보관</string>
     <string name="simple_unassigned">할당되지 않음</string>
-
     <string name="edit_board">게시판 편집</string>
     <string name="archive_board">게시판 보관</string>
     <string name="delete_board">게시판 삭제</string>
@@ -134,12 +132,8 @@
     <string name="no_content">아직 내용 없음</string>
     <string name="last_background_sync">마지막 백그라운드 동기화:</string>
     <string name="simple_off">꺼짐</string>
-    <string name="minutes_15">15분</string>
-    <string name="hour_1">1시간</string>
-    <string name="hours_6">6시간</string>
     <string name="action_card_move">카드 이동</string>
     <string name="action_card_move_title">%1$s 이동</string>
-    <string name="title_is_mandatory">필수사항입니다.</string>
     <string name="provide_at_least_a_title_or_description">적어도 제목이나 내용을 기술하시오.</string>
     <string name="welcome_text">%1$s에 오신 것을 환영합니다.</string>
     <string name="maintenance_mode_explanation">%1$s서버는 현재 유지보수 모드입니다. 관리자에게 연락하거나 나중에 시도해주십시오.</string>

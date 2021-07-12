@@ -1,6 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">Open navigatie</string>
     <string name="navigation_drawer_close">Sluit navigatie</string>
+    <string name="hint_search_deck">Zoeken kaarten</string>
 
     <string name="simple_boards">Bord</string>
     <string name="simple_add">Toevoegen</string>
@@ -32,6 +33,7 @@
     <string name="simple_copied">Gekopieerd</string>
     <string name="simple_archive">Archiveer</string>
     <string name="simple_unassigned">Niet-toegewezen</string>
+    <string name="hint_error_appeared">Er is een fout verschenen</string>
 
     <string name="edit_board">Pas bord aan</string>
     <string name="archive_board">Archiveer bord</string>
@@ -316,4 +318,7 @@
     <string name="copying_logs_to_file">Kopiëren logs naar bestand...</string>
     <string name="account_imported">Account geïmporteerd</string>
     <string name="simple_search">Zoeken</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Titel (vereist)</string>
+    <string name="saving_new_card">Opslaan nieuwe kaart...</string>
 </resources>

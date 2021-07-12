@@ -1,7 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Obre el calaix de navegació</string>
     <string name="navigation_drawer_close">Tanca el calaix de navegació</string>
-
     <string name="simple_boards">Taulells</string>
     <string name="simple_add">Afegeix</string>
     <string name="simple_save">Desa</string>
@@ -32,7 +31,6 @@
     <string name="simple_copied">Copiat</string>
     <string name="simple_archive">Arxiu</string>
     <string name="simple_unassigned">Sense assignar</string>
-
     <string name="edit_board">Edita el tauler</string>
     <string name="archive_board">Arxiva el tauler</string>
     <string name="delete_board">Suprimeix el tauler</string>
@@ -138,12 +136,8 @@
     <string name="no_content">No hi ha contingut encara</string>
     <string name="last_background_sync">Última sincronització en segon pla:</string>
     <string name="simple_off">Apagat</string>
-    <string name="minutes_15">15 minuts</string>
-    <string name="hour_1">1 hora</string>
-    <string name="hours_6">6 hores</string>
     <string name="action_card_move">Mou la targeta</string>
     <string name="action_card_move_title">Mou %1$s</string>
-    <string name="title_is_mandatory">El títol és obligatori</string>
     <string name="provide_at_least_a_title_or_description">Poseu-hi almenys un títol o descripció</string>
     <string name="welcome_text">Benvingut a %1$s</string>
     <string name="maintenance_mode_explanation">El servidor %1$s és actualment en mode de manteniment. Si us plau, contacteu el vostre administrador o proveu de nou més tard.</string>

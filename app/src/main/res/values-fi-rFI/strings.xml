@@ -1,7 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Avaa hakuvalikko</string>
     <string name="navigation_drawer_close">Sulje hakuvalikko</string>
-
     <string name="simple_boards">Taulut</string>
     <string name="simple_add">Lisää</string>
     <string name="simple_save">Tallenna</string>
@@ -32,7 +31,6 @@
     <string name="simple_copied">Kopioitu</string>
     <string name="simple_archive">Arkisto</string>
     <string name="simple_unassigned">Määrittämätön</string>
-
     <string name="edit_board">Muokkaa taulua</string>
     <string name="archive_board">Arkistoi taulu</string>
     <string name="delete_board">Poista taulu</string>
@@ -135,12 +133,8 @@
     <string name="no_content">Ei vielä sisältöä</string>
     <string name="last_background_sync">Viimeisin taustasynkronointi:</string>
     <string name="simple_off">Pois</string>
-    <string name="minutes_15">15 minuuttia</string>
-    <string name="hour_1">1 tunti</string>
-    <string name="hours_6">6 tuntia</string>
     <string name="action_card_move">Siirrä kortti</string>
     <string name="action_card_move_title">Siirrä %1$s</string>
-    <string name="title_is_mandatory">Otsikko on pakollinen</string>
     <string name="provide_at_least_a_title_or_description">Anna vähintään otsikko tai kuvaus</string>
     <string name="welcome_text">Tervetuloa kohteeseen %1$s</string>
     <string name="maintenance_mode_explanation">Palvelin%1$s on juuri ylläpitotilassa. Ota yhteys järjestelmän ylläpitäjään tai yritä myöhemmin uudelleen.</string>

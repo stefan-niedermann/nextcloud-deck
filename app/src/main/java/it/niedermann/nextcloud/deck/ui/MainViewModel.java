@@ -32,7 +32,6 @@ import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 
 @SuppressWarnings("WeakerAccess")
 public class MainViewModel extends AndroidViewModel {
@@ -130,8 +129,8 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.hasAccounts();
     }
 
-    public WrappedLiveData<Account> createAccount(@NonNull Account accout) {
-        return syncManager.createAccount(accout);
+    public void createAccount(@NonNull Account account, @NonNull IResponseCallback<Account> callback) {
+        syncManager.createAccount(account, callback);
     }
 
     public void deleteAccount(long id) {
@@ -266,8 +265,8 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.getFullCardsForStack(accountId, localStackId, filter);
     }
 
-    public WrappedLiveData<Void> moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
-        return syncManager.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId);
+    public void moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId, @NonNull IResponseCallback<Void> callback) {
+        syncManager.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId, callback);
     }
 
     public LiveData<List<FullCard>> getArchivedFullCardsForBoard(long accountId, long localBoardId) {

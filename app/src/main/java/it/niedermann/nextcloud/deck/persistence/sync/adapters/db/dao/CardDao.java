@@ -20,9 +20,17 @@ public interface CardDao extends GenericDao<Card> {
                 "join stack s on s.localId = c.stackId " +
                 "join board b on b.localId = s.boardId " +
             "WHERE b.archived = 0 and c.archived = 0 and b.status <> 3 and s.status <> 3 and c.status <> 3 " +
-                "and (c.dueDate is not null or exists(select 1 from AccessControl ac where ac.boardId = b.localId and ac.status <> 3))" +
-                "and (not exists(select 1 from AccessControl ac where ac.boardId = b.localId and ac.status <> 3) " +
-                    "or exists(select 1 from JoinCardWithUser j where j.cardId = c.localId and j.userId in (select u.localId from user u where u.uid in (select a.userName from Account a))))" +
+                // FUll Logic: (hasDueDate AND isIn_PRIVATE_Board) OR (isInSharedBoard AND (assignedToMe OR (hasDueDate AND noAssignees)))
+                "and (" +
+                    "(c.dueDate is not null AND NOT exists(select 1 from AccessControl ac where ac.boardId = b.localId and ac.status <> 3))" + //(hasDueDate AND isInPrivateBoard)
+                    "OR (" +
+                        "exists(select 1 from AccessControl ac where ac.boardId = b.localId and ac.status <> 3) " + //OR (isInSharedBoard AND
+                        "AND (" +
+                            "(c.dueDate is not null AND not exists(select 1 from JoinCardWithUser j where j.cardId = c.localId)) " + // hasDueDate AND noAssignees OR
+                            "OR exists(select 1 from JoinCardWithUser j where j.cardId = c.localId and j.userId in (select u.localId from user u where u.uid in (select a.userName from Account a)))" + //(assignedToMe
+                        ")" +
+                    ")" +
+                ")" +
             "ORDER BY c.dueDate asc";
 
     @Query("SELECT * FROM card WHERE stackId = :localStackId order by `order`, createdAt asc")
