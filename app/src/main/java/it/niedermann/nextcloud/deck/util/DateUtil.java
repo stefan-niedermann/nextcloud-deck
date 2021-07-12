@@ -24,7 +24,7 @@ public final class DateUtil {
     }
 
     public static CharSequence getRelativeDateTimeString(@NonNull Context context, long time) {
-        long now = ZonedDateTime.now().toInstant().toEpochMilli();
+        final long now = ZonedDateTime.now().toInstant().toEpochMilli();
         if ((now - time) < 60_000 && now > time) {
             // < 60 seconds → seconds ago
             return context.getString(R.string.seconds_ago);
