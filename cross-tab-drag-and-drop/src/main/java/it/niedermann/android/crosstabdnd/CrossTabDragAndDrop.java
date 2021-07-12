@@ -52,6 +52,11 @@ public class CrossTabDragAndDrop<
         viewPager.setOnDragListener((View v, DragEvent dragEvent) -> {
             //noinspection unchecked
             final DraggedItemLocalState<TabFragment, ItemAdapter, ItemModel> draggedItemLocalState = (DraggedItemLocalState<TabFragment, ItemAdapter, ItemModel>) dragEvent.getLocalState();
+            // https://github.com/stefan-niedermann/nextcloud-deck/issues/1025
+            if (draggedItemLocalState == null) {
+                Log.v(TAG, "dragEvent has no localState → Cancelling DragListener.");
+                return false;
+            }
             final View draggedView = draggedItemLocalState.getDraggedView();
             switch (dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED: {
