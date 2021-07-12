@@ -1,0 +1,1 @@
+- 🐞 Fix crash on Huawei devices when working with splitscreen (#1025)
