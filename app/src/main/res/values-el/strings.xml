@@ -136,8 +136,12 @@
     <string name="no_content">Χωρίς περιεχόμενο ακόμα</string>
     <string name="last_background_sync">Τελευταίος συγχρ. παρασκηνίου:</string>
     <string name="simple_off">Απενεργοποίηση </string>
+    <string name="minutes_15">15 λεπτά</string>
+    <string name="hour_1">1 ώρα</string>
+    <string name="hours_6">6 ώρες</string>
     <string name="action_card_move">Μετακίνηση κάρτας</string>
     <string name="action_card_move_title">Μετακίνηση %1$s</string>
+    <string name="title_is_mandatory">Απαιτείται τίτλος</string>
     <string name="provide_at_least_a_title_or_description">Προσθέστε τουλάχιστον τίτλο ή περιγραφή</string>
     <string name="welcome_text">Καλώς ήρθατε στο %1$s</string>
     <string name="maintenance_mode_explanation">Ο διακομιστής %1$s είναι σε κατάσταση συντήρησης. Επικοινωνήστε με τον διαχειριστή ή δοκιμάστε αργότερα.</string>
