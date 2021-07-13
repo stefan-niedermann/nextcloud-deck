@@ -1,5 +1,10 @@
 # Frequently asked questions
 
+- [I have experienced an error](i-have-experienced-an-error)
+- [Why has my bug report been closed?](why-has-my-bug-report-been-closed)
+- [Why don't you make an iOS app?](why-dont-you-make-an-ios-app)
+- [How to receive notifications when a due date is reached?](how-to-receive-notifications-when-a-due-date-is-reached)
+
 ## I have experienced an error
 
 Sorry. There are so many different environments, that it is impossible for us to test each and every constellation.
@@ -13,10 +18,14 @@ You can achieve this by navigating to
 
 ```
 Android settings
- ↳ Apps
-   ↳ Nextcloud / Deck
-     ↳ Storage
-       ↳ Clear storage
+       ↓
+     Apps
+       ↓
+Nextcloud / Notes
+       ↓
+    Storage
+       ↓
+ Clear storage
 ```
 
 Often there is an issue with the state of the server app. Try to create a new test account at your Nextcloud instance and connect to it.
