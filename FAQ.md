@@ -57,3 +57,15 @@ Also licenses for SDKs, Hardware and distributing is ridiculous expensive for an
 The API of the Deck server app is well documented and everyone is free to start an iOS client. Of course we appreciate a growing ecosystem even if we will not contribute to this part personally.
 
 ¹ Disclaimer: "We" are not working for nor related to Nextcloud Inc. in any way. We are just a few volunteers which contribute to this app in our free time.
+
+## How to receive notifications when a due date is reached?
+
+When a card reaches its due date, users usually want to get notified. The Deck app can send push notifications to you, which are displayed in the browser, via the [Nextcloud Desktop sync client](https://nextcloud.com/install/#install-clients) and with the [Nextcloud Android app](https://apps.nextcloud.com/apps/android_nextcloud_app). While you won't even need the Deck Android app, it will provide an enhanced integration starting with the Nextcloud Android app `3.14.2` and Deck Android `1.10.x`: Clicking on an notification will directly open the affected card in the Deck Android app.
+
+In order to make this all work, you will need two things:
+1. Make sure that your Nextcloud Android app is able to receive push notifications (You will need Google Play services for that)
+2. Configure in your user settings, that you *want* to receive push notifications:
+    - Click in the top right of your browser on your avatar
+    - Choose "settings" and then "activities" in the left sidebar.
+    - Enable the checkbox `Changes in the Deck app`
+       ![Enable push notifications for Deck](https://user-images.githubusercontent.com/4741199/125485987-398f3ee8-f59c-4234-8453-1da679d4d7c5.png)
