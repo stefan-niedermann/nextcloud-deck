@@ -24,6 +24,12 @@ allprojects {
     }
 }
 
+subprojects {
+    tasks.withType(Test) {
+        maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+    }
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
