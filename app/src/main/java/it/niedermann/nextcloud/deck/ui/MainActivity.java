@@ -48,6 +48,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.exceptions.AccountImportCancelledException;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
+import com.nextcloud.android.sso.exceptions.UnknownErrorException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
 import java.net.HttpURLConnection;
@@ -983,7 +984,9 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                             public void onError(Throwable throwable) {
                                 super.onError(throwable);
                                 if (throwable.getClass() == OfflineException.class || throwable instanceof OfflineException) {
-                                    DeckLog.error("Do not show synchronization failed snackbar because it is an ", OfflineException.class.getSimpleName(), "- assuming the user has wi-fi disabled but \"Sync only on wi-fi\" enabled");
+                                    DeckLog.error("Do not show sync failed snackbar because it is an ", OfflineException.class.getSimpleName(), "- assuming the user has wi-fi disabled but \"Sync only on wi-fi\" enabled");
+                                } else if (throwable.getClass() == UnknownErrorException.class || throwable instanceof UnknownErrorException) {
+                                    DeckLog.error("Do not show sync failed snackbar because it is an ", UnknownErrorException.class.getSimpleName(), "- assuming a not reachable server or infrastructure issues");
                                 } else {
                                     showSyncFailedSnackbar(throwable);
                                 }
