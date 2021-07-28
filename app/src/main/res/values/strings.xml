@@ -259,10 +259,12 @@
     <string name="error_dialog_attachment_upload_failed">An attachment could not be uploaded. Please try to share it on another way and let us know about this bug.</string>
     <string name="error_dialog_certificate">Something seems to be wrong with the certificate of the server. Please check all the accounts in the Nextcloud app for further information.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Please disable all battery optimizations for Nextcloud and the Deck app.</string>
+    <string name="error_dialog_unknown_error">Your Nextcloud instance seems to be not reachable. Please check your internet connection and whether you are able to connect to your instance via browser.</string>
     <string name="error_action_open_deck_info">Open App info</string>
     <string name="error_action_open_nextcloud_app">Open Nextcloud app</string>
     <string name="error_action_open_network">Network settings</string>
     <string name="error_action_server_logs">Server logs</string>
+    <string name="error_action_open_in_browser">Open in browser</string>
     <string name="error_action_install">Install</string>
     <string name="error_action_report_issue">Report</string>
     <string name="info_box_maintenance_mode">Server is in maintenance mode</string>

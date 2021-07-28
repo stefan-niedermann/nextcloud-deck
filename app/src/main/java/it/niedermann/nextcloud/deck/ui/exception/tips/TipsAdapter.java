@@ -22,6 +22,7 @@ import com.nextcloud.android.sso.exceptions.NextcloudApiNotRespondingException;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotSupportedException;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.exceptions.TokenMismatchException;
+import com.nextcloud.android.sso.exceptions.UnknownErrorException;
 
 import org.json.JSONException;
 
@@ -167,6 +168,14 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
                         .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_report_issue);
                 add(R.string.error_dialog_tip_database_upgrade_failed, reportIntent);
                 add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
+            }
+        } else if (throwable instanceof UnknownErrorException) {
+            if (account != null) {
+                add(R.string.error_dialog_unknown_error, new Intent(Intent.ACTION_VIEW)
+                        .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_in_browser)
+                        .setData(Uri.parse(account.getUrl())));
+            } else {
+                add(R.string.error_dialog_unknown_error);
             }
         }
     }
