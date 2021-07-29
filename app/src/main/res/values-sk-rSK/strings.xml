@@ -69,7 +69,7 @@
     <string name="edit">Upraviť</string>
     <string name="label_labels">Vybrať štítky</string>
     <string name="label_description">Popis</string>
-    <string name="hint_assign_people">Priradiť používateľov</string>
+    <string name="hint_assign_people">Priradiť užívateľov</string>
     <string name="hint_due_date_date">Termín dokončenia</string>
     <string name="card_not_found">Karta sa nenašla</string>
     <string name="card_not_found_message">Kartu sa nepodarilo nájsť. Možno bola nedávno odstránená.</string>

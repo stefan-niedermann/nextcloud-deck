@@ -31,6 +31,8 @@
     <string name="simple_copied">Kopiert</string>
     <string name="simple_archive">Arkiv</string>
     <string name="simple_unassigned">Ikke tildelt</string>
+    <string name="hint_error_appeared">En feil oppstod</string>
+
     <string name="edit_board">Rediger tavle</string>
     <string name="archive_board">Arkiver tavle</string>
     <string name="delete_board">Slett tavle</string>
@@ -115,6 +117,7 @@
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Kompakt modus</string>
+    <string name="settings_debugging">Debug-logger</string>
     <string name="settings_background_sync">Synkronisering i bakgrunnen</string>
     <string name="pref_value_wifi_and_mobile">Synkroniser med WiFi og mobil data</string>
     <string name="pref_value_wifi_only">Synkroniser kun med WiFi</string>
@@ -133,8 +136,12 @@
     <string name="no_content">Ikke noe innhold enda</string>
     <string name="last_background_sync">Siste bakgrunnssynkronisering:</string>
     <string name="simple_off">ett kvarter</string>
+    <string name="minutes_15">15 minutter</string>
+    <string name="hour_1">1 time</string>
+    <string name="hours_6">6 timer</string>
     <string name="action_card_move">Flytt kort</string>
     <string name="action_card_move_title">Flytt %1$s</string>
+    <string name="title_is_mandatory">Tittel er påkrevd</string>
     <string name="provide_at_least_a_title_or_description">I det minste gi en tittel eller beskrivelse</string>
     <string name="welcome_text">Velkommen til %1$s</string>
     <string name="maintenance_mode_explanation">Serveren %1$s er for øyeblikket i vedlikeholds modus. Vennligs kontakt din administrator eller prøv igjen senere.</string>
@@ -157,9 +164,11 @@
     <string name="filter_no_filter">Alle</string>
     <string name="filter_overdue">Utløpt</string>
     <string name="filter_today">I dag</string>
+    <string name="filter_tomorrow">I morgen</string>
     <string name="filter_week">Neste 7 dager</string>
     <string name="filter_month">Neste 30 dager</string>
     <string name="filter_no_due">Ingen forfallsdato</string>
+    <string name="filter_later">Senere</string>
     <string name="filter_by_tag">Filtrer på knagg</string>
     <string name="filter_by_assigned_user">Filtrer på tildelt bruker</string>
     <string name="filter_by_duedate">Filtrer på forfallsdato</string>
@@ -186,6 +195,7 @@
     <string name="operation_not_yet_supported">Ikke støttet enda</string>
     <string name="error_revoking_ac">Feil ved tilbakekalling av tilgang for%1$s</string>
     <string name="error_create_label">Feil ved opprettelse av etikett %1$s</string>
+    <string name="maintenance_mode">Server i vedlikeholdsmodus</string>
     <string name="server_error">Tjenerfeil</string>
     <string name="error_edit_activity_killed_by_android">Android avsluttet redigeringsmodus fordi det trengte flere systemressurser til andre apper.</string>
 
@@ -212,12 +222,15 @@
     <string name="error_dialog_attachment_upload_failed">Et vedlegg kunne ikke lastes opp. Prøv å dele den på en annen måte og gi oss beskjed om denne feilen.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Deaktiver alle batterioptimaliseringer for Nextcloud og Deck-appen.</string>
     <string name="error_action_open_deck_info">Åpne App info</string>
+    <string name="error_action_open_nextcloud_app">Åpne Nextcloud-app</string>
     <string name="error_action_open_network">Nettverksinnstillinger</string>
     <string name="error_action_server_logs">Serverlogger</string>
     <string name="error_action_install">Installer</string>
     <string name="error_action_report_issue">Rapporter</string>
+    <string name="info_box_maintenance_mode">Server i vedlikeholdsmodus</string>
     <string name="info_box_version_not_supported">Server versjon %1$ser ikke støttet, vennligst oppgrader til %2$s</string>
     <string name="share_link">Share link</string>
+    <string name="share_content">Del innhold</string>
     <string name="archive_cards">Arkiver kortene</string>
 
     <string name="manage_accounts">Håndter kontoer</string>
@@ -240,7 +253,9 @@
     <string name="card_does_not_yet_exist">Kortet finnes ikke i Deck enda</string>
 
     <string name="widget_stack_title">Liste</string>
+    <string name="widget_filter_title">Filter</string>
     <string name="widget_stack_header_icon">Widget topptekstikon</string>
+    <string name="widget_placeholder_icon">Widget plassholderikon</string>
     <string name="select_stack">Velg liste</string>
     <string name="project_type_deck_board">Deck tavle</string>
     <string name="project_type_deck_card">Deck kort</string>
@@ -254,6 +269,7 @@
     <string name="single_card">Enkelt kort</string>
     <string name="project_type_room">Talk rom</string>
     <string name="simple_move">Flytt</string>
+    <string name="cannot_upload_files_without_permission">Kan ikke laste opp filer uten tillatelse</string>
     <string name="clone_cards">Klone kort</string>
     <string name="simple_clone">Klone</string>
     <string name="user_avatar">Bruker avatar</string>
@@ -274,4 +290,9 @@
     <string name="simple_attach">legg ved</string>
     <string name="add_stack_widget">Legg til liste widget</string>
     <string name="edit_description">Rediger beskrivelse</string>
+    <string name="app_logo">App-logo</string>
+    <string name="log_file">Loggfil</string>
+    <string name="copying_logs_to_file">Kopierer logger til fil...</string>
+    <string name="account_imported">Konto importert</string>
+    <string name="simple_search">Søk</string>
     </resources>
