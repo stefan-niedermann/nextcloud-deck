@@ -1,5 +1,29 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import static androidx.lifecycle.Transformations.switchMap;
+import static it.niedermann.nextcloud.deck.DeckApplication.NO_ACCOUNT_ID;
+import static it.niedermann.nextcloud.deck.DeckApplication.NO_BOARD_ID;
+import static it.niedermann.nextcloud.deck.DeckApplication.NO_STACK_ID;
+import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentAccountId;
+import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentBoardId;
+import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentStackId;
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccount;
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentBoardId;
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentStackId;
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.clearBrandColors;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.saveBrandColors;
+import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficient;
+import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
+import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
+import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
+import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ARCHIVED_BOARDS;
+import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_SETTINGS;
+import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_UPCOMING_CARDS;
+
 import android.animation.AnimatorInflater;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -105,30 +129,6 @@ import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsActivity;
 import it.niedermann.nextcloud.deck.util.CustomAppGlideModule;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 
-import static androidx.lifecycle.Transformations.switchMap;
-import static it.niedermann.nextcloud.deck.DeckApplication.NO_ACCOUNT_ID;
-import static it.niedermann.nextcloud.deck.DeckApplication.NO_BOARD_ID;
-import static it.niedermann.nextcloud.deck.DeckApplication.NO_STACK_ID;
-import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentAccountId;
-import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentBoardId;
-import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentStackId;
-import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccount;
-import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentBoardId;
-import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentStackId;
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.clearBrandColors;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.saveBrandColors;
-import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficient;
-import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
-import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
-import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
-import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ARCHIVED_BOARDS;
-import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_SETTINGS;
-import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_UPCOMING_CARDS;
-
 public class MainActivity extends AppCompatActivity implements DeleteStackListener, EditStackListener, DeleteBoardListener, EditBoardListener, ArchiveBoardListener, OnScrollListener, OnNavigationItemSelectedListener {
 
     protected ActivityMainBinding binding;
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
         setTheme(R.style.AppTheme);
 
-        final TypedValue typedValue = new TypedValue();
+        final var typedValue = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorAccent, typedValue, true);
         colorAccent = typedValue.data;
 
@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
         setSupportActionBar(binding.toolbar);
 
-        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        final var toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -237,16 +237,16 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 startActivityForResult(ImportAccountActivity.createIntent(this), ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT);
                 return null;
             }
-        }).observe(this, (List<Account> accounts) -> {
+        }).observe(this, accounts -> {
             if (accounts == null || accounts.size() == 0) {
                 // Last account has been deleted. hasAccounts LiveData will handle this, but we make sure, that branding is reset.
                 saveBrandColors(this, ContextCompat.getColor(this, R.color.defaultBrand));
                 return;
             }
 
-            long lastAccountId = readCurrentAccountId(this);
+            final var lastAccountId = readCurrentAccountId(this);
 
-            for (Account account : accounts) {
+            for (var account : accounts) {
                 if (lastAccountId == account.getId() || lastAccountId == NO_ACCOUNT_ID) {
                     mainViewModel.setCurrentAccount(account);
                     if (!firstAccountAdded) {
@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                         binding.filter.setOnClickListener(null);
                     }
 
-                    final Board finalCurrentBoard = currentBoard;
+                    final var finalCurrentBoard = currentBoard;
                     if (hasArchivedBoardsLiveData != null && hasArchivedBoardsLiveDataObserver != null) {
                         hasArchivedBoardsLiveData.removeObserver(hasArchivedBoardsLiveDataObserver);
                     }
@@ -342,14 +342,14 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             binding.viewPager.setAdapter(stackAdapter);
             binding.viewPager.setOffscreenPageLimit(2);
 
-            final CrossTabDragAndDrop<StackFragment, CardAdapter, FullCard> dragAndDrop = new CrossTabDragAndDrop<>(getResources(), ViewCompat.getLayoutDirection(binding.getRoot()) == ViewCompat.LAYOUT_DIRECTION_LTR);
+            final var dragAndDrop = new CrossTabDragAndDrop<StackFragment, CardAdapter, FullCard>(getResources(), ViewCompat.getLayoutDirection(binding.getRoot()) == ViewCompat.LAYOUT_DIRECTION_LTR);
             dragAndDrop.register(binding.viewPager, binding.stackTitles, getSupportFragmentManager());
             dragAndDrop.addItemMovedByDragListener((movedCard, stackId, position) -> {
                 mainViewModel.reorder(mainViewModel.getCurrentAccount().getId(), movedCard, stackId, position);
                 DeckLog.info("Card", movedCard.getCard().getTitle(), "was moved to Stack", stackId, "on position", position);
             });
 
-            final PopupMenu listMenuPopup = new PopupMenu(this, binding.listMenuButton);
+            final var listMenuPopup = new PopupMenu(this, binding.listMenuButton);
             listMenu = listMenuPopup.getMenu();
             getMenuInflater().inflate(R.menu.list_menu, listMenu);
             listMenuPopup.setOnMenuItemClickListener(this::onOptionsItemSelected);
@@ -487,7 +487,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
     @Override
     public void onUpdateStack(long localStackId, String stackName) {
-        mainViewModel.updateStackTitle(localStackId, stackName, new IResponseCallback<FullStack>() {
+        mainViewModel.updateStackTitle(localStackId, stackName, new IResponseCallback<>() {
             @Override
             public void onResponse(FullStack response) {
                 DeckLog.info("Successfully updated", Stack.class.getSimpleName(), "to", stackName);
@@ -507,7 +507,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             throw new IllegalStateException("Cannot create board when noone observe boards yet. boardsLiveData or observer is null.");
         }
         boardsLiveData.removeObserver(boardsLiveDataObserver);
-        final Board boardToCreate = new Board(title, color);
+        final var boardToCreate = new Board(title, color);
         boardToCreate.setPermissionEdit(true);
         boardToCreate.setPermissionManage(true);
 
@@ -644,7 +644,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             int stackPositionInAdapter = 0;
             stackAdapter.setStacks(stacks);
 
-            final long currentStackId = readCurrentStackId(this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId());
+            final var currentStackId = readCurrentStackId(this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId());
             for (int i = 0; i < currentBoardStacksCount; i++) {
                 if (stacks.get(i).getLocalId() == currentStackId || currentStackId == NO_STACK_ID) {
                     stackPositionInAdapter = i;
@@ -660,7 +660,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                     return "ERROR";
                 }
             };
-            final TabLayoutMediator newMediator = new TabLayoutMediator(binding.stackTitles, binding.viewPager, (tab, position) -> tab.setText(tabTitleGenerator.getTitle(position)));
+            final var newMediator = new TabLayoutMediator(binding.stackTitles, binding.viewPager, (tab, position) -> tab.setText(tabTitleGenerator.getTitle(position)));
             runOnUiThread(() -> {
                 setStackMediator(newMediator);
                 binding.viewPager.setCurrentItem(stackPositionInAdapterClone, false);
@@ -697,7 +697,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     @UiThread
     protected void inflateBoardMenu(@Nullable Board currentBoard) {
         binding.navigationView.setItemIconTintList(null);
-        final Menu menu = binding.navigationView.getMenu();
+        final var menu = binding.navigationView.getMenu();
         menu.clear();
         DrawerMenuUtil.inflateBoards(this, menu, this.boardsList, mainViewModel.currentAccountHasArchivedBoards(), mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported());
         binding.navigationView.setCheckedItem(boardsList.indexOf(currentBoard));
@@ -731,10 +731,10 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
+        final int itemId = item.getItemId();
         if (itemId == R.id.archive_cards) {
-            final Stack stack = stackAdapter.getItem(binding.viewPager.getCurrentItem());
-            final long stackLocalId = stack.getLocalId();
+            final var stack = stackAdapter.getItem(binding.viewPager.getCurrentItem());
+            final var stackLocalId = stack.getLocalId();
             mainViewModel.countCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, (numberOfCards) -> runOnUiThread(() ->
                     new AlertDialog.Builder(this)
                             .setTitle(R.string.archive_cards)
@@ -767,7 +767,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             EditStackDialogFragment.newInstance().show(getSupportFragmentManager(), addList);
             return true;
         } else if (itemId == R.id.rename_list) {
-            final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
+            final var stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
             observeOnce(mainViewModel.getStack(mainViewModel.getCurrentAccount().getId(), stackId), MainActivity.this, fullStack ->
                     EditStackDialogFragment.newInstance(fullStack.getLocalId(), fullStack.getStack().getTitle())
                             .show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName()));
@@ -834,11 +834,11 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             default:
                 try {
                     AccountImporter.onActivityResult(requestCode, resultCode, data, this, (account) -> {
-                        final Account accountToCreate = new Account(account.name, account.userId, account.url);
-                        mainViewModel.createAccount(accountToCreate, new IResponseCallback<Account>() {
+                        final var accountToCreate = new Account(account.name, account.userId, account.url);
+                        mainViewModel.createAccount(accountToCreate, new IResponseCallback<>() {
                             @Override
                             public void onResponse(Account createdAccount) {
-                                final SyncManager importSyncManager = new SyncManager(MainActivity.this, account.name);
+                                final var importSyncManager = new SyncManager(MainActivity.this, account.name);
                                 importSyncManager.refreshCapabilities(new ResponseCallback<Capabilities>(createdAccount) {
                                     @SuppressLint("StringFormatInvalid")
                                     @Override
@@ -846,9 +846,9 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                         if (!response.isMaintenanceEnabled()) {
                                             if (response.getDeckVersion().isSupported()) {
                                                 runOnUiThread(() -> {
-                                                    final Snackbar importSnackbar = BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
+                                                    final var importSnackbar = BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
                                                     importSnackbar.show();
-                                                    importSyncManager.synchronize(new ResponseCallback<Boolean>(createdAccount) {
+                                                    importSyncManager.synchronize(new ResponseCallback<>(createdAccount) {
                                                         @Override
                                                         public void onResponse(Boolean syncSuccess) {
                                                             importSnackbar.dismiss();
@@ -878,7 +878,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                                         .setMessage(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()))
                                                         .setNegativeButton(R.string.simple_discard, null)
                                                         .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {
-                                                            final Intent openURL = new Intent(Intent.ACTION_VIEW);
+                                                            final var openURL = new Intent(Intent.ACTION_VIEW);
                                                             openURL.setData(Uri.parse(createdAccount.getUrl() + getString(R.string.url_fragment_update_deck)));
                                                             startActivity(openURL);
                                                             finish();
@@ -949,14 +949,14 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         binding.searchToolbar.setNavigationOnClickListener(v1 -> onBackPressed());
         binding.enableSearch.setVisibility(View.GONE);
         binding.filterText.requestFocus();
-        final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        final var imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(binding.filterText, InputMethodManager.SHOW_IMPLICIT);
         binding.toolbarCard.setStateListAnimator(AnimatorInflater.loadStateListAnimator(this, R.animator.appbar_elevation_on));
     }
 
     private void hideFilterTextToolbar() {
         binding.filterText.setText(null);
-        final InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        final var imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         binding.searchToolbar.setVisibility(View.GONE);
         binding.enableSearch.setVisibility(View.VISIBLE);
@@ -965,8 +965,8 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     }
 
     private void registerAutoSyncOnNetworkAvailable() {
-        final ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        final NetworkRequest.Builder builder = new NetworkRequest.Builder();
+        final var connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        final var builder = new NetworkRequest.Builder();
 
         if (connectivityManager != null) {
             if (networkCallback == null) {
@@ -974,7 +974,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                     @Override
                     public void onAvailable(@NonNull Network network) {
                         DeckLog.log("Got Network connection");
-                        mainViewModel.synchronize(new ResponseCallback<Boolean>(mainViewModel.getCurrentAccount()) {
+                        mainViewModel.synchronize(new ResponseCallback<>(mainViewModel.getCurrentAccount()) {
                             @Override
                             public void onResponse(Boolean response) {
                                 DeckLog.log("Auto-Sync after connection available successful");
@@ -1084,7 +1084,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
     @Override
     public void onArchive(@NonNull Board board) {
-        mainViewModel.archiveBoard(board, new IResponseCallback<FullBoard>() {
+        mainViewModel.archiveBoard(board, new IResponseCallback<>() {
             @Override
             public void onResponse(FullBoard response) {
                 DeckLog.info("Successfully archived board", board.getTitle());
@@ -1107,9 +1107,9 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 .setMultiChoiceItems(animals, checkedItems, (dialog, which, isChecked) -> checkedItems[0] = isChecked)
                 .setPositiveButton(R.string.simple_clone, (dialog, which) -> {
                     binding.drawerLayout.closeDrawer(GravityCompat.START);
-                    final Snackbar snackbar = BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.cloning_board, board.getTitle()), Snackbar.LENGTH_INDEFINITE);
+                    final var snackbar = BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.cloning_board, board.getTitle()), Snackbar.LENGTH_INDEFINITE);
                     snackbar.show();
-                    mainViewModel.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColor(), checkedItems[0], new IResponseCallback<FullBoard>() {
+                    mainViewModel.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColor(), checkedItems[0], new IResponseCallback<>() {
                         @Override
                         public void onResponse(FullBoard response) {
                             runOnUiThread(() -> {
