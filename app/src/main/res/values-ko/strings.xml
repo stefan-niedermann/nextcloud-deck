@@ -1,6 +1,8 @@
 <resources>
     <string name="navigation_drawer_open">탐색 서랍 창 열기</string>
     <string name="navigation_drawer_close">탐색 서랍 창 닫기</string>
+    <string name="hint_search_deck">덱 검색</string>
+
     <string name="simple_boards">게시판</string>
     <string name="simple_add">추가</string>
     <string name="simple_save">저장</string>
@@ -31,6 +33,8 @@
     <string name="simple_copied">복사됨</string>
     <string name="simple_archive">보관</string>
     <string name="simple_unassigned">할당되지 않음</string>
+    <string name="hint_error_appeared">오류가 나타남</string>
+
     <string name="edit_board">게시판 편집</string>
     <string name="archive_board">게시판 보관</string>
     <string name="delete_board">게시판 삭제</string>
@@ -114,7 +118,11 @@
     <string name="settings_theme_title">테마</string>
     <string name="settings_branding_title">브랜딩</string>
     <string name="settings_compact_title">축소 모드</string>
+    <string name="settings_etags">ETag 사용</string>
     <string name="settings_background_sync">백그라운드 동기화</string>
+    <string name="settings_compress_image_attachments">업로드 시 이미지 압축</string>
+    <string name="search_in">%1$s 에서 검색</string>
+    <string name="settings_compress_image_attachments_summary">더 빠른 업로드, 낮은 품질</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fi나 모바일 데이터를 사용해 동기화</string>
     <string name="pref_value_wifi_only">Wi-Fi만 사용해 동기화</string>
     <string-array name="darkmode_entries">
@@ -132,8 +140,12 @@
     <string name="no_content">아직 내용 없음</string>
     <string name="last_background_sync">마지막 백그라운드 동기화:</string>
     <string name="simple_off">꺼짐</string>
+    <string name="minutes_15">15분</string>
+    <string name="hour_1">1시간</string>
+    <string name="hours_6">6시간</string>
     <string name="action_card_move">카드 이동</string>
     <string name="action_card_move_title">%1$s 이동</string>
+    <string name="title_is_mandatory">제목을 비워 둘 수 없음</string>
     <string name="provide_at_least_a_title_or_description">적어도 제목이나 내용을 기술하시오.</string>
     <string name="welcome_text">%1$s에 오신 것을 환영합니다.</string>
     <string name="maintenance_mode_explanation">%1$s서버는 현재 유지보수 모드입니다. 관리자에게 연락하거나 나중에 시도해주십시오.</string>
@@ -187,6 +199,7 @@
     <string name="operation_not_yet_supported">아직 지원되지 않습니다!</string>
     <string name="error_revoking_ac">%1$s에 대한 접근 취소 중에 에러가 발생했습니다.</string>
     <string name="error_create_label">%1$s라벨을 만드는 중에 에러가 발생했습니다.</string>
+    <string name="maintenance_mode">서버가 유지 관리 모드입니다.</string>
     <string name="server_error">서버 오류</string>
     <string name="error_edit_activity_killed_by_android">다른 앱에 시스템 자원이 더 필요하여 안드로이드가 편집모드를 종료했습니다.</string>
 
@@ -196,6 +209,8 @@
     <string name="error_dialog_tip_database_upgrade_failed">데이터베이스 업그레이드 실패. 오류를 보고하고 정상적인 앱사용을 위해 저장소를 정리하세요.</string>
     <string name="error_dialog_tip_clear_storage">저장공간을 비우기 위해  app info를 열고  Storage → Clear storage를 선택해주십시오.</string>
     <string name="error_dialog_tip_files_outdated">당신의 Nextcloud 앱은 예전 버전입니다.  Play Store나 F-Droid에 가서 최신 버전을 다운로드 하십시오.</string>
+    <string name="error_dialog_tip_offline">인터넷 연결 없이 동기화를 시도하신 것 같습니다.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">만약 \"Wi-Fi만 사용해 동기화\" 옵션을 사용 중이시라면, Wi-Fi에 연결되었을 때에만 동기화 할 수 있습니다.</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloud 앱에 문제가 생겼습니다. Nextcloud앱과 Nextcloud Deck앱 둘 다 강제종료 해보십시오.</string>
     <string name="error_dialog_tip_files_delete_storage">강제 종료가 도움이 되지 않는다면, 두 앱 모두의 저장공간을 비워보십시오.</string>
     <string name="error_dialog_timeout_instance">서버로부터 응답이 없습니다. 당신의 인스턴스가 잘 작동하는지 확인해 주십시오.</string>
@@ -211,14 +226,20 @@
     <string name="error_dialog_user_not_found_in_database">현재 사용자가 데이터베이스에 있는 사용자와 일치하지 않습니다. Nextcloud 인스턴스에서 LDAP을 사용하는 경우 Nextcloud 앱에 이전 사용자 ID가 저장되었을 수 있습니다.</string>
     <string name="error_dialog_capabilities_not_parsable">서버의 기능을 가져올 수 없습니다. 서버가 제대로 실행되고 다른 클라이언트 앱이 Nextcloud에 액세스할 수 있는지 확인하십시오.</string>
     <string name="error_dialog_attachment_upload_failed">첨부 파일을 업로드 할 수 없습니다. 다른 방법으로 공유하시고 저희에게 이 버그에 대해 알려주세요.</string>
+    <string name="error_dialog_certificate">서버의 인증서가 무언가 잘못된 것 같습니다. Nextcloud 어플리케이션에서 모든 계정을 확인해 더 많은 정보를 확인하십시오.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Nextcloud 및 Deck 앱에 대한 모든 배터리 최적화를 비활성화해 주십시오.</string>
     <string name="error_action_open_deck_info">앱 정보 열기</string>
+    <string name="error_action_open_nextcloud_app">Nextcloud 앱 열기</string>
     <string name="error_action_open_network">네트워크 환경설정</string>
     <string name="error_action_server_logs">서버 기록</string>
     <string name="error_action_install">설치</string>
     <string name="error_action_report_issue">보고</string>
+    <string name="info_box_maintenance_mode">서버가 유지 관리 모드임</string>
     <string name="info_box_version_not_supported">%1$s서버 버전은 지원되지 않습니다. %2$s로 업데이트 해주십시오.</string>
     <string name="share_link">링크 공유</string>
+    <string name="share_content">컨텐츠 공유</string>
+    <string name="share_content_duedate">기한: %1$s</string>
+    <string name="share_content_labels">태그: %1$s</string>
     <string name="archive_cards">카드들 보관</string>
 
     <string name="manage_accounts">계정 관리</string>
@@ -255,6 +276,7 @@
     <string name="single_card">단일 카드</string>
     <string name="project_type_room">대화방</string>
     <string name="simple_move">이동</string>
+    <string name="cannot_upload_files_without_permission">권한 없이 파일을 업로드할 수 없습니다.</string>
     <string name="clone_cards">복제 카드</string>
     <string name="simple_clone">복제</string>
     <string name="user_avatar">사용자 아바타</string>
@@ -279,4 +301,15 @@
     <string name="simple_order">순서</string>
     <string name="edit_description">설명 편집</string>
     <string name="widget_upcoming_title">다음 카드들</string>
-    </resources>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">고급 설정</string>
+    <string name="copy_logs">클립보드에 로그 복사</string>
+    <string name="app_logo">앱 로고</string>
+    <string name="log_file">로그 파일</string>
+    <string name="copying_logs_to_file">파일에 로그를 저장</string>
+    <string name="account_imported">계정 가져옴</string>
+    <string name="simple_search">검색</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">제목(필수)</string>
+    <string name="saving_new_card">새 카드 저장...</string>
+</resources>
