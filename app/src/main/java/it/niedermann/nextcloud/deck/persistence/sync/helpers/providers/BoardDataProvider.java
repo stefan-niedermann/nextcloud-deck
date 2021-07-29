@@ -31,7 +31,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
     @Override
     public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<List<FullBoard>> responder, Instant lastSync) {
-        serverAdapter.getBoards(new ResponseCallback<ParsedResponse<List<FullBoard>>>(responder.getAccount()) {
+        serverAdapter.getBoards(new ResponseCallback<>(responder.getAccount()) {
             @Override
             public void onResponse(ParsedResponse<List<FullBoard>> response) {
                 String etag = response.getHeaders().get("ETag");
@@ -51,14 +51,14 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public FullBoard getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entitiy) {
-        return dataBaseAdapter.getFullBoardByRemoteIdDirectly(accountId, entitiy.getEntity().getId());
+    public FullBoard getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
+        return dataBaseAdapter.getFullBoardByRemoteIdDirectly(accountId, entity.getEntity().getId());
     }
 
     @Override
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
         handleOwner(dataBaseAdapter, accountId, entity);
-        Long localId = dataBaseAdapter.createBoardDirectly(accountId, entity.getBoard());
+        final long localId = dataBaseAdapter.createBoardDirectly(accountId, entity.getBoard());
         entity.getBoard().setLocalId(localId);
         handleUsers(dataBaseAdapter, accountId, entity);
         return localId;

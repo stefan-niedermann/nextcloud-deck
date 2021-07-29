@@ -63,7 +63,7 @@ public class StackWidgetConfigurationActivity extends PickStackActivity {
                 Collections.singletonList(filterWidgetBoard));
         config.setAccounts(Collections.singletonList(filterWidgetAccount));
 
-        stackWidgetConfigurationViewModel.addStackWidget(config, new ResponseCallback<Integer>(account) {
+        stackWidgetConfigurationViewModel.addStackWidget(config, new ResponseCallback<>(account) {
             @Override
             public void onResponse(Integer response) {
                 final Intent updateIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null,
