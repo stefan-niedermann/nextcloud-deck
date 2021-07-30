@@ -239,10 +239,12 @@
     <string name="error_dialog_attachment_upload_failed">Nie można wysłać załącznika. Spróbuj udostępnić go w inny sposób oraz powiadom nas o tym błędzie.</string>
     <string name="error_dialog_certificate">Wydaje się, że coś jest nie tak z certyfikatem serwera. Aby uzyskać więcej informacji, sprawdź wszystkie konta w aplikacji Nextcloud.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Wyłącz wszystkie optymalizacje baterii dla aplikacji Nextcloud i aplikacji Deck.</string>
+    <string name="error_dialog_unknown_error">Twoja instancja Nextcloud wydaje się być nieosiągalna. Sprawdź swoje połączenie internetowe oraz czy możesz połączyć się z instancją za pomocą przeglądarki.</string>
     <string name="error_action_open_deck_info">Otwórz informacje o aplikacji</string>
     <string name="error_action_open_nextcloud_app">Otwórz aplikację Nextcloud</string>
     <string name="error_action_open_network">Ustawienia sieci</string>
     <string name="error_action_server_logs">Logi serwera</string>
+    <string name="error_action_open_in_browser">Otwórz w przeglądarce</string>
     <string name="error_action_install">Zainstaluj</string>
     <string name="error_action_report_issue">Raport</string>
     <string name="info_box_maintenance_mode">Serwer jest w trybie konserwacji</string>

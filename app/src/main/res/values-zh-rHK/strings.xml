@@ -233,10 +233,12 @@
     <string name="error_dialog_attachment_upload_failed">無法上傳附件。請嘗試以其他方式共享它，並讓我們知道此錯誤。</string>
     <string name="error_dialog_certificate">伺服器的證書似乎有問題。請檢查 Nextcloud 應用程式中的所有賬戶，以獲取更多資訊。</string>
     <string name="error_dialog_tip_disable_battery_optimizations">請禁用 Nextcloud 和 Deck 應用程式的所有電池優化。</string>
+    <string name="error_dialog_unknown_error">您的 Nextcloud 實例似乎無法訪問。 請檢查您的互聯網連接以及您是否能夠通過瀏覽器連接到您的實例。</string>
     <string name="error_action_open_deck_info">開啟 App 資訊</string>
     <string name="error_action_open_nextcloud_app">打開 Nextcloud 應用程式</string>
     <string name="error_action_open_network">網路設定</string>
     <string name="error_action_server_logs">伺服器記錄</string>
+    <string name="error_action_open_in_browser">用瀏覽器開啟</string>
     <string name="error_action_install">安裝</string>
     <string name="error_action_report_issue">舉報</string>
     <string name="info_box_maintenance_mode">伺服器正處於維護模式</string>

@@ -235,10 +235,12 @@
     <string name="error_dialog_attachment_upload_failed">Bir ek dosya yüklenemedi. Lütfen dosyayı başka bir şekilde paylaşın ve bu hatayı bize bildirin.</string>
     <string name="error_dialog_certificate">Sunucu sertifikasında bir sorun var gibi görünüyor. Lütfen ayrıntılı bilgi almak için Nextcloud uygulamasındaki tüm hesaplara bakın.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Lütfen Nextcloud ve Pano uygulaması için tüm pil iyileştirmelerini devre dışı bırakın.</string>
+    <string name="error_dialog_unknown_error">Nextcloud kopyanıza ulaşılamıyor gibi görünüyor. Lütfen internet bağlantınızın çalıştığından ve kopyanıza web tarayıcı ile bağlanabildiğinizden emin olun.</string>
     <string name="error_action_open_deck_info">Uygulama bilgilerini aç</string>
     <string name="error_action_open_nextcloud_app">Nextcloud uygulamasını aç</string>
     <string name="error_action_open_network">Ağ ayarları</string>
     <string name="error_action_server_logs">Sunucu günlükleri</string>
+    <string name="error_action_open_in_browser">Web tarayıcıda aç</string>
     <string name="error_action_install">Kur</string>
     <string name="error_action_report_issue">Sorun bildirin</string>
     <string name="info_box_maintenance_mode">Sunucu bakım kipinde</string>
