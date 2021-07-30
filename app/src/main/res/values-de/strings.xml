@@ -235,10 +235,12 @@
     <string name="error_dialog_attachment_upload_failed">Ein Anhang konnte nicht hochgeladen werden. Bitte versuchen Sie es auf andere Weise zu teilen und teilen Sie uns diesen Fehler mit.</string>
     <string name="error_dialog_certificate">Mit dem Zertifikat des Servers scheint etwas nicht zu stimmen. Bitte überprüfen Sie alle Konten in der Nextcloud-App für weitere Informationen. </string>
     <string name="error_dialog_tip_disable_battery_optimizations">Bitte alle Batterieoptimierungen für Nextcloud und die Deck-App deaktivieren.</string>
+    <string name="error_dialog_unknown_error">Ihre Nextcloud-Instanz scheint nicht erreichbar zu sein. Bitte überprüfen Sie Ihre Internetverbindung und ob Sie sich über den Browser mit Ihrer Instanz verbinden können.</string>
     <string name="error_action_open_deck_info">App-Informationen öffnen</string>
     <string name="error_action_open_nextcloud_app">Nextcloud-App öffnen</string>
     <string name="error_action_open_network">Netzwerkeinstellungen</string>
     <string name="error_action_server_logs">Server-Protokolle</string>
+    <string name="error_action_open_in_browser">In Browser öffnen</string>
     <string name="error_action_install">Installieren</string>
     <string name="error_action_report_issue">Melden</string>
     <string name="info_box_maintenance_mode">Server befindet sich im Wartungsmodus</string>

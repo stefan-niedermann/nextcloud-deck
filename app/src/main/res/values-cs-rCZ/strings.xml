@@ -239,10 +239,12 @@
     <string name="error_dialog_attachment_upload_failed">Přílohu se nepodařilo nahrát. Zkuste ji nasdílet jiným způsobem a dejte nám o této chybě vědět.</string>
     <string name="error_dialog_certificate">Zdá se, že s certifikátem serveru není něco v pořádku. Podrobnosti zjistíte kontrolou všech účtů v Nextcloud.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">V nastavení systému prosím pro aplikace Nextcloud a Deck vypněte veškeré optimalizace spotřeby energie z akumulátoru.</string>
+    <string name="error_dialog_unknown_error">Zdá se, že vámi využívaná instance Nextcloud není dosažitelná. Zkontrolujte své připojení a to, zda jste schopní se připojit k této instanci prostřednictvím webového prohlížeče.</string>
     <string name="error_action_open_deck_info">Otevřít informace o aplikaci</string>
     <string name="error_action_open_nextcloud_app">Otevřít aplikaci Nextcloud</string>
     <string name="error_action_open_network">Nastavení sítě</string>
     <string name="error_action_server_logs">Záznamy událostí na serveru</string>
+    <string name="error_action_open_in_browser">Otevřít v prohlížeči</string>
     <string name="error_action_install">Nainstalovat</string>
     <string name="error_action_report_issue">Hlášení</string>
     <string name="info_box_maintenance_mode">Na serveru probíhá údržba</string>
