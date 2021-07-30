@@ -1,6 +1,6 @@
 1.19.2
 
-- 🌎 French translation review by @ldmpub
+- 🌎 Updated translations
 
 1.19.1
 
