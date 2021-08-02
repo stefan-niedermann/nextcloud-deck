@@ -39,7 +39,7 @@ public class NextcloudArrayDeserializer<T> implements JsonDeserializer<List<T>> 
             try {
                 items.add(JsonToEntityParser.parseJsonObject(json.getAsJsonObject(), mType));
             } catch (Exception e) {
-                throw new IllegalArgumentException("NextcloudArrayDeserializer got a Json Object, fallback parsing failed for input: " + json);
+                throw new IllegalArgumentException("NextcloudArrayDeserializer got a Json Object, fallback parsing failed for input: " + json, e);
             }
         } else {
             throw new IllegalArgumentException("NextcloudArrayDeserializer got a malformed Json Object: " + json);
