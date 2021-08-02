@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.api;
 
+import static it.niedermann.nextcloud.deck.exceptions.DeckException.Hint.CAPABILITIES_VERSION_NOT_PARSABLE;
+import static it.niedermann.nextcloud.deck.exceptions.TraceableException.makeTraceableIfFails;
+
 import android.graphics.Color;
 
 import com.google.gson.JsonArray;
@@ -39,9 +42,6 @@ import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
-
-import static it.niedermann.nextcloud.deck.exceptions.DeckException.Hint.CAPABILITIES_VERSION_NOT_PARSABLE;
-import static it.niedermann.nextcloud.deck.exceptions.TraceableException.makeTraceableIfFails;
 
 public class JsonToEntityParser {
 
@@ -286,7 +286,13 @@ public class JsonToEntityParser {
             board.setTitle(getNullAsEmptyString(e.get("title")));
             board.setColor(getNullAsEmptyString(e.get("color")));
             board.setEtag(getNullAsNull(e.get("ETag")));
-            board.setArchived(e.get("archived").getAsBoolean());
+            // bugfix inital sync missing archived flag
+            boolean isArchived = false;
+            if (e.has("archived")) {
+                JsonElement archived = e.get("archived");
+                isArchived = !archived.isJsonNull() && archived.getAsBoolean();
+            }
+            board.setArchived(isArchived);
 
             board.setLastModified(getTimestampFromLong(e.get("lastModified")));
             board.setDeletedAt(getTimestampFromLong(e.get("deletedAt")));
