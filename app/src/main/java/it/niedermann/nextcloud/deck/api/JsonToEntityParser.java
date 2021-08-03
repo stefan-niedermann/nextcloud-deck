@@ -665,7 +665,7 @@ public class JsonToEntityParser {
     }
 
     private static Instant getTimestampFromString(JsonElement jsonElement) {
-        if (jsonElement.isJsonNull()) {
+        if (jsonElement == null || jsonElement.isJsonNull()) {
             return null;
         } else {
             String dateAsString = jsonElement.getAsString();
@@ -674,7 +674,7 @@ public class JsonToEntityParser {
     }
 
     private static Instant getTimestampFromLong(JsonElement jsonElement) {
-        if (jsonElement.isJsonNull()) {
+        if (jsonElement == null || jsonElement.isJsonNull()) {
             return null;
         } else {
             return Instant.ofEpochMilli(jsonElement.getAsLong() * 1000);
