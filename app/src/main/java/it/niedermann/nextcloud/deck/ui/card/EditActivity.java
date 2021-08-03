@@ -1,8 +1,11 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.tintMenuIcon;
+
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -29,10 +32,6 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
-
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.tintMenuIcon;
 
 public class EditActivity extends AppCompatActivity {
 
@@ -100,13 +99,13 @@ public class EditActivity extends AppCompatActivity {
     }
 
     private void loadDataFromIntent() {
-        final Bundle args = getIntent().getExtras();
+        final var args = getIntent().getExtras();
 
         if (args == null || !args.containsKey(BUNDLE_KEY_ACCOUNT) || !args.containsKey(BUNDLE_KEY_BOARD_LOCAL_ID) || !args.containsKey(BUNDLE_KEY_CARD_LOCAL_ID)) {
             throw new IllegalArgumentException("Provide at least " + BUNDLE_KEY_ACCOUNT + " and " + BUNDLE_KEY_BOARD_LOCAL_ID + " and " + BUNDLE_KEY_CARD_LOCAL_ID + " of the card that should be edited.");
         }
 
-        final Account account = (Account) args.getSerializable(BUNDLE_KEY_ACCOUNT);
+        final var account = (Account) args.getSerializable(BUNDLE_KEY_ACCOUNT);
         if (account == null) {
             throw new IllegalArgumentException(BUNDLE_KEY_ACCOUNT + " must not be null.");
         }
@@ -203,8 +202,8 @@ public class EditActivity extends AppCompatActivity {
         binding.tabLayout.removeAllTabs();
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final CardTabAdapter adapter = new CardTabAdapter(this);
-        final TabLayoutMediator mediator = new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> {
+        final var adapter = new CardTabAdapter(this);
+        final var mediator = new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> {
             tab.setIcon(viewModel.hasCommentsAbility()
                     ? tabIconsWithComments[position]
                     : tabIcons[position]
@@ -270,7 +269,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     private void applyBoardBranding(int mainColor) {
-        final Drawable navigationIcon = binding.toolbar.getNavigationIcon();
+        final var navigationIcon = binding.toolbar.getNavigationIcon();
         if (navigationIcon == null) {
             DeckLog.error("Expected navigationIcon to be present.");
         } else {

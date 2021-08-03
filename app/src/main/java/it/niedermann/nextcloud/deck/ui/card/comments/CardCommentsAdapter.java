@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.ui.card.comments;
 
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -17,9 +20,6 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.ItemCommentBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
-
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 
 public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHolder> {
 
@@ -63,7 +63,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ItemCommentViewHolder holder, int position) {
-        final FullDeckComment comment = comments.get(position);
+        final var comment = comments.get(position);
         holder.bind(comment, account, mainColor, menuInflater, deletedListener, selectAsReplyListener, fragmentManager, (changedText) -> {
             if (!Objects.equals(changedText, comment.getComment().getMessage())) {
                 DeckLog.info("Toggled checkbox in comment with localId", comment.getLocalId());

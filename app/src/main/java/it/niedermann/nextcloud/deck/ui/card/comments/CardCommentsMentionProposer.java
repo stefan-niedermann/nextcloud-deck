@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.card.comments;
 
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+
 import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.text.Editable;
@@ -25,8 +27,6 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.comments.util.CommentsUtil;
-
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 public class CardCommentsMentionProposer implements TextWatcher {
 
@@ -72,7 +72,7 @@ public class CardCommentsMentionProposer implements TextWatcher {
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         final int selectionStart = editText.getSelectionStart();
         final int selectionEnd = editText.getSelectionEnd();
-        final Pair<String, Integer> mentionProposal = CommentsUtil.getUserNameForMentionProposal(s.toString(), selectionStart);
+        final var mentionProposal = CommentsUtil.getUserNameForMentionProposal(s.toString(), selectionStart);
         if (mentionProposal == null || (mentionProposal.first != null && mentionProposal.first.length() == 0) || selectionStart != selectionEnd) {
             mentionProposer.removeAllViews();
             mentionProposerWrapper.setVisibility(View.GONE);
@@ -84,8 +84,8 @@ public class CardCommentsMentionProposer implements TextWatcher {
                         mentionProposer.removeAllViews();
                         if (users.size() > 0) {
                             mentionProposerWrapper.setVisibility(View.VISIBLE);
-                            for (User user : users) {
-                                final ImageView avatar = new ImageView(mentionProposer.getContext());
+                            for (final var user : users) {
+                                final var avatar = new ImageView(mentionProposer.getContext());
                                 avatar.setLayoutParams(layoutParams);
                                 updateListenerOfView(avatar, s, mentionProposal, user);
 

@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.card.assignee;
 
+import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -9,14 +11,11 @@ import android.view.LayoutInflater;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
-
-import java.io.Serializable;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogPreviewBinding;
@@ -24,8 +23,6 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.ui.branding.DeleteAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDialog;
-
-import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 
 /**
  * TODO maybe this can be merged with {@link PreviewDialog}
@@ -52,11 +49,11 @@ public class CardAssigneeDialog extends DialogFragment {
             this.cardAssigneeListener = (CardAssigneeListener) context;
         }
 
-        final Bundle args = requireArguments();
+        final var args = requireArguments();
         if (!args.containsKey(KEY_USER)) {
             throw new IllegalArgumentException("Provide at least " + KEY_USER);
         }
-        final Serializable user = args.getSerializable(KEY_USER);
+        final var user = args.getSerializable(KEY_USER);
         if (user == null) {
             throw new IllegalArgumentException(KEY_USER + " must not be null.");
         }
@@ -69,7 +66,7 @@ public class CardAssigneeDialog extends DialogFragment {
         binding = DialogPreviewBinding.inflate(LayoutInflater.from(requireContext()));
         viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
 
-        AlertDialog.Builder dialogBuilder = new DeleteAlertDialogBuilder(requireContext());
+        final var dialogBuilder = new DeleteAlertDialogBuilder(requireContext());
 
         if (viewModel.canEdit() && cardAssigneeListener != null) {
             dialogBuilder.setPositiveButton(R.string.simple_unassign, (d, w) -> cardAssigneeListener.onUnassignUser(user));
@@ -85,9 +82,9 @@ public class CardAssigneeDialog extends DialogFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        final Context context = requireContext();
+        final var context = requireContext();
 
-        final CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(context);
+        final var circularProgressDrawable = new CircularProgressDrawable(context);
         circularProgressDrawable.setStrokeWidth(5f);
         circularProgressDrawable.setCenterRadius(30f);
         circularProgressDrawable.setColorSchemeColors(isDarkTheme(context) ? Color.LTGRAY : Color.DKGRAY);
@@ -102,8 +99,8 @@ public class CardAssigneeDialog extends DialogFragment {
     }
 
     public static DialogFragment newInstance(@NonNull User user) {
-        final DialogFragment fragment = new CardAssigneeDialog();
-        final Bundle args = new Bundle();
+        final var fragment = new CardAssigneeDialog();
+        final var args = new Bundle();
         args.putSerializable(KEY_USER, user);
         fragment.setArguments(args);
         return fragment;

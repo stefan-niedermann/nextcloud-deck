@@ -34,7 +34,7 @@ public class CardProjectResourcesDialog extends DialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        final Bundle args = requireArguments();
+        final var args = requireArguments();
         if (!args.containsKey(KEY_RESOURCES)) {
             throw new IllegalArgumentException("Provide at least " + KEY_RESOURCES);
         }
@@ -49,9 +49,7 @@ public class CardProjectResourcesDialog extends DialogFragment {
         binding = DialogProjectResourcesBinding.inflate(LayoutInflater.from(requireContext()));
         viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
 
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
-
-        return dialogBuilder
+        return new AlertDialog.Builder(requireContext())
                 .setTitle(projectName)
                 .setView(binding.getRoot())
                 .setNeutralButton(R.string.simple_close, null)
@@ -60,14 +58,14 @@ public class CardProjectResourcesDialog extends DialogFragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        final CardProjectResourceAdapter adapter = new CardProjectResourceAdapter(viewModel, resources, requireActivity());
+        final var adapter = new CardProjectResourceAdapter(viewModel, resources, requireActivity());
         binding.getRoot().setAdapter(adapter);
         super.onActivityCreated(savedInstanceState);
     }
 
     public static DialogFragment newInstance(@Nullable String projectName, @NonNull List<OcsProjectResource> resources) {
-        final DialogFragment fragment = new CardProjectResourcesDialog();
-        final Bundle args = new Bundle();
+        final var fragment = new CardProjectResourcesDialog();
+        final var args = new Bundle();
         args.putString(KEY_PROJECT_NAME, projectName);
         args.putSerializable(KEY_RESOURCES, new ArrayList<>(resources));
         fragment.setArguments(args);

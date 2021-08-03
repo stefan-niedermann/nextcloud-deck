@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.branding;
 
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
+
 import android.graphics.Color;
 import android.view.View;
 
@@ -12,14 +14,12 @@ import com.google.android.material.snackbar.Snackbar;
 
 import it.niedermann.android.util.ColorUtil;
 
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
-
 public class BrandedSnackbar {
 
     @NonNull
     public static Snackbar make(
             @NonNull View view, @NonNull CharSequence text, @BaseTransientBottomBar.Duration int duration) {
-        final Snackbar snackbar = Snackbar.make(view, text, duration);
+        final var snackbar = Snackbar.make(view, text, duration);
         @ColorInt final int color = readBrandMainColor(view.getContext());
         snackbar.setActionTextColor(ColorUtil.INSTANCE.isColorDark(color) ? Color.WHITE : color);
         return snackbar;

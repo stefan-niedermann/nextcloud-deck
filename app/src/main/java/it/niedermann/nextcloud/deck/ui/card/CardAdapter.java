@@ -1,5 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
+
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
@@ -30,7 +34,6 @@ import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ItemCardCompactBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultOnlyTitleBinding;
-import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -40,10 +43,6 @@ import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.movecard.MoveCardDialogFragment;
 import it.niedermann.nextcloud.deck.util.CardUtil;
-
-import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 
 public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> implements DragAndDropAdapter<FullCard>, CardOptionsItemSelectedListener, Branded {
 
@@ -110,7 +109,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
         if (compactMode) {
             return R.layout.item_card_compact;
         } else {
-            final FullCard fullCard = cardList.get(position);
+            final var fullCard = cardList.get(position);
             if (fullCard.getAttachments().size() == 0
                     && fullCard.getAssignedUsers().size() == 0
                     && fullCard.getLabels().size() == 0
@@ -124,7 +123,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
 
     @Override
     public void onBindViewHolder(@NonNull AbstractCardViewHolder viewHolder, int position) {
-        @NonNull FullCard fullCard = cardList.get(position);
+        @NonNull final var fullCard = cardList.get(position);
         viewHolder.bind(fullCard, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardRemoteId(), mainViewModel.currentBoardHasEditPermission(), R.menu.card_menu, this, counterMaxValue, mainColor);
 
         // Only enable details view if there is no one waiting for selecting a card.
@@ -192,10 +191,10 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
 
     @Override
     public boolean onCardOptionsItemSelected(@NonNull MenuItem menuItem, @NonNull FullCard fullCard) {
-        int itemId = menuItem.getItemId();
-        final Account account = mainViewModel.getCurrentAccount();
+        final int itemId = menuItem.getItemId();
+        final var account = mainViewModel.getCurrentAccount();
         if (itemId == R.id.share_link) {
-            final Intent shareIntent = new Intent()
+            final var shareIntent = new Intent()
                     .setAction(Intent.ACTION_SEND)
                     .setType(TEXT_PLAIN)
                     .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
@@ -204,7 +203,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
             activity.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
             return true;
         } else if (itemId == R.id.share_content) {
-            final Intent shareIntent = new Intent()
+            final var shareIntent = new Intent()
                     .setAction(Intent.ACTION_SEND)
                     .setType(TEXT_PLAIN)
                     .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())

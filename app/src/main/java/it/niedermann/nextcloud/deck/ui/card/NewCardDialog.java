@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.branding;
+package it.niedermann.nextcloud.deck.ui.card;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
@@ -28,7 +28,7 @@ import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.DialogNewCardBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.ui.card.EditActivity;
+import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.preparecreate.PrepareCreateViewModel;
 

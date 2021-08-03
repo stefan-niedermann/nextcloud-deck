@@ -1,5 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.branding;
 
+import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,10 +22,6 @@ import java.time.LocalTime;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.util.DeckColorUtil;
-
-import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 
 public class BrandedTimePickerDialog extends TimePickerDialog implements Branded {
 
@@ -57,9 +57,9 @@ public class BrandedTimePickerDialog extends TimePickerDialog implements Branded
     @SuppressWarnings({"SameParameterValue"})
     public static TimePickerDialog newInstance(OnTimeSetListener callback,
                                                int hourOfDay, int minute, int second, boolean is24HourMode) {
-        TimePickerDialog ret = new BrandedTimePickerDialog();
-        ret.initialize(callback, hourOfDay, minute, second, is24HourMode);
-        return ret;
+        final var dialog = new BrandedTimePickerDialog();
+        dialog.initialize(callback, hourOfDay, minute, second, is24HourMode);
+        return dialog;
     }
 
     /**
@@ -85,7 +85,7 @@ public class BrandedTimePickerDialog extends TimePickerDialog implements Branded
      */
     @SuppressWarnings({"SameParameterValue"})
     public static TimePickerDialog newInstance(OnTimeSetListener callback, boolean is24HourMode) {
-        LocalTime now = LocalTime.now();
+        final var now = LocalTime.now();
         return newInstance(callback, now.getHour(), now.getMinute(), is24HourMode);
     }
 }

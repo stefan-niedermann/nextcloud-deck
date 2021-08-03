@@ -27,7 +27,7 @@ public class CardActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentCardEditTabActivitiesBinding.inflate(inflater, container, false);
-        final EditCardViewModel viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
+        final var viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
 
         // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
         // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478

@@ -1,8 +1,15 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments.picker;
 
+import static android.provider.ContactsContract.CommonDataKinds.Email.DATA;
+import static android.provider.ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY;
+import static android.provider.ContactsContract.CommonDataKinds.Phone.NUMBER;
+import static android.provider.ContactsContract.Contacts.CONTENT_LOOKUP_URI;
+import static android.provider.ContactsContract.Contacts.CONTENT_URI;
+import static android.provider.ContactsContract.Contacts.DISPLAY_NAME;
+import static android.provider.ContactsContract.Contacts.SORT_KEY_PRIMARY;
+import static android.provider.ContactsContract.Contacts._ID;
+
 import android.content.Context;
-import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Handler;
@@ -19,20 +26,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.RequestBuilder;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.function.BiConsumer;
 
 import it.niedermann.nextcloud.deck.databinding.ItemPickerNativeBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemPickerUserBinding;
-
-import static android.provider.ContactsContract.CommonDataKinds.Email.DATA;
-import static android.provider.ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY;
-import static android.provider.ContactsContract.CommonDataKinds.Phone.NUMBER;
-import static android.provider.ContactsContract.Contacts.CONTENT_LOOKUP_URI;
-import static android.provider.ContactsContract.Contacts.CONTENT_URI;
-import static android.provider.ContactsContract.Contacts.DISPLAY_NAME;
-import static android.provider.ContactsContract.Contacts.SORT_KEY_PRIMARY;
-import static android.provider.ContactsContract.Contacts._ID;
 
 public class ContactAdapter extends AbstractCursorPickerAdapter<RecyclerView.ViewHolder> {
 
@@ -67,22 +64,22 @@ public class ContactAdapter extends AbstractCursorPickerAdapter<RecyclerView.Vie
                 break;
             }
             case VIEW_TYPE_ITEM: {
-                final ContactItemViewHolder viewHolder = (ContactItemViewHolder) holder;
+                final var viewHolder = (ContactItemViewHolder) holder;
                 if (!cursor.isClosed()) {
                     cursor.moveToPosition(position - 1);
                     final String displayName = cursor.getString(displayNameColumnIndex);
                     final String lookupKey = cursor.getString(lookupKeyColumnIndex);
                     bindExecutor.execute(() -> {
-                        try (InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(contentResolver, Uri.withAppendedPath(CONTENT_LOOKUP_URI, lookupKey))) {
-                            final Bitmap thumbnail = BitmapFactory.decodeStream(inputStream);
+                        try (final var inputStream = ContactsContract.Contacts.openContactPhotoInputStream(contentResolver, Uri.withAppendedPath(CONTENT_LOOKUP_URI, lookupKey))) {
+                            final var thumbnail = BitmapFactory.decodeStream(inputStream);
                             String contactInformation = "";
-                            try (final Cursor phoneCursor = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, new String[]{NUMBER}, LOOKUP_KEY + " = ?", new String[]{lookupKey}, null)) {
+                            try (final var phoneCursor = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, new String[]{NUMBER}, LOOKUP_KEY + " = ?", new String[]{lookupKey}, null)) {
                                 if (phoneCursor != null && phoneCursor.moveToFirst()) {
                                     contactInformation = phoneCursor.getString(phoneCursor.getColumnIndex(NUMBER));
                                 }
                             }
                             if (TextUtils.isEmpty(contactInformation)) {
-                                try (final Cursor emailCursor = contentResolver.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, new String[]{DATA}, LOOKUP_KEY + " = ?", new String[]{lookupKey}, null)) {
+                                try (final var emailCursor = contentResolver.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, new String[]{DATA}, LOOKUP_KEY + " = ?", new String[]{lookupKey}, null)) {
                                     if (emailCursor != null && emailCursor.moveToFirst()) {
                                         contactInformation = emailCursor.getString(emailCursor.getColumnIndex(DATA));
                                     }

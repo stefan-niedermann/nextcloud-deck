@@ -1,7 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
+
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,10 +23,6 @@ import com.bumptech.glide.RequestBuilder;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogPreviewBinding;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
-
 public class PreviewDialog extends DialogFragment {
 
     private DialogPreviewBinding binding;
@@ -37,14 +36,14 @@ public class PreviewDialog extends DialogFragment {
         viewModel = new ViewModelProvider(requireActivity()).get(PreviewDialogViewModel.class);
         binding = DialogPreviewBinding.inflate(LayoutInflater.from(requireContext()));
 
-        final Context context = requireContext();
+        final var context = requireContext();
 
         this.imageBuilder$ = this.viewModel.getImageBuilder();
         this.imageBuilder$.observe(requireActivity(), builder -> {
             if (builder == null) {
                 binding.avatar.setVisibility(GONE);
             } else {
-                final CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(context);
+                final var circularProgressDrawable = new CircularProgressDrawable(context);
                 circularProgressDrawable.setStrokeWidth(5f);
                 circularProgressDrawable.setCenterRadius(30f);
                 circularProgressDrawable.setColorSchemeColors(isDarkTheme(context) ? Color.LTGRAY : Color.DKGRAY);

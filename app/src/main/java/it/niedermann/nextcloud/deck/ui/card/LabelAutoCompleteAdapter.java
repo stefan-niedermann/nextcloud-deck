@@ -1,8 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.lifecycle.LiveData;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Random;
 
 import it.niedermann.android.util.ColorUtil;
@@ -25,8 +24,6 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAutocompleteLabelBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.util.AutoCompleteAdapter;
-
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
     @Nullable
@@ -60,7 +57,7 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
             binding = ItemAutocompleteLabelBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         }
 
-        final Label label = getItem(position);
+        final var label = getItem(position);
         final int labelColor = label.getColor();
         final int color = ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(labelColor);
 
@@ -69,7 +66,7 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
         binding.label.setTextColor(color);
 
         if (ITEM_CREATE == label.getLocalId()) {
-            final Drawable plusIcon = DrawableCompat.wrap(ContextCompat.getDrawable(binding.label.getContext(), R.drawable.ic_plus));
+            final var plusIcon = DrawableCompat.wrap(ContextCompat.getDrawable(binding.label.getContext(), R.drawable.ic_plus));
             DrawableCompat.setTint(plusIcon, color);
             binding.label.setChipIcon(plusIcon);
         } else {
@@ -87,7 +84,7 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
                 if (constraint != null) {
                     lastFilterText = constraint.toString();
                     activity.runOnUiThread(() -> {
-                        LiveData<List<Label>> liveData = constraint.toString().trim().length() > 0
+                        final var liveData = constraint.toString().trim().length() > 0
                                 ? syncManager.searchNotYetAssignedLabelsByTitle(accountId, boardId, cardId, constraint.toString())
                                 : syncManager.findProposalsForLabelsToAssign(accountId, boardId, cardId);
                         observeOnce(liveData, activity, (labels -> {
@@ -112,7 +109,7 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
     }
 
     private static boolean labelTitleIsPresent(@NonNull Collection<Label> labels, @NonNull CharSequence title) {
-        for (Label label : labels) {
+        for (final var label : labels) {
             if (label.getTitle().contentEquals(title)) {
                 return true;
             }

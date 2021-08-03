@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
+import static androidx.lifecycle.Transformations.switchMap;
+
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
@@ -30,9 +33,6 @@ import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
-import static androidx.lifecycle.Transformations.distinctUntilChanged;
-import static androidx.lifecycle.Transformations.switchMap;
-
 @SuppressWarnings("WeakerAccess")
 public class EditCardViewModel extends AndroidViewModel {
 
@@ -62,7 +62,7 @@ public class EditCardViewModel extends AndroidViewModel {
     public LiveData<Boolean> getDescriptionMode() {
         return distinctUntilChanged(switchMap(distinctUntilChanged(new SharedPreferenceBooleanLiveData(sharedPreferences, getApplication().getString(R.string.shared_preference_description_preview), false)), (isPreview) -> {
             // When we are in preview mode but the description of the card is empty, we explicitly switch to the edit mode
-            final FullCardWithProjects fullCard = getFullCard();
+            final var fullCard = getFullCard();
             if (fullCard == null) {
                 throw new IllegalStateException("Description mode must be queried after initializing " + EditCardViewModel.class.getSimpleName() + " with a card.");
             }

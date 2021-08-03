@@ -1,5 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.card.details;
 
+import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
+
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -28,7 +33,6 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListen
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog.OnTimeSetListener;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -55,11 +59,6 @@ import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeDialog;
 import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
-
-import static android.view.View.GONE;
-import static android.view.View.INVISIBLE;
-import static android.view.View.VISIBLE;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
 
 public class CardDetailsFragment extends Fragment implements OnDateSetListener, OnTimeSetListener, CardAssigneeListener {
 
@@ -88,7 +87,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         }
 
         @Px final int avatarSize = DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.avatar_size);
-        final LinearLayout.LayoutParams avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
+        final var avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
         avatarLayoutParams.setMargins(0, 0, DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.spacer_1x), 0);
 
         setupAssignees();
@@ -111,8 +110,8 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         super.onResume();
 
         // https://github.com/wdullaer/MaterialDateTimePicker#why-are-my-callbacks-lost-when-the-device-changes-orientation
-        final DatePickerDialog dpd = (DatePickerDialog) getChildFragmentManager().findFragmentByTag(BrandedDatePickerDialog.class.getCanonicalName());
-        final TimePickerDialog tpd = (TimePickerDialog) getChildFragmentManager().findFragmentByTag(BrandedTimePickerDialog.class.getCanonicalName());
+        final var dpd = (DatePickerDialog) getChildFragmentManager().findFragmentByTag(BrandedDatePickerDialog.class.getCanonicalName());
+        final var tpd = (TimePickerDialog) getChildFragmentManager().findFragmentByTag(BrandedTimePickerDialog.class.getCanonicalName());
         if (tpd != null) tpd.setOnTimeSetListener(this);
         if (dpd != null) dpd.setOnDateSetListener(this);
     }
@@ -168,7 +167,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
 
     private void setupDueDate() {
         if (this.viewModel.getFullCard().getCard().getDueDate() != null) {
-            final ZonedDateTime dueDate = this.viewModel.getFullCard().getCard().getDueDate().atZone(ZoneId.systemDefault());
+            final var dueDate = this.viewModel.getFullCard().getCard().getDueDate().atZone(ZoneId.systemDefault());
             binding.dueDateDate.setText(dueDate == null ? null : dueDate.format(dateFormatter));
             binding.dueDateTime.setText(dueDate == null ? null : dueDate.format(timeFormatter));
             binding.clearDueDate.setVisibility(VISIBLE);
@@ -179,7 +178,6 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         }
 
         if (viewModel.canEdit()) {
-
             binding.dueDateDate.setOnClickListener(v -> {
                 final LocalDate date;
                 if (viewModel.getFullCard() != null && viewModel.getFullCard().getCard() != null && viewModel.getFullCard().getCard().getDueDate() != null) {
@@ -216,15 +214,15 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
     }
 
     private void setupLabels() {
-        long accountId = viewModel.getAccount().getId();
-        long boardId = viewModel.getBoardId();
+        final long accountId = viewModel.getAccount().getId();
+        final long boardId = viewModel.getBoardId();
         binding.labelsGroup.removeAllViews();
         if (viewModel.canEdit()) {
             Long localCardId = viewModel.getFullCard().getCard().getLocalId();
             localCardId = localCardId == null ? -1 : localCardId;
             binding.labels.setAdapter(new LabelAutoCompleteAdapter(requireActivity(), accountId, boardId, localCardId));
             binding.labels.setOnItemClickListener((adapterView, view, position, id) -> {
-                final Label label = (Label) adapterView.getItemAtPosition(position);
+                final var label = (Label) adapterView.getItemAtPosition(position);
                 if (LabelAutoCompleteAdapter.ITEM_CREATE == label.getLocalId()) {
                     final Label newLabel = new Label(label);
                     newLabel.setBoardId(boardId);
@@ -262,7 +260,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
             binding.labels.setEnabled(false);
         }
         if (viewModel.getFullCard().getLabels() != null && viewModel.getFullCard().getLabels().size() > 0) {
-            for (Label label : viewModel.getFullCard().getLabels()) {
+            for (final var label : viewModel.getFullCard().getLabels()) {
                 binding.labelsGroup.addView(createChipFromLabel(label));
             }
             binding.labelsGroup.setVisibility(VISIBLE);
@@ -272,7 +270,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
     }
 
     private Chip createChipFromLabel(Label label) {
-        final Chip chip = new Chip(requireContext());
+        final var chip = new Chip(requireContext());
         chip.setText(label.getTitle());
         if (viewModel.canEdit()) {
             chip.setCloseIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_close_circle_grey600));
@@ -333,7 +331,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         int hourOfDay;
         int minute;
 
-        final CharSequence selectedTime = binding.dueDateTime.getText();
+        final var selectedTime = binding.dueDateTime.getText();
         if (TextUtils.isEmpty(selectedTime)) {
             hourOfDay = 0;
             minute = 0;
@@ -343,7 +341,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
             minute = oldTime.getMinute();
         }
 
-        final ZonedDateTime newDateTime = ZonedDateTime.of(
+        final var newDateTime = ZonedDateTime.of(
                 LocalDate.of(year, monthOfYear + 1, dayOfMonth),
                 LocalTime.of(hourOfDay, minute),
                 ZoneId.systemDefault()
@@ -360,9 +358,9 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
 
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
-        final Instant oldInstant = this.viewModel.getFullCard().getCard().getDueDate();
-        final ZonedDateTime oldDateTime = oldInstant == null ? ZonedDateTime.now() : oldInstant.atZone(ZoneId.systemDefault());
-        final ZonedDateTime newDateTime = oldDateTime.with(
+        final var oldInstant = this.viewModel.getFullCard().getCard().getDueDate();
+        final var oldDateTime = oldInstant == null ? ZonedDateTime.now() : oldInstant.atZone(ZoneId.systemDefault());
+        final var newDateTime = oldDateTime.with(
                 LocalTime.of(hourOfDay, minute)
         );
 
@@ -379,7 +377,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         if (viewModel.getFullCard().getProjects().size() > 0) {
             binding.projectsTitle.setVisibility(VISIBLE);
             binding.projects.setNestedScrollingEnabled(false);
-            final CardProjectsAdapter adapter = new CardProjectsAdapter(viewModel.getFullCard().getProjects(), getChildFragmentManager());
+            final var adapter = new CardProjectsAdapter(viewModel.getFullCard().getProjects(), getChildFragmentManager());
             binding.projects.setAdapter(adapter);
             binding.projects.setVisibility(VISIBLE);
         } else {

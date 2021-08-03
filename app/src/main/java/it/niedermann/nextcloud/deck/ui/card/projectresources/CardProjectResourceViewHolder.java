@@ -1,7 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.card.projectresources;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static it.niedermann.nextcloud.deck.util.ProjectUtil.getResourceUri;
+
 import android.content.Intent;
-import android.content.res.Resources;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,10 +20,6 @@ import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.util.ProjectUtil;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-import static it.niedermann.nextcloud.deck.util.ProjectUtil.getResourceUri;
-
 public class CardProjectResourceViewHolder extends RecyclerView.ViewHolder {
     @NonNull
     private final ItemProjectResourceBinding binding;
@@ -31,8 +30,8 @@ public class CardProjectResourceViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(@NonNull EditCardViewModel viewModel, @NonNull OcsProjectResource resource, @NonNull LifecycleOwner owner) {
-        final Account account = viewModel.getAccount();
-        final Resources resources = itemView.getResources();
+        final var account = viewModel.getAccount();
+        final var resources = itemView.getResources();
         binding.name.setText(resource.getName());
         final @Nullable String link = resource.getLink();
         binding.type.setVisibility(VISIBLE);
@@ -47,7 +46,7 @@ public class CardProjectResourceViewHolder extends RecyclerView.ViewHolder {
                 }
                 case "deck-card": {
                     try {
-                        long[] ids = ProjectUtil.extractBoardIdAndCardIdFromUrl(link);
+                        final long[] ids = ProjectUtil.extractBoardIdAndCardIdFromUrl(link);
                         if (ids.length == 2) {
                             viewModel.getCardByRemoteID(account.getId(), ids[1]).observe(owner, (fullCard) -> {
                                 if (fullCard != null) {

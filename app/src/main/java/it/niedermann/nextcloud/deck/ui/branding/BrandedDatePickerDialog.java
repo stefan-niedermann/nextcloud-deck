@@ -1,5 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.branding;
 
+import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,10 +22,6 @@ import java.util.Calendar;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.util.DeckColorUtil;
-
-import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 
 public class BrandedDatePickerDialog extends DatePickerDialog implements Branded {
 
@@ -54,9 +54,9 @@ public class BrandedDatePickerDialog extends DatePickerDialog implements Branded
      * @return a new DatePickerDialog instance.
      */
     public static DatePickerDialog newInstance(OnDateSetListener callBack, int year, int monthOfYear, int dayOfMonth) {
-        DatePickerDialog ret = new BrandedDatePickerDialog();
-        ret.initialize(callBack, year, monthOfYear - 1, dayOfMonth);
-        return ret;
+        final var dialog = new BrandedDatePickerDialog();
+        dialog.initialize(callBack, year, monthOfYear - 1, dayOfMonth);
+        return dialog;
     }
 
     /**
@@ -69,8 +69,8 @@ public class BrandedDatePickerDialog extends DatePickerDialog implements Branded
      * @return a new DatePickerDialog instance
      */
     public static DatePickerDialog newInstance(OnDateSetListener callback, Calendar initialSelection) {
-        DatePickerDialog ret = new BrandedDatePickerDialog();
-        ret.initialize(callback, initialSelection);
-        return ret;
+        final var dialog = new BrandedDatePickerDialog();
+        dialog.initialize(callback, initialSelection);
+        return dialog;
     }
 }

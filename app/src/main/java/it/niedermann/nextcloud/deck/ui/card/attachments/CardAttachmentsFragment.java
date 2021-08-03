@@ -1,14 +1,31 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_CONTACTS;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.app.Activity.RESULT_OK;
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.M;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
+import static androidx.core.content.PermissionChecker.checkSelfPermission;
+import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
+import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
+import static java.net.HttpURLConnection.HTTP_CONFLICT;
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
+import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
+import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
+import static it.niedermann.nextcloud.deck.util.FilesUtil.copyContentUriToTempFile;
+
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,25 +87,6 @@ import it.niedermann.nextcloud.deck.util.DeckColorUtil;
 import it.niedermann.nextcloud.deck.util.JavaCompressor;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 import it.niedermann.nextcloud.deck.util.VCardUtil;
-
-import static android.Manifest.permission.CAMERA;
-import static android.Manifest.permission.READ_CONTACTS;
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.app.Activity.RESULT_OK;
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.M;
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
-import static androidx.core.content.PermissionChecker.checkSelfPermission;
-import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
-import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
-import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
-import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
-import static it.niedermann.nextcloud.deck.util.FilesUtil.copyContentUriToTempFile;
-import static java.net.HttpURLConnection.HTTP_CONFLICT;
 
 public class CardAttachmentsFragment extends Fragment implements AttachmentDeletedListener, AttachmentClickedListener {
 
@@ -182,9 +180,9 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                 R.color.mdtp_transparent_black, android.R.color.transparent, R.dimen.attachments_bottom_navigation_height));
         binding.pickerBackdrop.setOnClickListener(v -> mBottomSheetBehaviour.setState(STATE_HIDDEN));
 
-        final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        final var displayMetrics = getResources().getDisplayMetrics();
         final int spanCount = (int) ((displayMetrics.widthPixels / displayMetrics.density) / getResources().getInteger(R.integer.max_dp_attachment_column));
-        final GridLayoutManager glm = new GridLayoutManager(getContext(), spanCount);
+        final var glm = new GridLayoutManager(getContext(), spanCount);
         glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -234,7 +232,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
             binding.fab.hide();
             binding.emptyContentView.hideDescription();
         }
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        final var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         compressImagesOnUpload = sharedPreferences.getBoolean(getString(R.string.pref_key_compress_image_attachments), true);
         editViewModel.getBrandingColor().observe(getViewLifecycleOwner(), this::applyBrand);
         return binding.getRoot();
@@ -326,7 +324,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     }
 
     private void openNativeContactPicker() {
-        final Intent intent = new Intent(Intent.ACTION_PICK).setType(ContactsContract.Contacts.CONTENT_TYPE);
+        final var intent = new Intent(Intent.ACTION_PICK).setType(ContactsContract.Contacts.CONTENT_TYPE);
         if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
             startActivityForResult(intent, REQUEST_CODE_PICK_CONTACT);
         }
@@ -443,15 +441,15 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     }
 
     private void uploadNewAttachmentFromFile(@NonNull File fileToUpload, String mimeType) {
-        for (Attachment existingAttachment : editViewModel.getFullCard().getAttachments()) {
+        for (final var existingAttachment : editViewModel.getFullCard().getAttachments()) {
             final String existingPath = existingAttachment.getLocalPath();
             if (existingPath != null && existingPath.equals(fileToUpload.getAbsolutePath())) {
                 BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
                 return;
             }
         }
-        final Instant now = Instant.now();
-        final Attachment a = new Attachment();
+        final var now = Instant.now();
+        final var a = new Attachment();
         a.setMimetype(mimeType);
         a.setData(fileToUpload.getName());
         a.setFilename(fileToUpload.getName());

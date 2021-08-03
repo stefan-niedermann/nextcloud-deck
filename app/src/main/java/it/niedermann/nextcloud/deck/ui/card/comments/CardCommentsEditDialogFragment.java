@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.card.comments;
 
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -18,8 +20,6 @@ import java.util.Objects;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogAddCommentBinding;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
-
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
 
 public class CardCommentsEditDialogFragment extends BrandedDialogFragment {
     private static final String BUNDLE_KEY_COMMENT_ID = "commentId";
@@ -70,11 +70,11 @@ public class CardCommentsEditDialogFragment extends BrandedDialogFragment {
     }
 
     public static DialogFragment newInstance(@NonNull Long commentLocalId, String message) {
-        Bundle bundle = new Bundle();
-        bundle.putLong(BUNDLE_KEY_COMMENT_ID, commentLocalId);
-        bundle.putString(BUNDLE_KEY_COMMENT_MESSAGE, message);
-        DialogFragment fragment = new CardCommentsEditDialogFragment();
-        fragment.setArguments(bundle);
+        final var fragment = new CardCommentsEditDialogFragment();
+        final var args = new Bundle();
+        args.putLong(BUNDLE_KEY_COMMENT_ID, commentLocalId);
+        args.putString(BUNDLE_KEY_COMMENT_MESSAGE, message);
+        fragment.setArguments(args);
         return fragment;
     }
 

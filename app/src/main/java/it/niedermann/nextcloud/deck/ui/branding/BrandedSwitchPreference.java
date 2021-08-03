@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.branding;
 
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.util.AttributeSet;
@@ -14,8 +16,6 @@ import androidx.preference.PreferenceViewHolder;
 import androidx.preference.SwitchPreference;
 
 import it.niedermann.nextcloud.deck.R;
-
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 
 public class BrandedSwitchPreference extends SwitchPreference implements Branded {
 
@@ -89,9 +89,9 @@ public class BrandedSwitchPreference extends SwitchPreference implements Branded
         if (view instanceof ViewGroup) {
             ViewGroup viewGroup = (ViewGroup) view;
             for (int i = 0; i < viewGroup.getChildCount(); i++) {
-                View child = viewGroup.getChildAt(i);
+                final var child = viewGroup.getChildAt(i);
                 if (child instanceof ViewGroup) {
-                    Switch result = findSwitchWidget(child);
+                    final var result = findSwitchWidget(child);
                     if (result != null) return result;
                 }
                 if (child instanceof Switch) {
