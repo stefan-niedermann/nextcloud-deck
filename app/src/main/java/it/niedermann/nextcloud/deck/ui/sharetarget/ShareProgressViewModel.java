@@ -15,13 +15,13 @@ public class ShareProgressViewModel extends ViewModel {
     @NonNull
     public String targetCardTitle = "";
     @NonNull
-    private MutableLiveData<List<Throwable>> exceptions = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<Throwable>> exceptions = new MutableLiveData<>(new ArrayList<>());
     @NonNull
-    private MutableLiveData<List<String>> duplicateAttachments = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<String>> duplicateAttachments = new MutableLiveData<>(new ArrayList<>());
     @NonNull
-    private MutableLiveData<Integer> max = new MutableLiveData<>();
+    private final MutableLiveData<Integer> max = new MutableLiveData<>();
     @NonNull
-    private MutableLiveData<Integer> progress = new MutableLiveData<>(0);
+    private final MutableLiveData<Integer> progress = new MutableLiveData<>(0);
 
     public void setMax(int max) {
         this.max.setValue(max);
@@ -36,7 +36,7 @@ public class ShareProgressViewModel extends ViewModel {
     }
 
     public void increaseProgress() {
-        final Integer currentValue = this.progress.getValue();
+        final var currentValue = this.progress.getValue();
         if (currentValue == null) {
             this.progress.setValue(0);
         } else {
@@ -49,7 +49,7 @@ public class ShareProgressViewModel extends ViewModel {
     }
 
     public void addDuplicateAttachment(String fileName) {
-        List<String> fileNames = this.duplicateAttachments.getValue();
+        var fileNames = this.duplicateAttachments.getValue();
         if (fileNames == null) {
             fileNames = new ArrayList<>();
         }
@@ -59,7 +59,7 @@ public class ShareProgressViewModel extends ViewModel {
     }
 
     public boolean hasAlreadyDuplicateAttachments() {
-        List<String> duplicateAttachments = this.duplicateAttachments.getValue();
+        final var duplicateAttachments = this.duplicateAttachments.getValue();
         if (duplicateAttachments == null) {
             return false;
         }
@@ -72,7 +72,7 @@ public class ShareProgressViewModel extends ViewModel {
 
     public void addException(Throwable exception) {
         DeckLog.logError(exception);
-        List<Throwable> exceptionList = this.exceptions.getValue();
+        var exceptionList = this.exceptions.getValue();
         if (exceptionList == null) {
             exceptionList = new ArrayList<>();
         }
@@ -82,7 +82,7 @@ public class ShareProgressViewModel extends ViewModel {
     }
 
     public boolean hasExceptions() {
-        List<Throwable> exceptions = this.exceptions.getValue();
+        final var exceptions = this.exceptions.getValue();
         if (exceptions == null) {
             return false;
         }

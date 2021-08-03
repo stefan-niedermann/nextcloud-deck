@@ -43,7 +43,7 @@ public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapte
 
     @Override
     public long getItemId(int position) {
-        @Nullable final Label label = labels.get(position);
+        @Nullable final var label = labels.get(position);
         return label == null ? -1L : label.getLocalId();
     }
 

@@ -31,7 +31,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
 
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
 
-        final ActivityUpcomingCardsBinding binding = ActivityUpcomingCardsBinding.inflate(getLayoutInflater());
+        final var binding = ActivityUpcomingCardsBinding.inflate(getLayoutInflater());
         viewModel = new ViewModelProvider(this).get(UpcomingCardsViewModel.class);
 
         setContentView(binding.getRoot());
@@ -39,7 +39,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
 
         binding.loadingSpinner.show();
 
-        final UpcomingCardsAdapter adapter = new UpcomingCardsAdapter(this, getSupportFragmentManager(),
+        final var adapter = new UpcomingCardsAdapter(this, getSupportFragmentManager(),
                 viewModel::assignUser,
                 viewModel::unassignUser,
                 (fullCard) -> viewModel.archiveCard(fullCard, new IResponseCallback<FullCard>() {

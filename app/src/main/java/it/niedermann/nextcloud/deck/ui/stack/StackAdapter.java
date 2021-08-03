@@ -64,7 +64,7 @@ public class StackAdapter extends FragmentStateAdapter {
 
     @Override
     public boolean containsItem(long itemId) {
-        for (Stack stack : stackList) {
+        for (final var stack : stackList) {
             if (stack.getLocalId() == itemId) {
                 return true;
             }

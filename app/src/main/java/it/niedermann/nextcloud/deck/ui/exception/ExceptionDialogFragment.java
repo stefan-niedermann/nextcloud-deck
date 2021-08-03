@@ -34,7 +34,7 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        final Bundle args = getArguments();
+        final var args = getArguments();
         if (args != null) {
             this.throwable = (Throwable) args.getSerializable(KEY_THROWABLE);
             if (this.throwable == null) {
@@ -47,10 +47,10 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final View view = View.inflate(getContext(), R.layout.dialog_exception, null);
-        final DialogExceptionBinding binding = DialogExceptionBinding.bind(view);
+        final var view = View.inflate(getContext(), R.layout.dialog_exception, null);
+        final var binding = DialogExceptionBinding.bind(view);
 
-        final TipsAdapter adapter = new TipsAdapter((actionIntent) -> requireActivity().startActivity(actionIntent));
+        final var adapter = new TipsAdapter((actionIntent) -> requireActivity().startActivity(actionIntent));
 
         final String debugInfos = ExceptionUtil.INSTANCE.getDebugInfos(requireContext(), throwable, BuildConfig.FLAVOR, account == null ? null : account.getServerDeckVersion());
 
@@ -73,10 +73,10 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
     }
 
     public static DialogFragment newInstance(Throwable throwable, @Nullable Account account) {
-        final Bundle args = new Bundle();
+        final var fragment = new ExceptionDialogFragment();
+        final var args = new Bundle();
         args.putSerializable(KEY_THROWABLE, throwable);
         args.putSerializable(KEY_ACCOUNT, account);
-        final DialogFragment fragment = new ExceptionDialogFragment();
         fragment.setArguments(args);
         return fragment;
     }

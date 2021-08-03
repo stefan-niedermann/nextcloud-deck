@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import it.niedermann.nextcloud.deck.R;
@@ -42,18 +41,18 @@ public class DeleteStackDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new DeleteAlertDialogBuilder(requireContext())
+        return new DeleteAlertDialogBuilder(requireContext())
                 .setTitle(R.string.delete_list)
                 .setMessage(getResources().getQuantityString(R.plurals.do_you_want_to_delete_the_current_list, numberCards, numberCards))
                 .setPositiveButton(R.string.simple_delete, (dialog, whichButton) -> deleteStackListener.onStackDeleted(stackId))
-                .setNeutralButton(android.R.string.cancel, null);
-        return builder.create();
+                .setNeutralButton(android.R.string.cancel, null)
+                .create();
     }
 
     public static DialogFragment newInstance(long stackId, int numberCards) {
-        DeleteStackDialogFragment dialog = new DeleteStackDialogFragment();
+        final var dialog = new DeleteStackDialogFragment();
 
-        Bundle args = new Bundle();
+        final var args = new Bundle();
         args.putLong(KEY_STACK_ID, stackId);
         args.putInt(KEY_NUMBER_CARDS, numberCards);
         dialog.setArguments(args);

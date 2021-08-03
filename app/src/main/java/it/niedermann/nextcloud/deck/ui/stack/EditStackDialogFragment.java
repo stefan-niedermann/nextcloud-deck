@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.stack;
 
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -18,8 +20,6 @@ import java.util.Objects;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogStackCreateBinding;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
-
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
 
 public class EditStackDialogFragment extends BrandedDialogFragment {
     private static final String KEY_STACK_ID = "stack_id";
@@ -43,10 +43,10 @@ public class EditStackDialogFragment extends BrandedDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         binding = DialogStackCreateBinding.inflate(requireActivity().getLayoutInflater());
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity())
+        final var builder = new AlertDialog.Builder(requireActivity())
                 .setView(binding.getRoot())
                 .setNeutralButton(android.R.string.cancel, null);
-        final Bundle args = getArguments();
+        final var args = getArguments();
         if (args == null) {
             builder.setTitle(R.string.add_list)
                     .setPositiveButton(R.string.simple_add, (dialog, which) -> editStackListener.onCreateStack(binding.input.getText().toString()));
@@ -71,9 +71,9 @@ public class EditStackDialogFragment extends BrandedDialogFragment {
     }
 
     public static DialogFragment newInstance(long stackId, @Nullable String oldTitle) {
-        final DialogFragment dialog = new EditStackDialogFragment();
+        final var dialog = new EditStackDialogFragment();
 
-        final Bundle args = new Bundle();
+        final var args = new Bundle();
         args.putLong(KEY_STACK_ID, stackId);
         args.putString(KEY_OLD_TITLE, oldTitle);
 

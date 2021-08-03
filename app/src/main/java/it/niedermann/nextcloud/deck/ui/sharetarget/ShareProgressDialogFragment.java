@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.ui.sharetarget;
 
+import static android.graphics.PorterDuff.Mode;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,9 +24,6 @@ import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.exception.ExceptionUtil;
-
-import static android.graphics.PorterDuff.Mode;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 
 public class ShareProgressDialogFragment extends BrandedDialogFragment {
 
@@ -85,7 +85,7 @@ public class ShareProgressDialogFragment extends BrandedDialogFragment {
         viewModel.getDuplicateAttachments().observe(requireActivity(), (duplicates) -> {
             final int duplicatesCount = duplicates.size();
             if (duplicatesCount > 0) {
-                final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+                final var params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
                 binding.duplicates.removeAllViews();
                 for (String duplicate : duplicates) {
                     TextView duplicateEntry = new TextView(requireContext());

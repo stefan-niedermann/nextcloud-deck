@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
+import static java.util.Objects.requireNonNull;
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +19,6 @@ import it.niedermann.nextcloud.deck.databinding.DialogFilterAssigneesBinding;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static java.util.Objects.requireNonNull;
-
 public class FilterUserFragment extends Fragment implements SelectionListener<User> {
 
     private FilterViewModel filterViewModel;
@@ -27,8 +27,8 @@ public class FilterUserFragment extends Fragment implements SelectionListener<Us
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        final DialogFilterAssigneesBinding binding = DialogFilterAssigneesBinding.inflate(requireActivity().getLayoutInflater());
-        final MainViewModel mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        final var binding = DialogFilterAssigneesBinding.inflate(requireActivity().getLayoutInflater());
+        final var mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 

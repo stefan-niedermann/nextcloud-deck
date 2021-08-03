@@ -40,7 +40,7 @@ public class AccountAdapter extends AbstractAdapter<Account> {
             binding = ItemPrepareCreateAccountBinding.bind(convertView);
         }
 
-        final Account item = getItem(position);
+        final var item = getItem(position);
         if (item != null) {
             binding.username.setText(item.getUserName());
             try {

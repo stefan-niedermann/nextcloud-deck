@@ -1,5 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.pickstack;
 
+import static androidx.lifecycle.Transformations.switchMap;
+import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentAccountId;
+import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentBoardId;
+import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentStackId;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,11 +31,6 @@ import it.niedermann.nextcloud.deck.ui.preparecreate.BoardAdapter;
 import it.niedermann.nextcloud.deck.ui.preparecreate.SelectedListener;
 import it.niedermann.nextcloud.deck.ui.preparecreate.StackAdapter;
 
-import static androidx.lifecycle.Transformations.switchMap;
-import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentAccountId;
-import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentBoardId;
-import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentStackId;
-
 public class PickStackFragment extends Fragment {
 
     private FragmentPickStackBinding binding;
@@ -52,7 +52,7 @@ public class PickStackFragment extends Fragment {
     @Nullable
     private LiveData<List<Board>> boardsLiveData;
     @NonNull
-    private Observer<List<Board>> boardsObserver = (boards) -> {
+    private final Observer<List<Board>> boardsObserver = (boards) -> {
         boardAdapter.clear();
         boardAdapter.addAll(boards);
         binding.boardSelect.setEnabled(true);
@@ -61,7 +61,7 @@ public class PickStackFragment extends Fragment {
             binding.boardSelect.setEnabled(true);
 
             Board boardToSelect = null;
-            for (Board board : boards) {
+            for (final var board : boards) {
                 if (board.getLocalId() == lastBoardId) {
                     boardToSelect = board;
                     break;
@@ -88,7 +88,7 @@ public class PickStackFragment extends Fragment {
             binding.stackSelect.setEnabled(true);
 
             Stack stackToSelect = null;
-            for (Stack stack : stacks) {
+            for (final var stack : stacks) {
                 if (stack.getLocalId() == lastStackId) {
                     stackToSelect = stack;
                     break;
@@ -114,7 +114,7 @@ public class PickStackFragment extends Fragment {
         } else {
             throw new IllegalArgumentException("Caller must implement " + PickStackListener.class.getSimpleName());
         }
-        final Bundle args = getArguments();
+        final var args = getArguments();
         if (args != null) {
             this.showBoardsWithoutEditPermission = args.getBoolean(KEY_SHOW_BOARDS_WITHOUT_EDIT_PERMISSION, false);
         }
@@ -194,8 +194,8 @@ public class PickStackFragment extends Fragment {
     }
 
     public static PickStackFragment newInstance(boolean showBoardsWithoutEditPermission) {
-        final PickStackFragment fragment = new PickStackFragment();
-        final Bundle args = new Bundle();
+        final var fragment = new PickStackFragment();
+        final var args = new Bundle();
         args.putBoolean(KEY_SHOW_BOARDS_WITHOUT_EDIT_PERMISSION, showBoardsWithoutEditPermission);
         fragment.setArguments(args);
         return fragment;

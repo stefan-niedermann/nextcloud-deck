@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+
 import android.app.Dialog;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -11,7 +13,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -22,10 +23,7 @@ import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterBinding;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
-import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
-
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 
 public class FilterDialogFragment extends BrandedDialogFragment {
 
@@ -44,19 +42,21 @@ public class FilterDialogFragment extends BrandedDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        indicator = ContextCompat.getDrawable(requireContext(), R.drawable.circle_grey600_8dp);
+        final var context = requireContext();
+
+        indicator = ContextCompat.getDrawable(context, R.drawable.circle_grey600_8dp);
         assert indicator != null;
-        indicator.setColorFilter(ContextCompat.getColor(getContext(), R.color.defaultBrand), PorterDuff.Mode.SRC_ATOP);
+        indicator.setColorFilter(ContextCompat.getColor(context, R.color.defaultBrand), PorterDuff.Mode.SRC_ATOP);
 
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
+        final var dialogBuilder = new AlertDialog.Builder(context);
 
         binding = DialogFilterBinding.inflate(requireActivity().getLayoutInflater());
         binding.viewPager.setAdapter(new TabsPagerAdapter(this));
         binding.viewPager.setOffscreenPageLimit(tabTitles.length);
 
-        LiveData<FilterInformation> filterInformationDraft = filterViewModel.getFilterInformationDraft();
+        final var filterInformationDraft = filterViewModel.getFilterInformationDraft();
         new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> {
             filterInformationDraft.observe(this, (draft) -> {
                 switch (position) {
