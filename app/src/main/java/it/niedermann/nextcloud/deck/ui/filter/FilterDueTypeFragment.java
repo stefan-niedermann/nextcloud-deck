@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
+import static java.util.Objects.requireNonNull;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +15,6 @@ import androidx.lifecycle.ViewModelProvider;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterDuedateBinding;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 
-import static java.util.Objects.requireNonNull;
-
 public class FilterDueTypeFragment extends Fragment implements SelectionListener<EDueType> {
 
     private FilterViewModel filterViewModel;
@@ -23,7 +23,7 @@ public class FilterDueTypeFragment extends Fragment implements SelectionListener
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        final DialogFilterDuedateBinding binding = DialogFilterDuedateBinding.inflate(requireActivity().getLayoutInflater());
+        final var binding = DialogFilterDuedateBinding.inflate(requireActivity().getLayoutInflater());
 
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 

@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.takephoto;
 
+import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.IMAGE_JPEG;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -14,7 +16,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.camera.core.Camera;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.Preview;
@@ -36,8 +37,6 @@ import it.niedermann.nextcloud.deck.databinding.ActivityTakePhotoBinding;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.FilesUtil;
-
-import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.IMAGE_JPEG;
 
 public class TakePhotoActivity extends AppCompatActivity {
 
@@ -68,10 +67,10 @@ public class TakePhotoActivity extends AppCompatActivity {
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
         cameraProviderFuture.addListener(() -> {
             try {
-                final ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
-                final Preview previewUseCase = getPreviewUseCase();
-                final ImageCapture captureUseCase = getCaptureUseCase();
-                final Camera camera = cameraProvider.bindToLifecycle(this, viewModel.getCameraSelector(), captureUseCase, previewUseCase);
+                final var cameraProvider = cameraProviderFuture.get();
+                final var previewUseCase = getPreviewUseCase();
+                final var captureUseCase = getCaptureUseCase();
+                final var camera = cameraProvider.bindToLifecycle(this, viewModel.getCameraSelector(), captureUseCase, previewUseCase);
 
                 viewModel.getCameraSelectorToggleButtonImageResource().observe(this, res -> binding.switchCamera.setImageDrawable(ContextCompat.getDrawable(this, res)));
                 viewModel.getTorchToggleButtonImageResource().observe(this, res -> binding.toggleTorch.setImageDrawable(ContextCompat.getDrawable(this, res)));
@@ -149,7 +148,7 @@ public class TakePhotoActivity extends AppCompatActivity {
     }
 
     private Preview getPreviewUseCase() {
-        Preview previewUseCase = new Preview.Builder().build();
+        final var previewUseCase = new Preview.Builder().build();
         previewUseCase.setSurfaceProvider(binding.preview.getSurfaceProvider());
         return previewUseCase;
     }
@@ -175,9 +174,9 @@ public class TakePhotoActivity extends AppCompatActivity {
     }
 
     private void applyBoardColorBrand(int mainColor) {
-        final ColorStateList colorStateList = ColorStateList.valueOf(mainColor);
-        for (View v : brandedViews) {
-            v.setBackgroundTintList(colorStateList);
+        final var colorStateList = ColorStateList.valueOf(mainColor);
+        for (final var view : brandedViews) {
+            view.setBackgroundTintList(colorStateList);
         }
     }
 }

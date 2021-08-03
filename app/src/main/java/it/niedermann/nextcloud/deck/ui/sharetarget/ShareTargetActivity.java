@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.ui.sharetarget;
 
+import static java.net.HttpURLConnection.HTTP_CONFLICT;
+import static it.niedermann.nextcloud.deck.util.FilesUtil.copyContentUriToTempFile;
+
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -26,7 +29,6 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
-import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -35,9 +37,6 @@ import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
-
-import static it.niedermann.nextcloud.deck.util.FilesUtil.copyContentUriToTempFile;
-import static java.net.HttpURLConnection.HTTP_CONFLICT;
 
 public class ShareTargetActivity extends MainActivity implements SelectCardListener {
 
@@ -102,7 +101,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
 
     private void appendFilesAndFinish(@NonNull FullCard fullCard) {
         ShareProgressDialogFragment.newInstance().show(getSupportFragmentManager(), ShareProgressDialogFragment.class.getSimpleName());
-        final ShareProgressViewModel shareProgressViewModel = new ViewModelProvider(this).get(ShareProgressViewModel.class);
+        final var shareProgressViewModel = new ViewModelProvider(this).get(ShareProgressViewModel.class);
         shareProgressViewModel.setMax(mStreamsToUpload.size());
         shareProgressViewModel.targetCardTitle = fullCard.getCard().getTitle();
 
@@ -150,10 +149,10 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
     }
 
     private void appendTextAndFinish(@NonNull FullCard fullCard, @NonNull String receivedText) {
-        final String[] animals = {getString(R.string.append_text_to_description), getString(R.string.add_text_as_comment)};
+        final String[] targets = {getString(R.string.append_text_to_description), getString(R.string.add_text_as_comment)};
         new AlertDialog.Builder(this)
                 .setOnCancelListener(dialog -> cardSelected = false)
-                .setItems(animals, (dialog, which) -> {
+                .setItems(targets, (dialog, which) -> {
                     switch (which) {
                         case 0:
                             final String oldDescription = fullCard.getCard().getDescription();
@@ -181,8 +180,8 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                             });
                             break;
                         case 1:
-                            final Account currentAccount = mainViewModel.getCurrentAccount();
-                            final DeckComment comment = new DeckComment(receivedText.trim(), currentAccount.getUserName(), Instant.now());
+                            final var currentAccount = mainViewModel.getCurrentAccount();
+                            final var comment = new DeckComment(receivedText.trim(), currentAccount.getUserName(), Instant.now());
                             mainViewModel.addCommentToCard(currentAccount.getId(), fullCard.getLocalId(), comment);
                             Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
                             finish();

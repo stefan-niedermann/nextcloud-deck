@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.view;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -42,22 +41,22 @@ public class ColorChooser extends LinearLayout {
         super(context, attrs);
         this.context = context;
 
-        final FlexboxLayout.LayoutParams params = new FlexboxLayout.LayoutParams(
+        final var params = new FlexboxLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
         params.setMargins(0, DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1x), 0, 0);
         params.setFlexBasisPercent(.15f);
 
-        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ColorChooser, 0, 0);
-        colors = Arrays.stream(getResources().getStringArray(a.getResourceId(R.styleable.ColorChooser_colors, 0)))
+        final var styles = context.obtainStyledAttributes(attrs, R.styleable.ColorChooser, 0, 0);
+        colors = Arrays.stream(getResources().getStringArray(styles.getResourceId(R.styleable.ColorChooser_colors, 0)))
                 .mapToInt(Color::parseColor)
                 .toArray();
-        a.recycle();
+        styles.recycle();
 
         binding = WidgetColorChooserBinding.inflate(LayoutInflater.from(context), this, true);
         for (final int color : colors) {
-            final ImageView image = new ImageView(getContext());
+            final var image = new ImageView(getContext());
             image.setLayoutParams(params);
             image.setOnClickListener((imageView) -> {
                 if (previouslySelectedImageView != null) { // null when first selection

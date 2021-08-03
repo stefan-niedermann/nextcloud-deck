@@ -1,16 +1,16 @@
 package it.niedermann.nextcloud.deck.ui.takephoto;
 
+import static androidx.camera.core.CameraSelector.DEFAULT_BACK_CAMERA;
+import static androidx.camera.core.CameraSelector.DEFAULT_FRONT_CAMERA;
+import static androidx.lifecycle.Transformations.map;
+
 import androidx.annotation.NonNull;
 import androidx.camera.core.CameraSelector;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import it.niedermann.nextcloud.deck.R;
-
-import static androidx.camera.core.CameraSelector.DEFAULT_BACK_CAMERA;
-import static androidx.camera.core.CameraSelector.DEFAULT_FRONT_CAMERA;
 
 public class TakePhotoViewModel extends ViewModel {
 
@@ -50,7 +50,7 @@ public class TakePhotoViewModel extends ViewModel {
     }
 
     public LiveData<Integer> getTorchToggleButtonImageResource() {
-        return Transformations.map(isTorchEnabled(), enabled -> enabled
+        return map(isTorchEnabled(), enabled -> enabled
                 ? R.drawable.ic_baseline_flash_off_24
                 : R.drawable.ic_baseline_flash_on_24);
     }

@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.util;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
@@ -23,9 +26,6 @@ import java.time.LocalDate;
 
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
-
-import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
-import static java.time.temporal.ChronoUnit.DAYS;
 
 public final class ViewUtil {
 
@@ -71,9 +71,9 @@ public final class ViewUtil {
     }
 
     public static Drawable getTintedImageView(@NonNull Context context, @DrawableRes int imageId, @ColorInt int color) {
-        final Drawable drawable = ContextCompat.getDrawable(context, imageId);
+        final var drawable = ContextCompat.getDrawable(context, imageId);
         assert drawable != null;
-        final Drawable wrapped = DrawableCompat.wrap(drawable).mutate();
+        final var wrapped = DrawableCompat.wrap(drawable).mutate();
         DrawableCompat.setTint(wrapped, color);
         return drawable;
     }

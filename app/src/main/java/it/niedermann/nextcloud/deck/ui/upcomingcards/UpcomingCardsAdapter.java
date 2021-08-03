@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.upcomingcards;
 
+import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
+
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -30,8 +32,6 @@ import it.niedermann.nextcloud.deck.ui.card.CompactCardViewHolder;
 import it.niedermann.nextcloud.deck.ui.card.DefaultCardOnlyTitleViewHolder;
 import it.niedermann.nextcloud.deck.ui.card.DefaultCardViewHolder;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
-
-import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -78,7 +78,7 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public long getItemId(int position) {
-        final Object item = items.get(position);
+        final var item = items.get(position);
         if (item.getClass() == UpcomingCardsAdapterSectionItem.class || item instanceof UpcomingCardsAdapterSectionItem) {
             return items
                     .stream()
@@ -107,14 +107,14 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemViewType(int position) {
-        final Object item = items.get(position);
+        final var item = items.get(position);
         if (item.getClass() == UpcomingCardsAdapterSectionItem.class || item instanceof UpcomingCardsAdapterSectionItem) {
             return R.layout.item_section;
         } else if (item.getClass() == UpcomingCardsAdapterItem.class || item instanceof UpcomingCardsAdapterItem) {
             if (compactMode) {
                 return R.layout.item_card_compact;
             } else {
-                final FullCard fullCard = ((UpcomingCardsAdapterItem) item).getFullCard();
+                final var fullCard = ((UpcomingCardsAdapterItem) item).getFullCard();
                 if (fullCard.getAttachments().size() == 0
                         && fullCard.getAssignedUsers().size() == 0
                         && fullCard.getLabels().size() == 0
@@ -134,16 +134,15 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
         final Object item = items.get(position);
         if (item.getClass() == UpcomingCardsAdapterSectionItem.class || item instanceof UpcomingCardsAdapterSectionItem) {
             if (viewHolder.getClass() == UpcomingCardsSectionViewHolder.class || viewHolder instanceof UpcomingCardsSectionViewHolder) {
-                final UpcomingCardsAdapterSectionItem cardItem = (UpcomingCardsAdapterSectionItem) item;
+                final var cardItem = (UpcomingCardsAdapterSectionItem) item;
                 ((UpcomingCardsSectionViewHolder) viewHolder).bind(cardItem.getTitle());
             } else {
                 throw new IllegalStateException("Item at position " + position + " is a " + item.getClass().getSimpleName() + " but viewHolder is no " + UpcomingCardsSectionViewHolder.class.getSimpleName());
             }
         } else if (item.getClass() == UpcomingCardsAdapterItem.class || item instanceof UpcomingCardsAdapterItem) {
-            viewHolder.getClass();
             if (viewHolder instanceof AbstractCardViewHolder) {
-                final UpcomingCardsAdapterItem cardItem = (UpcomingCardsAdapterItem) item;
-                AbstractCardViewHolder cardViewHolder = ((AbstractCardViewHolder) viewHolder);
+                final var cardItem = (UpcomingCardsAdapterItem) item;
+                final var cardViewHolder = ((AbstractCardViewHolder) viewHolder);
                 cardViewHolder.bind(cardItem.getFullCard(), cardItem.getAccount(), cardItem.getCurrentBoardRemoteId(), cardItem.currentBoardHasEditPermission(), R.menu.card_menu,
                         new UpcomingCardsOptionsItemSelectedListener(
                                 cardItem.getAccount(),

@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 
 import it.niedermann.android.markdown.MarkdownUtil;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 
@@ -28,21 +27,21 @@ public class CardUtil {
      */
     @NonNull
     public static String getCardContentAsString(@NonNull Context context, @NonNull FullCard fullCard) {
-        final Card card = fullCard.getCard();
-        String text = card.getDescription();
+        final var card = fullCard.getCard();
+        final var text = new StringBuilder(card.getDescription());
         if(card.getDueDate() != null) {
             if(!TextUtils.isEmpty(text)) {
-                text += "\n";
+                text.append("\n");
             }
-            text += context.getString(R.string.share_content_duedate, card.getDueDate().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)));
+            text.append(context.getString(R.string.share_content_duedate, card.getDueDate().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM))));
         }
         if(fullCard.getLabels() != null && !fullCard.getLabels().isEmpty()) {
             if(!TextUtils.isEmpty(text)) {
-                text += "\n";
+                text.append("\n");
             }
-            text += context.getString(R.string.share_content_labels, fullCard.getLabels().stream().map(Label::getTitle).collect(Collectors.joining(", ")));
+            text.append(context.getString(R.string.share_content_labels, fullCard.getLabels().stream().map(Label::getTitle).collect(Collectors.joining(", "))));
         }
-        return text;
+        return text.toString();
     }
 
     public static boolean cardHasCommentsOrAttachments(@NonNull FullCard fullCard) {
@@ -65,7 +64,7 @@ public class CardUtil {
     @NonNull
     private static String getLineWithoutMarkDown(@NonNull String content, @SuppressWarnings("SameParameterValue") int lineNumber) {
         if (content.contains("\n")) {
-            final String[] lines = content.split("\n");
+            final var lines = content.split("\n");
             int currentLine = lineNumber;
             while (currentLine < lines.length && isEmptyLine(lines[currentLine])) {
                 currentLine++;

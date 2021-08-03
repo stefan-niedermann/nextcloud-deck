@@ -19,13 +19,13 @@ public class ProjectUtil {
     public static Uri getResourceUri(@NonNull Account account, @NonNull String link) throws IllegalArgumentException {
         try {
             // Assume link contains a fully qualified Uri including host
-            final URL u = new URL(link);
-            return Uri.parse(u.toString());
+            final var url = new URL(link);
+            return Uri.parse(url.toString());
         } catch (Throwable linkIsNotQualified) {
             try {
                 // Assume link is a absolute path that needs to be concatenated with account url for a complete Uri
-                final URL u = new URL(account.getUrl() + link);
-                return Uri.parse(u.toString());
+                final var url = new URL(account.getUrl() + link);
+                return Uri.parse(url.toString());
             } catch (Throwable throwable) {
                 throw new IllegalArgumentException("Could not parse " + Uri.class.getSimpleName() + ": " + link, throwable);
             }

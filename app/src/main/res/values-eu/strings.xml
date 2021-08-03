@@ -235,10 +235,12 @@
     <string name="error_dialog_attachment_upload_failed">Eranskin bat ezin izan da igo. Parteka ezazu beste bide batetik eta emaiguzu akats honen berri, mesedez.</string>
     <string name="error_dialog_certificate">Badirudi zerbait gaizki dagoela zerbitzariaren ziurtagirian. Informazio gehiagorako, egiaztatu Nextcloud aplikazioko kontu guztiak.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Desgaitu bateria optimizazio guztiak Nextcloudentzat eta Deck aplikazioarentzat.</string>
+    <string name="error_dialog_unknown_error">Badirudi ezin dela zure Nextcloud instantzia atzitu. Mesedez, egiaztatu zure internet konexioa eta zure instantziara nabigatzailearen bidez konektatu ahal zarela.</string>
     <string name="error_action_open_deck_info">Ireki aplikazioaren informazioa</string>
     <string name="error_action_open_nextcloud_app">Ireki Nextcloud aplikazioa</string>
     <string name="error_action_open_network">Sareko ezarpenak</string>
     <string name="error_action_server_logs">Zerbitzariaren egunkariak</string>
+    <string name="error_action_open_in_browser">Ireki nabigatzailean</string>
     <string name="error_action_install">Instalatu</string>
     <string name="error_action_report_issue">Jakinarazi</string>
     <string name="info_box_maintenance_mode">Zerbitzaria mantentze moduan dago</string>

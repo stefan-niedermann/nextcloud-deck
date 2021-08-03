@@ -1,5 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.preparecreate;
 
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccount;
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentBoardId;
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentStackId;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +12,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.deck.R;
@@ -18,10 +21,6 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.PickStackActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 
-import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccount;
-import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentBoardId;
-import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentStackId;
-
 public class PrepareCreateActivity extends PickStackActivity {
 
     private PrepareCreateViewModel viewModel;
@@ -29,7 +28,7 @@ public class PrepareCreateActivity extends PickStackActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final ActionBar actionBar = getSupportActionBar();
+        final var actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(R.string.add_card);
         }
@@ -83,7 +82,7 @@ public class PrepareCreateActivity extends PickStackActivity {
 
     @Override
     protected boolean requireContent() {
-        final Intent intent = getIntent();
+        final var intent = getIntent();
         return intent == null || (TextUtils.isEmpty(intent.getStringExtra(Intent.EXTRA_SUBJECT)) &&
                 TextUtils.isEmpty(intent.getStringExtra(Intent.EXTRA_TITLE)) &&
                 TextUtils.isEmpty(intent.getStringExtra(Intent.EXTRA_TEXT)));

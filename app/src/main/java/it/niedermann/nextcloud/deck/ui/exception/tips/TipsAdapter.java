@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.ui.exception.tips;
 
+import static android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
+import static it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment.INTENT_EXTRA_BUTTON_TEXT;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,7 +11,6 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.provider.Settings;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -38,9 +40,6 @@ import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.model.Account;
 
-import static android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
-import static it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment.INTENT_EXTRA_BUTTON_TEXT;
-
 public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
 
     private static final String[] APPS = new String[]{Constants.PACKAGE_NAME_PROD, Constants.PACKAGE_NAME_DEV};
@@ -60,8 +59,8 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
     @NonNull
     @Override
     public TipsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tip, parent, false);
-        return new TipsViewHolder(v);
+        final var view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tip, parent, false);
+        return new TipsViewHolder(view);
     }
 
     @Override
@@ -191,7 +190,7 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
 
     @Nullable
     private static Intent getOpenFilesIntent(@NonNull Context context) {
-        final PackageManager pm = context.getPackageManager();
+        final var pm = context.getPackageManager();
         for (String app : APPS) {
             try {
                 pm.getPackageInfo(app, PackageManager.GET_ACTIVITIES);

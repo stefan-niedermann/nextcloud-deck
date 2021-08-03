@@ -45,7 +45,7 @@ public class ManageAccountAdapter extends RecyclerView.Adapter<ManageAccountView
 
     @Override
     public void onBindViewHolder(@NonNull ManageAccountViewHolder holder, int position) {
-        final Account account = accounts.get(position);
+        final var account = accounts.get(position);
         holder.bind(account, (clickedAccount) -> {
             setCurrentAccount(clickedAccount);
             onAccountClick.accept(clickedAccount);
@@ -58,7 +58,7 @@ public class ManageAccountAdapter extends RecyclerView.Adapter<ManageAccountView
                 }
             }
 
-            Account newAccount = accounts.size() > 0 ? accounts.get(0) : null;
+            final var newAccount = accounts.size() > 0 ? accounts.get(0) : null;
             setCurrentAccount(newAccount);
             onAccountDelete.accept(new Pair<>(accountToDelete, newAccount));
         }), currentAccount != null && currentAccount.getId().equals(account.getId()));

@@ -34,10 +34,10 @@ public class BoardAdapter extends AbstractAdapter<Board> {
             binding = ItemPrepareCreateBoardBinding.bind(convertView);
         }
 
-        final Board item = getItem(position);
-        if (item != null) {
-            binding.boardTitle.setText(item.getTitle());
-            binding.avatar.setImageDrawable(ViewUtil.getTintedImageView(binding.avatar.getContext(), R.drawable.circle_grey600_36dp, item.getColor()));
+        final var board = getItem(position);
+        if (board != null) {
+            binding.boardTitle.setText(board.getTitle());
+            binding.avatar.setImageDrawable(ViewUtil.getTintedImageView(binding.avatar.getContext(), R.drawable.circle_grey600_36dp, board.getColor()));
         } else {
             DeckLog.logError(new IllegalArgumentException("No item for position " + position));
         }

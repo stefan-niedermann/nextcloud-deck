@@ -52,8 +52,8 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        final Bundle args = getArguments();
-        if (args == null || !args.containsKey(KEY_STACK_ID)) {
+        final var args = requireArguments();
+        if (!args.containsKey(KEY_STACK_ID)) {
             throw new IllegalArgumentException(KEY_STACK_ID + " is required.");
         }
 
@@ -70,7 +70,7 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
         binding = FragmentStackBinding.inflate(inflater, container, false);
         mainViewModel = new ViewModelProvider(activity).get(MainViewModel.class);
 
-        final FilterViewModel filterViewModel = new ViewModelProvider(activity).get(FilterViewModel.class);
+        final var filterViewModel = new ViewModelProvider(activity).get(FilterViewModel.class);
 
         // This might be a zombie fragment with an empty MainViewModel after Android killed the activity (but not the fragment instance
         // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
@@ -148,10 +148,10 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
     }
 
     public static Fragment newInstance(long stackId) {
-        final Bundle args = new Bundle();
-        args.putLong(KEY_STACK_ID, stackId);
+        final var fragment = new StackFragment();
 
-        final StackFragment fragment = new StackFragment();
+        final var args = new Bundle();
+        args.putLong(KEY_STACK_ID, stackId);
         fragment.setArguments(args);
 
         return fragment;

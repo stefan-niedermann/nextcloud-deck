@@ -63,8 +63,8 @@ public class PrepareCreateViewModel extends AndroidViewModel {
 
     public FullCard createFullCard(@NonNull Version version, @NonNull String title, @NonNull String description) {
         if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(description)) {
-            final FullCard fullCard = new FullCard();
-            final Card card = new Card();
+            final var fullCard = new FullCard();
+            final var card = new Card();
             final int maxLength = version.getCardTitleMaxLength();
             if (title.length() > maxLength) {
                 card.setTitle(title.substring(0, maxLength));
@@ -88,8 +88,8 @@ public class PrepareCreateViewModel extends AndroidViewModel {
         if (TextUtils.isEmpty(content)) {
             throw new IllegalArgumentException("Content must not be empty.");
         }
-        final FullCard fullCard = new FullCard();
-        final Card card = new Card();
+        final var fullCard = new FullCard();
+        final var card = new Card();
         final int maxLength = version.getCardTitleMaxLength();
         if (content.length() > maxLength) {
             card.setTitle(content.substring(0, maxLength).trim());

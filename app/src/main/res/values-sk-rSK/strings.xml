@@ -239,10 +239,12 @@
     <string name="error_dialog_attachment_upload_failed">Prílohu nebolo možné nahrať. Skúste to zdieľať iným spôsobom a dajte nám vedieť o tejto chybe.</string>
     <string name="error_dialog_certificate">Niečo sa pokazilo s certifikátom servera. Prosím skontrolujte všetky účty v Nextcloud aplikácii pre ďalšie informácie.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Vypnite všetky optimalizácie batérie pre aplikácie Nextcloud a Deck.</string>
+    <string name="error_dialog_unknown_error">Zdá sa, že vaša inštancia Nextcloud je nedostupná. Skontrolujte svoje internetové pripojenie a či sa môžete k svojej inštancii pripojiť prostredníctvom prehliadača.</string>
     <string name="error_action_open_deck_info">Otvoriť informácie o aplikácii</string>
     <string name="error_action_open_nextcloud_app">Otvoriť aplikáciu Nextcloud</string>
     <string name="error_action_open_network">Nastavenia siete</string>
     <string name="error_action_server_logs">Záznamy udalostí na serveri</string>
+    <string name="error_action_open_in_browser">Otvoriť v prehliadači</string>
     <string name="error_action_install">Inštalovať</string>
     <string name="error_action_report_issue">Hlásenie</string>
     <string name="info_box_maintenance_mode">Server je v móde údržby</string>
