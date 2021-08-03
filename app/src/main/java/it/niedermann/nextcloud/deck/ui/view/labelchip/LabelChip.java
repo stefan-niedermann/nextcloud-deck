@@ -43,8 +43,8 @@ public class LabelChip extends Chip {
 
         try {
             int labelColor = label.getColor();
-            ColorStateList c = ColorStateList.valueOf(labelColor);
-            setChipBackgroundColor(c);
+            final var colorStateList = ColorStateList.valueOf(labelColor);
+            setChipBackgroundColor(colorStateList);
             setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(labelColor));
         } catch (IllegalArgumentException e) {
             DeckLog.logError(e);

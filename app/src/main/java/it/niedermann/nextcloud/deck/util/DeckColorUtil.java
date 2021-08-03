@@ -18,8 +18,8 @@ public final class DeckColorUtil {
     private static final Map<ColorPair, Boolean> CONTRAST_RATIO_SUFFICIENT_CACHE = new HashMap<>();
 
     public static boolean contrastRatioIsSufficient(@ColorInt int colorOne, @ColorInt int colorTwo) {
-        ColorPair key = new ColorPair(colorOne, colorTwo);
-        Boolean ret = CONTRAST_RATIO_SUFFICIENT_CACHE.get(key);
+        final var key = new ColorPair(colorOne, colorTwo);
+        var ret = CONTRAST_RATIO_SUFFICIENT_CACHE.get(key);
         if (ret == null) {
             ret = ColorUtil.INSTANCE.getContrastRatio(colorOne, colorTwo) > 3d;
             CONTRAST_RATIO_SUFFICIENT_CACHE.put(key, ret);
@@ -29,8 +29,8 @@ public final class DeckColorUtil {
     }
 
     public static boolean contrastRatioIsSufficientBigAreas(@ColorInt int colorOne, @ColorInt int colorTwo) {
-        ColorPair key = new ColorPair(colorOne, colorTwo);
-        Boolean ret = CONTRAST_RATIO_SUFFICIENT_CACHE.get(key);
+        final var key = new ColorPair(colorOne, colorTwo);
+        var ret = CONTRAST_RATIO_SUFFICIENT_CACHE.get(key);
         if (ret == null) {
             ret = ColorUtil.INSTANCE.getContrastRatio(colorOne, colorTwo) > 1.47d;
             CONTRAST_RATIO_SUFFICIENT_CACHE.put(key, ret);
@@ -48,7 +48,7 @@ public final class DeckColorUtil {
         @SuppressWarnings({"EqualsWhichDoesntCheckParameterClass", "NumberEquality"})
         @Override
         public boolean equals(Object o) {
-            final ColorPair colorPair = (ColorPair) o;
+            final var colorPair = (ColorPair) o;
             if (first != colorPair.first) return false;
             return second == colorPair.second;
         }

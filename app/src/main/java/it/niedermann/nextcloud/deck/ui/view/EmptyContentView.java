@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.view;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,19 +23,19 @@ public class EmptyContentView extends RelativeLayout {
 
         binding = WidgetEmptyContentViewBinding.inflate(LayoutInflater.from(context), this, true);
 
-        TypedArray a = context.obtainStyledAttributes(attrs,
+        final var styles = context.obtainStyledAttributes(attrs,
                 R.styleable.EmptyContentView, 0, 0);
 
-        @StringRes int descriptionRes = a.getResourceId(R.styleable.EmptyContentView_description, NO_DESCRIPTION);
+        @StringRes int descriptionRes = styles.getResourceId(R.styleable.EmptyContentView_description, NO_DESCRIPTION);
 
-        binding.title.setText(getResources().getString(a.getResourceId(R.styleable.EmptyContentView_title, R.string.no_content)));
+        binding.title.setText(getResources().getString(styles.getResourceId(R.styleable.EmptyContentView_title, R.string.no_content)));
         if (descriptionRes == NO_DESCRIPTION) {
             binding.description.setVisibility(View.GONE);
         } else {
             binding.description.setText(getResources().getString(descriptionRes));
         }
-        binding.image.setImageResource(a.getResourceId(R.styleable.EmptyContentView_image, R.drawable.ic_app_logo));
-        a.recycle();
+        binding.image.setImageResource(styles.getResourceId(R.styleable.EmptyContentView_image, R.drawable.ic_app_logo));
+        styles.recycle();
     }
 
     public void hideDescription() {

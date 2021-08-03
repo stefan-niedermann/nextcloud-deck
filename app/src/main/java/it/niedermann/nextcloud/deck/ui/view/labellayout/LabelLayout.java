@@ -56,9 +56,9 @@ public abstract class LabelLayout extends FlexboxLayout {
     private void removeObsoleteLabels(List<Label> labels) {
         chipList:
         for (int i = 0; i < chipList.size(); i++) {
-            LabelChip currentChip = chipList.get(i);
-            final Label existingLabel = currentChip.getLabel();
-            for (Label label : labels) {
+            final var currentChip = chipList.get(i);
+            final var existingLabel = currentChip.getLabel();
+            for (final var label : labels) {
                 if (existingLabel.equals(label)) {
                     continue chipList;
                 }
@@ -75,15 +75,15 @@ public abstract class LabelLayout extends FlexboxLayout {
     private void addNewLabels(List<Label> labels) {
         int oldLabelSize = chipList.size();
         labelList:
-        for (Label label : labels) {
+        for (final var label : labels) {
             for (int i = 0; i < oldLabelSize; i++) {
-                final LabelChip currentChip = chipList.get(i);
-                final Label existingLabel = currentChip.getLabel();
+                final var currentChip = chipList.get(i);
+                final var existingLabel = currentChip.getLabel();
                 if (existingLabel.equals(label)) {
                     continue labelList;
                 }
             }
-            final LabelChip chip = createLabelChip(label);
+            final var chip = createLabelChip(label);
             addView(chip);
             chipList.add(chip);
         }

@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
@@ -29,9 +28,9 @@ public class CustomAppGlideModule extends AppGlideModule {
 
     @UiThread
     public static void clearCache(@NonNull Context context) {
-        final ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final var cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
-            final NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
+            final var activeNetworkInfo = cm.getActiveNetworkInfo();
             if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
                 DeckLog.info("Clearing Glide memory cache");
                 Glide.get(context).clearMemory();

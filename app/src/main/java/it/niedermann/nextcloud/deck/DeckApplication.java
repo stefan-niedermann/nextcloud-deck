@@ -1,8 +1,10 @@
 package it.niedermann.nextcloud.deck;
 
+import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
+
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 
 import androidx.annotation.ColorInt;
@@ -13,9 +15,6 @@ import androidx.preference.PreferenceManager;
 
 import it.niedermann.android.sharedpreferences.SharedPreferenceIntLiveData;
 import it.niedermann.nextcloud.deck.model.Account;
-
-import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
-import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
 public class DeckApplication extends Application {
 
@@ -35,7 +34,7 @@ public class DeckApplication extends Application {
         PREF_KEY_DEBUGGING = getString(R.string.pref_key_debugging);
         setAppTheme(getAppTheme(this));
         DeckLog.enablePersistentLogs(isPersistentLoggingEnabled(this));
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         currentAccountColor$ = distinctUntilChanged(new SharedPreferenceIntLiveData(sharedPreferences,
                 getString(R.string.shared_preference_last_account_color),
                 ContextCompat.getColor(this, R.color.defaultBrand)));
@@ -57,7 +56,7 @@ public class DeckApplication extends Application {
     // ---------
 
     public static boolean isPersistentLoggingEnabled(@NonNull Context context) {
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         final boolean enabled = sharedPreferences.getBoolean(PREF_KEY_DEBUGGING, false);
         DeckLog.log("--- Read:", PREF_KEY_DEBUGGING, "→", enabled);
         return enabled;
@@ -72,7 +71,7 @@ public class DeckApplication extends Application {
     }
 
     public static int getAppTheme(@NonNull Context context) {
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        final var prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String mode;
         try {
             mode = prefs.getString(PREF_KEY_THEME, context.getString(R.string.pref_value_theme_system_default));
@@ -101,7 +100,7 @@ public class DeckApplication extends Application {
     // --------------------------------------
 
     public static void saveCurrentAccount(@NonNull Context context, @NonNull Account account) {
-        final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        final var editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         DeckLog.log("--- Write:", context.getString(R.string.shared_preference_last_account), "→", account.getId());
         editor.putLong(context.getString(R.string.shared_preference_last_account), account.getId());
         DeckLog.log("--- Write:", context.getString(R.string.shared_preference_last_account_color), "→", account.getColor());
@@ -119,42 +118,42 @@ public class DeckApplication extends Application {
 
     @ColorInt
     public static int readCurrentAccountColor(@NonNull Context context) {
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        final var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         @ColorInt final int accountColor = sharedPreferences.getInt(context.getString(R.string.shared_preference_last_account_color), context.getApplicationContext().getResources().getColor(R.color.defaultBrand));
         DeckLog.log("--- Read:", context.getString(R.string.shared_preference_last_account_color), "→", accountColor);
         return accountColor;
     }
 
     public static long readCurrentAccountId(@NonNull Context context) {
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         final long accountId = sharedPreferences.getLong(context.getString(R.string.shared_preference_last_account), NO_ACCOUNT_ID);
         DeckLog.log("--- Read:", context.getString(R.string.shared_preference_last_account), "→", accountId);
         return accountId;
     }
 
     public static void saveCurrentBoardId(@NonNull Context context, long accountId, long boardId) {
-        final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        final var editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         DeckLog.log("--- Write:", context.getString(R.string.shared_preference_last_board_for_account_) + accountId, "→", boardId);
         editor.putLong(context.getString(R.string.shared_preference_last_board_for_account_) + accountId, boardId);
         editor.apply();
     }
 
     public static long readCurrentBoardId(@NonNull Context context, long accountId) {
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         final long boardId = sharedPreferences.getLong(context.getString(R.string.shared_preference_last_board_for_account_) + accountId, NO_BOARD_ID);
         DeckLog.log("--- Read:", context.getString(R.string.shared_preference_last_board_for_account_) + accountId, "→", boardId);
         return boardId;
     }
 
     public static void saveCurrentStackId(@NonNull Context context, long accountId, long boardId, long stackId) {
-        final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        final var editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         DeckLog.log("--- Write:", context.getString(R.string.shared_preference_last_stack_for_account_and_board_) + accountId + "_" + boardId, "→", stackId);
         editor.putLong(context.getString(R.string.shared_preference_last_stack_for_account_and_board_) + accountId + "_" + boardId, stackId);
         editor.apply();
     }
 
     public static long readCurrentStackId(@NonNull Context context, long accountId, long boardId) {
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         final long savedStackId = sharedPreferences.getLong(context.getString(R.string.shared_preference_last_stack_for_account_and_board_) + accountId + "_" + boardId, NO_STACK_ID);
         DeckLog.log("--- Read:", context.getString(R.string.shared_preference_last_stack_for_account_and_board_) + accountId + "_" + boardId, "→", savedStackId);
         return savedStackId;

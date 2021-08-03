@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -53,7 +52,7 @@ public class OverlappingAvatars extends RelativeLayout {
     }
 
     public void setAvatars(@NonNull Account account, @NonNull List<User> assignedUsers) {
-        @NonNull Context context = getContext();
+        @NonNull final var context = getContext();
         removeAllViews();
         RelativeLayout.LayoutParams avatarLayoutParams;
         int avatarCount;
@@ -62,7 +61,7 @@ public class OverlappingAvatars extends RelativeLayout {
             avatarLayoutParams.setMargins(0, 0, avatarCount * overlapPx, 0);
             avatarLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 
-            final ImageView avatar = new ImageView(context);
+            final var avatar = new ImageView(context);
             avatar.setLayoutParams(avatarLayoutParams);
             avatar.setPadding(avatarBorderSize, avatarBorderSize, avatarBorderSize, avatarBorderSize);
 
@@ -79,7 +78,7 @@ public class OverlappingAvatars extends RelativeLayout {
 
         // Recalculate container size based on avatar count
         int size = overlapPx * (avatarCount - 1) + avatarSize;
-        ViewGroup.LayoutParams rememberParam = getLayoutParams();
+        final var rememberParam = getLayoutParams();
         rememberParam.width = size;
         setLayoutParams(rememberParam);
     }

@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 
@@ -30,12 +29,12 @@ public class FilesUtil {
      */
     @WorkerThread
     public static File copyContentUriToTempFile(@NonNull Context context, @NonNull Uri currentUri, long accountId, Long localCardId) throws IOException, IllegalArgumentException {
-        final InputStream inputStream = context.getContentResolver().openInputStream(currentUri);
+        final var inputStream = context.getContentResolver().openInputStream(currentUri);
         if (inputStream == null) {
             throw new IOException("Could not open input stream for " + currentUri.getPath());
         }
-        final File cacheFile = getTempCacheFile(context, "attachments/account-" + accountId + "/card-" + (localCardId == null ? "pending-creation" : localCardId) + '/' + UriUtils.getDisplayNameForUri(currentUri, context));
-        final FileOutputStream outputStream = new FileOutputStream(cacheFile);
+        final var cacheFile = getTempCacheFile(context, "attachments/account-" + accountId + "/card-" + (localCardId == null ? "pending-creation" : localCardId) + '/' + UriUtils.getDisplayNameForUri(currentUri, context));
+        final var outputStream = new FileOutputStream(cacheFile);
         byte[] buffer = new byte[4096];
 
         int count;
@@ -50,11 +49,11 @@ public class FilesUtil {
      * Creates a new {@link File}
      */
     public static File getTempCacheFile(@NonNull Context context, String fileName) throws IOException {
-        File cacheFile = new File(context.getApplicationContext().getFilesDir().getAbsolutePath() + "/" + fileName);
+        final var cacheFile = new File(context.getApplicationContext().getFilesDir().getAbsolutePath() + "/" + fileName);
 
         DeckLog.verbose("- Full path for new cache file:", cacheFile.getAbsolutePath());
 
-        final File tempDir = cacheFile.getParentFile();
+        final var tempDir = cacheFile.getParentFile();
         if (tempDir == null) {
             throw new FileNotFoundException("could not cacheFile.getParentFile()");
         }
