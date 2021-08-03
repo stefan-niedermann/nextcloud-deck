@@ -1,6 +1,8 @@
 <resources>
     <string name="navigation_drawer_open">Navigációs fiók megnyitása</string>
     <string name="navigation_drawer_close">Navigációs fiók bezárása</string>
+    <string name="hint_search_deck">Kártyák keresése</string>
+
     <string name="simple_boards">Táblák</string>
     <string name="simple_add">Hozzáadás</string>
     <string name="simple_save">Mentés</string>
@@ -31,6 +33,8 @@
     <string name="simple_copied">Másolva</string>
     <string name="simple_archive">Archívum</string>
     <string name="simple_unassigned">Nem hozzárendelt</string>
+    <string name="hint_error_appeared">Hiba történt</string>
+
     <string name="edit_board">Tábla szerkesztése</string>
     <string name="archive_board">Tábla archiválása</string>
     <string name="delete_board">Tábla törlése</string>
@@ -148,6 +152,7 @@
     <string name="hours_6">6 óra</string>
     <string name="action_card_move">Kártya áthelyezése</string>
     <string name="action_card_move_title">%1$s áthelyezése</string>
+    <string name="title_is_mandatory">Cím szükséges</string>
     <string name="provide_at_least_a_title_or_description">Legalább címet vagy leírást adjon meg</string>
     <string name="welcome_text">Üdvözli a %1$s</string>
     <string name="maintenance_mode_explanation">A(z) %1$s kiszolgáló jelenleg karbantartási módban van. Lépjen kapcsolatba a rendszergazdával vagy próbálja újra.</string>
@@ -230,10 +235,12 @@
     <string name="error_dialog_attachment_upload_failed">A melléklet nem tölthető fel. Próbálja meg máshogy megosztani, és tájékoztasson minket a hibáról.</string>
     <string name="error_dialog_certificate">Valami nem stimmel a szerver tanúsítványával. Kérjük, további információkért ellenőrizze a Nextcloud alkalmazás összes fiókját.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Kapcsoljon ki minden energiatakarékossági beállítást a Nextcloud valamint a Kártyák alkalmazáshoz. </string>
+    <string name="error_dialog_unknown_error">Úgy tűnik, hogy a Nextcloud példánya nem érhető el. Ellenőrizze az internetkapcsolatát, és hogy böngészőn keresztül eléri-e a példányát.</string>
     <string name="error_action_open_deck_info">Alkalmazásinformációk megnyitása</string>
     <string name="error_action_open_nextcloud_app">Nextcloud alkalmazás megnyitása</string>
     <string name="error_action_open_network">Hálózati beállítások</string>
     <string name="error_action_server_logs">Kiszolgálónaplók</string>
+    <string name="error_action_open_in_browser">Megnyitás böngészőben</string>
     <string name="error_action_install">Telepítés</string>
     <string name="error_action_report_issue">Jelentés</string>
     <string name="info_box_maintenance_mode">A kiszolgáló karbantartási módban van</string>
@@ -313,5 +320,7 @@
     <string name="copying_logs_to_file">Naplók fájlba másolása…</string>
     <string name="account_imported">Fiók importálva</string>
     <string name="simple_search">Keresés</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Cím (kötelező)</string>
     <string name="saving_new_card">Új kártya mentése…</string>
 </resources>
