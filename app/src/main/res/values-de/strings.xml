@@ -240,7 +240,7 @@
     <string name="error_action_open_nextcloud_app">Nextcloud-App öffnen</string>
     <string name="error_action_open_network">Netzwerkeinstellungen</string>
     <string name="error_action_server_logs">Server-Protokolle</string>
-    <string name="error_action_open_in_browser">In Browser öffnen</string>
+    <string name="error_action_open_in_browser">Im Browser öffnen</string>
     <string name="error_action_install">Installieren</string>
     <string name="error_action_report_issue">Melden</string>
     <string name="info_box_maintenance_mode">Server befindet sich im Wartungsmodus</string>
