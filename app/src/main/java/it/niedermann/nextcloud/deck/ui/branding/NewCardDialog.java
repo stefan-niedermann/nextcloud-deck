@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.branding;
 
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,8 +32,6 @@ import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.preparecreate.PrepareCreateViewModel;
 
-import static androidx.lifecycle.Transformations.distinctUntilChanged;
-
 public class NewCardDialog extends DialogFragment implements DialogInterface.OnClickListener {
 
     private PrepareCreateViewModel viewModel;
@@ -53,7 +53,7 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        final Bundle args = getArguments();
+        final var args = getArguments();
         if (args == null) {
             throw new IllegalArgumentException("Provide " + ARG_ACCOUNT + ", " + ARG_BOARD_LOCAL_ID + " and " + ARG_STACK_LOCAL_ID);
         }
@@ -69,7 +69,7 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         binding = DialogNewCardBinding.inflate(requireActivity().getLayoutInflater());
 
-        final AlertDialog dialog = new AlertDialog.Builder(requireActivity())
+        final var dialog = new AlertDialog.Builder(requireActivity())
                 .setTitle(R.string.add_card)
                 .setView(binding.getRoot())
                 .setPositiveButton(R.string.edit, null)
@@ -113,9 +113,13 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
             if (isPending) {
                 binding.inputWrapper.setVisibility(View.INVISIBLE);
                 binding.progressCircular.setVisibility(View.VISIBLE);
+                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
+                dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setEnabled(false);
             } else {
                 binding.inputWrapper.setVisibility(View.VISIBLE);
                 binding.progressCircular.setVisibility(View.GONE);
+                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);
+                dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setEnabled(true);
             }
         });
 
@@ -155,10 +159,10 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
         }
         if (Boolean.FALSE.equals(isPending.getValue())) {
             isPending.setValue(true);
-            final Editable currentUserInput = binding.input.getText();
+            final var currentUserInput = binding.input.getText();
             if (inputIsValid(currentUserInput)) {
-                final FullCard fullCard = viewModel.createFullCard(account.getServerDeckVersionAsObject(), currentUserInput.toString());
-                viewModel.saveCard(account.getId(), boardLocalId, stackLocalId, fullCard, new IResponseCallback<FullCard>() {
+                final var fullCard = viewModel.createFullCard(account.getServerDeckVersionAsObject(), currentUserInput.toString());
+                viewModel.saveCard(account.getId(), boardLocalId, stackLocalId, fullCard, new IResponseCallback<>() {
                     @Override
                     public void onResponse(FullCard createdCard) {
                         requireActivity().runOnUiThread(() -> {
@@ -193,8 +197,8 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
     }
 
     public static DialogFragment newInstance(@NonNull Account account, long boardLocalId, long stackLocalId, @ColorInt int brand) {
-        final DialogFragment fragment = new NewCardDialog();
-        final Bundle args = new Bundle();
+        final var fragment = new NewCardDialog();
+        final var args = new Bundle();
         args.putSerializable(ARG_ACCOUNT, account);
         args.putLong(ARG_BOARD_LOCAL_ID, boardLocalId);
         args.putLong(ARG_STACK_LOCAL_ID, stackLocalId);
