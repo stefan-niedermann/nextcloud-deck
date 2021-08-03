@@ -1,5 +1,10 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import static androidx.lifecycle.Transformations.switchMap;
+import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
+
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -32,11 +37,6 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackFragment;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackListener;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackViewModel;
-
-import static androidx.lifecycle.Transformations.switchMap;
-import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
 
 public abstract class PickStackActivity extends AppCompatActivity implements Branded, PickStackListener {
 
@@ -74,7 +74,7 @@ public abstract class PickStackActivity extends AppCompatActivity implements Bra
         binding.cancel.setOnClickListener((v) -> finish());
         binding.submit.setOnClickListener((v) -> {
             viewModel.setSubmitInProgress(true);
-            onSubmit(viewModel.getAccount(), viewModel.getBoardLocalId(), viewModel.getStackLocalId(), new IResponseCallback<Void>() {
+            onSubmit(viewModel.getAccount(), viewModel.getBoardLocalId(), viewModel.getStackLocalId(), new IResponseCallback<>() {
                 @Override
                 public void onResponse(Void response) {
                     runOnUiThread(() -> viewModel.setSubmitInProgress(false));

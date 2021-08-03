@@ -42,7 +42,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
         final var adapter = new UpcomingCardsAdapter(this, getSupportFragmentManager(),
                 viewModel::assignUser,
                 viewModel::unassignUser,
-                (fullCard) -> viewModel.archiveCard(fullCard, new IResponseCallback<FullCard>() {
+                (fullCard) -> viewModel.archiveCard(fullCard, new IResponseCallback<>() {
                     @Override
                     public void onResponse(FullCard response) {
                         DeckLog.info("Successfully archived", Card.class.getSimpleName(), fullCard.getCard().getTitle());
@@ -54,7 +54,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
                         runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                     }
                 }),
-                (card) -> viewModel.deleteCard(card, new IResponseCallback<Void>() {
+                (card) -> viewModel.deleteCard(card, new IResponseCallback<>() {
                     @Override
                     public void onResponse(Void response) {
                         DeckLog.info("Successfully deleted card", card.getTitle());
@@ -91,7 +91,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
 
     @Override
     public void move(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
-        viewModel.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId, new IResponseCallback<Void>() {
+        viewModel.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId, new IResponseCallback<>() {
             @Override
             public void onResponse(Void response) {
                 DeckLog.log("Moved", Card.class.getSimpleName(), originCardLocalId, "to", Stack.class.getSimpleName(), targetStackLocalId);

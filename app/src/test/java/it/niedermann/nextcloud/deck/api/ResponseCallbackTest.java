@@ -1,5 +1,15 @@
 package it.niedermann.nextcloud.deck.api;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -11,23 +21,13 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
 @RunWith(RobolectricTestRunner.class)
 public class ResponseCallbackTest {
 
     @Test
     public void testFillAccountIDs() {
         final Account account = new Account(1337L);
-        ResponseCallback<Object> callback = new ResponseCallback<Object>(account) {
+        ResponseCallback<Object> callback = new ResponseCallback<>(account) {
             @Override
             public void onResponse(Object response) {
                 fail("I didn't ask you!");

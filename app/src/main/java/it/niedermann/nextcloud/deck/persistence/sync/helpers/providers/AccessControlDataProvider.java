@@ -35,7 +35,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
         AsyncUtil.awaitAsyncWork(acl.size(), latch -> {
             for (AccessControl accessControl : acl) {
                 if (TYPE_GROUP.equals(accessControl.getType())) {
-                    serverAdapter.searchGroupMembers(accessControl.getUser().getUid(), new ResponseCallback<GroupMemberUIDs>(responder.getAccount()) {
+                    serverAdapter.searchGroupMembers(accessControl.getUser().getUid(), new ResponseCallback<>(responder.getAccount()) {
                         @Override
                         public void onResponse(GroupMemberUIDs response) {
                             accessControl.setGroupMemberUIDs(response);
@@ -64,7 +64,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
             User user = dataBaseAdapter.getUserByUidDirectly(account.getId(), uid);
             if (user == null) {
                 // unknown user. fetch!
-                serverAdapter.getSingleUserData(uid, new ResponseCallback<OcsUser>(account) {
+                serverAdapter.getSingleUserData(uid, new ResponseCallback<>(account) {
                     @Override
                     public void onResponse(OcsUser response) {
                         DeckLog.log(response);
@@ -106,7 +106,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     }
 
     private void handleGroupMemberships(DataBaseAdapter dataBaseAdapter, AccessControl entity) {
-        if (entity.getType() != TYPE_GROUP) {
+        if (!TYPE_GROUP.equals(entity.getType())) {
             return;
         }
         dataBaseAdapter.deleteGroupMembershipsOfGroup(entity.getUser().getLocalId());

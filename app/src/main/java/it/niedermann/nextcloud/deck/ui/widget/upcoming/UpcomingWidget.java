@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.widget.upcoming;
 
+import static android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE;
+
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -30,8 +32,6 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 
-import static android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE;
-
 public class UpcomingWidget extends AppWidgetProvider {
     private static final String PENDING_INTENT_ACTION_EDIT = "edit";
     private static final String PENDING_INTENT_ACTION_OPEN = "open";
@@ -58,7 +58,7 @@ public class UpcomingWidget extends AppWidgetProvider {
                         fwa.setUsers(new FilterWidgetUser(syncManager.getUserByUidDirectly(account.getId(), account.getUserName()).getLocalId()));
                         return fwa;
                     }).collect(Collectors.toList()));
-                    syncManager.createFilterWidget(config, new IResponseCallback<Integer>() {
+                    syncManager.createFilterWidget(config, new IResponseCallback<>() {
                         @Override
                         public void onResponse(Integer response) {
                             DeckLog.verbose("Successfully created", UpcomingWidget.class.getSimpleName(), "with id", appWidgetId);

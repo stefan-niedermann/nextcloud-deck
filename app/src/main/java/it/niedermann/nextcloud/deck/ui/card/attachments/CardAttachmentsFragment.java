@@ -461,7 +461,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         a.setStatusEnum(DBStatus.LOCAL_EDITED);
         editViewModel.getFullCard().getAttachments().add(0, a);
         adapter.addAttachment(a);
-        editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload, new IResponseCallback<Attachment>() {
+        editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload, new IResponseCallback<>() {
             @Override
             public void onResponse(Attachment response) {
                 requireActivity().runOnUiThread(() -> {
@@ -525,7 +525,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         adapter.removeAttachment(attachment);
         editViewModel.getFullCard().getAttachments().remove(attachment);
         if (attachment.getLocalId() != null) {
-            editViewModel.deleteAttachmentOfCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), attachment.getLocalId(), new IResponseCallback<Void>() {
+            editViewModel.deleteAttachmentOfCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), attachment.getLocalId(), new IResponseCallback<>() {
                 @Override
                 public void onResponse(Void response) {
                     DeckLog.info("Successfully delete", Attachment.class.getSimpleName(), attachment.getFilename(), "from", Card.class.getSimpleName(), editViewModel.getFullCard().getCard().getTitle());

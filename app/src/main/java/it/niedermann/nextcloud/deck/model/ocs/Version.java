@@ -19,9 +19,9 @@ public class Version implements Comparable<Version> {
     private static final Version VERSION_1_3_0 = new Version("1.3.0", 1, 3, 0);
 
     private String originalVersion = "?";
-    private int major = 0;
-    private int minor = 0;
-    private int patch = 0;
+    private int major;
+    private int minor;
+    private int patch;
 
     public Version(String originalVersion, int major, int minor, int patch) {
         this(major, minor, patch);

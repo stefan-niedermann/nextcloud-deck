@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util;
 
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
@@ -8,8 +10,6 @@ import androidx.lifecycle.Observer;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
 public class LiveDataHelper {
 
@@ -39,7 +39,7 @@ public class LiveDataHelper {
     }
 
     public static <I> MediatorLiveData<I> of(I oneShot) {
-        return new MediatorLiveData<I>() {
+        return new MediatorLiveData<>() {
             @Override
             public void observe(@NonNull LifecycleOwner owner, @NonNull Observer observer) {
                 super.observe(owner, observer);
@@ -55,7 +55,7 @@ public class LiveDataHelper {
     }
 
     public static <T> void observeOnce(LiveData<T> liveData, LifecycleOwner owner, Observer<T> observer) {
-        final Observer<T> tempObserver = new Observer<T>() {
+        final Observer<T> tempObserver = new Observer<>() {
             @Override
             public void onChanged(T result) {
                 liveData.removeObserver(this);

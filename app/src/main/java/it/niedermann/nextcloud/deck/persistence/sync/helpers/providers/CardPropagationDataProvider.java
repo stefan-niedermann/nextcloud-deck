@@ -22,7 +22,7 @@ public class CardPropagationDataProvider extends CardDataProvider {
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<FullCard> responder, FullCard entity) {
         // make sure, all ancestors are synced properly
         if (board.getId() == null) {
-            serverAdapter.createBoard(board, new ResponseCallback<FullBoard>(responder.getAccount()) {
+            serverAdapter.createBoard(board, new ResponseCallback<>(responder.getAccount()) {
                 @Override
                 public void onResponse(FullBoard response) {
                     board.setId(response.getId());
@@ -37,7 +37,7 @@ public class CardPropagationDataProvider extends CardDataProvider {
                 }
             });
         } else  if (stack.getId() == null) {
-            serverAdapter.createStack(board, stack.getStack(), new ResponseCallback<FullStack>(responder.getAccount()) {
+            serverAdapter.createStack(board, stack.getStack(), new ResponseCallback<>(responder.getAccount()) {
                 @Override
                 public void onResponse(FullStack response) {
                     stack.setId(response.getId());

@@ -52,7 +52,7 @@ public class UserSearchLiveData extends MediatorLiveData<List<User>> implements 
         if (server.hasInternetConnection()) {
             try {
                 Account account = db.getAccountByIdDirectly(accountId);
-                server.searchUser(term, new ResponseCallback<OcsUserList>(account) {
+                server.searchUser(term, new ResponseCallback<>(account) {
                     @Override
                     public void onResponse(OcsUserList response) {
                         if (response == null || response.getUsers().isEmpty()){

@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import static com.nextcloud.android.sso.AccountImporter.REQUEST_AUTH_TOKEN_SSO;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -34,8 +36,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-
-import static com.nextcloud.android.sso.AccountImporter.REQUEST_AUTH_TOKEN_SSO;
 
 public class ImportAccountActivity extends AppCompatActivity {
 
@@ -115,7 +115,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                         SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
                         SyncManager syncManager = new SyncManager(ImportAccountActivity.this);
                         final Account accountToCreate = new Account(account.name, account.userId, account.url);
-                        syncManager.createAccount(accountToCreate, new IResponseCallback<Account>() {
+                        syncManager.createAccount(accountToCreate, new IResponseCallback<>() {
                             @Override
                             public void onResponse(Account createdAccount) {
                                 // Remember last account - THIS HAS TO BE DONE SYNCHRONOUSLY
@@ -124,12 +124,12 @@ public class ImportAccountActivity extends AppCompatActivity {
                                 editor.putLong(sharedPreferenceLastAccount, createdAccount.getId());
                                 editor.commit();
 
-                                syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(createdAccount) {
+                                syncManager.refreshCapabilities(new ResponseCallback<>(createdAccount) {
                                     @Override
                                     public void onResponse(Capabilities response) {
                                         if (!response.isMaintenanceEnabled()) {
                                             if (response.getDeckVersion().isSupported()) {
-                                                syncManager.synchronize(new ResponseCallback<Boolean>(account) {
+                                                syncManager.synchronize(new ResponseCallback<>(account) {
                                                     @Override
                                                     public void onResponse(Boolean response) {
                                                         restoreWifiPref();

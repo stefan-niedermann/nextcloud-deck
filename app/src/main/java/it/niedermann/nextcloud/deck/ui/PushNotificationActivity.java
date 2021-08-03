@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -21,8 +23,6 @@ import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.ProjectUtil;
-
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 /**
  * Warning: Do not move this class to another package or folder!
@@ -88,7 +88,7 @@ public class PushNotificationActivity extends AppCompatActivity {
                                     observeOnce(viewModel.getCardByRemoteID(account.getId(), cardRemoteId), PushNotificationActivity.this, (card -> {
                                         DeckLog.verbose("Card:", card);
                                         if (card != null) {
-                                            viewModel.synchronizeCard(new ResponseCallback<Boolean>(account) {
+                                            viewModel.synchronizeCard(new ResponseCallback<>(account) {
                                                 @Override
                                                 public void onResponse(Boolean response) {
                                                     openCardOnSubmit(account, board.getLocalId(), card.getLocalId());
@@ -103,7 +103,7 @@ public class PushNotificationActivity extends AppCompatActivity {
                                         } else {
                                             DeckLog.info("Card is not yet available locally. Synchronize board with localId", board);
 
-                                            viewModel.synchronizeBoard(new ResponseCallback<Boolean>(account) {
+                                            viewModel.synchronizeBoard(new ResponseCallback<>(account) {
                                                 @Override
                                                 public void onResponse(Boolean response) {
                                                     runOnUiThread(() -> observeOnce(viewModel.getCardByRemoteID(account.getId(), cardRemoteId), PushNotificationActivity.this, (card -> {

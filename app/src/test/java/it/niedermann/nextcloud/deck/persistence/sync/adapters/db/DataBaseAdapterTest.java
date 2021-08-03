@@ -1,5 +1,10 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
+import static org.junit.Assert.assertEquals;
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createAccount;
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createBoard;
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createUser;
+
 import android.content.Context;
 
 import androidx.room.Room;
@@ -19,6 +24,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
@@ -28,11 +34,6 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
-
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createAccount;
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createBoard;
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createUser;
-import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
 public class DataBaseAdapterTest {
@@ -75,9 +76,7 @@ public class DataBaseAdapterTest {
         final User user = createUser(db.getUserDao(), createAccount(db.getAccountDao()));
         final StringBuilder builder = new StringBuilder();
         final List<Object> args = new ArrayList<>(1);
-        final List<? extends AbstractRemoteEntity> entities = new ArrayList<AbstractRemoteEntity>(1) {{
-            add(user);
-        }};
+        final List<? extends AbstractRemoteEntity> entities = Collections.singletonList(user);
 
         final Method fillSqlWithListValues = DataBaseAdapter.class.getDeclaredMethod("fillSqlWithListValues", StringBuilder.class, Collection.class, List.class);
         fillSqlWithListValues.setAccessible(true);
@@ -105,14 +104,10 @@ public class DataBaseAdapterTest {
 
     @Test
     public void testFillSqlWithMultipleListValues() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        final User user = createUser(db.getUserDao(), createAccount(db.getAccountDao()));
-        final StringBuilder builder = new StringBuilder();
-        final List<Object> args = new ArrayList<>(2);
-        final Long leet = 1337L;
-        final List<?> entities = new ArrayList<Long>(2) {{
-            add(leet);
-            add(leet + 1);
-        }};
+        final var builder = new StringBuilder();
+        final var args = new ArrayList<>(2);
+        final long leet = 1337L;
+        final var entities = List.of(leet, leet + 1);
 
         final Method fillSqlWithListValues = DataBaseAdapter.class.getDeclaredMethod("fillSqlWithListValues", StringBuilder.class, Collection.class, List.class);
         fillSqlWithListValues.setAccessible(true);

@@ -1,5 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.card.comments;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
+
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -29,11 +34,6 @@ import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 
 public class CardCommentsFragment extends Fragment implements CommentEditedListener, CommentDeletedListener, CommentSelectAsReplyListener {
 
@@ -141,7 +141,7 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
 
     @Override
     public void onCommentDeleted(Long localId) {
-        commentsViewModel.deleteComment(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), localId, new IResponseCallback<Void>() {
+        commentsViewModel.deleteComment(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), localId, new IResponseCallback<>() {
             @Override
             public void onResponse(Void response) {
                 DeckLog.info("Successfully deleted comment with localId", localId);

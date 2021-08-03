@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -25,14 +26,14 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
 
     @Override
     public void getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<OcsComment>> responder, Instant lastSync) {
-        serverAdapter.getCommentsForRemoteCardId(card.getId(), new ResponseCallback<OcsComment>(responder.getAccount()) {
+        serverAdapter.getCommentsForRemoteCardId(card.getId(), new ResponseCallback<>(responder.getAccount()) {
             @Override
             public void onResponse(OcsComment response) {
                 if (response == null) {
                     response = new OcsComment();
                 }
                 List<OcsComment> comments = response.split();
-                Collections.sort(comments, (o1, o2) -> o1.getSingle().getCreationDateTime().compareTo(o2.getSingle().getCreationDateTime()));
+                Collections.sort(comments, Comparator.comparing(o -> o.getSingle().getCreationDateTime()));
                 verifyCommentListIntegrity(comments);
                 responder.onResponse(comments);
             }

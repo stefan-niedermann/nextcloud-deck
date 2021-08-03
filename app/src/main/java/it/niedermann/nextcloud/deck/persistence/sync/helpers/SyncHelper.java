@@ -44,7 +44,7 @@ public class SyncHelper {
     // Sync Server -> App
     public <T extends IRemoteEntity> void doSyncFor(@NonNull final AbstractSyncDataProvider<T> provider) {
         provider.registerChildInParent(provider);
-        provider.getAllFromServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<List<T>>(account) {
+        provider.getAllFromServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<>(account) {
             @Override
             public void onResponse(List<T> response) {
                 if (response != null) {
@@ -134,7 +134,7 @@ public class SyncHelper {
     }
 
     private <T extends IRemoteEntity> ResponseCallback<Void> getDeleteCallback(@NonNull AbstractSyncDataProvider<T> provider, T entity) {
-        return new ResponseCallback<Void>(account) {
+        return new ResponseCallback<>(account) {
             @Override
             public void onResponse(Void response) {
                 provider.deletePhysicallyInDB(dataBaseAdapter, accountId, entity);
@@ -150,7 +150,7 @@ public class SyncHelper {
     }
 
     private <T extends IRemoteEntity> ResponseCallback<T> getUpdateCallback(@NonNull AbstractSyncDataProvider<T> provider, @NonNull T entity, @Nullable CountDownLatch countDownLatch) {
-        return new ResponseCallback<T>(account) {
+        return new ResponseCallback<>(account) {
             @Override
             public void onResponse(T response) {
                 response.setAccountId(this.account.getId());

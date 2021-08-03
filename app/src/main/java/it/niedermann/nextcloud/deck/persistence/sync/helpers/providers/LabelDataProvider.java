@@ -57,7 +57,7 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
     }
 
     private ResponseCallback<Label> getLabelUniqueHandler(DataBaseAdapter dataBaseAdapter, Label entitiy, ResponseCallback<Label> responder) {
-        return new ResponseCallback<Label>(responder.getAccount()) {
+        return new ResponseCallback<>(responder.getAccount()) {
             @Override
             public void onResponse(Label response) {
                 responder.onResponse(response);

@@ -49,7 +49,7 @@ public class RequestHelper {
         @NonNull
         private final ResponseCallback<T> callback;
         @NonNull
-        private final Consumer<Throwable> exceptionConsumer = new Consumer<Throwable>() {
+        private final Consumer<Throwable> exceptionConsumer = new Consumer<>() {
             @Override
             public void accept(final Throwable throwable) {
                 callback.onError(throwable);

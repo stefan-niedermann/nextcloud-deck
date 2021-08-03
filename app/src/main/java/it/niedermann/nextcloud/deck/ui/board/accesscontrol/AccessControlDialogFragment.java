@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.ui.board.accesscontrol;
 
+import static it.niedermann.nextcloud.deck.ui.board.accesscontrol.AccessControlAdapter.HEADER_ITEM_LOCAL_ID;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -29,9 +32,6 @@ import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
-
-import static it.niedermann.nextcloud.deck.ui.board.accesscontrol.AccessControlAdapter.HEADER_ITEM_LOCAL_ID;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
 
 public class AccessControlDialogFragment extends DialogFragment implements AccessControlChangedListener, OnItemClickListener {
 
@@ -100,7 +100,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
 
     @Override
     public void updateAccessControl(AccessControl accessControl) {
-        viewModel.updateAccessControl(accessControl, new IResponseCallback<AccessControl>() {
+        viewModel.updateAccessControl(accessControl, new IResponseCallback<>() {
             @Override
             public void onResponse(AccessControl response) {
                 DeckLog.info("Successfully updated", AccessControl.class.getSimpleName(), "for user", accessControl.getUser().getDisplayname());
@@ -116,7 +116,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
 
     @Override
     public void deleteAccessControl(AccessControl ac) {
-        viewModel.deleteAccessControl(ac, new IResponseCallback<Void>() {
+        viewModel.deleteAccessControl(ac, new IResponseCallback<>() {
             @Override
             public void onResponse(Void response) {
                 DeckLog.info("Successfully deleted access control for user", ac.getUser().getDisplayname());
@@ -144,7 +144,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
         ac.setType(0L); // https://github.com/nextcloud/deck/blob/master/docs/API.md#post-boardsboardidacl---add-new-acl-rule
         ac.setUserId(user.getLocalId());
         ac.setUser(user);
-        viewModel.createAccessControl(viewModel.getCurrentAccount().getId(), ac, new IResponseCallback<AccessControl>() {
+        viewModel.createAccessControl(viewModel.getCurrentAccount().getId(), ac, new IResponseCallback<>() {
             @Override
             public void onResponse(AccessControl response) {
                 DeckLog.info("Successfully created", AccessControl.class.getSimpleName(), "for user", user.getDisplayname());

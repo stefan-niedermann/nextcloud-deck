@@ -49,7 +49,7 @@ public abstract class ResponseCallback<T> implements IResponseCallback<T> {
 
     private boolean isListOfRemoteEntity(T response) {
         if (response instanceof List) {
-            List<?> collection = (List) response;
+            final var collection = (List<?>) response;
             return collection.size() > 0 && collection.get(0) instanceof AbstractRemoteEntity;
         }
         return false;
@@ -64,7 +64,7 @@ public abstract class ResponseCallback<T> implements IResponseCallback<T> {
      * Forwards responses and errors to the given {@param callback}
      */
     public static <T> ResponseCallback<T> from(@NonNull Account account, IResponseCallback<T> callback) {
-        return new ResponseCallback<T>(account) {
+        return new ResponseCallback<>(account) {
             @Override
             public void onResponse(T response) {
                 callback.onResponse(response);

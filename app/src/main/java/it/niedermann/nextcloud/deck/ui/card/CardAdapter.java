@@ -223,7 +223,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
                     .show(fragmentManager, MoveCardDialogFragment.class.getSimpleName());
             return true;
         } else if (itemId == R.id.action_card_archive) {
-            mainViewModel.archiveCard(fullCard, new IResponseCallback<FullCard>() {
+            mainViewModel.archiveCard(fullCard, new IResponseCallback<>() {
                 @Override
                 public void onResponse(FullCard response) {
                     DeckLog.info("Successfully archived", Card.class.getSimpleName(), fullCard.getCard().getTitle());
@@ -237,7 +237,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
             });
             return true;
         } else if (itemId == R.id.action_card_delete) {
-            mainViewModel.deleteCard(fullCard.getCard(), new IResponseCallback<Void>() {
+            mainViewModel.deleteCard(fullCard.getCard(), new IResponseCallback<>() {
                 @Override
                 public void onResponse(Void response) {
                     DeckLog.info("Successfully deleted card", fullCard.getCard().getTitle());

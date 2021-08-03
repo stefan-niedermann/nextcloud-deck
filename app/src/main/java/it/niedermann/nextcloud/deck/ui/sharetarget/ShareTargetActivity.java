@@ -123,7 +123,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                     if (mimeType == null) {
                         throw new IllegalArgumentException("MimeType of uri is null. [" + uri + "]");
                     }
-                    mainViewModel.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, tempFile, new IResponseCallback<Attachment>() {
+                    mainViewModel.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, tempFile, new IResponseCallback<>() {
                         @Override
                         public void onResponse(Attachment response) {
                             runOnUiThread(shareProgressViewModel::increaseProgress);
@@ -162,7 +162,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                                             ? receivedText
                                             : oldDescription + "\n\n" + receivedText
                             );
-                            mainViewModel.updateCard(fullCard, new IResponseCallback<FullCard>() {
+                            mainViewModel.updateCard(fullCard, new IResponseCallback<>() {
                                 @Override
                                 public void onResponse(FullCard response) {
                                     Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();

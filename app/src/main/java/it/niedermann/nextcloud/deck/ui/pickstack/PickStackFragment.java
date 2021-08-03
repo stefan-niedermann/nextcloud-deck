@@ -165,19 +165,16 @@ public class PickStackFragment extends Fragment {
             }
         });
 
-        binding.accountSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
-            updateLiveDataSource(boardsLiveData, boardsObserver, showBoardsWithoutEditPermission
-                    ? viewModel.getBoards(parent.getSelectedItemId())
-                    : viewModel.getBoardsWithEditPermission(parent.getSelectedItemId()));
-        });
+        binding.accountSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) ->
+                updateLiveDataSource(boardsLiveData, boardsObserver, showBoardsWithoutEditPermission
+                        ? viewModel.getBoards(parent.getSelectedItemId())
+                        : viewModel.getBoardsWithEditPermission(parent.getSelectedItemId())));
 
-        binding.boardSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
-            updateLiveDataSource(stacksLiveData, stacksObserver, viewModel.getStacksForBoard(binding.accountSelect.getSelectedItemId(), parent.getSelectedItemId()));
-        });
+        binding.boardSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) ->
+                updateLiveDataSource(stacksLiveData, stacksObserver, viewModel.getStacksForBoard(binding.accountSelect.getSelectedItemId(), parent.getSelectedItemId())));
 
-        binding.stackSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
-            pickStackListener.onStackPicked((Account) binding.accountSelect.getSelectedItem(), (Board) binding.boardSelect.getSelectedItem(), (Stack) parent.getSelectedItem());
-        });
+        binding.stackSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) ->
+                pickStackListener.onStackPicked((Account) binding.accountSelect.getSelectedItem(), (Board) binding.boardSelect.getSelectedItem(), (Stack) parent.getSelectedItem()));
 
         return binding.getRoot();
     }

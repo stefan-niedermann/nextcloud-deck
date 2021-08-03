@@ -33,7 +33,7 @@ public class ArchivedCardsAdapter extends CardAdapter {
     public boolean onCardOptionsItemSelected(@NonNull MenuItem menuItem, @NonNull FullCard fullCard) {
         int itemId = menuItem.getItemId();
         if (itemId == R.id.action_card_dearchive) {
-            mainViewModel.dearchiveCard(fullCard, new IResponseCallback<FullCard>() {
+            mainViewModel.dearchiveCard(fullCard, new IResponseCallback<>() {
                 @Override
                 public void onResponse(FullCard response) {
                     DeckLog.info("Successfully dearchived", Card.class.getSimpleName(), fullCard.getCard().getTitle());
@@ -47,7 +47,7 @@ public class ArchivedCardsAdapter extends CardAdapter {
             });
             return true;
         } else if (itemId == R.id.action_card_delete) {
-            mainViewModel.deleteCard(fullCard.getCard(), new IResponseCallback<Void>() {
+            mainViewModel.deleteCard(fullCard.getCard(), new IResponseCallback<>() {
                 @Override
                 public void onResponse(Void response) {
                     DeckLog.info("Successfully deleted card", fullCard.getCard().getTitle());

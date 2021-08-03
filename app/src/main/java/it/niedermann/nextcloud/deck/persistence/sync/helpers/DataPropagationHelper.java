@@ -45,7 +45,7 @@ public class DataPropagationHelper {
         entity.setLocalId(newID);
         if (serverAdapter.hasInternetConnection()) {
             try {
-                provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<T>(callback.getAccount()) {
+                provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<>(callback.getAccount()) {
                     @Override
                     public void onResponse(T response) {
                         executor.submit(() -> {
@@ -85,7 +85,7 @@ public class DataPropagationHelper {
         }
         if (entity.getId() != null && serverAdapter.hasInternetConnection()) {
             try {
-                provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<T>(new Account(accountId)) {
+                provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<>(new Account(accountId)) {
                     @Override
                     public void onResponse(T response) {
                         executor.submit(() -> {
@@ -114,7 +114,7 @@ public class DataPropagationHelper {
         provider.deleteInDB(dataBaseAdapter, accountId, entity);
         if (entity.getId() != null && serverAdapter.hasInternetConnection()) {
             try {
-                provider.deleteOnServer(serverAdapter, accountId, new ResponseCallback<Void>(new Account(accountId)) {
+                provider.deleteOnServer(serverAdapter, accountId, new ResponseCallback<>(new Account(accountId)) {
                     @Override
                     public void onResponse(Void response) {
                         executor.submit(() -> {

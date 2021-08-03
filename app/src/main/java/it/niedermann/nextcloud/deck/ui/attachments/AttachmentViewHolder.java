@@ -42,7 +42,7 @@ public class AttachmentViewHolder extends RecyclerView.ViewHolder {
                 final String uri = AttachmentUtil.getThumbnailUrl(account, cardRemoteId, attachment, binding.preview.getWidth(), binding.preview.getHeight());
                 Glide.with(parentContext)
                         .load(uri)
-                        .listener(new RequestListener<Drawable>() {
+                        .listener(new RequestListener<>() {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model,
                                                         Target<Drawable> target, boolean isFirstResource) {

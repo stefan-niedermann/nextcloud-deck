@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.ui.board.managelabels;
 
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
@@ -25,9 +28,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.branding.DeleteAlertDialogBuilder;
-
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 
 public class ManageLabelsDialogFragment extends BrandedDialogFragment implements ManageLabelListener, EditLabelListener {
 
@@ -81,7 +81,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
             label.setTitle(binding.addLabelTitle.getText().toString());
             label.setColor(colors[new Random().nextInt(colors.length)]);
 
-            viewModel.createLabel(viewModel.getCurrentAccount().getId(), label, boardId, new IResponseCallback<Label>() {
+            viewModel.createLabel(viewModel.getCurrentAccount().getId(), label, boardId, new IResponseCallback<>() {
                 @Override
                 public void onResponse(Label response) {
                     requireActivity().runOnUiThread(() -> {
@@ -144,7 +144,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
     }
 
     private void deleteLabel(@NonNull Label label) {
-        viewModel.deleteLabel(label, new IResponseCallback<Void>() {
+        viewModel.deleteLabel(label, new IResponseCallback<>() {
             @Override
             public void onResponse(Void response) {
                 DeckLog.info("Successfully deleted label", label.getTitle());
@@ -167,7 +167,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
 
     @Override
     public void onLabelUpdated(@NonNull Label label) {
-        viewModel.updateLabel(label, new IResponseCallback<Label>() {
+        viewModel.updateLabel(label, new IResponseCallback<>() {
             @Override
             public void onResponse(Label label) {
                 DeckLog.info("Successfully update label", label.getTitle());

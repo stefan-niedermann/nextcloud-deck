@@ -401,7 +401,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 }
             });
             filterViewModel.hasActiveFilter().observe(this, (hasActiveFilter) -> binding.filterIndicator.setVisibility(hasActiveFilter ? View.VISIBLE : View.GONE));
-//            binding.archivedCards.setOnClickListener((v) -> startActivity(ArchivedCardsActvitiy.createIntent(this, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), mainViewModel.currentBoardHasEditPermission())));
+//            binding.archivedCards.setOnClickListener((v) -> startActivity(ArchivedCardsActivity.createIntent(this, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), mainViewModel.currentBoardHasEditPermission())));
             binding.enableSearch.setOnClickListener((v) -> showFilterTextToolbar());
             binding.toolbar.setOnClickListener((v) -> showFilterTextToolbar());
 
@@ -414,7 +414,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 DeckLog.verbose("Trigger refresh capabilities for", mainViewModel.getCurrentAccount().getName());
                 refreshCapabilities(mainViewModel.getCurrentAccount(), () -> {
                     DeckLog.verbose("Trigger synchronization for", mainViewModel.getCurrentAccount().getName());
-                    mainViewModel.synchronize(new ResponseCallback<Boolean>(mainViewModel.getCurrentAccount()) {
+                    mainViewModel.synchronize(new ResponseCallback<>(mainViewModel.getCurrentAccount()) {
                         @Override
                         public void onResponse(Boolean response) {
                             DeckLog.info("End of synchronization for " + mainViewModel.getCurrentAccount().getName() + " → Stop spinner.");
@@ -462,7 +462,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     @Override
     public void onCreateStack(String stackName) {
         DeckLog.info("Create Stack in account", mainViewModel.getCurrentAccount().getName(), "on board", mainViewModel.getCurrentBoardLocalId());
-        mainViewModel.createStack(mainViewModel.getCurrentAccount().getId(), stackName, mainViewModel.getCurrentBoardLocalId(), new IResponseCallback<FullStack>() {
+        mainViewModel.createStack(mainViewModel.getCurrentAccount().getId(), stackName, mainViewModel.getCurrentBoardLocalId(), new IResponseCallback<>() {
             @Override
             public void onResponse(FullStack response) {
                 DeckApplication.saveCurrentStackId(MainActivity.this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId(), response.getLocalId());
@@ -504,14 +504,14 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     @Override
     public void onCreateBoard(String title, @ColorInt int color) {
         if (boardsLiveData == null || boardsLiveDataObserver == null) {
-            throw new IllegalStateException("Cannot create board when noone observe boards yet. boardsLiveData or observer is null.");
+            throw new IllegalStateException("Cannot create board when no one observe boards yet. boardsLiveData or observer is null.");
         }
         boardsLiveData.removeObserver(boardsLiveDataObserver);
         final var boardToCreate = new Board(title, color);
         boardToCreate.setPermissionEdit(true);
         boardToCreate.setPermissionManage(true);
 
-        mainViewModel.createBoard(mainViewModel.getCurrentAccount().getId(), boardToCreate, new IResponseCallback<FullBoard>() {
+        mainViewModel.createBoard(mainViewModel.getCurrentAccount().getId(), boardToCreate, new IResponseCallback<>() {
             @Override
             public void onResponse(FullBoard response) {
                 runOnUiThread(() -> {
@@ -537,7 +537,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
     @Override
     public void onUpdateBoard(FullBoard fullBoard) {
-        mainViewModel.updateBoard(fullBoard, new IResponseCallback<FullBoard>() {
+        mainViewModel.updateBoard(fullBoard, new IResponseCallback<>() {
             @Override
             public void onResponse(FullBoard response) {
                 DeckLog.info("Successfully updated board", fullBoard.getBoard().getTitle());
@@ -553,7 +553,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
     private void refreshCapabilities(final Account account, @Nullable Runnable runAfter) {
         DeckLog.verbose("Refreshing capabilities for", account.getName());
-        mainViewModel.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
+        mainViewModel.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 DeckLog.verbose("Finished refreshing capabilities for", account.getName(), "successfully.");
@@ -743,7 +743,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                     : R.string.do_you_want_to_archive_all_cards_of_the_list, stack.getTitle()))
                             .setPositiveButton(R.string.simple_archive, (dialog, whichButton) -> {
                                 final FilterInformation filterInformation = filterViewModel.getFilterInformation().getValue();
-                                mainViewModel.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, filterInformation == null ? new FilterInformation() : filterInformation, new IResponseCallback<Void>() {
+                                mainViewModel.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, filterInformation == null ? new FilterInformation() : filterInformation, new IResponseCallback<>() {
                                     @Override
                                     public void onResponse(Void response) {
                                         DeckLog.info("Successfully archived all cards in stack local id", stackLocalId);
@@ -839,7 +839,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                             @Override
                             public void onResponse(Account createdAccount) {
                                 final var importSyncManager = new SyncManager(MainActivity.this, account.name);
-                                importSyncManager.refreshCapabilities(new ResponseCallback<Capabilities>(createdAccount) {
+                                importSyncManager.refreshCapabilities(new ResponseCallback<>(createdAccount) {
                                     @SuppressLint("StringFormatInvalid")
                                     @Override
                                     public void onResponse(Capabilities response) {
@@ -1018,7 +1018,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             DeckLog.logError(e);
         }
         binding.viewPager.setCurrentItem(nextStackPosition);
-        mainViewModel.deleteStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, mainViewModel.getCurrentBoardLocalId(), new IResponseCallback<Void>() {
+        mainViewModel.deleteStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, mainViewModel.getCurrentBoardLocalId(), new IResponseCallback<>() {
             @Override
             public void onResponse(Void response) {
                 DeckLog.info("Successfully deleted stack with local id", stackLocalId, "and remote id", stackLocalId);
@@ -1049,7 +1049,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             }
         }
 
-        mainViewModel.deleteBoard(board, new IResponseCallback<Void>() {
+        mainViewModel.deleteBoard(board, new IResponseCallback<>() {
             @Override
             public void onResponse(Void response) {
                 DeckLog.info("Successfully deleted board", board.getTitle());

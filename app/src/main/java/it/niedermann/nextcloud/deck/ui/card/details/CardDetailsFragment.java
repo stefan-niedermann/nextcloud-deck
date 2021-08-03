@@ -228,7 +228,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
                     newLabel.setBoardId(boardId);
                     newLabel.setTitle(((LabelAutoCompleteAdapter) binding.labels.getAdapter()).getLastFilterText());
                     newLabel.setLocalId(null);
-                    viewModel.createLabel(accountId, newLabel, boardId, new IResponseCallback<Label>() {
+                    viewModel.createLabel(accountId, newLabel, boardId, new IResponseCallback<>() {
                         @Override
                         public void onResponse(Label response) {
                             requireActivity().runOnUiThread(() -> {

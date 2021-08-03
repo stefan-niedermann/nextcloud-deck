@@ -1,5 +1,25 @@
 package it.niedermann.nextcloud.deck.persistence.sync;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import android.accounts.NetworkErrorException;
 import android.content.Context;
 
@@ -13,7 +33,6 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.nextcloud.android.sso.api.ParsedResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -50,26 +69,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AbstractSyncDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 public class SyncManagerTest {
@@ -289,7 +288,7 @@ public class SyncManagerTest {
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
-        syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
+        syncManager.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 assertEquals("Capabilities from server must be returned to the original callback",
@@ -314,7 +313,7 @@ public class SyncManagerTest {
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
-        syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
+        syncManager.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 assertEquals("Capabilities from server must be returned to the original callback",
@@ -340,7 +339,7 @@ public class SyncManagerTest {
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
-        syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
+        syncManager.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 fail("In case of an HTTP 500 the callback must not be responded successfully.");
@@ -363,7 +362,7 @@ public class SyncManagerTest {
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
-        syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
+        syncManager.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 assertEquals(Version.of("20.0.1"), response.getNextcloudVersion());
@@ -385,7 +384,7 @@ public class SyncManagerTest {
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
-        syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
+        syncManager.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 fail("In case of any other exception the callback must not be responded successfully.");
@@ -402,7 +401,7 @@ public class SyncManagerTest {
 
         doThrow(new OfflineException()).when(serverAdapter).getCapabilities(anyString(), any());
 
-        syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
+        syncManager.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 fail("In case of an " + OfflineException.class.getSimpleName() + " the callback must not be responded successfully.");
@@ -450,14 +449,15 @@ public class SyncManagerTest {
 
         // Bad paths
 
-        assertThrows(IllegalArgumentException.class, () -> syncManagerSpy.synchronize(new ResponseCallback<Boolean>(new Account(null)) {
+        assertThrows(IllegalArgumentException.class, () -> syncManagerSpy.synchronize(new ResponseCallback<>(new Account(null)) {
             @Override
             public void onResponse(Boolean response) {
 
             }
         }));
 
-        assertThrows(IllegalArgumentException.class, () -> syncManagerSpy.synchronize(new ResponseCallback<Boolean>(null) {
+        //noinspection ConstantConditions
+        assertThrows(IllegalArgumentException.class, () -> syncManagerSpy.synchronize(new ResponseCallback<>(null) {
             @Override
             public void onResponse(Boolean response) {
 
@@ -493,7 +493,7 @@ public class SyncManagerTest {
         }
 
         @Override
-        public <T extends IRemoteEntity> void doSyncFor(@NonNull @NotNull AbstractSyncDataProvider<T> provider) {
+        public <U extends IRemoteEntity> void doSyncFor(@NonNull AbstractSyncDataProvider<U> provider) {
             if (success) {
                 cb.onResponse(true);
             } else {
@@ -502,7 +502,7 @@ public class SyncManagerTest {
         }
 
         @Override
-        public <T extends IRemoteEntity> void doUpSyncFor(@NonNull @NotNull AbstractSyncDataProvider<T> provider) {
+        public <U extends IRemoteEntity> void doUpSyncFor(@NonNull AbstractSyncDataProvider<U> provider) {
             if (success) {
                 cb.onResponse(true);
             } else {

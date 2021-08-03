@@ -1,5 +1,14 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createAccount;
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createBoard;
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createCard;
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createStack;
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createUser;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -7,6 +16,7 @@ import org.robolectric.RobolectricTestRunner;
 import java.time.Instant;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.TestUtil;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -14,15 +24,6 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil;
-
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createAccount;
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createBoard;
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createCard;
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createStack;
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil.createUser;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class BoardDaoTest extends AbstractDaoTest {
@@ -65,7 +66,7 @@ public class BoardDaoTest extends AbstractDaoTest {
         boardVisibleArchived.setArchived(true);
         db.getBoardDao().update(boardInVisible1, boardInVisible2, boardInVisible3, boardVisibleArchived);
 
-        final List<Board> boards = DeckDatabaseTestUtil.getOrAwaitValue(db.getBoardDao().getBoardsForAccount(account.getId()));
+        final List<Board> boards = TestUtil.getOrAwaitValue(db.getBoardDao().getBoardsForAccount(account.getId()));
         assertEquals(4, boards.size());
         assertTrue(boards.stream().anyMatch((board -> boardVisible1.getLocalId().equals(board.getLocalId()))));
         assertTrue(boards.stream().anyMatch((board -> boardVisible2.getLocalId().equals(board.getLocalId()))));
@@ -96,7 +97,7 @@ public class BoardDaoTest extends AbstractDaoTest {
         board4.setArchived(true);
         db.getBoardDao().update(board5, board6, board7, board4);
 
-        final List<Board> boards = DeckDatabaseTestUtil.getOrAwaitValue(db.getBoardDao().getArchivedBoardsForAccount(account.getId()));
+        final List<Board> boards = TestUtil.getOrAwaitValue(db.getBoardDao().getArchivedBoardsForAccount(account.getId()));
         assertEquals(1, boards.size());
         assertFalse(boards.stream().anyMatch((board -> board1.getLocalId().equals(board.getLocalId()))));
         assertFalse(boards.stream().anyMatch((board -> board2.getLocalId().equals(board.getLocalId()))));
@@ -127,7 +128,7 @@ public class BoardDaoTest extends AbstractDaoTest {
         board4.setArchived(true);
         db.getBoardDao().update(board5, board6, board7, board4);
 
-        final List<Board> boards = DeckDatabaseTestUtil.getOrAwaitValue(db.getBoardDao().getNonArchivedBoardsForAccount(account.getId()));
+        final List<Board> boards = TestUtil.getOrAwaitValue(db.getBoardDao().getNonArchivedBoardsForAccount(account.getId()));
         assertEquals(3, boards.size());
         assertTrue(boards.stream().anyMatch((board -> board1.getLocalId().equals(board.getLocalId()))));
         assertTrue(boards.stream().anyMatch((board -> board2.getLocalId().equals(board.getLocalId()))));
@@ -146,7 +147,7 @@ public class BoardDaoTest extends AbstractDaoTest {
         final Stack stack = createStack(db.getStackDao(), account, board);
         final Card card = createCard(db.getCardDao(), account, stack);
 
-        assertEquals(board.getLocalId(), DeckDatabaseTestUtil.getOrAwaitValue(db.getBoardDao().getLocalBoardIdByCardRemoteIdAndAccountId(card.getId(), account.getId())));
+        assertEquals(board.getLocalId(), TestUtil.getOrAwaitValue(db.getBoardDao().getLocalBoardIdByCardRemoteIdAndAccountId(card.getId(), account.getId())));
     }
 
     @Test
@@ -169,6 +170,6 @@ public class BoardDaoTest extends AbstractDaoTest {
         board4.setArchived(true);
         db.getBoardDao().update(board5, board6, board7, board4);
 
-        assertEquals(Integer.valueOf(1), DeckDatabaseTestUtil.getOrAwaitValue(db.getBoardDao().countArchivedBoards(account.getId())));
+        assertEquals(Integer.valueOf(1), TestUtil.getOrAwaitValue(db.getBoardDao().countArchivedBoards(account.getId())));
     }
 }

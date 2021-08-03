@@ -55,7 +55,7 @@ public class PrepareCreateActivity extends PickStackActivity {
             );
         }
 
-        viewModel.saveCard(account.getId(), boardId, stackId, fullCard, new IResponseCallback<FullCard>() {
+        viewModel.saveCard(account.getId(), boardId, stackId, fullCard, new IResponseCallback<>() {
             @Override
             public void onResponse(FullCard response) {
                 saveCurrentAccount(PrepareCreateActivity.this, account);
