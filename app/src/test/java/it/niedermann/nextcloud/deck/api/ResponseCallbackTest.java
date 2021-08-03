@@ -15,7 +15,6 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import java.util.Arrays;
-import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -26,8 +25,8 @@ public class ResponseCallbackTest {
 
     @Test
     public void testFillAccountIDs() {
-        final Account account = new Account(1337L);
-        ResponseCallback<Object> callback = new ResponseCallback<>(account) {
+        final var account = new Account(1337L);
+        final var callback = new ResponseCallback<>(account) {
             @Override
             public void onResponse(Object response) {
                 fail("I didn't ask you!");
@@ -37,12 +36,12 @@ public class ResponseCallbackTest {
         // Must do nothing
         callback.fillAccountIDs(null);
 
-        final Card card = new Card();
+        final var card = new Card();
         assertNotEquals(1337, card.getAccountId());
         callback.fillAccountIDs(card);
         assertEquals(1337, card.getAccountId());
 
-        final List<Board> boards = Arrays.asList(new Board(), new Board(), new Board());
+        final var boards = Arrays.asList(new Board(), new Board(), new Board());
         assertFalse(boards.stream().anyMatch(b -> b.getAccountId() == 1337));
         callback.fillAccountIDs(boards);
         assertTrue(boards.stream().allMatch(b -> b.getAccountId() == 1337));
@@ -51,15 +50,14 @@ public class ResponseCallbackTest {
     @Test
     public void testFrom() {
         // No lambda, since Mockito requires a non final class for a spy
-        //noinspection Convert2Lambda
-        final IResponseCallback<Void> originalCallback = new IResponseCallback<Void>() {
+        final var originalCallback = new IResponseCallback<Void>() {
             @Override
             public void onResponse(Void response) {
                 // Do nothing...
             }
         };
-        final IResponseCallback<Void> originalCallbackSpy = spy(originalCallback);
-        final ResponseCallback<Void> callback = ResponseCallback.from(mock(Account.class), originalCallbackSpy);
+        final var originalCallbackSpy = spy(originalCallback);
+        final var callback = ResponseCallback.from(mock(Account.class), originalCallbackSpy);
 
         callback.onResponse(null);
         verify(originalCallbackSpy, times(1)).onResponse(null);

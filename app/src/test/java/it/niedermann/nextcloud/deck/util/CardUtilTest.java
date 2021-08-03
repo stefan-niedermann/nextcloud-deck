@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.deck.util;
 
-import android.content.Context;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import androidx.test.core.app.ApplicationProvider;
 
@@ -11,8 +13,6 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Collections;
@@ -22,59 +22,55 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 @RunWith(RobolectricTestRunner.class)
 public class CardUtilTest {
 
     @Test
     public void testGetCardContentAsString() {
-        final Context appContext = ApplicationProvider.getApplicationContext();
+        final var context = ApplicationProvider.getApplicationContext();
 
-        final Card card = new Card();
-        final FullCard fullCard = new FullCard();
+        final var card = new Card();
+        final var fullCard = new FullCard();
         card.setTitle("Foo");
         card.setDescription("Bar");
         card.setDueDate(null);
         fullCard.setCard(card);
         fullCard.setLabels(Collections.emptyList());
 
-        assertEquals("Bar", CardUtil.getCardContentAsString(appContext, fullCard));
+        assertEquals("Bar", CardUtil.getCardContentAsString(context, fullCard));
 
-        final Instant testDate = LocalDateTime.of(2011, 10, 6, 6, 30, 50, 100000).toInstant(ZoneOffset.UTC);
+        final var testDate = LocalDateTime.of(2011, 10, 6, 6, 30, 50, 100000).toInstant(ZoneOffset.UTC);
         card.setDueDate(testDate);
 
-        assertTrue(CardUtil.getCardContentAsString(appContext, fullCard).startsWith("Bar\n" +
+        assertTrue(CardUtil.getCardContentAsString(context, fullCard).startsWith("Bar\n" +
                 "Due date:"));
 
         card.setDueDate(null);
-        final Label testLabel1 = new Label();
+        final var testLabel1 = new Label();
         testLabel1.setTitle("Baz");
-        final Label testLabel2 = new Label();
+        final var testLabel2 = new Label();
         testLabel2.setTitle("Pow");
         fullCard.setLabels(Lists.newArrayList(testLabel1));
 
         assertEquals("Bar\n" +
-                "Tags: Baz", CardUtil.getCardContentAsString(appContext, fullCard));
+                "Tags: Baz", CardUtil.getCardContentAsString(context, fullCard));
 
         fullCard.setLabels(Lists.newArrayList(testLabel1, testLabel2));
 
         assertEquals("Bar\n" +
-                "Tags: Baz, Pow", CardUtil.getCardContentAsString(appContext, fullCard));
+                "Tags: Baz, Pow", CardUtil.getCardContentAsString(context, fullCard));
 
         card.setDueDate(testDate);
 
-        assertTrue(CardUtil.getCardContentAsString(appContext, fullCard).startsWith("Bar\n" +
+        assertTrue(CardUtil.getCardContentAsString(context, fullCard).startsWith("Bar\n" +
                 "Due date:"));
-        assertTrue(CardUtil.getCardContentAsString(appContext, fullCard).endsWith("\n" +
+        assertTrue(CardUtil.getCardContentAsString(context, fullCard).endsWith("\n" +
                 "Tags: Baz, Pow"));
     }
 
     @Test
     public void testCardHasCommentsOrAttachments() {
-        final FullCard fullCard = new FullCard();
+        final var fullCard = new FullCard();
 
         assertFalse(CardUtil.cardHasCommentsOrAttachments(fullCard));
 
@@ -106,7 +102,7 @@ public class CardUtilTest {
 
     @Test
     public void getLineWithoutMarkDown() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        final Method getLineWithoutMarkDown = CardUtil.class.getDeclaredMethod("getLineWithoutMarkDown", String.class, int.class);
+        final var getLineWithoutMarkDown = CardUtil.class.getDeclaredMethod("getLineWithoutMarkDown", String.class, int.class);
         getLineWithoutMarkDown.setAccessible(true);
         final String content = "" +
                 "# Heading\n" +
@@ -126,7 +122,7 @@ public class CardUtilTest {
     @Test
     @SuppressWarnings("ConstantConditions")
     public void isEmptyLine() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        final Method isEmptyLine = CardUtil.class.getDeclaredMethod("isEmptyLine", String.class);
+        final var isEmptyLine = CardUtil.class.getDeclaredMethod("isEmptyLine", String.class);
         isEmptyLine.setAccessible(true);
         assertTrue((Boolean) isEmptyLine.invoke(null, ""));
         assertTrue((Boolean) isEmptyLine.invoke(null, "#   "));

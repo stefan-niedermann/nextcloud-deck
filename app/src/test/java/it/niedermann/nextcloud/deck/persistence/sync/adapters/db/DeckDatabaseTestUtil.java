@@ -24,7 +24,7 @@ public class DeckDatabaseTestUtil {
     }
 
     public static Account createAccount(@NonNull AccountDao dao) {
-        final Account accountToCreate = new Account();
+        final var accountToCreate = new Account();
         accountToCreate.setName(randomString(15) + " " + randomString(15));
         accountToCreate.setUserName(randomString(10));
         accountToCreate.setUrl("https://" + randomString(10) + ".example.com");
@@ -33,7 +33,7 @@ public class DeckDatabaseTestUtil {
     }
 
     public static User createUser(@NonNull UserDao dao, @NonNull Account account) {
-        final User userToCreate = new User();
+        final var userToCreate = new User();
         userToCreate.setDisplayname(randomString(15) + " " + randomString(15));
         userToCreate.setUid(randomString(10));
         userToCreate.setAccountId(account.getId());
@@ -42,7 +42,7 @@ public class DeckDatabaseTestUtil {
     }
 
     public static Board createBoard(@NonNull BoardDao dao, @NonNull Account account, @NonNull User owner) {
-        final Board boardToCreate = new Board();
+        final var boardToCreate = new Board();
         boardToCreate.setAccountId(account.getId());
         boardToCreate.setTitle(randomString(10));
         boardToCreate.setOwnerId(owner.getLocalId());
@@ -52,7 +52,7 @@ public class DeckDatabaseTestUtil {
     }
 
     public static Stack createStack(@NonNull StackDao dao, @NonNull Account account, @NonNull Board board) {
-        final Stack stackToCreate = new Stack();
+        final var stackToCreate = new Stack();
         stackToCreate.setTitle(randomString(5));
         stackToCreate.setAccountId(account.getId());
         stackToCreate.setBoardId(board.getLocalId());
@@ -62,7 +62,7 @@ public class DeckDatabaseTestUtil {
     }
 
     public static Card createCard(@NonNull CardDao dao, @NonNull Account account, @NonNull Stack stack) {
-        final Card cardToCreate = new Card();
+        final var cardToCreate = new Card();
         cardToCreate.setAccountId(account.getId());
         cardToCreate.setTitle(randomString(15));
         cardToCreate.setDescription(randomString(50));

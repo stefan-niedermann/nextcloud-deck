@@ -1,24 +1,20 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
-import java.util.List;
-
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
-import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
-import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class CardDaoTest extends AbstractDaoTest {
@@ -36,9 +32,9 @@ public class CardDaoTest extends AbstractDaoTest {
 
     @Test
     public void writeAndReadCard() {
-        final Stack stack = DeckDatabaseTestUtil.createStack(db.getStackDao(), account, board);
+        final var stack = DeckDatabaseTestUtil.createStack(db.getStackDao(), account, board);
 
-        final Card cardToCreate = new Card();
+        final var cardToCreate = new Card();
         cardToCreate.setAccountId(account.getId());
         cardToCreate.setTitle("Test-Card");
         cardToCreate.setDescription("Holy Moly Description");
@@ -46,7 +42,7 @@ public class CardDaoTest extends AbstractDaoTest {
         cardToCreate.setId(1234L);
 
         long id = db.getCardDao().insert(cardToCreate);
-        final Card card = db.getCardDao().getCardByLocalIdDirectly(account.getId(), id);
+        final var card = db.getCardDao().getCardByLocalIdDirectly(account.getId(), id);
 
         assertEquals("Test-Card", card.getTitle());
         assertEquals(card, db.getCardDao().getCardByRemoteIdDirectly(account.getId(), card.getId()));
@@ -62,13 +58,13 @@ public class CardDaoTest extends AbstractDaoTest {
 
     @Test
     public void testGetLocallyChangedCards() {
-        final Stack stack1 = DeckDatabaseTestUtil.createStack(db.getStackDao(), account, board);
-        final Stack stack2 = DeckDatabaseTestUtil.createStack(db.getStackDao(), account, board);
-        final Card card1 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack1);
-        final Card card2 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack1);
-        final Card card3 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack2);
-        final Card card4 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack2);
-        final Card card5 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack2);
+        final var stack1 = DeckDatabaseTestUtil.createStack(db.getStackDao(), account, board);
+        final var stack2 = DeckDatabaseTestUtil.createStack(db.getStackDao(), account, board);
+        final var card1 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack1);
+        final var card2 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack1);
+        final var card3 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack2);
+        final var card4 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack2);
+        final var card5 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack2);
 
         card1.setStatusEnum(DBStatus.LOCAL_EDITED);
         card2.setStatusEnum(DBStatus.LOCAL_MOVED);
@@ -77,7 +73,7 @@ public class CardDaoTest extends AbstractDaoTest {
         card5.setStatusEnum(DBStatus.UP_TO_DATE);
         db.getCardDao().update(card1, card2, card3, card4, card5);
 
-        final List<FullCard> locallyChangedCards = db.getCardDao().getLocallyChangedCardsDirectly(account.getId());
+        final var locallyChangedCards = db.getCardDao().getLocallyChangedCardsDirectly(account.getId());
         assertEquals(4, locallyChangedCards.size());
         assertTrue(locallyChangedCards.stream().anyMatch((fullCard -> fullCard.getCard().equals(card1))));
         assertTrue(locallyChangedCards.stream().anyMatch((fullCard -> fullCard.getCard().equals(card2))));
@@ -85,7 +81,7 @@ public class CardDaoTest extends AbstractDaoTest {
         assertTrue(locallyChangedCards.stream().anyMatch((fullCard -> fullCard.getCard().equals(card4))));
         assertFalse(locallyChangedCards.stream().anyMatch((fullCard -> fullCard.getCard().equals(card5))));
 
-        final List<FullCard> locallyChangedCardsOfStack1 = db.getCardDao().getLocallyChangedCardsByLocalStackIdDirectly(account.getId(), stack1.getLocalId());
+        final var locallyChangedCardsOfStack1 = db.getCardDao().getLocallyChangedCardsByLocalStackIdDirectly(account.getId(), stack1.getLocalId());
         assertEquals(2, locallyChangedCardsOfStack1.size());
         assertTrue(locallyChangedCardsOfStack1.stream().anyMatch((fullCard -> fullCard.getCard().equals(card1))));
         assertTrue(locallyChangedCardsOfStack1.stream().anyMatch((fullCard -> fullCard.getCard().equals(card2))));
@@ -93,7 +89,7 @@ public class CardDaoTest extends AbstractDaoTest {
         assertFalse(locallyChangedCardsOfStack1.stream().anyMatch((fullCard -> fullCard.getCard().equals(card4))));
         assertFalse(locallyChangedCardsOfStack1.stream().anyMatch((fullCard -> fullCard.getCard().equals(card5))));
 
-        final List<FullCard> locallyChangedCardsOfStack2 = db.getCardDao().getLocallyChangedCardsByLocalStackIdDirectly(account.getId(), stack2.getLocalId());
+        final var locallyChangedCardsOfStack2 = db.getCardDao().getLocallyChangedCardsByLocalStackIdDirectly(account.getId(), stack2.getLocalId());
         assertEquals(2, locallyChangedCardsOfStack2.size());
         assertFalse(locallyChangedCardsOfStack2.stream().anyMatch((fullCard -> fullCard.getCard().equals(card1))));
         assertFalse(locallyChangedCardsOfStack2.stream().anyMatch((fullCard -> fullCard.getCard().equals(card2))));
@@ -104,15 +100,15 @@ public class CardDaoTest extends AbstractDaoTest {
 
     @Test
     public void testGetFullCardsForStackDirectly() {
-        final Stack stack1 = DeckDatabaseTestUtil.createStack(db.getStackDao(), account, board);
-        final Stack stack2 = DeckDatabaseTestUtil.createStack(db.getStackDao(), account, board);
-        final Card card1 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack1);
-        final Card card2 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack1);
-        final Card card3 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack2);
-        final Card card4 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack2);
-        final Card card5 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack2);
+        final var stack1 = DeckDatabaseTestUtil.createStack(db.getStackDao(), account, board);
+        final var stack2 = DeckDatabaseTestUtil.createStack(db.getStackDao(), account, board);
+        final var card1 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack1);
+        final var card2 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack1);
+        final var card3 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack2);
+        final var card4 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack2);
+        final var card5 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack2);
 
-        final List<FullCard> locallyChangedCardsOfStack1 = db.getCardDao().getFullCardsForStackDirectly(account.getId(), stack1.getLocalId());
+        final var locallyChangedCardsOfStack1 = db.getCardDao().getFullCardsForStackDirectly(account.getId(), stack1.getLocalId());
         assertEquals(2, locallyChangedCardsOfStack1.size());
         assertTrue(locallyChangedCardsOfStack1.stream().anyMatch((fullCard -> fullCard.getCard().equals(card1))));
         assertTrue(locallyChangedCardsOfStack1.stream().anyMatch((fullCard -> fullCard.getCard().equals(card2))));
@@ -120,7 +116,7 @@ public class CardDaoTest extends AbstractDaoTest {
         assertFalse(locallyChangedCardsOfStack1.stream().anyMatch((fullCard -> fullCard.getCard().equals(card4))));
         assertFalse(locallyChangedCardsOfStack1.stream().anyMatch((fullCard -> fullCard.getCard().equals(card5))));
 
-        final List<FullCard> locallyChangedCardsOfStack2 = db.getCardDao().getFullCardsForStackDirectly(account.getId(), stack2.getLocalId());
+        final var locallyChangedCardsOfStack2 = db.getCardDao().getFullCardsForStackDirectly(account.getId(), stack2.getLocalId());
         assertEquals(3, locallyChangedCardsOfStack2.size());
         assertFalse(locallyChangedCardsOfStack2.stream().anyMatch((fullCard -> fullCard.getCard().equals(card1))));
         assertFalse(locallyChangedCardsOfStack2.stream().anyMatch((fullCard -> fullCard.getCard().equals(card2))));
@@ -131,11 +127,11 @@ public class CardDaoTest extends AbstractDaoTest {
 
     @Test
     public void testGetHighestStackOrder() {
-        final Stack stack = DeckDatabaseTestUtil.createStack(db.getStackDao(), account, board);
-        final Card card1 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack);
-        final Card card2 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack);
-        final Card card3 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack);
-        final Card card4 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack);
+        final var stack = DeckDatabaseTestUtil.createStack(db.getStackDao(), account, board);
+        final var card1 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack);
+        final var card2 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack);
+        final var card3 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack);
+        final var card4 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack);
         card1.setOrder(20);
         card2.setOrder(10);
         card3.setOrder(50);
@@ -146,8 +142,8 @@ public class CardDaoTest extends AbstractDaoTest {
 
     @Test
     public void testGetLocalStackIdByLocalCardId() {
-        final Stack stack = DeckDatabaseTestUtil.createStack(db.getStackDao(), account, board);
-        final Card card = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack);
+        final var stack = DeckDatabaseTestUtil.createStack(db.getStackDao(), account, board);
+        final var card = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack);
         assertEquals(stack.getLocalId(), card.getLocalId());
     }
 }

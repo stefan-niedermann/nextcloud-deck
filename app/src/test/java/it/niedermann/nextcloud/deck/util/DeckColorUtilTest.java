@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.util;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import android.graphics.Color;
 
 import androidx.core.util.Pair;
@@ -9,21 +12,17 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class DeckColorUtilTest {
 
     @Test
     public void testContrastRatioIsSufficient() {
-        final List<Pair<Integer, Integer>> sufficientContrastColorPairs = new ArrayList<>();
+        final var sufficientContrastColorPairs = new ArrayList<Pair<Integer, Integer>>();
         sufficientContrastColorPairs.add(new Pair<>(Color.BLACK, Color.WHITE));
         sufficientContrastColorPairs.add(new Pair<>(Color.WHITE, Color.parseColor("#0082C9")));
 
-        for (Pair<Integer, Integer> colorPair : sufficientContrastColorPairs) {
+        for (final var colorPair : sufficientContrastColorPairs) {
             assert colorPair.first != null;
             assert colorPair.second != null;
             assertTrue(
@@ -32,11 +31,11 @@ public class DeckColorUtilTest {
             );
         }
 
-        final List<Pair<Integer, Integer>> insufficientContrastColorPairs = new ArrayList<>();
+        final var insufficientContrastColorPairs = new ArrayList<Pair<Integer, Integer>>();
         insufficientContrastColorPairs.add(new Pair<>(Color.WHITE, Color.WHITE));
         insufficientContrastColorPairs.add(new Pair<>(Color.BLACK, Color.BLACK));
 
-        for (Pair<Integer, Integer> colorPair : insufficientContrastColorPairs) {
+        for (final var colorPair : insufficientContrastColorPairs) {
             assert colorPair.first != null;
             assert colorPair.second != null;
             assertFalse(

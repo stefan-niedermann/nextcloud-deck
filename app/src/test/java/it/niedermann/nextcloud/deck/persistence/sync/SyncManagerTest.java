@@ -25,7 +25,6 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.test.core.app.ApplicationProvider;
 
@@ -39,7 +38,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 import java.util.Collections;
@@ -85,7 +83,7 @@ public class SyncManagerTest {
 
     @Before
     public void setup() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        final Constructor<SyncManager> constructor = SyncManager.class.getDeclaredConstructor(Context.class,
+        final var constructor = SyncManager.class.getDeclaredConstructor(Context.class,
                 DataBaseAdapter.class,
                 ServerAdapter.class,
                 ExecutorService.class,
@@ -101,21 +99,21 @@ public class SyncManagerTest {
     @Test
     public void testHasAccounts() throws InterruptedException {
         when(dataBaseAdapter.hasAccounts()).thenReturn(new MutableLiveData<>(true));
-        final LiveData<Boolean> hasAccountsPositive = syncManager.hasAccounts();
+        final var hasAccountsPositive = syncManager.hasAccounts();
         assertTrue(TestUtil.getOrAwaitValue(hasAccountsPositive));
         verify(dataBaseAdapter, times(1)).hasAccounts();
 
         reset(dataBaseAdapter);
 
         when(dataBaseAdapter.hasAccounts()).thenReturn(new MutableLiveData<>(false));
-        final LiveData<Boolean> hasAccountsNegative = syncManager.hasAccounts();
+        final var hasAccountsNegative = syncManager.hasAccounts();
         assertFalse(TestUtil.getOrAwaitValue(hasAccountsNegative));
         verify(dataBaseAdapter, times(1)).hasAccounts();
     }
 
     @Test
     public void testReadAccount() throws InterruptedException {
-        final Account account = new Account();
+        final var account = new Account();
         account.setId(5L);
         account.setName("text@example.com");
 
@@ -157,14 +155,14 @@ public class SyncManagerTest {
      */
     @Test
     public void testSynchronizeBoard() {
-        final SyncHelper syncHelper = mock(SyncHelper.class);
+        final var syncHelper = mock(SyncHelper.class);
 
         when(dataBaseAdapter.getFullBoardByLocalIdDirectly(anyLong(), anyLong())).thenReturn(new FullBoard());
         when(syncHelper.setResponseCallback(any())).thenReturn(syncHelper);
         doNothing().when(syncHelper).doSyncFor(any());
         when(syncHelperFactory.create(any(), any(), any())).thenReturn(syncHelper);
 
-        final ResponseCallback<Boolean> responseCallback = spy(new ResponseCallback<Boolean>(new Account(1L)) {
+        final var responseCallback = spy(new ResponseCallback<Boolean>(new Account(1L)) {
             @Override
             public void onResponse(Boolean response) {
 
@@ -185,8 +183,8 @@ public class SyncManagerTest {
 
     @Test
     public void testSynchronizeCard() {
-        final SyncHelper syncHelper = mock(SyncHelper.class);
-        final FullStack fullStack = new FullStack();
+        final var syncHelper = mock(SyncHelper.class);
+        final var fullStack = new FullStack();
         fullStack.setStack(new Stack("Test", 1L));
 
         when(dataBaseAdapter.getFullStackByLocalIdDirectly(anyLong())).thenReturn(fullStack);
@@ -195,14 +193,14 @@ public class SyncManagerTest {
         doNothing().when(syncHelper).doSyncFor(any());
         when(syncHelperFactory.create(any(), any(), any())).thenReturn(syncHelper);
 
-        final ResponseCallback<Boolean> responseCallback = spy(new ResponseCallback<Boolean>(new Account(1L)) {
+        final var responseCallback = spy(new ResponseCallback<Boolean>(new Account(1L)) {
             @Override
             public void onResponse(Boolean response) {
 
             }
         });
 
-        final Card card = new Card();
+        final var card = new Card();
         card.setStackId(5000L);
 
         syncManager.synchronizeCard(responseCallback, card);
@@ -220,8 +218,8 @@ public class SyncManagerTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testCreateAccount() {
-        final Account account = new Account(1337L, "Test", "Peter", "example.com");
-        final IResponseCallback<Account> callback = mock(IResponseCallback.class);
+        final var account = new Account(1337L, "Test", "Peter", "example.com");
+        final var callback = mock(IResponseCallback.class);
         when(dataBaseAdapter.createAccountDirectly(any(Account.class))).thenReturn(account);
         syncManager.createAccount(account, callback);
         verify(dataBaseAdapter, times(1)).createAccountDirectly(account);
@@ -239,19 +237,19 @@ public class SyncManagerTest {
 
     @Test
     public void testReadAccountDirectly() {
-        final Account account = new Account(1337L, "Test", "Peter", "example.com");
+        final var account = new Account(1337L, "Test", "Peter", "example.com");
         when(dataBaseAdapter.readAccountDirectly(1337L)).thenReturn(account);
         assertEquals(account, syncManager.readAccountDirectly(1337L));
     }
 
     @Test
     public void testReadAccounts() throws InterruptedException {
-        final List<Account> accounts = Collections.singletonList(new Account(1337L, "Test", "Peter", "example.com"));
-        final WrappedLiveData<List<Account>> wrappedAccounts = new WrappedLiveData<>();
+        final var accounts = Collections.singletonList(new Account(1337L, "Test", "Peter", "example.com"));
+        final var wrappedAccounts = new WrappedLiveData<List<Account>>();
         wrappedAccounts.setValue(accounts);
         when(dataBaseAdapter.readAccounts()).thenReturn(wrappedAccounts);
 
-        final List<Account> result = TestUtil.getOrAwaitValue(syncManager.readAccounts());
+        final var result = TestUtil.getOrAwaitValue(syncManager.readAccounts());
 
         verify(dataBaseAdapter, times(1)).readAccounts();
         assertEquals(1, result.size());
@@ -259,18 +257,18 @@ public class SyncManagerTest {
 
     @Test
     public void testReadAccountsDirectly() {
-        final List<Account> accounts = Collections.singletonList(new Account(1337L, "Test", "Peter", "example.com"));
+        final var accounts = Collections.singletonList(new Account(1337L, "Test", "Peter", "example.com"));
         when(dataBaseAdapter.getAllAccountsDirectly()).thenReturn(accounts);
         assertEquals(1, syncManager.readAccountsDirectly().size());
     }
 
     @Test
     public void testRefreshCapabilities() throws ExecutionException, InterruptedException {
-        final Account account = new Account(1337L, "Test", "Peter", "example.com");
+        final var account = new Account(1337L, "Test", "Peter", "example.com");
         account.setEtag("This-Is-The-Old_ETag");
         //noinspection unchecked
-        final ParsedResponse<Capabilities> mockedResponse = mock(ParsedResponse.class);
-        final Capabilities serverResponse = new Capabilities();
+        final var mockedResponse = mock(ParsedResponse.class);
+        final var serverResponse = new Capabilities();
         serverResponse.setDeckVersion(Version.of("1.0.0"));
         when(mockedResponse.getResponse()).thenReturn(serverResponse);
         when(mockedResponse.getHeaders()).thenReturn(Map.of("ETag", "New-ETag"));
@@ -415,11 +413,11 @@ public class SyncManagerTest {
 
     @Test
     public void testSynchronize() {
-        final SyncManager syncManagerSpy = spy(syncManager);
+        final var syncManagerSpy = spy(syncManager);
 
         LastSyncUtil.init(ApplicationProvider.getApplicationContext());
-        final Account account = new Account(1337L, "Test", "Peter", "example.com");
-        final Capabilities capabilities = new Capabilities();
+        final var account = new Account(1337L, "Test", "Peter", "example.com");
+        final var capabilities = new Capabilities();
         capabilities.setDeckVersion(Version.minimumSupported());
         // Act as if refreshing capabilities is always successful
         doAnswer((invocation -> {
@@ -429,7 +427,7 @@ public class SyncManagerTest {
         })).when(syncManagerSpy).refreshCapabilities(any());
 
         // Actual method invocation
-        final ResponseCallback<Boolean> finalCallback = spy(new ResponseCallback<Boolean>(account) {
+        final var finalCallback = spy(new ResponseCallback<Boolean>(account) {
             @Override
             public void onResponse(Boolean response) {
             }
@@ -438,7 +436,7 @@ public class SyncManagerTest {
 
         // Happy path
 
-        final SyncHelper syncHelper_positive = new SyncHelperMock(true);
+        final var syncHelper_positive = new SyncHelperMock(true);
         when(syncHelperFactory.create(any(), any(), any())).thenReturn(syncHelper_positive);
 
         syncManagerSpy.synchronize(finalCallback);
@@ -463,7 +461,7 @@ public class SyncManagerTest {
             }
         }));
 
-        final SyncHelper syncHelper_negative = new SyncHelperMock(false);
+        final var syncHelper_negative = new SyncHelperMock(false);
         when(syncHelperFactory.create(any(), any(), any())).thenReturn(syncHelper_negative);
 
         syncManagerSpy.synchronize(finalCallback);

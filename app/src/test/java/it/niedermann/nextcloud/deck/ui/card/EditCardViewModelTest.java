@@ -1,6 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -13,16 +17,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
-import java.lang.reflect.Field;
-
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.TestUtil;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class EditCardViewModelTest {
@@ -40,7 +38,7 @@ public class EditCardViewModelTest {
         viewModel = new EditCardViewModel(ApplicationProvider.getApplicationContext());
         sharedPrefs = context.getSharedPreferences("TEMP_SHARED_PREFS", Context.MODE_PRIVATE);
         sharedPrefs.edit().clear().commit();
-        final Field sharedPreferencesField = EditCardViewModel.class.getDeclaredField("sharedPreferences");
+        final var sharedPreferencesField = EditCardViewModel.class.getDeclaredField("sharedPreferences");
         sharedPreferencesField.setAccessible(true);
         sharedPreferencesField.set(viewModel, sharedPrefs);
     }
@@ -48,7 +46,7 @@ public class EditCardViewModelTest {
     @Test
     public void getDescriptionMode_editMode_preview() throws InterruptedException {
         sharedPrefs.edit().putBoolean(context.getString(R.string.shared_preference_description_preview), true).commit();
-        final FullCardWithProjects fullCardWithProjects = new FullCardWithProjects();
+        final var fullCardWithProjects = new FullCardWithProjects();
         fullCardWithProjects.setCard(new Card());
 
         assertThrows(IllegalStateException.class, () -> TestUtil.getOrAwaitValue(viewModel.getDescriptionMode()));
@@ -70,7 +68,7 @@ public class EditCardViewModelTest {
     @Test
     public void getDescriptionMode_editMode_edit() throws InterruptedException {
         sharedPrefs.edit().putBoolean(context.getString(R.string.shared_preference_description_preview), false).commit();
-        final FullCardWithProjects fullCardWithProjects = new FullCardWithProjects();
+        final var fullCardWithProjects = new FullCardWithProjects();
         fullCardWithProjects.setCard(new Card());
 
         assertThrows(IllegalStateException.class, () -> TestUtil.getOrAwaitValue(viewModel.getDescriptionMode()));
@@ -90,7 +88,7 @@ public class EditCardViewModelTest {
     @Test
     public void toggleDescriptionPreviewMode_edit() throws InterruptedException {
         sharedPrefs.edit().putBoolean(context.getString(R.string.shared_preference_description_preview), false).commit();
-        final FullCardWithProjects fullCardWithProjects = new FullCardWithProjects();
+        final var fullCardWithProjects = new FullCardWithProjects();
         fullCardWithProjects.setCard(new Card("Title", "Description", 0));
 
         assertThrows(IllegalStateException.class, () -> TestUtil.getOrAwaitValue(viewModel.getDescriptionMode()));

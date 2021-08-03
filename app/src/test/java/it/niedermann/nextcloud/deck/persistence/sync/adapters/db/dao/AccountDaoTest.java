@@ -18,13 +18,13 @@ public class AccountDaoTest extends AbstractDaoTest {
 
     @Test
     public void testCreate() {
-        final Account accountToCreate = new Account();
+        final var accountToCreate = new Account();
         accountToCreate.setName("test@example.com");
         accountToCreate.setUserName("test");
         accountToCreate.setUrl("https://example.com");
 
-        long id = db.getAccountDao().insert(accountToCreate);
-        final Account account = db.getAccountDao().getAccountByIdDirectly(id);
+        final long id = db.getAccountDao().insert(accountToCreate);
+        final var account = db.getAccountDao().getAccountByIdDirectly(id);
 
         assertEquals("test", account.getUserName());
         assertEquals("https://example.com", account.getUrl());
@@ -39,13 +39,13 @@ public class AccountDaoTest extends AbstractDaoTest {
 
     @Test
     public void testGetAccountById() throws InterruptedException {
-        final Account account = DeckDatabaseTestUtil.createAccount(db.getAccountDao());
+        final var account = DeckDatabaseTestUtil.createAccount(db.getAccountDao());
         assertEquals(account.getName(), TestUtil.getOrAwaitValue(db.getAccountDao().getAccountById(account.getId())).getName());
     }
 
     @Test
     public void testGetAccountByName() throws InterruptedException {
-        final Account account = DeckDatabaseTestUtil.createAccount(db.getAccountDao());
+        final var account = DeckDatabaseTestUtil.createAccount(db.getAccountDao());
         assertEquals(account.getUserName(), TestUtil.getOrAwaitValue(db.getAccountDao().getAccountByName(account.getName())).getUserName());
     }
 
@@ -87,7 +87,7 @@ public class AccountDaoTest extends AbstractDaoTest {
 
     @Test
     public void testGetAccountByNameDirectly() {
-        final Account account = DeckDatabaseTestUtil.createAccount(db.getAccountDao());
+        final var account = DeckDatabaseTestUtil.createAccount(db.getAccountDao());
         assertEquals(account.getName(), db.getAccountDao().getAccountByNameDirectly(account.getName()).getName());
     }
 }
