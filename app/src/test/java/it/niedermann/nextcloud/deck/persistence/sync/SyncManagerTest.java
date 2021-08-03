@@ -155,7 +155,6 @@ public class SyncManagerTest {
      * {@link SyncHelper#doSyncFor(AbstractSyncDataProvider)}.
      * {@link OfflineException} should be caught and passed to the {@link ResponseCallback}
      */
-    @SuppressWarnings("JavadocReference")
     @Test
     public void testSynchronizeBoard() {
         final SyncHelper syncHelper = mock(SyncHelper.class);
@@ -439,7 +438,7 @@ public class SyncManagerTest {
 
         // Happy path
 
-        final SyncHelper syncHelper_positive = new SyncHelperMock<>(true);
+        final SyncHelper syncHelper_positive = new SyncHelperMock(true);
         when(syncHelperFactory.create(any(), any(), any())).thenReturn(syncHelper_positive);
 
         syncManagerSpy.synchronize(finalCallback);
@@ -464,7 +463,7 @@ public class SyncManagerTest {
             }
         }));
 
-        final SyncHelper syncHelper_negative = new SyncHelperMock<>(false);
+        final SyncHelper syncHelper_negative = new SyncHelperMock(false);
         when(syncHelperFactory.create(any(), any(), any())).thenReturn(syncHelper_negative);
 
         syncManagerSpy.synchronize(finalCallback);
@@ -474,10 +473,8 @@ public class SyncManagerTest {
 
     /**
      * A simple {@link SyncHelper} implementation which directly responds to sync requests
-     *
-     * @param <T>
      */
-    private class SyncHelperMock<T> extends SyncHelper {
+    private class SyncHelperMock extends SyncHelper {
         private IResponseCallback<Boolean> cb;
         private final boolean success;
 
@@ -487,13 +484,13 @@ public class SyncManagerTest {
         }
 
         @Override
-        public SyncHelper setResponseCallback(@NonNull @NotNull ResponseCallback<Boolean> callback) {
+        public SyncHelper setResponseCallback(@NonNull ResponseCallback<Boolean> callback) {
             this.cb = callback;
             return this;
         }
 
         @Override
-        public <U extends IRemoteEntity> void doSyncFor(@NonNull AbstractSyncDataProvider<U> provider) {
+        public <T extends IRemoteEntity> void doSyncFor(@NonNull AbstractSyncDataProvider<T> provider) {
             if (success) {
                 cb.onResponse(true);
             } else {
@@ -502,7 +499,7 @@ public class SyncManagerTest {
         }
 
         @Override
-        public <U extends IRemoteEntity> void doUpSyncFor(@NonNull AbstractSyncDataProvider<U> provider) {
+        public <T extends IRemoteEntity> void doUpSyncFor(@NonNull AbstractSyncDataProvider<T> provider) {
             if (success) {
                 cb.onResponse(true);
             } else {
