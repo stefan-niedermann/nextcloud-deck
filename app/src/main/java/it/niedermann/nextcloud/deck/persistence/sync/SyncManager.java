@@ -324,11 +324,33 @@ public class SyncManager {
                 if (createdAccount == null) {
                     throw new RuntimeException("Created account is null. Source: " + account);
                 }
-                callback.onResponse(createdAccount);
+                // TODO: throw this shit away
+                // thats why we do this: https://github.com/nextcloud/deck/issues/3229
+                fuckYouYouFuckingFuckFuck(new ResponseCallback<>(account) {
+                    @Override
+                    public void onResponse(ParsedResponse<List<FullBoard>> response) {
+                      callback.onResponse(createdAccount);
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                      callback.onResponse(createdAccount);
+                    }
+                });
+                // TODO: and replace with this line:
+//                callback.onResponse(createdAccount);
             } catch (Throwable t) {
                 callback.onError(t);
             }
         });
+    }
+
+    /**
+     * https://github.com/nextcloud/deck/issues/3229
+     * @param callback
+     */
+    private void fuckYouYouFuckingFuckFuck(ResponseCallback<ParsedResponse<List<FullBoard>>> callback) {
+        serverAdapter.getBoards(callback);
     }
 
     public boolean hasInternetConnection() {
