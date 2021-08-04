@@ -326,7 +326,7 @@ public class SyncManager {
                 }
                 // TODO: throw this shit away
                 // thats why we do this: https://github.com/nextcloud/deck/issues/3229
-                serverAdapter.getBoards(new ResponseCallback<>(account) {
+                serverAdapter.getBoards(new ResponseCallback<>(createdAccount) {
                     @Override
                     public void onResponse(ParsedResponse<List<FullBoard>> response) {
                       callback.onResponse(createdAccount);
