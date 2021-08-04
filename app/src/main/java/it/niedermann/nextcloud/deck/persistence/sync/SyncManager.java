@@ -326,12 +326,13 @@ public class SyncManager {
                 }
                 // TODO: throw this shit away
                 // thats why we do this: https://github.com/nextcloud/deck/issues/3229
-                fuckYouYouFuckingFuckFuck(new ResponseCallback<>(account) {
+                serverAdapter.getBoards(new ResponseCallback<>(account) {
                     @Override
                     public void onResponse(ParsedResponse<List<FullBoard>> response) {
                       callback.onResponse(createdAccount);
                     }
 
+                    @SuppressLint("MissingSuperCall")
                     @Override
                     public void onError(Throwable throwable) {
                       callback.onResponse(createdAccount);
@@ -343,14 +344,6 @@ public class SyncManager {
                 callback.onError(t);
             }
         });
-    }
-
-    /**
-     * https://github.com/nextcloud/deck/issues/3229
-     * @param callback
-     */
-    private void fuckYouYouFuckingFuckFuck(ResponseCallback<ParsedResponse<List<FullBoard>>> callback) {
-        serverAdapter.getBoards(callback);
     }
 
     public boolean hasInternetConnection() {

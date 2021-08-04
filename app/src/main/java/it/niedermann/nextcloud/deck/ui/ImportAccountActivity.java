@@ -113,16 +113,17 @@ public class ImportAccountActivity extends AppCompatActivity {
                         });
 
                         SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
-                        SyncManager syncManager = new SyncManager(ImportAccountActivity.this);
-                        final Account accountToCreate = new Account(account.name, account.userId, account.url);
+                        final var syncManager = new SyncManager(ImportAccountActivity.this);
+                        final var accountToCreate = new Account(account.name, account.userId, account.url);
                         syncManager.createAccount(accountToCreate, new IResponseCallback<>() {
                             @Override
                             public void onResponse(Account createdAccount) {
                                 // Remember last account - THIS HAS TO BE DONE SYNCHRONOUSLY
-                                final SharedPreferences.Editor editor = sharedPreferences.edit();
                                 DeckLog.log("--- Write: shared_preference_last_account | ", createdAccount.getId());
-                                editor.putLong(sharedPreferenceLastAccount, createdAccount.getId());
-                                editor.commit();
+                                sharedPreferences
+                                        .edit()
+                                        .putLong(sharedPreferenceLastAccount, createdAccount.getId())
+                                        .commit();
 
                                 syncManager.refreshCapabilities(new ResponseCallback<>(createdAccount) {
                                     @Override
@@ -229,18 +230,19 @@ public class ImportAccountActivity extends AppCompatActivity {
 
     @SuppressLint("ApplySharedPref")
     private void disableWifiPref() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
         DeckLog.info("--- Temporarily disable sync on wifi only setting");
-        editor.putBoolean(prefKeyWifiOnly, false);
-        editor.commit();
-
+        sharedPreferences
+                .edit()
+                .putBoolean(prefKeyWifiOnly, false)
+                .commit();
     }
 
     private void restoreWifiPref() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
         DeckLog.info("--- Restoring sync on wifi only setting");
-        editor.putBoolean(prefKeyWifiOnly, originalWifiOnlyValue);
-        editor.apply();
+        sharedPreferences
+                .edit()
+                .putBoolean(prefKeyWifiOnly, originalWifiOnlyValue)
+                .apply();
     }
 
     public static Intent createIntent(@NonNull Context context) {
