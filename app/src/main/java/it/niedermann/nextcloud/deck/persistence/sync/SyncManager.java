@@ -325,7 +325,7 @@ public class SyncManager {
                     throw new RuntimeException("Created account is null. Source: " + account);
                 }
                 // TODO: throw this shit away
-                // thats why we do this: https://github.com/nextcloud/deck/issues/3229
+                // that's why we do this: https://github.com/nextcloud/deck/issues/3229
                 serverAdapter.getBoards(new ResponseCallback<>(createdAccount) {
                     @Override
                     public void onResponse(ParsedResponse<List<FullBoard>> response) {

@@ -217,10 +217,33 @@ public class SyncManagerTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testCreateAccount() {
+    public void testCreateAccountWithSuccessfulFirstBoardCall() {
         final var account = new Account(1337L, "Test", "Peter", "example.com");
         final var callback = mock(IResponseCallback.class);
         when(dataBaseAdapter.createAccountDirectly(any(Account.class))).thenReturn(account);
+        doAnswer(invocation -> {
+            ((ResponseCallback<ParsedResponse<List<FullBoard>>>) invocation.getArgument(0))
+                    .onResponse(ParsedResponse.of(Collections.emptyList()));
+            return null;
+        }).when(serverAdapter).getBoards(any());
+
+        syncManager.createAccount(account, callback);
+        verify(dataBaseAdapter, times(1)).createAccountDirectly(account);
+        verify(callback, times(1)).onResponse(account);
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testCreateAccountWithFailingFirstBoardCall() {
+        final var account = new Account(1337L, "Test", "Peter", "example.com");
+        final var callback = mock(IResponseCallback.class);
+        when(dataBaseAdapter.createAccountDirectly(any(Account.class))).thenReturn(account);
+        doAnswer(invocation -> {
+            ((ResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(0))
+                    .onError(new NextcloudHttpRequestFailedException(404, new RuntimeException()));
+            return null;
+        }).when(serverAdapter).getBoards(any());
+
         syncManager.createAccount(account, callback);
         verify(dataBaseAdapter, times(1)).createAccountDirectly(account);
         verify(callback, times(1)).onResponse(account);
