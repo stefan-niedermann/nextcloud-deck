@@ -235,10 +235,12 @@
     <string name="error_dialog_attachment_upload_failed">Une pièce jointe n’a pas pu être envoyée. Veuillez essayer de la partager d’une autre façon et faites-nous part de ce bogue.</string>
     <string name="error_dialog_certificate">Le certificat du serveur est erroné. Pour plus d\'informations, veuillez vérifier chaque compte déclaré dans l\'application Nextcloud.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Merci de bien vouloir désactiver toutes les optimisations de batterie pour Nextcloud ainsi que pour l\'application Deck.</string>
+    <string name="error_dialog_unknown_error">Votre instance Nextcloud semble ne pas être joignable. Veuillez vérifier votre connexion internet et si vous êtes en mesure de vous connecter à votre instance via le navigateur.</string>
     <string name="error_action_open_deck_info">Ouvrir les informations de l\'application</string>
     <string name="error_action_open_nextcloud_app">Ouvrir l\'application Nextcloud</string>
     <string name="error_action_open_network">Paramètres réseau</string>
     <string name="error_action_server_logs">Journaux serveur</string>
+    <string name="error_action_open_in_browser">Ouvrir dans le navigateur</string>
     <string name="error_action_install">Installer</string>
     <string name="error_action_report_issue">Signaler</string>
     <string name="info_box_maintenance_mode">Le serveur est en mode maintenance</string>
