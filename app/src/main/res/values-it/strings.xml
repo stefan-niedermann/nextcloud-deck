@@ -1,6 +1,8 @@
 <resources>
     <string name="navigation_drawer_open">Apri il cassetto di navigazione</string>
     <string name="navigation_drawer_close">Chiudi il cassetto di navigazione</string>
+    <string name="hint_search_deck">Cerca Deck</string>
+
     <string name="simple_boards">Lavagne</string>
     <string name="simple_add">Aggiungi</string>
     <string name="simple_save">Salva</string>
@@ -233,10 +235,12 @@
     <string name="error_dialog_attachment_upload_failed">Un allegato non può essere caricato. Prova a condividerlo in un altro modo e informaci di questo problema.</string>
     <string name="error_dialog_certificate">Sembra ci sia qualche problema nel certificato del server. Controlla tutti gli account nell\'applicazione Nextcloud per maggiori informazioni.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Disabilita tutte le ottimizzazioni della batteria per le applicazioni Nextcloud e Deck.</string>
+    <string name="error_dialog_unknown_error">La tua istanza di Nextcloud sembra non essere raggiungibile. Controlla la connessione internet e se riesci a connetterti all\'istanza via browser.</string>
     <string name="error_action_open_deck_info">Apri Informazioni applicazione</string>
     <string name="error_action_open_nextcloud_app">Apri l\'applicazione Nextcloud</string>
     <string name="error_action_open_network">Impostazioni di rete</string>
     <string name="error_action_server_logs">Log del server</string>
+    <string name="error_action_open_in_browser">Apri nel browser</string>
     <string name="error_action_install">Installa</string>
     <string name="error_action_report_issue">Segnala</string>
     <string name="info_box_maintenance_mode">Il server è in modalità di manutenzione</string>
