@@ -1,14 +1,8 @@
 <resources>
     <string name="navigation_drawer_open">開啟導覽列</string>
     <string name="navigation_drawer_close">關閉導覽列</string>
+    <string name="hint_search_deck">搜尋看板</string>
 
-    <string name="drawer_header_background">側滑選單背景圖片</string>
-    <string name="drawer_current_account">目前帳戶</string>
-    <string name="drawer_middle_account">中間帳戶</string>
-    <string name="drawer_end_account">最後帳戶</string>
-    <string name="drawer_manage_accounts">帳戶管理</string>
-
-    <!-- Simple values -->
     <string name="simple_boards">專案</string>
     <string name="simple_add">新增</string>
     <string name="simple_save">儲存</string>
@@ -23,6 +17,7 @@
     <string name="simple_open">打開</string>
     <string name="simple_switch">切換</string>
     <string name="simple_filter">過濾</string>
+    <string name="simple_overdue">逾期</string>
     <string name="simple_clear">清除</string>
     <string name="simple_discard">放棄</string>
     <string name="simple_update">更新</string>
@@ -37,13 +32,14 @@
     <string name="simple_disabled">已停用</string>
     <string name="simple_copied">已複製</string>
     <string name="simple_archive">封存</string>
+    <string name="simple_unassigned">未指派</string>
+    <string name="hint_error_appeared">發生錯誤</string>
 
     <string name="edit_board">編輯佈告欄</string>
     <string name="archive_board">封存佈告欄</string>
     <string name="delete_board">刪除佈告欄</string>
     <string name="delete_something">刪除 %1$s</string>
 
-    <!-- About -->
     <string name="about">關於</string>
     <string name="about_version_title">版本</string>
     <string name="about_version">你目前使用 %1$s</string>
@@ -64,19 +60,20 @@
     <string name="about_app_license_button">檢視授權條款</string>
     <string name="about_icons_disclaimer_title">圖示</string>
     <string name="about_icons_disclaimer_app_icon">原始圖示請見%1$s</string>
+    <string name="about_icons_disclaimer_mdi_icons">此應用程式使用的所有其他圖示 %1$s 均由 Google Inc. 製造，並根據 Apache 2.0 授權獲得許可。</string>
     <string name="about_icons_disclaimer_mdi">Material Design 圖示</string>
     <string name="about_credits_tab_title">致謝</string>
     <string name="about_contribution_tab_title">貢獻</string>
     <string name="about_license_tab_title">授權</string>
-
-    <string name="copied_to_clipboard">已複製至剪貼簿</string>
-
     <string name="seconds_ago">幾秒前</string>
     <string name="edit">編輯</string>
     <string name="label_labels">選擇標籤</string>
     <string name="label_description">描述</string>
     <string name="hint_assign_people">分派使用者</string>
     <string name="hint_due_date_date">截止日</string>
+    <string name="card_not_found">找不到卡片</string>
+    <string name="card_not_found_message">找不到卡片。或許它已經被刪除。</string>
+
     <string name="add_account">新增帳戶</string>
     <string name="choose_account">選擇帳戶</string>
     <string name="add_card">增加新的卡片</string>
@@ -108,14 +105,36 @@
     <string name="no_lists_yet">尚無清單</string>
     <string name="do_you_want_to_save_your_changes">您想要儲存您做出的變更嗎？</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">請問您想要封存%1$s的所有卡片嗎？</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">請問您想要封存%1$s裏所有已篩選的卡片嗎？</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="other">這將永久刪除此清單中的所有 %1$d 卡片。</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="other">這將從 %1$d 卡片上刪除標籤。</item>
+    </plurals>
+    <string name="add_a_new_list_using_the_button">用 + 按鈕新增清單</string>
     <string name="add_a_new_card_using_the_button">用 + 按鈕新增卡片</string>
-    <string name="update_deck">更新 Deck</string>
-    <string name="your_deck_version_is_too_old">您的 Deck 版本過舊</string>
-    <string name="settings_theme_title">暗色主題</string>
+    <string name="update_deck">更新 Deck web app</string>
+    <string name="deck_outdated_please_update">您的 Deck web app 版本太舊（%1$s）。請更新以將此 Android 應用程式作為用戶端。</string>
+    <string name="delete_board_message">這將永久刪除此佈告欄，包括所有清單和卡片。</string>
+    <string name="settings_theme_title">佈景主題</string>
+    <string name="settings_branding_title">品牌化</string>
+    <string name="settings_compact_title">簡潔模式</string>
+    <string name="settings_cover_images_title">封面圖片</string>
+    <string name="settings_debugging">除錯記錄</string>
+    <string name="settings_etags">使用 ETag</string>
+    <string name="settings_etags_summary">加快同步</string>
     <string name="settings_background_sync">背景同步</string>
+    <string name="settings_compress_image_attachments">壓縮上傳圖片</string>
+    <string name="search_in">在 %1$s 中搜尋</string>
+    <string name="settings_compress_image_attachments_summary">上傳速度更快，畫質較差</string>
     <string name="pref_value_wifi_and_mobile">使用 Wi-Fi 及行動網路時同步</string>
     <string name="pref_value_wifi_only">只在使用 Wi-Fi 時同步</string>
-    <string name="pref_value_theme_light">亮色</string>
+    <string-array name="darkmode_entries">
+        <item>系統預設</item>
+        <item>淺色</item>
+        <item>暗色</item>
+    </string-array>
     <string name="unassigned_user">已取消分派 %1$s</string>
     <string name="no_activities">此卡片沒有活動。您需要連線至網際網路，才能載入並顯示活動。</string>
     <string name="share_board">分享佈告欄</string>
@@ -131,22 +150,40 @@
     <string name="hours_6">6 小時</string>
     <string name="action_card_move">移動卡片</string>
     <string name="action_card_move_title">移動 %1$s</string>
-    <string name="please_add_an_account_first">請先增加一個帳戶</string>
-    <string name="title_is_mandatory">必須有標題</string>
+    <string name="title_is_mandatory">標題為必填</string>
+    <string name="provide_at_least_a_title_or_description">提供至少一個標題或描述</string>
     <string name="welcome_text">歡迎來到 %1$s</string>
-    <string name="could_not_copy_to_clipboard">無法複製到剪貼簿</string>
+    <string name="maintenance_mode_explanation">伺服器 %1$s 目前處於維護模式。請與您的管理員聯絡或再試一次。</string>
+    <string name="share_add_to_card">加到卡片</string>
+    <string name="share_success">成功將 %1$s 加入到 %2$s</string>
     <string name="add_comment">增加留言</string>
     <string name="card_edit_comments">留言</string>
     <string name="no_comments_yet">目前沒有留言</string>
+    <string name="no_boards">尚無面板</string>
+    <string name="add_a_new_board_using_the_button">使用 + 按鈕新增佈告欄</string>
+    <string name="choose_board">選擇佈告欄</string>
     <string name="choose_list">選擇清單</string>
+    <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">用瀏覽器開啟</string>
     <string name="updating_card">更新卡片...</string>
 
-    <!-- Filter -->
+    <string name="move_list_right">向右移動清單</string>
+    <string name="move_list_left">向左移動清單</string>
+
     <string name="filter_no_filter">全部</string>
+    <string name="filter_overdue">逾期</string>
     <string name="filter_today">今天</string>
+    <string name="filter_tomorrow">明天</string>
     <string name="filter_week">接下來 7 天</string>
     <string name="filter_month">接下來 30 天</string>
+    <string name="filter_no_due">無到期日</string>
+    <string name="filter_later">稍後</string>
+    <string name="filter_by_tag">依標籤篩選</string>
+    <string name="filter_by_assigned_user">依指定的使用者篩選</string>
+    <string name="filter_by_duedate">依到期日篩選</string>
+
+    <string name="archived_cards">已封存的卡片</string>
+    <string name="action_card_dearchive">復原卡片封存</string>
     <string name="action_archived_cards">瀏覽封存卡片</string>
     <string name="attachment_already_exists">附件已存在</string>
     <string name="pick_custom_color">選擇自訂顏色</string>
@@ -159,7 +196,9 @@
     <string name="filter_user_title">使用者</string>
     <string name="filter_duedate_title">截止日</string>
 
-    <!-- Errors -->
+    <string name="action_board_dearchive">復原佈告欄封存</string>
+    <string name="archived_boards">已封存佈告欄</string>
+
     <string name="error">發生錯誤</string>
     <string name="synchronization_failed">同步失敗</string>
     <string name="operation_not_yet_supported">尚未支援</string>
@@ -167,15 +206,91 @@
     <string name="error_create_label">建立標籤 %1$s 產生錯誤</string>
     <string name="maintenance_mode">伺服器正處於維護模式</string>
     <string name="server_error">伺服器錯誤</string>
+    <string name="error_edit_activity_killed_by_android">Android 完成了編輯模式，因為它需要更多的系統資源來服務其他應用程式。</string>
+
+    <string name="error_dialog_title">喔不 - 現在怎麼辦？🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">請嘗試強制關閉該 APP，然後重新啟動。與 Nextcloud APP 的連線可能不正確。</string>
+    <string name="error_dialog_tip_clear_storage_might_help">如果問題仍然存在，請嘗試清除兩個應用程式的存儲區：Nextcloud 和 Nextcloud Deck 以解決此問題。</string>
     <string name="error_dialog_we_need_info">我們需要以下的技術資訊來幫助您：</string>
     <string name="error_action_open_deck_info">開啟 App 資訊</string>
+    <string name="error_action_open_nextcloud_app">開啟 Nextcloud 應用程式</string>
     <string name="error_action_open_network">網路設定</string>
     <string name="error_action_server_logs">伺服器記錄</string>
+    <string name="error_action_open_in_browser">以瀏覽器開啟</string>
     <string name="error_action_install">安裝</string>
+    <string name="error_action_report_issue">回報</string>
     <string name="info_box_maintenance_mode">伺服器正處於維護模式</string>
     <string name="info_box_version_not_supported">伺服器版本 %1$s 不被支援，請升級到 %2$s</string>
     <string name="share_link">分享連結</string>
+    <string name="share_content">分享內容</string>
+    <string name="share_content_duedate">到期日：%1$s</string>
+    <string name="share_content_labels">標籤：%1$s</string>
     <string name="archive_cards">封存卡片</string>
+
     <string name="manage_accounts">帳戶管理</string>
+    <string name="manage_list">管理清單</string>
     <string name="simple_reply">回覆</string>
-    </resources>
+    <string name="append_text_to_description">附加到描述</string>
+    <string name="add_text_as_comment">新增為留言</string>
+    <string name="progress_count">%1$d 之 %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="other">上傳時發生%1$d個錯誤</item>
+    </plurals>
+    <string name="simple_report">回報</string>
+    <string name="error_action_open_battery_settings">電池設定</string>
+    <string name="clone_board">複製佈告欄</string>
+    <string name="cloning_board">正在複製 %1$s...</string>
+    <string name="successfully_cloned_board">複製 %1$s 成功</string>
+    <string name="widget_stack_title">清單</string>
+    <string name="widget_filter_title">篩選</string>
+    <string name="widget_stack_header_icon">小工具標題圖示</string>
+    <string name="widget_placeholder_icon">小工具佔位字元圖示</string>
+    <string name="select_stack">選擇清單</string>
+    <string name="project_type_deck_board">看板佈告欄</string>
+    <string name="project_type_deck_card">看板卡片</string>
+    <string name="project_type_file">檔案</string>
+    <string name="projects_title">專案項目</string>
+    <plurals name="resources_count">
+        <item quantity="other">%1$d 資源</item>
+    </plurals>
+    <string name="no_assigned_label">未指定標籤</string>
+    <string name="single_card">單張卡片</string>
+    <string name="project_type_room">聊天室</string>
+    <string name="simple_move">移動</string>
+    <string name="cannot_upload_files_without_permission">沒有權限無法上傳檔案</string>
+    <string name="clone_cards">複製卡片</string>
+    <string name="simple_clone">複製</string>
+    <string name="user_avatar">使用者頭像</string>
+    <string name="simple_unassign">取消分配</string>
+    <string name="simple_contact">聯絡人</string>
+    <string name="simple_file">檔案</string>
+    <string name="simple_camera">相機</string>
+    <string name="take_photo">拍照</string>
+    <string name="take_photo_switch_camera">切換相機</string>
+    <string name="take_photo_toggle_torch">切換閃光燈</string>
+    <string name="show_all_contacts">顯示所有聯絡人</string>
+    <string name="show_all_files">顯示全部檔案</string>
+    <string name="recent">近期</string>
+    <string name="upload_a_new_attachment">上傳新附件</string>
+    <string name="contacts">聯絡人</string>
+    <string name="downloads">下載</string>
+    <string name="files">檔案</string>
+    <string name="gallery">相簿</string>
+    <string name="simple_attach">附件</string>
+    <string name="add_stack_widget">加入清單小工具</string>
+    <string name="add_filter_widget">加入篩選小工具</string>
+    <string name="simple_order">順序</string>
+    <string name="edit_description">編輯描述</string>
+    <string name="widget_upcoming_title">接下來的卡片</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">專家設定</string>
+    <string name="copy_logs">將記錄複製到剪貼簿</string>
+    <string name="app_logo">應用程式標誌</string>
+    <string name="log_file">記錄檔</string>
+    <string name="copying_logs_to_file">將記錄複製到檔案…</string>
+    <string name="account_imported">帳號已匯入</string>
+    <string name="simple_search">搜尋</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">標題（必填）</string>
+    <string name="saving_new_card">正在儲存新卡片...</string>
+</resources>
