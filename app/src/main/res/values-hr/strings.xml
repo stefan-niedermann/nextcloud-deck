@@ -1,6 +1,8 @@
 <resources>
     <string name="navigation_drawer_open">Otvorite navigacijsku ladicu</string>
     <string name="navigation_drawer_close">Zatvori navigacijsku ladicu</string>
+    <string name="hint_search_deck">Traži Deck</string>
+
     <string name="simple_boards">Ploče</string>
     <string name="simple_add">Dodaj</string>
     <string name="simple_save">Spremi</string>
@@ -31,6 +33,8 @@
     <string name="simple_copied">Kopirano</string>
     <string name="simple_archive">Arhiva</string>
     <string name="simple_unassigned">Nedodijeljeno</string>
+    <string name="hint_error_appeared">Pojavila se pogreška</string>
+
     <string name="edit_board">Uredi ploču</string>
     <string name="archive_board">Arhiviraj ploču</string>
     <string name="delete_board">Izbriši ploču</string>
@@ -120,8 +124,14 @@
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Brendiranje</string>
     <string name="settings_compact_title">Kompaktni način rada</string>
+    <string name="settings_cover_images_title">Naslovne slike</string>
     <string name="settings_debugging">Otkloni pogreške iz zapisa</string>
+    <string name="settings_etags">Koristi E-oznake</string>
+    <string name="settings_etags_summary">Ubrzava sinkronizaciju</string>
     <string name="settings_background_sync">Pozadinska sinkronizacija</string>
+    <string name="settings_compress_image_attachments">Komprimiraj slike prije otpreme</string>
+    <string name="search_in">Traži u %1$s</string>
+    <string name="settings_compress_image_attachments_summary">Brži prijenos, lošija kvaliteta</string>
     <string name="pref_value_wifi_and_mobile">Sinkronizacija putem bežičnih (Wi-Fi) i mobilnih podataka</string>
     <string name="pref_value_wifi_only">Sinkroniziraj samo putem bežične (Wi-Fi) mreže</string>
     <string-array name="darkmode_entries">
@@ -139,8 +149,12 @@
     <string name="no_content">Još nema sadržaja</string>
     <string name="last_background_sync">Posljednja pozadinska sinkronizacija:</string>
     <string name="simple_off">Isključeno</string>
+    <string name="minutes_15">15 minuta</string>
+    <string name="hour_1">1 sat</string>
+    <string name="hours_6">6 sati</string>
     <string name="action_card_move">Premjesti karticu</string>
     <string name="action_card_move_title">Premjesti %1$s</string>
+    <string name="title_is_mandatory">Naslov je obavezan</string>
     <string name="provide_at_least_a_title_or_description">Unesite naziv ili opis</string>
     <string name="welcome_text">Dobro došli u %1$s</string>
     <string name="maintenance_mode_explanation">Poslužitelj %1$s trenutno je u načinu održavanja. Obratite se svom administratoru ili pokušajte kasnije.</string>
@@ -194,6 +208,7 @@
     <string name="operation_not_yet_supported">Još nije podržano</string>
     <string name="error_revoking_ac">Pogreška pri opozivanju prava pristupa za %1$s</string>
     <string name="error_create_label">Pogreška pri stvaranju oznake %1$s</string>
+    <string name="maintenance_mode">Poslužitelj je u načinu održavanja</string>
     <string name="server_error">Greška poslužitelja</string>
     <string name="error_edit_activity_killed_by_android">Android je zatvorio način uređivanja jer treba više resursa sustava za ostale aplikacije.</string>
 
@@ -203,6 +218,8 @@
     <string name="error_dialog_tip_database_upgrade_failed">Nadogradnja baze podataka nije uspjela. Prijavite ovu poteškoću i izbrišite pohranu kako biste se koristili aplikacijom na uobičajeni način.</string>
     <string name="error_dialog_tip_clear_storage">Pohranjene podatke možete izbrisati tako da otvorite informacije o aplikaciji i odaberete Pohrana → Brisanje pohrane podataka.</string>
     <string name="error_dialog_tip_files_outdated">Čini se da je vaša aplikacija Nextcloud zastarjela. Posjetite trgovinu Play Store ili F-Droid kako biste dohvatili najnoviju inačicu.</string>
+    <string name="error_dialog_tip_offline">Čini se da ste pokušali pokrenuti sinkronizaciju bez internetske veze.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Ako ste omogućili postavku „Sinkroniziraj samo putem bežične (Wi-Fi) mreže“, možete sinkronizirati samo kada ste spojeni na bežičnu (Wi-Fi) mrežu.</string>
     <string name="error_dialog_tip_files_force_stop">Čini se da nešto nije u redu s vašom aplikacijom Nextcloud. Pokušajte prisilno zatvoriti aplikaciju Nextcloud i aplikaciju Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Ako prisilno zatvaranje nije otklonilo problem, pokušajte izbrisati pohranjene podatke iz obje aplikacije.</string>
     <string name="error_dialog_timeout_instance">Nije stigao odgovor poslužitelja u zadanom vremenskom razdoblju. Provjerite radi li vaša instanca.</string>
@@ -226,6 +243,7 @@
     <string name="error_action_server_logs">Zapisi poslužitelja</string>
     <string name="error_action_install">Instaliraj</string>
     <string name="error_action_report_issue">Prijavi</string>
+    <string name="info_box_maintenance_mode">Poslužitelj je u načinu održavanja</string>
     <string name="info_box_version_not_supported">Inačica poslužitelja %1$s nije podržana, ažurirajte poslužitelj na inačicu %2$s</string>
     <string name="share_link">Dijeli poveznicu</string>
     <string name="share_content">Dijeli sadržaj</string>
@@ -271,6 +289,7 @@
     <string name="single_card">Jedna kartica</string>
     <string name="project_type_room">Soba za razgovor</string>
     <string name="simple_move">Premjesti</string>
+    <string name="cannot_upload_files_without_permission">Otpremanje datoteka bez dopuštenja nije moguće</string>
     <string name="clone_cards">Kloniraj kartice</string>
     <string name="simple_clone">Kloniraj</string>
     <string name="user_avatar">Avatar korisnika</string>
@@ -302,4 +321,8 @@
     <string name="log_file">Datoteka zapisa</string>
     <string name="copying_logs_to_file">Kopiranje zapisa u datoteku…</string>
     <string name="account_imported">Račun je uvezen</string>
-    </resources>
+    <string name="simple_search">Traži</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Naslov (obavezno)</string>
+    <string name="saving_new_card">Spremanje nove kartice…</string>
+</resources>
