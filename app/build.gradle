@@ -111,7 +111,7 @@ dependencies {
     implementation 'com.github.skydoves:colorpickerview:2.2.3'
 
     // Gson
-    implementation 'com.google.code.gson:gson:2.8.7'
+    implementation 'com.google.code.gson:gson:2.8.8'
 
     // Retrofit
     //noinspection GradleDependency
