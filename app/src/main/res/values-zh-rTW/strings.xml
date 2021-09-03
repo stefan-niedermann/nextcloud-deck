@@ -211,7 +211,29 @@
     <string name="error_dialog_title">喔不 - 現在怎麼辦？🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">請嘗試強制關閉該 APP，然後重新啟動。與 Nextcloud APP 的連線可能不正確。</string>
     <string name="error_dialog_tip_clear_storage_might_help">如果問題仍然存在，請嘗試清除兩個應用程式的存儲區：Nextcloud 和 Nextcloud Deck 以解決此問題。</string>
+    <string name="error_dialog_tip_database_upgrade_failed">資料庫升級失敗。請回報問題，並清除儲存區以正常使用該應用程式。</string>
+    <string name="error_dialog_tip_clear_storage">您可以透過開啟應用程式資訊並選擇 儲存區 → 清除儲存區 來清除儲存區。</string>
+    <string name="error_dialog_tip_files_outdated">您的 Nextcloud 應用程式似乎過舊，請前往 Play Store 或 F-Droid 以取得最新版本。</string>
+    <string name="error_dialog_tip_offline">似乎您試圖在沒有網際網路連線的情況下觸發同步。</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">如果啟用了「僅在 Wi-Fi 上同步」設定，則只能在連線到 Wi-Fi 時進行同步。</string>
+    <string name="error_dialog_tip_files_force_stop">您的 Nextcloud 應用程式似乎有問題。請嘗試強制停止 Nextcloud 應用程式和 Nextcloud Deck 應用程式。</string>
+    <string name="error_dialog_tip_files_delete_storage">如果強制停止沒有幫助，請試著清除這兩個應用程式的儲存區。</string>
+    <string name="error_dialog_timeout_instance">您的伺服器未在時限內回應，請確保您的 Nextcloud 正常運作。</string>
+    <string name="error_dialog_timeout_toggle">檢查您的網絡連線。有時候，切換行動數據或 Wi-Fi 可能會有所幫助。</string>
+    <string name="error_dialog_check_server">您伺服器的回應不正確。請檢查您是否可以通過 web 界面存取看板應用程式。</string>
+    <string name="error_dialog_check_server_logs">您的 Nextcloud 設定有問題，請查看您的伺服器記錄檔。</string>
+    <string name="error_dialog_check_maintenance">請確認您的 Nextcloud 現在不是處於維護模式。</string>
+    <string name="error_dialog_insufficient_storage">您的 Nextcloud 已無可用空間，請刪除部份檔案以將您的本地變更同步至雲端。</string>
     <string name="error_dialog_we_need_info">我們需要以下的技術資訊來幫助您：</string>
+    <string name="error_dialog_redirect">您的伺服器以 HTTP 302 狀態代碼回應，這表示您尚未在伺服器上安裝 Deck 應用程式或配置錯誤。這可能是由於 .htaccess 檔案中的自訂覆寫或 Nextcloud 應用程式（如 OID 客戶端）引起的。</string>
+    <string name="error_dialog_version_not_parsable">我們無法確定伺服器端 Deck 應用程式的版本。請確保已安裝並啟用它。</string>
+    <string name="error_dialog_account_might_not_be_authorized">您的 Nextcloud APP 帳號可能不再被授權。</string>
+    <string name="error_dialog_user_not_found_in_database">目前使用者與我們資料庫中的使用者不符。如果您在 Nextcloud 實例上使用 LDAP，則 Nextcloud APP 可能已存儲了舊的使用者 ID。</string>
+    <string name="error_dialog_capabilities_not_parsable">我們無法取得您的伺服器功能。請確保您的伺服器運行良好，並且其他客戶端應用程式能夠訪問 Nextcloud。</string>
+    <string name="error_dialog_attachment_upload_failed">無法上傳附件。請嘗試以其他方式分享它，並讓我們知道此錯誤。</string>
+    <string name="error_dialog_certificate">伺服器的憑證似乎有問題。請檢查 Nextcloud APP 中的所有帳號，以取得更多資訊。</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">請停用 Nextcloud 和 Deck APP 的所有電池最佳化。</string>
+    <string name="error_dialog_unknown_error">您的 Nextcloud 實例似乎無法訪問。 請檢查您的網際網路連線以及您是否能夠透過瀏覽器連線到您的實例。</string>
     <string name="error_action_open_deck_info">開啟 App 資訊</string>
     <string name="error_action_open_nextcloud_app">開啟 Nextcloud 應用程式</string>
     <string name="error_action_open_network">網路設定</string>
@@ -238,9 +260,13 @@
     </plurals>
     <string name="simple_report">回報</string>
     <string name="error_action_open_battery_settings">電池設定</string>
+    <string name="move_warning">將卡片移至另一塊面板上時，註釋和附件均無法傳送。</string>
     <string name="clone_board">複製佈告欄</string>
     <string name="cloning_board">正在複製 %1$s...</string>
     <string name="successfully_cloned_board">複製 %1$s 成功</string>
+    <string name="attachment_does_not_yet_exist">在看板中找不到附件。</string>
+    <string name="card_does_not_yet_exist">在看板中找不到卡片。</string>
+
     <string name="widget_stack_title">清單</string>
     <string name="widget_filter_title">篩選</string>
     <string name="widget_stack_header_icon">小工具標題圖示</string>
