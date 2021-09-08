@@ -133,8 +133,12 @@
     <string name="no_content">Ei vielä sisältöä</string>
     <string name="last_background_sync">Viimeisin taustasynkronointi:</string>
     <string name="simple_off">Pois</string>
+    <string name="minutes_15">15 minuuttia</string>
+    <string name="hour_1">1 tunti</string>
+    <string name="hours_6">6 tuntia</string>
     <string name="action_card_move">Siirrä kortti</string>
     <string name="action_card_move_title">Siirrä %1$s</string>
+    <string name="title_is_mandatory">Otsikko on pakollinen</string>
     <string name="provide_at_least_a_title_or_description">Anna vähintään otsikko tai kuvaus</string>
     <string name="welcome_text">Tervetuloa kohteeseen %1$s</string>
     <string name="maintenance_mode_explanation">Palvelin%1$s on juuri ylläpitotilassa. Ota yhteys järjestelmän ylläpitäjään tai yritä myöhemmin uudelleen.</string>
@@ -188,6 +192,7 @@
     <string name="operation_not_yet_supported">Ei vielä tuettu</string>
     <string name="error_revoking_ac">Virhe käyttöoikeuden kumoamisessa (%1$s)</string>
     <string name="error_create_label">Virhe nimikkeen luonnissa (%1$s)</string>
+    <string name="maintenance_mode">Palvelin on huoltotilassa</string>
     <string name="server_error">Palvelinvirhe</string>
     <string name="error_edit_activity_killed_by_android">Android päätti muokkaustilan, koska resursseja tarvitaan muille sovelluksille.</string>
 
@@ -214,10 +219,13 @@
     <string name="error_dialog_attachment_upload_failed">Liitettä ei voitu lähettää. Yritä jakaa se toista kautta ja kerro meille tästä bugista.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Ota pois käytöstä akun optimointi Nextcloud- ja Deck-sovelluksilta.</string>
     <string name="error_action_open_deck_info">Avaa sovelluksen tiedot</string>
+    <string name="error_action_open_nextcloud_app">Avaa Nextcloud-sovellus</string>
     <string name="error_action_open_network">Verkkoasetukset</string>
     <string name="error_action_server_logs">Palvelimen lokit</string>
+    <string name="error_action_open_in_browser">Avaa selaimessa</string>
     <string name="error_action_install">Asenna</string>
     <string name="error_action_report_issue">Raportti</string>
+    <string name="info_box_maintenance_mode">Palvelin on huoltotilassa</string>
     <string name="info_box_version_not_supported">Palvelinversio %1$s ei ole tuettu, päivitä versioon %2$s</string>
     <string name="share_link">Jaa linkki</string>
     <string name="share_content">Jaa sisältö</string>
@@ -265,4 +273,15 @@
     <string name="take_photo">Ota kuva</string>
     <string name="take_photo_switch_camera">Vaihda kamera</string>
     <string name="show_all_contacts">Näytä kaikki kontaktit</string>
-    </resources>
+    <string name="show_all_files">Näytä kaikki tiedostot</string>
+    <string name="recent">Viimeaikaiset</string>
+    <string name="contacts">Yhteystiedot</string>
+    <string name="downloads">Lataukset</string>
+    <string name="files">Tiedostot</string>
+    <string name="gallery">Galleria</string>
+    <string name="edit_description">Muokkaa kuvausta</string>
+    <string name="simple_search">Etsi</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Otsikko (pakollinen)</string>
+    <string name="saving_new_card">Tallennetaan uutta korttia...</string>
+</resources>

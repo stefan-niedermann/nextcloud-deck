@@ -1,6 +1,8 @@
 <resources>
     <string name="navigation_drawer_open">Abrir cajón de navegación</string>
     <string name="navigation_drawer_close">Cerrar cajón de navegación</string>
+    <string name="hint_search_deck">Buscar deck</string>
+
     <string name="simple_boards">Tableros</string>
     <string name="simple_add">Añadir</string>
     <string name="simple_save">Guardar</string>
@@ -233,10 +235,12 @@
     <string name="error_dialog_attachment_upload_failed">No se ha podido subir un adjunto. Por favor, intenta compartirlo de otra forma y comunícanos este fallo.</string>
     <string name="error_dialog_certificate">Algo parece ir mal con el certificado del servidor. Por favor, compruebe todas las cuentas en la app Nextcloud para más información.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Por favor, desactiva todas las optimizaciones de la batería para Nextcloud y la aplicación Deck.</string>
+    <string name="error_dialog_unknown_error">Parece que no se puede acceder a tu instancia de Nextcloud. Comprueba tu conexión a Internet y si puedes conectarte a través del navegador.</string>
     <string name="error_action_open_deck_info">Abrir info de la app</string>
     <string name="error_action_open_nextcloud_app">Abrir app de Nextcloud</string>
     <string name="error_action_open_network">Configuración de red</string>
     <string name="error_action_server_logs">Registros del servidor</string>
+    <string name="error_action_open_in_browser">Abrir en navegador</string>
     <string name="error_action_install">Instalar</string>
     <string name="error_action_report_issue">Informe</string>
     <string name="info_box_maintenance_mode">El servidor está en modo mantenimiento</string>
@@ -318,5 +322,5 @@
     <string name="simple_search">Buscar</string>
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Título (requerido)</string>
-    <string name="saving_new_card">Guardando una nueva tarjeta...</string>
+    <string name="saving_new_card">Guardando una nueva tarjeta…</string>
 </resources>
