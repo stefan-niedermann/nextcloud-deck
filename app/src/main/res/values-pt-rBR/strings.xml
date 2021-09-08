@@ -235,10 +235,12 @@
     <string name="error_dialog_attachment_upload_failed">Não foi possível carregar um anexo. Tente compartilhá-lo de outra maneira e informe-nos sobre esse bug.</string>
     <string name="error_dialog_certificate">Algo parece estar errado com o certificado do servidor. Por favor, verifique todas as contas no aplicativo Nextcloud para maiores informações.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Desative todas as otimizações de bateria para o Nextcloud e o aplicativo Deck.</string>
+    <string name="error_dialog_unknown_error">Sua instância Nextcloud parece estar inacessível. Verifique sua conexão com a Internet e se você consegue se conectar à sua instância por meio do navegador. </string>
     <string name="error_action_open_deck_info">Abra as informações do Aplicativo</string>
     <string name="error_action_open_nextcloud_app">Abrir o aplicativo Nextcloud</string>
     <string name="error_action_open_network">Configurações da rede</string>
     <string name="error_action_server_logs">Logs do servidor</string>
+    <string name="error_action_open_in_browser">Abra no navegador</string>
     <string name="error_action_install">Instalar</string>
     <string name="error_action_report_issue">Reportar</string>
     <string name="info_box_maintenance_mode">O servidor está em modo de manutenção </string>

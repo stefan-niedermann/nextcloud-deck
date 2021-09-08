@@ -311,7 +311,7 @@
     <string name="add_filter_widget">Ajouter un widget filtre</string>
     <string name="simple_order">Trier</string>
     <string name="edit_description">Modifier la description</string>
-    <string name="widget_upcoming_title">Cartes dans le futur</string>
+    <string name="widget_upcoming_title">Cartes planifiées</string>
     <!-- Category header for a section in the settings which contain features for advanced users -->
     <string name="simple_expert_settings">Paramètres expert</string>
     <string name="copy_logs">Copier les logs dans le presse-papier</string>
