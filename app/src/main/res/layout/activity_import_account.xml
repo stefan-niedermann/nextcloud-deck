@@ -70,9 +70,20 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/add_button"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="@dimen/spacer_4x"
+            android:indeterminate="true"
             android:indeterminateTint="@color/defaultBrand"
             android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/progress_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/progress_circular"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/spacer_2x"
+            android:visibility="gone"
+            tools:text="@string/progress_import_indeterminate" />
 
         <Button
             android:id="@+id/update_deck_button"

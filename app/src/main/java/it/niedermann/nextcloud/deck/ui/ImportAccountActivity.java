@@ -110,6 +110,9 @@ public class ImportAccountActivity extends AppCompatActivity {
                             binding.status.setText(null);
                             binding.status.setVisibility(View.GONE);
                             binding.progressCircular.setVisibility(View.VISIBLE);
+                            binding.progressText.setVisibility(View.VISIBLE);
+                            binding.progressCircular.setIndeterminate(true);
+                            binding.progressText.setText(R.string.progress_import_indeterminate);
                         });
 
                         SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
@@ -130,7 +133,6 @@ public class ImportAccountActivity extends AppCompatActivity {
                                     public void onResponse(Capabilities response) {
                                         if (!response.isMaintenanceEnabled()) {
                                             if (response.getDeckVersion().isSupported()) {
-                                                binding.progressCircular.setIndeterminate(false);
                                                 var progress$ = syncManager.synchronize(new ResponseCallback<>(account) {
                                                     @Override
                                                     public void onResponse(Boolean response) {
@@ -150,6 +152,10 @@ public class ImportAccountActivity extends AppCompatActivity {
                                                 });
                                                 runOnUiThread(() -> progress$.observe(ImportAccountActivity.this, (progress) -> {
                                                     DeckLog.log("New progress value", progress.first, progress.second);
+                                                    if(progress.first > 0) {
+                                                        binding.progressCircular.setIndeterminate(false);
+                                                    }
+                                                    binding.progressText.setText(getString(R.string.progress_import, progress.first + 1, progress.second));
                                                     binding.progressCircular.setProgress(progress.first);
                                                     binding.progressCircular.setMax(progress.second);
                                                 }));
@@ -229,6 +235,7 @@ public class ImportAccountActivity extends AppCompatActivity {
         runOnUiThread(() -> {
             binding.updateDeckButton.setVisibility(View.GONE);
             binding.progressCircular.setVisibility(View.GONE);
+            binding.progressText.setVisibility(View.GONE);
             binding.status.setVisibility(View.VISIBLE);
             binding.status.setText(statusText);
         });
