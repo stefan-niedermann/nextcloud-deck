@@ -1,0 +1,3 @@
+- 💬 Scroll list when focussing the edit text for comments (#345) by @jancwe
+- 💬 Fix initial comment list position (#344) by @jancwe
+- ⚙️ Raise minSdk to 22 (following the Nextcloud files app)
