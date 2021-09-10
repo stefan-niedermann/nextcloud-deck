@@ -66,6 +66,14 @@ public class FilesUtil {
             }
         }
 
+        if (cacheFile.exists()){
+            DeckLog.verbose("- File already exists, try to delete the existing one");
+            if (cacheFile.delete()){
+                DeckLog.verbose("- Deleted successfully");
+            } else {
+                throw new IOException("Could not delete existing cache file.");
+            }
+        }
         DeckLog.verbose("- Try to create actual cache file");
         if (cacheFile.createNewFile()) {
             DeckLog.verbose("-- Successfully created cache file");
