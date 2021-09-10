@@ -30,6 +30,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.util.AsyncUtil;
 public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
     private int progressTotal = 0;
+    private int progressDone = 0;
     private MutableLiveData<Pair<Integer, Integer>> progress = null;
 
     public BoardDataProvider() {
@@ -66,17 +67,19 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
     private void updateProgress() {
         if (progress != null) {
-            DeckLog.log("New progress post", progressTotal - children.size(), progressTotal);
-            progress.postValue(Pair.create(progressTotal - children.size(), progressTotal));
-        } else {
-            DeckLog.log("progress is null");
+            DeckLog.log("New progress post", progressDone, progressTotal);
+            progress.postValue(Pair.create(progressDone, progressTotal));
         }
     }
 
     @Override
-    public void childDone(AbstractSyncDataProvider<?> child, ResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
-        super.childDone(child, responseCallback, syncChangedSomething);
-        updateProgress();
+    protected boolean removeChild(AbstractSyncDataProvider<?> child) {
+        boolean isRemoved = super.removeChild(child);
+        if (isRemoved) {
+            progressDone ++;
+            updateProgress();
+        }
+        return isRemoved;
     }
 
     @Override
