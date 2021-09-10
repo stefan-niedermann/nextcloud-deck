@@ -108,7 +108,7 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
     public abstract void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, T entity, DataBaseAdapter dataBaseAdapter);
 
     public void childDone(AbstractSyncDataProvider<?> child, ResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
-        children.remove(child);
+        removeChild(child);
         if (!stillGoingDeeper && children.isEmpty()) {
             if (parent != null) {
                 parent.childDone(this, responseCallback, syncChangedSomething);
@@ -116,6 +116,10 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
                 responseCallback.onResponse(syncChangedSomething);
             }
         }
+    }
+
+    protected boolean removeChild(AbstractSyncDataProvider<?> child) {
+        return children.remove(child);
     }
 
     public void doneGoingDeeper(ResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
