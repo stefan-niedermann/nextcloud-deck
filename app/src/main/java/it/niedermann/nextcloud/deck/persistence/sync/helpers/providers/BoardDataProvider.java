@@ -75,7 +75,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     @Override
     protected boolean removeChild(AbstractSyncDataProvider<?> child) {
         boolean isRemoved = super.removeChild(child);
-        if (isRemoved) {
+        if (isRemoved && child.getClass() == StackDataProvider.class) {
             progressDone ++;
             updateProgress();
         }
