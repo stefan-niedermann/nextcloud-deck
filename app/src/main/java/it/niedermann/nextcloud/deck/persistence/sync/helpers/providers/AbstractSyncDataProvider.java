@@ -17,8 +17,8 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
 
     @Nullable
     protected AbstractSyncDataProvider<?> parent;
-    private final List<AbstractSyncDataProvider<?>> children = new ArrayList<>();
-    private boolean stillGoingDeeper = false;
+    protected final List<AbstractSyncDataProvider<?>> children = new ArrayList<>();
+    protected boolean stillGoingDeeper = false;
 
     public AbstractSyncDataProvider(@Nullable AbstractSyncDataProvider<?> parent) {
         this.parent = parent;

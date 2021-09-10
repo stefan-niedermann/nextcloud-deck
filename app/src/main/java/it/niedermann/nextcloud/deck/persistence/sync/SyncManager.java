@@ -6,6 +6,7 @@ import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
+import android.util.Pair;
 
 import androidx.annotation.AnyThread;
 import androidx.annotation.ColorInt;
@@ -196,7 +197,8 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void synchronize(@NonNull ResponseCallback<Boolean> responseCallback) {
+    public LiveData<Pair<Integer, Integer>> synchronize(@NonNull ResponseCallback<Boolean> responseCallback) {
+        MutableLiveData<Pair<Integer, Integer>> progress$ = new MutableLiveData<>();
         Account callbackAccount = responseCallback.getAccount();
         if (callbackAccount == null) {
             throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + ResponseCallback.class.getSimpleName() + " must not be null.");
@@ -234,7 +236,7 @@ public class SyncManager {
                                     });
                                     executor.submit(() -> {
                                         try {
-                                            syncHelper.doUpSyncFor(new BoardDataProvider());
+                                            syncHelper.doUpSyncFor(new BoardDataProvider(progress$));
                                         } catch (Throwable e) {
                                             DeckLog.logError(e);
                                             responseCallback.onError(e);
@@ -253,7 +255,7 @@ public class SyncManager {
                             syncHelper.setResponseCallback(callback);
 
                             try {
-                                syncHelper.doSyncFor(new BoardDataProvider());
+                                syncHelper.doSyncFor(new BoardDataProvider(progress$));
                             } catch (Throwable e) {
                                 DeckLog.logError(e);
                                 responseCallback.onError(e);
@@ -277,6 +279,7 @@ public class SyncManager {
                 }
             });
         });
+        return progress$;
     }
 
 //
