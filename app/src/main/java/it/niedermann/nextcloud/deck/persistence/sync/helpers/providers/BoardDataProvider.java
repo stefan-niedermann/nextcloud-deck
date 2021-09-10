@@ -1,6 +1,9 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
 import android.annotation.SuppressLint;
+import android.util.Pair;
+
+import androidx.lifecycle.MutableLiveData;
 
 import com.nextcloud.android.sso.api.ParsedResponse;
 
@@ -25,8 +28,17 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.util.AsyncUtil;
 
 public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
+    private int progressCount = 0;
+    private int progressTotal = 0;
+    private MutableLiveData<Pair<Integer, Integer>> progress = null;
+
     public BoardDataProvider() {
         super(null);
+    }
+
+    public BoardDataProvider(MutableLiveData<Pair<Integer, Integer>> progress) {
+        this();
+        this.progress = progress;
     }
 
     @Override
@@ -34,6 +46,8 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
         serverAdapter.getBoards(new ResponseCallback<>(responder.getAccount()) {
             @Override
             public void onResponse(ParsedResponse<List<FullBoard>> response) {
+                progressTotal = response.getResponse().size();
+                updateProgress();
                 String etag = response.getHeaders().get("ETag");
                 if (etag != null && !etag.equals(account.getBoardsEtag())) {
                     account.setBoardsEtag(etag);
@@ -48,6 +62,21 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
                 responder.onError(throwable);
             }
         });
+    }
+
+    private void updateProgress() {
+        if (progress != null) {
+            progress.postValue(Pair.create(progressCount, progressTotal));
+        }
+    }
+
+    @Override
+    public void childDone(AbstractSyncDataProvider<?> child, ResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
+        super.childDone(child, responseCallback, syncChangedSomething);
+        if (!stillGoingDeeper && children.isEmpty()) {
+            progressCount++;
+            updateProgress();
+        }
     }
 
     @Override
