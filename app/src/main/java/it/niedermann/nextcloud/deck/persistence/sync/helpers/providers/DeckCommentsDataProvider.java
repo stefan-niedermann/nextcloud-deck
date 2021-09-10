@@ -1,12 +1,16 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import android.annotation.SuppressLint;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
@@ -114,7 +118,30 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
         if (comment.getParentId() != null) {
             comment.setParentId(dataBaseAdapter.getRemoteCommentIdForLocalIdDirectly(comment.getParentId()));
         }
-        serverAdapter.createCommentForCard(comment, responder);
+        DeckLog.info("creating entity: "+entity.getComments().get(0).getMessage() + " with id " +entity.getComments().get(0).getLocalId());
+        CountDownLatch latch = new CountDownLatch(1);
+        serverAdapter.createCommentForCard(comment, new ResponseCallback<>(responder.getAccount()) {
+            @Override
+            public void onResponse(OcsComment response) {
+                latch.countDown();
+                responder.onResponse(response);
+                DeckLog.info("CREATED entity: "+entity.getComments().get(0).getMessage() + " with id " +entity.getComments().get(0).getLocalId());
+            }
+
+            @SuppressLint("MissingSuperCall")
+            @Override
+            public void onError(Throwable throwable) {
+                latch.countDown();
+                responder.onError(throwable);
+            }
+        });
+
+        try {
+            latch.await();
+            DeckLog.info("released latch for entity: "+entity.getComments().get(0).getMessage() + " with id " +entity.getComments().get(0).getLocalId());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
