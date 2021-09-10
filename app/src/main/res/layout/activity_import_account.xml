@@ -25,7 +25,6 @@
             android:tint="@color/fg_secondary"
             app:srcCompat="@drawable/ic_app_logo" />
 
-
         <TextView
             android:id="@+id/welcome_text"
             android:layout_width="wrap_content"

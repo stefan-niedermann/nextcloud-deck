@@ -130,7 +130,8 @@ public class ImportAccountActivity extends AppCompatActivity {
                                     public void onResponse(Capabilities response) {
                                         if (!response.isMaintenanceEnabled()) {
                                             if (response.getDeckVersion().isSupported()) {
-                                                syncManager.synchronize(new ResponseCallback<>(account) {
+                                                binding.progressCircular.setIndeterminate(false);
+                                                var progress$ = syncManager.synchronize(new ResponseCallback<>(account) {
                                                     @Override
                                                     public void onResponse(Boolean response) {
                                                         restoreWifiPref();
@@ -147,6 +148,11 @@ public class ImportAccountActivity extends AppCompatActivity {
                                                         rollbackAccountCreation(syncManager, createdAccount.getId());
                                                     }
                                                 });
+                                                runOnUiThread(() -> progress$.observe(ImportAccountActivity.this, (progress) -> {
+                                                    DeckLog.log("New progress value", progress.first, progress.second);
+                                                    binding.progressCircular.setProgress(progress.first);
+                                                    binding.progressCircular.setMax(progress.second);
+                                                }));
                                             } else {
                                                 setStatusText(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()));
                                                 runOnUiThread(() -> {

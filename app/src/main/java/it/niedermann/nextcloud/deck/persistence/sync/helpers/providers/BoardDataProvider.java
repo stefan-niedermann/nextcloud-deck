@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -66,7 +67,10 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
     private void updateProgress() {
         if (progress != null) {
+            DeckLog.log("New progress post", progressCount, progressTotal);
             progress.postValue(Pair.create(progressCount, progressTotal));
+        } else {
+            DeckLog.log("progress is null");
         }
     }
 
