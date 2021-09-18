@@ -323,4 +323,4 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Titre (obligatoire)</string>
     <string name="saving_new_card">Enregistrement de la nouvelle carte…</string>
-</resources>
+    </resources>

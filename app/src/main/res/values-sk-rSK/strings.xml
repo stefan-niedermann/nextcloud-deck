@@ -331,4 +331,6 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Titulok (povinné)</string>
     <string name="saving_new_card">Ukladám novú kartu...</string>
+    <string name="progress_import">Importujem tabuľu %1$d z %2$d ...</string>
+    <string name="progress_import_indeterminate">Importujem tabule</string>
 </resources>

@@ -235,10 +235,13 @@
     <string name="error_dialog_attachment_upload_failed">Een bijlage kon niet worden opgeladen. Gelieve het op een andere manier te delen en ons in te lichten over deze fout.</string>
     <string name="error_dialog_certificate">Er lijkt iets mis te zijn met het certificaat van de server. Controleer alle accounts in de Nextcloud-app voor meer informatie.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Gelieve de batterijoptimalisatie uit te schakelen voor de Nextcloud en Deck applicatie.</string>
+    <string name="error_dialog_unknown_error">Uw Nextcloud inrichting lijkt niet bereikbaar.
+Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te maken met uw inrichting via de web browser.</string>
     <string name="error_action_open_deck_info">Open App informatie</string>
     <string name="error_action_open_nextcloud_app">Open Nextcloud app</string>
     <string name="error_action_open_network">Netwerk instellingen</string>
     <string name="error_action_server_logs">Server logbestanden</string>
+    <string name="error_action_open_in_browser">Openen in webbrowser</string>
     <string name="error_action_install">Installeren</string>
     <string name="error_action_report_issue">Rapporteer</string>
     <string name="info_box_maintenance_mode">Server in onderhoudsmodus</string>
@@ -321,4 +324,4 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Titel (vereist)</string>
     <string name="saving_new_card">Opslaan nieuwe kaart...</string>
-</resources>
+    </resources>

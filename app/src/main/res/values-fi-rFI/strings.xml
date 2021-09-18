@@ -284,4 +284,4 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Otsikko (pakollinen)</string>
     <string name="saving_new_card">Tallennetaan uutta korttia...</string>
-</resources>
+    </resources>

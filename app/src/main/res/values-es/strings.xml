@@ -167,7 +167,7 @@
     <string name="choose_list">Elegir lista</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Abrir en navegador</string>
-    <string name="updating_card">Actualizando tarjeta</string>
+    <string name="updating_card">Actualizando tarjeta…</string>
 
     <string name="move_list_right">Mover lista a la derecha</string>
     <string name="move_list_left">Mover lista a la izquierda</string>
@@ -323,4 +323,6 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Título (requerido)</string>
     <string name="saving_new_card">Guardando una nueva tarjeta…</string>
+    <string name="progress_import">Importando tablero %1$d de %2$d…</string>
+    <string name="progress_import_indeterminate">Importando tableros…</string>
 </resources>
