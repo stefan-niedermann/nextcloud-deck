@@ -331,4 +331,4 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Название (обязательно)</string>
     <string name="saving_new_card">Сохранение карточки…</string>
-</resources>
+    </resources>

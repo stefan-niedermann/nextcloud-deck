@@ -325,4 +325,4 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Naslov (obavezno)</string>
     <string name="saving_new_card">Spremanje nove kartice…</string>
-</resources>
+    </resources>

@@ -319,4 +319,6 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">标题 (必填)</string>
     <string name="saving_new_card">保存新卡片中 ...</string>
+    <string name="progress_import">正导入 %2$d 的面板 %1$d…</string>
+    <string name="progress_import_indeterminate">正导入面板…</string>
 </resources>

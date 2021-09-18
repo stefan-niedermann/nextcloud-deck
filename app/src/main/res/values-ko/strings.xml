@@ -312,4 +312,4 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">제목(필수)</string>
     <string name="saving_new_card">새 카드 저장...</string>
-</resources>
+    </resources>

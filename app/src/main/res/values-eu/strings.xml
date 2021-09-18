@@ -323,4 +323,6 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Izenburua (beharrezkoa)</string>
     <string name="saving_new_card">Txartel berria gordetzen...</string>
+    <string name="progress_import">%2$dtik %1$darbela inportatzen ...</string>
+    <string name="progress_import_indeterminate">Arbelak inportatzen…</string>
 </resources>

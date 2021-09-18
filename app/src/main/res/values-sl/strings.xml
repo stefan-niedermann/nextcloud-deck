@@ -152,6 +152,7 @@
     <string name="hours_6">6 ur</string>
     <string name="action_card_move">Premakni nalogo</string>
     <string name="action_card_move_title">Premakni %1$s</string>
+    <string name="title_is_mandatory">Naslov je obvezen podatek!</string>
     <string name="provide_at_least_a_title_or_description">Vpisati je treba vsaj naslov oziroma opis</string>
     <string name="welcome_text">Dobrodošli v %1$s</string>
     <string name="maintenance_mode_explanation">Strežnik %1$s je trenutno v načinu vzdrževanja. Stopite v stik s skrbnikom, ali pa poskusite kasneje.</string>
@@ -322,4 +323,4 @@
     <string name="account_imported">Račun je uvožen</string>
     <string name="simple_search">Poišči</string>
     <string name="saving_new_card">Shranjevanje nove naloge...</string>
-</resources>
+    </resources>

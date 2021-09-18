@@ -323,4 +323,6 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Titolo (richiesto)</string>
     <string name="saving_new_card">Salvataggio della nuova scheda...</string>
+    <string name="progress_import">Importazione della lavagna %1$d di %2$d…</string>
+    <string name="progress_import_indeterminate">Importazione lavagne…</string>
 </resources>
