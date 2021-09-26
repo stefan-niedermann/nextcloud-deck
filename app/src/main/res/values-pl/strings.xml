@@ -54,13 +54,13 @@
     <string name="about_issues_title">Problemy</string>
     <string name="about_issues">Możesz zgłaszać błędy, propozycje ulepszeń i prośby o funkcje w liście problemów na GitHub: %1$s</string>
     <string name="about_translate_title">Tłumaczyć</string>
-    <string name="about_translate">Dołącz do zespołu Nextcloud na Transifex i pomóż nam przetłumaczyć tę aplikację: %1$s</string>
+    <string name="about_translate">Dołącz do zespołu Nextcloud na Transifex i pomóż nam przetłumaczyć aplikację: %1$s</string>
     <string name="about_app_license_title">Licencja</string>
     <string name="about_app_license">Aplikacja jest na licencji GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Zobacz licencję</string>
     <string name="about_icons_disclaimer_title">Ikony</string>
     <string name="about_icons_disclaimer_app_icon">Oryginalna ikona znajduje się na %1$s.</string>
-    <string name="about_icons_disclaimer_mdi_icons">Wszystkie pozostałe ikony używane przez tę aplikację są %1$s wykonane przez Google Inc. i licencjonowane na podstawie Apache 2.0 License.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Wszystkie pozostałe ikony używane przez aplikację są %1$s wykonane przez Google Inc. i licencjonowane na podstawie Apache 2.0 License.</string>
     <string name="about_icons_disclaimer_mdi">Material Design Icons</string>
     <string name="about_credits_tab_title">Autorzy</string>
     <string name="about_contribution_tab_title">Wkład</string>
