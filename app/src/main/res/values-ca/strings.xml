@@ -1,6 +1,8 @@
 <resources>
     <string name="navigation_drawer_open">Obre el calaix de navegació</string>
     <string name="navigation_drawer_close">Tanca el calaix de navegació</string>
+    <string name="hint_search_deck">Cerca targetes</string>
+
     <string name="simple_boards">Taulells</string>
     <string name="simple_add">Afegeix</string>
     <string name="simple_save">Desa</string>
@@ -31,6 +33,8 @@
     <string name="simple_copied">Copiat</string>
     <string name="simple_archive">Arxiu</string>
     <string name="simple_unassigned">Sense assignar</string>
+    <string name="hint_error_appeared">Ha succeït un error</string>
+
     <string name="edit_board">Edita el tauler</string>
     <string name="archive_board">Arxiva el tauler</string>
     <string name="delete_board">Suprimeix el tauler</string>
@@ -118,7 +122,12 @@
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Marcatge</string>
     <string name="settings_compact_title">Mode compacte</string>
+    <string name="settings_cover_images_title">Imatge de portada</string>
+    <string name="settings_debugging">Registre de depuració</string>
+    <string name="settings_etags">Useu ETags</string>
+    <string name="settings_etags_summary">Augmenta la velocitat de sincronització</string>
     <string name="settings_background_sync">Sincronització en segon pla</string>
+    <string name="settings_compress_image_attachments">Comprimeix les imatges en la pujada</string>
     <string name="pref_value_wifi_and_mobile">Sincronitza per Wi-Fi i dades mòbils</string>
     <string name="pref_value_wifi_only">Sincronitza només per Wi-Fi</string>
     <string-array name="darkmode_entries">

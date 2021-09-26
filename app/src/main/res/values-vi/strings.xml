@@ -1,6 +1,8 @@
 <resources>
     <string name="navigation_drawer_open">Mở ngăn điều hướng</string>
     <string name="navigation_drawer_close">Đóng ngăn điều hướng</string>
+    <string name="hint_search_deck">Tìm kiếm deck</string>
+
     <string name="simple_boards">Dự án</string>
     <string name="simple_add">Thêm</string>
     <string name="simple_save">Lưu</string>
@@ -31,6 +33,8 @@
     <string name="simple_copied">Đã sao chép</string>
     <string name="simple_archive">Lưu trữ</string>
     <string name="simple_unassigned">Chưa được phân công</string>
+    <string name="hint_error_appeared">Có lỗi xuất hiện</string>
+
     <string name="edit_board">Chỉnh sửa dự án</string>
     <string name="archive_board">Lưu trữ dự án</string>
     <string name="delete_board">Xóa dự án</string>
@@ -146,6 +150,7 @@
     <string name="hours_6">6 tiếng</string>
     <string name="action_card_move">Di chuyển thẻ</string>
     <string name="action_card_move_title">Di chuyển %1$s</string>
+    <string name="title_is_mandatory">Tiêu đề là bắt buộc</string>
     <string name="provide_at_least_a_title_or_description">Hãy cung cấp ít nhất là một tiêu đề hoặc mô tả</string>
     <string name="welcome_text">Chào mừng đến %1$s</string>
     <string name="maintenance_mode_explanation">Máy chủ %1$s hiện tại đang trong chế độ bảo trì. Vui lòng liên hệ với quản trị viên của bạn hoặc thử lại sau.</string>
@@ -228,10 +233,12 @@
     <string name="error_dialog_attachment_upload_failed">Không thể tải tệp đính kèm lên. Vui lòng cố gắng chia sẻ nó bằng cách khác và cho chúng tôi biết về lỗi này.</string>
     <string name="error_dialog_certificate">Có gì đó có vẻ sai với chứng chỉ của máy chủ. Vui lòng kiểm tra tất cả tài khoản trong ứng dụng Nextcloud để biết thêm thông tin.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Vui lòng tắt tất cả tối ưu hoá pin cho Nextcloud và ứng dụng Deck.</string>
+    <string name="error_dialog_unknown_error">Bản sao Nextcloud của bạn có vẻ không kết nối đến được. Vui lòng kiểm tra kết nối internet và kiểm tra xem bạn có thể kết nối đến bản sao của bạn qua trình duyệt không.</string>
     <string name="error_action_open_deck_info">Mở Thông tin ứng dụng</string>
     <string name="error_action_open_nextcloud_app">Mở ứng dụng Nextcloud</string>
     <string name="error_action_open_network">Cài đặt mạng</string>
     <string name="error_action_server_logs">Nhật ký máy chủ</string>
+    <string name="error_action_open_in_browser">Mở trong trình duyệt</string>
     <string name="error_action_install">Cài đặt</string>
     <string name="error_action_report_issue">Báo cáo</string>
     <string name="info_box_maintenance_mode">Máy chủ đang trong chế độ bảo trì</string>
@@ -309,5 +316,9 @@
     <string name="copying_logs_to_file">Đang sao chép nhật ký vào tệp...</string>
     <string name="account_imported">Đã nhập tài khoản</string>
     <string name="simple_search">Tìm kiếm</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Tiêu đề (bắt buộc)</string>
     <string name="saving_new_card">Đang lưu thẻ mới...</string>
-    </resources>
+    <string name="progress_import">Đang nhập dự án %1$d trong số %2$d...</string>
+    <string name="progress_import_indeterminate">Đang nhập các dự án...</string>
+</resources>
