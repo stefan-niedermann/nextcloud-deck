@@ -74,7 +74,7 @@ dependencies {
     implementation 'androidx.camera:camera-camera2:1.1.0-alpha08'
     implementation 'androidx.camera:camera-lifecycle:1.1.0-alpha08'
     implementation 'androidx.camera:camera-view:1.0.0-alpha28'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
     implementation 'androidx.preference:preference:1.1.1'
     def roomVersion = "2.3.0"
     implementation "androidx.room:room-runtime:$roomVersion"
