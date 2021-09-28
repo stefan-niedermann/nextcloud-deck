@@ -323,4 +323,6 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Cím (kötelező)</string>
     <string name="saving_new_card">Új kártya mentése…</string>
-    </resources>
+    <string name="progress_import">%1$d. / %2$d tábla importálása…</string>
+    <string name="progress_import_indeterminate">Táblák importálása…</string>
+</resources>
