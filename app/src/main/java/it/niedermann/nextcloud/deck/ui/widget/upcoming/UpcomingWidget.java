@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.widget.upcoming;
 
 import static android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE;
+import static it.niedermann.nextcloud.deck.util.WidgetUtil.pendingIntentFlagCompat;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -126,7 +127,7 @@ public class UpcomingWidget extends AppWidgetProvider {
                 serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
                 serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME)));
 
-                final PendingIntent templatePI = PendingIntent.getBroadcast(context, appWidgetId, new Intent(context, UpcomingWidget.class), PendingIntent.FLAG_UPDATE_CURRENT);
+                final PendingIntent templatePI = PendingIntent.getBroadcast(context, appWidgetId, new Intent(context, UpcomingWidget.class), pendingIntentFlagCompat(PendingIntent.FLAG_UPDATE_CURRENT));
 
                 views.setPendingIntentTemplate(R.id.upcoming_widget_lv, templatePI);
                 views.setRemoteAdapter(R.id.upcoming_widget_lv, serviceIntent);
