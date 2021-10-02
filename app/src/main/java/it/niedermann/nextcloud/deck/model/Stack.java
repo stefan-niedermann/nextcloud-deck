@@ -119,4 +119,21 @@ public class Stack extends AbstractRemoteEntity {
         result = 31 * result + order;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Stack{" +
+                "title='" + title + '\'' +
+                ", boardId=" + boardId +
+                ", deletedAt=" + deletedAt +
+                ", order=" + order +
+                ", localId=" + localId +
+                ", accountId=" + accountId +
+                ", id=" + id +
+                ", status=" + status +
+                ", lastModified=" + lastModified +
+                ", lastModifiedLocal=" + lastModifiedLocal +
+                ", etag='" + etag + '\'' +
+                "} " + super.toString();
+    }
 }

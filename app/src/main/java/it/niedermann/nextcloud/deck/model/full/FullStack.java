@@ -57,4 +57,12 @@ public class FullStack implements IRemoteEntity {
         result = 31 * result + (cards != null ? cards.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "FullStack{" +
+                "stack=" + stack +
+                ", cards=" + cards +
+                '}';
+    }
 }

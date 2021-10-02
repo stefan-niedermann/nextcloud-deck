@@ -238,4 +238,27 @@ public class Board extends AbstractRemoteEntity implements Serializable {
         result = 31 * result + (permissionShare ? 1 : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Board{" +
+                "title='" + title + '\'' +
+                ", ownerId=" + ownerId +
+                ", color=" + color +
+                ", archived=" + archived +
+                ", shared=" + shared +
+                ", deletedAt=" + deletedAt +
+                ", permissionRead=" + permissionRead +
+                ", permissionEdit=" + permissionEdit +
+                ", permissionManage=" + permissionManage +
+                ", permissionShare=" + permissionShare +
+                ", localId=" + localId +
+                ", accountId=" + accountId +
+                ", id=" + id +
+                ", status=" + status +
+                ", lastModified=" + lastModified +
+                ", lastModifiedLocal=" + lastModifiedLocal +
+                ", etag='" + etag + '\'' +
+                "} " + super.toString();
+    }
 }

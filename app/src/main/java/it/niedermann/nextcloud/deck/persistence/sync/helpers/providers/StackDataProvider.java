@@ -41,7 +41,12 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullStack entity) {
         entity.getStack().setBoardId(board.getLocalId());
         entity.getStack().setAccountId(accountId);
-        return dataBaseAdapter.createStack(accountId, entity.getStack());
+        try {
+            return dataBaseAdapter.createStack(accountId, entity.getStack());
+        } catch (Exception e) {
+            throw new RuntimeException("Unable to create Stack "+entity.toString()+ " on Board "+ board.toString(), e);
+        }
+
     }
 
     @Override
