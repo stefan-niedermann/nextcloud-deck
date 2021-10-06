@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import android.database.sqlite.SQLiteConstraintException;
+
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.exceptions.DeckException;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
@@ -42,11 +45,20 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
         entity.getStack().setBoardId(board.getLocalId());
         entity.getStack().setAccountId(accountId);
         try {
+            Board boardInDb = dataBaseAdapter.getBoardByLocalIdDirectly(entity.getStack().getBoardId());
+            if (boardInDb == null) {
+                throw new RuntimeException("Board wasn't created properly! ID: "+entity.getStack().getBoardId());
+            }
+            Account acc = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            if (acc == null) {
+                throw new RuntimeException("Account wasn't created properly! ID: "+accountId);
+            }
             return dataBaseAdapter.createStack(accountId, entity.getStack());
+        } catch (SQLiteConstraintException e) {
+            throw new RuntimeException("(SQLiteConstraintException) Unable to create Stack "+entity.toString()+ " on Board "+ board.toString(), e);
         } catch (Exception e) {
-            throw new RuntimeException("Unable to create Stack "+entity.toString()+ " on Board "+ board.toString(), e);
+            throw new RuntimeException("(WTF?!) Unable to create Stack "+entity.toString()+ " on Board "+ board.toString(), e);
         }
-
     }
 
     @Override
