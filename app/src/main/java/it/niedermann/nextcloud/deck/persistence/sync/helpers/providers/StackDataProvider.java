@@ -51,6 +51,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
             if (acc == null || boardInDb == null || boardInDbRemote == null) {
                 throw new RuntimeException("something wasn't created properly!\nAccount ID: "+accountId+ ": " +
                         (acc == null ? "null" : acc.getServerDeckVersion()) +
+                        "\nboardInDataProvider: " + board +
                         "\nboardByLocalID: " + boardInDb +
                                 "\nboardByREMOTE_ID: "+boardInDbRemote);
             }
