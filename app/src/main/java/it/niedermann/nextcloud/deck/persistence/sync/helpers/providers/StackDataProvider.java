@@ -45,13 +45,14 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
         entity.getStack().setBoardId(board.getLocalId());
         entity.getStack().setAccountId(accountId);
         try {
-            Board boardInDb = dataBaseAdapter.getBoardByLocalIdDirectly(entity.getStack().getBoardId());
-            if (boardInDb == null) {
-                throw new RuntimeException("Board wasn't created properly! ID: "+entity.getStack().getBoardId());
-            }
+            FullBoard boardInDbRemote = dataBaseAdapter.getFullBoardByRemoteIdDirectly(accountId, board.getLocalId());
+            Board boardInDb = dataBaseAdapter.getBoardByLocalIdDirectly(board.getLocalId());
             Account acc = dataBaseAdapter.getAccountByIdDirectly(accountId);
-            if (acc == null) {
-                throw new RuntimeException("Account wasn't created properly! ID: "+accountId);
+            if (acc == null || boardInDb == null || boardInDbRemote == null) {
+                throw new RuntimeException("something wasn't created properly!\nAccount ID: "+accountId+ ": " +
+                        (acc == null ? "null" : acc.getServerDeckVersion()) +
+                        "\nboardByLocalID: " + boardInDb +
+                                "\nboardByREMOTE_ID: "+boardInDbRemote);
             }
             return dataBaseAdapter.createStack(accountId, entity.getStack());
         } catch (SQLiteConstraintException e) {
