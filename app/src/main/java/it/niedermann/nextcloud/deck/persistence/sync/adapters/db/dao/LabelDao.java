@@ -23,7 +23,7 @@ public interface LabelDao extends GenericDao<Label> {
     @Query("SELECT * FROM label WHERE accountId = :accountId and id = :remoteId")
     Label getLabelByRemoteIdDirectly(final long accountId, final long remoteId);
 
-    @Query("SELECT * FROM label WHERE localId IN (:labelIDs) and status <> 3") // not LOCAL_DELETED
+    @Query("SELECT * FROM label WHERE localId IN (:labelIDs) and status <> 3 order by title asc") // not LOCAL_DELETED
     List<Label> getLabelsByIdsDirectly(List<Long> labelIDs);
 
     @Query("SELECT * FROM label WHERE localId = :localLabelID")
