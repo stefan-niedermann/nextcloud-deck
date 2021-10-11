@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import android.database.sqlite.SQLiteConstraintException;
+
 import androidx.annotation.Nullable;
 
 import java.time.Instant;
@@ -10,6 +12,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
@@ -99,10 +102,27 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     @Override
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl entity) {
         prepareUser(dataBaseAdapter, accountId, entity);
-        long newId = dataBaseAdapter.createAccessControl(accountId, entity);
-        entity.setLocalId(newId);
-        handleGroupMemberships(dataBaseAdapter, entity);
-        return newId;
+        try {
+            FullBoard boardInDbRemote = dataBaseAdapter.getFullBoardByRemoteIdDirectly(accountId, board.getLocalId());
+            Board boardInDb = dataBaseAdapter.getBoardByLocalIdDirectly(board.getLocalId());
+            Account acc = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            if (acc == null || boardInDb == null || boardInDbRemote == null) {
+                throw new RuntimeException("something wasn't created properly!\nAccount ID: "+accountId+ ": " +
+                        (acc == null ? "null" : acc.getServerDeckVersion()) +
+                        "\nboardInDataProvider: " + board +
+                        "\nboardByLocalID: " + boardInDb +
+                        "\nboardByREMOTE_ID: "+boardInDbRemote);
+            }
+            long newId = dataBaseAdapter.createAccessControl(accountId, entity);
+            entity.setLocalId(newId);
+            handleGroupMemberships(dataBaseAdapter, entity);
+            return newId;
+        } catch (SQLiteConstraintException e) {
+            throw new RuntimeException("(SQLiteConstraintException) Unable to create Stack "+entity.toString()+ " on Board "+ board.toString(), e);
+        } catch (Exception e) {
+            throw new RuntimeException("(WTF?!) Unable to create Stack "+entity.toString()+ " on Board "+ board.toString(), e);
+        }
+
     }
 
     private void handleGroupMemberships(DataBaseAdapter dataBaseAdapter, AccessControl entity) {
