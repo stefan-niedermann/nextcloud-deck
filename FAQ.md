@@ -2,6 +2,7 @@
 
 - [I have experienced an error](#i-have-experienced-an-error)
 - [Why has my bug report been closed?](#why-has-my-bug-report-been-closed)
+- [Why don't you make an option for…?](https://github.com/stefan-niedermann/nextcloud-notes/blob/master/FAQ.md#why-dont-you-make-an-option-for)
 - [Why don't you make an iOS app?](#why-dont-you-make-an-ios-app)
 - [How to receive notifications when a due date is reached?](#how-to-receive-notifications-when-a-due-date-is-reached)
 
@@ -58,6 +59,18 @@ This is necessary for two reasons:
 
 1. We have a rapid development cycle - bugs which have been reported weeks ago might no longer relevant
 2. We are loosing the context of a report or a question over the time. We have many things to care about and digging into an issue deep and then relying on an response which is not coming is a waste of our limited free time
+
+## Why don't you make an option for…?
+
+We prefer good defaults over providing an option for each edge case. Our resources are quite limited, so we have to consider introducing new options very carefully.
+
+1. A feature is implemented quickly, but who will maintain it for the next 5 years?
+2. Each option increases the test matrix exponentially and leads to huge efforts to test every combination
+3. Each option increases the possible constellations, making it hard to track down issues
+4. Each option increases the visual noise for people who will *not* use the options
+5. Each option increases the maintenance efforts, making it harder over the time to work on actual features
+6. Each option introduces new side effects, which might lead to undiscovered bugs or break existing features
+7. The Android app aims to mirror feature parity with the corresponding server app
 
 ## Why don't you make an iOS app?
 
