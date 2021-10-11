@@ -1,0 +1,1 @@
+- 🔠 Order assigned tags alphabetically (#1119)
