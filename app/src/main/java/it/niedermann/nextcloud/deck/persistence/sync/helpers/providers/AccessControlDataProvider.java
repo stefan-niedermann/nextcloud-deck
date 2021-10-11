@@ -120,7 +120,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
         } catch (SQLiteConstraintException e) {
             throw new RuntimeException("(SQLiteConstraintException) Unable to create ACL "+entity.toString()+ " on Board "+ board.toString(), e);
         } catch (Exception e) {
-            throw new RuntimeException("(WTF?!) Unable to create Stack "+entity.toString()+ " on Board "+ board.toString(), e);
+            throw new RuntimeException("(WTF?!) Unable to create ACL "+entity.toString()+ " on Board "+ board.toString(), e);
         }
 
     }
