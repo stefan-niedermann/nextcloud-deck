@@ -1,7 +1,7 @@
 # Frequently asked questions
 
 - [I have experienced an error](#i-have-experienced-an-error)
-- [Why don't you make an option for…?](https://github.com/stefan-niedermann/nextcloud-notes/blob/master/FAQ.md#why-dont-you-make-an-option-for)
+- [Why don't you make an option for…?](#why-dont-you-make-an-option-for)
 - [Why has my bug report been closed?](#why-has-my-bug-report-been-closed)
 - [Why don't you make an iOS app?](#why-dont-you-make-an-ios-app)
 - [How to receive notifications when a due date is reached?](#how-to-receive-notifications-when-a-due-date-is-reached)
