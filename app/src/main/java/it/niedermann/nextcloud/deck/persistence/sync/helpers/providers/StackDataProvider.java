@@ -44,8 +44,12 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullStack entity) {
         entity.getStack().setBoardId(board.getLocalId());
         entity.getStack().setAccountId(accountId);
+        boolean transactionActive = true;
         try {
-            FullBoard boardInDbRemote = dataBaseAdapter.getFullBoardByRemoteIdDirectly(accountId, board.getLocalId());
+            try {
+                dataBaseAdapter.flush();
+            } catch (Exception e) {transactionActive = false;}
+            FullBoard boardInDbRemote = dataBaseAdapter.getFullBoardByRemoteIdDirectly(accountId, board.getId());
             Board boardInDb = dataBaseAdapter.getBoardByLocalIdDirectly(board.getLocalId());
             Account acc = dataBaseAdapter.getAccountByIdDirectly(accountId);
             if (acc == null || boardInDb == null || boardInDbRemote == null) {
@@ -59,7 +63,20 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
         } catch (SQLiteConstraintException e) {
             throw new RuntimeException("(SQLiteConstraintException) Unable to create Stack "+entity.toString()+ " on Board "+ board.toString(), e);
         } catch (Exception e) {
-            throw new RuntimeException("(WTF?!) Unable to create Stack "+entity.toString()+ " on Board "+ board.toString(), e);
+            List<Account> acc = dataBaseAdapter.getAllAccountsDirectly();
+            List<FullBoard> allFullBoards = dataBaseAdapter.getAllFullBoards(accountId);
+            StringBuffer sb = new StringBuffer("(WTF?!) Unable to create Stack "+entity.toString()+ " on Board "+ board.toString()+
+                    "\nTransaction was active: "+transactionActive+"\n### Accounts:\n");
+            for (Account a : acc) {
+                sb.append(a.getId());
+                sb.append("\n");
+            }
+            sb.append("### boards:\n");
+            for (FullBoard b : allFullBoards) {
+                sb.append(b.toString());
+                sb.append("\n");
+            }
+            throw new RuntimeException(sb.toString(), e);
         }
     }
 

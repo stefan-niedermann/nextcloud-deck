@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
+
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
@@ -78,8 +80,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHe
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
 
-import static androidx.lifecycle.Transformations.distinctUntilChanged;
-
 public class DataBaseAdapter {
 
     @NonNull
@@ -97,6 +97,10 @@ public class DataBaseAdapter {
         this.context = applicationContext;
         this.db = db;
         this.widgetNotifierExecutor = widgetNotifierExecutor;
+    }
+
+    public void flush(){
+        db.endTransaction();
     }
 
     @NonNull
