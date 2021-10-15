@@ -31,6 +31,8 @@
     <string name="simple_copied">کپی شد</string>
     <string name="simple_archive">بایگانی</string>
     <string name="simple_unassigned">تخصیص داده نشده</string>
+    <string name="hint_error_appeared">خطایی بروز کرد</string>
+
     <string name="edit_board">ویرایش تابلو</string>
     <string name="archive_board"> بایگانی تابلو</string>
     <string name="delete_board">حذف تابلو</string>
@@ -102,6 +104,14 @@
     <string name="do_you_want_to_save_your_changes">آیا می خواهید تغییرات خود را ذخیره کنید؟</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">آیا می خواهید همه کارتهای %1$s بایگانی شود؟</string>
     <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">آیا می خواهید همه کارت‌های فیلترشده %1$s بایگانی شوند؟</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">این عمل باعث حذف همیشگی %1$d کارت در این فهرست می‌شود.</item>
+        <item quantity="other">این عمل باعث حذف همیشگی همه %1$d کارت در این فهرست می‌شود.</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">این عمل باعث پاک شدن عنوان از %1$d کارت خواهد شد.</item>
+        <item quantity="other">این عمل باعث پاک شدن عنوان از %1$d کارت خواهد شد.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">با استفاده از دکمه + لیست جدیدی اضافه کنید</string>
     <string name="add_a_new_card_using_the_button">با استفاده از دکمه + یک کارت جدید اضافه کنید</string>
     <string name="update_deck">عرشه را به روز کنید</string>
@@ -110,9 +120,19 @@
     <string name="settings_theme_title">تم تاریک</string>
     <string name="settings_branding_title">نام تجاری</string>
     <string name="settings_compact_title">حالت جمع و جور</string>
+    <string name="settings_etags">استفاده از ETags</string>
+    <string name="settings_etags_summary">هم‌گام‌سازی را سرعت می‌بخشد</string>
     <string name="settings_background_sync">همگام سازی پس زمینه</string>
+    <string name="settings_compress_image_attachments">فشرده‌سازی تصاویر در زمان بارگذاری</string>
+    <string name="search_in">جستجو در %1$s</string>
+    <string name="settings_compress_image_attachments_summary">بارگذاری سریع‌تر، کیفیت پایین‌تر</string>
     <string name="pref_value_wifi_and_mobile">همگام سازی داده های Wi-Fi و تلفن همراه</string>
     <string name="pref_value_wifi_only">همگام سازی فقط در Wi-Fi</string>
+    <string-array name="darkmode_entries">
+        <item>پیش‌فرض سامانه</item>
+        <item>روشن</item>
+        <item>تاریک</item>
+    </string-array>
     <string name="unassigned_user">دست نخورده %1$s</string>
     <string name="no_activities">هیچ فعالیتی در این کارت انجام نشده است. برای بارگیری و نمایش فعالیتها باید به اینترنت متصل شوید.</string>
     <string name="share_board">صفحه مشترک</string>
@@ -123,8 +143,12 @@
     <string name="no_content">هنوز محتوا موجود نیست</string>
     <string name="last_background_sync">آخرین همگام سازی پس زمینه:</string>
     <string name="simple_off">خاموش</string>
+    <string name="minutes_15">۱۵ دقیقه</string>
+    <string name="hour_1">۱ ساعت</string>
+    <string name="hours_6">۶ ساعت</string>
     <string name="action_card_move">انتقال کارت</string>
     <string name="action_card_move_title">حرکت%1$s</string>
+    <string name="title_is_mandatory">عنوان الزامی است</string>
     <string name="provide_at_least_a_title_or_description">حداقل عنوان یا توصیفی ارائه دهید</string>
     <string name="welcome_text">به %1$s خوش آمدید</string>
     <string name="maintenance_mode_explanation">سرور %1$s در حال حاضر در حالت تعمیر و نگهداری است. لطفاً با مدیریت تماس بگیرید یا بعداً دوباره امتحان کنید.</string>
@@ -137,6 +161,7 @@
     <string name="add_a_new_board_using_the_button">با استفاده از دکمه + یک صفحه جدید اضافه کنید</string>
     <string name="choose_board">تخته را انتخاب کنید</string>
     <string name="choose_list">لیست را انتخاب کنید</string>
+    <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">باز کردن در مرورگر</string>
     <string name="updating_card">درحال به روزرسانی کارت</string>
 
@@ -146,9 +171,11 @@
     <string name="filter_no_filter">همه</string>
     <string name="filter_overdue">منقضی شده</string>
     <string name="filter_today">امروز</string>
+    <string name="filter_tomorrow">فردا</string>
     <string name="filter_week">7 روز آینده</string>
     <string name="filter_month">30 روز آینده</string>
     <string name="filter_no_due">تاریخ موعد ندارد</string>
+    <string name="filter_later">بعدا</string>
     <string name="filter_by_tag">فیلتر برچسب</string>
     <string name="filter_by_assigned_user">فیلتر توسط کاربر اختصاص داده شده</string>
     <string name="filter_by_duedate">فیلتر به سررسید</string>
@@ -175,6 +202,7 @@
     <string name="operation_not_yet_supported">هنوز پشتیبانی نشده است</string>
     <string name="error_revoking_ac">هنگام لغو دسترسی %1$s خطایی رخ داد</string>
     <string name="error_create_label">هنگام ایجاد برچسب %1$s خطایی رخ داد</string>
+    <string name="maintenance_mode">کارساز در حالت نگه‌داری است</string>
     <string name="server_error">خطای سرور</string>
     <string name="error_edit_activity_killed_by_android">Android حالت ویرایش را به پایان رساند زیرا به منابع سیستم بیشتری برای برنامه های دیگر نیاز داشت.</string>
 
@@ -184,6 +212,8 @@
     <string name="error_dialog_tip_database_upgrade_failed">ارتقا پایگاه داده انجام نشد. لطفاً موضوع را گزارش کرده و فضای ذخیره سازی را پاک کنید تا به طور معمول از برنامه استفاده کنید.</string>
     <string name="error_dialog_tip_clear_storage">با باز کردن اطلاعات برنامه و انتخاب ذخیره سازی → پاک کردن فضای ذخیره سازی ، می توانید فضای ذخیره سازی را پاک کنید.</string>
     <string name="error_dialog_tip_files_outdated">به نظر می رسد برنامه ابرسانا شما قدیمی است. برای دریافت آخرین نسخه ، لطفاً به فروشگاه  مراجعه کنید.</string>
+    <string name="error_dialog_tip_offline">به نظر می‌رسد شما اقدام به شروع هم‌گام‌سازی بدون داشتن اتصال اینترنت کرده‌اید.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">اگر شما گزینه «هم‌گام‌سازی فقط روی وای‌فای» را در تنظیمات فعال کرده باشید، تنها زمانی که به وای‌فای متصل باشید می‌توانید هم‌گام‌سازی کنید.</string>
     <string name="error_dialog_tip_files_force_stop">به نظر می رسد مشکلی در برنامه ابرسانا شما وجود ندارد. لطفا سعی کنید هر دو برنامه ابرسانا و برنامه کارت‌های سانا را مجبور به توقف کنید.</string>
     <string name="error_dialog_tip_files_delete_storage">اگر متوقف کردن اجباری کمکی نکرد ، می توانید فضای ذخیره سازی هر دو برنامه را پاک کنید.</string>
     <string name="error_dialog_timeout_instance">در زمان تعیین شده پاسخی از سرور شما دریافت نشده است. لطفاً مطمئن شوید که کار شما به خوبی اجرا می شود.</string>
@@ -199,14 +229,22 @@
     <string name="error_dialog_user_not_found_in_database">کاربر فعلی با کاربری که در پایگاه داده خود داریم مطابقت ندارد. اگر از LDAP در نمونه ابرسنا خود استفاده می کنید ، ممکن است برنامه ابرسانا شما شناسه کاربری قدیمی را ذخیره کرده باشد.</string>
     <string name="error_dialog_capabilities_not_parsable">ما نمی توانیم قابلیت های سرور شما را واکشی کنیم. لطفاً اطمینان حاصل کنید که سرور شما به خوبی کار می کند و سایر برنامه های سرویس گیرنده قادر به دسترسی به ابرسانا هستند.</string>
     <string name="error_dialog_attachment_upload_failed">پیوست بارگذاری نمی شود. لطفا سعی کنید آن را به روش دیگری به اشتراک بگذارید و در مورد این اشکال به ما اطلاع دهید.</string>
+    <string name="error_dialog_certificate">به نظر می‌رسد مشکلی در ارتباط با گواهینامهٔ کارسازتان وجود داشته باشد. لطفا همه حساب‌ها را در برنامه نکست‌کلود برای اطلاعات بیشتر وارسی کنید.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">لطفاً تمام بهینه سازی های باتری را برای Nextcloud و برنامه Deck غیرفعال کنید.</string>
+    <string name="error_dialog_unknown_error">به نظر می‌رسد نمونه نکست‌کلود شما در دسترس نیست. لطفا وارسی کنید که به اینترنت متصل بوده و می‌توانید از طرف مرورگر به نمونه‌تان متصل شوید.</string>
     <string name="error_action_open_deck_info">اطلاعات برنامه را باز کنید</string>
+    <string name="error_action_open_nextcloud_app">باز کردن کارهٔ نکست‌کلود</string>
     <string name="error_action_open_network">تنظیمات شبکه</string>
     <string name="error_action_server_logs">گزارش های سرور</string>
+    <string name="error_action_open_in_browser">باز کردن در مرورگر</string>
     <string name="error_action_install">نصب</string>
     <string name="error_action_report_issue">گزارش</string>
+    <string name="info_box_maintenance_mode">کارساز در حال نگه‌داری است</string>
     <string name="info_box_version_not_supported">نسخه سرور %1$s پشتیبانی نمی شود ، لطفاً آن را به %2$s به روز کنید</string>
     <string name="share_link">لینک را به اشتراک بگذارید</string>
+    <string name="share_content">هم‌رسانی محتوا</string>
+    <string name="share_content_duedate">تاریخ سررسید: %1$s</string>
+    <string name="share_content_labels">برچسب‌ها: %1$s</string>
     <string name="archive_cards">کارتها را بایگانی کنید</string>
 
     <string name="manage_accounts">حساب ها را مدیریت کنید</string>
@@ -215,6 +253,10 @@
     <string name="append_text_to_description">به شرح اضافه کنید</string>
     <string name="add_text_as_comment">به نظرات اضافه کنید</string>
     <string name="progress_count">%1$d از %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d خطا حین بارگذاری</item>
+        <item quantity="other">%1$d خطا حین بارگذاری</item>
+    </plurals>
     <string name="simple_report">گزارش</string>
     <string name="error_action_open_battery_settings">تنظیمات باتری</string>
     <string name="move_warning">هنگام انتقال کارت به صفحه دیگری ، هیچکدام از نظرات و پیوستها قابل انتقال نیستند.</string>
@@ -225,6 +267,7 @@
     <string name="card_does_not_yet_exist">کارت هنوز در deck وجود ندارد</string>
 
     <string name="widget_stack_title">لیست</string>
+    <string name="widget_filter_title">پالایه</string>
     <string name="widget_stack_header_icon">نماد عنوان ویجت</string>
     <string name="select_stack">لیست را انتخاب کنید</string>
     <string name="project_type_deck_board">تخته deck</string>
@@ -235,6 +278,7 @@
     <string name="single_card">کارت تک</string>
     <string name="project_type_room">اتاق گفتگو</string>
     <string name="simple_move">انتقال</string>
+    <string name="cannot_upload_files_without_permission">بدون داشتن مجوز، امکان بارگذاری پرونده وجود ندارد</string>
     <string name="clone_cards">شبیه سازی کارت</string>
     <string name="simple_clone">شبیه سازی</string>
     <string name="user_avatar">آواتار کاربر</string>
@@ -255,5 +299,13 @@
     <string name="gallery">گالری</string>
     <string name="simple_attach">ضمیمه کردن</string>
     <string name="add_stack_widget">افزودن ابزارک لیست</string>
+    <string name="add_filter_widget">افزودن ابزارک پالایه</string>
+    <string name="simple_order">ترتیب</string>
     <string name="edit_description">ویرایش توضیحات</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">تنظیمات تخصصی</string>
+    <string name="simple_search">جستجو</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">عنوان (ضروری)</string>
+    <string name="saving_new_card">در حال ذخیره کارت جدید…</string>
     </resources>
