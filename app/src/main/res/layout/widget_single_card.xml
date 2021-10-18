@@ -6,23 +6,21 @@
     android:layout_height="match_parent"
     android:background="@drawable/widget_single_card_background"
     android:orientation="vertical"
-    android:paddingTop="@dimen/spacer_1hx"
-    android:paddingBottom="@dimen/spacer_1x"
-    android:paddingStart="@dimen/spacer_2x"
-    android:paddingEnd="@dimen/spacer_2x"
     tools:layout_height="200dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/widget_inner_padding_horizontal"
+        android:paddingTop="@dimen/widget_inner_padding_vertical"
+        android:paddingEnd="@dimen/widget_inner_padding_horizontal">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingTop="@dimen/spacer_1hx"
             android:paddingBottom="@dimen/spacer_1hx"
             android:textColor="@color/widget_foreground"
             android:textSize="@dimen/widget_font_size_header"
@@ -58,7 +56,9 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:paddingStart="@dimen/widget_inner_padding_horizontal"
+        android:paddingEnd="@dimen/widget_inner_padding_horizontal">
 
         <ListView
             android:id="@+id/description_lv"
@@ -74,7 +74,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacer_1hx"
-        android:gravity="bottom">
+        android:gravity="bottom"
+        android:paddingStart="@dimen/widget_inner_padding_horizontal"
+        android:paddingEnd="@dimen/widget_inner_padding_horizontal"
+        android:paddingBottom="@dimen/widget_inner_padding_vertical">
 
         <ImageView
             android:id="@+id/card_count_comments_image"

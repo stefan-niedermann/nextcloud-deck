@@ -25,8 +25,8 @@
     <dimen name="icon_size_details">24dp</dimen>
     <dimen name="empty_content_font_size">26sp</dimen>
 
-    <dimen name="widget_outer_radius">@dimen/spacer_4x</dimen>
-    <dimen name="widget_inner_radius">@dimen/spacer_2x</dimen>
+    <dimen name="widget_outer_radius">@android:dimen/system_app_widget_background_radius</dimen>
+    <dimen name="widget_inner_radius">@android:dimen/system_app_widget_inner_radius</dimen>
     <dimen name="widget_inner_padding_vertical">@dimen/widget_inner_radius</dimen>
     <dimen name="widget_inner_padding_horizontal">@dimen/spacer_1x</dimen>
     <dimen name="widget_stack_card_padding">@dimen/spacer_1hx</dimen>
