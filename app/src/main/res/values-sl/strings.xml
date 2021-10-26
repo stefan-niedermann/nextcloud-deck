@@ -1,6 +1,8 @@
 <resources>
     <string name="navigation_drawer_open">Odpri bočno okno</string>
     <string name="navigation_drawer_close">Zapri bočno okno</string>
+    <string name="hint_search_deck">Preišči zbirko</string>
+
     <string name="simple_boards">Zbirke</string>
     <string name="simple_add">Dodaj</string>
     <string name="simple_save">Shrani</string>
@@ -31,6 +33,8 @@
     <string name="simple_copied">Kopirano!</string>
     <string name="simple_archive">Arhiv</string>
     <string name="simple_unassigned">Nedodeljeno</string>
+    <string name="hint_error_appeared">Prišlo je do napake</string>
+
     <string name="edit_board">Uredi zbirko</string>
     <string name="archive_board">Arhiviraj zbirko</string>
     <string name="delete_board">Izbriši zbirko</string>
@@ -324,5 +328,9 @@
     <string name="copying_logs_to_file">Poteka kopiranje datotek dnevnikov ...</string>
     <string name="account_imported">Račun je uvožen</string>
     <string name="simple_search">Poišči</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Naslov (obvezen podatek)</string>
     <string name="saving_new_card">Shranjevanje nove naloge...</string>
-    </resources>
+    <string name="progress_import">Poteka uvažanje zbirke %1$d od %2$d…</string>
+    <string name="progress_import_indeterminate">Poteka uvažanje zbirke ...</string>
+</resources>
