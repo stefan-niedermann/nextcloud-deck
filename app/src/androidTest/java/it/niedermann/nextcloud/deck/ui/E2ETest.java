@@ -16,6 +16,8 @@ import org.junit.runner.RunWith;
 @SmallTest
 public class E2ETest {
 
+//    @Rule
+//    public GrantPermissionRule mRuntimePermissionRule = GrantPermissionRule.grant(Manifest.permission.ACCOUNT_MANAGER);
     @Rule
     public ActivityScenarioRule<ImportAccountActivity> rule = new ActivityScenarioRule<>(ImportAccountActivity.class);
 
@@ -24,6 +26,7 @@ public class E2ETest {
         final var scenario = rule.getScenario();
         scenario.onActivity(activity -> {
             onView(withText("Task"));
+            onView(withText("Halloween"));
         });
     }
 }
