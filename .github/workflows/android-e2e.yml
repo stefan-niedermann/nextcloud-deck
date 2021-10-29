@@ -1,0 +1,49 @@
+on: [push]
+
+jobs:
+  setup_nextcloud:
+    runs-on: ubuntu-latest
+    name: Run e2e test
+    services:
+      nextcloud:
+        image: nextcloud:latest
+        env:
+          SQLITE_DATABASE: db.sqlite
+          NEXTCLOUD_ADMIN_USER: Test
+          NEXTCLOUD_ADMIN_PASSWORD: Test
+        ports:
+          - 8080:80
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Wait for Nextcloud instance
+        run: sh ci/sleepUntilReady.sh 'http://Test:Test@localhost:8080/ocs/v2.php/apps/serverinfo/api/v1/info?format=json' 30
+
+      - name: List running Docker containers
+        run: |
+          docker ps
+          echo "Current docker container ID: `docker ps -f 'name=_nextcloudlatest_' -l -q`"
+
+      - name: Print Container information
+        run: |
+          docker exec `docker ps -f 'name=_nextcloudlatest_' -l -q` bash -c 'whoami'
+          docker exec `docker ps -f 'name=_nextcloudlatest_' -l -q` bash -c 'uname -a'
+
+      - name: Enable Deck via Docker Exec
+        run: |
+          docker exec `docker ps -f 'name=_nextcloudlatest_' -l -q` bash -c 'runuser -u www-data -- php occ app:install deck'
+
+      - name: Fetch capabilities
+        run: |
+          curl -v -X GET 'http://Test:Test@localhost:8080/ocs/v2.php/cloud/capabilities?format=json' -H 'OCS-APIRequest: true' | jq
+
+      - name: Fetch server info
+        run: |
+          curl -v -X GET 'http://Test:Test@localhost:8080/ocs/v2.php/apps/serverinfo/api/v1/info?format=json' -H 'OCS-APIRequest: true' | jq
+
+      - name: Run emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: sh ci/runE2E.sh
