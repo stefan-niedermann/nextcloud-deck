@@ -49,6 +49,7 @@ jobs:
           script: |
             wget -q https://download.nextcloud.com/android/dev/latest.apk
             adb install latest.apk
+            sleep 5s
             adb shell monkey -p com.nextcloud.client -c android.intent.category.LAUNCHER 1
             adb shell input keyevent "KEYCODE_TAB"
             adb shell input keyevent "KEYCODE_TAB"
