@@ -46,4 +46,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: sh ci/runE2E.sh
+          script: |
+            wget -q https://download.nextcloud.com/android/dev/latest.apk
+            adb install latest.apk
+            ./gradlew connectedAndroidTest
