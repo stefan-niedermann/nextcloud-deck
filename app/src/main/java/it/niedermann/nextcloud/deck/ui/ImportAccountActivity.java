@@ -48,7 +48,7 @@ public class ImportAccountActivity extends AppCompatActivity {
     private String sharedPreferenceLastAccount;
     private String urlFragmentUpdateDeck;
 
-    private ActivityImportAccountBinding binding;
+    protected ActivityImportAccountBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
