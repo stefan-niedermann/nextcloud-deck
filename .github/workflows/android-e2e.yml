@@ -69,7 +69,7 @@ jobs:
             adb shell input keyevent "KEYCODE_TAB"
             adb shell input keyevent "KEYCODE_ENTER"
 
-            ./gradlew assembleDev
+            ./gradlew assembleDevDebug
             adb install app/build/outputs/apk/dev/debug/app-dev-debug.apk
             adb shell monkey -p it.niedermann.nextcloud.deck.dev -c android.intent.category.LAUNCHER 1
             adb shell input keyevent "KEYCODE_TAB"
@@ -82,4 +82,4 @@ jobs:
             adb shell input keyevent "KEYCODE_TAB"
             adb shell input keyevent "KEYCODE_ENTER"
 
-            ./gradlew connectedAndroidTest
+            ./gradlew connectedDevDebugAndroidTest
