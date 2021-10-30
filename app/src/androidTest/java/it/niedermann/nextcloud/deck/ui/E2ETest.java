@@ -1,32 +1,40 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.filters.SmallTest;
-import androidx.test.runner.AndroidJUnit4;
 
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-// @RunWith is required only if you use a mix of JUnit3 and JUnit4.
-@RunWith(AndroidJUnit4.class)
-@SmallTest
+import it.niedermann.nextcloud.deck.R;
+
 public class E2ETest {
 
-//    @Rule
-//    public GrantPermissionRule mRuntimePermissionRule = GrantPermissionRule.grant(Manifest.permission.ACCOUNT_MANAGER);
+    public ActivityScenario<MainActivity> scenario;
     @Rule
-    public ActivityScenarioRule<ImportAccountActivity> rule = new ActivityScenarioRule<>(ImportAccountActivity.class);
+    public ActivityScenarioRule<MainActivity> rule = new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
     public void sampleTest() {
-        final var scenario = rule.getScenario();
+        scenario = rule.getScenario();
         scenario.onActivity(activity -> {
-            onView(withText("Task"));
-            onView(withText("Halloween"));
+            final var fieldMatcher = withId(R.id.filter);
+            final var interaction = onView(fieldMatcher);
+            final var matcher = isDisplayed();
+            final var assertion = matches(matcher);
+            interaction.check(assertion);
+//            onView(withText("Halloween")).check(matches(isDisplayed()));
         });
+    }
+
+    @After
+    public void cleanup() {
+        scenario.close();
     }
 }
