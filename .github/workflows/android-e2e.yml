@@ -13,12 +13,15 @@ jobs:
           NEXTCLOUD_ADMIN_PASSWORD: Test
         ports:
           - 8080:80
+        options: >-
+          --health-cmd "curl GET 'http://Test:Test@localhost:80/ocs/v2.php/apps/serverinfo/api/v1/info' -f -H 'OCS-APIRequest: true' || exit 1"
+          --health-interval 1s
+          --health-timeout 2s
+          --health-retries 10
+          --health-start-period 3s
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Wait for Nextcloud instance
-        run: sh ci/sleepUntilReady.sh 'http://Test:Test@localhost:8080/ocs/v2.php/apps/serverinfo/api/v1/info?format=json' 30
 
       - name: List running Docker containers
         run: |
