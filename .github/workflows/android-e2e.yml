@@ -53,36 +53,4 @@ jobs:
             wget -q https://download.nextcloud.com/android/dev/latest.apk
             adb install latest.apk
             sleep 5s
-            adb shell monkey -p com.nextcloud.android.beta -c android.intent.category.LAUNCHER 1
-            adb shell input keyevent "KEYCODE_TAB"
-            adb shell input keyevent "KEYCODE_TAB"
-            adb shell input keyevent "KEYCODE_TAB"
-            adb shell input keyevent "KEYCODE_TAB"
-            adb shell input keyevent "KEYCODE_TAB"
-            adb shell input keyevent "KEYCODE_ENTER"
-            adb shell input text "http://localhost:8080"
-            adb shell input keyevent "KEYCODE_ENTER"
-            adb shell input keyevent "KEYCODE_TAB"
-            adb shell input keyevent "KEYCODE_TAB"
-            adb shell input keyevent "KEYCODE_ENTER"
-            adb shell input text "Test"
-            adb shell input keyevent "KEYCODE_TAB"
-            adb shell input text "Test"
-            adb shell input keyevent "KEYCODE_ENTER"
-            adb shell input keyevent "KEYCODE_TAB"
-            adb shell input keyevent "KEYCODE_ENTER"
-
-            ./gradlew assembleDevDebug
-            adb install app/build/outputs/apk/dev/debug/app-dev-debug.apk
-            adb shell monkey -p it.niedermann.nextcloud.deck.dev -c android.intent.category.LAUNCHER 1
-            adb shell input keyevent "KEYCODE_TAB"
-            adb shell input keyevent "KEYCODE_ENTER"
-
-            adb shell input keyevent "KEYCODE_TAB"
-            adb shell input keyevent "KEYCODE_SPACE"
-            adb shell input keyevent "KEYCODE_TAB"
-            adb shell input keyevent "KEYCODE_TAB"
-            adb shell input keyevent "KEYCODE_TAB"
-            adb shell input keyevent "KEYCODE_ENTER"
-
             ./gradlew connectedDevDebugAndroidTest
