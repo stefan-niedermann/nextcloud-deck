@@ -46,7 +46,6 @@ jobs:
           curl -v -X GET 'http://Test:Test@localhost:8080/ocs/v2.php/apps/serverinfo/api/v1/info?format=json' -H 'OCS-APIRequest: true' | jq
 
       - name: Run emulator
-        continue-on-error: true
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
@@ -58,7 +57,14 @@ jobs:
             adb pull "/sdcard/screenshots" "screenshots"
       - name: List files
         run: ls -all
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: Test-Reports
+          path: app/build/reports
       - name: Store screenshots
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: stuff
