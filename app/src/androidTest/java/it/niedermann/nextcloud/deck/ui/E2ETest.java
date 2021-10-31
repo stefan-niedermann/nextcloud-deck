@@ -8,6 +8,7 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObjectNotFoundException;
@@ -45,29 +46,28 @@ public class E2ETest {
         context.startActivity(intent);
         mDevice.wait(Until.hasObject(By.pkg(CALC_PACKAGE).depth(0)), 30);
 
-        mDevice.takeScreenshot(new File("/sdcard/screenshots/setup-1.png"));
+        screenshot("setup-1");
 
         final var loginButton1 = mDevice.findObject(new UiSelector().text("Log in"));
-
         loginButton1.waitForExists(30);
-        mDevice.takeScreenshot(new File("/sdcard/screenshots/setup-2.png"));
+        screenshot("setup-2");
         loginButton1.click();
 
         mDevice.findObject(new UiSelector().focused(true)).setText(url);
-        mDevice.takeScreenshot(new File("/sdcard/screenshots/setup-3.png"));
+        screenshot("setup-3");
         mDevice.pressEnter();
-        mDevice.takeScreenshot(new File("/sdcard/screenshots/setup-4.png"));
+        screenshot("setup-4");
         mDevice.findObject(new UiSelector().text("Log in")).click();
 
         mDevice.wait(Until.findObject(By.clazz(WebView.class)), 30);
-        mDevice.takeScreenshot(new File("/sdcard/screenshots/setup-5.png"));
+        screenshot("setup-5");
 
         final var usernameInput = mDevice.findObject(new UiSelector()
                 .instance(0)
                 .className(EditText.class));
 
         usernameInput.waitForExists(30);
-        mDevice.takeScreenshot(new File("/sdcard/screenshots/setup-6.png"));
+        screenshot("setup-6");
         usernameInput.setText(username);
 
         final var passwordInput = mDevice.findObject(new UiSelector()
@@ -75,14 +75,14 @@ public class E2ETest {
                 .className(EditText.class));
 
         passwordInput.waitForExists(30);
-        mDevice.takeScreenshot(new File("/sdcard/screenshots/setup-7.png"));
+        screenshot("setup-7");
         passwordInput.setText(password);
 
         mDevice.findObject(new UiSelector().text("Log in")).click();
-        mDevice.takeScreenshot(new File("/sdcard/screenshots/setup-8.png"));
+        screenshot("setup-8");
 
         mDevice.findObject(new UiSelector().text("Grant access")).click();
-        mDevice.takeScreenshot(new File("/sdcard/screenshots/setup-9.png"));
+        screenshot("setup-9");
     }
 
     private void importAccountIntoDeck() throws UiObjectNotFoundException {
@@ -99,14 +99,12 @@ public class E2ETest {
         context.startActivity(intent);
         mDevice.wait(Until.hasObject(By.pkg(CALC_PACKAGE).depth(0)), 30);
 
-
-
         final var accountButton = mDevice.findObject(new UiSelector()
                 .instance(0)
                 .className(Button.class));
 
         accountButton.waitForExists(30);
-        mDevice.takeScreenshot(new File("/sdcard/screenshots/1.png"));
+        screenshot("deck-1");
         accountButton.click();
 
         final var radioAccount = mDevice.findObject(new UiSelector()
@@ -114,25 +112,24 @@ public class E2ETest {
                 .instance(0));
 
         radioAccount.waitForExists(30);
-        mDevice.takeScreenshot(new File("/sdcard/screenshots/2.png"));
+        screenshot("deck-2");
         radioAccount.click();
 
         final var okButton = mDevice.findObject(new UiSelector().text("OK"));
 
         okButton.waitForExists(30);
-        mDevice.takeScreenshot(new File("/sdcard/screenshots/3.png"));
+        screenshot("deck-3");
         okButton.click();
 
         final var allowButton = mDevice.findObject(new UiSelector().text("Allow"));
 
         allowButton.waitForExists(30);
-        mDevice.takeScreenshot(new File("/sdcard/screenshots/4.png"));
+        screenshot("deck-4");
         allowButton.click();
 
         final var welcomeText = mDevice.findObject(new UiSelector().description("Filter"));
         welcomeText.waitForExists(30);
-        mDevice.takeScreenshot(new File("/sdcard/screenshots/5.png"));
-//        mDevice.wait
+        screenshot("deck-5");
     }
 
     private void verfiyCardsPresent() {
@@ -154,5 +151,10 @@ public class E2ETest {
                 .className(MaterialCardView.class));
 
         accountButton.waitForExists(30);
+        screenshot("deck-validate-1");
+    }
+
+    private void screenshot(@NonNull String name) {
+        mDevice.takeScreenshot(new File("/sdcard/screenshots/" + name + ".png"));
     }
 }
