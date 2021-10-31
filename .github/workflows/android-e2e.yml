@@ -53,8 +53,10 @@ jobs:
             wget -q https://download.nextcloud.com/android/dev/latest.apk
             adb install latest.apk
             sleep 5s
-            ./gradlew connectedDevDebugAndroidTest
+            ls -all
+            bash -c 'if ./gradlew connectedDebugAndroidTest; then echo "connectedDebugAndroidTest succeeded" >&2 else adb exec-out screenshots -p >/sdcard/screenshots.png; exit 1 fi'
             adb pull "/sdcard/screenshots" "screenshots"
+            ls -all
       - name: List files
         run: ls -all
       - name: Pull screenshots
