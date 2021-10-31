@@ -53,11 +53,14 @@ jobs:
             wget -q https://download.nextcloud.com/android/dev/latest.apk
             adb install latest.apk
             sleep 5s
+            echo "ls -all (0)"
             ls -all
             sh copy_screenshots.sh
             adb pull /sdcard/screenshots screenshots
+            echo "ls -all (3)"
             ls -all
       - name: List files
+        echo "ls -all (4)"
         run: ls -all
       - name: Pull screenshots
         run: adb pull "/sdcard/screenshots" "screenshots"
