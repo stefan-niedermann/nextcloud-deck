@@ -60,8 +60,9 @@ jobs:
             echo "ls -all (3)"
             ls -all
       - name: List files
-        echo "ls -all (4)"
-        run: ls -all
+        run: |
+          echo "ls -all (4)"
+          ls -all
       - name: Pull screenshots
         run: adb pull "/sdcard/screenshots" "screenshots"
       - name: Upload Reports
