@@ -57,6 +57,8 @@ jobs:
             adb pull "/sdcard/screenshots" "screenshots"
       - name: List files
         run: ls -all
+      - name: Pull screenshots
+        run: adb pull "/sdcard/screenshots" "screenshots"
       - name: Upload Reports
         if: always()
         uses: actions/upload-artifact@v2

@@ -28,7 +28,7 @@ public class E2ETest {
     public void e2e() throws UiObjectNotFoundException {
         mDevice = UiDevice.getInstance(getInstrumentation());
         launch("com.nextcloud.android.beta");
-        configureNextcloudAccount("http://localhost:8080", "Test", "Test");
+        configureNextcloudAccount("nextcloud.knecht.rocks", "stefan", "stefaniststinkt");
 
         launch("it.niedermann.nextcloud.deck.dev");
         importAccountIntoDeck();
