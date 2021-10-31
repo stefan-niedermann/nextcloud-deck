@@ -54,8 +54,8 @@ jobs:
             adb install latest.apk
             sleep 5s
             ls -all
-            bash -c 'if ./gradlew connectedDebugAndroidTest; then echo "connectedDebugAndroidTest succeeded" >&2 else adb exec-out screenshots -p >/sdcard/screenshots.png; exit 1 fi'
-            adb pull "/sdcard/screenshots" "screenshots"
+            sh copy_screenshots.sh
+            adb pull /sdcard/screenshots screenshots
             ls -all
       - name: List files
         run: ls -all
