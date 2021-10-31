@@ -61,5 +61,5 @@ jobs:
       - name: Store screenshots
         uses: actions/upload-artifact@v2
         with:
-          name: screenshots
-          path: screenshots
+          name: stuff
+          path: .
