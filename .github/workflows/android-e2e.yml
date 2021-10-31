@@ -56,6 +56,8 @@ jobs:
             sleep 5s
             ./gradlew connectedDevDebugAndroidTest
             adb pull "/sdcard/screenshots" "screenshots"
+      - name: List files
+        run: ls -all
       - name: Store screenshots
         uses: actions/upload-artifact@v2
         with:
