@@ -54,9 +54,6 @@ jobs:
             adb install latest.apk
             sleep 5s
             sh copy_screenshots.sh
-      - name: Pull screenshots
-        if: always()
-        run: adb pull "/sdcard/screenshots" "screenshots"
       - name: Upload Reports
         if: always()
         uses: actions/upload-artifact@v2
