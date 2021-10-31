@@ -71,9 +71,9 @@ jobs:
         with:
           name: Test-Reports
           path: app/build/reports
-      - name: Store screenshots
+      - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: stuff
-          path: .
+          name: Screenshots
+          path: screenshots
