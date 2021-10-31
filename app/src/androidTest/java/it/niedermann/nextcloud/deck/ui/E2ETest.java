@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.ui;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
-import android.content.Context;
 import android.content.Intent;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -26,28 +25,19 @@ public class E2ETest {
     private UiDevice mDevice;
 
     @Test
-    public void setUp() throws UiObjectNotFoundException {
-        setupNextcloudAccount("http://localhost:8080", "Test", "Test");
+    public void e2e() throws UiObjectNotFoundException {
+        mDevice = UiDevice.getInstance(getInstrumentation());
+        launch("com.nextcloud.android.beta");
+        configureNextcloudAccount("http://localhost:8080", "Test", "Test");
+
+        launch("it.niedermann.nextcloud.deck.dev");
         importAccountIntoDeck();
-        verfiyCardsPresent();
+
+        verifyCardsPresent();
     }
 
-    private void setupNextcloudAccount(String url, String username, String password) throws UiObjectNotFoundException {
-        final var CALC_PACKAGE = "com.nextcloud.android.beta";
-        // Initialize UiDevice instance
-        mDevice = UiDevice.getInstance(getInstrumentation());
 
-        // Launch a simple calculator app
-        final var context = getInstrumentation().getContext();
-        final var intent = context.getPackageManager()
-                .getLaunchIntentForPackage(CALC_PACKAGE)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        // Clear out any previous instances
-        context.startActivity(intent);
-        mDevice.wait(Until.hasObject(By.pkg(CALC_PACKAGE).depth(0)), 30);
-
-        screenshot("setup-1");
-
+    private void configureNextcloudAccount(String url, String username, String password) throws UiObjectNotFoundException {
         final var loginButton1 = mDevice.findObject(new UiSelector().text("Log in"));
         loginButton1.waitForExists(30);
         screenshot("setup-2");
@@ -86,19 +76,6 @@ public class E2ETest {
     }
 
     private void importAccountIntoDeck() throws UiObjectNotFoundException {
-        final var CALC_PACKAGE = "it.niedermann.nextcloud.deck.dev";
-        // Initialize UiDevice instance
-        mDevice = UiDevice.getInstance(getInstrumentation());
-
-        // Launch a simple calculator app
-        Context context = getInstrumentation().getContext();
-        Intent intent = context.getPackageManager()
-                .getLaunchIntentForPackage(CALC_PACKAGE);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        // Clear out any previous instances
-        context.startActivity(intent);
-        mDevice.wait(Until.hasObject(By.pkg(CALC_PACKAGE).depth(0)), 30);
-
         final var accountButton = mDevice.findObject(new UiSelector()
                 .instance(0)
                 .className(Button.class));
@@ -132,26 +109,23 @@ public class E2ETest {
         screenshot("deck-5");
     }
 
-    private void verfiyCardsPresent() {
-        final var CALC_PACKAGE = "it.niedermann.nextcloud.deck.dev";
-        // Initialize UiDevice instance
-        mDevice = UiDevice.getInstance(getInstrumentation());
-
-        // Launch a simple calculator app
-        Context context = getInstrumentation().getContext();
-        Intent intent = context.getPackageManager()
-                .getLaunchIntentForPackage(CALC_PACKAGE);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        // Clear out any previous instances
-        context.startActivity(intent);
-        mDevice.wait(Until.hasObject(By.pkg(CALC_PACKAGE).depth(0)), 30);
-
+    private void verifyCardsPresent() {
         final var accountButton = mDevice.findObject(new UiSelector()
                 .instance(0)
                 .className(MaterialCardView.class));
 
         accountButton.waitForExists(30);
         screenshot("deck-validate-1");
+    }
+
+    private void launch(@NonNull String packageName) {
+        final var context = getInstrumentation().getContext();
+        context.startActivity(context
+                .getPackageManager()
+                .getLaunchIntentForPackage(packageName)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        mDevice.wait(Until.hasObject(By.pkg(packageName).depth(0)), 30);
+        screenshot("launch-" + packageName + ".png");
     }
 
     private void screenshot(@NonNull String name) {
