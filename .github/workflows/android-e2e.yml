@@ -54,3 +54,9 @@ jobs:
             adb install latest.apk
             sleep 5s
             ./gradlew connectedDevDebugAndroidTest
+            adb pull "/sdcard/screenshots" "screenshots"
+      - name: Store screenshots
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: screenshots

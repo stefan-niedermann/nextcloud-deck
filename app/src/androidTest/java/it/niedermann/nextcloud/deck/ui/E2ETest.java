@@ -18,6 +18,8 @@ import com.google.android.material.card.MaterialCardView;
 
 import org.junit.Test;
 
+import java.io.File;
+
 public class E2ETest {
 
     private UiDevice mDevice;
@@ -83,11 +85,14 @@ public class E2ETest {
         context.startActivity(intent);
         mDevice.wait(Until.hasObject(By.pkg(CALC_PACKAGE).depth(0)), 30);
 
+
+
         final var accountButton = mDevice.findObject(new UiSelector()
                 .instance(0)
                 .className(Button.class));
 
         accountButton.waitForExists(30);
+        mDevice.takeScreenshot(new File("/sdcard/screenshots/1.png"));
         accountButton.click();
 
         final var radioAccount = mDevice.findObject(new UiSelector()
@@ -95,20 +100,24 @@ public class E2ETest {
                 .instance(0));
 
         radioAccount.waitForExists(30);
+        mDevice.takeScreenshot(new File("/sdcard/screenshots/2.png"));
         radioAccount.click();
 
         final var okButton = mDevice.findObject(new UiSelector().text("OK"));
 
         okButton.waitForExists(30);
+        mDevice.takeScreenshot(new File("/sdcard/screenshots/3.png"));
         okButton.click();
 
         final var allowButton = mDevice.findObject(new UiSelector().text("Allow"));
 
         allowButton.waitForExists(30);
+        mDevice.takeScreenshot(new File("/sdcard/screenshots/4.png"));
         allowButton.click();
 
         final var welcomeText = mDevice.findObject(new UiSelector().description("Filter"));
         welcomeText.waitForExists(30);
+        mDevice.takeScreenshot(new File("/sdcard/screenshots/5.png"));
 //        mDevice.wait
     }
 
