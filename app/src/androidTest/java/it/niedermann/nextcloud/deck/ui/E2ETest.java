@@ -45,18 +45,29 @@ public class E2ETest {
         context.startActivity(intent);
         mDevice.wait(Until.hasObject(By.pkg(CALC_PACKAGE).depth(0)), 30);
 
-        mDevice.findObject(new UiSelector().text("Log in")).click();
+        mDevice.takeScreenshot(new File("/sdcard/screenshots/setup-1.png"));
+
+        final var loginButton1 = mDevice.findObject(new UiSelector().text("Log in"));
+
+        loginButton1.waitForExists(30);
+        mDevice.takeScreenshot(new File("/sdcard/screenshots/setup-2.png"));
+        loginButton1.click();
+
         mDevice.findObject(new UiSelector().focused(true)).setText(url);
+        mDevice.takeScreenshot(new File("/sdcard/screenshots/setup-3.png"));
         mDevice.pressEnter();
+        mDevice.takeScreenshot(new File("/sdcard/screenshots/setup-4.png"));
         mDevice.findObject(new UiSelector().text("Log in")).click();
 
         mDevice.wait(Until.findObject(By.clazz(WebView.class)), 30);
+        mDevice.takeScreenshot(new File("/sdcard/screenshots/setup-5.png"));
 
         final var usernameInput = mDevice.findObject(new UiSelector()
                 .instance(0)
                 .className(EditText.class));
 
         usernameInput.waitForExists(30);
+        mDevice.takeScreenshot(new File("/sdcard/screenshots/setup-6.png"));
         usernameInput.setText(username);
 
         final var passwordInput = mDevice.findObject(new UiSelector()
@@ -64,11 +75,14 @@ public class E2ETest {
                 .className(EditText.class));
 
         passwordInput.waitForExists(30);
+        mDevice.takeScreenshot(new File("/sdcard/screenshots/setup-7.png"));
         passwordInput.setText(password);
 
         mDevice.findObject(new UiSelector().text("Log in")).click();
+        mDevice.takeScreenshot(new File("/sdcard/screenshots/setup-8.png"));
 
         mDevice.findObject(new UiSelector().text("Grant access")).click();
+        mDevice.takeScreenshot(new File("/sdcard/screenshots/setup-9.png"));
     }
 
     private void importAccountIntoDeck() throws UiObjectNotFoundException {
