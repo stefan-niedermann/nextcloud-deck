@@ -148,7 +148,7 @@ public class E2ETest {
     }
 
     private void launch(@NonNull String packageName) throws IOException, InterruptedException {
-        Log.d(TAG, "... LAUNCH " + packageName);
+        Log.i(TAG, "... LAUNCH " + packageName);
         final var context = getInstrumentation().getContext();
         context.startActivity(context
                 .getPackageManager()

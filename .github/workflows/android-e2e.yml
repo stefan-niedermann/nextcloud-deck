@@ -54,11 +54,7 @@ jobs:
             adb install latest.apk
             sleep 5s
             adb logcat -c
-            adb logcat *:V -v color &
-            adb logcat *:D -v color &
             adb logcat *:I -v color &
-            adb logcat *:W -v color &
-            adb logcat *:E -v color &
             ./gradlew connectedDebugAndroidTest || true
       - name: Upload Reports
         if: always()
