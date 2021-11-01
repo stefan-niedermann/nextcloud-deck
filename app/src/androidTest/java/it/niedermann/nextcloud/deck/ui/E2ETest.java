@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
 import android.content.Intent;
+import android.util.Log;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,34 +17,49 @@ import androidx.test.uiautomator.Until;
 
 import com.google.android.material.card.MaterialCardView;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import java.io.File;
+import java.io.IOException;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class E2ETest {
 
     private UiDevice mDevice;
 
-    @Test
-    public void e2e() throws UiObjectNotFoundException {
+    private static final String TAG = E2ETest.class.getSimpleName();
+    private static final String APP_NEXTCLOUD = "com.nextcloud.android.beta";
+    private static final String APP_DECK = "it.niedermann.nextcloud.deck.dev";
+    private static final String SERVER_URL = "http://localhost:8080";
+    private static final String SERVER_USERNAME = "Test";
+    private static final String SERVER_PASSWORD = "Test";
+
+    @Before
+    public void before() {
         mDevice = UiDevice.getInstance(getInstrumentation());
-        launch("com.nextcloud.android.beta");
-        configureNextcloudAccount("http://localhost:8080", "Test", "Test");
-
-        launch("it.niedermann.nextcloud.deck.dev");
-        importAccountIntoDeck();
-
-        verifyCardsPresent();
     }
 
+    @After
+    public void after() {
+        mDevice.pressHome();
+    }
 
-    private void configureNextcloudAccount(String url, String username, String password) throws UiObjectNotFoundException {
+    @Test
+    public void test_00_configureNextcloudAccount() throws UiObjectNotFoundException, IOException, InterruptedException {
+        Log.i(TAG, "START test_00_configureNextcloudAccount");
+
+        launch(APP_NEXTCLOUD);
+
         final var loginButton1 = mDevice.findObject(new UiSelector().text("Log in"));
         loginButton1.waitForExists(30);
         screenshot("setup-2");
         loginButton1.click();
 
-        mDevice.findObject(new UiSelector().focused(true)).setText(url);
+        mDevice.findObject(new UiSelector().focused(true)).setText(SERVER_URL);
         screenshot("setup-3");
         mDevice.pressEnter();
         screenshot("setup-4");
@@ -58,7 +74,7 @@ public class E2ETest {
 
         usernameInput.waitForExists(30);
         screenshot("setup-6");
-        usernameInput.setText(username);
+        usernameInput.setText(SERVER_USERNAME);
 
         final var passwordInput = mDevice.findObject(new UiSelector()
                 .instance(1)
@@ -66,16 +82,22 @@ public class E2ETest {
 
         passwordInput.waitForExists(30);
         screenshot("setup-7");
-        passwordInput.setText(password);
+        passwordInput.setText(SERVER_PASSWORD);
 
         mDevice.findObject(new UiSelector().text("Log in")).click();
         screenshot("setup-8");
 
         mDevice.findObject(new UiSelector().text("Grant access")).click();
         screenshot("setup-9");
+
+        Log.i(TAG, "END test_00_configureNextcloudAccount");
     }
 
-    private void importAccountIntoDeck() throws UiObjectNotFoundException {
+    @Test
+    public void test_01_importAccountIntoDeck() throws UiObjectNotFoundException, IOException, InterruptedException {
+        Log.i(TAG, "START test_01_importAccountIntoDeck");
+        launch(APP_DECK);
+
         final var accountButton = mDevice.findObject(new UiSelector()
                 .instance(0)
                 .className(Button.class));
@@ -107,18 +129,26 @@ public class E2ETest {
         final var welcomeText = mDevice.findObject(new UiSelector().description("Filter"));
         welcomeText.waitForExists(30);
         screenshot("deck-5");
+        Log.i(TAG, "END test_01_importAccountIntoDeck");
     }
 
-    private void verifyCardsPresent() {
+    @Test
+    public void test_02_verifyCardsPresent() throws IOException, InterruptedException, UiObjectNotFoundException {
+        Log.i(TAG, "START test_02_verifyCardsPresent");
+        launch(APP_DECK);
+
         final var accountButton = mDevice.findObject(new UiSelector()
                 .instance(0)
                 .className(MaterialCardView.class));
 
         accountButton.waitForExists(30);
+        Log.i(TAG, accountButton.getText());
         screenshot("deck-validate-1");
+        Log.i(TAG, "END test_02_verifyCardsPresent");
     }
 
-    private void launch(@NonNull String packageName) {
+    private void launch(@NonNull String packageName) throws IOException, InterruptedException {
+        Log.d(TAG, "... LAUNCH " + packageName);
         final var context = getInstrumentation().getContext();
         context.startActivity(context
                 .getPackageManager()
@@ -128,7 +158,12 @@ public class E2ETest {
         screenshot("launch-" + packageName + ".png");
     }
 
-    private void screenshot(@NonNull String name) {
-        mDevice.takeScreenshot(new File("/sdcard/screenshots/" + name + ".png"));
+    private void screenshot(@NonNull String name) throws IOException, InterruptedException {
+//        Runtime.getRuntime().exec("screencap -p " + "/sdcard/screenshots" + name).waitFor();
+        final var p = new File(getInstrumentation().getContext().getFilesDir().getAbsolutePath());
+        final var f = new File(getInstrumentation().getContext().getFilesDir() + "/screenshots/" + name + ".png");
+        f.createNewFile();
+
+        System.out.println("Screenshot: " + mDevice.takeScreenshot(f));
     }
 }
