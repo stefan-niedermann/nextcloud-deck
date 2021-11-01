@@ -4,6 +4,9 @@ jobs:
   setup_nextcloud:
     runs-on: ubuntu-latest
     name: Run e2e test
+    strategy:
+      matrix:
+        api-level: [ 24, 27, 29 ]
     services:
       nextcloud:
         image: nextcloud:latest
@@ -45,17 +48,49 @@ jobs:
         run: |
           curl -v -X GET 'http://Test:Test@localhost:8080/ocs/v2.php/apps/serverinfo/api/v1/info?format=json' -H 'OCS-APIRequest: true' | jq
 
-      - name: Run emulator
+      - name: Gradle cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
+
+      - name: AVD cache
+        uses: actions/cache@v2
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-${{ matrix.api-level }}
+
+      - name: Create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
+          api-level: ${{ matrix.api-level }}
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: echo "Generated AVD snapshot for caching."
+
+      - name: Run e2e tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
           script: |
+            ./gradlew connectedCheck
             wget -q https://download.nextcloud.com/android/dev/latest.apk
             adb install latest.apk
             sleep 5s
             adb logcat -c
             adb logcat *:I -v color &
             ./gradlew connectedDebugAndroidTest || true
+
       - name: Upload Reports
         if: always()
         uses: actions/upload-artifact@v2
