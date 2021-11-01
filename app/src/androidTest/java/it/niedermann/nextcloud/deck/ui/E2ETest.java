@@ -138,7 +138,7 @@ public class E2ETest {
         launch(APP_DECK);
 
         final var accountButton = mDevice.findObject(new UiSelector()
-                .textContains("task"));
+                .textContains("halloween - should fail"));
 
         accountButton.waitForExists(30);
         Log.i(TAG, accountButton.getText());
