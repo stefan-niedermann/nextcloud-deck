@@ -84,8 +84,8 @@ jobs:
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: |
-            adb shell pm uninstall -k --user 0 com.nextcloud.android.beta
-            adb shell pm uninstall -k --user 0 it.niedermann.nextcloud.deck.dev
+            adb shell pm uninstall -k --user 0 com.nextcloud.android.beta || true
+            adb shell pm uninstall -k --user 0 it.niedermann.nextcloud.deck.dev || true
             wget -q https://download.nextcloud.com/android/dev/latest.apk
             adb install latest.apk
             sleep 10s
