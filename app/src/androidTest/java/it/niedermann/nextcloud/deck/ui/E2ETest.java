@@ -15,8 +15,6 @@ import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 import androidx.test.uiautomator.Until;
 
-import com.google.android.material.card.MaterialCardView;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -32,8 +30,10 @@ public class E2ETest {
     private UiDevice mDevice;
 
     private static final String TAG = E2ETest.class.getSimpleName();
+
     private static final String APP_NEXTCLOUD = "com.nextcloud.android.beta";
     private static final String APP_DECK = "it.niedermann.nextcloud.deck.dev";
+
     private static final String SERVER_URL = "http://localhost:8080";
     private static final String SERVER_USERNAME = "Test";
     private static final String SERVER_PASSWORD = "Test";
@@ -138,8 +138,7 @@ public class E2ETest {
         launch(APP_DECK);
 
         final var accountButton = mDevice.findObject(new UiSelector()
-                .instance(0)
-                .className(MaterialCardView.class));
+                .textContains("task"));
 
         accountButton.waitForExists(30);
         Log.i(TAG, accountButton.getText());
@@ -159,11 +158,7 @@ public class E2ETest {
     }
 
     private void screenshot(@NonNull String name) throws IOException, InterruptedException {
-//        Runtime.getRuntime().exec("screencap -p " + "/sdcard/screenshots" + name).waitFor();
-        final var p = new File(getInstrumentation().getContext().getFilesDir().getAbsolutePath());
-        final var f = new File(getInstrumentation().getContext().getFilesDir() + "/screenshots/" + name + ".png");
-        f.createNewFile();
-
-        System.out.println("Screenshot: " + mDevice.takeScreenshot(f));
+        Runtime.getRuntime().exec("screencap -p " + "/sdcard/screenshots" + name).waitFor();
+        mDevice.takeScreenshot(new File(getInstrumentation().getContext().getFilesDir() + "/screenshots/" + name + ".png"));
     }
 }
