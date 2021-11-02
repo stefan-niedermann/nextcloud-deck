@@ -80,7 +80,9 @@ public class E2ETest {
         mDevice.wait(Until.findObject(By.clazz(WebView.class)), TIMEOUT);
         Log.e(TAG, "WEBVIEW IS PRESENT");
 
-        final var webViewLoginButton = mDevice.findObject(new UiSelector().text("Log in"));
+        final var webViewLoginButton = mDevice.findObject(new UiSelector()
+                .instance(0)
+                .className(Button.class));
         Log.e(TAG, "WAITING FOR WEBVIEW LOGIN BUTTON TO BE PRESENT...");
         webViewLoginButton.waitForExists(TIMEOUT);
         Log.e(TAG, "WEBVIEW LOGIN BUTTON IS PRESENT. CLICKING ON IT...");
