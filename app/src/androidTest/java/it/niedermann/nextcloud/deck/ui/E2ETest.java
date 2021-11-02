@@ -4,7 +4,6 @@ import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentat
 
 import android.content.Intent;
 import android.util.Log;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -99,9 +98,8 @@ public class E2ETest {
         webViewLoginButton.waitForExists(TIMEOUT);
         Log.e(TAG, "WEBVIEW LOGIN BUTTON IS PRESENT. CLICKING ON IT...");
         webViewLoginButton.click();
-        Log.e(TAG, "WAITING FOR WEBVIEW");
-        mDevice.wait(Until.findObject(By.clazz(WebView.class)), TIMEOUT);
-        Log.e(TAG, "WEBVIEW IS PRESENT");
+//        mDevice.wait(Until.findObject(By.clazz(WebView.class)), TIMEOUT);
+//        Log.e(TAG, "WEBVIEW IS PRESENT");
 
         final var usernameInput = mDevice.findObject(new UiSelector()
                 .instance(0)
