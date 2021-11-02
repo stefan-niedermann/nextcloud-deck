@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
 import android.content.Intent;
-import android.util.Log;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,7 +25,7 @@ public class E2ETest {
 
     private UiDevice mDevice;
 
-    private static final String TAG = E2ETest.class.getSimpleName();
+    private static final int TIMEOUT = 30_000;
 
     private static final String APP_NEXTCLOUD = "com.nextcloud.android.beta";
     private static final String APP_DECK = "it.niedermann.nextcloud.deck.dev";
@@ -47,95 +46,77 @@ public class E2ETest {
 
     @Test
     public void test_00_configureNextcloudAccount() throws UiObjectNotFoundException {
-        Log.i(TAG, "START test_00_configureNextcloudAccount");
-
         launch(APP_NEXTCLOUD);
 
-        final var loginButton1 = mDevice.findObject(new UiSelector().text("Log in"));
-        loginButton1.waitForExists(30);
-        loginButton1.click();
+        final var loginButton = mDevice.findObject(new UiSelector().text("Log in"));
+        loginButton.waitForExists(TIMEOUT);
+        loginButton.click();
 
         mDevice.findObject(new UiSelector().focused(true)).setText(SERVER_URL);
         mDevice.pressEnter();
         mDevice.findObject(new UiSelector().text("Log in")).click();
-
-        mDevice.wait(Until.findObject(By.clazz(WebView.class)), 30);
+        mDevice.wait(Until.findObject(By.clazz(WebView.class)), TIMEOUT);
 
         final var usernameInput = mDevice.findObject(new UiSelector()
                 .instance(0)
                 .className(EditText.class));
-
-        usernameInput.waitForExists(30);
+        usernameInput.waitForExists(TIMEOUT);
         usernameInput.setText(SERVER_USERNAME);
 
         final var passwordInput = mDevice.findObject(new UiSelector()
                 .instance(1)
                 .className(EditText.class));
-
-        passwordInput.waitForExists(30);
+        passwordInput.waitForExists(TIMEOUT);
         passwordInput.setText(SERVER_PASSWORD);
 
         mDevice.findObject(new UiSelector().text("Log in")).click();
-
         mDevice.findObject(new UiSelector().text("Grant access")).click();
-
-        Log.i(TAG, "END test_00_configureNextcloudAccount");
     }
 
     @Test
     public void test_01_importAccountIntoDeck() throws UiObjectNotFoundException {
-        Log.i(TAG, "START test_01_importAccountIntoDeck");
         launch(APP_DECK);
 
         final var accountButton = mDevice.findObject(new UiSelector()
                 .instance(0)
                 .className(Button.class));
-
-        accountButton.waitForExists(30);
+        accountButton.waitForExists(TIMEOUT);
         accountButton.click();
 
         final var radioAccount = mDevice.findObject(new UiSelector()
                 .clickable(true)
                 .instance(0));
-
-        radioAccount.waitForExists(30);
+        radioAccount.waitForExists(TIMEOUT);
         radioAccount.click();
 
         final var okButton = mDevice.findObject(new UiSelector().text("OK"));
-
-        okButton.waitForExists(30);
+        okButton.waitForExists(TIMEOUT);
         okButton.click();
 
         final var allowButton = mDevice.findObject(new UiSelector().text("Allow"));
-
-        allowButton.waitForExists(30);
+        allowButton.waitForExists(TIMEOUT);
         allowButton.click();
 
         final var welcomeText = mDevice.findObject(new UiSelector().description("Filter"));
-        welcomeText.waitForExists(30);
-        Log.i(TAG, "END test_01_importAccountIntoDeck");
+        welcomeText.waitForExists(TIMEOUT);
     }
 
     @Test
     public void test_02_verifyCardsPresent() throws UiObjectNotFoundException {
-        Log.i(TAG, "START test_02_verifyCardsPresent");
         launch(APP_DECK);
 
         final var taskCard = mDevice.findObject(new UiSelector()
-                .textContains("Task 3"));
-
-        taskCard.waitForExists(30);
-        Log.i(TAG, taskCard.getText());
-        Log.i(TAG, "END test_02_verifyCardsPresent");
+                .textContains("Taask 3"));
+        taskCard.waitForExists(TIMEOUT);
+        System.out.println("Found: " + taskCard.getText());
     }
 
     private void launch(@NonNull String packageName) {
-        Log.i(TAG, "... LAUNCH " + packageName);
         final var context = getInstrumentation().getContext();
         context.startActivity(context
                 .getPackageManager()
                 .getLaunchIntentForPackage(packageName)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
-        mDevice.wait(Until.hasObject(By.pkg(packageName).depth(0)), 30);
+        mDevice.wait(Until.hasObject(By.pkg(packageName).depth(0)), TIMEOUT);
     }
 }

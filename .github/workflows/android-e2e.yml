@@ -27,16 +27,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: List running Docker containers
-        run: |
-          docker ps
-          echo "Current docker container ID: `docker ps -f 'name=_nextcloud' -l -q`"
-
-      - name: Print Container information
-        run: |
-          docker exec `docker ps -f 'name=_nextcloud' -l -q` bash -c 'whoami'
-          docker exec `docker ps -f 'name=_nextcloud' -l -q` bash -c 'uname -a'
-
       - name: Enable Deck via Docker Exec
         run: |
           docker exec `docker ps -f 'name=_nextcloud' -l -q` bash -c 'runuser -u www-data -- php occ app:install deck'
@@ -45,9 +35,9 @@ jobs:
         run: |
           curl -X GET 'http://Test:Test@localhost:8080/ocs/v2.php/cloud/capabilities?format=json' -H 'OCS-APIRequest: true' | jq
 
-      - name: Fetch server info
-        run: |
-          curl -X GET 'http://Test:Test@localhost:8080/ocs/v2.php/apps/serverinfo/api/v1/info?format=json' -H 'OCS-APIRequest: true' | jq
+      ##########################
+      # AVD CACHING START      #
+      ##########################
 
       - name: Gradle cache
         uses: actions/cache@v2
@@ -76,6 +66,10 @@ jobs:
           disable-animations: true
           script: echo "Generated AVD snapshot for caching."
 
+        ##########################
+        # AVD CACHING END        #
+        ##########################
+
       - name: Run e2e tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -92,23 +86,3 @@ jobs:
             adb logcat -c || true
             adb logcat *:I -v color &
             ./gradlew connectedDevDebugAndroidTest
-
-      #- name: List files
-      #  run: |
-      #    ls -all
-      #    ls -all app
-      #    ls -all app/build
-      #    ls -all app/build/reports
-
-      #- name: Upload Reports
-      #  if: always()
-      #  uses: actions/upload-artifact@v2
-      #  with:
-      #    name: Test-Reports
-      #    path: app/build/reports
-      #- name: Upload screenshots
-      #  if: always()
-      #  uses: actions/upload-artifact@v2
-      #  with:
-      #    name: Screenshots
-      #    path: screenshots
