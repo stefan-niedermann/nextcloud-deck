@@ -106,8 +106,22 @@ public class E2ETest {
         passwordInput.setText(SERVER_PASSWORD);
 
         Log.e(TAG, "THIRD");
-        mDevice.findObject(new UiSelector().text("Log in")).click();
-        mDevice.findObject(new UiSelector().text("Grant access")).click();
+
+        final var webViewSubmitButton = mDevice.findObject(new UiSelector()
+                .instance(0)
+                .className(Button.class));
+        Log.e(TAG, "WAITING FOR WEBVIEW SUBMIT BUTTON TO BE PRESENT...");
+        webViewSubmitButton.waitForExists(TIMEOUT);
+        Log.e(TAG, "WEBVIEW SUBMIT BUTTON IS PRESENT. CLICKING ON IT...");
+        webViewSubmitButton.click();
+
+        final var webViewGrantAccessButton = mDevice.findObject(new UiSelector()
+                .instance(0)
+                .className(Button.class));
+        Log.e(TAG, "WAITING FOR WEBVIEW GRANT ACCESS BUTTON TO BE PRESENT...");
+        webViewGrantAccessButton.waitForExists(TIMEOUT);
+        Log.e(TAG, "WEBVIEW GRANT ACCESS BUTTON IS PRESENT. CLICKING ON IT...");
+        webViewGrantAccessButton.click();
     }
 
     @Test
