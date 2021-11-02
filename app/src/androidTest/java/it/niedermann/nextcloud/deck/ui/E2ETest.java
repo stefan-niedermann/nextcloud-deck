@@ -55,12 +55,15 @@ public class E2ETest {
         Log.e("TRC", "FIRST");
         final var loginButton = mDevice.findObject(new UiSelector().textContains("Log in"));
         loginButton.waitForExists(TIMEOUT);
+        Log.e("TRC", "LOGINBUTTON EXISTS");
         loginButton.click();
 
         mDevice.findObject(new UiSelector().focused(true)).setText(SERVER_URL);
+        Log.e("TRC", "PRESSING NOW ENTER...");
         mDevice.pressEnter();
         Log.e("TRC", "SECOND");
         mDevice.findObject(new UiSelector().text("Log in")).click();
+        Log.e("TRC", "WAITING FOR WEBVIEW");
         mDevice.wait(Until.findObject(By.clazz(WebView.class)), TIMEOUT);
 
         final var usernameInput = mDevice.findObject(new UiSelector()
