@@ -21,9 +21,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import java.io.File;
-import java.io.IOException;
-
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class E2ETest {
 
@@ -49,7 +46,7 @@ public class E2ETest {
     }
 
     @Test
-    public void test_00_configureNextcloudAccount() throws UiObjectNotFoundException, IOException, InterruptedException {
+    public void test_00_configureNextcloudAccount() throws UiObjectNotFoundException {
         Log.i(TAG, "START test_00_configureNextcloudAccount");
 
         launch(APP_NEXTCLOUD);
@@ -94,7 +91,7 @@ public class E2ETest {
     }
 
     @Test
-    public void test_01_importAccountIntoDeck() throws UiObjectNotFoundException, IOException, InterruptedException {
+    public void test_01_importAccountIntoDeck() throws UiObjectNotFoundException {
         Log.i(TAG, "START test_01_importAccountIntoDeck");
         launch(APP_DECK);
 
@@ -133,20 +130,20 @@ public class E2ETest {
     }
 
     @Test
-    public void test_02_verifyCardsPresent() throws IOException, InterruptedException, UiObjectNotFoundException {
+    public void test_02_verifyCardsPresent() throws UiObjectNotFoundException {
         Log.i(TAG, "START test_02_verifyCardsPresent");
         launch(APP_DECK);
 
-        final var accountButton = mDevice.findObject(new UiSelector()
-                .textContains("halloween - should fail"));
+        final var taskCard = mDevice.findObject(new UiSelector()
+                .textContains("t1243"));
 
-        accountButton.waitForExists(30);
-        Log.i(TAG, accountButton.getText());
+        taskCard.waitForExists(30);
+        Log.i(TAG, taskCard.getText());
         screenshot("deck-validate-1");
         Log.i(TAG, "END test_02_verifyCardsPresent");
     }
 
-    private void launch(@NonNull String packageName) throws IOException, InterruptedException {
+    private void launch(@NonNull String packageName) {
         Log.i(TAG, "... LAUNCH " + packageName);
         final var context = getInstrumentation().getContext();
         context.startActivity(context
@@ -157,8 +154,13 @@ public class E2ETest {
         screenshot("launch-" + packageName + ".png");
     }
 
-    private void screenshot(@NonNull String name) throws IOException, InterruptedException {
-        Runtime.getRuntime().exec("screencap -p " + "/sdcard/screenshots" + name).waitFor();
-        mDevice.takeScreenshot(new File(getInstrumentation().getContext().getFilesDir() + "/screenshots/" + name + ".png"));
+    private void screenshot(@NonNull String name) {
+        try {
+            Runtime.getRuntime().exec("screencap -p " + "/sdcard/screenshots" + name).waitFor();
+            // This throws an exception because the file system is read only.
+//            mDevice.takeScreenshot(new File(getInstrumentation().getContext().getFilesDir() + "/screenshots/" + name + ".png"));
+        } catch (Throwable ignored) {
+
+        }
     }
 }
