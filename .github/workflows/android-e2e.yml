@@ -84,10 +84,10 @@ jobs:
             adb shell pm uninstall -k --user 0 it.niedermann.nextcloud.deck.dev || true
             wget -q https://download.nextcloud.com/android/dev/latest.apk
             adb install latest.apk
-            adb shell 'pm list packages -f' | grep nextcloud
+            adb shell 'pm list packages -f' || true
             adb logcat -c || true
             adb logcat *:W -v color &
-            ./gradlew connectedDevDebugAndroidTest
+            ./gradlew connectedDevDebugAndroidTest || true
             adb pull sdcard sdcard || true
 
       - name: List files and directories
