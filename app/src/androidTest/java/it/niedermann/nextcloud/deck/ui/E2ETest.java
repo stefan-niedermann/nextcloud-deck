@@ -51,7 +51,7 @@ public class E2ETest {
         launch(APP_NEXTCLOUD);
 
         Log.e("TRC", "FIRST");
-        final var loginButton = mDevice.findObject(new UiSelector().text("Log in"));
+        final var loginButton = mDevice.findObject(new UiSelector().text("Anmelden"));
         loginButton.waitForExists(TIMEOUT);
         loginButton.click();
 
