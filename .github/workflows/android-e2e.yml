@@ -102,4 +102,4 @@ jobs:
 
       - name: List files and directories
         if: always()
-        run: ls -all
+        run: ls -all sdcard
