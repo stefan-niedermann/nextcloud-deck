@@ -63,7 +63,7 @@ jobs:
           api-level: ${{ matrix.api-level }}
           force-avd-creation: false
           sdcard-path-or-size: sdcard
-          emulator-options: -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          emulator-options: -gpu swiftshader_indirect -no-window -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: echo "Generated AVD snapshot for caching."
 
@@ -77,7 +77,7 @@ jobs:
           api-level: ${{ matrix.api-level }}
           force-avd-creation: false
           sdcard-path-or-size: sdcard
-          emulator-options: -no-snapshot-save -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: |
             adb shell pm uninstall -k --user 0 com.nextcloud.android.beta || true
