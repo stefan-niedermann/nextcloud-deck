@@ -31,7 +31,7 @@ public class E2ETest {
     private static final String APP_NEXTCLOUD = "com.nextcloud.android.beta";
     private static final String APP_DECK = "it.niedermann.nextcloud.deck.dev";
 
-    private static final String SERVER_URL = "http://172.18.0.1:8080";
+    private static final String SERVER_URL = "http://172.17.0.1:8080";
     // private static final String SERVER_URL = "http://10.0.2.2:8080";
     // private static final String SERVER_URL = "http://192.168.178.60:8080";
     private static final String SERVER_USERNAME = "Test";
