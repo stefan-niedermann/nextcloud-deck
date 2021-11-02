@@ -62,6 +62,7 @@ jobs:
         with:
           api-level: ${{ matrix.api-level }}
           force-avd-creation: false
+          sdcard-path-or-size: sdcard
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: echo "Generated AVD snapshot for caching."
@@ -75,6 +76,7 @@ jobs:
         with:
           api-level: ${{ matrix.api-level }}
           force-avd-creation: false
+          sdcard-path-or-size: sdcard
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: |
@@ -85,3 +87,4 @@ jobs:
             sleep 10s
             adb logcat -c || true
             ./gradlew connectedDevDebugAndroidTest
+            ls -all
