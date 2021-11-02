@@ -36,10 +36,12 @@ jobs:
           ifconfig
           docker exec `docker ps -f 'name=_nextcloud' -l -q` bash -c 'runuser -u www-data -- php occ config:system:set trusted_domains 2 --value=172.17.0.1'
           docker exec `docker ps -f 'name=_nextcloud' -l -q` bash -c 'runuser -u www-data -- php occ config:system:set trusted_domains 3 --value=172.18.0.1'
+          docker exec `docker ps -f 'name=_nextcloud' -l -q` bash -c 'runuser -u www-data -- php occ config:system:set trusted_domains 4 --value=172.18.0.2'
           docker ps
           docker inspect `docker ps -f 'name=_nextcloud' -l -q`
           curl -v -X GET 'http://Test:Test@172.17.0.1:8080/ocs/v2.php/cloud/capabilities?format=json' -H 'OCS-APIRequest: true' || true
           curl -v -X GET 'http://Test:Test@172.18.0.1:8080/ocs/v2.php/cloud/capabilities?format=json' -H 'OCS-APIRequest: true' || true
+          curl -v -X GET 'http://Test:Test@172.18.0.2:8080/ocs/v2.php/cloud/capabilities?format=json' -H 'OCS-APIRequest: true' || true
 
       ##########################
       # AVD CACHING START      #
