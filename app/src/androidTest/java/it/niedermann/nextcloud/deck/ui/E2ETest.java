@@ -21,6 +21,12 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class E2ETest {
 
@@ -51,6 +57,23 @@ public class E2ETest {
     @Test
     public void test_00_configureNextcloudAccount() throws UiObjectNotFoundException {
         launch(APP_NEXTCLOUD);
+
+        try {
+            URL url = new URL("http://Test:Test@" + SERVER_URL);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+            in.close();
+            Log.i("TRC", content.toString());
+        } catch (IOException e) {
+            Log.e("TRC", "REQUEST FAILED", e);
+        }
 
         Log.e("TRC", "FIRST");
         final var loginButton = mDevice.findObject(new UiSelector().textContains("Log in"));
