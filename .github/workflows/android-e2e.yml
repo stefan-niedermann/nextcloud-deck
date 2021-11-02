@@ -37,7 +37,7 @@ jobs:
 
       - name: Fetch capabilities
         run: |
-          curl -v -X GET 'http://Test:Test@10.0.2.2:8080/ocs/v2.php/cloud/capabilities?format=json' -H 'OCS-APIRequest: true' | jq
+          curl -v -X GET 'http://Test:Test@10.0.2.2:80/ocs/v2.php/cloud/capabilities?format=json' -H 'OCS-APIRequest: true' | jq
 
       ##########################
       # AVD CACHING START      #
