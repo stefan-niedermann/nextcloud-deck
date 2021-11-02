@@ -88,6 +88,7 @@ jobs:
             adb logcat -c || true
             adb logcat *:W -v color &
             ./gradlew connectedDevDebugAndroidTest
+            adb pull sdcard sdcard || true
 
       - name: List files and directories
         if: always()
