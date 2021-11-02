@@ -63,7 +63,7 @@ jobs:
           api-level: ${{ matrix.api-level }}
           force-avd-creation: false
           sdcard-path-or-size: sdcard
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          emulator-options: -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: echo "Generated AVD snapshot for caching."
 
@@ -77,7 +77,7 @@ jobs:
           api-level: ${{ matrix.api-level }}
           force-avd-creation: false
           sdcard-path-or-size: sdcard
-          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          emulator-options: -no-snapshot-save -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: |
             adb shell pm uninstall -k --user 0 com.nextcloud.android.beta || true
@@ -85,7 +85,7 @@ jobs:
             wget -q https://download.nextcloud.com/android/dev/latest.apk
             adb install latest.apk
             adb logcat -c || true
-            adb logcat *:I -v color &
+            adb logcat *:W -v color &
             ./gradlew connectedDevDebugAndroidTest
 
       - name: List files and directories

@@ -26,7 +26,7 @@ public class E2ETest {
 
     private UiDevice mDevice;
 
-    private static final int TIMEOUT = 30_000;
+    private static final int TIMEOUT = 10_000;
 
     private static final String APP_NEXTCLOUD = "com.nextcloud.android.beta";
     private static final String APP_DECK = "it.niedermann.nextcloud.deck.dev";
