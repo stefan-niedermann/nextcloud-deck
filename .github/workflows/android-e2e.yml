@@ -39,8 +39,20 @@ jobs:
           docker exec `docker ps -f 'name=_nextcloud' -l -q` bash -c 'runuser -u www-data -- php occ config:system:set trusted_domains 4 --value=172.18.0.2'
           docker ps
           docker inspect `docker ps -f 'name=_nextcloud' -l -q`
+
+      - name: Ping 172.17.0.1
+        continue-on-error: true
+        run: |
           curl -v -X GET 'http://Test:Test@172.17.0.1:8080/ocs/v2.php/cloud/capabilities?format=json' -H 'OCS-APIRequest: true' || true
+
+      - name: Ping 172.18.0.1
+        continue-on-error: true
+        run: |
           curl -v -X GET 'http://Test:Test@172.18.0.1:8080/ocs/v2.php/cloud/capabilities?format=json' -H 'OCS-APIRequest: true' || true
+
+      - name: Ping 172.18.0.2
+        continue-on-error: true
+        run: |
           curl -v -X GET 'http://Test:Test@172.18.0.2:8080/ocs/v2.php/cloud/capabilities?format=json' -H 'OCS-APIRequest: true' || true
 
       ##########################
