@@ -53,24 +53,19 @@ public class E2ETest {
 
         final var loginButton1 = mDevice.findObject(new UiSelector().text("Log in"));
         loginButton1.waitForExists(30);
-        screenshot("setup-2");
         loginButton1.click();
 
         mDevice.findObject(new UiSelector().focused(true)).setText(SERVER_URL);
-        screenshot("setup-3");
         mDevice.pressEnter();
-        screenshot("setup-4");
         mDevice.findObject(new UiSelector().text("Log in")).click();
 
         mDevice.wait(Until.findObject(By.clazz(WebView.class)), 30);
-        screenshot("setup-5");
 
         final var usernameInput = mDevice.findObject(new UiSelector()
                 .instance(0)
                 .className(EditText.class));
 
         usernameInput.waitForExists(30);
-        screenshot("setup-6");
         usernameInput.setText(SERVER_USERNAME);
 
         final var passwordInput = mDevice.findObject(new UiSelector()
@@ -78,14 +73,11 @@ public class E2ETest {
                 .className(EditText.class));
 
         passwordInput.waitForExists(30);
-        screenshot("setup-7");
         passwordInput.setText(SERVER_PASSWORD);
 
         mDevice.findObject(new UiSelector().text("Log in")).click();
-        screenshot("setup-8");
 
         mDevice.findObject(new UiSelector().text("Grant access")).click();
-        screenshot("setup-9");
 
         Log.i(TAG, "END test_00_configureNextcloudAccount");
     }
@@ -100,7 +92,6 @@ public class E2ETest {
                 .className(Button.class));
 
         accountButton.waitForExists(30);
-        screenshot("deck-1");
         accountButton.click();
 
         final var radioAccount = mDevice.findObject(new UiSelector()
@@ -108,24 +99,20 @@ public class E2ETest {
                 .instance(0));
 
         radioAccount.waitForExists(30);
-        screenshot("deck-2");
         radioAccount.click();
 
         final var okButton = mDevice.findObject(new UiSelector().text("OK"));
 
         okButton.waitForExists(30);
-        screenshot("deck-3");
         okButton.click();
 
         final var allowButton = mDevice.findObject(new UiSelector().text("Allow"));
 
         allowButton.waitForExists(30);
-        screenshot("deck-4");
         allowButton.click();
 
         final var welcomeText = mDevice.findObject(new UiSelector().description("Filter"));
         welcomeText.waitForExists(30);
-        screenshot("deck-5");
         Log.i(TAG, "END test_01_importAccountIntoDeck");
     }
 
@@ -139,7 +126,6 @@ public class E2ETest {
 
         taskCard.waitForExists(30);
         Log.i(TAG, taskCard.getText());
-        screenshot("deck-validate-1");
         Log.i(TAG, "END test_02_verifyCardsPresent");
     }
 
@@ -151,16 +137,5 @@ public class E2ETest {
                 .getLaunchIntentForPackage(packageName)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
         mDevice.wait(Until.hasObject(By.pkg(packageName).depth(0)), 30);
-        screenshot("launch-" + packageName + ".png");
-    }
-
-    private void screenshot(@NonNull String name) {
-//        try {
-//            Runtime.getRuntime().exec("screencap -p " + "/sdcard/screenshots" + name).waitFor();
-            // This throws an exception because the file system is read only.
-//            mDevice.takeScreenshot(new File(getInstrumentation().getContext().getFilesDir() + "/screenshots/" + name + ".png"));
-//        } catch (Throwable ignored) {
-//
-//        }
     }
 }
