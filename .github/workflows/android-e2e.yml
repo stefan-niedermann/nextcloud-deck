@@ -83,4 +83,5 @@ jobs:
             wget -q https://download.nextcloud.com/android/dev/latest.apk
             adb install latest.apk
             sleep 10s
+            adb logcat -c || true
             ./gradlew connectedDevDebugAndroidTest
