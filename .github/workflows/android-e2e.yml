@@ -81,10 +81,6 @@ jobs:
 
       - name: Run e2e tests
         uses: reactivecircus/android-emulator-runner@v2
-        env:
-          NEXTCLOUD_URL: "http://172.17.0.1:8080"
-          NEXTCLOUD_USER: "Test"
-          NEXTCLOUD_PASSWORD: "Test"
         with:
           api-level: ${{ matrix.api-level }}
           force-avd-creation: false
@@ -92,6 +88,9 @@ jobs:
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: |
+            export NEXTCLOUD_URL = "http://172.17.0.1:8080"
+            export NEXTCLOUD_USER = "Test"
+            export NEXTCLOUD_PASSWORD = "Test"
             adb shell pm uninstall -k --user 0 com.nextcloud.android.beta || true
             wget -q https://download.nextcloud.com/android/dev/latest.apk
             adb install latest.apk
