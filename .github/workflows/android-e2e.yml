@@ -31,6 +31,10 @@ jobs:
         run: |
           docker exec `docker ps -f 'name=_nextcloud' -l -q` bash -c 'runuser -u www-data -- php occ app:install deck'
 
+      - name: Make Docker container available for AVD
+        run: |
+          docker exec `docker ps -f 'name=_nextcloud' -l -q` bash -c 'runuser -u www-data -- php occ config:system:set trusted_domains 2 --value=10.0.2.2'
+
       - name: Fetch capabilities
         run: |
           curl -X GET 'http://Test:Test@localhost:8080/ocs/v2.php/cloud/capabilities?format=json' -H 'OCS-APIRequest: true' | jq
@@ -84,7 +88,6 @@ jobs:
             adb shell pm uninstall -k --user 0 it.niedermann.nextcloud.deck.dev || true
             wget -q https://download.nextcloud.com/android/dev/latest.apk
             adb install latest.apk
-            adb shell pm grant com.nextcloud.android.beta android.permission.READ_EXTERNAL_STORAGE
             adb shell pm grant com.nextcloud.android.beta android.permission.READ_EXTERNAL_STORAGE
             adb shell pm list packages -f || true
             adb logcat -c || true

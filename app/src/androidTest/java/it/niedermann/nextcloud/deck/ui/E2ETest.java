@@ -31,7 +31,7 @@ public class E2ETest {
     private static final String APP_NEXTCLOUD = "com.nextcloud.android.beta";
     private static final String APP_DECK = "it.niedermann.nextcloud.deck.dev";
 
-    private static final String SERVER_URL = "http://localhost:8080";
+    private static final String SERVER_URL = "http://10.0.2.2:8080";
     // private static final String SERVER_URL = "http://192.168.178.60:8080";
     private static final String SERVER_USERNAME = "Test";
     private static final String SERVER_PASSWORD = "Test";
@@ -52,7 +52,7 @@ public class E2ETest {
         launch(APP_NEXTCLOUD);
 
         Log.e("TRC", "FIRST");
-        final var loginButton = mDevice.findObject(new UiSelector().text("Log in"));
+        final var loginButton = mDevice.findObject(new UiSelector().textContains("Log in"));
         loginButton.waitForExists(TIMEOUT);
         loginButton.click();
 
