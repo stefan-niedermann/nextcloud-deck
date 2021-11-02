@@ -24,6 +24,8 @@ import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import com.nextcloud.android.sso.ui.UiExceptionManager;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -133,17 +135,21 @@ public class ImportAccountActivity extends AppCompatActivity {
                                     public void onResponse(Capabilities response) {
                                         if (!response.isMaintenanceEnabled()) {
                                             if (response.getDeckVersion().isSupported()) {
-                                                var progress$ = syncManager.synchronize(new ResponseCallback<>(account) {
+                                                final var error = new AtomicBoolean(false);
+                                                final var progress$ = syncManager.synchronize(new ResponseCallback<>(account) {
                                                     @Override
                                                     public void onResponse(Boolean response) {
                                                         restoreWifiPref();
-                                                        SyncWorker.update(getApplicationContext());
-                                                        setResult(RESULT_OK);
-                                                        finish();
+                                                        if (!error.get()) {
+                                                            SyncWorker.update(getApplicationContext());
+                                                            setResult(RESULT_OK);
+                                                            finish();
+                                                        }
                                                     }
 
                                                     @Override
                                                     public void onError(Throwable throwable) {
+                                                        error.set(true);
                                                         super.onError(throwable);
                                                         setStatusText(throwable.getMessage());
                                                         runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
@@ -152,7 +158,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                                 });
                                                 runOnUiThread(() -> progress$.observe(ImportAccountActivity.this, (progress) -> {
                                                     DeckLog.log("New progress value", progress.first, progress.second);
-                                                    if(progress.first > 0) {
+                                                    if (progress.first > 0) {
                                                         binding.progressCircular.setIndeterminate(false);
                                                     }
                                                     binding.progressText.setText(getString(R.string.progress_import, progress.first + 1, progress.second));
