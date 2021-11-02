@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
 import android.content.Intent;
+import android.util.Log;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -165,7 +166,7 @@ public class E2ETest {
     }
     
     private void log(@NonNull String message) {
-        
+        Log.e(TAG, message);
     }
 
     private void launch(@NonNull String packageName) {
