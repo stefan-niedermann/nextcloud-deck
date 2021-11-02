@@ -87,4 +87,7 @@ jobs:
             adb logcat -c || true
             adb logcat *:I -v color &
             ./gradlew connectedDevDebugAndroidTest
-            ls -all
+
+      - name: List files and directories
+        if: always()
+        run: ls -all
