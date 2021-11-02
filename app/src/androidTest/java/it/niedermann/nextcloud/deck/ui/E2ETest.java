@@ -33,7 +33,7 @@ public class E2ETest {
     private static final int TIMEOUT = 60_000;
 
     private static final String APP_NEXTCLOUD = "com.nextcloud.android.beta";
-    private static final String APP_DECK = "it.niedermann.nextcloud.deck.dev";
+    private static final String APP_DECK = BuildConfig.APPLICATION_ID;
 
     private static final String SERVER_URL = "http://172.17.0.1:8080";
     private static final String SERVER_USERNAME = "Test";
@@ -54,7 +54,6 @@ public class E2ETest {
     public void test_00_configureNextcloudAccount() throws UiObjectNotFoundException {
         launch(APP_NEXTCLOUD);
 
-        log("SYSTEM ENV VAR APP_ID: " + BuildConfig.APPLICATION_ID);
         log("SYSTEM ENV VAR URL: " + System.getenv("NEXTCLOUD_URL"));
         log("SYSTEM ENV VAR USER: " + System.getenv("NEXTCLOUD_USER"));
         log("SYSTEM ENV VAR PASSWORD: " + System.getenv("NEXTCLOUD_PASSWORD"));
