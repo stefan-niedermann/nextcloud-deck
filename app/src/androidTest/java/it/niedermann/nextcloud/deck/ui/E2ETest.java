@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
 import android.content.Intent;
-import android.util.Log;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +20,8 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import it.niedermann.nextcloud.deck.BuildConfig;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class E2ETest {
 
@@ -34,8 +35,6 @@ public class E2ETest {
     private static final String APP_DECK = "it.niedermann.nextcloud.deck.dev";
 
     private static final String SERVER_URL = "http://172.17.0.1:8080";
-    // private static final String SERVER_URL = "http://10.0.2.2:8080";
-    // private static final String SERVER_URL = "http://192.168.178.60:8080";
     private static final String SERVER_USERNAME = "Test";
     private static final String SERVER_PASSWORD = "Test";
 
@@ -54,73 +53,74 @@ public class E2ETest {
     public void test_00_configureNextcloudAccount() throws UiObjectNotFoundException {
         launch(APP_NEXTCLOUD);
 
-        Log.e(TAG, "SYSTEM ENV VAR URL: " + System.getenv("NEXTCLOUD_URL"));
-        Log.e(TAG, "SYSTEM ENV VAR USER: " + System.getenv("NEXTCLOUD_USER"));
-        Log.e(TAG, "SYSTEM ENV VAR PASSWORD: " + System.getenv("NEXTCLOUD_PASSWORD"));
+        log("SYSTEM ENV VAR APP_ID: " + BuildConfig.APPLICATION_ID);
+        log("SYSTEM ENV VAR URL: " + System.getenv("NEXTCLOUD_URL"));
+        log("SYSTEM ENV VAR USER: " + System.getenv("NEXTCLOUD_USER"));
+        log("SYSTEM ENV VAR PASSWORD: " + System.getenv("NEXTCLOUD_PASSWORD"));
 
-        Log.e(TAG, "FIRST");
+        log("FIRST");
         final var loginButton = mDevice.findObject(new UiSelector().textContains("Log in"));
         loginButton.waitForExists(TIMEOUT);
-        Log.e(TAG, "LOGINBUTTON EXISTS. CLICKING ON IT...");
+        log("LOGINBUTTON EXISTS. CLICKING ON IT...");
         loginButton.click();
-        Log.e(TAG, "LOGINBUTTON CLICKED");
+        log("LOGINBUTTON CLICKED");
 
         final var urlInput = mDevice.findObject(new UiSelector().focused(true));
         urlInput.waitForExists(TIMEOUT);
-        Log.e(TAG, "URL INPUT IS PRESENT");
-        Log.e(TAG, "ENTERING URL...");
+        log("URL INPUT IS PRESENT");
+        log("ENTERING URL...");
         urlInput.setText(SERVER_URL);
-        Log.e(TAG, "URL ENTERED.");
+        log("URL ENTERED.");
 
-        Log.e(TAG, "PRESSING NOW ENTER...");
+        log("PRESSING NOW ENTER...");
         mDevice.pressEnter();
-        Log.e(TAG, "ENTER PRESSED.");
+        log("ENTER PRESSED.");
 
-        Log.e(TAG, "WAITING FOR WEBVIEW...");
+        log("WAITING FOR WEBVIEW...");
         mDevice.wait(Until.findObject(By.clazz(WebView.class)), TIMEOUT);
-        Log.e(TAG, "WEBVIEW IS PRESENT");
+        log("WEBVIEW IS PRESENT");
 
         final var webViewLoginButton = mDevice.findObject(new UiSelector()
                 .instance(0)
                 .className(Button.class));
-        Log.e(TAG, "WAITING FOR WEBVIEW LOGIN BUTTON TO BE PRESENT...");
+        log("WAITING FOR WEBVIEW LOGIN BUTTON TO BE PRESENT...");
         webViewLoginButton.waitForExists(TIMEOUT);
-        Log.e(TAG, "WEBVIEW LOGIN BUTTON IS PRESENT. CLICKING ON IT...");
+        log("WEBVIEW LOGIN BUTTON IS PRESENT. CLICKING ON IT...");
         webViewLoginButton.click();
 
         final var usernameInput = mDevice.findObject(new UiSelector()
                 .instance(0)
                 .className(EditText.class));
-        Log.e(TAG, "WAITING FOR USERNAME INPUT TO BE PRESENT...");
+        log("WAITING FOR USERNAME INPUT TO BE PRESENT...");
         usernameInput.waitForExists(TIMEOUT);
-        Log.e(TAG, "USERNAME INPUT IS PRESENT. SETTING TEXT...");
+        log("USERNAME INPUT IS PRESENT. SETTING TEXT...");
         usernameInput.setText(SERVER_USERNAME);
-        Log.e(TAG, "USERNAME HAS BEEN SET.");
+        log("USERNAME HAS BEEN SET.");
 
         final var passwordInput = mDevice.findObject(new UiSelector()
                 .instance(1)
                 .className(EditText.class));
-        Log.e(TAG, "WAITING FOR USERNAME INPUT TO BE PRESENT...");
+        log("WAITING FOR USERNAME INPUT TO BE PRESENT...");
         passwordInput.waitForExists(TIMEOUT);
-        Log.e(TAG, "USERNAME INPUT IS PRESENT. SETTING TEXT...");
+        log("USERNAME INPUT IS PRESENT. SETTING TEXT...");
         passwordInput.setText(SERVER_PASSWORD);
 
-        Log.e(TAG, "THIRD");
+        log("THIRD");
 
         final var webViewSubmitButton = mDevice.findObject(new UiSelector()
                 .instance(0)
                 .className(Button.class));
-        Log.e(TAG, "WAITING FOR WEBVIEW SUBMIT BUTTON TO BE PRESENT...");
+        log("WAITING FOR WEBVIEW SUBMIT BUTTON TO BE PRESENT...");
         webViewSubmitButton.waitForExists(TIMEOUT);
-        Log.e(TAG, "WEBVIEW SUBMIT BUTTON IS PRESENT. CLICKING ON IT...");
+        log("WEBVIEW SUBMIT BUTTON IS PRESENT. CLICKING ON IT...");
         webViewSubmitButton.click();
 
         final var webViewGrantAccessButton = mDevice.findObject(new UiSelector()
                 .instance(0)
                 .className(Button.class));
-        Log.e(TAG, "WAITING FOR WEBVIEW GRANT ACCESS BUTTON TO BE PRESENT...");
+        log("WAITING FOR WEBVIEW GRANT ACCESS BUTTON TO BE PRESENT...");
         webViewGrantAccessButton.waitForExists(TIMEOUT);
-        Log.e(TAG, "WEBVIEW GRANT ACCESS BUTTON IS PRESENT. CLICKING ON IT...");
+        log("WEBVIEW GRANT ACCESS BUTTON IS PRESENT. CLICKING ON IT...");
         webViewGrantAccessButton.click();
     }
 
@@ -162,6 +162,10 @@ public class E2ETest {
                 .textContains("Task 3"));
         taskCard.waitForExists(TIMEOUT);
         System.out.println("Found: " + taskCard.getText());
+    }
+    
+    private void log(@NonNull String message) {
+        
     }
 
     private void launch(@NonNull String packageName) {
