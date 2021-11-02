@@ -106,7 +106,7 @@ public class E2ETest {
         launch(APP_DECK);
 
         final var taskCard = mDevice.findObject(new UiSelector()
-                .textContains("Taask 3"));
+                .textContains("Task 3"));
         taskCard.waitForExists(TIMEOUT);
         System.out.println("Found: " + taskCard.getText());
     }
