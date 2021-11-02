@@ -93,19 +93,19 @@ jobs:
             adb logcat *:I -v color &
             ./gradlew connectedDebugAndroidTest || true
 
-      - name: List files
-        run: |
-          ls -all
-          ls -all app
-          ls -all app/build
-          ls -all app/build/reports
+      #- name: List files
+      #  run: |
+      #    ls -all
+      #    ls -all app
+      #    ls -all app/build
+      #    ls -all app/build/reports
 
-      - name: Upload Reports
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: Test-Reports
-          path: app/build/reports
+      #- name: Upload Reports
+      #  if: always()
+      #  uses: actions/upload-artifact@v2
+      #  with:
+      #    name: Test-Reports
+      #    path: app/build/reports
       #- name: Upload screenshots
       #  if: always()
       #  uses: actions/upload-artifact@v2
