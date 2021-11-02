@@ -33,8 +33,8 @@ jobs:
 
       - name: Make Nextcloud accessible from AVD
         run: |
-          route /P add 172.0.0.1 MASK 255.255.0.0 10.0.2.2
           docker exec `docker ps -f 'name=_nextcloud' -l -q` bash -c 'runuser -u www-data -- php occ config:system:set trusted_domains 2 --value=10.0.2.2'
+          docker ps
 
       ##########################
       # AVD CACHING START      #
