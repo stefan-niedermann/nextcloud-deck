@@ -6,8 +6,8 @@ jobs:
     name: Run e2e test
     strategy:
       matrix:
-        api-level: [ 24, 25, 26, 27, 28, 29 ]
-        nextcloud-version: [ 'nextcloud:latest', 'nextcloud:stable', 'nextcloud:production' ]
+        api-level: [ 24 ] #, 25, 26, 27, 28, 29 ]
+        nextcloud-version: [ 'nextcloud:latest' ] #, 'nextcloud:stable', 'nextcloud:production' ]
     services:
       nextcloud:
         image: ${{ matrix.nextcloud-version }}

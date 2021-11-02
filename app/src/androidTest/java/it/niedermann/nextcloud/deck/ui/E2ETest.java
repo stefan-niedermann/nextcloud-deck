@@ -31,6 +31,7 @@ public class E2ETest {
     private static final String APP_DECK = "it.niedermann.nextcloud.deck.dev";
 
     private static final String SERVER_URL = "http://localhost:8080";
+    // private static final String SERVER_URL = "http://192.168.178.60:8080";
     private static final String SERVER_USERNAME = "Test";
     private static final String SERVER_PASSWORD = "Test";
 
@@ -106,7 +107,7 @@ public class E2ETest {
         launch(APP_DECK);
 
         final var taskCard = mDevice.findObject(new UiSelector()
-                .textContains("Taask 3"));
+                .textContains("Task 3"));
         taskCard.waitForExists(TIMEOUT);
         System.out.println("Found: " + taskCard.getText());
     }
