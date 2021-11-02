@@ -39,6 +39,7 @@ public class E2ETest {
     @Before
     public void before() {
         mDevice = UiDevice.getInstance(getInstrumentation());
+        mDevice.pressHome();
     }
 
     @After
@@ -51,7 +52,7 @@ public class E2ETest {
         launch(APP_NEXTCLOUD);
 
         Log.e("TRC", "FIRST");
-        final var loginButton = mDevice.findObject(new UiSelector().text("Anmelden"));
+        final var loginButton = mDevice.findObject(new UiSelector().text("Log in"));
         loginButton.waitForExists(TIMEOUT);
         loginButton.click();
 
