@@ -16,7 +16,7 @@ jobs:
           NEXTCLOUD_ADMIN_USER: Test
           NEXTCLOUD_ADMIN_PASSWORD: Test
         ports:
-          - 10.0.2.2:8080:80
+          - "10.0.2.2:8080:80"
         options: >-
           --health-cmd "curl GET 'http://Test:Test@localhost:80/ocs/v2.php/apps/serverinfo/api/v1/info' -f -H 'OCS-APIRequest: true' || exit 1"
           --health-interval 1s
