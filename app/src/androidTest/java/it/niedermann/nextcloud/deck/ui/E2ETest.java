@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
 import android.content.Intent;
+import android.util.Log;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,12 +50,14 @@ public class E2ETest {
     public void test_00_configureNextcloudAccount() throws UiObjectNotFoundException {
         launch(APP_NEXTCLOUD);
 
+        Log.e("TRC", "FIRST");
         final var loginButton = mDevice.findObject(new UiSelector().text("Log in"));
         loginButton.waitForExists(TIMEOUT);
         loginButton.click();
 
         mDevice.findObject(new UiSelector().focused(true)).setText(SERVER_URL);
         mDevice.pressEnter();
+        Log.e("TRC", "SECOND");
         mDevice.findObject(new UiSelector().text("Log in")).click();
         mDevice.wait(Until.findObject(By.clazz(WebView.class)), TIMEOUT);
 
@@ -70,6 +73,7 @@ public class E2ETest {
         passwordInput.waitForExists(TIMEOUT);
         passwordInput.setText(SERVER_PASSWORD);
 
+        Log.e("TRC", "THIRD");
         mDevice.findObject(new UiSelector().text("Log in")).click();
         mDevice.findObject(new UiSelector().text("Grant access")).click();
     }
