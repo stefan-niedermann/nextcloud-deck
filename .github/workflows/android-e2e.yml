@@ -91,7 +91,7 @@ jobs:
             sleep 10s
             adb logcat -c || true
             adb logcat *:I -v color &
-            ./gradlew connectedDebugAndroidTest || true
+            ./gradlew connectedDebugAndroidTest
 
       #- name: List files
       #  run: |

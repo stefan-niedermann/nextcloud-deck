@@ -135,7 +135,7 @@ public class E2ETest {
         launch(APP_DECK);
 
         final var taskCard = mDevice.findObject(new UiSelector()
-                .textContains("task 3"));
+                .textContains("task1234444"));
 
         taskCard.waitForExists(30);
         Log.i(TAG, taskCard.getText());
@@ -155,12 +155,12 @@ public class E2ETest {
     }
 
     private void screenshot(@NonNull String name) {
-        try {
-            Runtime.getRuntime().exec("screencap -p " + "/sdcard/screenshots" + name).waitFor();
+//        try {
+//            Runtime.getRuntime().exec("screencap -p " + "/sdcard/screenshots" + name).waitFor();
             // This throws an exception because the file system is read only.
 //            mDevice.takeScreenshot(new File(getInstrumentation().getContext().getFilesDir() + "/screenshots/" + name + ".png"));
-        } catch (Throwable ignored) {
-
-        }
+//        } catch (Throwable ignored) {
+//
+//        }
     }
 }
