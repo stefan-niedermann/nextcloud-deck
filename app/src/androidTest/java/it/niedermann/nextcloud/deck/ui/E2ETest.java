@@ -134,6 +134,8 @@ public class E2ETest {
         accountButton.waitForExists(TIMEOUT);
         accountButton.click();
 
+        mDevice.waitForWindowUpdate(null, TIMEOUT);
+
         final var radioAccount = mDevice.findObject(new UiSelector()
                 .clickable(true)
                 .instance(0));
