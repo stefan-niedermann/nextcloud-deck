@@ -16,7 +16,7 @@ jobs:
           NEXTCLOUD_ADMIN_USER: Test
           NEXTCLOUD_ADMIN_PASSWORD: Test
         ports:
-          - 8080:80
+          - 10.0.2.2:8080:80
         options: >-
           --health-cmd "curl GET 'http://Test:Test@localhost:80/ocs/v2.php/apps/serverinfo/api/v1/info' -f -H 'OCS-APIRequest: true' || exit 1"
           --health-interval 1s
@@ -36,7 +36,7 @@ jobs:
           docker exec `docker ps -f 'name=_nextcloud' -l -q` bash -c 'runuser -u www-data -- php occ config:system:set trusted_domains 2 --value=10.0.2.2'
           docker ps
           docker inspect `docker ps -f 'name=_nextcloud' -l -q`
-          route /P add 172.18.0.2 MASK 255.255.0.0 10.0.2.2
+          curl -v -X GET 'http://Test:Test@10.0.2.2/ocs/v2.php/cloud/capabilities?format=json' -H 'OCS-APIRequest: true' | jq
 
       ##########################
       # AVD CACHING START      #
