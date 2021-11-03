@@ -54,73 +54,66 @@ public class E2ETest {
     public void test_00_configureNextcloudAccount() throws UiObjectNotFoundException {
         launch(APP_NEXTCLOUD);
 
-        log("SYSTEM ENV VAR URL: " + System.getenv("NEXTCLOUD_URL"));
-        log("SYSTEM ENV VAR USER: " + System.getenv("NEXTCLOUD_USER"));
-        log("SYSTEM ENV VAR PASSWORD: " + System.getenv("NEXTCLOUD_PASSWORD"));
-
-        log("FIRST");
         final var loginButton = mDevice.findObject(new UiSelector().textContains("Log in"));
         loginButton.waitForExists(TIMEOUT);
-        log("LOGINBUTTON EXISTS. CLICKING ON IT...");
+        log("Login Button exists. Clicking on it...");
         loginButton.click();
-        log("LOGINBUTTON CLICKED");
+        log("Login Button clicked.");
 
         final var urlInput = mDevice.findObject(new UiSelector().focused(true));
         urlInput.waitForExists(TIMEOUT);
-        log("URL INPUT IS PRESENT");
-        log("ENTERING URL...");
+        log("URL input exists.");
+        log("Entering URL...");
         urlInput.setText(SERVER_URL);
-        log("URL ENTERED.");
+        log("URL entered.");
 
-        log("PRESSING NOW ENTER...");
+        log("Pressing enter...");
         mDevice.pressEnter();
-        log("ENTER PRESSED.");
+        log("Enter pressed.");
 
-        log("WAITING FOR WEBVIEW...");
+        log("Waiting for WebView...");
         mDevice.wait(Until.findObject(By.clazz(WebView.class)), TIMEOUT);
-        log("WEBVIEW IS PRESENT");
+        log("WebView exists.");
 
         final var webViewLoginButton = mDevice.findObject(new UiSelector()
                 .instance(0)
                 .className(Button.class));
-        log("WAITING FOR WEBVIEW LOGIN BUTTON TO BE PRESENT...");
+        log("Waiting for WebView Login Button...");
         webViewLoginButton.waitForExists(TIMEOUT);
-        log("WEBVIEW LOGIN BUTTON IS PRESENT. CLICKING ON IT...");
+        log("WebView Login Button exists. Clicking on it...");
         webViewLoginButton.click();
 
         final var usernameInput = mDevice.findObject(new UiSelector()
                 .instance(0)
                 .className(EditText.class));
-        log("WAITING FOR USERNAME INPUT TO BE PRESENT...");
+        log("Waiting for Username Input...");
         usernameInput.waitForExists(TIMEOUT);
-        log("USERNAME INPUT IS PRESENT. SETTING TEXT...");
+        log("Username Input exists. Setting text...");
         usernameInput.setText(SERVER_USERNAME);
-        log("USERNAME HAS BEEN SET.");
+        log("Username has been set.");
 
         final var passwordInput = mDevice.findObject(new UiSelector()
                 .instance(1)
                 .className(EditText.class));
-        log("WAITING FOR USERNAME INPUT TO BE PRESENT...");
+        log("Waiting for Password Input...");
         passwordInput.waitForExists(TIMEOUT);
-        log("USERNAME INPUT IS PRESENT. SETTING TEXT...");
+        log("Password Input exists. Setting text...");
         passwordInput.setText(SERVER_PASSWORD);
-
-        log("THIRD");
 
         final var webViewSubmitButton = mDevice.findObject(new UiSelector()
                 .instance(0)
                 .className(Button.class));
-        log("WAITING FOR WEBVIEW SUBMIT BUTTON TO BE PRESENT...");
+        log("Waiting for WebView Submit Button...");
         webViewSubmitButton.waitForExists(TIMEOUT);
-        log("WEBVIEW SUBMIT BUTTON IS PRESENT. CLICKING ON IT...");
+        log("WebView Submit Button exists. Clicking on it...");
         webViewSubmitButton.click();
 
         final var webViewGrantAccessButton = mDevice.findObject(new UiSelector()
                 .instance(0)
                 .className(Button.class));
-        log("WAITING FOR WEBVIEW GRANT ACCESS BUTTON TO BE PRESENT...");
+        log("Waiting for WebView Grant Access Button...");
         webViewGrantAccessButton.waitForExists(TIMEOUT);
-        log("WEBVIEW GRANT ACCESS BUTTON IS PRESENT. CLICKING ON IT...");
+        log("WebView Grant Access Button exists. Clicking on it...");
         webViewGrantAccessButton.click();
     }
 
@@ -145,27 +138,29 @@ public class E2ETest {
         mDevice.waitForWindowUpdate(null, TIMEOUT);
 
         final var okButton = mDevice.findObject(new UiSelector()
-                .instance(1)
-                .className(Button.class));
-        log("WAITING FOR OK BUTTON...");
+                .clickable(true)
+                .instance(4));
+        log("Waiting for OK Button...");
         okButton.waitForExists(TIMEOUT);
-        log("OK BUTTON EXISTS. CLICKING ON IT...");
+        log("OK Button exists. Clicking on it...");
         okButton.click();
-        log("OK BUTTON CLICKED");
+        log("OK Button clicked");
 
         mDevice.waitForWindowUpdate(null, TIMEOUT);
 
         final var allowButton = mDevice.findObject(new UiSelector()
                 .instance(1)
                 .className(Button.class));
-        log("WAITING FOR ALLOW BUTTON...");
+        log("Waiting for Allow Button...");
         allowButton.waitForExists(TIMEOUT);
-        log("ALLOW BUTTON EXISTS. CLICKING ON IT...");
+        log("Allow Button exists. Clicking on it...");
         allowButton.click();
-        log("ALLOW BUTTON CLICKED");
+        log("Allow Button clicked");
 
+        log("Waiting for finished import...");
         final var welcomeText = mDevice.findObject(new UiSelector().description("Filter"));
         welcomeText.waitForExists(TIMEOUT);
+        log("Import finished.");
     }
 
     @Test
