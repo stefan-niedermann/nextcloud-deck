@@ -118,7 +118,7 @@ public class E2ETest {
     }
 
     @Test
-    public void test_01_importAccountIntoDeck() throws UiObjectNotFoundException {
+    public void test_01_importAccountIntoDeck() throws UiObjectNotFoundException, InterruptedException {
         launch(APP_DECK);
 
         final var accountButton = mDevice.findObject(new UiSelector()
@@ -137,6 +137,7 @@ public class E2ETest {
 
         mDevice.waitForWindowUpdate(null, TIMEOUT);
 
+        Thread.sleep(10_000);
         final var okButton = mDevice.findObject(new UiSelector()
                 .clickable(true)
                 .instance(4));
