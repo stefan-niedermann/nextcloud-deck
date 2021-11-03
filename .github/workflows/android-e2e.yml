@@ -88,9 +88,9 @@ jobs:
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: |
-            adb set NEXTCLOUD_URL="http://172.17.0.1:8080" || true
-            adb set NEXTCLOUD_USER="Test" || true
-            adb set NEXTCLOUD_PASSWORD="Test" || true
+            adb shell export NEXTCLOUD_URL="http://172.17.0.1:8080" || true
+            adb shell export NEXTCLOUD_USER="Test" || true
+            adb shell export NEXTCLOUD_PASSWORD="Test" || true
             adb shell pm uninstall -k --user 0 com.nextcloud.android.beta || true
             wget -q https://download.nextcloud.com/android/dev/latest.apk
             adb install latest.apk
