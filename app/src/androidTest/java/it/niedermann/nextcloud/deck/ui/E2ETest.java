@@ -147,14 +147,22 @@ public class E2ETest {
         final var okButton = mDevice.findObject(new UiSelector()
                 .instance(1)
                 .className(Button.class));
+        log("WAITING FOR OK BUTTON...");
         okButton.waitForExists(TIMEOUT);
+        log("OK BUTTON EXISTS. CLICKING ON IT...");
         okButton.click();
+        log("OK BUTTON CLICKED");
 
         mDevice.waitForWindowUpdate(null, TIMEOUT);
 
-        final var allowButton = mDevice.findObject(new UiSelector().text("Allow"));
+        final var allowButton = mDevice.findObject(new UiSelector()
+                .instance(1)
+                .className(Button.class));
+        log("WAITING FOR ALLOW BUTTON...");
         allowButton.waitForExists(TIMEOUT);
+        log("ALLOW BUTTON EXISTS. CLICKING ON IT...");
         allowButton.click();
+        log("ALLOW BUTTON CLICKED");
 
         final var welcomeText = mDevice.findObject(new UiSelector().description("Filter"));
         welcomeText.waitForExists(TIMEOUT);
