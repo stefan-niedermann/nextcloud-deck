@@ -144,7 +144,9 @@ public class E2ETest {
 
         mDevice.waitForWindowUpdate(null, TIMEOUT);
 
-        final var okButton = mDevice.findObject(new UiSelector().text("OK"));
+        final var okButton = mDevice.findObject(new UiSelector()
+                .instance(1)
+                .className(Button.class));
         okButton.waitForExists(TIMEOUT);
         okButton.click();
 
