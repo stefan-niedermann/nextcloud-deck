@@ -139,8 +139,7 @@ public class E2ETest {
 
         Thread.sleep(10_000);
         final var okButton = mDevice.findObject(new UiSelector()
-        .className(Button.class)
-        .instance(2));
+        .textContains("OK"));
         log("Waiting for OK Button...");
         okButton.waitForExists(TIMEOUT);
         log("OK Button exists. Clicking on it...");
