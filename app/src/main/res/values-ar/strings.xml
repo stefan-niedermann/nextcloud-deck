@@ -33,7 +33,7 @@
     <string name="simple_copied">نُسخت </string>
     <string name="simple_archive">الأرشيف</string>
     <string name="simple_unassigned">غير معيين </string>
-    <string name="hint_error_appeared">ظهر خطأ فجأة اذكر ربك</string>
+    <string name="hint_error_appeared">حدث خطأ</string>
 
     <string name="edit_board">تعديل اللوح</string>
     <string name="archive_board">أرشفة اللوح </string>
