@@ -40,7 +40,7 @@
     <string name="delete_board">Supprimer le tableau</string>
     <string name="delete_something">Supprimer %1$s</string>
 
-    <string name="about">À propos de</string>
+    <string name="about">À propos</string>
     <string name="about_version_title">Version</string>
     <string name="about_version">Vous utilisez actuellement la version : %1$s</string>
     <string name="about_maintainer_title">Responsable</string>
