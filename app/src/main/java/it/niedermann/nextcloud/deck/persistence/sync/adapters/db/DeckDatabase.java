@@ -9,6 +9,8 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import java.util.concurrent.Executors;
+
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.model.AccessControl;
@@ -159,6 +161,7 @@ public abstract class DeckDatabase extends RoomDatabase {
     }
 
     private static DeckDatabase create(final Context context) {
+        DeckLog.enablePersistentLogs(true);
         return Room.databaseBuilder(
                 context,
                 DeckDatabase.class,
@@ -188,6 +191,9 @@ public abstract class DeckDatabase extends RoomDatabase {
                 .addMigrations(new Migration_30_31())
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
+                .setQueryCallback((sqlQuery, args) ->
+                                DeckLog.error("#### SQL_DEBUG:", "query=["+sqlQuery+"] args=["+args.toString()+"]"),
+                        Executors.newSingleThreadExecutor())
                 .build();
     }
 

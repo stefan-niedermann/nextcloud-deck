@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.exceptions.DeckException;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -76,6 +77,9 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
                 sb.append(b.toString());
                 sb.append("\n");
             }
+            sb.append("### DEBUG LOG:\n");
+            sb.append(DeckLog.getDebugLog());
+            sb.append("\n");
             throw new RuntimeException(sb.toString(), e);
         }
     }

@@ -137,6 +137,9 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
                 sb.append(b.toString());
                 sb.append("\n");
             }
+            sb.append("### DEBUG LOG:\n");
+            sb.append(DeckLog.getDebugLog());
+            sb.append("\n");
             throw new RuntimeException(sb.toString(), e);
         }
 
