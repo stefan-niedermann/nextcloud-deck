@@ -444,7 +444,12 @@ public class JsonToEntityParser {
                 card.setAttachmentCount(e.get("attachmentCount").getAsInt());
             }
 
-            card.setOrder(e.get("order").getAsInt());
+            if (e.has("order") && !e.get("order").isJsonNull()) {
+                card.setOrder(e.get("order").getAsInt());
+            } else {
+                card.setOrder(0);
+            }
+
             card.setOverdue(e.get("overdue").getAsInt());
             card.setDueDate(getTimestampFromString(e.get("duedate")));
             card.setCommentsUnread(e.get("commentsUnread").getAsInt());
