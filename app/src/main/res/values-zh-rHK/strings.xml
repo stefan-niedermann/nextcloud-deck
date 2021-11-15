@@ -50,7 +50,7 @@
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">測試人員</string>
     <string name="about_source_title">原始碼</string>
-    <string name="about_source">本項目寄存於 GitHub：%1$s</string>
+    <string name="about_source">本項目寄存於 GitHub 上：%1$s</string>
     <string name="about_issues_title">問題</string>
     <string name="about_issues">您可以在 GitHub 問題舉報系統舉報錯誤、改善建議及功能需求：%1$s</string>
     <string name="about_translate_title">翻譯</string>
@@ -65,11 +65,11 @@
     <string name="about_credits_tab_title">致謝</string>
     <string name="about_contribution_tab_title">貢獻</string>
     <string name="about_license_tab_title">授權</string>
-    <string name="seconds_ago">幾秒前</string>
+    <string name="seconds_ago">秒前</string>
     <string name="edit">編輯</string>
     <string name="label_labels">選擇標籤</string>
     <string name="label_description">描述</string>
-    <string name="hint_assign_people">分派用戶</string>
+    <string name="hint_assign_people">指派用戶</string>
     <string name="hint_due_date_date">到期日</string>
     <string name="card_not_found">找不到 card</string>
     <string name="card_not_found_message">找不到 card。或許它已經被刪除了？</string>
@@ -88,7 +88,7 @@
     <string name="action_card_delete">刪除卡片</string>
     <string name="add_board">新增佈告欄</string>
 
-    <string name="label_clear_due_date">清除到期日</string>
+    <string name="label_clear_due_date">清除到期日期</string>
     <string name="label_add">新增%1$s</string>
 
     <string name="card_edit_details">詳細資料</string>
@@ -119,14 +119,14 @@
     <string name="delete_board_message">這將永久刪除此面板，包括所有清單和卡片。</string>
     <string name="settings_theme_title">佈景主題</string>
     <string name="settings_branding_title">品牌化</string>
-    <string name="settings_compact_title">緊湊模式</string>
+    <string name="settings_compact_title">簡潔模式</string>
     <string name="settings_cover_images_title">封面圖像</string>
     <string name="settings_debugging">除錯記錄</string>
     <string name="settings_etags">使用 ETags</string>
     <string name="settings_etags_summary">加快同步</string>
     <string name="settings_background_sync">背景同步</string>
     <string name="settings_compress_image_attachments">壓縮上傳圖像</string>
-    <string name="search_in">%1$s 內搜尋</string>
+    <string name="search_in">在 %1$s 中搜尋</string>
     <string name="settings_compress_image_attachments_summary">上載速度更快，質素較差</string>
     <string name="pref_value_wifi_and_mobile">使用 Wi-Fi 及流動網路時同步</string>
     <string name="pref_value_wifi_only">只在使用 Wi-Fi 時同步</string>
@@ -135,7 +135,7 @@
         <item>淺色</item>
         <item>暗色</item>
     </string-array>
-    <string name="unassigned_user">已取消分派 %1$s</string>
+    <string name="unassigned_user">已取消指定 %1$s</string>
     <string name="no_activities">此卡片沒有活動。您需要連線至網際網路，才能載入並顯示活動。</string>
     <string name="share_board">分享佈告欄</string>
     <string name="you_are_currently_offline">目前離線中</string>

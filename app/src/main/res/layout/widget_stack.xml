@@ -10,9 +10,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/spacer_1x"
-        android:paddingTop="@dimen/spacer_1x"
-        android:paddingEnd="@dimen/spacer_1x">
+        android:paddingStart="@dimen/widget_inner_padding_horizontal"
+        android:paddingTop="@dimen/widget_inner_padding_vertical"
+        android:paddingEnd="@dimen/widget_inner_padding_horizontal">
 
         <RelativeLayout
             android:id="@+id/widget_stack_header_rl"
@@ -55,7 +55,10 @@
         android:layout_height="wrap_content"
         android:divider="@android:color/transparent"
         android:dividerHeight="@dimen/spacer_1x"
-        android:padding="@dimen/spacer_1x"
+        android:paddingStart="@dimen/widget_inner_padding_horizontal"
+        android:paddingTop="@dimen/spacer_1x"
+        android:paddingEnd="@dimen/widget_inner_padding_horizontal"
+        android:paddingBottom="@dimen/widget_inner_padding_vertical"
         tools:listitem="@layout/widget_stack_entry" />
 
     <ImageView

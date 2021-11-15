@@ -31,6 +31,8 @@
     <string name="simple_copied">Kopioitu</string>
     <string name="simple_archive">Arkisto</string>
     <string name="simple_unassigned">Määrittämätön</string>
+    <string name="hint_error_appeared">Tapahtui virhe</string>
+
     <string name="edit_board">Muokkaa taulua</string>
     <string name="archive_board">Arkistoi taulu</string>
     <string name="delete_board">Poista taulu</string>
@@ -115,6 +117,8 @@
     <string name="settings_theme_title">Teema</string>
     <string name="settings_branding_title">Brändäys</string>
     <string name="settings_compact_title">Kompakti tila</string>
+    <string name="settings_etags">Käytä ETageja</string>
+    <string name="settings_etags_summary">Nopeuttaa synkronointia</string>
     <string name="settings_background_sync">Taustasynkronointi</string>
     <string name="pref_value_wifi_and_mobile">Synkronoi wifi- ja mobiilidatayhteydellä</string>
     <string name="pref_value_wifi_only">Synkronoi vain wifi-yhteydellä</string>
@@ -275,13 +279,20 @@
     <string name="show_all_contacts">Näytä kaikki kontaktit</string>
     <string name="show_all_files">Näytä kaikki tiedostot</string>
     <string name="recent">Viimeaikaiset</string>
+    <string name="upload_a_new_attachment">Lähetä uusi liite</string>
     <string name="contacts">Yhteystiedot</string>
     <string name="downloads">Lataukset</string>
     <string name="files">Tiedostot</string>
     <string name="gallery">Galleria</string>
     <string name="edit_description">Muokkaa kuvausta</string>
+    <string name="copy_logs">Kopioi lokit leikepöydälle</string>
+    <string name="log_file">Lokitiedosto</string>
+    <string name="copying_logs_to_file">Kopioidaan lokeja tiedostoon…</string>
+    <string name="account_imported">Tili tuotu</string>
     <string name="simple_search">Etsi</string>
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Otsikko (pakollinen)</string>
     <string name="saving_new_card">Tallennetaan uutta korttia...</string>
-    </resources>
+    <string name="progress_import">Tuodaan taulua %1$d/%2$d…</string>
+    <string name="progress_import_indeterminate">Tuodaan tauluja…</string>
+</resources>
