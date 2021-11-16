@@ -98,7 +98,7 @@ dependencies {
     implementation('com.github.stefan-niedermann.nextcloud-commons:markdown:1.5.1') {
         exclude group: 'org.jetbrains', module: 'annotations-java5'
     }
-    implementation 'com.github.stefan-niedermann.android-commons:util:0.2.4'
+    implementation 'com.github.stefan-niedermann.android-commons:util:0.2.5'
     implementation 'com.github.stefan-niedermann.android-commons:shared-preferences:0.2.4'
 
     // Custom Date / Time Picker for branding support
