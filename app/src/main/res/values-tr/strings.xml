@@ -297,7 +297,7 @@
     <string name="simple_camera">Kamera</string>
     <string name="take_photo">Bir fotoğraf çekin</string>
     <string name="take_photo_switch_camera">Kamerayı değiştir</string>
-    <string name="take_photo_toggle_torch">Feneri aç/kapat</string>
+    <string name="take_photo_toggle_torch">El fenerini aç/kapat</string>
     <string name="show_all_contacts">Tüm kişileri görüntüle</string>
     <string name="show_all_files">Tüm dosyaları görüntüle</string>
     <string name="recent">Son kullanılan</string>
