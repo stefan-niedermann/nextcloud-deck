@@ -28,7 +28,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Unit tests
-        run: bash ./gradlew test
+        run: bash ./gradlew test --stacktrace
 
   codeql:
     name: CodeQL security scan

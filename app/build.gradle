@@ -92,14 +92,14 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
 
     // Single-Sign-On
-    implementation 'com.github.nextcloud:Android-SingleSignOn:0.5.6'
-    implementation 'com.github.stefan-niedermann.nextcloud-commons:sso-glide:1.5.1'
-    implementation 'com.github.stefan-niedermann.nextcloud-commons:exception:1.5.1'
-    implementation('com.github.stefan-niedermann.nextcloud-commons:markdown:1.5.1') {
+    implementation 'com.github.nextcloud:Android-SingleSignOn:0.6.0'
+    implementation 'com.github.stefan-niedermann.nextcloud-commons:sso-glide:1.6.2'
+    implementation 'com.github.stefan-niedermann.nextcloud-commons:exception:1.6.2'
+    implementation('com.github.stefan-niedermann.nextcloud-commons:markdown:1.6.2') {
         exclude group: 'org.jetbrains', module: 'annotations-java5'
     }
-    implementation 'com.github.stefan-niedermann.android-commons:util:0.2.0'
-    implementation 'com.github.stefan-niedermann.android-commons:shared-preferences:0.2.0'
+    implementation 'com.github.stefan-niedermann.android-commons:util:0.2.5'
+    implementation 'com.github.stefan-niedermann.android-commons:shared-preferences:0.2.5'
 
     // Custom Date / Time Picker for branding support
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
@@ -114,15 +114,14 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.9'
 
     // Retrofit
-    //noinspection GradleDependency
-    implementation 'com.squareup.retrofit2:retrofit:2.6.4'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
     // ReactiveX
     implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
 
     // Tests
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.robolectric:robolectric:4.6.1'
+    testImplementation 'org.robolectric:robolectric:4.7'
     testImplementation 'org.mockito:mockito-core:4.0.0'
     testImplementation 'androidx.test:core:1.4.0'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
