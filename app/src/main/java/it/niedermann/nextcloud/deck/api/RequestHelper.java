@@ -2,8 +2,6 @@ package it.niedermann.nextcloud.deck.api;
 
 import androidx.annotation.NonNull;
 
-import com.nextcloud.android.sso.api.NextcloudAPI;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -24,15 +22,7 @@ public class RequestHelper {
 
     public static <T> Disposable request(@NonNull final ApiProvider provider, @NonNull final ObservableProvider<T> call, @NonNull final ResponseCallback<T> callback) {
         if (provider.getDeckAPI() == null) {
-            provider.initSsoApi(new NextcloudAPI.ApiConnectedListener() {
-                @Override
-                public void onConnected() { /* great, nothing to do. */}
-
-                @Override
-                public void onError(Exception e) {
-                    callback.onError(e);
-                }
-            });
+            provider.initSsoApi(callback::onError);
         }
 
         final ResponseConsumer<T> cb = new ResponseConsumer<>(callback);
