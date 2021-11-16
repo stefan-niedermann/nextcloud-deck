@@ -114,11 +114,16 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">+버튼을 사용하여 새로운 리스트를 더하시오.</string>
     <string name="add_a_new_card_using_the_button">+ 버튼을 사용하여 새 카드를 추가</string>
+    <string name="update_deck">Deck 웹앱 업데이트</string>
+    <string name="deck_outdated_please_update">덱 버전(%1$s)이 너무 오래되었습니다. 안드로이드 클라이언트를 사용하기 위해서는 업데이트가 필요합니다.</string>
     <string name="delete_board_message">모든 리스트와 카드를 포함한 이 보드를 영구적으로 지웁니다.</string>
     <string name="settings_theme_title">테마</string>
     <string name="settings_branding_title">브랜딩</string>
     <string name="settings_compact_title">축소 모드</string>
+    <string name="settings_cover_images_title">커버 이미지</string>
+    <string name="settings_debugging">디버그 로그</string>
     <string name="settings_etags">ETag 사용</string>
+    <string name="settings_etags_summary">동기화 속도 향샹</string>
     <string name="settings_background_sync">백그라운드 동기화</string>
     <string name="settings_compress_image_attachments">업로드 시 이미지 압축</string>
     <string name="search_in">%1$s 에서 검색</string>
@@ -228,10 +233,12 @@
     <string name="error_dialog_attachment_upload_failed">첨부 파일을 업로드 할 수 없습니다. 다른 방법으로 공유하시고 저희에게 이 버그에 대해 알려주세요.</string>
     <string name="error_dialog_certificate">서버의 인증서가 무언가 잘못된 것 같습니다. Nextcloud 어플리케이션에서 모든 계정을 확인해 더 많은 정보를 확인하십시오.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Nextcloud 및 Deck 앱에 대한 모든 배터리 최적화를 비활성화해 주십시오.</string>
+    <string name="error_dialog_unknown_error">넥스트 클라우드에 연결 할 수 없습니다. 웹브라우저로 연결이 가능한지 확인 하거나, 인터넷 연결이 되어 있는지 확인해 주세요.</string>
     <string name="error_action_open_deck_info">앱 정보 열기</string>
     <string name="error_action_open_nextcloud_app">Nextcloud 앱 열기</string>
     <string name="error_action_open_network">네트워크 환경설정</string>
     <string name="error_action_server_logs">서버 기록</string>
+    <string name="error_action_open_in_browser">브라우저에서 열기</string>
     <string name="error_action_install">설치</string>
     <string name="error_action_report_issue">보고</string>
     <string name="info_box_maintenance_mode">서버가 유지 관리 모드임</string>
@@ -312,4 +319,6 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">제목(필수)</string>
     <string name="saving_new_card">새 카드 저장...</string>
-    </resources>
+    <string name="progress_import">%2$d에서 보드 %1$d 가져오기</string>
+    <string name="progress_import_indeterminate">보드 가져오기</string>
+</resources>

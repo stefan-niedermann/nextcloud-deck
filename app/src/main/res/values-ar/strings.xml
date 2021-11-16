@@ -1,6 +1,8 @@
 <resources>
     <string name="navigation_drawer_open">فتح التنقل </string>
     <string name="navigation_drawer_close">إقفال التنقل </string>
+    <string name="hint_search_deck">بحث الادراج</string>
+
     <string name="simple_boards">الالواح</string>
     <string name="simple_add">إضافة</string>
     <string name="simple_save">حفظ</string>
@@ -31,6 +33,8 @@
     <string name="simple_copied">نُسخت </string>
     <string name="simple_archive">الأرشيف</string>
     <string name="simple_unassigned">غير معيين </string>
+    <string name="hint_error_appeared">حدث خطأ</string>
+
     <string name="edit_board">تعديل اللوح</string>
     <string name="archive_board">أرشفة اللوح </string>
     <string name="delete_board">مسح اللوح</string>
@@ -151,8 +155,12 @@
     <string name="no_content">لا يوجد محتوى حتى الآن</string>
     <string name="last_background_sync">آخر مزامنة في الخلفية:</string>
     <string name="simple_off">إيقاف</string>
+    <string name="minutes_15">15 دقيقة</string>
+    <string name="hour_1">1 ساعة</string>
+    <string name="hours_6">6 ساعات</string>
     <string name="action_card_move">حرك البطاقة</string>
     <string name="action_card_move_title">نقل %1$s</string>
+    <string name="title_is_mandatory">العنوان مطلوب</string>
     <string name="provide_at_least_a_title_or_description">أدخل عنوانًا أو وصفًا على الأقل</string>
     <string name="welcome_text">مرحبًا بك في %1$s</string>
     <string name="maintenance_mode_explanation">سيرفر %1$s حاليًا في وضع الصيانة. فضلًا تواصل مع المسؤول أو أعد المحاولة لاحقًا. </string>
@@ -235,10 +243,12 @@
     <string name="error_dialog_attachment_upload_failed">لا يمكن رفع المرفق، يرجى محاولة مشاركته بطريقة أخرى وإخبارنا بهذا الخطأ.</string>
     <string name="error_dialog_certificate">يبدو أن هناك خطأ ما في شهادة الخادم، من فضلك قم بمراجعة جميع الحسابات في تطبيق نكست كلاود لمزيد من المعلومات.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">يرجى تعطيل جميع تحسينات البطارية لنكست كلاود وتطبيق Deck.</string>
+    <string name="error_dialog_unknown_error">يبدو أن مثيل Nextcloud الخاص بك لا يمكن الوصول إليه . يرجى التحقق من اتصالك بالإنترنت وما إذا كنت قادرًا على الاتصال بالمثيل الخاص بك عبر المتصفح.</string>
     <string name="error_action_open_deck_info">افتح معلومات التطبيق</string>
     <string name="error_action_open_nextcloud_app">فتح تطبيق نكست كلاود</string>
     <string name="error_action_open_network">إعدادات الشبكة</string>
     <string name="error_action_server_logs">سجلات الخادم </string>
+    <string name="error_action_open_in_browser">فتح في المتصفح</string>
     <string name="error_action_install">تثبيت</string>
     <string name="error_action_report_issue">ابلغ عنه</string>
     <string name="info_box_maintenance_mode">الخادم في وضع الصيانة</string>
@@ -294,6 +304,7 @@
     <string name="single_card">بطاقة مفردة</string>
     <string name="project_type_room">غرفة الدردشة</string>
     <string name="simple_move">نقل</string>
+    <string name="cannot_upload_files_without_permission">لا يمكن رفع الملفات بدون صلاحيات</string>
     <string name="clone_cards">استنسخ البطاقة </string>
     <string name="simple_clone">استنسخ</string>
     <string name="user_avatar">صورة المستخدم الشخصية </string>
@@ -326,4 +337,9 @@
     <string name="copying_logs_to_file">نسخ السجلات إلى الملف </string>
     <string name="account_imported">تم استيراد الحساب</string>
     <string name="simple_search">البحث</string>
-    </resources>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">العنوان (مطلوب)</string>
+    <string name="saving_new_card">يجري حفظ بطاقة جديدة ...</string>
+    <string name="progress_import">يجري استعادة لوحة %1$d من %2$d ...</string>
+    <string name="progress_import_indeterminate">يجري استعادة اللوحات ...</string>
+</resources>

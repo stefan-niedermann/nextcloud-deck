@@ -304,8 +304,8 @@
     <string name="simple_file">Plik</string>
     <string name="simple_camera">Aparat</string>
     <string name="take_photo">Zrobić zdjęcie</string>
-    <string name="take_photo_switch_camera">Przełącz aparat</string>
-    <string name="take_photo_toggle_torch">Włącz latarkę</string>
+    <string name="take_photo_switch_camera">Przełącz kamerę</string>
+    <string name="take_photo_toggle_torch">Przełącz latarkę</string>
     <string name="show_all_contacts">Pokaż wszystkie kontakty</string>
     <string name="show_all_files">Pokaż wszystkie pliki</string>
     <string name="recent">Ostatnie</string>
