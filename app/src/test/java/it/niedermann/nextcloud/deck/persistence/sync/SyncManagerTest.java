@@ -169,14 +169,14 @@ public class SyncManagerTest {
             }
         });
 
-        syncManager.synchronizeBoard(responseCallback, 1L);
+        syncManager.synchronizeBoard(1L, responseCallback);
 
         verify(syncHelper, times(1)).setResponseCallback(responseCallback);
         verify(syncHelper, times(1)).doSyncFor(any(StackDataProvider.class));
 
         doThrow(OfflineException.class).when(syncHelper).doSyncFor(any());
 
-        syncManager.synchronizeBoard(responseCallback, 1L);
+        syncManager.synchronizeBoard(1L, responseCallback);
 
         verify(responseCallback, times(1)).onError(any(OfflineException.class));
     }
