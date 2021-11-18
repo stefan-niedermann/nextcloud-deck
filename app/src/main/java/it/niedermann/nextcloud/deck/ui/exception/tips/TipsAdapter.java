@@ -79,7 +79,8 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
             add(R.string.error_dialog_tip_clear_storage_might_help);
             add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
         } else if (throwable instanceof NextcloudFilesAppNotSupportedException) {
-            add(R.string.error_dialog_tip_files_outdated);
+            add(R.string.error_dialog_min_version, new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.nextcloud.client"))
+                    .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_update_files_app));
         } else if (throwable instanceof OfflineException) {
             add(R.string.error_dialog_tip_offline);
             add(R.string.error_dialog_tip_sync_only_on_wifi);
@@ -169,12 +170,17 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
                 add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
             }
         } else if (throwable instanceof UnknownErrorException) {
-            if (account != null) {
-                add(R.string.error_dialog_unknown_error, new Intent(Intent.ACTION_VIEW)
-                        .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_in_browser)
-                        .setData(Uri.parse(account.getUrl())));
+            if ("com.nextcloud.android.sso.QueryParam".equals(throwable.getMessage())) {
+                add(R.string.error_dialog_min_version, new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.nextcloud.client"))
+                        .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_update_files_app));
             } else {
-                add(R.string.error_dialog_unknown_error);
+                if (account != null) {
+                    add(R.string.error_dialog_unknown_error, new Intent(Intent.ACTION_VIEW)
+                            .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_in_browser)
+                            .setData(Uri.parse(account.getUrl())));
+                } else {
+                    add(R.string.error_dialog_unknown_error);
+                }
             }
         }
     }
