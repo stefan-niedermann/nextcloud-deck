@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
+
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
@@ -78,8 +80,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHe
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
 
-import static androidx.lifecycle.Transformations.distinctUntilChanged;
-
 public class DataBaseAdapter {
 
     @NonNull
@@ -124,6 +124,7 @@ public class DataBaseAdapter {
         return distinctUntilChanged(db.getBoardDao().getBoardByRemoteId(accountId, remoteId));
     }
 
+    @WorkerThread
     public Board getBoardByRemoteIdDirectly(long accountId, long remoteId) {
         return db.getBoardDao().getBoardByRemoteIdDirectly(accountId, remoteId);
     }
@@ -155,6 +156,11 @@ public class DataBaseAdapter {
 
     public LiveData<Card> getCardByRemoteID(long accountId, long remoteId) {
         return distinctUntilChanged(db.getCardDao().getCardByRemoteId(accountId, remoteId));
+    }
+
+    @WorkerThread
+    public Card getCardByRemoteIDDirectly(long accountId, long remoteId) {
+        return db.getCardDao().getCardByRemoteIdDirectly(accountId, remoteId);
     }
 
     public FullCard getFullCardByRemoteIdDirectly(long accountId, long remoteId) {
@@ -568,6 +574,13 @@ public class DataBaseAdapter {
     @WorkerThread
     public Account readAccountDirectly(long id) {
         return db.getAccountDao().getAccountByIdDirectly(id);
+    }
+
+    @WorkerThread
+    public Account readAccountDirectly(@Nullable String name) {
+        final var account = db.getAccountDao().getAccountByNameDirectly(name);
+        account.setUserDisplayName(db.getUserDao().getUserNameByUidDirectly(account.getId(), account.getUserName()));
+        return account;
     }
 
 
@@ -1097,6 +1110,11 @@ public class DataBaseAdapter {
 
     public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccountId(long cardRemoteId, long accountId) {
         return db.getBoardDao().getLocalBoardIdByCardRemoteIdAndAccountId(cardRemoteId, accountId);
+    }
+
+    @WorkerThread
+    public Board getBoardByAccountAndCardRemoteIdDirectly(long accountId, long cardRemoteId) {
+        return db.getBoardDao().getBoardByAccountAndCardRemoteIdDirectly(accountId, cardRemoteId);
     }
 
     @WorkerThread

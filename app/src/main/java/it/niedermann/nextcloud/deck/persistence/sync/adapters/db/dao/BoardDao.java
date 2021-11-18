@@ -75,6 +75,13 @@ public interface BoardDao extends GenericDao<Board> {
             "WHERE c.id = :cardRemoteId and c.accountId =  :accountId")
     LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccountId(long cardRemoteId, long accountId);
 
+    @Query("SELECT b.* " +
+            "FROM card c " +
+            "inner join stack s on s.localId = c.stackId " +
+            "inner join board b on s.boardId = b.localId " +
+            "WHERE c.id = :cardRemoteId and c.accountId =  :accountId")
+    Board getBoardByAccountAndCardRemoteIdDirectly(long accountId, long cardRemoteId);
+
     @Query("SELECT count(*) FROM board WHERE accountId = :accountId and archived = 1 and (deletedAt = 0 or deletedAt is null) and status <> 3")
     LiveData<Integer> countArchivedBoards(long accountId);
 

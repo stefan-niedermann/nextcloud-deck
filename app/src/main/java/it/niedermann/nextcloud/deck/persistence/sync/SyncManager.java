@@ -13,6 +13,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
 import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
@@ -130,8 +131,8 @@ public class SyncManager {
     }
 
     @AnyThread
-    public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccount(long cardRemoteId, @NonNull Account account) {
-        return dataBaseAdapter.getLocalBoardIdByCardRemoteIdAndAccountId(cardRemoteId, account.getId());
+    public Board getBoardByAccountAndCardRemoteIdDirectly(long accountId, long cardRemoteId) {
+        return dataBaseAdapter.getBoardByAccountAndCardRemoteIdDirectly(accountId, cardRemoteId);
     }
 
     @WorkerThread
@@ -168,9 +169,9 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void synchronizeBoard(@NonNull ResponseCallback<Boolean> responseCallback, long localBoadId) {
+    public void synchronizeBoard(long localBoardId, @NonNull ResponseCallback<Boolean> responseCallback) {
         executor.submit(() -> {
-            FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(responseCallback.getAccount().getId(), localBoadId);
+            FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(responseCallback.getAccount().getId(), localBoardId);
             try {
                 syncHelperFactory.create(serverAdapter, dataBaseAdapter, null)
                         .setResponseCallback(responseCallback)
@@ -361,7 +362,7 @@ public class SyncManager {
         });
     }
 
-    @AnyThread
+    @UiThread
     public LiveData<Account> readAccount(long id) {
         return dataBaseAdapter.readAccount(id);
     }
@@ -371,12 +372,17 @@ public class SyncManager {
         return dataBaseAdapter.readAccountDirectly(id);
     }
 
-    @AnyThread
+    @WorkerThread
+    public Account readAccountDirectly(@Nullable String name) {
+        return dataBaseAdapter.readAccountDirectly(name);
+    }
+
+    @UiThread
     public LiveData<Account> readAccount(@Nullable String name) {
         return dataBaseAdapter.readAccount(name);
     }
 
-    @AnyThread
+    @UiThread
     public LiveData<List<Account>> readAccounts() {
         return dataBaseAdapter.readAccounts();
     }
@@ -1570,12 +1576,22 @@ public class SyncManager {
         return dataBaseAdapter.getBoardByRemoteId(accountId, remoteId);
     }
 
+    @WorkerThread
+    public Board getBoardByRemoteIdDirectly(long accountId, long remoteId) {
+        return dataBaseAdapter.getBoardByRemoteIdDirectly(accountId, remoteId);
+    }
+
     public LiveData<Stack> getStackByRemoteId(long accountId, long localBoardId, long remoteId) {
         return dataBaseAdapter.getStackByRemoteId(accountId, localBoardId, remoteId);
     }
 
     public LiveData<Card> getCardByRemoteID(long accountId, long remoteId) {
         return dataBaseAdapter.getCardByRemoteID(accountId, remoteId);
+    }
+
+    @WorkerThread
+    public Card getCardByRemoteIDDirectly(long accountId, long remoteId) {
+        return dataBaseAdapter.getCardByRemoteIDDirectly(accountId, remoteId);
     }
 
     public long createUser(long accountId, User user) {
