@@ -161,7 +161,7 @@ public abstract class DeckDatabase extends RoomDatabase {
     }
 
     private static DeckDatabase create(final Context context) {
-        DeckLog.enablePersistentLogs(true);
+//        DeckLog.enablePersistentLogs(true);
         return Room.databaseBuilder(
                 context,
                 DeckDatabase.class,
