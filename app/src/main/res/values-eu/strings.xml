@@ -215,7 +215,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">Arazoak jarraitzen badu, saiatu bi aplikazioen biltegiak garbitzen: Nextcloud eta Nextcloud Deck aplikazioenak, arazoa konpontzeko.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Datu-basearen bertsio-berritzeak huts egin du. Eman arazoaren berri eta biltegia garbitu aplikazioa normaltasunez erabiltzeko.</string>
     <string name="error_dialog_tip_clear_storage">Biltegia garbi dezakezu aplikazioaren informazioa ireki eta hautatuz: Biltegia → Garbitu biltegia.</string>
-    <string name="error_dialog_tip_files_outdated">Daukazun Nextcloud aplikazioa zaharkituta dagoela dirudi. Zoaz Play Store edo F-Droidera azken bertsioa lortzeko.</string>
     <string name="error_dialog_tip_offline">Badirudi Interneteko konexiorik gabe sinkronizazioa abiarazten saiatu zarela..</string>
     <string name="error_dialog_tip_sync_only_on_wifi">\"Sinkronizatu soilik Wi-Fi konexioarekin\" ezarpena gaituta baduzu, Wi-Fi batera konektatuta zaudenean soilik sinkronizatu ahal izango duzu.</string>
     <string name="error_dialog_tip_files_force_stop">Daukazun Nextcloud aplikazioan zerbait gaizki dabilela dirudi.  Saia zaitez Nextcloud aplikazioa eta Nextcloud Deck geldiarazten. </string>
@@ -243,6 +242,7 @@
     <string name="error_action_open_in_browser">Ireki nabigatzailean</string>
     <string name="error_action_install">Instalatu</string>
     <string name="error_action_report_issue">Jakinarazi</string>
+    <string name="error_action_update_files_app">Eguneratu</string>
     <string name="info_box_maintenance_mode">Zerbitzaria mantentze moduan dago</string>
     <string name="info_box_version_not_supported">Zerbitzariaren %1$s bertsioa ez dago onartuta, mesedez eguneratu %2$s(e)ra</string>
     <string name="share_link">Partekatu esteka</string>

@@ -215,7 +215,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">Ha a probléma továbbra is fennáll, próbálja kiüríteni mindkét alkalmazás tárolóját: a Nextcloudét és a Nextcloud Kártyákét.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Az adatbázis frissítése sikertelen. Jelentse a problémát és az alkalmazás normális használatához törölje a tárolót.</string>
     <string name="error_dialog_tip_clear_storage">A tárolót az alkalmazásinformáció megnyitásával, és a Tárhely → Tárhely ürítése választásával törölheti.</string>
-    <string name="error_dialog_tip_files_outdated">A Nextcloud alkalmazása elavultnak tűnik. Keresse fel a Play Áruházat vagy az F-Droidot, hogy beszerezze a legfrissebb verziót.</string>
     <string name="error_dialog_tip_offline">Úgy néz ki, hogy internetkapcsolat nélkül próbált meg szinkronizálást kezdeményezni.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Ha engedélyezte a „Szinkronizálás csak Wi-Fin” beállítást, akkor csak akkor szinkronizálhat, ha Wi-Fihez kapcsolódik.</string>
     <string name="error_dialog_tip_files_force_stop">Valami hibásnak tűnik a Nextcloud alkalmazásában. Próbálja mindkettőt leállítani, a Nextcloud és a Nextcloud Kártyák alkalmazást is.</string>

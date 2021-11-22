@@ -208,7 +208,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">Si el problema persisteix, mireu de netejar l\'emmagatzematge de totes dues aplicacions: Nextcloud i Nextcloud Deck per tal de resoldre el problema.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Ha fallat l\'actualització de la base de dades. Informeu del problema i esborreu l\'emmagatzematge per utilitzar l\'aplicació normalment.</string>
     <string name="error_dialog_tip_clear_storage">Podeu netejar l\'emmagatzematge obrint la informació de l\'aplicació i seleccionant Emmagatzematge → Neteja l\'emmagatzematge.</string>
-    <string name="error_dialog_tip_files_outdated">La vostra aplicació Nextcloud sembla que està obsoleta. Si us plau, visiteu la Play Store o l\'F-Droid per tal d\'aconseguir la darrera versió.</string>
     <string name="error_dialog_tip_files_force_stop">Sembla que alguna cosa està malament a la vostra aplicació Nextcloud. Si us plau, intenteu forçar l\'aturada tant de l\'aplicació Nextcloud com de l\'aplicació Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Si l\'aturada forçada no ajuda, podeu provar de netejar l\'emmagatzematge d\'ambdues aplicacions.</string>
     <string name="error_dialog_timeout_instance">No hi ha hagut resposta del vostre servidor en el temps donat. Si us plau, assegureu-vos que la vostra instància funciona correctament.</string>

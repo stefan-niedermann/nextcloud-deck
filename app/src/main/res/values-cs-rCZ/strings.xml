@@ -219,7 +219,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">Pokud problém přetrvává, zkuste problém vyřešit vyčištěním úložišť obou aplikací: Nextcloud a Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Přechod na novější verzi databáze se nezdařil. Prosíme nahlaste tento problém vývojářům a aby bylo možné aplikaci normálně používat, vyčistěte úložiště.</string>
     <string name="error_dialog_tip_clear_storage">Úložiště můžete vyčistit otevřením informací o aplikací a vybráním Úložiště → Vyčistit úložiště.</string>
-    <string name="error_dialog_tip_files_outdated">Zdá se, že aplikace Nextcloud, nainstalovaná na vašem zařízení, je staré verze. Přejděte prosím do Play Store nebo F-Droid a nainstalujte si nejnovější verzi.</string>
     <string name="error_dialog_tip_offline">Vypadá to, že jste se pokusili zahájit synchronizaci bez internetového připojení.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Pokud máte zapnuté nastavení „Synchr. pouze přes Wi-Fi“ – synchronizovat tedy můžete pouze pokud jste připojeni k Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Zdá se, že s vaší aplikací Nextcloud není něco v pořádku. Zkuste vynutit zastavení obojího – aplikace Nextcloud a Nextcloud Deck.</string>
@@ -240,6 +239,7 @@
     <string name="error_dialog_certificate">Zdá se, že s certifikátem serveru není něco v pořádku. Podrobnosti zjistíte kontrolou všech účtů v Nextcloud.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">V nastavení systému prosím pro aplikace Nextcloud a Deck vypněte veškeré optimalizace spotřeby energie z akumulátoru.</string>
     <string name="error_dialog_unknown_error">Zdá se, že vámi využívaná instance Nextcloud není dosažitelná. Zkontrolujte své připojení a to, zda jste schopní se připojit k této instanci prostřednictvím webového prohlížeče.</string>
+    <string name="error_dialog_min_version">Android aplikace Deck vyžaduje, aby Android aplikace Nextcloud byla přinejmenším verze 3.18.</string>
     <string name="error_action_open_deck_info">Otevřít informace o aplikaci</string>
     <string name="error_action_open_nextcloud_app">Otevřít aplikaci Nextcloud</string>
     <string name="error_action_open_network">Nastavení sítě</string>
@@ -247,6 +247,7 @@
     <string name="error_action_open_in_browser">Otevřít v prohlížeči</string>
     <string name="error_action_install">Nainstalovat</string>
     <string name="error_action_report_issue">Hlášení</string>
+    <string name="error_action_update_files_app">Aktualizovat</string>
     <string name="info_box_maintenance_mode">Na serveru probíhá údržba</string>
     <string name="info_box_version_not_supported">Verze serveru %1$s není podporována, přejděte na verzi %2$s</string>
     <string name="share_link">Odkaz na sdílení</string>

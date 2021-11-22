@@ -215,7 +215,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">Ако проблемът продължава, опитайте се да изчистите хранилището на двете приложения: Nextcloud и Nextcloud Deck, за да разрешите този проблем.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Неуспешна надстройка на базата данни. Моля, подайте сигнал за проблема и изчистете хранилището, за да използвате приложението нормално.</string>
     <string name="error_dialog_tip_clear_storage">Можете да изчистите хранилището, като отворите информацията за приложението и изберете Хранилище → Изчистване на хранилището.</string>
-    <string name="error_dialog_tip_files_outdated">Вашето приложение Nextcloud изглежда е остаряло. Моля, посетете Play Store или F-Droid, за да получите най-новата версия.</string>
     <string name="error_dialog_tip_offline">Изглежда, че сте се опитали да задействате синхронизация без интернет връзка.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Ако сте активирали настройката „Синхронизиране само в Wi-Fi“, можете да синхронизирате само когато сте свързани с Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Изглежда, че нещо не е наред с вашето приложение Nextcloud. Моля, опитайте да спрете принудиттелно и двете приложения -и Nextcloud и приложението Nextcloud Deck.</string>
@@ -236,6 +235,7 @@
     <string name="error_dialog_certificate">Изглежда, че нещо не е наред със сертификата на сървъра. Моля, проверете всички профили в приложението Nextcloud за допълнителна информация.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Моля, деактивирайте всички оптимизации на батерията за Nextcloud и приложението Deck</string>
     <string name="error_dialog_unknown_error">Вашият екземпляр на приложението Nextcloud изглежда не е достъпен. Моля, проверете интернет връзката си и дали можете да се свържете с него чрез браузър.</string>
+    <string name="error_dialog_min_version">Приложението Deck за Android, изисква версията на приложението Android за Nextcloud да е поне 3.18.</string>
     <string name="error_action_open_deck_info">Отворяне на информация за приложението</string>
     <string name="error_action_open_nextcloud_app">Отворяне на приложението Nextcloud</string>
     <string name="error_action_open_network">Настройки на мрежата</string>
@@ -243,6 +243,7 @@
     <string name="error_action_open_in_browser">Отваряне в браузъра</string>
     <string name="error_action_install">Инсталиране</string>
     <string name="error_action_report_issue">Доклад</string>
+    <string name="error_action_update_files_app">Обновяване</string>
     <string name="info_box_maintenance_mode">Сървърът е в режим на поддръжка</string>
     <string name="info_box_version_not_supported">Версията на сървъра %1$s не се поддържа. Моля, актуализирайте до %2$s</string>
     <string name="share_link">Връзка за споделяне</string>

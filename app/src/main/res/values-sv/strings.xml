@@ -195,7 +195,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">Om problemet kvarstår kan du försöka rensa lagringen av båda apparna: Nextcloud och Nextcloud Deck för att lösa problemet.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Uppgraderingen av databasen misslyckades. Var god anmäl problemet, rensa sedan appens data för att kunna återgå till normal användning.</string>
     <string name="error_dialog_tip_clear_storage">Du kan rensa diskutrymmet genom att öppna appens info, välj Lagring -> Rensa data</string>
-    <string name="error_dialog_tip_files_outdated">Din Nextcloud-app verkar utdaterad. Besök Play Butiken eller F-Droid för att hämta senaste versionen</string>
     <string name="error_dialog_tip_files_force_stop">Något verkar fel med din Nextcloud-app. Försök att tvångsavsluta både Nextcloud och Nextcloud Deck-appen.</string>
     <string name="error_dialog_tip_files_delete_storage">Om tvångsavslutning ej hjälper kan du försöka rensa datan på båda appar.</string>
     <string name="error_dialog_timeout_instance">Din server svarade inte inom den angivna tiden. Kontrollera att den fungerar normalt.</string>

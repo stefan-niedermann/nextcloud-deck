@@ -215,7 +215,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">Als het probleem blijft aanhouden, probeer dan de gegevensopslag van beide apps te wissen: zowel Nextcloud als Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Het upgraden van de database is mislukt. Gelieve het probleem te melden en opslagruimte vrij te maken om de app naar behoren te kunnen gebruiken.</string>
     <string name="error_dialog_tip_clear_storage">Je kunt de opslag leegmaken door in Android de app info te openen en kies dan Opslag →  Gegevens verwijderen.</string>
-    <string name="error_dialog_tip_files_outdated">Je Nextcloud app lijkt te zijn verouderd. Download alstublieft de nieuwste versie in de Google Play Store of in F-Droid.</string>
     <string name="error_dialog_tip_offline">Het lijkt erop dat je hebt geprobeerd om zonder internetverbinding een synchronisatie te starten.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Als je de instelling \"Alleen synchroniseren via Wi-Fi\" hebt ingeschakeld, kun je alleen synchroniseren als je met Wi-Fi bent verbonden.</string>
     <string name="error_dialog_tip_files_force_stop">Er lijkt iets mis te zijn met je Nextcloud app. Probeer alstublieft beide apps geforceerd te sluiten, zowel de Nextcloud app als de Nextcloud Deck app.</string>
@@ -237,6 +236,7 @@
     <string name="error_dialog_tip_disable_battery_optimizations">Gelieve de batterijoptimalisatie uit te schakelen voor de Nextcloud en Deck applicatie.</string>
     <string name="error_dialog_unknown_error">Uw Nextcloud inrichting lijkt niet bereikbaar.
 Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te maken met uw inrichting via de web browser.</string>
+    <string name="error_dialog_min_version">De Android Deck app vereist minstens Nextcloud Android app versie 3.18.</string>
     <string name="error_action_open_deck_info">Open App informatie</string>
     <string name="error_action_open_nextcloud_app">Open Nextcloud app</string>
     <string name="error_action_open_network">Netwerk instellingen</string>
@@ -244,6 +244,7 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="error_action_open_in_browser">Openen in webbrowser</string>
     <string name="error_action_install">Installeren</string>
     <string name="error_action_report_issue">Rapporteer</string>
+    <string name="error_action_update_files_app">Update</string>
     <string name="info_box_maintenance_mode">Server in onderhoudsmodus</string>
     <string name="info_box_version_not_supported">Server versie %1$s wordt niet ondersteund, werk bij naar %2$s</string>
     <string name="share_link">Delen link</string>
