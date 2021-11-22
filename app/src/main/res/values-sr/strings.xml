@@ -197,7 +197,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">Ако проблем настави да се дешава, пробајте да очистите податке од обе апликације: и Некстклауд и Некстклауд Шпила да бисте решили проблем.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Ажурирање базе није успело. Пријавите овај проблем и очистите складиште да користите апликацију нормално.</string>
     <string name="error_dialog_tip_clear_storage">Складиште можете очистити ако отворите информације о апликацији и бирањем Меморија → Обриши податке.</string>
-    <string name="error_dialog_tip_files_outdated">Изгледа да је верзија Некстклауд апликације стара. Посетите Play Store или Ф-дроид да скинете најновију верзију.</string>
     <string name="error_dialog_tip_files_force_stop">Нешто није у реду да Вашом Некстклауд апликацијом. Пробајте да форсирано зауставите обе, и Некстклауд апликацију и апликацију Некстклауд Шпила.</string>
     <string name="error_dialog_tip_files_delete_storage">Ако ово заустављање не помогне, очистите податке за обе апликације.</string>
     <string name="error_dialog_timeout_instance">Није било одговора са сервера у задатом времену. Проверите да ли вам инстанца ради добро.</string>

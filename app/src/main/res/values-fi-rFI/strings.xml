@@ -205,7 +205,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">Jos ongelma jatkuu, tyhjennä Nextcloudin ja Nextcloud Deckin tallennustila laitteesta ratkaistaaksesi ongelman.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Tietokannan päivittäminen epäonnistui. Ole hyvä ja raportoi ongelmasta ja tyhjennä tallennustila käyttääksesi sovellusta normaalisti.</string>
     <string name="error_dialog_tip_clear_storage">Voit tyhjentää tallennustilan avaamalla sovelluksen tiedot ja valitsemalla Tallennustila → Tyhjennä tallennustila.</string>
-    <string name="error_dialog_tip_files_outdated">Nextcloud-sovelluksesi on vanhentunut. Lataa uusin version Play Storesta tai F-Droidista.</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloud-sovelluksessasi on jotain vialla. Pakota Nextcloudin ja Nextcloud Deckin lopetus.</string>
     <string name="error_dialog_tip_files_delete_storage">Jos pakotettu lopettaminen ei auta, voit yrittää tyhjentää sovelluksien tallennustilan.</string>
     <string name="error_dialog_timeout_instance">Palvelimen aikakatkaisu. Varmista, että se on toiminnassa.</string>

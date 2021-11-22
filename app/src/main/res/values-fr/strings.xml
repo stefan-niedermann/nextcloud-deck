@@ -215,7 +215,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">Si le problème persiste, essayez d\'effacer les données des applications Nextcloud et Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">La mise à jour de la base de données a échoué. Veuillez signaler l\'erreur et supprimer les données pour utiliser l\'application de manière normale.</string>
     <string name="error_dialog_tip_clear_storage">Vous pouvez nettoyer l\'espace de stockage en ouvrant les paramètres de l\'application et en sélectionnant Stockage → Effacer le stockage.</string>
-    <string name="error_dialog_tip_files_outdated">Votre application Nextcloud semble trop ancienne. Veuillez vous rendre sur Google Play Store ou sur F-Droid afin d\'installer la dernière version.</string>
     <string name="error_dialog_tip_offline">Vous avez tenté de synchroniser sans connexion à internet.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Si vous avez activé \"Sync seulement par Wi-Fi\", vous ne pourrez donc synchroniser qu\'en étant connecté à un réseau Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Quelque chose semble ne pas fonctionner avec votre application Nextcloud. Essayer de forcer l\'arrêt des applications Nextcloud et Nextcloud Notes.</string>
@@ -323,4 +322,6 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Titre (obligatoire)</string>
     <string name="saving_new_card">Enregistrement de la nouvelle carte…</string>
-    </resources>
+    <string name="progress_import">Importation du tableau %1$dsur %2$d...</string>
+    <string name="progress_import_indeterminate">Importation des tableaux...</string>
+</resources>

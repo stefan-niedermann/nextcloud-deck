@@ -215,7 +215,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">Sorun sürerse, çözmek için hem Nextcloud uygulamasının hem de Nextcloud Tahta uygulamasının depolamalarını temizlemeyi deneyin.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Veritabanı güncellenemedi. Lütfen sorunu bildirin ve uygulamayı normal şekilde kullanabilmek için depolamayı temizleyin.</string>
     <string name="error_dialog_tip_clear_storage">Depolamayı temizlemek için uygulama bilgilerini açın ve Depolama (Hafıza) → Depolamayı temizle (Veriyi sil) seçin.</string>
-    <string name="error_dialog_tip_files_outdated">Nextcloud uygulamanız eski görünüyor. Lütfen son sürümü almak için Play Store ya da F-Droid mağazalarına gidin.</string>
     <string name="error_dialog_tip_offline">İnternet bağlantısı olmadan bir eşitleme başlatmaya çalıştınız gibi görünüyor.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">\"Yalnız Wi-Fi ile eşitlensin\" seçeneğini etkinleştirdiyseniz, yalnız Wi-Fi bağlantısı varken eşitleme yapabilirsiniz.</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloud uygulamanızda bir sorun var gibi görünüyor. Lütfen hem Nextcloud uygulamasını hem de Nextcloud Tahta uygulamasını zorla kapatmayı deneyin.</string>
@@ -236,6 +235,7 @@
     <string name="error_dialog_certificate">Sunucu sertifikasında bir sorun var gibi görünüyor. Lütfen ayrıntılı bilgi almak için Nextcloud uygulamasındaki tüm hesaplara bakın.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Lütfen Nextcloud ve Pano uygulaması için tüm pil iyileştirmelerini devre dışı bırakın.</string>
     <string name="error_dialog_unknown_error">Nextcloud kopyanıza ulaşılamıyor gibi görünüyor. Lütfen internet bağlantınızın çalıştığından ve kopyanıza web tarayıcı ile bağlanabildiğinizden emin olun.</string>
+    <string name="error_dialog_min_version">Tahta Android uygulamasının çalışması için Nextcloud Android uygulamasının en az 3.18 sürümü gereklidir</string>
     <string name="error_action_open_deck_info">Uygulama bilgilerini aç</string>
     <string name="error_action_open_nextcloud_app">Nextcloud uygulamasını aç</string>
     <string name="error_action_open_network">Ağ ayarları</string>
@@ -243,6 +243,7 @@
     <string name="error_action_open_in_browser">Web tarayıcıda aç</string>
     <string name="error_action_install">Kur</string>
     <string name="error_action_report_issue">Sorun bildirin</string>
+    <string name="error_action_update_files_app">Güncelle</string>
     <string name="info_box_maintenance_mode">Sunucu bakım kipinde</string>
     <string name="info_box_version_not_supported">%1$s sunucu sürümü desteklenmiyor. Lütfen %2$s sürümüne güncelleyin</string>
     <string name="share_link">Bağlantıyı paylaş</string>

@@ -213,7 +213,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">如果问题持续存在，尝试通过清除 Nextcloud 和 Nextcloud 看板两个应用的存储空间来解决问题。</string>
     <string name="error_dialog_tip_database_upgrade_failed">数据库升级失败。请报告问题并清除应用存储来正常使用此应用。</string>
     <string name="error_dialog_tip_clear_storage">您可以通过打开应用信息，选择“存储>清除存储”来清除存储。</string>
-    <string name="error_dialog_tip_files_outdated">您的 Nextcloud 应用似乎已经过时了。请访问 Play 商店或 F-Droid 以获取最新版本。</string>
     <string name="error_dialog_tip_offline">看起来您试图在没有互联网连接的情况下触发同步。 </string>
     <string name="error_dialog_tip_sync_only_on_wifi">如果您开启了“仅在Wi-Fi上同步”设置，则只有连接到Wi-Fi时才能进行同步。 </string>
     <string name="error_dialog_tip_files_force_stop">您的 Nextcloud 应用似乎出现了问题。请尝试强行停止 Nextcloud 和 Nextcloud 看板两个应用。</string>
@@ -234,6 +233,7 @@
     <string name="error_dialog_certificate">服务器的证书似乎有问题。请查看 Nextcloud 应用程序中的所有账户以获取更多信息。</string>
     <string name="error_dialog_tip_disable_battery_optimizations">请禁用针对 Nextcloud 和 Deck 应用程序的所有电池优化。</string>
     <string name="error_dialog_unknown_error">您的 Nextcloud 实例似乎不可访问。请检查您的互联网连接，以及您是否能够通过浏览器连接到您的实例。</string>
+    <string name="error_dialog_min_version">Deck 安卓应用需要的 Nextcloud 安卓应用的最低版本为 3.18</string>
     <string name="error_action_open_deck_info">打开应用信息</string>
     <string name="error_action_open_nextcloud_app">打开 Nextcloud 应用</string>
     <string name="error_action_open_network">网络设置</string>
@@ -241,6 +241,7 @@
     <string name="error_action_open_in_browser">在浏览器中打开</string>
     <string name="error_action_install">安装</string>
     <string name="error_action_report_issue">报告</string>
+    <string name="error_action_update_files_app">更新</string>
     <string name="info_box_maintenance_mode">服务器处于维护模式下 </string>
     <string name="info_box_version_not_supported">服务器版本 %1$s 不受支持，请更新到 %2$s</string>
     <string name="share_link">共享链接</string>

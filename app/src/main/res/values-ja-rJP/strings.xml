@@ -199,7 +199,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">この問題が続くようでしたら、下記両方のアプリでストレージをクリアして問題が解決できるか試してください：Nextcloud と Nextcloud Deck</string>
     <string name="error_dialog_tip_database_upgrade_failed">データベースのアップグレードに失敗しました。問題を報告し、ストレージを初期化してアプリを正常に使用できるようにしてください</string>
     <string name="error_dialog_tip_clear_storage">以下の方法でストレージをクリアできます：アプリ情報→ストレージ→ストレージをクリア.</string>
-    <string name="error_dialog_tip_files_outdated">Nextcloudアプリが古いようです。プレイストアかF-Droidから最新版を入手してください。</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloudアプリで何か不具合が発生しました。NextcloudアプリとNextcloud Deckアプリの両方を強制終了してください。</string>
     <string name="error_dialog_tip_files_delete_storage">強制終了で改善されない場合は、両方のアプリのストレージをクリアしてみてください。</string>
     <string name="error_dialog_timeout_instance">一定時間内にサーバーからの反応がありませんでした。サーバーが正常に動いているか確認してください。</string>
