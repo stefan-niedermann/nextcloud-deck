@@ -1,5 +1,9 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import static it.niedermann.nextcloud.deck.ui.PushNotificationViewModel.KEY_MESSAGE;
+import static it.niedermann.nextcloud.deck.ui.PushNotificationViewModel.KEY_SUBJECT;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -7,7 +11,6 @@ import android.view.View;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -17,13 +20,11 @@ import java.util.concurrent.Executors;
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityPushNotificationBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-import kotlin.Triple;
 
 /**
  * Warning: Do not move this class to another package or folder!
@@ -35,13 +36,6 @@ public class PushNotificationActivity extends AppCompatActivity {
     private PushNotificationViewModel viewModel;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-    // Provided by Files app NotificationJob
-    private static final String KEY_SUBJECT = "subject";
-    private static final String KEY_MESSAGE = "message";
-    private static final String KEY_LINK = "link";
-    private static final String KEY_ACCOUNT = "account";
-    // Optional
-    private static final String KEY_CARD_REMOTE_ID = "objectId";
 
     @Override
     protected void onResume() {
@@ -70,59 +64,48 @@ public class PushNotificationActivity extends AppCompatActivity {
 
         binding.cancel.setOnClickListener((v) -> finish());
         viewModel.getAccount().observe(this, this::applyBrandToSubmitButton);
-        executor.submit(() -> viewModel.getCardInformation(
-                intent.getStringExtra(KEY_ACCOUNT),
-                intent.getStringExtra(KEY_CARD_REMOTE_ID),
-                new IResponseCallback<>() {
-                    @Override
-                    public void onResponse(Triple<Account, Long, Long> response) {
-                        runOnUiThread(() -> openCardOnSubmit(response.getFirst(), response.getSecond(), response.getThird()));
-                    }
+        executor.submit(() -> viewModel.getCardInformation(intent.getExtras(), new PushNotificationViewModel.PushNotificationCallback() {
+            @Override
+            public void onResponse(@NonNull PushNotificationViewModel.CardInformation cardInformation) {
+                runOnUiThread(() -> openCardOnSubmit(cardInformation.account, cardInformation.localBoardId, cardInformation.localCardId));
+            }
 
-                    @Override
-                    public void onError(Throwable throwable) {
-                        IResponseCallback.super.onError(throwable);
-                        runOnUiThread(() -> fallbackToBrowser(intent.getStringExtra(KEY_LINK)));
-                        final String params = "Error while receiving push notification:\n"
-                                + KEY_SUBJECT + ": [" + intent.getStringExtra(KEY_SUBJECT) + "]\n"
-                                + KEY_MESSAGE + ": [" + intent.getStringExtra(KEY_MESSAGE) + "]\n"
-                                + KEY_LINK + ": [" + intent.getStringExtra(KEY_LINK) + "]\n"
-                                + KEY_CARD_REMOTE_ID + ": [" + intent.getStringExtra(KEY_CARD_REMOTE_ID) + "]\n"
-                                + KEY_ACCOUNT + ": [" + intent.getStringExtra(KEY_ACCOUNT) + "]";
-                        ExceptionDialogFragment.newInstance(new Exception(params, throwable), null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                    }
-                }));
+            @Override
+            public void fallbackToBrowser(@NonNull Uri uri) {
+                runOnUiThread(() -> PushNotificationActivity.this.fallbackToBrowser(uri));
+            }
+
+            @Override
+            @SuppressLint("MissingSuperCall")
+            public void onError(Throwable throwable) {
+                runOnUiThread(() -> displayError(throwable));
+            }
+        }));
     }
 
     private void openCardOnSubmit(@NonNull Account account, long boardLocalId, long cardLocalId) {
-        binding.submit.setOnClickListener((v) -> launchEditActivity(account, boardLocalId, cardLocalId));
+        binding.submit.setOnClickListener((v) -> {
+            DeckLog.info("Starting", EditActivity.class.getSimpleName(), "with [" + account + ", " + boardLocalId + ", " + cardLocalId + "]");
+            startActivity(EditActivity.createEditCardIntent(this, account, boardLocalId, cardLocalId));
+            finish();
+        });
         binding.submit.setText(R.string.simple_open);
         applyBrandToSubmitButton(account.getColor());
         binding.submit.setEnabled(true);
         binding.progress.setVisibility(View.INVISIBLE);
     }
 
-    /**
-     * If anything goes wrong and we cannot open the card directly, we fall back to open the given link in the webbrowser
-     */
-    private void fallbackToBrowser(String link) {
+    private void fallbackToBrowser(@NonNull Uri uri) {
         DeckLog.warn("Falling back to browser as notification handler.");
-        try {
-            final var uri = Uri.parse(link);
-            binding.submit.setOnClickListener((v) -> startActivity(new Intent(Intent.ACTION_VIEW, uri)));
-            binding.submit.setText(R.string.open_in_browser);
-            binding.submit.setEnabled(true);
-            binding.progress.setVisibility(View.INVISIBLE);
-        } catch (Throwable t) {
-            DeckLog.logError(t);
-        }
+        binding.submit.setOnClickListener((v) -> startActivity(new Intent(Intent.ACTION_VIEW, uri)));
+        binding.submit.setText(R.string.open_in_browser);
+        binding.submit.setEnabled(true);
+        binding.progress.setVisibility(View.INVISIBLE);
     }
 
-    @UiThread
-    private void launchEditActivity(@NonNull Account account, Long boardId, Long cardId) {
-        DeckLog.info("starting", EditActivity.class.getSimpleName(), "with [" + account + ", " + boardId + ", " + cardId + "]");
-        startActivity(EditActivity.createEditCardIntent(this, account, boardId, cardId));
-        finish();
+    private void displayError(Throwable throwable) {
+        ExceptionDialogFragment.newInstance(throwable, null)
+                .show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
     }
 
     @Override

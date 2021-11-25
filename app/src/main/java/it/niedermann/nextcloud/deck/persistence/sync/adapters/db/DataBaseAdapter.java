@@ -1113,8 +1113,8 @@ public class DataBaseAdapter {
     }
 
     @WorkerThread
-    public Board getBoardByAccountAndCardRemoteIdDirectly(long accountId, long cardRemoteId) {
-        return db.getBoardDao().getBoardByAccountAndCardRemoteIdDirectly(accountId, cardRemoteId);
+    public Long getBoardLocalIdByAccountAndCardRemoteIdDirectly(long accountId, long cardRemoteId) {
+        return db.getBoardDao().getBoardLocalIdByAccountAndCardRemoteIdDirectly(accountId, cardRemoteId);
     }
 
     @WorkerThread

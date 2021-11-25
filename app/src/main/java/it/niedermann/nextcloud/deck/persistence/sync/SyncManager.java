@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -130,9 +131,9 @@ public class SyncManager {
         this.syncHelperFactory = syncHelperFactory;
     }
 
-    @AnyThread
-    public Board getBoardByAccountAndCardRemoteIdDirectly(long accountId, long cardRemoteId) {
-        return dataBaseAdapter.getBoardByAccountAndCardRemoteIdDirectly(accountId, cardRemoteId);
+    @WorkerThread
+    public Optional<Long> getBoardLocalIdByAccountAndCardRemoteIdDirectly(long accountId, long cardRemoteId) {
+        return Optional.ofNullable(dataBaseAdapter.getBoardLocalIdByAccountAndCardRemoteIdDirectly(accountId, cardRemoteId));
     }
 
     @WorkerThread
@@ -1590,8 +1591,8 @@ public class SyncManager {
     }
 
     @WorkerThread
-    public Card getCardByRemoteIDDirectly(long accountId, long remoteId) {
-        return dataBaseAdapter.getCardByRemoteIDDirectly(accountId, remoteId);
+    public Optional<Card> getCardByRemoteIDDirectly(long accountId, long remoteId) {
+        return Optional.ofNullable(dataBaseAdapter.getCardByRemoteIDDirectly(accountId, remoteId));
     }
 
     public long createUser(long accountId, User user) {
