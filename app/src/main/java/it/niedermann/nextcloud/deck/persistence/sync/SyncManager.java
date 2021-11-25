@@ -132,8 +132,8 @@ public class SyncManager {
     }
 
     @WorkerThread
-    public Optional<Long> getBoardLocalIdByAccountAndCardRemoteIdDirectly(long accountId, long cardRemoteId) {
-        return Optional.ofNullable(dataBaseAdapter.getBoardLocalIdByAccountAndCardRemoteIdDirectly(accountId, cardRemoteId));
+    public Long getBoardLocalIdByAccountAndCardRemoteIdDirectly(long accountId, long cardRemoteId) {
+        return dataBaseAdapter.getBoardLocalIdByAccountAndCardRemoteIdDirectly(accountId, cardRemoteId);
     }
 
     @WorkerThread

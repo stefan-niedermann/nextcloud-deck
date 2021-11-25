@@ -17,7 +17,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -25,6 +24,7 @@ import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.util.ProjectUtil;
 
 public class PushNotificationViewModel extends AndroidViewModel {
 
@@ -46,123 +46,132 @@ public class PushNotificationViewModel extends AndroidViewModel {
     @WorkerThread
     public void getCardInformation(@Nullable Bundle bundle, @NonNull PushNotificationCallback callback) {
         if (bundle == null) {
-            callback.onError(new NullPointerException("Bundle is null"));
+            callback.onError(new IllegalArgumentException("Bundle is null"));
             return;
         }
 
-        final var uri = getUriFromBundle(bundle);
         try {
-            final long cardRemoteId = getCardRemoteId(bundle);
-            final var account = getAccount(bundle);
+            final long cardRemoteId = extractCardRemoteId(bundle)
+                    .orElseThrow(() -> new IllegalArgumentException("Could not extract cardRemoteId"));
+            final var account = extractAccount(bundle)
+                    .orElseThrow(() -> new IllegalArgumentException("Account not found"));
+
             SingleAccountHelper.setCurrentAccount(getApplication(), account.getName());
             final var syncManager = new SyncManager(getApplication());
-            final long boardLocalId = syncManager.getBoardLocalIdByAccountAndCardRemoteIdDirectly(account.getId(), cardRemoteId)
-                    .orElseThrow(() -> new NoSuchElementException("Given localBoardId for cardRemoteId" + cardRemoteId + "is null."));
-            DeckLog.verbose("boardLocalId:", boardLocalId);
+
             final var card = syncManager.getCardByRemoteIDDirectly(account.getId(), cardRemoteId);
-            DeckLog.verbose("Card:", card);
+
             if (card.isPresent()) {
                 syncManager.synchronizeCard(new ResponseCallback<>(account) {
                     @Override
                     public void onResponse(Boolean response) {
-                        callback.onResponse(new CardInformation(account, boardLocalId, card.get().getLocalId()));
+                        final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId, bundle);
+                        if (boardLocalId.isPresent()) {
+                            callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()));
+                        } else {
+                            publishErrorToCallback("Given localBoardId for cardRemoteId" + cardRemoteId + "is null.", null, callback, bundle);
+                        }
                     }
 
                     @Override
                     public void onError(Throwable throwable) {
                         super.onError(throwable);
-                        callback.onResponse(new CardInformation(account, boardLocalId, card.get().getLocalId()));
+                        final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId, bundle);
+                        if (boardLocalId.isPresent()) {
+                            callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()));
+                        } else {
+                            publishErrorToCallback("Given localBoardId for cardRemoteId" + cardRemoteId + "is null.", null, callback, bundle);
+                        }
                     }
                 }, card.get());
             } else {
-                DeckLog.info("Card is not yet available locally. Synchronize board with localId", boardLocalId);
-
-                syncManager.synchronizeBoard(boardLocalId, new ResponseCallback<>(account) {
-                    @Override
-                    public void onResponse(Boolean response) {
-                        final var card = syncManager.getCardByRemoteIDDirectly(account.getId(), cardRemoteId);
-                        DeckLog.verbose("Card:", card);
-                        if (card.isPresent()) {
-                            callback.onResponse(new CardInformation(account, boardLocalId, card.get().getLocalId()));
-                        } else {
-                            if(uri.isPresent()) {
-                                callback.fallbackToBrowser(uri.get());
+                final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId, bundle);
+                if (boardLocalId.isPresent()) {
+                    DeckLog.info("Card is not yet available locally. Synchronize board with localId", boardLocalId);
+                    syncManager.synchronizeBoard(boardLocalId.get(), new ResponseCallback<>(account) {
+                        @Override
+                        public void onResponse(Boolean response) {
+                            final var card = syncManager.getCardByRemoteIDDirectly(account.getId(), cardRemoteId);
+                            DeckLog.verbose("Card:", card);
+                            if (card.isPresent()) {
+                                callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()));
                             } else {
-                                callback.onError(generateException("Something went wrong while synchronizing the card" + cardRemoteId + " (cardRemoteId). Given fullCard is null.", bundle));
+                                publishErrorToCallback("Something went wrong while synchronizing the card" + cardRemoteId + " (cardRemoteId). Given fullCard is null.", null, callback, bundle);
                             }
                         }
-                    }
 
-                    @SuppressLint("MissingSuperCall")
-                    @Override
-                    public void onError(Throwable throwable) {
-                        if(uri.isPresent()) {
-                            callback.fallbackToBrowser(uri.get());
-                        } else {
-                            callback.onError(generateException("Something went wrong while synchronizing the board with localId" + boardLocalId, bundle));
+                        @SuppressLint("MissingSuperCall")
+                        @Override
+                        public void onError(Throwable throwable) {
+                            publishErrorToCallback("Something went wrong while synchronizing the board with localId" + boardLocalId, throwable, callback, bundle);
                         }
+                    });
+                } else {
+                    final var boardRemoteId = extractBoardRemoteId(bundle);
+                    if (boardRemoteId.isPresent()) {
+                        publishErrorToCallback("Could not find local board for boardRemoteId " + boardRemoteId.get(), null, callback, bundle);
+                        // TODO synchronize whole account / fetch board for this ID
+                        // TODO after synchronization, try to find the local board again
+                    } else {
+                        publishErrorToCallback("Could not extract boardRemoteId", null, callback, bundle);
+                        // TODO synchronize whole account
+                        // TODO after synchronization, try to find the card again
                     }
-                });
+                }
             }
         } catch (Throwable t) {
-            if(uri.isPresent()) {
-                callback.fallbackToBrowser(uri.get());
-            } else {
-                callback.onError(generateException("", bundle, t));
-            }
+            publishErrorToCallback("", t, callback, bundle);
         }
     }
 
-    private long getCardRemoteId(@NonNull Bundle bundle) throws IllegalArgumentException {
-        final String cardRemoteIdString = bundle.getString(KEY_CARD_REMOTE_ID);
-        if (cardRemoteIdString == null) {
-            throw new IllegalArgumentException("cardRemoteIdString is null");
-        }
-        DeckLog.verbose("cardRemoteIdString = ", cardRemoteIdString);
-        return Long.parseLong(cardRemoteIdString);
-    }
-
-    private long getCardRemoteIdFromLink(@NonNull Bundle bundle) {
-        // TODO parse with ProjectUtils
-        return -1L;
-    }
-
-    private Account getAccount(@NonNull Bundle bundle) throws NoSuchElementException {
-        final var accountString = bundle.getString(KEY_ACCOUNT);
-        final var account = readAccountSyncManager.readAccountDirectly(accountString);
-        if (account == null) {
-            throw new NoSuchElementException("Given account for" + accountString + "is null.");
-        }
-        DeckLog.verbose("account:", account);
-        return account;
-    }
-
-    private Optional<Uri> getUriFromBundle(@NonNull Bundle bundle) {
+    /**
+     * If a browser fallback is possible, {@link PushNotificationCallback#fallbackToBrowser(Uri)}
+     * will be invoked, otherwise {@link PushNotificationCallback#onError(Throwable)}.
+     */
+    private void publishErrorToCallback(@NonNull String message, @Nullable Throwable cause, @NonNull PushNotificationCallback callback, @NonNull Bundle bundle) {
         try {
-            return Optional.of(Uri.parse(bundle.getString(KEY_LINK)));
+            // TODO check behavior of Uri.parse for an empty string
+            callback.fallbackToBrowser(Uri.parse(bundle.getString(KEY_LINK)));
         } catch (Throwable t) {
-            return Optional.empty();
+            final var info = "Error while receiving push notification:\n"
+                    + message + "\n"
+                    + KEY_SUBJECT + ": [" + bundle.getString(KEY_SUBJECT) + "]\n"
+                    + KEY_MESSAGE + ": [" + bundle.getString(KEY_MESSAGE) + "]\n"
+                    + KEY_LINK + ": [" + bundle.getString(KEY_LINK) + "]\n"
+                    + KEY_CARD_REMOTE_ID + ": [" + bundle.getString(KEY_CARD_REMOTE_ID) + "]\n"
+                    + KEY_ACCOUNT + ": [" + bundle.getString(KEY_ACCOUNT) + "]";
+            callback.onError(cause == null
+                    ? new Exception(info)
+                    : new Exception(info, cause));
         }
     }
 
-    private Exception generateException(@NonNull String message, @Nullable Bundle bundle) {
-        return generateException(message, bundle, null);
+    private Optional<Long> extractCardRemoteId(@NonNull Bundle bundle) {
+        try {
+            final String cardRemoteIdString = bundle.getString(KEY_CARD_REMOTE_ID);
+            return Optional.of(Long.parseLong(cardRemoteIdString));
+        } catch (NumberFormatException e) {
+            DeckLog.warn(e);
+            final long[] ids = ProjectUtil.extractBoardIdAndCardIdFromUrl(bundle.getString(KEY_LINK));
+            return ids.length == 2
+                    ? Optional.of(ids[1])
+                    : Optional.empty();
+        }
     }
 
-    private Exception generateException(@NonNull String message, @Nullable Bundle bundle, @Nullable Throwable cause) {
-        if (bundle == null) {
-            return new Exception("Bundle is null");
-        }
-        final var info = "Error while receiving push notification:\n"
-                + message + "\n"
-                + KEY_SUBJECT + ": [" + bundle.getString(KEY_SUBJECT) + "]\n"
-                + KEY_MESSAGE + ": [" + bundle.getString(KEY_MESSAGE) + "]\n"
-                + KEY_LINK + ": [" + bundle.getString(KEY_LINK) + "]\n"
-                + KEY_CARD_REMOTE_ID + ": [" + bundle.getString(KEY_CARD_REMOTE_ID) + "]\n"
-                + KEY_ACCOUNT + ": [" + bundle.getString(KEY_ACCOUNT) + "]";
-        return cause == null
-                ? new Exception(info)
-                : new Exception(info, cause);
+    private Optional<Account> extractAccount(@NonNull Bundle bundle) {
+        return Optional.ofNullable(readAccountSyncManager.readAccountDirectly(bundle.getString(KEY_ACCOUNT)));
+    }
+
+    private Optional<Long> extractBoardLocalId(@NonNull SyncManager syncManager, long accountId, long cardRemoteId, @NonNull Bundle bundle) {
+        return Optional.ofNullable(syncManager.getBoardLocalIdByAccountAndCardRemoteIdDirectly(accountId, cardRemoteId));
+    }
+
+    private Optional<Long> extractBoardRemoteId(@NonNull Bundle bundle) {
+        final long[] ids = ProjectUtil.extractBoardIdAndCardIdFromUrl(bundle.getString(KEY_LINK));
+        return ids.length > 0
+                ? Optional.of(ids[0])
+                : Optional.empty();
     }
 
     public LiveData<Integer> getAccount() {
