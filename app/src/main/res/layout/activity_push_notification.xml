@@ -82,4 +82,34 @@
                 android:text="@string/open_in_browser" />
         </LinearLayout>
     </ScrollView>
+
+    <ScrollView
+        android:id="@+id/errorWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:padding="@dimen/spacer_2x">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/errorExplanation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="web"
+                tools:text="@string/push_notification_link_empty"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/showError"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacer_2x"
+                android:text="@string/show_error" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

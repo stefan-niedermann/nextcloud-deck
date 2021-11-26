@@ -18,6 +18,7 @@ import java.util.concurrent.Executors;
 
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPushNotificationBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
@@ -75,6 +76,7 @@ public class PushNotificationActivity extends AppCompatActivity {
 
     private void openCardOnSubmit(@NonNull Account account, long boardLocalId, long cardLocalId) {
         DeckLog.info("Starting", EditActivity.class.getSimpleName(), "with [" + account + ", " + boardLocalId + ", " + cardLocalId + "]");
+
         startActivity(EditActivity.createEditCardIntent(this, account, boardLocalId, cardLocalId));
         finish();
     }
@@ -92,11 +94,19 @@ public class PushNotificationActivity extends AppCompatActivity {
 
         binding.progressWrapper.setVisibility(View.GONE);
         binding.browserFallback.setVisibility(View.VISIBLE);
+        binding.errorWrapper.setVisibility(View.GONE);
     }
 
     private void displayError(Throwable throwable) {
-        ExceptionDialogFragment.newInstance(throwable, null)
-                .show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        DeckLog.error(throwable);
+
+        binding.errorExplanation.setText(getString(R.string.push_notification_link_empty, getString(R.string.push_notification_link_empty_link)));
+        binding.showError.setOnClickListener((v) -> ExceptionDialogFragment.newInstance(throwable, null)
+                .show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+
+        binding.progressWrapper.setVisibility(View.GONE);
+        binding.browserFallback.setVisibility(View.GONE);
+        binding.errorWrapper.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -113,6 +123,8 @@ public class PushNotificationActivity extends AppCompatActivity {
                     getSecondaryForegroundColorDependingOnTheme(this, mainColor), PorterDuff.Mode.SRC_IN);
             binding.submit.setBackgroundColor(mainColor);
             binding.submit.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(mainColor));
+            binding.showError.setBackgroundColor(mainColor);
+            binding.showError.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(mainColor));
         } catch (Throwable t) {
             DeckLog.logError(t);
         }
