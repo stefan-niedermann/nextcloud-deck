@@ -67,7 +67,7 @@ public class PushNotificationViewModel extends AndroidViewModel {
                 syncManager.synchronizeCard(new ResponseCallback<>(account) {
                     @Override
                     public void onResponse(Boolean response) {
-                        final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId, bundle);
+                        final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId);
                         if (boardLocalId.isPresent()) {
                             callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()));
                         } else {
@@ -79,7 +79,7 @@ public class PushNotificationViewModel extends AndroidViewModel {
                     @Override
                     public void onError(Throwable throwable) {
                         super.onError(throwable);
-                        final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId, bundle);
+                        final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId);
                         if (boardLocalId.isPresent()) {
                             Toast.makeText(getApplication(), R.string.card_outdated, Toast.LENGTH_LONG).show();
                             callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()));
@@ -90,7 +90,7 @@ public class PushNotificationViewModel extends AndroidViewModel {
                     }
                 }, card.get());
             } else {
-                final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId, bundle);
+                final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId);
                 if (boardLocalId.isPresent()) {
                     DeckLog.info("Card is not yet available locally. Synchronize board with localId", boardLocalId);
                     syncManager.synchronizeBoard(boardLocalId.get(), new ResponseCallback<>(account) {
@@ -119,7 +119,7 @@ public class PushNotificationViewModel extends AndroidViewModel {
                             public void onResponse(Boolean response) {
                                 final var card = syncManager.getCardByRemoteIDDirectly(account.getId(), cardRemoteId);
                                 if (card.isPresent()) {
-                                    final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId, bundle);
+                                    final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId);
                                     if (boardLocalId.isPresent()) {
                                         callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()));
                                     } else {
@@ -143,7 +143,7 @@ public class PushNotificationViewModel extends AndroidViewModel {
                             public void onResponse(Boolean response) {
                                 final var card = syncManager.getCardByRemoteIDDirectly(account.getId(), cardRemoteId);
                                 if (card.isPresent()) {
-                                    final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId, bundle);
+                                    final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId);
                                     if (boardLocalId.isPresent()) {
                                         callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()));
                                     } else {
@@ -195,12 +195,17 @@ public class PushNotificationViewModel extends AndroidViewModel {
         try {
             final String cardRemoteIdString = bundle.getString(KEY_CARD_REMOTE_ID);
             return Optional.of(Long.parseLong(cardRemoteIdString));
-        } catch (NumberFormatException e) {
-            DeckLog.warn(e);
-            final long[] ids = ProjectUtil.extractBoardIdAndCardIdFromUrl(bundle.getString(KEY_LINK));
-            return ids.length == 2
-                    ? Optional.of(ids[1])
-                    : Optional.empty();
+        } catch (NumberFormatException nfe) {
+            DeckLog.warn(nfe);
+            try {
+                final long[] ids = ProjectUtil.extractBoardIdAndCardIdFromUrl(bundle.getString(KEY_LINK));
+                return ids.length == 2
+                        ? Optional.of(ids[1])
+                        : Optional.empty();
+            } catch (IllegalArgumentException iae) {
+                DeckLog.warn(iae);
+                return Optional.empty();
+            }
         }
     }
 
@@ -208,7 +213,7 @@ public class PushNotificationViewModel extends AndroidViewModel {
         return Optional.ofNullable(readAccountSyncManager.readAccountDirectly(bundle.getString(KEY_ACCOUNT)));
     }
 
-    private Optional<Long> extractBoardLocalId(@NonNull SyncManager syncManager, long accountId, long cardRemoteId, @NonNull Bundle bundle) {
+    private Optional<Long> extractBoardLocalId(@NonNull SyncManager syncManager, long accountId, long cardRemoteId) {
         return Optional.ofNullable(syncManager.getBoardLocalIdByAccountAndCardRemoteIdDirectly(accountId, cardRemoteId));
     }
 
@@ -219,6 +224,7 @@ public class PushNotificationViewModel extends AndroidViewModel {
                     ? Optional.of(ids[0])
                     : Optional.empty();
         } catch (IllegalArgumentException e) {
+            DeckLog.warn(e);
             return Optional.empty();
         }
     }
