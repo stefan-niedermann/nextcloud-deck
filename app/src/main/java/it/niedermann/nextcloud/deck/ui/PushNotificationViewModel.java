@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +21,7 @@ import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import java.util.Optional;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -29,9 +31,9 @@ import it.niedermann.nextcloud.deck.util.ProjectUtil;
 public class PushNotificationViewModel extends AndroidViewModel {
 
     // Provided by Files app NotificationJob
-    static final String KEY_SUBJECT = "subject";
-    static final String KEY_MESSAGE = "message";
-    static final String KEY_LINK = "link";
+    private static final String KEY_SUBJECT = "subject";
+    private static final String KEY_MESSAGE = "message";
+    private static final String KEY_LINK = "link";
     private static final String KEY_ACCOUNT = "account";
     private static final String KEY_CARD_REMOTE_ID = "objectId";
 
@@ -69,6 +71,7 @@ public class PushNotificationViewModel extends AndroidViewModel {
                         if (boardLocalId.isPresent()) {
                             callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()));
                         } else {
+                            DeckLog.wtf("Card with local ID", card.get().getLocalId(), "and remote ID", card.get().getId(), "is present, but could not find board for it.");
                             publishErrorToCallback("Given localBoardId for cardRemoteId" + cardRemoteId + "is null.", null, callback, bundle);
                         }
                     }
@@ -78,8 +81,10 @@ public class PushNotificationViewModel extends AndroidViewModel {
                         super.onError(throwable);
                         final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId, bundle);
                         if (boardLocalId.isPresent()) {
+                            Toast.makeText(getApplication(), R.string.card_outdated, Toast.LENGTH_LONG).show();
                             callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()));
                         } else {
+                            DeckLog.wtf("Card with local ID", card.get().getLocalId(), "and remote ID", card.get().getId(), "is present, but could not find board for it.");
                             publishErrorToCallback("Given localBoardId for cardRemoteId" + cardRemoteId + "is null.", null, callback, bundle);
                         }
                     }
@@ -92,7 +97,6 @@ public class PushNotificationViewModel extends AndroidViewModel {
                         @Override
                         public void onResponse(Boolean response) {
                             final var card = syncManager.getCardByRemoteIDDirectly(account.getId(), cardRemoteId);
-                            DeckLog.verbose("Card:", card);
                             if (card.isPresent()) {
                                 callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()));
                             } else {
@@ -109,18 +113,59 @@ public class PushNotificationViewModel extends AndroidViewModel {
                 } else {
                     final var boardRemoteId = extractBoardRemoteId(bundle);
                     if (boardRemoteId.isPresent()) {
-                        publishErrorToCallback("Could not find local board for boardRemoteId " + boardRemoteId.get(), null, callback, bundle);
-                        // TODO synchronize whole account / fetch board for this ID
-                        // TODO after synchronization, try to find the local board again
+                        // TODO It should be enough to only fetch the board with the given boardRemoteId, not sure though whether it's worth the effort
+                        syncManager.synchronize(new ResponseCallback<>(account) {
+                            @Override
+                            public void onResponse(Boolean response) {
+                                final var card = syncManager.getCardByRemoteIDDirectly(account.getId(), cardRemoteId);
+                                if (card.isPresent()) {
+                                    final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId, bundle);
+                                    if (boardLocalId.isPresent()) {
+                                        callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()));
+                                    } else {
+                                        DeckLog.wtf("Card with local ID", card.get().getLocalId(), "and remote ID", card.get().getId(), "is present, but could not find board for it.");
+                                        publishErrorToCallback("Could not find board locally for card with remote ID" + cardRemoteId + "even after full synchronization", null, callback, bundle);
+                                    }
+                                } else {
+                                    publishErrorToCallback("Could not find card with remote ID" + cardRemoteId + "even after full synchronization", null, callback, bundle);
+                                }
+                            }
+
+                            @Override
+                            @SuppressLint("MissingSuperCall")
+                            public void onError(Throwable throwable) {
+                                publishErrorToCallback("Could not extract boardRemoteId", null, callback, bundle);
+                            }
+                        });
                     } else {
-                        publishErrorToCallback("Could not extract boardRemoteId", null, callback, bundle);
-                        // TODO synchronize whole account
-                        // TODO after synchronization, try to find the card again
+                        syncManager.synchronize(new ResponseCallback<>(account) {
+                            @Override
+                            public void onResponse(Boolean response) {
+                                final var card = syncManager.getCardByRemoteIDDirectly(account.getId(), cardRemoteId);
+                                if (card.isPresent()) {
+                                    final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId, bundle);
+                                    if (boardLocalId.isPresent()) {
+                                        callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()));
+                                    } else {
+                                        DeckLog.wtf("Card with local ID", card.get().getLocalId(), "and remote ID", card.get().getId(), "is present, but could not find board for it.");
+                                        publishErrorToCallback("Could not find board locally for card with remote ID" + cardRemoteId + "even after full synchronization", null, callback, bundle);
+                                    }
+                                } else {
+                                    publishErrorToCallback("Could not find card with remote ID" + cardRemoteId + "even after full synchronization", null, callback, bundle);
+                                }
+                            }
+
+                            @Override
+                            @SuppressLint("MissingSuperCall")
+                            public void onError(Throwable throwable) {
+                                publishErrorToCallback("Could not extract boardRemoteId", null, callback, bundle);
+                            }
+                        });
                     }
                 }
             }
-        } catch (Throwable t) {
-            publishErrorToCallback("", t, callback, bundle);
+        } catch (Throwable throwable) {
+            publishErrorToCallback("", throwable, callback, bundle);
         }
     }
 
@@ -168,10 +213,36 @@ public class PushNotificationViewModel extends AndroidViewModel {
     }
 
     private Optional<Long> extractBoardRemoteId(@NonNull Bundle bundle) {
-        final long[] ids = ProjectUtil.extractBoardIdAndCardIdFromUrl(bundle.getString(KEY_LINK));
-        return ids.length > 0
-                ? Optional.of(ids[0])
-                : Optional.empty();
+        try {
+            final long[] ids = ProjectUtil.extractBoardIdAndCardIdFromUrl(bundle.getString(KEY_LINK));
+            return ids.length > 0
+                    ? Optional.of(ids[0])
+                    : Optional.empty();
+        } catch (IllegalArgumentException e) {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<String> extractSubject(@Nullable Bundle bundle) {
+        return extractProperty(bundle, KEY_SUBJECT);
+    }
+
+    public Optional<String> extractMessage(@Nullable Bundle bundle) {
+        return extractProperty(bundle, KEY_MESSAGE);
+    }
+
+    private Optional<String> extractProperty(@Nullable Bundle bundle, @NonNull String property) {
+        if (bundle == null) {
+            return Optional.empty();
+        }
+        final String val = bundle.getString(property);
+        if (val == null) {
+            return Optional.empty();
+        }
+        if (val.trim().isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(val);
     }
 
     public LiveData<Integer> getAccount() {

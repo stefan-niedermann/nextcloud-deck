@@ -40,7 +40,7 @@ public class DeckLog {
     }
 
     public enum Severity {
-        VERBOSE, DEBUG, LOG, INFO, WARN, ERROR
+        VERBOSE, DEBUG, LOG, INFO, WARN, ERROR, WTF
     }
 
     public static void verbose(Object... message) {
@@ -61,6 +61,10 @@ public class DeckLog {
 
     public static void error(Object... message) {
         log(Severity.ERROR, 4, message);
+    }
+
+    public static void wtf(Object... message) {
+        log(Severity.WTF, 4, message);
     }
 
     public static void log(@NonNull Severity severity, Object... message) {
@@ -94,6 +98,9 @@ public class DeckLog {
                 break;
             case ERROR:
                 Log.e(TAG, print);
+                break;
+            case WTF:
+                Log.wtf(TAG, print);
                 break;
             default:
                 Log.v(TAG, print);

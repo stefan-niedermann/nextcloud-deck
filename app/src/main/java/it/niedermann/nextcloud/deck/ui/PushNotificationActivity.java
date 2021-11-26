@@ -1,12 +1,8 @@
 package it.niedermann.nextcloud.deck.ui;
 
-import static it.niedermann.nextcloud.deck.ui.PushNotificationViewModel.KEY_MESSAGE;
-import static it.niedermann.nextcloud.deck.ui.PushNotificationViewModel.KEY_SUBJECT;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
-import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.ColorInt;
@@ -43,7 +39,7 @@ public class PushNotificationActivity extends AppCompatActivity {
 
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
 
-        final Intent intent = getIntent();
+        final var intent = getIntent();
         if (intent == null) {
             throw new IllegalArgumentException("Could not retrieve intent");
         }
@@ -54,11 +50,11 @@ public class PushNotificationActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
-        binding.subject.setText(intent.getStringExtra(KEY_SUBJECT));
+        viewModel.extractSubject(intent.getExtras()).ifPresent(binding.subject::setText);
 
-        final String message = intent.getStringExtra(KEY_MESSAGE);
-        if (!TextUtils.isEmpty(message)) {
-            binding.message.setText(message);
+        final var message = viewModel.extractMessage(intent.getExtras());
+        if (message.isPresent()) {
+            binding.message.setText(message.get());
             binding.message.setVisibility(View.VISIBLE);
         }
 
