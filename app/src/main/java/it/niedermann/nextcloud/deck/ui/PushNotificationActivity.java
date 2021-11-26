@@ -1,7 +1,10 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.view.View;
 
@@ -15,7 +18,6 @@ import java.util.concurrent.Executors;
 
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
-import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPushNotificationBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
@@ -31,7 +33,7 @@ public class PushNotificationActivity extends AppCompatActivity {
     private ActivityPushNotificationBinding binding;
     private PushNotificationViewModel viewModel;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
-
+    private Intent intent;
 
     @Override
     protected void onResume() {
@@ -39,7 +41,7 @@ public class PushNotificationActivity extends AppCompatActivity {
 
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
 
-        final var intent = getIntent();
+        intent = getIntent();
         if (intent == null) {
             throw new IllegalArgumentException("Could not retrieve intent");
         }
@@ -50,15 +52,7 @@ public class PushNotificationActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
-        viewModel.extractSubject(intent.getExtras()).ifPresent(binding.subject::setText);
-
-        final var message = viewModel.extractMessage(intent.getExtras());
-        if (message.isPresent()) {
-            binding.message.setText(message.get());
-            binding.message.setVisibility(View.VISIBLE);
-        }
-
-        binding.cancel.setOnClickListener((v) -> finish());
+        binding.progress.setIndeterminate(true);
         viewModel.getAccount().observe(this, this::applyBrandToSubmitButton);
         executor.submit(() -> viewModel.getCardInformation(intent.getExtras(), new PushNotificationViewModel.PushNotificationCallback() {
             @Override
@@ -80,23 +74,24 @@ public class PushNotificationActivity extends AppCompatActivity {
     }
 
     private void openCardOnSubmit(@NonNull Account account, long boardLocalId, long cardLocalId) {
-        binding.submit.setOnClickListener((v) -> {
-            DeckLog.info("Starting", EditActivity.class.getSimpleName(), "with [" + account + ", " + boardLocalId + ", " + cardLocalId + "]");
-            startActivity(EditActivity.createEditCardIntent(this, account, boardLocalId, cardLocalId));
-            finish();
-        });
-        binding.submit.setText(R.string.simple_open);
-        applyBrandToSubmitButton(account.getColor());
-        binding.submit.setEnabled(true);
-        binding.progress.setVisibility(View.INVISIBLE);
+        DeckLog.info("Starting", EditActivity.class.getSimpleName(), "with [" + account + ", " + boardLocalId + ", " + cardLocalId + "]");
+        startActivity(EditActivity.createEditCardIntent(this, account, boardLocalId, cardLocalId));
+        finish();
     }
 
     private void fallbackToBrowser(@NonNull Uri uri) {
-        DeckLog.warn("Falling back to browser as notification handler.");
+        DeckLog.warn("Falling back to browser as push notification handler:", uri);
+
         binding.submit.setOnClickListener((v) -> startActivity(new Intent(Intent.ACTION_VIEW, uri)));
-        binding.submit.setText(R.string.open_in_browser);
-        binding.submit.setEnabled(true);
-        binding.progress.setVisibility(View.INVISIBLE);
+
+        viewModel.extractSubject(intent.getExtras()).ifPresent(binding.subject::setText);
+        viewModel.extractMessage(intent.getExtras()).ifPresent(message -> {
+            binding.message.setText(message);
+            binding.message.setVisibility(View.VISIBLE);
+        });
+
+        binding.progressWrapper.setVisibility(View.GONE);
+        binding.browserFallback.setVisibility(View.VISIBLE);
     }
 
     private void displayError(Throwable throwable) {
@@ -114,6 +109,8 @@ public class PushNotificationActivity extends AppCompatActivity {
     // TODO apply branding based on board color
     public void applyBrandToSubmitButton(@ColorInt int mainColor) {
         try {
+            binding.progress.getProgressDrawable().setColorFilter(
+                    getSecondaryForegroundColorDependingOnTheme(this, mainColor), PorterDuff.Mode.SRC_IN);
             binding.submit.setBackgroundColor(mainColor);
             binding.submit.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(mainColor));
         } catch (Throwable t) {

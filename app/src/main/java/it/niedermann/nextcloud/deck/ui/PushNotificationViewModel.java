@@ -59,6 +59,7 @@ public class PushNotificationViewModel extends AndroidViewModel {
                     .orElseThrow(() -> new IllegalArgumentException("Could not extract cardRemoteId"));
             final var account = extractAccount(bundle)
                     .orElseThrow(() -> new IllegalArgumentException("Account not found"));
+            this.account.postValue(account);
 
             SingleAccountHelper.setCurrentAccount(getApplication(), account.getName());
             final var syncManager = new SyncManager(getApplication());
