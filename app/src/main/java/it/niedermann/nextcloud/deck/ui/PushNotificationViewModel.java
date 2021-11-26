@@ -18,6 +18,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Optional;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -174,10 +176,10 @@ public class PushNotificationViewModel extends AndroidViewModel {
      * will be invoked, otherwise {@link PushNotificationCallback#onError(Throwable)}.
      */
     private void publishErrorToCallback(@NonNull String message, @Nullable Throwable cause, @NonNull PushNotificationCallback callback, @NonNull Bundle bundle) {
-        try {
-            // TODO check behavior of Uri.parse for an empty string
-            callback.fallbackToBrowser(Uri.parse(bundle.getString(KEY_LINK)));
-        } catch (Throwable t) {
+        final var fallbackUri = extractFallbackUri(bundle);
+        if (fallbackUri.isPresent()) {
+            callback.fallbackToBrowser(fallbackUri.get());
+        } else {
             final var info = "Error while receiving push notification:\n"
                     + message + "\n"
                     + KEY_SUBJECT + ": [" + bundle.getString(KEY_SUBJECT) + "]\n"
@@ -188,6 +190,41 @@ public class PushNotificationViewModel extends AndroidViewModel {
             callback.onError(cause == null
                     ? new Exception(info)
                     : new Exception(info, cause));
+        }
+    }
+
+    private Optional<Uri> extractFallbackUri(@NonNull Bundle bundle) {
+        final var link = bundle.getString(KEY_LINK, "");
+        if (link.trim().length() == 0) {
+            DeckLog.warn(KEY_LINK, "is blank");
+            return Optional.empty();
+        }
+        try {
+            return Optional.of(Uri.parse(new URL(link).toString()));
+        } catch (MalformedURLException e) {
+            DeckLog.warn(KEY_LINK, "is not a valid URL");
+            final var account = extractAccount(bundle);
+            if (account.isPresent()) {
+                return account.flatMap(value -> link.startsWith("/")
+                        ? Optional.of(Uri.parse(value.getUrl() + link))
+                        : Optional.of(Uri.parse(value.getUrl() + "/" + link)));
+            } else {
+                DeckLog.warn("Could not extract account");
+                final var accountName = Optional.ofNullable(bundle.getString(KEY_ACCOUNT));
+                //noinspection SimplifyOptionalCallChains
+                if (!accountName.isPresent()) {
+                    DeckLog.warn(KEY_ACCOUNT, "is empty");
+                    return Optional.empty();
+                }
+                final var parts = accountName.get().split("@");
+                if (parts.length != 2) {
+                    DeckLog.warn("Could not split host part from given account", KEY_ACCOUNT);
+                    return Optional.empty();
+                }
+                return link.startsWith("/")
+                        ? Optional.of(Uri.parse("https://" + parts[1] + link))
+                        : Optional.of(Uri.parse("https://" + parts[1] + "/" + link));
+            }
         }
     }
 
