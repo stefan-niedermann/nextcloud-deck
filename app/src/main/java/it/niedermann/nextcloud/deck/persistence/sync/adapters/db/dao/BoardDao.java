@@ -68,17 +68,15 @@ public interface BoardDao extends GenericDao<Board> {
     @Query("SELECT * FROM board WHERE accountId = :accountId and archived = 0 and permissionEdit = 1 and (deletedAt = 0 or deletedAt is null) and status <> 3 order by title asc")
     LiveData<List<Board>> getBoardsWithEditPermissionsForAccount(long accountId);
 
-    @Query("SELECT b.localId " +
+    @Query("SELECT s.boardId " +
             "FROM card c " +
             "inner join stack s on s.localId = c.stackId " +
-            "inner join board b on s.boardId = b.localId " +
             "WHERE c.id = :cardRemoteId and c.accountId =  :accountId")
     LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccountId(long cardRemoteId, long accountId);
 
-    @Query("SELECT b.localId " +
+    @Query("SELECT s.boardId " +
             "FROM card c " +
             "inner join stack s on s.localId = c.stackId " +
-            "inner join board b on s.boardId = b.localId " +
             "WHERE c.id = :cardRemoteId and c.accountId =  :accountId")
     Long getBoardLocalIdByAccountAndCardRemoteIdDirectly(long accountId, long cardRemoteId);
 
