@@ -93,79 +93,29 @@ public class PushNotificationViewModel extends AndroidViewModel {
                     }
                 }, card.get());
             } else {
-                final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId);
-                if (boardLocalId.isPresent()) {
-                    DeckLog.info("Card is not yet available locally. Synchronize board with localId", boardLocalId);
-                    syncManager.synchronizeBoard(boardLocalId.get(), new ResponseCallback<>(account) {
-                        @Override
-                        public void onResponse(Boolean response) {
-                            final var card = syncManager.getCardByRemoteIDDirectly(account.getId(), cardRemoteId);
-                            if (card.isPresent()) {
+                syncManager.synchronize(new ResponseCallback<>(account) {
+                    @Override
+                    public void onResponse(Boolean response) {
+                        final var card = syncManager.getCardByRemoteIDDirectly(account.getId(), cardRemoteId);
+                        if (card.isPresent()) {
+                            final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId);
+                            if (boardLocalId.isPresent()) {
                                 callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()));
                             } else {
-                                publishErrorToCallback("Something went wrong while synchronizing the card" + cardRemoteId + " (cardRemoteId). Given fullCard is null.", null, callback, bundle);
+                                DeckLog.wtf("Card with local ID", card.get().getLocalId(), "and remote ID", card.get().getId(), "is present, but could not find board for it.");
+                                publishErrorToCallback("Could not find board locally for card with remote ID" + cardRemoteId + "even after full synchronization", null, callback, bundle);
                             }
+                        } else {
+                            publishErrorToCallback("Could not find card with remote ID" + cardRemoteId + "even after full synchronization", null, callback, bundle);
                         }
-
-                        @SuppressLint("MissingSuperCall")
-                        @Override
-                        public void onError(Throwable throwable) {
-                            publishErrorToCallback("Something went wrong while synchronizing the board with localId" + boardLocalId, throwable, callback, bundle);
-                        }
-                    });
-                } else {
-                    final var boardRemoteId = extractBoardRemoteId(bundle);
-                    if (boardRemoteId.isPresent()) {
-                        // TODO It should be enough to only fetch the board with the given boardRemoteId, not sure though whether it's worth the effort
-                        syncManager.synchronize(new ResponseCallback<>(account) {
-                            @Override
-                            public void onResponse(Boolean response) {
-                                final var card = syncManager.getCardByRemoteIDDirectly(account.getId(), cardRemoteId);
-                                if (card.isPresent()) {
-                                    final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId);
-                                    if (boardLocalId.isPresent()) {
-                                        callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()));
-                                    } else {
-                                        DeckLog.wtf("Card with local ID", card.get().getLocalId(), "and remote ID", card.get().getId(), "is present, but could not find board for it.");
-                                        publishErrorToCallback("Could not find board locally for card with remote ID" + cardRemoteId + "even after full synchronization", null, callback, bundle);
-                                    }
-                                } else {
-                                    publishErrorToCallback("Could not find card with remote ID" + cardRemoteId + "even after full synchronization", null, callback, bundle);
-                                }
-                            }
-
-                            @Override
-                            @SuppressLint("MissingSuperCall")
-                            public void onError(Throwable throwable) {
-                                publishErrorToCallback("Could not extract boardRemoteId", null, callback, bundle);
-                            }
-                        });
-                    } else {
-                        syncManager.synchronize(new ResponseCallback<>(account) {
-                            @Override
-                            public void onResponse(Boolean response) {
-                                final var card = syncManager.getCardByRemoteIDDirectly(account.getId(), cardRemoteId);
-                                if (card.isPresent()) {
-                                    final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId);
-                                    if (boardLocalId.isPresent()) {
-                                        callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()));
-                                    } else {
-                                        DeckLog.wtf("Card with local ID", card.get().getLocalId(), "and remote ID", card.get().getId(), "is present, but could not find board for it.");
-                                        publishErrorToCallback("Could not find board locally for card with remote ID" + cardRemoteId + "even after full synchronization", null, callback, bundle);
-                                    }
-                                } else {
-                                    publishErrorToCallback("Could not find card with remote ID" + cardRemoteId + "even after full synchronization", null, callback, bundle);
-                                }
-                            }
-
-                            @Override
-                            @SuppressLint("MissingSuperCall")
-                            public void onError(Throwable throwable) {
-                                publishErrorToCallback("Could not extract boardRemoteId", null, callback, bundle);
-                            }
-                        });
                     }
-                }
+
+                    @Override
+                    @SuppressLint("MissingSuperCall")
+                    public void onError(Throwable throwable) {
+                        publishErrorToCallback("Could not extract boardRemoteId", null, callback, bundle);
+                    }
+                });
             }
         } catch (Throwable throwable) {
             publishErrorToCallback("", throwable, callback, bundle);
@@ -253,18 +203,6 @@ public class PushNotificationViewModel extends AndroidViewModel {
 
     private Optional<Long> extractBoardLocalId(@NonNull SyncManager syncManager, long accountId, long cardRemoteId) {
         return Optional.ofNullable(syncManager.getBoardLocalIdByAccountAndCardRemoteIdDirectly(accountId, cardRemoteId));
-    }
-
-    private Optional<Long> extractBoardRemoteId(@NonNull Bundle bundle) {
-        try {
-            final long[] ids = ProjectUtil.extractBoardIdAndCardIdFromUrl(bundle.getString(KEY_LINK));
-            return ids.length > 0
-                    ? Optional.of(ids[0])
-                    : Optional.empty();
-        } catch (IllegalArgumentException e) {
-            DeckLog.warn(e);
-            return Optional.empty();
-        }
     }
 
     public Optional<String> extractSubject(@Nullable Bundle bundle) {
