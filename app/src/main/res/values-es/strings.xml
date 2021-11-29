@@ -235,6 +235,7 @@
     <string name="error_dialog_certificate">Algo parece ir mal con el certificado del servidor. Por favor, compruebe todas las cuentas en la app Nextcloud para más información.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Por favor, desactiva todas las optimizaciones de la batería para Nextcloud y la aplicación Deck.</string>
     <string name="error_dialog_unknown_error">Parece que no se puede acceder a tu instancia de Nextcloud. Comprueba tu conexión a Internet y si puedes conectarte a través del navegador.</string>
+    <string name="error_dialog_min_version">La aplicación de Android Deck necesita la versión 3.18 o superior de la aplicación Android Nextcloud</string>
     <string name="error_action_open_deck_info">Abrir info de la app</string>
     <string name="error_action_open_nextcloud_app">Abrir app de Nextcloud</string>
     <string name="error_action_open_network">Configuración de red</string>
@@ -242,6 +243,7 @@
     <string name="error_action_open_in_browser">Abrir en navegador</string>
     <string name="error_action_install">Instalar</string>
     <string name="error_action_report_issue">Informe</string>
+    <string name="error_action_update_files_app">Actualizar</string>
     <string name="info_box_maintenance_mode">El servidor está en modo mantenimiento</string>
     <string name="info_box_version_not_supported">La versión %1$s del servidor no está soportada. Por favor, actualiza a %2$s</string>
     <string name="share_link">Compartir enlace</string>

@@ -239,6 +239,7 @@
     <string name="error_dialog_certificate">Niečo sa pokazilo s certifikátom servera. Prosím skontrolujte všetky účty v Nextcloud aplikácii pre ďalšie informácie.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Vypnite všetky optimalizácie batérie pre aplikácie Nextcloud a Deck.</string>
     <string name="error_dialog_unknown_error">Zdá sa, že vaša inštancia Nextcloud je nedostupná. Skontrolujte svoje internetové pripojenie a či sa môžete k svojej inštancii pripojiť prostredníctvom prehliadača.</string>
+    <string name="error_dialog_min_version">Aplikácia Deck pre Android potrebuje aplikáciu Nextcloud pre android aspoň vo verzii 3.18.</string>
     <string name="error_action_open_deck_info">Otvoriť informácie o aplikácii</string>
     <string name="error_action_open_nextcloud_app">Otvoriť aplikáciu Nextcloud</string>
     <string name="error_action_open_network">Nastavenia siete</string>
@@ -246,6 +247,7 @@
     <string name="error_action_open_in_browser">Otvoriť v prehliadači</string>
     <string name="error_action_install">Inštalovať</string>
     <string name="error_action_report_issue">Hlásenie</string>
+    <string name="error_action_update_files_app">Aktualizovať</string>
     <string name="info_box_maintenance_mode">Server je v móde údržby</string>
     <string name="info_box_version_not_supported">Verzia servera %1$s nie je podporovaná, aktualizujte ju na %2$s</string>
     <string name="share_link">Sprístupniť odkaz</string>

@@ -239,6 +239,7 @@
     <string name="error_dialog_certificate">Prišlo je do napake pri branju potrdila strežnika. Preverite vse račune v programu Nextcloud za več podrobnosti.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Onemogočite vso optimizacijo porabe baterije za programa Nextcloud in Deck.</string>
     <string name="error_dialog_unknown_error">Kaže, da dostop do okolja Nextcloud ni mogoče. Preverite omrežno povezavo in ali se lahko v okolje povežete preko spletnega brskalnika.</string>
+    <string name="error_dialog_min_version">Program Deck za okolje Android zahteva vsaj različico Nextcloud 3.18.</string>
     <string name="error_action_open_deck_info">Odpri podrobnosti programa</string>
     <string name="error_action_open_nextcloud_app">Odpri program Nextcloud</string>
     <string name="error_action_open_network">Nastavitve omrežja</string>
@@ -246,6 +247,7 @@
     <string name="error_action_open_in_browser">Odpri v brskalniku</string>
     <string name="error_action_install">Namesti</string>
     <string name="error_action_report_issue">Poročilo</string>
+    <string name="error_action_update_files_app">Posodobi</string>
     <string name="info_box_maintenance_mode">Strežnik je v načinu vzdrževanja.</string>
     <string name="info_box_version_not_supported">Različica strežnika %1$s ni podprta. Priporočljiva je posodobitev na različico %2$s.</string>
     <string name="share_link">Povezava za souporabo</string>
