@@ -7,6 +7,8 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -79,12 +81,12 @@ public class PushNotificationViewModel extends AndroidViewModel {
                         }
                     }
 
+                    @SuppressLint("MissingSuperCall")
                     @Override
                     public void onError(Throwable throwable) {
-                        super.onError(throwable);
                         final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId);
                         if (boardLocalId.isPresent()) {
-                            Toast.makeText(getApplication(), R.string.card_outdated, Toast.LENGTH_LONG).show();
+                            new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(getApplication(), R.string.card_outdated, Toast.LENGTH_LONG).show());
                             callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()));
                         } else {
                             DeckLog.wtf("Card with local ID", card.get().getLocalId(), "and remote ID", card.get().getId(), "is present, but could not find board for it.");
