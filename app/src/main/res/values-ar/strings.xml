@@ -341,4 +341,4 @@
     <string name="saving_new_card">يجري حفظ بطاقة جديدة ...</string>
     <string name="progress_import">يجري استعادة لوحة %1$d من %2$d ...</string>
     <string name="progress_import_indeterminate">يجري استعادة اللوحات ...</string>
-</resources>
+    </resources>

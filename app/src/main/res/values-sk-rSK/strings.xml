@@ -334,4 +334,4 @@
     <string name="saving_new_card">Ukladám novú kartu...</string>
     <string name="progress_import">Importujem tabuľu %1$d z %2$d ...</string>
     <string name="progress_import_indeterminate">Importujem tabule</string>
-</resources>
+    </resources>
