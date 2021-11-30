@@ -1,0 +1,3 @@
+- ⚙️ Workaround for bug in the Deck server app regarding Push Notifications (#1165)
+- ⚙️ Upgrade to Single Sign On 0.6.0 (requires Nextcloud files app ≥ 3.18.0)
+- ⚙️ Adjusted widget style to Android 12
