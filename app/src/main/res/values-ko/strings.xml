@@ -320,4 +320,4 @@
     <string name="saving_new_card">새 카드 저장...</string>
     <string name="progress_import">%2$d에서 보드 %1$d 가져오기</string>
     <string name="progress_import_indeterminate">보드 가져오기</string>
-</resources>
+    </resources>

@@ -326,4 +326,4 @@
     <string name="saving_new_card">Guardando una nueva tarjeta…</string>
     <string name="progress_import">Importando tablero %1$d de %2$d…</string>
     <string name="progress_import_indeterminate">Importando tableros…</string>
-</resources>
+    </resources>
