@@ -326,4 +326,7 @@
     <string name="saving_new_card">Guardando una nueva tarjeta…</string>
     <string name="progress_import">Importando tablero %1$d de %2$d…</string>
     <string name="progress_import_indeterminate">Importando tableros…</string>
+    <string name="card_outdated">El contenido de esta tarjeta puede estar desactualizado.</string>
+    <string name="show_error">Mostrar error</string>
+    <string name="push_notification_link_empty">Debido a un error conocido en la aplicación web Deck lamentablemente no es posible mostrar esta tarjeta. Para más información ver: %1$s</string>
     </resources>

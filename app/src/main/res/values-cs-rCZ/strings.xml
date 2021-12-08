@@ -334,4 +334,7 @@
     <string name="saving_new_card">Ukládání nové karty…</string>
     <string name="progress_import">Importuje se tabule %1$d z %2$d…</string>
     <string name="progress_import_indeterminate">Importování tabulí</string>
+    <string name="card_outdated">Obsah této karty může být neaktuální.</string>
+    <string name="show_error">Zobrazit chybu</string>
+    <string name="push_notification_link_empty">Kvůli známému problému v aplikaci Deck na straně serveru žel není možné tuto kartu zobrazit. Podrobnosti viz: %1$s</string>
     </resources>

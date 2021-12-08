@@ -117,7 +117,7 @@
     <string name="add_a_new_list_using_the_button">Ajoutez une nouvelle liste avec le bouton +</string>
     <string name="add_a_new_card_using_the_button">Ajouter une nouvelle carte en utilisant le bouton +.</string>
     <string name="update_deck">Mettre à jour l\'application Web Deck</string>
-    <string name="deck_outdated_please_update">Votre version de l\'application Deck est trop ancienne (%1$s). Veuillez la mettre à jour afin de pouvoir utiliser cette application Android.</string>
+    <string name="deck_outdated_please_update">Votre version de l\'application Deck est trop ancienne (%1$s). Veuillez la mettre à jour afin de pouvoir utiliser cette application Android comme client.</string>
     <string name="delete_board_message">Cette action supprimera définitivement ce tableau, y compris la totalité de ses listes et de ses cartes.</string>
     <string name="settings_theme_title">Thème</string>
     <string name="settings_branding_title">Thème du serveur</string>
@@ -235,6 +235,7 @@
     <string name="error_dialog_certificate">Le certificat du serveur est erroné. Pour plus d\'informations, veuillez vérifier chaque compte déclaré dans l\'application Nextcloud.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Merci de bien vouloir désactiver toutes les optimisations de batterie pour Nextcloud ainsi que pour l\'application Deck.</string>
     <string name="error_dialog_unknown_error">Votre instance Nextcloud semble ne pas être joignable. Veuillez vérifier votre connexion internet et si vous êtes en mesure de vous connecter à votre instance via le navigateur.</string>
+    <string name="error_dialog_min_version">L\'application Android Deck nécessite que l\'application Android Nextcloud soit au moins en version 3.18.</string>
     <string name="error_action_open_deck_info">Ouvrir les informations de l\'application</string>
     <string name="error_action_open_nextcloud_app">Ouvrir l\'application Nextcloud</string>
     <string name="error_action_open_network">Paramètres réseau</string>
@@ -242,6 +243,7 @@
     <string name="error_action_open_in_browser">Ouvrir dans le navigateur</string>
     <string name="error_action_install">Installer</string>
     <string name="error_action_report_issue">Signaler</string>
+    <string name="error_action_update_files_app">Mise à jour</string>
     <string name="info_box_maintenance_mode">Le serveur est en mode maintenance</string>
     <string name="info_box_version_not_supported">Version du serveur %1$s non prise en charge, veuillez mettre à jour vers %2$s</string>
     <string name="share_link">Lien de partage</string>
@@ -324,4 +326,7 @@
     <string name="saving_new_card">Enregistrement de la nouvelle carte…</string>
     <string name="progress_import">Importation du tableau %1$dsur %2$d...</string>
     <string name="progress_import_indeterminate">Importation des tableaux...</string>
+    <string name="card_outdated">Le contenu de cette carte est peut-être obsolète.</string>
+    <string name="show_error">Afficher les erreurs</string>
+    <string name="push_notification_link_empty">En raison d\'un problème connu dans l\'application Web Deck, nous ne sommes malheureusement pas en mesure d\'afficher cette carte pour l\'instant. Pour plus d\'informations voir: %1$s</string>
     </resources>

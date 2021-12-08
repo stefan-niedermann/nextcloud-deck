@@ -322,4 +322,7 @@
     <string name="saving_new_card">正在儲存新卡片...</string>
     <string name="progress_import">正導入面板 %2$d 之 %1$d ...</string>
     <string name="progress_import_indeterminate">導入面板 ...</string>
+    <string name="card_outdated">此卡片的內容可能已過時。</string>
+    <string name="show_error">顯示錯誤</string>
+    <string name="push_notification_link_empty">由於 Deck 網絡應用程式中的一個已知問題，我們無法顯示此卡。 有關更多資訊，請參閱：%1$s</string>
     </resources>

@@ -322,4 +322,7 @@
     <string name="saving_new_card">保存新卡片中 ...</string>
     <string name="progress_import">正导入 %2$d 的面板 %1$d…</string>
     <string name="progress_import_indeterminate">正导入面板…</string>
+    <string name="card_outdated">这张卡片的内容可能过期</string>
+    <string name="show_error">显示错误</string>
+    <string name="push_notification_link_empty">由于 Deck 网页应用程序中一个已知的问题，我们不能显示这张卡片。更多信息见：%1$s</string>
     </resources>

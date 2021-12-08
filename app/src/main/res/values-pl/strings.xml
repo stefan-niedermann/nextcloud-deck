@@ -334,4 +334,7 @@
     <string name="saving_new_card">Zapisuję nową kartę…</string>
     <string name="progress_import">Importowanie tablicy %1$d z %2$d…</string>
     <string name="progress_import_indeterminate">Importowanie tablic…</string>
+    <string name="card_outdated">Treść tej karty może być nieaktualna.</string>
+    <string name="show_error">Pokaż błąd</string>
+    <string name="push_notification_link_empty">Ze względu na znany problem w aplikacji internetowej Deck nie możemy niestety wyświetlić tej karty. Więcej informacji: %1$s</string>
     </resources>

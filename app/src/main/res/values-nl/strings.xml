@@ -327,4 +327,7 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="saving_new_card">Opslaan nieuwe kaart...</string>
     <string name="progress_import">Bord %1$d van %2$d importeren ...</string>
     <string name="progress_import_indeterminate">Borden importeren...</string>
+    <string name="card_outdated">De inhoud van deze kaart kan verouderd zijn.</string>
+    <string name="show_error">Bekijk fout</string>
+    <string name="push_notification_link_empty">Vanwege een bekend probleem met de Deck web app is het helaas niet mogelijk deze kaart te tonen. Voor meer info kijk: %1$s</string>
     </resources>

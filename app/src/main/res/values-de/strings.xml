@@ -326,4 +326,7 @@
     <string name="saving_new_card">Speichere neue Karte …</string>
     <string name="progress_import">Importiere Board %1$d von %2$d…</string>
     <string name="progress_import_indeterminate">Importiere Boards…</string>
+    <string name="card_outdated">Der Inhalt dieser Karte ist möglicherweise veraltet.</string>
+    <string name="show_error">Fehler anzeigen</string>
+    <string name="push_notification_link_empty">Aufgrund eines bekannten Problems in der Deck-Server-App können wir diese Karte leider nicht anzeigen. Weitere Informationen finden Sie unter: %1$s</string>
     </resources>
