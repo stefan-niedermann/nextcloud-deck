@@ -235,6 +235,7 @@
     <string name="error_dialog_certificate">Valami nem stimmel a szerver tanúsítványával. Kérjük, további információkért ellenőrizze a Nextcloud alkalmazás összes fiókját.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Kapcsoljon ki minden energiatakarékossági beállítást a Nextcloud valamint a Kártyák alkalmazáshoz. </string>
     <string name="error_dialog_unknown_error">Úgy tűnik, hogy a Nextcloud példánya nem érhető el. Ellenőrizze az internetkapcsolatát, és hogy böngészőn keresztül eléri-e a példányát.</string>
+    <string name="error_dialog_min_version"> A Kártyák androidos alkalmazáshoz a Nextcloud androidos alkalmazásnak legalább a 3.18-as verziója szükséges.</string>
     <string name="error_action_open_deck_info">Alkalmazásinformációk megnyitása</string>
     <string name="error_action_open_nextcloud_app">Nextcloud alkalmazás megnyitása</string>
     <string name="error_action_open_network">Hálózati beállítások</string>
@@ -242,6 +243,7 @@
     <string name="error_action_open_in_browser">Megnyitás böngészőben</string>
     <string name="error_action_install">Telepítés</string>
     <string name="error_action_report_issue">Jelentés</string>
+    <string name="error_action_update_files_app">Frissítés</string>
     <string name="info_box_maintenance_mode">A kiszolgáló karbantartási módban van</string>
     <string name="info_box_version_not_supported">A kiszolgálóverzió nem támogatott: %1$s, frissítsen erre: %2$s</string>
     <string name="share_link">Hivatkozás megosztása</string>
@@ -324,4 +326,7 @@
     <string name="saving_new_card">Új kártya mentése…</string>
     <string name="progress_import">%1$d. / %2$d tábla importálása…</string>
     <string name="progress_import_indeterminate">Táblák importálása…</string>
+    <string name="card_outdated">A kártya tartalma elavult lehet.</string>
+    <string name="show_error">Hiba megjelenítése</string>
+    <string name="push_notification_link_empty">A Kártyák webes alkalmazás egy ismert probléma miatt nem tudja megjeleníteni ezt a kártyát. További információkért lásd: %1$s</string>
     </resources>

@@ -235,6 +235,7 @@
     <string name="error_dialog_certificate">Sembra ci sia qualche problema nel certificato del server. Controlla tutti gli account nell\'applicazione Nextcloud per maggiori informazioni.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Disabilita tutte le ottimizzazioni della batteria per le applicazioni Nextcloud e Deck.</string>
     <string name="error_dialog_unknown_error">La tua istanza di Nextcloud sembra non essere raggiungibile. Controlla la connessione internet e se riesci a connetterti all\'istanza via browser.</string>
+    <string name="error_dialog_min_version">L\'app Deck di Android richiede che l\'app Nextcloud di Android sia almeno alla versione 3.18.</string>
     <string name="error_action_open_deck_info">Apri Informazioni applicazione</string>
     <string name="error_action_open_nextcloud_app">Apri l\'applicazione Nextcloud</string>
     <string name="error_action_open_network">Impostazioni di rete</string>
@@ -242,6 +243,7 @@
     <string name="error_action_open_in_browser">Apri nel browser</string>
     <string name="error_action_install">Installa</string>
     <string name="error_action_report_issue">Segnala</string>
+    <string name="error_action_update_files_app">Aggiorna</string>
     <string name="info_box_maintenance_mode">Il server è in modalità di manutenzione</string>
     <string name="info_box_version_not_supported">Versione del server %1$s non supportata, aggiorna a %2$s</string>
     <string name="share_link">Condividi collegamento</string>
@@ -324,4 +326,7 @@
     <string name="saving_new_card">Salvataggio della nuova scheda...</string>
     <string name="progress_import">Importazione della lavagna %1$d di %2$d…</string>
     <string name="progress_import_indeterminate">Importazione lavagne…</string>
+    <string name="card_outdated">Il contenuto di questa scheda potrebbe essere obsoleto.</string>
+    <string name="show_error">Mostra errore</string>
+    <string name="push_notification_link_empty">A causa di un problema noto nella web app di Deck, sfortunatamente non possiamo mostrare questa scheda. Per altre informazioni vedi: %1$s</string>
     </resources>

@@ -326,4 +326,7 @@
     <string name="saving_new_card">Yeni kart kaydediliyor…</string>
     <string name="progress_import">%1$d / %2$d pano içe aktarılıyor…</string>
     <string name="progress_import_indeterminate">Panolar içe aktarılıyor…</string>
+    <string name="card_outdated">Bu kartın içeriği eski olabilir.</string>
+    <string name="show_error">Hatayı görüntüle</string>
+    <string name="push_notification_link_empty">Deck web uygulamasında bilinen bir sorun nedeniyle bu kart görüntülenemiyor. Ayrıntılı bilgi almak için şuraya bakabilirsiniz: %1$s</string>
     </resources>
