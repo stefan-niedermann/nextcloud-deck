@@ -79,7 +79,7 @@
             android:name=".ui.sharetarget.ShareTargetActivity"
             android:label="@string/share_add_to_card"
             android:theme="@style/SplashTheme"
-            android:exported="false">
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
