@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 
@@ -59,10 +60,28 @@ public class FilesUtil {
         }
         if (!tempDir.exists()) {
             DeckLog.verbose("-- The folder in which the new file should be created does not exist yet. Trying to create it…");
-            if (tempDir.mkdirs()) {
-                DeckLog.verbose("--- Creation successful");
-            } else {
-                throw new IOException("Directory for temporary file does not exist and could not be created.");
+
+            // When running this method in parallel (multiple files being uploaded in async), weird stuff happens.
+            // The directory structure creation returns false (even if it was created by another thread)
+            // In order to mitigate this issue, we wait some time and recheck.
+            // It only happens when creating the cache folder of a given board/card for the first time.
+
+            boolean makeDir = tempDir.mkdirs();
+            if (makeDir) {
+                DeckLog.verbose("--- Creation successful (1st Attempt)");
+            } else if (!tempDir.exists()) {
+                // Wait a 0.5 seconds, just in case another thread created said folder
+                try {
+                    TimeUnit.MILLISECONDS.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                if (tempDir.mkdirs()) {
+                    DeckLog.verbose("--- Creation successful (2nd Attempt)");
+                } else {
+                    throw new IOException("Directory for temporary file does not exist and could not be created.");
+                }
             }
         }
 
