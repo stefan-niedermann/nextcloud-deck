@@ -66,8 +66,7 @@ public class FilesUtil {
             // In order to mitigate this issue, we wait some time and recheck.
             // It only happens when creating the cache folder of a given board/card for the first time.
 
-            boolean makeDir = tempDir.mkdirs();
-            if (makeDir) {
+            if (tempDir.mkdirs()) {
                 DeckLog.verbose("--- Creation successful (1st Attempt)");
             } else if (!tempDir.exists()) {
                 // Wait a 0.5 seconds, just in case another thread created said folder
