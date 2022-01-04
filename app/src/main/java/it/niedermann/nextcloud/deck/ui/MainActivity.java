@@ -58,6 +58,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -95,6 +96,7 @@ import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
@@ -112,6 +114,7 @@ import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.NewCardDialog;
+import it.niedermann.nextcloud.deck.ui.card.CreateCardListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.filter.FilterDialogFragment;
@@ -129,7 +132,7 @@ import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsActivity;
 import it.niedermann.nextcloud.deck.util.CustomAppGlideModule;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 
-public class MainActivity extends AppCompatActivity implements DeleteStackListener, EditStackListener, DeleteBoardListener, EditBoardListener, ArchiveBoardListener, OnScrollListener, OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements DeleteStackListener, EditStackListener, DeleteBoardListener, EditBoardListener, ArchiveBoardListener, OnScrollListener, CreateCardListener, OnNavigationItemSelectedListener {
 
     protected ActivityMainBinding binding;
     protected NavHeaderMainBinding headerBinding;
@@ -1005,6 +1008,32 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             } catch (IllegalArgumentException ignored) {
             }
             connectivityManager.registerNetworkCallback(builder.build(), networkCallback);
+        }
+    }
+
+    /**
+     * Find a StackFragment by it's ID, may return null.
+     * @param stackId ID of the stack to find
+     * @return Instance of StackFragment
+     */
+    public StackFragment findStackFragmentById(long stackId) {
+        StackFragment fragment = (StackFragment) getSupportFragmentManager().findFragmentByTag("f" + stackId);
+        return fragment;
+    }
+
+    /**
+     * This method is called when a new Card is created
+     * @param createdCard The new Card's data
+     */
+    @Override
+    public void onCardCreated(FullCard createdCard) {
+        Card card = createdCard.getCard();
+        DeckLog.log("Card Created! Title:" + card.getTitle() + " in stack ID: " + card.getStackId());
+
+        // Scroll the given StackFragment to the bottom, so the new Card is in view.
+        StackFragment fragment = findStackFragmentById(card.getStackId());
+        if (fragment != null) {
+            fragment.scrollToBottom();
         }
     }
 
