@@ -195,8 +195,8 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
         super.setCurrentBoard(board);
         binding.toolbar.setTitle(R.string.simple_select);
 
-        // Show Fab so we can add new lists/cards
-        showFabIfEditPermissionGranted();
+        // Show Edit buttons so we can add new lists/cards
+        showEditButtonsIfPermissionsGranted();
     }
 
     // @Override

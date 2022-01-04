@@ -616,14 +616,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         binding.toolbar.setTitle(board.getTitle());
         binding.filterText.setHint(getString(R.string.search_in, board.getTitle()));
 
-        if (mainViewModel.currentBoardHasEditPermission()) {
-            binding.fab.show();
-            binding.listMenuButton.setVisibility(View.VISIBLE);
-        } else {
-            binding.fab.hide();
-            binding.listMenuButton.setVisibility(View.GONE);
-            binding.emptyContentViewStacks.hideDescription();
-        }
+        showEditButtonsIfPermissionsGranted();
 
         binding.emptyContentViewBoards.setVisibility(View.GONE);
         binding.swipeRefreshLayout.setVisibility(View.VISIBLE);
@@ -793,6 +786,17 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void showEditButtonsIfPermissionsGranted() {
+        if (mainViewModel.currentBoardHasEditPermission()) {
+            binding.fab.show();
+            binding.listMenuButton.setVisibility(View.VISIBLE);
+        } else {
+            binding.fab.hide();
+            binding.listMenuButton.setVisibility(View.GONE);
+            binding.emptyContentViewStacks.hideDescription();
+        }
     }
 
     protected void showFabIfEditPermissionGranted() {
