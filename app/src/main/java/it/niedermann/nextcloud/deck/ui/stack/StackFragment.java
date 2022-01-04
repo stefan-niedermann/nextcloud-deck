@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.stack;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -175,4 +176,12 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
         });
     }
 
+    /**
+     * Scroll to the bottom of the fragment
+     */
+    public void scrollToBottom() {
+        activity.runOnUiThread(() -> {
+            binding.recyclerView.smoothScrollToPosition(adapter.getItemCount());
+        });
+    }
 }
