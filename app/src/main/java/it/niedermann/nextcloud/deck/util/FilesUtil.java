@@ -46,6 +46,19 @@ public class FilesUtil {
     }
 
     /**
+     * Creates a temporary cache directory in a synchronized manner, in order to mitigate multi-threaded collisions
+     * @param tempDir - Temporal Cache Directory
+     * @return success
+     */
+    static synchronized boolean createTempCacheDirectory(@NonNull File tempDir) {
+        if (tempDir.exists()) {
+            return true;
+        }
+
+        return tempDir.mkdirs();
+    }
+
+    /**
      * Creates a new {@link File}
      */
     public static File getTempCacheFile(@NonNull Context context, String fileName) throws IOException {
@@ -59,7 +72,7 @@ public class FilesUtil {
         }
         if (!tempDir.exists()) {
             DeckLog.verbose("-- The folder in which the new file should be created does not exist yet. Trying to create it…");
-            if (tempDir.mkdirs()) {
+            if (createTempCacheDirectory(tempDir)) {
                 DeckLog.verbose("--- Creation successful");
             } else {
                 throw new IOException("Directory for temporary file does not exist and could not be created.");
