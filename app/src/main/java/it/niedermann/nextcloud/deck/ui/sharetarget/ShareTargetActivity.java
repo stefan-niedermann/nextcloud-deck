@@ -193,13 +193,14 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
     @Override
     protected void setCurrentBoard(@NonNull Board board) {
         super.setCurrentBoard(board);
-        binding.listMenuButton.setVisibility(View.GONE);
-        binding.fab.setVisibility(View.GONE);
         binding.toolbar.setTitle(R.string.simple_select);
+
+        // Show Fab so we can add new lists/cards
+        showFabIfEditPermissionGranted();
     }
 
-    @Override
-    protected void showFabIfEditPermissionGranted() { /* Silence is gold */ }
+    // @Override
+    // protected void showFabIfEditPermissionGranted() { /* Silence is gold */ }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
