@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.SharedElementCallback;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -25,10 +26,11 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityAttachmentsBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
+import it.niedermann.nextcloud.deck.ui.card.attachments.AttachmentImageZoomListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
-public class AttachmentsActivity extends AppCompatActivity {
+public class AttachmentsActivity extends AppCompatActivity implements AttachmentImageZoomListener {
 
     private static final String BUNDLE_KEY_ACCOUNT = "account";
     private static final String BUNDLE_KEY_CARD_ID = "cardId";
@@ -148,5 +150,10 @@ public class AttachmentsActivity extends AppCompatActivity {
                 .putExtra(BUNDLE_KEY_CARD_ID, cardLocalId)
                 .putExtra(BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID, attachmentLocalId)
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    }
+
+    @Override
+    public void onAbleToChangePage(boolean canChange) {
+        binding.viewPager.setUserInputEnabled(canChange);
     }
 }

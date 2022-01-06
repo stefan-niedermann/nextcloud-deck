@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.attachments;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.view.MotionEvent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +15,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentBinding;
 import it.niedermann.nextcloud.deck.model.Account;
