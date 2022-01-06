@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -181,7 +182,14 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
      */
     public void scrollToBottom() {
         activity.runOnUiThread(() -> {
-            binding.recyclerView.smoothScrollToPosition(adapter.getItemCount());
+            LinearLayoutManager layoutManager = (LinearLayoutManager) binding.recyclerView.getLayoutManager();
+            int currentItem = layoutManager.findFirstVisibleItemPosition();
+
+            if (adapter.getItemCount() - currentItem < 40) {
+                binding.recyclerView.smoothScrollToPosition(adapter.getItemCount());
+            } else {
+                binding.recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+            }
         });
     }
 }
