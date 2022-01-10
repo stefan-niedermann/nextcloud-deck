@@ -31,6 +31,8 @@
     <string name="simple_copied">コピーしました</string>
     <string name="simple_archive">アーカイブ</string>
     <string name="simple_unassigned">未割り当て</string>
+    <string name="hint_error_appeared">エラーが発生しました</string>
+
     <string name="edit_board">ボードを編集</string>
     <string name="archive_board">ボードをアーカイブ</string>
     <string name="delete_board">ボードを削除</string>
@@ -122,6 +124,8 @@
     <string name="pref_value_wifi_only">Wi-Fi接続時のみ同期する</string>
     <string-array name="darkmode_entries">
         <item>システムのデフォルト</item>
+        <item>明るい</item>
+        <item>暗い</item>
     </string-array>
     <string name="unassigned_user">未割当の%1$s</string>
     <string name="no_activities">このカードにはアクティビティがありません。アクティビティを読み込んで表示するにはインターネットへの接続が必要です。</string>
@@ -138,6 +142,7 @@
     <string name="hours_6">6時間</string>
     <string name="action_card_move">カードの移動</string>
     <string name="action_card_move_title">%1$sを移動</string>
+    <string name="title_is_mandatory">タイトルは必要です</string>
     <string name="provide_at_least_a_title_or_description">少なくともタイトルまたは説明を入力してください</string>
     <string name="welcome_text">%1$sにようこそ</string>
     <string name="maintenance_mode_explanation">サーバー%1$sは現在メンテナンスモードです。管理者に問い合わせるか後で試してください。</string>
@@ -220,6 +225,7 @@
     <string name="error_action_open_nextcloud_app">Nextcloudアプリを開く</string>
     <string name="error_action_open_network">ネットワーク設定</string>
     <string name="error_action_server_logs">サーバーログ</string>
+    <string name="error_action_open_in_browser">ブラウザーで開く</string>
     <string name="error_action_install">インストール</string>
     <string name="error_action_report_issue">報告</string>
     <string name="info_box_version_not_supported">サーバーのバージョン%1$sはサポートしていませんので、%2$sにアップデートしてください。</string>
@@ -294,4 +300,5 @@
     <string name="copying_logs_to_file">ログをファイルにコピー…</string>
     <string name="simple_search">検索</string>
     <string name="saving_new_card">新しいカードを保存…</string>
+    <string name="show_error">エラーを表示</string>
     </resources>

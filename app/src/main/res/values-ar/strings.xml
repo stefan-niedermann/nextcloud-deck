@@ -243,6 +243,7 @@
     <string name="error_dialog_certificate">يبدو أن هناك خطأ ما في شهادة الخادم، من فضلك قم بمراجعة جميع الحسابات في تطبيق نكست كلاود لمزيد من المعلومات.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">يرجى تعطيل جميع تحسينات البطارية لنكست كلاود وتطبيق Deck.</string>
     <string name="error_dialog_unknown_error">يبدو أن مثيل Nextcloud الخاص بك لا يمكن الوصول إليه . يرجى التحقق من اتصالك بالإنترنت وما إذا كنت قادرًا على الاتصال بالمثيل الخاص بك عبر المتصفح.</string>
+    <string name="error_dialog_min_version">يتطلب تطبيق Deck للأندرويد أن يكون تطبيق Nextcloud للأندرويد في الإصدار 3.18 على الأقل.</string>
     <string name="error_action_open_deck_info">افتح معلومات التطبيق</string>
     <string name="error_action_open_nextcloud_app">فتح تطبيق نكست كلاود</string>
     <string name="error_action_open_network">إعدادات الشبكة</string>
@@ -250,6 +251,7 @@
     <string name="error_action_open_in_browser">فتح في المتصفح</string>
     <string name="error_action_install">تثبيت</string>
     <string name="error_action_report_issue">ابلغ عنه</string>
+    <string name="error_action_update_files_app">تحديث</string>
     <string name="info_box_maintenance_mode">الخادم في وضع الصيانة</string>
     <string name="info_box_version_not_supported">إصدار الخادم %1$s غير مدعوم، من فضلك قم بالتحديث إلى %2$s</string>
     <string name="share_link">مشاركة الرابط</string>
@@ -341,4 +343,7 @@
     <string name="saving_new_card">يجري حفظ بطاقة جديدة ...</string>
     <string name="progress_import">يجري استعادة لوحة %1$d من %2$d ...</string>
     <string name="progress_import_indeterminate">يجري استعادة اللوحات ...</string>
+    <string name="card_outdated">ربما يكون محتوى هذه البطاقة قديمًا.</string>
+    <string name="show_error">عرض الخطأ</string>
+    <string name="push_notification_link_empty">نظرًا لوجود مشكلة معروفة في تطبيق الويب \"Deck\"، لا يمكننا للأسف عرض هذه البطاقة. لمزيد من المعلومات، راجع: %1$s</string>
     </resources>

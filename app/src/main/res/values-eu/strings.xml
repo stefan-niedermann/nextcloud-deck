@@ -50,7 +50,7 @@
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Probatzaileak</string>
     <string name="about_source_title">Iturburu-kodea</string>
-    <string name="about_source">Proiektu hau GitHuben ostatatuta dago: %1$s</string>
+    <string name="about_source">Proiektu hau GitHub-en du ostatu: %1$s</string>
     <string name="about_issues_title">Arazoak</string>
     <string name="about_issues">Akatsen berri eman, hobekuntzak proposatu eta ezaugarri berriak eskatu ditzakezu GitHub arazo kontrolatzailean: %1$s</string>
     <string name="about_translate_title">Itzuli</string>
@@ -235,6 +235,7 @@
     <string name="error_dialog_certificate">Badirudi zerbait gaizki dagoela zerbitzariaren ziurtagirian. Informazio gehiagorako, egiaztatu Nextcloud aplikazioko kontu guztiak.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Desgaitu bateria optimizazio guztiak Nextcloudentzat eta Deck aplikazioarentzat.</string>
     <string name="error_dialog_unknown_error">Badirudi ezin dela zure Nextcloud instantzia atzitu. Mesedez, egiaztatu zure internet konexioa eta zure instantziara nabigatzailearen bidez konektatu ahal zarela.</string>
+    <string name="error_dialog_min_version">Deck Android aplikazioak Nextcloud Android aplikazioa gutxienez 3.18 bertsioa izatea eskatzen du.</string>
     <string name="error_action_open_deck_info">Ireki aplikazioaren informazioa</string>
     <string name="error_action_open_nextcloud_app">Ireki Nextcloud aplikazioa</string>
     <string name="error_action_open_network">Sareko ezarpenak</string>
@@ -325,5 +326,7 @@
     <string name="saving_new_card">Txartel berria gordetzen...</string>
     <string name="progress_import">%2$dtik %1$darbela inportatzen ...</string>
     <string name="progress_import_indeterminate">Arbelak inportatzen…</string>
+    <string name="card_outdated">Baliteke txartel honen edukia zaharkituta egotea.</string>
     <string name="show_error">Erakutsi errorea</string>
+    <string name="push_notification_link_empty">Deck web aplikazioaren arazo ezagun bat dela eta, zoritxarrez, ezin dugu txartel hau erakutsi. Informazio gehiagorako, ikus: %1$s</string>
     </resources>

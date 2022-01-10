@@ -296,7 +296,7 @@
     <string name="single_card">Pojedyncza karta</string>
     <string name="project_type_room">Pokój rozmów</string>
     <string name="simple_move">Przenieś</string>
-    <string name="cannot_upload_files_without_permission">Nie można przesłać plików bez uprawnień</string>
+    <string name="cannot_upload_files_without_permission">Nie można wysyłać plików bez uprawnień</string>
     <string name="clone_cards">Klonuj karty</string>
     <string name="simple_clone">Klonuj</string>
     <string name="user_avatar">Awatar użytkownika</string>
