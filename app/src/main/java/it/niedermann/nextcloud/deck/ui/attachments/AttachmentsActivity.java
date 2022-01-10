@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.SharedElementCallback;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -141,6 +140,7 @@ public class AttachmentsActivity extends AppCompatActivity implements Attachment
     protected void onDestroy() {
         binding.viewPager.unregisterOnPageChangeCallback(onPageChangeCallback);
         super.onDestroy();
+        this.binding = null;
     }
 
     @NonNull

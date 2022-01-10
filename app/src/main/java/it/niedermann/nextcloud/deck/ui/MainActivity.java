@@ -455,6 +455,8 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        this.binding = null;
+        this.headerBinding = null;
         if (tabLayoutHelper != null) {
             tabLayoutHelper.release();
         }

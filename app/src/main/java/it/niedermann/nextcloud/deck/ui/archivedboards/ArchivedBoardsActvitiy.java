@@ -67,6 +67,12 @@ public class ArchivedBoardsActvitiy extends AppCompatActivity implements DeleteB
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
     @NonNull
     public static Intent createIntent(@NonNull Context context, @NonNull Account account) {
         return new Intent(context, ArchivedBoardsActvitiy.class)
