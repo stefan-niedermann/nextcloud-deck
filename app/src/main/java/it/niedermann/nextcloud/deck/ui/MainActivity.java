@@ -58,7 +58,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -96,7 +95,6 @@ import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
-import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
@@ -113,8 +111,8 @@ import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
-import it.niedermann.nextcloud.deck.ui.card.NewCardDialog;
 import it.niedermann.nextcloud.deck.ui.card.CreateCardListener;
+import it.niedermann.nextcloud.deck.ui.card.NewCardDialog;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.filter.FilterDialogFragment;
@@ -1020,9 +1018,9 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
      * @param stackId ID of the stack to find
      * @return Instance of StackFragment
      */
+    @Nullable
     public StackFragment findStackFragmentById(long stackId) {
-        StackFragment fragment = (StackFragment) getSupportFragmentManager().findFragmentByTag("f" + stackId);
-        return fragment;
+        return (StackFragment) getSupportFragmentManager().findFragmentByTag("f" + stackId);
     }
 
     /**
@@ -1031,11 +1029,11 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
      */
     @Override
     public void onCardCreated(FullCard createdCard) {
-        Card card = createdCard.getCard();
+        final var card = createdCard.getCard();
         DeckLog.log("Card Created! Title:" + card.getTitle() + " in stack ID: " + card.getStackId());
 
         // Scroll the given StackFragment to the bottom, so the new Card is in view.
-        StackFragment fragment = findStackFragmentById(card.getStackId());
+        final var fragment = findStackFragmentById(card.getStackId());
         if (fragment != null) {
             fragment.scrollToBottom();
         }

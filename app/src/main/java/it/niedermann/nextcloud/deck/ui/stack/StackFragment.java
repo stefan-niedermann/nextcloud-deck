@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.ui.stack;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -182,7 +181,15 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
      */
     public void scrollToBottom() {
         activity.runOnUiThread(() -> {
-            LinearLayoutManager layoutManager = (LinearLayoutManager) binding.recyclerView.getLayoutManager();
+            if (adapter == null) {
+                DeckLog.warn("Adapter is null");
+                return;
+            }
+            final var layoutManager = (LinearLayoutManager) binding.recyclerView.getLayoutManager();
+            if (layoutManager == null) {
+                DeckLog.warn("LayoutManager is null");
+                return;
+            }
             int currentItem = layoutManager.findFirstVisibleItemPosition();
 
             if (adapter.getItemCount() - currentItem < 40) {

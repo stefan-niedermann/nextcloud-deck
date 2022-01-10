@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -10,11 +11,9 @@ import androidx.annotation.Nullable;
 
 import com.otaliastudios.zoom.ZoomImageView;
 
-import it.niedermann.nextcloud.deck.DeckLog;
-
 public class AttachmentImageView extends ZoomImageView {
     public AttachmentImageZoomListener zoomListener;
-    GestureDetector gestureDetector;
+    private GestureDetector gestureDetector;
 
     @Override
     protected void onAttachedToWindow() {
@@ -33,6 +32,7 @@ public class AttachmentImageView extends ZoomImageView {
         super(context, attrs);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent ev) {
         int pointerCount = ev.getPointerCount();
