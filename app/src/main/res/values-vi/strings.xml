@@ -233,6 +233,7 @@
     <string name="error_dialog_certificate">Có gì đó có vẻ sai với chứng chỉ của máy chủ. Vui lòng kiểm tra tất cả tài khoản trong ứng dụng Nextcloud để biết thêm thông tin.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Vui lòng tắt tất cả tối ưu hoá pin cho Nextcloud và ứng dụng Deck.</string>
     <string name="error_dialog_unknown_error">Bản sao Nextcloud của bạn có vẻ không kết nối đến được. Vui lòng kiểm tra kết nối internet và kiểm tra xem bạn có thể kết nối đến bản sao của bạn qua trình duyệt không.</string>
+    <string name="error_dialog_min_version">Ứng dụng Deck cho Android yêu cầu ứng dụng Nextcloud cho Android phiên bản ít nhất 3.18.</string>
     <string name="error_action_open_deck_info">Mở Thông tin ứng dụng</string>
     <string name="error_action_open_nextcloud_app">Mở ứng dụng Nextcloud</string>
     <string name="error_action_open_network">Cài đặt mạng</string>
@@ -240,6 +241,7 @@
     <string name="error_action_open_in_browser">Mở trong trình duyệt</string>
     <string name="error_action_install">Cài đặt</string>
     <string name="error_action_report_issue">Báo cáo</string>
+    <string name="error_action_update_files_app">Cập nhật</string>
     <string name="info_box_maintenance_mode">Máy chủ đang trong chế độ bảo trì</string>
     <string name="info_box_version_not_supported">Phiên bản máy chủ %1$s không được hỗ trợ, vui lòng cập nhật lên %2$s</string>
     <string name="share_link">Chia sẽ liên kết</string>
@@ -320,4 +322,7 @@
     <string name="saving_new_card">Đang lưu thẻ mới...</string>
     <string name="progress_import">Đang nhập dự án %1$d trong số %2$d...</string>
     <string name="progress_import_indeterminate">Đang nhập các dự án...</string>
+    <string name="card_outdated">Nội dung của thẻ này có thể đã lỗi thời.</string>
+    <string name="show_error">Hiện lỗi</string>
+    <string name="push_notification_link_empty">Do lỗi đã biết ở ứng dụng Deck trên web, không may là chúng tôi không thể hiển thị thẻ này. Để biết thêm thông tin hãy xem: %1$s</string>
     </resources>
