@@ -24,6 +24,7 @@ import it.niedermann.nextcloud.deck.ui.movecard.MoveCardListener;
 public class UpcomingCardsActivity extends AppCompatActivity implements MoveCardListener {
 
     private UpcomingCardsViewModel viewModel;
+    private ActivityUpcomingCardsBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
 
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
 
-        final var binding = ActivityUpcomingCardsBinding.inflate(getLayoutInflater());
+        binding = ActivityUpcomingCardsBinding.inflate(getLayoutInflater());
         viewModel = new ViewModelProvider(this).get(UpcomingCardsViewModel.class);
 
         setContentView(binding.getRoot());
@@ -81,6 +82,12 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
             }
             adapter.setItems(items);
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
     }
 
     @NonNull

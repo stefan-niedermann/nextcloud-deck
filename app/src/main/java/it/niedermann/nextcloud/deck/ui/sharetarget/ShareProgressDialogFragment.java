@@ -110,6 +110,12 @@ public class ShareProgressDialogFragment extends BrandedDialogFragment {
         requireActivity().finish();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
     public static ShareProgressDialogFragment newInstance() {
         return new ShareProgressDialogFragment();
     }

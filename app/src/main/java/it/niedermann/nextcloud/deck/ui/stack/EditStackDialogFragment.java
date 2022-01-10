@@ -66,6 +66,12 @@ public class EditStackDialogFragment extends BrandedDialogFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
     public static DialogFragment newInstance() {
         return new EditStackDialogFragment();
     }

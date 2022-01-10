@@ -131,6 +131,12 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
         DeckApplication.readCurrentBoardColor().observe(getViewLifecycleOwner(), this::applyBrand);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
     @Nullable
     @Override
     public CardAdapter getAdapter() {

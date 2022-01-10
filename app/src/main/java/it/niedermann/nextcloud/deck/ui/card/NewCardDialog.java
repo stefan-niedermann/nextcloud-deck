@@ -23,7 +23,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.DialogNewCardBinding;
@@ -152,6 +151,12 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
         binding.input.requestFocus();
         requireDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
     }
 
     @Override

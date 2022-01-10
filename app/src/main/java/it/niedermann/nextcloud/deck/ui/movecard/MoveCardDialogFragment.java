@@ -98,6 +98,12 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
+    @Override
     public void onStackPicked(@NonNull Account account, @Nullable Board board, @Nullable Stack stack) {
         this.selectedAccount = account;
         this.selectedBoard = board;

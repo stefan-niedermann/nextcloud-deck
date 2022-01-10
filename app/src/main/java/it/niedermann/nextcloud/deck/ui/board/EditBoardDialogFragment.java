@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.board;
 
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -21,8 +23,6 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogTextColorInputBinding;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
-
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
 
 public class EditBoardDialogFragment extends DialogFragment {
 
@@ -88,6 +88,12 @@ public class EditBoardDialogFragment extends DialogFragment {
         binding.input.requestFocus();
         Objects.requireNonNull(requireDialog().getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
     }
 
     public static DialogFragment newInstance(long boardId) {

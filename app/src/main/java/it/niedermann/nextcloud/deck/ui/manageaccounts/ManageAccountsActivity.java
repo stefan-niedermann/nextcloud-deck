@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.ui.manageaccounts;
 
+import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentAccountId;
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +15,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.deck.databinding.ActivityManageAccountsBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-
-import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentAccountId;
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 public class ManageAccountsActivity extends AppCompatActivity {
 
@@ -66,7 +66,13 @@ public class ManageAccountsActivity extends AppCompatActivity {
     public void onBackPressed() {
         onSupportNavigateUp();
     }
-    
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
     public static Intent createIntent(@NonNull Context context) {
         return new Intent(context, ManageAccountsActivity.class);
     }
