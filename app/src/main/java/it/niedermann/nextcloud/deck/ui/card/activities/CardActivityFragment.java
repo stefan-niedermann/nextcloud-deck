@@ -48,4 +48,10 @@ public class CardActivityFragment extends Fragment {
         }));
         return binding.getRoot();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
 }

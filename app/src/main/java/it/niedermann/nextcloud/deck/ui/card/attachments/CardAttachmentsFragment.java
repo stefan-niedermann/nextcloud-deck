@@ -393,6 +393,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
             this.binding.pickerRecyclerView.setAdapter(null);
         }
         super.onDestroy();
+        this.binding = null;
     }
 
     private void uploadNewAttachmentFromUri(@NonNull Uri sourceUri, String mimeType) throws UploadAttachmentFailedException {
