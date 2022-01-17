@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.widget.filter;
 
+import static android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE;
+
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
@@ -17,12 +19,10 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
-import static android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE;
-
 public class FilterWidget extends AppWidgetProvider {
     public static final String ACCOUNT_KEY = "filter_widget_account";
     public static final String BUNDLE_KEY = "filter_widget_bundle";
-    final ExecutorService executor = Executors.newCachedThreadPool();
+    final ExecutorService executor = Executors.newFixedThreadPool(10);
 
     static void updateAppWidget(@NonNull ExecutorService executor, @NonNull Context context, AppWidgetManager awm, int[] appWidgetIds, Account account) {
         final SyncManager syncManager = new SyncManager(context);

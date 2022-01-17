@@ -25,7 +25,7 @@ public class UpcomingCardsViewModel extends AndroidViewModel {
     public UpcomingCardsViewModel(@NonNull Application application) {
         super(application);
         this.syncManager = new SyncManager(application);
-        this.executor = Executors.newCachedThreadPool();
+        this.executor = Executors.newFixedThreadPool(10);
     }
 
     public LiveData<List<UpcomingCardsAdapterItem>> getUpcomingCards() {

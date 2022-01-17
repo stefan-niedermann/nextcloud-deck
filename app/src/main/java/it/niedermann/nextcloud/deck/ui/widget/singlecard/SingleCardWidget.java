@@ -29,7 +29,7 @@ import it.niedermann.nextcloud.deck.util.DateUtil;
 
 public class SingleCardWidget extends AppWidgetProvider {
 
-    private final ExecutorService executor = Executors.newCachedThreadPool();
+    private final ExecutorService executor = Executors.newFixedThreadPool(10);
 
     void updateAppWidget(Context context, AppWidgetManager awm, int[] appWidgetIds) {
         final SyncManager syncManager = new SyncManager(context);

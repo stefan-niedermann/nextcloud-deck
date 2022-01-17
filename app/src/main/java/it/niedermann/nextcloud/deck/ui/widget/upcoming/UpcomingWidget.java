@@ -38,7 +38,7 @@ public class UpcomingWidget extends AppWidgetProvider {
     private static final String PENDING_INTENT_ACTION_OPEN = "open";
     private static final String PENDING_INTENT_PARAM_LOCAL_CARD_ID = "localCardId";
     private static final String PENDING_INTENT_PARAM_ACCOUNT_ID = "accountId";
-    private final ExecutorService executor = Executors.newCachedThreadPool();
+    private final ExecutorService executor = Executors.newFixedThreadPool(10);
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {

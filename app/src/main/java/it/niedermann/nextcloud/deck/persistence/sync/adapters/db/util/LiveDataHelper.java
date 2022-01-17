@@ -17,7 +17,7 @@ public class LiveDataHelper {
         throw new UnsupportedOperationException("This class must not be instantiated.");
     }
 
-    private static final ExecutorService executor = Executors.newCachedThreadPool();
+    private static final ExecutorService executor = Executors.newFixedThreadPool(10);
 
     public static <T> LiveData<T> interceptLiveData(LiveData<T> data, DataChangeProcessor<T> onDataChange) {
         MediatorLiveData<T> ret = new MediatorLiveData<>();

@@ -14,7 +14,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 
 public class RequestHelper {
 
-    private static final ExecutorService executor = Executors.newCachedThreadPool();
+    private static final ExecutorService executor = Executors.newFixedThreadPool(10);
 
     static {
         RxJavaPlugins.setErrorHandler(DeckLog::logError);

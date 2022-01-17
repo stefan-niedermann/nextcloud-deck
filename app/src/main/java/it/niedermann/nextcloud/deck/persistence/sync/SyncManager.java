@@ -114,7 +114,7 @@ public class SyncManager {
         this(context,
                 new DataBaseAdapter(context.getApplicationContext()),
                 new ServerAdapter(context.getApplicationContext(), ssoAccountName),
-                Executors.newCachedThreadPool(),
+                Executors.newFixedThreadPool(10),
                 SyncHelper::new);
         LastSyncUtil.init(context.getApplicationContext());
     }

@@ -90,7 +90,7 @@ public class DataBaseAdapter {
     private final ExecutorService widgetNotifierExecutor;
 
     public DataBaseAdapter(@NonNull Context appContext) {
-        this(appContext, DeckDatabase.getInstance(appContext), Executors.newCachedThreadPool());
+        this(appContext, DeckDatabase.getInstance(appContext), Executors.newFixedThreadPool(10));
     }
 
     private DataBaseAdapter(@NonNull Context applicationContext, @NonNull DeckDatabase db, @NonNull ExecutorService widgetNotifierExecutor) {

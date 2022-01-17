@@ -93,7 +93,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     private PreviewDialogViewModel previewViewModel;
     private BottomSheetBehavior<LinearLayout> mBottomSheetBehaviour;
     private boolean compressImagesOnUpload = true;
-    private final ExecutorService executor = Executors.newCachedThreadPool();
+    private final ExecutorService executor = Executors.newFixedThreadPool(10);
 
     private RecyclerView.ItemDecoration galleryItemDecoration;
 

@@ -28,7 +28,7 @@ import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 public class StackWidget extends AppWidgetProvider {
     private static final int PENDING_INTENT_OPEN_APP_RQ = 0;
     private static final int PENDING_INTENT_EDIT_CARD_RQ = 1;
-    private final ExecutorService executor = Executors.newCachedThreadPool();
+    private final ExecutorService executor = Executors.newFixedThreadPool(10);
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
