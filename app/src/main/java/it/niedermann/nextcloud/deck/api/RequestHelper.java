@@ -42,7 +42,7 @@ public class RequestHelper {
         private final Consumer<Throwable> exceptionConsumer = new Consumer<>() {
             @Override
             public void accept(final Throwable throwable) {
-                callback.onError(throwable);
+                callback.onError(ServerCommunicationErrorHandler.translateError(throwable));
             }
         };
 
