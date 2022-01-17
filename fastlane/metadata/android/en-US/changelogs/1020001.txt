@@ -1,0 +1,1 @@
+- ⚙️ Requires Android 6 and Nextcloud Android 3.18.x
