@@ -4,8 +4,6 @@ import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.M;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
@@ -252,7 +250,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 
     private void showGalleryPicker() {
         if (!(pickerAdapter instanceof GalleryAdapter)) {
-            if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE) || isPermissionRequestNeeded(CAMERA)) {
+            if (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED || checkSelfPermission(requireActivity(), CAMERA) != PERMISSION_GRANTED) {
                 requestPermissions(new String[]{READ_EXTERNAL_STORAGE, CAMERA}, REQUEST_CODE_PICK_GALLERY_PERMISSION);
             } else {
                 unbindPickerAdapter();
@@ -276,7 +274,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 
     private void showContactPicker() {
         if (!(pickerAdapter instanceof ContactAdapter)) {
-            if (isPermissionRequestNeeded(READ_CONTACTS)) {
+            if (checkSelfPermission(requireActivity(), READ_CONTACTS) != PERMISSION_GRANTED) {
                 requestPermissions(new String[]{READ_CONTACTS}, REQUEST_CODE_PICK_CONTACT_PICKER_PERMISSION);
             } else {
                 unbindPickerAdapter();
@@ -298,7 +296,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 
     private void showFilePicker() {
         if (!(pickerAdapter instanceof FileAdapter)) {
-            if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE)) {
+            if (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED) {
                 requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_PICK_FILE_PERMISSION);
             } else {
                 openNativeFilePicker();
@@ -334,16 +332,6 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         startActivityForResult(new Intent(Intent.ACTION_GET_CONTENT)
                 .addCategory(Intent.CATEGORY_OPENABLE)
                 .setType("*/*"), REQUEST_CODE_PICK_FILE);
-    }
-
-    /**
-     * Checks the current Android version and whether the permission has already been granted.
-     *
-     * @param permission see {@link android.Manifest.permission}
-     * @return whether or not requesting permission is needed
-     */
-    private boolean isPermissionRequestNeeded(@NonNull String permission) {
-        return SDK_INT >= M && checkSelfPermission(requireActivity(), permission) != PERMISSION_GRANTED;
     }
 
     private void unbindPickerAdapter() {
@@ -393,6 +381,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
             this.binding.pickerRecyclerView.setAdapter(null);
         }
         super.onDestroy();
+        this.binding = null;
     }
 
     private void uploadNewAttachmentFromUri(@NonNull Uri sourceUri, String mimeType) throws UploadAttachmentFailedException {

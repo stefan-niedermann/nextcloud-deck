@@ -112,6 +112,12 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
+    @Override
     public void applyBrand(int mainColor) {
         applyBrandToFAB(mainColor, binding.fab);
         applyBrandToEditTextInputLayout(mainColor, binding.addLabelTitleWrapper);

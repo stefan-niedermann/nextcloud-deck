@@ -36,6 +36,8 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
 
     private PrepareCreateViewModel viewModel;
 
+    private CreateCardListener createCardListener;
+
     private static final String ARG_ACCOUNT = "account";
     private static final String ARG_BOARD_LOCAL_ID = "board_id";
     private static final String ARG_STACK_LOCAL_ID = "stack_id";
@@ -53,6 +55,13 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+
+        if (context instanceof CreateCardListener) {
+            this.createCardListener = (CreateCardListener) context;
+        } else {
+             throw new ClassCastException("Caller must implement " + CreateCardListener.class.getCanonicalName());
+        }
+
         final var args = getArguments();
         if (args == null) {
             throw new IllegalArgumentException("Provide " + ARG_ACCOUNT + ", " + ARG_BOARD_LOCAL_ID + " and " + ARG_STACK_LOCAL_ID);
@@ -145,6 +154,12 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
+    @Override
     public void onClick(DialogInterface dialog, int which) {
         final boolean openOnSuccess;
         switch (which) {
@@ -166,6 +181,8 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
                     @Override
                     public void onResponse(FullCard createdCard) {
                         requireActivity().runOnUiThread(() -> {
+                            createCardListener.onCardCreated(createdCard);
+
                             if (openOnSuccess) {
                                 startActivity(EditActivity.createEditCardIntent(requireContext(), account, boardLocalId, createdCard.getLocalId()));
                             }

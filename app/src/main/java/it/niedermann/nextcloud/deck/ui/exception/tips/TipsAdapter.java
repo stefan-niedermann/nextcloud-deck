@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -85,11 +83,7 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
             add(R.string.error_dialog_tip_offline);
             add(R.string.error_dialog_tip_sync_only_on_wifi);
         } else if (throwable instanceof NextcloudApiNotRespondingException) {
-            if (VERSION.SDK_INT >= VERSION_CODES.M) {
-                add(R.string.error_dialog_tip_disable_battery_optimizations, new Intent().setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS).putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_battery_settings));
-            } else {
-                add(R.string.error_dialog_tip_disable_battery_optimizations);
-            }
+            add(R.string.error_dialog_tip_disable_battery_optimizations, new Intent().setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS).putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_battery_settings));
             add(R.string.error_dialog_tip_files_force_stop);
             add(R.string.error_dialog_tip_files_delete_storage);
         } else if (throwable instanceof SocketTimeoutException || throwable instanceof ConnectException) {

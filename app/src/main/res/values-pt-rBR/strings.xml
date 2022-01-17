@@ -235,6 +235,7 @@
     <string name="error_dialog_certificate">Algo parece estar errado com o certificado do servidor. Por favor, verifique todas as contas no aplicativo Nextcloud para maiores informações.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Desative todas as otimizações de bateria para o Nextcloud e o aplicativo Deck.</string>
     <string name="error_dialog_unknown_error">Sua instância Nextcloud parece estar inacessível. Verifique sua conexão com a Internet e se você consegue se conectar à sua instância por meio do navegador. </string>
+    <string name="error_dialog_min_version">O aplicativo Deck Android requer que o aplicativo Nextcloud Android tenha pelo menos a versão 3.18.</string>
     <string name="error_action_open_deck_info">Abra as informações do Aplicativo</string>
     <string name="error_action_open_nextcloud_app">Abrir o aplicativo Nextcloud</string>
     <string name="error_action_open_network">Configurações da rede</string>
@@ -242,6 +243,7 @@
     <string name="error_action_open_in_browser">Abra no navegador</string>
     <string name="error_action_install">Instalar</string>
     <string name="error_action_report_issue">Reportar</string>
+    <string name="error_action_update_files_app">Atualizar</string>
     <string name="info_box_maintenance_mode">O servidor está em modo de manutenção </string>
     <string name="info_box_version_not_supported">A versão %1$s do servidor não é suportada, atualize para %2$s</string>
     <string name="share_link">Link de compartilhamento</string>
@@ -324,4 +326,7 @@
     <string name="saving_new_card">Salvando novo cartão…</string>
     <string name="progress_import">Importando placa %1$d de %2$d…</string>
     <string name="progress_import_indeterminate">Importando placas…</string>
+    <string name="card_outdated">O conteúdo deste cartão pode estar desatualizado.</string>
+    <string name="show_error">Mostrar erro</string>
+    <string name="push_notification_link_empty">Devido a um problema conhecido no aplicativo da web Deck, infelizmente não podemos exibir este cartão. Para mais informações, veja: %1$s</string>
     </resources>

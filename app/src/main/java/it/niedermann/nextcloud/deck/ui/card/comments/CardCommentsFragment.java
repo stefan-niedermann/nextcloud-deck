@@ -135,6 +135,12 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
+    @Override
     public void onCommentEdited(Long id, String comment) {
         commentsViewModel.updateComment(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), id, comment);
     }

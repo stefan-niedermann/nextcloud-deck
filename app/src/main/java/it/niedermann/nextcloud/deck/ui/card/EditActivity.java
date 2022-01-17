@@ -98,6 +98,12 @@ public class EditActivity extends AppCompatActivity {
         loadDataFromIntent();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
     private void loadDataFromIntent() {
         final var args = getIntent().getExtras();
 

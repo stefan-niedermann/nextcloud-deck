@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -130,6 +131,12 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
         DeckApplication.readCurrentBoardColor().observe(getViewLifecycleOwner(), this::applyBrand);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
     @Nullable
     @Override
     public CardAdapter getAdapter() {
@@ -175,4 +182,27 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
         });
     }
 
+    /**
+     * Scroll to the bottom of the fragment
+     */
+    public void scrollToBottom() {
+        activity.runOnUiThread(() -> {
+            if (adapter == null) {
+                DeckLog.warn("Adapter is null");
+                return;
+            }
+            final var layoutManager = (LinearLayoutManager) binding.recyclerView.getLayoutManager();
+            if (layoutManager == null) {
+                DeckLog.warn("LayoutManager is null");
+                return;
+            }
+            int currentItem = layoutManager.findFirstVisibleItemPosition();
+
+            if (adapter.getItemCount() - currentItem < 40) {
+                binding.recyclerView.smoothScrollToPosition(adapter.getItemCount());
+            } else {
+                binding.recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+            }
+        });
+    }
 }

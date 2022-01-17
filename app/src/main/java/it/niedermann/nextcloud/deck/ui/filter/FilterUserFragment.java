@@ -22,12 +22,12 @@ import it.niedermann.nextcloud.deck.ui.MainViewModel;
 public class FilterUserFragment extends Fragment implements SelectionListener<User> {
 
     private FilterViewModel filterViewModel;
+    private DialogFilterAssigneesBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        final var binding = DialogFilterAssigneesBinding.inflate(requireActivity().getLayoutInflater());
+        binding = DialogFilterAssigneesBinding.inflate(requireActivity().getLayoutInflater());
         final var mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
@@ -44,6 +44,12 @@ public class FilterUserFragment extends Fragment implements SelectionListener<Us
         });
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
     }
 
     @Override

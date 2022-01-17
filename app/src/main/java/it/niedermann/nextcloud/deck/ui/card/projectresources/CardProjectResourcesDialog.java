@@ -57,6 +57,12 @@ public class CardProjectResourcesDialog extends DialogFragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         final var adapter = new CardProjectResourceAdapter(viewModel, resources, requireActivity());
         binding.getRoot().setAdapter(adapter);

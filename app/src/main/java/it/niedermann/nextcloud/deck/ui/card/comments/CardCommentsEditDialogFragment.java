@@ -69,6 +69,12 @@ public class CardCommentsEditDialogFragment extends BrandedDialogFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
     public static DialogFragment newInstance(@NonNull Long commentLocalId, String message) {
         final var fragment = new CardCommentsEditDialogFragment();
         final var args = new Bundle();

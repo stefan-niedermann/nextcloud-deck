@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.accountswitcher;
 
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+
 import android.app.Dialog;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,8 +30,6 @@ import it.niedermann.nextcloud.deck.databinding.DialogAccountSwitcherBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.manageaccounts.ManageAccountsActivity;
-
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 public class AccountSwitcherDialog extends DialogFragment {
 
@@ -96,6 +96,12 @@ public class AccountSwitcherDialog extends DialogFragment {
         return new AlertDialog.Builder(requireContext())
                 .setView(binding.getRoot())
                 .create();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
     }
 
     public static DialogFragment newInstance() {

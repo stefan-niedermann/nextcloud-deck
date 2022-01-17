@@ -25,10 +25,11 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityAttachmentsBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
+import it.niedermann.nextcloud.deck.ui.card.attachments.AttachmentImageZoomListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
-public class AttachmentsActivity extends AppCompatActivity {
+public class AttachmentsActivity extends AppCompatActivity implements AttachmentImageZoomListener {
 
     private static final String BUNDLE_KEY_ACCOUNT = "account";
     private static final String BUNDLE_KEY_CARD_ID = "cardId";
@@ -139,6 +140,7 @@ public class AttachmentsActivity extends AppCompatActivity {
     protected void onDestroy() {
         binding.viewPager.unregisterOnPageChangeCallback(onPageChangeCallback);
         super.onDestroy();
+        this.binding = null;
     }
 
     @NonNull
@@ -148,5 +150,10 @@ public class AttachmentsActivity extends AppCompatActivity {
                 .putExtra(BUNDLE_KEY_CARD_ID, cardLocalId)
                 .putExtra(BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID, attachmentLocalId)
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    }
+
+    @Override
+    public void onAbleToChangePage(boolean canChange) {
+        binding.viewPager.setUserInputEnabled(canChange);
     }
 }

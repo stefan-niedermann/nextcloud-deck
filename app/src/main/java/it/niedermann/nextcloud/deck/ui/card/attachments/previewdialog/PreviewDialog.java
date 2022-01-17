@@ -88,6 +88,7 @@ public class PreviewDialog extends DialogFragment {
         this.imageBuilder$.removeObservers(requireActivity());
         this.title$.removeObservers(requireActivity());
         super.onDestroy();
+        this.binding = null;
     }
 
     public static DialogFragment newInstance() {

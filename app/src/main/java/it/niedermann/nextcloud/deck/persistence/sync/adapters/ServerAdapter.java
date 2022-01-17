@@ -1,10 +1,10 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters;
 
+import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.webkit.MimeTypeMap;
@@ -49,8 +49,6 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
-import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
-
 public class ServerAdapter {
 
     private final String prefKeyWifiOnly;
@@ -80,20 +78,11 @@ public class ServerAdapter {
         ConnectivityManager cm = (ConnectivityManager) applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
             if (sharedPreferences.getBoolean(prefKeyWifiOnly, false)) {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                    Network network = cm.getActiveNetwork();
-                    NetworkCapabilities capabilities = cm.getNetworkCapabilities(network);
-                    if (capabilities == null) {
-                        return false;
-                    }
-                    return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
-                } else {
-                    NetworkInfo networkInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-                    if (networkInfo == null) {
-                        return false;
-                    }
-                    return networkInfo.isConnected();
+                NetworkInfo networkInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                if (networkInfo == null) {
+                    return false;
                 }
+                return networkInfo.isConnected();
             } else {
                 return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
             }

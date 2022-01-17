@@ -116,6 +116,12 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         if (dpd != null) dpd.setOnDateSetListener(this);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
     private void applyBrand(@ColorInt int boardColor) {
         // TODO apply correct branding on the BrandedDatePicker
         applyBrandToEditTextInputLayout(boardColor, binding.labelsWrapper);

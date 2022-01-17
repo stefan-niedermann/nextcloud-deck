@@ -179,6 +179,12 @@ public class PickStackFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
     /**
      * Updates the source of the given liveData and de- and reregisters the given observer.
      */

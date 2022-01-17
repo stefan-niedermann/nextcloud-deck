@@ -111,6 +111,7 @@ import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
+import it.niedermann.nextcloud.deck.ui.card.CreateCardListener;
 import it.niedermann.nextcloud.deck.ui.card.NewCardDialog;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
@@ -129,7 +130,7 @@ import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsActivity;
 import it.niedermann.nextcloud.deck.util.CustomAppGlideModule;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 
-public class MainActivity extends AppCompatActivity implements DeleteStackListener, EditStackListener, DeleteBoardListener, EditBoardListener, ArchiveBoardListener, OnScrollListener, OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements DeleteStackListener, EditStackListener, DeleteBoardListener, EditBoardListener, ArchiveBoardListener, OnScrollListener, CreateCardListener, OnNavigationItemSelectedListener {
 
     protected ActivityMainBinding binding;
     protected NavHeaderMainBinding headerBinding;
@@ -454,6 +455,8 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        this.binding = null;
+        this.headerBinding = null;
         if (tabLayoutHelper != null) {
             tabLayoutHelper.release();
         }
@@ -613,14 +616,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         binding.toolbar.setTitle(board.getTitle());
         binding.filterText.setHint(getString(R.string.search_in, board.getTitle()));
 
-        if (mainViewModel.currentBoardHasEditPermission()) {
-            binding.fab.show();
-            binding.listMenuButton.setVisibility(View.VISIBLE);
-        } else {
-            binding.fab.hide();
-            binding.listMenuButton.setVisibility(View.GONE);
-            binding.emptyContentViewStacks.hideDescription();
-        }
+        showEditButtonsIfPermissionsGranted();
 
         binding.emptyContentViewBoards.setVisibility(View.GONE);
         binding.swipeRefreshLayout.setVisibility(View.VISIBLE);
@@ -790,6 +786,17 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void showEditButtonsIfPermissionsGranted() {
+        if (mainViewModel.currentBoardHasEditPermission()) {
+            binding.fab.show();
+            binding.listMenuButton.setVisibility(View.VISIBLE);
+        } else {
+            binding.fab.hide();
+            binding.listMenuButton.setVisibility(View.GONE);
+            binding.emptyContentViewStacks.hideDescription();
+        }
     }
 
     protected void showFabIfEditPermissionGranted() {
@@ -1005,6 +1012,32 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             } catch (IllegalArgumentException ignored) {
             }
             connectivityManager.registerNetworkCallback(builder.build(), networkCallback);
+        }
+    }
+
+    /**
+     * Find a StackFragment by it's ID, may return null.
+     * @param stackId ID of the stack to find
+     * @return Instance of StackFragment
+     */
+    @Nullable
+    public StackFragment findStackFragmentById(long stackId) {
+        return (StackFragment) getSupportFragmentManager().findFragmentByTag("f" + stackId);
+    }
+
+    /**
+     * This method is called when a new Card is created
+     * @param createdCard The new Card's data
+     */
+    @Override
+    public void onCardCreated(FullCard createdCard) {
+        final var card = createdCard.getCard();
+        DeckLog.log("Card Created! Title:" + card.getTitle() + " in stack ID: " + card.getStackId());
+
+        // Scroll the given StackFragment to the bottom, so the new Card is in view.
+        final var fragment = findStackFragmentById(card.getStackId());
+        if (fragment != null) {
+            fragment.scrollToBottom();
         }
     }
 

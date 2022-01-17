@@ -69,7 +69,12 @@ public class ArchivedCardsActvitiy extends AppCompatActivity {
 
             viewModel.getArchivedFullCardsForBoard(account.getId(), boardId).observe(this, (fullCards) -> adapter.setCardList(fullCards));
         });
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
     }
 
     @NonNull

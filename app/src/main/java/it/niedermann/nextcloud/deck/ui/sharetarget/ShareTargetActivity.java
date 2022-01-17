@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.Menu;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -193,13 +192,9 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
     @Override
     protected void setCurrentBoard(@NonNull Board board) {
         super.setCurrentBoard(board);
-        binding.listMenuButton.setVisibility(View.GONE);
-        binding.fab.setVisibility(View.GONE);
         binding.toolbar.setTitle(R.string.simple_select);
+        showEditButtonsIfPermissionsGranted();
     }
-
-    @Override
-    protected void showFabIfEditPermissionGranted() { /* Silence is gold */ }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -98,6 +98,12 @@ public class CardAssigneeDialog extends DialogFragment {
         binding.title.setText(user.getDisplayname());
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
     public static DialogFragment newInstance(@NonNull User user) {
         final var fragment = new CardAssigneeDialog();
         final var args = new Bundle();

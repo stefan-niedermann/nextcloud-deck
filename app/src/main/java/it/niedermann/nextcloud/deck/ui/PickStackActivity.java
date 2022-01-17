@@ -118,6 +118,12 @@ public abstract class PickStackActivity extends AppCompatActivity implements Bra
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
+    @Override
     public void onStackPicked(@NonNull Account account, @Nullable Board board, @Nullable Stack stack) {
         viewModel.setSelected(account, board, stack);
         applyBrand(board == null

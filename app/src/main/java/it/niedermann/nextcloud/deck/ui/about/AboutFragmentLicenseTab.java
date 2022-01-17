@@ -1,5 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.about;
 
+import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
+import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
+import static it.niedermann.nextcloud.deck.util.SpannableUtil.setTextWithURL;
+
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -20,10 +24,6 @@ import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentAboutLicenseTabBinding;
-
-import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
-import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
-import static it.niedermann.nextcloud.deck.util.SpannableUtil.setTextWithURL;
 
 public class AboutFragmentLicenseTab extends Fragment {
 
@@ -48,5 +48,11 @@ public class AboutFragmentLicenseTab extends Fragment {
             DrawableCompat.setTintList(binding.aboutAppLicenseButton.getBackground(), ColorStateList.valueOf(finalMainColor));
             binding.aboutAppLicenseButton.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(finalMainColor));
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
     }
 }

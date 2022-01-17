@@ -13,12 +13,20 @@ import it.niedermann.nextcloud.deck.databinding.FragmentAboutContributionTabBind
 
 public class AboutFragmentContributingTab extends Fragment {
 
+    private FragmentAboutContributionTabBinding binding;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        FragmentAboutContributionTabBinding binding = FragmentAboutContributionTabBinding.inflate(inflater, container, false);
+        binding = FragmentAboutContributionTabBinding.inflate(inflater, container, false);
         binding.aboutSource.setText(getString(R.string.about_source, getString(R.string.url_source)));
         binding.aboutIssues.setText(getString(R.string.about_issues, getString(R.string.url_issues)));
         binding.aboutTranslate.setText(getString(R.string.about_translate, getString(R.string.url_translations)));
         return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
     }
 }

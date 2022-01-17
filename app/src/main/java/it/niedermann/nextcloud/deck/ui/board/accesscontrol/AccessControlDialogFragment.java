@@ -99,6 +99,12 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
+    @Override
     public void updateAccessControl(AccessControl accessControl) {
         viewModel.updateAccessControl(accessControl, new IResponseCallback<>() {
             @Override

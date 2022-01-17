@@ -74,6 +74,12 @@ public class PushNotificationActivity extends AppCompatActivity {
         }));
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
     private void openCardOnSubmit(@NonNull Account account, long boardLocalId, long cardLocalId) {
         DeckLog.info("Starting", EditActivity.class.getSimpleName(), "with [" + account + ", " + boardLocalId + ", " + cardLocalId + "]");
 

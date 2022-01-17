@@ -97,6 +97,12 @@ public class FilterDialogFragment extends BrandedDialogFragment {
                 .create();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
     public static DialogFragment newInstance() {
         return new FilterDialogFragment();
     }
