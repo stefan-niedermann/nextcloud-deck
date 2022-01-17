@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.api;
 
+import androidx.annotation.NonNull;
+
 import com.nextcloud.android.sso.exceptions.UnknownErrorException;
 
 import java.util.Objects;
@@ -10,29 +12,29 @@ public class ServerCommunicationErrorHandler {
     public static Throwable translateError(Throwable error) {
         try {
             if (error.getClass() == UnknownErrorException.class) {
-                return handleSsoExceptions(error);
+                return handleSsoExceptions((UnknownErrorException) error);
             } else if (error.getClass() == ClassNotFoundException.class) {
-                return handleClassNotFoundError(error);
+                return handleClassNotFoundError((ClassNotFoundException) error);
+            } else {
+                return error;
             }
         } catch (NullPointerException e) {
             return error;
         }
-
-        return error;
     }
 
-    private static Throwable handleClassNotFoundError(Throwable error) {
-        final String message = Objects.requireNonNull(error.getMessage(), "ClassNotFound handler got no ExceptionMessage").toLowerCase();
-        if (message.contains("connecttimeoutexception")) {
-            return new OfflineException(OfflineException.Reason.CONNECTION_TIMEOUT);
+    private static Throwable handleSsoExceptions(@NonNull UnknownErrorException error) {
+        final String message = Objects.requireNonNull(error.getMessage(), "SSO handler got no ExceptionMessage").toLowerCase();
+        if (message.contains("econnrefused") || message.contains("connection refused")) {
+            return new OfflineException(OfflineException.Reason.CONNECTION_REFUSED);
         }
         return error;
     }
 
-    private static Throwable handleSsoExceptions(Throwable error) {
-        final String message = Objects.requireNonNull(error.getMessage(), "SSO handler got no ExceptionMessage").toLowerCase();
-        if (message.contains("econnrefused") || message.contains("connection refused")) {
-            return new OfflineException(OfflineException.Reason.CONNECTION_REFUSED);
+    private static Throwable handleClassNotFoundError(@NonNull ClassNotFoundException error) {
+        final String message = Objects.requireNonNull(error.getMessage(), "ClassNotFound handler got no ExceptionMessage").toLowerCase();
+        if (message.contains("connecttimeoutexception")) {
+            return new OfflineException(OfflineException.Reason.CONNECTION_TIMEOUT);
         }
         return error;
     }
