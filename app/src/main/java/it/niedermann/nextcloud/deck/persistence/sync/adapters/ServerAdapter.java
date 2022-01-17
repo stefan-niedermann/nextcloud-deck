@@ -68,7 +68,7 @@ public class ServerAdapter {
     }
 
     public void ensureInternetConnection() {
-        boolean isConnected = hasInternetConnection();
+        final boolean isConnected = hasInternetConnection();
         if (!isConnected) {
             throw new OfflineException();
         }
