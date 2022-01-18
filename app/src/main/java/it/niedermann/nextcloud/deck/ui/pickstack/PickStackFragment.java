@@ -80,7 +80,7 @@ public class PickStackFragment extends Fragment {
     @Nullable
     private LiveData<List<Stack>> stacksLiveData;
     @NonNull
-    private Observer<List<Stack>> stacksObserver = (stacks) -> {
+    private final Observer<List<Stack>> stacksObserver = (stacks) -> {
         stackAdapter.clear();
         stackAdapter.addAll(stacks);
 
@@ -141,7 +141,8 @@ public class PickStackFragment extends Fragment {
             if (hasAccounts) {
                 return viewModel.readAccounts();
             } else {
-                startActivityForResult(ImportAccountActivity.createIntent(requireContext()), ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT);
+                // TODO After successfully importing the account, the creation will throw a TokenMissMatchException - Recreate SyncManager?
+                startActivity(ImportAccountActivity.createIntent(requireContext()));
                 return null;
             }
         }).observe(getViewLifecycleOwner(), (List<Account> accounts) -> {

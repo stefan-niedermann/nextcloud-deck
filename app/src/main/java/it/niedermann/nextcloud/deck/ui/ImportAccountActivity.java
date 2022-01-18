@@ -39,8 +39,6 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 public class ImportAccountActivity extends AppCompatActivity {
 
-    public static final int REQUEST_CODE_IMPORT_ACCOUNT = 1;
-
     private SharedPreferences sharedPreferences;
 
     private String prefKeyWifiOnly;

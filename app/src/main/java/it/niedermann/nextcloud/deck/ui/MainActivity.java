@@ -26,6 +26,7 @@ import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_UPCOMING_
 
 import android.animation.AnimatorInflater;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -45,6 +46,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.PopupMenu;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.AnyThread;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -139,8 +142,6 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     private FilterViewModel filterViewModel;
     private PickStackViewModel pickStackViewModel;
 
-    protected static final int ACTIVITY_SETTINGS = 2;
-
     @ColorInt
     private int colorAccent;
     protected SharedPreferences sharedPreferences;
@@ -170,6 +171,20 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     @Nullable
     private TabLayoutHelper tabLayoutHelper;
     private boolean stackMoved;
+
+    private final ActivityResultLauncher<Intent> settingsLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() == Activity.RESULT_OK) {
+            ActivityCompat.recreate(this);
+        }
+    });
+
+    private final ActivityResultLauncher<Intent> importAccountLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() == RESULT_OK) {
+            firstAccountAdded = true;
+        } else {
+            finish();
+        }
+    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -235,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             if (hasAccounts) {
                 return mainViewModel.readAccounts();
             } else {
-                startActivityForResult(ImportAccountActivity.createIntent(this), ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT);
+                importAccountLauncher.launch(ImportAccountActivity.createIntent(this));
                 return null;
             }
         }).observe(this, accounts -> {
@@ -706,7 +721,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 startActivity(AboutActivity.createIntent(this, mainViewModel.getCurrentAccount()));
                 break;
             case MENU_ID_SETTINGS:
-                startActivityForResult(SettingsActivity.createIntent(this), MainActivity.ACTIVITY_SETTINGS);
+                settingsLauncher.launch(SettingsActivity.createIntent(this));
                 break;
             case MENU_ID_ADD_BOARD:
                 EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
@@ -825,117 +840,102 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode) {
-            case MainActivity.ACTIVITY_SETTINGS:
-                if (resultCode == RESULT_OK) {
-                    ActivityCompat.recreate(this);
-                }
-                break;
-            case ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT:
-                if (resultCode == RESULT_OK) {
-                    firstAccountAdded = true;
-                } else {
-                    finish();
-                }
-                break;
-            default:
-                try {
-                    AccountImporter.onActivityResult(requestCode, resultCode, data, this, (account) -> {
-                        final var accountToCreate = new Account(account.name, account.userId, account.url);
-                        mainViewModel.createAccount(accountToCreate, new IResponseCallback<>() {
+        try {
+            AccountImporter.onActivityResult(requestCode, resultCode, data, this, (account) -> {
+                final var accountToCreate = new Account(account.name, account.userId, account.url);
+                mainViewModel.createAccount(accountToCreate, new IResponseCallback<>() {
+                    @Override
+                    public void onResponse(Account createdAccount) {
+                        final var importSyncManager = new SyncManager(MainActivity.this, account.name);
+                        importSyncManager.refreshCapabilities(new ResponseCallback<>(createdAccount) {
+                            @SuppressLint("StringFormatInvalid")
                             @Override
-                            public void onResponse(Account createdAccount) {
-                                final var importSyncManager = new SyncManager(MainActivity.this, account.name);
-                                importSyncManager.refreshCapabilities(new ResponseCallback<>(createdAccount) {
-                                    @SuppressLint("StringFormatInvalid")
-                                    @Override
-                                    public void onResponse(Capabilities response) {
-                                        if (!response.isMaintenanceEnabled()) {
-                                            if (response.getDeckVersion().isSupported()) {
-                                                runOnUiThread(() -> {
-                                                    final var importSnackbar = BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
-                                                    importSnackbar.show();
-                                                    importSyncManager.synchronize(new ResponseCallback<>(createdAccount) {
-                                                        @Override
-                                                        public void onResponse(Boolean syncSuccess) {
-                                                            importSnackbar.dismiss();
-                                                            runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.account_imported), Snackbar.LENGTH_LONG)
-                                                                    .setAction(R.string.simple_switch, (a) -> {
-                                                                        createdAccount.setColor(response.getColor());
-                                                                        mainViewModel.setSyncManager(importSyncManager);
-                                                                        mainViewModel.setCurrentAccount(createdAccount);
-                                                                    })
-                                                                    .show());
-                                                        }
+                            public void onResponse(Capabilities response) {
+                                if (!response.isMaintenanceEnabled()) {
+                                    if (response.getDeckVersion().isSupported()) {
+                                        runOnUiThread(() -> {
+                                            final var importSnackbar = BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
+                                            importSnackbar.show();
+                                            importSyncManager.synchronize(new ResponseCallback<>(createdAccount) {
+                                                @Override
+                                                public void onResponse(Boolean syncSuccess) {
+                                                    importSnackbar.dismiss();
+                                                    runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.account_imported), Snackbar.LENGTH_LONG)
+                                                            .setAction(R.string.simple_switch, (a) -> {
+                                                                createdAccount.setColor(response.getColor());
+                                                                mainViewModel.setSyncManager(importSyncManager);
+                                                                mainViewModel.setCurrentAccount(createdAccount);
+                                                            })
+                                                            .show());
+                                                }
 
-                                                        @Override
-                                                        public void onError(Throwable throwable) {
-                                                            super.onError(throwable);
-                                                            runOnUiThread(() -> {
-                                                                importSnackbar.dismiss();
-                                                                runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
-                                                            });
-                                                        }
+                                                @Override
+                                                public void onError(Throwable throwable) {
+                                                    super.onError(throwable);
+                                                    runOnUiThread(() -> {
+                                                        importSnackbar.dismiss();
+                                                        runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                                                     });
-                                                });
-                                            } else {
-                                                DeckLog.warn("Cannot import account because server version is too low (" + response.getDeckVersion() + "). Minimum server version is currently", Version.minimumSupported());
-                                                runOnUiThread(() -> new AlertDialog.Builder(MainActivity.this)
-                                                        .setTitle(R.string.update_deck)
-                                                        .setMessage(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()))
-                                                        .setNegativeButton(R.string.simple_discard, null)
-                                                        .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {
-                                                            final var openURL = new Intent(Intent.ACTION_VIEW);
-                                                            openURL.setData(Uri.parse(createdAccount.getUrl() + getString(R.string.url_fragment_update_deck)));
-                                                            startActivity(openURL);
-                                                            finish();
-                                                        }).show());
-                                                mainViewModel.deleteAccount(createdAccount.getId());
-                                            }
-                                        } else {
-                                            DeckLog.warn("Cannot import account because server version is currently in maintenance mode.");
-                                            runOnUiThread(() -> new AlertDialog.Builder(MainActivity.this)
-                                                    .setTitle(R.string.maintenance_mode)
-                                                    .setMessage(getString(R.string.maintenance_mode_explanation, createdAccount.getUrl()))
-                                                    .setPositiveButton(R.string.simple_close, null)
-                                                    .show());
-                                            mainViewModel.deleteAccount(createdAccount.getId());
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable throwable) {
-                                        super.onError(throwable);
+                                                }
+                                            });
+                                        });
+                                    } else {
+                                        DeckLog.warn("Cannot import account because server version is too low (" + response.getDeckVersion() + "). Minimum server version is currently", Version.minimumSupported());
+                                        runOnUiThread(() -> new AlertDialog.Builder(MainActivity.this)
+                                                .setTitle(R.string.update_deck)
+                                                .setMessage(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()))
+                                                .setNegativeButton(R.string.simple_discard, null)
+                                                .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {
+                                                    final var openURL = new Intent(Intent.ACTION_VIEW);
+                                                    openURL.setData(Uri.parse(createdAccount.getUrl() + getString(R.string.url_fragment_update_deck)));
+                                                    startActivity(openURL);
+                                                    finish();
+                                                }).show());
                                         mainViewModel.deleteAccount(createdAccount.getId());
-                                        if (throwable instanceof OfflineException) {
-                                            DeckLog.warn("Cannot import account because device is currently offline.");
-                                            runOnUiThread(() -> new AlertDialog.Builder(MainActivity.this)
-                                                    .setTitle(R.string.you_are_currently_offline)
-                                                    .setMessage(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account)
-                                                    .setPositiveButton(R.string.simple_close, null)
-                                                    .show());
-                                        } else {
-                                            ExceptionDialogFragment.newInstance(throwable, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                                        }
                                     }
-                                });
+                                } else {
+                                    DeckLog.warn("Cannot import account because server version is currently in maintenance mode.");
+                                    runOnUiThread(() -> new AlertDialog.Builder(MainActivity.this)
+                                            .setTitle(R.string.maintenance_mode)
+                                            .setMessage(getString(R.string.maintenance_mode_explanation, createdAccount.getUrl()))
+                                            .setPositiveButton(R.string.simple_close, null)
+                                            .show());
+                                    mainViewModel.deleteAccount(createdAccount.getId());
+                                }
                             }
 
                             @Override
-                            public void onError(Throwable error) {
-                                IResponseCallback.super.onError(error);
-                                if (error instanceof SQLiteConstraintException) {
-                                    DeckLog.warn("Account already added");
-                                    BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_already_added, Snackbar.LENGTH_LONG).show();
+                            public void onError(Throwable throwable) {
+                                super.onError(throwable);
+                                mainViewModel.deleteAccount(createdAccount.getId());
+                                if (throwable instanceof OfflineException) {
+                                    DeckLog.warn("Cannot import account because device is currently offline.");
+                                    runOnUiThread(() -> new AlertDialog.Builder(MainActivity.this)
+                                            .setTitle(R.string.you_are_currently_offline)
+                                            .setMessage(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account)
+                                            .setPositiveButton(R.string.simple_close, null)
+                                            .show());
                                 } else {
-                                    ExceptionDialogFragment.newInstance(error, accountToCreate).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                    ExceptionDialogFragment.newInstance(throwable, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                                 }
                             }
                         });
-                    });
-                } catch (AccountImportCancelledException e) {
-                    DeckLog.info("Account import has been canceled.");
-                }
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        IResponseCallback.super.onError(error);
+                        if (error instanceof SQLiteConstraintException) {
+                            DeckLog.warn("Account already added");
+                            BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_already_added, Snackbar.LENGTH_LONG).show();
+                        } else {
+                            ExceptionDialogFragment.newInstance(error, accountToCreate).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                        }
+                    }
+                });
+            });
+        } catch (AccountImportCancelledException e) {
+            DeckLog.info("Account import has been canceled.");
         }
     }
 

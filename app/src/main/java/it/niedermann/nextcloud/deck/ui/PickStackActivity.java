@@ -59,7 +59,8 @@ public abstract class PickStackActivity extends AppCompatActivity implements Bra
             if (hasAccounts) {
                 return viewModel.readAccounts();
             } else {
-                startActivityForResult(ImportAccountActivity.createIntent(this), ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT);
+                // TODO After successfully importing the account, the creation will throw a TokenMissMatchException - Recreate SyncManager?
+                startActivity(ImportAccountActivity.createIntent(this));
                 return null;
             }
         }).observe(this, (List<Account> accounts) -> {
