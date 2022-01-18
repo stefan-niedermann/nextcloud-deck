@@ -16,7 +16,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 
 public class RequestHelper {
 
-    private static final ExecutorService executor = new ThreadPoolExecutor(10, 50, 60L, TimeUnit.SECONDS, new SynchronousQueue<>());
+    private static final ExecutorService executor = new ThreadPoolExecutor(10, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, new SynchronousQueue<>());
 
     static {
         RxJavaPlugins.setErrorHandler(DeckLog::logError);
