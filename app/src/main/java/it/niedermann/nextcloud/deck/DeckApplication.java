@@ -6,6 +6,7 @@ import static androidx.lifecycle.Transformations.distinctUntilChanged;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.os.StrictMode;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -30,6 +31,10 @@ public class DeckApplication extends Application {
 
     @Override
     public void onCreate() {
+        if (BuildConfig.DEBUG) {
+            enableStrictModeLogging();
+        }
+
         PREF_KEY_THEME = getString(R.string.pref_key_dark_theme);
         PREF_KEY_DEBUGGING = getString(R.string.pref_key_debugging);
         setAppTheme(getAppTheme(this));
@@ -55,11 +60,25 @@ public class DeckApplication extends Application {
     // Debugging
     // ---------
 
-    public static boolean isPersistentLoggingEnabled(@NonNull Context context) {
+    private static boolean isPersistentLoggingEnabled(@NonNull Context context) {
         final var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         final boolean enabled = sharedPreferences.getBoolean(PREF_KEY_DEBUGGING, false);
         DeckLog.log("--- Read:", PREF_KEY_DEBUGGING, "→", enabled);
         return enabled;
+    }
+
+    private static void enableStrictModeLogging() {
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectAll()
+                // SSO library: setCurrentSingleSignOnAccount works synchronously
+                // Deck app: Handling of current account / board / stack works synchronously
+                .permitDiskReads()
+                .penaltyLog()
+                .build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectAll()
+                .penaltyLog()
+                .build());
     }
 
     // -----------------
