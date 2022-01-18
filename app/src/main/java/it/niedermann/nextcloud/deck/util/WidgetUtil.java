@@ -3,6 +3,11 @@ package it.niedermann.nextcloud.deck.util;
 import android.app.PendingIntent;
 import android.os.Build;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 public class WidgetUtil {
 
     private WidgetUtil() {
@@ -26,5 +31,9 @@ public class WidgetUtil {
             return flags | PendingIntent.FLAG_MUTABLE;
         }
         return flags;
+    }
+
+    public static ExecutorService newWidgetExecutorService() {
+        return new ThreadPoolExecutor(0, 100, 10L, TimeUnit.SECONDS, new SynchronousQueue<>());
     }
 }

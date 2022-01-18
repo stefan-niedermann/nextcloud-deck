@@ -29,7 +29,9 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -90,7 +92,7 @@ public class DataBaseAdapter {
     private final ExecutorService widgetNotifierExecutor;
 
     public DataBaseAdapter(@NonNull Context appContext) {
-        this(appContext, DeckDatabase.getInstance(appContext), Executors.newFixedThreadPool(10));
+        this(appContext, DeckDatabase.getInstance(appContext), new ThreadPoolExecutor(0, 100, 60L, TimeUnit.SECONDS, new SynchronousQueue<>()));
     }
 
     private DataBaseAdapter(@NonNull Context applicationContext, @NonNull DeckDatabase db, @NonNull ExecutorService widgetNotifierExecutor) {

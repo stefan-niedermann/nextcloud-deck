@@ -13,16 +13,16 @@ import androidx.annotation.NonNull;
 
 import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.util.WidgetUtil;
 
 public class FilterWidget extends AppWidgetProvider {
     public static final String ACCOUNT_KEY = "filter_widget_account";
     public static final String BUNDLE_KEY = "filter_widget_bundle";
-    final ExecutorService executor = Executors.newFixedThreadPool(10);
+    final ExecutorService executor = WidgetUtil.newWidgetExecutorService();
 
     static void updateAppWidget(@NonNull ExecutorService executor, @NonNull Context context, AppWidgetManager awm, int[] appWidgetIds, Account account) {
         final SyncManager syncManager = new SyncManager(context);

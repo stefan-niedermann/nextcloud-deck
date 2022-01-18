@@ -16,7 +16,6 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -24,11 +23,12 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
+import it.niedermann.nextcloud.deck.util.WidgetUtil;
 
 public class StackWidget extends AppWidgetProvider {
     private static final int PENDING_INTENT_OPEN_APP_RQ = 0;
     private static final int PENDING_INTENT_EDIT_CARD_RQ = 1;
-    private final ExecutorService executor = Executors.newFixedThreadPool(10);
+    private final ExecutorService executor = WidgetUtil.newWidgetExecutorService();
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {

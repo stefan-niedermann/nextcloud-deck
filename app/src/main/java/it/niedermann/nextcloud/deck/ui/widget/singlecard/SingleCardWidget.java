@@ -18,7 +18,6 @@ import androidx.annotation.NonNull;
 
 import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -26,10 +25,11 @@ import it.niedermann.nextcloud.deck.model.full.FullSingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.util.DateUtil;
+import it.niedermann.nextcloud.deck.util.WidgetUtil;
 
 public class SingleCardWidget extends AppWidgetProvider {
 
-    private final ExecutorService executor = Executors.newFixedThreadPool(10);
+    private final ExecutorService executor = WidgetUtil.newWidgetExecutorService();
 
     void updateAppWidget(Context context, AppWidgetManager awm, int[] appWidgetIds) {
         final SyncManager syncManager = new SyncManager(context);

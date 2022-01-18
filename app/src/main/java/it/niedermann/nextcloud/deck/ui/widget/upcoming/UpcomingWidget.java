@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.BuildConfig;
@@ -32,13 +31,14 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetSort;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
+import it.niedermann.nextcloud.deck.util.WidgetUtil;
 
 public class UpcomingWidget extends AppWidgetProvider {
     private static final String PENDING_INTENT_ACTION_EDIT = "edit";
     private static final String PENDING_INTENT_ACTION_OPEN = "open";
     private static final String PENDING_INTENT_PARAM_LOCAL_CARD_ID = "localCardId";
     private static final String PENDING_INTENT_PARAM_ACCOUNT_ID = "accountId";
-    private final ExecutorService executor = Executors.newFixedThreadPool(10);
+    private final ExecutorService executor = WidgetUtil.newWidgetExecutorService();
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {

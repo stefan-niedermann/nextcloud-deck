@@ -9,7 +9,9 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class LiveDataHelper {
 
@@ -17,7 +19,7 @@ public class LiveDataHelper {
         throw new UnsupportedOperationException("This class must not be instantiated.");
     }
 
-    private static final ExecutorService executor = Executors.newFixedThreadPool(10);
+    private static final ExecutorService executor = new ThreadPoolExecutor(10, 100, 60L, TimeUnit.SECONDS, new SynchronousQueue<>());
 
     public static <T> LiveData<T> interceptLiveData(LiveData<T> data, DataChangeProcessor<T> onDataChange) {
         MediatorLiveData<T> ret = new MediatorLiveData<>();

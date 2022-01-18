@@ -8,7 +8,9 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -25,7 +27,7 @@ public class UpcomingCardsViewModel extends AndroidViewModel {
     public UpcomingCardsViewModel(@NonNull Application application) {
         super(application);
         this.syncManager = new SyncManager(application);
-        this.executor = Executors.newFixedThreadPool(10);
+        this.executor = new ThreadPoolExecutor(0, 10, 60L, TimeUnit.SECONDS, new SynchronousQueue<>());
     }
 
     public LiveData<List<UpcomingCardsAdapterItem>> getUpcomingCards() {

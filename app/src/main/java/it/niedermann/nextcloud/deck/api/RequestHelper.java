@@ -3,7 +3,9 @@ package it.niedermann.nextcloud.deck.api;
 import androidx.annotation.NonNull;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
@@ -14,7 +16,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 
 public class RequestHelper {
 
-    private static final ExecutorService executor = Executors.newFixedThreadPool(10);
+    private static final ExecutorService executor = new ThreadPoolExecutor(10, 50, 60L, TimeUnit.SECONDS, new SynchronousQueue<>());
 
     static {
         RxJavaPlugins.setErrorHandler(DeckLog::logError);

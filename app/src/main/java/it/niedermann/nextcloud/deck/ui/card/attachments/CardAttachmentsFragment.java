@@ -54,7 +54,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import id.zelory.compressor.constraint.FormatConstraint;
 import id.zelory.compressor.constraint.QualityConstraint;
@@ -93,7 +95,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     private PreviewDialogViewModel previewViewModel;
     private BottomSheetBehavior<LinearLayout> mBottomSheetBehaviour;
     private boolean compressImagesOnUpload = true;
-    private final ExecutorService executor = Executors.newFixedThreadPool(10);
+    private final ExecutorService executor = new ThreadPoolExecutor(0, 30, 10L, TimeUnit.SECONDS, new SynchronousQueue<>());
 
     private RecyclerView.ItemDecoration galleryItemDecoration;
 
