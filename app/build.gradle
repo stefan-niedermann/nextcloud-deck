@@ -111,7 +111,7 @@ dependencies {
     implementation 'com.github.skydoves:colorpickerview:2.2.4'
 
     // Gson
-    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.google.code.gson:gson:2.9.0'
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
