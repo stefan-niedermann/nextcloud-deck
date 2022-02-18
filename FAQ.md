@@ -2,6 +2,7 @@
 
 - [I have experienced an error](#i-have-experienced-an-error)
 - [Why has my bug report been closed?](#why-has-my-bug-report-been-closed)
+- [Why is my card not visible in the upcoming cards view?](#why-is-my-card-not-visible-in-the-upcoming-cards-view)
 - [Why don't you make an option for…?](#why-dont-you-make-an-option-for)
 - [Why don't you make an iOS app?](#why-dont-you-make-an-ios-app)
 - [How to receive notifications when a due date is reached?](#how-to-receive-notifications-when-a-due-date-is-reached)
@@ -59,6 +60,10 @@ This is necessary for two reasons:
 
 1. We have a rapid development cycle - bugs which have been reported weeks ago might no longer relevant
 2. We are loosing the context of a report or a question over the time. We have many things to care about and digging into an issue deep and then relying on an response which is not coming is a waste of our limited free time
+
+## Why is my card not visible in the upcoming cards view?
+
+Checkout the [Upcoming Analyzer](https://upcoming-analyzer.niedermann.it/) to check out the criterias your card needs to match to be shown in the upcoming cards view.
 
 ## Why don't you make an option for…?
 
