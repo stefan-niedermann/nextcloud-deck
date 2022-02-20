@@ -33,8 +33,10 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -114,7 +116,7 @@ public class SyncManager {
         this(context,
                 new DataBaseAdapter(context.getApplicationContext()),
                 new ServerAdapter(context.getApplicationContext(), ssoAccountName),
-                Executors.newCachedThreadPool(),
+                new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, new SynchronousQueue<>(true)),
                 SyncHelper::new);
         LastSyncUtil.init(context.getApplicationContext());
     }
