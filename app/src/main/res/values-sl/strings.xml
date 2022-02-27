@@ -219,7 +219,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">Če se težava še naprej pojavlja, poskusite počistiti podatke programa Nextcloud in Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Nadgradnja podatkovne zbirke je spodletela. Pošljite poročilo o napaki in nato počistite shrambo za normalno uporabo programa.</string>
     <string name="error_dialog_tip_clear_storage">Shrambo je mogoče počistiti med podrobnostmi programa Shramba → Počisti shrambo.</string>
-    <string name="error_dialog_tip_offline">Kaže, da ste sprožili usklajevanje brez ustrezno vzpostavljene povezave z omrežjem.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Če je izbrana možnost »Usklajuj le prek povezave Wi-Fi«, je usklajevanje mogoče izključno ob uporabi povezave Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Kaže, da je nekaj narobe s programom Nextcloud. Poskusite vsiljeno zaustaviti programa Nextcloud in Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Vsiljeno zaustavljanje ni imelo ustreznega učinka. Poskusite lahko še počistiti podatke shrambe obeh programov.</string>

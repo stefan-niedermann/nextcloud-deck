@@ -215,7 +215,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">Arazoak jarraitzen badu, saiatu bi aplikazioen biltegiak garbitzen: Nextcloud eta Nextcloud Deck aplikazioenak, arazoa konpontzeko.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Datu-basearen bertsio-berritzeak huts egin du. Eman arazoaren berri eta biltegia garbitu aplikazioa normaltasunez erabiltzeko.</string>
     <string name="error_dialog_tip_clear_storage">Biltegia garbi dezakezu aplikazioaren informazioa ireki eta hautatuz: Biltegia → Garbitu biltegia.</string>
-    <string name="error_dialog_tip_offline">Badirudi Interneteko konexiorik gabe sinkronizazioa abiarazten saiatu zarela..</string>
     <string name="error_dialog_tip_sync_only_on_wifi">\"Sinkronizatu soilik Wi-Fi konexioarekin\" ezarpena gaituta baduzu, Wi-Fi batera konektatuta zaudenean soilik sinkronizatu ahal izango duzu.</string>
     <string name="error_dialog_tip_files_force_stop">Daukazun Nextcloud aplikazioan zerbait gaizki dabilela dirudi.  Saia zaitez Nextcloud aplikazioa eta Nextcloud Deck geldiarazten. </string>
     <string name="error_dialog_tip_files_delete_storage">Geldiarazteak ez badu arazoa konpontzen, bi biltegiak garbitzen saia zaitezke.</string>

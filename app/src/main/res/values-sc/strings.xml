@@ -215,7 +215,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">Si sighit su problema, proa a cantzellare s\'archiviatzione de ambas is aplicatziones Nextcloud e Nextcloud Notes pro isorvere su problema.</string>
     <string name="error_dialog_tip_database_upgrade_failed">S\'agiornamentu de sa base de datos no est andadu bene. Sinnala su problema e lìmpia s\'archiviatzione pro impreare s\'aplicatzione comente a su sòlitu.</string>
     <string name="error_dialog_tip_clear_storage">Podes limpiare s\'archiviatzione aberende is informatziones de s\'aplicatzione e seberende Archiviatzione → Lìmpia archiviatzione. </string>
-    <string name="error_dialog_tip_offline">Paret chi as proadu a esecutare una sincronizatzione chene connessione internet.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Si as ativadu s\'impostatzione \"Sincroniza cun Wi-Fi ebbia\", podes sincronizare isceti cando b\'at connessione a su Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Paret chi ddoe at unu problema cun s\'aplicatzione tua de Nextcloud. Proa a firmare ambas is aplicatzione Nextcloud e Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Si a ddas firmare no agiudat, podes proare a cantzellare s\'archiviatzione de ambas is aplicatziones.</string>

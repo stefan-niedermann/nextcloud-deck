@@ -29,7 +29,7 @@
     <string name="simple_share">comparteix</string>
     <string name="simple_select">Selecciona</string>
     <string name="simple_comment">Comentari</string>
-    <string name="simple_disabled">Desactivat</string>
+    <string name="simple_disabled">inhabilitat</string>
     <string name="simple_copied">Copiat</string>
     <string name="simple_archive">Arxiu</string>
     <string name="simple_unassigned">Sense assignar</string>
@@ -88,7 +88,7 @@
     <string name="action_card_delete">Suprimeix targeta</string>
     <string name="add_board">Afegeix una taula</string>
 
-    <string name="label_clear_due_date">Neteja la data de venciment</string>
+    <string name="label_clear_due_date">Esborra la data de venciment</string>
     <string name="label_add">Afegeix %1$s</string>
 
     <string name="card_edit_details">Detalls</string>
@@ -128,6 +128,8 @@
     <string name="settings_etags_summary">Augmenta la velocitat de sincronització</string>
     <string name="settings_background_sync">Sincronització en segon pla</string>
     <string name="settings_compress_image_attachments">Comprimeix les imatges en la pujada</string>
+    <string name="search_in">Cerca a %1$s</string>
+    <string name="settings_compress_image_attachments_summary">Pujada més ràpida, menor qualitat</string>
     <string name="pref_value_wifi_and_mobile">Sincronitza per Wi-Fi i dades mòbils</string>
     <string name="pref_value_wifi_only">Sincronitza només per Wi-Fi</string>
     <string-array name="darkmode_entries">
@@ -145,8 +147,12 @@
     <string name="no_content">No hi ha contingut encara</string>
     <string name="last_background_sync">Última sincronització en segon pla:</string>
     <string name="simple_off">Apagat</string>
+    <string name="minutes_15">15 minuts</string>
+    <string name="hour_1">1 hora</string>
+    <string name="hours_6">6 hores</string>
     <string name="action_card_move">Mou la targeta</string>
     <string name="action_card_move_title">Mou %1$s</string>
+    <string name="title_is_mandatory">El títol és necessari</string>
     <string name="provide_at_least_a_title_or_description">Poseu-hi almenys un títol o descripció</string>
     <string name="welcome_text">Benvingut a %1$s</string>
     <string name="maintenance_mode_explanation">El servidor %1$s és actualment en mode de manteniment. Si us plau, contacteu el vostre administrador o proveu de nou més tard.</string>
@@ -200,6 +206,7 @@
     <string name="operation_not_yet_supported">Encara no està suportat</string>
     <string name="error_revoking_ac">S\'ha produït un error revocant l\'accés per a %1$s</string>
     <string name="error_create_label">S\'ha produït un error quan es creava l\'etiqueta %1$s</string>
+    <string name="maintenance_mode">El servidor és en mode de manteniment</string>
     <string name="server_error">Error del servidor</string>
     <string name="error_edit_activity_killed_by_android">L\'Android ha tancat el mode d\'edició perquè necessitava més recursos del sistema per a altres aplicacions.</string>
 
@@ -208,6 +215,10 @@
     <string name="error_dialog_tip_clear_storage_might_help">Si el problema persisteix, mireu de netejar l\'emmagatzematge de totes dues aplicacions: Nextcloud i Nextcloud Deck per tal de resoldre el problema.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Ha fallat l\'actualització de la base de dades. Informeu del problema i esborreu l\'emmagatzematge per utilitzar l\'aplicació normalment.</string>
     <string name="error_dialog_tip_clear_storage">Podeu netejar l\'emmagatzematge obrint la informació de l\'aplicació i seleccionant Emmagatzematge → Neteja l\'emmagatzematge.</string>
+    <string name="error_dialog_tip_offline_no_internet">Sembla que heu intentat activar una sincronització sense connexió a Internet.</string>
+    <string name="error_dialog_tip_offline_connection_refused">S\'ha denegat la connexió, comproveu si el vostre servidor és accessible a través del navegador web.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">La connexió ha excedit el temps, si us plau comproveu si esteu connectat a Internet. Això també pot passar quan el vostre servidor està ocupat.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Si heu habilitat el paràmetre de \"Sync només en Wi-Fi\", només podeu sincronitzar quan esteu connectat a una Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Sembla que alguna cosa està malament a la vostra aplicació Nextcloud. Si us plau, intenteu forçar l\'aturada tant de l\'aplicació Nextcloud com de l\'aplicació Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Si l\'aturada forçada no ajuda, podeu provar de netejar l\'emmagatzematge d\'ambdues aplicacions.</string>
     <string name="error_dialog_timeout_instance">No hi ha hagut resposta del vostre servidor en el temps donat. Si us plau, assegureu-vos que la vostra instància funciona correctament.</string>
@@ -223,14 +234,24 @@
     <string name="error_dialog_user_not_found_in_database">L’usuari actual no coincideix amb l’usuari que tenim a la nostra base de dades. Si feu servir LDAP a la vostra instància de Nextcloud, és possible que l\'aplicació Nextcloud hagi emmagatzemat un ID d\'usuari antic.</string>
     <string name="error_dialog_capabilities_not_parsable">No podem recuperar les capacitats del vostre servidor. Si us plau, assegureu-vos que el servidor funciona bé i que altres aplicacions de client poden accedir al Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">No s\'ha pogut carregar un fitxer adjunt. Proveu de compartir-ho d’una altra manera i informeu-nos d’aquest error.</string>
+    <string name="error_dialog_certificate">Sembla que alguna cosa no funciona amb el certificat del servidor. Comproveu tots els comptes de l\'aplicació Nextcloud per obtenir més informació.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Desactiveu totes les optimitzacions de bateries de Nextcloud i l\'aplicació Deck.</string>
+    <string name="error_dialog_unknown_error">La vostra instància de Nextcloud sembla no accessible. Comproveu la connexió a Internet i si podeu connecta r-vos a la vostra instància a través del navegador.</string>
+    <string name="error_dialog_min_version">L\'aplicació Tauler Android requereix que l\'aplicació Nextcloud Android sigui com a mínim la versió 3.18.</string>
     <string name="error_action_open_deck_info">Obre la informació de l\'aplicació</string>
+    <string name="error_action_open_nextcloud_app">Obrir l\'aplicació Nextcloud</string>
     <string name="error_action_open_network">Arranjaments de xarxa</string>
     <string name="error_action_server_logs">Bitàcoles del servidor</string>
+    <string name="error_action_open_in_browser">Obrir al navegador</string>
     <string name="error_action_install">Instal·lació</string>
     <string name="error_action_report_issue">Informar</string>
+    <string name="error_action_update_files_app">Actualitzar</string>
+    <string name="info_box_maintenance_mode">El servidor és en mode de manteniment</string>
     <string name="info_box_version_not_supported">La versió del servidor %1$s no està suportada, si us plau, actualitzeu a %2$s.</string>
     <string name="share_link">Enllaç de compartició</string>
+    <string name="share_content">Compartir contingut</string>
+    <string name="share_content_duedate">Data de caducitat%1$s</string>
+    <string name="share_content_labels">Etiquetes: %1$s</string>
     <string name="archive_cards">Arxiva les targetes</string>
 
     <string name="manage_accounts">Gestiona els comptes</string>
@@ -269,6 +290,7 @@
     <string name="single_card">Targeta única</string>
     <string name="project_type_room">Sala de xerrades</string>
     <string name="simple_move">Mou</string>
+    <string name="cannot_upload_files_without_permission">No es poden pujar fitxers sense permisos</string>
     <string name="clone_cards">Clonar targetes</string>
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Utilitzar avatar</string>
@@ -293,4 +315,20 @@
     <string name="simple_order">Ordre</string>
     <string name="edit_description">Edita la descripció</string>
     <string name="widget_upcoming_title">Properes targetes</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Paràmetres Expert</string>
+    <string name="copy_logs">Copia els registres al porta-retalls</string>
+    <string name="app_logo">Logo de l\'aplicació</string>
+    <string name="log_file">Fitxer de registre</string>
+    <string name="copying_logs_to_file">Copiant registres al fitxer...</string>
+    <string name="account_imported">Compte importat</string>
+    <string name="simple_search">Cerca</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Títol (necessari)</string>
+    <string name="saving_new_card">Desant una nova targeta...</string>
+    <string name="progress_import">S\'està important %1$d taula de%2$d...</string>
+    <string name="progress_import_indeterminate">Important taules...</string>
+    <string name="card_outdated">El contingut d\'aquesta targeta pot estar obsolet.</string>
+    <string name="show_error">Mostra l\'error</string>
+    <string name="push_notification_link_empty">A causa d\'un error conegut en l\'aplicació web Tauler, lamentablement no podem mostrar aquesta targeta. Per a més informació vegeu: %1$s</string>
     </resources>

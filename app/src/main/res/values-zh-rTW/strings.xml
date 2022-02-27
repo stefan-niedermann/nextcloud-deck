@@ -213,7 +213,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">如果問題仍然存在，請嘗試清除兩個應用程式的存儲區：Nextcloud 和 Nextcloud Deck 以解決此問題。</string>
     <string name="error_dialog_tip_database_upgrade_failed">資料庫升級失敗。請回報問題，並清除儲存區以正常使用該應用程式。</string>
     <string name="error_dialog_tip_clear_storage">您可以透過開啟應用程式資訊並選擇 儲存區 → 清除儲存區 來清除儲存區。</string>
-    <string name="error_dialog_tip_offline">似乎您試圖在沒有網際網路連線的情況下觸發同步。</string>
     <string name="error_dialog_tip_sync_only_on_wifi">如果啟用了「僅在 Wi-Fi 上同步」設定，則只能在連線到 Wi-Fi 時進行同步。</string>
     <string name="error_dialog_tip_files_force_stop">您的 Nextcloud 應用程式似乎有問題。請嘗試強制停止 Nextcloud 應用程式和 Nextcloud Deck 應用程式。</string>
     <string name="error_dialog_tip_files_delete_storage">如果強制停止沒有幫助，請試著清除這兩個應用程式的儲存區。</string>

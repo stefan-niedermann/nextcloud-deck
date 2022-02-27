@@ -219,7 +219,9 @@
     <string name="error_dialog_tip_clear_storage_might_help">Если проблема повторяется, попробуйте для её решения очистить хранилища данных приложений Nextcloud и Nextcloud Карточки.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Не удалось выполнить обновление базы данных. Сообщите об этой ошибке разработчикам. Чтобы продолжить использовать приложение, требуется выполнить очистку данных приложения.</string>
     <string name="error_dialog_tip_clear_storage">Для очистки хранилища на откройте приложение «Настройки» и выберите Приложения → Nextcloud / Nextcloud Deck → Хранилище → Очистить хранилище</string>
-    <string name="error_dialog_tip_offline">Похоже, вы пытались запустить синхронизацию без подключения к Интернету. </string>
+    <string name="error_dialog_tip_offline_no_internet">Похоже, что вы пытались запустить синхронизацию без подключения к Интернету.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Соединение было прервано, пожалуйста, проверьте, доступен ли ваш сервер через веб-браузер.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Соединение прервано, пожалуйста, проверьте, подключены ли вы к Интернету. Это также может произойти, когда ваш сервер занят.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Если вы включили параметр «Синхронизация только по Wi-Fi», вы можете синхронизировать только при подключении к Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Похоже, что с приложением Nextcloud ведёт себя неожиданным образом. Попробуйте принудительно остановить приложения Nextcloud и Nextcloud Карточки. </string>
     <string name="error_dialog_tip_files_delete_storage">Если принудительная остановка не поможет, попробуйте очистить хранилище обоих приложений.</string>
@@ -239,6 +241,7 @@
     <string name="error_dialog_certificate">Похоже, что с сертификатом сервера неполадки. Проверьте все аккаунты а приложении Nextcloud, чтобы узнать подробности.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Пожалуйста отключите все оптимизации аккумулятора для приложений Nextcloud и Deck.</string>
     <string name="error_dialog_unknown_error">Ваш сервер Nextcloud недоступен, проверьте подключение к интернету и доступность сервера из браузера.</string>
+    <string name="error_dialog_min_version">Приложению Deck Android требуется приложение Nextcloud Android не ниже версии 3.18.</string>
     <string name="error_action_open_deck_info">Открыть информацию о приложении</string>
     <string name="error_action_open_nextcloud_app">Открыть приложение Nextcloud</string>
     <string name="error_action_open_network">Параметры сети</string>
@@ -246,6 +249,7 @@
     <string name="error_action_open_in_browser">Открыть в браузере</string>
     <string name="error_action_install">Установить</string>
     <string name="error_action_report_issue">Сообщить</string>
+    <string name="error_action_update_files_app">Обновление</string>
     <string name="info_box_maintenance_mode">Сервер находится в режиме обслуживания</string>
     <string name="info_box_version_not_supported">Версия сервера %1$s не поддерживается, необходимо выполнить обновление до версии %2$s</string>
     <string name="share_link">Предоставление общего доступа по ссылке</string>
@@ -332,4 +336,7 @@
     <string name="saving_new_card">Сохранение карточки…</string>
     <string name="progress_import">Импорт доску %1$d доски%2$d</string>
     <string name="progress_import_indeterminate">Импортировать доски</string>
+    <string name="card_outdated">Данные этой карты возможно неактуальны.</string>
+    <string name="show_error">Показать ошибку</string>
+    <string name="push_notification_link_empty">Из-за известной проблемы в веб-приложении Deck мы, к сожалению, не можем отобразить эту карту. Для получения дополнительной информации см: %1$s </string>
     </resources>

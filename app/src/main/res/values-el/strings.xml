@@ -195,6 +195,7 @@
     <string name="operation_not_yet_supported">Δεν υποστηρίζεται ακόμη</string>
     <string name="error_revoking_ac">Σφάλμα κατά την ανάκληση πρόσβασης για %1$s</string>
     <string name="error_create_label">Σφάλμα κατά τη δημιουργία ετικέτας %1$s</string>
+    <string name="maintenance_mode">Ο διακομιστής βρίσκεται σε λειτουργία συντήρησης</string>
     <string name="server_error">Σφάλμα διακομιστή</string>
     <string name="error_edit_activity_killed_by_android">Το Android ολοκλήρωσε τη λειτουργία επεξεργασίας επειδή χρειαζόταν περισσότερους πόρους συστήματος για άλλες εφαρμογές.</string>
 
@@ -224,6 +225,7 @@
     <string name="error_action_server_logs">Αρχεία καταγραφής διακομιστή</string>
     <string name="error_action_install">Εγκατάσταση</string>
     <string name="error_action_report_issue">Αναφορά</string>
+    <string name="info_box_maintenance_mode">Ο διακομιστής βρίσκεται σε λειτουργία συντήρησης</string>
     <string name="info_box_version_not_supported">Η έκδοση του διακομιστή %1$s δεν υποστηρίζεται, παρακαλούμε αναβαθμίστε στην %2$s</string>
     <string name="share_link">Διαμοιρασμός συνδέσμου</string>
     <string name="archive_cards">Αρχειοθετημένες κάρτες</string>
@@ -250,6 +252,7 @@
     <string name="widget_stack_title">Λίστα</string>
     <string name="widget_filter_title">Φίλτρο</string>
     <string name="widget_stack_header_icon">Εικονίδιο επικεφαλίδας του γραφικού στοιχείου</string>
+    <string name="widget_placeholder_icon">Εικονίδιο υποκατάστασης γραφικού στοιχείου</string>
     <string name="select_stack">Επιλέξτε λίστα</string>
     <string name="project_type_deck_board">Πίνακας του Deck</string>
     <string name="project_type_deck_card">Κάρτα του Deck</string>
@@ -263,6 +266,7 @@
     <string name="single_card">Απλή καρτέλα</string>
     <string name="project_type_room">Δωμάτιο του Talk </string>
     <string name="simple_move">Μετακίνηση</string>
+    <string name="cannot_upload_files_without_permission">Δεν είναι δυνατή η μεταφόρτωση αρχείων χωρίς δικαιώματα</string>
     <string name="clone_cards">Κάρτες κλώνου</string>
     <string name="simple_clone">Κλώνος</string>
     <string name="user_avatar">Άβαταρ χρήστη</string>

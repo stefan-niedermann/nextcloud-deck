@@ -215,7 +215,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">Ако проблемът продължава, опитайте се да изчистите хранилището на двете приложения: Nextcloud и Nextcloud Deck, за да разрешите този проблем.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Неуспешна надстройка на базата данни. Моля, подайте сигнал за проблема и изчистете хранилището, за да използвате приложението нормално.</string>
     <string name="error_dialog_tip_clear_storage">Можете да изчистите хранилището, като отворите информацията за приложението и изберете Хранилище → Изчистване на хранилището.</string>
-    <string name="error_dialog_tip_offline">Изглежда, че сте се опитали да задействате синхронизация без интернет връзка.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Ако сте активирали настройката „Синхронизиране само в Wi-Fi“, можете да синхронизирате само когато сте свързани с Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Изглежда, че нещо не е наред с вашето приложение Nextcloud. Моля, опитайте да спрете принудиттелно и двете приложения -и Nextcloud и приложението Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Ако принудителното им спиране не помогне, можете да опитате да изчистите хранилището на двете приложения.</string>

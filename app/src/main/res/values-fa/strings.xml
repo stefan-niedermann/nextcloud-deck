@@ -1,6 +1,8 @@
 <resources>
     <string name="navigation_drawer_open">کشو ناوبری را باز کنید</string>
     <string name="navigation_drawer_close">بستن کشو ناوبری</string>
+    <string name="hint_search_deck">جست‌وجوی برگه‌دان</string>
+
     <string name="simple_boards">تخته ها</string>
     <string name="simple_add">افزودن</string>
     <string name="simple_save">ذخیره</string>
@@ -120,6 +122,8 @@
     <string name="settings_theme_title">تم تاریک</string>
     <string name="settings_branding_title">نام تجاری</string>
     <string name="settings_compact_title">حالت جمع و جور</string>
+    <string name="settings_cover_images_title">تصاویر جلد</string>
+    <string name="settings_debugging">اشکال‌زدایی گزارش‌ها</string>
     <string name="settings_etags">استفاده از ETags</string>
     <string name="settings_etags_summary">هم‌گام‌سازی را سرعت می‌بخشد</string>
     <string name="settings_background_sync">همگام سازی پس زمینه</string>
@@ -211,7 +215,9 @@
     <string name="error_dialog_tip_clear_storage_might_help">اگر این مشکل همچنان ادامه دارد ، سعی کنید فضای ذخیره سازی هر دو برنامه را پاک کنید: ابر سانا و کارت های سانا برای حل این مشکل.</string>
     <string name="error_dialog_tip_database_upgrade_failed">ارتقا پایگاه داده انجام نشد. لطفاً موضوع را گزارش کرده و فضای ذخیره سازی را پاک کنید تا به طور معمول از برنامه استفاده کنید.</string>
     <string name="error_dialog_tip_clear_storage">با باز کردن اطلاعات برنامه و انتخاب ذخیره سازی → پاک کردن فضای ذخیره سازی ، می توانید فضای ذخیره سازی را پاک کنید.</string>
-    <string name="error_dialog_tip_offline">به نظر می‌رسد شما اقدام به شروع هم‌گام‌سازی بدون داشتن اتصال اینترنت کرده‌اید.</string>
+    <string name="error_dialog_tip_offline_no_internet">به نظر می رسد سعی کرده اید یک همگام سازی را بدون اتصال به اینترنت راه اندازی کنید.</string>
+    <string name="error_dialog_tip_offline_connection_refused">اتصال رد شد، لطفاً بررسی کنید که آیا میزبان شما از طریق مرورگر وب قابل دسترسی است یا خیر.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">اتصال در زمان مقرر اتفاق نیوفتاد، لطفاً بررسی کنید که آیا به اینترنت متصل هستید یا خیر. این ممکن است زمانی هم اتفاق بیفتد که میزبان شما مشغول است.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">اگر شما گزینه «هم‌گام‌سازی فقط روی وای‌فای» را در تنظیمات فعال کرده باشید، تنها زمانی که به وای‌فای متصل باشید می‌توانید هم‌گام‌سازی کنید.</string>
     <string name="error_dialog_tip_files_force_stop">به نظر می رسد مشکلی در برنامه ابرسانا شما وجود ندارد. لطفا سعی کنید هر دو برنامه ابرسانا و برنامه کارت‌های سانا را مجبور به توقف کنید.</string>
     <string name="error_dialog_tip_files_delete_storage">اگر متوقف کردن اجباری کمکی نکرد ، می توانید فضای ذخیره سازی هر دو برنامه را پاک کنید.</string>
@@ -231,6 +237,7 @@
     <string name="error_dialog_certificate">به نظر می‌رسد مشکلی در ارتباط با گواهینامهٔ کارسازتان وجود داشته باشد. لطفا همه حساب‌ها را در برنامه نکست‌کلود برای اطلاعات بیشتر وارسی کنید.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">لطفاً تمام بهینه سازی های باتری را برای Nextcloud و برنامه Deck غیرفعال کنید.</string>
     <string name="error_dialog_unknown_error">به نظر می‌رسد نمونه نکست‌کلود شما در دسترس نیست. لطفا وارسی کنید که به اینترنت متصل بوده و می‌توانید از طرف مرورگر به نمونه‌تان متصل شوید.</string>
+    <string name="error_dialog_min_version">برنامه اندرویدی برگه‌دان نیاز دارد که برنامه اندرویدی ابر حداقل نسخه 3.18 باشد.</string>
     <string name="error_action_open_deck_info">اطلاعات برنامه را باز کنید</string>
     <string name="error_action_open_nextcloud_app">باز کردن کارهٔ نکست‌کلود</string>
     <string name="error_action_open_network">تنظیمات شبکه</string>
@@ -238,6 +245,7 @@
     <string name="error_action_open_in_browser">باز کردن در مرورگر</string>
     <string name="error_action_install">نصب</string>
     <string name="error_action_report_issue">گزارش</string>
+    <string name="error_action_update_files_app">یه‌روزرسانی</string>
     <string name="info_box_maintenance_mode">کارساز در حال نگه‌داری است</string>
     <string name="info_box_version_not_supported">نسخه سرور %1$s پشتیبانی نمی شود ، لطفاً آن را به %2$s به روز کنید</string>
     <string name="share_link">لینک را به اشتراک بگذارید</string>
@@ -268,6 +276,7 @@
     <string name="widget_stack_title">لیست</string>
     <string name="widget_filter_title">پالایه</string>
     <string name="widget_stack_header_icon">نماد عنوان ویجت</string>
+    <string name="widget_placeholder_icon">نماد مکان‌نمای ویجت</string>
     <string name="select_stack">لیست را انتخاب کنید</string>
     <string name="project_type_deck_board">تخته deck</string>
     <string name="project_type_deck_card">کارت deck</string>
@@ -301,10 +310,21 @@
     <string name="add_filter_widget">افزودن ابزارک پالایه</string>
     <string name="simple_order">ترتیب</string>
     <string name="edit_description">ویرایش توضیحات</string>
+    <string name="widget_upcoming_title">کارت‌های آینده</string>
     <!-- Category header for a section in the settings which contain features for advanced users -->
     <string name="simple_expert_settings">تنظیمات تخصصی</string>
+    <string name="copy_logs">گزارش‌ها را در کلیپ بورد کپی کنید</string>
+    <string name="app_logo">لوگو برنامه</string>
+    <string name="log_file">فایل گزارش</string>
+    <string name="copying_logs_to_file">در حال کپی کردن گزارش‌ها در فایل…</string>
+    <string name="account_imported">حساب وارد شد</string>
     <string name="simple_search">جستجو</string>
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">عنوان (ضروری)</string>
     <string name="saving_new_card">در حال ذخیره کارت جدید…</string>
+    <string name="progress_import">وارد کردن تخته %1$d از %2$d ...</string>
+    <string name="progress_import_indeterminate">وارد کردن تخته</string>
+    <string name="card_outdated">ممکن است محتوای این کارت قدیمی باشد.</string>
+    <string name="show_error">نشان دادن خطا</string>
+    <string name="push_notification_link_empty">به دلیل یک مشکل شناخته شده در برنامه وب برگه‌دان، متأسفانه قادر به نمایش این کارت نیستیم. برای اطلاعات بیشتر ببین: %1$s</string>
     </resources>
