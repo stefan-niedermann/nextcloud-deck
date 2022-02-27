@@ -215,7 +215,9 @@
     <string name="error_dialog_tip_clear_storage_might_help">Se o problema persistir, tente limpar o armazenamento dos dois aplicativos: Nextcloud e Nextcloud Deck para resolver esse problema.</string>
     <string name="error_dialog_tip_database_upgrade_failed">A atualização do banco de dados falhou. Relate o problema e limpe o armazenamento para usar o aplicativo normalmente.</string>
     <string name="error_dialog_tip_clear_storage">Você pode limpar o armazenamento abrindo as informações do aplicativo e selecionando Armazenamento → Limpar Armazenamento</string>
-    <string name="error_dialog_tip_offline">Parece que você tentou iniciar uma sincronização sem uma conexão com a internet.</string>
+    <string name="error_dialog_tip_offline_no_internet">Parece que você tentou iniciar uma sincronização sem uma conexão com a internet.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Conexão recusada, por favor verifique se o servidor pode ser conectado via navegador de internet</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Conexão pausada, por favor verifique se você está conectado à internet. Isso também pode ocorrer quando seu servidor está muito ocupado</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Se você habilitou a configuração \"Sincronizar apenas em Wi-Fi\", você só poderá sincronizar quando estiver conectado a um Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Parece que algo está errado com seu aplicativo Nextcloud. Tente forçar a parada de ambos, o aplicativo Nextcloud e o Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Se forçar a parada deles não resolver, tente limpar o armazenamento dos dois aplicativos.</string>

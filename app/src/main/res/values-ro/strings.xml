@@ -212,7 +212,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">Dacă problema persistă, încercați să ștergeți stocarea ambelor aplicații: Nextcloud și Nextcloud Deck pentru a rezolva această problemă.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Actualizarea bazei de date a eșuat. Vă rugăm să raportați problema și să goliți spațiul de stocare pentru a utiliza aplicația în mod normal.</string>
     <string name="error_dialog_tip_clear_storage">Puteți șterge spațiul de stocare deschizând informațiile despre aplicație și selectând Stocare → Ștergeți spațiul de stocare.</string>
-    <string name="error_dialog_tip_offline">Se pare ca ai incercat sa pornesti o sincronizare fara o conexiune la internet.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Daca ai activat optiunea de \"Sincronizare doar prin Wi-Fi\", atunci iti poti sincroniza fiserele doar cand esti conectat la o retea Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Ceva pare a fi în neregulă cu aplicația dvs. Nextcloud. Vă rugăm să încercați să forțați oprirea ambelor aplicații, Nextcloud și Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Dacă oprirea forțată a acestora nu ajută, puteți încerca să ștergeți stocarea ambelor aplicații.</string>

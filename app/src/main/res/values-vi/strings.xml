@@ -213,7 +213,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">Nếu vấn đề vẫn tiếp diễn, hãy cố gắng xoá bộ nhớ của cả hai ứng dụng: Nextcloud và Nextcloud Deck để giải quyết vấn đề này.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Nâng cấp cơ sở dữ liệu thất bại. Vui lòng báo cáo vấn đề và xoá bộ nhớ để sử dụng ứng dụng bình thường.</string>
     <string name="error_dialog_tip_clear_storage">Bạn có thể xoá bộ nhớ bằng cách mở thông tin ứng dụng và chọn Bộ nhớ → Xoá bộ nhớ.</string>
-    <string name="error_dialog_tip_offline">Có vẻ như bạn đã cố đồng bộ hoá mà không có kết nối internet.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Nếu bạn đã bật cài đặt \"Chỉ đồng bộ khi có Wi-Fi\", bạn chỉ có thể đồng bộ hoá khi bạn có kết nối mạng Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Có gì đó có vẻ sai với ứng dụng Nextcloud của bạn. Vui lòng cố gắng buộc dừng cả hai, ứng dụng Nextcloud và ứng dụng Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Nếu việc buộc dừng chúng không giúp gì được, bạn có thể cố gắng xoá bộ nhớ của cả hai ứng dụng.</string>

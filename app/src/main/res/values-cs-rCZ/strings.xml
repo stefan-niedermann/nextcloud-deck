@@ -219,7 +219,9 @@
     <string name="error_dialog_tip_clear_storage_might_help">Pokud problém přetrvává, zkuste problém vyřešit vyčištěním úložišť obou aplikací: Nextcloud a Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Přechod na novější verzi databáze se nezdařil. Prosíme nahlaste tento problém vývojářům a aby bylo možné aplikaci normálně používat, vyčistěte úložiště.</string>
     <string name="error_dialog_tip_clear_storage">Úložiště můžete vyčistit otevřením informací o aplikací a vybráním Úložiště → Vyčistit úložiště.</string>
-    <string name="error_dialog_tip_offline">Vypadá to, že jste se pokusili zahájit synchronizaci bez internetového připojení.</string>
+    <string name="error_dialog_tip_offline_no_internet">Vypadá to, že jste se pokusili zahájit synchronizaci bez připojení k Internetu.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Připojení bylo odmítnuto – zkontrolujte, zda je server dosažitelný prostřednictvím webového prohlížeče.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Překročen časový limit čekání na připojení – zkontrolujte, zda jste připojeni k Internetu. K tomuto také může dojít, když je server přetížený.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Pokud máte zapnuté nastavení „Synchr. pouze přes Wi-Fi“ – synchronizovat tedy můžete pouze pokud jste připojeni k Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Zdá se, že s vaší aplikací Nextcloud není něco v pořádku. Zkuste vynutit zastavení obojího – aplikace Nextcloud a Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Pokud vynucení jejich zastavení nepomůže, můžete zkusit vyčistit úložiště obou aplikací.</string>

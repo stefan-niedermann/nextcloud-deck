@@ -215,7 +215,9 @@
     <string name="error_dialog_tip_clear_storage_might_help">Ha a probléma továbbra is fennáll, próbálja kiüríteni mindkét alkalmazás tárolóját: a Nextcloudét és a Nextcloud Kártyákét.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Az adatbázis frissítése sikertelen. Jelentse a problémát és az alkalmazás normális használatához törölje a tárolót.</string>
     <string name="error_dialog_tip_clear_storage">A tárolót az alkalmazásinformáció megnyitásával, és a Tárhely → Tárhely ürítése választásával törölheti.</string>
-    <string name="error_dialog_tip_offline">Úgy néz ki, hogy internetkapcsolat nélkül próbált meg szinkronizálást kezdeményezni.</string>
+    <string name="error_dialog_tip_offline_no_internet">Úgy néz ki, hogy internetkapcsolat nélkül próbált meg szinkronizálást kezdeményezni.</string>
+    <string name="error_dialog_tip_offline_connection_refused">A kapcsolat elutasítva, ellenőrizze, hogy a kiszolgáló webböngészővel elérhető-e.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">A kapcsolatban időtúllépés történt, ellenőrizze, hogy kapcsolódik-e az internethez. Ez akkor is előfordulhat, ha a kiszolgáló elfoglalt.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Ha engedélyezte a „Szinkronizálás csak Wi-Fin” beállítást, akkor csak akkor szinkronizálhat, ha Wi-Fihez kapcsolódik.</string>
     <string name="error_dialog_tip_files_force_stop">Valami hibásnak tűnik a Nextcloud alkalmazásában. Próbálja mindkettőt leállítani, a Nextcloud és a Nextcloud Kártyák alkalmazást is.</string>
     <string name="error_dialog_tip_files_delete_storage">Ha a kényszerített leállítás nem segít, akkor megpróbálhatja mindkét alkalmazás tárolóját kiüríteni.</string>

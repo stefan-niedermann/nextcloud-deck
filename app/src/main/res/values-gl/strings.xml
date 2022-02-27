@@ -215,7 +215,6 @@
     <string name="error_dialog_tip_clear_storage_might_help">Se o problema continúa, tente limpar o almacenamento de ambas as aplis: Nextcloud e Nextcloud Deck para resolver este problema.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Produciuse un fallo ao anovar a base de datos. Informe do problema e borre o almacenamento para usar a apli normalmente.</string>
     <string name="error_dialog_tip_clear_storage">Pode limpar o almacenamento abrindo a información da apli e seleccionando Almacenamento → Limpar o almacenamento.</string>
-    <string name="error_dialog_tip_offline">Semella que intentaches facer unha sincronización cando non tes conexión a internet.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Se activaches o axuste \"Sincr só con Wi-Fi\", só poderás sincronizar cando estás conectado a unha rede Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Semella que algo está mal na súa apli Nextcloud. Tente forzar a parar ambas, a apli Nextcloud e a apli Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Se detelos pola forza non axuda, pode tentar limpar o almacenamento de ambas as aplicacións.</string>

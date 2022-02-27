@@ -215,7 +215,9 @@
     <string name="error_dialog_tip_clear_storage_might_help">Sorun sürerse, çözmek için hem Nextcloud uygulamasının hem de Nextcloud Tahta uygulamasının depolamalarını temizlemeyi deneyin.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Veritabanı güncellenemedi. Lütfen sorunu bildirin ve uygulamayı normal şekilde kullanabilmek için depolamayı temizleyin.</string>
     <string name="error_dialog_tip_clear_storage">Depolamayı temizlemek için uygulama bilgilerini açın ve Depolama (Hafıza) → Depolamayı temizle (Veriyi sil) seçin.</string>
-    <string name="error_dialog_tip_offline">İnternet bağlantısı olmadan bir eşitleme başlatmaya çalıştınız gibi görünüyor.</string>
+    <string name="error_dialog_tip_offline_no_internet">İnternet bağlantısı olmadan bir eşitleme başlatmaya çalıştınız gibi görünüyor.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Bağlantı reddedildi. Lütfen sunucunuza web tarayıcı üzerinden erişilebildiğinden emin olun.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Bağlantı zaman aşımına uğradı. Lütfen internete bağlı olup olmadığınızı denetleyin. Bu sorun, sunucunuz meşgul olduğunda da ortaya çıkabilir.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">\"Yalnız Wi-Fi ile eşitlensin\" seçeneğini etkinleştirdiyseniz, yalnız Wi-Fi bağlantısı varken eşitleme yapabilirsiniz.</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloud uygulamanızda bir sorun var gibi görünüyor. Lütfen hem Nextcloud uygulamasını hem de Nextcloud Tahta uygulamasını zorla kapatmayı deneyin.</string>
     <string name="error_dialog_tip_files_delete_storage">Zorla durdurmak sorunu çözmediyse iki uygulamanın da depolamalarını temizlemeyi deneyebilirsiniz.</string>
