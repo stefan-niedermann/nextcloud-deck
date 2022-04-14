@@ -219,6 +219,9 @@
     <string name="error_dialog_tip_clear_storage_might_help">Če se težava še naprej pojavlja, poskusite počistiti podatke programa Nextcloud in Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Nadgradnja podatkovne zbirke je spodletela. Pošljite poročilo o napaki in nato počistite shrambo za normalno uporabo programa.</string>
     <string name="error_dialog_tip_clear_storage">Shrambo je mogoče počistiti med podrobnostmi programa Shramba → Počisti shrambo.</string>
+    <string name="error_dialog_tip_offline_no_internet">Kaže, da ste sprožili usklajevanje brez ustrezno vzpostavljene povezave z omrežjem.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Povezava je bila zavrnjena, preverite, ali je strežnik dosegljiv v spletnem brskalniku.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Povezava je časovno potekla, preverite, ali ste povezani v omrežje. Težave se pojavijo tudi, kadar je strežnik preobremenjen.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Če je izbrana možnost »Usklajuj le prek povezave Wi-Fi«, je usklajevanje mogoče izključno ob uporabi povezave Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Kaže, da je nekaj narobe s programom Nextcloud. Poskusite vsiljeno zaustaviti programa Nextcloud in Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Vsiljeno zaustavljanje ni imelo ustreznega učinka. Poskusite lahko še počistiti podatke shrambe obeh programov.</string>
@@ -333,4 +336,7 @@
     <string name="saving_new_card">Shranjevanje nove naloge...</string>
     <string name="progress_import">Poteka uvažanje zbirke %1$d od %2$d…</string>
     <string name="progress_import_indeterminate">Poteka uvažanje zbirke ...</string>
+    <string name="card_outdated">Vsebina te kartice je morda zastarela.</string>
+    <string name="show_error">Pokaži napako</string>
+    <string name="push_notification_link_empty">Zaradi znane težave v spletnem programu Deck te kartice ni mogoče prikazati. Več informacij je na voljo na: %1$s</string>
     </resources>

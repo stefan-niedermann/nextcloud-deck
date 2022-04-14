@@ -1,6 +1,8 @@
 <resources>
     <string name="navigation_drawer_open">Άνοιγμα συρταριού πλοήγησης</string>
     <string name="navigation_drawer_close">Κλείσιμο συρταριού πλοήγησης</string>
+    <string name="hint_search_deck">Αναζήτηση πίνακα</string>
+
     <string name="simple_boards">Πίνακες</string>
     <string name="simple_add">Προσθήκη</string>
     <string name="simple_save">Αποθήκευση</string>
@@ -31,6 +33,8 @@
     <string name="simple_copied">Αντιγράφτηκε</string>
     <string name="simple_archive">Αρχειοθέτηση</string>
     <string name="simple_unassigned">Χωρίς ανάθεση</string>
+    <string name="hint_error_appeared">Παρουσιάστηκε σφάλμα</string>
+
     <string name="edit_board">Επεξεργασία πίνακα</string>
     <string name="archive_board">Αρχειοθέτηση πίνακα</string>
     <string name="delete_board">Διαγραφή πίνακα</string>
@@ -118,7 +122,10 @@
     <string name="settings_theme_title">Θέμα</string>
     <string name="settings_branding_title">Επωνυμία</string>
     <string name="settings_compact_title">Συμπαγής λειτουργία</string>
+    <string name="settings_etags_summary">Επιταχύνει τον συγχρονισμό</string>
     <string name="settings_background_sync">Συγχρονισμός στο παρασκήνιο</string>
+    <string name="settings_compress_image_attachments">Συμπίεση εικόνων κατά τη μεταφόρτωση</string>
+    <string name="settings_compress_image_attachments_summary">Ταχύτερη μεταφόρτωση, μικρότερη ποιότητα</string>
     <string name="pref_value_wifi_and_mobile">Συγχρονισμός σε Wi-Fi και δεδομένα κινητού</string>
     <string name="pref_value_wifi_only">Συγχρονισμός μόνο σε Wi-Fi</string>
     <string-array name="darkmode_entries">
@@ -204,6 +211,8 @@
     <string name="error_dialog_tip_clear_storage_might_help">Εάν το πρόβλημα παραμένει, προσπαθήστε να εκκαθαρίσετε τον χώρο αποθήκευσης και των δύο εφαρμογών: του Nextcloud και του Nextcloud Deck για επίλυση.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Η αναβάθμιση της βάσης δεδομένων απέτυχε. Παρακαλούμε αναφέρετε το πρόβλημα και εκκαθαρίστε τον χώρο αποθήκευσης για να χρησιμοποιήσετε την εφαρμογή κανονικά.</string>
     <string name="error_dialog_tip_clear_storage">Μπορείτε να εκκαθαρίσετε τον χώρο αποθήκευσης από τις πληροφορίες εφαρμογής και επιλέγοντας Αποθηκευτικός χώρος → Εκκαθάριση χώρου αποθήκευσης.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Η σύνδεση απορρίφθηκε, ελέγξτε εάν ο διακομιστής σας είναι προσβάσιμος μέσω του προγράμματος περιήγησης.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Το χρονικό όριο της σύνδεσης έληξε, ελέγξτε αν είστε συνδεδεμένοι στο διαδίκτυο. Αυτό μπορεί επίσης να συμβεί όταν ο διακομιστής σας είναι απασχολημένος.</string>
     <string name="error_dialog_tip_files_force_stop">Κάτι φαίνεται να πάει στραβά με την εφαρμογή Nextcloud. Προσπαθήστε να τερματίσετε την εφαρμογή Nextcloud και την εφαρμογή Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Εάν ο τερματισμός δεν βοηθήσει, μπορείτε να εκκαθαρίσετε τον αποθηκευτικό χώρο και των δύο εφαρμογών.</string>
     <string name="error_dialog_timeout_instance">Δεν υπήρχε απάντηση από τον διακομιστή σας. Βεβαιωθείτε ότι η σύνδεσή σας λειτουργεί κανονικά.</string>
@@ -219,8 +228,10 @@
     <string name="error_dialog_user_not_found_in_database">Ο τρέχων χρήστης δεν είναι ίδιος με αυτόν που έχουμε καταχωρημένο στη βάση δεδομένων μας. Εάν χρησιμοποιείτε την λειτουρία LDAP στον διακομιστή σας Nextcloud, η εφαρμογή σας ενδέχεται να έχει αποθηκευμένο ένα παλιό αναγνωριστικό χρήστη.</string>
     <string name="error_dialog_capabilities_not_parsable">Δεν ήταν δυνατός ο έλεγχος των δυνατοτήτων του διακομιστή σας. Βεβαιωθείτε ότι ο διακομιστής σας λειτουργεί σωστά και οι εφαρμογές έχουν πρόσβαση στο Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Δεν ήταν δυνατή η μεταφόρτωση ενός συνημμένου. Προσπαθήστε να το διαμοιράσετε με άλλο τρόπο και ενημερώστε μας σχετικά με το σφάλμα.</string>
+    <string name="error_dialog_certificate">Φαίνεται ότι κάτι δεν πάει καλά με το πιστοποιητικό του διακομιστή. Ελέγξτε όλους τους λογαριασμούς στην εφαρμογή Nextcloud για περισσότερες πληροφορίες.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Παρακαλούμε απενεργοποιήστε όλες τις βελτιστοποιήσεις μπαταρίας για το Nextcloud και την εφαρμογή Deck.</string>
     <string name="error_action_open_deck_info">Πληροφορίες εφαρμογής</string>
+    <string name="error_action_open_nextcloud_app">Άνοιγμα εφαρμογής Nextcloud</string>
     <string name="error_action_open_network">Ρυθμίσεις δικτύου</string>
     <string name="error_action_server_logs">Αρχεία καταγραφής διακομιστή</string>
     <string name="error_action_install">Εγκατάσταση</string>
