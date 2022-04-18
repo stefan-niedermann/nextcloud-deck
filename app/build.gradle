@@ -93,7 +93,7 @@ dependencies {
 
     // Single-Sign-On
     implementation 'com.github.nextcloud:Android-SingleSignOn:0.6.1'
-    implementation 'com.github.stefan-niedermann.nextcloud-commons:sso-glide:1.6.2'
+    implementation 'com.github.stefan-niedermann.nextcloud-commons:sso-glide:1.6.3'
     implementation 'com.github.stefan-niedermann.nextcloud-commons:exception:1.6.2'
     implementation('com.github.stefan-niedermann.nextcloud-commons:markdown:1.6.2') {
         exclude group: 'org.jetbrains', module: 'annotations-java5'
