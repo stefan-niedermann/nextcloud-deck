@@ -8,6 +8,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
@@ -32,6 +34,8 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 
     private static final String ALREADY_ARCHIVED_INDICATOR = "Operation not allowed. This card is archived.";
+    // see https://github.com/stefan-niedermann/nextcloud-deck/issues/1073
+    private static final Set<JoinCardWithLabel> LABEL_JOINS_IN_SYNC = ConcurrentHashMap.newKeySet();
     protected Board board;
     protected FullStack stack;
 
@@ -261,13 +265,24 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
                     // Sync next time, the card should be available on server then.
                     continue;
                 } else {
-                    serverAdapter.assignLabelToCard(board.getId(), stack.getId(), changedLabel.getCardId(), changedLabel.getLabelId(), new ResponseCallback<>(account) {
-                        @Override
-                        public void onResponse(Void response) {
-                            Label label = dataBaseAdapter.getLabelByRemoteIdDirectly(account.getId(), changedLabel.getLabelId());
-                            dataBaseAdapter.setStatusForJoinCardWithLabel(card.getLocalId(), label.getLocalId(), DBStatus.UP_TO_DATE.getId());
-                        }
-                    });
+                    if (!LABEL_JOINS_IN_SYNC.contains(changedLabel)) {
+                        // see https://github.com/stefan-niedermann/nextcloud-deck/issues/1073
+                        LABEL_JOINS_IN_SYNC.add(changedLabel);
+                        serverAdapter.assignLabelToCard(board.getId(), stack.getId(), changedLabel.getCardId(), changedLabel.getLabelId(), new ResponseCallback<>(account) {
+                            @Override
+                            public void onResponse(Void response) {
+                                Label label = dataBaseAdapter.getLabelByRemoteIdDirectly(account.getId(), changedLabel.getLabelId());
+                                dataBaseAdapter.setStatusForJoinCardWithLabel(card.getLocalId(), label.getLocalId(), DBStatus.UP_TO_DATE.getId());
+                                LABEL_JOINS_IN_SYNC.remove(changedLabel);
+                            }
+
+                            @Override
+                            public void onError(Throwable throwable) {
+                                super.onError(throwable);
+                                LABEL_JOINS_IN_SYNC.remove(changedLabel);
+                            }
+                        });
+                    }
                 }
 
             }
