@@ -59,6 +59,7 @@ android {
         abortOnError false
         disable 'MissingTranslation'
     }
+    namespace 'it.niedermann.nextcloud.deck'
 }
 
 dependencies {
