@@ -34,7 +34,7 @@ import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -116,7 +116,7 @@ public class SyncManager {
         this(context,
                 new DataBaseAdapter(context.getApplicationContext()),
                 new ServerAdapter(context.getApplicationContext(), ssoAccountName),
-                new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, new SynchronousQueue<>(true)),
+                new ThreadPoolExecutor(5, 5, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<>()),
                 SyncHelper::new);
         LastSyncUtil.init(context.getApplicationContext());
     }
