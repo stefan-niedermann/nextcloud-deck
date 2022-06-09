@@ -7,9 +7,9 @@ import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
@@ -35,7 +35,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 
     private static final String ALREADY_ARCHIVED_INDICATOR = "Operation not allowed. This card is archived.";
     // see https://github.com/stefan-niedermann/nextcloud-deck/issues/1073
-    private static final Set<JoinCardWithLabel> LABEL_JOINS_IN_SYNC = ConcurrentHashMap.newKeySet();
+    private static final Set<JoinCardWithLabel> LABEL_JOINS_IN_SYNC = Collections.synchronizedSet(new HashSet<>());
     protected Board board;
     protected FullStack stack;
 
