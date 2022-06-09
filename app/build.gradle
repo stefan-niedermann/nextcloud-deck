@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
     buildToolsVersion "31.0.0"
     defaultConfig {
         applicationId "it.niedermann.nextcloud.deck"
         minSdkVersion 23
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode 1020000
         versionName "1.20.0"
         vectorDrawables.useSupportLibrary true
@@ -71,10 +71,10 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
     // Android X
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'androidx.camera:camera-camera2:1.2.0-alpha01'
-    implementation 'androidx.camera:camera-lifecycle:1.2.0-alpha01'
-    implementation 'androidx.camera:camera-view:1.2.0-alpha01'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.camera:camera-camera2:1.2.0-alpha02'
+    implementation 'androidx.camera:camera-lifecycle:1.2.0-alpha02'
+    implementation 'androidx.camera:camera-view:1.2.0-alpha02'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.preference:preference:1.2.0'
     def roomVersion = "2.4.2"
@@ -126,7 +126,7 @@ dependencies {
     // Tests
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.robolectric:robolectric:4.8.1'
-    testImplementation 'org.mockito:mockito-core:4.5.1'
+    testImplementation 'org.mockito:mockito-core:4.6.1'
     testImplementation 'androidx.test:core:1.4.0'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
 }
