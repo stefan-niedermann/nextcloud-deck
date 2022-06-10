@@ -111,7 +111,13 @@ public class DataPropagationHelper {
 
     public <T extends IRemoteEntity> void deleteEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, @NonNull ResponseCallback<Void> callback){
         final long accountId = callback.getAccount().getId();
-        provider.deleteInDB(dataBaseAdapter, accountId, entity);
+        // known to server?
+        if (entity.getId() != null) {
+            provider.deleteInDB(dataBaseAdapter, accountId, entity);
+        } else {
+            // junk, bye.
+            provider.deletePhysicallyInDB(dataBaseAdapter, accountId, entity);
+        }
         if (entity.getId() != null && serverAdapter.hasInternetConnection()) {
             try {
                 provider.deleteOnServer(serverAdapter, accountId, new ResponseCallback<>(new Account(accountId)) {
