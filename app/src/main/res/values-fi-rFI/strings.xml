@@ -120,6 +120,7 @@
     <string name="settings_etags">Käytä ETageja</string>
     <string name="settings_etags_summary">Nopeuttaa synkronointia</string>
     <string name="settings_background_sync">Taustasynkronointi</string>
+    <string name="search_in">Etsi luokasta %1$s</string>
     <string name="pref_value_wifi_and_mobile">Synkronoi wifi- ja mobiilidatayhteydellä</string>
     <string name="pref_value_wifi_only">Synkronoi vain wifi-yhteydellä</string>
     <string-array name="darkmode_entries">
@@ -228,6 +229,7 @@
     <string name="error_action_open_in_browser">Avaa selaimessa</string>
     <string name="error_action_install">Asenna</string>
     <string name="error_action_report_issue">Raportti</string>
+    <string name="error_action_update_files_app">Päivitä</string>
     <string name="info_box_maintenance_mode">Palvelin on huoltotilassa</string>
     <string name="info_box_version_not_supported">Palvelinversio %1$s ei ole tuettu, päivitä versioon %2$s</string>
     <string name="share_link">Jaa linkki</string>
@@ -271,6 +273,7 @@
     <string name="clone_cards">Kloonaa kortteja</string>
     <string name="simple_clone">Kloonaa</string>
     <string name="user_avatar">Käyttäjän avatar</string>
+    <string name="simple_contact">Yhteystieto</string>
     <string name="simple_file">Tiedosto</string>
     <string name="simple_camera">Kamera</string>
     <string name="take_photo">Ota kuva</string>
@@ -284,6 +287,7 @@
     <string name="files">Tiedostot</string>
     <string name="gallery">Galleria</string>
     <string name="edit_description">Muokkaa kuvausta</string>
+    <string name="widget_upcoming_title">Tulevat kortit</string>
     <string name="copy_logs">Kopioi lokit leikepöydälle</string>
     <string name="log_file">Lokitiedosto</string>
     <string name="copying_logs_to_file">Kopioidaan lokeja tiedostoon…</string>

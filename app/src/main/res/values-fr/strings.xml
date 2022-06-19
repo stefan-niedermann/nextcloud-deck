@@ -108,10 +108,12 @@
     <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Souhaitez-vous archiver toutes les cartes de %1$s affichées par le filtre?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Cela supprimera définitivement l\'ensemble des %1$d cartes de cette liste.</item>
+        <item quantity="many">Cela supprimera définitivement l\'ensemble des %1$d cartes de cette liste.</item>
         <item quantity="other">Cela supprimera définitivement l\'ensemble des %1$d cartes de cette liste.</item>
     </plurals>
     <plurals name="do_you_want_to_delete_the_label">
         <item quantity="one">Cela supprimera l\'étiquette de %1$d carte.</item>
+        <item quantity="many">Cela supprimera l\'étiquette de %1$d cartes.</item>
         <item quantity="other">Cela supprimera l\'étiquette de %1$d cartes.</item>
     </plurals>
     <string name="add_a_new_list_using_the_button">Ajoutez une nouvelle liste avec le bouton +</string>
@@ -262,6 +264,7 @@
     <string name="progress_count">%1$d sur %2$d</string>
     <plurals name="progress_error_count">
         <item quantity="one">%1$d  erreur lors de l\'envoi</item>
+        <item quantity="many">%1$d erreurs lors de l\'envoi</item>
         <item quantity="other">%1$d erreurs lors de l\'envoi</item>
     </plurals>
     <string name="simple_report">Signaler</string>
@@ -284,6 +287,7 @@
     <string name="projects_title">Projets</string>
     <plurals name="resources_count">
         <item quantity="one">%1$d ressource</item>
+        <item quantity="many">%1$d ressources</item>
         <item quantity="other">%1$d ressources</item>
     </plurals>
     <string name="no_assigned_label">Aucune étiquette</string>

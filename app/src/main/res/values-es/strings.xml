@@ -108,10 +108,12 @@
     <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">¿Desea archivar todas las tarjetas filtradas de %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Esto eliminará permanentemente %1$d tarjeta de esta lista.</item>
+        <item quantity="many">Esto eliminará permanentemente todas las %1$d tarjetas de esta lista.</item>
         <item quantity="other">Esto eliminará permanentemente todas las %1$d tarjetas de esta lista.</item>
     </plurals>
     <plurals name="do_you_want_to_delete_the_label">
         <item quantity="one">Esto eliminará la etiqueta de %1$d tarjeta.</item>
+        <item quantity="many">Esto eliminará la etiqueta de %1$d tarjetas.</item>
         <item quantity="other">Esto eliminará la etiqueta de %1$d tarjetas.</item>
     </plurals>
     <string name="add_a_new_list_using_the_button">Añadir una nueva lista usando el botón +</string>
@@ -215,6 +217,9 @@
     <string name="error_dialog_tip_clear_storage_might_help">Si el problema persiste, intenta borrar el almacenamiento de ambas apps: Nextcloud y Nextcloud Deck para solucionar este problema.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Falló la actualización de la base de datos. Por favor, informe del problema y limpie el almacenamiento para usar la aplicación de manera normal.</string>
     <string name="error_dialog_tip_clear_storage">Puedes limpiar el almacenamiento abriendo la información de la app y seleccionando Almacenamiento → Eliminar datos.</string>
+    <string name="error_dialog_tip_offline_no_internet">Parece que has intentado lanzar una sincronización sin tener conexión a internet.</string>
+    <string name="error_dialog_tip_offline_connection_refused">La conexión ha sido rechazada, por favor comprueba si tu servidor es alcanzable a través de un navegador web</string>
+    <string name="error_dialog_tip_offline_connection_timeout">La conexión ha caducado, por favor comprueba si estás conectado a internet. Esto también puede ocurrir cuando tu servidor está ocupado.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Si has habilitado \"Sincronizar solo con Wi-Fi\", solo podrás sincronizar cuando estés conectado a un Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Algo parece ir mal en tu app de Nextcloud. Por favor, intenta forzar el cierre de ambas, Nextcloud y Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Si pararlas no ayuda, puede intentar borrar el almacenamiento de ambas aplicaciones.</string>
@@ -259,6 +264,7 @@
     <string name="progress_count">%1$d de %2$d</string>
     <plurals name="progress_error_count">
         <item quantity="one">%1$d error al subir</item>
+        <item quantity="many">%1$d errores al subir</item>
         <item quantity="other">%1$d errores al subir</item>
     </plurals>
     <string name="simple_report">Informe</string>
@@ -281,6 +287,7 @@
     <string name="projects_title">Proyectos</string>
     <plurals name="resources_count">
         <item quantity="one">%1$d recurso</item>
+        <item quantity="many">%1$d recursos</item>
         <item quantity="other">%1$d recursos</item>
     </plurals>
     <string name="no_assigned_label">Sin etiqueta asignada</string>

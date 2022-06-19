@@ -131,7 +131,7 @@
     <string name="search_in">%1$s içinde arama</string>
     <string name="settings_compress_image_attachments_summary">Daha hızlı yükleme, daha düşük kalite</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fi ve mobil veri ile eşitlensin</string>
-    <string name="pref_value_wifi_only">Yalnız Wi-Fi ile eşitlensin</string>
+    <string name="pref_value_wifi_only">Yalnızca Wi-Fi ile eşitlensin</string>
     <string-array name="darkmode_entries">
         <item>Sistem varsayılanı</item>
         <item>Açık</item>
@@ -218,7 +218,7 @@
     <string name="error_dialog_tip_offline_no_internet">İnternet bağlantısı olmadan bir eşitleme başlatmaya çalıştınız gibi görünüyor.</string>
     <string name="error_dialog_tip_offline_connection_refused">Bağlantı reddedildi. Lütfen sunucunuza web tarayıcı üzerinden erişilebildiğinden emin olun.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Bağlantı zaman aşımına uğradı. Lütfen internete bağlı olup olmadığınızı denetleyin. Bu sorun, sunucunuz meşgul olduğunda da ortaya çıkabilir.</string>
-    <string name="error_dialog_tip_sync_only_on_wifi">\"Yalnız Wi-Fi ile eşitlensin\" seçeneğini etkinleştirdiyseniz, yalnız Wi-Fi bağlantısı varken eşitleme yapabilirsiniz.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">\"Yalnızca Wi-Fi ile eşitlensin\" seçeneğini etkinleştirdiyseniz, yalnızca Wi-Fi bağlantısı varken eşitleme yapabilirsiniz.</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloud uygulamanızda bir sorun var gibi görünüyor. Lütfen hem Nextcloud uygulamasını hem de Nextcloud Tahta uygulamasını zorla kapatmayı deneyin.</string>
     <string name="error_dialog_tip_files_delete_storage">Zorla durdurmak sorunu çözmediyse iki uygulamanın da depolamalarını temizlemeyi deneyebilirsiniz.</string>
     <string name="error_dialog_timeout_instance">Belirtilen sürede sunucunuzdan bir yanıt alınamadı. Lütfen kopyanızın düzgün çalıştığından emin olun.</string>

@@ -217,6 +217,7 @@
     <string name="error_dialog_tip_clear_storage_might_help">Ako problem i dalje nije otklonjen, pokušajte izbrisati pohranjene podatke iz obje aplikacije: Nextcloud i Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Nadogradnja baze podataka nije uspjela. Prijavite ovu poteškoću i izbrišite pohranu kako biste se koristili aplikacijom na uobičajeni način.</string>
     <string name="error_dialog_tip_clear_storage">Pohranjene podatke možete izbrisati tako da otvorite informacije o aplikaciji i odaberete Pohrana → Brisanje pohrane podataka.</string>
+    <string name="error_dialog_tip_offline_no_internet">Čini se da ste pokušali pokrenuti sinkronizaciju bez internetske veze.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Ako ste omogućili postavku „Sinkroniziraj samo putem bežične (Wi-Fi) mreže“, možete sinkronizirati samo kada ste spojeni na bežičnu (Wi-Fi) mrežu.</string>
     <string name="error_dialog_tip_files_force_stop">Čini se da nešto nije u redu s vašom aplikacijom Nextcloud. Pokušajte prisilno zatvoriti aplikaciju Nextcloud i aplikaciju Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Ako prisilno zatvaranje nije otklonilo problem, pokušajte izbrisati pohranjene podatke iz obje aplikacije.</string>
@@ -239,8 +240,10 @@
     <string name="error_action_open_nextcloud_app">Otvori aplikaciju Nextcloud</string>
     <string name="error_action_open_network">Postavke mreže</string>
     <string name="error_action_server_logs">Zapisi poslužitelja</string>
+    <string name="error_action_open_in_browser">Otvori u pregledniku</string>
     <string name="error_action_install">Instaliraj</string>
     <string name="error_action_report_issue">Prijavi</string>
+    <string name="error_action_update_files_app">Ažuriraj</string>
     <string name="info_box_maintenance_mode">Poslužitelj je u načinu održavanja</string>
     <string name="info_box_version_not_supported">Inačica poslužitelja %1$s nije podržana, ažurirajte poslužitelj na inačicu %2$s</string>
     <string name="share_link">Dijeli poveznicu</string>

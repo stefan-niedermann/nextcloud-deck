@@ -31,6 +31,8 @@
     <string name="simple_copied">Копирано</string>
     <string name="simple_archive">Архива</string>
     <string name="simple_unassigned">Недодељен</string>
+    <string name="hint_error_appeared">Дошло је до грешке</string>
+
     <string name="edit_board">Измени таблу</string>
     <string name="archive_board">Архивирај таблу</string>
     <string name="delete_board">Избриши таблу</string>
@@ -119,6 +121,7 @@
     <string name="settings_branding_title">Брендирање</string>
     <string name="settings_compact_title">Компактан режим</string>
     <string name="settings_background_sync">Позадинска синхронизација</string>
+    <string name="search_in">Претражи у %1$s</string>
     <string name="pref_value_wifi_and_mobile">Синхронизуј и на бежичној и на мобилној вези</string>
     <string name="pref_value_wifi_only">Синхронизуј само преко бежичне везе</string>
     <string-array name="darkmode_entries">
@@ -136,6 +139,9 @@
     <string name="no_content">Још нема садржаја</string>
     <string name="last_background_sync">Последња синх.:</string>
     <string name="simple_off">Искључена</string>
+    <string name="minutes_15">15 минута</string>
+    <string name="hour_1">1 сат</string>
+    <string name="hours_6">6 сати</string>
     <string name="action_card_move">Премести картицу</string>
     <string name="action_card_move_title">Премести %1$s</string>
     <string name="provide_at_least_a_title_or_description">Дајте бар наслов или опис</string>
@@ -160,9 +166,11 @@
     <string name="filter_no_filter">Све</string>
     <string name="filter_overdue">Прошао рок</string>
     <string name="filter_today">Данас</string>
+    <string name="filter_tomorrow">сутра</string>
     <string name="filter_week">Следећих 7 дана</string>
     <string name="filter_month">Следећих 30 дана</string>
     <string name="filter_no_due">Без рока</string>
+    <string name="filter_later">После</string>
     <string name="filter_by_tag">Филтрирај по ознаци</string>
     <string name="filter_by_assigned_user">Филтрирај по додељеном кориснику</string>
     <string name="filter_by_duedate">Филтрирај по року</string>
@@ -216,8 +224,10 @@
     <string name="error_action_open_deck_info">Отвори инфо о апликацији</string>
     <string name="error_action_open_network">Поставке мреже</string>
     <string name="error_action_server_logs">Дневник са сервера</string>
+    <string name="error_action_open_in_browser">Отвори у прегледачу</string>
     <string name="error_action_install">Инсталирај</string>
     <string name="error_action_report_issue">Пријави</string>
+    <string name="error_action_update_files_app">Ажурирај</string>
     <string name="info_box_version_not_supported">Серверска верзија %1$s није подржана, ажурирајте на %2$s</string>
     <string name="share_link">Веза дељења</string>
     <string name="archive_cards">Архивирај картице</string>
@@ -243,7 +253,9 @@
     <string name="card_does_not_yet_exist">Картица још не постоји у Шпил апликацији</string>
 
     <string name="widget_stack_title">Излистај</string>
+    <string name="widget_filter_title">Филтер</string>
     <string name="widget_stack_header_icon">Заглавње иконице виџета</string>
+    <string name="widget_placeholder_icon">Иконица виџета</string>
     <string name="select_stack">Одабир списка</string>
     <string name="project_type_deck_board">Табла Шпила</string>
     <string name="project_type_deck_card">Картица Шпила</string>
@@ -278,4 +290,6 @@
     <string name="simple_attach">приложи</string>
     <string name="add_stack_widget">Додај виџет листе</string>
     <string name="edit_description">Уреди опис</string>
+    <string name="widget_upcoming_title">Предстојеће картице</string>
+    <string name="simple_search">Претрага</string>
     </resources>
