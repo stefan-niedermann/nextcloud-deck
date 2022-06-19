@@ -34,9 +34,6 @@ import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -91,6 +88,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackData
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.BoardWithAclDownSyncDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.BoardWithStacksAndLabelsUpSyncDataProvider;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
+import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
 
 @SuppressWarnings("WeakerAccess")
 public class SyncManager {
@@ -116,7 +114,7 @@ public class SyncManager {
         this(context,
                 new DataBaseAdapter(context.getApplicationContext()),
                 new ServerAdapter(context.getApplicationContext(), ssoAccountName),
-                new ThreadPoolExecutor(5, 5, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<>()),
+                ExecutorServiceProvider.getExecutorService(),
                 SyncHelper::new);
         LastSyncUtil.init(context.getApplicationContext());
     }

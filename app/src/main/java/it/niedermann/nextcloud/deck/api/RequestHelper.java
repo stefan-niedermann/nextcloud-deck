@@ -2,19 +2,15 @@ package it.niedermann.nextcloud.deck.api;
 
 import androidx.annotation.NonNull;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
 
 public class RequestHelper {
-
-    private static final ExecutorService executor = Executors.newCachedThreadPool();
 
     static {
         RxJavaPlugins.setErrorHandler(DeckLog::logError);
@@ -27,7 +23,7 @@ public class RequestHelper {
 
         final ResponseConsumer<T> cb = new ResponseConsumer<>(callback);
         return call.getObservableFromCall()
-                .subscribeOn(Schedulers.from(executor))
+                .subscribeOn(Schedulers.from(ExecutorServiceProvider.getExecutorService()))
                 .subscribe(cb, cb.getExceptionConsumer());
     }
 
