@@ -1,6 +1,8 @@
 <resources>
     <string name="navigation_drawer_open">ナビゲーションドロワーを開く</string>
     <string name="navigation_drawer_close">ナビゲーションドロワーを閉じる</string>
+    <string name="hint_search_deck">Deckを検索</string>
+
     <string name="simple_boards">ボード</string>
     <string name="simple_add">追加</string>
     <string name="simple_save">保存</string>
@@ -53,16 +55,16 @@
     <string name="about_issues">GitHub の問題追跡ツールで、不具合、拡張の提案、機能のリクエストを報告できます: %1$s</string>
     <string name="about_translate_title">翻訳</string>
     <string name="about_translate">Transifex の Nextcloud チームに参加して、このアプリの翻訳を手伝ってください: %1$s</string>
-    <string name="about_app_license_title">アプリ ライセンス</string>
-    <string name="about_app_license">このアプリケーションは、GNU GENERAL PUBLIC LICENSE v3 +のライセンスを受けています。</string>
-    <string name="about_app_license_button">ライセンスを表示</string>
+    <string name="about_app_license_title">アプリの利用許諾</string>
+    <string name="about_app_license">このアプリケーションは、GNU GENERAL PUBLIC LICENSE v3 +に許諾されています。</string>
+    <string name="about_app_license_button">利用許諾を表示</string>
     <string name="about_icons_disclaimer_title">アイコン</string>
     <string name="about_icons_disclaimer_app_icon">オリジナルのアイコンは %1$sを参照。</string>
     <string name="about_icons_disclaimer_mdi_icons">このアプリで使用しているすべてのアイコンは、%1$sGoogle Inc.によって作成されたもので、Apache 2.0ライセンスによってライセンスされています。</string>
     <string name="about_icons_disclaimer_mdi">マテリアルデザインアイコン</string>
     <string name="about_credits_tab_title">クレジット</string>
     <string name="about_contribution_tab_title">貢献</string>
-    <string name="about_license_tab_title">ライセンス</string>
+    <string name="about_license_tab_title">利用許諾</string>
     <string name="seconds_ago">数秒前</string>
     <string name="edit">編集</string>
     <string name="label_labels">タグを選択..</string>
@@ -112,14 +114,20 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">+ボタンで新しいリストを追加</string>
     <string name="add_a_new_card_using_the_button">+ボタンで新しいカードを追加</string>
+    <string name="update_deck">Deck Webアプリを更新</string>
+    <string name="deck_outdated_please_update">お使いのDeck Webアプリバージョンが古すぎます(%1$s)。このアプリをクライアントとして使用するには更新してください。</string>
     <string name="delete_board_message">このボードと含まれるすべてのリストやカードは完全に削除されます．</string>
     <string name="settings_theme_title">テーマ</string>
     <string name="settings_branding_title">ブランディング</string>
     <string name="settings_compact_title">コンパクトモード</string>
+    <string name="settings_cover_images_title">カバー画像</string>
     <string name="settings_debugging">デバッグログ</string>
     <string name="settings_etags">ETagを使用</string>
+    <string name="settings_etags_summary">同期を高速化する</string>
     <string name="settings_background_sync">バックグラウンド同期</string>
     <string name="settings_compress_image_attachments">アップロード時に画像を圧縮する</string>
+    <string name="search_in">%1$sを検索</string>
+    <string name="settings_compress_image_attachments_summary">品質の低下を抑え、より高速アップロード</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fiおよびモバイル接続時に同期する</string>
     <string name="pref_value_wifi_only">Wi-Fi接続時のみ同期する</string>
     <string-array name="darkmode_entries">
@@ -169,6 +177,7 @@
     <string name="filter_week">次の7日間</string>
     <string name="filter_month">次の30日間</string>
     <string name="filter_no_due">期限なし</string>
+    <string name="filter_later">後で</string>
     <string name="filter_by_tag">タグによるフィルター</string>
     <string name="filter_by_assigned_user">割当ユーザーでフィルター</string>
     <string name="filter_by_duedate">期限でフィルター</string>
@@ -204,6 +213,10 @@
     <string name="error_dialog_tip_clear_storage_might_help">この問題が続くようでしたら、下記両方のアプリでストレージをクリアして問題が解決できるか試してください：Nextcloud と Nextcloud Deck</string>
     <string name="error_dialog_tip_database_upgrade_failed">データベースのアップグレードに失敗しました。問題を報告し、ストレージを初期化してアプリを正常に使用できるようにしてください</string>
     <string name="error_dialog_tip_clear_storage">以下の方法でストレージをクリアできます：アプリ情報→ストレージ→ストレージをクリア.</string>
+    <string name="error_dialog_tip_offline_no_internet">インターネット接続なしに同期を行おうとしているようです。</string>
+    <string name="error_dialog_tip_offline_connection_refused">接続が拒否されました、Webブラウザー経由でサーバーに接続が可能であることをご確認ください。</string>
+    <string name="error_dialog_tip_offline_connection_timeout">接続がタイムアウトしました、インターネットに接続されていることを確認してください。サーバーが混雑している場合にも同様の現象が発生します。</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">\"Wi-Fi接続時のみ同期する\"が有効になっている場合、Wi-Fiに接続している場合のみ同期可能です。</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloudアプリで何か不具合が発生しました。NextcloudアプリとNextcloud Deckアプリの両方を強制終了してください。</string>
     <string name="error_dialog_tip_files_delete_storage">強制終了で改善されない場合は、両方のアプリのストレージをクリアしてみてください。</string>
     <string name="error_dialog_timeout_instance">一定時間内にサーバーからの反応がありませんでした。サーバーが正常に動いているか確認してください。</string>
@@ -220,7 +233,10 @@
     <string name="error_dialog_capabilities_not_parsable">サーバーの機能を取得できませんでした。サーバーが正常に動作しており、他のクライアントアプリがNextcloudにアクセスできることを確認してください。</string>
     <string name="error_dialog_attachment_upload_failed">添付ファイルをアップロードできませんでした。別の方法で共有してみてください。
 また、この不具合について報告してください。</string>
+    <string name="error_dialog_certificate">サーバーの証明書が正しくないようです。より詳しい情報は、Nextcloudアプリの全てのアカウントをご確認ください。</string>
     <string name="error_dialog_tip_disable_battery_optimizations">NextcloudとDeckアプリのバッテリー最適化をすべて無効にしてください。</string>
+    <string name="error_dialog_unknown_error">Nextcloudインスタンスにアクセスできないようです。インターネット接続を確認し、お使いのインスタンスにWebブラウザー経由でアクセスできることを確認してください。</string>
+    <string name="error_dialog_min_version">Deck Androidアプリは、Nextcloud Androidアプリのバージョン3.18以上が必要です。</string>
     <string name="error_action_open_deck_info">アプリ情報を開く</string>
     <string name="error_action_open_nextcloud_app">Nextcloudアプリを開く</string>
     <string name="error_action_open_network">ネットワーク設定</string>
@@ -228,8 +244,11 @@
     <string name="error_action_open_in_browser">ブラウザーで開く</string>
     <string name="error_action_install">インストール</string>
     <string name="error_action_report_issue">報告</string>
+    <string name="error_action_update_files_app">更新</string>
+    <string name="info_box_maintenance_mode">サーバーはメンテナンスモードです</string>
     <string name="info_box_version_not_supported">サーバーのバージョン%1$sはサポートしていませんので、%2$sにアップデートしてください。</string>
     <string name="share_link">URLで共有</string>
+    <string name="share_content">コンテンツを共有</string>
     <string name="share_content_duedate">期限: %1$s</string>
     <string name="share_content_labels">タグ: %1$s</string>
     <string name="archive_cards">カードをアーカイブ</string>
@@ -290,6 +309,7 @@
     <string name="simple_attach">参加</string>
     <string name="add_stack_widget">リストのウィジェットを追加</string>
     <string name="add_filter_widget">フィルターのウィジェットを追加</string>
+    <string name="simple_order">並び替え</string>
     <string name="edit_description">詳細を編集</string>
     <string name="widget_upcoming_title">今後のカード</string>
     <!-- Category header for a section in the settings which contain features for advanced users -->
@@ -298,7 +318,14 @@
     <string name="app_logo">アプリロゴ</string>
     <string name="log_file">ログファイル</string>
     <string name="copying_logs_to_file">ログをファイルにコピー…</string>
+    <string name="account_imported">アカウントを導入しました</string>
     <string name="simple_search">検索</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">タイトル (必須)</string>
     <string name="saving_new_card">新しいカードを保存…</string>
+    <string name="progress_import">ボード%2$d中%1$dをインポート中...</string>
+    <string name="progress_import_indeterminate">ボードをインポート中...</string>
+    <string name="card_outdated">このカードのコンテンツは古くなっています。</string>
     <string name="show_error">エラーを表示</string>
+    <string name="push_notification_link_empty">Deck Webアプリの既知の問題により、このカードを表示することができません。詳しい情報は、次をご確認ください: %1$s</string>
     </resources>

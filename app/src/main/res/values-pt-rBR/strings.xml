@@ -108,10 +108,12 @@
     <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Deseja arquivar todos os cartões filtrados de %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Isto excluirá permanentemente %1$d cartão desta lista.</item>
+        <item quantity="many">Isto excluirá permanentemente todos os %1$d cartões desta lista.</item>
         <item quantity="other">Isto excluirá permanentemente todos os %1$d cartões desta lista.</item>
     </plurals>
     <plurals name="do_you_want_to_delete_the_label">
         <item quantity="one">Isto removerá a legenda de %1$d cartão.</item>
+        <item quantity="many">Isto removerá a legenda de %1$d cartões.</item>
         <item quantity="other">Isto removerá a legenda de %1$d cartões.</item>
     </plurals>
     <string name="add_a_new_list_using_the_button">Adicione uma nova lista usando o botão +</string>
@@ -262,6 +264,7 @@
     <string name="progress_count">%1$d de %2$d</string>
     <plurals name="progress_error_count">
         <item quantity="one">%1$d erro ao fazer o upload</item>
+        <item quantity="many">%1$d erros ao fazer o upload</item>
         <item quantity="other">%1$d erros ao fazer o upload</item>
     </plurals>
     <string name="simple_report">Reportar</string>
@@ -284,6 +287,7 @@
     <string name="projects_title">Projetos</string>
     <plurals name="resources_count">
         <item quantity="one">%1$d recurso</item>
+        <item quantity="many">%1$d recursos</item>
         <item quantity="other">%1$d recursos</item>
     </plurals>
     <string name="no_assigned_label">Nenhuma etiqueta atribuída</string>

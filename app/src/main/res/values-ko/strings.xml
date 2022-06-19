@@ -213,6 +213,7 @@
     <string name="error_dialog_tip_clear_storage_might_help">이슈가 지속되면 Nextcloud와 Nextcloud Deck라는 두 앱을 스토리지에서 지워 이 문제를 해결하십시오.</string>
     <string name="error_dialog_tip_database_upgrade_failed">데이터베이스 업그레이드 실패. 오류를 보고하고 정상적인 앱사용을 위해 저장소를 정리하세요.</string>
     <string name="error_dialog_tip_clear_storage">저장공간을 비우기 위해  app info를 열고  Storage → Clear storage를 선택해주십시오.</string>
+    <string name="error_dialog_tip_offline_no_internet">인터넷 연결 없이 동기화를 시도하신 것 같습니다.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">만약 \"Wi-Fi만 사용해 동기화\" 옵션을 사용 중이시라면, Wi-Fi에 연결되었을 때에만 동기화 할 수 있습니다.</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloud 앱에 문제가 생겼습니다. Nextcloud앱과 Nextcloud Deck앱 둘 다 강제종료 해보십시오.</string>
     <string name="error_dialog_tip_files_delete_storage">강제 종료가 도움이 되지 않는다면, 두 앱 모두의 저장공간을 비워보십시오.</string>
@@ -239,6 +240,7 @@
     <string name="error_action_open_in_browser">브라우저에서 열기</string>
     <string name="error_action_install">설치</string>
     <string name="error_action_report_issue">보고</string>
+    <string name="error_action_update_files_app">업데이트</string>
     <string name="info_box_maintenance_mode">서버가 유지 관리 모드임</string>
     <string name="info_box_version_not_supported">%1$s서버 버전은 지원되지 않습니다. %2$s로 업데이트 해주십시오.</string>
     <string name="share_link">링크 공유</string>

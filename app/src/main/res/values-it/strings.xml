@@ -108,10 +108,12 @@
     <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Vuoi archiviare tutte le schede filtrate di %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Questo eliminerà definitivamente %1$d scheda di questo elenco</item>
+        <item quantity="many">Questo eliminerà definitivamente %1$d schede di questo elenco</item>
         <item quantity="other">Questo eliminerà definitivamente %1$d schede di questo elenco</item>
     </plurals>
     <plurals name="do_you_want_to_delete_the_label">
         <item quantity="one">Questo rimuoverà l\'etichetta da %1$d scheda.</item>
+        <item quantity="many">Questo rimuoverà l\'etichetta da %1$d schede</item>
         <item quantity="other">Questo rimuoverà l\'etichetta da %1$d schede</item>
     </plurals>
     <string name="add_a_new_list_using_the_button">Aggiungi un nuovo elenco usando il pulsante +</string>
@@ -262,6 +264,7 @@
     <string name="progress_count">%1$d di %2$d</string>
     <plurals name="progress_error_count">
         <item quantity="one">%1$d errore durante il caricamento</item>
+        <item quantity="many">%1$d errori durante il caricamento</item>
         <item quantity="other">%1$d errori durante il caricamento</item>
     </plurals>
     <string name="simple_report">Segnala</string>
@@ -284,6 +287,7 @@
     <string name="projects_title">Progetti</string>
     <plurals name="resources_count">
         <item quantity="one">%1$d risorsa</item>
+        <item quantity="many">%1$d risorse</item>
         <item quantity="other">%1$d risorse</item>
     </plurals>
     <string name="no_assigned_label">Nessuna etichetta assegnata</string>

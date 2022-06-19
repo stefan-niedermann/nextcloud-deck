@@ -125,6 +125,7 @@
     <string name="settings_etags_summary">Επιταχύνει τον συγχρονισμό</string>
     <string name="settings_background_sync">Συγχρονισμός στο παρασκήνιο</string>
     <string name="settings_compress_image_attachments">Συμπίεση εικόνων κατά τη μεταφόρτωση</string>
+    <string name="search_in">Αναζήτηση σε %1$s</string>
     <string name="settings_compress_image_attachments_summary">Ταχύτερη μεταφόρτωση, μικρότερη ποιότητα</string>
     <string name="pref_value_wifi_and_mobile">Συγχρονισμός σε Wi-Fi και δεδομένα κινητού</string>
     <string name="pref_value_wifi_only">Συγχρονισμός μόνο σε Wi-Fi</string>
@@ -234,8 +235,10 @@
     <string name="error_action_open_nextcloud_app">Άνοιγμα εφαρμογής Nextcloud</string>
     <string name="error_action_open_network">Ρυθμίσεις δικτύου</string>
     <string name="error_action_server_logs">Αρχεία καταγραφής διακομιστή</string>
+    <string name="error_action_open_in_browser">Άνοιγμα στον περιηγητή ιστού</string>
     <string name="error_action_install">Εγκατάσταση</string>
     <string name="error_action_report_issue">Αναφορά</string>
+    <string name="error_action_update_files_app">Ενημέρωση</string>
     <string name="info_box_maintenance_mode">Ο διακομιστής βρίσκεται σε λειτουργία συντήρησης</string>
     <string name="info_box_version_not_supported">Η έκδοση του διακομιστή %1$s δεν υποστηρίζεται, παρακαλούμε αναβαθμίστε στην %2$s</string>
     <string name="share_link">Διαμοιρασμός συνδέσμου</string>
@@ -302,4 +305,5 @@
     <string name="simple_order">Σειρά</string>
     <string name="edit_description">Επεξεργασία περιγραφής</string>
     <string name="widget_upcoming_title">Επερχόμενες κάρτες</string>
+    <string name="simple_search">Αναζήτηση</string>
     </resources>
