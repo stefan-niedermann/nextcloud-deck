@@ -14,8 +14,8 @@ import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 public class ServerCommunicationErrorHandler {
 
     private static final Handler[] handlers = new Handler[]{
-            new Handler(UnknownErrorException.class, Arrays.asList("econnrefused", "connection refused"), OfflineException.Reason.CONNECTION_REFUSED),
-            new Handler(UnknownErrorException.class, Arrays.asList("Unable to resolve host", "No address associated with hostname"), OfflineException.Reason.CONNECTION_REFUSED),
+            new Handler(UnknownErrorException.class, Arrays.asList("econnrefused", "unable to resolve host",
+                    "connection refused", "no address associated with hostname"), OfflineException.Reason.CONNECTION_REFUSED),
             new Handler(ClassNotFoundException.class, Collections.singletonList("connecttimeoutexception"), OfflineException.Reason.CONNECTION_TIMEOUT)
     };
 

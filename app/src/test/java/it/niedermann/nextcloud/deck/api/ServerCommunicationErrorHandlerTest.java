@@ -21,6 +21,13 @@ public class ServerCommunicationErrorHandlerTest {
     }
 
     @Test
+    public void shouldMap_UnknownErrorExceptions_To_OfflineExceptions_ForHostUnreachable() {
+        final var result = ServerCommunicationErrorHandler.translateError(new UnknownErrorException("Unable to resolve host \"nextcloud-prod.fritz.box\": No address associated with hostname"));
+        assertEquals(OfflineException.class, result.getClass());
+        assertEquals(OfflineException.Reason.CONNECTION_REFUSED, ((OfflineException) result).getReason());
+    }
+
+    @Test
     public void shouldMap_ClassNotFoundExceptions_To_OfflineExceptions_ForConnectionRefused() {
         final var result = ServerCommunicationErrorHandler.translateError(new ClassNotFoundException("java.lang.ClassNotFoundException: org.apache.commons.httpclient.ConnectTimeoutException"));
         assertEquals(OfflineException.class, result.getClass());
