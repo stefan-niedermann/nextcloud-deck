@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ import androidx.lifecycle.ViewModelProvider;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.DialogNewCardBinding;
+import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
@@ -59,7 +61,7 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
         if (context instanceof CreateCardListener) {
             this.createCardListener = (CreateCardListener) context;
         } else {
-             throw new ClassCastException("Caller must implement " + CreateCardListener.class.getCanonicalName());
+            throw new ClassCastException("Caller must implement " + CreateCardListener.class.getCanonicalName());
         }
 
         final var args = getArguments();
@@ -195,9 +197,13 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
                         IResponseCallback.super.onError(throwable);
                         requireActivity().runOnUiThread(() -> {
                             isPending.setValue(false);
-                            ExceptionDialogFragment
-                                    .newInstance(throwable, account)
-                                    .show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                            if (throwable instanceof OfflineException) {
+                                Toast.makeText(requireContext(), ((OfflineException) throwable).getReason().getMessage(), Toast.LENGTH_LONG).show();
+                            } else {
+                                ExceptionDialogFragment
+                                        .newInstance(throwable, account)
+                                        .show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                            }
                         });
                     }
                 });
