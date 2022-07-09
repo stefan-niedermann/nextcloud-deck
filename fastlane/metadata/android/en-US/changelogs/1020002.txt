@@ -1,0 +1,1 @@
+- ⚙️ Add monochrome icon for Android 12+ (#1306)
