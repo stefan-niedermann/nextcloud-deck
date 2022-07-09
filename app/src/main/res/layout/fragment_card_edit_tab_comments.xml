@@ -144,7 +144,7 @@
                     android:layout_height="wrap_content"
                     android:autofillHints="@null"
                     android:imeOptions="flagNoExtractUi|actionSend"
-                    android:inputType="text"
+                    android:inputType="textMultiLine"
                     android:maxLength="@integer/comment_max_length">
 
                     <requestFocus />
