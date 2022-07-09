@@ -214,6 +214,8 @@
     <string name="error_dialog_tip_database_upgrade_failed">資料庫升級失敗。請回報問題，並清除儲存區以正常使用該應用程式。</string>
     <string name="error_dialog_tip_clear_storage">您可以透過開啟應用程式資訊並選擇 儲存區 → 清除儲存區 來清除儲存區。</string>
     <string name="error_dialog_tip_offline_no_internet">似乎您試圖在沒有網際網路連線的情況下觸發同步。</string>
+    <string name="error_dialog_tip_offline_connection_refused">連線被拒，請使用瀏覽器檢查能否連上您的伺服器。</string>
+    <string name="error_dialog_tip_offline_connection_timeout">連線逾時，請檢查您是否能連上網路。也可能是伺服器忙碌中。</string>
     <string name="error_dialog_tip_sync_only_on_wifi">如果啟用了「僅在 Wi-Fi 上同步」設定，則只能在連線到 Wi-Fi 時進行同步。</string>
     <string name="error_dialog_tip_files_force_stop">您的 Nextcloud 應用程式似乎有問題。請嘗試強制停止 Nextcloud 應用程式和 Nextcloud Deck 應用程式。</string>
     <string name="error_dialog_tip_files_delete_storage">如果強制停止沒有幫助，請試著清除這兩個應用程式的儲存區。</string>
@@ -233,6 +235,7 @@
     <string name="error_dialog_certificate">伺服器的憑證似乎有問題。請檢查 Nextcloud APP 中的所有帳號，以取得更多資訊。</string>
     <string name="error_dialog_tip_disable_battery_optimizations">請停用 Nextcloud 和 Deck APP 的所有電池最佳化。</string>
     <string name="error_dialog_unknown_error">您的 Nextcloud 實例似乎無法訪問。 請檢查您的網際網路連線以及您是否能夠透過瀏覽器連線到您的實例。</string>
+    <string name="error_dialog_min_version">Deck Android 應用程式要求 Nextcloud Android 應用程式最低版本為 3.18。</string>
     <string name="error_action_open_deck_info">開啟 App 資訊</string>
     <string name="error_action_open_nextcloud_app">開啟 Nextcloud 應用程式</string>
     <string name="error_action_open_network">網路設定</string>
@@ -321,4 +324,7 @@
     <string name="saving_new_card">正在儲存新卡片...</string>
     <string name="progress_import">正在匯入版面 %2$d 之 %1$d……</string>
     <string name="progress_import_indeterminate">正在匯入版面……</string>
+    <string name="card_outdated">此卡片內容可能過時。</string>
+    <string name="show_error">顯示錯誤</string>
+    <string name="push_notification_link_empty">基於一個Deck網頁應用程式的已知錯誤我們無法顯示此卡片。更多詳情請見 %1$s</string>
     </resources>
