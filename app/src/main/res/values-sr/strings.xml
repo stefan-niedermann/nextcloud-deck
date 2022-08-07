@@ -197,6 +197,7 @@
     <string name="operation_not_yet_supported">Није још подржано</string>
     <string name="error_revoking_ac">Грешка приликом уклањања приступа за %1$s</string>
     <string name="error_create_label">Грешка приликом креирања ознаке %1$s</string>
+    <string name="maintenance_mode">Server je u režimu za održavanje</string>
     <string name="server_error">Грешка на серверу</string>
     <string name="error_edit_activity_killed_by_android">Андроид нам је довршио режим измена пошто су системски ресурси требали другим апликацијама.</string>
 
@@ -228,6 +229,7 @@
     <string name="error_action_install">Инсталирај</string>
     <string name="error_action_report_issue">Пријави</string>
     <string name="error_action_update_files_app">Ажурирај</string>
+    <string name="info_box_maintenance_mode">Server je u režimu za održavanje</string>
     <string name="info_box_version_not_supported">Серверска верзија %1$s није подржана, ажурирајте на %2$s</string>
     <string name="share_link">Веза дељења</string>
     <string name="archive_cards">Архивирај картице</string>

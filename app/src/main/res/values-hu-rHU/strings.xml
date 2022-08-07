@@ -300,7 +300,7 @@
     <string name="simple_camera">Fényképezőgép</string>
     <string name="take_photo">Felvétel készítése</string>
     <string name="take_photo_switch_camera">Fényképezőgép váltása</string>
-    <string name="take_photo_toggle_torch">Lámpa be/kikapcsolása</string>
+    <string name="take_photo_toggle_torch">Lámpa be/ki</string>
     <string name="show_all_contacts">Minden névjegy megjelenítése</string>
     <string name="show_all_files">Minden fájl megjelenítése</string>
     <string name="recent">Legutóbbiak</string>
