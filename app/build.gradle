@@ -71,11 +71,13 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.6'
 
     // Android X
-    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'androidx.camera:camera-camera2:1.2.0-alpha04'
     implementation 'androidx.camera:camera-lifecycle:1.2.0-alpha04'
     implementation 'androidx.camera:camera-view:1.2.0-alpha04'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'androidx.preference:preference:1.2.0'
     def roomVersion = "2.4.3"
     implementation "androidx.room:room-runtime:$roomVersion"
@@ -90,17 +92,16 @@ dependencies {
 
     // Image compression
     implementation 'id.zelory:compressor:3.0.1'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
 
     // Single-Sign-On
     implementation 'com.github.nextcloud:Android-SingleSignOn:0.6.1'
-    implementation 'com.github.stefan-niedermann.nextcloud-commons:sso-glide:1.6.3'
-    implementation 'com.github.stefan-niedermann.nextcloud-commons:exception:1.6.3'
-    implementation('com.github.stefan-niedermann.nextcloud-commons:markdown:1.6.3') {
+    implementation 'com.github.stefan-niedermann.nextcloud-commons:sso-glide:1.6.4'
+    implementation 'com.github.stefan-niedermann.nextcloud-commons:exception:1.6.4'
+    implementation('com.github.stefan-niedermann.nextcloud-commons:markdown:1.6.4') {
         exclude group: 'org.jetbrains', module: 'annotations-java5'
     }
-    implementation 'com.github.stefan-niedermann.android-commons:util:0.2.6'
-    implementation 'com.github.stefan-niedermann.android-commons:shared-preferences:0.2.6'
+    implementation 'com.github.stefan-niedermann.android-commons:util:0.2.7'
+    implementation 'com.github.stefan-niedermann.android-commons:shared-preferences:0.2.7'
 
     // Custom Date / Time Picker for branding support
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
