@@ -4,11 +4,15 @@ import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandTo
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,7 +25,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogStackCreateBinding;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
-public class EditStackDialogFragment extends BrandedDialogFragment {
+public class EditStackDialogFragment extends BrandedDialogFragment implements DialogInterface.OnClickListener {
     private static final String KEY_STACK_ID = "stack_id";
     private static final String KEY_OLD_TITLE = "old_title";
     private EditStackListener editStackListener;
@@ -46,16 +50,58 @@ public class EditStackDialogFragment extends BrandedDialogFragment {
         final var builder = new AlertDialog.Builder(requireActivity())
                 .setView(binding.getRoot())
                 .setNeutralButton(android.R.string.cancel, null);
+
         final var args = getArguments();
+
         if (args == null) {
             builder.setTitle(R.string.add_list)
-                    .setPositiveButton(R.string.simple_add, (dialog, which) -> editStackListener.onCreateStack(binding.input.getText().toString()));
+                    .setPositiveButton(R.string.simple_add, null);
         } else {
             binding.input.setText(args.getString(KEY_OLD_TITLE));
             builder.setTitle(R.string.rename_list)
-                    .setPositiveButton(R.string.simple_rename, (dialog, which) -> editStackListener.onUpdateStack(args.getLong(KEY_STACK_ID), binding.input.getText().toString()));
+                    .setPositiveButton(R.string.simple_rename, null);
         }
-        return builder.create();
+        final var dialog = builder.create();
+
+        dialog.setOnShowListener(d -> {
+            final boolean inputIsValid = inputIsValid(binding.input.getText());
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(inputIsValid);
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> onClick(dialog, DialogInterface.BUTTON_POSITIVE));
+        });
+
+        binding.input.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Nothing to do
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                final boolean inputIsValid = inputIsValid(binding.input.getText());
+                if (inputIsValid) {
+                    binding.inputWrapper.setError(null);
+                }
+                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(inputIsValid);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Nothing to do
+            }
+        });
+
+        binding.input.setOnEditorActionListener((textView, actionId, event) -> {
+            //noinspection SwitchStatementWithTooFewBranches
+            switch (actionId) {
+                case EditorInfo.IME_ACTION_DONE:
+                    onClick(dialog, DialogInterface.BUTTON_POSITIVE);
+                    return true;
+            }
+            return false;
+        });
+
+
+        return dialog;
     }
 
     @Nullable
@@ -90,5 +136,34 @@ public class EditStackDialogFragment extends BrandedDialogFragment {
     @Override
     public void applyBrand(int mainColor) {
         applyBrandToEditTextInputLayout(mainColor, binding.inputWrapper);
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        final var args = getArguments();
+        final var createMode = args == null;
+
+        //noinspection SwitchStatementWithTooFewBranches
+        switch (which) {
+            case DialogInterface.BUTTON_POSITIVE:
+                final var currentUserInput = binding.input.getText();
+                if (inputIsValid(currentUserInput)) {
+                    if (createMode) {
+                        editStackListener.onCreateStack(binding.input.getText().toString());
+                    } else {
+                        editStackListener.onUpdateStack(args.getLong(KEY_STACK_ID), binding.input.getText().toString());
+                    }
+                } else {
+                    binding.inputWrapper.setError(getString(R.string.title_is_mandatory));
+                    binding.input.requestFocus();
+                }
+                break;
+            default:
+                throw new IllegalStateException("Unexpected button: " + which);
+        }
+    }
+
+    private static boolean inputIsValid(@Nullable CharSequence input) {
+        return input != null && !input.toString().trim().isEmpty();
     }
 }

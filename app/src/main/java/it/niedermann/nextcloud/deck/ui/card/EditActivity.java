@@ -152,7 +152,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         if (viewModel.canEdit()) {
             getMenuInflater().inflate(R.menu.card_edit_menu, menu);
             @ColorInt final int colorAccent = ContextCompat.getColor(this, R.color.accent);
