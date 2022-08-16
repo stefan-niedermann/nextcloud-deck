@@ -3,3 +3,4 @@
 - ⚠️ Prevent empty list names (#1317)
 - ⚙️ Add monochrome icon for Android 12+ (#1306)
 - ⚙️ Use new Android 12 SplashScreen API
+- 🐞 Date and time picker invisible on dark mode with light board color (#1180)

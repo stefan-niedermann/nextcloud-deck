@@ -4,7 +4,6 @@ import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -27,11 +25,9 @@ public class BrandedDatePickerDialog extends DatePickerDialog implements Branded
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        @Nullable Context context = getContext();
-        if (context != null) {
-            setThemeDark(isDarkTheme(context));
-            applyBrand(readBrandMainColor(context));
-        }
+        final var context = requireContext();
+        setThemeDark(isDarkTheme(context));
+        applyBrand(readBrandMainColor(context));
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -40,8 +36,14 @@ public class BrandedDatePickerDialog extends DatePickerDialog implements Branded
         @ColorInt final int buttonTextColor = getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor);
         setOkColor(buttonTextColor);
         setCancelColor(buttonTextColor);
-        // Text in picker title is always white
-        setAccentColor(DeckColorUtil.contrastRatioIsSufficientBigAreas(Color.WHITE, mainColor) ? mainColor : ContextCompat.getColor(requireContext(), R.color.accent));
+        setAccentColor(
+                DeckColorUtil.contrastRatioIsSufficientBigAreas(Color.WHITE, mainColor)
+                        ? mainColor
+                        // Text in picker title is always white (also in dark mode)
+                        : isThemeDark()
+                        ? Color.BLACK
+                        : ContextCompat.getColor(requireContext(), R.color.accent)
+        );
     }
 
     /**
