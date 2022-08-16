@@ -1,3 +1,4 @@
 - 💬 Allow multi line comments (#1299)
 - 🐞 Handle offline card creation better (#1295)
 - ⚙️ Add monochrome icon for Android 12+ (#1306)
+- ⚙️ Use new Android 12 SplashScreen API

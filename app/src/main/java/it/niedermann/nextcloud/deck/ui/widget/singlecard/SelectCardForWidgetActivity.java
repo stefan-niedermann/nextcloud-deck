@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.widget.singlecard;
 
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.saveBrandColors;
+
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,8 +18,6 @@ import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
 
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.saveBrandColors;
-
 public class SelectCardForWidgetActivity extends MainActivity implements SelectCardListener {
 
     private int appWidgetId;
@@ -26,12 +26,12 @@ public class SelectCardForWidgetActivity extends MainActivity implements SelectC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final Intent intent = getIntent();
+        final var intent = getIntent();
         if (intent == null) {
             finish();
             return;
         }
-        final Bundle args = intent.getExtras();
+        final var args = intent.getExtras();
         if (args == null) {
             finish();
             return;

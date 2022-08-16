@@ -50,7 +50,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
-            final Intent receivedIntent = getIntent();
+            final var receivedIntent = getIntent();
             final String receivedAction = receivedIntent.getAction();
             final String receivedType = receivedIntent.getType();
             DeckLog.info(receivedAction);
