@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import android.app.Application;
+import android.util.Pair;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -13,7 +14,6 @@ import androidx.preference.PreferenceManager;
 import java.io.File;
 import java.util.List;
 
-import io.reactivex.disposables.Disposable;
 import it.niedermann.android.sharedpreferences.SharedPreferenceBooleanLiveData;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -118,7 +118,7 @@ public class MainViewModel extends AndroidViewModel {
         this.syncManager = syncManager;
     }
 
-    public Disposable synchronize(@NonNull ResponseCallback<Boolean> responseCallback) {
+    public LiveData<Pair<Integer, Integer>> synchronize(@NonNull ResponseCallback<Boolean> responseCallback) {
         return syncManager.synchronize(responseCallback);
     }
 

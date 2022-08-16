@@ -244,7 +244,7 @@ public class SyncManager {
                                     });
                                     executor.submit(() -> {
                                         try {
-                                            disposable.add(syncHelper.doUpSyncFor(new BoardDataProvider(progress$)));
+                                            syncHelper.doUpSyncFor(new BoardDataProvider(progress$));
                                         } catch (Throwable e) {
                                             DeckLog.logError(e);
                                             responseCallback.onError(e);
@@ -263,7 +263,7 @@ public class SyncManager {
                             syncHelper.setResponseCallback(callback);
 
                             try {
-                                disposable.add(syncHelper.doSyncFor(new BoardDataProvider(progress$)));
+                                syncHelper.doSyncFor(new BoardDataProvider(progress$));
                             } catch (Throwable e) {
                                 DeckLog.logError(e);
                                 responseCallback.onError(e);
