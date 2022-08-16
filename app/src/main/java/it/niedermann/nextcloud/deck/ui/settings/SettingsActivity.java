@@ -14,12 +14,14 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private ActivitySettingsBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
 
-        final ActivitySettingsBinding binding = ActivitySettingsBinding.inflate(getLayoutInflater());
+        binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
@@ -35,6 +37,12 @@ public class SettingsActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish(); // close this activity as oppose to navigating up
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
     }
 
     @NonNull

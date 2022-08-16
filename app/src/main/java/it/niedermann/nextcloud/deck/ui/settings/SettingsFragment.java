@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.settings;
 
+import static it.niedermann.nextcloud.deck.DeckApplication.setAppTheme;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,7 +9,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -16,8 +17,6 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference;
-
-import static it.niedermann.nextcloud.deck.DeckApplication.setAppTheme;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
@@ -49,7 +48,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             DeckLog.error("Could not find preference with key:", getString(R.string.pref_key_debugging));
         }
 
-        final ListPreference backgroundSyncPref = findPreference(getString(R.string.pref_key_background_sync));
+        final var backgroundSyncPref = findPreference(getString(R.string.pref_key_background_sync));
         if (backgroundSyncPref != null) {
             backgroundSyncPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
                 SyncWorker.update(requireContext().getApplicationContext(), (String) newValue);
@@ -59,7 +58,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             DeckLog.error("Could not find preference with key", getString(R.string.pref_key_background_sync));
         }
 
-        final Preference themePref = findPreference(getString(R.string.pref_key_dark_theme));
+        final var themePref = findPreference(getString(R.string.pref_key_dark_theme));
         if (themePref != null) {
             themePref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
                 setAppTheme(Integer.parseInt((String) newValue));

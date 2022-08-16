@@ -7,7 +7,9 @@ import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -34,6 +36,8 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 
     private static final String ALREADY_ARCHIVED_INDICATOR = "Operation not allowed. This card is archived.";
+    // see https://github.com/stefan-niedermann/nextcloud-deck/issues/1073
+    private static final Set<JoinCardWithLabel> LABEL_JOINS_IN_SYNC = Collections.synchronizedSet(new HashSet<>());
     protected Board board;
     protected FullStack stack;
 
@@ -51,7 +55,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         }
         List<FullCard> result = Collections.synchronizedList(new ArrayList<>());
         for (Card card : stack.getCards()) {
-            serverAdapter.getCard(board.getId(), stack.getId(), card.getId(), new ResponseCallback<FullCard>(responder.getAccount()) {
+            serverAdapter.getCard(board.getId(), stack.getId(), card.getId(), new ResponseCallback<>(responder.getAccount()) {
                 @Override
                 public void onResponse(FullCard response) {
                     result.add(response);
@@ -172,7 +176,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         CardUpdate update = toCardUpdate(entity);
         update.setStackId(stack.getId());
         // https://github.com/stefan-niedermann/nextcloud-deck/issues/787 resolve archiving-conflict
-        return serverAdapter.updateCard(board.getId(), stack.getId(), update, new ResponseCallback<FullCard>(callback.getAccount()) {
+        return serverAdapter.updateCard(board.getId(), stack.getId(), update, new ResponseCallback<>(callback.getAccount()) {
             @Override
             public void onResponse(FullCard response) {
                 callback.onResponse(response);
@@ -251,7 +255,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
                 if (changedLabel.getLabelId() == null || changedLabel.getCardId() == null) {
                     dataBaseAdapter.deleteJoinedLabelForCardPhysicallyByRemoteIDs(account.getId(), changedLabel.getCardId(), changedLabel.getLabelId());
                 } else {
-                    disposable.add(serverAdapter.unassignLabelFromCard(board.getId(), stack.getId(), changedLabel.getCardId(), changedLabel.getLabelId(), new ResponseCallback<Void>(account) {
+                    disposable.add(serverAdapter.unassignLabelFromCard(board.getId(), stack.getId(), changedLabel.getCardId(), changedLabel.getLabelId(), new ResponseCallback<>(account) {
                         @Override
                         public void onResponse(Void response) {
                             dataBaseAdapter.deleteJoinedLabelForCardPhysicallyByRemoteIDs(account.getId(), changedLabel.getCardId(), changedLabel.getLabelId());
@@ -263,13 +267,24 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
                     // Sync next time, the card should be available on server then.
                     continue;
                 } else {
-                    disposable.add(serverAdapter.assignLabelToCard(board.getId(), stack.getId(), changedLabel.getCardId(), changedLabel.getLabelId(), new ResponseCallback<Void>(account) {
-                        @Override
-                        public void onResponse(Void response) {
-                            Label label = dataBaseAdapter.getLabelByRemoteIdDirectly(account.getId(), changedLabel.getLabelId());
-                            dataBaseAdapter.setStatusForJoinCardWithLabel(card.getLocalId(), label.getLocalId(), DBStatus.UP_TO_DATE.getId());
-                        }
-                    }));
+                    if (!LABEL_JOINS_IN_SYNC.contains(changedLabel)) {
+                        // see https://github.com/stefan-niedermann/nextcloud-deck/issues/1073
+                        LABEL_JOINS_IN_SYNC.add(changedLabel);
+                        disposable.add(serverAdapter.assignLabelToCard(board.getId(), stack.getId(), changedLabel.getCardId(), changedLabel.getLabelId(), new ResponseCallback<>(account) {
+                            @Override
+                            public void onResponse(Void response) {
+                                Label label = dataBaseAdapter.getLabelByRemoteIdDirectly(account.getId(), changedLabel.getLabelId());
+                                dataBaseAdapter.setStatusForJoinCardWithLabel(card.getLocalId(), label.getLocalId(), DBStatus.UP_TO_DATE.getId());
+                                LABEL_JOINS_IN_SYNC.remove(changedLabel);
+                            }
+
+                            @Override
+                            public void onError(Throwable throwable) {
+                                super.onError(throwable);
+                                LABEL_JOINS_IN_SYNC.remove(changedLabel);
+                            }
+                        }));
+                    }
                 }
 
             }
@@ -307,14 +322,14 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             }
             User user = dataBaseAdapter.getUserByLocalIdDirectly(changedUser.getUserId());
             if (changedUser.getStatusEnum() == DBStatus.LOCAL_DELETED) {
-                disposable.add(serverAdapter.unassignUserFromCard(board.getId(), stack.getId(), changedUser.getCardId(), user.getUid(), new ResponseCallback<Void>(account) {
+                disposable.add(serverAdapter.unassignUserFromCard(board.getId(), stack.getId(), changedUser.getCardId(), user.getUid(), new ResponseCallback<>(account) {
                     @Override
                     public void onResponse(Void response) {
                         dataBaseAdapter.deleteJoinedUserForCardPhysicallyByRemoteIDs(account.getId(), changedUser.getCardId(), user.getUid());
                     }
                 }));
             } else if (changedUser.getStatusEnum() == DBStatus.LOCAL_EDITED) {
-                disposable.add(serverAdapter.assignUserToCard(board.getId(), stack.getId(), changedUser.getCardId(), user.getUid(), new ResponseCallback<Void>(account) {
+                disposable.add(serverAdapter.assignUserToCard(board.getId(), stack.getId(), changedUser.getCardId(), user.getUid(), new ResponseCallback<>(account) {
                     @Override
                     public void onResponse(Void response) {
                         dataBaseAdapter.setStatusForJoinCardWithUser(card.getLocalId(), user.getLocalId(), DBStatus.UP_TO_DATE.getId());
@@ -361,7 +376,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             }
             if (cardToDelete.getStatus() == DBStatus.LOCAL_MOVED.getId()) {
                 //only delete, if the card isn't availible on server anymore.
-                serverAdapter.getCard(board.getId(), stack.getId(), cardToDelete.getId(), new ResponseCallback<FullCard>(new Account(accountId)) {
+                serverAdapter.getCard(board.getId(), stack.getId(), cardToDelete.getId(), new ResponseCallback<>(new Account(accountId)) {
                     @Override
                     public void onResponse(FullCard response) {
                         // do not delete, it's still there and was just moved!

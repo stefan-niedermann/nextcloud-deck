@@ -22,8 +22,8 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
     @NonNull
-    private Account account;
-    private UserSearchLiveData liveSearchForACL;
+    private final Account account;
+    private final UserSearchLiveData liveSearchForACL;
     private LiveData<List<User>> liveData;
     private Observer<List<User>> observer;
 

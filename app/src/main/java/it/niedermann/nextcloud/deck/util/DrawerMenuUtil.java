@@ -38,17 +38,17 @@ public class DrawerMenuUtil {
             boolean currentServerVersionIsSupported) {
         menu.add(Menu.NONE, MENU_ID_UPCOMING_CARDS, Menu.NONE, R.string.widget_upcoming_title).setIcon(R.drawable.calendar_blank_grey600_24dp);
         int index = 0;
-        for (Board board : boards) {
-            final MenuItem m = menu
+        for (final var board : boards) {
+            final var menuItem = menu
                     .add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, board.getColor()))
                     .setCheckable(true);
             if (currentServerVersionIsSupported) {
                 if (board.isPermissionManage()) {
-                    final AppCompatImageButton contextMenu = new AppCompatImageButton(context);
+                    final var contextMenu = new AppCompatImageButton(context);
                     contextMenu.setBackgroundDrawable(null);
                     contextMenu.setImageDrawable(ViewUtil.getTintedImageView(context, R.drawable.ic_menu, ContextCompat.getColor(context, R.color.grey600)));
                     contextMenu.setOnClickListener((v) -> {
-                        PopupMenu popup = new PopupMenu(context, contextMenu);
+                        final var popup = new PopupMenu(context, contextMenu);
                         popup.getMenuInflater().inflate(R.menu.navigation_context_menu, popup.getMenu());
                         final int SHARE_BOARD_ID = -1;
                         if (board.isPermissionShare()) {
@@ -80,13 +80,13 @@ public class DrawerMenuUtil {
                         });
                         popup.show();
                     });
-                    m.setActionView(contextMenu);
+                    menuItem.setActionView(contextMenu);
                 } else if (board.isPermissionShare()) {
-                    final AppCompatImageButton contextMenu = new AppCompatImageButton(context);
+                    final var contextMenu = new AppCompatImageButton(context);
                     contextMenu.setBackgroundDrawable(null);
                     contextMenu.setImageDrawable(ViewUtil.getTintedImageView(context, R.drawable.ic_share_grey600_18dp, ContextCompat.getColor(context, R.color.grey600)));
                     contextMenu.setOnClickListener((v) -> AccessControlDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), AccessControlDialogFragment.class.getSimpleName()));
-                    m.setActionView(contextMenu);
+                    menuItem.setActionView(contextMenu);
                 }
             }
         }

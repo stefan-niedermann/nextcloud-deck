@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.card.activities;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.ViewGroup;
@@ -30,8 +29,8 @@ public class CardActivityAdapter extends RecyclerView.Adapter<CardActivityViewHo
     @NonNull
     @Override
     public CardActivityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final Context context = parent.getContext();
-        ItemActivityBinding binding = ItemActivityBinding.inflate(LayoutInflater.from(context), parent, false);
+        final var context = parent.getContext();
+        final var binding = ItemActivityBinding.inflate(LayoutInflater.from(context), parent, false);
         return new CardActivityViewHolder(binding);
     }
 

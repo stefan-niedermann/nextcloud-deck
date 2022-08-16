@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
+import static androidx.lifecycle.Transformations.map;
+
 import android.app.Application;
 
 import androidx.annotation.IntRange;
@@ -16,9 +19,6 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-
-import static androidx.lifecycle.Transformations.distinctUntilChanged;
-import static androidx.lifecycle.Transformations.map;
 
 @SuppressWarnings("WeakerAccess")
 public class FilterViewModel extends AndroidViewModel {
@@ -43,7 +43,7 @@ public class FilterViewModel extends AndroidViewModel {
     }
 
     public void clearFilterInformation(boolean alsoFilterText) {
-        final FilterInformation newFilterInformation = new FilterInformation();
+        final var newFilterInformation = new FilterInformation();
         if (alsoFilterText) {
             final FilterInformation oldFilterInformation = this.filterInformation.getValue();
             newFilterInformation.setFilterText(oldFilterInformation != null ? oldFilterInformation.getFilterText() : "");
@@ -73,43 +73,43 @@ public class FilterViewModel extends AndroidViewModel {
     }
 
     public void setFilterInformationDraftDueType(@NonNull EDueType dueType) {
-        FilterInformation newDraft = new FilterInformation(filterInformationDraft.getValue());
+        final var newDraft = new FilterInformation(filterInformationDraft.getValue());
         newDraft.setDueType(dueType);
         this.filterInformationDraft.postValue(newDraft);
     }
 
     public void addFilterInformationDraftLabel(@NonNull Label label) {
-        FilterInformation newDraft = new FilterInformation(filterInformationDraft.getValue());
+        final var newDraft = new FilterInformation(filterInformationDraft.getValue());
         newDraft.addLabel(label);
         this.filterInformationDraft.postValue(newDraft);
     }
 
     public void addFilterInformationUser(@NonNull User user) {
-        FilterInformation newDraft = new FilterInformation(filterInformationDraft.getValue());
+        final var newDraft = new FilterInformation(filterInformationDraft.getValue());
         newDraft.addUser(user);
         this.filterInformationDraft.postValue(newDraft);
     }
 
     public void setNotAssignedUser(boolean notAssignedUser) {
-        FilterInformation newDraft = new FilterInformation(filterInformationDraft.getValue());
+        final var newDraft = new FilterInformation(filterInformationDraft.getValue());
         newDraft.setNoAssignedUser(notAssignedUser);
         this.filterInformationDraft.postValue(newDraft);
     }
 
     public void setNotAssignedLabel(boolean notAssignedLabel) {
-        FilterInformation newDraft = new FilterInformation(filterInformationDraft.getValue());
+        final var newDraft = new FilterInformation(filterInformationDraft.getValue());
         newDraft.setNoAssignedLabel(notAssignedLabel);
         this.filterInformationDraft.postValue(newDraft);
     }
 
     public void removeFilterInformationLabel(@NonNull Label label) {
-        FilterInformation newDraft = new FilterInformation(filterInformationDraft.getValue());
+        final var newDraft = new FilterInformation(filterInformationDraft.getValue());
         newDraft.removeLabel(label);
         this.filterInformationDraft.postValue(newDraft);
     }
 
     public void removeFilterInformationUser(@NonNull User user) {
-        FilterInformation newDraft = new FilterInformation(filterInformationDraft.getValue());
+        final var newDraft = new FilterInformation(filterInformationDraft.getValue());
         newDraft.removeUser(user);
         this.filterInformationDraft.postValue(newDraft);
     }
@@ -120,7 +120,7 @@ public class FilterViewModel extends AndroidViewModel {
 
     public void setFilterText(@NonNull String filterText) {
         DeckLog.info("New filterText:", filterText);
-        FilterInformation newDraft = new FilterInformation(filterInformation.getValue());
+        final var newDraft = new FilterInformation(filterInformation.getValue());
         newDraft.setFilterText(filterText);
         this.filterInformation.postValue(newDraft);
     }

@@ -24,7 +24,7 @@ public class CommentsUtil {
                     break;
                 }
             }
-            if (text.length()-1 < start || text.charAt(start) != '@') {
+            if (text.length() - 1 < start || text.charAt(start) != '@') {
                 return null;
             }
 

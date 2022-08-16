@@ -17,9 +17,9 @@ public class TestUtil {
      * @see <a href="https://gist.github.com/JoseAlcerreca/1e9ee05dcdd6a6a6fa1cbfc125559bba">Source</a>
      */
     public static <T> T getOrAwaitValue(final LiveData<T> liveData) throws InterruptedException {
-        final Object[] data = new Object[1];
-        final CountDownLatch latch = new CountDownLatch(1);
-        Observer<T> observer = new Observer<T>() {
+        final var data = new Object[1];
+        final var latch = new CountDownLatch(1);
+        final var observer = new Observer<T>() {
             @Override
             public void onChanged(@Nullable T o) {
                 data[0] = o;

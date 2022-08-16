@@ -27,7 +27,7 @@ public class CardActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentCardEditTabActivitiesBinding.inflate(inflater, container, false);
-        final EditCardViewModel viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
+        final var viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
 
         // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
         // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
@@ -36,21 +36,22 @@ public class CardActivityFragment extends Fragment {
             return binding.getRoot();
         }
 
-        if (!viewModel.isCreateMode()) {
-            viewModel.syncActivitiesForCard(viewModel.getFullCard().getCard()).observe(getViewLifecycleOwner(), (activities -> {
-                if (activities == null || activities.size() == 0) {
-                    binding.emptyContentView.setVisibility(View.VISIBLE);
-                    binding.activitiesList.setVisibility(View.GONE);
-                } else {
-                    binding.emptyContentView.setVisibility(View.GONE);
-                    binding.activitiesList.setVisibility(View.VISIBLE);
-                    binding.activitiesList.setAdapter(new CardActivityAdapter(activities, requireActivity().getMenuInflater()));
-                }
-            }));
-        } else {
-            binding.emptyContentView.setVisibility(View.VISIBLE);
-            binding.activitiesList.setVisibility(View.GONE);
-        }
+        viewModel.syncActivitiesForCard(viewModel.getFullCard().getCard()).observe(getViewLifecycleOwner(), (activities -> {
+            if (activities == null || activities.size() == 0) {
+                binding.emptyContentView.setVisibility(View.VISIBLE);
+                binding.activitiesList.setVisibility(View.GONE);
+            } else {
+                binding.emptyContentView.setVisibility(View.GONE);
+                binding.activitiesList.setVisibility(View.VISIBLE);
+                binding.activitiesList.setAdapter(new CardActivityAdapter(activities, requireActivity().getMenuInflater()));
+            }
+        }));
         return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
     }
 }

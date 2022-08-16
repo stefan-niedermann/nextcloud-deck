@@ -1,33 +1,30 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao;
 
-import android.os.Build;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
-
-import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+
+import it.niedermann.nextcloud.deck.TestUtil;
+import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil;
+
 @RunWith(RobolectricTestRunner.class)
-@Config(sdk = {Build.VERSION_CODES.P})
 public class AccountDaoTest extends AbstractDaoTest {
 
     @Test
     public void testCreate() {
-        final Account accountToCreate = new Account();
+        final var accountToCreate = new Account();
         accountToCreate.setName("test@example.com");
         accountToCreate.setUserName("test");
         accountToCreate.setUrl("https://example.com");
 
-        long id = db.getAccountDao().insert(accountToCreate);
-        final Account account = db.getAccountDao().getAccountByIdDirectly(id);
+        final long id = db.getAccountDao().insert(accountToCreate);
+        final var account = db.getAccountDao().getAccountByIdDirectly(id);
 
         assertEquals("test", account.getUserName());
         assertEquals("https://example.com", account.getUrl());
@@ -42,14 +39,14 @@ public class AccountDaoTest extends AbstractDaoTest {
 
     @Test
     public void testGetAccountById() throws InterruptedException {
-        final Account account = DeckDatabaseTestUtil.createAccount(db.getAccountDao());
-        assertEquals(account.getName(), DeckDatabaseTestUtil.getOrAwaitValue(db.getAccountDao().getAccountById(account.getId())).getName());
+        final var account = DeckDatabaseTestUtil.createAccount(db.getAccountDao());
+        assertEquals(account.getName(), TestUtil.getOrAwaitValue(db.getAccountDao().getAccountById(account.getId())).getName());
     }
 
     @Test
     public void testGetAccountByName() throws InterruptedException {
-        final Account account = DeckDatabaseTestUtil.createAccount(db.getAccountDao());
-        assertEquals(account.getUserName(), DeckDatabaseTestUtil.getOrAwaitValue(db.getAccountDao().getAccountByName(account.getName())).getUserName());
+        final var account = DeckDatabaseTestUtil.createAccount(db.getAccountDao());
+        assertEquals(account.getUserName(), TestUtil.getOrAwaitValue(db.getAccountDao().getAccountByName(account.getName())).getUserName());
     }
 
     @Test
@@ -58,7 +55,7 @@ public class AccountDaoTest extends AbstractDaoTest {
         for (int i = 0; i < expectedCount; i++) {
             DeckDatabaseTestUtil.createAccount(db.getAccountDao());
         }
-        assertEquals(expectedCount, DeckDatabaseTestUtil.getOrAwaitValue(db.getAccountDao().getAllAccounts()).size());
+        assertEquals(expectedCount, TestUtil.getOrAwaitValue(db.getAccountDao().getAllAccounts()).size());
     }
 
     @Test
@@ -76,7 +73,7 @@ public class AccountDaoTest extends AbstractDaoTest {
         for (int i = 0; i < expectedCount; i++) {
             DeckDatabaseTestUtil.createAccount(db.getAccountDao());
         }
-        assertEquals(Integer.valueOf(expectedCount), DeckDatabaseTestUtil.getOrAwaitValue(db.getAccountDao().countAccounts()));
+        assertEquals(Integer.valueOf(expectedCount), TestUtil.getOrAwaitValue(db.getAccountDao().countAccounts()));
     }
 
     @Test
@@ -90,7 +87,7 @@ public class AccountDaoTest extends AbstractDaoTest {
 
     @Test
     public void testGetAccountByNameDirectly() {
-        final Account account = DeckDatabaseTestUtil.createAccount(db.getAccountDao());
+        final var account = DeckDatabaseTestUtil.createAccount(db.getAccountDao());
         assertEquals(account.getName(), db.getAccountDao().getAccountByNameDirectly(account.getName()).getName());
     }
 }

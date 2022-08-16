@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.util;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.webkit.MimeTypeMap;
@@ -77,7 +76,7 @@ public final class UriUtils {
             displayNameColumn = MediaStore.Files.FileColumns.DISPLAY_NAME;
         }
 
-        try (Cursor cursor = context.getContentResolver().query(
+        try (final var cursor = context.getContentResolver().query(
                 uri, new String[]{displayNameColumn},
                 null, null, null
         )) {

@@ -67,6 +67,7 @@ public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extend
         protected void publishResults(CharSequence constraint, FilterResults results) {
             if (results != null && results.count > 0) {
                 if (!itemList.equals(results.values)) {
+                    //noinspection unchecked
                     itemList = (List<ItemType>) results.values;
                 }
                 notifyDataSetChanged();

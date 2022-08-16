@@ -1,6 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">Aberi su calàsciu de navigatzione</string>
     <string name="navigation_drawer_close">Serra su calàsciu de navigatzione</string>
+    <string name="hint_search_deck">Chirca deck</string>
 
     <string name="simple_boards">Tabellas</string>
     <string name="simple_add">Agiunghe</string>
@@ -32,6 +33,7 @@
     <string name="simple_copied">Copiadu</string>
     <string name="simple_archive">Archìviu</string>
     <string name="simple_unassigned"> No assignadu</string>
+    <string name="hint_error_appeared">Ddoe at àpidu un errore</string>
 
     <string name="edit_board">Compila tabellone</string>
     <string name="archive_board">Archìvia tabella</string>
@@ -120,7 +122,14 @@
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Marca</string>
     <string name="settings_compact_title">Modalidade cumpata</string>
+    <string name="settings_cover_images_title">Cua imàgines</string>
+    <string name="settings_debugging">Registros de debug</string>
+    <string name="settings_etags">Imprea etichetas de identidade</string>
+    <string name="settings_etags_summary">Faghet sa sincronizatzione prus lestra</string>
     <string name="settings_background_sync">Sincronizatzione isfundu</string>
+    <string name="settings_compress_image_attachments">Cumprimi is immàgines in carrigamentu</string>
+    <string name="search_in">Chirca in %1$s</string>
+    <string name="settings_compress_image_attachments_summary">Carrigamentu prus lestru, prus pagu calidade</string>
     <string name="pref_value_wifi_and_mobile">Sincroniza in Wi-Fi e datos mòbiles</string>
     <string name="pref_value_wifi_only">Sincroniza isceti in Wi-Fi</string>
     <string-array name="darkmode_entries">
@@ -138,12 +147,12 @@
     <string name="no_content">Perunu cuntenutu ancora</string>
     <string name="last_background_sync">Ùrtima sincronizatzione in background:</string>
     <string name="simple_off">Istudadu</string>
-    <string name="minutes_15">15 Minutos</string>
-    <string name="hour_1">1 Ora</string>
-    <string name="hours_6">6 Oras</string>
+    <string name="minutes_15">15 minutos</string>
+    <string name="hour_1">1 ora</string>
+    <string name="hours_6">6 oras</string>
     <string name="action_card_move">Tràmuda ischeda</string>
     <string name="action_card_move_title">Tràmuda %1$s</string>
-    <string name="title_is_mandatory">Su tìtulu est obligatòriu</string>
+    <string name="title_is_mandatory">Su tìtulu est rechertu</string>
     <string name="provide_at_least_a_title_or_description">Fruni a su mancu unu tìtulu e una descritzione</string>
     <string name="welcome_text">Ti donamus sa benebènnida in %1$s</string>
     <string name="maintenance_mode_explanation">Su serbidore %1$s immoe est in modalidade de mantenidura. Pro praghere, cuntata a s\'amministradore tuo o proa prus a tardu.</string>
@@ -178,7 +187,7 @@
     <string name="archived_cards">Ischedas archiviadas</string>
     <string name="action_card_dearchive">Annulla archiviamentu ischeda</string>
     <string name="action_archived_cards">Isfògia ischedas archiviadas</string>
-    <string name="attachment_already_exists">Alligongiadu esistit giai</string>
+    <string name="attachment_already_exists">S\'alligongiadu esistit giai</string>
     <string name="pick_custom_color">Sèbera colore personalizadu</string>
     <string name="manage_tags">Gesti etichetas</string>
     <string name="add_tag">Agiunghe eticheta</string>
@@ -197,6 +206,7 @@
     <string name="operation_not_yet_supported">Ancora non suportadu</string>
     <string name="error_revoking_ac">Errore boghende s\'atzessu a %1$s</string>
     <string name="error_create_label">Errore creende eticheta%1$s</string>
+    <string name="maintenance_mode">Su serbidore est in modalidade de mantenidura</string>
     <string name="server_error">Errore serbidore</string>
     <string name="error_edit_activity_killed_by_android">Android at agabbadu sa modalidade de modìfica ca rechediat prus risorsas de sistema pro àteras aplicatziones.</string>
 
@@ -205,7 +215,8 @@
     <string name="error_dialog_tip_clear_storage_might_help">Si sighit su problema, proa a cantzellare s\'archiviatzione de ambas is aplicatziones Nextcloud e Nextcloud Notes pro isorvere su problema.</string>
     <string name="error_dialog_tip_database_upgrade_failed">S\'agiornamentu de sa base de datos no est andadu bene. Sinnala su problema e lìmpia s\'archiviatzione pro impreare s\'aplicatzione comente a su sòlitu.</string>
     <string name="error_dialog_tip_clear_storage">Podes limpiare s\'archiviatzione aberende is informatziones de s\'aplicatzione e seberende Archiviatzione → Lìmpia archiviatzione. </string>
-    <string name="error_dialog_tip_files_outdated">S\'aplicatzione tua de Nextcloud paret chi siat antiga. Bìsita su Play Store o F-Droid pro otènnere s\'ùrtima versione.</string>
+    <string name="error_dialog_tip_offline_no_internet">Paret chi as proadu a esecutare una sincronizatzione chene connessione internet.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Si as ativadu s\'impostatzione \"Sincroniza cun Wi-Fi ebbia\", podes sincronizare isceti cando b\'at connessione a su Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Paret chi ddoe at unu problema cun s\'aplicatzione tua de Nextcloud. Proa a firmare ambas is aplicatzione Nextcloud e Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Si a ddas firmare no agiudat, podes proare a cantzellare s\'archiviatzione de ambas is aplicatziones.</string>
     <string name="error_dialog_timeout_instance">No ddoe at àpidu peruna risposta dae su serbidore in su tempus istabilidu. Segura·ti chi s\'istantza tua si siat esecutende in manera curreta.</string>
@@ -221,14 +232,23 @@
     <string name="error_dialog_user_not_found_in_database">S\'utente atuale non currispondet a s\'utente chi tenimus in sa base de datos. Si ses impreende LDAP in s\'istantza Nextcloud, s\'aplicatzione Nextcloud tua diat dèpere àere memorizadu unu identificativu utente bèciu. </string>
     <string name="error_dialog_capabilities_not_parsable">Non semus resèssidos a recuperare is funtzionalidades de su serbidore tuo. Segura·ti chi su serbidore siat in esecutzione e chi is àteras aplicatziones podant atzèdere a Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Un\'alligongiadu diat pòdere no èssere istadu carrigadu. Pro praghere, proa a ddu cumpartzire in un\'àtera manera e faghe·nos ìschere de su problema.</string>
+    <string name="error_dialog_certificate">Paret chi b\'apat un\'errore cun su tzertificadu de su serbidore. Controlla totu is contos in s\'aplicatzione Nextcloud pro àteras informatziones.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Pro praghere, disativa totu is funtziones de rispàrmiu de sa bateria pro Nextcloud e s\'aplicatzione Deck.</string>
+    <string name="error_dialog_unknown_error">S\'istàntzia tua Nextcloud paret chi non faghet a dda sighire. Controlla sa connessione internet e bide si ti podes connettere a s\'istàntzia tràmite su navigadore.</string>
     <string name="error_action_open_deck_info">Aberi informatziones de aplicatzione</string>
+    <string name="error_action_open_nextcloud_app">Aberi s\'aplicatzione Nextcloud</string>
     <string name="error_action_open_network">Impostatziones rete</string>
     <string name="error_action_server_logs">Log Serbidore</string>
+    <string name="error_action_open_in_browser">Aberi in su navigadore</string>
     <string name="error_action_install">Installa</string>
     <string name="error_action_report_issue">Sinnala</string>
+    <string name="error_action_update_files_app">Agiorna</string>
+    <string name="info_box_maintenance_mode">Su serbidore est in modalidade de mantenidura</string>
     <string name="info_box_version_not_supported">Versione de su serbidore %1$s non suportada, agiornala a %2$s</string>
     <string name="share_link">Cumpartzi su ligòngiu</string>
+    <string name="share_content">Cumpartzi cuntenutu</string>
+    <string name="share_content_duedate">Data de iscadèntzia: %1$s</string>
+    <string name="share_content_labels">Etichetas: %1$s</string>
     <string name="archive_cards">Archìvia is ischedas</string>
 
     <string name="manage_accounts">Gesti is contos</string>
@@ -241,7 +261,7 @@
         <item quantity="one">%1$d errore carrighende</item>
         <item quantity="other">%1$d errores carrighende</item>
     </plurals>
-    <string name="simple_report">Sinnala</string>
+    <string name="simple_report">Signala</string>
     <string name="error_action_open_battery_settings">Impostatziones bateria</string>
     <string name="move_warning">Non si podent tramudare nen is cummentos, nen is alligongiados cando si tràmudat s\'ischeda in un\'àtera lavagna.</string>
     <string name="clone_board">Clona tabella</string>
@@ -267,6 +287,7 @@
     <string name="single_card">Ischeda sìngula</string>
     <string name="project_type_room">Istantza de Talk</string>
     <string name="simple_move">Tràmuda</string>
+    <string name="cannot_upload_files_without_permission">Non faghet a carrigare archìvios sena permissos</string>
     <string name="clone_cards">Clona ischeda</string>
     <string name="simple_clone">Clona</string>
     <string name="user_avatar">Avatar de s\'utente</string>
@@ -291,4 +312,15 @@
     <string name="simple_order">Ordinamentu</string>
     <string name="edit_description">Modìfica descritzione</string>
     <string name="widget_upcoming_title">Ischedas imbenientes</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Impostatziones avatzadas</string>
+    <string name="copy_logs">Còpia registros in sa punta de billete</string>
+    <string name="app_logo">Logo de s\'aplicatzione</string>
+    <string name="log_file">Archìviu registru</string>
+    <string name="copying_logs_to_file">Còpia is registros in archìviu...</string>
+    <string name="account_imported">Contu importadu</string>
+    <string name="simple_search">Chirca</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Tìtulu (rechertu)</string>
+    <string name="saving_new_card">Sarvende s\'ischeda noa...</string>
     </resources>

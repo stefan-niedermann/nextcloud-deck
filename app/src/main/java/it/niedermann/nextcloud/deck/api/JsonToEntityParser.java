@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.api;
 
+import static it.niedermann.nextcloud.deck.exceptions.DeckException.Hint.CAPABILITIES_VERSION_NOT_PARSABLE;
+import static it.niedermann.nextcloud.deck.exceptions.TraceableException.makeTraceableIfFails;
+
 import android.graphics.Color;
 
 import com.google.gson.JsonArray;
@@ -39,9 +42,6 @@ import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
-
-import static it.niedermann.nextcloud.deck.exceptions.DeckException.Hint.CAPABILITIES_VERSION_NOT_PARSABLE;
-import static it.niedermann.nextcloud.deck.exceptions.TraceableException.makeTraceableIfFails;
 
 public class JsonToEntityParser {
 
@@ -286,7 +286,13 @@ public class JsonToEntityParser {
             board.setTitle(getNullAsEmptyString(e.get("title")));
             board.setColor(getNullAsEmptyString(e.get("color")));
             board.setEtag(getNullAsNull(e.get("ETag")));
-            board.setArchived(e.get("archived").getAsBoolean());
+            // bugfix inital sync missing archived flag
+            boolean isArchived = false;
+            if (e.has("archived")) {
+                JsonElement archived = e.get("archived");
+                isArchived = !archived.isJsonNull() && archived.getAsBoolean();
+            }
+            board.setArchived(isArchived);
 
             board.setLastModified(getTimestampFromLong(e.get("lastModified")));
             board.setDeletedAt(getTimestampFromLong(e.get("deletedAt")));
@@ -438,7 +444,12 @@ public class JsonToEntityParser {
                 card.setAttachmentCount(e.get("attachmentCount").getAsInt());
             }
 
-            card.setOrder(e.get("order").getAsInt());
+            if (e.has("order") && !e.get("order").isJsonNull()) {
+                card.setOrder(e.get("order").getAsInt());
+            } else {
+                card.setOrder(0);
+            }
+
             card.setOverdue(e.get("overdue").getAsInt());
             card.setDueDate(getTimestampFromString(e.get("duedate")));
             card.setCommentsUnread(e.get("commentsUnread").getAsInt());
@@ -659,7 +670,7 @@ public class JsonToEntityParser {
     }
 
     private static Instant getTimestampFromString(JsonElement jsonElement) {
-        if (jsonElement.isJsonNull()) {
+        if (jsonElement == null || jsonElement.isJsonNull()) {
             return null;
         } else {
             String dateAsString = jsonElement.getAsString();
@@ -668,7 +679,7 @@ public class JsonToEntityParser {
     }
 
     private static Instant getTimestampFromLong(JsonElement jsonElement) {
-        if (jsonElement.isJsonNull()) {
+        if (jsonElement == null || jsonElement.isJsonNull()) {
             return null;
         } else {
             return Instant.ofEpochMilli(jsonElement.getAsLong() * 1000);

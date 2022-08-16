@@ -1,5 +1,12 @@
 # Frequently asked questions
 
+- [I have experienced an error](#i-have-experienced-an-error)
+- [Why has my bug report been closed?](#why-has-my-bug-report-been-closed)
+- [Why is my card not visible in the upcoming cards view?](#why-is-my-card-not-visible-in-the-upcoming-cards-view)
+- [Why don't you make an option for…?](#why-dont-you-make-an-option-for)
+- [Why don't you make an iOS app?](#why-dont-you-make-an-ios-app)
+- [How to receive notifications when a due date is reached?](#how-to-receive-notifications-when-a-due-date-is-reached)
+
 ## I have experienced an error
 
 Sorry. There are so many different environments, that it is impossible for us to test each and every constellation.
@@ -13,10 +20,14 @@ You can achieve this by navigating to
 
 ```
 Android settings
- ↳ Apps
-   ↳ Nextcloud / Deck
-     ↳ Storage
-       ↳ Clear storage
+       ↓
+     Apps
+       ↓
+Nextcloud / Notes
+       ↓
+    Storage
+       ↓
+ Clear storage
 ```
 
 Often there is an issue with the state of the server app. Try to create a new test account at your Nextcloud instance and connect to it.
@@ -50,6 +61,22 @@ This is necessary for two reasons:
 1. We have a rapid development cycle - bugs which have been reported weeks ago might no longer relevant
 2. We are loosing the context of a report or a question over the time. We have many things to care about and digging into an issue deep and then relying on an response which is not coming is a waste of our limited free time
 
+## Why is my card not visible in the upcoming cards view?
+
+Checkout the [Upcoming Analyzer](https://upcoming-analyzer.niedermann.it/) to check out the criterias your card needs to match to be shown in the upcoming cards view.
+
+## Why don't you make an option for…?
+
+We prefer good defaults over providing an option for each edge case. Our resources are quite limited, so we have to consider introducing new options very carefully.
+
+1. A feature is implemented quickly, but who will maintain it for the next 5 years?
+2. Each option increases the test matrix exponentially and leads to huge efforts to test every combination
+3. Each option increases the possible constellations, making it hard to track down issues
+4. Each option increases the visual noise for people who will *not* use the options
+5. Each option increases the maintenance efforts, making it harder over the time to work on actual features
+6. Each option introduces new side effects, which might lead to undiscovered bugs or break existing features
+7. The Android app aims to mirror feature parity with the corresponding server app
+
 ## Why don't you make an iOS app?
 
 We¹ believe, that the idea of Nextcloud - own your data - does not match the mindset of Apple and its products. We believe, that protecting your data is not possible on closed source operation systems like iOS. Yes, also Android often is not fully open source and distributed with proprietary stuff, but you have the choice and the possibility to use the app on the Android Open Source Project because the app does not depend on any proprietary libraries.
@@ -57,3 +84,15 @@ Also licenses for SDKs, Hardware and distributing is ridiculous expensive for an
 The API of the Deck server app is well documented and everyone is free to start an iOS client. Of course we appreciate a growing ecosystem even if we will not contribute to this part personally.
 
 ¹ Disclaimer: "We" are not working for nor related to Nextcloud Inc. in any way. We are just a few volunteers which contribute to this app in our free time.
+
+## How to receive notifications when a due date is reached?
+
+When a card reaches its due date, users usually want to get notified. The Deck app can send push notifications to you, which are displayed in the browser, via the [Nextcloud Desktop sync client](https://nextcloud.com/install/#install-clients) and with the [Nextcloud Android app](https://apps.nextcloud.com/apps/android_nextcloud_app). While you won't even need the Deck Android app, it will provide an enhanced integration starting with the Nextcloud Android app `3.14.2` and Deck Android `1.10.x`: Clicking on an notification will directly open the affected card in the Deck Android app.
+
+In order to make this all work, you will need two things:
+1. Make sure that your Nextcloud Android app is able to receive push notifications (You will need Google Play services for that)
+2. Configure in your user settings, that you *want* to receive push notifications:
+    - Click in the top right of your browser on your avatar
+    - Choose "settings" and then "activities" in the left sidebar.
+    - Enable the checkbox `Changes in the Deck app`
+       ![Enable push notifications for Deck](https://user-images.githubusercontent.com/4741199/125485987-398f3ee8-f59c-4234-8453-1da679d4d7c5.png)

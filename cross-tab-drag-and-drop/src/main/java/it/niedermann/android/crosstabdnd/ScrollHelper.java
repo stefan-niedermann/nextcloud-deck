@@ -2,12 +2,14 @@ package it.niedermann.android.crosstabdnd;
 
 import android.os.Handler;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 @SuppressWarnings("WeakerAccess")
 public class ScrollHelper implements Runnable {
 
-    private static final int SROLL_SPEED = 200;
+    private static final int SCROLL_SPEED = 200;
 
     public enum ScrollDirection {
         UP,
@@ -17,9 +19,9 @@ public class ScrollHelper implements Runnable {
     private boolean shouldScroll = false;
     private ScrollDirection scrollDirection;
     private RecyclerView currentRecyclerView;
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
 
-    public void startScroll(RecyclerView recyclerView, ScrollDirection scrollDirection) {
+    public void startScroll(@NonNull RecyclerView recyclerView, @Nullable ScrollDirection scrollDirection) {
         this.scrollDirection = scrollDirection;
         this.currentRecyclerView = recyclerView;
         if (!shouldScroll) {
@@ -35,9 +37,9 @@ public class ScrollHelper implements Runnable {
     @Override
     public void run() {
         if (scrollDirection == ScrollDirection.UP) {
-            currentRecyclerView.smoothScrollBy(0, SROLL_SPEED * -1);
+            currentRecyclerView.smoothScrollBy(0, SCROLL_SPEED * -1);
         } else {
-            currentRecyclerView.smoothScrollBy(0, SROLL_SPEED);
+            currentRecyclerView.smoothScrollBy(0, SCROLL_SPEED);
         }
         if (shouldScroll) {
             handler.postDelayed(this, 100);

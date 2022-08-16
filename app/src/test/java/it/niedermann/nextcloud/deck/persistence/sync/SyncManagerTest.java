@@ -1,12 +1,30 @@
 package it.niedermann.nextcloud.deck.persistence.sync;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import android.accounts.NetworkErrorException;
 import android.content.Context;
-import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.test.core.app.ApplicationProvider;
 
@@ -14,15 +32,12 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.nextcloud.android.sso.api.ParsedResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 import java.util.Collections;
@@ -55,28 +70,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AbstractS
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 @RunWith(RobolectricTestRunner.class)
-@Config(sdk = {Build.VERSION_CODES.P})
 public class SyncManagerTest {
 
     @Rule
@@ -91,7 +85,7 @@ public class SyncManagerTest {
 
     @Before
     public void setup() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        final Constructor<SyncManager> constructor = SyncManager.class.getDeclaredConstructor(Context.class,
+        final var constructor = SyncManager.class.getDeclaredConstructor(Context.class,
                 DataBaseAdapter.class,
                 ServerAdapter.class,
                 ExecutorService.class,
@@ -107,21 +101,21 @@ public class SyncManagerTest {
     @Test
     public void testHasAccounts() throws InterruptedException {
         when(dataBaseAdapter.hasAccounts()).thenReturn(new MutableLiveData<>(true));
-        final LiveData<Boolean> hasAccountsPositive = syncManager.hasAccounts();
+        final var hasAccountsPositive = syncManager.hasAccounts();
         assertTrue(TestUtil.getOrAwaitValue(hasAccountsPositive));
         verify(dataBaseAdapter, times(1)).hasAccounts();
 
         reset(dataBaseAdapter);
 
         when(dataBaseAdapter.hasAccounts()).thenReturn(new MutableLiveData<>(false));
-        final LiveData<Boolean> hasAccountsNegative = syncManager.hasAccounts();
+        final var hasAccountsNegative = syncManager.hasAccounts();
         assertFalse(TestUtil.getOrAwaitValue(hasAccountsNegative));
         verify(dataBaseAdapter, times(1)).hasAccounts();
     }
 
     @Test
     public void testReadAccount() throws InterruptedException {
-        final Account account = new Account();
+        final var account = new Account();
         account.setId(5L);
         account.setName("text@example.com");
 
@@ -163,36 +157,36 @@ public class SyncManagerTest {
      */
     @Test
     public void testSynchronizeBoard() {
-        final SyncHelper syncHelper = mock(SyncHelper.class);
+        final var syncHelper = mock(SyncHelper.class);
 
         when(dataBaseAdapter.getFullBoardByLocalIdDirectly(anyLong(), anyLong())).thenReturn(new FullBoard());
         when(syncHelper.setResponseCallback(any())).thenReturn(syncHelper);
         doNothing().when(syncHelper).doSyncFor(any());
         when(syncHelperFactory.create(any(), any(), any())).thenReturn(syncHelper);
 
-        final ResponseCallback<Boolean> responseCallback = spy(new ResponseCallback<Boolean>(new Account(1L)) {
+        final var responseCallback = spy(new ResponseCallback<Boolean>(new Account(1L)) {
             @Override
             public void onResponse(Boolean response) {
 
             }
         });
 
-        syncManager.synchronizeBoard(responseCallback, 1L);
+        syncManager.synchronizeBoard(1L, responseCallback);
 
         verify(syncHelper, times(1)).setResponseCallback(responseCallback);
         verify(syncHelper, times(1)).doSyncFor(any(StackDataProvider.class));
 
         doThrow(OfflineException.class).when(syncHelper).doSyncFor(any());
 
-        syncManager.synchronizeBoard(responseCallback, 1L);
+        syncManager.synchronizeBoard(1L, responseCallback);
 
         verify(responseCallback, times(1)).onError(any(OfflineException.class));
     }
 
     @Test
     public void testSynchronizeCard() {
-        final SyncHelper syncHelper = mock(SyncHelper.class);
-        final FullStack fullStack = new FullStack();
+        final var syncHelper = mock(SyncHelper.class);
+        final var fullStack = new FullStack();
         fullStack.setStack(new Stack("Test", 1L));
 
         when(dataBaseAdapter.getFullStackByLocalIdDirectly(anyLong())).thenReturn(fullStack);
@@ -201,14 +195,14 @@ public class SyncManagerTest {
         doNothing().when(syncHelper).doSyncFor(any());
         when(syncHelperFactory.create(any(), any(), any())).thenReturn(syncHelper);
 
-        final ResponseCallback<Boolean> responseCallback = spy(new ResponseCallback<Boolean>(new Account(1L)) {
+        final var responseCallback = spy(new ResponseCallback<Boolean>(new Account(1L)) {
             @Override
             public void onResponse(Boolean response) {
 
             }
         });
 
-        final Card card = new Card();
+        final var card = new Card();
         card.setStackId(5000L);
 
         syncManager.synchronizeCard(responseCallback, card);
@@ -224,15 +218,37 @@ public class SyncManagerTest {
     }
 
     @Test
-    public void testCreateAccount() throws InterruptedException {
-        final Account account = new Account(1337L, "Test", "Peter", "example.com");
-        final WrappedLiveData<Account> result = new WrappedLiveData<>();
-        result.setValue(account);
-        when(dataBaseAdapter.createAccount(any(Account.class))).thenReturn(result);
+    @SuppressWarnings("unchecked")
+    public void testCreateAccountWithSuccessfulFirstBoardCall() {
+        final var account = new Account(1337L, "Test", "Peter", "example.com");
+        final var callback = mock(IResponseCallback.class);
+        when(dataBaseAdapter.createAccountDirectly(any(Account.class))).thenReturn(account);
+        doAnswer(invocation -> {
+            ((ResponseCallback<ParsedResponse<List<FullBoard>>>) invocation.getArgument(0))
+                    .onResponse(ParsedResponse.of(Collections.emptyList()));
+            return null;
+        }).when(serverAdapter).getBoards(any());
 
-        TestUtil.getOrAwaitValue(syncManager.createAccount(account));
+        syncManager.createAccount(account, callback);
+        verify(dataBaseAdapter, times(1)).createAccountDirectly(account);
+        verify(callback, times(1)).onResponse(account);
+    }
 
-        verify(dataBaseAdapter, times(1)).createAccount(account);
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testCreateAccountWithFailingFirstBoardCall() {
+        final var account = new Account(1337L, "Test", "Peter", "example.com");
+        final var callback = mock(IResponseCallback.class);
+        when(dataBaseAdapter.createAccountDirectly(any(Account.class))).thenReturn(account);
+        doAnswer(invocation -> {
+            ((ResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(0))
+                    .onError(new NextcloudHttpRequestFailedException(404, new RuntimeException()));
+            return null;
+        }).when(serverAdapter).getBoards(any());
+
+        syncManager.createAccount(account, callback);
+        verify(dataBaseAdapter, times(1)).createAccountDirectly(account);
+        verify(callback, times(1)).onResponse(account);
     }
 
     @Test
@@ -246,19 +262,19 @@ public class SyncManagerTest {
 
     @Test
     public void testReadAccountDirectly() {
-        final Account account = new Account(1337L, "Test", "Peter", "example.com");
+        final var account = new Account(1337L, "Test", "Peter", "example.com");
         when(dataBaseAdapter.readAccountDirectly(1337L)).thenReturn(account);
         assertEquals(account, syncManager.readAccountDirectly(1337L));
     }
 
     @Test
     public void testReadAccounts() throws InterruptedException {
-        final List<Account> accounts = Collections.singletonList(new Account(1337L, "Test", "Peter", "example.com"));
-        final WrappedLiveData<List<Account>> wrappedAccounts = new WrappedLiveData<>();
+        final var accounts = Collections.singletonList(new Account(1337L, "Test", "Peter", "example.com"));
+        final var wrappedAccounts = new WrappedLiveData<List<Account>>();
         wrappedAccounts.setValue(accounts);
         when(dataBaseAdapter.readAccounts()).thenReturn(wrappedAccounts);
 
-        final List<Account> result = TestUtil.getOrAwaitValue(syncManager.readAccounts());
+        final var result = TestUtil.getOrAwaitValue(syncManager.readAccounts());
 
         verify(dataBaseAdapter, times(1)).readAccounts();
         assertEquals(1, result.size());
@@ -266,18 +282,18 @@ public class SyncManagerTest {
 
     @Test
     public void testReadAccountsDirectly() {
-        final List<Account> accounts = Collections.singletonList(new Account(1337L, "Test", "Peter", "example.com"));
+        final var accounts = Collections.singletonList(new Account(1337L, "Test", "Peter", "example.com"));
         when(dataBaseAdapter.getAllAccountsDirectly()).thenReturn(accounts);
         assertEquals(1, syncManager.readAccountsDirectly().size());
     }
 
     @Test
     public void testRefreshCapabilities() throws ExecutionException, InterruptedException {
-        final Account account = new Account(1337L, "Test", "Peter", "example.com");
+        final var account = new Account(1337L, "Test", "Peter", "example.com");
         account.setEtag("This-Is-The-Old_ETag");
         //noinspection unchecked
-        final ParsedResponse<Capabilities> mockedResponse = mock(ParsedResponse.class);
-        final Capabilities serverResponse = new Capabilities();
+        final var mockedResponse = mock(ParsedResponse.class);
+        final var serverResponse = new Capabilities();
         serverResponse.setDeckVersion(Version.of("1.0.0"));
         when(mockedResponse.getResponse()).thenReturn(serverResponse);
         when(mockedResponse.getHeaders()).thenReturn(Map.of("ETag", "New-ETag"));
@@ -294,7 +310,7 @@ public class SyncManagerTest {
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
-        syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
+        syncManager.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 assertEquals("Capabilities from server must be returned to the original callback",
@@ -319,7 +335,7 @@ public class SyncManagerTest {
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
-        syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
+        syncManager.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 assertEquals("Capabilities from server must be returned to the original callback",
@@ -345,7 +361,7 @@ public class SyncManagerTest {
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
-        syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
+        syncManager.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 fail("In case of an HTTP 500 the callback must not be responded successfully.");
@@ -368,7 +384,7 @@ public class SyncManagerTest {
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
-        syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
+        syncManager.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 assertEquals(Version.of("20.0.1"), response.getNextcloudVersion());
@@ -390,7 +406,7 @@ public class SyncManagerTest {
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
-        syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
+        syncManager.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 fail("In case of any other exception the callback must not be responded successfully.");
@@ -407,7 +423,7 @@ public class SyncManagerTest {
 
         doThrow(new OfflineException()).when(serverAdapter).getCapabilities(anyString(), any());
 
-        syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(account) {
+        syncManager.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
             public void onResponse(Capabilities response) {
                 fail("In case of an " + OfflineException.class.getSimpleName() + " the callback must not be responded successfully.");
@@ -422,11 +438,11 @@ public class SyncManagerTest {
 
     @Test
     public void testSynchronize() {
-        final SyncManager syncManagerSpy = spy(syncManager);
+        final var syncManagerSpy = spy(syncManager);
 
         LastSyncUtil.init(ApplicationProvider.getApplicationContext());
-        final Account account = new Account(1337L, "Test", "Peter", "example.com");
-        final Capabilities capabilities = new Capabilities();
+        final var account = new Account(1337L, "Test", "Peter", "example.com");
+        final var capabilities = new Capabilities();
         capabilities.setDeckVersion(Version.minimumSupported());
         // Act as if refreshing capabilities is always successful
         doAnswer((invocation -> {
@@ -436,7 +452,7 @@ public class SyncManagerTest {
         })).when(syncManagerSpy).refreshCapabilities(any());
 
         // Actual method invocation
-        final ResponseCallback<Boolean> finalCallback = spy(new ResponseCallback<Boolean>(account) {
+        final var finalCallback = spy(new ResponseCallback<Boolean>(account) {
             @Override
             public void onResponse(Boolean response) {
             }
@@ -445,7 +461,7 @@ public class SyncManagerTest {
 
         // Happy path
 
-        final SyncHelper syncHelper_positive = new SyncHelperMock<>(true);
+        final var syncHelper_positive = new SyncHelperMock(true);
         when(syncHelperFactory.create(any(), any(), any())).thenReturn(syncHelper_positive);
 
         syncManagerSpy.synchronize(finalCallback);
@@ -455,21 +471,22 @@ public class SyncManagerTest {
 
         // Bad paths
 
-        assertThrows(IllegalArgumentException.class, () -> syncManagerSpy.synchronize(new ResponseCallback<Boolean>(new Account(null)) {
+        assertThrows(IllegalArgumentException.class, () -> syncManagerSpy.synchronize(new ResponseCallback<>(new Account(null)) {
             @Override
             public void onResponse(Boolean response) {
 
             }
         }));
 
-        assertThrows(IllegalArgumentException.class, () -> syncManagerSpy.synchronize(new ResponseCallback<Boolean>(null) {
+        //noinspection ConstantConditions
+        assertThrows(IllegalArgumentException.class, () -> syncManagerSpy.synchronize(new ResponseCallback<>(null) {
             @Override
             public void onResponse(Boolean response) {
 
             }
         }));
 
-        final SyncHelper syncHelper_negative = new SyncHelperMock<>(false);
+        final var syncHelper_negative = new SyncHelperMock(false);
         when(syncHelperFactory.create(any(), any(), any())).thenReturn(syncHelper_negative);
 
         syncManagerSpy.synchronize(finalCallback);
@@ -479,10 +496,8 @@ public class SyncManagerTest {
 
     /**
      * A simple {@link SyncHelper} implementation which directly responds to sync requests
-     *
-     * @param <T>
      */
-    private class SyncHelperMock<T> extends SyncHelper {
+    private class SyncHelperMock extends SyncHelper {
         private IResponseCallback<Boolean> cb;
         private final boolean success;
 
@@ -492,13 +507,13 @@ public class SyncManagerTest {
         }
 
         @Override
-        public SyncHelper setResponseCallback(@NonNull @NotNull ResponseCallback<Boolean> callback) {
+        public SyncHelper setResponseCallback(@NonNull ResponseCallback<Boolean> callback) {
             this.cb = callback;
             return this;
         }
 
         @Override
-        public <T extends IRemoteEntity> Disposable doSyncFor(@NonNull @NotNull AbstractSyncDataProvider<T> provider) {
+        public <T extends IRemoteEntity> Disposable doSyncFor(@NonNull AbstractSyncDataProvider<T> provider) {
             if (success) {
                 cb.onResponse(true);
             } else {
@@ -508,7 +523,7 @@ public class SyncManagerTest {
         }
 
         @Override
-        public <T extends IRemoteEntity> Disposable doUpSyncFor(@NonNull @NotNull AbstractSyncDataProvider<T> provider) {
+        public <T extends IRemoteEntity> Disposable doUpSyncFor(@NonNull AbstractSyncDataProvider<T> provider) {
             if (success) {
                 cb.onResponse(true);
             } else {

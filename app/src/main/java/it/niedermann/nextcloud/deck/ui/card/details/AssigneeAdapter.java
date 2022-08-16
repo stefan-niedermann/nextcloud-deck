@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.card.details;
 
-import android.content.Context;
+import static androidx.recyclerview.widget.RecyclerView.NO_ID;
+
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -15,14 +16,12 @@ import it.niedermann.nextcloud.deck.databinding.ItemAssigneeBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
 
-import static androidx.recyclerview.widget.RecyclerView.NO_ID;
-
 @SuppressWarnings("WeakerAccess")
 public class AssigneeAdapter extends RecyclerView.Adapter<AssigneeViewHolder> {
 
     private final Account account;
     @NonNull
-    private List<User> users = new ArrayList<>();
+    private final List<User> users = new ArrayList<>();
     @NonNull
     private final Consumer<User> userClickedListener;
 
@@ -38,20 +37,20 @@ public class AssigneeAdapter extends RecyclerView.Adapter<AssigneeViewHolder> {
 
     @Override
     public long getItemId(int position) {
-        Long id = users.get(position).getLocalId();
+        final var id = users.get(position).getLocalId();
         return id == null ? NO_ID : id;
     }
 
     @NonNull
     @Override
     public AssigneeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final Context context = parent.getContext();
+        final var context = parent.getContext();
         return new AssigneeViewHolder(ItemAssigneeBinding.inflate(LayoutInflater.from(context)));
     }
 
     @Override
     public void onBindViewHolder(@NonNull AssigneeViewHolder holder, int position) {
-        final User user = users.get(position);
+        final var user = users.get(position);
         holder.bind(account, user, userClickedListener);
     }
 

@@ -1,6 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
     <string name="navigation_drawer_close">Navigationsleiste schließen</string>
+    <string name="hint_search_deck">Deck durchsuchen</string>
 
     <string name="simple_boards">Boards</string>
     <string name="simple_add">Hinzufügen</string>
@@ -32,6 +33,7 @@
     <string name="simple_copied">Kopiert</string>
     <string name="simple_archive">Archivieren</string>
     <string name="simple_unassigned">Nicht zugewiesen</string>
+    <string name="hint_error_appeared">Es ist ein Fehler aufgetreten</string>
 
     <string name="edit_board">Board bearbeiten</string>
     <string name="archive_board">Board archivieren</string>
@@ -150,7 +152,7 @@
     <string name="hours_6">6 Stunden</string>
     <string name="action_card_move">Karte verschieben</string>
     <string name="action_card_move_title">Verschiebe %1$s</string>
-    <string name="title_is_mandatory">Titel ist obligatorisch</string>
+    <string name="title_is_mandatory">Titel ist erforderlich</string>
     <string name="provide_at_least_a_title_or_description">Mindestens einen Titel oder eine Beschreibung eingeben</string>
     <string name="welcome_text">Willkommen bei %1$s</string>
     <string name="maintenance_mode_explanation">Der Server %1$s ist momentan im Wartungsmodus. Bitte nehmen Sie Kontakt mit Ihrem Administrator auf oder versuchen Sie es später nochmal!</string>
@@ -213,8 +215,9 @@
     <string name="error_dialog_tip_clear_storage_might_help">Falls dieser Fehler weiterhin besteht können Sie versuchen den Speicherinhalt der beiden Apps Nextcloud und Nextcloud Deck zu leeren um das Problem zu beheben.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Die Aktualisierung der Datenbank ist fehlgeschlagen. Bitte melden Sie das Problem und leeren Sie den Speicher, um die App normal zu verwenden.</string>
     <string name="error_dialog_tip_clear_storage">Sie können den Speicherinhalt leeren indem Sie die App öffnen und Speicher → Speicherinhalt löschen auswählen.</string>
-    <string name="error_dialog_tip_files_outdated">Sie scheinen eine alte Version der Nextcloud-App installiert zu haben. Bitte besuchen Sie den Play Store oder F-Droid, um die neueste Version zu installieren.</string>
-    <string name="error_dialog_tip_offline">Es sieht so aus, als hätten Sie versucht, eine Synchronisation ohne Internetverbindung auszulösen.</string>
+    <string name="error_dialog_tip_offline_no_internet">Es sieht so aus, als hätten Sie versucht, eine Synchronisation ohne Internetverbindung auszulösen.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Verbindung wurde verweigert, bitte überprüfen Sie, ob Ihr Server über den Webbrowser erreichbar ist.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Die Verbindung wurde unterbrochen, bitte prüfen Sie, ob Sie mit dem Internet verbunden sind. Dies kann auch passieren, wenn Ihr Server ausgelastet ist.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Wenn Sie die Einstellung \"Nur über WLAN synchronisieren\" aktiviert haben, können Sie nur synchronisieren, wenn Sie mit einem WLAN verbunden sind.</string>
     <string name="error_dialog_tip_files_force_stop">Etwas scheint bei der Nextcloud App nicht zu funktionieren. Bitte versuchen Sie sowohl die Nextcloud App als auch die Nextcloud Deck App zu stoppen.</string>
     <string name="error_dialog_tip_files_delete_storage">Wenn das erzwungene Stoppen nicht hilft, können Sie versuchen, den Speicher beider Apps zu leeren .</string>
@@ -229,16 +232,20 @@
     <string name="error_dialog_version_not_parsable">Version der auf dem Server installierten Deck-App konnte nicht ermittelt werden. Bitte sicherstellen, dass die Deck-App intstalliert und aktiviert ist.</string>
     <string name="error_dialog_account_might_not_be_authorized">Das Konto Ihrer Nextcloud-App ist möglicherweise nicht mehr autorisiert.</string>
     <string name="error_dialog_user_not_found_in_database">Der aktuelle Benutzer stimmt nicht mit dem Benutzer überein, den wir in unserer Datenbank haben. Wenn Sie LDAP in Ihrer Nextcloud-Instanz verwenden, hat Ihre Nextcloud-App möglicherweise eine alte Benutzer-ID gespeichert.</string>
-    <string name="error_dialog_capabilities_not_parsable">Funktionsumfang Ihres Serves konnte nicht nicht abgerufen werden. Stellen Sie sicher, dass Ihr Server ordnungsgemäß funktioniert und Client-Apps auf Nextcloud zugreifen können.</string>
+    <string name="error_dialog_capabilities_not_parsable">Funktionsumfang Ihres Serves konnte nicht abgerufen werden. Stellen Sie sicher, dass Ihr Server ordnungsgemäß funktioniert und Client-Apps auf Nextcloud zugreifen können.</string>
     <string name="error_dialog_attachment_upload_failed">Ein Anhang konnte nicht hochgeladen werden. Bitte versuchen Sie es auf andere Weise zu teilen und teilen Sie uns diesen Fehler mit.</string>
     <string name="error_dialog_certificate">Mit dem Zertifikat des Servers scheint etwas nicht zu stimmen. Bitte überprüfen Sie alle Konten in der Nextcloud-App für weitere Informationen. </string>
     <string name="error_dialog_tip_disable_battery_optimizations">Bitte alle Batterieoptimierungen für Nextcloud und die Deck-App deaktivieren.</string>
+    <string name="error_dialog_unknown_error">Ihre Nextcloud-Instanz scheint nicht erreichbar zu sein. Bitte überprüfen Sie Ihre Internetverbindung und ob Sie sich über den Browser mit Ihrer Instanz verbinden können.</string>
+    <string name="error_dialog_min_version">Die Deck Android-app setzt voraus, dass die Nextcloud-Android-App mindestens Version 3.18 ist.</string>
     <string name="error_action_open_deck_info">App-Informationen öffnen</string>
     <string name="error_action_open_nextcloud_app">Nextcloud-App öffnen</string>
     <string name="error_action_open_network">Netzwerkeinstellungen</string>
     <string name="error_action_server_logs">Server-Protokolle</string>
+    <string name="error_action_open_in_browser">Im Browser öffnen</string>
     <string name="error_action_install">Installieren</string>
     <string name="error_action_report_issue">Melden</string>
+    <string name="error_action_update_files_app">Aktualisierung</string>
     <string name="info_box_maintenance_mode">Server befindet sich im Wartungsmodus</string>
     <string name="info_box_version_not_supported">Serverversion %1$s wird nicht unterstützt. Bitte aktualisiere auf %2$s.</string>
     <string name="share_link">Link teilen</string>
@@ -283,7 +290,7 @@
     <string name="single_card">Einzelne Karte</string>
     <string name="project_type_room">Talk-Raum</string>
     <string name="simple_move">Verschieben</string>
-    <string name="cannot_upload_files_without_permission">Dateien können nicht ohne Berechtigung hochgeladen werden</string>
+    <string name="cannot_upload_files_without_permission">Dateien können ohne Berechtigung nicht hochgeladen werden</string>
     <string name="clone_cards">Karten klonen</string>
     <string name="simple_clone">Klonen</string>
     <string name="user_avatar">Benutzer-Avatar</string>
@@ -316,4 +323,12 @@
     <string name="copying_logs_to_file">Protokolldateien in Datei kopieren…</string>
     <string name="account_imported">Konto importiert</string>
     <string name="simple_search">Suche</string>
-</resources>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Titel (erforderlich)</string>
+    <string name="saving_new_card">Speichere neue Karte …</string>
+    <string name="progress_import">Importiere Board %1$d von %2$d…</string>
+    <string name="progress_import_indeterminate">Importiere Boards…</string>
+    <string name="card_outdated">Der Inhalt dieser Karte ist möglicherweise veraltet.</string>
+    <string name="show_error">Fehler anzeigen</string>
+    <string name="push_notification_link_empty">Aufgrund eines bekannten Problems in der Deck-Server-App können wir diese Karte leider nicht anzeigen. Weitere Informationen finden Sie unter: %1$s</string>
+    </resources>

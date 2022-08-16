@@ -1,5 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.about;
 
+import static it.niedermann.nextcloud.deck.util.SpannableUtil.disabled;
+import static it.niedermann.nextcloud.deck.util.SpannableUtil.setTextWithURL;
+import static it.niedermann.nextcloud.deck.util.SpannableUtil.strong;
+import static it.niedermann.nextcloud.deck.util.SpannableUtil.url;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
@@ -17,11 +22,6 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentAboutCreditsTabBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.util.DateUtil;
-
-import static it.niedermann.nextcloud.deck.util.SpannableUtil.disabled;
-import static it.niedermann.nextcloud.deck.util.SpannableUtil.setTextWithURL;
-import static it.niedermann.nextcloud.deck.util.SpannableUtil.strong;
-import static it.niedermann.nextcloud.deck.util.SpannableUtil.url;
 
 public class AboutFragmentCreditsTab extends Fragment {
 
@@ -61,6 +61,12 @@ public class AboutFragmentCreditsTab extends Fragment {
         binding.aboutMaintainer.setMovementMethod(new LinkMovementMethod());
         setTextWithURL(binding.aboutTranslators, getResources(), R.string.about_translators_transifex, R.string.about_translators_transifex_label, R.string.url_translations);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
     }
 
     public static Fragment newInstance() {

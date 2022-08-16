@@ -1,6 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">打开导航条</string>
     <string name="navigation_drawer_close">关闭导航条</string>
+    <string name="hint_search_deck">搜索 deck</string>
 
     <string name="simple_boards">面板</string>
     <string name="simple_add">添加</string>
@@ -32,6 +33,7 @@
     <string name="simple_copied">已复制</string>
     <string name="simple_archive">归档</string>
     <string name="simple_unassigned">未分配</string>
+    <string name="hint_error_appeared">发生了一个错误</string>
 
     <string name="edit_board">编辑面板</string>
     <string name="archive_board">归档面板</string>
@@ -143,9 +145,9 @@
     <string name="no_content">暂无内容</string>
     <string name="last_background_sync">上次后台同步时间：</string>
     <string name="simple_off">关闭</string>
-    <string name="minutes_15">15 分钟</string>
-    <string name="hour_1">1 小时</string>
-    <string name="hours_6">6 小时</string>
+    <string name="minutes_15">15 分钟 </string>
+    <string name="hour_1">1 小时 </string>
+    <string name="hours_6">6 小时 </string>
     <string name="action_card_move">移动卡片</string>
     <string name="action_card_move_title">移动 %1$s</string>
     <string name="title_is_mandatory">标题是必需的</string>
@@ -211,8 +213,7 @@
     <string name="error_dialog_tip_clear_storage_might_help">如果问题持续存在，尝试通过清除 Nextcloud 和 Nextcloud 看板两个应用的存储空间来解决问题。</string>
     <string name="error_dialog_tip_database_upgrade_failed">数据库升级失败。请报告问题并清除应用存储来正常使用此应用。</string>
     <string name="error_dialog_tip_clear_storage">您可以通过打开应用信息，选择“存储>清除存储”来清除存储。</string>
-    <string name="error_dialog_tip_files_outdated">您的 Nextcloud 应用似乎已经过时了。请访问 Play 商店或 F-Droid 以获取最新版本。</string>
-    <string name="error_dialog_tip_offline">看起来您试图在没有互联网连接的情况下触发同步。 </string>
+    <string name="error_dialog_tip_offline_no_internet">看起来您试图在没有互联网连接的情况下触发同步。 </string>
     <string name="error_dialog_tip_sync_only_on_wifi">如果您开启了“仅在Wi-Fi上同步”设置，则只有连接到Wi-Fi时才能进行同步。 </string>
     <string name="error_dialog_tip_files_force_stop">您的 Nextcloud 应用似乎出现了问题。请尝试强行停止 Nextcloud 和 Nextcloud 看板两个应用。</string>
     <string name="error_dialog_tip_files_delete_storage">如果强行停止没有效果，您可以尝试清除两个应用的存储空间。</string>
@@ -231,12 +232,16 @@
     <string name="error_dialog_attachment_upload_failed">无法上传一个附件。请尝试用另一种方式分享它，并让我们知道这个bug。</string>
     <string name="error_dialog_certificate">服务器的证书似乎有问题。请查看 Nextcloud 应用程序中的所有账户以获取更多信息。</string>
     <string name="error_dialog_tip_disable_battery_optimizations">请禁用针对 Nextcloud 和 Deck 应用程序的所有电池优化。</string>
+    <string name="error_dialog_unknown_error">您的 Nextcloud 实例似乎不可访问。请检查您的互联网连接，以及您是否能够通过浏览器连接到您的实例。</string>
+    <string name="error_dialog_min_version">Deck 安卓应用需要的 Nextcloud 安卓应用的最低版本为 3.18</string>
     <string name="error_action_open_deck_info">打开应用信息</string>
     <string name="error_action_open_nextcloud_app">打开 Nextcloud 应用</string>
     <string name="error_action_open_network">网络设置</string>
     <string name="error_action_server_logs">服务器日志</string>
+    <string name="error_action_open_in_browser">在浏览器中打开</string>
     <string name="error_action_install">安装</string>
     <string name="error_action_report_issue">报告</string>
+    <string name="error_action_update_files_app">更新</string>
     <string name="info_box_maintenance_mode">服务器处于维护模式下 </string>
     <string name="info_box_version_not_supported">服务器版本 %1$s 不受支持，请更新到 %2$s</string>
     <string name="share_link">共享链接</string>
@@ -279,7 +284,7 @@
     <string name="single_card">单张卡片</string>
     <string name="project_type_room">聊天室</string>
     <string name="simple_move">移动</string>
-    <string name="cannot_upload_files_without_permission">没有权限无法上传文件 </string>
+    <string name="cannot_upload_files_without_permission">没有权限无法上传文件</string>
     <string name="clone_cards">克隆卡片</string>
     <string name="simple_clone">克隆</string>
     <string name="user_avatar">用户头像</string>
@@ -312,4 +317,12 @@
     <string name="copying_logs_to_file">正将日志复制到文件</string>
     <string name="account_imported">账户已导入</string>
     <string name="simple_search">搜索</string>
-</resources>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">标题 (必填)</string>
+    <string name="saving_new_card">保存新卡片中 ...</string>
+    <string name="progress_import">正导入 %2$d 的面板 %1$d…</string>
+    <string name="progress_import_indeterminate">正导入面板…</string>
+    <string name="card_outdated">这张卡片的内容可能过期</string>
+    <string name="show_error">显示错误</string>
+    <string name="push_notification_link_empty">由于 Deck 网页应用程序中一个已知的问题，我们不能显示这张卡片。更多信息见：%1$s</string>
+    </resources>

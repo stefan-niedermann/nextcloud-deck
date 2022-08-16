@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
@@ -86,7 +85,7 @@ public class AttachmentUtil {
     }
 
     /**
-     * Attention! This does only work for attachments of type "deck_file" which are a legacy of Deck API 1.0
+     * Attention! This does only work for attachments of type {@link EAttachmentType#DECK_FILE} which are a legacy of Deck API 1.0
      */
     @Deprecated
     private static String getDeck_1_0_RemoteUrl(@NonNull String accountUrl, @NonNull Long cardRemoteId, @NonNull Long attachmentRemoteId) {
@@ -108,15 +107,6 @@ public class AttachmentUtil {
         } else {
             return R.drawable.ic_attach_file_grey600_24dp;
         }
-    }
-
-    public static String getMimeType(@Nullable String url) {
-        String type = null;
-        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
-        if (extension != null) {
-            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-        }
-        return type;
     }
 
 }

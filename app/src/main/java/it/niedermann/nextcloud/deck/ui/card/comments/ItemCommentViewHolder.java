@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.ui.card.comments;
 
 import android.text.method.LinkMovementMethod;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.ColorInt;
@@ -16,7 +15,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Consumer;
 
 import it.niedermann.android.util.ClipboardUtil;
@@ -25,7 +23,6 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCommentBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
-import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
@@ -43,8 +40,8 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(@NonNull FullDeckComment comment, @NonNull Account account, @ColorInt int mainColor, @NonNull MenuInflater inflater, @NonNull CommentDeletedListener deletedListener, @NonNull CommentSelectAsReplyListener selectAsReplyListener, @NonNull FragmentManager fragmentManager, @NonNull Consumer<CharSequence> editListener) {
         ViewUtil.addAvatar(binding.avatar, account.getUrl(), comment.getComment().getActorId(), DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
-        final Map<String, String> mentions = new HashMap<>(comment.getComment().getMentions().size());
-        for (Mention mention : comment.getComment().getMentions()) {
+        final var mentions = new HashMap<String, String>(comment.getComment().getMentions().size());
+        for (final var mention : comment.getComment().getMentions()) {
             mentions.put(mention.getMentionId(), mention.getMentionDisplayName());
         }
         binding.message.setText(comment.getComment().getMessage());
@@ -57,7 +54,7 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             inflater.inflate(R.menu.comment_menu, menu);
             menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> ClipboardUtil.INSTANCE.copyToClipboard(itemView.getContext(), comment.getComment().getMessage()));
-            final MenuItem replyMenuItem = menu.findItem(R.id.reply);
+            final var replyMenuItem = menu.findItem(R.id.reply);
             if (comment.getStatusEnum() != DBStatus.LOCAL_EDITED && account.getServerDeckVersionAsObject().supportsCommentsReplys()) {
                 replyMenuItem.setOnMenuItemClickListener(item -> {
                     selectAsReplyListener.onSelectAsReply(comment);

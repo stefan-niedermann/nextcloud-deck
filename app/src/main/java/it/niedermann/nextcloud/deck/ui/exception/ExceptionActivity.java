@@ -18,12 +18,13 @@ import it.niedermann.nextcloud.exception.ExceptionUtil;
 public class ExceptionActivity extends AppCompatActivity {
 
     private static final String KEY_THROWABLE = "throwable";
+    private ActivityExceptionBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final ActivityExceptionBinding binding = ActivityExceptionBinding.inflate(getLayoutInflater());
+        binding = ActivityExceptionBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
@@ -34,7 +35,7 @@ public class ExceptionActivity extends AppCompatActivity {
             throwable = new Exception("Could not get exception");
         }
 
-        final TipsAdapter adapter = new TipsAdapter(this::startActivity);
+        final var adapter = new TipsAdapter(this::startActivity);
         final String debugInfo = "Full Crash:\n\n" + ExceptionUtil.INSTANCE.getDebugInfos(this, throwable, BuildConfig.FLAVOR);
 
         binding.tips.setAdapter(adapter);
@@ -46,6 +47,12 @@ public class ExceptionActivity extends AppCompatActivity {
         binding.close.setOnClickListener((v) -> finish());
 
         adapter.setThrowable(this, null, throwable);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
     }
 
     @NonNull

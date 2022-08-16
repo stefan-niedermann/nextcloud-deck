@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import static com.nextcloud.android.sso.AccountImporter.REQUEST_AUTH_TOKEN_SSO;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +26,7 @@ import com.nextcloud.android.sso.ui.UiExceptionManager;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityImportAccountBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
@@ -31,15 +34,10 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
-import static com.nextcloud.android.sso.AccountImporter.REQUEST_AUTH_TOKEN_SSO;
-
 public class ImportAccountActivity extends AppCompatActivity {
-
-    public static final int REQUEST_CODE_IMPORT_ACCOUNT = 1;
 
     private SharedPreferences sharedPreferences;
 
@@ -110,34 +108,30 @@ public class ImportAccountActivity extends AppCompatActivity {
                             binding.status.setText(null);
                             binding.status.setVisibility(View.GONE);
                             binding.progressCircular.setVisibility(View.VISIBLE);
+                            binding.progressText.setVisibility(View.VISIBLE);
+                            binding.progressCircular.setIndeterminate(true);
+                            binding.progressText.setText(R.string.progress_import_indeterminate);
                         });
 
                         SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
-                        SyncManager syncManager = new SyncManager(ImportAccountActivity.this);
-                        final WrappedLiveData<Account> accountLiveData = syncManager.createAccount(new Account(account.name, account.userId, account.url));
-                        accountLiveData.observe(ImportAccountActivity.this, (Account createdAccount) -> {
-                            if (accountLiveData.hasError()) {
-                                final Throwable error = accountLiveData.getError();
-                                if (error instanceof SQLiteConstraintException) {
-                                    DeckLog.error("Account has already been added, this should not be the case");
-                                }
-                                assert error != null;
-                                setStatusText(error.getMessage());
-                                runOnUiThread(() -> ExceptionDialogFragment.newInstance(error, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
-                                restoreWifiPref();
-                            } else {
+                        final var syncManager = new SyncManager(ImportAccountActivity.this);
+                        final var accountToCreate = new Account(account.name, account.userId, account.url);
+                        syncManager.createAccount(accountToCreate, new IResponseCallback<>() {
+                            @Override
+                            public void onResponse(Account createdAccount) {
                                 // Remember last account - THIS HAS TO BE DONE SYNCHRONOUSLY
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
                                 DeckLog.log("--- Write: shared_preference_last_account | ", createdAccount.getId());
-                                editor.putLong(sharedPreferenceLastAccount, createdAccount.getId());
-                                editor.commit();
+                                sharedPreferences
+                                        .edit()
+                                        .putLong(sharedPreferenceLastAccount, createdAccount.getId())
+                                        .commit();
 
-                                syncManager.refreshCapabilities(new ResponseCallback<Capabilities>(createdAccount) {
+                                syncManager.refreshCapabilities(new ResponseCallback<>(createdAccount) {
                                     @Override
                                     public void onResponse(Capabilities response) {
                                         if (!response.isMaintenanceEnabled()) {
                                             if (response.getDeckVersion().isSupported()) {
-                                                syncManager.synchronize(new ResponseCallback<Boolean>(account) {
+                                                var progress$ = syncManager.synchronize(new ResponseCallback<>(account) {
                                                     @Override
                                                     public void onResponse(Boolean response) {
                                                         restoreWifiPref();
@@ -154,14 +148,20 @@ public class ImportAccountActivity extends AppCompatActivity {
                                                         rollbackAccountCreation(syncManager, createdAccount.getId());
                                                     }
                                                 });
+                                                runOnUiThread(() -> progress$.observe(ImportAccountActivity.this, (progress) -> {
+                                                    DeckLog.log("New progress value", progress.first, progress.second);
+                                                    if(progress.first > 0) {
+                                                        binding.progressCircular.setIndeterminate(false);
+                                                    }
+                                                    binding.progressText.setText(getString(R.string.progress_import, progress.first + 1, progress.second));
+                                                    binding.progressCircular.setProgress(progress.first);
+                                                    binding.progressCircular.setMax(progress.second);
+                                                }));
                                             } else {
                                                 setStatusText(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()));
                                                 runOnUiThread(() -> {
-                                                    binding.updateDeckButton.setOnClickListener((v) -> {
-                                                        Intent openURL = new Intent(Intent.ACTION_VIEW);
-                                                        openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
-                                                        startActivity(openURL);
-                                                    });
+                                                    binding.updateDeckButton.setOnClickListener((v) -> startActivity(new Intent(Intent.ACTION_VIEW)
+                                                            .setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck))));
                                                     binding.updateDeckButton.setVisibility(View.VISIBLE);
                                                 });
                                                 rollbackAccountCreation(syncManager, createdAccount.getId());
@@ -185,6 +185,17 @@ public class ImportAccountActivity extends AppCompatActivity {
                                     }
                                 });
                             }
+
+                            @Override
+                            public void onError(Throwable error) {
+                                IResponseCallback.super.onError(error);
+                                if (error instanceof SQLiteConstraintException) {
+                                    DeckLog.error("Account has already been added, this should not be the case");
+                                }
+                                setStatusText(error.getMessage());
+                                runOnUiThread(() -> ExceptionDialogFragment.newInstance(error, accountToCreate).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                                restoreWifiPref();
+                            }
                         });
                     }
                 });
@@ -194,6 +205,12 @@ public class ImportAccountActivity extends AppCompatActivity {
                 DeckLog.info("Account import has been canceled.");
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
     }
 
     @Override
@@ -222,6 +239,7 @@ public class ImportAccountActivity extends AppCompatActivity {
         runOnUiThread(() -> {
             binding.updateDeckButton.setVisibility(View.GONE);
             binding.progressCircular.setVisibility(View.GONE);
+            binding.progressText.setVisibility(View.GONE);
             binding.status.setVisibility(View.VISIBLE);
             binding.status.setText(statusText);
         });
@@ -229,18 +247,19 @@ public class ImportAccountActivity extends AppCompatActivity {
 
     @SuppressLint("ApplySharedPref")
     private void disableWifiPref() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
         DeckLog.info("--- Temporarily disable sync on wifi only setting");
-        editor.putBoolean(prefKeyWifiOnly, false);
-        editor.commit();
-
+        sharedPreferences
+                .edit()
+                .putBoolean(prefKeyWifiOnly, false)
+                .commit();
     }
 
     private void restoreWifiPref() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
         DeckLog.info("--- Restoring sync on wifi only setting");
-        editor.putBoolean(prefKeyWifiOnly, originalWifiOnlyValue);
-        editor.apply();
+        sharedPreferences
+                .edit()
+                .putBoolean(prefKeyWifiOnly, originalWifiOnlyValue)
+                .apply();
     }
 
     public static Intent createIntent(@NonNull Context context) {

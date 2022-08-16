@@ -13,14 +13,14 @@ public class EditCardTileService extends TileService {
 
     @Override
     public void onStartListening() {
-        Tile tile = getQsTile();
+        final var tile = getQsTile();
         tile.setState(Tile.STATE_ACTIVE);
         tile.updateTile();
     }
 
     @Override
     public void onClick() {
-        Intent intent = new Intent(getApplicationContext(), PrepareCreateActivity.class);
+        final var intent = new Intent(getApplicationContext(), PrepareCreateActivity.class);
         // ensure it won't open twice if already running
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         // ask to unlock the screen if locked, then start new note intent

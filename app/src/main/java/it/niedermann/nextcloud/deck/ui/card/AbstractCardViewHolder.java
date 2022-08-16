@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
-import android.content.Context;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -30,7 +28,6 @@ import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
@@ -51,7 +48,7 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
      */
     @CallSuper
     public void bind(@NonNull FullCard fullCard, @NonNull Account account, @Nullable Long boardRemoteId, boolean hasEditPermission, @MenuRes int optionsMenu, @NonNull CardOptionsItemSelectedListener optionsItemsSelectedListener, @NonNull String counterMaxValue, @ColorInt int mainColor) {
-        final Context context = itemView.getContext();
+        final var context = itemView.getContext();
 
         bindCardClickListener(null);
         bindCardLongClickListener(null);
@@ -70,9 +67,9 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
         }
 
         getCardMenu().setOnClickListener(view -> {
-            final PopupMenu popup = new PopupMenu(context, view);
+            final var popup = new PopupMenu(context, view);
             popup.inflate(optionsMenu);
-            final Menu menu = popup.getMenu();
+            final var menu = popup.getMenu();
             if (containsUser(fullCard.getAssignedUsers(), account.getUserName())) {
                 menu.removeItem(menu.findItem(R.id.action_card_assign).getItemId());
             } else {
@@ -110,7 +107,7 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
     }
 
     private static void setupDueDate(@NonNull TextView cardDueDate, @NonNull Card card) {
-        final Context context = cardDueDate.getContext();
+        final var context = cardDueDate.getContext();
         cardDueDate.setText(DateUtil.getRelativeDateTimeString(context, card.getDueDate().toEpochMilli()));
         ViewUtil.themeDueDate(context, cardDueDate, card.getDueDate().atZone(ZoneId.systemDefault()).toLocalDate());
     }
@@ -118,7 +115,7 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
     protected static void setupCoverImages(@NonNull Account account, @NonNull ViewGroup coverImagesHolder, @NonNull FullCard fullCard, int maxCoverImagesCount) {
         coverImagesHolder.removeAllViews();
         if (maxCoverImagesCount > 0) {
-            final List<Attachment> coverImages = fullCard.getAttachments()
+            final var coverImages = fullCard.getAttachments()
                     .stream()
                     .filter(attachment -> MimeTypeUtil.isImage(attachment.getMimetype()))
                     .limit(maxCoverImagesCount)
@@ -126,8 +123,8 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
             if (coverImages.size() > 0) {
                 coverImagesHolder.setVisibility(View.VISIBLE);
                 coverImagesHolder.post(() -> {
-                    for (Attachment coverImage : coverImages) {
-                        final ImageView coverImageView = new ImageView(coverImagesHolder.getContext());
+                    for (final var coverImage : coverImages) {
+                        final var coverImageView = new ImageView(coverImagesHolder.getContext());
                         final int coverWidth = coverImagesHolder.getWidth() / coverImages.size();
                         final int coverHeight = coverImagesHolder.getHeight();
                         coverImageView.setLayoutParams(new LinearLayout.LayoutParams(coverWidth, coverHeight));
@@ -150,7 +147,7 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
     @Contract("null, _ -> false")
     private static boolean containsUser(List<User> userList, String username) {
         if (userList != null) {
-            for (User user : userList) {
+            for (final var user : userList) {
                 if (user.getPrimaryKey().equals(username)) {
                     return true;
                 }

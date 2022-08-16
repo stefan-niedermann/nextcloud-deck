@@ -17,16 +17,14 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.movecard.MoveCardListener;
 
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-
 public class UpcomingCardsActivity extends AppCompatActivity implements MoveCardListener {
 
     private UpcomingCardsViewModel viewModel;
+    private ActivityUpcomingCardsBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,7 +32,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
 
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
 
-        final ActivityUpcomingCardsBinding binding = ActivityUpcomingCardsBinding.inflate(getLayoutInflater());
+        binding = ActivityUpcomingCardsBinding.inflate(getLayoutInflater());
         viewModel = new ViewModelProvider(this).get(UpcomingCardsViewModel.class);
 
         setContentView(binding.getRoot());
@@ -42,10 +40,10 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
 
         binding.loadingSpinner.show();
 
-        final UpcomingCardsAdapter adapter = new UpcomingCardsAdapter(this, getSupportFragmentManager(),
+        final var adapter = new UpcomingCardsAdapter(this, getSupportFragmentManager(),
                 viewModel::assignUser,
                 viewModel::unassignUser,
-                (fullCard) -> viewModel.archiveCard(fullCard, new IResponseCallback<FullCard>() {
+                (fullCard) -> viewModel.archiveCard(fullCard, new IResponseCallback<>() {
                     @Override
                     public void onResponse(FullCard response) {
                         DeckLog.info("Successfully archived", Card.class.getSimpleName(), fullCard.getCard().getTitle());
@@ -57,7 +55,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
                         runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                     }
                 }),
-                (card) -> viewModel.deleteCard(card, new IResponseCallback<Void>() {
+                (card) -> viewModel.deleteCard(card, new IResponseCallback<>() {
                     @Override
                     public void onResponse(Void response) {
                         DeckLog.info("Successfully deleted card", card.getTitle());
@@ -86,6 +84,12 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
     @NonNull
     public static Intent createIntent(@NonNull Context context) {
         return new Intent(context, UpcomingCardsActivity.class)
@@ -94,12 +98,18 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
 
     @Override
     public void move(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
-        final WrappedLiveData<Void> liveData = viewModel.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId);
-        observeOnce(liveData, this, (next) -> {
-            if (liveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(liveData.getError())) {
-                ExceptionDialogFragment.newInstance(liveData.getError(), null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-            } else {
+        viewModel.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId, new IResponseCallback<>() {
+            @Override
+            public void onResponse(Void response) {
                 DeckLog.log("Moved", Card.class.getSimpleName(), originCardLocalId, "to", Stack.class.getSimpleName(), targetStackLocalId);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                IResponseCallback.super.onError(throwable);
+                if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                    ExceptionDialogFragment.newInstance(throwable, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
             }
         });
     }

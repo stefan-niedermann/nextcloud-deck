@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
+
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
@@ -31,6 +33,7 @@ import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -74,11 +77,8 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
-
-import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
 public class DataBaseAdapter {
 
@@ -124,6 +124,7 @@ public class DataBaseAdapter {
         return distinctUntilChanged(db.getBoardDao().getBoardByRemoteId(accountId, remoteId));
     }
 
+    @WorkerThread
     public Board getBoardByRemoteIdDirectly(long accountId, long remoteId) {
         return db.getBoardDao().getBoardByRemoteIdDirectly(accountId, remoteId);
     }
@@ -155,6 +156,11 @@ public class DataBaseAdapter {
 
     public LiveData<Card> getCardByRemoteID(long accountId, long remoteId) {
         return distinctUntilChanged(db.getCardDao().getCardByRemoteId(accountId, remoteId));
+    }
+
+    @WorkerThread
+    public Card getCardByRemoteIDDirectly(long accountId, long remoteId) {
+        return db.getCardDao().getCardByRemoteIdDirectly(accountId, remoteId);
     }
 
     public FullCard getFullCardByRemoteIdDirectly(long accountId, long remoteId) {
@@ -513,20 +519,19 @@ public class DataBaseAdapter {
         db.getLabelDao().delete(label);
     }
 
-    public WrappedLiveData<Account> createAccount(Account account) {
-        return LiveDataHelper.wrapInLiveData(() -> {
-            final long id = db.getAccountDao().insert(account);
+    @WorkerThread
+    public Account createAccountDirectly(@NonNull Account account) {
+        final long id = db.getAccountDao().insert(account);
 
-            widgetNotifierExecutor.submit(() -> {
-                DeckLog.verbose("Adding new created", Account.class.getSimpleName(), " with ", id, " to all instances of ", EWidgetType.UPCOMING_WIDGET.name());
-                for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
-                    widget.getAccounts().add(new FilterWidgetAccount(id, false));
-                    updateFilterWidgetDirectly(widget);
-                }
-                notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.ACCOUNT, id);
-            });
-            return readAccountDirectly(id);
+        widgetNotifierExecutor.submit(() -> {
+            DeckLog.verbose("Adding new created", Account.class.getSimpleName(), " with ", id, " to all instances of ", EWidgetType.UPCOMING_WIDGET.name());
+            for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
+                widget.getAccounts().add(new FilterWidgetAccount(id, false));
+                updateFilterWidgetDirectly(widget);
+            }
+            notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.ACCOUNT, id);
         });
+        return readAccountDirectly(id);
     }
 
     public void deleteAccount(long id) {
@@ -539,17 +544,17 @@ public class DataBaseAdapter {
         db.getAccountDao().update(account);
     }
 
-    @AnyThread
+    @UiThread
     public LiveData<Account> readAccount(long id) {
         return distinctUntilChanged(fillAccountsUserName(db.getAccountDao().getAccountById(id)));
     }
 
-    @AnyThread
+    @UiThread
     public LiveData<Account> readAccount(String name) {
         return distinctUntilChanged(fillAccountsUserName(db.getAccountDao().getAccountByName(name)));
     }
 
-    @AnyThread
+    @UiThread
     public LiveData<List<Account>> readAccounts() {
         return distinctUntilChanged(fillAccountsListUserName(db.getAccountDao().getAllAccounts()));
     }
@@ -571,6 +576,13 @@ public class DataBaseAdapter {
         return db.getAccountDao().getAccountByIdDirectly(id);
     }
 
+    @WorkerThread
+    public Account readAccountDirectly(@Nullable String name) {
+        final var account = db.getAccountDao().getAccountByNameDirectly(name);
+        account.setUserDisplayName(db.getUserDao().getUserNameByUidDirectly(account.getId(), account.getUserName()));
+        return account;
+    }
+
 
     public LiveData<List<Board>> getBoards(long accountId) {
         return distinctUntilChanged(db.getBoardDao().getBoardsForAccount(accountId));
@@ -585,15 +597,6 @@ public class DataBaseAdapter {
 
     public LiveData<List<Board>> getBoardsWithEditPermission(long accountId) {
         return distinctUntilChanged(db.getBoardDao().getBoardsWithEditPermissionsForAccount(accountId));
-    }
-
-    public WrappedLiveData<Board> createBoard(long accountId, @NonNull Board board) {
-        return LiveDataHelper.wrapInLiveData(() -> {
-            board.setAccountId(accountId);
-            final long id = db.getBoardDao().insert(board);
-            notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.BOARD, id);
-            return db.getBoardDao().getBoardByLocalIdDirectly(id);
-        });
     }
 
     @WorkerThread
@@ -1109,12 +1112,19 @@ public class DataBaseAdapter {
         return db.getBoardDao().getLocalBoardIdByCardRemoteIdAndAccountId(cardRemoteId, accountId);
     }
 
-    public LiveData<Integer> countCardsInStack(long accountId, long localStackId) {
-        return db.getCardDao().countCardsInStack(accountId, localStackId);
+    @WorkerThread
+    public Long getBoardLocalIdByAccountAndCardRemoteIdDirectly(long accountId, long cardRemoteId) {
+        return db.getBoardDao().getBoardLocalIdByAccountAndCardRemoteIdDirectly(accountId, cardRemoteId);
     }
 
-    public LiveData<Integer> countCardsWithLabel(long localLabelId) {
-        return db.getJoinCardWithLabelDao().countCardsWithLabel(localLabelId);
+    @WorkerThread
+    public void countCardsInStackDirectly(long accountId, long localStackId, @NonNull IResponseCallback<Integer> callback) {
+        callback.onResponse(db.getCardDao().countCardsInStackDirectly(accountId, localStackId));
+    }
+
+    @WorkerThread
+    public void countCardsWithLabel(long localLabelId, @NonNull IResponseCallback<Integer> callback) {
+        callback.onResponse(db.getJoinCardWithLabelDao().countCardsWithLabelDirectly(localLabelId));
     }
 
     @WorkerThread

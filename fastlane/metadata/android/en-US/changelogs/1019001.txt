@@ -1,0 +1,3 @@
+- 🐞 Fix crash on Huawei devices when working with splitscreen (#1025)
+- 🐞 Display infrastructure related issues only on pull2refresh (#1061, #1063, #1064)
+- 🌎 French translation review by @ldmpub

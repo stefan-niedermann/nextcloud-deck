@@ -1,6 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.branding;
 
-import android.content.Context;
+import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +12,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -19,19 +21,13 @@ import java.util.Calendar;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.util.DeckColorUtil;
 
-import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
-
 public class BrandedDatePickerDialog extends DatePickerDialog implements Branded {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        @Nullable Context context = getContext();
-        if (context != null) {
-            setThemeDark(isDarkTheme(context));
-            applyBrand(readBrandMainColor(context));
-        }
+        final var context = requireContext();
+        setThemeDark(isDarkTheme(context));
+        applyBrand(readBrandMainColor(context));
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -40,8 +36,14 @@ public class BrandedDatePickerDialog extends DatePickerDialog implements Branded
         @ColorInt final int buttonTextColor = getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor);
         setOkColor(buttonTextColor);
         setCancelColor(buttonTextColor);
-        // Text in picker title is always white
-        setAccentColor(DeckColorUtil.contrastRatioIsSufficientBigAreas(Color.WHITE, mainColor) ? mainColor : ContextCompat.getColor(requireContext(), R.color.accent));
+        setAccentColor(
+                DeckColorUtil.contrastRatioIsSufficientBigAreas(Color.WHITE, mainColor)
+                        ? mainColor
+                        // Text in picker title is always white (also in dark mode)
+                        : isThemeDark()
+                        ? Color.BLACK
+                        : ContextCompat.getColor(requireContext(), R.color.accent)
+        );
     }
 
     /**
@@ -54,9 +56,9 @@ public class BrandedDatePickerDialog extends DatePickerDialog implements Branded
      * @return a new DatePickerDialog instance.
      */
     public static DatePickerDialog newInstance(OnDateSetListener callBack, int year, int monthOfYear, int dayOfMonth) {
-        DatePickerDialog ret = new BrandedDatePickerDialog();
-        ret.initialize(callBack, year, monthOfYear - 1, dayOfMonth);
-        return ret;
+        final var dialog = new BrandedDatePickerDialog();
+        dialog.initialize(callBack, year, monthOfYear - 1, dayOfMonth);
+        return dialog;
     }
 
     /**
@@ -69,8 +71,8 @@ public class BrandedDatePickerDialog extends DatePickerDialog implements Branded
      * @return a new DatePickerDialog instance
      */
     public static DatePickerDialog newInstance(OnDateSetListener callback, Calendar initialSelection) {
-        DatePickerDialog ret = new BrandedDatePickerDialog();
-        ret.initialize(callback, initialSelection);
-        return ret;
+        final var dialog = new BrandedDatePickerDialog();
+        dialog.initialize(callback, initialSelection);
+        return dialog;
     }
 }

@@ -1,6 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">Navigációs fiók megnyitása</string>
     <string name="navigation_drawer_close">Navigációs fiók bezárása</string>
+    <string name="hint_search_deck">Kártyák keresése</string>
 
     <string name="simple_boards">Táblák</string>
     <string name="simple_add">Hozzáadás</string>
@@ -32,6 +33,7 @@
     <string name="simple_copied">Másolva</string>
     <string name="simple_archive">Archívum</string>
     <string name="simple_unassigned">Nem hozzárendelt</string>
+    <string name="hint_error_appeared">Hiba történt</string>
 
     <string name="edit_board">Tábla szerkesztése</string>
     <string name="archive_board">Tábla archiválása</string>
@@ -120,6 +122,7 @@
     <string name="settings_theme_title">Téma</string>
     <string name="settings_branding_title">Márkázas</string>
     <string name="settings_compact_title">Kompakt mód</string>
+    <string name="settings_cover_images_title">Borítóképek</string>
     <string name="settings_debugging">Hibakeresési naplók</string>
     <string name="settings_etags">ETag címkék használata</string>
     <string name="settings_etags_summary">Felgyorsítja a szinkronizációt</string>
@@ -149,7 +152,7 @@
     <string name="hours_6">6 óra</string>
     <string name="action_card_move">Kártya áthelyezése</string>
     <string name="action_card_move_title">%1$s áthelyezése</string>
-    <string name="title_is_mandatory">A cím megadása kötelező</string>
+    <string name="title_is_mandatory">Cím szükséges</string>
     <string name="provide_at_least_a_title_or_description">Legalább címet vagy leírást adjon meg</string>
     <string name="welcome_text">Üdvözli a %1$s</string>
     <string name="maintenance_mode_explanation">A(z) %1$s kiszolgáló jelenleg karbantartási módban van. Lépjen kapcsolatba a rendszergazdával vagy próbálja újra.</string>
@@ -203,6 +206,7 @@
     <string name="operation_not_yet_supported">Még nem támogatott</string>
     <string name="error_revoking_ac">Hiba a(z) %1$s elérésének visszavonásakor</string>
     <string name="error_create_label">Hiba a(z) %1$s címke létrehozásakor</string>
+    <string name="maintenance_mode">A kiszolgáló karbantartási módban van</string>
     <string name="server_error">Kiszolgálóhiba</string>
     <string name="error_edit_activity_killed_by_android">Az Android befejezte a szerkesztési módot, mert több rendszererőforrás szükséges a többi alkalmazás számára.</string>
 
@@ -211,7 +215,10 @@
     <string name="error_dialog_tip_clear_storage_might_help">Ha a probléma továbbra is fennáll, próbálja kiüríteni mindkét alkalmazás tárolóját: a Nextcloudét és a Nextcloud Kártyákét.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Az adatbázis frissítése sikertelen. Jelentse a problémát és az alkalmazás normális használatához törölje a tárolót.</string>
     <string name="error_dialog_tip_clear_storage">A tárolót az alkalmazásinformáció megnyitásával, és a Tárhely → Tárhely ürítése választásával törölheti.</string>
-    <string name="error_dialog_tip_files_outdated">A Nextcloud alkalmazása elavultnak tűnik. Keresse fel a Play Áruházat vagy az F-Droidot, hogy beszerezze a legfrissebb verziót.</string>
+    <string name="error_dialog_tip_offline_no_internet">Úgy néz ki, hogy internetkapcsolat nélkül próbált meg szinkronizálást kezdeményezni.</string>
+    <string name="error_dialog_tip_offline_connection_refused">A kapcsolat elutasítva, ellenőrizze, hogy a kiszolgáló webböngészővel elérhető-e.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">A kapcsolatban időtúllépés történt, ellenőrizze, hogy kapcsolódik-e az internethez. Ez akkor is előfordulhat, ha a kiszolgáló elfoglalt.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Ha engedélyezte a „Szinkronizálás csak Wi-Fin” beállítást, akkor csak akkor szinkronizálhat, ha Wi-Fihez kapcsolódik.</string>
     <string name="error_dialog_tip_files_force_stop">Valami hibásnak tűnik a Nextcloud alkalmazásában. Próbálja mindkettőt leállítani, a Nextcloud és a Nextcloud Kártyák alkalmazást is.</string>
     <string name="error_dialog_tip_files_delete_storage">Ha a kényszerített leállítás nem segít, akkor megpróbálhatja mindkét alkalmazás tárolóját kiüríteni.</string>
     <string name="error_dialog_timeout_instance">A megadott időn belül nem érkezett válasz a kiszolgálótól. Győződjön meg róla, hogy a példánya helyesen fut.</string>
@@ -229,12 +236,17 @@
     <string name="error_dialog_attachment_upload_failed">A melléklet nem tölthető fel. Próbálja meg máshogy megosztani, és tájékoztasson minket a hibáról.</string>
     <string name="error_dialog_certificate">Valami nem stimmel a szerver tanúsítványával. Kérjük, további információkért ellenőrizze a Nextcloud alkalmazás összes fiókját.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Kapcsoljon ki minden energiatakarékossági beállítást a Nextcloud valamint a Kártyák alkalmazáshoz. </string>
+    <string name="error_dialog_unknown_error">Úgy tűnik, hogy a Nextcloud példánya nem érhető el. Ellenőrizze az internetkapcsolatát, és hogy böngészőn keresztül eléri-e a példányát.</string>
+    <string name="error_dialog_min_version"> A Kártyák androidos alkalmazáshoz a Nextcloud androidos alkalmazásnak legalább a 3.18-as verziója szükséges.</string>
     <string name="error_action_open_deck_info">Alkalmazásinformációk megnyitása</string>
     <string name="error_action_open_nextcloud_app">Nextcloud alkalmazás megnyitása</string>
     <string name="error_action_open_network">Hálózati beállítások</string>
     <string name="error_action_server_logs">Kiszolgálónaplók</string>
+    <string name="error_action_open_in_browser">Megnyitás böngészőben</string>
     <string name="error_action_install">Telepítés</string>
     <string name="error_action_report_issue">Jelentés</string>
+    <string name="error_action_update_files_app">Frissítés</string>
+    <string name="info_box_maintenance_mode">A kiszolgáló karbantartási módban van</string>
     <string name="info_box_version_not_supported">A kiszolgálóverzió nem támogatott: %1$s, frissítsen erre: %2$s</string>
     <string name="share_link">Hivatkozás megosztása</string>
     <string name="share_content">Tartalom megosztása</string>
@@ -288,7 +300,7 @@
     <string name="simple_camera">Fényképezőgép</string>
     <string name="take_photo">Felvétel készítése</string>
     <string name="take_photo_switch_camera">Fényképezőgép váltása</string>
-    <string name="take_photo_toggle_torch">Lámpa be/kikapcsolása</string>
+    <string name="take_photo_toggle_torch">Lámpa be/ki</string>
     <string name="show_all_contacts">Minden névjegy megjelenítése</string>
     <string name="show_all_files">Minden fájl megjelenítése</string>
     <string name="recent">Legutóbbiak</string>
@@ -311,4 +323,12 @@
     <string name="copying_logs_to_file">Naplók fájlba másolása…</string>
     <string name="account_imported">Fiók importálva</string>
     <string name="simple_search">Keresés</string>
-</resources>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Cím (kötelező)</string>
+    <string name="saving_new_card">Új kártya mentése…</string>
+    <string name="progress_import">%1$d. / %2$d tábla importálása…</string>
+    <string name="progress_import_indeterminate">Táblák importálása…</string>
+    <string name="card_outdated">A kártya tartalma elavult lehet.</string>
+    <string name="show_error">Hiba megjelenítése</string>
+    <string name="push_notification_link_empty">A Kártyák webes alkalmazás egy ismert probléma miatt nem tudja megjeleníteni ezt a kártyát. További információkért lásd: %1$s</string>
+    </resources>

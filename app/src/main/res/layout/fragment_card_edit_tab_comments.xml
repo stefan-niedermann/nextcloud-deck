@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/comments"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
         android:layout_above="@id/addCommentLayout"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:reverseLayout="true"
@@ -143,7 +144,7 @@
                     android:layout_height="wrap_content"
                     android:autofillHints="@null"
                     android:imeOptions="flagNoExtractUi|actionSend"
-                    android:inputType="text"
+                    android:inputType="textMultiLine"
                     android:maxLength="@integer/comment_max_length">
 
                     <requestFocus />

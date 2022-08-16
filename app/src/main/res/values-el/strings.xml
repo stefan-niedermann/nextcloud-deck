@@ -1,6 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">Άνοιγμα συρταριού πλοήγησης</string>
     <string name="navigation_drawer_close">Κλείσιμο συρταριού πλοήγησης</string>
+    <string name="hint_search_deck">Αναζήτηση πίνακα</string>
 
     <string name="simple_boards">Πίνακες</string>
     <string name="simple_add">Προσθήκη</string>
@@ -32,6 +33,7 @@
     <string name="simple_copied">Αντιγράφτηκε</string>
     <string name="simple_archive">Αρχειοθέτηση</string>
     <string name="simple_unassigned">Χωρίς ανάθεση</string>
+    <string name="hint_error_appeared">Παρουσιάστηκε σφάλμα</string>
 
     <string name="edit_board">Επεξεργασία πίνακα</string>
     <string name="archive_board">Αρχειοθέτηση πίνακα</string>
@@ -120,7 +122,11 @@
     <string name="settings_theme_title">Θέμα</string>
     <string name="settings_branding_title">Επωνυμία</string>
     <string name="settings_compact_title">Συμπαγής λειτουργία</string>
+    <string name="settings_etags_summary">Επιταχύνει τον συγχρονισμό</string>
     <string name="settings_background_sync">Συγχρονισμός στο παρασκήνιο</string>
+    <string name="settings_compress_image_attachments">Συμπίεση εικόνων κατά τη μεταφόρτωση</string>
+    <string name="search_in">Αναζήτηση σε %1$s</string>
+    <string name="settings_compress_image_attachments_summary">Ταχύτερη μεταφόρτωση, μικρότερη ποιότητα</string>
     <string name="pref_value_wifi_and_mobile">Συγχρονισμός σε Wi-Fi και δεδομένα κινητού</string>
     <string name="pref_value_wifi_only">Συγχρονισμός μόνο σε Wi-Fi</string>
     <string-array name="darkmode_entries">
@@ -138,12 +144,12 @@
     <string name="no_content">Χωρίς περιεχόμενο ακόμα</string>
     <string name="last_background_sync">Τελευταίος συγχρ. παρασκηνίου:</string>
     <string name="simple_off">Απενεργοποίηση </string>
-    <string name="minutes_15">15 Λεπτά</string>
+    <string name="minutes_15">15 λεπτά</string>
     <string name="hour_1">1 ώρα</string>
     <string name="hours_6">6 ώρες</string>
     <string name="action_card_move">Μετακίνηση κάρτας</string>
     <string name="action_card_move_title">Μετακίνηση %1$s</string>
-    <string name="title_is_mandatory">Υποχρεωτικός τίτλος</string>
+    <string name="title_is_mandatory">Απαιτείται τίτλος</string>
     <string name="provide_at_least_a_title_or_description">Προσθέστε τουλάχιστον τίτλο ή περιγραφή</string>
     <string name="welcome_text">Καλώς ήρθατε στο %1$s</string>
     <string name="maintenance_mode_explanation">Ο διακομιστής %1$s είναι σε κατάσταση συντήρησης. Επικοινωνήστε με τον διαχειριστή ή δοκιμάστε αργότερα.</string>
@@ -197,6 +203,7 @@
     <string name="operation_not_yet_supported">Δεν υποστηρίζεται ακόμη</string>
     <string name="error_revoking_ac">Σφάλμα κατά την ανάκληση πρόσβασης για %1$s</string>
     <string name="error_create_label">Σφάλμα κατά τη δημιουργία ετικέτας %1$s</string>
+    <string name="maintenance_mode">Ο διακομιστής βρίσκεται σε λειτουργία συντήρησης</string>
     <string name="server_error">Σφάλμα διακομιστή</string>
     <string name="error_edit_activity_killed_by_android">Το Android ολοκλήρωσε τη λειτουργία επεξεργασίας επειδή χρειαζόταν περισσότερους πόρους συστήματος για άλλες εφαρμογές.</string>
 
@@ -205,7 +212,8 @@
     <string name="error_dialog_tip_clear_storage_might_help">Εάν το πρόβλημα παραμένει, προσπαθήστε να εκκαθαρίσετε τον χώρο αποθήκευσης και των δύο εφαρμογών: του Nextcloud και του Nextcloud Deck για επίλυση.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Η αναβάθμιση της βάσης δεδομένων απέτυχε. Παρακαλούμε αναφέρετε το πρόβλημα και εκκαθαρίστε τον χώρο αποθήκευσης για να χρησιμοποιήσετε την εφαρμογή κανονικά.</string>
     <string name="error_dialog_tip_clear_storage">Μπορείτε να εκκαθαρίσετε τον χώρο αποθήκευσης από τις πληροφορίες εφαρμογής και επιλέγοντας Αποθηκευτικός χώρος → Εκκαθάριση χώρου αποθήκευσης.</string>
-    <string name="error_dialog_tip_files_outdated">Η εφαρμογή Nextcloud δεν είναι ενημερωμένη. Παρακαλούμε επισκεφθείτε το Play Store ή το F-Groid για λήψη της τελευταίας έκδοσης.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Η σύνδεση απορρίφθηκε, ελέγξτε εάν ο διακομιστής σας είναι προσβάσιμος μέσω του προγράμματος περιήγησης.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Το χρονικό όριο της σύνδεσης έληξε, ελέγξτε αν είστε συνδεδεμένοι στο διαδίκτυο. Αυτό μπορεί επίσης να συμβεί όταν ο διακομιστής σας είναι απασχολημένος.</string>
     <string name="error_dialog_tip_files_force_stop">Κάτι φαίνεται να πάει στραβά με την εφαρμογή Nextcloud. Προσπαθήστε να τερματίσετε την εφαρμογή Nextcloud και την εφαρμογή Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Εάν ο τερματισμός δεν βοηθήσει, μπορείτε να εκκαθαρίσετε τον αποθηκευτικό χώρο και των δύο εφαρμογών.</string>
     <string name="error_dialog_timeout_instance">Δεν υπήρχε απάντηση από τον διακομιστή σας. Βεβαιωθείτε ότι η σύνδεσή σας λειτουργεί κανονικά.</string>
@@ -221,12 +229,17 @@
     <string name="error_dialog_user_not_found_in_database">Ο τρέχων χρήστης δεν είναι ίδιος με αυτόν που έχουμε καταχωρημένο στη βάση δεδομένων μας. Εάν χρησιμοποιείτε την λειτουρία LDAP στον διακομιστή σας Nextcloud, η εφαρμογή σας ενδέχεται να έχει αποθηκευμένο ένα παλιό αναγνωριστικό χρήστη.</string>
     <string name="error_dialog_capabilities_not_parsable">Δεν ήταν δυνατός ο έλεγχος των δυνατοτήτων του διακομιστή σας. Βεβαιωθείτε ότι ο διακομιστής σας λειτουργεί σωστά και οι εφαρμογές έχουν πρόσβαση στο Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Δεν ήταν δυνατή η μεταφόρτωση ενός συνημμένου. Προσπαθήστε να το διαμοιράσετε με άλλο τρόπο και ενημερώστε μας σχετικά με το σφάλμα.</string>
+    <string name="error_dialog_certificate">Φαίνεται ότι κάτι δεν πάει καλά με το πιστοποιητικό του διακομιστή. Ελέγξτε όλους τους λογαριασμούς στην εφαρμογή Nextcloud για περισσότερες πληροφορίες.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Παρακαλούμε απενεργοποιήστε όλες τις βελτιστοποιήσεις μπαταρίας για το Nextcloud και την εφαρμογή Deck.</string>
     <string name="error_action_open_deck_info">Πληροφορίες εφαρμογής</string>
+    <string name="error_action_open_nextcloud_app">Άνοιγμα εφαρμογής Nextcloud</string>
     <string name="error_action_open_network">Ρυθμίσεις δικτύου</string>
     <string name="error_action_server_logs">Αρχεία καταγραφής διακομιστή</string>
+    <string name="error_action_open_in_browser">Άνοιγμα στον περιηγητή ιστού</string>
     <string name="error_action_install">Εγκατάσταση</string>
     <string name="error_action_report_issue">Αναφορά</string>
+    <string name="error_action_update_files_app">Ενημέρωση</string>
+    <string name="info_box_maintenance_mode">Ο διακομιστής βρίσκεται σε λειτουργία συντήρησης</string>
     <string name="info_box_version_not_supported">Η έκδοση του διακομιστή %1$s δεν υποστηρίζεται, παρακαλούμε αναβαθμίστε στην %2$s</string>
     <string name="share_link">Διαμοιρασμός συνδέσμου</string>
     <string name="archive_cards">Αρχειοθετημένες κάρτες</string>
@@ -253,6 +266,7 @@
     <string name="widget_stack_title">Λίστα</string>
     <string name="widget_filter_title">Φίλτρο</string>
     <string name="widget_stack_header_icon">Εικονίδιο επικεφαλίδας του γραφικού στοιχείου</string>
+    <string name="widget_placeholder_icon">Εικονίδιο υποκατάστασης γραφικού στοιχείου</string>
     <string name="select_stack">Επιλέξτε λίστα</string>
     <string name="project_type_deck_board">Πίνακας του Deck</string>
     <string name="project_type_deck_card">Κάρτα του Deck</string>
@@ -266,6 +280,7 @@
     <string name="single_card">Απλή καρτέλα</string>
     <string name="project_type_room">Δωμάτιο του Talk </string>
     <string name="simple_move">Μετακίνηση</string>
+    <string name="cannot_upload_files_without_permission">Δεν είναι δυνατή η μεταφόρτωση αρχείων χωρίς δικαιώματα</string>
     <string name="clone_cards">Κάρτες κλώνου</string>
     <string name="simple_clone">Κλώνος</string>
     <string name="user_avatar">Άβαταρ χρήστη</string>
@@ -290,4 +305,5 @@
     <string name="simple_order">Σειρά</string>
     <string name="edit_description">Επεξεργασία περιγραφής</string>
     <string name="widget_upcoming_title">Επερχόμενες κάρτες</string>
+    <string name="simple_search">Αναζήτηση</string>
     </resources>

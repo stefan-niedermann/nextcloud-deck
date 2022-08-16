@@ -1,6 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">فتح التنقل </string>
     <string name="navigation_drawer_close">إقفال التنقل </string>
+    <string name="hint_search_deck">بحث الادراج</string>
 
     <string name="simple_boards">الالواح</string>
     <string name="simple_add">إضافة</string>
@@ -32,6 +33,7 @@
     <string name="simple_copied">نُسخت </string>
     <string name="simple_archive">الأرشيف</string>
     <string name="simple_unassigned">غير معيين </string>
+    <string name="hint_error_appeared">حدث خطأ</string>
 
     <string name="edit_board">تعديل اللوح</string>
     <string name="archive_board">أرشفة اللوح </string>
@@ -158,7 +160,7 @@
     <string name="hours_6">6 ساعات</string>
     <string name="action_card_move">حرك البطاقة</string>
     <string name="action_card_move_title">نقل %1$s</string>
-    <string name="title_is_mandatory">العنوان إلزامي </string>
+    <string name="title_is_mandatory">العنوان مطلوب</string>
     <string name="provide_at_least_a_title_or_description">أدخل عنوانًا أو وصفًا على الأقل</string>
     <string name="welcome_text">مرحبًا بك في %1$s</string>
     <string name="maintenance_mode_explanation">سيرفر %1$s حاليًا في وضع الصيانة. فضلًا تواصل مع المسؤول أو أعد المحاولة لاحقًا. </string>
@@ -221,8 +223,7 @@
     <string name="error_dialog_tip_clear_storage_might_help">إذا تكررت المشكلة، حاول تنظيف مساحة التخزين في التطبيقين كلاهما: نكست كلاود، ونكست كلاود Deck لحل هذه المشكلة.</string>
     <string name="error_dialog_tip_database_upgrade_failed">فشلت ترقية قاعدة البيانات. يرجى الإبلاغ عن المشكلة ومسح التخزين لاستخدام التطبيق مجددًا.</string>
     <string name="error_dialog_tip_clear_storage">يمكنك مسح التخزين عن طريق فتح معلومات التطبيق واختيار التخزين ← مسح التخزين.</string>
-    <string name="error_dialog_tip_files_outdated">يبدو أن تطبيقك نكست كلاود مهمل، ولم يحدث منذ زمن. يرجى زيارة  بلي ستور أو اف-درويد (f-droid) للحصول على آخر إصدار.</string>
-    <string name="error_dialog_tip_offline">يبدو أنك حاولت البدء بالمزامنة بدون اتصال بالإنترنت.</string>
+    <string name="error_dialog_tip_offline_no_internet">يبدو أنك حاولت البدء بالمزامنة بدون اتصال بالإنترنت.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">إذا قمت بتعطيل إعدادات \"التزامن فقط على شبكة الإنترنت Wi-Fi \" سيمكنك التزامن فقط عندما تكون متصلًا بشبكة الإنترنت. </string>
     <string name="error_dialog_tip_files_force_stop">يبدو أن هناك خطأ ما في تطبيق نكست كلاود الخاص بك. يرجى محاولة فرض إيقاف كلا من تطبيق نكست كلاود وتطبيق Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">إذا لم يساعد إيقافهم بالقوة ، فيمكنك محاولة مسح تخزين كلا التطبيقين.</string>
@@ -241,12 +242,16 @@
     <string name="error_dialog_attachment_upload_failed">لا يمكن رفع المرفق، يرجى محاولة مشاركته بطريقة أخرى وإخبارنا بهذا الخطأ.</string>
     <string name="error_dialog_certificate">يبدو أن هناك خطأ ما في شهادة الخادم، من فضلك قم بمراجعة جميع الحسابات في تطبيق نكست كلاود لمزيد من المعلومات.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">يرجى تعطيل جميع تحسينات البطارية لنكست كلاود وتطبيق Deck.</string>
+    <string name="error_dialog_unknown_error">يبدو أن مثيل Nextcloud الخاص بك لا يمكن الوصول إليه . يرجى التحقق من اتصالك بالإنترنت وما إذا كنت قادرًا على الاتصال بالمثيل الخاص بك عبر المتصفح.</string>
+    <string name="error_dialog_min_version">يتطلب تطبيق Deck للأندرويد أن يكون تطبيق Nextcloud للأندرويد في الإصدار 3.18 على الأقل.</string>
     <string name="error_action_open_deck_info">افتح معلومات التطبيق</string>
     <string name="error_action_open_nextcloud_app">فتح تطبيق نكست كلاود</string>
     <string name="error_action_open_network">إعدادات الشبكة</string>
     <string name="error_action_server_logs">سجلات الخادم </string>
+    <string name="error_action_open_in_browser">فتح في المتصفح</string>
     <string name="error_action_install">تثبيت</string>
     <string name="error_action_report_issue">ابلغ عنه</string>
+    <string name="error_action_update_files_app">تحديث</string>
     <string name="info_box_maintenance_mode">الخادم في وضع الصيانة</string>
     <string name="info_box_version_not_supported">إصدار الخادم %1$s غير مدعوم، من فضلك قم بالتحديث إلى %2$s</string>
     <string name="share_link">مشاركة الرابط</string>
@@ -300,7 +305,7 @@
     <string name="single_card">بطاقة مفردة</string>
     <string name="project_type_room">غرفة الدردشة</string>
     <string name="simple_move">نقل</string>
-    <string name="cannot_upload_files_without_permission">لا يمكن رفع الملفات من دون إذن </string>
+    <string name="cannot_upload_files_without_permission">لا يمكن رفع الملفات بدون صلاحيات</string>
     <string name="clone_cards">استنسخ البطاقة </string>
     <string name="simple_clone">استنسخ</string>
     <string name="user_avatar">صورة المستخدم الشخصية </string>
@@ -333,4 +338,12 @@
     <string name="copying_logs_to_file">نسخ السجلات إلى الملف </string>
     <string name="account_imported">تم استيراد الحساب</string>
     <string name="simple_search">البحث</string>
-</resources>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">العنوان (مطلوب)</string>
+    <string name="saving_new_card">يجري حفظ بطاقة جديدة ...</string>
+    <string name="progress_import">يجري استعادة لوحة %1$d من %2$d ...</string>
+    <string name="progress_import_indeterminate">يجري استعادة اللوحات ...</string>
+    <string name="card_outdated">ربما يكون محتوى هذه البطاقة قديمًا.</string>
+    <string name="show_error">عرض الخطأ</string>
+    <string name="push_notification_link_empty">نظرًا لوجود مشكلة معروفة في تطبيق الويب \"Deck\"، لا يمكننا للأسف عرض هذه البطاقة. لمزيد من المعلومات، راجع: %1$s</string>
+    </resources>

@@ -26,7 +26,7 @@ public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject>
 
     @Override
     public Disposable getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<OcsProject>> responder, Instant lastSync) {
-        return serverAdapter.getProjectsForCard(card.getId(), new ResponseCallback<OcsProjectList>(responder.getAccount()) {
+        return serverAdapter.getProjectsForCard(card.getId(), new ResponseCallback<>(responder.getAccount()) {
             @Override
             public void onResponse(OcsProjectList response) {
                 responder.onResponse(response.getProjects());

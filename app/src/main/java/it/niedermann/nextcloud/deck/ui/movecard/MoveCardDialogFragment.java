@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.ui.movecard;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -22,9 +25,6 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackFragment;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackListener;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackViewModel;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
 public class MoveCardDialogFragment extends BrandedDialogFragment implements PickStackListener {
 
@@ -98,6 +98,12 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
+    @Override
     public void onStackPicked(@NonNull Account account, @Nullable Board board, @Nullable Stack stack) {
         this.selectedAccount = account;
         this.selectedBoard = board;
@@ -119,14 +125,14 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
     }
 
     public static DialogFragment newInstance(long originAccountId, long originBoardLocalId, String originCardTitle, Long originCardLocalId, boolean hasAttachmentsOrComments) {
-        final DialogFragment dialogFragment = new MoveCardDialogFragment();
-        final Bundle args = new Bundle();
+        final var fragment = new MoveCardDialogFragment();
+        final var args = new Bundle();
         args.putLong(KEY_ORIGIN_ACCOUNT_ID, originAccountId);
         args.putLong(KEY_ORIGIN_BOARD_LOCAL_ID, originBoardLocalId);
         args.putString(KEY_ORIGIN_CARD_TITLE, originCardTitle);
         args.putLong(KEY_ORIGIN_CARD_LOCAL_ID, originCardLocalId);
         args.putBoolean(KEY_ORIGIN_CARD_HAS_ATTACHMENTS_OR_COMMENTS, hasAttachmentsOrComments);
-        dialogFragment.setArguments(args);
-        return dialogFragment;
+        fragment.setArguments(args);
+        return fragment;
     }
 }

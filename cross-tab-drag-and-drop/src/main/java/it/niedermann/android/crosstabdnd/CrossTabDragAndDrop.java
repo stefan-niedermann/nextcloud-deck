@@ -6,6 +6,7 @@ import android.view.DragEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,8 +22,7 @@ import java.util.Set;
 public class CrossTabDragAndDrop<
         TabFragment extends Fragment & DragAndDropTab<ItemAdapter>,
         ItemAdapter extends RecyclerView.Adapter<?> & DragAndDropAdapter<ItemModel>,
-        ItemModel extends DragAndDropModel
-        > {
+        ItemModel extends DragAndDropModel> {
 
     private static final String TAG = CrossTabDragAndDrop.class.getCanonicalName();
     private static final ScrollHelper SCROLL_HELPER = new ScrollHelper();
@@ -50,8 +50,14 @@ public class CrossTabDragAndDrop<
 
     public void register(final ViewPager2 viewPager, TabLayout stackLayout, FragmentManager fm) {
         viewPager.setOnDragListener((View v, DragEvent dragEvent) -> {
-            DraggedItemLocalState<TabFragment, ItemAdapter, ItemModel> draggedItemLocalState = (DraggedItemLocalState<TabFragment, ItemAdapter, ItemModel>) dragEvent.getLocalState();
-            View draggedView = draggedItemLocalState.getDraggedView();
+            //noinspection unchecked
+            final DraggedItemLocalState<TabFragment, ItemAdapter, ItemModel> draggedItemLocalState = (DraggedItemLocalState<TabFragment, ItemAdapter, ItemModel>) dragEvent.getLocalState();
+            // https://github.com/stefan-niedermann/nextcloud-deck/issues/1025
+            if (draggedItemLocalState == null) {
+                Log.v(TAG, "dragEvent has no localState → Cancelling DragListener.");
+                return false;
+            }
+            final View draggedView = draggedItemLocalState.getDraggedView();
             switch (dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED: {
                     draggedView.setVisibility(View.INVISIBLE);
@@ -59,12 +65,12 @@ public class CrossTabDragAndDrop<
                     break;
                 }
                 case DragEvent.ACTION_DRAG_LOCATION: {
-                    RecyclerView currentRecyclerView = draggedItemLocalState.getRecyclerView();
-                    ItemAdapter itemAdapter = draggedItemLocalState.getItemAdapter();
+                    final RecyclerView currentRecyclerView = draggedItemLocalState.getRecyclerView();
+                    final ItemAdapter itemAdapter = draggedItemLocalState.getItemAdapter();
 
-                    long now = System.currentTimeMillis();
+                    final long now = System.currentTimeMillis();
                     if (lastSwap + dragAndDropMsToReact < now) { // don't change Tabs so fast!
-                        int oldTabPosition = viewPager.getCurrentItem();
+                        final int oldTabPosition = viewPager.getCurrentItem();
 
                         boolean shouldSwitchTab = true;
 
@@ -131,7 +137,7 @@ public class CrossTabDragAndDrop<
                 draggedItemLocalState.setInsertedListener(null);
                 view.setVisibility(View.INVISIBLE);
                 draggedItemLocalState.setDraggedView(view);
-                pushAroundItems(view, recyclerView, dragEvent, itemAdapter, (DraggedItemLocalState<TabFragment, ItemAdapter, ItemModel>) draggedItemLocalState, now);
+                pushAroundItems(view, recyclerView, dragEvent, itemAdapter, draggedItemLocalState, now);
             }
 
             @Override
@@ -141,7 +147,7 @@ public class CrossTabDragAndDrop<
         recyclerView.addOnChildAttachStateChangeListener(onChildAttachStateChangeListener);
 
         //insert item in new tab
-        View firstVisibleView = recyclerView.getChildAt(0);
+        @Nullable final View firstVisibleView = recyclerView.getChildAt(0);
         int positionToInsert = firstVisibleView == null ? 0 : recyclerView.getChildAdapterPosition(firstVisibleView) + 1;
         itemAdapter.insertItem(draggedItemLocalState.getDraggedItemModel(), positionToInsert);
 
@@ -149,12 +155,12 @@ public class CrossTabDragAndDrop<
     }
 
     private void pushAroundItems(@NonNull View view, RecyclerView recyclerView, DragEvent dragEvent, ItemAdapter itemAdapter, DraggedItemLocalState<TabFragment, ItemAdapter, ItemModel> draggedItemLocalState, long now) {
-        View viewUnder = recyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
+        @Nullable final View viewUnder = recyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
 
         if (viewUnder != null) {
-            int toPositon = recyclerView.getChildAdapterPosition(viewUnder);
+            final int toPositon = recyclerView.getChildAdapterPosition(viewUnder);
             if (toPositon != -1) {
-                int fromPosition = recyclerView.getChildAdapterPosition(view);
+                final int fromPosition = recyclerView.getChildAdapterPosition(view);
                 if (fromPosition != -1 && fromPosition != toPositon) {
                     recyclerView.post(() -> {
                         itemAdapter.moveItem(fromPosition, toPositon);
@@ -171,7 +177,7 @@ public class CrossTabDragAndDrop<
     }
 
     private void detectAndKillDuplicatesInNeighbourTab(ViewPager2 viewPager, ItemModel itemToFind, FragmentManager fm, int oldTabPosition, int newTabPosition) {
-        int tabPositionToCheck = newTabPosition > oldTabPosition ? newTabPosition + 1 : newTabPosition - 1;
+        final int tabPositionToCheck = newTabPosition > oldTabPosition ? newTabPosition + 1 : newTabPosition - 1;
 
         if (isMovePossible(viewPager, tabPositionToCheck)) {
             viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -179,15 +185,15 @@ public class CrossTabDragAndDrop<
                 public void onPageSelected(int position) {
                     super.onPageSelected(position);
                     viewPager.unregisterOnPageChangeCallback(this);
-                    ItemAdapter itemAdapter = DragAndDropUtil.<TabFragment>getTabFragment(fm, Objects.requireNonNull(viewPager.getAdapter()).getItemId(tabPositionToCheck)).getAdapter();
+                    final ItemAdapter itemAdapter = DragAndDropUtil.<TabFragment>getTabFragment(fm, Objects.requireNonNull(viewPager.getAdapter()).getItemId(tabPositionToCheck)).getAdapter();
                     itemAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
                         @Override
                         public void onChanged() {
                             super.onChanged();
                             itemAdapter.unregisterAdapterDataObserver(this);
-                            List<ItemModel> itemList = itemAdapter.getItemList();
+                            final List<ItemModel> itemList = itemAdapter.getItemList();
                             for (int i = 0; i < itemList.size(); i++) {
-                                ItemModel c = itemList.get(i);
+                                final ItemModel c = itemList.get(i);
                                 if (itemToFind.getComparableId().equals(c.getComparableId())) {
                                     itemAdapter.removeItem(i);
                                     itemAdapter.notifyItemRemoved(i);
@@ -203,15 +209,15 @@ public class CrossTabDragAndDrop<
     }
 
     private void removeItem(RecyclerView currentRecyclerView, View view, ItemAdapter itemAdapter) {
-        int oldItemPosition = currentRecyclerView.getChildAdapterPosition(view);
+        final int oldItemPosition = currentRecyclerView.getChildAdapterPosition(view);
 
         if (oldItemPosition != -1) {
             itemAdapter.removeItem(oldItemPosition);
         }
     }
 
-    private void notifyListeners(DraggedItemLocalState draggedItemLocalState) {
-        for (ItemMovedByDragListener listener : moveListenerList) {
+    private void notifyListeners(DraggedItemLocalState<TabFragment, ItemAdapter, ItemModel> draggedItemLocalState) {
+        for (ItemMovedByDragListener<ItemModel> listener : moveListenerList) {
             listener.onItemMoved(draggedItemLocalState.getDraggedItemModel(), draggedItemLocalState.getCurrentTabId(), draggedItemLocalState.getPositionInItemAdapter());
         }
     }

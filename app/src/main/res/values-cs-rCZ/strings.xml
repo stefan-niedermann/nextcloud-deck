@@ -1,6 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">Otevřít panel navigace</string>
     <string name="navigation_drawer_close">Zavřít navigační panel</string>
+    <string name="hint_search_deck">Hledat sloupec</string>
 
     <string name="simple_boards">Tabule</string>
     <string name="simple_add">Přidat</string>
@@ -32,6 +33,7 @@
     <string name="simple_copied">Zkopírováno</string>
     <string name="simple_archive">Archiv</string>
     <string name="simple_unassigned">Nepřiřazeno</string>
+    <string name="hint_error_appeared">Objevila se chyba</string>
 
     <string name="edit_board">Upravit tabuli</string>
     <string name="archive_board">Archivovat tabuli</string>
@@ -149,12 +151,12 @@
     <string name="no_content">Zatím žádný osah</string>
     <string name="last_background_sync">Nejnovější synchronizace na pozadí:</string>
     <string name="simple_off">Vypnuto</string>
-    <string name="minutes_15">každých 15 minut</string>
-    <string name="hour_1">každou hodinu</string>
-    <string name="hours_6">každých 6 hodin</string>
+    <string name="minutes_15">15 minut</string>
+    <string name="hour_1">1 hodina</string>
+    <string name="hours_6">6 hodin</string>
     <string name="action_card_move">Přesunout kartu</string>
     <string name="action_card_move_title">Přesunout %1$s</string>
-    <string name="title_is_mandatory">Nadpis je třeba zadat</string>
+    <string name="title_is_mandatory">Je třeba zadat nadpis</string>
     <string name="provide_at_least_a_title_or_description">Zadejte alespoň nadpis nebo popis</string>
     <string name="welcome_text">Vítejte v %1$s</string>
     <string name="maintenance_mode_explanation">Na serveru %1$s v tuto chvíli probíhá údržba. Obraťte se na jeho správce nebo to zkuste později znovu.</string>
@@ -217,9 +219,10 @@
     <string name="error_dialog_tip_clear_storage_might_help">Pokud problém přetrvává, zkuste problém vyřešit vyčištěním úložišť obou aplikací: Nextcloud a Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Přechod na novější verzi databáze se nezdařil. Prosíme nahlaste tento problém vývojářům a aby bylo možné aplikaci normálně používat, vyčistěte úložiště.</string>
     <string name="error_dialog_tip_clear_storage">Úložiště můžete vyčistit otevřením informací o aplikací a vybráním Úložiště → Vyčistit úložiště.</string>
-    <string name="error_dialog_tip_files_outdated">Zdá se, že aplikace Nextcloud, nainstalovaná na vašem zařízení, je staré verze. Přejděte prosím do Play Store nebo F-Droid a nainstalujte si nejnovější verzi.</string>
-    <string name="error_dialog_tip_offline">Vypadá to, že jste se pokusili zahájit synchronizaci bez internetového připojení.</string>
-    <string name="error_dialog_tip_sync_only_on_wifi">Pokud máte zapnuto \"Synchr. pouze přes Wi-Fi\" v Nastavení, můžete synchronizovat pouze pokud jste připojeni k Wi-Fi.</string>
+    <string name="error_dialog_tip_offline_no_internet">Vypadá to, že jste se pokusili zahájit synchronizaci bez připojení k Internetu.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Připojení bylo odmítnuto – zkontrolujte, zda je server dosažitelný prostřednictvím webového prohlížeče.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Překročen časový limit čekání na připojení – zkontrolujte, zda jste připojeni k Internetu. K tomuto také může dojít, když je server přetížený.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Pokud máte zapnuté nastavení „Synchr. pouze přes Wi-Fi“ – synchronizovat tedy můžete pouze pokud jste připojeni k Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Zdá se, že s vaší aplikací Nextcloud není něco v pořádku. Zkuste vynutit zastavení obojího – aplikace Nextcloud a Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Pokud vynucení jejich zastavení nepomůže, můžete zkusit vyčistit úložiště obou aplikací.</string>
     <string name="error_dialog_timeout_instance">Server neodpověděl do určené doby. Ověřte, že vámi využívaná instance je v pořádku spuštěná.</string>
@@ -237,12 +240,16 @@
     <string name="error_dialog_attachment_upload_failed">Přílohu se nepodařilo nahrát. Zkuste ji nasdílet jiným způsobem a dejte nám o této chybě vědět.</string>
     <string name="error_dialog_certificate">Zdá se, že s certifikátem serveru není něco v pořádku. Podrobnosti zjistíte kontrolou všech účtů v Nextcloud.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">V nastavení systému prosím pro aplikace Nextcloud a Deck vypněte veškeré optimalizace spotřeby energie z akumulátoru.</string>
+    <string name="error_dialog_unknown_error">Zdá se, že vámi využívaná instance Nextcloud není dosažitelná. Zkontrolujte své připojení a to, zda jste schopní se připojit k této instanci prostřednictvím webového prohlížeče.</string>
+    <string name="error_dialog_min_version">Android aplikace Deck vyžaduje, aby Android aplikace Nextcloud byla přinejmenším verze 3.18.</string>
     <string name="error_action_open_deck_info">Otevřít informace o aplikaci</string>
     <string name="error_action_open_nextcloud_app">Otevřít aplikaci Nextcloud</string>
     <string name="error_action_open_network">Nastavení sítě</string>
     <string name="error_action_server_logs">Záznamy událostí na serveru</string>
+    <string name="error_action_open_in_browser">Otevřít v prohlížeči</string>
     <string name="error_action_install">Nainstalovat</string>
     <string name="error_action_report_issue">Hlášení</string>
+    <string name="error_action_update_files_app">Aktualizovat</string>
     <string name="info_box_maintenance_mode">Na serveru probíhá údržba</string>
     <string name="info_box_version_not_supported">Verze serveru %1$s není podporována, přejděte na verzi %2$s</string>
     <string name="share_link">Odkaz na sdílení</string>
@@ -287,7 +294,7 @@
         <item quantity="many">%1$d prostředků</item>
         <item quantity="other">%1$d prostředky</item>
     </plurals>
-    <string name="no_assigned_label">Nepřiřazena značka</string>
+    <string name="no_assigned_label">Nepřiřazena žádná značka</string>
     <string name="single_card">Jedna karta</string>
     <string name="project_type_room">Diskuzní místnost</string>
     <string name="simple_move">Přesunout</string>
@@ -320,8 +327,16 @@
     <string name="simple_expert_settings">Nastavení pro pokročilé uživatele</string>
     <string name="copy_logs">Zkopírovat záznamy událostí do schránky</string>
     <string name="app_logo">Logo aplikace</string>
-    <string name="log_file">Soubor Log</string>
-    <string name="copying_logs_to_file">Kopíruju logy(záznamy) do souboru</string>
+    <string name="log_file">Soubor se záznamem událostí</string>
+    <string name="copying_logs_to_file">Kopírování záznamů událostí do souboru…</string>
     <string name="account_imported">Účet naimportován</string>
     <string name="simple_search">Hledat</string>
-</resources>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Nadpis (vyžadován)</string>
+    <string name="saving_new_card">Ukládání nové karty…</string>
+    <string name="progress_import">Importuje se tabule %1$d z %2$d…</string>
+    <string name="progress_import_indeterminate">Importování tabulí…</string>
+    <string name="card_outdated">Obsah této karty může být neaktuální.</string>
+    <string name="show_error">Zobrazit chybu</string>
+    <string name="push_notification_link_empty">Kvůli známému problému v aplikaci Deck na straně serveru žel není možné tuto kartu zobrazit. Podrobnosti viz: %1$s</string>
+    </resources>

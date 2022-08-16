@@ -33,7 +33,6 @@ import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 
 @SuppressWarnings("WeakerAccess")
 public class MainViewModel extends AndroidViewModel {
@@ -80,6 +79,14 @@ public class MainViewModel extends AndroidViewModel {
         return this.currentBoard.getLocalId();
     }
 
+    @ColorInt
+    public Integer getCurrentBoardColor() {
+        if (currentBoard == null) {
+            throw new IllegalStateException("getCurrentBoardColor() called before setCurrentBoard()");
+        }
+        return this.currentBoard.getColor();
+    }
+
     public Long getCurrentBoardRemoteId() {
         if (currentBoard == null) {
             throw new IllegalStateException("getCurrentBoardRemoteId() called before setCurrentBoard()");
@@ -123,8 +130,8 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.hasAccounts();
     }
 
-    public WrappedLiveData<Account> createAccount(@NonNull Account accout) {
-        return syncManager.createAccount(accout);
+    public void createAccount(@NonNull Account account, @NonNull IResponseCallback<Account> callback) {
+        syncManager.createAccount(account, callback);
     }
 
     public void deleteAccount(long id) {
@@ -191,8 +198,8 @@ public class MainViewModel extends AndroidViewModel {
         syncManager.createLabel(accountId, label, localBoardId, callback);
     }
 
-    public LiveData<Integer> countCardsWithLabel(long localLabelId) {
-        return syncManager.countCardsWithLabel(localLabelId);
+    public void countCardsWithLabel(long localLabelId, @NonNull IResponseCallback<Integer> callback) {
+        syncManager.countCardsWithLabel(localLabelId, callback);
     }
 
     public void updateLabel(@NonNull Label label, @NonNull IResponseCallback<Label> callback) {
@@ -231,8 +238,8 @@ public class MainViewModel extends AndroidViewModel {
         syncManager.reorder(accountId, movedCard, newStackId, newIndex);
     }
 
-    public LiveData<Integer> countCardsInStack(long accountId, long localStackId) {
-        return syncManager.countCardsInStack(accountId, localStackId);
+    public void countCardsInStack(long accountId, long localStackId, @NonNull IResponseCallback<Integer> callback) {
+        syncManager.countCardsInStackDirectly(accountId, localStackId, callback);
     }
 
     public void archiveCardsInStack(long accountId, long stackLocalId, @NonNull FilterInformation filterInformation, @NonNull IResponseCallback<Void> callback) {
@@ -259,8 +266,8 @@ public class MainViewModel extends AndroidViewModel {
         return syncManager.getFullCardsForStack(accountId, localStackId, filter);
     }
 
-    public WrappedLiveData<Void> moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
-        return syncManager.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId);
+    public void moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId, @NonNull IResponseCallback<Void> callback) {
+        syncManager.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId, callback);
     }
 
     public LiveData<List<FullCard>> getArchivedFullCardsForBoard(long accountId, long localBoardId) {
@@ -289,5 +296,9 @@ public class MainViewModel extends AndroidViewModel {
 
     public void deleteCard(@NonNull Card card, @NonNull IResponseCallback<Void> callback) {
         syncManager.deleteCard(card, callback);
+    }
+
+    public void saveCard(long accountId, long boardLocalId, long stackLocalId, @NonNull FullCard fullCard, @NonNull IResponseCallback<FullCard> callback) {
+        syncManager.createFullCard(accountId, boardLocalId, stackLocalId, fullCard, callback);
     }
 }

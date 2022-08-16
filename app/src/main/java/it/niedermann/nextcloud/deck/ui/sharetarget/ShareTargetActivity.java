@@ -1,12 +1,14 @@
 package it.niedermann.nextcloud.deck.ui.sharetarget;
 
+import static java.net.HttpURLConnection.HTTP_CONFLICT;
+import static it.niedermann.nextcloud.deck.util.FilesUtil.copyContentUriToTempFile;
+
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.Menu;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,7 +28,6 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
-import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -35,9 +36,6 @@ import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
-
-import static it.niedermann.nextcloud.deck.util.FilesUtil.copyContentUriToTempFile;
-import static java.net.HttpURLConnection.HTTP_CONFLICT;
 
 public class ShareTargetActivity extends MainActivity implements SelectCardListener {
 
@@ -52,7 +50,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
-            final Intent receivedIntent = getIntent();
+            final var receivedIntent = getIntent();
             final String receivedAction = receivedIntent.getAction();
             final String receivedType = receivedIntent.getType();
             DeckLog.info(receivedAction);
@@ -102,7 +100,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
 
     private void appendFilesAndFinish(@NonNull FullCard fullCard) {
         ShareProgressDialogFragment.newInstance().show(getSupportFragmentManager(), ShareProgressDialogFragment.class.getSimpleName());
-        final ShareProgressViewModel shareProgressViewModel = new ViewModelProvider(this).get(ShareProgressViewModel.class);
+        final var shareProgressViewModel = new ViewModelProvider(this).get(ShareProgressViewModel.class);
         shareProgressViewModel.setMax(mStreamsToUpload.size());
         shareProgressViewModel.targetCardTitle = fullCard.getCard().getTitle();
 
@@ -124,7 +122,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                     if (mimeType == null) {
                         throw new IllegalArgumentException("MimeType of uri is null. [" + uri + "]");
                     }
-                    mainViewModel.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, tempFile, new IResponseCallback<Attachment>() {
+                    mainViewModel.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, tempFile, new IResponseCallback<>() {
                         @Override
                         public void onResponse(Attachment response) {
                             runOnUiThread(shareProgressViewModel::increaseProgress);
@@ -150,10 +148,10 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
     }
 
     private void appendTextAndFinish(@NonNull FullCard fullCard, @NonNull String receivedText) {
-        final String[] animals = {getString(R.string.append_text_to_description), getString(R.string.add_text_as_comment)};
+        final String[] targets = {getString(R.string.append_text_to_description), getString(R.string.add_text_as_comment)};
         new AlertDialog.Builder(this)
                 .setOnCancelListener(dialog -> cardSelected = false)
-                .setItems(animals, (dialog, which) -> {
+                .setItems(targets, (dialog, which) -> {
                     switch (which) {
                         case 0:
                             final String oldDescription = fullCard.getCard().getDescription();
@@ -163,7 +161,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                                             ? receivedText
                                             : oldDescription + "\n\n" + receivedText
                             );
-                            mainViewModel.updateCard(fullCard, new IResponseCallback<FullCard>() {
+                            mainViewModel.updateCard(fullCard, new IResponseCallback<>() {
                                 @Override
                                 public void onResponse(FullCard response) {
                                     Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
@@ -181,8 +179,8 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                             });
                             break;
                         case 1:
-                            final Account currentAccount = mainViewModel.getCurrentAccount();
-                            final DeckComment comment = new DeckComment(receivedText.trim(), currentAccount.getUserName(), Instant.now());
+                            final var currentAccount = mainViewModel.getCurrentAccount();
+                            final var comment = new DeckComment(receivedText.trim(), currentAccount.getUserName(), Instant.now());
                             mainViewModel.addCommentToCard(currentAccount.getId(), fullCard.getLocalId(), comment);
                             Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
                             finish();
@@ -194,13 +192,9 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
     @Override
     protected void setCurrentBoard(@NonNull Board board) {
         super.setCurrentBoard(board);
-        binding.listMenuButton.setVisibility(View.GONE);
-        binding.fab.setVisibility(View.GONE);
         binding.toolbar.setTitle(R.string.simple_select);
+        showEditButtonsIfPermissionsGranted();
     }
-
-    @Override
-    protected void showFabIfEditPermissionGranted() { /* Silence is gold */ }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

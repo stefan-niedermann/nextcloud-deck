@@ -34,6 +34,7 @@ Steps to reproduce the behavior:
 
 
 **Versions**
+<!-- "latest" is NOT a version. Depending on your Nextcloud instance the latest versions can vary. -->
  - Nextcloud: 
  - Nextcloud Deck: 
  - Nextcloud Android: 

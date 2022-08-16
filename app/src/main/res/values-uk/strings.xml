@@ -1,7 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Розгорнути скриньку з навігацією</string>
     <string name="navigation_drawer_close">Згорнути скриньку з навігацією</string>
-
     <string name="simple_boards">Дошки</string>
     <string name="simple_add">Додати</string>
     <string name="simple_save">Зберегти</string>
@@ -32,6 +31,7 @@
     <string name="simple_copied">Скопійовано</string>
     <string name="simple_archive">Архів</string>
     <string name="simple_unassigned">Скасовано призначення</string>
+    <string name="hint_error_appeared">Сталася помилка </string>
 
     <string name="edit_board">Редагувати дошку</string>
     <string name="archive_board">Архівувати дошку</string>
@@ -118,10 +118,20 @@
     <string name="add_a_new_list_using_the_button">Створюйте нові списки за допомогою кнопки (+)</string>
     <string name="add_a_new_card_using_the_button">Додавайте нові картки за допомогою кнопки (+)</string>
     <string name="delete_board_message">Це безповоротно вилучіть дошку разом зі списками та картками</string>
+    <string name="settings_theme_title">Тема</string>
     <string name="settings_branding_title">Оформлення</string>
+    <string name="settings_etags">Використовувати ETags</string>
+    <string name="settings_etags_summary">Прискорює синхронізацію</string>
     <string name="settings_background_sync">Фонова синхронізація</string>
+    <string name="search_in">Шукати в %1$s</string>
+    <string name="settings_compress_image_attachments_summary">Швидше завантаження, менша якість</string>
     <string name="pref_value_wifi_and_mobile">Синхронізація за допомогою Wi-Fi та мобільних даних</string>
     <string name="pref_value_wifi_only">Синхронізація тільки за допомогою WI-Fi</string>
+    <string-array name="darkmode_entries">
+        <item>Згідно з системною</item>
+        <item>Світла</item>
+        <item>Темна</item>
+    </string-array>
     <string name="unassigned_user">Скасовано призначення %1$s</string>
     <string name="no_activities">На цій картці відсутні активності. Вам потрібно мати з\'єднання з мережею для завантаження та відображення активностей.</string>
     <string name="share_board">Надати доступ до дошки</string>
@@ -137,7 +147,7 @@
     <string name="hours_6">6 годин</string>
     <string name="action_card_move">Пересунути картку</string>
     <string name="action_card_move_title">Пересунути %1$s</string>
-    <string name="title_is_mandatory">Назва є обов\'язковою</string>
+    <string name="title_is_mandatory">Заголовок обов\'язковий</string>
     <string name="provide_at_least_a_title_or_description">Щонайменше додайте назву чи опис</string>
     <string name="welcome_text">Вітаємо у %1$s</string>
     <string name="maintenance_mode_explanation">Зараз сервер %1$s у режимі технічного обслуговування. Будь ласка, сконтактуйте з вашим адміністратором або спробуйте пізніше.</string>
@@ -160,9 +170,11 @@
     <string name="filter_no_filter">Всі</string>
     <string name="filter_overdue">Протерміновано</string>
     <string name="filter_today">Сьогодні</string>
+    <string name="filter_tomorrow">Завтра</string>
     <string name="filter_week">Наступні 7 днів</string>
     <string name="filter_month">Наступні 30 днів</string>
     <string name="filter_no_due">Без дати завершення</string>
+    <string name="filter_later">Пізніше</string>
     <string name="filter_by_tag">Відібрати за позначками</string>
     <string name="filter_by_assigned_user">Відібрати за призначеним користувачем</string>
     <string name="filter_by_duedate">Відібрати за датою завершення</string>
@@ -196,7 +208,6 @@
     <string name="error_dialog_title">От халепа!</string>
     <string name="error_dialog_tip_token_mismatch_retry">Спробуйте примусово закрити застосунок та наново запустити. Можливо, встановлено неправильне з\'єднання із застосунком Nextcloud.</string>
     <string name="error_dialog_tip_clear_storage">Ви можете очистити сховище, відкривши інформацію про програму та вибравши Пам’ять → Очистити пам’ять.</string>
-    <string name="error_dialog_tip_files_outdated">Ваш додаток Nextcloud здається застарілим. Будь ласка, відвідайте Play Маркет або F-Droid, щоб отримати останню версію.</string>
     <string name="error_dialog_tip_files_delete_storage">Якщо примусове їх завершення не допомагає, спробуйте очистити сховище обох програм.</string>
     <string name="error_dialog_timeout_instance">За відведений час відповіді від вашого сервера не надійшло. Переконайтесь, що ваш сервер працює добре.</string>
     <string name="error_dialog_check_server_logs">Виникла проблема з налаштуванням Nextcloud. Будь ласка, подивіться файли журналу сервера.</string>
@@ -204,13 +215,17 @@
     <string name="error_dialog_insufficient_storage">Ваш сервер Nextcloud не має вільного місця. Будь ласка видаліть деякі файлі, щоб синхронізувати ваші локальні зміни з вашим хмарним сховищем.</string>
     <string name="error_dialog_we_need_info">Нам потрібна наступна технічна інформація, щоб допомогти вам:</string>
     <string name="error_action_open_deck_info">Відкрити інформацію про застосунок</string>
+    <string name="error_action_open_nextcloud_app">Відкрити програму Nextcloud</string>
     <string name="error_action_open_network">Налаштування мережі</string>
     <string name="error_action_server_logs">Журнал сервера</string>
+    <string name="error_action_open_in_browser">Відкрити у переглядачі</string>
     <string name="error_action_install">Встановити</string>
     <string name="error_action_report_issue">Звіт</string>
+    <string name="error_action_update_files_app">Оновлення</string>
     <string name="info_box_maintenance_mode">Сервер у режимі обслуговування</string>
     <string name="info_box_version_not_supported">Версія сервера %1$s не підтримується, будь ласка, поновіться до %2$s</string>
     <string name="share_link">Поширити посилання</string>
+    <string name="share_content">Поділіться вмістом</string>
     <string name="archive_cards">Архівувати картки</string>
 
     <string name="manage_accounts">Облікові записи</string>
@@ -229,9 +244,21 @@
     <string name="card_does_not_yet_exist">Картка поки відсутня у застосунку</string>
 
     <string name="widget_stack_title">Список</string>
+    <string name="widget_filter_title">Фільтр</string>
     <string name="widget_stack_header_icon">Піктограма заголовку віджету</string>
+    <string name="widget_placeholder_icon">Піктограма поля віджету</string>
     <string name="select_stack">Виберіть список</string>
     <string name="project_type_file">Файл</string>
     <string name="projects_title">Проєкти</string>
     <string name="simple_move">Перемістити</string>
+    <string name="simple_contact">Контакт</string>
+    <string name="simple_file">Файл</string>
+    <string name="simple_camera">Камера</string>
+    <string name="recent">Нещодавні</string>
+    <string name="contacts">Контакти</string>
+    <string name="downloads">Звантаження</string>
+    <string name="files">Робота з файлами</string>
+    <string name="gallery">Галерея</string>
+    <string name="edit_description">Редагувати опис</string>
+    <string name="simple_search">Пошук</string>
     </resources>

@@ -67,6 +67,12 @@ public class ArchivedBoardsActvitiy extends AppCompatActivity implements DeleteB
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
+
     @NonNull
     public static Intent createIntent(@NonNull Context context, @NonNull Account account) {
         return new Intent(context, ArchivedBoardsActvitiy.class)
@@ -76,7 +82,7 @@ public class ArchivedBoardsActvitiy extends AppCompatActivity implements DeleteB
 
     @Override
     public void onBoardDeleted(Board board) {
-        viewModel.deleteBoard(board, new IResponseCallback<Void>() {
+        viewModel.deleteBoard(board, new IResponseCallback<>() {
             @Override
             public void onResponse(Void response) {
                 DeckLog.info("Successfully deleted board", board.getTitle());
@@ -94,7 +100,7 @@ public class ArchivedBoardsActvitiy extends AppCompatActivity implements DeleteB
 
     @Override
     public void onUpdateBoard(FullBoard fullBoard) {
-        viewModel.updateBoard(fullBoard, new IResponseCallback<FullBoard>() {
+        viewModel.updateBoard(fullBoard, new IResponseCallback<>() {
             @Override
             public void onResponse(FullBoard response) {
                 DeckLog.info("Successfully updated board", fullBoard.getBoard().getTitle());
@@ -110,7 +116,7 @@ public class ArchivedBoardsActvitiy extends AppCompatActivity implements DeleteB
 
     @Override
     public void onArchive(Board board) {
-        viewModel.dearchiveBoard(board, new IResponseCallback<FullBoard>() {
+        viewModel.dearchiveBoard(board, new IResponseCallback<>() {
             @Override
             public void onResponse(FullBoard response) {
                 DeckLog.info("Successfully dearchived board", response.getBoard().getTitle());

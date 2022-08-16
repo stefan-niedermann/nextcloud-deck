@@ -1,12 +1,13 @@
 package it.niedermann.nextcloud.deck.ui.branding;
 
+import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
+import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficient;
+import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
+
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.view.MenuItem;
-import android.widget.EditText;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -22,10 +23,6 @@ import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 
-import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
-import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficient;
-import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
-
 public abstract class BrandingUtil {
 
     private BrandingUtil() {
@@ -34,20 +31,20 @@ public abstract class BrandingUtil {
 
     @ColorInt
     public static int readBrandMainColor(@NonNull Context context) {
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        final var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         DeckLog.log("--- Read:", context.getString(R.string.shared_preference_theme_main));
         return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_main), context.getApplicationContext().getResources().getColor(R.color.defaultBrand));
     }
 
     public static void saveBrandColors(@NonNull Context context, @ColorInt int mainColor) {
-        final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        final var editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         DeckLog.log("--- Write:", context.getString(R.string.shared_preference_theme_main), "|", mainColor);
         editor.putInt(context.getString(R.string.shared_preference_theme_main), mainColor);
         editor.apply();
     }
 
     public static void clearBrandColors(@NonNull Context context) {
-        final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        final var editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         DeckLog.log("--- Remove:", context.getString(R.string.shared_preference_theme_main));
         editor.remove(context.getString(R.string.shared_preference_theme_main));
         editor.apply();
@@ -80,33 +77,19 @@ public abstract class BrandingUtil {
         tabLayout.setSelectedTabIndicatorColor(contrastRatioIsSufficient ? mainColor : finalMainColor);
     }
 
-    public static void applyBrandToEditText(@ColorInt int mainColor, @NonNull EditText editText) {
-        @ColorInt final int finalMainColor = getSecondaryForegroundColorDependingOnTheme(editText.getContext(), mainColor);
-        DrawableCompat.setTintList(editText.getBackground(), new ColorStateList(
-                new int[][]{
-                        new int[]{android.R.attr.state_active},
-                        new int[]{android.R.attr.state_activated},
-                        new int[]{android.R.attr.state_focused},
-                        new int[]{android.R.attr.state_pressed},
-                        new int[]{}
-                },
-                new int[]{
-                        finalMainColor,
-                        finalMainColor,
-                        finalMainColor,
-                        finalMainColor,
-                        ContextCompat.getColor(editText.getContext(), R.color.fg_secondary)
-                }
-        ));
-    }
-
     public static void applyBrandToEditTextInputLayout(@ColorInt int color, @NonNull TextInputLayout til) {
-        til.setBoxStrokeColor(contrastRatioIsSufficientBigAreas(color, ContextCompat.getColor(til.getContext(), R.color.primary)) ? color : ContextCompat.getColor(til.getContext(), R.color.accent));
-        til.setHintTextColor(ColorStateList.valueOf(contrastRatioIsSufficient(color, ContextCompat.getColor(til.getContext(), R.color.primary)) ? color : ContextCompat.getColor(til.getContext(), R.color.accent)));
+        final int colorPrimary = ContextCompat.getColor(til.getContext(), R.color.primary);
+        final int colorAccent = ContextCompat.getColor(til.getContext(), R.color.accent);
+        final var colorDanger = ColorStateList.valueOf(ContextCompat.getColor(til.getContext(), R.color.danger));
+        til.setBoxStrokeColor(contrastRatioIsSufficientBigAreas(color, colorPrimary) ? color : colorAccent);
+        til.setHintTextColor(ColorStateList.valueOf(contrastRatioIsSufficient(color, colorPrimary) ? color : colorAccent));
+        til.setErrorTextColor(colorDanger);
+        til.setBoxStrokeErrorColor(colorDanger);
+        til.setErrorIconTintList(colorDanger);
     }
 
     public static void tintMenuIcon(@NonNull MenuItem menuItem, @ColorInt int color) {
-        Drawable drawable = menuItem.getIcon();
+        var drawable = menuItem.getIcon();
         if (drawable != null) {
             drawable = DrawableCompat.wrap(drawable);
             DrawableCompat.setTint(drawable, color);

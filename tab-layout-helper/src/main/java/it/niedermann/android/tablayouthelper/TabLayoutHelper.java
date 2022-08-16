@@ -16,8 +16,6 @@
 
 package it.niedermann.android.tablayouthelper;
 
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -56,7 +54,7 @@ public class TabLayoutHelper {
      * @param tabTitleGenerator TabTitleGenerator instance
      */
     public TabLayoutHelper(@NonNull TabLayout tabLayout, @NonNull ViewPager2 viewPager, @NonNull TabTitleGenerator tabTitleGenerator) {
-        RecyclerView.Adapter adapter = viewPager.getAdapter();
+        RecyclerView.Adapter<?> adapter = viewPager.getAdapter();
 
         if (adapter == null) {
             throw new IllegalArgumentException("ViewPager does not have a PagerAdapter set");
@@ -242,7 +240,7 @@ public class TabLayoutHelper {
     }
 
     private void setupWithViewPager(@NonNull TabLayout tabLayout, @NonNull ViewPager2 viewPager) {
-        final RecyclerView.Adapter adapter = viewPager.getAdapter();
+        final RecyclerView.Adapter<?> adapter = viewPager.getAdapter();
         if (adapter == null) {
             throw new IllegalArgumentException("ViewPager does not have a PagerAdapter set");
         }
@@ -253,7 +251,7 @@ public class TabLayoutHelper {
         tabLayout.addOnTabSelectedListener(mInternalOnTabSelectedListener);
     }
 
-    private void setTabsFromPagerAdapter(@NonNull TabLayout tabLayout, @Nullable RecyclerView.Adapter adapter, final int currentItem) {
+    private void setTabsFromPagerAdapter(@NonNull TabLayout tabLayout, @Nullable RecyclerView.Adapter<?> adapter, final int currentItem) {
         try {
             mDuringSetTabsFromPagerAdapter = true;
 
@@ -306,12 +304,7 @@ public class TabLayoutHelper {
         // NOTE: slidingTabStrip.getMeasuredWidth() method does not return correct width!
         // Need to measure each tabs and calculate the sum of them.
 
-        final int tabLayoutWidth;
-        if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1) {
-            tabLayoutWidth = tabLayout.getMeasuredWidth() - tabLayout.getPaddingStart() - tabLayout.getPaddingEnd();
-        } else {
-            tabLayoutWidth = tabLayout.getMeasuredWidth() - tabLayout.getPaddingLeft() - tabLayout.getPaddingRight();
-        }
+        final int tabLayoutWidth = tabLayout.getMeasuredWidth() - tabLayout.getPaddingStart() - tabLayout.getPaddingEnd();
         final int tabLayoutHeight = tabLayout.getMeasuredHeight() - tabLayout.getPaddingTop() - tabLayout.getPaddingBottom();
 
         if (childCount == 0) {

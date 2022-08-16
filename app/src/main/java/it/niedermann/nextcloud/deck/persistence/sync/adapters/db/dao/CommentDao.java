@@ -19,7 +19,8 @@ public interface CommentDao extends GenericDao<DeckComment> {
     @Query("SELECT * FROM DeckComment where accountId = :accountId and localId = :id")
     DeckComment getCommentByLocalIdDirectly(long accountId, Long id);
 
-    @Query("SELECT * FROM DeckComment WHERE accountId = :accountId and objectId = :localCardId and (status<>1 or id is null or lastModified <> lastModifiedLocal)")
+    @Query("SELECT * FROM DeckComment WHERE accountId = :accountId and objectId = :localCardId " +
+            "and (status<>1 or id is null or lastModified <> lastModifiedLocal) order by localId asc")
     List<DeckComment> getLocallyChangedCommentsByLocalCardIdDirectly(long accountId, long localCardId);
 
     @Query("SELECT * FROM DeckComment WHERE accountId = :accountId and (status<>1 or id is null or lastModified <> lastModifiedLocal)")
@@ -35,7 +36,7 @@ public interface CommentDao extends GenericDao<DeckComment> {
     LiveData<List<DeckComment>> getCommentByLocalCardId(Long localCardId);
 
     @Transaction
-    @Query("SELECT * FROM DeckComment where objectId = :localCardId order by creationDateTime desc")
+    @Query("SELECT * FROM DeckComment where objectId = :localCardId order by creationDateTime desc, localId desc")
     LiveData<List<FullDeckComment>> getFullCommentByLocalCardId(Long localCardId);
 
     @Query("SELECT id FROM DeckComment where localId = :localId")

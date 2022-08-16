@@ -26,7 +26,7 @@ public class CardActivityViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(@NonNull Activity activity, @NonNull MenuInflater inflater) {
-        final Context context = itemView.getContext();
+        final var context = itemView.getContext();
         binding.date.setText(DateUtil.getRelativeDateTimeString(context, activity.getLastModified().toEpochMilli()));
         binding.subject.setText(activity.getSubject());
         itemView.setOnClickListener(View::showContextMenu);
@@ -34,7 +34,7 @@ public class CardActivityViewHolder extends RecyclerView.ViewHolder {
             inflater.inflate(R.menu.activity_menu, menu);
             menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> ClipboardUtil.INSTANCE.copyToClipboard(context, activity.getSubject()));
         });
-        final ActivityType type = ActivityType.findById(activity.getType());
+        final var type = ActivityType.findById(activity.getType());
         setImageResource(binding.type, type);
         setImageColor(context, binding.type, type);
     }

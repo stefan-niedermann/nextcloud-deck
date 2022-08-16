@@ -1,6 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">Otwórz panel nawigacji</string>
     <string name="navigation_drawer_close">Zamknij panel nawigacji</string>
+    <string name="hint_search_deck">Szukaj tablicy</string>
 
     <string name="simple_boards">Tablice</string>
     <string name="simple_add">Dodaj</string>
@@ -32,6 +33,7 @@
     <string name="simple_copied">Skopiowano</string>
     <string name="simple_archive">Archiwizuj</string>
     <string name="simple_unassigned">Nieprzypisane</string>
+    <string name="hint_error_appeared">Wystąpił błąd</string>
 
     <string name="edit_board">Edytuj tablicę</string>
     <string name="archive_board">Zarchiwizuj tablicę</string>
@@ -48,17 +50,17 @@
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Testerzy</string>
     <string name="about_source_title">Kod źródłowy</string>
-    <string name="about_source">Projekt jest hostowany na GitHub: %1$s</string>
+    <string name="about_source">Projekt jest hostowany na GitHubie: %1$s</string>
     <string name="about_issues_title">Problemy</string>
-    <string name="about_issues">Możesz zgłaszać błędy, propozycje ulepszeń i prośby o funkcje w liście problemów na GitHub: %1$s</string>
+    <string name="about_issues">Możesz zgłaszać błędy, propozycje ulepszeń i prośby o funkcje w liście problemów na GitHubie: %1$s</string>
     <string name="about_translate_title">Tłumaczyć</string>
-    <string name="about_translate">Dołącz do zespołu Nextcloud na Transifex i pomóż nam przetłumaczyć tę aplikację: %1$s</string>
+    <string name="about_translate">Dołącz do zespołu Nextcloud na Transifex i pomóż nam przetłumaczyć aplikację: %1$s</string>
     <string name="about_app_license_title">Licencja</string>
     <string name="about_app_license">Aplikacja jest na licencji GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Zobacz licencję</string>
     <string name="about_icons_disclaimer_title">Ikony</string>
-    <string name="about_icons_disclaimer_app_icon">Oryginalna ikona. Zobacz %1$s.</string>
-    <string name="about_icons_disclaimer_mdi_icons">Wszystkie pozostałe ikony używane przez tę aplikację są %1$s wykonane przez Google Inc. i licencjonowane na podstawie Apache 2.0 License.</string>
+    <string name="about_icons_disclaimer_app_icon">Oryginalna ikona znajduje się na %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Wszystkie pozostałe ikony używane przez aplikację są %1$s wykonane przez Google Inc. i licencjonowane na podstawie Apache 2.0 License.</string>
     <string name="about_icons_disclaimer_mdi">Material Design Icons</string>
     <string name="about_credits_tab_title">Autorzy</string>
     <string name="about_contribution_tab_title">Wkład</string>
@@ -83,7 +85,7 @@
     <string name="action_card_assign">Przydziel kartę</string>
     <string name="action_card_unassign">Cofnij przydzieloną kartę</string>
     <string name="action_card_archive">Zarchiwizuj kartę</string>
-    <string name="action_card_delete">Usunięte karty</string>
+    <string name="action_card_delete">Usuń kartę</string>
     <string name="add_board">Dodaj tablicę</string>
 
     <string name="label_clear_due_date">Wyczyść termin</string>
@@ -154,7 +156,7 @@
     <string name="hours_6">6 godzin</string>
     <string name="action_card_move">Przenieś kartę</string>
     <string name="action_card_move_title">Przenieś %1$s</string>
-    <string name="title_is_mandatory">Tytuł jest obowiązkowy</string>
+    <string name="title_is_mandatory">Tytuł jest wymagany</string>
     <string name="provide_at_least_a_title_or_description">Podaj co najmniej tytuł lub opis</string>
     <string name="welcome_text">Witamy w %1$s</string>
     <string name="maintenance_mode_explanation">Serwer %1$s jest obecnie w trybie konserwacji. Skontaktuj się z administratorem lub spróbuj ponownie później.</string>
@@ -217,8 +219,9 @@
     <string name="error_dialog_tip_clear_storage_might_help">Jeśli problem będzie się powtarzać, spróbuj wyczyścić pamięć obu aplikacji: Nextcloud i Nextcloud Deck, aby rozwiązać ten problem.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Aktualizacja bazy danych nie powiodła się. Zgłoś problem oraz wyczyść pamięć, aby ponownie korzystać z aplikacji.</string>
     <string name="error_dialog_tip_clear_storage">Możesz wyczyścić pamięć, otwierając informacje o aplikacji i wybierając Pamięć → Wyczyść pamięć podręczną.</string>
-    <string name="error_dialog_tip_files_outdated">Twoja aplikacja Nextcloud wydaje się, że jest nieaktualna. Odwiedź Sklep Play lub F-Droid, aby pobrać najnowszą wersję.</string>
-    <string name="error_dialog_tip_offline">Wygląda na to, że próbujesz uruchomić synchronizację bez połączenia z internetem.</string>
+    <string name="error_dialog_tip_offline_no_internet">Wygląda na to, że próbowałeś uruchomić synchronizację bez połączenia z Internetem.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Połączenie zostało odrzucone, sprawdź, czy Twój serwer jest dostępny przez przeglądarkę internetową.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Upłynął limit czasu połączenia, sprawdź, czy masz połączenie z internetem. Może się to również zdarzyć, gdy serwer jest zajęty.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Jeśli włączyłeś ustawienie \"Synchronizuj tylko przez Wi-Fi\", możesz synchronizować tylko wtedy, gdy masz połączenie z Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Wydaje się, że coś jest nie tak z Twoją aplikacją Nextcloud. Spróbuj wymusić zatrzymanie aplikacji Nextcloud i Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Jeśli nie pomoże ich zatrzymanie, możesz spróbować wyczyścić pamięć obu aplikacji.</string>
@@ -237,12 +240,16 @@
     <string name="error_dialog_attachment_upload_failed">Nie można wysłać załącznika. Spróbuj udostępnić go w inny sposób oraz powiadom nas o tym błędzie.</string>
     <string name="error_dialog_certificate">Wydaje się, że coś jest nie tak z certyfikatem serwera. Aby uzyskać więcej informacji, sprawdź wszystkie konta w aplikacji Nextcloud.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Wyłącz wszystkie optymalizacje baterii dla aplikacji Nextcloud i aplikacji Deck.</string>
+    <string name="error_dialog_unknown_error">Twoja instancja Nextcloud wydaje się być nieosiągalna. Sprawdź swoje połączenie internetowe oraz czy możesz połączyć się z instancją za pomocą przeglądarki.</string>
+    <string name="error_dialog_min_version">Aplikacja Deck Android wymaga aplikacji Nextcloud Android w wersji co najmniej 3.18.</string>
     <string name="error_action_open_deck_info">Otwórz informacje o aplikacji</string>
     <string name="error_action_open_nextcloud_app">Otwórz aplikację Nextcloud</string>
     <string name="error_action_open_network">Ustawienia sieci</string>
     <string name="error_action_server_logs">Logi serwera</string>
+    <string name="error_action_open_in_browser">Otwórz w przeglądarce</string>
     <string name="error_action_install">Zainstaluj</string>
     <string name="error_action_report_issue">Raport</string>
+    <string name="error_action_update_files_app">Aktualizuj</string>
     <string name="info_box_maintenance_mode">Serwer jest w trybie konserwacji</string>
     <string name="info_box_version_not_supported">Wersja serwera %1$s nie jest wspierana, zaktualizuj do wersji %2$s</string>
     <string name="share_link">Udostępnij link</string>
@@ -291,7 +298,7 @@
     <string name="single_card">Pojedyncza karta</string>
     <string name="project_type_room">Pokój rozmów</string>
     <string name="simple_move">Przenieś</string>
-    <string name="cannot_upload_files_without_permission">Nie można wysyłać plików bez uprawnienia</string>
+    <string name="cannot_upload_files_without_permission">Nie można wysyłać plików bez uprawnień</string>
     <string name="clone_cards">Klonuj karty</string>
     <string name="simple_clone">Klonuj</string>
     <string name="user_avatar">Awatar użytkownika</string>
@@ -300,8 +307,8 @@
     <string name="simple_file">Plik</string>
     <string name="simple_camera">Aparat</string>
     <string name="take_photo">Zrobić zdjęcie</string>
-    <string name="take_photo_switch_camera">Przełącz aparat</string>
-    <string name="take_photo_toggle_torch">Włącz latarkę</string>
+    <string name="take_photo_switch_camera">Przełącz kamerę</string>
+    <string name="take_photo_toggle_torch">Przełącz latarkę</string>
     <string name="show_all_contacts">Pokaż wszystkie kontakty</string>
     <string name="show_all_files">Pokaż wszystkie pliki</string>
     <string name="recent">Ostatnie</string>
@@ -324,4 +331,12 @@
     <string name="copying_logs_to_file">Kopiowanie logów do pliku…</string>
     <string name="account_imported">Konto zaimportowane</string>
     <string name="simple_search">Szukaj</string>
-</resources>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Tytuł (wymagane)</string>
+    <string name="saving_new_card">Zapisuję nową kartę…</string>
+    <string name="progress_import">Importowanie tablicy %1$d z %2$d…</string>
+    <string name="progress_import_indeterminate">Importowanie tablic…</string>
+    <string name="card_outdated">Treść tej karty może być nieaktualna.</string>
+    <string name="show_error">Pokaż błąd</string>
+    <string name="push_notification_link_empty">Ze względu na znany problem w aplikacji internetowej Deck nie możemy niestety wyświetlić tej karty. Więcej informacji: %1$s</string>
+    </resources>

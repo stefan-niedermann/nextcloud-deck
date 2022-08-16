@@ -1,5 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
+
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
@@ -19,6 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import it.niedermann.android.crosstabdnd.DragAndDropAdapter;
 import it.niedermann.android.crosstabdnd.DraggedItemLocalState;
@@ -28,7 +34,6 @@ import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ItemCardCompactBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultOnlyTitleBinding;
-import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -39,12 +44,9 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.movecard.MoveCardDialogFragment;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
-import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
-
 public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> implements DragAndDropAdapter<FullCard>, CardOptionsItemSelectedListener, Branded {
 
+    private final ExecutorService executor;
     private final boolean compactMode;
     @NonNull
     protected final MainViewModel mainViewModel;
@@ -66,6 +68,10 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
     protected final int maxCoverImages;
 
     public CardAdapter(@NonNull Activity activity, @NonNull FragmentManager fragmentManager, long stackId, @NonNull MainViewModel mainViewModel, @Nullable SelectCardListener selectCardListener) {
+        this(activity, fragmentManager, stackId, mainViewModel, selectCardListener, Executors.newSingleThreadExecutor());
+    }
+
+    private CardAdapter(@NonNull Activity activity, @NonNull FragmentManager fragmentManager, long stackId, @NonNull MainViewModel mainViewModel, @Nullable SelectCardListener selectCardListener, @NonNull ExecutorService executor) {
         this.activity = activity;
         this.counterMaxValue = this.activity.getString(R.string.counter_max_value);
         this.fragmentManager = fragmentManager;
@@ -79,6 +85,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
                 ? activity.getResources().getInteger(R.integer.max_cover_images)
                 : 0;
         setHasStableIds(true);
+        this.executor = executor;
     }
 
     @Override
@@ -102,7 +109,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
         if (compactMode) {
             return R.layout.item_card_compact;
         } else {
-            final FullCard fullCard = cardList.get(position);
+            final var fullCard = cardList.get(position);
             if (fullCard.getAttachments().size() == 0
                     && fullCard.getAssignedUsers().size() == 0
                     && fullCard.getLabels().size() == 0
@@ -116,7 +123,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
 
     @Override
     public void onBindViewHolder(@NonNull AbstractCardViewHolder viewHolder, int position) {
-        @NonNull FullCard fullCard = cardList.get(position);
+        @NonNull final var fullCard = cardList.get(position);
         viewHolder.bind(fullCard, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardRemoteId(), mainViewModel.currentBoardHasEditPermission(), R.menu.card_menu, this, counterMaxValue, mainColor);
 
         // Only enable details view if there is no one waiting for selecting a card.
@@ -184,10 +191,10 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
 
     @Override
     public boolean onCardOptionsItemSelected(@NonNull MenuItem menuItem, @NonNull FullCard fullCard) {
-        int itemId = menuItem.getItemId();
-        final Account account = mainViewModel.getCurrentAccount();
+        final int itemId = menuItem.getItemId();
+        final var account = mainViewModel.getCurrentAccount();
         if (itemId == R.id.share_link) {
-            final Intent shareIntent = new Intent()
+            final var shareIntent = new Intent()
                     .setAction(Intent.ACTION_SEND)
                     .setType(TEXT_PLAIN)
                     .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
@@ -196,7 +203,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
             activity.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
             return true;
         } else if (itemId == R.id.share_content) {
-            final Intent shareIntent = new Intent()
+            final var shareIntent = new Intent()
                     .setAction(Intent.ACTION_SEND)
                     .setType(TEXT_PLAIN)
                     .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
@@ -204,10 +211,10 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
                     .putExtra(Intent.EXTRA_TEXT, CardUtil.getCardContentAsString(activity, fullCard));
             activity.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
         } else if (itemId == R.id.action_card_assign) {
-            new Thread(() -> mainViewModel.assignUserToCard(mainViewModel.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard())).start();
+            executor.submit(() -> mainViewModel.assignUserToCard(mainViewModel.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard()));
             return true;
         } else if (itemId == R.id.action_card_unassign) {
-            new Thread(() -> mainViewModel.unassignUserFromCard(mainViewModel.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard())).start();
+            executor.submit(() -> mainViewModel.unassignUserFromCard(mainViewModel.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard()));
             return true;
         } else if (itemId == R.id.action_card_move) {
             DeckLog.verbose("[Move card] Launch move dialog for " + Card.class.getSimpleName() + " \"" + fullCard.getCard().getTitle() + "\" (#" + fullCard.getLocalId() + ") from " + Stack.class.getSimpleName() + " #" + +stackId);
@@ -216,7 +223,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
                     .show(fragmentManager, MoveCardDialogFragment.class.getSimpleName());
             return true;
         } else if (itemId == R.id.action_card_archive) {
-            mainViewModel.archiveCard(fullCard, new IResponseCallback<FullCard>() {
+            mainViewModel.archiveCard(fullCard, new IResponseCallback<>() {
                 @Override
                 public void onResponse(FullCard response) {
                     DeckLog.info("Successfully archived", Card.class.getSimpleName(), fullCard.getCard().getTitle());
@@ -230,7 +237,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
             });
             return true;
         } else if (itemId == R.id.action_card_delete) {
-            mainViewModel.deleteCard(fullCard.getCard(), new IResponseCallback<Void>() {
+            mainViewModel.deleteCard(fullCard.getCard(), new IResponseCallback<>() {
                 @Override
                 public void onResponse(Void response) {
                     DeckLog.info("Successfully deleted card", fullCard.getCard().getTitle());

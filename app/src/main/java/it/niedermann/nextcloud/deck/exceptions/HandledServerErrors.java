@@ -12,8 +12,8 @@ public enum HandledServerErrors {
     ATTACHMENTS_FILE_ALREADY_EXISTS(409, "File already exists."),
     ;
 
-    private int status;
-    private String message;
+    private final int status;
+    private final String message;
 
     HandledServerErrors(int status, String message) {
         this.status = status;

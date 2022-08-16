@@ -1,13 +1,8 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
 import java.util.Random;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -28,31 +23,8 @@ public class DeckDatabaseTestUtil {
         // Util class
     }
 
-    /**
-     * @see <a href="https://gist.github.com/JoseAlcerreca/1e9ee05dcdd6a6a6fa1cbfc125559bba">Source</a>
-     */
-    public static <T> T getOrAwaitValue(final LiveData<T> liveData) throws InterruptedException {
-        final Object[] data = new Object[1];
-        final CountDownLatch latch = new CountDownLatch(1);
-        Observer<T> observer = new Observer<T>() {
-            @Override
-            public void onChanged(@Nullable T o) {
-                data[0] = o;
-                latch.countDown();
-                liveData.removeObserver(this);
-            }
-        };
-        liveData.observeForever(observer);
-        // Don't wait indefinitely if the LiveData is not set.
-        if (!latch.await(2, TimeUnit.SECONDS)) {
-            throw new RuntimeException("LiveData value was never set.");
-        }
-        //noinspection unchecked
-        return (T) data[0];
-    }
-
     public static Account createAccount(@NonNull AccountDao dao) {
-        final Account accountToCreate = new Account();
+        final var accountToCreate = new Account();
         accountToCreate.setName(randomString(15) + " " + randomString(15));
         accountToCreate.setUserName(randomString(10));
         accountToCreate.setUrl("https://" + randomString(10) + ".example.com");
@@ -61,7 +33,7 @@ public class DeckDatabaseTestUtil {
     }
 
     public static User createUser(@NonNull UserDao dao, @NonNull Account account) {
-        final User userToCreate = new User();
+        final var userToCreate = new User();
         userToCreate.setDisplayname(randomString(15) + " " + randomString(15));
         userToCreate.setUid(randomString(10));
         userToCreate.setAccountId(account.getId());
@@ -70,7 +42,7 @@ public class DeckDatabaseTestUtil {
     }
 
     public static Board createBoard(@NonNull BoardDao dao, @NonNull Account account, @NonNull User owner) {
-        final Board boardToCreate = new Board();
+        final var boardToCreate = new Board();
         boardToCreate.setAccountId(account.getId());
         boardToCreate.setTitle(randomString(10));
         boardToCreate.setOwnerId(owner.getLocalId());
@@ -80,7 +52,7 @@ public class DeckDatabaseTestUtil {
     }
 
     public static Stack createStack(@NonNull StackDao dao, @NonNull Account account, @NonNull Board board) {
-        final Stack stackToCreate = new Stack();
+        final var stackToCreate = new Stack();
         stackToCreate.setTitle(randomString(5));
         stackToCreate.setAccountId(account.getId());
         stackToCreate.setBoardId(board.getLocalId());
@@ -90,7 +62,7 @@ public class DeckDatabaseTestUtil {
     }
 
     public static Card createCard(@NonNull CardDao dao, @NonNull Account account, @NonNull Stack stack) {
-        final Card cardToCreate = new Card();
+        final var cardToCreate = new Card();
         cardToCreate.setAccountId(account.getId());
         cardToCreate.setTitle(randomString(15));
         cardToCreate.setDescription(randomString(50));

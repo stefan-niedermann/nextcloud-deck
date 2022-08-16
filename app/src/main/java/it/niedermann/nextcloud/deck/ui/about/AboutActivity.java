@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.about;
 
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,8 +20,6 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityAboutBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
 
 public class AboutActivity extends AppCompatActivity {
     private static final String BUNDLE_KEY_ACCOUNT = "account";
@@ -44,6 +44,12 @@ public class AboutActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         binding.viewPager.setAdapter(new TabsPagerAdapter(this, (Account) getIntent().getSerializableExtra(BUNDLE_KEY_ACCOUNT)));
         new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> tab.setText(tabTitles[position])).attach();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
     }
 
     private static class TabsPagerAdapter extends FragmentStateAdapter {

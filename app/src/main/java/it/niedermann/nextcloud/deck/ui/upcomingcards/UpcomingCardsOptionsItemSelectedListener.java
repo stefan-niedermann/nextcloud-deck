@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.upcomingcards;
 
+import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.view.MenuItem;
@@ -19,8 +21,6 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.card.CardOptionsItemSelectedListener;
 import it.niedermann.nextcloud.deck.ui.movecard.MoveCardDialogFragment;
 import it.niedermann.nextcloud.deck.util.CardUtil;
-
-import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 
 public class UpcomingCardsOptionsItemSelectedListener implements CardOptionsItemSelectedListener {
     @NonNull
@@ -66,7 +66,7 @@ public class UpcomingCardsOptionsItemSelectedListener implements CardOptionsItem
     public boolean onCardOptionsItemSelected(@NonNull MenuItem menuItem, @NonNull FullCard fullCard) {
         final int itemId = menuItem.getItemId();
         if (itemId == R.id.share_link) {
-            final Intent shareIntent = new Intent()
+            final var shareIntent = new Intent()
                     .setAction(Intent.ACTION_SEND)
                     .setType(TEXT_PLAIN)
                     .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
@@ -75,7 +75,7 @@ public class UpcomingCardsOptionsItemSelectedListener implements CardOptionsItem
             activity.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
             return true;
         } else if (itemId == R.id.share_content) {
-            final Intent shareIntent = new Intent()
+            final var shareIntent = new Intent()
                     .setAction(Intent.ACTION_SEND)
                     .setType(TEXT_PLAIN)
                     .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())

@@ -1,6 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">Open navigatie</string>
     <string name="navigation_drawer_close">Sluit navigatie</string>
+    <string name="hint_search_deck">Zoeken kaarten</string>
 
     <string name="simple_boards">Bord</string>
     <string name="simple_add">Toevoegen</string>
@@ -32,6 +33,7 @@
     <string name="simple_copied">Gekopieerd</string>
     <string name="simple_archive">Archiveer</string>
     <string name="simple_unassigned">Niet-toegewezen</string>
+    <string name="hint_error_appeared">Er is een fout verschenen</string>
 
     <string name="edit_board">Pas bord aan</string>
     <string name="archive_board">Archiveer bord</string>
@@ -114,8 +116,8 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Voeg een nieuwe stapel toe met de + knop</string>
     <string name="add_a_new_card_using_the_button">Voeg een nieuwe kaart toe met de \'+\' knop</string>
-    <string name="update_deck">Werk de Deck webapp bij</string>
-    <string name="deck_outdated_please_update">Je Deck webapp versie is te oud (%1$s). Update deze app om de Android app als cliet te kunnen gebruiken.</string>
+    <string name="update_deck">Update de Deck-app bij</string>
+    <string name="deck_outdated_please_update">De versie van deze Deck-app is te oud (%1$s). Update de app om te gebruikem als client.</string>
     <string name="delete_board_message">Dit zal dit bord inclusief alle stapels en kaarten definitief verwijderen.</string>
     <string name="settings_theme_title">Thema</string>
     <string name="settings_branding_title">Branding</string>
@@ -123,9 +125,9 @@
     <string name="settings_cover_images_title">Cover afbeeldingen</string>
     <string name="settings_debugging">Debug logs</string>
     <string name="settings_etags">Gebruik ETags</string>
-    <string name="settings_etags_summary">Versnelt synchronizatie</string>
+    <string name="settings_etags_summary">Versnelt het synchroniseren</string>
     <string name="settings_background_sync">Achtergrond synchronisatie</string>
-    <string name="settings_compress_image_attachments">Comprimeer afbeeldingen tijdens uploaden</string>
+    <string name="settings_compress_image_attachments">Afbeeldingen comprimeren bij uploaden</string>
     <string name="search_in">Zoeken in %1$s</string>
     <string name="settings_compress_image_attachments_summary">Snellere upload, lagere kwaliteit</string>
     <string name="pref_value_wifi_and_mobile">Sync met Wi-Fi en mobiele data</string>
@@ -153,7 +155,7 @@
     <string name="title_is_mandatory">Titel is verplicht</string>
     <string name="provide_at_least_a_title_or_description">Geef ten minste een titel of beschrijving op</string>
     <string name="welcome_text">Welkom bij %1$s</string>
-    <string name="maintenance_mode_explanation">De server %1$s is momenteel in onderhoud modus. Neem alstublieft contact op met de beheerder of probeer het later opnieuw</string>
+    <string name="maintenance_mode_explanation">De server %1$s is momenteel in onderhoud modus. Neem contact op met uw beheerder of probeer het later nog eens.</string>
     <string name="share_add_to_card">Toevoegen aan kaart</string>
     <string name="share_success">Succesvol %1$s toegevoegd aan %2$s</string>
     <string name="add_comment">Reactie toevoegen</string>
@@ -213,8 +215,9 @@
     <string name="error_dialog_tip_clear_storage_might_help">Als het probleem blijft aanhouden, probeer dan de gegevensopslag van beide apps te wissen: zowel Nextcloud als Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Het upgraden van de database is mislukt. Gelieve het probleem te melden en opslagruimte vrij te maken om de app naar behoren te kunnen gebruiken.</string>
     <string name="error_dialog_tip_clear_storage">Je kunt de opslag leegmaken door in Android de app info te openen en kies dan Opslag →  Gegevens verwijderen.</string>
-    <string name="error_dialog_tip_files_outdated">Je Nextcloud app lijkt te zijn verouderd. Download alstublieft de nieuwste versie in de Google Play Store of in F-Droid.</string>
-    <string name="error_dialog_tip_offline">Het lijkt erop dat je hebt geprobeerd om zonder internetverbinding een synchronisatie te starten.</string>
+    <string name="error_dialog_tip_offline_no_internet">Het lijkt erop dat u een synchronisatie probeerde te starten zonder internetverbinding.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Verbinding werd geweigerd, controleer of uw server bereikbaar is via de webbrowser.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Verbinding verbroken, controleer of u verbonden bent met het internet. Dit kan ook gebeuren als uw server bezet is.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Als je de instelling \"Alleen synchroniseren via Wi-Fi\" hebt ingeschakeld, kun je alleen synchroniseren als je met Wi-Fi bent verbonden.</string>
     <string name="error_dialog_tip_files_force_stop">Er lijkt iets mis te zijn met je Nextcloud app. Probeer alstublieft beide apps geforceerd te sluiten, zowel de Nextcloud app als de Nextcloud Deck app.</string>
     <string name="error_dialog_tip_files_delete_storage">Als geforceerd afsluiten niet helpt, probeer dan van beide apps de gegevensopslag te wissen.</string>
@@ -233,12 +236,17 @@
     <string name="error_dialog_attachment_upload_failed">Een bijlage kon niet worden opgeladen. Gelieve het op een andere manier te delen en ons in te lichten over deze fout.</string>
     <string name="error_dialog_certificate">Er lijkt iets mis te zijn met het certificaat van de server. Controleer alle accounts in de Nextcloud-app voor meer informatie.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Gelieve de batterijoptimalisatie uit te schakelen voor de Nextcloud en Deck applicatie.</string>
+    <string name="error_dialog_unknown_error">Uw Nextcloud inrichting lijkt niet bereikbaar.
+Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te maken met uw inrichting via de web browser.</string>
+    <string name="error_dialog_min_version">De Android Deck app vereist minstens Nextcloud Android app versie 3.18.</string>
     <string name="error_action_open_deck_info">Open App informatie</string>
     <string name="error_action_open_nextcloud_app">Open Nextcloud app</string>
     <string name="error_action_open_network">Netwerk instellingen</string>
     <string name="error_action_server_logs">Server logbestanden</string>
+    <string name="error_action_open_in_browser">Openen in webbrowser</string>
     <string name="error_action_install">Installeren</string>
     <string name="error_action_report_issue">Rapporteer</string>
+    <string name="error_action_update_files_app">Update</string>
     <string name="info_box_maintenance_mode">Server in onderhoudsmodus</string>
     <string name="info_box_version_not_supported">Server versie %1$s wordt niet ondersteund, werk bij naar %2$s</string>
     <string name="share_link">Delen link</string>
@@ -316,4 +324,12 @@
     <string name="copying_logs_to_file">Kopiëren logs naar bestand...</string>
     <string name="account_imported">Account geïmporteerd</string>
     <string name="simple_search">Zoeken</string>
-</resources>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Titel (vereist)</string>
+    <string name="saving_new_card">Opslaan nieuwe kaart...</string>
+    <string name="progress_import">Bord %1$d van %2$d importeren ...</string>
+    <string name="progress_import_indeterminate">Borden importeren...</string>
+    <string name="card_outdated">De inhoud van deze kaart kan verouderd zijn.</string>
+    <string name="show_error">Bekijk fout</string>
+    <string name="push_notification_link_empty">Vanwege een bekend probleem met de Deck web app is het helaas niet mogelijk deze kaart te tonen. Voor meer info kijk: %1$s</string>
+    </resources>

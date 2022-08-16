@@ -1,0 +1,5 @@
+- ✏️ Remember edit / preview mode for description (#971)
+- 🗂 Allow to create multiple cards without loosing focus
+- 🖼 Support preview for images which are hosted on a Nextcloud instance (#963)
+- 🗑 Select neighbour list after deleting a list (#841)
+- 🐞 Fix switching automatically to newly created lists

@@ -64,4 +64,10 @@ public class FilterWidgetConfigurationActivity extends AppCompatActivity {
             finish();
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.binding = null;
+    }
 }

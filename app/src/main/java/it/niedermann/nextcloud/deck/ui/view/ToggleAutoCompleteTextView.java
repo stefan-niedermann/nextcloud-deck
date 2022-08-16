@@ -2,12 +2,10 @@ package it.niedermann.nextcloud.deck.ui.view;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 
 /**
@@ -38,7 +36,6 @@ public class ToggleAutoCompleteTextView extends AppCompatAutoCompleteTextView {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void setOnDismissListener(OnDismissListener dismissListener) {
         super.setOnDismissListener(() -> {

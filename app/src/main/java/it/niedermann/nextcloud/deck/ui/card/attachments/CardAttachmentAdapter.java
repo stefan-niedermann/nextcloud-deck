@@ -1,8 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
+import static androidx.recyclerview.widget.RecyclerView.NO_ID;
+import static it.niedermann.nextcloud.deck.util.AttachmentUtil.openAttachmentInBrowser;
+
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -28,10 +30,6 @@ import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.ui.attachments.AttachmentsActivity;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
-
-import static androidx.lifecycle.Transformations.distinctUntilChanged;
-import static androidx.recyclerview.widget.RecyclerView.NO_ID;
-import static it.niedermann.nextcloud.deck.util.AttachmentUtil.openAttachmentInBrowser;
 
 @SuppressWarnings("WeakerAccess")
 public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHolder> implements Branded {
@@ -81,7 +79,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
     @NonNull
     @Override
     public AttachmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final Context context = parent.getContext();
+        final var context = parent.getContext();
         switch (viewType) {
             case VIEW_TYPE_IMAGE:
                 return new ImageAttachmentViewHolder(ItemAttachmentImageBinding.inflate(LayoutInflater.from(context), parent, false));
@@ -93,15 +91,15 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
 
     @Override
     public void onBindViewHolder(@NonNull AttachmentViewHolder holder, int position) {
-        final Attachment attachment = attachments.get(position);
-        final Context context = holder.itemView.getContext();
+        final var attachment = attachments.get(position);
+        final var context = holder.itemView.getContext();
         final View.OnClickListener onClickListener;
 
         switch (getItemViewType(position)) {
             case VIEW_TYPE_IMAGE: {
                 onClickListener = (event) -> {
                     attachmentClickedListener.onAttachmentClicked(position);
-                    final Intent intent = AttachmentsActivity.createIntent(context, account, cardLocalId, attachment.getLocalId());
+                    final var intent = AttachmentsActivity.createIntent(context, account, cardLocalId, attachment.getLocalId());
                     if (context instanceof Activity) {
                         String transitionName = context.getString(R.string.transition_attachment_preview, String.valueOf(attachment.getLocalId()));
                         holder.getPreview().setTransitionName(transitionName);

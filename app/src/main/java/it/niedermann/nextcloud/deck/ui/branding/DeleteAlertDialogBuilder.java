@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.ui.branding;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -28,7 +27,7 @@ public class DeleteAlertDialogBuilder extends AlertDialog.Builder {
     }
 
     public void applyBrand() {
-        final Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        final var positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         if (positiveButton != null) {
             positiveButton.setTextColor(ContextCompat.getColor(getContext(), R.color.danger));
         }

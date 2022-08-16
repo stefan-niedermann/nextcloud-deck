@@ -1,14 +1,29 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_CONTACTS;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.app.Activity.RESULT_OK;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
+import static androidx.core.content.PermissionChecker.checkSelfPermission;
+import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
+import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
+import static java.net.HttpURLConnection.HTTP_CONFLICT;
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
+import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
+import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
+import static it.niedermann.nextcloud.deck.util.FilesUtil.copyContentUriToTempFile;
+
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +53,8 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import id.zelory.compressor.constraint.FormatConstraint;
 import id.zelory.compressor.constraint.QualityConstraint;
@@ -69,25 +86,6 @@ import it.niedermann.nextcloud.deck.util.JavaCompressor;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 import it.niedermann.nextcloud.deck.util.VCardUtil;
 
-import static android.Manifest.permission.CAMERA;
-import static android.Manifest.permission.READ_CONTACTS;
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.app.Activity.RESULT_OK;
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.M;
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
-import static androidx.core.content.PermissionChecker.checkSelfPermission;
-import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
-import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
-import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
-import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
-import static it.niedermann.nextcloud.deck.util.FilesUtil.copyContentUriToTempFile;
-import static java.net.HttpURLConnection.HTTP_CONFLICT;
-
 public class CardAttachmentsFragment extends Fragment implements AttachmentDeletedListener, AttachmentClickedListener {
 
     private FragmentCardEditTabAttachmentsBinding binding;
@@ -95,6 +93,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     private PreviewDialogViewModel previewViewModel;
     private BottomSheetBehavior<LinearLayout> mBottomSheetBehaviour;
     private boolean compressImagesOnUpload = true;
+    private final ExecutorService executor = Executors.newCachedThreadPool();
 
     private RecyclerView.ItemDecoration galleryItemDecoration;
 
@@ -179,9 +178,9 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                 R.color.mdtp_transparent_black, android.R.color.transparent, R.dimen.attachments_bottom_navigation_height));
         binding.pickerBackdrop.setOnClickListener(v -> mBottomSheetBehaviour.setState(STATE_HIDDEN));
 
-        final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        final var displayMetrics = getResources().getDisplayMetrics();
         final int spanCount = (int) ((displayMetrics.widthPixels / displayMetrics.density) / getResources().getInteger(R.integer.max_dp_attachment_column));
-        final GridLayoutManager glm = new GridLayoutManager(getContext(), spanCount);
+        final var glm = new GridLayoutManager(getContext(), spanCount);
         glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -195,21 +194,19 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
             }
         });
         binding.attachmentsList.setLayoutManager(glm);
-        if (!editViewModel.isCreateMode()) {
-            // https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html?m=1
-            // https://github.com/android/animation-samples/blob/master/GridToPager/app/src/main/java/com/google/samples/gridtopager/fragment/ImagePagerFragment.java
-            setExitSharedElementCallback(new SharedElementCallback() {
-                @Override
-                public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                    AttachmentViewHolder selectedViewHolder = (AttachmentViewHolder) binding.attachmentsList
-                            .findViewHolderForAdapterPosition(clickedItemPosition);
-                    if (selectedViewHolder != null) {
-                        sharedElements.put(names.get(0), selectedViewHolder.getPreview());
-                    }
+        // https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html?m=1
+        // https://github.com/android/animation-samples/blob/master/GridToPager/app/src/main/java/com/google/samples/gridtopager/fragment/ImagePagerFragment.java
+        setExitSharedElementCallback(new SharedElementCallback() {
+            @Override
+            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                AttachmentViewHolder selectedViewHolder = (AttachmentViewHolder) binding.attachmentsList
+                        .findViewHolderForAdapterPosition(clickedItemPosition);
+                if (selectedViewHolder != null) {
+                    sharedElements.put(names.get(0), selectedViewHolder.getPreview());
                 }
-            });
-            adapter.setAttachments(editViewModel.getFullCard().getAttachments(), editViewModel.getFullCard().getId());
-        }
+            }
+        });
+        adapter.setAttachments(editViewModel.getFullCard().getAttachments(), editViewModel.getFullCard().getId());
 
         if (editViewModel.canEdit()) {
             binding.fab.setOnClickListener(v -> {
@@ -233,7 +230,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
             binding.fab.hide();
             binding.emptyContentView.hideDescription();
         }
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        final var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         compressImagesOnUpload = sharedPreferences.getBoolean(getString(R.string.pref_key_compress_image_attachments), true);
         editViewModel.getBrandingColor().observe(getViewLifecycleOwner(), this::applyBrand);
         return binding.getRoot();
@@ -253,7 +250,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 
     private void showGalleryPicker() {
         if (!(pickerAdapter instanceof GalleryAdapter)) {
-            if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE) || isPermissionRequestNeeded(CAMERA)) {
+            if (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED || checkSelfPermission(requireActivity(), CAMERA) != PERMISSION_GRANTED) {
                 requestPermissions(new String[]{READ_EXTERNAL_STORAGE, CAMERA}, REQUEST_CODE_PICK_GALLERY_PERMISSION);
             } else {
                 unbindPickerAdapter();
@@ -277,7 +274,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 
     private void showContactPicker() {
         if (!(pickerAdapter instanceof ContactAdapter)) {
-            if (isPermissionRequestNeeded(READ_CONTACTS)) {
+            if (checkSelfPermission(requireActivity(), READ_CONTACTS) != PERMISSION_GRANTED) {
                 requestPermissions(new String[]{READ_CONTACTS}, REQUEST_CODE_PICK_CONTACT_PICKER_PERMISSION);
             } else {
                 unbindPickerAdapter();
@@ -299,7 +296,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 
     private void showFilePicker() {
         if (!(pickerAdapter instanceof FileAdapter)) {
-            if (isPermissionRequestNeeded(READ_EXTERNAL_STORAGE)) {
+            if (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED) {
                 requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_PICK_FILE_PERMISSION);
             } else {
                 openNativeFilePicker();
@@ -325,7 +322,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     }
 
     private void openNativeContactPicker() {
-        final Intent intent = new Intent(Intent.ACTION_PICK).setType(ContactsContract.Contacts.CONTENT_TYPE);
+        final var intent = new Intent(Intent.ACTION_PICK).setType(ContactsContract.Contacts.CONTENT_TYPE);
         if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
             startActivityForResult(intent, REQUEST_CODE_PICK_CONTACT);
         }
@@ -335,16 +332,6 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         startActivityForResult(new Intent(Intent.ACTION_GET_CONTENT)
                 .addCategory(Intent.CATEGORY_OPENABLE)
                 .setType("*/*"), REQUEST_CODE_PICK_FILE);
-    }
-
-    /**
-     * Checks the current Android version and whether the permission has already been granted.
-     *
-     * @param permission see {@link android.Manifest.permission}
-     * @return whether or not requesting permission is needed
-     */
-    private boolean isPermissionRequestNeeded(@NonNull String permission) {
-        return SDK_INT >= M && checkSelfPermission(requireActivity(), permission) != PERMISSION_GRANTED;
     }
 
     private void unbindPickerAdapter() {
@@ -394,6 +381,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
             this.binding.pickerRecyclerView.setAdapter(null);
         }
         super.onDestroy();
+        this.binding = null;
     }
 
     private void uploadNewAttachmentFromUri(@NonNull Uri sourceUri, String mimeType) throws UploadAttachmentFailedException {
@@ -406,7 +394,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                 DeckLog.verbose("--- found content URL", sourceUri.getPath());
                 // Separate Thread required because picked file might not yet be locally available
                 // https://github.com/stefan-niedermann/nextcloud-deck/issues/814
-                new Thread(() -> {
+                executor.submit(() -> {
                     try {
                         final File originalFile = copyContentUriToTempFile(requireContext(), sourceUri, editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId());
                         requireActivity().runOnUiThread(() -> {
@@ -432,7 +420,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                     } catch (IOException e) {
                         requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(e, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                     }
-                }).start();
+                });
                 break;
             }
             default: {
@@ -442,15 +430,15 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     }
 
     private void uploadNewAttachmentFromFile(@NonNull File fileToUpload, String mimeType) {
-        for (Attachment existingAttachment : editViewModel.getFullCard().getAttachments()) {
+        for (final var existingAttachment : editViewModel.getFullCard().getAttachments()) {
             final String existingPath = existingAttachment.getLocalPath();
             if (existingPath != null && existingPath.equals(fileToUpload.getAbsolutePath())) {
                 BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
                 return;
             }
         }
-        final Instant now = Instant.now();
-        final Attachment a = new Attachment();
+        final var now = Instant.now();
+        final var a = new Attachment();
         a.setMimetype(mimeType);
         a.setData(fileToUpload.getName());
         a.setFilename(fileToUpload.getName());
@@ -462,33 +450,31 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         a.setStatusEnum(DBStatus.LOCAL_EDITED);
         editViewModel.getFullCard().getAttachments().add(0, a);
         adapter.addAttachment(a);
-        if (!editViewModel.isCreateMode()) {
-            editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload, new IResponseCallback<Attachment>() {
-                @Override
-                public void onResponse(Attachment response) {
-                    requireActivity().runOnUiThread(() -> {
-                        editViewModel.getFullCard().getAttachments().remove(a);
-                        editViewModel.getFullCard().getAttachments().add(0, response);
-                        adapter.replaceAttachment(a, response);
-                    });
-                }
+        editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload, new IResponseCallback<>() {
+            @Override
+            public void onResponse(Attachment response) {
+                requireActivity().runOnUiThread(() -> {
+                    editViewModel.getFullCard().getAttachments().remove(a);
+                    editViewModel.getFullCard().getAttachments().add(0, response);
+                    adapter.replaceAttachment(a, response);
+                });
+            }
 
-                @Override
-                public void onError(Throwable throwable) {
-                    requireActivity().runOnUiThread(() -> {
-                        if (throwable instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) throwable).getStatusCode() == HTTP_CONFLICT) {
-                            IResponseCallback.super.onError(throwable);
-                            // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
-                            editViewModel.getFullCard().getAttachments().remove(a);
-                            adapter.removeAttachment(a);
-                            BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
-                        } else {
-                            ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", throwable), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                        }
-                    });
-                }
-            });
-        }
+            @Override
+            public void onError(Throwable throwable) {
+                requireActivity().runOnUiThread(() -> {
+                    if (throwable instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) throwable).getStatusCode() == HTTP_CONFLICT) {
+                        IResponseCallback.super.onError(throwable);
+                        // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
+                        editViewModel.getFullCard().getAttachments().remove(a);
+                        adapter.removeAttachment(a);
+                        BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                    } else {
+                        ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", throwable), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -527,8 +513,8 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     public void onAttachmentDeleted(Attachment attachment) {
         adapter.removeAttachment(attachment);
         editViewModel.getFullCard().getAttachments().remove(attachment);
-        if (!editViewModel.isCreateMode() && attachment.getLocalId() != null) {
-            editViewModel.deleteAttachmentOfCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), attachment.getLocalId(), new IResponseCallback<Void>() {
+        if (attachment.getLocalId() != null) {
+            editViewModel.deleteAttachmentOfCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), attachment.getLocalId(), new IResponseCallback<>() {
                 @Override
                 public void onResponse(Void response) {
                     DeckLog.info("Successfully delete", Attachment.class.getSimpleName(), attachment.getFilename(), "from", Card.class.getSimpleName(), editViewModel.getFullCard().getCard().getTitle());

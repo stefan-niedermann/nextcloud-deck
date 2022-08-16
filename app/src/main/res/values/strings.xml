@@ -3,6 +3,7 @@
     <string name="app_name_short" translatable="false">Deck</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="hint_search_deck">Search deck</string>
 
     <string name="simple_boards">Boards</string>
     <string name="simple_add">Add</string>
@@ -34,6 +35,7 @@
     <string name="simple_copied">Copied</string>
     <string name="simple_archive">Archive</string>
     <string name="simple_unassigned">Unassigned</string>
+    <string name="hint_error_appeared">An error appeared</string>
 
     <string name="edit_board">Edit board</string>
     <string name="archive_board">Archive board</string>
@@ -169,12 +171,12 @@
     <string name="no_content">No content yet</string>
     <string name="last_background_sync">Last background sync:</string>
     <string name="simple_off">Off</string>
-    <string name="minutes_15">15 Minutes</string>
-    <string name="hour_1">1 Hour</string>
-    <string name="hours_6">6 Hours</string>
+    <string name="minutes_15">15 minutes</string>
+    <string name="hour_1">1 hour</string>
+    <string name="hours_6">6 hours</string>
     <string name="action_card_move">Move card</string>
     <string name="action_card_move_title">Move %1$s</string>
-    <string name="title_is_mandatory">Title is mandatory</string>
+    <string name="title_is_mandatory">Title is required</string>
     <string name="provide_at_least_a_title_or_description">Provide at least a title or description</string>
     <string name="welcome_text">Welcome to %1$s</string>
     <string name="maintenance_mode_explanation">The server %1$s is currently in maintenance mode. Please contact your administrator or try later again.</string>
@@ -237,8 +239,9 @@
     <string name="error_dialog_tip_clear_storage_might_help">If the issue persists, try to clear the storage of both apps: Nextcloud and Nextcloud Deck to solve this issue.</string>
     <string name="error_dialog_tip_database_upgrade_failed">The upgrade of the database failed. Please report the issue and clear the storage to use the app normally.</string>
     <string name="error_dialog_tip_clear_storage">You can clear the storage by opening the app info and selecting Storage → Clear storage.</string>
-    <string name="error_dialog_tip_files_outdated">Your Nextcloud app seems to be outdated. Please visit the Play Store or F-Droid to get the latest version.</string>
-    <string name="error_dialog_tip_offline">It looks like you tried to trigger a synchronization without an internet connection.</string>
+    <string name="error_dialog_tip_offline_no_internet">It looks like you tried to trigger a synchronization without an internet connection.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Connection was refused, please check if your server is reachable via web browser.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Connection timed out, please check if you\'re connected to the internet. This may also happen when your server is busy.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">If you have enabled the "Sync only on Wi-Fi" setting, you can only synchronize when you are connected to a Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Something seems to be wrong with your Nextcloud app. Please try to force stop both, the Nextcloud app and the Nextcloud Deck app.</string>
     <string name="error_dialog_tip_files_delete_storage">If force stopping them does not help, you can try to clear the storage of both apps.</string>
@@ -257,12 +260,16 @@
     <string name="error_dialog_attachment_upload_failed">An attachment could not be uploaded. Please try to share it on another way and let us know about this bug.</string>
     <string name="error_dialog_certificate">Something seems to be wrong with the certificate of the server. Please check all the accounts in the Nextcloud app for further information.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Please disable all battery optimizations for Nextcloud and the Deck app.</string>
+    <string name="error_dialog_unknown_error">Your Nextcloud instance seems to be not reachable. Please check your internet connection and whether you are able to connect to your instance via browser.</string>
+    <string name="error_dialog_min_version">The Deck Android app requires the Nextcloud Android app to be at least version 3.18.</string>
     <string name="error_action_open_deck_info">Open App info</string>
     <string name="error_action_open_nextcloud_app">Open Nextcloud app</string>
     <string name="error_action_open_network">Network settings</string>
     <string name="error_action_server_logs">Server logs</string>
+    <string name="error_action_open_in_browser">Open in browser</string>
     <string name="error_action_install">Install</string>
     <string name="error_action_report_issue">Report</string>
+    <string name="error_action_update_files_app">Update</string>
     <string name="info_box_maintenance_mode">Server is in maintenance mode</string>
     <string name="info_box_version_not_supported">Server version %1$s not supported, please update to %2$s</string>
     <string name="share_link">Share link</string>
@@ -307,7 +314,7 @@
     <string name="single_card">Single card</string>
     <string name="project_type_room">Talk room</string>
     <string name="simple_move">Move</string>
-    <string name="cannot_upload_files_without_permission">Cannot upload files without permission</string>
+    <string name="cannot_upload_files_without_permission">Cannot upload files without permissions</string>
     <string name="clone_cards">Clone cards</string>
     <string name="simple_clone">Clone</string>
     <string name="user_avatar">User avatar</string>
@@ -340,4 +347,13 @@
     <string name="copying_logs_to_file">Copying logs to file…</string>
     <string name="account_imported">Account imported</string>
     <string name="simple_search">Search</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Title (required)</string>
+    <string name="saving_new_card">Saving new card…</string>
+    <string name="progress_import">Importing board %1$d of %2$d…</string>
+    <string name="progress_import_indeterminate">Importing boards…</string>
+    <string name="card_outdated">The content of this card might be outdated.</string>
+    <string name="show_error">Show error</string>
+    <string name="push_notification_link_empty">Due to a known issue in the Deck web app we are unfortunately not able to display this card. For more information see: %1$s</string>
+    <string name="push_notification_link_empty_link" translatable="false">https://github.com/nextcloud/deck/issues/3431</string>
 </resources>

@@ -5,10 +5,13 @@ import android.annotation.SuppressLint;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import io.reactivex.disposables.Disposable;
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
@@ -28,14 +31,14 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
 
     @Override
     public Disposable getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<OcsComment>> responder, Instant lastSync) {
-        return serverAdapter.getCommentsForRemoteCardId(card.getId(), new ResponseCallback<OcsComment>(responder.getAccount()) {
+        return serverAdapter.getCommentsForRemoteCardId(card.getId(), new ResponseCallback<>(responder.getAccount()) {
             @Override
             public void onResponse(OcsComment response) {
                 if (response == null) {
                     response = new OcsComment();
                 }
                 List<OcsComment> comments = response.split();
-                Collections.sort(comments, (o1, o2) -> o1.getSingle().getCreationDateTime().compareTo(o2.getSingle().getCreationDateTime()));
+                Collections.sort(comments, Comparator.comparing(o -> o.getSingle().getCreationDateTime()));
                 verifyCommentListIntegrity(comments);
                 responder.onResponse(comments);
             }
@@ -117,7 +120,31 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
         if (comment.getParentId() != null) {
             comment.setParentId(dataBaseAdapter.getRemoteCommentIdForLocalIdDirectly(comment.getParentId()));
         }
-        return serverAdapter.createCommentForCard(comment, responder);
+        DeckLog.info("creating entity: "+entity.getComments().get(0).getMessage() + " with id " +entity.getComments().get(0).getLocalId());
+        CountDownLatch latch = new CountDownLatch(1);
+        final var disposable = serverAdapter.createCommentForCard(comment, new ResponseCallback<>(responder.getAccount()) {
+            @Override
+            public void onResponse(OcsComment response) {
+                latch.countDown();
+                responder.onResponse(response);
+                DeckLog.info("CREATED entity: "+entity.getComments().get(0).getMessage() + " with id " +entity.getComments().get(0).getLocalId());
+            }
+
+            @SuppressLint("MissingSuperCall")
+            @Override
+            public void onError(Throwable throwable) {
+                latch.countDown();
+                responder.onError(throwable);
+            }
+        });
+
+        try {
+            latch.await();
+            DeckLog.info("released latch for entity: "+entity.getComments().get(0).getMessage() + " with id " +entity.getComments().get(0).getLocalId());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return disposable;
     }
 
     @Override

@@ -1,0 +1,8 @@
+1.19.6
+
+- ⚙️ Raise target SDK to 31 (Required changes for widgets, quick settings tiles, shortcuts, camera picker and more)
+
+1.19.5
+
+- 🔠 Order assigned tags alphabetically (#1119)
+- 🌎️ Updated translations

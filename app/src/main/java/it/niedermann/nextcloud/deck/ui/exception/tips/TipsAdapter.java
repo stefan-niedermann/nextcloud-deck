@@ -1,14 +1,14 @@
 package it.niedermann.nextcloud.deck.ui.exception.tips;
 
+import static android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
+import static it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment.INTENT_EXTRA_BUTTON_TEXT;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.provider.Settings;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -17,11 +17,12 @@ import androidx.annotation.StringRes;
 import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.nextcloud.android.sso.Constants;
 import com.nextcloud.android.sso.exceptions.NextcloudApiNotRespondingException;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotSupportedException;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.exceptions.TokenMismatchException;
+import com.nextcloud.android.sso.exceptions.UnknownErrorException;
+import com.nextcloud.android.sso.model.FilesAppType;
 
 import org.json.JSONException;
 
@@ -37,12 +38,8 @@ import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.model.Account;
 
-import static android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
-import static it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment.INTENT_EXTRA_BUTTON_TEXT;
-
 public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
 
-    private static final String[] APPS = new String[]{Constants.PACKAGE_NAME_PROD, Constants.PACKAGE_NAME_DEV};
     private static final Intent INTENT_APP_INFO = new Intent(ACTION_APPLICATION_DETAILS_SETTINGS)
             .setData(Uri.parse("package:" + BuildConfig.APPLICATION_ID))
             .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_deck_info);
@@ -59,8 +56,8 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
     @NonNull
     @Override
     public TipsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tip, parent, false);
-        return new TipsViewHolder(v);
+        final var view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tip, parent, false);
+        return new TipsViewHolder(view);
     }
 
     @Override
@@ -79,16 +76,13 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
             add(R.string.error_dialog_tip_clear_storage_might_help);
             add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
         } else if (throwable instanceof NextcloudFilesAppNotSupportedException) {
-            add(R.string.error_dialog_tip_files_outdated);
+            add(R.string.error_dialog_min_version, new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.nextcloud.client"))
+                    .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_update_files_app));
         } else if (throwable instanceof OfflineException) {
-            add(R.string.error_dialog_tip_offline);
+            add(((OfflineException) throwable).getReason().getMessage());
             add(R.string.error_dialog_tip_sync_only_on_wifi);
         } else if (throwable instanceof NextcloudApiNotRespondingException) {
-            if (VERSION.SDK_INT >= VERSION_CODES.M) {
-                add(R.string.error_dialog_tip_disable_battery_optimizations, new Intent().setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS).putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_battery_settings));
-            } else {
-                add(R.string.error_dialog_tip_disable_battery_optimizations);
-            }
+            add(R.string.error_dialog_tip_disable_battery_optimizations, new Intent().setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS).putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_battery_settings));
             add(R.string.error_dialog_tip_files_force_stop);
             add(R.string.error_dialog_tip_files_delete_storage);
         } else if (throwable instanceof SocketTimeoutException || throwable instanceof ConnectException) {
@@ -168,6 +162,19 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
                 add(R.string.error_dialog_tip_database_upgrade_failed, reportIntent);
                 add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
             }
+        } else if (throwable instanceof UnknownErrorException) {
+            if ("com.nextcloud.android.sso.QueryParam".equals(throwable.getMessage())) {
+                add(R.string.error_dialog_min_version, new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.nextcloud.client"))
+                        .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_update_files_app));
+            } else {
+                if (account != null) {
+                    add(R.string.error_dialog_unknown_error, new Intent(Intent.ACTION_VIEW)
+                            .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_in_browser)
+                            .setData(Uri.parse(account.getUrl())));
+                } else {
+                    add(R.string.error_dialog_unknown_error);
+                }
+            }
         }
     }
 
@@ -182,11 +189,11 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
 
     @Nullable
     private static Intent getOpenFilesIntent(@NonNull Context context) {
-        final PackageManager pm = context.getPackageManager();
-        for (String app : APPS) {
+        final var pm = context.getPackageManager();
+        for (final var filesAppType : FilesAppType.values()) {
             try {
-                pm.getPackageInfo(app, PackageManager.GET_ACTIVITIES);
-                return pm.getLaunchIntentForPackage(app)
+                pm.getPackageInfo(filesAppType.packageId, PackageManager.GET_ACTIVITIES);
+                return pm.getLaunchIntentForPackage(filesAppType.packageId)
                         .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_nextcloud_app);
             } catch (PackageManager.NameNotFoundException ignored) {
             }

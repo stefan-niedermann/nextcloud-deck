@@ -9,9 +9,8 @@ updates:
   - dependency-name: com.squareup.retrofit2:retrofit
     versions:
     - ">= 2.9.a, < 2.10"
-  - dependency-name: org.jetbrains.kotlinx:kotlinx-coroutines-android
-    versions:
-    - 1.4.3-native-mt
-  - dependency-name: androidx.camera:camera-view
-    versions:
-    - 1.0.0-alpha23
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10

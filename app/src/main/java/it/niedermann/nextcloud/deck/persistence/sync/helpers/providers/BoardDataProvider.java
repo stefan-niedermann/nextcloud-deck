@@ -1,6 +1,9 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
 import android.annotation.SuppressLint;
+import android.util.Pair;
+
+import androidx.lifecycle.MutableLiveData;
 
 import com.nextcloud.android.sso.api.ParsedResponse;
 
@@ -13,6 +16,7 @@ import java.util.Set;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -27,15 +31,26 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.util.AsyncUtil;
 
 public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
+    private int progressTotal = 0;
+    private int progressDone = 0;
+    private MutableLiveData<Pair<Integer, Integer>> progress = null;
+
     public BoardDataProvider() {
         super(null);
     }
 
+    public BoardDataProvider(MutableLiveData<Pair<Integer, Integer>> progress) {
+        this();
+        this.progress = progress;
+    }
+
     @Override
     public Disposable getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<List<FullBoard>> responder, Instant lastSync) {
-        return serverAdapter.getBoards(new ResponseCallback<ParsedResponse<List<FullBoard>>>(responder.getAccount()) {
+        return serverAdapter.getBoards(new ResponseCallback<>(responder.getAccount()) {
             @Override
             public void onResponse(ParsedResponse<List<FullBoard>> response) {
+                progressTotal = response.getResponse().size();
+                updateProgress();
                 String etag = response.getHeaders().get("ETag");
                 if (etag != null && !etag.equals(account.getBoardsEtag())) {
                     account.setBoardsEtag(etag);
@@ -52,15 +67,32 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
         });
     }
 
+    private void updateProgress() {
+        if (progress != null) {
+            DeckLog.log("New progress post", progressDone, progressTotal);
+            progress.postValue(Pair.create(progressDone, progressTotal));
+        }
+    }
+
     @Override
-    public FullBoard getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entitiy) {
-        return dataBaseAdapter.getFullBoardByRemoteIdDirectly(accountId, entitiy.getEntity().getId());
+    protected boolean removeChild(AbstractSyncDataProvider<?> child) {
+        boolean isRemoved = super.removeChild(child);
+        if (isRemoved && child.getClass() == StackDataProvider.class) {
+            progressDone ++;
+            updateProgress();
+        }
+        return isRemoved;
+    }
+
+    @Override
+    public FullBoard getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
+        return dataBaseAdapter.getFullBoardByRemoteIdDirectly(accountId, entity.getEntity().getId());
     }
 
     @Override
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
         handleOwner(dataBaseAdapter, accountId, entity);
-        Long localId = dataBaseAdapter.createBoardDirectly(accountId, entity.getBoard());
+        final long localId = dataBaseAdapter.createBoardDirectly(accountId, entity.getBoard());
         entity.getBoard().setLocalId(localId);
         handleUsers(dataBaseAdapter, accountId, entity);
         return localId;

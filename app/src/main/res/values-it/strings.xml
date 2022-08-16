@@ -1,6 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">Apri il cassetto di navigazione</string>
     <string name="navigation_drawer_close">Chiudi il cassetto di navigazione</string>
+    <string name="hint_search_deck">Cerca Deck</string>
 
     <string name="simple_boards">Lavagne</string>
     <string name="simple_add">Aggiungi</string>
@@ -32,6 +33,7 @@
     <string name="simple_copied">Copiato</string>
     <string name="simple_archive">Archivio</string>
     <string name="simple_unassigned">Non assegnato</string>
+    <string name="hint_error_appeared">Si è verificato un errore</string>
 
     <string name="edit_board">Modifica lavagna</string>
     <string name="archive_board">Archivia lavagna</string>
@@ -106,10 +108,12 @@
     <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Vuoi archiviare tutte le schede filtrate di %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Questo eliminerà definitivamente %1$d scheda di questo elenco</item>
+        <item quantity="many">Questo eliminerà definitivamente %1$d schede di questo elenco</item>
         <item quantity="other">Questo eliminerà definitivamente %1$d schede di questo elenco</item>
     </plurals>
     <plurals name="do_you_want_to_delete_the_label">
         <item quantity="one">Questo rimuoverà l\'etichetta da %1$d scheda.</item>
+        <item quantity="many">Questo rimuoverà l\'etichetta da %1$d schede</item>
         <item quantity="other">Questo rimuoverà l\'etichetta da %1$d schede</item>
     </plurals>
     <string name="add_a_new_list_using_the_button">Aggiungi un nuovo elenco usando il pulsante +</string>
@@ -150,7 +154,7 @@
     <string name="hours_6">6 ore</string>
     <string name="action_card_move">Sposta scheda</string>
     <string name="action_card_move_title">Sposta %1$s</string>
-    <string name="title_is_mandatory">Il titolo è obbligatorio</string>
+    <string name="title_is_mandatory">Il titolo è richiesto</string>
     <string name="provide_at_least_a_title_or_description">Fornisci almeno un titolo e una descrizione</string>
     <string name="welcome_text">Benvenuto in %1$s</string>
     <string name="maintenance_mode_explanation">Il server %1$s attualmente è in manutenzione. Contatta l\'amministratore o riprova più tardi.</string>
@@ -213,8 +217,9 @@
     <string name="error_dialog_tip_clear_storage_might_help">Se il problema persiste, prova a cancellare l\'archiviazione di entrambe le applicazioni Nextcloud e Nextcloud Deck per risolvere il problema.</string>
     <string name="error_dialog_tip_database_upgrade_failed">L\'aggiornamento del database non è riuscito. Segnala il problema e cancella l\'archiviazione per utilizzare l\'applicazione normalmente.</string>
     <string name="error_dialog_tip_clear_storage">Puoi a cancellare l\'archiviazione aprendo le informazioni dell\'applicazione e selezionando Archiviazione → Cancella archiviazione.</string>
-    <string name="error_dialog_tip_files_outdated">La tua applicazione di Nextcloud sembra essere datata. Visita il Play Store o F-Droid per ottenere l\'ultima versione.</string>
-    <string name="error_dialog_tip_offline">Sembra che tu abbia provato a eseguire una sincronizzazione senza connessione internet.</string>
+    <string name="error_dialog_tip_offline_no_internet">Sembra che tu abbia provato a eseguire una sincronizzazione senza connessione internet.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Connessione rifiutata, controlla se il tuo server è raggiungibile tramite browser web.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Connessione scaduta, verifica la connessione a Internet. Questo può accadere anche quando il tuo server è occupato.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Se hai attivato l\'impostazione \"Sincronizza solo con Wi-Fi\", puoi sincronizzare solo quando sei connesso a una rete Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Sembra che ci sia un problema con la tua applicazione di Nextcloud. Prova a fermare entrambe le applicazioni Nextcloud e Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Se fermarle non aiuta, puoi provare a cancellare l\'archiviazione di entrambe le applicazioni.</string>
@@ -233,12 +238,16 @@
     <string name="error_dialog_attachment_upload_failed">Un allegato non può essere caricato. Prova a condividerlo in un altro modo e informaci di questo problema.</string>
     <string name="error_dialog_certificate">Sembra ci sia qualche problema nel certificato del server. Controlla tutti gli account nell\'applicazione Nextcloud per maggiori informazioni.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Disabilita tutte le ottimizzazioni della batteria per le applicazioni Nextcloud e Deck.</string>
+    <string name="error_dialog_unknown_error">La tua istanza di Nextcloud sembra non essere raggiungibile. Controlla la connessione internet e se riesci a connetterti all\'istanza via browser.</string>
+    <string name="error_dialog_min_version">L\'app Deck di Android richiede che l\'app Nextcloud di Android sia almeno alla versione 3.18.</string>
     <string name="error_action_open_deck_info">Apri Informazioni applicazione</string>
     <string name="error_action_open_nextcloud_app">Apri l\'applicazione Nextcloud</string>
     <string name="error_action_open_network">Impostazioni di rete</string>
     <string name="error_action_server_logs">Log del server</string>
+    <string name="error_action_open_in_browser">Apri nel browser</string>
     <string name="error_action_install">Installa</string>
     <string name="error_action_report_issue">Segnala</string>
+    <string name="error_action_update_files_app">Aggiorna</string>
     <string name="info_box_maintenance_mode">Il server è in modalità di manutenzione</string>
     <string name="info_box_version_not_supported">Versione del server %1$s non supportata, aggiorna a %2$s</string>
     <string name="share_link">Condividi collegamento</string>
@@ -255,6 +264,7 @@
     <string name="progress_count">%1$d di %2$d</string>
     <plurals name="progress_error_count">
         <item quantity="one">%1$d errore durante il caricamento</item>
+        <item quantity="many">%1$d errori durante il caricamento</item>
         <item quantity="other">%1$d errori durante il caricamento</item>
     </plurals>
     <string name="simple_report">Segnala</string>
@@ -277,6 +287,7 @@
     <string name="projects_title">Progetti</string>
     <plurals name="resources_count">
         <item quantity="one">%1$d risorsa</item>
+        <item quantity="many">%1$d risorse</item>
         <item quantity="other">%1$d risorse</item>
     </plurals>
     <string name="no_assigned_label">Nessuna etichetta assegnata</string>
@@ -316,4 +327,12 @@
     <string name="copying_logs_to_file">Copia dei registri su file…</string>
     <string name="account_imported">Account importato</string>
     <string name="simple_search">Cerca</string>
-</resources>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Titolo (richiesto)</string>
+    <string name="saving_new_card">Salvataggio della nuova scheda...</string>
+    <string name="progress_import">Importazione della lavagna %1$d di %2$d…</string>
+    <string name="progress_import_indeterminate">Importazione lavagne…</string>
+    <string name="card_outdated">Il contenuto di questa scheda potrebbe essere obsoleto.</string>
+    <string name="show_error">Mostra errore</string>
+    <string name="push_notification_link_empty">A causa di un problema noto nella web app di Deck, sfortunatamente non possiamo mostrare questa scheda. Per altre informazioni vedi: %1$s</string>
+    </resources>

@@ -1,0 +1,4 @@
+- 🖼 Zoom attachments by @NeilSeligmann
+- ✨ Automatically scroll to new created card by @NeilSeligmann
+- ➕ Enable card and list creation from attachment share activity by @NeilSeligmann
+- ⚙️ Fix potential memory leaks
