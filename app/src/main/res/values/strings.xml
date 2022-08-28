@@ -10,12 +10,12 @@
     <string name="simple_save">Save</string>
     <string name="simple_more">More</string>
     <string name="simple_title">Title</string>
-    <string name="simple_copy">copy</string>
+    <string name="simple_copy">Copy</string>
     <string name="simple_synchronization">Synchronization</string>
     <string name="simple_appearance">Appearance</string>
     <string name="simple_error">Error</string>
     <string name="simple_exception">Exception</string>
-    <string name="simple_close">close</string>
+    <string name="simple_close">Close</string>
     <string name="simple_open">Open</string>
     <string name="simple_switch">Switch</string>
     <string name="simple_filter">Filter</string>
