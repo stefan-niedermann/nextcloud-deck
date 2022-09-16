@@ -3,6 +3,7 @@
 - [I have experienced an error](#i-have-experienced-an-error)
 - [Why has my bug report been closed?](#why-has-my-bug-report-been-closed)
 - [Why is my card not visible in the upcoming cards view?](#why-is-my-card-not-visible-in-the-upcoming-cards-view)
+- [Known issues](#known-issues)
 - [Why don't you make an option for…?](#why-dont-you-make-an-option-for)
 - [Why don't you make an iOS app?](#why-dont-you-make-an-ios-app)
 - [How to receive notifications when a due date is reached?](#how-to-receive-notifications-when-a-due-date-is-reached)
@@ -64,6 +65,14 @@ This is necessary for two reasons:
 ## Why is my card not visible in the upcoming cards view?
 
 Checkout the [Upcoming Analyzer](https://upcoming-analyzer.niedermann.it/) to check out the criterias your card needs to match to be shown in the upcoming cards view.
+
+## Known issues
+
+Here is a collection of issues which are caused by the (not by us developed) Deck server app and can not be fixed within Deck Android. Please [contact the Nextcloud GmbH](https://nextcloud.com/contact/) if you want them to be fixed.
+
+- Attachments are not deletable since Deck server 1.3: https://github.com/nextcloud/deck/issues/2904
+- Viewing archived cards is not possible: https://github.com/nextcloud/deck/issues/2613
+- Renaming a list in the web UI does not update in Deck Android: https://github.com/nextcloud/deck/issues/2866
 
 ## Why don't you make an option for…?
 
