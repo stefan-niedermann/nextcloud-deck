@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
     buildToolsVersion "31.0.0"
     defaultConfig {
         applicationId "it.niedermann.nextcloud.deck"
         minSdkVersion 23
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 1020002
         versionName "1.20.2"
         vectorDrawables.useSupportLibrary true
@@ -72,9 +72,9 @@ dependencies {
 
     // Android X
     implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'androidx.camera:camera-camera2:1.2.0-alpha04'
-    implementation 'androidx.camera:camera-lifecycle:1.2.0-alpha04'
-    implementation 'androidx.camera:camera-view:1.2.0-alpha04'
+    implementation 'androidx.camera:camera-camera2:1.2.0-beta01'
+    implementation 'androidx.camera:camera-lifecycle:1.2.0-beta01'
+    implementation 'androidx.camera:camera-view:1.2.0-beta01'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
