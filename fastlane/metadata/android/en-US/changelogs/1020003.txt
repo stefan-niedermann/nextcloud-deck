@@ -1,0 +1,1 @@
+- 🎨 Fix theming issue when taking photos on a board with white color

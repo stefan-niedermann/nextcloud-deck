@@ -4,13 +4,11 @@ import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.IMAGE_JPEG;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Size;
 import android.view.OrientationEventListener;
 import android.view.Surface;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,17 +21,20 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.File;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.ActivityTakePhotoBinding;
+import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.FilesUtil;
@@ -43,7 +44,7 @@ public class TakePhotoActivity extends AppCompatActivity {
     private ActivityTakePhotoBinding binding;
     private TakePhotoViewModel viewModel;
 
-    private View[] brandedViews;
+    private FloatingActionButton[] brandedFABs;
 
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     private OrientationEventListener orientationEventListener;
@@ -89,7 +90,7 @@ public class TakePhotoActivity extends AppCompatActivity {
             }
         }, ContextCompat.getMainExecutor(this));
 
-        brandedViews = new View[]{binding.takePhoto, binding.switchCamera, binding.toggleTorch};
+        brandedFABs = new FloatingActionButton[]{binding.takePhoto, binding.switchCamera, binding.toggleTorch};
     }
 
     private ImageCapture getCaptureUseCase() {
@@ -180,9 +181,6 @@ public class TakePhotoActivity extends AppCompatActivity {
     }
 
     private void applyBoardColorBrand(int mainColor) {
-        final var colorStateList = ColorStateList.valueOf(mainColor);
-        for (final var view : brandedViews) {
-            view.setBackgroundTintList(colorStateList);
-        }
+        Arrays.stream(brandedFABs).forEach(fab -> BrandingUtil.applyBrandToFAB(mainColor, fab));
     }
 }
