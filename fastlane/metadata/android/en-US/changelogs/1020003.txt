@@ -1,2 +1,3 @@
+- 🎨 Fix crash when appending a shared text to the description of an existing card (#1344)
 - 🎨 Fix constraint violation when a user has been assigned to a board multiple times
 - 🎨 Fix theming issue when taking photos on a board with white color

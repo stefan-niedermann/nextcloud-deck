@@ -164,8 +164,10 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                             mainViewModel.updateCard(fullCard, new IResponseCallback<>() {
                                 @Override
                                 public void onResponse(FullCard response) {
-                                    Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
-                                    runOnUiThread(() -> finish());
+                                    runOnUiThread(() -> {
+                                        Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
+                                        finish();
+                                    });
                                 }
 
                                 @Override
