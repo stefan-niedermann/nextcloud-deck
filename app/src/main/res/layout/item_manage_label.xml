@@ -22,6 +22,7 @@
             android:layout_marginEnd="@dimen/spacer_1hx"
             android:layout_marginBottom="@dimen/spacer_1x"
             android:ellipsize="middle"
+            app:chipStrokeWidth="0dp"
             app:ensureMinTouchTargetSize="false"
             tools:text="@tools:sample/cities" />
     </LinearLayout>

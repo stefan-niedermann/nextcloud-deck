@@ -300,6 +300,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         } catch (IllegalArgumentException e) {
             DeckLog.logError(e);
         }
+        chip.setChipStrokeWidth(0f);
         return chip;
     }
 
