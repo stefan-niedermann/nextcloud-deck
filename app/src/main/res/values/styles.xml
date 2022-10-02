@@ -12,6 +12,8 @@
         <item name="android:colorControlActivated">?attr/colorAccent</item>
         <item name="android:windowLightStatusBar">@bool/isDayMode</item>
         <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="chipGroupStyle">@style/AppChipGroupStyle</item>
+        <item name="chipStyle">@style/AppChipStyle</item>
     </style>
 
     <style name="AppBottomSheetDialogTheme" parent="Theme.Material3.DayNight.BottomSheetDialog">
@@ -21,11 +23,20 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="AppChipGroupStyle" parent="Widget.Material3.ChipGroup">
+        <item name="chipSpacingVertical">0dp</item>
+    </style>
+
+    <style name="AppChipStyle" parent="Widget.Material3.Chip.Assist">
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="chipCornerRadius">40dp</item>
+    </style>
+
     <style name="AppModalStyle" parent="Widget.Material3.BottomSheet.Modal">
         <item name="android:background">@drawable/bottom_sheet_rounded</item>
     </style>
 
-    <style name="toolbarStyle" parent="@style/Widget.AppCompat.Toolbar">
+    <style name="toolbarStyle" parent="@style/Widget.Material3.Toolbar">
         <item name="android:background">?attr/colorPrimary</item>
     </style>
 

@@ -84,7 +84,6 @@ public abstract class LabelLayout extends FlexboxLayout {
                 }
             }
             final var chip = createLabelChip(label);
-            chip.setChipStrokeWidth(0f);
             addView(chip);
             chipList.add(chip);
         }

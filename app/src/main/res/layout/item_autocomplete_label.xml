@@ -19,7 +19,6 @@
         android:ellipsize="middle"
         android:focusable="false"
         android:padding="@dimen/spacer_1x"
-        app:chipStrokeWidth="0dp"
         app:ensureMinTouchTargetSize="false"
         tools:backgroundTint="@color/board_default_color"
         tools:text="@tools:sample/cities"

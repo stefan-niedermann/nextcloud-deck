@@ -12,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="middle"
-        app:chipStrokeWidth="0dp"
         tools:text="@tools:sample/lorem" />
 
     <androidx.appcompat.widget.AppCompatImageView
