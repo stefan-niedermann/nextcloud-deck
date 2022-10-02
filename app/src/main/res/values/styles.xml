@@ -6,7 +6,7 @@
         <item name="colorAccent">@color/accent</item>
         <item name="toolbarStyle">@style/toolbarStyle</item>
         <item name="android:windowBackground">?attr/colorPrimary</item>
-        <item name="textAppearanceHeadline1">@style/Deck.TextAppearance.Headline1</item>
+        <item name="textAppearanceHeadlineLarge">@style/Deck.TextAppearance.HeadlineLarge</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
         <item name="android:colorControlNormal">?attr/colorAccent</item>
         <item name="android:colorControlActivated">?attr/colorAccent</item>
@@ -21,7 +21,7 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+    <style name="AppModalStyle" parent="Widget.Material3.BottomSheet.Modal">
         <item name="android:background">@drawable/bottom_sheet_rounded</item>
     </style>
 
@@ -34,7 +34,6 @@
         <item name="hintTextColor">@color/text_input_layout_color</item>
     </style>
 
-    <!-- Default is a light theme with the dark blue brand -->
     <style name="AppTheme" parent="BaseTheme" />
 
     <style name="SplashTheme" parent="Theme.SplashScreen">
@@ -50,7 +49,7 @@
         <item name="android:colorControlHighlight">@android:color/transparent</item>
     </style>
 
-    <style name="TransparentTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="TransparentTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/background_dark</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -62,7 +61,7 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <style name="Deck.TextAppearance.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
+    <style name="Deck.TextAppearance.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
         <item name="android:textSize">36sp</item>
     </style>
 </resources>
