@@ -20,6 +20,9 @@ public interface CardDao extends GenericDao<Card> {
                 "join stack s on s.localId = c.stackId " +
                 "join board b on b.localId = s.boardId " +
             "WHERE b.archived = 0 and c.archived = 0 and b.status <> 3 and s.status <> 3 and c.status <> 3 " +
+                "and (c.deletedAt is null or c.deletedAt = 0) " +
+                "and (s.deletedAt is null or s.deletedAt = 0) " +
+                "and (b.deletedAt is null or b.deletedAt = 0) " +
                 // FUll Logic: (hasDueDate AND isIn_PRIVATE_Board) OR (isInSharedBoard AND (assignedToMe OR (hasDueDate AND noAssignees)))
                 "and (" +
                     "(c.dueDate is not null AND NOT exists(select 1 from AccessControl ac where ac.boardId = b.localId and ac.status <> 3))" + //(hasDueDate AND isInPrivateBoard)

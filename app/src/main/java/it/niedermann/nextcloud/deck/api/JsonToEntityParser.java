@@ -450,7 +450,7 @@ public class JsonToEntityParser {
                 card.setOrder(0);
             }
 
-            card.setOverdue(e.get("overdue").getAsInt());
+            card.setOverdue(getNullAsZero(e.get("overdue")));
             card.setDueDate(getTimestampFromString(e.get("duedate")));
             card.setCommentsUnread(e.get("commentsUnread").getAsInt());
             JsonElement owner = e.get("owner");
@@ -667,6 +667,10 @@ public class JsonToEntityParser {
 
     private static String getNullAsNull(JsonElement jsonElement) {
         return jsonElement == null || jsonElement.isJsonNull() ? null : jsonElement.getAsString();
+    }
+
+    private static int getNullAsZero(JsonElement jsonElement) {
+        return jsonElement == null || jsonElement.isJsonNull() ? 0 : jsonElement.getAsInt();
     }
 
     private static Instant getTimestampFromString(JsonElement jsonElement) {
