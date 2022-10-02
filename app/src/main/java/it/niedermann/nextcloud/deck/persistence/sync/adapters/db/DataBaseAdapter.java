@@ -5,6 +5,7 @@ import static androidx.lifecycle.Transformations.distinctUntilChanged;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
 
 import androidx.annotation.AnyThread;
 import androidx.annotation.ColorInt;
@@ -500,7 +501,11 @@ public class DataBaseAdapter {
         final UserInBoard relation = new UserInBoard();
         relation.setBoardId(localBoardId);
         relation.setUserId(localUserId);
-        db.getUserInBoardDao().insert(relation);
+        try {
+            db.getUserInBoardDao().insert(relation);
+        } catch (SQLiteConstraintException e) {
+            // do nothing, since link already exists (→ only constraint that can fail: unique board ↔ user)
+        }
     }
 
     public void updateLabel(Label label, boolean setStatus) {

@@ -1,1 +1,2 @@
+- 🎨 Fix constraint violation when a user has been assigned to a board multiple times
 - 🎨 Fix theming issue when taking photos on a board with white color
