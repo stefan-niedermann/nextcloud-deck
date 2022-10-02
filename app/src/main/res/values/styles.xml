@@ -60,11 +60,12 @@
         <item name="android:colorControlHighlight">@android:color/transparent</item>
     </style>
 
-    <style name="TransparentTheme" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="TransparentTheme" parent="Theme.Material3.Dark.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/background_dark</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:statusBarColor">@android:color/background_dark</item>
     </style>
 
     <style name="TakePhotoTheme" parent="TransparentTheme">
