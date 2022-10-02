@@ -28,7 +28,7 @@
 
                 <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
                     android:id="@+id/labels"
-                    style="@style/Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox.Dense"
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:completionThreshold="1"
@@ -120,7 +120,7 @@
 
                 <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
                     android:id="@+id/people"
-                    style="@style/Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox.Dense"
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:completionThreshold="1"
