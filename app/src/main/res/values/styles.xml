@@ -2,37 +2,43 @@
 
     <style name="BaseTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary</item>
+        <item name="colorPrimaryDark">?android:colorPrimary</item>
         <item name="colorAccent">@color/accent</item>
-        <item name="toolbarStyle">@style/toolbarStyle</item>
+
         <item name="android:windowBackground">?attr/colorPrimary</item>
-        <item name="textAppearanceHeadlineLarge">@style/Deck.TextAppearance.HeadlineLarge</item>
-        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:windowLightStatusBar">@bool/isDayMode</item>
         <item name="android:colorControlNormal">?attr/colorAccent</item>
         <item name="android:colorControlActivated">?attr/colorAccent</item>
-        <item name="android:windowLightStatusBar">@bool/isDayMode</item>
-        <item name="android:statusBarColor">?attr/colorPrimary</item>
-        <item name="chipGroupStyle">@style/AppChipGroupStyle</item>
-        <item name="chipStyle">@style/AppChipStyle</item>
+        <item name="android:textColorLink">?android:colorAccent</item>
+
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+
+        <item name="toolbarStyle">@style/toolbarStyle</item>
+        <item name="chipGroupStyle">@style/chipGroupStyle</item>
+        <item name="chipStyle">@style/chipStyle</item>
+
+        <item name="textAppearanceHeadlineLarge">@style/textAppearanceHeadlineLarge</item>
     </style>
 
     <style name="AppBottomSheetDialogTheme" parent="Theme.Material3.DayNight.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/AppModalStyle</item>
-        <item name="android:windowIsFloating">false</item>
         <item name="android:navigationBarColor">@color/primary</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+
+        <item name="bottomSheetStyle">@style/bottomSheetStyle</item>
     </style>
 
-    <style name="AppChipGroupStyle" parent="Widget.Material3.ChipGroup">
+    <style name="chipGroupStyle" parent="Widget.Material3.ChipGroup">
         <item name="chipSpacingVertical">0dp</item>
     </style>
 
-    <style name="AppChipStyle" parent="Widget.Material3.Chip.Assist">
+    <style name="chipStyle" parent="Widget.Material3.Chip.Assist">
         <item name="chipStrokeWidth">0dp</item>
         <item name="chipCornerRadius">40dp</item>
     </style>
 
-    <style name="AppModalStyle" parent="Widget.Material3.BottomSheet.Modal">
+    <style name="bottomSheetStyle" parent="Widget.Material3.BottomSheet.Modal">
         <item name="android:background">@drawable/bottom_sheet_rounded</item>
     </style>
 
@@ -40,9 +46,13 @@
         <item name="android:background">?attr/colorPrimary</item>
     </style>
 
-    <style name="TextInputLayoutStyle" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense">
+    <style name="textInputLayoutStyle" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense">
         <item name="boxStrokeColor">@color/text_input_layout_color</item>
         <item name="hintTextColor">@color/text_input_layout_color</item>
+    </style>
+
+    <style name="textAppearanceHeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:textSize">36sp</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme" />
@@ -71,9 +81,5 @@
     <style name="TakePhotoTheme" parent="TransparentTheme">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
-    </style>
-
-    <style name="Deck.TextAppearance.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
-        <item name="android:textSize">36sp</item>
     </style>
 </resources>
