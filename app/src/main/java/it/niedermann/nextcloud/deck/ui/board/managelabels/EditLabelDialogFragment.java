@@ -7,8 +7,9 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogTextColorInputBinding;
@@ -53,7 +54,7 @@ public class EditLabelDialogFragment extends BrandedDialogFragment {
         super.onCreate(savedInstanceState);
         binding = DialogTextColorInputBinding.inflate(requireActivity().getLayoutInflater());
 
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
+        final var dialogBuilder = new MaterialAlertDialogBuilder(requireContext());
 
         dialogBuilder.setTitle(getString(R.string.edit_tag, label.getTitle()));
         dialogBuilder.setPositiveButton(R.string.simple_save, (dialog, which) -> {

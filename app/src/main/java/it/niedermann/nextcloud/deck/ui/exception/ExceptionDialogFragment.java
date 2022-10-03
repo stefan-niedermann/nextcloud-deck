@@ -7,9 +7,10 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import it.niedermann.android.util.ClipboardUtil;
 import it.niedermann.nextcloud.deck.BuildConfig;
@@ -61,7 +62,7 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
 
         adapter.setThrowable(requireContext(), account, throwable);
 
-        return new AlertDialog.Builder(requireActivity())
+        return new MaterialAlertDialogBuilder(requireActivity())
                 .setView(binding.getRoot())
                 .setTitle(R.string.error_dialog_title)
                 .setPositiveButton(android.R.string.copy, (a, b) -> {

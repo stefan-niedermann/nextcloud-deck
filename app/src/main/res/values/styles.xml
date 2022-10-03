@@ -12,6 +12,7 @@
         <item name="android:colorControlActivated">?attr/colorAccent</item>
         <item name="android:textColorLink">?android:colorAccent</item>
 
+        <item name="materialAlertDialogTheme">@style/MaterialAlertDialogTheme</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
 
         <item name="toolbarStyle">@style/toolbarStyle</item>
@@ -19,6 +20,16 @@
         <item name="chipStyle">@style/chipStyle</item>
 
         <item name="textAppearanceHeadlineLarge">@style/textAppearanceHeadlineLarge</item>
+    </style>
+
+    <style name="MaterialAlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/buttonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/buttonStyle</item>
+        <item name="buttonBarNeutralButtonStyle">@style/buttonStyle</item>
+    </style>
+
+    <style name="buttonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">?attr/colorAccent</item>
     </style>
 
     <style name="AppBottomSheetDialogTheme" parent="Theme.Material3.DayNight.BottomSheetDialog">

@@ -1,11 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.branding;
 
-import android.content.Context;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 
 public abstract class BrandedDialogFragment extends DialogFragment implements Branded {
 
@@ -13,7 +11,7 @@ public abstract class BrandedDialogFragment extends DialogFragment implements Br
     public void onStart() {
         super.onStart();
 
-        @Nullable Context context = getContext();
+        @Nullable final var context = getContext();
         if (context != null) {
             applyBrand(readBrandMainColor(context));
         }

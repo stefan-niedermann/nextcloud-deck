@@ -13,9 +13,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.File;
@@ -65,7 +65,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                         mStreamsToUpload.addAll(listOfParcelables);
                     }
                 } else {
-                    new AlertDialog.Builder(this)
+                    new MaterialAlertDialogBuilder(this)
                             .setTitle(R.string.error)
                             .setMessage(R.string.operation_not_yet_supported)
                             .setPositiveButton(R.string.simple_close, (a, b) -> finish())
@@ -149,7 +149,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
 
     private void appendTextAndFinish(@NonNull FullCard fullCard, @NonNull String receivedText) {
         final String[] targets = {getString(R.string.append_text_to_description), getString(R.string.add_text_as_comment)};
-        new AlertDialog.Builder(this)
+        new MaterialAlertDialogBuilder(this)
                 .setOnCancelListener(dialog -> cardSelected = false)
                 .setItems(targets, (dialog, which) -> {
                     switch (which) {

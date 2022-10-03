@@ -7,9 +7,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import it.niedermann.nextcloud.deck.R;
 
-public class DeleteAlertDialogBuilder extends AlertDialog.Builder {
+public class DeleteAlertDialogBuilder extends MaterialAlertDialogBuilder {
 
     protected AlertDialog dialog;
 

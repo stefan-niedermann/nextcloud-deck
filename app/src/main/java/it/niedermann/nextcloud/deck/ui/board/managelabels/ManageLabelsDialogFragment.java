@@ -13,9 +13,10 @@ import androidx.annotation.AnyThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Random;
 
@@ -62,7 +63,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
         super.onCreate(savedInstanceState);
 
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
+        final var dialogBuilder = new MaterialAlertDialogBuilder(requireContext());
         binding = DialogBoardManageLabelsBinding.inflate(requireActivity().getLayoutInflater());
         colors = getResources().getStringArray(R.array.board_default_colors);
         adapter = new ManageLabelsAdapter(this, requireContext());
