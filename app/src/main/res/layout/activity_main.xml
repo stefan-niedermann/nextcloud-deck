@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_card_wrapper"
+    android:background="?attr/colorPrimary"
     android:fitsSystemWindows="true">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -18,7 +18,6 @@
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
@@ -230,11 +229,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:tabBackground="?attr/colorPrimary"
                     app:tabGravity="center"
-                    app:tabIndicatorColor="@color/defaultBrand"
-                    app:tabMode="fixed"
-                    app:tabTextColor="?attr/colorAccent" />
+                    app:tabMode="fixed" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/list_menu_button"

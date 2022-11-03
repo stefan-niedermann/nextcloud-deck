@@ -18,6 +18,7 @@
         <item name="toolbarStyle">@style/toolbarStyle</item>
         <item name="chipGroupStyle">@style/chipGroupStyle</item>
         <item name="chipStyle">@style/chipStyle</item>
+        <item name="tabStyle">@style/tabStyle</item>
 
         <item name="textAppearanceHeadlineLarge">@style/textAppearanceHeadlineLarge</item>
     </style>
@@ -55,6 +56,14 @@
 
     <style name="toolbarStyle" parent="@style/Widget.Material3.Toolbar">
         <item name="android:background">?attr/colorPrimary</item>
+    </style>
+
+    <style name="tabStyle" parent="Widget.Material3.TabLayout">
+        <item name="backgroundColor">@android:color/transparent</item>
+        <item name="itemBackground">@android:color/transparent</item>
+        <item name="tabIndicatorColor">@color/defaultBrand</item>
+        <item name="tabTextColor">?attr/colorAccent</item>
+        <item name="tabIconTint">?attr/colorAccent</item>
     </style>
 
     <style name="textInputLayoutStyle" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense">
