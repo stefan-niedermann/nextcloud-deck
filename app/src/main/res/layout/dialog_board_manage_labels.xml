@@ -38,7 +38,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:contentDescription="@string/add_comment"
-            android:translationY="@dimen/spacer_1qx"
             app:backgroundTint="@color/defaultBrand"
             app:fabSize="mini"
             app:srcCompat="@drawable/ic_send_white_24dp" />
