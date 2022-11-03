@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:hint="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:16dplayout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/spacer_2x">
@@ -22,8 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:gravity="center"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
+        android:paddingVertical="@dimen/spacer_2x"
         android:textAlignment="center"
         android:textSize="@dimen/empty_content_font_size"
         hint:text="@string/no_cards" />
@@ -34,8 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:layout_centerHorizontal="true"
-        android:paddingStart="@dimen/spacer_2x"
-        android:paddingEnd="@dimen/spacer_2x"
+        android:paddingHorizontal="@dimen/spacer_2x"
         android:textAlignment="center"
         hint:text="@string/add_a_new_card_using_the_button" />
 </RelativeLayout>

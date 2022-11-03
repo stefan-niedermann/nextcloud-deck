@@ -49,8 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingStart="@dimen/spacer_2x"
-                android:paddingEnd="@dimen/spacer_2x"
+                android:paddingHorizontal="@dimen/spacer_2x"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="2"
                 tools:listitem="@layout/item_tip" />
