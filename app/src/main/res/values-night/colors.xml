@@ -3,7 +3,7 @@
     <color name="primary">@android:color/black</color>
     <color name="accent">@android:color/white</color>
     <color name="fg_secondary">#666</color>
-    <color name="bg_highlighted">#2a2a2a</color>
+    <color name="bg_highlighted">#212121</color>
     <color name="bg_info_box">#222222</color>
     <color name="bg_card">#1e1e1e</color>
     <color name="bg_card_wrapper">@color/primary</color>
