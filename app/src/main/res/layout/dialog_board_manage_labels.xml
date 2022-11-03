@@ -34,12 +34,12 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
+            style="?attr/floatingActionButtonSmallSecondaryStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:contentDescription="@string/add_comment"
             app:backgroundTint="@color/defaultBrand"
-            app:fabSize="mini"
             app:srcCompat="@drawable/ic_send_white_24dp" />
     </LinearLayout>
 

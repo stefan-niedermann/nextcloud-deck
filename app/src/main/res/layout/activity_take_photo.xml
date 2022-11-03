@@ -24,12 +24,12 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/switchCamera"
+            style="?attr/floatingActionButtonSmallSecondaryStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/take_photo_switch_camera"
             android:tint="@android:color/white"
             app:backgroundTint="@color/defaultBrand"
-            app:fabSize="mini"
             app:layout_constraintBottom_toBottomOf="@id/takePhoto"
             app:layout_constraintEnd_toStartOf="@id/takePhoto"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,12 +50,12 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/toggle_torch"
+            style="?attr/floatingActionButtonSmallSecondaryStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/take_photo_toggle_torch"
             android:tint="@android:color/white"
             app:backgroundTint="@color/defaultBrand"
-            app:fabSize="mini"
             app:layout_constraintBottom_toBottomOf="@id/takePhoto"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/takePhoto"

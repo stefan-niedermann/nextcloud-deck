@@ -10,8 +10,8 @@
         android:id="@+id/comments"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
         android:layout_above="@id/addCommentLayout"
+        android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:reverseLayout="true"
         tools:listitem="@layout/item_comment" />
@@ -146,13 +146,13 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab"
+                style="?attr/floatingActionButtonSmallSecondaryStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:contentDescription="@string/add_comment"
                 android:translationY="@dimen/spacer_1qx"
                 app:backgroundTint="@color/defaultBrand"
-                app:fabSize="mini"
                 app:srcCompat="@drawable/ic_send_white_24dp" />
         </LinearLayout>
     </LinearLayout>
