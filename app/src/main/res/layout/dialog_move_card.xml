@@ -15,8 +15,7 @@
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacer_1x"
-        android:layout_marginEnd="@dimen/spacer_1x"
+        android:layout_marginHorizontal="@dimen/spacer_1x"
         android:ellipsize="end"
         android:maxLines="5"
         tools:text="@string/action_card_move_title" />

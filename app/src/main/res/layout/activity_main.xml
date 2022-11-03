@@ -99,9 +99,8 @@
                 android:id="@+id/toolbarCard"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:layout_marginStart="@dimen/spacer_2x"
+                android:layout_marginHorizontal="@dimen/spacer_2x"
                 android:layout_marginTop="@dimen/spacer_1x"
-                android:layout_marginEnd="@dimen/spacer_2x"
                 app:cardCornerRadius="@dimen/spacer_4x"
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp">
