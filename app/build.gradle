@@ -72,9 +72,9 @@ dependencies {
 
     // Android X
     implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'androidx.camera:camera-camera2:1.2.0-beta02'
-    implementation 'androidx.camera:camera-lifecycle:1.2.0-beta02'
-    implementation 'androidx.camera:camera-view:1.2.0-beta02'
+    implementation 'androidx.camera:camera-camera2:1.2.0-rc01'
+    implementation 'androidx.camera:camera-lifecycle:1.2.0-rc01'
+    implementation 'androidx.camera:camera-view:1.2.0-rc01'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
@@ -88,8 +88,8 @@ dependencies {
     implementation "com.google.android.material:material:$rootProject.materialVersion"
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.14.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.1'
+    implementation 'com.github.bumptech.glide:glide:4.14.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
     // Image compression
     implementation 'id.zelory:compressor:3.0.1'
@@ -114,7 +114,7 @@ dependencies {
     implementation 'com.github.skydoves:colorpickerview:2.2.4'
 
     // Gson
-    implementation 'com.google.code.gson:gson:2.9.1'
+    implementation 'com.google.code.gson:gson:2.10'
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -127,8 +127,8 @@ dependencies {
 
     // Tests
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.robolectric:robolectric:4.8.2'
-    testImplementation 'org.mockito:mockito-core:4.8.0'
+    testImplementation 'org.robolectric:robolectric:4.9'
+    testImplementation 'org.mockito:mockito-core:4.8.1'
     testImplementation 'androidx.test:core:1.4.0'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
 }
