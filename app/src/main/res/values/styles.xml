@@ -19,6 +19,7 @@
         <item name="chipGroupStyle">@style/chipGroupStyle</item>
         <item name="chipStyle">@style/chipStyle</item>
         <item name="tabStyle">@style/tabStyle</item>
+        <item name="materialCardViewStyle">@style/materialCardViewStyle</item>
 
         <item name="textAppearanceHeadlineLarge">@style/textAppearanceHeadlineLarge</item>
     </style>
@@ -64,6 +65,14 @@
         <item name="tabIndicatorColor">@color/defaultBrand</item>
         <item name="tabTextColor">?attr/colorAccent</item>
         <item name="tabIconTint">?attr/colorAccent</item>
+    </style>
+
+    <style name="materialCardViewStyle" parent="Widget.Material3.CardView.Elevated">
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">@color/bg_highlighted</item>
+        <item name="android:focusable">true</item>
+        <item name="cardElevation">2dp</item>
+        <item name="cardBackgroundColor">@color/bg_card</item>
     </style>
 
     <style name="textInputLayoutStyle" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense">

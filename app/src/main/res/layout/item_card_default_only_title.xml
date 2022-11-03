@@ -5,15 +5,9 @@
     android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/spacer_2x"
-    android:layout_marginTop="@dimen/spacer_1x"
-    android:layout_marginEnd="@dimen/spacer_2x"
-    android:layout_marginBottom="@dimen/spacer_1x"
-    android:focusable="true"
-    app:strokeWidth="0dp"
-    app:cardElevation="@dimen/spacer_1qx"
-    app:cardBackgroundColor="@color/bg_card">
-    
+    android:layout_marginHorizontal="@dimen/spacer_2x"
+    android:layout_marginVertical="@dimen/spacer_1x">
+
     <LinearLayout
         android:id="@+id/coverImages"
         android:layout_width="match_parent"
