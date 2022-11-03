@@ -50,11 +50,11 @@ public class EditBoardDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         binding = DialogTextColorInputBinding.inflate(requireActivity().getLayoutInflater());
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(requireContext())
+        final var builder = new AlertDialog.Builder(requireContext())
                 .setView(binding.getRoot())
                 .setNeutralButton(android.R.string.cancel, null);
 
-        final Bundle args = getArguments();
+        final var args = getArguments();
         if (args != null && args.containsKey(KEY_BOARD_ID)) {
             builder.setTitle(R.string.edit_board);
             builder.setPositiveButton(R.string.simple_save, (dialog, which) -> {
@@ -62,7 +62,7 @@ public class EditBoardDialogFragment extends DialogFragment {
                 this.fullBoard.board.setTitle(binding.input.getText().toString());
                 this.editBoardListener.onUpdateBoard(fullBoard);
             });
-            final MainViewModel viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+            final var viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
             viewModel.getFullBoardById(viewModel.getCurrentAccount().getId(), args.getLong(KEY_BOARD_ID)).observe(EditBoardDialogFragment.this, (FullBoard fb) -> {
                 if (fb.board != null) {
                     this.fullBoard = fb;

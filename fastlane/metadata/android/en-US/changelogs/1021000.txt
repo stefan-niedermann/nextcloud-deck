@@ -1,0 +1,1 @@
+- 🐞 Create new list: Dialog does not close (#1361)

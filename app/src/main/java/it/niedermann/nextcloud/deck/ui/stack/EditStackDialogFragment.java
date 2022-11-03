@@ -153,6 +153,7 @@ public class EditStackDialogFragment extends BrandedDialogFragment implements Di
                     } else {
                         editStackListener.onUpdateStack(args.getLong(KEY_STACK_ID), binding.input.getText().toString());
                     }
+                    dismiss();
                 } else {
                     binding.inputWrapper.setError(getString(R.string.title_is_mandatory));
                     binding.input.requestFocus();
