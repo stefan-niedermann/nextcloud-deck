@@ -42,7 +42,7 @@ public class AccountAdapter extends AbstractAdapter<Account> {
 
         final var item = getItem(position);
         if (item != null) {
-            binding.username.setText(item.getUserName());
+            binding.username.setText(item.getUserDisplayName());
             try {
                 binding.instance.setText(new URL(item.getUrl()).getHost());
             } catch (Throwable t) {

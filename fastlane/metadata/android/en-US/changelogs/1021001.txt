@@ -1,0 +1,1 @@
+- 👤 Use displayname instead of username for shortcuts (#1371)
