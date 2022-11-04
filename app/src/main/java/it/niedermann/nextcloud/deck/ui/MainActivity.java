@@ -501,6 +501,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 IResponseCallback.super.onError(error);
                 runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(error, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                        .setAnchorView(binding.fab)
                         .show());
             }
         });
@@ -551,6 +552,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 IResponseCallback.super.onError(throwable);
                 runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                        .setAnchorView(binding.fab)
                         .show());
             }
         });
@@ -857,13 +859,15 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                 if (!response.isMaintenanceEnabled()) {
                                     if (response.getDeckVersion().isSupported()) {
                                         runOnUiThread(() -> {
-                                            final var importSnackbar = BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
+                                            final var importSnackbar = BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE)
+                                                    .setAnchorView(binding.fab);
                                             importSnackbar.show();
                                             importSyncManager.synchronize(new ResponseCallback<>(createdAccount) {
                                                 @Override
                                                 public void onResponse(Boolean syncSuccess) {
                                                     importSnackbar.dismiss();
                                                     runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.account_imported), Snackbar.LENGTH_LONG)
+                                                            .setAnchorView(binding.fab)
                                                             .setAction(R.string.simple_switch, (a) -> {
                                                                 createdAccount.setColor(response.getColor());
                                                                 mainViewModel.setSyncManager(importSyncManager);
@@ -930,7 +934,9 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                         IResponseCallback.super.onError(error);
                         if (error instanceof SQLiteConstraintException) {
                             DeckLog.warn("Account already added");
-                            BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_already_added, Snackbar.LENGTH_LONG).show();
+                            BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_already_added, Snackbar.LENGTH_LONG)
+                                    .setAnchorView(binding.fab)
+                                    .show();
                         } else {
                             ExceptionDialogFragment.newInstance(error, accountToCreate).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                         }
@@ -1114,6 +1120,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         if (!(throwable instanceof NextcloudHttpRequestFailedException) || ((NextcloudHttpRequestFailedException) throwable).getStatusCode() != HttpURLConnection.HTTP_UNAVAILABLE) {
             runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
                     .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                    .setAnchorView(binding.fab)
                     .show());
         }
     }
@@ -1143,7 +1150,8 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 .setMultiChoiceItems(animals, checkedItems, (dialog, which, isChecked) -> checkedItems[0] = isChecked)
                 .setPositiveButton(R.string.simple_clone, (dialog, which) -> {
                     binding.drawerLayout.closeDrawer(GravityCompat.START);
-                    final var snackbar = BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.cloning_board, board.getTitle()), Snackbar.LENGTH_INDEFINITE);
+                    final var snackbar = BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.cloning_board, board.getTitle()), Snackbar.LENGTH_INDEFINITE)
+                            .setAnchorView(binding.fab);
                     snackbar.show();
                     mainViewModel.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColor(), checkedItems[0], new IResponseCallback<>() {
                         @Override
@@ -1153,6 +1161,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                 setCurrentBoard(response.getBoard());
                                 BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.successfully_cloned_board, response.getBoard().getTitle()), Snackbar.LENGTH_LONG)
                                         .setAction(R.string.edit, v -> EditBoardDialogFragment.newInstance(response.getLocalId()).show(getSupportFragmentManager(), EditBoardDialogFragment.class.getSimpleName()))
+                                        .setAnchorView(binding.fab)
                                         .show();
                             });
                         }
