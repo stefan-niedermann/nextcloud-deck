@@ -8,8 +8,8 @@ android {
         applicationId "it.niedermann.nextcloud.deck"
         minSdkVersion 23
         targetSdkVersion 33
-        versionCode 1020003
-        versionName "1.20.3"
+        versionCode 1021000
+        versionName "1.21.0"
         vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
