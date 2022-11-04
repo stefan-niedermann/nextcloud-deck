@@ -11,6 +11,7 @@
         <item name="android:colorControlNormal">?attr/colorAccent</item>
         <item name="android:colorControlActivated">?attr/colorAccent</item>
         <item name="android:textColorLink">?android:colorAccent</item>
+        <item name="android:textColorHighlight">@color/defaultTextHighlightBackground</item>
 
         <item name="materialAlertDialogTheme">@style/MaterialAlertDialogTheme</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
