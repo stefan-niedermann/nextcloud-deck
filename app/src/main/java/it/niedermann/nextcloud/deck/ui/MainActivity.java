@@ -39,7 +39,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -114,6 +113,7 @@ import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
+import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CreateCardListener;
 import it.niedermann.nextcloud.deck.ui.card.NewCardDialog;
@@ -196,10 +196,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
 
         setTheme(R.style.AppTheme);
-
-        final var typedValue = new TypedValue();
-        getTheme().resolveAttribute(R.attr.colorAccent, typedValue, true);
-        colorAccent = typedValue.data;
+        colorAccent = BrandingUtil.getAttribute(this, R.attr.colorAccent);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         headerBinding = NavHeaderMainBinding.bind(binding.navigationView.getHeaderView(0));
@@ -1026,6 +1023,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
     /**
      * Find a StackFragment by it's ID, may return null.
+     *
      * @param stackId ID of the stack to find
      * @return Instance of StackFragment
      */
@@ -1036,6 +1034,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
     /**
      * This method is called when a new Card is created
+     *
      * @param createdCard The new Card's data
      */
     @Override

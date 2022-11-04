@@ -7,8 +7,10 @@ import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSuf
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.util.TypedValue;
 import android.view.MenuItem;
 
+import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -95,5 +97,12 @@ public abstract class BrandingUtil {
             DrawableCompat.setTint(drawable, color);
             menuItem.setIcon(drawable);
         }
+    }
+
+    @ColorInt
+    public static int getAttribute(@NonNull Context context, @AttrRes int id) {
+        final var typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(id, typedValue, true);
+        return typedValue.data;
     }
 }
