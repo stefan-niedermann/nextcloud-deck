@@ -8,12 +8,12 @@
     <string name="simple_save">ذخیره</string>
     <string name="simple_more">بیش‌تر</string>
     <string name="simple_title">عنوان</string>
-    <string name="simple_copy">کپی</string>
+    <string name="simple_copy">رونوشت</string>
     <string name="simple_synchronization">هماهنگ سازی</string>
     <string name="simple_appearance">ظاهر</string>
     <string name="simple_error">خطا</string>
     <string name="simple_exception">استثنا</string>
-    <string name="simple_close">بستن</string>
+    <string name="simple_close">بسته</string>
     <string name="simple_open">باز کردن</string>
     <string name="simple_switch">تعویض</string>
     <string name="simple_filter">فیلتر</string>

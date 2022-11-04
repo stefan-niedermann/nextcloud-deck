@@ -8,12 +8,12 @@
     <string name="simple_save">Zapisz</string>
     <string name="simple_more">Więcej</string>
     <string name="simple_title">Tytuł</string>
-    <string name="simple_copy">kopiuj</string>
+    <string name="simple_copy">Kopiuj</string>
     <string name="simple_synchronization">Synchronizacja</string>
     <string name="simple_appearance">Wygląd</string>
     <string name="simple_error">Błąd</string>
     <string name="simple_exception">Wyjątek</string>
-    <string name="simple_close">zamknij</string>
+    <string name="simple_close">Zamknij</string>
     <string name="simple_open">Otwórz</string>
     <string name="simple_switch">Przełącz</string>
     <string name="simple_filter">Filtr</string>
@@ -25,8 +25,8 @@
     <string name="simple_rename">Zmień nazwę</string>
     <string name="simple_settings">Ustawienia</string>
     <string name="simple_undo">Cofnij</string>
-    <string name="simple_manage">zarządzać</string>
-    <string name="simple_share">udostępniać</string>
+    <string name="simple_manage">zarządzaj</string>
+    <string name="simple_share">udostępnij</string>
     <string name="simple_select">Wybierz</string>
     <string name="simple_comment">Komentarz</string>
     <string name="simple_disabled">wyłączony</string>
@@ -53,7 +53,7 @@
     <string name="about_source">Projekt jest hostowany na GitHubie: %1$s</string>
     <string name="about_issues_title">Problemy</string>
     <string name="about_issues">Możesz zgłaszać błędy, propozycje ulepszeń i prośby o funkcje w liście problemów na GitHubie: %1$s</string>
-    <string name="about_translate_title">Tłumaczyć</string>
+    <string name="about_translate_title">Tłumaczenie</string>
     <string name="about_translate">Dołącz do zespołu Nextcloud na Transifex i pomóż nam przetłumaczyć aplikację: %1$s</string>
     <string name="about_app_license_title">Licencja</string>
     <string name="about_app_license">Aplikacja jest na licencji GNU GENERAL PUBLIC LICENSE v3+.</string>

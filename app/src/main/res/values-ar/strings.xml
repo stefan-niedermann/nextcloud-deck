@@ -8,7 +8,7 @@
     <string name="simple_save">حفظ</string>
     <string name="simple_more">المزيد</string>
     <string name="simple_title">العنوان</string>
-    <string name="simple_copy">أنسخ</string>
+    <string name="simple_copy">نسخ</string>
     <string name="simple_synchronization">المزامنة</string>
     <string name="simple_appearance">المظهر</string>
     <string name="simple_error">خطأ</string>
@@ -224,6 +224,8 @@
     <string name="error_dialog_tip_database_upgrade_failed">فشلت ترقية قاعدة البيانات. يرجى الإبلاغ عن المشكلة ومسح التخزين لاستخدام التطبيق مجددًا.</string>
     <string name="error_dialog_tip_clear_storage">يمكنك مسح التخزين عن طريق فتح معلومات التطبيق واختيار التخزين ← مسح التخزين.</string>
     <string name="error_dialog_tip_offline_no_internet">يبدو أنك حاولت البدء بالمزامنة بدون اتصال بالإنترنت.</string>
+    <string name="error_dialog_tip_offline_connection_refused">تم رفض الاتصال, يُرجى التأكد من إمكانية الوصول إلى الخادم عبر المستعرض</string>
+    <string name="error_dialog_tip_offline_connection_timeout">إنتهت مهلة الاتصال، يُرجى التأكد من أنك متصل بالإنترنت. يمكن أن يكون انشغال الخادم سبباً في ذلك.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">إذا قمت بتعطيل إعدادات \"التزامن فقط على شبكة الإنترنت Wi-Fi \" سيمكنك التزامن فقط عندما تكون متصلًا بشبكة الإنترنت. </string>
     <string name="error_dialog_tip_files_force_stop">يبدو أن هناك خطأ ما في تطبيق نكست كلاود الخاص بك. يرجى محاولة فرض إيقاف كلا من تطبيق نكست كلاود وتطبيق Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">إذا لم يساعد إيقافهم بالقوة ، فيمكنك محاولة مسح تخزين كلا التطبيقين.</string>

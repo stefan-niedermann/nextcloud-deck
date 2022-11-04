@@ -8,12 +8,12 @@
     <string name="simple_save">Salvează</string>
     <string name="simple_more">Mai mult</string>
     <string name="simple_title">Titlu</string>
-    <string name="simple_copy">copiază</string>
+    <string name="simple_copy">Copiază</string>
     <string name="simple_synchronization">Sincronizare</string>
     <string name="simple_appearance">Aspect</string>
     <string name="simple_error">Eroare</string>
     <string name="simple_exception">Excepție </string>
-    <string name="simple_close">închide</string>
+    <string name="simple_close">Închide</string>
     <string name="simple_open">Deschide</string>
     <string name="simple_switch">Schimbă </string>
     <string name="simple_filter">Filtru</string>

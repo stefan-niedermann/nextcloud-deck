@@ -1,17 +1,19 @@
 <resources>
     <string name="navigation_drawer_open">Åpne navigasjonsskuff</string>
     <string name="navigation_drawer_close">Lukk navigasjonsskuff</string>
+    <string name="hint_search_deck">Søk i Stokk</string>
+
     <string name="simple_boards">Tavler</string>
     <string name="simple_add">Legg til</string>
     <string name="simple_save">Lagre</string>
     <string name="simple_more">Mer</string>
     <string name="simple_title">Tittel</string>
-    <string name="simple_copy">kopier</string>
+    <string name="simple_copy">Kopi</string>
     <string name="simple_synchronization">Synkronisering</string>
     <string name="simple_appearance">Utseende</string>
     <string name="simple_error">Feil</string>
     <string name="simple_exception">Avbrudd</string>
-    <string name="simple_close">lukk</string>
+    <string name="simple_close">Lukk</string>
     <string name="simple_open">Åpne</string>
     <string name="simple_switch">Endre</string>
     <string name="simple_filter">Filter</string>
@@ -103,6 +105,7 @@
     <string name="no_lists_yet">Ingen lister enda</string>
     <string name="do_you_want_to_save_your_changes">Ønsker du å lagre din endringer?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Vil du arkivere all kort av %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Vil du arkivere alle filtrerte kort av %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Dette vil slette %1$d kortet i listen permanent.</item>
         <item quantity="other">Dette vil slette alle %1$d kortene i listen permanent.</item>
@@ -113,13 +116,20 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Legg til ny liste ved å bruke + knappen</string>
     <string name="add_a_new_card_using_the_button">Legg til nytt kort ved å bruke + knappen</string>
+    <string name="update_deck">Oppdater Stokk web app</string>
+    <string name="deck_outdated_please_update">Din web app versjon av Stokk er for gammel (%1$s). Vennligst oppdater for å bruke denne android appen som klient.</string>
     <string name="delete_board_message">Dette vil uopprettelig slette denne tavlen inkludert alle lister og kort.</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Kompakt modus</string>
+    <string name="settings_cover_images_title">Forsidebilder</string>
     <string name="settings_debugging">Debug-logger</string>
+    <string name="settings_etags">Bruk E-merker (ETags)</string>
+    <string name="settings_etags_summary">Gjør synkronisering raskere</string>
     <string name="settings_background_sync">Synkronisering i bakgrunnen</string>
+    <string name="settings_compress_image_attachments">Komprimer bilder ved opplasting</string>
     <string name="search_in">Søk i %1$s</string>
+    <string name="settings_compress_image_attachments_summary">Raskere opplasting, mindre kvalitet</string>
     <string name="pref_value_wifi_and_mobile">Synkroniser med WiFi og mobil data</string>
     <string name="pref_value_wifi_only">Synkroniser kun med WiFi</string>
     <string-array name="darkmode_entries">
@@ -205,6 +215,10 @@
     <string name="error_dialog_tip_clear_storage_might_help">Hvis problemet vedvarer, prøv å tømme lageret for begge disse appene for å løse problemet: Nextcloud og Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Oppgraderingen av databasen mislyktes. Vennligst rapporter problemet og tøm lageret for å bruke appen normalt.</string>
     <string name="error_dialog_tip_clear_storage">Du kan tømme lageret ved å åpne App info og velge Lagring og buffer → Tøm lagring.</string>
+    <string name="error_dialog_tip_offline_no_internet">Det ser ut til at du forsøkte å sette igang en synkronisering uten en internettilkobling.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Tilkobling ble nektet, sjekk at serveren din kan nås via nettleseren.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Tilkoblingen fikk tidsavbrudd, sjekk at internettilkoblingen fungerer. Dette kan også skjer hvis serveren din er opptatt.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Hvis du har aktivert innstillingen \"Synkroniser på Wi-Fi\", kan du bare synkronisere når du er koblet til et trådløst nettverk.</string>
     <string name="error_dialog_tip_files_force_stop">Det virker som noe er galt med Nextcloud appen. Vennligst prøv å tvinge avslutning av Nextcloud appen og Nextcloud Deck appen.</string>
     <string name="error_dialog_tip_files_delete_storage">Hvis det ikke hjelper med tving avslutt, så kan du prøve å tømme lageret for begge appene.</string>
     <string name="error_dialog_timeout_instance">Serveren svarer ikke innen en gitt tid. Vennligst påse at serveren er tilgjengelig.</string>
@@ -220,7 +234,10 @@
     <string name="error_dialog_user_not_found_in_database">Den nåværende brukeren samsvarer ikke med brukeren vi har i databasen vår. Hvis du bruker LDAP i Nextcloud-instansen, kan det hende at Nextcloud-appen din har lagret en gammel bruker-ID.</string>
     <string name="error_dialog_capabilities_not_parsable">Vi kunne ikke hente funksjonene til serveren din. Forsikre deg om at serveren din kjører bra, og at andre klientapper har tilgang til Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Et vedlegg kunne ikke lastes opp. Prøv å dele den på en annen måte og gi oss beskjed om denne feilen.</string>
+    <string name="error_dialog_certificate">Det ser ut til å være noe feil med sertifikatet til serveren. Sjekk alle kontoene i Nextcloud-appen for mer informasjon.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Deaktiver alle batterioptimaliseringer for Nextcloud og Deck-appen.</string>
+    <string name="error_dialog_unknown_error">Din Nextcloud-forekomst ser ikke ut til å være tilgjengelig. Sjekk din internettilkobling og om du når forekomsten din via nettleseren.</string>
+    <string name="error_dialog_min_version">Stokk android app krever at Nextcloud android app minst er på versjon 3.18.</string>
     <string name="error_action_open_deck_info">Åpne App info</string>
     <string name="error_action_open_nextcloud_app">Åpne Nextcloud-app</string>
     <string name="error_action_open_network">Nettverksinnstillinger</string>
@@ -233,6 +250,8 @@
     <string name="info_box_version_not_supported">Server versjon %1$ser ikke støttet, vennligst oppgrader til %2$s</string>
     <string name="share_link">Share link</string>
     <string name="share_content">Del innhold</string>
+    <string name="share_content_duedate">Forfallsdato: %1$s</string>
+    <string name="share_content_labels">Merker: %1$s</string>
     <string name="archive_cards">Arkiver kortene</string>
 
     <string name="manage_accounts">Håndter kontoer</string>
@@ -281,6 +300,7 @@
     <string name="simple_camera">Kamera</string>
     <string name="take_photo">Ta et bilde</string>
     <string name="take_photo_switch_camera">Bytt kamera</string>
+    <string name="take_photo_toggle_torch">Veksle lommelykt</string>
     <string name="show_all_contacts">Vis alle kontakter</string>
     <string name="show_all_files">Vis alle filer</string>
     <string name="recent">Nylig</string>
@@ -291,10 +311,24 @@
     <string name="gallery">Galleri</string>
     <string name="simple_attach">legg ved</string>
     <string name="add_stack_widget">Legg til liste widget</string>
+    <string name="add_filter_widget">Legg til filter widget</string>
+    <string name="simple_order">Sortering</string>
     <string name="edit_description">Rediger beskrivelse</string>
+    <string name="widget_upcoming_title">Kommender kort</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Ekspertinnstillinger</string>
+    <string name="copy_logs">Kopier logger til utklippstavlen</string>
     <string name="app_logo">App-logo</string>
     <string name="log_file">Loggfil</string>
     <string name="copying_logs_to_file">Kopierer logger til fil...</string>
     <string name="account_imported">Konto importert</string>
     <string name="simple_search">Søk</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Tittel (obligatorisk)</string>
+    <string name="saving_new_card">Lagrer nytt kort...</string>
+    <string name="progress_import">Importerer tavle %1$d av %2$d…</string>
+    <string name="progress_import_indeterminate">Importerer tavler...</string>
+    <string name="card_outdated">Innholdet i dette kortet kan være utdatert.</string>
+    <string name="show_error">Vis feil</string>
+    <string name="push_notification_link_empty">På grunn av en kjent feil i Stokk web appen får vi dessverre ikke vist innholdet i dette kortet. Gå på følgende link for mer informasjon: %1$s</string>
     </resources>

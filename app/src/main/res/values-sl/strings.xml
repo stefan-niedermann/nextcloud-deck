@@ -8,12 +8,12 @@
     <string name="simple_save">Shrani</string>
     <string name="simple_more">Več</string>
     <string name="simple_title">Naslov</string>
-    <string name="simple_copy">kopiraj</string>
+    <string name="simple_copy">Kopiraj</string>
     <string name="simple_synchronization">Usklajevanje</string>
     <string name="simple_appearance">Videz</string>
     <string name="simple_error">Napaka</string>
     <string name="simple_exception">Izjema</string>
-    <string name="simple_close">zapri</string>
+    <string name="simple_close">Zapri</string>
     <string name="simple_open">Odpri</string>
     <string name="simple_switch">Preklopi</string>
     <string name="simple_filter">Filter</string>
