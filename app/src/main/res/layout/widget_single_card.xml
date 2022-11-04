@@ -64,8 +64,7 @@
             android:id="@+id/description_lv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacer_1hx"
-            android:layout_marginBottom="@dimen/spacer_1hx"
+            android:layout_marginVertical="@dimen/spacer_1hx"
             android:divider="@null"
             tools:listitem="@layout/widget_single_card_content" />
     </FrameLayout>

@@ -24,7 +24,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputWrapper"
-        style="@style/TextInputLayoutStyle"
+        style="@style/textInputLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/title_mandatory"
@@ -84,7 +84,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cancel"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacer_1x"
@@ -94,7 +94,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/submit"
-            style="@style/Widget.MaterialComponents.Button"
+            style="@style/Widget.Material3.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacer_1x"

@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingTop="@dimen/spacer_2x"
-    android:paddingBottom="@dimen/spacer_2x">
+    android:paddingVertical="@dimen/spacer_2x">
 
     <ImageView
         android:id="@+id/avatar"

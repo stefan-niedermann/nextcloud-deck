@@ -9,7 +9,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/peopleWrapper"
-        style="@style/TextInputLayoutStyle"
+        style="@style/textInputLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_assign_people"
@@ -17,7 +17,7 @@
 
         <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
             android:id="@+id/people"
-            style="@style/Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox.Dense"
+            style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacer_2x"

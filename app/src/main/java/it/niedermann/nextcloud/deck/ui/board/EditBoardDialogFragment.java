@@ -12,10 +12,11 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Objects;
 
@@ -50,7 +51,7 @@ public class EditBoardDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         binding = DialogTextColorInputBinding.inflate(requireActivity().getLayoutInflater());
 
-        final var builder = new AlertDialog.Builder(requireContext())
+        final var builder = new MaterialAlertDialogBuilder(requireContext())
                 .setView(binding.getRoot())
                 .setNeutralButton(android.R.string.cancel, null);
 

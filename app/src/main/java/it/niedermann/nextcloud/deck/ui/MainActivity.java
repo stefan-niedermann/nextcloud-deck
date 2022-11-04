@@ -39,7 +39,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,7 +53,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -70,6 +68,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -114,6 +113,7 @@ import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
+import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CreateCardListener;
 import it.niedermann.nextcloud.deck.ui.card.NewCardDialog;
@@ -196,10 +196,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
 
         setTheme(R.style.AppTheme);
-
-        final var typedValue = new TypedValue();
-        getTheme().resolveAttribute(R.attr.colorAccent, typedValue, true);
-        colorAccent = typedValue.data;
+        colorAccent = BrandingUtil.getAttribute(this, R.attr.colorAccent);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         headerBinding = NavHeaderMainBinding.bind(binding.navigationView.getHeaderView(0));
@@ -501,6 +498,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 IResponseCallback.super.onError(error);
                 runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(error, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                        .setAnchorView(binding.fab)
                         .show());
             }
         });
@@ -551,6 +549,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 IResponseCallback.super.onError(throwable);
                 runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                        .setAnchorView(binding.fab)
                         .show());
             }
         });
@@ -750,7 +749,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             final var stack = stackAdapter.getItem(binding.viewPager.getCurrentItem());
             final var stackLocalId = stack.getLocalId();
             mainViewModel.countCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, (numberOfCards) -> runOnUiThread(() ->
-                    new AlertDialog.Builder(this)
+                    new MaterialAlertDialogBuilder(this)
                             .setTitle(R.string.archive_cards)
                             .setMessage(getString(FilterInformation.hasActiveFilter(filterViewModel.getFilterInformation().getValue())
                                     ? R.string.do_you_want_to_archive_all_cards_of_the_filtered_list
@@ -857,13 +856,15 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                 if (!response.isMaintenanceEnabled()) {
                                     if (response.getDeckVersion().isSupported()) {
                                         runOnUiThread(() -> {
-                                            final var importSnackbar = BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
+                                            final var importSnackbar = BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE)
+                                                    .setAnchorView(binding.fab);
                                             importSnackbar.show();
                                             importSyncManager.synchronize(new ResponseCallback<>(createdAccount) {
                                                 @Override
                                                 public void onResponse(Boolean syncSuccess) {
                                                     importSnackbar.dismiss();
                                                     runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.account_imported), Snackbar.LENGTH_LONG)
+                                                            .setAnchorView(binding.fab)
                                                             .setAction(R.string.simple_switch, (a) -> {
                                                                 createdAccount.setColor(response.getColor());
                                                                 mainViewModel.setSyncManager(importSyncManager);
@@ -884,7 +885,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                         });
                                     } else {
                                         DeckLog.warn("Cannot import account because server version is too low (" + response.getDeckVersion() + "). Minimum server version is currently", Version.minimumSupported());
-                                        runOnUiThread(() -> new AlertDialog.Builder(MainActivity.this)
+                                        runOnUiThread(() -> new MaterialAlertDialogBuilder(MainActivity.this)
                                                 .setTitle(R.string.update_deck)
                                                 .setMessage(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()))
                                                 .setNegativeButton(R.string.simple_discard, null)
@@ -898,7 +899,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                     }
                                 } else {
                                     DeckLog.warn("Cannot import account because server version is currently in maintenance mode.");
-                                    runOnUiThread(() -> new AlertDialog.Builder(MainActivity.this)
+                                    runOnUiThread(() -> new MaterialAlertDialogBuilder(MainActivity.this)
                                             .setTitle(R.string.maintenance_mode)
                                             .setMessage(getString(R.string.maintenance_mode_explanation, createdAccount.getUrl()))
                                             .setPositiveButton(R.string.simple_close, null)
@@ -913,7 +914,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                 mainViewModel.deleteAccount(createdAccount.getId());
                                 if (throwable instanceof OfflineException) {
                                     DeckLog.warn("Cannot import account because device is currently offline.");
-                                    runOnUiThread(() -> new AlertDialog.Builder(MainActivity.this)
+                                    runOnUiThread(() -> new MaterialAlertDialogBuilder(MainActivity.this)
                                             .setTitle(R.string.you_are_currently_offline)
                                             .setMessage(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account)
                                             .setPositiveButton(R.string.simple_close, null)
@@ -930,7 +931,9 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                         IResponseCallback.super.onError(error);
                         if (error instanceof SQLiteConstraintException) {
                             DeckLog.warn("Account already added");
-                            BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_already_added, Snackbar.LENGTH_LONG).show();
+                            BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_already_added, Snackbar.LENGTH_LONG)
+                                    .setAnchorView(binding.fab)
+                                    .show();
                         } else {
                             ExceptionDialogFragment.newInstance(error, accountToCreate).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                         }
@@ -1020,6 +1023,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
     /**
      * Find a StackFragment by it's ID, may return null.
+     *
      * @param stackId ID of the stack to find
      * @return Instance of StackFragment
      */
@@ -1030,6 +1034,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
     /**
      * This method is called when a new Card is created
+     *
      * @param createdCard The new Card's data
      */
     @Override
@@ -1116,7 +1121,8 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 if (binding != null) { // Can be null in case the activity has been destroyed before the synchronization process has been finished
                     BrandedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
                             .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
-                            .show();
+                            .setAnchorView(binding.fab)
+                    .show();
                 }
             });
         }
@@ -1142,12 +1148,13 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     public void onClone(Board board) {
         final String[] animals = {getString(R.string.clone_cards)};
         final boolean[] checkedItems = {false};
-        new AlertDialog.Builder(this)
+        new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.clone_board)
                 .setMultiChoiceItems(animals, checkedItems, (dialog, which, isChecked) -> checkedItems[0] = isChecked)
                 .setPositiveButton(R.string.simple_clone, (dialog, which) -> {
                     binding.drawerLayout.closeDrawer(GravityCompat.START);
-                    final var snackbar = BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.cloning_board, board.getTitle()), Snackbar.LENGTH_INDEFINITE);
+                    final var snackbar = BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.cloning_board, board.getTitle()), Snackbar.LENGTH_INDEFINITE)
+                            .setAnchorView(binding.fab);
                     snackbar.show();
                     mainViewModel.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColor(), checkedItems[0], new IResponseCallback<>() {
                         @Override
@@ -1157,6 +1164,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                 setCurrentBoard(response.getBoard());
                                 BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.successfully_cloned_board, response.getBoard().getTitle()), Snackbar.LENGTH_LONG)
                                         .setAction(R.string.edit, v -> EditBoardDialogFragment.newInstance(response.getLocalId()).show(getSupportFragmentManager(), EditBoardDialogFragment.class.getSimpleName()))
+                                        .setAnchorView(binding.fab)
                                         .show();
                             });
                         }

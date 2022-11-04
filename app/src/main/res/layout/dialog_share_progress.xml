@@ -5,8 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="@dimen/spacer_3x"
-    android:paddingStart="@dimen/spacer_2x"
-    android:paddingEnd="@dimen/spacer_2x">
+    android:paddingHorizontal="@dimen/spacer_2x">
 
     <ProgressBar
         android:id="@+id/progress"
@@ -43,7 +42,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/errorReportButton"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"

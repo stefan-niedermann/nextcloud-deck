@@ -9,7 +9,6 @@ import android.os.Bundle;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -17,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import it.niedermann.android.util.ColorUtil;
@@ -50,7 +50,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
 
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 
-        final var dialogBuilder = new AlertDialog.Builder(context);
+        final var dialogBuilder = new MaterialAlertDialogBuilder(context);
 
         binding = DialogFilterBinding.inflate(requireActivity().getLayoutInflater());
         binding.viewPager.setAdapter(new TabsPagerAdapter(this));

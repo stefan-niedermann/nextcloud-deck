@@ -37,8 +37,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacer_2x"
-        android:layout_marginEnd="@dimen/spacer_2x"
+        android:layout_marginHorizontal="@dimen/spacer_2x"
         android:layout_weight="1"
         android:orientation="vertical">
 

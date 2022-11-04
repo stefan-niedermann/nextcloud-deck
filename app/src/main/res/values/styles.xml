@@ -1,40 +1,89 @@
 <resources>
 
-    <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+    <style name="BaseTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary</item>
+        <item name="colorPrimaryDark">?android:colorPrimary</item>
         <item name="colorAccent">@color/accent</item>
-        <item name="toolbarStyle">@style/toolbarStyle</item>
+
         <item name="android:windowBackground">?attr/colorPrimary</item>
-        <item name="textAppearanceHeadline1">@style/Deck.TextAppearance.Headline1</item>
-        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:windowLightStatusBar">@bool/isDayMode</item>
         <item name="android:colorControlNormal">?attr/colorAccent</item>
         <item name="android:colorControlActivated">?attr/colorAccent</item>
-        <item name="android:windowLightStatusBar">@bool/isDayMode</item>
-        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:textColorLink">?android:colorAccent</item>
+
+        <item name="materialAlertDialogTheme">@style/MaterialAlertDialogTheme</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+
+        <item name="toolbarStyle">@style/toolbarStyle</item>
+        <item name="chipGroupStyle">@style/chipGroupStyle</item>
+        <item name="chipStyle">@style/chipStyle</item>
+        <item name="tabStyle">@style/tabStyle</item>
+        <item name="materialCardViewStyle">@style/materialCardViewStyle</item>
+
+        <item name="textAppearanceHeadlineLarge">@style/textAppearanceHeadlineLarge</item>
     </style>
 
-    <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/AppModalStyle</item>
-        <item name="android:windowIsFloating">false</item>
+    <style name="MaterialAlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/buttonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/buttonStyle</item>
+        <item name="buttonBarNeutralButtonStyle">@style/buttonStyle</item>
+    </style>
+
+    <style name="buttonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">?attr/colorAccent</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Material3.DayNight.BottomSheetDialog">
         <item name="android:navigationBarColor">@color/primary</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+
+        <item name="bottomSheetStyle">@style/bottomSheetStyle</item>
     </style>
 
-    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+    <style name="chipGroupStyle" parent="Widget.Material3.ChipGroup">
+        <item name="chipSpacingVertical">0dp</item>
+    </style>
+
+    <style name="chipStyle" parent="Widget.Material3.Chip.Assist">
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="chipCornerRadius">40dp</item>
+    </style>
+
+    <style name="bottomSheetStyle" parent="Widget.Material3.BottomSheet.Modal">
         <item name="android:background">@drawable/bottom_sheet_rounded</item>
     </style>
 
-    <style name="toolbarStyle" parent="@style/Widget.AppCompat.Toolbar">
+    <style name="toolbarStyle" parent="@style/Widget.Material3.Toolbar">
         <item name="android:background">?attr/colorPrimary</item>
     </style>
 
-    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+    <style name="tabStyle" parent="Widget.Material3.TabLayout">
+        <item name="backgroundColor">@android:color/transparent</item>
+        <item name="itemBackground">@android:color/transparent</item>
+        <item name="tabIndicatorColor">@color/defaultBrand</item>
+        <item name="tabTextColor">?attr/colorAccent</item>
+        <item name="tabIconTint">?attr/colorAccent</item>
+    </style>
+
+    <style name="materialCardViewStyle" parent="Widget.Material3.CardView.Elevated">
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">@color/bg_highlighted</item>
+        <item name="android:focusable">true</item>
+        <item name="cardElevation">2dp</item>
+        <item name="cardBackgroundColor">@color/bg_card</item>
+    </style>
+
+    <style name="textInputLayoutStyle" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense">
         <item name="boxStrokeColor">@color/text_input_layout_color</item>
         <item name="hintTextColor">@color/text_input_layout_color</item>
     </style>
 
-    <!-- Default is a light theme with the dark blue brand -->
+    <style name="textAppearanceHeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:textSize">36sp</item>
+    </style>
+
     <style name="AppTheme" parent="BaseTheme" />
 
     <style name="SplashTheme" parent="Theme.SplashScreen">
@@ -50,19 +99,16 @@
         <item name="android:colorControlHighlight">@android:color/transparent</item>
     </style>
 
-    <style name="TransparentTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="TransparentTheme" parent="Theme.Material3.Dark.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/background_dark</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:statusBarColor">@android:color/background_dark</item>
     </style>
 
     <style name="TakePhotoTheme" parent="TransparentTheme">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
-    </style>
-
-    <style name="Deck.TextAppearance.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
-        <item name="android:textSize">36sp</item>
     </style>
 </resources>

@@ -1,2 +1,4 @@
+- ✨ Material 3 Theme (#1330)
 - 🐞 Create new list: Dialog does not close (#1361)
 - 🐞 NullPointerException on CoordinatorLayout (#1356)
+- 🌎 Updated translations

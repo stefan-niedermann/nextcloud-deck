@@ -7,9 +7,10 @@ import android.view.LayoutInflater;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +50,7 @@ public class CardProjectResourcesDialog extends DialogFragment {
         binding = DialogProjectResourcesBinding.inflate(LayoutInflater.from(requireContext()));
         viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
 
-        return new AlertDialog.Builder(requireContext())
+        return new MaterialAlertDialogBuilder(requireContext())
                 .setTitle(projectName)
                 .setView(binding.getRoot())
                 .setNeutralButton(R.string.simple_close, null)

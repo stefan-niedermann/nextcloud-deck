@@ -15,12 +15,12 @@ import android.view.MenuItem;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -134,7 +134,7 @@ public class EditActivity extends AppCompatActivity {
             invalidateOptionsMenu();
             observeOnce(viewModel.getFullCardWithProjectsByLocalId(account.getId(), cardLocalId), EditActivity.this, (fullCard) -> {
                 if (fullCard == null) {
-                    new AlertDialog.Builder(this)
+                    new MaterialAlertDialogBuilder(this)
                             .setTitle(R.string.card_not_found)
                             .setMessage(R.string.card_not_found_message)
                             .setPositiveButton(R.string.simple_close, (a, b) -> super.finish())
@@ -198,7 +198,7 @@ public class EditActivity extends AppCompatActivity {
             viewModel.getFullCard().getCard().setTitle(viewModel.getFullCard().getCard().getTitle().trim());
             binding.title.setText(viewModel.getFullCard().getCard().getTitle());
             if (viewModel.getFullCard().getCard().getTitle().isEmpty()) {
-                new AlertDialog.Builder(this)
+                new MaterialAlertDialogBuilder(this)
                         .setTitle(R.string.title_is_mandatory)
                         .setMessage(R.string.provide_at_least_a_title_or_description)
                         .setPositiveButton(android.R.string.ok, null)
@@ -264,7 +264,7 @@ public class EditActivity extends AppCompatActivity {
     @Override
     public void finish() {
         if (!viewModel.hasChanges() && viewModel.canEdit()) {
-            new AlertDialog.Builder(this)
+            new MaterialAlertDialogBuilder(this)
                     .setTitle(R.string.simple_save)
                     .setMessage(R.string.do_you_want_to_save_your_changes)
                     .setPositiveButton(R.string.simple_save, (dialog, whichButton) -> saveAndFinish())

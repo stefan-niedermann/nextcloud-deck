@@ -10,8 +10,8 @@
         android:id="@+id/comments"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
         android:layout_above="@id/addCommentLayout"
+        android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:reverseLayout="true"
         tools:listitem="@layout/item_comment" />
@@ -44,8 +44,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacer_1x"
-                android:layout_marginEnd="@dimen/spacer_1x"
+                android:layout_marginHorizontal="@dimen/spacer_1x"
                 android:contentDescription="@string/simple_reply"
                 android:padding="@dimen/spacer_1x"
                 app:srcCompat="@drawable/ic_reply_grey600_24dp" />
@@ -79,18 +78,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:paddingStart="@dimen/spacer_2x"
-            android:paddingTop="@dimen/spacer_1x"
-            android:paddingEnd="@dimen/spacer_2x"
-            android:paddingBottom="@dimen/spacer_1x"
+            android:paddingHorizontal="@dimen/spacer_2x"
+            android:paddingVertical="@dimen/spacer_1x"
             android:visibility="gone"
             tools:visibility="visible">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacer_1x"
-                android:layout_marginEnd="@dimen/spacer_1x"
+                android:layout_marginHorizontal="@dimen/spacer_1x"
                 android:contentDescription="@string/simple_reply"
                 android:padding="@dimen/spacer_1x"
                 app:srcCompat="@drawable/ic_baseline_mention_24" />
@@ -99,8 +95,7 @@
                 android:id="@+id/mention_proposer"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/avatar_size_small"
-                android:layout_marginStart="@dimen/spacer_1x"
-                android:layout_marginEnd="@dimen/spacer_1x"
+                android:layout_marginHorizontal="@dimen/spacer_1x"
                 android:gravity="center_vertical"
                 android:orientation="horizontal" />
         </LinearLayout>
@@ -110,10 +105,8 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:orientation="horizontal"
-            android:paddingStart="@dimen/spacer_2x"
-            android:paddingTop="@dimen/spacer_1x"
-            android:paddingEnd="@dimen/spacer_2x"
-            android:paddingBottom="@dimen/spacer_1x">
+            android:paddingHorizontal="@dimen/spacer_2x"
+            android:paddingVertical="@dimen/spacer_1x">
 
             <ImageView
                 android:id="@+id/avatar"
@@ -128,7 +121,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/messageWrapper"
-                style="@style/TextInputLayoutStyle"
+                style="@style/textInputLayoutStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -153,13 +146,13 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab"
+                style="?attr/floatingActionButtonSmallSecondaryStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:contentDescription="@string/add_comment"
                 android:translationY="@dimen/spacer_1qx"
                 app:backgroundTint="@color/defaultBrand"
-                app:fabSize="mini"
                 app:srcCompat="@drawable/ic_send_white_24dp" />
         </LinearLayout>
     </LinearLayout>

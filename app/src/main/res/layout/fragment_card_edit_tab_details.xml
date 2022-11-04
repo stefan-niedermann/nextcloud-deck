@@ -19,7 +19,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/labelsWrapper"
-                style="@style/TextInputLayoutStyle"
+                style="@style/textInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacer_2x"
@@ -28,7 +28,7 @@
 
                 <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
                     android:id="@+id/labels"
-                    style="@style/Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox.Dense"
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:completionThreshold="1"
@@ -49,7 +49,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/dueDateDateWrapper"
-                    style="@style/TextInputLayoutStyle"
+                    style="@style/textInputLayoutStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -73,7 +73,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/dueDateTimeWrapper"
-                    style="@style/TextInputLayoutStyle"
+                    style="@style/textInputLayoutStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
@@ -111,7 +111,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/peopleWrapper"
-                style="@style/TextInputLayoutStyle"
+                style="@style/textInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacer_2x"
@@ -120,7 +120,7 @@
 
                 <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
                     android:id="@+id/people"
-                    style="@style/Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox.Dense"
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:completionThreshold="1"
@@ -141,7 +141,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/descriptionEditorWrapper"
-                    style="@style/TextInputLayoutStyle"
+                    style="@style/textInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacer_1x"

@@ -15,7 +15,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/addLabelTitleWrapper"
-            style="@style/TextInputLayoutStyle"
+            style="@style/textInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacer_1x"
@@ -34,13 +34,12 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
+            style="?attr/floatingActionButtonSmallSecondaryStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:contentDescription="@string/add_comment"
-            android:translationY="@dimen/spacer_1qx"
             app:backgroundTint="@color/defaultBrand"
-            app:fabSize="mini"
             app:srcCompat="@drawable/ic_send_white_24dp" />
     </LinearLayout>
 

@@ -12,10 +12,10 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -66,7 +66,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
         super.onCreate(savedInstanceState);
 
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
+        final var dialogBuilder = new MaterialAlertDialogBuilder(requireContext());
 
         binding = DialogBoardShareBinding.inflate(requireActivity().getLayoutInflater());
         adapter = new AccessControlAdapter(viewModel.getCurrentAccount(), this, requireContext());

@@ -19,10 +19,11 @@ import android.widget.Toast;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -80,7 +81,7 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         binding = DialogNewCardBinding.inflate(requireActivity().getLayoutInflater());
 
-        final var dialog = new AlertDialog.Builder(requireActivity())
+        final var dialog = new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle(R.string.add_card)
                 .setView(binding.getRoot())
                 .setPositiveButton(R.string.edit, null)

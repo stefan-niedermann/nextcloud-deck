@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import it.niedermann.nextcloud.deck.R;
@@ -38,12 +37,12 @@ public class DeleteBoardDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new DeleteAlertDialogBuilder(requireContext())
+        return new DeleteAlertDialogBuilder(requireContext())
                 .setTitle(getString(R.string.delete_something, board.getTitle()))
                 .setMessage(R.string.delete_board_message)
                 .setPositiveButton(R.string.simple_delete, (dialog, which) -> deleteBoardListener.onBoardDeleted(board))
-                .setNeutralButton(android.R.string.cancel, null);
-        return builder.create();
+                .setNeutralButton(android.R.string.cancel, null)
+                .create();
     }
 
     public static DialogFragment newInstance(@NonNull Board board) {

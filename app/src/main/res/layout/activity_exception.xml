@@ -49,8 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingStart="@dimen/spacer_2x"
-                android:paddingEnd="@dimen/spacer_2x"
+                android:paddingHorizontal="@dimen/spacer_2x"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="2"
                 tools:listitem="@layout/item_tip" />
@@ -65,8 +64,7 @@
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginStart="@dimen/spacer_2x"
-                android:layout_marginEnd="@dimen/spacer_2x"
+                android:layout_marginHorizontal="@dimen/spacer_2x"
                 android:layout_weight="1"
                 android:background="@color/bg_highlighted">
 
@@ -92,7 +90,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/close"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacer_1x"
@@ -102,7 +100,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/copy"
-            style="@style/Widget.MaterialComponents.Button"
+            style="@style/Widget.Material3.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacer_1x"
