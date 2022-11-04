@@ -8,12 +8,12 @@
     <string name="simple_save">Lưu</string>
     <string name="simple_more">Thêm</string>
     <string name="simple_title">Tiêu đề</string>
-    <string name="simple_copy">sao chép</string>
+    <string name="simple_copy">Sao chép</string>
     <string name="simple_synchronization">Đồng bộ hoá</string>
     <string name="simple_appearance">Ngoại hình</string>
     <string name="simple_error">Lỗi</string>
     <string name="simple_exception">Ngoại lệ</string>
-    <string name="simple_close">đóng</string>
+    <string name="simple_close">Đóng</string>
     <string name="simple_open">Mở</string>
     <string name="simple_switch">Chuyển</string>
     <string name="simple_filter">Lọc</string>

@@ -6,12 +6,12 @@
     <string name="simple_save">Tallenna</string>
     <string name="simple_more">Lisää</string>
     <string name="simple_title">Otsikko</string>
-    <string name="simple_copy">kopioi</string>
+    <string name="simple_copy">Kopioi</string>
     <string name="simple_synchronization">Synkronointi</string>
     <string name="simple_appearance">Ulkoasu</string>
     <string name="simple_error">Virhe</string>
     <string name="simple_exception">Poikkeus</string>
-    <string name="simple_close">sulje</string>
+    <string name="simple_close">Sulje</string>
     <string name="simple_open">Avoinna</string>
     <string name="simple_switch">Kytkin</string>
     <string name="simple_filter">Suodata</string>
@@ -120,7 +120,9 @@
     <string name="settings_etags">Käytä ETageja</string>
     <string name="settings_etags_summary">Nopeuttaa synkronointia</string>
     <string name="settings_background_sync">Taustasynkronointi</string>
+    <string name="settings_compress_image_attachments">Pakkaa kuvat lähettäessä</string>
     <string name="search_in">Etsi luokasta %1$s</string>
+    <string name="settings_compress_image_attachments_summary">Nopeampi lähetys, heikompi laatu</string>
     <string name="pref_value_wifi_and_mobile">Synkronoi wifi- ja mobiilidatayhteydellä</string>
     <string name="pref_value_wifi_only">Synkronoi vain wifi-yhteydellä</string>
     <string-array name="darkmode_entries">
@@ -234,6 +236,7 @@
     <string name="info_box_version_not_supported">Palvelinversio %1$s ei ole tuettu, päivitä versioon %2$s</string>
     <string name="share_link">Jaa linkki</string>
     <string name="share_content">Jaa sisältö</string>
+    <string name="share_content_labels">Tunnisteet: %1$s</string>
     <string name="archive_cards">Arkistoi kortit</string>
 
     <string name="manage_accounts">Tilien hallinta</string>
@@ -286,6 +289,7 @@
     <string name="downloads">Lataukset</string>
     <string name="files">Tiedostot</string>
     <string name="gallery">Galleria</string>
+    <string name="simple_order">Järjestys</string>
     <string name="edit_description">Muokkaa kuvausta</string>
     <string name="widget_upcoming_title">Tulevat kortit</string>
     <string name="copy_logs">Kopioi lokit leikepöydälle</string>
@@ -298,4 +302,5 @@
     <string name="saving_new_card">Tallennetaan uutta korttia...</string>
     <string name="progress_import">Tuodaan taulua %1$d/%2$d…</string>
     <string name="progress_import_indeterminate">Tuodaan tauluja…</string>
+    <string name="show_error">Näytä virhe</string>
     </resources>

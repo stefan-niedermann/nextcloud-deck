@@ -8,12 +8,12 @@
     <string name="simple_save">Gorde</string>
     <string name="simple_more">Gehiago</string>
     <string name="simple_title">Izenburua</string>
-    <string name="simple_copy">kopiatu</string>
+    <string name="simple_copy">Kopiatu</string>
     <string name="simple_synchronization">Sinkronizazioa</string>
     <string name="simple_appearance">Itxura</string>
     <string name="simple_error">Errorea</string>
     <string name="simple_exception">Salbuespena</string>
-    <string name="simple_close">itxi</string>
+    <string name="simple_close">Itxi</string>
     <string name="simple_open">Ireki</string>
     <string name="simple_switch">Aldatu</string>
     <string name="simple_filter">Iragazkiak</string>

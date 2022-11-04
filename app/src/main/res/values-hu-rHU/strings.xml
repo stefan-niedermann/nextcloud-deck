@@ -8,12 +8,12 @@
     <string name="simple_save">Mentés</string>
     <string name="simple_more">Továbbiak</string>
     <string name="simple_title">Cím</string>
-    <string name="simple_copy">másolat</string>
+    <string name="simple_copy">Másolás</string>
     <string name="simple_synchronization">Szinkronizálás</string>
     <string name="simple_appearance">Megjelenés</string>
     <string name="simple_error">Hiba</string>
     <string name="simple_exception">Kivétel</string>
-    <string name="simple_close">bezárás</string>
+    <string name="simple_close">Bezárás</string>
     <string name="simple_open">Megnyitás</string>
     <string name="simple_switch">Váltás</string>
     <string name="simple_filter">Szűrés</string>

@@ -8,12 +8,12 @@
     <string name="simple_save">Desa</string>
     <string name="simple_more">Més</string>
     <string name="simple_title">Títol</string>
-    <string name="simple_copy">copia</string>
+    <string name="simple_copy">Copia</string>
     <string name="simple_synchronization">Sincronització</string>
     <string name="simple_appearance">Aparença</string>
     <string name="simple_error">Error</string>
     <string name="simple_exception">Excepció</string>
-    <string name="simple_close">tanca</string>
+    <string name="simple_close">Tanca</string>
     <string name="simple_open">Obert</string>
     <string name="simple_switch">Canvia</string>
     <string name="simple_filter">Filtre</string>

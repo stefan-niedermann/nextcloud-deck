@@ -8,12 +8,12 @@
     <string name="simple_save">Uložit</string>
     <string name="simple_more">Další</string>
     <string name="simple_title">Nadpis</string>
-    <string name="simple_copy">zkopírovat</string>
+    <string name="simple_copy">Zkopírovat</string>
     <string name="simple_synchronization">Synchronizace</string>
     <string name="simple_appearance">Vzhled</string>
     <string name="simple_error">Chyba</string>
     <string name="simple_exception">Výjimka</string>
-    <string name="simple_close">zavřít</string>
+    <string name="simple_close">Zavřít</string>
     <string name="simple_open">Otevřeno</string>
     <string name="simple_switch">Přepnout</string>
     <string name="simple_filter">Filtr</string>
@@ -184,7 +184,7 @@
     <string name="filter_month">Příštích 30 dnů</string>
     <string name="filter_no_due">Žádný termín</string>
     <string name="filter_later">Později</string>
-    <string name="filter_by_tag">Filtrovat podle příznaků</string>
+    <string name="filter_by_tag">Filtrovat podle štítku</string>
     <string name="filter_by_assigned_user">Filtrovat podle uživatele, který je úkolem pověřen</string>
     <string name="filter_by_duedate">Filtrovat podle termínu</string>
 
@@ -294,7 +294,7 @@
         <item quantity="many">%1$d prostředků</item>
         <item quantity="other">%1$d prostředky</item>
     </plurals>
-    <string name="no_assigned_label">Nepřiřazena žádná značka</string>
+    <string name="no_assigned_label">Nepřiřazen žádný štítek</string>
     <string name="single_card">Jedna karta</string>
     <string name="project_type_room">Diskuzní místnost</string>
     <string name="simple_move">Přesunout</string>

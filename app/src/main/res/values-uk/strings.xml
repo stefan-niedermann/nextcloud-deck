@@ -1,12 +1,14 @@
 <resources>
     <string name="navigation_drawer_open">Розгорнути скриньку з навігацією</string>
     <string name="navigation_drawer_close">Згорнути скриньку з навігацією</string>
+    <string name="hint_search_deck">Пошукова колода</string>
+
     <string name="simple_boards">Дошки</string>
     <string name="simple_add">Додати</string>
     <string name="simple_save">Зберегти</string>
     <string name="simple_more">Додатково</string>
     <string name="simple_title">Назва</string>
-    <string name="simple_copy">копіювати</string>
+    <string name="simple_copy">Копіювати</string>
     <string name="simple_synchronization">Синхронізація</string>
     <string name="simple_appearance">Вигляд</string>
     <string name="simple_error">Помилка</string>
@@ -24,7 +26,7 @@
     <string name="simple_settings">Налаштування</string>
     <string name="simple_undo">Скасувати</string>
     <string name="simple_manage">керувати</string>
-    <string name="simple_share">поширити</string>
+    <string name="simple_share">поділитися</string>
     <string name="simple_select">Вибрати</string>
     <string name="simple_comment">Коментар</string>
     <string name="simple_disabled">вимкнено</string>
@@ -120,6 +122,7 @@
     <string name="delete_board_message">Це безповоротно вилучіть дошку разом зі списками та картками</string>
     <string name="settings_theme_title">Тема</string>
     <string name="settings_branding_title">Оформлення</string>
+    <string name="settings_compact_title">Компактний режим</string>
     <string name="settings_etags">Використовувати ETags</string>
     <string name="settings_etags_summary">Прискорює синхронізацію</string>
     <string name="settings_background_sync">Фонова синхронізація</string>
@@ -128,12 +131,12 @@
     <string name="pref_value_wifi_and_mobile">Синхронізація за допомогою Wi-Fi та мобільних даних</string>
     <string name="pref_value_wifi_only">Синхронізація тільки за допомогою WI-Fi</string>
     <string-array name="darkmode_entries">
-        <item>Згідно з системною</item>
+        <item>Системна</item>
         <item>Світла</item>
         <item>Темна</item>
     </string-array>
     <string name="unassigned_user">Скасовано призначення %1$s</string>
-    <string name="no_activities">На цій картці відсутні активності. Вам потрібно мати з\'єднання з мережею для завантаження та відображення активностей.</string>
+    <string name="no_activities">На цій картці відсутні активності. Вам потрібно мати з\'єднання з мережею для завантаження та показу активності.</string>
     <string name="share_board">Надати доступ до дошки</string>
     <string name="you_are_currently_offline">Ви зараз поза мережею</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Для додавання облікового запису потрібне з\'єднання з мережею.</string>
@@ -208,12 +211,14 @@
     <string name="error_dialog_title">От халепа!</string>
     <string name="error_dialog_tip_token_mismatch_retry">Спробуйте примусово закрити застосунок та наново запустити. Можливо, встановлено неправильне з\'єднання із застосунком Nextcloud.</string>
     <string name="error_dialog_tip_clear_storage">Ви можете очистити сховище, відкривши інформацію про програму та вибравши Пам’ять → Очистити пам’ять.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Відмовлено у з\'єднанні. Будь ласка, перевірте, чи доступний ваш сервер з бравзера.</string>
     <string name="error_dialog_tip_files_delete_storage">Якщо примусове їх завершення не допомагає, спробуйте очистити сховище обох програм.</string>
     <string name="error_dialog_timeout_instance">За відведений час відповіді від вашого сервера не надійшло. Переконайтесь, що ваш сервер працює добре.</string>
     <string name="error_dialog_check_server_logs">Виникла проблема з налаштуванням Nextcloud. Будь ласка, подивіться файли журналу сервера.</string>
     <string name="error_dialog_check_maintenance">Будь ласка, перевірте, чи ваш сервер Nextcloud наразі не перебуває в режимі обслуговування.</string>
     <string name="error_dialog_insufficient_storage">Ваш сервер Nextcloud не має вільного місця. Будь ласка видаліть деякі файлі, щоб синхронізувати ваші локальні зміни з вашим хмарним сховищем.</string>
     <string name="error_dialog_we_need_info">Нам потрібна наступна технічна інформація, щоб допомогти вам:</string>
+    <string name="error_dialog_unknown_error">Схоже, що ваша хмара Nextcloud не доступна. Будь ласка, перевірте з\'єднання з мережею, а також можливість встановити з\'єднання через бравзер.</string>
     <string name="error_action_open_deck_info">Відкрити інформацію про застосунок</string>
     <string name="error_action_open_nextcloud_app">Відкрити програму Nextcloud</string>
     <string name="error_action_open_network">Налаштування мережі</string>
@@ -224,7 +229,7 @@
     <string name="error_action_update_files_app">Оновлення</string>
     <string name="info_box_maintenance_mode">Сервер у режимі обслуговування</string>
     <string name="info_box_version_not_supported">Версія сервера %1$s не підтримується, будь ласка, поновіться до %2$s</string>
-    <string name="share_link">Поширити посилання</string>
+    <string name="share_link">Поділитися посиланням</string>
     <string name="share_content">Поділіться вмістом</string>
     <string name="archive_cards">Архівувати картки</string>
 

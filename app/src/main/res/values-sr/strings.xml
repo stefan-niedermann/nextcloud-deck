@@ -6,12 +6,12 @@
     <string name="simple_save">Сачувај</string>
     <string name="simple_more">Још</string>
     <string name="simple_title">Наслов</string>
-    <string name="simple_copy">копирај</string>
+    <string name="simple_copy">Копија</string>
     <string name="simple_synchronization">Синхронизација</string>
     <string name="simple_appearance">Изглед</string>
     <string name="simple_error">Грешка</string>
     <string name="simple_exception">Изузетак</string>
-    <string name="simple_close">затвори</string>
+    <string name="simple_close">Затвори</string>
     <string name="simple_open">Отвори</string>
     <string name="simple_switch">Пребаци</string>
     <string name="simple_filter">Филтер</string>

@@ -13,7 +13,7 @@
     <string name="simple_appearance">Внешний вид</string>
     <string name="simple_error">Ошибка</string>
     <string name="simple_exception">Исключение</string>
-    <string name="simple_close">закрыть</string>
+    <string name="simple_close">Закрыть</string>
     <string name="simple_open">Открыто</string>
     <string name="simple_switch">Переключить</string>
     <string name="simple_filter">Фильтр</string>
@@ -32,7 +32,7 @@
     <string name="simple_disabled">отключено</string>
     <string name="simple_copied">Скопировано</string>
     <string name="simple_archive">Переместить в архив</string>
-    <string name="simple_unassigned">не назначен</string>
+    <string name="simple_unassigned">Не назначен</string>
     <string name="hint_error_appeared">Произошла ошибка</string>
 
     <string name="edit_board">Редактировать доску</string>
@@ -334,7 +334,7 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Название (обязательно)</string>
     <string name="saving_new_card">Сохранение карточки…</string>
-    <string name="progress_import">Импорт доску %1$d доски%2$d</string>
+    <string name="progress_import">Импорт досок %1$d из %2$d</string>
     <string name="progress_import_indeterminate">Импортировать доски</string>
     <string name="card_outdated">Данные этой карты возможно неактуальны.</string>
     <string name="show_error">Показать ошибку</string>

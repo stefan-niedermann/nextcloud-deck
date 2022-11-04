@@ -8,12 +8,12 @@
     <string name="simple_save">Spara</string>
     <string name="simple_more">Mer</string>
     <string name="simple_title">Titel</string>
-    <string name="simple_copy">kopiera</string>
+    <string name="simple_copy">Kopiera</string>
     <string name="simple_synchronization">Synkronisering</string>
     <string name="simple_appearance">Utseende</string>
     <string name="simple_error">Fel</string>
     <string name="simple_exception">Undantag</string>
-    <string name="simple_close">stäng</string>
+    <string name="simple_close">Stäng</string>
     <string name="simple_open">Öppen</string>
     <string name="simple_switch">Växla</string>
     <string name="simple_filter">Filter</string>
@@ -116,14 +116,18 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Lägg till en ny lista med + knappen</string>
     <string name="add_a_new_card_using_the_button">Lägg till ett nytt kort med + knappen</string>
+    <string name="update_deck">Uppdatera Deck-webbappen</string>
     <string name="delete_board_message">Detta kommer att permanent radera denna tavla inklusive alla listor och kort.</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Varumärke</string>
     <string name="settings_compact_title">Kompakt läge</string>
     <string name="settings_cover_images_title">Omslagsbilder</string>
     <string name="settings_debugging">Avbuggningsloggar</string>
+    <string name="settings_etags_summary">Snabba upp synkroniseringen</string>
     <string name="settings_background_sync">Bakgrundssynkronisering</string>
+    <string name="settings_compress_image_attachments">Komprimera bilder vid uppladdning</string>
     <string name="search_in">Sök i %1$s</string>
+    <string name="settings_compress_image_attachments_summary">Snabbare uppladdning, lägre kvalitet</string>
     <string name="pref_value_wifi_and_mobile">Synkronisera med Wi-Fi och mobildata</string>
     <string name="pref_value_wifi_only">Synkronisera endast med Wi-Fi</string>
     <string-array name="darkmode_entries">
@@ -146,6 +150,7 @@
     <string name="hours_6">6 timmar</string>
     <string name="action_card_move">Flytta kort</string>
     <string name="action_card_move_title">Flytta %1$s</string>
+    <string name="title_is_mandatory">Titel måste anges</string>
     <string name="provide_at_least_a_title_or_description">Ange åtminstone en titel eller beskrivning</string>
     <string name="welcome_text">Välkommen till %1$s</string>
     <string name="maintenance_mode_explanation">Servern %1$s är för närvarande i underhållsläge. Kontakta din administratör eller försök igen senare.</string>
@@ -208,6 +213,9 @@
     <string name="error_dialog_tip_clear_storage_might_help">Om problemet kvarstår kan du försöka rensa lagringen av båda apparna: Nextcloud och Nextcloud Deck för att lösa problemet.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Uppgraderingen av databasen misslyckades. Var god anmäl problemet, rensa sedan appens data för att kunna återgå till normal användning.</string>
     <string name="error_dialog_tip_clear_storage">Du kan rensa diskutrymmet genom att öppna appens info, välj Lagring -> Rensa data</string>
+    <string name="error_dialog_tip_offline_no_internet">Det verkar som att du startade en synkronisering utan en internetanslutning.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Anslutningen nekades, kontrollera att din server är nåbar i en webbläsare.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Om du har aktiverat \"Synkronisera enbart med Wi-Fi\" kan du bara synkronisera när du är ansluten till Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Något verkar fel med din Nextcloud-app. Försök att tvångsavsluta både Nextcloud och Nextcloud Deck-appen.</string>
     <string name="error_dialog_tip_files_delete_storage">Om tvångsavslutning ej hjälper kan du försöka rensa datan på båda appar.</string>
     <string name="error_dialog_timeout_instance">Din server svarade inte inom den angivna tiden. Kontrollera att den fungerar normalt.</string>
@@ -223,8 +231,11 @@
     <string name="error_dialog_user_not_found_in_database">Den nuvarande användaren matchar inte användaren vi har i vår databas. Om ni använder LDAP i er Nextcloud-instans kan din Nextcloud-app ha lagrat ett gammalt användar-ID.</string>
     <string name="error_dialog_capabilities_not_parsable">Vi kunde inte hämta er servers förmågor. Vänligen säkerställ att er server fungerar som den ska och att klient-appar kan komma åt Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">En bifogad fil kunde inte laddas upp. Försök dela den på ett annat och sätt och vänligen berätta för oss om det här felet.</string>
+    <string name="error_dialog_certificate">Något är fel med certifikatet på servern. Kontrollera alla konton i Nextcloud-appen för mer information.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Stäng av alla batterioptimeringar för Nextcloud och Deck-appen</string>
+    <string name="error_dialog_unknown_error">Det går inte att nå din Nextcloud-instans. Kontrollera din internetanslutning och om du kan nå din instans via en webbläsare.</string>
     <string name="error_action_open_deck_info">Öppna appinformation</string>
+    <string name="error_action_open_nextcloud_app">Öppna Nextcloud-appen</string>
     <string name="error_action_open_network">Nätverksinställningar</string>
     <string name="error_action_server_logs">Serverloggar</string>
     <string name="error_action_open_in_browser">Öppna i webbläsare</string>
@@ -296,6 +307,15 @@
     <string name="add_stack_widget">Lägg till listwidget</string>
     <string name="edit_description">Ändra beskrivning</string>
     <string name="widget_upcoming_title">Kommande kort</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Avancerade inställningar</string>
+    <string name="copy_logs">Kopiera loggar till urklipp</string>
+    <string name="log_file">Loggfil</string>
+    <string name="copying_logs_to_file">Kopierar loggar till fil...</string>
+    <string name="account_imported">Importerat konton</string>
     <string name="simple_search">Sök</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Titel (obligatorisk)</string>
     <string name="saving_new_card">Sparar nya kort...</string>
+    <string name="show_error">Visa felet</string>
     </resources>

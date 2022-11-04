@@ -8,12 +8,12 @@
     <string name="simple_save">Bewaren</string>
     <string name="simple_more">Meer</string>
     <string name="simple_title">Titel</string>
-    <string name="simple_copy">kopiëren</string>
+    <string name="simple_copy">Kopiëren</string>
     <string name="simple_synchronization">Synchronisatie</string>
     <string name="simple_appearance">Uiterlijk</string>
     <string name="simple_error">Fout</string>
     <string name="simple_exception">Uitzondering</string>
-    <string name="simple_close">sluiten</string>
+    <string name="simple_close">Sluit</string>
     <string name="simple_open">Openen</string>
     <string name="simple_switch">Wissel</string>
     <string name="simple_filter">Filter</string>

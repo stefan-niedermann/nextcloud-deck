@@ -8,12 +8,12 @@
     <string name="simple_save">Guardar</string>
     <string name="simple_more">Más</string>
     <string name="simple_title">Título</string>
-    <string name="simple_copy">copiar</string>
+    <string name="simple_copy">Copia</string>
     <string name="simple_synchronization">Sincronización</string>
     <string name="simple_appearance">Apariencia</string>
     <string name="simple_error">Error</string>
     <string name="simple_exception">Excepción</string>
-    <string name="simple_close">cerrar</string>
+    <string name="simple_close">Cerrar</string>
     <string name="simple_open">Abrir</string>
     <string name="simple_switch">Cambiar</string>
     <string name="simple_filter">Filtro</string>

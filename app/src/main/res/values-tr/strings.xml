@@ -8,12 +8,12 @@
     <string name="simple_save">Kaydet</string>
     <string name="simple_more">Diğer</string>
     <string name="simple_title">Başlık</string>
-    <string name="simple_copy">kopyala</string>
+    <string name="simple_copy">Kopyala</string>
     <string name="simple_synchronization">Eşitleme</string>
     <string name="simple_appearance">Görünüm</string>
     <string name="simple_error">Hata</string>
     <string name="simple_exception">İstisna</string>
-    <string name="simple_close">kapat</string>
+    <string name="simple_close">Kapat</string>
     <string name="simple_open">Aç</string>
     <string name="simple_switch">Değiştir</string>
     <string name="simple_filter">Süzgeç</string>
