@@ -84,8 +84,8 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
         final var dialog = new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle(R.string.add_card)
                 .setView(binding.getRoot())
-                .setPositiveButton(R.string.edit, null)
-                .setNegativeButton(R.string.simple_save, null)
+                .setPositiveButton(R.string.simple_save, null)
+                .setNegativeButton(R.string.edit, null)
                 .create();
 
         dialog.setOnShowListener(d -> {
@@ -139,7 +139,7 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
             //noinspection SwitchStatementWithTooFewBranches
             switch (actionId) {
                 case EditorInfo.IME_ACTION_DONE:
-                    onClick(dialog, DialogInterface.BUTTON_POSITIVE);
+                    onClick(dialog, DialogInterface.BUTTON_NEGATIVE);
                     return true;
             }
             return false;
@@ -167,10 +167,10 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
         final boolean openOnSuccess;
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
-                openOnSuccess = true;
+                openOnSuccess = false;
                 break;
             case DialogInterface.BUTTON_NEGATIVE:
-                openOnSuccess = false;
+                openOnSuccess = true;
                 break;
             default:
                 return;

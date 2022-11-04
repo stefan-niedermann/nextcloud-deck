@@ -1,1 +1,2 @@
 - 👤 Use displayname instead of username for shortcuts (#1371)
+- ↔️ Switch Save and Edit buttons when creating a new card (#1369)
