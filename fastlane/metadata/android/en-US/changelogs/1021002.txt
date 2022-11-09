@@ -1,6 +1,7 @@
 1.21.2
 
 - 🎨 Fix highlight text background color
+- ⌚ Better hint for due time picker (#1375)
 
 1.21.1
 
