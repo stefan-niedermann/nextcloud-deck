@@ -71,6 +71,8 @@
     <string name="label_description">Description</string>
     <string name="hint_assign_people">Assigner des utilisateurs</string>
     <string name="hint_due_date_date">Date d\'échéance</string>
+    <string name="hint_due_date_time">Heure</string>
+
     <string name="card_not_found">Carte non trouvée</string>
     <string name="card_not_found_message">La carte est introuvable. Elle a peut-être été supprimée récemment.</string>
 

@@ -71,6 +71,8 @@
     <string name="label_description">Mô tả</string>
     <string name="hint_assign_people">Chỉ định người dùng</string>
     <string name="hint_due_date_date">Thời hạn</string>
+    <string name="hint_due_date_time">Thời gian</string>
+
     <string name="card_not_found">Không tìm thấy thẻ</string>
     <string name="card_not_found_message">Không thể tìm thấy thẻ. Có lẽ nó đã bị xoá gần đây.</string>
 

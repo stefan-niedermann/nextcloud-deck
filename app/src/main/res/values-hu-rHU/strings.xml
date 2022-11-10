@@ -71,6 +71,8 @@
     <string name="label_description">Leírás</string>
     <string name="hint_assign_people">Felhasználók hozzárendelése</string>
     <string name="hint_due_date_date">Határidő</string>
+    <string name="hint_due_date_time">Idő</string>
+
     <string name="card_not_found">A kártya nem található</string>
     <string name="card_not_found_message">A kártya nem található. Lehet, hogy nemrég törölték.</string>
 

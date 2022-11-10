@@ -71,6 +71,8 @@
     <string name="label_description">描述</string>
     <string name="hint_assign_people">分派使用者</string>
     <string name="hint_due_date_date">截止日</string>
+    <string name="hint_due_date_time">時間</string>
+
     <string name="card_not_found">找不到卡片</string>
     <string name="card_not_found_message">找不到卡片。或許它已經被刪除。</string>
 

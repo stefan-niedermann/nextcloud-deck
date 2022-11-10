@@ -69,6 +69,8 @@
     <string name="label_description">Опис</string>
     <string name="hint_assign_people">Задужите кориснике</string>
     <string name="hint_due_date_date">Рок</string>
+    <string name="hint_due_date_time">Време</string>
+
     <string name="card_not_found">Картица није нађена</string>
     <string name="card_not_found_message">Картица није нађена. Можда је недавно обрисана.</string>
 

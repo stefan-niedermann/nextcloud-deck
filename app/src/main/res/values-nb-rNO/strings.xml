@@ -71,6 +71,8 @@
     <string name="label_description">Beskrivelse</string>
     <string name="hint_assign_people">Tildel brukere</string>
     <string name="hint_due_date_date">Forfallsdato</string>
+    <string name="hint_due_date_time">Tid</string>
+
     <string name="card_not_found">Kort ikke funnet</string>
     <string name="card_not_found_message">Kortet kunne ikke bli funnet. Mulig det har blitt slettet nylig.</string>
 

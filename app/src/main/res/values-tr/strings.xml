@@ -71,6 +71,8 @@
     <string name="label_description">Açıklama</string>
     <string name="hint_assign_people">Kullanıcı ata</string>
     <string name="hint_due_date_date">Bitiş tarihi</string>
+    <string name="hint_due_date_time">Saat</string>
+
     <string name="card_not_found">Kart bulunamadı</string>
     <string name="card_not_found_message">Kart bulunamadı. Yakın zamanda silinmiş olabilir.</string>
 

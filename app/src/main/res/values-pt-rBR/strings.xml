@@ -71,6 +71,8 @@
     <string name="label_description">Descrição</string>
     <string name="hint_assign_people">Atribuir usuários</string>
     <string name="hint_due_date_date">Data de vencimento</string>
+    <string name="hint_due_date_time">Horário</string>
+
     <string name="card_not_found">Cartão não encontrado</string>
     <string name="card_not_found_message">O cartão não foi encontrado. Talvez tenha sido recentemente excluído.</string>
 

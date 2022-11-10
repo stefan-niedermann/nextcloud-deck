@@ -71,6 +71,8 @@
     <string name="label_description">Beskrivning</string>
     <string name="hint_assign_people">Tilldela användare</string>
     <string name="hint_due_date_date">Slutdatum</string>
+    <string name="hint_due_date_time">Tid</string>
+
     <string name="card_not_found">Kortet hittades inte</string>
     <string name="card_not_found_message">Kortet kunde inte hittas. Kanske har det tagits bort nyligen.</string>
 

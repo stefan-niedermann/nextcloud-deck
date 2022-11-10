@@ -71,6 +71,8 @@
     <string name="label_description">Опис</string>
     <string name="hint_assign_people">Додавання користувача</string>
     <string name="hint_due_date_date">Дата завершення</string>
+    <string name="hint_due_date_time">Час</string>
+
     <string name="card_not_found">Картку не знайдено</string>
     <string name="card_not_found_message">Неможливо знайти картку. Можливо її було нещодавно вилучено.</string>
 

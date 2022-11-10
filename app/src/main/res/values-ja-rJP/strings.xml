@@ -71,6 +71,8 @@
     <string name="label_description">説明</string>
     <string name="hint_assign_people">ユーザーを割り当てる</string>
     <string name="hint_due_date_date">期限</string>
+    <string name="hint_due_date_time">時間</string>
+
     <string name="card_not_found">カードが見つかりません</string>
     <string name="card_not_found_message">カードが見つかりませんでした。最近削除されたのかもしれません。</string>
 
