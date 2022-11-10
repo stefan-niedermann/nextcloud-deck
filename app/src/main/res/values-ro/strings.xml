@@ -71,6 +71,8 @@
     <string name="label_description">Descriere</string>
     <string name="hint_assign_people">Desemnează utilizatori</string>
     <string name="hint_due_date_date">Data limită </string>
+    <string name="hint_due_date_time">Timp</string>
+
     <string name="card_not_found">Card negăsit </string>
     <string name="card_not_found_message">Cardul nu a putut fi găsit. Poate a fost șters recent. </string>
 

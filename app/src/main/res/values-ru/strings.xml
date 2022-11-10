@@ -71,6 +71,8 @@
     <string name="label_description">Описание</string>
     <string name="hint_assign_people">Назначить карточку пользователю</string>
     <string name="hint_due_date_date">Срок исполнения</string>
+    <string name="hint_due_date_time">Время</string>
+
     <string name="card_not_found">Карточка не найдена</string>
     <string name="card_not_found_message">Не удалось найти карточку. Возможно, она была недавно удалена.</string>
 

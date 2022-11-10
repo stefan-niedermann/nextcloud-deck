@@ -71,6 +71,8 @@
     <string name="label_description">Descritzione</string>
     <string name="hint_assign_people">Assigna utentes</string>
     <string name="hint_due_date_date">Data de iscadèntzia</string>
+    <string name="hint_due_date_time">Ora</string>
+
     <string name="card_not_found">Ischeda no agatada</string>
     <string name="card_not_found_message">S\'ischeda non s\'agatat. Mancari de reghente nch\'est istada cantzellada. </string>
 

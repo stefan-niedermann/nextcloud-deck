@@ -71,6 +71,8 @@
     <string name="label_description">Descrición</string>
     <string name="hint_assign_people">Asignar usuarios</string>
     <string name="hint_due_date_date">Data de caducidade</string>
+    <string name="hint_due_date_time">Hora</string>
+
     <string name="card_not_found">Non se atopou a tarxeta</string>
     <string name="card_not_found_message">Non foi posíbel atopar a tarxeta. Quizais fora eliminada recentemente.</string>
 

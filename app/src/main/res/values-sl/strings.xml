@@ -71,6 +71,8 @@
     <string name="label_description">Opis</string>
     <string name="hint_assign_people">Dodeli uporabnike</string>
     <string name="hint_due_date_date">Datum preteka</string>
+    <string name="hint_due_date_time">Čas</string>
+
     <string name="card_not_found">Naloge ni mogoče najti</string>
     <string name="card_not_found_message">Naloge ni mogoče najti. Morda je bila pred kratkim izbrisana.</string>
 

@@ -71,6 +71,8 @@
     <string name="label_description">Opis</string>
     <string name="hint_assign_people">Przydziel użytkowników</string>
     <string name="hint_due_date_date">Data realizacji</string>
+    <string name="hint_due_date_time">Czas</string>
+
     <string name="card_not_found">Nie znaleziono karty</string>
     <string name="card_not_found_message">Nie można znaleźć karty. Być może została niedawno usunięta.</string>
 

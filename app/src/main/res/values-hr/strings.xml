@@ -71,6 +71,8 @@
     <string name="label_description">Opis</string>
     <string name="hint_assign_people">Dodijeli korisnike</string>
     <string name="hint_due_date_date">Datum dospijeća</string>
+    <string name="hint_due_date_time">Vrijeme</string>
+
     <string name="card_not_found">Kartica nije pronadjena</string>
     <string name="card_not_found_message">Kartica nije pronađena. Možda je nedavno izbrisana.</string>
 
