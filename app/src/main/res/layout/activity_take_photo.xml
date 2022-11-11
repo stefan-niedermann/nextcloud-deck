@@ -18,8 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/mdtp_transparent_black"
-        android:paddingTop="@dimen/spacer_3x"
-        android:paddingBottom="@dimen/spacer_3x"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -40,12 +38,14 @@
             android:id="@+id/takePhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
             android:contentDescription="@string/take_photo"
             android:tint="@android:color/white"
             app:backgroundTint="@color/defaultBrand"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/toggle_torch"
             app:layout_constraintStart_toEndOf="@id/switchCamera"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
