@@ -71,6 +71,8 @@
     <string name="label_description">Descripció</string>
     <string name="hint_assign_people">Assigna usuaris</string>
     <string name="hint_due_date_date">Data de venciment</string>
+    <string name="hint_due_date_time">Hora</string>
+
     <string name="card_not_found">Targeta no trobada</string>
     <string name="card_not_found_message">No s\'ha pogut trobar la targeta. Potser s\'ha esborrat recentment.</string>
 

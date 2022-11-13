@@ -71,6 +71,8 @@
     <string name="label_description">Описание</string>
     <string name="hint_assign_people">Зачисляване на потребител</string>
     <string name="hint_due_date_date">Крайна дата</string>
+    <string name="hint_due_date_time">Час</string>
+
     <string name="card_not_found">Картата не е намерена</string>
     <string name="card_not_found_message">Картата не можа да бъде намерена. Може би е изтрита наскоро.</string>
 

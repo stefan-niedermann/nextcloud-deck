@@ -71,6 +71,8 @@
     <string name="label_description">توضیحات</string>
     <string name="hint_assign_people">اختصاص کاربران</string>
     <string name="hint_due_date_date">موعد مقرر</string>
+    <string name="hint_due_date_time">زمان</string>
+
     <string name="card_not_found">کارت پیدا نشد</string>
     <string name="card_not_found_message">کارت پیدا نشد شاید اخیراً حذف شده باشد.</string>
 

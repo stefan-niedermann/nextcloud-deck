@@ -307,6 +307,7 @@
     <string name="gallery">Galleri</string>
     <string name="simple_attach">bifoga</string>
     <string name="add_stack_widget">Lägg till listwidget</string>
+    <string name="simple_order">Ordning</string>
     <string name="edit_description">Ändra beskrivning</string>
     <string name="widget_upcoming_title">Kommande kort</string>
     <!-- Category header for a section in the settings which contain features for advanced users -->
@@ -319,5 +320,8 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Titel (obligatorisk)</string>
     <string name="saving_new_card">Sparar nya kort...</string>
+    <string name="progress_import">Importerar tavla %1$d av %2$d…</string>
+    <string name="progress_import_indeterminate">Importerar tavlor...</string>
+    <string name="card_outdated">Innehållet på detta kort kan vara inaktuellt.</string>
     <string name="show_error">Visa felet</string>
     </resources>
