@@ -71,6 +71,8 @@
     <string name="label_description">Descripción</string>
     <string name="hint_assign_people">Asignar usuarios</string>
     <string name="hint_due_date_date">Fecha de fin</string>
+    <string name="hint_due_date_time">Fecha</string>
+
     <string name="card_not_found">Tarjeta no encontrada</string>
     <string name="card_not_found_message">No se ha podido encontrar la tarjeta. Quizás se ha eliminado recientemente.</string>
 

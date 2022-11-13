@@ -71,6 +71,8 @@
     <string name="label_description">Περιγραφή</string>
     <string name="hint_assign_people">Ορισμός χρηστών</string>
     <string name="hint_due_date_date">Προθεσμία</string>
+    <string name="hint_due_date_time">Ώρα</string>
+
     <string name="card_not_found">Δεν βρέθηκε η καρτέλα</string>
     <string name="card_not_found_message">Η καρτέλα δεν βρέθηκε. Ίσως διαγράφηκε πρόσφατα.</string>
 
