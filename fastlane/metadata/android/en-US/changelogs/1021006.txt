@@ -1,0 +1,8 @@
+1.21.2 - 1.21.6
+
+- 🐞 Fix dependency issue caused by lowered targetSdk
+- 🐞 Fix dependency issue caused by lowered targetSdk
+- 🐞 Handle missing file size and mimetype properties in attachments
+- 🌎 Updated translations
+- 🎨 Fix small Material 3 design glitches (#1376)
+- ⌚ Better hint for due time picker (#1375)
