@@ -478,10 +478,10 @@ public class JsonToEntityParser {
             a.setDeletedAt(getTimestampFromLong(e.get("deletedAt")));
             if (e.has("extendedData") && !e.get("extendedData").isJsonNull() && e.get("extendedData").isJsonObject()) {
                 JsonObject extendedData = e.getAsJsonObject("extendedData").getAsJsonObject();
-                if (extendedData.has("filesize")) {
+                if (extendedData.has("filesize") && !extendedData.get("filesize").isJsonNull()) {
                     a.setFilesize(extendedData.get("filesize").getAsLong());
                 }
-                if (extendedData.has("mimetype")) {
+                if (extendedData.has("mimetype") && !extendedData.get("mimetype").isJsonNull()) {
                     a.setMimetype(extendedData.get("mimetype").getAsString());
                 }
                 if (extendedData.has("fileid") && !extendedData.get("fileid").isJsonNull()) {
