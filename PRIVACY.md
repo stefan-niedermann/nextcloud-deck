@@ -13,9 +13,17 @@ This is a list of permissions required and asked by the App in order to properly
 
   Used for the preview of the camera in the attachments picker and to capture photos to attach them directly to a card
 
+- `android.permission.READ_MEDIA_IMAGES`, `android.permission.READ_EXTERNAL_STORAGE`
+
+  Used for the attachments picker
+
 - `android.permission.READ_CONTACTS`
 
   Used to display and choose contacts directly within the attachment picker without the need of opening an external app
+
+- `WRITE_EXTERNAL_STORAGE`
+
+  Used for caching selected local attachments to upload them
 
 - `android.permission.ACCESS_NETWORK_STATE`
 

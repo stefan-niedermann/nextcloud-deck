@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
     buildToolsVersion "31.0.0"
     defaultConfig {
         applicationId "it.niedermann.nextcloud.deck"
         minSdkVersion 23
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 1021006
         versionName "1.21.6"
         vectorDrawables.useSupportLibrary true

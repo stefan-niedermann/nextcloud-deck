@@ -1,5 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments.picker;
 
+import static android.database.Cursor.FIELD_TYPE_INTEGER;
+import static android.database.Cursor.FIELD_TYPE_NULL;
+import static androidx.recyclerview.widget.RecyclerView.NO_ID;
+import static java.util.Objects.requireNonNull;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -15,11 +20,6 @@ import com.bumptech.glide.RequestBuilder;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.BiConsumer;
-
-import static android.database.Cursor.FIELD_TYPE_INTEGER;
-import static android.database.Cursor.FIELD_TYPE_NULL;
-import static androidx.recyclerview.widget.RecyclerView.NO_ID;
-import static java.util.Objects.requireNonNull;
 
 /**
  * An {@link RecyclerView.Adapter} which provides previews of one type of files and also an option to open a native dialog.
@@ -45,7 +45,7 @@ public abstract class AbstractCursorPickerAdapter<T extends RecyclerView.ViewHol
      * This must only be one {@link Thread} because otherwise the cursor might change while fetching data from it.
      */
     @NonNull
-    protected final ExecutorService bindExecutor = Executors.newFixedThreadPool(1);
+    protected final ExecutorService bindExecutor = Executors.newSingleThreadExecutor();
 
     public AbstractCursorPickerAdapter(@NonNull Context context, @NonNull BiConsumer<Uri, Pair<String, RequestBuilder<?>>> onSelect, @NonNull Runnable openNativePicker, Uri subject, String idColumn, String sortOrder) {
         this(context, onSelect, openNativePicker, subject, idColumn, new String[]{idColumn}, sortOrder);
