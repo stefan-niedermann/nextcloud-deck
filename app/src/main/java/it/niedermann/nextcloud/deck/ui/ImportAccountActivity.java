@@ -150,10 +150,12 @@ public class ImportAccountActivity extends AppCompatActivity {
                                                 });
                                                 runOnUiThread(() -> progress$.observe(ImportAccountActivity.this, (progress) -> {
                                                     DeckLog.log("New progress value", progress.first, progress.second);
-                                                    if(progress.first > 0) {
+                                                    if (progress.first > 0) {
                                                         binding.progressCircular.setIndeterminate(false);
                                                     }
-                                                    binding.progressText.setText(getString(R.string.progress_import, progress.first + 1, progress.second));
+                                                    if (progress.first <= progress.second) {
+                                                        binding.progressText.setText(getString(R.string.progress_import, progress.first + 1, progress.second));
+                                                    }
                                                     binding.progressCircular.setProgress(progress.first);
                                                     binding.progressCircular.setMax(progress.second);
                                                 }));

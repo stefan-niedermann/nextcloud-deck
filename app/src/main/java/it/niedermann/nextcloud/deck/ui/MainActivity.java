@@ -755,7 +755,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                     ? R.string.do_you_want_to_archive_all_cards_of_the_filtered_list
                                     : R.string.do_you_want_to_archive_all_cards_of_the_list, stack.getTitle()))
                             .setPositiveButton(R.string.simple_archive, (dialog, whichButton) -> {
-                                final FilterInformation filterInformation = filterViewModel.getFilterInformation().getValue();
+                                final var filterInformation = filterViewModel.getFilterInformation().getValue();
                                 mainViewModel.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, filterInformation == null ? new FilterInformation() : filterInformation, new IResponseCallback<>() {
                                     @Override
                                     public void onResponse(Void response) {
