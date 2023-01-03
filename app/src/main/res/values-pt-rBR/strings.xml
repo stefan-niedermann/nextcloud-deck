@@ -306,7 +306,7 @@
     <string name="simple_camera">Câmera</string>
     <string name="take_photo">Tire uma foto</string>
     <string name="take_photo_switch_camera">Trocar câmera</string>
-    <string name="take_photo_toggle_torch">Alternar tocha</string>
+    <string name="take_photo_toggle_torch">Alternar a lanterna</string>
     <string name="show_all_contacts">Mostrar todos os contatos</string>
     <string name="show_all_files">Mostrar todos os arquivos</string>
     <string name="recent">Recente</string>

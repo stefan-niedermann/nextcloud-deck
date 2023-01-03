@@ -69,6 +69,8 @@
     <string name="label_description">Kuvaus</string>
     <string name="hint_assign_people">Määritä käyttäjät</string>
     <string name="hint_due_date_date">Eräpäivä</string>
+    <string name="hint_due_date_time">Aika</string>
+
     <string name="card_not_found">Korttia ei löydy</string>
     <string name="card_not_found_message">Korttia ei löytynyt. Se voi olla äskettäin poistettu.</string>
 

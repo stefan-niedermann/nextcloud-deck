@@ -133,7 +133,7 @@
     <string name="pref_value_wifi_only">Συγχρονισμός μόνο σε Wi-Fi</string>
     <string-array name="darkmode_entries">
         <item>Προεπιλογή συστήματος</item>
-        <item>Ανοιχτό</item>
+        <item>Φωτεινό</item>
         <item>Σκούρο</item>
     </string-array>
     <string name="unassigned_user">Αδιάθετα %1$s</string>
