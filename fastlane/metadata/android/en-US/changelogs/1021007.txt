@@ -1,0 +1,3 @@
+- 🐞 Fix photo picker issues on Android 13
+- 🐞 Fix displayed number of boards when importing first account
+- 🌎 Updated translations

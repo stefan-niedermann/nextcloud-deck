@@ -8,8 +8,8 @@ android {
         applicationId "it.niedermann.nextcloud.deck"
         minSdkVersion 23
         targetSdkVersion 33
-        versionCode 1021006
-        versionName "1.21.6"
+        versionCode 1021007
+        versionName "1.21.7"
         vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
@@ -48,6 +48,10 @@ android {
         pfungstadt {
             dimension "version"
             applicationIdSuffix ".pfungstadt"
+        }
+        mdm {
+            dimension "version"
+            applicationIdSuffix ".mdm"
         }
     }
     testOptions {
