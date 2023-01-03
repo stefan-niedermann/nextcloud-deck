@@ -296,7 +296,7 @@
     <string name="single_card">Carte unique</string>
     <string name="project_type_room">Salon de discussion</string>
     <string name="simple_move">Déplacer</string>
-    <string name="cannot_upload_files_without_permission">Impossible de télécharger des fichiers sans autorisation</string>
+    <string name="cannot_upload_files_without_permission">Impossible de téléverser des fichiers sans autorisation</string>
     <string name="clone_cards">Dupliquer des cartes</string>
     <string name="simple_clone">Dupliquer</string>
     <string name="user_avatar">Avatar utilisateur</string>
@@ -310,7 +310,7 @@
     <string name="show_all_contacts">Afficher toutes les contacts</string>
     <string name="show_all_files">Afficher tous les fichiers</string>
     <string name="recent">Récent</string>
-    <string name="upload_a_new_attachment">Envoyer une nouvelle pièce jointe</string>
+    <string name="upload_a_new_attachment">Téléverser une nouvelle pièce-jointe</string>
     <string name="contacts">Contacts</string>
     <string name="downloads">Téléchargements</string>
     <string name="files">Fichiers</string>

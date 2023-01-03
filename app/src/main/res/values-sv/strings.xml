@@ -119,12 +119,14 @@
     <string name="add_a_new_list_using_the_button">Lägg till en ny lista med + knappen</string>
     <string name="add_a_new_card_using_the_button">Lägg till ett nytt kort med + knappen</string>
     <string name="update_deck">Uppdatera Deck-webbappen</string>
+    <string name="deck_outdated_please_update">Din Deck-webappversion är för gammal (%1$s). Uppdatera för att använda denna Android-app som klient.</string>
     <string name="delete_board_message">Detta kommer att permanent radera denna tavla inklusive alla listor och kort.</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Varumärke</string>
     <string name="settings_compact_title">Kompakt läge</string>
     <string name="settings_cover_images_title">Omslagsbilder</string>
     <string name="settings_debugging">Avbuggningsloggar</string>
+    <string name="settings_etags">Använd ETags</string>
     <string name="settings_etags_summary">Snabba upp synkroniseringen</string>
     <string name="settings_background_sync">Bakgrundssynkronisering</string>
     <string name="settings_compress_image_attachments">Komprimera bilder vid uppladdning</string>
@@ -217,6 +219,7 @@
     <string name="error_dialog_tip_clear_storage">Du kan rensa diskutrymmet genom att öppna appens info, välj Lagring -> Rensa data</string>
     <string name="error_dialog_tip_offline_no_internet">Det verkar som att du startade en synkronisering utan en internetanslutning.</string>
     <string name="error_dialog_tip_offline_connection_refused">Anslutningen nekades, kontrollera att din server är nåbar i en webbläsare.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Anslutningen tog för lång tid, kontrollera om du är ansluten till internet. Detta kan också hända när din server är upptagen.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Om du har aktiverat \"Synkronisera enbart med Wi-Fi\" kan du bara synkronisera när du är ansluten till Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Något verkar fel med din Nextcloud-app. Försök att tvångsavsluta både Nextcloud och Nextcloud Deck-appen.</string>
     <string name="error_dialog_tip_files_delete_storage">Om tvångsavslutning ej hjälper kan du försöka rensa datan på båda appar.</string>
@@ -236,6 +239,7 @@
     <string name="error_dialog_certificate">Något är fel med certifikatet på servern. Kontrollera alla konton i Nextcloud-appen för mer information.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Stäng av alla batterioptimeringar för Nextcloud och Deck-appen</string>
     <string name="error_dialog_unknown_error">Det går inte att nå din Nextcloud-instans. Kontrollera din internetanslutning och om du kan nå din instans via en webbläsare.</string>
+    <string name="error_dialog_min_version">Deck Android-appen kräver att Nextcloud Android-appen är minst version 3.18.</string>
     <string name="error_action_open_deck_info">Öppna appinformation</string>
     <string name="error_action_open_nextcloud_app">Öppna Nextcloud-appen</string>
     <string name="error_action_open_network">Nätverksinställningar</string>
@@ -249,6 +253,7 @@
     <string name="share_link">Dela länk</string>
     <string name="share_content">Dela innehåll</string>
     <string name="share_content_duedate">Förfallodag: %1$s</string>
+    <string name="share_content_labels">Taggar: %1$s</string>
     <string name="archive_cards">Arkivera kort</string>
 
     <string name="manage_accounts">Hantera konton</string>
@@ -287,6 +292,7 @@
     <string name="single_card">Enskilt kort</string>
     <string name="project_type_room">Talk-rum</string>
     <string name="simple_move">Flytta</string>
+    <string name="cannot_upload_files_without_permission">Kan inte ladda upp filer utan behörighet</string>
     <string name="clone_cards">Klona kort</string>
     <string name="simple_clone">Klona</string>
     <string name="user_avatar">Användar-avatar</string>
@@ -307,12 +313,14 @@
     <string name="gallery">Galleri</string>
     <string name="simple_attach">bifoga</string>
     <string name="add_stack_widget">Lägg till listwidget</string>
+    <string name="add_filter_widget">Lägg till filterwidget</string>
     <string name="simple_order">Ordning</string>
     <string name="edit_description">Ändra beskrivning</string>
     <string name="widget_upcoming_title">Kommande kort</string>
     <!-- Category header for a section in the settings which contain features for advanced users -->
     <string name="simple_expert_settings">Avancerade inställningar</string>
     <string name="copy_logs">Kopiera loggar till urklipp</string>
+    <string name="app_logo">Appens logotyp</string>
     <string name="log_file">Loggfil</string>
     <string name="copying_logs_to_file">Kopierar loggar till fil...</string>
     <string name="account_imported">Importerat konton</string>
@@ -324,4 +332,5 @@
     <string name="progress_import_indeterminate">Importerar tavlor...</string>
     <string name="card_outdated">Innehållet på detta kort kan vara inaktuellt.</string>
     <string name="show_error">Visa felet</string>
+    <string name="push_notification_link_empty">På grund av ett känt problem i Deck-webbappen kan vi tyvärr inte visa detta kort. För mer information se: %1$s</string>
     </resources>
