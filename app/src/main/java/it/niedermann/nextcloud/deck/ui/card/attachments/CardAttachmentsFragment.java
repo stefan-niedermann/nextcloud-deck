@@ -3,7 +3,10 @@ package it.niedermann.nextcloud.deck.ui.card.attachments;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_MEDIA_IMAGES;
 import static android.app.Activity.RESULT_OK;
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.TIRAMISU;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
@@ -123,14 +126,12 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     private int clickedItemPosition;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentCardEditTabAttachmentsBinding.inflate(inflater, container, false);
         editViewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
         previewViewModel = new ViewModelProvider(requireActivity()).get(PreviewDialogViewModel.class);
-        binding.bottomNavigation.setOnNavigationItemSelectedListener(item -> {
+        binding.bottomNavigation.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.gallery) {
                 showGalleryPicker();
             } else if (item.getItemId() == R.id.contacts) {
@@ -151,12 +152,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
             return binding.getRoot();
         }
 
-        adapter = new CardAttachmentAdapter(
-                getChildFragmentManager(),
-                requireActivity().getMenuInflater(),
-                this,
-                editViewModel.getAccount(),
-                editViewModel.getFullCard().getLocalId());
+        adapter = new CardAttachmentAdapter(getChildFragmentManager(), requireActivity().getMenuInflater(), this, editViewModel.getAccount(), editViewModel.getFullCard().getLocalId());
         binding.attachmentsList.setAdapter(adapter);
 
         adapter.isEmpty().observe(getViewLifecycleOwner(), (isEmpty) -> {
@@ -173,9 +169,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         mBottomSheetBehaviour.setDraggable(true);
         mBottomSheetBehaviour.setHideable(true);
         mBottomSheetBehaviour.setState(STATE_HIDDEN);
-        mBottomSheetBehaviour.addBottomSheetCallback(new CardAttachmentsBottomsheetBehaviorCallback(
-                requireContext(), backPressedCallback, binding.fab, binding.pickerBackdrop, binding.bottomNavigation,
-                R.color.mdtp_transparent_black, android.R.color.transparent, R.dimen.attachments_bottom_navigation_height));
+        mBottomSheetBehaviour.addBottomSheetCallback(new CardAttachmentsBottomsheetBehaviorCallback(requireContext(), backPressedCallback, binding.fab, binding.pickerBackdrop, binding.bottomNavigation, R.color.mdtp_transparent_black, android.R.color.transparent, R.dimen.attachments_bottom_navigation_height));
         binding.pickerBackdrop.setOnClickListener(v -> mBottomSheetBehaviour.setState(STATE_HIDDEN));
 
         final var displayMetrics = getResources().getDisplayMetrics();
@@ -199,8 +193,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         setExitSharedElementCallback(new SharedElementCallback() {
             @Override
             public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                AttachmentViewHolder selectedViewHolder = (AttachmentViewHolder) binding.attachmentsList
-                        .findViewHolderForAdapterPosition(clickedItemPosition);
+                final var selectedViewHolder = (AttachmentViewHolder) binding.attachmentsList.findViewHolderForAdapterPosition(clickedItemPosition);
                 if (selectedViewHolder != null) {
                     sharedElements.put(names.get(0), selectedViewHolder.getPreview());
                 }
@@ -220,10 +213,8 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
             binding.attachmentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                    if (dy > 0)
-                        binding.fab.hide();
-                    else if (dy < 0)
-                        binding.fab.show();
+                    if (dy > 0) binding.fab.hide();
+                    else if (dy < 0) binding.fab.show();
                 }
             });
         } else {
@@ -250,7 +241,9 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 
     private void showGalleryPicker() {
         if (!(pickerAdapter instanceof GalleryAdapter)) {
-            if (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED || checkSelfPermission(requireActivity(), CAMERA) != PERMISSION_GRANTED) {
+            if (SDK_INT >= TIRAMISU && (checkSelfPermission(requireActivity(), READ_MEDIA_IMAGES) != PERMISSION_GRANTED || checkSelfPermission(requireActivity(), CAMERA) != PERMISSION_GRANTED)) {
+                requestPermissions(new String[]{READ_MEDIA_IMAGES, CAMERA}, REQUEST_CODE_PICK_GALLERY_PERMISSION);
+            } else if (SDK_INT < TIRAMISU && (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED || checkSelfPermission(requireActivity(), CAMERA) != PERMISSION_GRANTED)) {
                 requestPermissions(new String[]{READ_EXTERNAL_STORAGE, CAMERA}, REQUEST_CODE_PICK_GALLERY_PERMISSION);
             } else {
                 unbindPickerAdapter();
@@ -296,10 +289,13 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 
     private void showFilePicker() {
         if (!(pickerAdapter instanceof FileAdapter)) {
-            if (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED) {
-                requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_PICK_FILE_PERMISSION);
-            } else {
+            if (SDK_INT >= TIRAMISU) { // No READ_EXTERNAL_STORAGE permission needed for native file picker
                 openNativeFilePicker();
+            } else {
+                if (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_PICK_FILE_PERMISSION);
+                } else {
+                    openNativeFilePicker();
 //                unbindPickerAdapter();
 //                pickerAdapter = new FileAdapter(requireContext(), (uri, pair) -> {
 //                    previewViewModel.prepareDialog(pair.first, pair.second);
@@ -313,6 +309,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 //                removeGalleryItemDecoration();
 //                binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 //                binding.pickerRecyclerView.setAdapter(pickerAdapter);
+                }
             }
         }
     }
@@ -329,9 +326,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     }
 
     private void openNativeFilePicker() {
-        startActivityForResult(new Intent(Intent.ACTION_GET_CONTENT)
-                .addCategory(Intent.CATEGORY_OPENABLE)
-                .setType("*/*"), REQUEST_CODE_PICK_FILE);
+        startActivityForResult(new Intent(Intent.ACTION_GET_CONTENT).addCategory(Intent.CATEGORY_OPENABLE).setType("*/*"), REQUEST_CODE_PICK_FILE);
     }
 
     private void unbindPickerAdapter() {
@@ -354,13 +349,9 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
             case REQUEST_CODE_PICK_CAMERA:
             case REQUEST_CODE_PICK_FILE: {
                 if (resultCode == RESULT_OK) {
-                    final Uri sourceUri = requestCode == REQUEST_CODE_PICK_CONTACT
-                            ? VCardUtil.getVCardContentUri(requireContext(), Uri.parse(data.getDataString()))
-                            : data.getData();
+                    final Uri sourceUri = requestCode == REQUEST_CODE_PICK_CONTACT ? VCardUtil.getVCardContentUri(requireContext(), Uri.parse(data.getDataString())) : data.getData();
                     try {
-                        uploadNewAttachmentFromUri(sourceUri, requestCode == REQUEST_CODE_PICK_CAMERA
-                                ? data.getType()
-                                : requireContext().getContentResolver().getType(sourceUri));
+                        uploadNewAttachmentFromUri(sourceUri, requestCode == REQUEST_CODE_PICK_CAMERA ? data.getType() : requireContext().getContentResolver().getType(sourceUri));
                         mBottomSheetBehaviour.setState(STATE_HIDDEN);
                     } catch (Exception e) {
                         ExceptionDialogFragment.newInstance(e, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
@@ -400,15 +391,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                         requireActivity().runOnUiThread(() -> {
                             if (compressImagesOnUpload && MimeTypeUtil.isImage(mimeType)) {
                                 try {
-                                    JavaCompressor.compress(
-                                            (AppCompatActivity) requireActivity(),
-                                            originalFile,
-                                            (status, file) -> uploadNewAttachmentFromFile(status && file != null ? file : originalFile, mimeType),
-                                            new ResolutionConstraint(1920, 1920),
-                                            new SizeConstraint(1_000_000, 10, 10, 10),
-                                            new FormatConstraint(Bitmap.CompressFormat.JPEG),
-                                            new QualityConstraint(80)
-                                    );
+                                    JavaCompressor.compress((AppCompatActivity) requireActivity(), originalFile, (status, file) -> uploadNewAttachmentFromFile(status && file != null ? file : originalFile, mimeType), new ResolutionConstraint(1920, 1920), new SizeConstraint(1_000_000, 10, 10, 10), new FormatConstraint(Bitmap.CompressFormat.JPEG), new QualityConstraint(80));
                                 } catch (Throwable t) {
                                     DeckLog.logError(t);
                                     uploadNewAttachmentFromFile(originalFile, mimeType);
@@ -489,7 +472,9 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                 break;
             }
             case REQUEST_CODE_PICK_GALLERY_PERMISSION: {
-                if (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED && checkSelfPermission(requireActivity(), CAMERA) == PERMISSION_GRANTED) {
+                if (SDK_INT >= TIRAMISU && (checkSelfPermission(requireActivity(), READ_MEDIA_IMAGES) == PERMISSION_GRANTED && checkSelfPermission(requireActivity(), CAMERA) == PERMISSION_GRANTED)) {
+                    showGalleryPicker();
+                } else if (SDK_INT < TIRAMISU && (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED && checkSelfPermission(requireActivity(), CAMERA) == PERMISSION_GRANTED)) {
                     showGalleryPicker();
                 } else {
                     Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
@@ -538,19 +523,8 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 
     private void applyBrand(@ColorInt int boardColor) {
         applyBrandToFAB(boardColor, binding.fab);
-        @ColorInt final int finalMainColor = DeckColorUtil.contrastRatioIsSufficient(boardColor, primaryColor)
-                ? boardColor
-                : accentColor;
-        final ColorStateList list = new ColorStateList(
-                new int[][]{
-                        new int[]{android.R.attr.state_checked},
-                        new int[]{}
-                },
-                new int[]{
-                        finalMainColor,
-                        accentColor
-                }
-        );
+        @ColorInt final int finalMainColor = DeckColorUtil.contrastRatioIsSufficient(boardColor, primaryColor) ? boardColor : accentColor;
+        final ColorStateList list = new ColorStateList(new int[][]{new int[]{android.R.attr.state_checked}, new int[]{}}, new int[]{finalMainColor, accentColor});
         binding.bottomNavigation.setItemIconTintList(list);
         binding.bottomNavigation.setItemTextColor(list);
         adapter.applyBrand(boardColor);

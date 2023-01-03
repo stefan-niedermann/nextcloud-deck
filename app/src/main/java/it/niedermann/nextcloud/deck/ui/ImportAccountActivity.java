@@ -153,7 +153,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                                     if (progress.first > 0) {
                                                         binding.progressCircular.setIndeterminate(false);
                                                     }
-                                                    if (progress.first <= progress.second) {
+                                                    if (progress.first < progress.second) {
                                                         binding.progressText.setText(getString(R.string.progress_import, progress.first + 1, progress.second));
                                                     }
                                                     binding.progressCircular.setProgress(progress.first);
