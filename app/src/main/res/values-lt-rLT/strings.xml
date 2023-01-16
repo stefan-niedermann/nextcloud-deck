@@ -1,22 +1,42 @@
 <resources>
     <string name="navigation_drawer_open">Atidaryti naršymo stalčių</string>
     <string name="navigation_drawer_close">Uždaryti naršymo stalčių</string>
-
-    <string name="drawer_header_background">Stalčiaus antraštės foninis paveikslas</string>
-    <string name="drawer_manage_accounts">Tvarkyti paskyras</string>
-
-    <!-- Simple values -->
-    <string name="simple_boards">Plokštės</string>
+    <string name="simple_boards">Lentos</string>
     <string name="simple_add">Pridėti</string>
     <string name="simple_save">Įrašyti</string>
     <string name="simple_more">Daugiau</string>
+    <string name="simple_title">Pavadinimas</string>
+    <string name="simple_copy">Kopija</string>
+    <string name="simple_synchronization">Sinchronizacija</string>
+    <string name="simple_appearance">Išvaizda</string>
+    <string name="simple_error">Klaida</string>
+    <string name="simple_exception">Išimtis</string>
+    <string name="simple_close">Užverti</string>
+    <string name="simple_open">Atverti</string>
+    <string name="simple_switch">Perjungti</string>
+    <string name="simple_filter">Filtras</string>
+    <string name="simple_overdue">Praėjęs galutinis terminas</string>
+    <string name="simple_clear">Išvalyti</string>
+    <string name="simple_discard">atmesti</string>
+    <string name="simple_update">Atnaujinti</string>
+    <string name="simple_delete">Ištrinti</string>
+    <string name="simple_rename">Pervadinti</string>
+    <string name="simple_settings">Nustatymai</string>
+    <string name="simple_undo">Atšaukti</string>
+    <string name="simple_manage">tvarkyti</string>
+    <string name="simple_share">bendrinti</string>
+    <string name="simple_select">Pasirinkti</string>
+    <string name="simple_comment">Komentaras</string>
+    <string name="simple_disabled">išjungta</string>
+    <string name="simple_copied">Nukopijuota</string>
+    <string name="simple_archive">Archyvuoti</string>
+    <string name="hint_error_appeared">Atsirado klaida</string>
 
-    <string name="edit_board">Taisyti plokštę</string>
-    <string name="archive_board">Archyvuoti plokštę</string>
-    <string name="delete_board">Ištrinti plokštę</string>
+    <string name="edit_board">Taisyti lentą</string>
+    <string name="archive_board">Archyvuoti lentą</string>
+    <string name="delete_board">Ištrinti lentą</string>
     <string name="delete_something">Ištrinti %1$s</string>
 
-    <!-- About -->
     <string name="about">Apie</string>
     <string name="about_version_title">Versija</string>
     <string name="about_version">Šiuo metu naudojate %1$s</string>
@@ -36,38 +56,30 @@
     <string name="about_credits_tab_title">Padėkos</string>
     <string name="about_contribution_tab_title">Prisidėjo</string>
     <string name="about_license_tab_title">Licencija</string>
-
     <string name="seconds_ago">prieš keletą sekundžių</string>
     <string name="edit">Taisyti</string>
     <string name="label_labels">Pasirinkti žymes</string>
     <string name="label_description">Aprašas</string>
     <string name="hint_assign_people">Priskirti naudotojus</string>
     <string name="hint_due_date_date">Galutinis terminas</string>
+    <string name="hint_due_date_time">Laikas</string>
+
+    <string name="card_not_found">Kortelė nerasta</string>
     <string name="add_account">Pridėti paskyrą</string>
     <string name="choose_account">Parinkti paskyrą</string>
-
-    <string name="add_card">Pridėti kortelę</string>
-
+    <string name="add_card">Pridėti naują kortelę</string>
     <string name="activity">Veikla</string>
-
+    <string name="add_list">Pridėti sąrašą</string>
+    <string name="rename_list">Pervadinti sąrašą</string>
     <string name="delete_list">Ištrinti sąrašą</string>
-
     <string name="label_menu">meniu</string>
     <string name="action_card_assign">Priskirti kortelę sau</string>
     <string name="action_card_archive">Archyvuoti kortelę</string>
     <string name="action_card_delete">Ištrinti kortelę</string>
-    <string name="add_board">Pridėti plokštę</string>
-    <string name="simple_title">Pavadinimas</string>
+    <string name="add_board">Pridėti lentą</string>
 
     <string name="label_clear_due_date">Išvalyti galutinį terminą</string>
     <string name="label_add">Pridėti %1$s</string>
-
-    <string name="error">Atsirado klaida</string>
-    <string name="operation_not_yet_supported">Kol kas nepalaikoma</string>
-    <string name="simple_copy">kopija</string>
-    <string name="simple_exception">Išimtis</string>
-    <string name="copied_to_clipboard">Nukopijuota į iškarpinę</string>
-    <string name="simple_close">užverti</string>
 
     <string name="card_edit_details">Išsamiau</string>
     <string name="card_edit_attachments">Priedai</string>
@@ -79,29 +91,25 @@
     <string name="no_account">Nėra sukonfiguruotų paskyrų</string>
     <string name="account_already_added">Paskyra jau pridėta</string>
     <string name="not_synced_yet">Kol kas nesinchronizuota</string>
+    <string name="no_lists_yet">Kol kas sąrašų nėra</string>
     <string name="do_you_want_to_save_your_changes">Ar norite įrašyti savo pakeitimus?</string>
-    <string name="simple_discard">atmesti</string>
-    <string name="update_deck">Atnaujinti darbus</string>
-    <string name="your_deck_version_is_too_old">Jūsų darbų versija yra per sena</string>
-    <string name="deck_outdated_please_update">Jūsų darbų versija yra per sena. Atsinaujinkite, norėdami naudoti šią android programėlę kaip kliento programą.</string>
-    <string name="simple_update">Atnaujinti</string>
-    <string name="simple_delete">Ištrinti</string>
-    <string name="simple_rename">Pervadinti</string>
-    <string name="simple_settings">Nustatymai</string>
-    <string name="settings_theme_title">Tamsus apipavidalinimas</string>
+    <string name="delete_board_message">Tai negrįžtamai ištrins šią lentą, įskaitant visus sąrašus bei korteles.</string>
+    <string name="settings_theme_title">Apipavidalinimas</string>
+    <string name="settings_branding_title">Prekės ženklas</string>
+    <string name="settings_compact_title">Kompaktiška veiksena</string>
     <string name="settings_background_sync">Foninis sinchronizavimas</string>
+    <string name="search_in">Ieškoti %1$s</string>
     <string name="pref_value_wifi_and_mobile">Sinchronizuoti naudojant belaidį (Wi-Fi) ir mobiliuosius duomenis</string>
     <string name="pref_value_wifi_only">Sinchronizuoti tik naudojant belaidį (Wi-Fi)</string>
-    <string name="pref_value_theme_light">Šviesus</string>
-    <string name="simple_undo">Atšaukti</string>
-    <string name="share_board">Bendrinti plokštę</string>
+    <string-array name="darkmode_entries">
+        <item>Sistemos numatytasis</item>
+        <item>Šviesus</item>
+        <item>Tamsus</item>
+    </string-array>
+    <string name="share_board">Bendrinti lentą</string>
     <string name="you_are_currently_offline">Šiuo metu esate atsijungę nuo interneto</string>
-    <string name="simple_manage">tvarkyti</string>
-    <string name="simple_share">bendrinti</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Norėdami pridėti paskyrą, turite būti prisijungę prie interneto.</string>
-    <string name="simple_select">Pasirinkti</string>
     <string name="owner">Savininkas</string>
-    <string name="simple_comment">Komentaras</string>
     <string name="attachment_delete_message">Tai negrįžtamai ištrins šį priedą.</string>
     <string name="no_content">Kol kas nėra jokio turinio</string>
     <string name="last_background_sync">Paskutinis foninis sinchronizavimas:</string>
@@ -111,9 +119,100 @@
     <string name="hours_6">6 valandos</string>
     <string name="action_card_move">Perkelti kortelę</string>
     <string name="action_card_move_title">Perkelti %1$s</string>
-    <string name="simple_disabled">išjungta</string>
-    <string name="simple_copied">Nukopijuota</string>
-    <string name="please_add_an_account_first">Iš pradžių, pridėkite paskyrą</string>
-    <string name="server_error">Serverio klaida</string>
+    <string name="share_add_to_card">Pridėti į kortelę</string>
+    <string name="add_comment">Pridėti komentarą</string>
     <string name="card_edit_comments">Komentarai</string>
+    <string name="no_comments_yet">Kol kas nėra komentarų</string>
+    <string name="no_boards">Kol kas nėra lentų</string>
+    <string name="task_count">%1$s/%2$s</string>
+    <string name="open_in_browser">Atverti naršyklėje</string>
+    <string name="updating_card">Atnaujinama kortelė…</string>
+
+    <string name="move_list_right">Perkelti sąrašą dešinėn</string>
+    <string name="move_list_left">Perkelti sąrašą kairėn</string>
+
+    <string name="filter_no_filter">Visos</string>
+    <string name="filter_overdue">Praėjęs galutinis terminas</string>
+    <string name="filter_today">Šiandien</string>
+    <string name="filter_tomorrow">Rytoj</string>
+    <string name="filter_week">Artimiausios 7 dienos</string>
+    <string name="filter_month">Artimiausios 30 dienų</string>
+    <string name="filter_no_due">Be galutinio termino</string>
+    <string name="filter_later">Vėliau</string>
+    <string name="filter_by_tag">Filtruoti pagal žymę</string>
+    <string name="filter_by_assigned_user">Filtruoti pagal priskirtą naudotoją</string>
+    <string name="filter_by_duedate">Filtruoti pagal galutinio termino datą</string>
+
+    <string name="archived_cards">Archyvuotos kortelės</string>
+    <string name="action_card_dearchive">Atšaukti kortelių archyvavimą</string>
+    <string name="action_archived_cards">Naršyti archyvuotas korteles</string>
+    <string name="attachment_already_exists">Priedas jau yra</string>
+    <string name="manage_tags">Tvarkyti žymes</string>
+    <string name="add_tag">Pridėti žymę</string>
+    <string name="tag_already_exists">%1$s jau yra</string>
+    <string name="tag_successfully_added">%1$s sėkmingai pridėta</string>
+    <string name="edit_tag">Taisyti %1$s</string>
+    <string name="filter_tags_title">Žymės</string>
+    <string name="filter_user_title">Naudotojai</string>
+    <string name="filter_duedate_title">Galutinis terminas</string>
+
+    <string name="action_board_dearchive">Atšaukti lentų archyvavimą</string>
+    <string name="archived_boards">Archyvuotos lentos</string>
+
+    <string name="error">Atsirado klaida</string>
+    <string name="synchronization_failed">Sinchronizacija nepavyko</string>
+    <string name="operation_not_yet_supported">Kol kas nepalaikoma</string>
+    <string name="maintenance_mode">Serveris yra techninės priežiūros veiksenoje</string>
+    <string name="server_error">Serverio klaida</string>
+    <string name="error_dialog_title">O, ne - Kas dabar? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Pabandykite priverstinai uždaryti programą ir vėl paleiskite ją iš naujo. Galbūt buvo nepavyko užmegžti ryšį su „Nextcloud“ programa.</string>
+    <string name="error_dialog_tip_clear_storage">Saugyklą galite išvalyti atidarę programos nustatymus ir pasirinkdami Saugykla → Išvalyti saugyklą.</string>
+    <string name="error_dialog_tip_files_delete_storage">Jei priverstinis programos sustabdymas nepadėjo, galite pabandyti išvalyti abiejų programų saugyklas.</string>
+    <string name="error_dialog_timeout_instance">Jūsų serveris yra nepasiekiamas. Įsitikinkite, kad Jūsų programa veikia tinkamai.</string>
+    <string name="error_dialog_check_server_logs">Kyla problemų dėl „Nextcloud“ programos nustatymų. Peržiūrėkite serverio sisteminio žurnalo įrašus.</string>
+    <string name="error_dialog_check_maintenance">Patikrinkite, ar jūsų „Nextcloud“ programa šiuo metu aptarnavimo režime.</string>
+    <string name="error_dialog_insufficient_storage">„Nextcloud“ programa nebeturi laisvos vietos saugykloje. Prašome, ištrinkite nereikalingus failus, kad lokalūs pakeitimai būtų sinchronizuoti su debesimi.</string>
+    <string name="error_dialog_we_need_info">Norint jums padėti, mums reikia techninės informacijos:</string>
+    <string name="error_action_open_deck_info">Atidaryti programos informaciją</string>
+    <string name="error_action_open_network">Tinklo nustatymai</string>
+    <string name="error_action_server_logs">Serverio žurnalai</string>
+    <string name="error_action_open_in_browser">Atverti naršyklėje</string>
+    <string name="error_action_install">Įdiegti</string>
+    <string name="error_action_report_issue">Ataskaita</string>
+    <string name="error_action_update_files_app">Atnaujinti</string>
+    <string name="info_box_maintenance_mode">Serveris yra techninės priežiūros veiksenoje</string>
+    <string name="info_box_version_not_supported">Serverio versija %1$s yra nepalaikoma, atnaujinkite iki %2$s</string>
+    <string name="share_link">Bendrinimo nuoroda</string>
+    <string name="manage_accounts">Tvarkyti paskyras</string>
+    <string name="manage_list">Tvarkyti sąrašą</string>
+    <string name="simple_reply">Atsakyti</string>
+    <string name="append_text_to_description">Pridėti į aprašą</string>
+    <string name="add_text_as_comment">Pridėti kaip komentarą</string>
+    <string name="simple_report">Ataskaita</string>
+    <string name="error_action_open_battery_settings">Akumuliatoriaus nustatymai</string>
+    <string name="clone_board">Dubliuoti lentą</string>
+    <string name="cloning_board">Dubliuojama %1$s…</string>
+    <string name="successfully_cloned_board">Sėkmingai dubliuota %1$s</string>
+    <string name="widget_stack_title">Sąrašas</string>
+    <string name="widget_filter_title">Filtras</string>
+    <string name="project_type_file">Failas</string>
+    <string name="projects_title">Projektai</string>
+    <string name="simple_move">Perkelti</string>
+    <string name="clone_cards">Dubliuoti korteles</string>
+    <string name="simple_clone">Dubliuoti</string>
+    <string name="simple_contact">Adresatas</string>
+    <string name="simple_file">Failas</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="take_photo">Fotografuoti</string>
+    <string name="take_photo_switch_camera">Perjungti kamerą</string>
+    <string name="show_all_contacts">Rodyti visus adresatus</string>
+    <string name="show_all_files">Rodyti visus failus</string>
+    <string name="recent">Paskiausi</string>
+    <string name="contacts">Adresatai</string>
+    <string name="downloads">Atsiuntimai</string>
+    <string name="files">Failai</string>
+    <string name="gallery">Galerija</string>
+    <string name="edit_description">Taisyti aprašą</string>
+    <string name="widget_upcoming_title">Artėjančios kortelės</string>
+    <string name="simple_search">Ieškoti</string>
     </resources>

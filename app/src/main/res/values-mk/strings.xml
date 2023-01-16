@@ -4,12 +4,12 @@
     <string name="simple_save">Зачувај</string>
     <string name="simple_more">Повеќе</string>
     <string name="simple_title">Наслов</string>
-    <string name="simple_copy">копирај</string>
+    <string name="simple_copy">Копирај</string>
     <string name="simple_synchronization">Synchronization</string>
     <string name="simple_appearance">Изглед</string>
     <string name="simple_error">Грешка</string>
     <string name="simple_exception">Исклучок</string>
-    <string name="simple_close">затвори</string>
+    <string name="simple_close">Затвори</string>
     <string name="simple_open">Отвори</string>
     <string name="simple_switch">Прфрли</string>
     <string name="simple_filter">Филтер</string>
@@ -29,6 +29,7 @@
     <string name="simple_copied">Копирано</string>
     <string name="simple_archive">Архива</string>
     <string name="simple_unassigned">Неназначени</string>
+    <string name="hint_error_appeared">Настана грешка</string>
 
     <string name="edit_board">Измени табла</string>
     <string name="archive_board">Архивирај табла</string>
@@ -52,6 +53,7 @@
     <string name="about_icons_disclaimer_title">Икони</string>
     <string name="about_icons_disclaimer_app_icon">За оргиналните икони видете %1$s.</string>
     <string name="about_icons_disclaimer_mdi_icons">Сите останати икони кој се користат во апликацијата се %1$s направени од Google Inc. и лиценцирани под Apache 2.0 Лиценца.</string>
+    <string name="about_credits_tab_title">Кредити</string>
     <string name="about_contribution_tab_title">Придонес</string>
     <string name="about_license_tab_title">Лиценца</string>
     <string name="seconds_ago">пред неколку секунди</string>
@@ -60,6 +62,8 @@
     <string name="label_description">Опис</string>
     <string name="hint_assign_people">Додели на корисник</string>
     <string name="hint_due_date_date">До датум</string>
+    <string name="hint_due_date_time">Време</string>
+
     <string name="card_not_found">Картицата не е пронајдена</string>
     <string name="card_not_found_message">Картицата не е пронајдена. Можеби е неодамна избришана.</string>
 
@@ -109,6 +113,11 @@
     <string name="settings_background_sync">Синхронизација во позадина</string>
     <string name="pref_value_wifi_and_mobile">Синхронизирај на Wi-Fi и на мобилен интернет</string>
     <string name="pref_value_wifi_only">Синхронизирај само преку Wi-Fi</string>
+    <string-array name="darkmode_entries">
+        <item>Како од системот</item>
+        <item>Светла</item>
+        <item>Темна</item>
+    </string-array>
     <string name="unassigned_user">Недоделени %1$s</string>
     <string name="no_activities">Нема активности во оваа картица. Треба да бидете поврзани на интернет за да ги вчита и прикаже активностите.</string>
     <string name="share_board">Сподели табла</string>
@@ -124,7 +133,6 @@
     <string name="hours_6">6 часа</string>
     <string name="action_card_move">Премести картица</string>
     <string name="action_card_move_title">Премести %1$s</string>
-    <string name="title_is_mandatory">Насловот е задолжителен</string>
     <string name="provide_at_least_a_title_or_description">Внесете барем наслов или опис</string>
     <string name="welcome_text">Добредојдовте во %1$s</string>
     <string name="maintenance_mode_explanation">Серверот %1$s е моментално во мод за одржување. Контактирајте го администраторот или обидете се покасно.</string>
@@ -147,9 +155,11 @@
     <string name="filter_no_filter">Сите</string>
     <string name="filter_overdue">Заостанати</string>
     <string name="filter_today">Денес</string>
+    <string name="filter_tomorrow">Утре</string>
     <string name="filter_week">Следни 7 дена</string>
     <string name="filter_month">Следни 30 дена</string>
     <string name="filter_no_due">Нема краен рок</string>
+    <string name="filter_later">Покасно</string>
     <string name="filter_by_tag">Филтрирај по ознака</string>
     <string name="filter_by_assigned_user">Филтрирај по назначени корисници</string>
     <string name="filter_by_duedate">Филтрирај по краен рок</string>
@@ -184,8 +194,10 @@
     <string name="error_dialog_check_maintenance">Проверете дане е серверот во мод за одржување.</string>
     <string name="error_action_open_deck_info">Информации за апликацијата</string>
     <string name="error_action_open_network">Мрежни параметри</string>
+    <string name="error_action_open_in_browser">Отвори во прелистувач</string>
     <string name="error_action_install">Инсталирај</string>
     <string name="error_action_report_issue">Пријави</string>
+    <string name="error_action_update_files_app">Ажурирај</string>
     <string name="info_box_maintenance_mode">Серверот е во мод за одржување</string>
     <string name="info_box_version_not_supported">Верзијата %1$s на серверот не е поддржана, ве молиме ажурирајте ја на %2$s</string>
     <string name="share_link">Сподели линк</string>
@@ -208,6 +220,7 @@
     <string name="cloning_board">Клонирање %1$s…</string>
     <string name="successfully_cloned_board">Успешно клонирање на %1$s</string>
     <string name="widget_stack_title">Лист</string>
+    <string name="widget_filter_title">Филтер</string>
     <string name="select_stack">Избери листа</string>
     <string name="project_type_file">Датотека</string>
     <string name="projects_title">Проекти</string>
@@ -236,4 +249,6 @@
     <string name="gallery">Галерија</string>
     <string name="simple_attach">закачи</string>
     <string name="edit_description">Измени опис</string>
+    <string name="widget_upcoming_title">Престојни картици</string>
+    <string name="simple_search">Барај</string>
     </resources>

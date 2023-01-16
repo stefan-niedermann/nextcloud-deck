@@ -1,28 +1,23 @@
 <resources>
     <string name="navigation_drawer_open">Åbn navigationsskuffe</string>
     <string name="navigation_drawer_close">Luk navigationsskuffe</string>
+    <string name="hint_search_deck">Søg i deck</string>
 
-    <string name="drawer_header_background">Baggrundsbillede af folderhoved</string>
-    <string name="drawer_current_account">Nuværende konto</string>
-    <string name="drawer_middle_account">Mellemkonto</string>
-    <string name="drawer_end_account">Sidste konto</string>
-    <string name="drawer_manage_accounts">Administrer konti</string>
-
-    <!-- Simple values -->
     <string name="simple_boards">Tavler</string>
     <string name="simple_add">Tilføj</string>
     <string name="simple_save">Gem</string>
     <string name="simple_more">Mere</string>
     <string name="simple_title">Titel</string>
-    <string name="simple_copy">kopier</string>
+    <string name="simple_copy">Kopiér</string>
     <string name="simple_synchronization">Synchronization</string>
     <string name="simple_appearance">Udseende</string>
     <string name="simple_error">Fejl</string>
     <string name="simple_exception">Undtagelse</string>
-    <string name="simple_close">luk</string>
+    <string name="simple_close">Luk</string>
     <string name="simple_open">Åbn</string>
     <string name="simple_switch">Byt rundt</string>
     <string name="simple_filter">Filter</string>
+    <string name="simple_overdue">Overskredet</string>
     <string name="simple_clear">Ryd</string>
     <string name="simple_discard">kassér</string>
     <string name="simple_update">Opdatér</string>
@@ -37,12 +32,14 @@
     <string name="simple_disabled">slået fra</string>
     <string name="simple_copied">opieret</string>
     <string name="simple_archive">Arkivér</string>
+    <string name="simple_unassigned">Ikke tildelt</string>
+    <string name="hint_error_appeared">En fejl opstod</string>
+
     <string name="edit_board">Rediger liste</string>
     <string name="archive_board">Arkivér liste</string>
     <string name="delete_board">Slet liste</string>
     <string name="delete_something">Slet %1$s</string>
 
-    <!-- About -->
     <string name="about">Om</string>
     <string name="about_version_title">Version</string>
     <string name="about_version">Du bruger lige nu %1$s</string>
@@ -68,17 +65,20 @@
     <string name="about_credits_tab_title">Credits</string>
     <string name="about_contribution_tab_title">Bidrag</string>
     <string name="about_license_tab_title">Licens</string>
-
-    <string name="copied_to_clipboard">Kopieret til udklipsholderen</string>
-
     <string name="seconds_ago">sekunder siden</string>
     <string name="edit">Rediger</string>
     <string name="label_labels">Vælg Tags</string>
     <string name="label_description">Beskrivelse</string>
     <string name="hint_assign_people">Tildel brugere</string>
     <string name="hint_due_date_date">Forfaldsdato</string>
+    <string name="hint_due_date_time">Tid</string>
+
+    <string name="card_not_found">Kort ikke fundet</string>
+    <string name="card_not_found_message">Kortet kunne ikke findes. Måske er det blevet slettet for nyligt?</string>
+
     <string name="add_account">Tilføj konto</string>
     <string name="choose_account">Vælg konto</string>
+    <string name="add_card">Tilføj nyt kort</string>
     <string name="activity">Aktivitet</string>
     <string name="add_list">Tilføj liste</string>
     <string name="rename_list">Omdøb liste</string>
@@ -108,15 +108,19 @@
     <string name="do_you_want_to_save_your_changes">Vil du gemme dine ændringer?</string>
     <string name="add_a_new_list_using_the_button">Tilføj en ny liste med knappen +</string>
     <string name="add_a_new_card_using_the_button">Tilføj et nyt kort med knappen +</string>
-    <string name="update_deck">Opdatér deck</string>
-    <string name="your_deck_version_is_too_old">Din version af deck er for gammel</string>
     <string name="delete_board_message">Dette vil permanent slette denne tavle, inklusive alle lister og kort.</string>
-    <string name="settings_theme_title">Mørk tema</string>
+    <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Branding</string>
+    <string name="settings_compact_title">Kompakt tilstand</string>
     <string name="settings_background_sync">Synkronisering i baggrunden</string>
+    <string name="search_in">Søg i %1$s</string>
     <string name="pref_value_wifi_and_mobile">Synk på Wi-Fi og mobil data</string>
     <string name="pref_value_wifi_only">Synk kun på Wi-Fi</string>
-    <string name="pref_value_theme_light">Lys</string>
+    <string-array name="darkmode_entries">
+        <item>System Standard</item>
+        <item>Lys</item>
+        <item>Mørk</item>
+    </string-array>
     <string name="unassigned_user">Ikke-tildelt %1$s</string>
     <string name="no_activities">Der er ingen aktiviteter på dette kort. Du skal være koblet på en internetforbindelser for at indlæse og vise aktiviteter.</string>
     <string name="share_board">Del tavlen</string>
@@ -132,15 +136,12 @@
     <string name="hours_6">6 timer</string>
     <string name="action_card_move">Flyt kort</string>
     <string name="action_card_move_title">Flyt %1$s</string>
-    <string name="please_add_an_account_first">Tilføj venligst en konto først</string>
     <string name="title_is_mandatory">Titel er påkrævet</string>
     <string name="provide_at_least_a_title_or_description">Angiv mindst titel eller beskrivelse</string>
     <string name="welcome_text">Velkommen til %1$s</string>
-    <string name="save_card_before_attachment">Kortet skal være gemt før vedhæftningen kan tilføjes.</string>
     <string name="maintenance_mode_explanation">Serveren %1$s er aktuelt i vedligeholdelsestilstand. Kontakt venligst din administrator eller forsøg igen senere.</string>
     <string name="share_add_to_card">Tilføj til kort</string>
     <string name="share_success">Tilføjede %1$s til %2$s med succes</string>
-    <string name="could_not_copy_to_clipboard">Kunne ikke kopiere til udklipsholderen</string>
     <string name="add_comment">Tillføj kommentar</string>
     <string name="card_edit_comments">Kommentarer</string>
     <string name="no_comments_yet">Endnu ingen kommentarer</string>
@@ -152,42 +153,85 @@
     <string name="open_in_browser">Åbn i browser</string>
     <string name="updating_card">Opdaterer kort ...</string>
 
-    <!-- Move lists -->
     <string name="move_list_right">Flyt liste til højre</string>
     <string name="move_list_left">Flyt liste til venstre</string>
 
-    <!-- Filter -->
     <string name="filter_no_filter">Alle</string>
+    <string name="filter_overdue">Overskredet</string>
     <string name="filter_today">I dag</string>
+    <string name="filter_tomorrow">I morgen</string>
+    <string name="filter_week">Næste 7 dage</string>
+    <string name="filter_month">Næste 30 dage</string>
+    <string name="filter_no_due">Ingen forfaldsdato</string>
+    <string name="filter_later">Senere</string>
+    <string name="filter_by_tag">Filtrer vha. mærkat</string>
+    <string name="filter_by_assigned_user">Filtrer vha. tildelt bruger</string>
+    <string name="filter_by_duedate">Filtrer vha. forfaldsdato</string>
+
+    <string name="archived_cards">Arkiverede kort</string>
+    <string name="pick_custom_color">Vælg brugerdefineret farve</string>
     <string name="add_tag">Tilføj Tag</string>
+    <string name="tag_already_exists">%1$s eksisterer allerede</string>
+    <string name="edit_tag">Rediger %1$s</string>
     <string name="filter_tags_title">Tags</string>
     <string name="filter_user_title">Brugere</string>
     <string name="filter_duedate_title">Forfaldsdato</string>
 
     <string name="archived_boards">Arkiverede lister</string>
 
-    <!-- Errors -->
     <string name="error">Der skete en fejl</string>
     <string name="synchronization_failed">Synkroniseringen mislykkedes</string>
     <string name="operation_not_yet_supported">Understøttes endnu ikke</string>
     <string name="error_revoking_ac">Fejl under tilbagekaldelse af adgang for %1$s</string>
-    <string name="maintenance_mode">Server i vedligeholdelsestilstand</string>
-    <string name="server_misconfigured">Server er forkert konfigureret </string>
+    <string name="maintenance_mode">Serveren er i vedligeholdelsestilstand</string>
     <string name="server_error">Serverfejl</string>
-    <string name="shared_error">Deling af indhold fra 3. parts apps understøttes endnu ikke fuldt ud. Forsøg at hente det først, og dernæst dele det fra din indbyggede filhåndtering eller dit galleri.</string>
     <string name="error_dialog_title">Åh nej - hvad nu? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Forsøg venligst at tvinge app\'en til at lukke og start den påny igen. Der kan have været en ukorrekt forbindelse til Nextcloud-app\'en.</string>
-    <string name="error_dialog_tip_files_outdated">Din Nextcloud-app ser ud til at være forældet. Gå venligst til Play Butik eller F-Droid for at få seneste version.</string>
     <string name="error_dialog_tip_files_delete_storage">Hvis det ikke hjælper at stoppe begge, så kan du forsøge at rydde lagerpladsen for begge apps.</string>
     <string name="error_dialog_timeout_instance">Der var intet svar fra din server på nuværende tidspunkt. Sørg venligst for at sikre, at din instans kører rigtigt. </string>
     <string name="error_dialog_check_server_logs">Der er et problem med din opsætning af Nextcloud. Kig venligst i serverens logfiler. </string>
     <string name="error_dialog_check_maintenance">Sørg venligst for at din Nextcloud-instans ikke er i vedligeholdelsestilstand. </string>
     <string name="error_dialog_insufficient_storage">Din Nextcloud-instans har ikke mere ledig lagerplads. Slet venligst nogle filer for at synkronisere dine lokale ændringer ind i skyen.</string>
     <string name="error_dialog_we_need_info">Vi har brug for følgende tekniske information for at hjælpe dig:</string>
+    <string name="error_action_open_deck_info">Åbn App info</string>
+    <string name="error_action_open_nextcloud_app">Åbn Nextcloud app</string>
+    <string name="error_action_open_network">Netværksindstillinger</string>
+    <string name="error_action_server_logs">Server logs</string>
+    <string name="error_action_open_in_browser">Åbn i browser</string>
+    <string name="error_action_install">Installer</string>
     <string name="error_action_report_issue">Rapporter</string>
-    <string name="info_box_maintenance_mode">Server i vedligeholdelsestilstand</string>
+    <string name="error_action_update_files_app">Opdater</string>
+    <string name="info_box_maintenance_mode">Serveren er i vedligeholdelsestilstand</string>
     <string name="share_link">Del link</string>
     <string name="manage_accounts">Administrer konti</string>
     <string name="simple_reply">Besvar</string>
     <string name="simple_report">Rapporter</string>
+    <string name="error_action_open_battery_settings">Batteriindstillinger</string>
+    <string name="clone_board">Klon tavle</string>
+    <string name="widget_stack_title">Liste</string>
+    <string name="widget_filter_title">Filter</string>
+    <string name="project_type_file">Fil</string>
+    <string name="projects_title">Projekter</string>
+    <string name="simple_move">Flyt</string>
+    <string name="simple_contact">Kontakt</string>
+    <string name="simple_file">Fil</string>
+    <string name="simple_camera">Kamera</string>
+    <string name="take_photo">Tag et billede</string>
+    <string name="take_photo_switch_camera">Skift kamera</string>
+    <string name="show_all_contacts">Vis alle kontakter</string>
+    <string name="show_all_files">Vis alle filer</string>
+    <string name="recent">Nylige</string>
+    <string name="upload_a_new_attachment">Upload en ny vedhæftning</string>
+    <string name="contacts">Kontakter</string>
+    <string name="downloads">Downloads</string>
+    <string name="files">Filer</string>
+    <string name="gallery">Galleri</string>
+    <string name="simple_attach">vedhæft</string>
+    <string name="edit_description">Rediger beskrivelse</string>
+    <string name="widget_upcoming_title">Kommende kort</string>
+    <string name="app_logo">App logo</string>
+    <string name="account_imported">Konto importeret</string>
+    <string name="simple_search">Søg</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Titel (påkrævet)</string>
     </resources>

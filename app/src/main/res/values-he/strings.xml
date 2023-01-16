@@ -1,19 +1,12 @@
 <resources>
     <string name="navigation_drawer_open">פתיחת מגירת ניווט</string>
     <string name="navigation_drawer_close">סגירת מגירת ניווט</string>
-
-    <string name="drawer_header_background">תמונת רקע של כותרת מגירה</string>
-    <string name="drawer_current_account">חשבון נוכחי</string>
-    <string name="drawer_middle_account">חשבון אמצעי</string>
-    <string name="drawer_end_account">חשבון אחרון</string>
-    <string name="drawer_manage_accounts">ניהול חשבונות</string>
-
     <string name="simple_boards">לוחות</string>
     <string name="simple_add">הוספה</string>
     <string name="simple_save">שמור</string>
     <string name="simple_more">עוד</string>
     <string name="simple_title">כותרת</string>
-    <string name="simple_copy">עותק</string>
+    <string name="simple_copy">העתק</string>
     <string name="simple_synchronization">סנכרון</string>
     <string name="simple_appearance">מראה</string>
     <string name="simple_error">שגיאה</string>
@@ -37,6 +30,9 @@
     <string name="simple_disabled">מושבת</string>
     <string name="simple_copied">הועתק</string>
     <string name="simple_archive">לארכיון</string>
+    <string name="simple_unassigned">לא הוקצה</string>
+    <string name="hint_error_appeared">הופיעה שגיאה</string>
+
     <string name="edit_board">ערוך לוח</string>
     <string name="archive_board">לוח פעיל</string>
     <string name="delete_board">מחק לוח</string>
@@ -73,6 +69,8 @@
     <string name="label_description">תיאור</string>
     <string name="hint_assign_people">הקצאת משתמשים</string>
     <string name="hint_due_date_date">תאריך יעד</string>
+    <string name="hint_due_date_time">זמן</string>
+
     <string name="card_not_found">כרטיס לא נמצא</string>
     <string name="card_not_found_message">לר ניתן למצוא את הכרטיס. אולי הוא נמחק לאחרונה.</string>
 
@@ -120,14 +118,18 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">ניתן להוסיף רשימה חדשה עם הכפתור +</string>
     <string name="add_a_new_card_using_the_button">ניתן להוסיף כרטיס חדש עם הכפתור +</string>
-    <string name="update_deck">עדכון החפיסה</string>
-    <string name="your_deck_version_is_too_old">גרסת החפיסה שלך ישנה מדי</string>
-    <string name="deck_outdated_please_update">גרסת החפיסה שלך ישנה מדי (%1$s). נא לעדכן כדי להשתמש ביישומון Android זה כלקוח.</string>
     <string name="delete_board_message">פעולה זו תמחק את הלוח הזה על כל רשימותיו וכרטיסיו.</string>
+    <string name="settings_theme_title">ערכת עיצוב</string>
     <string name="settings_branding_title">מיתוג</string>
     <string name="settings_background_sync">סנכרון ברקע</string>
+    <string name="search_in">חיפוש תחת %1$s</string>
     <string name="pref_value_wifi_and_mobile">עדכון דרך רשת אלחוטית ונתונים סלולריים</string>
     <string name="pref_value_wifi_only">סנכרון רק דרך רשת אלחוטית</string>
+    <string-array name="darkmode_entries">
+        <item>ברירת מחדל של המערכת</item>
+        <item>בהירה</item>
+        <item>כהה</item>
+    </string-array>
     <string name="unassigned_user">ההקצאה אל %1$s בוטלה</string>
     <string name="no_activities">אין פעילויות בכרטיס הזה. עליך להתחבר לאינטרנט כדי לטעון ולהציג פעילויות.</string>
     <string name="share_board">שיתוף לוח</string>
@@ -139,15 +141,12 @@
     <string name="last_background_sync">עדכון רקע אחרון:</string>
     <string name="simple_off">כבוי</string>
     <string name="minutes_15">15 דקות</string>
-    <string name="hour_1">שעה אחת</string>
+    <string name="hour_1">שעה</string>
     <string name="hours_6">6 שעות</string>
     <string name="action_card_move">העברת כרטיס</string>
     <string name="action_card_move_title">העברת %1$s</string>
-    <string name="please_add_an_account_first">נא להוסיף חשבון תחילה</string>
-    <string name="title_is_mandatory">חובה להוסיף כותרת</string>
     <string name="provide_at_least_a_title_or_description">נא לספק לפחות כותרת או תיאור</string>
     <string name="welcome_text">ברוך בואך אל %1$s</string>
-    <string name="save_card_before_attachment">יש לשמור את הכרטיס לפני שניתן יהיה לצרף קבצים.</string>
     <string name="maintenance_mode_explanation">השרת %1$s נמצא במצב תחזוקה. נא ליצור קשר עם ההנהלה או לנסות מאוחר יותר.</string>
     <string name="share_add_to_card">הוספה לכרטיס</string>
     <string name="share_success">%1$s נוסף בהצלחה אל %2$s</string>
@@ -168,9 +167,11 @@
     <string name="filter_no_filter">הכול</string>
     <string name="filter_overdue">באיחור</string>
     <string name="filter_today">היום</string>
+    <string name="filter_tomorrow">מחר</string>
     <string name="filter_week">ב־7 הימים הבאים</string>
     <string name="filter_month">ב־30 הימים הבאים</string>
     <string name="filter_no_due">ללא תאריך יעד</string>
+    <string name="filter_later">אחר כך</string>
     <string name="filter_by_tag">סינון לפי תגית</string>
     <string name="filter_by_assigned_user">סינון לפי משתמש מוקצה</string>
     <string name="filter_by_duedate">סינון לפי תאריך יעד</string>
@@ -197,12 +198,8 @@
     <string name="operation_not_yet_supported">אין תמיכה עדיין</string>
     <string name="error_revoking_ac">שגיאה בעת שלילת הגישה של %1$s</string>
     <string name="error_create_label">שגיאה ביצירת התווית %1$s</string>
-    <string name="maintenance_mode">שרת במצב תחזוקה</string>
-    <string name="server_misconfigured">הגדרות השרת שגויות</string>
     <string name="server_error">שגיאת שרת</string>
-    <string name="shared_error">שיתוף תוכן מיישומוני צד־שלישי עדיין לא נתמך לגמרי. נא לנסות להוריד תחילה ואז לשתף ממנהל הקבצים או הגלריה המובנים.</string>
     <string name="error_dialog_title">שוד ושבר - מה עכשיו? 🙁</string>
-    <string name="error_dialog_tip_files_outdated">נראה כי יישומון ה־Nextcloud שלך אינו עדכני. נא לבקר בחנות Play או ב־F-Droid כדי לעדכן לגרסה האחרונה.</string>
     <string name="error_dialog_tip_files_delete_storage">אם כפיית עצירה לא עוזרת, ניתן לנסות לרוקן את האחסון של שני היישומונים.</string>
     <string name="error_dialog_timeout_instance">לא חזרה תגובה מהשרת שלך בזמן קצוב. נא לוודא שהעותק פועל כראוי.</string>
     <string name="error_dialog_check_maintenance">נא לבדוק שעותק ה־Nextcloud שלך אינו במצב תחזוקה כרגע.</string>
@@ -210,9 +207,10 @@
     <string name="error_action_open_deck_info">פתיחת פרטי יישומון</string>
     <string name="error_action_open_network">הגדרות רשת</string>
     <string name="error_action_server_logs">יומני שרת</string>
+    <string name="error_action_open_in_browser">פתיחה בדפדפן</string>
     <string name="error_action_install">התקנה</string>
     <string name="error_action_report_issue">דיווח</string>
-    <string name="info_box_maintenance_mode">שרת במצב תחזוקה</string>
+    <string name="error_action_update_files_app">עדכון</string>
     <string name="info_box_version_not_supported">גרסת השרת %1$s אינה נתמכת, נא לעדכן לגרסה %2$s</string>
     <string name="share_link">קישור שיתוף</string>
     <string name="manage_accounts">ניהול חשבונות</string>
@@ -220,9 +218,22 @@
     <string name="simple_report">דיווח</string>
     <string name="clone_board">שכפול לוח</string>
     <string name="widget_stack_title">רשימה</string>
+    <string name="widget_filter_title">מסנן</string>
     <string name="project_type_deck_board">לוח חסיפה</string>
     <string name="project_type_deck_card">כרטיס בחסיפה</string>
     <string name="project_type_file">קובץ</string>
     <string name="projects_title">מיזמים</string>
     <string name="simple_move">העברה</string>
+    <string name="cannot_upload_files_without_permission">לא ניתן להעלות קבצים ללא הרשאות</string>
+    <string name="simple_contact">איש/אשת קשר</string>
+    <string name="simple_file">קובץ</string>
+    <string name="simple_camera">מצלמה</string>
+    <string name="recent">אחרונים</string>
+    <string name="contacts">אנשי קשר</string>
+    <string name="downloads">הורדות</string>
+    <string name="files">קבצים</string>
+    <string name="gallery">גלריה</string>
+    <string name="edit_description">עריכת תיאור</string>
+    <string name="widget_upcoming_title">כרטיסים עתידיים</string>
+    <string name="simple_search">חיפוש</string>
     </resources>

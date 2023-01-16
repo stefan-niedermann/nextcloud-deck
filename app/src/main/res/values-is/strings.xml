@@ -1,26 +1,19 @@
 <resources>
-    <string name="navigation_drawer_open">Opna rennivalmynd</string>
-    <string name="navigation_drawer_close">Loka rennivalmynd</string>
-
-    <string name="drawer_header_background">Bakgrunnsmynd á haus hliðarspjalds</string>
-    <string name="drawer_current_account">Núverandi notandaaðgangur</string>
-    <string name="drawer_middle_account">Mið-notandaaðgangur</string>
-    <string name="drawer_end_account">Síðasti notandaaðgangur</string>
-    <string name="drawer_manage_accounts">Sýsla með notandaaðganga</string>
-
-    <!-- Simple values -->
+    <string name="navigation_drawer_open">Opna leiðsagnarsleða</string>
+    <string name="navigation_drawer_close">Loka leiðsagnarsleða</string>
     <string name="simple_boards">Borð</string>
     <string name="simple_add">Bæta við</string>
     <string name="simple_save">Vista</string>
     <string name="simple_more">Meira</string>
     <string name="simple_title">Titill</string>
-    <string name="simple_copy">afrita</string>
+    <string name="simple_copy">Afrita</string>
     <string name="simple_synchronization">Samstilling</string>
     <string name="simple_appearance">Útlit</string>
     <string name="simple_error">Villa</string>
     <string name="simple_exception">Frávik</string>
-    <string name="simple_close">loka</string>
+    <string name="simple_close">Loka</string>
     <string name="simple_open">Opna</string>
+    <string name="simple_switch">Skipta</string>
     <string name="simple_filter">Sía</string>
     <string name="simple_overdue">Fram yfir tímamörk</string>
     <string name="simple_clear">Hreinsa</string>
@@ -30,29 +23,31 @@
     <string name="simple_rename">Endurnefna</string>
     <string name="simple_settings">Stillingar</string>
     <string name="simple_undo">Afturkalla</string>
-    <string name="simple_manage">skipuleggja</string>
-    <string name="simple_share">deila</string>
+    <string name="simple_manage">stjórna</string>
+    <string name="simple_share">Deila</string>
     <string name="simple_select">Velja</string>
     <string name="simple_comment">Athugasemd</string>
     <string name="simple_disabled">óvirkt</string>
     <string name="simple_copied">Afritað</string>
+    <string name="simple_archive">Safn</string>
+    <string name="simple_unassigned">Ekki úthlutað</string>
+    <string name="hint_error_appeared">Villa kom upp</string>
 
     <string name="edit_board">Breyta borði</string>
     <string name="archive_board">Setja borð í geymslu</string>
     <string name="delete_board">Eyða borði</string>
-    <string name="delete_something">Eyða %1$s</string>
+    <string name="delete_something">Eyða \'%s\'?</string>
 
-    <!-- About -->
     <string name="about">Um hugbúnaðinn</string>
     <string name="about_version_title">Útgáfa</string>
     <string name="about_version">Þú ert núna að nota %1$s</string>
     <string name="about_maintainer_title">Umsjónarmaður</string>
-    <string name="about_developers_title">Forritarar</string>
+    <string name="about_developers_title">Hönnuðir</string>
     <string name="about_translators_title">Þýðendur</string>
     <string name="about_translators_transifex">Nextcloud-samfélagið á %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Prófarar</string>
-    <string name="about_source_title">Frumkóði</string>
+    <string name="about_testers_title">prófarar</string>
+    <string name="about_source_title">Upprunakóði</string>
     <string name="about_source">Þetta verkefni er hýst á GitHub: %1$s</string>
     <string name="about_issues_title">Vandamál</string>
     <string name="about_issues">Þú getur tilkynnt um villur, beðið um viðbótareiginleika og betrumbætur á GitHub villuskrásetjaranum: %1$s</string>
@@ -60,24 +55,27 @@
     <string name="about_translate">Gakktu í Nextcloud-teymið á Transifex og hjálpaðu okkur að þýða þetta forrit: %1$s</string>
     <string name="about_app_license_title">Notkunarleyfi forritsins</string>
     <string name="about_app_license">Þessu forriti er dreift með almenna GNU GENERAL PUBLIC notkunarleyfinu v3+.</string>
-    <string name="about_app_license_button">Skoða notkunarleyfi</string>
+    <string name="about_app_license_button">Skoða leyfi</string>
     <string name="about_icons_disclaimer_title">Táknmyndir</string>
     <string name="about_icons_disclaimer_mdi">Material Design táknmyndir</string>
-    <string name="about_credits_tab_title">Þakkir til</string>
-    <string name="about_contribution_tab_title">Framlög</string>
+    <string name="about_credits_tab_title">Framlög</string>
+    <string name="about_contribution_tab_title">Höfundar</string>
     <string name="about_license_tab_title">Notkunarleyfi</string>
-
     <string name="seconds_ago">sekúndum síðan</string>
     <string name="edit">Breyta</string>
     <string name="label_labels">Veldu merki</string>
     <string name="label_description">Lýsing</string>
     <string name="hint_assign_people">Tilnefna notendur</string>
     <string name="hint_due_date_date">Skiladagur</string>
+    <string name="hint_due_date_time">Tími</string>
+
     <string name="add_account">Bæta við notandaaðgangi</string>
     <string name="choose_account">Veldu aðgang</string>
     <string name="activity">Virkni</string>
+    <string name="add_list">Bæta við lista</string>
+    <string name="rename_list">Endurnefna lista</string>
     <string name="delete_list">Eyða lista</string>
-    <string name="label_menu">valmynd</string>
+    <string name="label_menu">Valmynd</string>
     <string name="action_card_assign">Úthluta spjaldinu til mín</string>
     <string name="action_card_unassign">Aftengja úthlutun spjalds til mín</string>
     <string name="action_card_archive">Setja spjald í geymslu</string>
@@ -85,13 +83,8 @@
     <string name="add_board">Bæta við borði</string>
 
     <string name="label_clear_due_date">Fjarlægja skiladag</string>
-    <string name="label_add">Bæta við %1$s</string>
+    <string name="label_add">Bæta við {0:s}</string>
 
-    <!-- Error messages -->
-    <string name="error">Villa kom upp</string>
-    <string name="copied_to_clipboard">Afritað á klippispjaldið</string>
-    <string name="maintenance_mode">Þjónn í viðhaldsham</string>
-    <string name="server_error">Villa frá þjóni</string>
     <string name="card_edit_details">Nánar</string>
     <string name="card_edit_attachments">Viðhengi</string>
     <string name="card_edit_activity">Virkni</string>
@@ -99,18 +92,23 @@
     <string name="no_files_attached_to_this_card">Það eru engar skrár á þessu spjaldi.</string>
     <string name="attachments">Viðhengi</string>
     <string name="no_cards">Engin spjöld ennþá</string>
-    <string name="no_account">Enginn notandaaðgangur stilltur</string>
+    <string name="no_account">Enginn aðgangur stilltur.</string>
     <string name="account_already_added">Aðgangi þegar bætt við</string>
     <string name="account_is_getting_imported">Verið er að flytja inn aðgang</string>
     <string name="not_synced_yet">Ekki ennþá samstillt</string>
+    <string name="no_lists_yet">Engir listar ennþá</string>
     <string name="do_you_want_to_save_your_changes">Viltu vista breytingarnar þínar?</string>
-    <string name="update_deck">Uppfæra borð</string>
-    <string name="your_deck_version_is_too_old">Útgáfan þín af deck er of gömul</string>
-    <string name="settings_theme_title">Dökkt þema</string>
+    <string name="settings_theme_title">Þema</string>
+    <string name="settings_compact_title">Þjappaður hamur</string>
     <string name="settings_background_sync">Samstilling í bakgrunni</string>
+    <string name="search_in">Leita í %1$s</string>
     <string name="pref_value_wifi_and_mobile">Samstilla á WiFi-neti og farsímatengingu</string>
     <string name="pref_value_wifi_only">Aðeins samstilla á WiFi-neti</string>
-    <string name="pref_value_theme_light">Ljóst</string>
+    <string-array name="darkmode_entries">
+        <item>Sjálfgefið kerfi</item>
+        <item>Ljóst</item>
+        <item>Dökkt</item>
+    </string-array>
     <string name="unassigned_user">Tók úthlutun af %1$s</string>
     <string name="share_board">Deila borði</string>
     <string name="you_are_currently_offline">Þú ert ekki tengdur við netið</string>
@@ -124,22 +122,74 @@
     <string name="hours_6">6 klukkustundir</string>
     <string name="action_card_move">Færa spjald</string>
     <string name="action_card_move_title">Færa %1$s</string>
-    <string name="please_add_an_account_first">Bættu fyrst við notandaaðgangi</string>
-    <string name="title_is_mandatory">Titill er nauðsynlegur</string>
     <string name="provide_at_least_a_title_or_description">Gefðu upp í það minnsta titil eða lýsingu</string>
+    <string name="welcome_text">Velkomin í %s</string>
+    <string name="add_comment">Bæta við athugasemd</string>
     <string name="card_edit_comments">Athugasemdir</string>
+    <string name="no_comments_yet">Engar athugasemdir ennþá</string>
+    <string name="no_boards">Engin borð ennþá</string>
+    <string name="choose_board">Veldu borð</string>
+    <string name="choose_list">Veldu lista</string>
+    <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Opna í vafra</string>
-    <!-- Filter -->
     <string name="filter_no_filter">Allt</string>
     <string name="filter_overdue">Fram yfir tímamörk</string>
     <string name="filter_today">Í dag</string>
+    <string name="filter_tomorrow">Á morgun</string>
     <string name="filter_week">Næstu 7 daga</string>
     <string name="filter_month">Næstu 30 daga</string>
     <string name="filter_no_due">Enginn lokadagur</string>
-    <string name="filter_by_tag">Sía eftir merki</string>
+    <string name="filter_later">Seinna</string>
+    <string name="filter_by_tag">Sía eftir merkjum</string>
     <string name="filter_by_assigned_user">Sía eftir úthlutuðum notanda</string>
     <string name="filter_by_duedate">Sía eftir lokadagsetningu</string>
 
-    <!-- Archived cards -->
     <string name="archived_cards">Spjöld í geymslu</string>
+    <string name="attachment_already_exists">Viðhengið er þegar til staðar</string>
+    <string name="pick_custom_color">Veldu sérsniðinn lit</string>
+    <string name="manage_tags">Sýsla með merki</string>
+    <string name="add_tag">Bæta við merki</string>
+    <string name="edit_tag">Breyta %1$s</string>
+    <string name="filter_tags_title">Merki</string>
+    <string name="filter_user_title">Notendur</string>
+    <string name="filter_duedate_title">Skiladagur</string>
+
+    <string name="archived_boards">Borð í geymslu</string>
+
+    <string name="error">Villa kom upp</string>
+    <string name="synchronization_failed">Samstilling mistókst</string>
+    <string name="operation_not_yet_supported">Ekki stutt ennþá</string>
+    <string name="maintenance_mode">Þjónn er í viðhaldsham</string>
+    <string name="server_error">Villa frá þjóni</string>
+    <string name="error_dialog_title">Ó-nei - Hvað nú? 🙁</string>
+    <string name="error_action_open_network">Netkerfisstillingar</string>
+    <string name="error_action_server_logs">Atvikaskráning netþjóns</string>
+    <string name="error_action_open_in_browser">Opna í vafra</string>
+    <string name="error_action_install">Setja upp</string>
+    <string name="error_action_report_issue">Skýrsla</string>
+    <string name="error_action_update_files_app">Uppfæra</string>
+    <string name="info_box_maintenance_mode">Þjónn er í viðhaldsham</string>
+    <string name="share_link">Deila tengli</string>
+    <string name="manage_accounts">Sýsla með notendaaðganga</string>
+    <string name="simple_reply">Svara</string>
+    <string name="add_text_as_comment">Bæta við sem athugasemd</string>
+    <string name="progress_count">%1$d af %2$d</string>
+    <string name="simple_report">Skýrsla</string>
+    <string name="clone_board">Klóna borð</string>
+    <string name="cloning_board">Klóna %1$s…</string>
+    <string name="widget_stack_title">Listi</string>
+    <string name="widget_filter_title">Sía</string>
+    <string name="select_stack">Veldu lista</string>
+    <string name="project_type_file">Skrá</string>
+    <string name="projects_title">Verkefni</string>
+    <string name="simple_move">Færa</string>
+    <string name="simple_contact">Tengiliður</string>
+    <string name="simple_file">Skrá</string>
+    <string name="simple_camera">Myndavél</string>
+    <string name="recent">Nýlegt</string>
+    <string name="contacts">Tengiliðir</string>
+    <string name="downloads">Sótt gögn</string>
+    <string name="files">Skrár</string>
+    <string name="gallery">Myndasafn</string>
+    <string name="simple_search">Search</string>
     </resources>

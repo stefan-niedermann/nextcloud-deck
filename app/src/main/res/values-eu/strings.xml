@@ -312,8 +312,8 @@
     <string name="files">Fitxategiak</string>
     <string name="gallery">Galeria</string>
     <string name="simple_attach">Erantsi</string>
-    <string name="add_stack_widget">Gehitu zerrenda widget-a</string>
-    <string name="add_filter_widget">Gehitu iragazki widget-a</string>
+    <string name="add_stack_widget">Gehitu zerrenda trepeta</string>
+    <string name="add_filter_widget">Gehitu iragazki trepeta</string>
     <string name="simple_order">Ordena</string>
     <string name="edit_description">Editatu deskribapena</string>
     <string name="widget_upcoming_title">Hurrengo txartelak</string>
