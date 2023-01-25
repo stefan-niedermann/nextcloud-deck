@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.materialVersion = "1.7.0"
+    ext.materialVersion = "1.8.0"
     repositories {
         google()
         mavenCentral()
