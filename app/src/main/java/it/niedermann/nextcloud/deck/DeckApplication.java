@@ -14,6 +14,8 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.preference.PreferenceManager;
 
+import com.nextcloud.android.sso.helper.SingleAccountHelper;
+
 import it.niedermann.android.sharedpreferences.SharedPreferenceIntLiveData;
 import it.niedermann.nextcloud.deck.model.Account;
 
@@ -119,6 +121,7 @@ public class DeckApplication extends Application {
     // --------------------------------------
 
     public static void saveCurrentAccount(@NonNull Context context, @NonNull Account account) {
+        SingleAccountHelper.setCurrentAccount(context, account.getName());
         final var editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         DeckLog.log("--- Write:", context.getString(R.string.shared_preference_last_account), "→", account.getId());
         editor.putLong(context.getString(R.string.shared_preference_last_account), account.getId());

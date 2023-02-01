@@ -76,7 +76,6 @@ import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.exceptions.AccountImportCancelledException;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.exceptions.UnknownErrorException;
-import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -276,10 +275,9 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
             mainViewModel.getCurrentAccountLiveData().removeObservers(this);
             mainViewModel.getCurrentAccountLiveData().observe(this, (currentAccount) -> {
-                SingleAccountHelper.setCurrentAccount(getApplicationContext(), mainViewModel.getCurrentAccount().getName());
+                saveCurrentAccount(this, mainViewModel.getCurrentAccount());
                 mainViewModel.recreateSyncManager();
 
-                saveCurrentAccount(this, mainViewModel.getCurrentAccount());
                 if (mainViewModel.getCurrentAccount().isMaintenanceEnabled()) {
                     refreshCapabilities(mainViewModel.getCurrentAccount(), null);
                 }

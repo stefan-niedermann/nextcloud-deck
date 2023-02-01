@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
@@ -16,15 +17,12 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 @SuppressWarnings("WeakerAccess")
 public class PrepareCreateViewModel extends AndroidViewModel {
 
-    private final SyncManager syncManager;
-
     public PrepareCreateViewModel(@NonNull Application application) {
         super(application);
-        this.syncManager = new SyncManager(application);
     }
 
-    public void saveCard(long accountId, long boardLocalId, long stackLocalId, @NonNull FullCard fullCard, @NonNull IResponseCallback<FullCard> callback) {
-        syncManager.createFullCard(accountId, boardLocalId, stackLocalId, fullCard, callback);
+    public void saveCard(@NonNull Account account, long boardLocalId, long stackLocalId, @NonNull FullCard fullCard, @NonNull IResponseCallback<FullCard> callback) {
+        new SyncManager(getApplication(), account.getName()).createFullCard(account.getId(), boardLocalId, stackLocalId, fullCard, callback);
     }
 
     @SuppressWarnings("ConstantConditions")

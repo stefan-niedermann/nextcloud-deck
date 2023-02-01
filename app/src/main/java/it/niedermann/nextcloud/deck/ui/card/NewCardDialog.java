@@ -180,7 +180,7 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
             final var currentUserInput = binding.input.getText();
             if (inputIsValid(currentUserInput)) {
                 final var fullCard = viewModel.createFullCard(account.getServerDeckVersionAsObject(), currentUserInput.toString());
-                viewModel.saveCard(account.getId(), boardLocalId, stackLocalId, fullCard, new IResponseCallback<>() {
+                viewModel.saveCard(account, boardLocalId, stackLocalId, fullCard, new IResponseCallback<>() {
                     @Override
                     public void onResponse(FullCard createdCard) {
                         requireActivity().runOnUiThread(() -> {
