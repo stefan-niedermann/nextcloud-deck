@@ -148,9 +148,9 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
             binding.descriptionToggle.setOnClickListener((v) -> viewModel.toggleDescriptionPreviewMode());
         } else {
             binding.descriptionEditor.setEnabled(false);
-            binding.descriptionEditorWrapper.setVisibility(VISIBLE);
+            binding.descriptionEditorWrapper.setVisibility(GONE);
             binding.descriptionViewer.setEnabled(false);
-            binding.descriptionViewer.setVisibility(GONE);
+            binding.descriptionViewer.setVisibility(VISIBLE);
             binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
         }
     }
@@ -317,7 +317,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
             localCardId = localCardId == null ? -1 : localCardId;
             binding.people.setAdapter(new UserAutoCompleteAdapter(requireActivity(), viewModel.getAccount(), viewModel.getBoardId(), localCardId));
             binding.people.setOnItemClickListener((adapterView, view, position, id) -> {
-                User user = (User) adapterView.getItemAtPosition(position);
+                final var user = (User) adapterView.getItemAtPosition(position);
                 viewModel.getFullCard().getAssignedUsers().add(user);
                 ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
                 adapter.addUser(user);
@@ -329,6 +329,10 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
             }
         } else {
             binding.people.setEnabled(false);
+
+            if (this.viewModel.getFullCard().getAssignedUsers() != null) {
+                adapter.setUsers(this.viewModel.getFullCard().getAssignedUsers());
+            }
         }
     }
 
