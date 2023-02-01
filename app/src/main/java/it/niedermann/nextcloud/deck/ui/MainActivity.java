@@ -11,7 +11,7 @@ import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccount;
 import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentBoardId;
 import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentStackId;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToExtendedFAB;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.clearBrandColors;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
@@ -28,6 +28,7 @@ import android.animation.AnimatorInflater;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
@@ -370,6 +371,8 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             binding.listMenuButton.setOnClickListener((v) -> listMenuPopup.show());
 
             binding.fab.setOnClickListener((v) -> {
+                // TODO We should hide the FAB while the dialog is open - but how to detect the dialog has been closed?
+                binding.fab.hide();
                 if (this.boardsList.size() > 0) {
                     try {
                         NewCardDialog.newInstance(
@@ -404,7 +407,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                         }
                     });
 
-                    showFabIfEditPermissionGranted();
+                    binding.fab.extend();
                 }
 
                 @Override
@@ -451,7 +454,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
     private void applyBoardBranding(@ColorInt int mainColor) {
         applyBrandToPrimaryTabLayout(mainColor, binding.stackTitles);
-        applyBrandToFAB(mainColor, binding.fab);
+        applyBrandToExtendedFAB(mainColor, binding.fab);
         // TODO We assume, that the background of the spinner is always white
         binding.swipeRefreshLayout.setColorSchemeColors(contrastRatioIsSufficient(Color.WHITE, mainColor) ? mainColor : DeckApplication.isDarkTheme(this) ? Color.DKGRAY : colorAccent);
         DrawableCompat.setTint(binding.filterIndicator.getDrawable(), getSecondaryForegroundColorDependingOnTheme(this, mainColor));
@@ -807,6 +810,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         if (mainViewModel.currentBoardHasEditPermission()) {
             binding.fab.show();
             binding.listMenuButton.setVisibility(View.VISIBLE);
+            binding.emptyContentViewStacks.showDescription();
         } else {
             binding.fab.hide();
             binding.listMenuButton.setVisibility(View.GONE);
@@ -814,20 +818,19 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         }
     }
 
-    protected void showFabIfEditPermissionGranted() {
-        if (mainViewModel.currentBoardHasEditPermission()) {
-            binding.fab.show();
-        }
-    }
-
     @Override
     public void onScrollUp() {
-        showFabIfEditPermissionGranted();
+        binding.fab.extend();
     }
 
     @Override
     public void onScrollDown() {
-        binding.fab.hide();
+        binding.fab.shrink();
+    }
+
+    @Override
+    public void onBottomReached() {
+        binding.fab.extend();
     }
 
     @Override
@@ -1048,6 +1051,11 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     }
 
     @Override
+    public void onDismiss(DialogInterface dialog) {
+        this.binding.fab.show();
+    }
+
+    @Override
     public void onStackDeleted(long stackLocalId) {
         int nextStackPosition;
         try {
@@ -1120,7 +1128,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                     BrandedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
                             .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
                             .setAnchorView(binding.fab)
-                    .show();
+                            .show();
                 }
             });
         }

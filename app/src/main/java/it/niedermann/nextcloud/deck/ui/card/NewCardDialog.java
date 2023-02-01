@@ -216,6 +216,12 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
         }
     }
 
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        this.createCardListener.onDismiss(dialog);
+    }
+
     private static boolean inputIsValid(@Nullable CharSequence input) {
         return input != null && !input.toString().trim().isEmpty();
     }

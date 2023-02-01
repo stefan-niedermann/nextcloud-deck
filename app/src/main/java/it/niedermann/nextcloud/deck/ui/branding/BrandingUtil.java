@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.preference.PreferenceManager;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputLayout;
@@ -70,6 +71,16 @@ public abstract class BrandingUtil {
                 ? mainColor
                 : ContextCompat.getColor(fab.getContext(), R.color.accent)));
         fab.setColorFilter(contrastRatioIsSufficient ? ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(mainColor) : mainColor);
+    }
+
+    public static void applyBrandToExtendedFAB(@ColorInt int mainColor, @NonNull ExtendedFloatingActionButton extendedFab) {
+        final boolean contrastRatioIsSufficient = contrastRatioIsSufficientBigAreas(mainColor, ContextCompat.getColor(extendedFab.getContext(), R.color.primary));
+        @ColorInt final int color = contrastRatioIsSufficient
+                ? mainColor
+                : ContextCompat.getColor(extendedFab.getContext(), R.color.accent);
+        extendedFab.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(color));
+        extendedFab.setIconTint(ColorStateList.valueOf(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(color)));
+        extendedFab.setBackgroundTintList(ColorStateList.valueOf(color));
     }
 
     public static void applyBrandToPrimaryTabLayout(@ColorInt int mainColor, @NonNull TabLayout tabLayout) {

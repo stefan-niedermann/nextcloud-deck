@@ -16,7 +16,7 @@ public class EmptyContentView extends RelativeLayout {
 
     private static final int NO_DESCRIPTION = -1;
 
-    private WidgetEmptyContentViewBinding binding;
+    private final WidgetEmptyContentViewBinding binding;
 
     public EmptyContentView(@NonNull Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -40,5 +40,9 @@ public class EmptyContentView extends RelativeLayout {
 
     public void hideDescription() {
         binding.description.setVisibility(View.GONE);
+    }
+
+    public void showDescription() {
+        binding.description.setVisibility(View.VISIBLE);
     }
 }

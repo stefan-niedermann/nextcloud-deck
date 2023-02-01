@@ -19,8 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import it.niedermann.android.crosstabdnd.DragAndDropTab;
+import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.FragmentStackBinding;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -91,16 +93,25 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
             binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                    if (dy > 0)
+                    if (!recyclerView.canScrollVertically(1)) {
+                        onScrollListener.onBottomReached();
+                    } else if (dy > 0) {
                         onScrollListener.onScrollDown();
-                    else if (dy < 0)
+                    } else if (dy < 0) {
                         onScrollListener.onScrollUp();
+                    }
                 }
             });
         }
 
         if (!mainViewModel.currentBoardHasEditPermission()) {
             binding.emptyContentView.hideDescription();
+            binding.recyclerView.setPadding(
+                    binding.recyclerView.getPaddingTop(),
+                    binding.recyclerView.getPaddingEnd(),
+                    DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.spacer_1x),
+                    binding.recyclerView.getPaddingStart()
+            );
         }
 
         final Observer<List<FullCard>> cardsObserver = (fullCards) -> activity.runOnUiThread(() -> {

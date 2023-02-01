@@ -4,4 +4,6 @@ public interface OnScrollListener {
     void onScrollUp();
 
     void onScrollDown();
+
+    void onBottomReached();
 }

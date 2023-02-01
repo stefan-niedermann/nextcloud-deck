@@ -64,7 +64,11 @@ public class SelectCardForWidgetActivity extends MainActivity implements SelectC
     }
 
     @Override
-    protected void showFabIfEditPermissionGranted() { /* Silence is gold */ }
+    protected void showEditButtonsIfPermissionsGranted() {
+        binding.fab.hide();
+        binding.listMenuButton.setVisibility(View.GONE);
+        binding.emptyContentViewStacks.hideDescription();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

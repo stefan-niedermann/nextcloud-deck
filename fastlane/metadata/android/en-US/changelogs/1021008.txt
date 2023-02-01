@@ -1,2 +1,3 @@
 - 🐞 Fix invisible description and assignees in boards which are shared read-only (#1401)
 - 🐞 Creating a card by shortcut does only work for last selected account (#1370)
+- ➕ Adjust Floating Action Button behavior to Material 3 (#1419)
