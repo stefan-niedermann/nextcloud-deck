@@ -1,0 +1,1 @@
+- 🐞 Fix invisible description and assignees in boards which are shared read-only (#1401)
