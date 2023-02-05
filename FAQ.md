@@ -24,7 +24,7 @@ Android settings
        ↓
      Apps
        ↓
-Nextcloud / Notes
+Nextcloud / Deck 
        ↓
     Storage
        ↓
