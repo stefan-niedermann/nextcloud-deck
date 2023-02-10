@@ -11,8 +11,6 @@ import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccount;
 import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentBoardId;
 import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentStackId;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToExtendedFAB;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.clearBrandColors;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.saveBrandColors;
@@ -196,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
 
         setTheme(R.style.AppTheme);
-        colorAccent = BrandingUtil.getAttribute(this, R.attr.colorAccent);
+        colorAccent = ContextCompat.getColor(this, R.color.accent);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         headerBinding = NavHeaderMainBinding.bind(binding.navigationView.getHeaderView(0));
@@ -452,12 +450,13 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         binding.accountSwitcher.setOnClickListener((v) -> AccountSwitcherDialog.newInstance().show(getSupportFragmentManager(), AccountSwitcherDialog.class.getSimpleName()));
     }
 
-    private void applyBoardBranding(@ColorInt int mainColor) {
-        applyBrandToPrimaryTabLayout(mainColor, binding.stackTitles);
-        applyBrandToExtendedFAB(mainColor, binding.fab);
+    private void applyBoardBranding(@ColorInt int color) {
+        BrandingUtil.of(color, binding.stackTitles.getContext()).deck.themeTabLayout(color, binding.stackTitles);
+        BrandingUtil.of(color, binding.fab.getContext()).deck.themeExtendedFAB(binding.fab);
+
         // TODO We assume, that the background of the spinner is always white
-        binding.swipeRefreshLayout.setColorSchemeColors(contrastRatioIsSufficient(Color.WHITE, mainColor) ? mainColor : DeckApplication.isDarkTheme(this) ? Color.DKGRAY : colorAccent);
-        DrawableCompat.setTint(binding.filterIndicator.getDrawable(), getSecondaryForegroundColorDependingOnTheme(this, mainColor));
+        binding.swipeRefreshLayout.setColorSchemeColors(contrastRatioIsSufficient(Color.WHITE, color) ? color : DeckApplication.isDarkTheme(this) ? Color.DKGRAY : colorAccent);
+        DrawableCompat.setTint(binding.filterIndicator.getDrawable(), getSecondaryForegroundColorDependingOnTheme(this, color));
     }
 
     private void applyAccountBranding(@ColorInt int accountColor) {

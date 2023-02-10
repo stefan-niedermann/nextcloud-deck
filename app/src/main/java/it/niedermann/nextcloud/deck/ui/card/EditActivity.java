@@ -1,8 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.tintMenuIcon;
 
 import android.content.Context;
 import android.content.Intent;
@@ -31,6 +29,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
+import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
@@ -157,7 +156,7 @@ public class EditActivity extends AppCompatActivity {
             getMenuInflater().inflate(R.menu.card_edit_menu, menu);
             @ColorInt final int colorAccent = ContextCompat.getColor(this, R.color.accent);
             for (int i = 0; i < menu.size(); i++) {
-                tintMenuIcon(menu.getItem(i), colorAccent);
+                BrandingUtil.of(colorAccent, this).deck.tintMenuIcon(this, menu.getItem(i), colorAccent);
             }
         } else {
             menu.clear();
@@ -288,7 +287,8 @@ public class EditActivity extends AppCompatActivity {
         } else {
             DrawableCompat.setTint(binding.toolbar.getNavigationIcon(), ContextCompat.getColor(this, R.color.accent));
         }
-        applyBrandToPrimaryTabLayout(mainColor, binding.tabLayout);
+
+        BrandingUtil.of(mainColor, binding.tabLayout.getContext()).deck.themeTabLayout(mainColor, binding.tabLayout);
     }
 
     @NonNull

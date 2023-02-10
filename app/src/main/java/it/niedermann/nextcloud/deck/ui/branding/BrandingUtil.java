@@ -1,16 +1,13 @@
 package it.niedermann.nextcloud.deck.ui.branding;
 
+import static com.nextcloud.android.common.ui.util.ColorStateListUtilsKt.buildColorStateList;
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficient;
-import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.util.TypedValue;
 import android.view.MenuItem;
 
-import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -18,18 +15,50 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.textfield.TextInputLayout;
+import com.nextcloud.android.common.ui.color.ColorUtil;
+import com.nextcloud.android.common.ui.theme.MaterialSchemes;
+import com.nextcloud.android.common.ui.theme.ViewThemeUtilsBase;
+import com.nextcloud.android.common.ui.theme.utils.AndroidViewThemeUtils;
+import com.nextcloud.android.common.ui.theme.utils.AndroidXViewThemeUtils;
+import com.nextcloud.android.common.ui.theme.utils.DialogViewThemeUtils;
+import com.nextcloud.android.common.ui.theme.utils.MaterialViewThemeUtils;
 
-import it.niedermann.android.util.ColorUtil;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import kotlin.Pair;
 
-public abstract class BrandingUtil {
+public class BrandingUtil extends ViewThemeUtilsBase {
 
-    private BrandingUtil() {
-        throw new UnsupportedOperationException("This class must not get instantiated");
+    private static final ConcurrentMap<Integer, BrandingUtil> CACHE = new ConcurrentHashMap<>();
+
+    public final AndroidViewThemeUtils platform;
+    public final MaterialViewThemeUtils material;
+    public final AndroidXViewThemeUtils androidx;
+    public final DialogViewThemeUtils dialog;
+    public final DeckViewThemeUtils deck;
+
+    private BrandingUtil(
+            final MaterialSchemes schemes,
+            final ColorUtil colorUtil
+    ) {
+        super(schemes);
+
+        this.platform = new AndroidViewThemeUtils(schemes, colorUtil);
+        this.material = new MaterialViewThemeUtils(schemes, colorUtil);
+        this.androidx = new AndroidXViewThemeUtils(schemes, this.platform);
+        this.dialog = new DialogViewThemeUtils(schemes);
+        this.deck = new DeckViewThemeUtils(schemes);
+    }
+
+    public static BrandingUtil of(@ColorInt int color, @NonNull Context context) {
+        return CACHE.computeIfAbsent(color, c -> new BrandingUtil(
+                MaterialSchemes.Companion.fromColor(c),
+                new ColorUtil(context)
+        ));
     }
 
     @ColorInt
@@ -65,55 +94,54 @@ public abstract class BrandingUtil {
         return isDarkTheme(context) ? Color.WHITE : Color.BLACK;
     }
 
-    public static void applyBrandToFAB(@ColorInt int mainColor, @NonNull FloatingActionButton fab) {
-        final boolean contrastRatioIsSufficient = contrastRatioIsSufficientBigAreas(mainColor, ContextCompat.getColor(fab.getContext(), R.color.primary));
-        fab.setSupportBackgroundTintList(ColorStateList.valueOf(contrastRatioIsSufficient
-                ? mainColor
-                : ContextCompat.getColor(fab.getContext(), R.color.accent)));
-        fab.setColorFilter(contrastRatioIsSufficient ? ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(mainColor) : mainColor);
-    }
+    /**
+     * UI Elements which are not yet supported by the <a href="https://github.com/nextcloud/android-common"><code>android-commons</code></a> library.
+     * Ideally there should at least be one Pull Request for Upstream for each method here.
+     */
+    public static class DeckViewThemeUtils extends ViewThemeUtilsBase {
 
-    public static void applyBrandToExtendedFAB(@ColorInt int mainColor, @NonNull ExtendedFloatingActionButton extendedFab) {
-        final boolean contrastRatioIsSufficient = contrastRatioIsSufficientBigAreas(mainColor, ContextCompat.getColor(extendedFab.getContext(), R.color.primary));
-        @ColorInt final int color = contrastRatioIsSufficient
-                ? mainColor
-                : ContextCompat.getColor(extendedFab.getContext(), R.color.accent);
-        extendedFab.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(color));
-        extendedFab.setIconTint(ColorStateList.valueOf(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(color)));
-        extendedFab.setBackgroundTintList(ColorStateList.valueOf(color));
-    }
-
-    public static void applyBrandToPrimaryTabLayout(@ColorInt int mainColor, @NonNull TabLayout tabLayout) {
-        @ColorInt final int finalMainColor = getSecondaryForegroundColorDependingOnTheme(tabLayout.getContext(), mainColor);
-        tabLayout.setBackgroundColor(ContextCompat.getColor(tabLayout.getContext(), R.color.primary));
-        final boolean contrastRatioIsSufficient = ColorUtil.INSTANCE.getContrastRatio(mainColor, ContextCompat.getColor(tabLayout.getContext(), R.color.primary)) > 1.7d;
-        tabLayout.setSelectedTabIndicatorColor(contrastRatioIsSufficient ? mainColor : finalMainColor);
-    }
-
-    public static void applyBrandToEditTextInputLayout(@ColorInt int color, @NonNull TextInputLayout til) {
-        final int colorPrimary = ContextCompat.getColor(til.getContext(), R.color.primary);
-        final int colorAccent = ContextCompat.getColor(til.getContext(), R.color.accent);
-        final var colorDanger = ColorStateList.valueOf(ContextCompat.getColor(til.getContext(), R.color.danger));
-        til.setBoxStrokeColor(contrastRatioIsSufficientBigAreas(color, colorPrimary) ? color : colorAccent);
-        til.setHintTextColor(ColorStateList.valueOf(contrastRatioIsSufficient(color, colorPrimary) ? color : colorAccent));
-        til.setErrorTextColor(colorDanger);
-        til.setBoxStrokeErrorColor(colorDanger);
-        til.setErrorIconTintList(colorDanger);
-    }
-
-    public static void tintMenuIcon(@NonNull MenuItem menuItem, @ColorInt int color) {
-        var drawable = menuItem.getIcon();
-        if (drawable != null) {
-            drawable = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTint(drawable, color);
-            menuItem.setIcon(drawable);
+        public DeckViewThemeUtils(@NonNull MaterialSchemes schemes) {
+            super(schemes);
         }
-    }
 
-    @ColorInt
-    public static int getAttribute(@NonNull Context context, @AttrRes int id) {
-        final var typedValue = new TypedValue();
-        context.getTheme().resolveAttribute(id, typedValue, true);
-        return typedValue.data;
+        /**
+         * @param fab {@link ExtendedFloatingActionButton}
+         * @see <a href="https://github.com/nextcloud/android-common/pull/68">Upstream Pull Request</a>
+         */
+        public void themeExtendedFAB(ExtendedFloatingActionButton fab) {
+            withScheme(fab, scheme -> {
+                fab.setBackgroundTintList(buildColorStateList(
+                        new Pair<>(android.R.attr.state_enabled, scheme.getPrimaryContainer()),
+                        new Pair<>(-android.R.attr.state_enabled, Color.GRAY)
+                ));
+                fab.setIconTint(buildColorStateList(
+                        new Pair<>(android.R.attr.state_enabled, scheme.getOnPrimaryContainer()),
+                        new Pair<>(-android.R.attr.state_enabled, Color.WHITE)
+                ));
+                return fab;
+            });
+        }
+
+        /**
+         * Applies the Primary color as background after applying {@link MaterialViewThemeUtils#themeTabLayout(TabLayout)}
+         */
+        public void themeTabLayout(@ColorInt int color, @NonNull TabLayout tabLayout) {
+            of(color, tabLayout.getContext()).material.themeTabLayout(tabLayout);
+            tabLayout.setBackgroundColor(ContextCompat.getColor(tabLayout.getContext(), R.color.primary));
+        }
+
+        /**
+         * {@link AndroidViewThemeUtils#colorMenuItemIcon(int, MenuItem)} results in white icon on white background in light mode.
+         */
+        public void tintMenuIcon(@NonNull Context context, @NonNull MenuItem menuItem, @ColorInt int color) {
+            // FIXME on light background does not work - maybe theme toolbar also?
+            // of(color, context).platform.colorMenuItemText(context, menuItem);
+            var drawable = menuItem.getIcon();
+            if (drawable != null) {
+                drawable = DrawableCompat.wrap(drawable);
+                DrawableCompat.setTint(drawable, color);
+                menuItem.setIcon(drawable);
+            }
+        }
     }
 }

@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.stack;
 
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,6 +23,7 @@ import java.util.Objects;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogStackCreateBinding;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
+import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 
 public class EditStackDialogFragment extends BrandedDialogFragment implements DialogInterface.OnClickListener {
     private static final String KEY_STACK_ID = "stack_id";
@@ -136,7 +135,7 @@ public class EditStackDialogFragment extends BrandedDialogFragment implements Di
 
     @Override
     public void applyBrand(int mainColor) {
-        applyBrandToEditTextInputLayout(mainColor, binding.inputWrapper);
+        BrandingUtil.of(mainColor, binding.inputWrapper.getContext()).material.colorTextInputLayout(binding.inputWrapper);
     }
 
     @Override

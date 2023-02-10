@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.board.managelabels;
 
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -15,6 +13,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogTextColorInputBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
+import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 
 public class EditLabelDialogFragment extends BrandedDialogFragment {
 
@@ -91,6 +90,6 @@ public class EditLabelDialogFragment extends BrandedDialogFragment {
 
     @Override
     public void applyBrand(int mainColor) {
-        applyBrandToEditTextInputLayout(mainColor, binding.inputWrapper);
+        BrandingUtil.of(mainColor, binding.inputWrapper.getContext()).material.colorTextInputLayout(binding.inputWrapper);
     }
 }

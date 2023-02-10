@@ -142,7 +142,7 @@ public abstract class PickStackActivity extends AppCompatActivity implements Bra
             DrawableCompat.setTintList(binding.submit.getBackground(), ColorStateList.valueOf(finalMainColor));
             binding.submit.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(finalMainColor));
             binding.cancel.setTextColor(getSecondaryForegroundColorDependingOnTheme(this, mainColor));
-            BrandingUtil.applyBrandToEditTextInputLayout(mainColor, binding.inputWrapper);
+            BrandingUtil.of(mainColor, binding.inputWrapper.getContext()).material.colorTextInputLayout(binding.inputWrapper);
         } catch (Throwable t) {
             DeckLog.logError(t);
         }

@@ -15,7 +15,6 @@ import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
 import static java.net.HttpURLConnection.HTTP_CONFLICT;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
 import static it.niedermann.nextcloud.deck.util.FilesUtil.copyContentUriToTempFile;
@@ -74,6 +73,7 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
+import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.AbstractPickerAdapter;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.ContactAdapter;
@@ -522,7 +522,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     }
 
     private void applyBrand(@ColorInt int boardColor) {
-        applyBrandToFAB(boardColor, binding.fab);
+        BrandingUtil.of(boardColor, binding.fab.getContext()).material.themeFAB(binding.fab);
         @ColorInt final int finalMainColor = DeckColorUtil.contrastRatioIsSufficient(boardColor, primaryColor) ? boardColor : accentColor;
         final ColorStateList list = new ColorStateList(new int[][]{new int[]{android.R.attr.state_checked}, new int[]{}}, new int[]{finalMainColor, accentColor});
         binding.bottomNavigation.setItemIconTintList(list);

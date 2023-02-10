@@ -2,8 +2,6 @@ package it.niedermann.nextcloud.deck.ui.card.comments;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -30,6 +28,7 @@ import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabCommentsBindi
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
@@ -163,9 +162,9 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
         });
     }
 
-    private void applyBrand(int mainColor) {
-        applyBrandToFAB(mainColor, binding.fab);
-        applyBrandToEditTextInputLayout(mainColor, binding.messageWrapper);
+    private void applyBrand(int color) {
+        BrandingUtil.of(color, binding.fab.getContext()).material.themeFAB(binding.fab);
+        BrandingUtil.of(color, binding.messageWrapper.getContext()).material.colorTextInputLayout(binding.messageWrapper);
     }
 
     @Override

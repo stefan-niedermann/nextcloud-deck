@@ -181,6 +181,6 @@ public class TakePhotoActivity extends AppCompatActivity {
     }
 
     private void applyBoardColorBrand(int mainColor) {
-        Arrays.stream(brandedFABs).forEach(fab -> BrandingUtil.applyBrandToFAB(mainColor, fab));
+        Arrays.stream(brandedFABs).forEach(fab -> BrandingUtil.of(mainColor, fab.getContext()).material.themeFAB(fab));
     }
 }

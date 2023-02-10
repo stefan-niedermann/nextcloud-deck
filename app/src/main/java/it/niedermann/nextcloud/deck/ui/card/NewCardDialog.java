@@ -96,7 +96,8 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(v -> onClick(dialog, DialogInterface.BUTTON_NEGATIVE));
         });
 
-        BrandingUtil.applyBrandToEditTextInputLayout(color, binding.inputWrapper);
+        BrandingUtil.of(color, binding.inputWrapper.getContext()).material.colorTextInputLayout(binding.inputWrapper);
+
         binding.progressCircular.setIndeterminateTintList(ColorStateList.valueOf(BrandingUtil.getSecondaryForegroundColorDependingOnTheme(requireContext(), color)));
 
         binding.input.addTextChangedListener(new TextWatcher() {
