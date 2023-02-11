@@ -17,7 +17,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.enums.EAttachmentType;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 
 public abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
@@ -25,10 +25,12 @@ public abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    public void bind(@NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull FragmentManager fragmentManager, Long cardRemoteId, Attachment attachment, @Nullable View.OnClickListener onClickListener, @ColorInt int mainColor) {
+    public void bind(@NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull FragmentManager fragmentManager, Long cardRemoteId, Attachment attachment, @Nullable View.OnClickListener onClickListener, @ColorInt int color) {
         final String attachmentUri = (attachment.getId() == null || cardRemoteId == null)
                 ? attachment.getLocalPath()
-                : AttachmentUtil.getCopyDownloadUrl(account, cardRemoteId, attachment);        setNotSyncedYetStatus(!DBStatus.LOCAL_EDITED.equals(attachment.getStatusEnum()), mainColor);
+                : AttachmentUtil.getCopyDownloadUrl(account, cardRemoteId, attachment);
+
+        setNotSyncedYetStatus(!DBStatus.LOCAL_EDITED.equals(attachment.getStatusEnum()), color);
         itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menuInflater.inflate(R.menu.attachment_menu, menu);
             if(EAttachmentType.DECK_FILE.equals(attachment.getType())) {
@@ -51,9 +53,9 @@ public abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
 
     abstract protected ImageView getPreview();
 
-    protected void setNotSyncedYetStatus(boolean synced, @ColorInt int mainColor) {
+    protected void setNotSyncedYetStatus(boolean synced, @ColorInt int color) {
         final var notSyncedYet = getNotSyncedYetStatusIcon();
-        final var utils = ViewThemeUtils.of(mainColor, notSyncedYet.getContext());
+        final var utils = ViewThemeUtils.of(color, notSyncedYet.getContext());
 
         DrawableCompat.setTint(notSyncedYet.getDrawable(), utils.getOnPrimaryContainer(notSyncedYet.getContext()));
         notSyncedYet.setVisibility(synced ? View.GONE : View.VISIBLE);

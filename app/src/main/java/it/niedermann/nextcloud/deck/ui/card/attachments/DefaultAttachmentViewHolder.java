@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
+import static it.niedermann.nextcloud.deck.util.AttachmentUtil.getIconForMimeType;
+import static it.niedermann.nextcloud.deck.util.AttachmentUtil.openAttachmentInBrowser;
+
 import android.text.format.Formatter;
 import android.view.MenuInflater;
 import android.view.View;
@@ -14,9 +17,6 @@ import it.niedermann.nextcloud.deck.databinding.ItemAttachmentDefaultBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.util.DateUtil;
-
-import static it.niedermann.nextcloud.deck.util.AttachmentUtil.getIconForMimeType;
-import static it.niedermann.nextcloud.deck.util.AttachmentUtil.openAttachmentInBrowser;
 
 public class DefaultAttachmentViewHolder extends AttachmentViewHolder {
     private final ItemAttachmentDefaultBinding binding;
@@ -37,8 +37,8 @@ public class DefaultAttachmentViewHolder extends AttachmentViewHolder {
         return binding.notSyncedYet;
     }
 
-    public void bind(@NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull FragmentManager fragmentManager, Long cardRemoteId, Attachment attachment, @Nullable View.OnClickListener onClickListener, @ColorInt int mainColor) {
-        super.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, mainColor);
+    public void bind(@NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull FragmentManager fragmentManager, Long cardRemoteId, Attachment attachment, @Nullable View.OnClickListener onClickListener, @ColorInt int color) {
+        super.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, color);
         getPreview().setImageResource(getIconForMimeType(attachment.getMimetype()));
         itemView.setOnClickListener((event) -> openAttachmentInBrowser(account, itemView.getContext(), cardRemoteId, attachment));
         binding.filename.setText(attachment.getBasename());

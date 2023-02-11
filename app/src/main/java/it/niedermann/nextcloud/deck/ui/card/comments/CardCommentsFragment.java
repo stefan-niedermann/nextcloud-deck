@@ -28,10 +28,10 @@ import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabCommentsBindi
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class CardCommentsFragment extends Fragment implements CommentEditedListener, CommentDeletedListener, CommentSelectAsReplyListener {
@@ -130,7 +130,7 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
             binding.message.requestFocus();
             requireActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
-        mainViewModel.getBrandingColor().observe(getViewLifecycleOwner(), this::applyBrand);
+        mainViewModel.getBoardColor().observe(getViewLifecycleOwner(), this::applyTheme);
     }
 
     @Override
@@ -162,7 +162,7 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
         });
     }
 
-    private void applyBrand(int color) {
+    private void applyTheme(int color) {
         final var utils = ViewThemeUtils.of(color, requireContext());
 
         utils.material.themeFAB(binding.fab);

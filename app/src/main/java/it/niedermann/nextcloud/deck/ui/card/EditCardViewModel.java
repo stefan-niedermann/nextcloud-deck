@@ -45,14 +45,14 @@ public class EditCardViewModel extends AndroidViewModel {
     private boolean hasCommentsAbility = false;
     private boolean pendingSaveOperation = false;
     private boolean canEdit = false;
-    private final MutableLiveData<Integer> brandingColor$ = new MutableLiveData<>();
+    private final MutableLiveData<Integer> boardColor$ = new MutableLiveData<>();
     private final SharedPreferences sharedPreferences;
     private final MutableLiveData<Boolean> descriptionIsPreview = new MutableLiveData<>(false);
 
     public EditCardViewModel(@NonNull Application application) {
         super(application);
         this.syncManager = new SyncManager(application);
-        this.brandingColor$.setValue(ContextCompat.getColor(application, R.color.primary));
+        this.boardColor$.setValue(ContextCompat.getColor(application, R.color.primary));
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(application);
     }
 
@@ -87,12 +87,12 @@ public class EditCardViewModel extends AndroidViewModel {
                 .apply();
     }
 
-    public LiveData<Integer> getBrandingColor() {
-        return distinctUntilChanged(this.brandingColor$);
+    public LiveData<Integer> getBoardColor() {
+        return distinctUntilChanged(this.boardColor$);
     }
 
-    public void setBrandingColor(@ColorInt int brandingColor) {
-        this.brandingColor$.setValue(brandingColor);
+    public void setBoardColor(@ColorInt int color) {
+        this.boardColor$.setValue(color);
     }
 
     /**

@@ -24,11 +24,11 @@ import it.niedermann.nextcloud.deck.databinding.DialogBoardManageLabelsBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
-import it.niedermann.nextcloud.deck.ui.branding.DeleteAlertDialogBuilder;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.DeleteAlertDialogBuilder;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
-public class ManageLabelsDialogFragment extends BrandedDialogFragment implements ManageLabelListener, EditLabelListener {
+public class ManageLabelsDialogFragment extends ThemedDialogFragment implements ManageLabelListener, EditLabelListener {
 
     private MainViewModel viewModel;
     private DialogBoardManageLabelsBinding binding;
@@ -117,7 +117,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
     }
 
     @Override
-    public void applyBrand(int color) {
+    public void applyTheme(int color) {
         final var utils = ViewThemeUtils.of(color, requireContext());
 
         utils.material.themeFAB(binding.fab);

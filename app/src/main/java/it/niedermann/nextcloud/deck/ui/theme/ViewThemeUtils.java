@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.branding;
+package it.niedermann.nextcloud.deck.ui.theme;
 
 import android.content.Context;
 
@@ -67,10 +67,10 @@ public class ViewThemeUtils extends ViewThemeUtilsBase {
         return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_main), ContextCompat.getColor(context, R.color.defaultBrand));
     }
 
-    public static void saveBrandColors(@NonNull Context context, @ColorInt int mainColor) {
+    public static void saveBrandColors(@NonNull Context context, @ColorInt int color) {
         final var editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        DeckLog.log("--- Write:", context.getString(R.string.shared_preference_theme_main), "|", mainColor);
-        editor.putInt(context.getString(R.string.shared_preference_theme_main), mainColor);
+        DeckLog.log("--- Write:", context.getString(R.string.shared_preference_theme_main), "|", color);
+        editor.putInt(context.getString(R.string.shared_preference_theme_main), color);
         editor.apply();
     }
 

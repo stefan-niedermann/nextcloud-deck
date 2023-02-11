@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.widget.singlecard;
 
-import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.saveBrandColors;
+import static it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils.saveBrandColors;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
@@ -15,8 +15,8 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
 public class SelectCardForWidgetActivity extends MainActivity implements SelectCardListener {
 

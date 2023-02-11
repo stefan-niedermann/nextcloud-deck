@@ -26,12 +26,12 @@ import it.niedermann.nextcloud.deck.databinding.ItemSectionBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.card.AbstractCardViewHolder;
 import it.niedermann.nextcloud.deck.ui.card.CompactCardViewHolder;
 import it.niedermann.nextcloud.deck.ui.card.DefaultCardOnlyTitleViewHolder;
 import it.niedermann.nextcloud.deck.ui.card.DefaultCardViewHolder;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
 public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

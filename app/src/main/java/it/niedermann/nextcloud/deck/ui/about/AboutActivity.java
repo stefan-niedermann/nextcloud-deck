@@ -17,8 +17,8 @@ import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityAboutBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
 public class AboutActivity extends AppCompatActivity {
     private static final String BUNDLE_KEY_ACCOUNT = "account";

@@ -1,7 +1,7 @@
-package it.niedermann.nextcloud.deck.ui.branding;
+package it.niedermann.nextcloud.deck.ui.theme;
 
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
-import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.readBrandMainColor;
+import static it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils.readBrandMainColor;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -22,20 +22,20 @@ import java.time.LocalTime;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.util.DeckColorUtil;
 
-public class BrandedTimePickerDialog extends TimePickerDialog implements Branded {
+public class ThemedTimePickerDialog extends TimePickerDialog implements Themed {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         @Nullable Context context = getContext();
         if (context != null) {
             setThemeDark(isDarkTheme(context));
-            applyBrand(readBrandMainColor(context));
+            applyTheme(readBrandMainColor(context));
         }
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
-    public void applyBrand(int color) {
+    public void applyTheme(int color) {
         final var utils = ViewThemeUtils.of(color, requireContext());
 
         @ColorInt final int buttonTextColor = utils.getOnPrimaryContainer(requireContext());
@@ -58,7 +58,7 @@ public class BrandedTimePickerDialog extends TimePickerDialog implements Branded
     @SuppressWarnings({"SameParameterValue"})
     public static TimePickerDialog newInstance(OnTimeSetListener callback,
                                                int hourOfDay, int minute, int second, boolean is24HourMode) {
-        final var dialog = new BrandedTimePickerDialog();
+        final var dialog = new ThemedTimePickerDialog();
         dialog.initialize(callback, hourOfDay, minute, second, is24HourMode);
         return dialog;
     }

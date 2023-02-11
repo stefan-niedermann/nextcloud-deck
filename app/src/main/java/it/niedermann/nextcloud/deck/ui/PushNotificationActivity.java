@@ -12,15 +12,16 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Stream;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPushNotificationBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
 /**
  * Warning: Do not move this class to another package or folder!
@@ -51,7 +52,7 @@ public class PushNotificationActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
 
         binding.progress.setIndeterminate(true);
-        viewModel.getAccount().observe(this, this::applyBrandToSubmitButton);
+        viewModel.getAccount().observe(this, this::applyThemeToSubmitButton);
         executor.submit(() -> viewModel.getCardInformation(intent.getExtras(), new PushNotificationViewModel.PushNotificationCallback() {
             @Override
             public void onResponse(@NonNull PushNotificationViewModel.CardInformation cardInformation) {
@@ -120,11 +121,11 @@ public class PushNotificationActivity extends AppCompatActivity {
 
     // TODO implement Branded interface
     // TODO apply branding based on board color
-    public void applyBrandToSubmitButton(@ColorInt int mainColor) {
-        final var utils = ViewThemeUtils.of(mainColor, this);
+    public void applyThemeToSubmitButton(@ColorInt int color) {
+        final var utils = ViewThemeUtils.of(color, this);
 
         utils.platform.themeHorizontalProgressBar(binding.progress);
-        utils.material.colorMaterialButtonPrimaryFilled(binding.submit);
-        utils.material.colorMaterialButtonPrimaryFilled(binding.showError);
+        Stream.of(binding.submit, binding.showError)
+                .forEach(utils.material::colorMaterialButtonPrimaryFilled);
     }
 }

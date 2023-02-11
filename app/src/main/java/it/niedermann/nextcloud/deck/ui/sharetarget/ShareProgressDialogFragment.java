@@ -19,12 +19,12 @@ import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogShareProgressBinding;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 import it.niedermann.nextcloud.exception.ExceptionUtil;
 
-public class ShareProgressDialogFragment extends BrandedDialogFragment {
+public class ShareProgressDialogFragment extends ThemedDialogFragment {
 
     private DialogShareProgressBinding binding;
     private ShareProgressViewModel viewModel;
@@ -120,7 +120,7 @@ public class ShareProgressDialogFragment extends BrandedDialogFragment {
     }
 
     @Override
-    public void applyBrand(int color) {
+    public void applyTheme(int color) {
         final var utils = ViewThemeUtils.of(color, requireContext());
 
         utils.platform.themeHorizontalProgressBar(binding.progress);

@@ -19,11 +19,11 @@ import it.niedermann.nextcloud.deck.databinding.ItemAccessControlOwnerBinding;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
-import it.niedermann.nextcloud.deck.ui.branding.Branded;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Branded {
+public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Themed {
 
     public static final long HEADER_ITEM_LOCAL_ID = -1L;
     private static final int TYPE_HEADER = 0;
@@ -152,7 +152,7 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
-    public void applyBrand(int color) {
+    public void applyTheme(int color) {
         this.utils = ViewThemeUtils.of(color, context);
         notifyDataSetChanged();
     }

@@ -72,8 +72,6 @@ import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.AbstractPickerAdapter;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.ContactAdapter;
@@ -84,6 +82,8 @@ import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDia
 import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDialogViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.takephoto.TakePhotoActivity;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedSnackbar;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.util.JavaCompressor;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 import it.niedermann.nextcloud.deck.util.VCardUtil;
@@ -222,7 +222,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         }
         final var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         compressImagesOnUpload = sharedPreferences.getBoolean(getString(R.string.pref_key_compress_image_attachments), true);
-        editViewModel.getBrandingColor().observe(getViewLifecycleOwner(), this::applyBrand);
+        editViewModel.getBoardColor().observe(getViewLifecycleOwner(), this::applyTheme);
         return binding.getRoot();
     }
 
@@ -415,7 +415,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         for (final var existingAttachment : editViewModel.getFullCard().getAttachments()) {
             final String existingPath = existingAttachment.getLocalPath();
             if (existingPath != null && existingPath.equals(fileToUpload.getAbsolutePath())) {
-                BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                ThemedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
                 return;
             }
         }
@@ -450,7 +450,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                         // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
                         editViewModel.getFullCard().getAttachments().remove(a);
                         adapter.removeAttachment(a);
-                        BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                        ThemedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
                     } else {
                         ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", throwable), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                     }
@@ -520,7 +520,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         this.clickedItemPosition = position;
     }
 
-    private void applyBrand(@ColorInt int color) {
+    private void applyTheme(@ColorInt int color) {
         final var utils = ViewThemeUtils.of(color, requireContext());
 
         utils.material.themeFAB(binding.fab);
@@ -528,7 +528,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         utils.platform.colorViewBackground(binding.pickerHeader, ColorRole.SURFACE);
         utils.platform.colorViewBackground(binding.pickerRecyclerView, ColorRole.SURFACE);
 
-        adapter.applyBrand(color);
+        adapter.applyTheme(color);
     }
 
     public static Fragment newInstance() {

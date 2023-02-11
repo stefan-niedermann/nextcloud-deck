@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.branding;
+package it.niedermann.nextcloud.deck.ui.theme;
 
 import static com.nextcloud.android.common.ui.util.ColorStateListUtilsKt.buildColorStateList;
 

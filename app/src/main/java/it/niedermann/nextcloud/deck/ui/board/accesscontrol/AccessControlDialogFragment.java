@@ -28,10 +28,10 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedSnackbar;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
 public class AccessControlDialogFragment extends DialogFragment implements AccessControlChangedListener, OnItemClickListener {
 
@@ -84,7 +84,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
                     binding.people.setAdapter(userAutoCompleteAdapter);
                     binding.people.setOnItemClickListener(this);
                 });
-                applyBrand(fullBoard.getBoard().getColor());
+                applyTheme(fullBoard.getBoard().getColor());
             } else {
                 // Happens when someone revokes his own access → board gets deleted locally → LiveData fires, but no board
                 // see https://github.com/stefan-niedermann/nextcloud-deck/issues/410
@@ -132,7 +132,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
             public void onError(Throwable throwable) {
                 if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
                     IResponseCallback.super.onError(throwable);
-                    requireActivity().runOnUiThread(() -> BrandedSnackbar.make(requireView(), getString(R.string.error_revoking_ac, ac.getUser().getDisplayname()), Snackbar.LENGTH_LONG)
+                    requireActivity().runOnUiThread(() -> ThemedSnackbar.make(requireView(), getString(R.string.error_revoking_ac, ac.getUser().getDisplayname()), Snackbar.LENGTH_LONG)
                             .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
                             .show());
                 }
@@ -166,12 +166,12 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
         userAutoCompleteAdapter.exclude(user);
     }
 
-    public void applyBrand(@ColorInt int color) {
+    public void applyTheme(@ColorInt int color) {
         final var utils = ViewThemeUtils.of(color, requireContext());
 
         utils.material.colorTextInputLayout(binding.peopleWrapper);
 
-        this.adapter.applyBrand(color);
+        this.adapter.applyTheme(color);
     }
 
     public static DialogFragment newInstance(long boardLocalId) {

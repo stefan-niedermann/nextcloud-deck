@@ -18,7 +18,7 @@ import it.niedermann.nextcloud.deck.databinding.ItemCardCompactBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
 public class CompactCardViewHolder extends AbstractCardViewHolder {
     private final ItemCardCompactBinding binding;

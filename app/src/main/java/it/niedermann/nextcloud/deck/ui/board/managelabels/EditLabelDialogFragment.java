@@ -12,10 +12,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogTextColorInputBinding;
 import it.niedermann.nextcloud.deck.model.Label;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
-public class EditLabelDialogFragment extends BrandedDialogFragment {
+public class EditLabelDialogFragment extends ThemedDialogFragment {
 
     private DialogTextColorInputBinding binding;
 
@@ -89,7 +89,7 @@ public class EditLabelDialogFragment extends BrandedDialogFragment {
     }
 
     @Override
-    public void applyBrand(int color) {
+    public void applyTheme(int color) {
         final var utils = ViewThemeUtils.of(color, requireContext());
 
         utils.material.colorTextInputLayout(binding.inputWrapper);

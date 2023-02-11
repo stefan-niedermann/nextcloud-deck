@@ -29,8 +29,8 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
 public class EditActivity extends AppCompatActivity {
@@ -85,7 +85,7 @@ public class EditActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
-        viewModel.getBrandingColor().observe(this, this::applyBranding);
+        viewModel.getBoardColor().observe(this, this::applyTheme);
 
         loadDataFromIntent();
     }
@@ -93,7 +93,7 @@ public class EditActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        viewModel.setBrandingColor(ContextCompat.getColor(this, R.color.primary));
+        viewModel.setBoardColor(ContextCompat.getColor(this, R.color.primary));
         setIntent(intent);
         loadDataFromIntent();
     }
@@ -128,7 +128,7 @@ public class EditActivity extends AppCompatActivity {
         }
 
         observeOnce(viewModel.getFullBoardById(account.getId(), boardLocalId), EditActivity.this, (fullBoard -> {
-            viewModel.setBrandingColor(fullBoard.getBoard().getColor());
+            viewModel.setBoardColor(fullBoard.getBoard().getColor());
             viewModel.setCanEdit(fullBoard.getBoard().isPermissionEdit());
             invalidateOptionsMenu();
             observeOnce(viewModel.getFullCardWithProjectsByLocalId(account.getId(), cardLocalId), EditActivity.this, (fullCard) -> {
@@ -282,7 +282,7 @@ public class EditActivity extends AppCompatActivity {
         super.finish();
     }
 
-    private void applyBranding(int color) {
+    private void applyTheme(int color) {
         final var navigationIcon = binding.toolbar.getNavigationIcon();
         if (navigationIcon == null) {
             DeckLog.error("Expected navigationIcon to be present.");

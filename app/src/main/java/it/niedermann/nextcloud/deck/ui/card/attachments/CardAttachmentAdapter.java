@@ -28,11 +28,11 @@ import it.niedermann.nextcloud.deck.databinding.ItemAttachmentImageBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.ui.attachments.AttachmentsActivity;
-import it.niedermann.nextcloud.deck.ui.branding.Branded;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
 @SuppressWarnings("WeakerAccess")
-public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHolder> implements Branded {
+public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHolder> implements Themed {
 
     public static final int VIEW_TYPE_DEFAULT = 2;
     public static final int VIEW_TYPE_IMAGE = 1;
@@ -42,7 +42,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
     @NonNull
     private final MenuInflater menuInflater;
     @ColorInt
-    private int mainColor;
+    private int color;
     private final Account account;
     @Nullable
     private Long cardRemoteId = null;
@@ -116,7 +116,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
                 break;
             }
         }
-        holder.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, mainColor);
+        holder.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, color);
     }
 
     @Override
@@ -167,8 +167,8 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
     }
 
     @Override
-    public void applyBrand(@ColorInt int mainColor) {
-        this.mainColor = mainColor;
+    public void applyTheme(@ColorInt int color) {
+        this.color = color;
         notifyDataSetChanged();
     }
 }

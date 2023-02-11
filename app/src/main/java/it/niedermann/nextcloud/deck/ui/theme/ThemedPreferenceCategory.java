@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.branding;
+package it.niedermann.nextcloud.deck.ui.theme;
 
 import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentAccountColor;
 
@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceViewHolder;
 
-public class BrandedPreferenceCategory extends PreferenceCategory {
+public class ThemedPreferenceCategory extends PreferenceCategory {
 
     @Override
     public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
@@ -25,19 +25,19 @@ public class BrandedPreferenceCategory extends PreferenceCategory {
         }
     }
 
-    public BrandedPreferenceCategory(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public ThemedPreferenceCategory(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public BrandedPreferenceCategory(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ThemedPreferenceCategory(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public BrandedPreferenceCategory(Context context, AttributeSet attrs) {
+    public ThemedPreferenceCategory(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public BrandedPreferenceCategory(Context context) {
+    public ThemedPreferenceCategory(Context context) {
         super(context);
     }
 }

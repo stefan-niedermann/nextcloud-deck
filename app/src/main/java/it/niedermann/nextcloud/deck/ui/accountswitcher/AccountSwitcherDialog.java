@@ -70,7 +70,7 @@ public class AccountSwitcherDialog extends DialogFragment {
                 adapter.setAccounts(accounts.stream().filter(account ->
                         !Objects.equals(account.getId(), viewModel.getCurrentAccount().getId())).collect(Collectors.toList())));
 
-        observeOnce(DeckApplication.readCurrentBoardColor(), requireActivity(), this::applyBrand);
+        observeOnce(DeckApplication.readCurrentBoardColor(), requireActivity(), this::applyTheme);
 
         binding.accountsList.setAdapter(adapter);
 
@@ -108,7 +108,7 @@ public class AccountSwitcherDialog extends DialogFragment {
         return new AccountSwitcherDialog();
     }
 
-    private void applyBrand(int mainColor) {
-//        applyBrandToLayerDrawable((LayerDrawable) binding.check.getDrawable(), R.id.area, mainColor);
+    private void applyTheme(int color) {
+//        applyThemeToLayerDrawable((LayerDrawable) binding.check.getDrawable(), R.id.area, mainColor);
     }
 }

@@ -22,7 +22,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogTextColorInputBinding;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
 public class EditBoardDialogFragment extends DialogFragment {
 

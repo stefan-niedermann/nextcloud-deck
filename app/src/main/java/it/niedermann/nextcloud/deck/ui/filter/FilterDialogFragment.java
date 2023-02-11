@@ -20,10 +20,10 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterBinding;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
-public class FilterDialogFragment extends BrandedDialogFragment {
+public class FilterDialogFragment extends ThemedDialogFragment {
 
     private DialogFilterBinding binding;
     private FilterViewModel filterViewModel;
@@ -106,7 +106,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
     }
 
     @Override
-    public void applyBrand(int color) {
+    public void applyTheme(int color) {
         final var utils = ViewThemeUtils.of(color, requireContext());
 
         utils.deck.themeTabLayout(binding.tabLayout, Color.TRANSPARENT);

@@ -19,13 +19,13 @@ import it.niedermann.nextcloud.deck.databinding.DialogMoveCardBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackFragment;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackListener;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackViewModel;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
-public class MoveCardDialogFragment extends BrandedDialogFragment implements PickStackListener {
+public class MoveCardDialogFragment extends ThemedDialogFragment implements PickStackListener {
 
     private static final String KEY_ORIGIN_ACCOUNT_ID = "account_id";
     private static final String KEY_ORIGIN_BOARD_LOCAL_ID = "board_local_id";
@@ -108,7 +108,7 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
         this.selectedBoard = board;
 
         if (board != null) {
-            applyBrand(board.getColor());
+            applyTheme(board.getColor());
         }
 
         this.selectedStack = stack;
@@ -122,7 +122,7 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
     }
 
     @Override
-    public void applyBrand(int color) {
+    public void applyTheme(int color) {
         final var utils = ViewThemeUtils.of(color, requireContext());
 
         utils.material.colorMaterialButtonText(binding.cancel);

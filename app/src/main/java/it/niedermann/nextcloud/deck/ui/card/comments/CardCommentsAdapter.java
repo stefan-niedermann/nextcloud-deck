@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card.comments;
 
-import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.readBrandMainColor;
+import static it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils.readBrandMainColor;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -19,7 +19,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.ItemCommentBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
 public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHolder> {
 

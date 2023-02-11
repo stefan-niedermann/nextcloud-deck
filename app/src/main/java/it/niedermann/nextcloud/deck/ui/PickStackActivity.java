@@ -21,15 +21,15 @@ import it.niedermann.nextcloud.deck.databinding.ActivityPickStackBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
-import it.niedermann.nextcloud.deck.ui.branding.Branded;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackFragment;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackListener;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackViewModel;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
-public abstract class PickStackActivity extends AppCompatActivity implements Branded, PickStackListener {
+public abstract class PickStackActivity extends AppCompatActivity implements Themed, PickStackListener {
 
     private ActivityPickStackBinding binding;
     private PickStackViewModel viewModel;
@@ -118,14 +118,14 @@ public abstract class PickStackActivity extends AppCompatActivity implements Bra
     @Override
     public void onStackPicked(@NonNull Account account, @Nullable Board board, @Nullable Stack stack) {
         viewModel.setSelected(account, board, stack);
-        applyBrand(board == null
+        applyTheme(board == null
                 ? ContextCompat.getColor(this, R.color.accent)
                 : board.getColor()
         );
     }
 
     @Override
-    public void applyBrand(int color) {
+    public void applyTheme(int color) {
         final var utils = ViewThemeUtils.of(color, this);
 
         utils.material.colorMaterialButtonText(binding.cancel);

@@ -18,10 +18,10 @@ import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogAddCommentBinding;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
-public class CardCommentsEditDialogFragment extends BrandedDialogFragment {
+public class CardCommentsEditDialogFragment extends ThemedDialogFragment {
     private static final String BUNDLE_KEY_COMMENT_ID = "commentId";
     private static final String BUNDLE_KEY_COMMENT_MESSAGE = "commentMessage";
     private CommentEditedListener addCommentListener;
@@ -85,7 +85,7 @@ public class CardCommentsEditDialogFragment extends BrandedDialogFragment {
     }
 
     @Override
-    public void applyBrand(int color) {
+    public void applyTheme(int color) {
         final var utils = ViewThemeUtils.of(color, requireContext());
 
         utils.material.colorTextInputLayout(binding.inputWrapper);

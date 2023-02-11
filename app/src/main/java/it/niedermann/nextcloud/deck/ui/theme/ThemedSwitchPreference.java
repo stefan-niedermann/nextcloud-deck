@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.branding;
+package it.niedermann.nextcloud.deck.ui.theme;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.preference.PreferenceViewHolder;
 import androidx.preference.SwitchPreference;
 
-public class BrandedSwitchPreference extends SwitchPreference implements Branded {
+public class ThemedSwitchPreference extends SwitchPreference implements Themed {
 
     @Nullable
     private ViewThemeUtils utils = null;
@@ -21,19 +21,19 @@ public class BrandedSwitchPreference extends SwitchPreference implements Branded
     @Nullable
     private Switch switchView;
 
-    public BrandedSwitchPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public ThemedSwitchPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public BrandedSwitchPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ThemedSwitchPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public BrandedSwitchPreference(Context context, AttributeSet attrs) {
+    public ThemedSwitchPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public BrandedSwitchPreference(Context context) {
+    public ThemedSwitchPreference(Context context) {
         super(context);
     }
 
@@ -43,18 +43,18 @@ public class BrandedSwitchPreference extends SwitchPreference implements Branded
 
         if (holder.itemView instanceof ViewGroup) {
             switchView = findSwitchWidget(holder.itemView);
-            applyBrand();
+            applyTheme();
         }
     }
 
     @Override
-    public void applyBrand(@ColorInt int color) {
+    public void applyTheme(@ColorInt int color) {
         this.utils = ViewThemeUtils.of(color, getContext());
-        // onBindViewHolder is called after applyBrand, therefore we have to store the given values and apply them later.
-        applyBrand();
+        // onBindViewHolder is called after applyTheme, therefore we have to store the given values and apply them later.
+        applyTheme();
     }
 
-    private void applyBrand() {
+    private void applyTheme() {
         if (utils != null && switchView != null) {
             utils.platform.colorSwitch(switchView);
         }

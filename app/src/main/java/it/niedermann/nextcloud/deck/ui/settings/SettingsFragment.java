@@ -16,16 +16,16 @@ import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedSwitchPreference;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
-    private BrandedSwitchPreference wifiOnlyPref;
-    private BrandedSwitchPreference compactPref;
-    private BrandedSwitchPreference coverImagesPref;
-    private BrandedSwitchPreference compressImageAttachmentsPref;
-    private BrandedSwitchPreference debuggingPref;
-    private BrandedSwitchPreference eTagPref;
+    private ThemedSwitchPreference wifiOnlyPref;
+    private ThemedSwitchPreference compactPref;
+    private ThemedSwitchPreference coverImagesPref;
+    private ThemedSwitchPreference compressImageAttachmentsPref;
+    private ThemedSwitchPreference debuggingPref;
+    private ThemedSwitchPreference eTagPref;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -76,12 +76,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         super.onViewCreated(view, savedInstanceState);
 
         DeckApplication.readCurrentAccountColor().observe(getViewLifecycleOwner(), (mainColor) -> {
-            wifiOnlyPref.applyBrand(mainColor);
-            compactPref.applyBrand(mainColor);
-            coverImagesPref.applyBrand(mainColor);
-            compressImageAttachmentsPref.applyBrand(mainColor);
-            debuggingPref.applyBrand(mainColor);
-            eTagPref.applyBrand(mainColor);
+            wifiOnlyPref.applyTheme(mainColor);
+            compactPref.applyTheme(mainColor);
+            coverImagesPref.applyTheme(mainColor);
+            compressImageAttachmentsPref.applyTheme(mainColor);
+            debuggingPref.applyTheme(mainColor);
+            eTagPref.applyTheme(mainColor);
         });
     }
 }

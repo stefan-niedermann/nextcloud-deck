@@ -36,8 +36,8 @@ public class ImageAttachmentViewHolder extends AttachmentViewHolder {
         return binding.notSyncedYet;
     }
 
-    public void bind(@NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull FragmentManager fragmentManager, Long cardRemoteId, Attachment attachment, @Nullable View.OnClickListener onClickListener, @ColorInt int mainColor) {
-        super.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, mainColor);
+    public void bind(@NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull FragmentManager fragmentManager, Long cardRemoteId, Attachment attachment, @Nullable View.OnClickListener onClickListener, @ColorInt int color) {
+        super.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, color);
 
         getPreview().post(() -> {
             @Nullable final String uri = AttachmentUtil.getThumbnailUrl(account, cardRemoteId, attachment, getPreview().getWidth());

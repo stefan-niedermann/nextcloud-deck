@@ -30,9 +30,9 @@ import it.niedermann.nextcloud.deck.databinding.DialogNewCardBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.preparecreate.PrepareCreateViewModel;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
 public class NewCardDialog extends DialogFragment implements DialogInterface.OnClickListener {
 

@@ -22,10 +22,10 @@ import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogStackCreateBinding;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
-public class EditStackDialogFragment extends BrandedDialogFragment implements DialogInterface.OnClickListener {
+public class EditStackDialogFragment extends ThemedDialogFragment implements DialogInterface.OnClickListener {
     private static final String KEY_STACK_ID = "stack_id";
     private static final String KEY_OLD_TITLE = "old_title";
     private EditStackListener editStackListener;
@@ -134,7 +134,7 @@ public class EditStackDialogFragment extends BrandedDialogFragment implements Di
     }
 
     @Override
-    public void applyBrand(int color) {
+    public void applyTheme(int color) {
         final var utils = ViewThemeUtils.of(color, requireContext());
 
         utils.material.colorTextInputLayout(binding.inputWrapper);

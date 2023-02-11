@@ -37,13 +37,13 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
-import it.niedermann.nextcloud.deck.ui.branding.Branded;
-import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.movecard.MoveCardDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
+import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
-public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> implements DragAndDropAdapter<FullCard>, CardOptionsItemSelectedListener, Branded {
+public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> implements DragAndDropAdapter<FullCard>, CardOptionsItemSelectedListener, Themed {
 
     private final ExecutorService executor;
     private final boolean compactMode;
@@ -183,7 +183,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
     }
 
     @Override
-    public void applyBrand(int color) {
+    public void applyTheme(int color) {
         this.utils = ViewThemeUtils.of(color, activity);
         notifyDataSetChanged();
     }
