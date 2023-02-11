@@ -280,7 +280,7 @@ public class EditActivity extends AppCompatActivity {
         super.finish();
     }
 
-    private void applyBoardBranding(int mainColor) {
+    private void applyBoardBranding(int color) {
         final var navigationIcon = binding.toolbar.getNavigationIcon();
         if (navigationIcon == null) {
             DeckLog.error("Expected navigationIcon to be present.");
@@ -288,7 +288,9 @@ public class EditActivity extends AppCompatActivity {
             DrawableCompat.setTint(binding.toolbar.getNavigationIcon(), ContextCompat.getColor(this, R.color.accent));
         }
 
-        ViewThemeUtils.of(mainColor, binding.tabLayout.getContext()).deck.themeTabLayout(mainColor, binding.tabLayout);
+        ViewThemeUtils.of(color, binding.tabLayout.getContext()).deck.themeTabLayout(binding.tabLayout);
+        // TODO transparent seems to be lighter than the rest of the activities background
+        binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.primary));
     }
 
     @NonNull

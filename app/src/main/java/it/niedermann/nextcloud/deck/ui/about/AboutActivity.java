@@ -38,7 +38,7 @@ public class AboutActivity extends AppCompatActivity {
         binding = ActivityAboutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        DeckApplication.readCurrentAccountColor().observe(this, (color) -> ViewThemeUtils.of(color, binding.tabLayout.getContext()).deck.themeTabLayout(color, binding.tabLayout));
+        DeckApplication.readCurrentAccountColor().observe(this, color -> ViewThemeUtils.of(color, binding.tabLayout.getContext()).deck.themeTabLayout(binding.tabLayout));
 
         setSupportActionBar(binding.toolbar);
         binding.viewPager.setAdapter(new TabsPagerAdapter(this, (Account) getIntent().getSerializableExtra(BUNDLE_KEY_ACCOUNT)));

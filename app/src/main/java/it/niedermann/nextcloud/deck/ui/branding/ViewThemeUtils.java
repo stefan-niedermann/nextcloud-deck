@@ -59,7 +59,7 @@ public class ViewThemeUtils extends ViewThemeUtilsBase {
     public static int readBrandMainColor(@NonNull Context context) {
         final var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         DeckLog.log("--- Read:", context.getString(R.string.shared_preference_theme_main));
-        return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_main), context.getApplicationContext().getResources().getColor(R.color.defaultBrand));
+        return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_main), ContextCompat.getColor(context, R.color.defaultBrand));
     }
 
     public static void saveBrandColors(@NonNull Context context, @ColorInt int mainColor) {

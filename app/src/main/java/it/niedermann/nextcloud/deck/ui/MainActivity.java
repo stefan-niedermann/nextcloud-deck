@@ -451,7 +451,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     }
 
     private void applyBoardBranding(@ColorInt int color) {
-        ViewThemeUtils.of(color, binding.stackTitles.getContext()).deck.themeTabLayout(color, binding.stackTitles);
+        ViewThemeUtils.of(color, binding.stackTitles.getContext()).deck.themeTabLayout(binding.stackTitles);
         ViewThemeUtils.of(color, binding.fab.getContext()).deck.themeExtendedFAB(binding.fab);
 
         // TODO We assume, that the background of the spinner is always white
@@ -629,6 +629,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         lastBoardId = board.getLocalId();
         saveCurrentBoardId(this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId());
         binding.navigationView.setCheckedItem(boardsList.indexOf(board));
+        ViewThemeUtils.of(board.getColor(), binding.navigationView.getContext()).deck.colorNavigationView(binding.navigationView);
 
         binding.toolbar.setTitle(board.getTitle());
         binding.filterText.setHint(getString(R.string.search_in, board.getTitle()));
@@ -713,6 +714,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         final var menu = binding.navigationView.getMenu();
         menu.clear();
         DrawerMenuUtil.inflateBoards(this, menu, this.boardsList, mainViewModel.currentAccountHasArchivedBoards(), mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported());
+        ViewThemeUtils.of(currentBoard.getColor(), binding.navigationView.getContext()).deck.colorNavigationView(binding.navigationView);
         binding.navigationView.setCheckedItem(boardsList.indexOf(currentBoard));
     }
 
