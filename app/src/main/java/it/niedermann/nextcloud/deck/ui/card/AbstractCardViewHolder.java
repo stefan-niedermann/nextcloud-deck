@@ -31,11 +31,11 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
+import scheme.Scheme;
 
 public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
 
@@ -47,7 +47,7 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
      * Removes all {@link OnClickListener} and {@link OnLongClickListener}
      */
     @CallSuper
-    public void bind(@NonNull FullCard fullCard, @NonNull Account account, @Nullable Long boardRemoteId, boolean hasEditPermission, @MenuRes int optionsMenu, @NonNull CardOptionsItemSelectedListener optionsItemsSelectedListener, @NonNull String counterMaxValue, @NonNull ViewThemeUtils utils) {
+    public void bind(@NonNull FullCard fullCard, @NonNull Account account, @Nullable Long boardRemoteId, boolean hasEditPermission, @MenuRes int optionsMenu, @NonNull CardOptionsItemSelectedListener optionsItemsSelectedListener, @NonNull String counterMaxValue, @NonNull Scheme scheme) {
         final var context = itemView.getContext();
 
         bindCardClickListener(null);
@@ -56,7 +56,7 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
         getCardMenu().setVisibility(hasEditPermission ? View.VISIBLE : View.GONE);
         getCardTitle().setText(fullCard.getCard().getTitle().trim());
 
-        DrawableCompat.setTint(getNotSyncedYet().getDrawable(), utils.getOnPrimaryContainer(context));
+        DrawableCompat.setTint(getNotSyncedYet().getDrawable(), scheme.getOnPrimaryContainer());
         // TODO should be discussed with UX
         // utils.material.themeCardView(getCard());
 

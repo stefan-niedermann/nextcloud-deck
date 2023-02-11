@@ -12,8 +12,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogTextColorInputBinding;
 import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
-import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
 public class EditLabelDialogFragment extends ThemedDialogFragment {
 
@@ -90,7 +90,7 @@ public class EditLabelDialogFragment extends ThemedDialogFragment {
 
     @Override
     public void applyTheme(int color) {
-        final var utils = ViewThemeUtils.of(color, requireContext());
+        final var utils = ThemeUtils.of(color, requireContext());
 
         utils.material.colorTextInputLayout(binding.inputWrapper);
     }

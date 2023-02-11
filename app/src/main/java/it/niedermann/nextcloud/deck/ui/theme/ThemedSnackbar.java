@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.theme;
 
-import static it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils.readBrandMainColor;
+import static it.niedermann.nextcloud.deck.ui.theme.ThemeUtils.readBrandMainColor;
 
 import android.view.View;
 
@@ -17,7 +17,7 @@ public class ThemedSnackbar {
     public static Snackbar make(@NonNull View view, @NonNull CharSequence text, @BaseTransientBottomBar.Duration int duration) {
         @ColorInt final int color = readBrandMainColor(view.getContext());
         final var snackbar = Snackbar.make(view, text, duration);
-        final var utils = ViewThemeUtils.of(color, view.getContext());
+        final var utils = ThemeUtils.of(color, view.getContext());
 
         utils.material.themeSnackbar(snackbar);
 

@@ -21,7 +21,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 
 /**
  * Warning: Do not move this class to another package or folder!
@@ -122,7 +122,7 @@ public class PushNotificationActivity extends AppCompatActivity {
     // TODO implement Branded interface
     // TODO apply branding based on board color
     public void applyThemeToSubmitButton(@ColorInt int color) {
-        final var utils = ViewThemeUtils.of(color, this);
+        final var utils = ThemeUtils.of(color, this);
 
         utils.platform.themeHorizontalProgressBar(binding.progress);
         Stream.of(binding.submit, binding.showError)

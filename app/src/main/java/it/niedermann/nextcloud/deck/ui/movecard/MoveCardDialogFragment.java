@@ -22,8 +22,8 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackFragment;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackListener;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackViewModel;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
-import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
 public class MoveCardDialogFragment extends ThemedDialogFragment implements PickStackListener {
 
@@ -123,7 +123,7 @@ public class MoveCardDialogFragment extends ThemedDialogFragment implements Pick
 
     @Override
     public void applyTheme(int color) {
-        final var utils = ViewThemeUtils.of(color, requireContext());
+        final var utils = ThemeUtils.of(color, requireContext());
 
         utils.material.colorMaterialButtonText(binding.cancel);
         utils.material.colorMaterialButtonText(binding.submit);

@@ -18,7 +18,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
+import scheme.Scheme;
 
 public class DefaultCardViewHolder extends AbstractCardViewHolder {
     private final ItemCardDefaultBinding binding;
@@ -35,8 +35,8 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
      * Removes all {@link OnClickListener} and {@link OnLongClickListener}
      */
     @Override
-    public void bind(@NonNull FullCard fullCard, @NonNull Account account, @Nullable Long boardRemoteId, boolean hasEditPermission, @MenuRes int optionsMenu, @NonNull CardOptionsItemSelectedListener optionsItemsSelectedListener, @NonNull String counterMaxValue, @NonNull ViewThemeUtils utils) {
-        super.bind(fullCard, account, boardRemoteId, hasEditPermission, optionsMenu, optionsItemsSelectedListener, counterMaxValue, utils);
+    public void bind(@NonNull FullCard fullCard, @NonNull Account account, @Nullable Long boardRemoteId, boolean hasEditPermission, @MenuRes int optionsMenu, @NonNull CardOptionsItemSelectedListener optionsItemsSelectedListener, @NonNull String counterMaxValue, @NonNull Scheme scheme) {
+        super.bind(fullCard, account, boardRemoteId, hasEditPermission, optionsMenu, optionsItemsSelectedListener, counterMaxValue, scheme);
 
         final var context = itemView.getContext();
 

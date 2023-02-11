@@ -15,7 +15,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.nextcloud.android.common.ui.theme.MaterialSchemes;
 import com.nextcloud.android.common.ui.theme.ViewThemeUtilsBase;
-import com.nextcloud.android.common.ui.theme.utils.AndroidViewThemeUtils;
 import com.nextcloud.android.common.ui.theme.utils.MaterialViewThemeUtils;
 
 import it.niedermann.nextcloud.deck.R;
@@ -28,17 +27,13 @@ import kotlin.Pair;
 public class DeckViewThemeUtils extends ViewThemeUtilsBase {
 
     private final MaterialViewThemeUtils material;
-    @SuppressWarnings({"unused", "FieldCanBeLocal"})
-    private final AndroidViewThemeUtils platform;
 
     public DeckViewThemeUtils(
             @NonNull MaterialSchemes schemes,
-            @NonNull MaterialViewThemeUtils material,
-            @NonNull AndroidViewThemeUtils platform
+            @NonNull MaterialViewThemeUtils material
     ) {
         super(schemes);
         this.material = material;
-        this.platform = platform;
     }
 
     /**

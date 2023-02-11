@@ -22,8 +22,8 @@ import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogStackCreateBinding;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
-import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
 public class EditStackDialogFragment extends ThemedDialogFragment implements DialogInterface.OnClickListener {
     private static final String KEY_STACK_ID = "stack_id";
@@ -135,7 +135,7 @@ public class EditStackDialogFragment extends ThemedDialogFragment implements Dia
 
     @Override
     public void applyTheme(int color) {
-        final var utils = ViewThemeUtils.of(color, requireContext());
+        final var utils = ThemeUtils.of(color, requireContext());
 
         utils.material.colorTextInputLayout(binding.inputWrapper);
     }

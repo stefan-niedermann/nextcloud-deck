@@ -36,7 +36,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.ActivityTakePhotoBinding;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.util.FilesUtil;
 
 public class TakePhotoActivity extends AppCompatActivity {
@@ -181,7 +181,7 @@ public class TakePhotoActivity extends AppCompatActivity {
     }
 
     private void applyBoardColorBrand(int color) {
-        final var utils = ViewThemeUtils.of(color, this);
+        final var utils = ThemeUtils.of(color, this);
 
         Arrays.stream(brandedFABs).forEach(utils.material::themeFAB);
     }

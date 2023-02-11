@@ -15,7 +15,7 @@ import androidx.preference.SwitchPreference;
 public class ThemedSwitchPreference extends SwitchPreference implements Themed {
 
     @Nullable
-    private ViewThemeUtils utils = null;
+    private ThemeUtils utils = null;
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     @Nullable
@@ -49,7 +49,7 @@ public class ThemedSwitchPreference extends SwitchPreference implements Themed {
 
     @Override
     public void applyTheme(@ColorInt int color) {
-        this.utils = ViewThemeUtils.of(color, getContext());
+        this.utils = ThemeUtils.of(color, getContext());
         // onBindViewHolder is called after applyTheme, therefore we have to store the given values and apply them later.
         applyTheme();
     }

@@ -31,7 +31,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
-import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class CardCommentsFragment extends Fragment implements CommentEditedListener, CommentDeletedListener, CommentSelectAsReplyListener {
@@ -163,7 +163,7 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
     }
 
     private void applyTheme(int color) {
-        final var utils = ViewThemeUtils.of(color, requireContext());
+        final var utils = ThemeUtils.of(color, requireContext());
 
         utils.material.themeFAB(binding.fab);
         utils.material.colorTextInputLayout(binding.messageWrapper);

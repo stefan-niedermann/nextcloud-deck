@@ -26,8 +26,8 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackFragment;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackListener;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackViewModel;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.Themed;
-import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
 public abstract class PickStackActivity extends AppCompatActivity implements Themed, PickStackListener {
 
@@ -126,7 +126,7 @@ public abstract class PickStackActivity extends AppCompatActivity implements The
 
     @Override
     public void applyTheme(int color) {
-        final var utils = ViewThemeUtils.of(color, this);
+        final var utils = ThemeUtils.of(color, this);
 
         utils.material.colorMaterialButtonText(binding.cancel);
         utils.material.colorMaterialButtonPrimaryFilled(binding.submit);

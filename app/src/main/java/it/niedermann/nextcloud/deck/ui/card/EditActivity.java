@@ -30,7 +30,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
 public class EditActivity extends AppCompatActivity {
@@ -155,7 +155,7 @@ public class EditActivity extends AppCompatActivity {
         if (viewModel.canEdit()) {
             getMenuInflater().inflate(R.menu.card_edit_menu, menu);
             @ColorInt final int color = ContextCompat.getColor(this, R.color.accent);
-            final var utils = ViewThemeUtils.of(color, this);
+            final var utils = ThemeUtils.of(color, this);
 
             for (int i = 0; i < menu.size(); i++) {
                 utils.platform.colorToolbarMenuIcon(this, menu.getItem(i));
@@ -290,7 +290,7 @@ public class EditActivity extends AppCompatActivity {
             DrawableCompat.setTint(binding.toolbar.getNavigationIcon(), ContextCompat.getColor(this, R.color.accent));
         }
 
-        final var utils = ViewThemeUtils.of(color, this);
+        final var utils = ThemeUtils.of(color, this);
 
         utils.platform.colorEditText(binding.title);
         utils.deck.themeTabLayout(binding.tabLayout);

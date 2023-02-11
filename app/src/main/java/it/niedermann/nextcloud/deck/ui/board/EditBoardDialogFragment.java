@@ -22,7 +22,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogTextColorInputBinding;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
-import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 
 public class EditBoardDialogFragment extends DialogFragment {
 
@@ -67,7 +67,7 @@ public class EditBoardDialogFragment extends DialogFragment {
             viewModel.getFullBoardById(viewModel.getCurrentAccount().getId(), args.getLong(KEY_BOARD_ID)).observe(EditBoardDialogFragment.this, fullBoard -> {
                 if (fullBoard.board != null) {
                     this.fullBoard = fullBoard;
-                    final var utils = ViewThemeUtils.of(fullBoard.getBoard().getColor(), requireContext());
+                    final var utils = ThemeUtils.of(fullBoard.getBoard().getColor(), requireContext());
 
                     final String title = this.fullBoard.getBoard().getTitle();
                     binding.input.setText(title);

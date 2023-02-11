@@ -20,8 +20,8 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogShareProgressBinding;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
-import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 import it.niedermann.nextcloud.exception.ExceptionUtil;
 
 public class ShareProgressDialogFragment extends ThemedDialogFragment {
@@ -121,7 +121,7 @@ public class ShareProgressDialogFragment extends ThemedDialogFragment {
 
     @Override
     public void applyTheme(int color) {
-        final var utils = ViewThemeUtils.of(color, requireContext());
+        final var utils = ThemeUtils.of(color, requireContext());
 
         utils.platform.themeHorizontalProgressBar(binding.progress);
         utils.material.colorMaterialButtonText(binding.errorReportButton);

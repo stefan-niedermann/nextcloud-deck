@@ -19,8 +19,8 @@ import it.niedermann.nextcloud.deck.databinding.ItemAccessControlOwnerBinding;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.Themed;
-import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Themed {
@@ -30,7 +30,7 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
     private static final int TYPE_ITEM = 1;
 
     @NonNull
-    private ViewThemeUtils utils;
+    private ThemeUtils utils;
 
     @NonNull
     private final Account account;
@@ -46,7 +46,7 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.account = account;
         this.accessControlChangedListener = accessControlChangedListener;
         this.context = context;
-        this.utils = ViewThemeUtils.of(ContextCompat.getColor(context, R.color.primary), context);
+        this.utils = ThemeUtils.of(ContextCompat.getColor(context, R.color.primary), context);
         setHasStableIds(true);
     }
 
@@ -153,7 +153,7 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void applyTheme(int color) {
-        this.utils = ViewThemeUtils.of(color, context);
+        this.utils = ThemeUtils.of(color, context);
         notifyDataSetChanged();
     }
 }

@@ -1,9 +1,8 @@
 package it.niedermann.nextcloud.deck.ui.theme;
 
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
-import static it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils.readBrandMainColor;
+import static it.niedermann.nextcloud.deck.ui.theme.ThemeUtils.readBrandMainColor;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +10,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.Calendar;
 
-import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.util.DeckColorUtil;
+import scheme.Scheme;
 
 public class ThemedDatePickerDialog extends DatePickerDialog implements Themed {
 
@@ -32,19 +29,13 @@ public class ThemedDatePickerDialog extends DatePickerDialog implements Themed {
 
     @Override
     public void applyTheme(int color) {
-        final var utils = ViewThemeUtils.of(color, requireContext());
+        final var scheme = ThemeUtils.createScheme(color, requireContext());
 
-        @ColorInt final int buttonTextColor = utils.getOnPrimaryContainer(requireContext());
+        @ColorInt final int buttonTextColor = scheme.getOnPrimaryContainer();
         setOkColor(buttonTextColor);
         setCancelColor(buttonTextColor);
-        setAccentColor(
-                DeckColorUtil.contrastRatioIsSufficientBigAreas(Color.WHITE, color)
-                        ? color
-                        // Text in picker title is always white (also in dark mode)
-                        : isThemeDark()
-                        ? Color.BLACK
-                        : ContextCompat.getColor(requireContext(), R.color.accent)
-        );
+
+        setAccentColor(Scheme.dark(color).getPrimaryContainer());
     }
 
     /**

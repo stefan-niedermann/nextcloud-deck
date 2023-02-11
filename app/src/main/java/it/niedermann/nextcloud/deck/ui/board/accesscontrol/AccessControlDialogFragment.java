@@ -30,8 +30,8 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedSnackbar;
-import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
 public class AccessControlDialogFragment extends DialogFragment implements AccessControlChangedListener, OnItemClickListener {
 
@@ -167,7 +167,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
     }
 
     public void applyTheme(@ColorInt int color) {
-        final var utils = ViewThemeUtils.of(color, requireContext());
+        final var utils = ThemeUtils.of(color, requireContext());
 
         utils.material.colorTextInputLayout(binding.peopleWrapper);
 

@@ -38,6 +38,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.stream.Stream;
 
 import it.niedermann.android.markdown.MarkdownEditor;
 import it.niedermann.android.util.ColorUtil;
@@ -55,10 +56,10 @@ import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeDialog;
 import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedDatePickerDialog;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedSnackbar;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedTimePickerDialog;
-import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 
 public class CardDetailsFragment extends Fragment implements OnDateSetListener, OnTimeSetListener, CardAssigneeListener {
 
@@ -123,13 +124,15 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
     }
 
     private void applyTheme(@ColorInt int color) {
-        final var utils = ViewThemeUtils.of(color, requireContext());
+        final var utils = ThemeUtils.of(color, requireContext());
 
-        utils.material.colorTextInputLayout(binding.labelsWrapper);
-        utils.material.colorTextInputLayout(binding.dueDateDateWrapper);
-        utils.material.colorTextInputLayout(binding.dueDateTimeWrapper);
-        utils.material.colorTextInputLayout(binding.peopleWrapper);
-        utils.material.colorTextInputLayout(binding.descriptionEditorWrapper);
+        Stream.of(
+                binding.labelsWrapper,
+                binding.dueDateDateWrapper,
+                binding.dueDateTimeWrapper,
+                binding.peopleWrapper,
+                binding.descriptionEditorWrapper
+        ).forEach(utils.material::colorTextInputLayout);
 
         binding.descriptionEditor.setSearchColor(color);
         binding.descriptionViewer.setSearchColor(color);
@@ -406,8 +409,8 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         adapter.removeUser(user);
         ((UserAutoCompleteAdapter) binding.people.getAdapter()).include(user);
         ThemedSnackbar.make(
-                requireView(), getString(R.string.unassigned_user, user.getDisplayname()),
-                Snackbar.LENGTH_LONG)
+                        requireView(), getString(R.string.unassigned_user, user.getDisplayname()),
+                        Snackbar.LENGTH_LONG)
                 .setAction(R.string.simple_undo, v1 -> {
                     viewModel.getFullCard().getAssignedUsers().add(user);
                     ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);

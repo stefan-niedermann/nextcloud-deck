@@ -17,7 +17,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.enums.EAttachmentType;
-import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 
 public abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
@@ -55,9 +55,9 @@ public abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
 
     protected void setNotSyncedYetStatus(boolean synced, @ColorInt int color) {
         final var notSyncedYet = getNotSyncedYetStatusIcon();
-        final var utils = ViewThemeUtils.of(color, notSyncedYet.getContext());
+        final var scheme = ThemeUtils.createScheme(color, notSyncedYet.getContext());
 
-        DrawableCompat.setTint(notSyncedYet.getDrawable(), utils.getOnPrimaryContainer(notSyncedYet.getContext()));
+        DrawableCompat.setTint(notSyncedYet.getDrawable(), scheme.getOnPrimaryContainer());
         notSyncedYet.setVisibility(synced ? View.GONE : View.VISIBLE);
     }
 

@@ -11,9 +11,8 @@ import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccount;
 import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentBoardId;
 import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentStackId;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils.clearBrandColors;
-import static it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils.saveBrandColors;
-import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
+import static it.niedermann.nextcloud.deck.ui.theme.ThemeUtils.clearBrandColors;
+import static it.niedermann.nextcloud.deck.ui.theme.ThemeUtils.saveBrandColors;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ARCHIVED_BOARDS;
@@ -28,7 +27,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkRequest;
@@ -83,6 +81,7 @@ import java.util.Objects;
 import it.niedermann.android.crosstabdnd.CrossTabDragAndDrop;
 import it.niedermann.android.tablayouthelper.TabLayoutHelper;
 import it.niedermann.android.tablayouthelper.TabTitleGenerator;
+import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -124,8 +123,8 @@ import it.niedermann.nextcloud.deck.ui.stack.EditStackListener;
 import it.niedermann.nextcloud.deck.ui.stack.OnScrollListener;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedSnackbar;
-import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsActivity;
 import it.niedermann.nextcloud.deck.util.CustomAppGlideModule;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
@@ -449,21 +448,24 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     }
 
     private void applyBoardTheme(@ColorInt int color) {
-        final var utils = ViewThemeUtils.of(color, this);
+        final var utils = ThemeUtils.of(color, this);
+        final var scheme = ThemeUtils.createScheme(color, this);
 
         utils.deck.themeTabLayout(binding.stackTitles);
         utils.deck.themeExtendedFAB(binding.fab);
         utils.androidx.themeSwipeRefreshLayout(binding.swipeRefreshLayout);
-        DrawableCompat.setTint(binding.filterIndicator.getDrawable(), utils.getOnPrimaryContainer(this));
+        utils.platform.colorEditText(binding.filterText);
+
+        DrawableCompat.setTint(binding.filterIndicator.getDrawable(), scheme.getOnPrimaryContainer());
     }
 
     private void applyAccountTheme(@ColorInt int accountColor) {
-        final var utils = ViewThemeUtils.of(accountColor, this);
+        final var utils = ThemeUtils.of(accountColor, this);
 
         utils.deck.colorNavigationView(binding.navigationView);
 
         headerBinding.headerView.setBackgroundColor(accountColor);
-        @ColorInt final int headerTextColor = contrastRatioIsSufficientBigAreas(accountColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
+        @ColorInt final int headerTextColor = ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(accountColor);
         headerBinding.appName.setTextColor(headerTextColor);
         DrawableCompat.setTint(headerBinding.logo.getDrawable(), headerTextColor);
         DrawableCompat.setTint(headerBinding.copyDebugLogs.getDrawable(), headerTextColor);

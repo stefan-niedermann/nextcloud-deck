@@ -5,7 +5,6 @@ import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.os.StrictMode;
 
 import androidx.annotation.ColorInt;
@@ -14,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.preference.PreferenceManager;
 
+import com.nextcloud.android.common.ui.util.PlatformThemeUtil;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
 import it.niedermann.android.sharedpreferences.SharedPreferenceIntLiveData;
@@ -39,7 +39,7 @@ public class DeckApplication extends Application {
 
         PREF_KEY_THEME = getString(R.string.pref_key_dark_theme);
         PREF_KEY_DEBUGGING = getString(R.string.pref_key_debugging);
-        setAppTheme(getAppTheme(this));
+        setAppTheme(getAppThemeSetting(this));
         DeckLog.enablePersistentLogs(isPersistentLoggingEnabled(this));
         final var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         currentAccountColor$ = distinctUntilChanged(new SharedPreferenceIntLiveData(sharedPreferences,
@@ -91,7 +91,7 @@ public class DeckApplication extends Application {
         setDefaultNightMode(setting);
     }
 
-    public static int getAppTheme(@NonNull Context context) {
+    public static int getAppThemeSetting(@NonNull Context context) {
         final var prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String mode;
         try {
@@ -102,18 +102,11 @@ public class DeckApplication extends Application {
         return Integer.parseInt(mode);
     }
 
-    public static boolean isDarkThemeActive(@NonNull Context context, int darkModeSetting) {
-        return darkModeSetting == Integer.parseInt(context.getString(R.string.pref_value_theme_system_default))
-                ? isDarkThemeActive(context)
-                : darkModeSetting == Integer.parseInt(context.getString(R.string.pref_value_theme_dark));
-    }
-
-    public static boolean isDarkThemeActive(@NonNull Context context) {
-        return (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
-    }
-
     public static boolean isDarkTheme(@NonNull Context context) {
-        return isDarkThemeActive(context, getAppTheme(context));
+        final var darkModeSetting = getAppThemeSetting(context);
+        return darkModeSetting == Integer.parseInt(context.getString(R.string.pref_value_theme_system_default))
+                ? PlatformThemeUtil.isDarkMode(context)
+                : darkModeSetting == Integer.parseInt(context.getString(R.string.pref_value_theme_dark));
     }
 
     // --------------------------------------

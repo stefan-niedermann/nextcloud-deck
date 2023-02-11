@@ -18,7 +18,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityAboutBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-import it.niedermann.nextcloud.deck.ui.theme.ViewThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 
 public class AboutActivity extends AppCompatActivity {
     private static final String BUNDLE_KEY_ACCOUNT = "account";
@@ -38,7 +38,7 @@ public class AboutActivity extends AppCompatActivity {
         binding = ActivityAboutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        DeckApplication.readCurrentAccountColor().observe(this, color -> ViewThemeUtils.of(color, this).deck.themeTabLayout(binding.tabLayout));
+        DeckApplication.readCurrentAccountColor().observe(this, color -> ThemeUtils.of(color, this).deck.themeTabLayout(binding.tabLayout));
 
         setSupportActionBar(binding.toolbar);
         binding.viewPager.setAdapter(new TabsPagerAdapter(this, (Account) getIntent().getSerializableExtra(BUNDLE_KEY_ACCOUNT)));

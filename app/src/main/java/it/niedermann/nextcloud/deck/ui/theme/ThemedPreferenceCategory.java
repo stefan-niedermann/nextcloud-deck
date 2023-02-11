@@ -20,8 +20,8 @@ public class ThemedPreferenceCategory extends PreferenceCategory {
         final var view = holder.itemView.findViewById(android.R.id.title);
         @Nullable final Context context = getContext();
         if (view instanceof TextView) {
-            final var utils = ViewThemeUtils.of(readCurrentAccountColor(context), context);
-            ((TextView) view).setTextColor(utils.getOnPrimaryContainer(context));
+            final var scheme = ThemeUtils.createScheme(readCurrentAccountColor(context), context);
+            ((TextView) view).setTextColor(scheme.getOnPrimaryContainer());
         }
     }
 

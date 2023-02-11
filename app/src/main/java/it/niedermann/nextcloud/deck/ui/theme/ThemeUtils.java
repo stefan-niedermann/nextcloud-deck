@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.theme;
 
+import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
+
 import android.content.Context;
 
 import androidx.annotation.ColorInt;
@@ -22,9 +24,9 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import scheme.Scheme;
 
-public class ViewThemeUtils extends ViewThemeUtilsBase {
+public class ThemeUtils extends ViewThemeUtilsBase {
 
-    private static final ConcurrentMap<Integer, ViewThemeUtils> CACHE = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<Integer, ThemeUtils> CACHE = new ConcurrentHashMap<>();
 
     public final AndroidViewThemeUtils platform;
     public final MaterialViewThemeUtils material;
@@ -32,7 +34,7 @@ public class ViewThemeUtils extends ViewThemeUtilsBase {
     public final DialogViewThemeUtils dialog;
     public final DeckViewThemeUtils deck;
 
-    private ViewThemeUtils(
+    private ThemeUtils(
             final MaterialSchemes schemes,
             final ColorUtil colorUtil
     ) {
@@ -42,22 +44,18 @@ public class ViewThemeUtils extends ViewThemeUtilsBase {
         this.material = new MaterialViewThemeUtils(schemes, colorUtil);
         this.androidx = new AndroidXViewThemeUtils(schemes, this.platform);
         this.dialog = new DialogViewThemeUtils(schemes);
-        this.deck = new DeckViewThemeUtils(schemes, this.material, this.platform);
+        this.deck = new DeckViewThemeUtils(schemes, this.material);
     }
 
-    public static ViewThemeUtils of(@ColorInt int color, @NonNull Context context) {
-        return CACHE.computeIfAbsent(color, c -> new ViewThemeUtils(
+    public static ThemeUtils of(@ColorInt int color, @NonNull Context context) {
+        return CACHE.computeIfAbsent(color, c -> new ThemeUtils(
                 MaterialSchemes.Companion.fromColor(c),
                 new ColorUtil(context)
         ));
     }
 
-    /**
-     * Since we may collide with dark theme in this area, we have to make sure that the color is visible depending on the background
-     */
-    @ColorInt
-    public int getOnPrimaryContainer(@NonNull Context context) {
-        return withScheme(context, Scheme::getOnPrimaryContainer);
+    public static Scheme createScheme(@ColorInt int color, @NonNull Context context) {
+        return isDarkTheme(context) ? Scheme.dark(color) : Scheme.light(color);
     }
 
     @ColorInt
