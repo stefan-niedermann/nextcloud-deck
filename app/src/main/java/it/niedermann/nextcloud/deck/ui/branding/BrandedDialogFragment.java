@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.branding;
 
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
+import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.readBrandMainColor;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;

@@ -29,7 +29,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
-import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
+import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
@@ -156,7 +156,7 @@ public class EditActivity extends AppCompatActivity {
             getMenuInflater().inflate(R.menu.card_edit_menu, menu);
             @ColorInt final int colorAccent = ContextCompat.getColor(this, R.color.accent);
             for (int i = 0; i < menu.size(); i++) {
-                BrandingUtil.of(colorAccent, this).deck.tintMenuIcon(this, menu.getItem(i), colorAccent);
+                ViewThemeUtils.of(colorAccent, this).deck.tintMenuIcon(this, menu.getItem(i), colorAccent);
             }
         } else {
             menu.clear();
@@ -288,7 +288,7 @@ public class EditActivity extends AppCompatActivity {
             DrawableCompat.setTint(binding.toolbar.getNavigationIcon(), ContextCompat.getColor(this, R.color.accent));
         }
 
-        BrandingUtil.of(mainColor, binding.tabLayout.getContext()).deck.themeTabLayout(mainColor, binding.tabLayout);
+        ViewThemeUtils.of(mainColor, binding.tabLayout.getContext()).deck.themeTabLayout(mainColor, binding.tabLayout);
     }
 
     @NonNull

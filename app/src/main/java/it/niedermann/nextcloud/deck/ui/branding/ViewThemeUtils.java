@@ -31,9 +31,9 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import kotlin.Pair;
 
-public class BrandingUtil extends ViewThemeUtilsBase {
+public class ViewThemeUtils extends ViewThemeUtilsBase {
 
-    private static final ConcurrentMap<Integer, BrandingUtil> CACHE = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<Integer, ViewThemeUtils> CACHE = new ConcurrentHashMap<>();
 
     public final AndroidViewThemeUtils platform;
     public final MaterialViewThemeUtils material;
@@ -41,7 +41,7 @@ public class BrandingUtil extends ViewThemeUtilsBase {
     public final DialogViewThemeUtils dialog;
     public final DeckViewThemeUtils deck;
 
-    private BrandingUtil(
+    private ViewThemeUtils(
             final MaterialSchemes schemes,
             final ColorUtil colorUtil
     ) {
@@ -54,8 +54,8 @@ public class BrandingUtil extends ViewThemeUtilsBase {
         this.deck = new DeckViewThemeUtils(schemes);
     }
 
-    public static BrandingUtil of(@ColorInt int color, @NonNull Context context) {
-        return CACHE.computeIfAbsent(color, c -> new BrandingUtil(
+    public static ViewThemeUtils of(@ColorInt int color, @NonNull Context context) {
+        return CACHE.computeIfAbsent(color, c -> new ViewThemeUtils(
                 MaterialSchemes.Companion.fromColor(c),
                 new ColorUtil(context)
         ));

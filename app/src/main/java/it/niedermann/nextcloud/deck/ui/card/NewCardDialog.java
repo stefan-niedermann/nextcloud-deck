@@ -31,7 +31,7 @@ import it.niedermann.nextcloud.deck.databinding.DialogNewCardBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
+import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.preparecreate.PrepareCreateViewModel;
 
@@ -96,9 +96,9 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(v -> onClick(dialog, DialogInterface.BUTTON_NEGATIVE));
         });
 
-        BrandingUtil.of(color, binding.inputWrapper.getContext()).material.colorTextInputLayout(binding.inputWrapper);
+        ViewThemeUtils.of(color, binding.inputWrapper.getContext()).material.colorTextInputLayout(binding.inputWrapper);
 
-        binding.progressCircular.setIndeterminateTintList(ColorStateList.valueOf(BrandingUtil.getSecondaryForegroundColorDependingOnTheme(requireContext(), color)));
+        binding.progressCircular.setIndeterminateTintList(ColorStateList.valueOf(ViewThemeUtils.getSecondaryForegroundColorDependingOnTheme(requireContext(), color)));
 
         binding.input.addTextChangedListener(new TextWatcher() {
             @Override

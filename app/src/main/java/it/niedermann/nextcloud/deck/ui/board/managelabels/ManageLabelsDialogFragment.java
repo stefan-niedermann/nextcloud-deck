@@ -25,8 +25,8 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
-import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.ui.branding.DeleteAlertDialogBuilder;
+import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 
 public class ManageLabelsDialogFragment extends BrandedDialogFragment implements ManageLabelListener, EditLabelListener {
 
@@ -118,8 +118,8 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
 
     @Override
     public void applyBrand(int mainColor) {
-        BrandingUtil.of(mainColor, binding.fab.getContext()).material.themeFAB(binding.fab);
-        BrandingUtil.of(mainColor, binding.addLabelTitleWrapper.getContext()).material.colorTextInputLayout(binding.addLabelTitleWrapper);
+        ViewThemeUtils.of(mainColor, binding.fab.getContext()).material.themeFAB(binding.fab);
+        ViewThemeUtils.of(mainColor, binding.addLabelTitleWrapper.getContext()).material.colorTextInputLayout(binding.addLabelTitleWrapper);
     }
 
     public static DialogFragment newInstance(long boardLocalId) {

@@ -11,9 +11,9 @@ import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccount;
 import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentBoardId;
 import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentStackId;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.clearBrandColors;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.saveBrandColors;
+import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.clearBrandColors;
+import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.saveBrandColors;
 import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficient;
 import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
@@ -111,7 +111,7 @@ import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
-import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
+import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CreateCardListener;
 import it.niedermann.nextcloud.deck.ui.card.NewCardDialog;
@@ -451,8 +451,8 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     }
 
     private void applyBoardBranding(@ColorInt int color) {
-        BrandingUtil.of(color, binding.stackTitles.getContext()).deck.themeTabLayout(color, binding.stackTitles);
-        BrandingUtil.of(color, binding.fab.getContext()).deck.themeExtendedFAB(binding.fab);
+        ViewThemeUtils.of(color, binding.stackTitles.getContext()).deck.themeTabLayout(color, binding.stackTitles);
+        ViewThemeUtils.of(color, binding.fab.getContext()).deck.themeExtendedFAB(binding.fab);
 
         // TODO We assume, that the background of the spinner is always white
         binding.swipeRefreshLayout.setColorSchemeColors(contrastRatioIsSufficient(Color.WHITE, color) ? color : DeckApplication.isDarkTheme(this) ? Color.DKGRAY : colorAccent);

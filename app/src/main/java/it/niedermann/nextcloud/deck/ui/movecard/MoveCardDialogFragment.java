@@ -21,7 +21,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
-import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
+import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackFragment;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackListener;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackViewModel;
@@ -119,7 +119,7 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
 
     @Override
     public void applyBrand(int mainColor) {
-        final ColorStateList mainColorStateList = ColorStateList.valueOf(BrandingUtil.getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor));
+        final ColorStateList mainColorStateList = ColorStateList.valueOf(ViewThemeUtils.getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor));
         binding.cancel.setTextColor(mainColorStateList);
         binding.submit.setTextColor(mainColorStateList);
     }

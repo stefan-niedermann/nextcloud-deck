@@ -22,7 +22,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogTextColorInputBinding;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
-import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
+import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 
 public class EditBoardDialogFragment extends DialogFragment {
 
@@ -69,7 +69,7 @@ public class EditBoardDialogFragment extends DialogFragment {
                     String title = this.fullBoard.getBoard().getTitle();
                     binding.input.setText(title);
                     binding.input.setSelection(title.length());
-                    BrandingUtil.of(fb.getBoard().getColor(), binding.inputWrapper.getContext()).material.colorTextInputLayout(binding.inputWrapper);
+                    ViewThemeUtils.of(fb.getBoard().getColor(), binding.inputWrapper.getContext()).material.colorTextInputLayout(binding.inputWrapper);
                     binding.colorChooser.selectColor(fullBoard.getBoard().getColor());
                 }
             });

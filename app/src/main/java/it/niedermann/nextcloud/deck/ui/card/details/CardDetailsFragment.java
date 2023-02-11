@@ -52,7 +52,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDatePickerDialog;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedTimePickerDialog;
-import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
+import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.LabelAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
@@ -124,11 +124,11 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
 
     private void applyBrand(@ColorInt int boardColor) {
         // TODO apply correct branding on the BrandedDatePicker
-        BrandingUtil.of(boardColor, binding.labelsWrapper.getContext()).material.colorTextInputLayout(binding.labelsWrapper);
-        BrandingUtil.of(boardColor, binding.dueDateDateWrapper.getContext()).material.colorTextInputLayout(binding.dueDateDateWrapper);
-        BrandingUtil.of(boardColor, binding.dueDateTimeWrapper.getContext()).material.colorTextInputLayout(binding.dueDateTimeWrapper);
-        BrandingUtil.of(boardColor, binding.peopleWrapper.getContext()).material.colorTextInputLayout(binding.peopleWrapper);
-        BrandingUtil.of(boardColor, binding.descriptionEditorWrapper.getContext()).material.colorTextInputLayout(binding.descriptionEditorWrapper);
+        ViewThemeUtils.of(boardColor, binding.labelsWrapper.getContext()).material.colorTextInputLayout(binding.labelsWrapper);
+        ViewThemeUtils.of(boardColor, binding.dueDateDateWrapper.getContext()).material.colorTextInputLayout(binding.dueDateDateWrapper);
+        ViewThemeUtils.of(boardColor, binding.dueDateTimeWrapper.getContext()).material.colorTextInputLayout(binding.dueDateTimeWrapper);
+        ViewThemeUtils.of(boardColor, binding.peopleWrapper.getContext()).material.colorTextInputLayout(binding.peopleWrapper);
+        ViewThemeUtils.of(boardColor, binding.descriptionEditorWrapper.getContext()).material.colorTextInputLayout(binding.descriptionEditorWrapper);
         binding.descriptionEditor.setSearchColor(boardColor);
         binding.descriptionViewer.setSearchColor(boardColor);
     }

@@ -29,7 +29,7 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
-import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
+import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
@@ -167,7 +167,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
     }
 
     public void applyBrand(@ColorInt int mainColor) {
-        BrandingUtil.of(mainColor, binding.peopleWrapper.getContext()).material.colorTextInputLayout(binding.peopleWrapper);
+        ViewThemeUtils.of(mainColor, binding.peopleWrapper.getContext()).material.colorTextInputLayout(binding.peopleWrapper);
         this.adapter.applyBrand(mainColor);
     }
 

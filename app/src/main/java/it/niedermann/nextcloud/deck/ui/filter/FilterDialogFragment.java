@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.getSecondaryForegroundColorDependingOnTheme;
 
 import android.app.Dialog;
 import android.graphics.PorterDuff;

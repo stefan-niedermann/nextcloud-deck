@@ -23,7 +23,7 @@ import java.util.Objects;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogStackCreateBinding;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
-import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
+import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 
 public class EditStackDialogFragment extends BrandedDialogFragment implements DialogInterface.OnClickListener {
     private static final String KEY_STACK_ID = "stack_id";
@@ -135,7 +135,7 @@ public class EditStackDialogFragment extends BrandedDialogFragment implements Di
 
     @Override
     public void applyBrand(int mainColor) {
-        BrandingUtil.of(mainColor, binding.inputWrapper.getContext()).material.colorTextInputLayout(binding.inputWrapper);
+        ViewThemeUtils.of(mainColor, binding.inputWrapper.getContext()).material.colorTextInputLayout(binding.inputWrapper);
     }
 
     @Override

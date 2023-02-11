@@ -34,7 +34,7 @@ import java.util.concurrent.ExecutionException;
 import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.ActivityTakePhotoBinding;
-import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
+import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.FilesUtil;
@@ -181,6 +181,6 @@ public class TakePhotoActivity extends AppCompatActivity {
     }
 
     private void applyBoardColorBrand(int mainColor) {
-        Arrays.stream(brandedFABs).forEach(fab -> BrandingUtil.of(mainColor, fab.getContext()).material.themeFAB(fab));
+        Arrays.stream(brandedFABs).forEach(fab -> ViewThemeUtils.of(mainColor, fab.getContext()).material.themeFAB(fab));
     }
 }
