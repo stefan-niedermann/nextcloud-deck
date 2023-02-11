@@ -1,29 +1,22 @@
 package it.niedermann.nextcloud.deck.ui.about;
 
-import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
-import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
 import static it.niedermann.nextcloud.deck.util.SpannableUtil.setTextWithURL;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 
-import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentAboutLicenseTabBinding;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 
 public class AboutFragmentLicenseTab extends Fragment {
 
@@ -41,13 +34,8 @@ public class AboutFragmentLicenseTab extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        DeckApplication.readCurrentAccountColor().observe(getViewLifecycleOwner(), (mainColor) -> {
-            @ColorInt final int finalMainColor = contrastRatioIsSufficientBigAreas(mainColor, ContextCompat.getColor(requireContext(), R.color.primary))
-                    ? mainColor
-                    : isDarkTheme(requireContext()) ? Color.WHITE : Color.BLACK;
-            DrawableCompat.setTintList(binding.aboutAppLicenseButton.getBackground(), ColorStateList.valueOf(finalMainColor));
-            binding.aboutAppLicenseButton.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(finalMainColor));
-        });
+        DeckApplication.readCurrentAccountColor().observe(getViewLifecycleOwner(), color ->
+                ThemeUtils.of(color, requireContext()).material.colorMaterialButtonPrimaryFilled(binding.aboutAppLicenseButton));
     }
 
     @Override

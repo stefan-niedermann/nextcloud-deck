@@ -5,7 +5,6 @@ import static androidx.lifecycle.Transformations.distinctUntilChanged;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,9 +30,9 @@ import it.niedermann.nextcloud.deck.databinding.DialogNewCardBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.preparecreate.PrepareCreateViewModel;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 
 public class NewCardDialog extends DialogFragment implements DialogInterface.OnClickListener {
 
@@ -96,8 +95,10 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(v -> onClick(dialog, DialogInterface.BUTTON_NEGATIVE));
         });
 
-        BrandingUtil.applyBrandToEditTextInputLayout(color, binding.inputWrapper);
-        binding.progressCircular.setIndeterminateTintList(ColorStateList.valueOf(BrandingUtil.getSecondaryForegroundColorDependingOnTheme(requireContext(), color)));
+        final var utils = ThemeUtils.of(color, requireContext());
+
+        utils.material.colorTextInputLayout(binding.inputWrapper);
+        utils.platform.colorCircularProgressBar(binding.progressCircular);
 
         binding.input.addTextChangedListener(new TextWatcher() {
             @Override

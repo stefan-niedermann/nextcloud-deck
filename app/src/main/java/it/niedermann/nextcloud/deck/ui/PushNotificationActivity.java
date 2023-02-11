@@ -1,10 +1,7 @@
 package it.niedermann.nextcloud.deck.ui;
 
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.view.View;
 
@@ -15,8 +12,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Stream;
 
-import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPushNotificationBinding;
@@ -24,6 +21,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 
 /**
  * Warning: Do not move this class to another package or folder!
@@ -54,7 +52,7 @@ public class PushNotificationActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
 
         binding.progress.setIndeterminate(true);
-        viewModel.getAccount().observe(this, this::applyBrandToSubmitButton);
+        viewModel.getAccount().observe(this, this::applyThemeToSubmitButton);
         executor.submit(() -> viewModel.getCardInformation(intent.getExtras(), new PushNotificationViewModel.PushNotificationCallback() {
             @Override
             public void onResponse(@NonNull PushNotificationViewModel.CardInformation cardInformation) {
@@ -123,16 +121,11 @@ public class PushNotificationActivity extends AppCompatActivity {
 
     // TODO implement Branded interface
     // TODO apply branding based on board color
-    public void applyBrandToSubmitButton(@ColorInt int mainColor) {
-        try {
-            binding.progress.getProgressDrawable().setColorFilter(
-                    getSecondaryForegroundColorDependingOnTheme(this, mainColor), PorterDuff.Mode.SRC_IN);
-            binding.submit.setBackgroundColor(mainColor);
-            binding.submit.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(mainColor));
-            binding.showError.setBackgroundColor(mainColor);
-            binding.showError.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(mainColor));
-        } catch (Throwable t) {
-            DeckLog.logError(t);
-        }
+    public void applyThemeToSubmitButton(@ColorInt int color) {
+        final var utils = ThemeUtils.of(color, this);
+
+        utils.platform.themeHorizontalProgressBar(binding.progress);
+        Stream.of(binding.submit, binding.showError)
+                .forEach(utils.material::colorMaterialButtonPrimaryFilled);
     }
 }

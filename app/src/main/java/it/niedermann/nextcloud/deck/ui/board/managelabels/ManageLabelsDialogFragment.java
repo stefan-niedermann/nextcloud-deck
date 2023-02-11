@@ -1,8 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.board.managelabels;
 
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
@@ -27,10 +24,11 @@ import it.niedermann.nextcloud.deck.databinding.DialogBoardManageLabelsBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
-import it.niedermann.nextcloud.deck.ui.branding.DeleteAlertDialogBuilder;
+import it.niedermann.nextcloud.deck.ui.theme.DeleteAlertDialogBuilder;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
 
-public class ManageLabelsDialogFragment extends BrandedDialogFragment implements ManageLabelListener, EditLabelListener {
+public class ManageLabelsDialogFragment extends ThemedDialogFragment implements ManageLabelListener, EditLabelListener {
 
     private MainViewModel viewModel;
     private DialogBoardManageLabelsBinding binding;
@@ -119,9 +117,11 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
     }
 
     @Override
-    public void applyBrand(int mainColor) {
-        applyBrandToFAB(mainColor, binding.fab);
-        applyBrandToEditTextInputLayout(mainColor, binding.addLabelTitleWrapper);
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, requireContext());
+
+        utils.material.themeFAB(binding.fab);
+        utils.material.colorTextInputLayout(binding.addLabelTitleWrapper);
     }
 
     public static DialogFragment newInstance(long boardLocalId) {

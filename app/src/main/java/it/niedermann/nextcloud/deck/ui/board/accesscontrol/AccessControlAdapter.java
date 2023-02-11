@@ -1,17 +1,12 @@
 package it.niedermann.nextcloud.deck.ui.board.accesscontrol;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.LinkedList;
@@ -24,34 +19,34 @@ import it.niedermann.nextcloud.deck.databinding.ItemAccessControlOwnerBinding;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
-import it.niedermann.nextcloud.deck.ui.branding.Branded;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
-
-public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Branded {
+public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Themed {
 
     public static final long HEADER_ITEM_LOCAL_ID = -1L;
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
-    private int mainColor;
+    @NonNull
+    private ThemeUtils utils;
 
     @NonNull
-    private Account account;
+    private final Account account;
     @NonNull
-    private List<AccessControl> accessControls = new LinkedList<>();
+    private final List<AccessControl> accessControls = new LinkedList<>();
     @NonNull
-    private AccessControlChangedListener accessControlChangedListener;
+    private final AccessControlChangedListener accessControlChangedListener;
     @NonNull
-    private Context context;
+    private final Context context;
     private boolean hasManagePermission = false;
 
     AccessControlAdapter(@NonNull Account account, @NonNull AccessControlChangedListener accessControlChangedListener, @NonNull Context context) {
         this.account = account;
         this.accessControlChangedListener = accessControlChangedListener;
         this.context = context;
-        this.mainColor = ContextCompat.getColor(context, R.color.primary);
+        this.utils = ThemeUtils.of(ContextCompat.getColor(context, R.color.primary), context);
         setHasStableIds(true);
     }
 
@@ -123,10 +118,10 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
                 });
 
                 if (hasManagePermission) {
-                    brandSwitch(context, acHolder.binding.permissionEdit, mainColor);
-                    brandSwitch(context, acHolder.binding.permissionManage, mainColor);
+                    utils.androidx.colorSwitchCompat(acHolder.binding.permissionEdit);
+                    utils.androidx.colorSwitchCompat(acHolder.binding.permissionManage);
                 }
-                brandSwitch(context, acHolder.binding.permissionShare, mainColor);
+                utils.androidx.colorSwitchCompat(acHolder.binding.permissionShare);
                 break;
             }
         }
@@ -157,26 +152,8 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
-    public void applyBrand(int mainColor) {
-        this.mainColor = getSecondaryForegroundColorDependingOnTheme(context, mainColor);
+    public void applyTheme(int color) {
+        this.utils = ThemeUtils.of(color, context);
         notifyDataSetChanged();
-    }
-
-    /**
-     * Helper method to apply branding to a {@link SwitchCompat}
-     */
-    private static void brandSwitch(@NonNull Context context, @NonNull SwitchCompat switchCompat, @ColorInt int mainColor) {
-        final int finalMainColor = getSecondaryForegroundColorDependingOnTheme(context, mainColor);
-        DrawableCompat.setTintList(switchCompat.getThumbDrawable(), new ColorStateList(
-                new int[][]{new int[]{android.R.attr.state_checked}, new int[]{}},
-                new int[]{finalMainColor, ContextCompat.getColor(context, R.color.fg_secondary)}
-        ));
-        final int trackColor = ContextCompat.getColor(context, R.color.fg_secondary);
-        final int lightTrackColor = Color.argb(77, Color.red(trackColor), Color.green(trackColor), Color.blue(trackColor));
-        final int lightTrackColorChecked = Color.argb(77, Color.red(finalMainColor), Color.green(finalMainColor), Color.blue(finalMainColor));
-        DrawableCompat.setTintList(switchCompat.getTrackDrawable(), new ColorStateList(
-                new int[][]{new int[]{android.R.attr.state_checked}, new int[]{}},
-                new int[]{lightTrackColorChecked, lightTrackColor}
-        ));
     }
 }

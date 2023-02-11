@@ -2,8 +2,6 @@ package it.niedermann.nextcloud.deck.ui.card.comments;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -33,6 +31,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class CardCommentsFragment extends Fragment implements CommentEditedListener, CommentDeletedListener, CommentSelectAsReplyListener {
@@ -131,7 +130,7 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
             binding.message.requestFocus();
             requireActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
-        mainViewModel.getBrandingColor().observe(getViewLifecycleOwner(), this::applyBrand);
+        mainViewModel.getBoardColor().observe(getViewLifecycleOwner(), this::applyTheme);
     }
 
     @Override
@@ -163,9 +162,11 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
         });
     }
 
-    private void applyBrand(int mainColor) {
-        applyBrandToFAB(mainColor, binding.fab);
-        applyBrandToEditTextInputLayout(mainColor, binding.messageWrapper);
+    private void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, requireContext());
+
+        utils.material.themeFAB(binding.fab);
+        utils.material.colorTextInputLayout(binding.messageWrapper);
     }
 
     @Override

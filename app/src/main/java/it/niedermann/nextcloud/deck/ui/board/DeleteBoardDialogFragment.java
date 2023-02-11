@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Board;
-import it.niedermann.nextcloud.deck.ui.branding.DeleteAlertDialogBuilder;
+import it.niedermann.nextcloud.deck.ui.theme.DeleteAlertDialogBuilder;
 
 public class DeleteBoardDialogFragment extends DialogFragment {
 

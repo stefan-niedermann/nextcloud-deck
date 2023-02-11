@@ -139,7 +139,7 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        DeckApplication.readCurrentBoardColor().observe(getViewLifecycleOwner(), this::applyBrand);
+        DeckApplication.readCurrentBoardColor().observe(getViewLifecycleOwner(), this::applyTheme);
     }
 
     @Override
@@ -159,9 +159,9 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
         return binding.recyclerView;
     }
 
-    private void applyBrand(int mainColor) {
+    private void applyTheme(int color) {
         if (this.adapter != null) {
-            this.adapter.applyBrand(mainColor);
+            this.adapter.applyTheme(color);
         }
     }
 

@@ -15,14 +15,12 @@ import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
 import static java.net.HttpURLConnection.HTTP_CONFLICT;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
 import static it.niedermann.nextcloud.deck.util.FilesUtil.copyContentUriToTempFile;
 
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -49,6 +47,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
+import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.File;
@@ -73,7 +72,6 @@ import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.AbstractPickerAdapter;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.ContactAdapter;
@@ -84,7 +82,8 @@ import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDia
 import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDialogViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.takephoto.TakePhotoActivity;
-import it.niedermann.nextcloud.deck.util.DeckColorUtil;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedSnackbar;
 import it.niedermann.nextcloud.deck.util.JavaCompressor;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 import it.niedermann.nextcloud.deck.util.VCardUtil;
@@ -223,7 +222,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         }
         final var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         compressImagesOnUpload = sharedPreferences.getBoolean(getString(R.string.pref_key_compress_image_attachments), true);
-        editViewModel.getBrandingColor().observe(getViewLifecycleOwner(), this::applyBrand);
+        editViewModel.getBoardColor().observe(getViewLifecycleOwner(), this::applyTheme);
         return binding.getRoot();
     }
 
@@ -416,7 +415,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         for (final var existingAttachment : editViewModel.getFullCard().getAttachments()) {
             final String existingPath = existingAttachment.getLocalPath();
             if (existingPath != null && existingPath.equals(fileToUpload.getAbsolutePath())) {
-                BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                ThemedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
                 return;
             }
         }
@@ -451,7 +450,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                         // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
                         editViewModel.getFullCard().getAttachments().remove(a);
                         adapter.removeAttachment(a);
-                        BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                        ThemedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
                     } else {
                         ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", throwable), editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                     }
@@ -521,13 +520,15 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         this.clickedItemPosition = position;
     }
 
-    private void applyBrand(@ColorInt int boardColor) {
-        applyBrandToFAB(boardColor, binding.fab);
-        @ColorInt final int finalMainColor = DeckColorUtil.contrastRatioIsSufficient(boardColor, primaryColor) ? boardColor : accentColor;
-        final ColorStateList list = new ColorStateList(new int[][]{new int[]{android.R.attr.state_checked}, new int[]{}}, new int[]{finalMainColor, accentColor});
-        binding.bottomNavigation.setItemIconTintList(list);
-        binding.bottomNavigation.setItemTextColor(list);
-        adapter.applyBrand(boardColor);
+    private void applyTheme(@ColorInt int color) {
+        final var utils = ThemeUtils.of(color, requireContext());
+
+        utils.material.themeFAB(binding.fab);
+        utils.deck.colorBottomNavigationView(binding.bottomNavigation);
+        utils.platform.colorViewBackground(binding.pickerHeader, ColorRole.SURFACE);
+        utils.platform.colorViewBackground(binding.pickerRecyclerView, ColorRole.SURFACE);
+
+        adapter.applyTheme(color);
     }
 
     public static Fragment newInstance() {

@@ -54,6 +54,7 @@
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <RelativeLayout
+            android:id="@+id/pickerHeader"
             android:layout_width="match_parent"
             android:layout_height="@dimen/spacer_2x"
             android:background="@drawable/bottom_sheet_rounded">

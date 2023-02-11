@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.branding;
+package it.niedermann.nextcloud.deck.ui.theme;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,12 +23,12 @@ public class DeleteAlertDialogBuilder extends MaterialAlertDialogBuilder {
     @Override
     public AlertDialog create() {
         this.dialog = super.create();
-        applyBrand();
-        dialog.setOnShowListener(dialog -> applyBrand());
+        applyTheme();
+        dialog.setOnShowListener(dialog -> applyTheme());
         return dialog;
     }
 
-    public void applyBrand() {
+    public void applyTheme() {
         final var positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         if (positiveButton != null) {
             positiveButton.setTextColor(ContextCompat.getColor(getContext(), R.color.danger));

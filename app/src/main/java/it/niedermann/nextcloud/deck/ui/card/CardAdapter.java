@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 
 import android.app.Activity;
@@ -12,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -39,12 +37,14 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
-import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.movecard.MoveCardDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
 import it.niedermann.nextcloud.deck.util.CardUtil;
+import scheme.Scheme;
 
-public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> implements DragAndDropAdapter<FullCard>, CardOptionsItemSelectedListener, Branded {
+public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> implements DragAndDropAdapter<FullCard>, CardOptionsItemSelectedListener, Themed {
 
     private final ExecutorService executor;
     private final boolean compactMode;
@@ -61,8 +61,8 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
     protected List<FullCard> cardList = new ArrayList<>();
     @NonNull
     protected String counterMaxValue;
-    @ColorInt
-    protected int mainColor;
+    @NonNull
+    protected Scheme scheme;
     @StringRes
     private final int shareLinkRes;
     protected final int maxCoverImages;
@@ -79,7 +79,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
         this.stackId = stackId;
         this.mainViewModel = mainViewModel;
         this.selectCardListener = selectCardListener;
-        this.mainColor = ContextCompat.getColor(this.activity, R.color.defaultBrand);
+        this.scheme =  ThemeUtils.createScheme(ContextCompat.getColor(this.activity, R.color.defaultBrand), this.activity);
         this.compactMode = getDefaultSharedPreferences(this.activity).getBoolean(this.activity.getString(R.string.pref_key_compact), false);
         this.maxCoverImages = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(activity.getString(R.string.pref_key_cover_images), true)
                 ? activity.getResources().getInteger(R.integer.max_cover_images)
@@ -124,7 +124,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
     @Override
     public void onBindViewHolder(@NonNull AbstractCardViewHolder viewHolder, int position) {
         @NonNull final var fullCard = cardList.get(position);
-        viewHolder.bind(fullCard, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardRemoteId(), mainViewModel.currentBoardHasEditPermission(), R.menu.card_menu, this, counterMaxValue, mainColor);
+        viewHolder.bind(fullCard, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardRemoteId(), mainViewModel.currentBoardHasEditPermission(), R.menu.card_menu, this, counterMaxValue, scheme);
 
         // Only enable details view if there is no one waiting for selecting a card.
         viewHolder.bindCardClickListener((v) -> {
@@ -184,8 +184,8 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
     }
 
     @Override
-    public void applyBrand(int mainColor) {
-        this.mainColor = getSecondaryForegroundColorDependingOnTheme(activity, mainColor);
+    public void applyTheme(int color) {
+        this.scheme = ThemeUtils.createScheme(color, activity);
         notifyDataSetChanged();
     }
 

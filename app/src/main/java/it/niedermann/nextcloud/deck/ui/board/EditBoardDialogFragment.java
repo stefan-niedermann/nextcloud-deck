@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.board;
 
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -24,6 +22,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogTextColorInputBinding;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 
 public class EditBoardDialogFragment extends DialogFragment {
 
@@ -64,14 +63,17 @@ public class EditBoardDialogFragment extends DialogFragment {
                 this.editBoardListener.onUpdateBoard(fullBoard);
             });
             final var viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-            viewModel.getFullBoardById(viewModel.getCurrentAccount().getId(), args.getLong(KEY_BOARD_ID)).observe(EditBoardDialogFragment.this, (FullBoard fb) -> {
-                if (fb.board != null) {
-                    this.fullBoard = fb;
-                    String title = this.fullBoard.getBoard().getTitle();
+
+            viewModel.getFullBoardById(viewModel.getCurrentAccount().getId(), args.getLong(KEY_BOARD_ID)).observe(EditBoardDialogFragment.this, fullBoard -> {
+                if (fullBoard.board != null) {
+                    this.fullBoard = fullBoard;
+                    final var utils = ThemeUtils.of(fullBoard.getBoard().getColor(), requireContext());
+
+                    final String title = this.fullBoard.getBoard().getTitle();
                     binding.input.setText(title);
                     binding.input.setSelection(title.length());
-                    applyBrandToEditTextInputLayout(fb.getBoard().getColor(), binding.inputWrapper);
-                    binding.colorChooser.selectColor(fullBoard.getBoard().getColor());
+                    binding.colorChooser.selectColor(this.fullBoard.getBoard().getColor());
+                    utils.material.colorTextInputLayout(binding.inputWrapper);
                 }
             });
         } else {

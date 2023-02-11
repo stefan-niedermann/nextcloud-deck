@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.widget.singlecard;
 
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.saveBrandColors;
+import static it.niedermann.nextcloud.deck.ui.theme.ThemeUtils.saveBrandColors;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
@@ -15,8 +15,8 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
-import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 
 public class SelectCardForWidgetActivity extends MainActivity implements SelectCardListener {
 
@@ -40,7 +40,7 @@ public class SelectCardForWidgetActivity extends MainActivity implements SelectC
         if (appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
             finish();
         }
-        originalBrandColor = BrandingUtil.readBrandMainColor(this);
+        originalBrandColor = ThemeUtils.readBrandMainColor(this);
     }
 
     @Override

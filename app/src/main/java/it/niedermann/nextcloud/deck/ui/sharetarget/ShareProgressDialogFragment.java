@@ -1,8 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.sharetarget;
 
-import static android.graphics.PorterDuff.Mode;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,11 +19,12 @@ import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogShareProgressBinding;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
 import it.niedermann.nextcloud.exception.ExceptionUtil;
 
-public class ShareProgressDialogFragment extends BrandedDialogFragment {
+public class ShareProgressDialogFragment extends ThemedDialogFragment {
 
     private DialogShareProgressBinding binding;
     private ShareProgressViewModel viewModel;
@@ -122,9 +120,10 @@ public class ShareProgressDialogFragment extends BrandedDialogFragment {
     }
 
     @Override
-    public void applyBrand(int mainColor) {
-        binding.progress.getProgressDrawable().setColorFilter(
-                getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor), Mode.SRC_IN);
-        binding.errorReportButton.setTextColor(getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor));
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, requireContext());
+
+        utils.platform.themeHorizontalProgressBar(binding.progress);
+        utils.material.colorMaterialButtonText(binding.errorReportButton);
     }
 }

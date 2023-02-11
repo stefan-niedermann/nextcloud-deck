@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.card.comments;
 
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -20,9 +18,10 @@ import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogAddCommentBinding;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
 
-public class CardCommentsEditDialogFragment extends BrandedDialogFragment {
+public class CardCommentsEditDialogFragment extends ThemedDialogFragment {
     private static final String BUNDLE_KEY_COMMENT_ID = "commentId";
     private static final String BUNDLE_KEY_COMMENT_MESSAGE = "commentMessage";
     private CommentEditedListener addCommentListener;
@@ -86,8 +85,10 @@ public class CardCommentsEditDialogFragment extends BrandedDialogFragment {
     }
 
     @Override
-    public void applyBrand(int mainColor) {
-        applyBrandToEditTextInputLayout(mainColor, binding.inputWrapper);
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, requireContext());
+
+        utils.material.colorTextInputLayout(binding.inputWrapper);
     }
 }
 

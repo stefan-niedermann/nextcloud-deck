@@ -4,7 +4,6 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +19,13 @@ import it.niedermann.nextcloud.deck.databinding.DialogMoveCardBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
-import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackFragment;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackListener;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackViewModel;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
 
-public class MoveCardDialogFragment extends BrandedDialogFragment implements PickStackListener {
+public class MoveCardDialogFragment extends ThemedDialogFragment implements PickStackListener {
 
     private static final String KEY_ORIGIN_ACCOUNT_ID = "account_id";
     private static final String KEY_ORIGIN_BOARD_LOCAL_ID = "board_local_id";
@@ -107,6 +106,11 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
     public void onStackPicked(@NonNull Account account, @Nullable Board board, @Nullable Stack stack) {
         this.selectedAccount = account;
         this.selectedBoard = board;
+
+        if (board != null) {
+            applyTheme(board.getColor());
+        }
+
         this.selectedStack = stack;
         if (board == null || stack == null) {
             binding.submit.setEnabled(false);
@@ -118,10 +122,11 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
     }
 
     @Override
-    public void applyBrand(int mainColor) {
-        final ColorStateList mainColorStateList = ColorStateList.valueOf(BrandingUtil.getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor));
-        binding.cancel.setTextColor(mainColorStateList);
-        binding.submit.setTextColor(mainColorStateList);
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, requireContext());
+
+        utils.material.colorMaterialButtonText(binding.cancel);
+        utils.material.colorMaterialButtonText(binding.submit);
     }
 
     public static DialogFragment newInstance(long originAccountId, long originBoardLocalId, String originCardTitle, Long originCardLocalId, boolean hasAttachmentsOrComments) {

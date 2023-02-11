@@ -1,8 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.tintMenuIcon;
 
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +30,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
 public class EditActivity extends AppCompatActivity {
@@ -86,7 +85,7 @@ public class EditActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
-        viewModel.getBrandingColor().observe(this, this::applyBoardBranding);
+        viewModel.getBoardColor().observe(this, this::applyTheme);
 
         loadDataFromIntent();
     }
@@ -94,7 +93,7 @@ public class EditActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        viewModel.setBrandingColor(ContextCompat.getColor(this, R.color.primary));
+        viewModel.setBoardColor(ContextCompat.getColor(this, R.color.primary));
         setIntent(intent);
         loadDataFromIntent();
     }
@@ -129,7 +128,7 @@ public class EditActivity extends AppCompatActivity {
         }
 
         observeOnce(viewModel.getFullBoardById(account.getId(), boardLocalId), EditActivity.this, (fullBoard -> {
-            viewModel.setBrandingColor(fullBoard.getBoard().getColor());
+            viewModel.setBoardColor(fullBoard.getBoard().getColor());
             viewModel.setCanEdit(fullBoard.getBoard().isPermissionEdit());
             invalidateOptionsMenu();
             observeOnce(viewModel.getFullCardWithProjectsByLocalId(account.getId(), cardLocalId), EditActivity.this, (fullCard) -> {
@@ -155,9 +154,11 @@ public class EditActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         if (viewModel.canEdit()) {
             getMenuInflater().inflate(R.menu.card_edit_menu, menu);
-            @ColorInt final int colorAccent = ContextCompat.getColor(this, R.color.accent);
+            @ColorInt final int color = ContextCompat.getColor(this, R.color.accent);
+            final var utils = ThemeUtils.of(color, this);
+
             for (int i = 0; i < menu.size(); i++) {
-                tintMenuIcon(menu.getItem(i), colorAccent);
+                utils.platform.colorToolbarMenuIcon(this, menu.getItem(i));
             }
         } else {
             menu.clear();
@@ -175,7 +176,7 @@ public class EditActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        if(isTaskRoot()) {
+        if (isTaskRoot()) {
             Intent intent = new Intent(EditActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -281,14 +282,18 @@ public class EditActivity extends AppCompatActivity {
         super.finish();
     }
 
-    private void applyBoardBranding(int mainColor) {
+    private void applyTheme(int color) {
         final var navigationIcon = binding.toolbar.getNavigationIcon();
         if (navigationIcon == null) {
             DeckLog.error("Expected navigationIcon to be present.");
         } else {
             DrawableCompat.setTint(binding.toolbar.getNavigationIcon(), ContextCompat.getColor(this, R.color.accent));
         }
-        applyBrandToPrimaryTabLayout(mainColor, binding.tabLayout);
+
+        final var utils = ThemeUtils.of(color, this);
+
+        utils.platform.colorEditText(binding.title);
+        utils.deck.themeTabLayout(binding.tabLayout);
     }
 
     @NonNull

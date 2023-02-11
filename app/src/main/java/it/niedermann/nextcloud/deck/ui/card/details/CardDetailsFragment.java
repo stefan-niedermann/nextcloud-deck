@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui.card.details;
 import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditTextInputLayout;
 
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
@@ -39,6 +38,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.stream.Stream;
 
 import it.niedermann.android.markdown.MarkdownEditor;
 import it.niedermann.android.util.ColorUtil;
@@ -50,15 +50,16 @@ import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabDetailsBindin
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedDatePickerDialog;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedTimePickerDialog;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.LabelAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeDialog;
 import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedDatePickerDialog;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedSnackbar;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedTimePickerDialog;
 
 public class CardDetailsFragment extends Fragment implements OnDateSetListener, OnTimeSetListener, CardAssigneeListener {
 
@@ -102,7 +103,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel.getBrandingColor().observe(getViewLifecycleOwner(), this::applyBrand);
+        viewModel.getBoardColor().observe(getViewLifecycleOwner(), this::applyTheme);
     }
 
     @Override
@@ -110,8 +111,8 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         super.onResume();
 
         // https://github.com/wdullaer/MaterialDateTimePicker#why-are-my-callbacks-lost-when-the-device-changes-orientation
-        final var dpd = (DatePickerDialog) getChildFragmentManager().findFragmentByTag(BrandedDatePickerDialog.class.getCanonicalName());
-        final var tpd = (TimePickerDialog) getChildFragmentManager().findFragmentByTag(BrandedTimePickerDialog.class.getCanonicalName());
+        final var dpd = (DatePickerDialog) getChildFragmentManager().findFragmentByTag(ThemedDatePickerDialog.class.getCanonicalName());
+        final var tpd = (TimePickerDialog) getChildFragmentManager().findFragmentByTag(ThemedTimePickerDialog.class.getCanonicalName());
         if (tpd != null) tpd.setOnTimeSetListener(this);
         if (dpd != null) dpd.setOnDateSetListener(this);
     }
@@ -122,15 +123,21 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         this.binding = null;
     }
 
-    private void applyBrand(@ColorInt int boardColor) {
+    private void applyTheme(@ColorInt int color) {
+        final var utils = ThemeUtils.of(color, requireContext());
+
+        Stream.of(
+                binding.labelsWrapper,
+                binding.dueDateDateWrapper,
+                binding.dueDateTimeWrapper,
+                binding.peopleWrapper,
+                binding.descriptionEditorWrapper
+        ).forEach(utils.material::colorTextInputLayout);
+
+        binding.descriptionEditor.setSearchColor(color);
+        binding.descriptionViewer.setSearchColor(color);
+
         // TODO apply correct branding on the BrandedDatePicker
-        applyBrandToEditTextInputLayout(boardColor, binding.labelsWrapper);
-        applyBrandToEditTextInputLayout(boardColor, binding.dueDateDateWrapper);
-        applyBrandToEditTextInputLayout(boardColor, binding.dueDateTimeWrapper);
-        applyBrandToEditTextInputLayout(boardColor, binding.peopleWrapper);
-        applyBrandToEditTextInputLayout(boardColor, binding.descriptionEditorWrapper);
-        binding.descriptionEditor.setSearchColor(boardColor);
-        binding.descriptionViewer.setSearchColor(boardColor);
     }
 
     private void setupDescription() {
@@ -191,8 +198,8 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
                 } else {
                     date = LocalDate.now();
                 }
-                BrandedDatePickerDialog.newInstance(this, date.getYear(), date.getMonthValue(), date.getDayOfMonth())
-                        .show(getChildFragmentManager(), BrandedDatePickerDialog.class.getCanonicalName());
+                ThemedDatePickerDialog.newInstance(this, date.getYear(), date.getMonthValue(), date.getDayOfMonth())
+                        .show(getChildFragmentManager(), ThemedDatePickerDialog.class.getCanonicalName());
             });
 
             binding.dueDateTime.setOnClickListener(v -> {
@@ -202,8 +209,8 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
                 } else {
                     time = LocalTime.now();
                 }
-                BrandedTimePickerDialog.newInstance(this, time.getHour(), time.getMinute(), true)
-                        .show(getChildFragmentManager(), BrandedTimePickerDialog.class.getCanonicalName());
+                ThemedTimePickerDialog.newInstance(this, time.getHour(), time.getMinute(), true)
+                        .show(getChildFragmentManager(), ThemedTimePickerDialog.class.getCanonicalName());
             });
 
             binding.clearDueDate.setOnClickListener(v -> {
@@ -249,7 +256,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
                         @Override
                         public void onError(Throwable throwable) {
                             IResponseCallback.super.onError(throwable);
-                            requireActivity().runOnUiThread(() -> BrandedSnackbar.make(requireView(), getString(R.string.error_create_label, newLabel.getTitle()), Snackbar.LENGTH_LONG)
+                            requireActivity().runOnUiThread(() -> ThemedSnackbar.make(requireView(), getString(R.string.error_create_label, newLabel.getTitle()), Snackbar.LENGTH_LONG)
                                     .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show());
                         }
                     });
@@ -401,9 +408,9 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         viewModel.getFullCard().getAssignedUsers().remove(user);
         adapter.removeUser(user);
         ((UserAutoCompleteAdapter) binding.people.getAdapter()).include(user);
-        BrandedSnackbar.make(
-                requireView(), getString(R.string.unassigned_user, user.getDisplayname()),
-                Snackbar.LENGTH_LONG)
+        ThemedSnackbar.make(
+                        requireView(), getString(R.string.unassigned_user, user.getDisplayname()),
+                        Snackbar.LENGTH_LONG)
                 .setAction(R.string.simple_undo, v1 -> {
                     viewModel.getFullCard().getAssignedUsers().add(user);
                     ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);

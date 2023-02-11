@@ -26,7 +26,7 @@ public class ArchivedCardsAdapter extends CardAdapter {
 
     @Override
     public void onBindViewHolder(@NonNull AbstractCardViewHolder viewHolder, int position) {
-        viewHolder.bind(cardList.get(position), mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardRemoteId(), false, R.menu.archived_card_menu, this, counterMaxValue, mainColor);
+        viewHolder.bind(cardList.get(position), mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardRemoteId(), false, R.menu.archived_card_menu, this, counterMaxValue, scheme);
     }
 
     @Override

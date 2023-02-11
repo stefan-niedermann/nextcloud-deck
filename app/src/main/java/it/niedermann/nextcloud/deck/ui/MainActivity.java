@@ -11,13 +11,8 @@ import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccount;
 import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentBoardId;
 import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentStackId;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToExtendedFAB;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.clearBrandColors;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.saveBrandColors;
-import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficient;
-import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
+import static it.niedermann.nextcloud.deck.ui.theme.ThemeUtils.clearBrandColors;
+import static it.niedermann.nextcloud.deck.ui.theme.ThemeUtils.saveBrandColors;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ARCHIVED_BOARDS;
@@ -32,7 +27,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkRequest;
@@ -87,6 +81,7 @@ import java.util.Objects;
 import it.niedermann.android.crosstabdnd.CrossTabDragAndDrop;
 import it.niedermann.android.tablayouthelper.TabLayoutHelper;
 import it.niedermann.android.tablayouthelper.TabTitleGenerator;
+import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -112,8 +107,6 @@ import it.niedermann.nextcloud.deck.ui.board.ArchiveBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
-import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CreateCardListener;
 import it.niedermann.nextcloud.deck.ui.card.NewCardDialog;
@@ -130,6 +123,8 @@ import it.niedermann.nextcloud.deck.ui.stack.EditStackListener;
 import it.niedermann.nextcloud.deck.ui.stack.OnScrollListener;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedSnackbar;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsActivity;
 import it.niedermann.nextcloud.deck.util.CustomAppGlideModule;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
@@ -196,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
 
         setTheme(R.style.AppTheme);
-        colorAccent = BrandingUtil.getAttribute(this, R.attr.colorAccent);
+        colorAccent = ContextCompat.getColor(this, R.color.accent);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         headerBinding = NavHeaderMainBinding.bind(binding.navigationView.getHeaderView(0));
@@ -218,8 +213,8 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         binding.navigationView.setNavigationItemSelectedListener(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        DeckApplication.readCurrentAccountColor().observe(this, this::applyAccountBranding);
-        DeckApplication.readCurrentBoardColor().observe(this, this::applyBoardBranding);
+        DeckApplication.readCurrentAccountColor().observe(this, this::applyAccountTheme);
+        DeckApplication.readCurrentBoardColor().observe(this, this::applyBoardTheme);
 
         binding.filterText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -452,17 +447,25 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         binding.accountSwitcher.setOnClickListener((v) -> AccountSwitcherDialog.newInstance().show(getSupportFragmentManager(), AccountSwitcherDialog.class.getSimpleName()));
     }
 
-    private void applyBoardBranding(@ColorInt int mainColor) {
-        applyBrandToPrimaryTabLayout(mainColor, binding.stackTitles);
-        applyBrandToExtendedFAB(mainColor, binding.fab);
-        // TODO We assume, that the background of the spinner is always white
-        binding.swipeRefreshLayout.setColorSchemeColors(contrastRatioIsSufficient(Color.WHITE, mainColor) ? mainColor : DeckApplication.isDarkTheme(this) ? Color.DKGRAY : colorAccent);
-        DrawableCompat.setTint(binding.filterIndicator.getDrawable(), getSecondaryForegroundColorDependingOnTheme(this, mainColor));
+    private void applyBoardTheme(@ColorInt int color) {
+        final var utils = ThemeUtils.of(color, this);
+        final var scheme = ThemeUtils.createScheme(color, this);
+
+        utils.deck.themeTabLayout(binding.stackTitles);
+        utils.deck.themeExtendedFAB(binding.fab);
+        utils.androidx.themeSwipeRefreshLayout(binding.swipeRefreshLayout);
+        utils.platform.colorEditText(binding.filterText);
+
+        DrawableCompat.setTint(binding.filterIndicator.getDrawable(), scheme.getOnPrimaryContainer());
     }
 
-    private void applyAccountBranding(@ColorInt int accountColor) {
+    private void applyAccountTheme(@ColorInt int accountColor) {
+        final var utils = ThemeUtils.of(accountColor, this);
+
+        utils.deck.colorNavigationView(binding.navigationView);
+
         headerBinding.headerView.setBackgroundColor(accountColor);
-        @ColorInt final int headerTextColor = contrastRatioIsSufficientBigAreas(accountColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
+        @ColorInt final int headerTextColor = ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(accountColor);
         headerBinding.appName.setTextColor(headerTextColor);
         DrawableCompat.setTint(headerBinding.logo.getDrawable(), headerTextColor);
         DrawableCompat.setTint(headerBinding.copyDebugLogs.getDrawable(), headerTextColor);
@@ -497,7 +500,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             @Override
             public void onError(Throwable error) {
                 IResponseCallback.super.onError(error);
-                runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG)
+                runOnUiThread(() -> ThemedSnackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(error, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
                         .setAnchorView(binding.fab)
                         .show());
@@ -548,7 +551,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             @Override
             public void onError(Throwable throwable) {
                 IResponseCallback.super.onError(throwable);
-                runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
+                runOnUiThread(() -> ThemedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
                         .setAnchorView(binding.fab)
                         .show());
@@ -857,14 +860,14 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                 if (!response.isMaintenanceEnabled()) {
                                     if (response.getDeckVersion().isSupported()) {
                                         runOnUiThread(() -> {
-                                            final var importSnackbar = BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE)
+                                            final var importSnackbar = ThemedSnackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE)
                                                     .setAnchorView(binding.fab);
                                             importSnackbar.show();
                                             importSyncManager.synchronize(new ResponseCallback<>(createdAccount) {
                                                 @Override
                                                 public void onResponse(Boolean syncSuccess) {
                                                     importSnackbar.dismiss();
-                                                    runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.account_imported), Snackbar.LENGTH_LONG)
+                                                    runOnUiThread(() -> ThemedSnackbar.make(binding.coordinatorLayout, getString(R.string.account_imported), Snackbar.LENGTH_LONG)
                                                             .setAnchorView(binding.fab)
                                                             .setAction(R.string.simple_switch, (a) -> {
                                                                 createdAccount.setColor(response.getColor());
@@ -932,7 +935,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                         IResponseCallback.super.onError(error);
                         if (error instanceof SQLiteConstraintException) {
                             DeckLog.warn("Account already added");
-                            BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_already_added, Snackbar.LENGTH_LONG)
+                            ThemedSnackbar.make(binding.coordinatorLayout, R.string.account_already_added, Snackbar.LENGTH_LONG)
                                     .setAnchorView(binding.fab)
                                     .show();
                         } else {
@@ -1116,7 +1119,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
 
     /**
-     * Displays a {@link BrandedSnackbar} for an exception of a failed sync, but only if the cause wasn't maintenance mode (this should be handled by a TextView instead of a snackbar).
+     * Displays a {@link ThemedSnackbar} for an exception of a failed sync, but only if the cause wasn't maintenance mode (this should be handled by a TextView instead of a snackbar).
      *
      * @param throwable the cause of the failed sync
      */
@@ -1125,7 +1128,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         if (!(throwable instanceof NextcloudHttpRequestFailedException) || ((NextcloudHttpRequestFailedException) throwable).getStatusCode() != HttpURLConnection.HTTP_UNAVAILABLE) {
             runOnUiThread(() -> {
                 if (binding != null) { // Can be null in case the activity has been destroyed before the synchronization process has been finished
-                    BrandedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
+                    ThemedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
                             .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
                             .setAnchorView(binding.fab)
                             .show();
@@ -1159,7 +1162,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 .setMultiChoiceItems(animals, checkedItems, (dialog, which, isChecked) -> checkedItems[0] = isChecked)
                 .setPositiveButton(R.string.simple_clone, (dialog, which) -> {
                     binding.drawerLayout.closeDrawer(GravityCompat.START);
-                    final var snackbar = BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.cloning_board, board.getTitle()), Snackbar.LENGTH_INDEFINITE)
+                    final var snackbar = ThemedSnackbar.make(binding.coordinatorLayout, getString(R.string.cloning_board, board.getTitle()), Snackbar.LENGTH_INDEFINITE)
                             .setAnchorView(binding.fab);
                     snackbar.show();
                     mainViewModel.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColor(), checkedItems[0], new IResponseCallback<>() {
@@ -1168,7 +1171,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                             runOnUiThread(() -> {
                                 snackbar.dismiss();
                                 setCurrentBoard(response.getBoard());
-                                BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.successfully_cloned_board, response.getBoard().getTitle()), Snackbar.LENGTH_LONG)
+                                ThemedSnackbar.make(binding.coordinatorLayout, getString(R.string.successfully_cloned_board, response.getBoard().getTitle()), Snackbar.LENGTH_LONG)
                                         .setAction(R.string.edit, v -> EditBoardDialogFragment.newInstance(response.getLocalId()).show(getSupportFragmentManager(), EditBoardDialogFragment.class.getSimpleName()))
                                         .setAnchorView(binding.fab)
                                         .show();
