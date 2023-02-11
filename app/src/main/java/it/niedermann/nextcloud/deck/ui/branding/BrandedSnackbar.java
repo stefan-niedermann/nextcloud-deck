@@ -16,9 +16,11 @@ public class BrandedSnackbar {
     @NonNull
     public static Snackbar make(@NonNull View view, @NonNull CharSequence text, @BaseTransientBottomBar.Duration int duration) {
         @ColorInt final int color = readBrandMainColor(view.getContext());
-
         final var snackbar = Snackbar.make(view, text, duration);
-        ViewThemeUtils.of(color, view.getContext()).material.themeSnackbar(snackbar);
+        final var utils = ViewThemeUtils.of(color, view.getContext());
+
+        utils.material.themeSnackbar(snackbar);
+
         return snackbar;
     }
 

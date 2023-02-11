@@ -122,15 +122,19 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         this.binding = null;
     }
 
-    private void applyBrand(@ColorInt int boardColor) {
+    private void applyBrand(@ColorInt int color) {
+        final var utils = ViewThemeUtils.of(color, requireContext());
+
+        utils.material.colorTextInputLayout(binding.labelsWrapper);
+        utils.material.colorTextInputLayout(binding.dueDateDateWrapper);
+        utils.material.colorTextInputLayout(binding.dueDateTimeWrapper);
+        utils.material.colorTextInputLayout(binding.peopleWrapper);
+        utils.material.colorTextInputLayout(binding.descriptionEditorWrapper);
+
+        binding.descriptionEditor.setSearchColor(color);
+        binding.descriptionViewer.setSearchColor(color);
+
         // TODO apply correct branding on the BrandedDatePicker
-        ViewThemeUtils.of(boardColor, binding.labelsWrapper.getContext()).material.colorTextInputLayout(binding.labelsWrapper);
-        ViewThemeUtils.of(boardColor, binding.dueDateDateWrapper.getContext()).material.colorTextInputLayout(binding.dueDateDateWrapper);
-        ViewThemeUtils.of(boardColor, binding.dueDateTimeWrapper.getContext()).material.colorTextInputLayout(binding.dueDateTimeWrapper);
-        ViewThemeUtils.of(boardColor, binding.peopleWrapper.getContext()).material.colorTextInputLayout(binding.peopleWrapper);
-        ViewThemeUtils.of(boardColor, binding.descriptionEditorWrapper.getContext()).material.colorTextInputLayout(binding.descriptionEditorWrapper);
-        binding.descriptionEditor.setSearchColor(boardColor);
-        binding.descriptionViewer.setSearchColor(boardColor);
     }
 
     private void setupDescription() {

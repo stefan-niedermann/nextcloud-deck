@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.CallSuper;
-import androidx.annotation.ColorInt;
 import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +31,7 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
@@ -47,7 +47,7 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
      * Removes all {@link OnClickListener} and {@link OnLongClickListener}
      */
     @CallSuper
-    public void bind(@NonNull FullCard fullCard, @NonNull Account account, @Nullable Long boardRemoteId, boolean hasEditPermission, @MenuRes int optionsMenu, @NonNull CardOptionsItemSelectedListener optionsItemsSelectedListener, @NonNull String counterMaxValue, @ColorInt int mainColor) {
+    public void bind(@NonNull FullCard fullCard, @NonNull Account account, @Nullable Long boardRemoteId, boolean hasEditPermission, @MenuRes int optionsMenu, @NonNull CardOptionsItemSelectedListener optionsItemsSelectedListener, @NonNull String counterMaxValue, @NonNull ViewThemeUtils utils) {
         final var context = itemView.getContext();
 
         bindCardClickListener(null);
@@ -56,7 +56,10 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
         getCardMenu().setVisibility(hasEditPermission ? View.VISIBLE : View.GONE);
         getCardTitle().setText(fullCard.getCard().getTitle().trim());
 
-        DrawableCompat.setTint(getNotSyncedYet().getDrawable(), mainColor);
+        DrawableCompat.setTint(getNotSyncedYet().getDrawable(), utils.getOnPrimaryContainer(context));
+        // TODO should be discussed with UX
+        // utils.material.themeCardView(getCard());
+
         getNotSyncedYet().setVisibility(DBStatus.LOCAL_EDITED.equals(fullCard.getStatusEnum()) ? View.VISIBLE : View.GONE);
 
         if (fullCard.getCard().getDueDate() != null) {

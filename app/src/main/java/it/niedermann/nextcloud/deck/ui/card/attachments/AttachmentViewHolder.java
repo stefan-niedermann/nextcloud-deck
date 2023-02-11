@@ -53,7 +53,9 @@ public abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
 
     protected void setNotSyncedYetStatus(boolean synced, @ColorInt int mainColor) {
         final var notSyncedYet = getNotSyncedYetStatusIcon();
-        DrawableCompat.setTint(notSyncedYet.getDrawable(), ViewThemeUtils.getSecondaryForegroundColorDependingOnTheme(notSyncedYet.getContext(), mainColor));
+        final var utils = ViewThemeUtils.of(mainColor, notSyncedYet.getContext());
+
+        DrawableCompat.setTint(notSyncedYet.getDrawable(), utils.getOnPrimaryContainer(notSyncedYet.getContext()));
         notSyncedYet.setVisibility(synced ? View.GONE : View.VISIBLE);
     }
 

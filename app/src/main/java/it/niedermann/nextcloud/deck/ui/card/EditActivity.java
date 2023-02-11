@@ -85,7 +85,7 @@ public class EditActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
-        viewModel.getBrandingColor().observe(this, this::applyBoardBranding);
+        viewModel.getBrandingColor().observe(this, this::applyBranding);
 
         loadDataFromIntent();
     }
@@ -154,9 +154,11 @@ public class EditActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         if (viewModel.canEdit()) {
             getMenuInflater().inflate(R.menu.card_edit_menu, menu);
-            @ColorInt final int colorAccent = ContextCompat.getColor(this, R.color.accent);
+            @ColorInt final int color = ContextCompat.getColor(this, R.color.accent);
+            final var utils = ViewThemeUtils.of(color, this);
+
             for (int i = 0; i < menu.size(); i++) {
-                ViewThemeUtils.of(colorAccent, this).deck.tintMenuIcon(this, menu.getItem(i), colorAccent);
+                utils.platform.colorToolbarMenuIcon(this, menu.getItem(i));
             }
         } else {
             menu.clear();
@@ -174,7 +176,7 @@ public class EditActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        if(isTaskRoot()) {
+        if (isTaskRoot()) {
             Intent intent = new Intent(EditActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -280,7 +282,7 @@ public class EditActivity extends AppCompatActivity {
         super.finish();
     }
 
-    private void applyBoardBranding(int color) {
+    private void applyBranding(int color) {
         final var navigationIcon = binding.toolbar.getNavigationIcon();
         if (navigationIcon == null) {
             DeckLog.error("Expected navigationIcon to be present.");
@@ -288,9 +290,10 @@ public class EditActivity extends AppCompatActivity {
             DrawableCompat.setTint(binding.toolbar.getNavigationIcon(), ContextCompat.getColor(this, R.color.accent));
         }
 
-        ViewThemeUtils.of(color, binding.tabLayout.getContext()).deck.themeTabLayout(binding.tabLayout);
-        // TODO transparent seems to be lighter than the rest of the activities background
-        binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.primary));
+        final var utils = ViewThemeUtils.of(color, this);
+
+        utils.platform.colorEditText(binding.title);
+        utils.deck.themeTabLayout(binding.tabLayout);
     }
 
     @NonNull

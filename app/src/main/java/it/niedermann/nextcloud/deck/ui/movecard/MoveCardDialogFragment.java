@@ -4,7 +4,6 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -107,6 +106,11 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
     public void onStackPicked(@NonNull Account account, @Nullable Board board, @Nullable Stack stack) {
         this.selectedAccount = account;
         this.selectedBoard = board;
+
+        if (board != null) {
+            applyBrand(board.getColor());
+        }
+
         this.selectedStack = stack;
         if (board == null || stack == null) {
             binding.submit.setEnabled(false);
@@ -118,10 +122,11 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
     }
 
     @Override
-    public void applyBrand(int mainColor) {
-        final ColorStateList mainColorStateList = ColorStateList.valueOf(ViewThemeUtils.getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor));
-        binding.cancel.setTextColor(mainColorStateList);
-        binding.submit.setTextColor(mainColorStateList);
+    public void applyBrand(int color) {
+        final var utils = ViewThemeUtils.of(color, requireContext());
+
+        utils.material.colorMaterialButtonText(binding.cancel);
+        utils.material.colorMaterialButtonText(binding.submit);
     }
 
     public static DialogFragment newInstance(long originAccountId, long originBoardLocalId, String originCardTitle, Long originCardLocalId, boolean hasAttachmentsOrComments) {

@@ -1,39 +1,28 @@
 package it.niedermann.nextcloud.deck.ui.board.managelabels;
 
-import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.getSecondaryForegroundColorDependingOnTheme;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemManageLabelBinding;
 import it.niedermann.nextcloud.deck.model.Label;
-import it.niedermann.nextcloud.deck.ui.branding.Branded;
 
-public class ManageLabelsAdapter extends RecyclerView.Adapter<ManageLabelsViewHolder> implements Branded {
-
-    private int mainColor;
+public class ManageLabelsAdapter extends RecyclerView.Adapter<ManageLabelsViewHolder> {
 
     @NonNull
-    private ManageLabelListener listener;
+    private final ManageLabelListener listener;
     @NonNull
-    private List<Label> labels = new LinkedList<>();
-    @NonNull
-    private Context context;
+    private final List<Label> labels = new LinkedList<>();
 
     ManageLabelsAdapter(@NonNull ManageLabelListener listener, @NonNull Context context) {
         this.listener = listener;
-        this.context = context;
-        this.mainColor = ContextCompat.getColor(context, R.color.primary);
         setHasStableIds(true);
     }
 
@@ -71,12 +60,6 @@ public class ManageLabelsAdapter extends RecyclerView.Adapter<ManageLabelsViewHo
     public void update(@NonNull List<Label> labels) {
         this.labels.clear();
         this.labels.addAll(labels);
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public void applyBrand(int mainColor) {
-        this.mainColor = getSecondaryForegroundColorDependingOnTheme(context, mainColor);
         notifyDataSetChanged();
     }
 }

@@ -1,29 +1,20 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import static androidx.lifecycle.Transformations.switchMap;
-import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
-import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
 
-import it.niedermann.android.util.ColorUtil;
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityPickStackBinding;
@@ -93,7 +84,7 @@ public abstract class PickStackActivity extends AppCompatActivity implements Bra
                 }
             });
         });
-        viewModel.submitButtonEnabled().observe(this, (enabled) -> binding.submit.setEnabled(enabled));
+        viewModel.submitButtonEnabled().observe(this, enabled -> binding.submit.setEnabled(enabled));
         if (requireContent()) {
             viewModel.setContentIsSatisfied(false);
             binding.inputWrapper.setVisibility(View.VISIBLE);
@@ -134,18 +125,12 @@ public abstract class PickStackActivity extends AppCompatActivity implements Bra
     }
 
     @Override
-    public void applyBrand(int mainColor) {
-        try {
-            @ColorInt final int finalMainColor = contrastRatioIsSufficientBigAreas(mainColor, ContextCompat.getColor(this, R.color.primary))
-                    ? mainColor
-                    : isDarkTheme(this) ? Color.WHITE : Color.BLACK;
-            DrawableCompat.setTintList(binding.submit.getBackground(), ColorStateList.valueOf(finalMainColor));
-            binding.submit.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(finalMainColor));
-            binding.cancel.setTextColor(getSecondaryForegroundColorDependingOnTheme(this, mainColor));
-            ViewThemeUtils.of(mainColor, binding.inputWrapper.getContext()).material.colorTextInputLayout(binding.inputWrapper);
-        } catch (Throwable t) {
-            DeckLog.logError(t);
-        }
+    public void applyBrand(int color) {
+        final var utils = ViewThemeUtils.of(color, this);
+
+        utils.material.colorMaterialButtonText(binding.cancel);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.submit);
+        utils.material.colorTextInputLayout(binding.inputWrapper);
     }
 
     abstract protected void onSubmit(Account account, long boardLocalId, long stackId, @NonNull IResponseCallback<Void> callback);

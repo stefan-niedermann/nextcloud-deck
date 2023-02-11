@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.card.comments;
 
-import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.readBrandMainColor;
 
 import android.content.Context;
@@ -20,10 +19,11 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.ItemCommentBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
+import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 
 public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHolder> {
 
-    private final int mainColor;
+    private final ViewThemeUtils utils;
     @NonNull
     private final List<FullDeckComment> comments = new ArrayList<>();
     @NonNull
@@ -46,7 +46,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
         this.selectAsReplyListener = selectAsReplyListener;
         this.fragmentManager = fragmentManager;
         this.editListener = editListener;
-        this.mainColor = getSecondaryForegroundColorDependingOnTheme(context, readBrandMainColor(context));
+        this.utils = ViewThemeUtils.of(readBrandMainColor(context), context);
         setHasStableIds(true);
     }
 
@@ -64,7 +64,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
     @Override
     public void onBindViewHolder(@NonNull ItemCommentViewHolder holder, int position) {
         final var comment = comments.get(position);
-        holder.bind(comment, account, mainColor, menuInflater, deletedListener, selectAsReplyListener, fragmentManager, (changedText) -> {
+        holder.bind(comment, account, utils, menuInflater, deletedListener, selectAsReplyListener, fragmentManager, (changedText) -> {
             if (!Objects.equals(changedText, comment.getComment().getMessage())) {
                 DeckLog.info("Toggled checkbox in comment with localId", comment.getLocalId());
                 this.editListener.onCommentEdited(comment.getLocalId(), changedText.toString());

@@ -163,8 +163,10 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
     }
 
     private void applyBrand(int color) {
-        ViewThemeUtils.of(color, binding.fab.getContext()).material.themeFAB(binding.fab);
-        ViewThemeUtils.of(color, binding.messageWrapper.getContext()).material.colorTextInputLayout(binding.messageWrapper);
+        final var utils = ViewThemeUtils.of(color, requireContext());
+
+        utils.material.themeFAB(binding.fab);
+        utils.material.colorTextInputLayout(binding.messageWrapper);
     }
 
     @Override

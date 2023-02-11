@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.branding;
 
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
-import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.readBrandMainColor;
 
 import android.graphics.Color;
@@ -32,13 +31,15 @@ public class BrandedDatePickerDialog extends DatePickerDialog implements Branded
     }
 
     @Override
-    public void applyBrand(int mainColor) {
-        @ColorInt final int buttonTextColor = getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor);
+    public void applyBrand(int color) {
+        final var utils = ViewThemeUtils.of(color, requireContext());
+
+        @ColorInt final int buttonTextColor = utils.getOnPrimaryContainer(requireContext());
         setOkColor(buttonTextColor);
         setCancelColor(buttonTextColor);
         setAccentColor(
-                DeckColorUtil.contrastRatioIsSufficientBigAreas(Color.WHITE, mainColor)
-                        ? mainColor
+                DeckColorUtil.contrastRatioIsSufficientBigAreas(Color.WHITE, color)
+                        ? color
                         // Text in picker title is always white (also in dark mode)
                         : isThemeDark()
                         ? Color.BLACK

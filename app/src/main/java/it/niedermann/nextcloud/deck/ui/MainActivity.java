@@ -12,9 +12,7 @@ import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentBoardId;
 import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentStackId;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.clearBrandColors;
-import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.saveBrandColors;
-import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficient;
 import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
@@ -451,15 +449,19 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     }
 
     private void applyBoardBranding(@ColorInt int color) {
-        ViewThemeUtils.of(color, binding.stackTitles.getContext()).deck.themeTabLayout(binding.stackTitles);
-        ViewThemeUtils.of(color, binding.fab.getContext()).deck.themeExtendedFAB(binding.fab);
+        final var utils = ViewThemeUtils.of(color, this);
 
-        // TODO We assume, that the background of the spinner is always white
-        binding.swipeRefreshLayout.setColorSchemeColors(contrastRatioIsSufficient(Color.WHITE, color) ? color : DeckApplication.isDarkTheme(this) ? Color.DKGRAY : colorAccent);
-        DrawableCompat.setTint(binding.filterIndicator.getDrawable(), getSecondaryForegroundColorDependingOnTheme(this, color));
+        utils.deck.themeTabLayout(binding.stackTitles);
+        utils.deck.themeExtendedFAB(binding.fab);
+        utils.androidx.themeSwipeRefreshLayout(binding.swipeRefreshLayout);
+        DrawableCompat.setTint(binding.filterIndicator.getDrawable(), utils.getOnPrimaryContainer(this));
     }
 
     private void applyAccountBranding(@ColorInt int accountColor) {
+        final var utils = ViewThemeUtils.of(accountColor, this);
+
+        utils.deck.colorNavigationView(binding.navigationView);
+
         headerBinding.headerView.setBackgroundColor(accountColor);
         @ColorInt final int headerTextColor = contrastRatioIsSufficientBigAreas(accountColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
         headerBinding.appName.setTextColor(headerTextColor);
@@ -629,7 +631,6 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         lastBoardId = board.getLocalId();
         saveCurrentBoardId(this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId());
         binding.navigationView.setCheckedItem(boardsList.indexOf(board));
-        ViewThemeUtils.of(board.getColor(), binding.navigationView.getContext()).deck.colorNavigationView(binding.navigationView);
 
         binding.toolbar.setTitle(board.getTitle());
         binding.filterText.setHint(getString(R.string.search_in, board.getTitle()));
@@ -714,7 +715,6 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         final var menu = binding.navigationView.getMenu();
         menu.clear();
         DrawerMenuUtil.inflateBoards(this, menu, this.boardsList, mainViewModel.currentAccountHasArchivedBoards(), mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported());
-        ViewThemeUtils.of(currentBoard.getColor(), binding.navigationView.getContext()).deck.colorNavigationView(binding.navigationView);
         binding.navigationView.setCheckedItem(boardsList.indexOf(currentBoard));
     }
 

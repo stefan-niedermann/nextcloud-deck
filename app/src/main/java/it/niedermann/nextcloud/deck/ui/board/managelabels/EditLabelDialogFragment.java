@@ -89,7 +89,9 @@ public class EditLabelDialogFragment extends BrandedDialogFragment {
     }
 
     @Override
-    public void applyBrand(int mainColor) {
-        ViewThemeUtils.of(mainColor, binding.inputWrapper.getContext()).material.colorTextInputLayout(binding.inputWrapper);
+    public void applyBrand(int color) {
+        final var utils = ViewThemeUtils.of(color, requireContext());
+
+        utils.material.colorTextInputLayout(binding.inputWrapper);
     }
 }

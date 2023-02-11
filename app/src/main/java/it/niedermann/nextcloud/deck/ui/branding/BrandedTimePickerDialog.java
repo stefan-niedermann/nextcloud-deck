@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.branding;
 
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
-import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.readBrandMainColor;
 
 import android.content.Context;
@@ -36,12 +35,14 @@ public class BrandedTimePickerDialog extends TimePickerDialog implements Branded
     }
 
     @Override
-    public void applyBrand(int mainColor) {
-        @ColorInt final int buttonTextColor = getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor);
+    public void applyBrand(int color) {
+        final var utils = ViewThemeUtils.of(color, requireContext());
+
+        @ColorInt final int buttonTextColor = utils.getOnPrimaryContainer(requireContext());
         setOkColor(buttonTextColor);
         setCancelColor(buttonTextColor);
         // Text in picker title is always white
-        setAccentColor(DeckColorUtil.contrastRatioIsSufficientBigAreas(Color.WHITE, mainColor) ? mainColor : ContextCompat.getColor(requireContext(), R.color.accent));
+        setAccentColor(DeckColorUtil.contrastRatioIsSufficientBigAreas(Color.WHITE, color) ? color : ContextCompat.getColor(requireContext(), R.color.accent));
     }
 
     /**

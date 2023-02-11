@@ -166,9 +166,12 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
         userAutoCompleteAdapter.exclude(user);
     }
 
-    public void applyBrand(@ColorInt int mainColor) {
-        ViewThemeUtils.of(mainColor, binding.peopleWrapper.getContext()).material.colorTextInputLayout(binding.peopleWrapper);
-        this.adapter.applyBrand(mainColor);
+    public void applyBrand(@ColorInt int color) {
+        final var utils = ViewThemeUtils.of(color, requireContext());
+
+        utils.material.colorTextInputLayout(binding.peopleWrapper);
+
+        this.adapter.applyBrand(color);
     }
 
     public static DialogFragment newInstance(long boardLocalId) {

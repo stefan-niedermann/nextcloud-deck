@@ -63,14 +63,17 @@ public class EditBoardDialogFragment extends DialogFragment {
                 this.editBoardListener.onUpdateBoard(fullBoard);
             });
             final var viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-            viewModel.getFullBoardById(viewModel.getCurrentAccount().getId(), args.getLong(KEY_BOARD_ID)).observe(EditBoardDialogFragment.this, (FullBoard fb) -> {
-                if (fb.board != null) {
-                    this.fullBoard = fb;
-                    String title = this.fullBoard.getBoard().getTitle();
+
+            viewModel.getFullBoardById(viewModel.getCurrentAccount().getId(), args.getLong(KEY_BOARD_ID)).observe(EditBoardDialogFragment.this, fullBoard -> {
+                if (fullBoard.board != null) {
+                    this.fullBoard = fullBoard;
+                    final var utils = ViewThemeUtils.of(fullBoard.getBoard().getColor(), requireContext());
+
+                    final String title = this.fullBoard.getBoard().getTitle();
                     binding.input.setText(title);
                     binding.input.setSelection(title.length());
-                    ViewThemeUtils.of(fb.getBoard().getColor(), binding.inputWrapper.getContext()).material.colorTextInputLayout(binding.inputWrapper);
-                    binding.colorChooser.selectColor(fullBoard.getBoard().getColor());
+                    binding.colorChooser.selectColor(this.fullBoard.getBoard().getColor());
+                    utils.material.colorTextInputLayout(binding.inputWrapper);
                 }
             });
         } else {

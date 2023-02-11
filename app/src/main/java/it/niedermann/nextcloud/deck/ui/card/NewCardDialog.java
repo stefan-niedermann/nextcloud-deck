@@ -5,7 +5,6 @@ import static androidx.lifecycle.Transformations.distinctUntilChanged;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -96,9 +95,10 @@ public class NewCardDialog extends DialogFragment implements DialogInterface.OnC
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(v -> onClick(dialog, DialogInterface.BUTTON_NEGATIVE));
         });
 
-        ViewThemeUtils.of(color, binding.inputWrapper.getContext()).material.colorTextInputLayout(binding.inputWrapper);
+        final var utils = ViewThemeUtils.of(color, requireContext());
 
-        binding.progressCircular.setIndeterminateTintList(ColorStateList.valueOf(ViewThemeUtils.getSecondaryForegroundColorDependingOnTheme(requireContext(), color)));
+        utils.material.colorTextInputLayout(binding.inputWrapper);
+        utils.platform.colorCircularProgressBar(binding.progressCircular);
 
         binding.input.addTextChangedListener(new TextWatcher() {
             @Override

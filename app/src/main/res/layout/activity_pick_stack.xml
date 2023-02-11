@@ -95,6 +95,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/submit"
             style="@style/Widget.Material3.Button"
+            android:enabled="false"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacer_1x"

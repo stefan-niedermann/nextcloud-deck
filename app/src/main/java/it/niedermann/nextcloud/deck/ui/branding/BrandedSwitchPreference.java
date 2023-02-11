@@ -1,9 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.branding;
 
-import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.getSecondaryForegroundColorDependingOnTheme;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +9,15 @@ import android.widget.Switch;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.preference.PreferenceViewHolder;
 import androidx.preference.SwitchPreference;
 
-import it.niedermann.nextcloud.deck.R;
-
 public class BrandedSwitchPreference extends SwitchPreference implements Branded {
 
-    @ColorInt
-    private Integer mainColor = null;
+    @Nullable
+    private ViewThemeUtils utils = null;
 
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     @Nullable
     private Switch switchView;
 
@@ -47,31 +43,20 @@ public class BrandedSwitchPreference extends SwitchPreference implements Branded
 
         if (holder.itemView instanceof ViewGroup) {
             switchView = findSwitchWidget(holder.itemView);
-            if (mainColor != null) {
-                applyBrand();
-            }
+            applyBrand();
         }
     }
 
     @Override
-    public void applyBrand(@ColorInt int mainColor) {
-        this.mainColor = mainColor;
+    public void applyBrand(@ColorInt int color) {
+        this.utils = ViewThemeUtils.of(color, getContext());
         // onBindViewHolder is called after applyBrand, therefore we have to store the given values and apply them later.
         applyBrand();
     }
 
     private void applyBrand() {
-        if (switchView != null) {
-            final int finalMainColor = getSecondaryForegroundColorDependingOnTheme(getContext(), mainColor);
-            // int trackColor = Color.argb(77, Color.red(finalMainColor), Color.green(finalMainColor), Color.blue(finalMainColor));
-            DrawableCompat.setTintList(switchView.getThumbDrawable(), new ColorStateList(
-                    new int[][]{new int[]{android.R.attr.state_checked}, new int[]{}},
-                    new int[]{finalMainColor, getContext().getResources().getColor(R.color.fg_secondary)}
-            ));
-            DrawableCompat.setTintList(switchView.getTrackDrawable(), new ColorStateList(
-                    new int[][]{new int[]{android.R.attr.state_checked}, new int[]{}},
-                    new int[]{finalMainColor, getContext().getResources().getColor(R.color.fg_secondary)}
-            ));
+        if (utils != null && switchView != null) {
+            utils.platform.colorSwitch(switchView);
         }
     }
 
@@ -91,7 +76,7 @@ public class BrandedSwitchPreference extends SwitchPreference implements Branded
             for (int i = 0; i < viewGroup.getChildCount(); i++) {
                 final var child = viewGroup.getChildAt(i);
                 if (child instanceof ViewGroup) {
-                    final var result = findSwitchWidget(child);
+                    @SuppressLint("UseSwitchCompatOrMaterialCode") final var result = findSwitchWidget(child);
                     if (result != null) return result;
                 }
                 if (child instanceof Switch) {

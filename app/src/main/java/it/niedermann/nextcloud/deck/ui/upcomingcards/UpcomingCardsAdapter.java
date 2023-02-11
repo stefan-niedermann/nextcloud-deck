@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
@@ -27,6 +26,7 @@ import it.niedermann.nextcloud.deck.databinding.ItemSectionBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.card.AbstractCardViewHolder;
 import it.niedermann.nextcloud.deck.ui.card.CompactCardViewHolder;
 import it.niedermann.nextcloud.deck.ui.card.DefaultCardOnlyTitleViewHolder;
@@ -44,8 +44,8 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
     protected List<Object> items = new ArrayList<>();
     @NonNull
     protected String counterMaxValue;
-    @ColorInt
-    protected int mainColor;
+    @NonNull
+    protected ViewThemeUtils utils;
     @NonNull
     private final BiConsumer<Account, Card> assignCard;
     @NonNull
@@ -64,7 +64,7 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.activity = activity;
         this.counterMaxValue = this.activity.getString(R.string.counter_max_value);
         this.fragmentManager = fragmentManager;
-        this.mainColor = ContextCompat.getColor(this.activity, R.color.defaultBrand);
+        this.utils = ViewThemeUtils.of(ContextCompat.getColor(this.activity, R.color.defaultBrand), this.activity);
         this.compactMode = getDefaultSharedPreferences(this.activity).getBoolean(this.activity.getString(R.string.pref_key_compact), false);
         this.assignCard = assignCard;
         this.unassignCard = unassignCard;
@@ -154,7 +154,7 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
                                 unassignCard,
                                 archiveCard,
                                 deleteCard
-                        ), counterMaxValue, mainColor);
+                        ), counterMaxValue, utils);
                 cardViewHolder.bindCardClickListener((v) -> activity.startActivity(EditActivity.createEditCardIntent(activity, cardItem.getAccount(), cardItem.getCurrentBoardLocalId(), cardItem.getFullCard().getLocalId())));
             } else {
                 throw new IllegalStateException("Item at position " + position + " is a " + item.getClass().getSimpleName() + " but viewHolder is no " + AbstractCardViewHolder.class.getSimpleName());

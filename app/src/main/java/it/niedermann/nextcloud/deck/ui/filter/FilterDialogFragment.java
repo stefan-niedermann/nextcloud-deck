@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
 import android.app.Dialog;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -106,7 +107,9 @@ public class FilterDialogFragment extends BrandedDialogFragment {
 
     @Override
     public void applyBrand(int color) {
-        ViewThemeUtils.of(color, binding.tabLayout.getContext()).deck.themeTabLayout(binding.tabLayout);
+        final var utils = ViewThemeUtils.of(color, requireContext());
+
+        utils.deck.themeTabLayout(binding.tabLayout, Color.TRANSPARENT);
     }
 
     private static class TabsPagerAdapter extends FragmentStateAdapter {

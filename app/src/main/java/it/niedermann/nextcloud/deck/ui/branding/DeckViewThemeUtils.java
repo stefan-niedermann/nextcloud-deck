@@ -2,15 +2,14 @@ package it.niedermann.nextcloud.deck.ui.branding;
 
 import static com.nextcloud.android.common.ui.util.ColorStateListUtilsKt.buildColorStateList;
 
-import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.view.MenuItem;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.content.ContextCompat;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -19,6 +18,7 @@ import com.nextcloud.android.common.ui.theme.ViewThemeUtilsBase;
 import com.nextcloud.android.common.ui.theme.utils.AndroidViewThemeUtils;
 import com.nextcloud.android.common.ui.theme.utils.MaterialViewThemeUtils;
 
+import it.niedermann.nextcloud.deck.R;
 import kotlin.Pair;
 
 /**
@@ -87,24 +87,39 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
     }
 
     /**
-     * Applies the Primary color as background after applying {@link MaterialViewThemeUtils#themeTabLayout(TabLayout)}
+     * @param bottomNavigationView {@link BottomNavigationView}
+     * @see <a href="https://github.com/nextcloud/android-common/pull/71">Upstream Pull Request</a>
      */
-    public void themeTabLayout(@NonNull TabLayout tabLayout) {
-        this.material.themeTabLayout(tabLayout);
-        tabLayout.setBackgroundColor(Color.TRANSPARENT);
+    public void colorBottomNavigationView(BottomNavigationView bottomNavigationView) {
+        withScheme(bottomNavigationView, scheme -> {
+            bottomNavigationView.setBackgroundColor(scheme.getSurface());
+            bottomNavigationView.setItemIconTintList(buildColorStateList(
+                    new Pair<>(android.R.attr.state_checked, scheme.getOnSecondaryContainer()),
+                    new Pair<>(-android.R.attr.state_checked, scheme.getOnSurfaceVariant())
+            ));
+            bottomNavigationView.setItemTextColor(buildColorStateList(
+                    new Pair<>(android.R.attr.state_checked, scheme.getOnSurface()),
+                    new Pair<>(-android.R.attr.state_checked, scheme.getOnSurfaceVariant())
+            ));
+            bottomNavigationView.setItemActiveIndicatorColor(ColorStateList.valueOf(scheme.getSecondaryContainer()));
+
+            return bottomNavigationView;
+        });
     }
 
     /**
-     * {@link AndroidViewThemeUtils#colorMenuItemText(Context, MenuItem)} results in white icon on white background in light mode.
+     * Convenience method for calling {@link #themeTabLayout(TabLayout, int)} with the primary color
      */
-    public void tintMenuIcon(@NonNull Context context, @NonNull MenuItem menuItem, @ColorInt int color) {
-        // FIXME on light background does not work - maybe theme toolbar also?
-        // this.platform.colorMenuItemText(context, menuItem);
-        var drawable = menuItem.getIcon();
-        if (drawable != null) {
-            drawable = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTint(drawable, color);
-            menuItem.setIcon(drawable);
-        }
+    public void themeTabLayout(@NonNull TabLayout tabLayout) {
+        themeTabLayout(tabLayout, ContextCompat.getColor(tabLayout.getContext(), R.color.primary));
+    }
+
+    /**
+     * Themes the <code>tabLayout</code> using {@link MaterialViewThemeUtils#themeTabLayout(TabLayout)}
+     * and then applies <code>backgroundColor</code>.
+     */
+    public void themeTabLayout(@NonNull TabLayout tabLayout, @ColorInt int backgroundColor) {
+        this.material.themeTabLayout(tabLayout);
+        tabLayout.setBackgroundColor(backgroundColor);
     }
 }

@@ -57,9 +57,9 @@
         android:orientation="horizontal"
         app:justifyContent="space_between">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/cancel"
-            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -67,9 +67,9 @@
             android:text="@android:string/cancel"
             android:textColor="@color/defaultBrand" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/submit"
-            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"

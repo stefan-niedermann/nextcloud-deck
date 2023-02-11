@@ -21,7 +21,6 @@ import static it.niedermann.nextcloud.deck.util.FilesUtil.copyContentUriToTempFi
 
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,6 +47,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
+import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.File;
@@ -84,7 +84,6 @@ import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDia
 import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDialogViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.takephoto.TakePhotoActivity;
-import it.niedermann.nextcloud.deck.util.DeckColorUtil;
 import it.niedermann.nextcloud.deck.util.JavaCompressor;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 import it.niedermann.nextcloud.deck.util.VCardUtil;
@@ -521,13 +520,15 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         this.clickedItemPosition = position;
     }
 
-    private void applyBrand(@ColorInt int boardColor) {
-        ViewThemeUtils.of(boardColor, binding.fab.getContext()).material.themeFAB(binding.fab);
-        @ColorInt final int finalMainColor = DeckColorUtil.contrastRatioIsSufficient(boardColor, primaryColor) ? boardColor : accentColor;
-        final ColorStateList list = new ColorStateList(new int[][]{new int[]{android.R.attr.state_checked}, new int[]{}}, new int[]{finalMainColor, accentColor});
-        binding.bottomNavigation.setItemIconTintList(list);
-        binding.bottomNavigation.setItemTextColor(list);
-        adapter.applyBrand(boardColor);
+    private void applyBrand(@ColorInt int color) {
+        final var utils = ViewThemeUtils.of(color, requireContext());
+
+        utils.material.themeFAB(binding.fab);
+        utils.deck.colorBottomNavigationView(binding.bottomNavigation);
+        utils.platform.colorViewBackground(binding.pickerHeader, ColorRole.SURFACE);
+        utils.platform.colorViewBackground(binding.pickerRecyclerView, ColorRole.SURFACE);
+
+        adapter.applyBrand(color);
     }
 
     public static Fragment newInstance() {

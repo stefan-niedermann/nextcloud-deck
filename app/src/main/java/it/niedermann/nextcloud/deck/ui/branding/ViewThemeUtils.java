@@ -1,10 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.branding;
 
-import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
-import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficient;
-
 import android.content.Context;
-import android.graphics.Color;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -24,6 +20,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import scheme.Scheme;
 
 public class ViewThemeUtils extends ViewThemeUtilsBase {
 
@@ -55,6 +52,14 @@ public class ViewThemeUtils extends ViewThemeUtilsBase {
         ));
     }
 
+    /**
+     * Since we may collide with dark theme in this area, we have to make sure that the color is visible depending on the background
+     */
+    @ColorInt
+    public int getOnPrimaryContainer(@NonNull Context context) {
+        return withScheme(context, Scheme::getOnPrimaryContainer);
+    }
+
     @ColorInt
     public static int readBrandMainColor(@NonNull Context context) {
         final var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
@@ -74,17 +79,5 @@ public class ViewThemeUtils extends ViewThemeUtilsBase {
         DeckLog.log("--- Remove:", context.getString(R.string.shared_preference_theme_main));
         editor.remove(context.getString(R.string.shared_preference_theme_main));
         editor.apply();
-    }
-
-    /**
-     * Since we may collide with dark theme in this area, we have to make sure that the color is visible depending on the background
-     */
-    @ColorInt
-    public static int getSecondaryForegroundColorDependingOnTheme(@NonNull Context context, @ColorInt int mainColor) {
-        if (contrastRatioIsSufficient(mainColor, ContextCompat.getColor(context, R.color.primary))) {
-            return mainColor;
-        }
-        DeckLog.verbose("Contrast ratio between brand color", String.format("#%06X", (0xFFFFFF & mainColor)), "and primary theme background is too low. Falling back to WHITE/BLACK as brand color.");
-        return isDarkTheme(context) ? Color.WHITE : Color.BLACK;
     }
 }

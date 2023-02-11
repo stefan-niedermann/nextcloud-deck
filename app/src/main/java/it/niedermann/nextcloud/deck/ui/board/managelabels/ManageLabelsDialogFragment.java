@@ -117,9 +117,11 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
     }
 
     @Override
-    public void applyBrand(int mainColor) {
-        ViewThemeUtils.of(mainColor, binding.fab.getContext()).material.themeFAB(binding.fab);
-        ViewThemeUtils.of(mainColor, binding.addLabelTitleWrapper.getContext()).material.colorTextInputLayout(binding.addLabelTitleWrapper);
+    public void applyBrand(int color) {
+        final var utils = ViewThemeUtils.of(color, requireContext());
+
+        utils.material.themeFAB(binding.fab);
+        utils.material.colorTextInputLayout(binding.addLabelTitleWrapper);
     }
 
     public static DialogFragment newInstance(long boardLocalId) {

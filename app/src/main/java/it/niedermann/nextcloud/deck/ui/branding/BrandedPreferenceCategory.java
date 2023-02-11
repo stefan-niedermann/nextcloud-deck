@@ -1,13 +1,12 @@
 package it.niedermann.nextcloud.deck.ui.branding;
 
 import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentAccountColor;
-import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.getSecondaryForegroundColorDependingOnTheme;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceViewHolder;
@@ -15,14 +14,14 @@ import androidx.preference.PreferenceViewHolder;
 public class BrandedPreferenceCategory extends PreferenceCategory {
 
     @Override
-    public void onBindViewHolder(PreferenceViewHolder holder) {
+    public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
         final var view = holder.itemView.findViewById(android.R.id.title);
         @Nullable final Context context = getContext();
-        if (context != null && view instanceof TextView) {
-            @ColorInt final int mainColor = getSecondaryForegroundColorDependingOnTheme(context, readCurrentAccountColor(context));
-            ((TextView) view).setTextColor(mainColor);
+        if (view instanceof TextView) {
+            final var utils = ViewThemeUtils.of(readCurrentAccountColor(context), context);
+            ((TextView) view).setTextColor(utils.getOnPrimaryContainer(context));
         }
     }
 

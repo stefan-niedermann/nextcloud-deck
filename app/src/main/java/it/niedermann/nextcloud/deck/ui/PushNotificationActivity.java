@@ -1,10 +1,7 @@
 package it.niedermann.nextcloud.deck.ui;
 
-import static it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils.getSecondaryForegroundColorDependingOnTheme;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.view.View;
 
@@ -16,11 +13,11 @@ import androidx.lifecycle.ViewModelProvider;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPushNotificationBinding;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.ui.branding.ViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
@@ -124,15 +121,10 @@ public class PushNotificationActivity extends AppCompatActivity {
     // TODO implement Branded interface
     // TODO apply branding based on board color
     public void applyBrandToSubmitButton(@ColorInt int mainColor) {
-        try {
-            binding.progress.getProgressDrawable().setColorFilter(
-                    getSecondaryForegroundColorDependingOnTheme(this, mainColor), PorterDuff.Mode.SRC_IN);
-            binding.submit.setBackgroundColor(mainColor);
-            binding.submit.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(mainColor));
-            binding.showError.setBackgroundColor(mainColor);
-            binding.showError.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(mainColor));
-        } catch (Throwable t) {
-            DeckLog.logError(t);
-        }
+        final var utils = ViewThemeUtils.of(mainColor, this);
+
+        utils.platform.themeHorizontalProgressBar(binding.progress);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.submit);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.showError);
     }
 }

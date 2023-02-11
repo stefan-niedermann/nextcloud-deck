@@ -180,7 +180,9 @@ public class TakePhotoActivity extends AppCompatActivity {
         return new Intent(context, TakePhotoActivity.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
     }
 
-    private void applyBoardColorBrand(int mainColor) {
-        Arrays.stream(brandedFABs).forEach(fab -> ViewThemeUtils.of(mainColor, fab.getContext()).material.themeFAB(fab));
+    private void applyBoardColorBrand(int color) {
+        final var utils = ViewThemeUtils.of(color, this);
+
+        Arrays.stream(brandedFABs).forEach(utils.material::themeFAB);
     }
 }
