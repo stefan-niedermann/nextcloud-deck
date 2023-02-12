@@ -315,10 +315,11 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         binding.assignees.setAdapter(adapter);
         binding.assignees.post(() -> {
             @Px final int gutter = DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.spacer_1x);
-            final int spanCount = (int) (float) binding.assignees.getWidth() / (DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.avatar_size) + gutter);
+            final int spanCount = (int) (float) binding.labelsWrapper.getWidth() / (DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.avatar_size) + gutter);
             binding.assignees.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
-            binding.assignees.addItemDecoration(new AssigneeDecoration(gutter));
+            binding.assignees.addItemDecoration(new AssigneeDecoration(spanCount, gutter));
         });
+
         if (viewModel.canEdit()) {
             Long localCardId = viewModel.getFullCard().getCard().getLocalId();
             localCardId = localCardId == null ? -1 : localCardId;
@@ -330,16 +331,12 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
                 adapter.addUser(user);
                 binding.people.setText("");
             });
-
-            if (this.viewModel.getFullCard().getAssignedUsers() != null) {
-                adapter.setUsers(this.viewModel.getFullCard().getAssignedUsers());
-            }
         } else {
             binding.people.setEnabled(false);
+        }
 
-            if (this.viewModel.getFullCard().getAssignedUsers() != null) {
-                adapter.setUsers(this.viewModel.getFullCard().getAssignedUsers());
-            }
+        if (this.viewModel.getFullCard().getAssignedUsers() != null) {
+            adapter.setUsers(this.viewModel.getFullCard().getAssignedUsers());
         }
     }
 
@@ -408,13 +405,10 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         viewModel.getFullCard().getAssignedUsers().remove(user);
         adapter.removeUser(user);
         ((UserAutoCompleteAdapter) binding.people.getAdapter()).include(user);
-        ThemedSnackbar.make(
-                        requireView(), getString(R.string.unassigned_user, user.getDisplayname()),
-                        Snackbar.LENGTH_LONG)
-                .setAction(R.string.simple_undo, v1 -> {
-                    viewModel.getFullCard().getAssignedUsers().add(user);
-                    ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
-                    adapter.addUser(user);
-                }).show();
+        ThemedSnackbar.make(requireView(), getString(R.string.unassigned_user, user.getDisplayname()), Snackbar.LENGTH_LONG).setAction(R.string.simple_undo, v1 -> {
+            viewModel.getFullCard().getAssignedUsers().add(user);
+            ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
+            adapter.addUser(user);
+        }).show();
     }
 }

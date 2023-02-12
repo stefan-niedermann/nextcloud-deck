@@ -9,20 +9,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class AssigneeDecoration extends RecyclerView.ItemDecoration {
 
+    private final int spanCount;
     private final int gutter;
 
-    public AssigneeDecoration(@Px int gutter) {
+    public AssigneeDecoration(int spanCount, @Px int gutter) {
+        this.spanCount = spanCount;
         this.gutter = gutter;
     }
 
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-        final int position = parent.getChildAdapterPosition(view);
+        int position = parent.getChildAdapterPosition(view);
+        int column = position % spanCount;
 
-        if (position >= 0) {
-            // All columns get some spacing at the bottom and at the right side
-            outRect.right = gutter;
-            outRect.bottom = gutter;
+        outRect.left = column * gutter / spanCount;
+        outRect.right = gutter - (column + 1) * gutter / spanCount;
+
+        if (position >= spanCount) {
+            outRect.top = gutter;
         }
     }
 }
