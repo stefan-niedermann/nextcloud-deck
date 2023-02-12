@@ -19,7 +19,7 @@
     <string name="simple_filter">Süzgeç</string>
     <string name="simple_overdue">Zamanı geçmiş</string>
     <string name="simple_clear">Temizle</string>
-    <string name="simple_discard">yok say</string>
+    <string name="simple_discard">Yok say</string>
     <string name="simple_update">Güncelle</string>
     <string name="simple_delete">Sil</string>
     <string name="simple_rename">Yeniden adlandır</string>

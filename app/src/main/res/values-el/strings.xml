@@ -19,7 +19,7 @@
     <string name="simple_filter">Φίλτρο</string>
     <string name="simple_overdue">Εκπρόθεσμος</string>
     <string name="simple_clear">Εκκαθάριση</string>
-    <string name="simple_discard">απόρριψη</string>
+    <string name="simple_discard">Απόρριψη</string>
     <string name="simple_update">Ενημέρωση</string>
     <string name="simple_delete">Διαγραφή</string>
     <string name="simple_rename">Μετονομασία</string>

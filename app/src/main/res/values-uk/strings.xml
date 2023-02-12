@@ -19,7 +19,7 @@
     <string name="simple_filter">Фільтр</string>
     <string name="simple_overdue">Протерміновано</string>
     <string name="simple_clear">Очистити</string>
-    <string name="simple_discard">відхилити</string>
+    <string name="simple_discard">Відхилити</string>
     <string name="simple_update">Оновлення</string>
     <string name="simple_delete">Вилучити</string>
     <string name="simple_rename">Перейменувати</string>

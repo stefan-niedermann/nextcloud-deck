@@ -19,7 +19,7 @@
     <string name="simple_filter">Lọc</string>
     <string name="simple_overdue">Quá hạn</string>
     <string name="simple_clear">Xóa</string>
-    <string name="simple_discard">bỏ</string>
+    <string name="simple_discard">Bỏ qua thay đổi</string>
     <string name="simple_update">Cập nhật</string>
     <string name="simple_delete">Xóa</string>
     <string name="simple_rename">Đổi tên</string>

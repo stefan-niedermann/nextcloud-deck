@@ -19,7 +19,7 @@
     <string name="simple_filter">Filter</string>
     <string name="simple_overdue">Po termíne</string>
     <string name="simple_clear">Vyčistiť</string>
-    <string name="simple_discard">odhodiť</string>
+    <string name="simple_discard">Odstrániť</string>
     <string name="simple_update">Aktualizovať</string>
     <string name="simple_delete">Zmazať</string>
     <string name="simple_rename">Premenovať</string>

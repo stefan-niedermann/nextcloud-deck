@@ -19,7 +19,7 @@
     <string name="simple_filter">Filtru</string>
     <string name="simple_overdue">Termen depășit </string>
     <string name="simple_clear">Șterge </string>
-    <string name="simple_discard">aruncați </string>
+    <string name="simple_discard">Anulează</string>
     <string name="simple_update">Actualizare</string>
     <string name="simple_delete">Șterge</string>
     <string name="simple_rename">Redenumire</string>

@@ -19,7 +19,7 @@
     <string name="simple_filter">Фильтр</string>
     <string name="simple_overdue">Просроченные</string>
     <string name="simple_clear">Очистить</string>
-    <string name="simple_discard">Отменить</string>
+    <string name="simple_discard">Отмена</string>
     <string name="simple_update">Обновить</string>
     <string name="simple_delete">Удалить</string>
     <string name="simple_rename">Переименовать</string>

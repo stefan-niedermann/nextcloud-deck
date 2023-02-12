@@ -17,7 +17,7 @@
     <string name="simple_filter">Suodata</string>
     <string name="simple_overdue">Myöhässä</string>
     <string name="simple_clear">Tyhjennä</string>
-    <string name="simple_discard">hylkää</string>
+    <string name="simple_discard">Hylkää</string>
     <string name="simple_update">Päivitä</string>
     <string name="simple_delete">Poista</string>
     <string name="simple_rename">Nimeä uudelleen</string>

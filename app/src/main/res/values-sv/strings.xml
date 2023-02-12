@@ -19,7 +19,7 @@
     <string name="simple_filter">Filter</string>
     <string name="simple_overdue">Förfallen</string>
     <string name="simple_clear">Rensa</string>
-    <string name="simple_discard">kassera</string>
+    <string name="simple_discard">Ignorera</string>
     <string name="simple_update">Uppdatera</string>
     <string name="simple_delete">Ta bort</string>
     <string name="simple_rename">Byt namn</string>

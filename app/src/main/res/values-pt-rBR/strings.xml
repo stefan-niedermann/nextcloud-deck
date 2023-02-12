@@ -19,7 +19,7 @@
     <string name="simple_filter">Filtro</string>
     <string name="simple_overdue">Vencidos</string>
     <string name="simple_clear">Limpar</string>
-    <string name="simple_discard">descartar</string>
+    <string name="simple_discard">Descartar</string>
     <string name="simple_update">Atualizar</string>
     <string name="simple_delete">Excluir</string>
     <string name="simple_rename">Renomear</string>

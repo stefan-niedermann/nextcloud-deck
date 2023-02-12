@@ -19,7 +19,7 @@
     <string name="simple_filter">Szűrés</string>
     <string name="simple_overdue">Lejárt</string>
     <string name="simple_clear">Törlés</string>
-    <string name="simple_discard">elvetés</string>
+    <string name="simple_discard">Elvetés</string>
     <string name="simple_update">Frissítés</string>
     <string name="simple_delete">Törlés</string>
     <string name="simple_rename">Átnevezés</string>

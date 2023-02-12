@@ -19,7 +19,7 @@
     <string name="simple_filter">Filter</string>
     <string name="simple_overdue">Vervallen</string>
     <string name="simple_clear">Terug</string>
-    <string name="simple_discard">weggooien</string>
+    <string name="simple_discard">Weggooien</string>
     <string name="simple_update">Bijwerken</string>
     <string name="simple_delete">Verwijderen</string>
     <string name="simple_rename">Hernoemen</string>

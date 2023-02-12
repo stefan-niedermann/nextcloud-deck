@@ -19,7 +19,7 @@
     <string name="simple_filter">過濾</string>
     <string name="simple_overdue">逾期</string>
     <string name="simple_clear">清除</string>
-    <string name="simple_discard">丟棄</string>
+    <string name="simple_discard">取消</string>
     <string name="simple_update">更新</string>
     <string name="simple_delete">刪除</string>
     <string name="simple_rename">重新命名</string>
