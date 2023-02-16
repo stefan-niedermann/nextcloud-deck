@@ -452,7 +452,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         final var scheme = ThemeUtils.createScheme(color, this);
 
         utils.deck.themeTabLayout(binding.stackTitles);
-        utils.deck.themeExtendedFAB(binding.fab);
+        utils.material.themeExtendedFAB(binding.fab);
         utils.androidx.themeSwipeRefreshLayout(binding.swipeRefreshLayout);
         utils.platform.colorEditText(binding.filterText);
 
@@ -462,7 +462,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     private void applyAccountTheme(@ColorInt int accountColor) {
         final var utils = ThemeUtils.of(accountColor, this);
 
-        utils.deck.colorNavigationView(binding.navigationView);
+        utils.platform.colorNavigationView(binding.navigationView, false);
 
         headerBinding.headerView.setBackgroundColor(accountColor);
         @ColorInt final int headerTextColor = ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(accountColor);
