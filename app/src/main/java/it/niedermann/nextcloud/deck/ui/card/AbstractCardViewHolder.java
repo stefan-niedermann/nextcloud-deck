@@ -35,6 +35,7 @@ import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
+import it.niedermann.nextcloud.sso.glide.SingleSignOnUrl;
 import scheme.Scheme;
 
 public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
@@ -134,7 +135,7 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
                         coverImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                         coverImagesHolder.addView(coverImageView);
                         Glide.with(coverImageView)
-                                .load(AttachmentUtil.getThumbnailUrl(account, fullCard.getId(), coverImage, coverWidth, coverHeight))
+                                .load(new SingleSignOnUrl(account.getName(), AttachmentUtil.getThumbnailUrl(account, fullCard.getId(), coverImage, coverWidth, coverHeight)))
                                 .placeholder(R.color.bg_info_box)
                                 .into(coverImageView);
                     }

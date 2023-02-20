@@ -1,0 +1,2 @@
+- 🎨 Unify material theming with Nextcloud files app
+- 🐞 Fix loading cover images in multi account setup in Upcoming cards view
