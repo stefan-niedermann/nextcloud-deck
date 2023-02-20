@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.ui.filter;
 
 import android.app.Dialog;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -16,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterBinding;
@@ -43,8 +43,6 @@ public class FilterDialogFragment extends ThemedDialogFragment {
         final var context = requireContext();
 
         indicator = ContextCompat.getDrawable(context, R.drawable.circle_grey600_8dp);
-        assert indicator != null;
-        indicator.setColorFilter(ContextCompat.getColor(context, R.color.defaultBrand), PorterDuff.Mode.SRC_ATOP);
 
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 
@@ -110,6 +108,7 @@ public class FilterDialogFragment extends ThemedDialogFragment {
         final var utils = ThemeUtils.of(color, requireContext());
 
         utils.deck.themeTabLayout(binding.tabLayout, Color.TRANSPARENT);
+        utils.platform.tintDrawable(requireContext(), indicator, ColorRole.PRIMARY);
     }
 
     private static class TabsPagerAdapter extends FragmentStateAdapter {
