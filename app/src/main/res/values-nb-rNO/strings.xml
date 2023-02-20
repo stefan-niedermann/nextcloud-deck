@@ -250,10 +250,10 @@
     <string name="error_action_update_files_app">Oppdater</string>
     <string name="info_box_maintenance_mode">Server i vedlikeholdsmodus</string>
     <string name="info_box_version_not_supported">Server versjon %1$ser ikke støttet, vennligst oppgrader til %2$s</string>
-    <string name="share_link">Share link</string>
+    <string name="share_link">Del lenke</string>
     <string name="share_content">Del innhold</string>
     <string name="share_content_duedate">Forfallsdato: %1$s</string>
-    <string name="share_content_labels">Merker: %1$s</string>
+    <string name="share_content_labels">Merkelapper: %1$s</string>
     <string name="archive_cards">Arkiver kortene</string>
 
     <string name="manage_accounts">Håndter kontoer</string>
