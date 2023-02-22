@@ -320,7 +320,7 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="widget_upcoming_title">Aanstaande kaarten</string>
     <!-- Category header for a section in the settings which contain features for advanced users -->
     <string name="simple_expert_settings">Expert instellingen</string>
-    <string name="copy_logs">Kopiëren logs naar klembord</string>
+    <string name="copy_logs">Kopieer logs naar klembord</string>
     <string name="app_logo">App logo</string>
     <string name="log_file">Logbestand</string>
     <string name="copying_logs_to_file">Kopiëren logs naar bestand...</string>
