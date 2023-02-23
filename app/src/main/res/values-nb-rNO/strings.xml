@@ -302,7 +302,7 @@
     <string name="simple_camera">Kamera</string>
     <string name="take_photo">Ta et bilde</string>
     <string name="take_photo_switch_camera">Bytt kamera</string>
-    <string name="take_photo_toggle_torch">Veksle lommelykt</string>
+    <string name="take_photo_toggle_torch">Lommelykt av/på</string>
     <string name="show_all_contacts">Vis alle kontakter</string>
     <string name="show_all_files">Vis alle filer</string>
     <string name="recent">Nylig</string>
