@@ -1,6 +1,8 @@
 <resources>
     <string name="navigation_drawer_open">Отвори навигациону фиоку</string>
     <string name="navigation_drawer_close">Затвори навигациону фиоку</string>
+    <string name="hint_search_deck">Претражи шпил</string>
+
     <string name="simple_boards">Табле</string>
     <string name="simple_add">Додај</string>
     <string name="simple_save">Сачувај</string>
@@ -17,6 +19,7 @@
     <string name="simple_filter">Филтер</string>
     <string name="simple_overdue">Прошао рок</string>
     <string name="simple_clear">Очисти</string>
+    <string name="simple_discard">Одбаци</string>
     <string name="simple_update">Ажурирај</string>
     <string name="simple_delete">Обриши</string>
     <string name="simple_rename">Преименуј</string>
@@ -117,12 +120,20 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Додај нови списак користећи + дугме</string>
     <string name="add_a_new_card_using_the_button">Додајте нову картицу на + дугме</string>
+    <string name="update_deck">Ажурирај Шпил веб апликацију</string>
+    <string name="deck_outdated_please_update">Верзија Ваше Шпил веб апликације је сувише стара (%1$s). Молимо вас да као клијента користите ову Андроид апликацију.</string>
     <string name="delete_board_message">Ово ће трајно да уклони ову таблу укључујући све спискове и картице.</string>
     <string name="settings_theme_title">Тема</string>
     <string name="settings_branding_title">Брендирање</string>
     <string name="settings_compact_title">Компактан режим</string>
+    <string name="settings_cover_images_title">Омоти</string>
+    <string name="settings_debugging">Дневници за отклањање грешака</string>
+    <string name="settings_etags">Користи ETags</string>
+    <string name="settings_etags_summary">Убрзава синхронизацију</string>
     <string name="settings_background_sync">Позадинска синхронизација</string>
+    <string name="settings_compress_image_attachments">Компресуј слике приликом отпремања</string>
     <string name="search_in">Претражи у %1$s</string>
+    <string name="settings_compress_image_attachments_summary">Брже отпремање, мањи квалитет</string>
     <string name="pref_value_wifi_and_mobile">Синхронизуј и на бежичној и на мобилној вези</string>
     <string name="pref_value_wifi_only">Синхронизуј само преко бежичне везе</string>
     <string-array name="darkmode_entries">
@@ -145,6 +156,7 @@
     <string name="hours_6">6 сати</string>
     <string name="action_card_move">Премести картицу</string>
     <string name="action_card_move_title">Премести %1$s</string>
+    <string name="title_is_mandatory">Потребан је наслов</string>
     <string name="provide_at_least_a_title_or_description">Дајте бар наслов или опис</string>
     <string name="welcome_text">Добродошли у %1$s</string>
     <string name="maintenance_mode_explanation">Сервер %1$s је тренутно у режиму одржавања. Контактирајте администратора или покушајте касније.</string>
@@ -207,6 +219,10 @@
     <string name="error_dialog_tip_clear_storage_might_help">Ако проблем настави да се дешава, пробајте да очистите податке од обе апликације: и Некстклауд и Некстклауд Шпила да бисте решили проблем.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Ажурирање базе није успело. Пријавите овај проблем и очистите складиште да користите апликацију нормално.</string>
     <string name="error_dialog_tip_clear_storage">Складиште можете очистити ако отворите информације о апликацији и бирањем Меморија → Обриши податке.</string>
+    <string name="error_dialog_tip_offline_no_internet">Изгледа да сте покушали да покренете синхронизацију без везе са интернетом.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Веза је одбијена, молимо вас проверите да ли ваш сервер доступан из интернет прегледача.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Повезивање је истекло, молимо вас проверите да ли сте повезани на интернет. Ово може да се догоди и када је ваш сервер заузет.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Ако сте укључили подешавање „Сингронизуј само на Wi-Fi”, синхорнизацију можете да покренете само ако сте повезани на Wi-Fi мрежу.</string>
     <string name="error_dialog_tip_files_force_stop">Нешто није у реду да Вашом Некстклауд апликацијом. Пробајте да форсирано зауставите обе, и Некстклауд апликацију и апликацију Некстклауд Шпила.</string>
     <string name="error_dialog_tip_files_delete_storage">Ако ово заустављање не помогне, очистите податке за обе апликације.</string>
     <string name="error_dialog_timeout_instance">Није било одговора са сервера у задатом времену. Проверите да ли вам инстанца ради добро.</string>
@@ -222,8 +238,12 @@
     <string name="error_dialog_user_not_found_in_database">Тренутни корисник се не поклапа са корисником у нашој бази података. Ако користите LDAP у тренутној Некстклауд сесији, вероватно Вам је Некстклауд апликација сачувала стари кориснички ИД.</string>
     <string name="error_dialog_capabilities_not_parsable">Не можемо да дохватимо могућности Вашег сервера. Проверите да Вам сервер ради добро и да ли друге клијентске апликације могу да му приступе.</string>
     <string name="error_dialog_attachment_upload_failed">Прилог није могао бити отпремљен. Молимо пробајте да га поделите на други начин и пријавите нам ову грешку.</string>
+    <string name="error_dialog_certificate">Изгледа да нешто није у реду са сертификатом сервера. За више информација, молимо вас да проверите све налоге у Nextcloud апликацији.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Искључите све оптимизације батерије за Некстаклауд и Шпил апликације.</string>
+    <string name="error_dialog_unknown_error">Изгледа да ваша Nextcloud инстанца није доступна. Молимо вас да проверите своју везу са интернетом и могућност повезивања на инстанцу из веб прегледача.</string>
+    <string name="error_dialog_min_version">Шпил Андроид апликација захтева да је верзија Nextcloud Андроид апликације барем 3.18.</string>
     <string name="error_action_open_deck_info">Отвори инфо о апликацији</string>
+    <string name="error_action_open_nextcloud_app">Отвори Nextcloud апликацију</string>
     <string name="error_action_open_network">Поставке мреже</string>
     <string name="error_action_server_logs">Дневник са сервера</string>
     <string name="error_action_open_in_browser">Отвори у прегледачу</string>
@@ -233,6 +253,9 @@
     <string name="info_box_maintenance_mode">Server je u režimu za održavanje</string>
     <string name="info_box_version_not_supported">Серверска верзија %1$s није подржана, ажурирајте на %2$s</string>
     <string name="share_link">Веза дељења</string>
+    <string name="share_content">Дељење садржаја</string>
+    <string name="share_content_duedate">Крајњи датум: %1$s</string>
+    <string name="share_content_labels">Ознаке: %1$s</string>
     <string name="archive_cards">Архивирај картице</string>
 
     <string name="manage_accounts">Управљање налозима</string>
@@ -273,6 +296,7 @@
     <string name="single_card">Засебна картица</string>
     <string name="project_type_room">Причаоница</string>
     <string name="simple_move">Помери</string>
+    <string name="cannot_upload_files_without_permission">Фајлови не могу да се отпреме без дозвола</string>
     <string name="clone_cards">Клонирај картице</string>
     <string name="simple_clone">Клонирај</string>
     <string name="user_avatar">Кориснички аватар</string>
@@ -282,6 +306,7 @@
     <string name="simple_camera">Камера</string>
     <string name="take_photo">Сликај</string>
     <string name="take_photo_switch_camera">Пребаци камеру</string>
+    <string name="take_photo_toggle_torch">Пребаци стање лампе</string>
     <string name="show_all_contacts">Прикажи све контакте</string>
     <string name="show_all_files">Прикажи све фајлове</string>
     <string name="recent">Недавно</string>
@@ -292,7 +317,24 @@
     <string name="gallery">Галерија</string>
     <string name="simple_attach">приложи</string>
     <string name="add_stack_widget">Додај виџет листе</string>
+    <string name="add_filter_widget">Додај филтер виџет</string>
+    <string name="simple_order">Редослед</string>
     <string name="edit_description">Уреди опис</string>
     <string name="widget_upcoming_title">Предстојеће картице</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Експертска подешавања</string>
+    <string name="copy_logs">Копирај дневнике у клипборд</string>
+    <string name="app_logo">Лого апликације</string>
+    <string name="log_file">Фајл дневника</string>
+    <string name="copying_logs_to_file">Копирам дневнике у фајл...</string>
+    <string name="account_imported">Налог је увезен</string>
     <string name="simple_search">Претрага</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Назив (обавезно)</string>
+    <string name="saving_new_card">Чувам нову картицу...</string>
+    <string name="progress_import">Увозим таблу %1$d од %2$d…</string>
+    <string name="progress_import_indeterminate">Увоз табли...</string>
+    <string name="card_outdated">Садржај ове картице је можда застарео.</string>
+    <string name="show_error">Прикажи грешку</string>
+    <string name="push_notification_link_empty">Услед познатог проблема са Шпил веб апликацијом, нажалост нисмо у стању да прикажемо ову картицу. За више информација, погледајте: %1$s</string>
     </resources>
