@@ -1,11 +1,16 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
-import static androidx.lifecycle.Transformations.distinctUntilChanged;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
+import static java.util.concurrent.CompletableFuture.supplyAsync;
+import static java.util.stream.Collectors.toList;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
+import android.text.TextUtils;
 
 import androidx.annotation.AnyThread;
 import androidx.annotation.ColorInt;
@@ -13,27 +18,34 @@ import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
+import androidx.annotation.VisibleForTesting;
 import androidx.annotation.WorkerThread;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
+import androidx.preference.PreferenceManager;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
-import org.jetbrains.annotations.NotNull;
+import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
+import it.niedermann.android.sharedpreferences.SharedPreferenceLongLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -77,27 +89,40 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetStack;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
 
 public class DataBaseAdapter {
-
     @NonNull
     private final DeckDatabase db;
     @NonNull
     private final Context context;
     @NonNull
     private final ExecutorService widgetNotifierExecutor;
+    @NonNull
+    private final ExecutorService executor;
+    private static final Long NOT_AVAILABLE = -1L;
+    private final SharedPreferences sharedPreferences;
+    private final SharedPreferences.Editor sharedPreferencesEditor;
+    @ColorInt
+    private final int defaultColor;
 
     public DataBaseAdapter(@NonNull Context appContext) {
-        this(appContext, DeckDatabase.getInstance(appContext), Executors.newCachedThreadPool());
+        this(appContext, DeckDatabase.getInstance(appContext), Executors.newCachedThreadPool(), Executors.newCachedThreadPool());
     }
 
-    private DataBaseAdapter(@NonNull Context applicationContext, @NonNull DeckDatabase db, @NonNull ExecutorService widgetNotifierExecutor) {
+    @VisibleForTesting
+    protected DataBaseAdapter(@NonNull Context applicationContext,
+                            @NonNull DeckDatabase db,
+                            @NonNull ExecutorService widgetNotifierExecutor,
+                            @NonNull ExecutorService executor) {
         this.context = applicationContext;
         this.db = db;
         this.widgetNotifierExecutor = widgetNotifierExecutor;
+        this.executor = executor;
+        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        this.sharedPreferencesEditor = this.sharedPreferences.edit();
+        this.defaultColor = ContextCompat.getColor(context, R.color.defaultBrand);
     }
 
     @NonNull
@@ -118,11 +143,14 @@ public class DataBaseAdapter {
     }
 
     public LiveData<Boolean> hasAccounts() {
-        return LiveDataHelper.postCustomValue(db.getAccountDao().countAccounts(), data -> data != null && data > 0);
+        return new ReactiveLiveData<>(db.getAccountDao().countAccounts())
+                .distinctUntilChanged()
+                .map(count -> count != null && count > 0);
     }
 
     public LiveData<Board> getBoardByRemoteId(long accountId, long remoteId) {
-        return distinctUntilChanged(db.getBoardDao().getBoardByRemoteId(accountId, remoteId));
+        return new ReactiveLiveData<>(db.getBoardDao().getBoardByRemoteId(accountId, remoteId))
+                .distinctUntilChanged();
     }
 
     @WorkerThread
@@ -139,7 +167,8 @@ public class DataBaseAdapter {
     }
 
     public LiveData<Stack> getStackByRemoteId(long accountId, long localBoardId, long remoteId) {
-        return distinctUntilChanged(db.getStackDao().getStackByRemoteId(accountId, localBoardId, remoteId));
+        return new ReactiveLiveData<>(db.getStackDao().getStackByRemoteId(accountId, localBoardId, remoteId))
+                .distinctUntilChanged();
     }
 
     public Stack getStackByLocalIdDirectly(final long localStackId) {
@@ -156,7 +185,8 @@ public class DataBaseAdapter {
     }
 
     public LiveData<Card> getCardByRemoteID(long accountId, long remoteId) {
-        return distinctUntilChanged(db.getCardDao().getCardByRemoteId(accountId, remoteId));
+        return new ReactiveLiveData<>(db.getCardDao().getCardByRemoteId(accountId, remoteId))
+                .distinctUntilChanged();
     }
 
     @WorkerThread
@@ -225,16 +255,18 @@ public class DataBaseAdapter {
         return db.getCardDao().getCardByRemoteIdDirectly(accountId, remoteId);
     }
 
-    public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId, FilterInformation filter) {
-        if (filter == null) {
-            return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardsForStack(accountId, localStackId), this::filterRelationsForCard);
-        }
-        return LiveDataHelper.interceptLiveData(db.getCardDao().getFilteredFullCardsForStack(getQueryForFilter(filter, accountId, localStackId)), this::filterRelationsForCard);
+    public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId, @Nullable FilterInformation filter) {
+        return new ReactiveLiveData<>(
+                filter == null
+                        ? db.getCardDao().getFullCardsForStack(accountId, localStackId)
+                        : db.getCardDao().getFilteredFullCardsForStack(getQueryForFilter(filter, accountId, localStackId)))
+                .tap(this::filterRelationsForCard, executor)
+                .distinctUntilChanged();
 
     }
 
     private void fillSqlWithEntityListValues(StringBuilder query, Collection<Object> args, @NonNull List<? extends IRemoteEntity> entities) {
-        List<Long> idList = entities.stream().map(IRemoteEntity::getLocalId).collect(Collectors.toList());
+        List<Long> idList = entities.stream().map(IRemoteEntity::getLocalId).collect(toList());
         fillSqlWithListValues(query, args, idList);
     }
 
@@ -257,19 +289,19 @@ public class DataBaseAdapter {
 
     @AnyThread
     private SimpleSQLiteQuery getQueryForFilter(FilterInformation filter, long accountId, long localStackId) {
-        return getQueryForFilter(filter, Collections.singletonList(accountId), Collections.singletonList(localStackId));
+        return getQueryForFilter(filter, singletonList(accountId), singletonList(localStackId));
     }
 
     @AnyThread
-    private SimpleSQLiteQuery getQueryForFilter(FilterInformation filter, List<Long> accountIds, List<Long> localStackIds) {
+    private SimpleSQLiteQuery getQueryForFilter(@NonNull FilterInformation filter, @NonNull List<Long> accountIds, @NonNull List<Long> localStackIds) {
         final Collection<Object> args = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT * FROM card c WHERE 1=1 ");
-        if (accountIds != null && !accountIds.isEmpty()) {
+        if (!accountIds.isEmpty()) {
             query.append("and accountId in (");
             fillSqlWithListValues(query, args, accountIds);
             query.append(") ");
         }
-        if (localStackIds != null && !localStackIds.isEmpty()) {
+        if (!localStackIds.isEmpty()) {
             query.append("and stackId in (");
             fillSqlWithListValues(query, args, localStackIds);
             query.append(") ");
@@ -335,7 +367,7 @@ public class DataBaseAdapter {
                     throw new IllegalArgumentException("You need to add your new EDueType value\"" + filter.getDueType() + "\" here!");
             }
         }
-        if (filter.getFilterText() != null && !filter.getFilterText().isEmpty()) {
+        if (!TextUtils.isEmpty(filter.getFilterText())) {
             query.append(" and (c.description like ? or c.title like ?) ");
             String filterText = "%" + filter.getFilterText() + "%";
             args.add(filterText);
@@ -385,7 +417,8 @@ public class DataBaseAdapter {
 
     @UiThread
     public LiveData<Label> getLabelByRemoteId(long accountId, long remoteId) {
-        return distinctUntilChanged(db.getLabelDao().getLabelByRemoteId(accountId, remoteId));
+        return new ReactiveLiveData<>(db.getLabelDao().getLabelByRemoteId(accountId, remoteId))
+                .distinctUntilChanged();
     }
 
     @WorkerThread
@@ -529,7 +562,7 @@ public class DataBaseAdapter {
         final long id = db.getAccountDao().insert(account);
 
         widgetNotifierExecutor.submit(() -> {
-            DeckLog.verbose("Adding new created", Account.class.getSimpleName(), " with ", id, " to all instances of ", EWidgetType.UPCOMING_WIDGET.name());
+            DeckLog.verbose("Adding new created", Account.class.getSimpleName(), "with", id, "to all instances of", EWidgetType.UPCOMING_WIDGET.name());
             for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
                 widget.getAccounts().add(new FilterWidgetAccount(id, false));
                 updateFilterWidgetDirectly(widget);
@@ -551,29 +584,29 @@ public class DataBaseAdapter {
 
     @UiThread
     public LiveData<Account> readAccount(long id) {
-        return distinctUntilChanged(fillAccountsUserName(db.getAccountDao().getAccountById(id)));
+        return new ReactiveLiveData<>(db.getAccountDao().getAccountById(id))
+                .tap(account -> account.setUserDisplayName(db.getUserDao().getUserNameByUidDirectly(account.getId(), account.getUserName())), executor)
+                .distinctUntilChanged();
     }
 
     @UiThread
     public LiveData<Account> readAccount(String name) {
-        return distinctUntilChanged(fillAccountsUserName(db.getAccountDao().getAccountByName(name)));
+        return new ReactiveLiveData<>(db.getAccountDao().getAccountByName(name))
+                .tap(account -> account.setUserDisplayName(db.getUserDao().getUserNameByUidDirectly(account.getId(), account.getUserName())), executor)
+                .distinctUntilChanged();
     }
 
     @UiThread
     public LiveData<List<Account>> readAccounts() {
-        return distinctUntilChanged(fillAccountsListUserName(db.getAccountDao().getAllAccounts()));
+        return new ReactiveLiveData<>(db.getAccountDao().getAllAccounts())
+                .tap(accounts -> accounts.forEach(account -> account.setUserDisplayName(db.getUserDao().getUserNameByUidDirectly(account.getId(), account.getUserName()))), executor)
+                .distinctUntilChanged();
     }
 
-    private LiveData<Account> fillAccountsUserName(LiveData<Account> source) {
-        return LiveDataHelper.interceptLiveData(distinctUntilChanged(source), data -> data.setUserDisplayName(db.getUserDao().getUserNameByUidDirectly(data.getId(), data.getUserName())));
-    }
-
-    private LiveData<List<Account>> fillAccountsListUserName(LiveData<List<Account>> source) {
-        return LiveDataHelper.interceptLiveData(distinctUntilChanged(source), data -> {
-            for (Account a : data) {
-                a.setUserDisplayName(db.getUserDao().getUserNameByUidDirectly(a.getId(), a.getUserName()));
-            }
-        });
+    public LiveData<Integer> getAccountColor(long accountId) {
+        return new ReactiveLiveData<>(db.getAccountDao().getAccountColor(accountId))
+                .distinctUntilChanged()
+                .map(color -> color == null ? defaultColor : color);
     }
 
     @WorkerThread
@@ -588,20 +621,14 @@ public class DataBaseAdapter {
         return account;
     }
 
-
-    public LiveData<List<Board>> getBoards(long accountId) {
-        return distinctUntilChanged(db.getBoardDao().getBoardsForAccount(accountId));
-    }
-
     public LiveData<List<Board>> getBoards(long accountId, boolean archived) {
-        return distinctUntilChanged(
-                archived
-                        ? db.getBoardDao().getArchivedBoardsForAccount(accountId)
-                        : db.getBoardDao().getNonArchivedBoardsForAccount(accountId));
+        return new ReactiveLiveData<>(db.getBoardDao().getNotDeletedBoards(accountId, archived ? 1 : 0))
+                .distinctUntilChanged();
     }
 
     public LiveData<List<Board>> getBoardsWithEditPermission(long accountId) {
-        return distinctUntilChanged(db.getBoardDao().getBoardsWithEditPermissionsForAccount(accountId));
+        return new ReactiveLiveData<>(db.getBoardDao().getBoardsWithEditPermissionsForAccount(accountId))
+                .distinctUntilChanged();
     }
 
     @WorkerThread
@@ -612,14 +639,14 @@ public class DataBaseAdapter {
         return id;
     }
 
-    public void deleteBoard(Board board, boolean setStatus) {
+    public void deleteBoard(@NonNull Board board, boolean setStatus) {
         markAsDeletedIfNeeded(board, setStatus);
         db.getBoardDao().update(board);
         notifyAllWidgets();
         notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.BOARD, board.getLocalId());
     }
 
-    public void deleteBoardPhysically(Board board) {
+    public void deleteBoardPhysically(@NonNull Board board) {
         db.getBoardDao().delete(board);
         notifyAllWidgets();
     }
@@ -631,7 +658,8 @@ public class DataBaseAdapter {
     }
 
     public LiveData<List<Stack>> getStacksForBoard(long accountId, long localBoardId) {
-        return distinctUntilChanged(db.getStackDao().getStacksForBoard(accountId, localBoardId));
+        return new ReactiveLiveData<>(db.getStackDao().getStacksForBoard(accountId, localBoardId))
+                .distinctUntilChanged();
     }
 
     @WorkerThread
@@ -641,7 +669,8 @@ public class DataBaseAdapter {
 
     @MainThread
     public LiveData<FullStack> getStack(long accountId, long localStackId) {
-        return distinctUntilChanged(db.getStackDao().getFullStack(accountId, localStackId));
+        return new ReactiveLiveData<>(db.getStackDao().getFullStack(accountId, localStackId))
+                .distinctUntilChanged();
     }
 
     @WorkerThread
@@ -685,12 +714,16 @@ public class DataBaseAdapter {
 
     @AnyThread
     public LiveData<FullCard> getCardByLocalId(long accountId, long localCardId) {
-        return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardByLocalId(accountId, localCardId), this::filterRelationsForCard);
+        return new ReactiveLiveData<>(db.getCardDao().getFullCardByLocalId(accountId, localCardId))
+                .tap(this::filterRelationsForCard, executor)
+                .distinctUntilChanged();
     }
 
     @AnyThread
     public LiveData<FullCardWithProjects> getCardWithProjectsByLocalId(long accountId, long localCardId) {
-        return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardWithProjectsByLocalId(accountId, localCardId), this::filterRelationsForCard);
+        return new ReactiveLiveData<>(db.getCardDao().getFullCardWithProjectsByLocalId(accountId, localCardId))
+                .tap(this::filterRelationsForCard, executor)
+                .distinctUntilChanged();
     }
 
     @WorkerThread
@@ -765,7 +798,9 @@ public class DataBaseAdapter {
     }
 
     public LiveData<List<AccessControl>> getAccessControlByLocalBoardId(long accountId, Long localBoardId) {
-        return LiveDataHelper.interceptLiveData(db.getAccessControlDao().getAccessControlByLocalBoardId(accountId, localBoardId), this::readRelationsForACL);
+        return new ReactiveLiveData<>(db.getAccessControlDao().getAccessControlByLocalBoardId(accountId, localBoardId))
+                .tap(this::readRelationsForACL, executor)
+                .distinctUntilChanged();
     }
 
     public List<AccessControl> getAccessControlByLocalBoardIdDirectly(long accountId, Long localBoardId) {
@@ -789,7 +824,8 @@ public class DataBaseAdapter {
     }
 
     public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {
-        return distinctUntilChanged(db.getBoardDao().getFullBoardById(accountId, localId));
+        return new ReactiveLiveData<>(db.getBoardDao().getFullBoardById(accountId, localId))
+                .distinctUntilChanged();
     }
 
     @WorkerThread
@@ -798,42 +834,50 @@ public class DataBaseAdapter {
     }
 
     public LiveData<User> getUserByLocalId(long accountId, long localId) {
-        return db.getUserDao().getUserByLocalId(accountId, localId);
+        return new ReactiveLiveData<>(db.getUserDao().getUserByLocalId(accountId, localId))
+                .distinctUntilChanged();
     }
 
     public LiveData<User> getUserByUid(long accountId, String uid) {
-        return db.getUserDao().getUserByUid(accountId, uid);
+        return new ReactiveLiveData<>(db.getUserDao().getUserByUid(accountId, uid))
+                .distinctUntilChanged();
     }
 
     public LiveData<List<User>> getUsersForAccount(final long accountId) {
-        return db.getUserDao().getUsersForAccount(accountId);
+        return new ReactiveLiveData<>(db.getUserDao().getUsersForAccount(accountId))
+                .distinctUntilChanged();
     }
 
     public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, final String searchTerm) {
         validateSearchTerm(searchTerm);
-        return db.getUserDao().searchUserByUidOrDisplayName(accountId, boardId, notYetAssignedToLocalCardId, "%" + searchTerm.trim() + "%");
+        return new ReactiveLiveData<>(db.getUserDao().searchUserByUidOrDisplayName(accountId, boardId, notYetAssignedToLocalCardId, "%" + searchTerm.trim() + "%"))
+                .distinctUntilChanged();
     }
 
-    public List<User> searchUserByUidOrDisplayNameForACLDirectly(final long accountId, final long notYetAssignedToACL, final String searchTerm) {
+    public LiveData<List<User>> searchUserByUidOrDisplayNameForACL(final long accountId, final long notYetAssignedToACL, final String searchTerm) {
         validateSearchTerm(searchTerm);
-        return db.getUserDao().searchUserByUidOrDisplayNameForACLDirectly(accountId, notYetAssignedToACL, "%" + searchTerm.trim() + "%");
+        return db.getUserDao().searchUserByUidOrDisplayNameForACL(accountId, notYetAssignedToACL, "%" + searchTerm.trim() + "%");
     }
 
     public LiveData<List<Label>> searchNotYetAssignedLabelsByTitle(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, String searchTerm) {
         validateSearchTerm(searchTerm);
-        return db.getLabelDao().searchNotYetAssignedLabelsByTitle(accountId, boardId, notYetAssignedToLocalCardId, "%" + searchTerm.trim() + "%");
+        return new ReactiveLiveData<>(db.getLabelDao().searchNotYetAssignedLabelsByTitle(accountId, boardId, notYetAssignedToLocalCardId, "%" + searchTerm.trim() + "%"))
+                .distinctUntilChanged();
     }
 
     public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long boardId, long notAssignedToLocalCardId, final int topX) {
-        return db.getUserDao().findProposalsForUsersToAssign(accountId, boardId, notAssignedToLocalCardId, topX);
+        return new ReactiveLiveData<>(db.getUserDao().findProposalsForUsersToAssign(accountId, boardId, notAssignedToLocalCardId, topX))
+                .distinctUntilChanged();
     }
 
     public LiveData<List<User>> findProposalsForUsersToAssignForACL(final long accountId, long boardId, final int topX) {
-        return db.getUserDao().findProposalsForUsersToAssignForACL(accountId, boardId, topX);
+        return new ReactiveLiveData<>(db.getUserDao().findProposalsForUsersToAssignForACL(accountId, boardId, topX))
+                .distinctUntilChanged();
     }
 
     public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId) {
-        return db.getLabelDao().findProposalsForLabelsToAssign(accountId, boardId, notAssignedToLocalCardId);
+        return new ReactiveLiveData<>(db.getLabelDao().findProposalsForLabelsToAssign(accountId, boardId, notAssignedToLocalCardId))
+                .distinctUntilChanged();
     }
 
     @WorkerThread
@@ -923,7 +967,8 @@ public class DataBaseAdapter {
     }
 
     public LiveData<Label> getLabelByLocalId(long localLabelId) {
-        return db.getLabelDao().getLabelByLocalId(localLabelId);
+        return new ReactiveLiveData<>(db.getLabelDao().getLabelByLocalId(localLabelId))
+                .distinctUntilChanged();
     }
 
     public List<FullBoard> getLocallyChangedBoards(long accountId) {
@@ -1002,7 +1047,8 @@ public class DataBaseAdapter {
     }
 
     public LiveData<List<Activity>> getActivitiesForCard(Long localCardId) {
-        return db.getActivityDao().getActivitiesForCard(localCardId);
+        return new ReactiveLiveData<>(db.getActivityDao().getActivitiesForCard(localCardId))
+                .distinctUntilChanged();
     }
 
     public long createActivity(long accountId, Activity activity) {
@@ -1033,22 +1079,22 @@ public class DataBaseAdapter {
     }
 
     public LiveData<List<DeckComment>> getCommentsForLocalCardId(long localCardId) {
-        return LiveDataHelper.interceptLiveData(db.getCommentDao().getCommentByLocalCardId(localCardId), (list) -> {
-            for (DeckComment deckComment : list) {
-                deckComment.setMentions(db.getMentionDao().getMentionsForCommentIdDirectly(deckComment.getLocalId()));
-            }
-        });
+        return new ReactiveLiveData<>(db.getCommentDao().getCommentByLocalCardId(localCardId))
+                .tap(list -> list.forEach(comment -> comment.setMentions(db.getMentionDao().getMentionsForCommentIdDirectly(comment.getLocalId()))), executor)
+                .distinctUntilChanged();
     }
 
     public LiveData<List<FullDeckComment>> getFullCommentsForLocalCardId(long localCardId) {
-        return LiveDataHelper.interceptLiveData(db.getCommentDao().getFullCommentByLocalCardId(localCardId), (list) -> {
-            for (FullDeckComment deckComment : list) {
-                deckComment.getComment().setMentions(db.getMentionDao().getMentionsForCommentIdDirectly(deckComment.getLocalId()));
-                if (deckComment.getParent() != null) {
-                    deckComment.getParent().setMentions(db.getMentionDao().getMentionsForCommentIdDirectly(deckComment.getComment().getParentId()));
-                }
-            }
-        });
+        return new ReactiveLiveData<>(db.getCommentDao().getFullCommentByLocalCardId(localCardId))
+                .tap(list -> {
+                    for (FullDeckComment deckComment : list) {
+                        deckComment.getComment().setMentions(db.getMentionDao().getMentionsForCommentIdDirectly(deckComment.getLocalId()));
+                        if (deckComment.getParent() != null) {
+                            deckComment.getParent().setMentions(db.getMentionDao().getMentionsForCommentIdDirectly(deckComment.getComment().getParentId()));
+                        }
+                    }
+                }, executor)
+                .distinctUntilChanged();
     }
 
     @WorkerThread
@@ -1114,7 +1160,8 @@ public class DataBaseAdapter {
     }
 
     public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccountId(long cardRemoteId, long accountId) {
-        return db.getBoardDao().getLocalBoardIdByCardRemoteIdAndAccountId(cardRemoteId, accountId);
+        return new ReactiveLiveData<>(db.getBoardDao().getLocalBoardIdByCardRemoteIdAndAccountId(cardRemoteId, accountId))
+                .distinctUntilChanged();
     }
 
     @WorkerThread
@@ -1138,11 +1185,14 @@ public class DataBaseAdapter {
     }
 
     public LiveData<List<FullBoard>> getFullBoards(long accountId, boolean archived) {
-        return db.getBoardDao().getArchivedFullBoards(accountId, (archived ? 1 : 0));
+        return new ReactiveLiveData<>(db.getBoardDao().getNotDeletedFullBoards(accountId, archived ? 1 : 0))
+                .distinctUntilChanged();
     }
 
     public LiveData<Boolean> hasArchivedBoards(long accountId) {
-        return LiveDataHelper.postCustomValue(distinctUntilChanged(db.getBoardDao().countArchivedBoards(accountId)), data -> data != null && data > 0);
+        return new ReactiveLiveData<>(db.getBoardDao().countArchivedBoards(accountId))
+                .distinctUntilChanged()
+                .map(hasArchivedBoards -> hasArchivedBoards != null && hasArchivedBoards > 0);
     }
 
     @WorkerThread
@@ -1269,14 +1319,16 @@ public class DataBaseAdapter {
     }
 
     public LiveData<List<UpcomingCardsAdapterItem>> getCardsForUpcomingCard() {
-        return LiveDataHelper.postCustomValue(db.getCardDao().getUpcomingCards(), this::cardResultsToUpcomingCardsAdapterItems);
+        return new ReactiveLiveData<>(db.getCardDao().getUpcomingCards())
+                .map(this::cardResultsToUpcomingCardsAdapterItems, executor)
+                .distinctUntilChanged();
     }
 
     public List<UpcomingCardsAdapterItem> getCardsForUpcomingCardForWidget() {
         return cardResultsToUpcomingCardsAdapterItems(db.getCardDao().getUpcomingCardsDirectly());
     }
 
-    @NotNull
+    @NonNull
     private List<UpcomingCardsAdapterItem> cardResultsToUpcomingCardsAdapterItems(List<FullCard> cardsResult) {
         filterRelationsForCard(cardsResult);
         final List<UpcomingCardsAdapterItem> result = new ArrayList<>(cardsResult.size());
@@ -1302,7 +1354,7 @@ public class DataBaseAdapter {
         } else filter.setDueType(EDueType.NO_FILTER);
 
         if (filterWidget.getAccounts().isEmpty()) {
-            cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, null, null)));
+            cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, emptyList(), emptyList())));
         } else {
             for (FilterWidgetAccount account : filterWidget.getAccounts()) {
                 filter.setNoAssignedUser(account.isIncludeNoUser());
@@ -1328,24 +1380,21 @@ public class DataBaseAdapter {
                 if (!account.getBoards().isEmpty()) {
                     for (FilterWidgetBoard board : account.getBoards()) {
                         filter.setNoAssignedLabel(board.isIncludeNoLabel());
-                        final List<Long> stacks;
+                        final List<Long> stacks = new ArrayList<>();
                         for (FilterWidgetLabel label : board.getLabels()) {
                             Label l = new Label();
                             l.setLocalId(label.getLabelId());
                             filter.addLabel(l);
                         }
                         if (board.getStacks().isEmpty()) {
-                            stacks = db.getStackDao().getLocalStackIdsByLocalBoardIdDirectly(board.getBoardId());
+                            stacks.addAll(db.getStackDao().getLocalStackIdsByLocalBoardIdDirectly(board.getBoardId()));
                         } else {
-                            stacks = new ArrayList<>();
-                            for (FilterWidgetStack stack : board.getStacks()) {
-                                stacks.add(stack.getStackId());
-                            }
+                            stacks.addAll(board.getStacks().stream().map(FilterWidgetStack::getStackId).collect(toList()));
                         }
-                        cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, Collections.singletonList(account.getAccountId()), stacks)));
+                        cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, singletonList(account.getAccountId()), stacks)));
                     }
                 } else {
-                    cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, Collections.singletonList(account.getAccountId()), null)));
+                    cardsResult.addAll(db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, singletonList(account.getAccountId()), emptyList())));
                 }
             }
         }
@@ -1378,21 +1427,17 @@ public class DataBaseAdapter {
     private void handleWidgetTypeExtras(FilterWidget filterWidget, Collection<FullCard> cardsResult) {
         if (filterWidget.getWidgetType() == EWidgetType.UPCOMING_WIDGET) {
             // https://github.com/stefan-niedermann/nextcloud-deck/issues/819 "no due" cards are only shown if they are on a shared board
-            for (FullCard fullCard : new ArrayList<>(cardsResult)) {
-                if (fullCard.getCard().getDueDate() == null && !db.getStackDao().isStackOnSharedBoardDirectly(fullCard.getCard().getStackId())) {
-                    cardsResult.remove(fullCard);
-                }
-            }
+            cardsResult.removeIf(fullCard -> fullCard.getCard().getDueDate() == null && !db.getStackDao().isStackOnSharedBoardDirectly(fullCard.getCard().getStackId()));
             List<Long> accountIds = null;
             if (!filterWidget.getAccounts().isEmpty()) {
-                accountIds = filterWidget.getAccounts().stream().map(FilterWidgetAccount::getAccountId).collect(Collectors.toList());
+                accountIds = filterWidget.getAccounts().stream().map(FilterWidgetAccount::getAccountId).collect(toList());
             }
             // https://github.com/stefan-niedermann/nextcloud-deck/issues/822 exclude archived cards and boards
             final List<Long> archivedStacks = db.getStackDao().getLocalStackIdsInArchivedBoardsByAccountIdsDirectly(accountIds);
             for (Long archivedStack : archivedStacks) {
                 final List<FullCard> archivedCards = cardsResult.stream()
                         .filter(c -> c.getCard().isArchived() || archivedStack.equals(c.getCard().getStackId()))
-                        .collect(Collectors.toList());
+                        .collect(toList());
                 cardsResult.removeAll(archivedCards);
             }
             // https://github.com/stefan-niedermann/nextcloud-deck/issues/800 all cards within non-shared boards need to be included
@@ -1420,7 +1465,8 @@ public class DataBaseAdapter {
     }
 
     public LiveData<List<Account>> readAccountsForHostWithReadAccessToBoard(String host, long boardRemoteId) {
-        return db.getAccountDao().readAccountsForHostWithReadAccessToBoard("%" + host + "%", boardRemoteId);
+        return new ReactiveLiveData<>(db.getAccountDao().readAccountsForHostWithReadAccessToBoard("%" + host + "%", boardRemoteId))
+                .distinctUntilChanged();
     }
 
     public List<Account> readAccountsForHostWithReadAccessToBoardDirectly(String host, long boardRemoteId) {
@@ -1464,14 +1510,16 @@ public class DataBaseAdapter {
     }
 
     public LiveData<Integer> countProjectResourcesInProject(Long projectLocalId) {
-        return db.getOcsProjectResourceDao().countProjectResourcesInProject(projectLocalId);
+        return new ReactiveLiveData<>(db.getOcsProjectResourceDao().countProjectResourcesInProject(projectLocalId))
+                .distinctUntilChanged();
     }
 
     public LiveData<List<OcsProjectResource>> getResourcesByLocalProjectId(Long projectLocalId) {
-        return db.getOcsProjectResourceDao().getResourcesByLocalProjectId(projectLocalId);
+        return new ReactiveLiveData<>(db.getOcsProjectResourceDao().getResourcesByLocalProjectId(projectLocalId))
+                .distinctUntilChanged();
     }
 
-    public void assignCardToProjectIfMissng(Long accountId, Long localProjectId, Long remoteCardId) {
+    public void assignCardToProjectIfMissing(Long accountId, Long localProjectId, Long remoteCardId) {
         final Card card = db.getCardDao().getCardByRemoteIdDirectly(accountId, remoteCardId);
         if (card != null) {
             final JoinCardWithProject existing = db.getJoinCardWithOcsProjectDao().getAssignmentByCardIdAndProjectIdDirectly(card.getLocalId(), localProjectId);
@@ -1502,6 +1550,12 @@ public class DataBaseAdapter {
 //        UpcomingWidget.notifyDatasetChanged(context);
     }
 
+    public LiveData<Integer> getBoardColor$(long accountId, long localBoardId) {
+        return new ReactiveLiveData<>(db.getBoardDao().getBoardColor(accountId, localBoardId))
+                .map(color -> color == null ? defaultColor : color)
+                .distinctUntilChanged();
+    }
+
     @ColorInt
     public Integer getBoardColorDirectly(long accountId, long localBoardId) {
         return db.getBoardDao().getBoardColorByLocalIdDirectly(accountId, localBoardId);
@@ -1513,5 +1567,183 @@ public class DataBaseAdapter {
 
     public void deleteProjectResourcesByCardIdDirectly(Long localCardId) {
         db.getJoinCardWithOcsProjectDao().deleteProjectResourcesByCardIdDirectly(localCardId);
+    }
+
+    // =============================================================================================
+    // APP STATE
+    // TODO last boards and stacks per account should be moved to a table to benefit from cascading
+    // =============================================================================================
+
+    // ---------------
+    // Current account
+    // ---------------
+
+    public void saveCurrentAccount(@NonNull Account account) {
+        executor.submit(() -> {
+            // Glide Module depends on correct account being set.
+            // TODO Use SingleSignOnURL where possible, allow passing ssoAccountName to MarkdownEditor
+            SingleAccountHelper.setCurrentAccount(context, account.getName());
+
+            DeckLog.log("--- Write:", context.getString(R.string.shared_preference_last_account), "→", account.getId());
+            sharedPreferencesEditor.putLong(context.getString(R.string.shared_preference_last_account), account.getId());
+            sharedPreferencesEditor.apply();
+        });
+    }
+
+    public void removeCurrentAccount() {
+        executor.submit(() -> {
+            // Glide Module depends on correct account being set.
+            // TODO Use SingleSignOnURL where possible, allow passing ssoAccountName to MarkdownEditor
+            SingleAccountHelper.setCurrentAccount(context, null);
+
+            DeckLog.log("--- Remove:", context.getString(R.string.shared_preference_last_account));
+            sharedPreferencesEditor.remove(context.getString(R.string.shared_preference_last_account));
+            sharedPreferencesEditor.apply();
+        });
+    }
+
+    public LiveData<Long> getCurrentAccountId$() {
+        return new ReactiveLiveData<>(new SharedPreferenceLongLiveData(sharedPreferences, this.context.getString(R.string.shared_preference_last_account), NOT_AVAILABLE))
+                .distinctUntilChanged()
+                .tap(accountId -> {
+                    DeckLog.log("--- Read:", context.getString(R.string.shared_preference_last_account), "→", accountId);
+                    if (NOT_AVAILABLE.equals(accountId)) {
+                        executor.submit(this::removeCurrentAccount);
+                    }
+                });
+    }
+
+    public CompletableFuture<Long> getCurrentAccountId() {
+        return supplyAsync(() -> {
+            final long accountId = sharedPreferences.getLong(context.getString(R.string.shared_preference_last_account), NOT_AVAILABLE);
+            DeckLog.log("--- Read:", context.getString(R.string.shared_preference_last_account), "→", accountId);
+
+            if (NOT_AVAILABLE.equals(accountId)) {
+                saveNeighbourOfAccount(NOT_AVAILABLE);
+                throw new CompletionException(new IllegalStateException("No current account ID set"));
+            }
+
+            return accountId;
+        }, executor);
+    }
+
+    @WorkerThread
+    public void saveNeighbourOfAccount(long currentAccountId) {
+        getAllAccountsDirectly()
+                .stream()
+                .filter(account -> currentAccountId != account.getId())
+                .findFirst()
+                .ifPresentOrElse(this::saveCurrentAccount, this::removeCurrentAccount);
+    }
+
+    @ColorInt
+    public CompletableFuture<Integer> getCurrentAccountColor(long accountId) {
+        return supplyAsync(() -> db.getAccountDao().getAccountColorDirectly(accountId), executor)
+                .thenApplyAsync(color -> color == null ? defaultColor : color, executor);
+    }
+
+    // -------------
+    // Current board
+    // -------------
+
+    public void saveCurrentBoardId(long accountId, long boardId) {
+        DeckLog.log("--- Write:", context.getString(R.string.shared_preference_last_board_for_account_) + accountId, "→", boardId);
+        sharedPreferencesEditor.putLong(context.getString(R.string.shared_preference_last_board_for_account_) + accountId, boardId);
+        sharedPreferencesEditor.apply();
+    }
+
+    public void removeCurrentBoardId(long accountId) {
+        DeckLog.log("--- Remove:", context.getString(R.string.shared_preference_last_board_for_account_) + accountId);
+        sharedPreferencesEditor.remove(context.getString(R.string.shared_preference_last_board_for_account_) + accountId);
+        sharedPreferencesEditor.apply();
+    }
+
+    public LiveData<Long> getCurrentBoardId$(long accountId) {
+        return new ReactiveLiveData<>(new SharedPreferenceLongLiveData(sharedPreferences,
+                this.context.getString(R.string.shared_preference_last_board_for_account_) + accountId, NOT_AVAILABLE))
+                .distinctUntilChanged()
+                .tap(boardId -> {
+                    DeckLog.log("--- Read:", context.getString(R.string.shared_preference_last_board_for_account_) + accountId, "→", boardId);
+                    if (NOT_AVAILABLE.equals(boardId)) {
+                        executor.submit(() -> saveNeighbourOfBoard(accountId, NOT_AVAILABLE));
+                    }
+                });
+    }
+
+    @WorkerThread
+    public void saveNeighbourOfBoard(long accountId, long currentBoardId) {
+        getNeighbour(db.getBoardDao().getNotDeletedBoardsDirectly(accountId, 0), currentBoardId)
+                .ifPresentOrElse(neighbourBoardId -> saveCurrentBoardId(accountId, neighbourBoardId), () -> removeCurrentBoardId(accountId));
+    }
+
+    public CompletableFuture<Integer> getCurrentBoardColor(long accountId, long boardId) {
+        return supplyAsync(() -> getBoardColorDirectly(accountId, boardId), executor)
+                .thenApplyAsync(color -> color == null ? defaultColor : color, executor);
+    }
+
+    // -------------
+    // Current stack
+    // -------------
+
+    public void saveCurrentStackId(long accountId, long boardId, long stackId) {
+        DeckLog.log("--- Write:", context.getString(R.string.shared_preference_last_stack_for_account_and_board_) + accountId + "_" + boardId, "→", stackId);
+        sharedPreferencesEditor.putLong(context.getString(R.string.shared_preference_last_stack_for_account_and_board_) + accountId + "_" + boardId, stackId);
+        sharedPreferencesEditor.apply();
+    }
+
+    public void removeCurrentStackId(long accountId, long boardId) {
+        DeckLog.log("--- Remove:", context.getString(R.string.shared_preference_last_stack_for_account_and_board_) + accountId + "_" + boardId);
+        sharedPreferencesEditor.remove(context.getString(R.string.shared_preference_last_stack_for_account_and_board_) + accountId + "_" + boardId);
+        sharedPreferencesEditor.apply();
+    }
+
+    public LiveData<Long> getCurrentStackId$(long accountId, long boardId) {
+        return new ReactiveLiveData<>(new SharedPreferenceLongLiveData(sharedPreferences, context.getString(R.string.shared_preference_last_stack_for_account_and_board_) + accountId + "_" + boardId, NOT_AVAILABLE))
+                .distinctUntilChanged()
+                .tap(stackId -> {
+                    DeckLog.log("--- Read:", context.getString(R.string.shared_preference_last_stack_for_account_and_board_) + accountId + "_" + boardId, "→", stackId);
+                    if (NOT_AVAILABLE.equals(stackId)) {
+                        executor.submit(() -> saveNeighbourOfStack(accountId, boardId, NOT_AVAILABLE));
+                    }
+                });
+    }
+
+    @WorkerThread
+    public void saveNeighbourOfStack(long accountId, long boardId, long currentStackId) {
+        getNeighbour(getFullStacksForBoardDirectly(accountId, boardId), currentStackId)
+                .ifPresentOrElse(
+                        neighbourStackId -> saveCurrentStackId(accountId, boardId, neighbourStackId),
+                        () -> removeCurrentStackId(accountId, boardId));
+    }
+
+    /**
+     * @return the local ID of the direct neighbour of the given {@param currentId} if available. Prefers neighbours to the start of the wanted, but might also return a neighbour to the end.
+     */
+    private Optional<Long> getNeighbour(List<? extends IRemoteEntity> entities, long currentId) {
+        if (entities.size() < 1) {
+            return Optional.empty();
+        }
+
+        @Nullable Integer position = null;
+
+        for (int i = 0; i < entities.size(); i++) {
+            if (entities.get(i).getLocalId() == currentId) {
+                position = i;
+            }
+        }
+
+        // Not found, but there is an entry
+        if (position == null) {
+            return Optional.of(entities.get(0).getLocalId());
+        }
+
+        // Current entity is last entity
+        if (position == 0 && entities.size() == 1) {
+            return Optional.empty();
+        }
+
+        return Optional.of(position > 0
+                ? entities.get(position - 1).getLocalId()
+                : entities.get(position + 1).getLocalId());
     }
 }

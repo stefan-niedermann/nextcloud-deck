@@ -41,16 +41,17 @@ public class UpcomingCardsOptionsItemSelectedListener implements CardOptionsItem
     @NonNull
     private final Consumer<Card> deleteCard;
 
-    public UpcomingCardsOptionsItemSelectedListener(@NonNull Account account,
-                                                    @NonNull Activity activity,
-                                                    @NonNull FragmentManager fragmentManager,
-                                                    @Nullable Long boardRemoteId,
-                                                    long boardLocalId,
-                                                    @NonNull BiConsumer<Account, Card> assignCard,
-                                                    @NonNull BiConsumer<Account, Card> unassignCard,
-                                                    @NonNull Consumer<FullCard> archiveCard,
-                                                    @NonNull Consumer<Card> deleteCard
-    ) {
+    public UpcomingCardsOptionsItemSelectedListener
+            (@NonNull Account account,
+             @NonNull Activity activity,
+             @NonNull FragmentManager fragmentManager,
+             @Nullable Long boardRemoteId,
+             long boardLocalId,
+             @NonNull BiConsumer<Account, Card> assignCard,
+             @NonNull BiConsumer<Account, Card> unassignCard,
+             @NonNull Consumer<FullCard> archiveCard,
+             @NonNull Consumer<Card> deleteCard
+            ) {
         this.account = account;
         this.activity = activity;
         this.fragmentManager = fragmentManager;

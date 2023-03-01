@@ -1,9 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.theme;
 
-import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
-import static it.niedermann.nextcloud.deck.ui.theme.ThemeUtils.readBrandMainColor;
+import static com.nextcloud.android.common.ui.util.PlatformThemeUtil.isDarkMode;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +9,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -21,13 +18,17 @@ import scheme.Scheme;
 
 public class ThemedTimePickerDialog extends TimePickerDialog implements Themed {
 
+    private static final String BUNDLE_KEY_COLOR = "color";
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        @Nullable Context context = getContext();
-        if (context != null) {
-            setThemeDark(isDarkTheme(context));
-            applyTheme(readBrandMainColor(context));
+        final var args = getArguments();
+        if (args == null || !args.containsKey(BUNDLE_KEY_COLOR)) {
+            throw new IllegalArgumentException("Please provide at least local comment id");
         }
+
+        applyTheme(args.getInt(BUNDLE_KEY_COLOR));
+        setThemeDark(isDarkMode(requireContext()));
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -54,8 +55,13 @@ public class ThemedTimePickerDialog extends TimePickerDialog implements Themed {
      */
     @SuppressWarnings({"SameParameterValue"})
     public static TimePickerDialog newInstance(OnTimeSetListener callback,
-                                               int hourOfDay, int minute, int second, boolean is24HourMode) {
+                                               int hourOfDay, int minute, int second, boolean is24HourMode, @ColorInt int color) {
         final var dialog = new ThemedTimePickerDialog();
+
+        final var args = new Bundle();
+        args.putInt(BUNDLE_KEY_COLOR, color);
+        dialog.setArguments(args);
+
         dialog.initialize(callback, hourOfDay, minute, second, is24HourMode);
         return dialog;
     }
@@ -70,8 +76,8 @@ public class ThemedTimePickerDialog extends TimePickerDialog implements Themed {
      * @return a new TimePickerDialog instance.
      */
     public static TimePickerDialog newInstance(OnTimeSetListener callback,
-                                               int hourOfDay, int minute, boolean is24HourMode) {
-        return newInstance(callback, hourOfDay, minute, 0, is24HourMode);
+                                               int hourOfDay, int minute, boolean is24HourMode, @ColorInt int color) {
+        return newInstance(callback, hourOfDay, minute, 0, is24HourMode, color);
     }
 
     /**
@@ -82,8 +88,8 @@ public class ThemedTimePickerDialog extends TimePickerDialog implements Themed {
      * @return a new TimePickerDialog instance.
      */
     @SuppressWarnings({"SameParameterValue"})
-    public static TimePickerDialog newInstance(OnTimeSetListener callback, boolean is24HourMode) {
+    public static TimePickerDialog newInstance(OnTimeSetListener callback, boolean is24HourMode, @ColorInt int color) {
         final var now = LocalTime.now();
-        return newInstance(callback, now.getHour(), now.getMinute(), is24HourMode);
+        return newInstance(callback, now.getHour(), now.getMinute(), is24HourMode, color);
     }
 }

@@ -21,9 +21,9 @@ import java.util.concurrent.Executors;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Stack;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.MainActivity;
+import it.niedermann.nextcloud.deck.persistence.BaseRepository;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
+import it.niedermann.nextcloud.deck.ui.main.MainActivity;
 
 public class StackWidget extends AppWidgetProvider {
     private static final int PENDING_INTENT_OPEN_APP_RQ = 0;
@@ -57,19 +57,19 @@ public class StackWidget extends AppWidgetProvider {
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         super.onDeleted(context, appWidgetIds);
-        final SyncManager syncManager = new SyncManager(context);
+        final var baseRepository = new BaseRepository(context);
 
         for (int appWidgetId : appWidgetIds) {
             DeckLog.info("Delete", StackWidget.class.getSimpleName(), "with id", appWidgetId);
-            syncManager.deleteFilterWidget(appWidgetId, response -> DeckLog.verbose("Successfully deleted " + StackWidget.class.getSimpleName() + " with id " + appWidgetId));
+            baseRepository.deleteFilterWidget(appWidgetId, response -> DeckLog.verbose("Successfully deleted " + StackWidget.class.getSimpleName() + " with id " + appWidgetId));
         }
     }
 
     private static void updateAppWidget(@NonNull ExecutorService executor, @NonNull Context context, AppWidgetManager awm, int[] appWidgetIds) {
-        final SyncManager syncManager = new SyncManager(context);
+        final var baseRepository = new BaseRepository(context);
         for (int appWidgetId : appWidgetIds) {
             executor.submit(() -> {
-                if (syncManager.filterWidgetExists(appWidgetId)) {
+                if (baseRepository.filterWidgetExists(appWidgetId)) {
                     final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_stack);
 
                     final Intent serviceIntent = new Intent(context, StackWidgetService.class);
@@ -88,9 +88,9 @@ public class StackWidget extends AppWidgetProvider {
                     views.setRemoteAdapter(R.id.stack_widget_lv, serviceIntent);
                     views.setEmptyView(R.id.stack_widget_lv, R.id.widget_stack_placeholder_iv);
 
-                    syncManager.getFilterWidget(appWidgetId, response -> {
-                        final Stack stack = syncManager.getStackDirectly(response.getAccounts().get(0).getBoards().get(0).getStacks().get(0).getStackId());
-                        @ColorInt final Integer boardColor = syncManager.getBoardColorDirectly(response.getAccounts().get(0).getAccountId(), response.getAccounts().get(0).getBoards().get(0).getBoardId());
+                    baseRepository.getFilterWidget(appWidgetId, response -> {
+                        final Stack stack = baseRepository.getStackDirectly(response.getAccounts().get(0).getBoards().get(0).getStacks().get(0).getStackId());
+                        @ColorInt final Integer boardColor = baseRepository.getBoardColorDirectly(response.getAccounts().get(0).getAccountId(), response.getAccounts().get(0).getBoards().get(0).getBoardId());
                         views.setTextViewText(R.id.widget_stack_title_tv, stack.getTitle());
                         views.setInt(R.id.widget_stack_header_icon, "setColorFilter", boardColor);
 

@@ -1,91 +1,68 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
-import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 
 import android.app.Activity;
 import android.content.ClipData;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentManager;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import it.niedermann.android.crosstabdnd.DragAndDropAdapter;
 import it.niedermann.android.crosstabdnd.DraggedItemLocalState;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ItemCardCompactBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultOnlyTitleBinding;
-import it.niedermann.nextcloud.deck.model.Card;
-import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.MainViewModel;
-import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
-import it.niedermann.nextcloud.deck.ui.movecard.MoveCardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
-import it.niedermann.nextcloud.deck.ui.theme.Themed;
-import it.niedermann.nextcloud.deck.util.CardUtil;
-import scheme.Scheme;
 
-public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> implements DragAndDropAdapter<FullCard>, CardOptionsItemSelectedListener, Themed {
+public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> implements DragAndDropAdapter<FullCard>, CardOptionsItemSelectedListener {
 
-    private final ExecutorService executor;
     private final boolean compactMode;
+    @Nullable
+    private Account account;
+    @Nullable
+    private FullBoard fullBoard;
     @NonNull
-    protected final MainViewModel mainViewModel;
-    @NonNull
-    protected final FragmentManager fragmentManager;
-    private final long stackId;
-    @NonNull
-    protected final Activity activity;
+    private final Activity activity;
     @Nullable
     private final SelectCardListener selectCardListener;
     @NonNull
-    protected List<FullCard> cardList = new ArrayList<>();
+    private final CardActionListener cardActionListener;
     @NonNull
-    protected String counterMaxValue;
+    private final List<FullCard> cardList = new ArrayList<>();
     @NonNull
-    protected Scheme scheme;
-    @StringRes
-    private final int shareLinkRes;
-    protected final int maxCoverImages;
+    private final String counterMaxValue;
+    @Nullable
+    private ThemeUtils utils;
+    private final int maxCoverImages;
 
-    public CardAdapter(@NonNull Activity activity, @NonNull FragmentManager fragmentManager, long stackId, @NonNull MainViewModel mainViewModel, @Nullable SelectCardListener selectCardListener) {
-        this(activity, fragmentManager, stackId, mainViewModel, selectCardListener, Executors.newSingleThreadExecutor());
-    }
-
-    private CardAdapter(@NonNull Activity activity, @NonNull FragmentManager fragmentManager, long stackId, @NonNull MainViewModel mainViewModel, @Nullable SelectCardListener selectCardListener, @NonNull ExecutorService executor) {
+    public CardAdapter(
+            @NonNull Activity activity,
+            @NonNull CardActionListener cardActionListener,
+            @Nullable SelectCardListener selectCardListener
+    ) {
         this.activity = activity;
         this.counterMaxValue = this.activity.getString(R.string.counter_max_value);
-        this.fragmentManager = fragmentManager;
-        this.shareLinkRes = mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().getShareLinkResource();
-        this.stackId = stackId;
-        this.mainViewModel = mainViewModel;
+        this.cardActionListener = cardActionListener;
         this.selectCardListener = selectCardListener;
-        this.scheme =  ThemeUtils.createScheme(ContextCompat.getColor(this.activity, R.color.defaultBrand), this.activity);
         this.compactMode = getDefaultSharedPreferences(this.activity).getBoolean(this.activity.getString(R.string.pref_key_compact), false);
-        this.maxCoverImages = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(activity.getString(R.string.pref_key_cover_images), true)
-                ? activity.getResources().getInteger(R.integer.max_cover_images)
-                : 0;
+        this.maxCoverImages = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(activity.getString(R.string.pref_key_cover_images), true) ? activity.getResources().getInteger(R.integer.max_cover_images) : 0;
         setHasStableIds(true);
-        this.executor = executor;
     }
 
     @Override
@@ -123,15 +100,22 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
 
     @Override
     public void onBindViewHolder(@NonNull AbstractCardViewHolder viewHolder, int position) {
+        if (account == null) {
+            throw new IllegalStateException("Tried to bind viewholder while account is still null");
+        }
+        if (fullBoard == null) {
+            throw new IllegalStateException("Tried to bind viewholder while fullBoard is still null");
+        }
+
         @NonNull final var fullCard = cardList.get(position);
-        viewHolder.bind(fullCard, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardRemoteId(), mainViewModel.currentBoardHasEditPermission(), R.menu.card_menu, this, counterMaxValue, scheme);
+        viewHolder.bind(fullCard, account, fullBoard.getBoard().getId(), fullBoard.board.isPermissionEdit(), R.menu.card_menu, this, counterMaxValue, utils);
 
         // Only enable details view if there is no one waiting for selecting a card.
         viewHolder.bindCardClickListener((v) -> {
             if (selectCardListener == null) {
-                activity.startActivity(EditActivity.createEditCardIntent(activity, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), fullCard.getLocalId()));
+                activity.startActivity(EditActivity.createEditCardIntent(activity, account, fullBoard.getBoard().getLocalId(), fullCard.getLocalId()));
             } else {
-                selectCardListener.onCardSelected(fullCard);
+                selectCardListener.onCardSelected(fullCard, fullBoard.getLocalId());
             }
         });
 
@@ -139,7 +123,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
         if (selectCardListener == null) {
             viewHolder.bindCardLongClickListener((v) -> {
                 DeckLog.log("Starting drag and drop");
-                v.startDrag(ClipData.newPlainText("cardid", String.valueOf(fullCard.getLocalId())),
+                v.startDragAndDrop(ClipData.newPlainText("cardid", String.valueOf(fullCard.getLocalId())),
                         new View.DragShadowBuilder(v),
                         new DraggedItemLocalState<>(fullCard, viewHolder.getDraggable(), this, position),
                         0
@@ -177,80 +161,51 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
         notifyItemRemoved(position);
     }
 
-    public void setCardList(@NonNull List<FullCard> cardList) {
+    public void setAccount(@NonNull Account account) {
+        this.account = account;
+    }
+
+    public void setFullBoard(@NonNull FullBoard fullBoard) {
+        this.fullBoard = fullBoard;
+    }
+
+    public void setCardList(@NonNull List<FullCard> cardList, @ColorInt int color) {
+        this.utils = ThemeUtils.of(color, activity);
         this.cardList.clear();
         this.cardList.addAll(cardList);
         notifyDataSetChanged();
     }
 
     @Override
-    public void applyTheme(int color) {
-        this.scheme = ThemeUtils.createScheme(color, activity);
-        notifyDataSetChanged();
-    }
-
-    @Override
     public boolean onCardOptionsItemSelected(@NonNull MenuItem menuItem, @NonNull FullCard fullCard) {
         final int itemId = menuItem.getItemId();
-        final var account = mainViewModel.getCurrentAccount();
         if (itemId == R.id.share_link) {
-            final var shareIntent = new Intent()
-                    .setAction(Intent.ACTION_SEND)
-                    .setType(TEXT_PLAIN)
-                    .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
-                    .putExtra(Intent.EXTRA_TITLE, fullCard.getCard().getTitle())
-                    .putExtra(Intent.EXTRA_TEXT, account.getUrl() + activity.getString(shareLinkRes, mainViewModel.getCurrentBoardRemoteId(), fullCard.getCard().getId()));
-            activity.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
+            if (fullBoard == null) {
+                DeckLog.warn("Can not share link to card", fullCard.getCard().getTitle(), "because fullBoard is null");
+                return false;
+            }
+            cardActionListener.onShareLink(fullBoard, fullCard);
             return true;
         } else if (itemId == R.id.share_content) {
-            final var shareIntent = new Intent()
-                    .setAction(Intent.ACTION_SEND)
-                    .setType(TEXT_PLAIN)
-                    .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
-                    .putExtra(Intent.EXTRA_TITLE, fullCard.getCard().getTitle())
-                    .putExtra(Intent.EXTRA_TEXT, CardUtil.getCardContentAsString(activity, fullCard));
-            activity.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
+            cardActionListener.onShareContent(fullCard);
         } else if (itemId == R.id.action_card_assign) {
-            executor.submit(() -> mainViewModel.assignUserToCard(mainViewModel.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard()));
+            cardActionListener.onAssignCurrentUser(fullCard);
             return true;
         } else if (itemId == R.id.action_card_unassign) {
-            executor.submit(() -> mainViewModel.unassignUserFromCard(mainViewModel.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard()));
+            cardActionListener.onUnassignCurrentUser(fullCard);
             return true;
         } else if (itemId == R.id.action_card_move) {
-            DeckLog.verbose("[Move card] Launch move dialog for " + Card.class.getSimpleName() + " \"" + fullCard.getCard().getTitle() + "\" (#" + fullCard.getLocalId() + ") from " + Stack.class.getSimpleName() + " #" + +stackId);
-            MoveCardDialogFragment
-                    .newInstance(fullCard.getAccountId(), mainViewModel.getCurrentBoardLocalId(), fullCard.getCard().getTitle(), fullCard.getLocalId(), CardUtil.cardHasCommentsOrAttachments(fullCard))
-                    .show(fragmentManager, MoveCardDialogFragment.class.getSimpleName());
+            if (fullBoard == null) {
+                DeckLog.warn("Can not move card", fullCard.getCard().getTitle(), "because fullBoard is null");
+                return false;
+            }
+            cardActionListener.onMove(fullBoard, fullCard);
             return true;
         } else if (itemId == R.id.action_card_archive) {
-            mainViewModel.archiveCard(fullCard, new IResponseCallback<>() {
-                @Override
-                public void onResponse(FullCard response) {
-                    DeckLog.info("Successfully archived", Card.class.getSimpleName(), fullCard.getCard().getTitle());
-                }
-
-                @Override
-                public void onError(Throwable throwable) {
-                    IResponseCallback.super.onError(throwable);
-                    activity.runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName()));
-                }
-            });
+            cardActionListener.onArchive(fullCard);
             return true;
         } else if (itemId == R.id.action_card_delete) {
-            mainViewModel.deleteCard(fullCard.getCard(), new IResponseCallback<>() {
-                @Override
-                public void onResponse(Void response) {
-                    DeckLog.info("Successfully deleted card", fullCard.getCard().getTitle());
-                }
-
-                @Override
-                public void onError(Throwable throwable) {
-                    if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
-                        IResponseCallback.super.onError(throwable);
-                        activity.runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName()));
-                    }
-                }
-            });
+            cardActionListener.onDelete(fullCard);
             return true;
         }
         return true;

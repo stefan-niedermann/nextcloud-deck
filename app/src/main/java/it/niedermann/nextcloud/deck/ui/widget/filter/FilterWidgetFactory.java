@@ -15,12 +15,12 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.persistence.BaseRepository;
 
 public class FilterWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private final Context context;
     private final int appWidgetId;
-    private final SyncManager syncManager;
+    private final BaseRepository baseRepository;
 
     @NonNull
     private final List<FilterWidgetCard> data = new ArrayList<>();
@@ -28,7 +28,7 @@ public class FilterWidgetFactory implements RemoteViewsService.RemoteViewsFactor
     FilterWidgetFactory(Context context, Intent intent) {
         this.context = context;
         this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-        this.syncManager = new SyncManager(context);
+        this.baseRepository = new BaseRepository(context);
     }
 
     @Override

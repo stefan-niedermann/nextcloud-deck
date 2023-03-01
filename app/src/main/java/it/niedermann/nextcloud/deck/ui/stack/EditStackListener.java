@@ -1,7 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.stack;
 
-public interface EditStackListener {
-    void onCreateStack(String title);
+import android.content.DialogInterface;
+
+public interface EditStackListener extends DialogInterface.OnDismissListener {
+    void onCreateStack(long accountId, long boardId, String title);
 
     void onUpdateStack(long stackId, String title);
 }

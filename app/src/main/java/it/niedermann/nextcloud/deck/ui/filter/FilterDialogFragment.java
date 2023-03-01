@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
@@ -66,7 +67,7 @@ public class FilterDialogFragment extends ThemedDialogFragment {
                         tab.setIcon(draft.getDueType() != EDueType.NO_FILTER ? indicator : null);
                         break;
                     default:
-                        throw new IllegalStateException("position must be between 0 and 2");
+                        throw new IllegalStateException("position must be between 0 and 2 but was " + position);
                 }
             });
             tab.setText(tabTitles[position]);
@@ -104,7 +105,7 @@ public class FilterDialogFragment extends ThemedDialogFragment {
     }
 
     @Override
-    public void applyTheme(int color) {
+    public void applyTheme(@ColorInt int color) {
         final var utils = ThemeUtils.of(color, requireContext());
 
         utils.deck.themeTabLayout(binding.tabLayout, Color.TRANSPARENT);
@@ -128,7 +129,7 @@ public class FilterDialogFragment extends ThemedDialogFragment {
                 case 2:
                     return new FilterDueTypeFragment();
                 default:
-                    throw new IllegalArgumentException("position must be between 0 and 2");
+                    throw new IllegalArgumentException("position must be between 0 and 2 but was " + position);
             }
         }
 

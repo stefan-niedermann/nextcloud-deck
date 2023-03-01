@@ -1,54 +1,62 @@
 package it.niedermann.nextcloud.deck.ui.stack;
 
+import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
+
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.AnyThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
 import it.niedermann.android.crosstabdnd.DragAndDropTab;
-import it.niedermann.android.util.DimensionUtil;
-import it.niedermann.nextcloud.deck.DeckApplication;
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
-import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.FragmentStackBinding;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.MainViewModel;
+import it.niedermann.nextcloud.deck.ui.card.CardActionListener;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.filter.FilterViewModel;
+import it.niedermann.nextcloud.deck.ui.movecard.MoveCardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.movecard.MoveCardListener;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
+import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
+import it.niedermann.nextcloud.deck.util.CardUtil;
 
-public class StackFragment extends Fragment implements DragAndDropTab<CardAdapter>, MoveCardListener {
+public class StackFragment extends Fragment implements Themed, DragAndDropTab<CardAdapter>, MoveCardListener, CardActionListener {
 
+    private static final String KEY_ACCOUNT = "account";
+    private static final String KEY_BOARD_ID = "boardId";
     private static final String KEY_STACK_ID = "stackId";
 
     private FragmentStackBinding binding;
-    private MainViewModel mainViewModel;
+    private StackViewModel stackViewModel;
     private FragmentActivity activity;
     private OnScrollListener onScrollListener;
 
     @Nullable
     private CardAdapter adapter = null;
-    private LiveData<List<FullCard>> cardsLiveData;
 
+    private Account account;
+    private long boardId;
     private long stackId;
 
     @Override
@@ -56,11 +64,22 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
         super.onAttach(context);
 
         final var args = requireArguments();
+
+        if (!args.containsKey(KEY_ACCOUNT)) {
+            throw new IllegalArgumentException(KEY_ACCOUNT + " is required.");
+        }
+        account = (Account) args.getSerializable(KEY_ACCOUNT);
+
+        if (!args.containsKey(KEY_BOARD_ID)) {
+            throw new IllegalArgumentException(KEY_BOARD_ID + " is required.");
+        }
+        boardId = args.getLong(KEY_BOARD_ID);
+
         if (!args.containsKey(KEY_STACK_ID)) {
             throw new IllegalArgumentException(KEY_STACK_ID + " is required.");
         }
-
         stackId = args.getLong(KEY_STACK_ID);
+
 
         if (context instanceof OnScrollListener) {
             this.onScrollListener = (OnScrollListener) context;
@@ -71,23 +90,11 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = requireActivity();
         binding = FragmentStackBinding.inflate(inflater, container, false);
-        mainViewModel = new ViewModelProvider(activity).get(MainViewModel.class);
+        stackViewModel = new ViewModelProvider(requireActivity(), new SyncViewModel.Factory(this.requireActivity().getApplication(), account)).get(StackViewModel.class);
+
+        applyTheme(account.getColor());
 
         final var filterViewModel = new ViewModelProvider(activity).get(FilterViewModel.class);
-
-        // This might be a zombie fragment with an empty MainViewModel after Android killed the activity (but not the fragment instance
-        // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
-        if (mainViewModel.getCurrentAccount() == null) {
-            DeckLog.logError(new IllegalStateException("Cannot populate " + StackFragment.class.getSimpleName() + " because mainViewModel.getCurrentAccount() is null"));
-            return binding.getRoot();
-        }
-
-        adapter = new CardAdapter(requireActivity(), getChildFragmentManager(), stackId, mainViewModel,
-                (requireActivity() instanceof SelectCardListener)
-                        ? (SelectCardListener) requireActivity()
-                        : null);
-        binding.recyclerView.setAdapter(adapter);
-        binding.loadingSpinner.show();
 
         if (onScrollListener != null) {
             binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -104,42 +111,39 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
             });
         }
 
-        if (!mainViewModel.currentBoardHasEditPermission()) {
-            binding.emptyContentView.hideDescription();
-            binding.recyclerView.setPadding(
-                    binding.recyclerView.getPaddingTop(),
-                    binding.recyclerView.getPaddingEnd(),
-                    DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.spacer_1x),
-                    binding.recyclerView.getPaddingStart()
-            );
-        }
-
-        final Observer<List<FullCard>> cardsObserver = (fullCards) -> activity.runOnUiThread(() -> {
-            binding.loadingSpinner.hide();
-            if (fullCards != null && fullCards.size() > 0) {
-                binding.emptyContentView.setVisibility(View.GONE);
-                adapter.setCardList(fullCards);
+        stackViewModel.currentBoardHasEditPermission(account.getId(), boardId).observe(getViewLifecycleOwner(), hasEditPermission -> {
+            if (hasEditPermission) {
+                binding.emptyContentView.showDescription();
             } else {
-                binding.emptyContentView.setVisibility(View.VISIBLE);
+                binding.emptyContentView.hideDescription();
             }
         });
 
-        cardsLiveData = mainViewModel.getFullCardsForStack(mainViewModel.getCurrentAccount().getId(), stackId, filterViewModel.getFilterInformation().getValue());
-        cardsLiveData.observe(getViewLifecycleOwner(), cardsObserver);
+        @Nullable final var selectCardListener = (activity instanceof SelectCardListener) ? (SelectCardListener) activity : null;
 
-        filterViewModel.getFilterInformation().observe(getViewLifecycleOwner(), (filterInformation -> {
-            cardsLiveData.removeObserver(cardsObserver);
-            cardsLiveData = mainViewModel.getFullCardsForStack(mainViewModel.getCurrentAccount().getId(), stackId, filterInformation);
-            cardsLiveData.observe(getViewLifecycleOwner(), cardsObserver);
-        }));
+        adapter = new CardAdapter(activity, this, selectCardListener);
+        binding.recyclerView.setAdapter(adapter);
+
+        new ReactiveLiveData<>(stackViewModel.getAccount(account.getId()))
+                .tap(() -> binding.loadingSpinner.show())
+                .tap(account -> adapter.setAccount(account))
+                .flatMap(account -> stackViewModel.getFullBoard(account.getId(), boardId))
+                .tap(fullBoard -> adapter.setFullBoard(fullBoard))
+                .flatMap(filterViewModel::getFilterInformation)
+                .flatMap(filterInformation -> stackViewModel.getFullCardsForStack(account.getId(), stackId, filterInformation))
+                .combineWith(() -> stackViewModel.getBoardColor$(account.getId(), boardId))
+                .observe(getViewLifecycleOwner(), pair -> {
+                    binding.loadingSpinner.hide();
+                    if (pair.first != null && !pair.first.isEmpty()) {
+                        binding.emptyContentView.setVisibility(View.GONE);
+                        assert adapter != null;
+                        adapter.setCardList(pair.first, pair.second);
+                    } else {
+                        binding.emptyContentView.setVisibility(View.VISIBLE);
+                    }
+                });
 
         return binding.getRoot();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        DeckApplication.readCurrentBoardColor().observe(getViewLifecycleOwner(), this::applyTheme);
     }
 
     @Override
@@ -159,25 +163,9 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
         return binding.recyclerView;
     }
 
-    private void applyTheme(int color) {
-        if (this.adapter != null) {
-            this.adapter.applyTheme(color);
-        }
-    }
-
-    public static Fragment newInstance(long stackId) {
-        final var fragment = new StackFragment();
-
-        final var args = new Bundle();
-        args.putLong(KEY_STACK_ID, stackId);
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-
     @Override
     public void move(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
-        mainViewModel.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId, new IResponseCallback<>() {
+        stackViewModel.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId, new IResponseCallback<>() {
             @Override
             public void onResponse(Void response) {
                 DeckLog.log("Moved", Card.class.getSimpleName(), originCardLocalId, "to", Stack.class.getSimpleName(), targetStackLocalId);
@@ -186,7 +174,7 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
             @Override
             public void onError(Throwable throwable) {
                 IResponseCallback.super.onError(throwable);
-                if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                if (SyncManager.isNoOnVoidError(throwable)) {
                     ExceptionDialogFragment.newInstance(throwable, null).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 }
             }
@@ -215,5 +203,107 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
                 binding.recyclerView.scrollToPosition(adapter.getItemCount() - 1);
             }
         });
+    }
+
+    @Override
+    public void onArchive(@NonNull FullCard fullCard) {
+        stackViewModel.archiveCard(fullCard, new IResponseCallback<>() {
+            @Override
+            public void onResponse(FullCard response) {
+                DeckLog.info("Successfully archived", Card.class.getSimpleName(), fullCard.getCard().getTitle());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                IResponseCallback.super.onError(throwable);
+                showExceptionDialog(throwable, fullCard.getAccountId());
+            }
+        });
+    }
+
+    @Override
+    public void onDelete(@NonNull FullCard fullCard) {
+        stackViewModel.deleteCard(fullCard.getCard(), new IResponseCallback<>() {
+            @Override
+            public void onResponse(Void response) {
+                DeckLog.info("Successfully deleted card", fullCard.getCard().getTitle());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                if (SyncManager.isNoOnVoidError(throwable)) {
+                    IResponseCallback.super.onError(throwable);
+                    showExceptionDialog(throwable, fullCard.getAccountId());
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onAssignCurrentUser(@NonNull FullCard fullCard) {
+        stackViewModel.assignUserToCard(fullCard);
+    }
+
+    @Override
+    public void onUnassignCurrentUser(@NonNull FullCard fullCard) {
+        stackViewModel.unassignUserFromCard(fullCard);
+    }
+
+    @Override
+    public void onMove(@NonNull FullBoard fullBoard, @NonNull FullCard fullCard) {
+        DeckLog.verbose("[Move card] Launch move dialog for " + Card.class.getSimpleName() + " \"" + fullCard.getCard().getTitle() + "\" (#" + fullCard.getLocalId() + ") from " + Stack.class.getSimpleName() + " #" + +stackId);
+        MoveCardDialogFragment
+                .newInstance(fullCard.getAccountId(), fullBoard.getBoard().getLocalId(), fullCard.getCard().getTitle(), fullCard.getLocalId(), CardUtil.cardHasCommentsOrAttachments(fullCard))
+                .show(getChildFragmentManager(), MoveCardDialogFragment.class.getSimpleName());
+    }
+
+    @Override
+    public void onShareLink(@NonNull FullBoard fullBoard, @NonNull FullCard fullCard) {
+        stackViewModel.getAccountFuture(fullCard.getAccountId()).thenAcceptAsync(account -> {
+            final int shareLinkRes = account.getServerDeckVersionAsObject().getShareLinkResource();
+            final var shareIntent = new Intent()
+                    .setAction(Intent.ACTION_SEND)
+                    .setType(TEXT_PLAIN)
+                    .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
+                    .putExtra(Intent.EXTRA_TITLE, fullCard.getCard().getTitle())
+                    .putExtra(Intent.EXTRA_TEXT, account.getUrl() + activity.getString(shareLinkRes, fullBoard.getBoard().getId(), fullCard.getCard().getId()));
+            activity.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
+        }, ContextCompat.getMainExecutor(requireContext()));
+    }
+
+    @Override
+    public void onShareContent(@NonNull FullCard fullCard) {
+        final var shareIntent = new Intent()
+                .setAction(Intent.ACTION_SEND)
+                .setType(TEXT_PLAIN)
+                .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
+                .putExtra(Intent.EXTRA_TITLE, fullCard.getCard().getTitle())
+                .putExtra(Intent.EXTRA_TEXT, CardUtil.getCardContentAsString(activity, fullCard));
+        activity.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
+    }
+
+    @AnyThread
+    private void showExceptionDialog(@NonNull Throwable throwable, long accountId) {
+        stackViewModel.getAccountFuture(accountId).thenAcceptAsync(account -> ExceptionDialogFragment
+                        .newInstance(throwable, account)
+                        .show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()),
+                ContextCompat.getMainExecutor(requireContext()));
+    }
+
+    @Override
+    public void applyTheme(int color) {
+        binding.emptyContentView.applyTheme(color);
+    }
+
+    public static Fragment newInstance(@NonNull Account account, long boardId, long stackId) {
+        final var fragment = new StackFragment();
+
+        final var args = new Bundle();
+        args.putSerializable(KEY_ACCOUNT, account);
+        args.putLong(KEY_BOARD_ID, boardId);
+        args.putLong(KEY_STACK_ID, stackId);
+        fragment.setArguments(args);
+
+        return fragment;
     }
 }

@@ -13,18 +13,17 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 @Dao
 public interface BoardDao extends GenericDao<Board> {
 
-    @Query("SELECT * FROM board WHERE accountId = :accountId and (deletedAt = 0 or deletedAt is null) and status <> 3 order by title asc")
-    LiveData<List<Board>> getBoardsForAccount(final long accountId);
-
-    @Query("SELECT * FROM board WHERE accountId = :accountId and archived = 1 and (deletedAt = 0 or deletedAt is null) and status <> 3 order by title asc")
-    LiveData<List<Board>> getArchivedBoardsForAccount(final long accountId);
-
-    @Query("SELECT * FROM board WHERE accountId = :accountId and archived = 0 and (deletedAt = 0 or deletedAt is null) and status <> 3 order by title asc")
-    LiveData<List<Board>> getNonArchivedBoardsForAccount(final long accountId);
+    @Transaction
+    @Query("SELECT * FROM board WHERE accountId = :accountId and archived = :archived and (deletedAt = 0 or deletedAt is null) and status <> 3 order by title asc")
+    LiveData<List<Board>> getNotDeletedBoards(long accountId, int archived);
 
     @Transaction
     @Query("SELECT * FROM board WHERE accountId = :accountId and archived = :archived and (deletedAt = 0 or deletedAt is null) and status <> 3 order by title asc")
-    LiveData<List<FullBoard>> getArchivedFullBoards(long accountId, int archived);
+    List<Board> getNotDeletedBoardsDirectly(long accountId, int archived);
+
+    @Transaction
+    @Query("SELECT * FROM board WHERE accountId = :accountId and archived = :archived and (deletedAt = 0 or deletedAt is null) and status <> 3 order by title asc")
+    LiveData<List<FullBoard>> getNotDeletedFullBoards(long accountId, int archived);
 
     @Query("SELECT * FROM board WHERE accountId = :accountId and id = :remoteId")
     LiveData<Board> getBoardByRemoteId(final long accountId, final long remoteId);
@@ -88,4 +87,7 @@ public interface BoardDao extends GenericDao<Board> {
 
     @Query("SELECT b.color FROM board b where b.localId = :localBoardId and b.accountId = :accountId")
     Integer getBoardColorByLocalIdDirectly(long accountId, long localBoardId);
+
+    @Query("SELECT b.color FROM board b where b.localId = :localBoardId and b.accountId = :accountId")
+    LiveData<Integer> getBoardColor(long accountId, long localBoardId);
 }

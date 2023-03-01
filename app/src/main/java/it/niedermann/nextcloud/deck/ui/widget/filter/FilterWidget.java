@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.widget.filter;
 
+import static android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE;
+
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
@@ -15,9 +17,7 @@ import java.util.concurrent.Executors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-
-import static android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE;
+import it.niedermann.nextcloud.deck.persistence.BaseRepository;
 
 public class FilterWidget extends AppWidgetProvider {
     public static final String ACCOUNT_KEY = "filter_widget_account";
@@ -25,7 +25,7 @@ public class FilterWidget extends AppWidgetProvider {
     final ExecutorService executor = Executors.newCachedThreadPool();
 
     static void updateAppWidget(@NonNull ExecutorService executor, @NonNull Context context, AppWidgetManager awm, int[] appWidgetIds, Account account) {
-        final SyncManager syncManager = new SyncManager(context);
+        final var baseRepository = new BaseRepository(context);
         for (int appWidgetId : appWidgetIds) {
             executor.submit(() -> {
                 try {
@@ -73,10 +73,10 @@ public class FilterWidget extends AppWidgetProvider {
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         super.onDeleted(context, appWidgetIds);
-        final SyncManager syncManager = new SyncManager(context);
+        final var baseRepository = new BaseRepository(context);
 
         for (int appWidgetId : appWidgetIds) {
-            syncManager.deleteFilterWidget(appWidgetId, response -> DeckLog.verbose("Successfully deleted " + FilterWidget.class.getSimpleName() + " with id " + appWidgetId));
+            baseRepository.deleteFilterWidget(appWidgetId, response -> DeckLog.verbose("Successfully deleted " + FilterWidget.class.getSimpleName() + " with id " + appWidgetId));
         }
     }
 }

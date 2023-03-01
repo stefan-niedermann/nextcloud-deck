@@ -29,8 +29,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:enableOnBackInvokedCallback="true"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:targetApi="q">
+        tools:targetApi="tiramisu">
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -43,7 +44,7 @@
         </provider>
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.main.MainActivity"
             android:label="@string/app_name_short"
             android:theme="@style/SplashTheme"
             android:exported="true">
@@ -67,7 +68,7 @@
         <activity
             android:name=".ui.manageaccounts.ManageAccountsActivity"
             android:label="@string/manage_accounts"
-            android:parentActivityName=".ui.MainActivity"
+            android:parentActivityName=".ui.main.MainActivity"
             android:windowSoftInputMode="stateHidden" />
 
         <activity
@@ -94,24 +95,19 @@
         </activity>
 
         <activity
-            android:name=".ui.archivedcards.ArchivedCardsActvitiy"
-            android:label="@string/archived_cards"
-            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
-
-        <activity
-            android:name=".ui.archivedboards.ArchivedBoardsActvitiy"
+            android:name=".ui.archivedboards.ArchivedBoardsActivity"
             android:label="@string/archived_boards"
-            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.main.MainActivity" />
 
         <activity
             android:name=".ui.upcomingcards.UpcomingCardsActivity"
             android:label="@string/widget_upcoming_title"
-            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.main.MainActivity" />
 
         <activity
             android:name=".ui.card.EditActivity"
             android:label="@string/edit"
-            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.main.MainActivity" />
 
         <activity
             android:name=".ui.attachments.AttachmentsActivity"
@@ -122,7 +118,7 @@
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/simple_settings"
-            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.main.MainActivity" />
 
         <activity
             android:name=".ui.ImportAccountActivity"
@@ -144,7 +140,7 @@
         <activity
             android:name=".ui.about.AboutActivity"
             android:label="@string/about"
-            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.main.MainActivity" />
 
         <activity
             android:name=".ui.PushNotificationActivity"

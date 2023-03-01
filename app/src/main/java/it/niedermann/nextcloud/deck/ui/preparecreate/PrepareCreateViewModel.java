@@ -5,7 +5,8 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.AndroidViewModel;
+
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -13,16 +14,33 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
 @SuppressWarnings("WeakerAccess")
-public class PrepareCreateViewModel extends AndroidViewModel {
+public class PrepareCreateViewModel extends BaseViewModel {
 
     public PrepareCreateViewModel(@NonNull Application application) {
         super(application);
     }
 
+    public void saveCurrentAccount(@NonNull Account account) {
+        baseRepository.saveCurrentAccount(account);
+    }
+
+    public void saveCurrentBoardId(long accountId, long boardId) {
+        baseRepository.saveCurrentBoardId(accountId, boardId);
+    }
+
+    public void saveCurrentStackId(long accountId, long boardId, long stackId) {
+        baseRepository.saveCurrentStackId(accountId, boardId, stackId);
+    }
+
     public void saveCard(@NonNull Account account, long boardLocalId, long stackLocalId, @NonNull FullCard fullCard, @NonNull IResponseCallback<FullCard> callback) {
-        new SyncManager(getApplication(), account.getName()).createFullCard(account.getId(), boardLocalId, stackLocalId, fullCard, callback);
+        try {
+            new SyncManager(getApplication(), account).createFullCard(account.getId(), boardLocalId, stackLocalId, fullCard, callback);
+        } catch (NextcloudFilesAppAccountNotFoundException e) {
+            callback.onError(e);
+        }
     }
 
     @SuppressWarnings("ConstantConditions")

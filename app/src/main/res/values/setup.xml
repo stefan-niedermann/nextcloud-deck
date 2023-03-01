@@ -2,7 +2,6 @@
 <resources>
     <string name="shared_preference_last_sync" translatable="false">it.niedermann.nextcloud.deck.last_sync</string>
     <string name="shared_preference_last_background_sync" translatable="false">it.niedermann.nextcloud.deck.last_background_sync</string>
-    <string name="shared_preference_theme_main" translatable="false">it.niedermann.nextcloud.deck.theme_main</string>
     <string name="shared_preference_description_preview" translatable="false">it.niedermann.nextcloud.deck.description_preview</string>
 
     <string name="pref_key_wifi_only" translatable="false">wifiOnly</string>
@@ -46,10 +45,10 @@
         <item>@string/pref_value_theme_dark</item>
     </string-array>
 
-    <!-- To be concatenated with the account id -->
     <string name="shared_preference_last_account" translatable="false">it.niedermann.nextcloud.deck.last_account</string>
-    <string name="shared_preference_last_account_color" translatable="false">it.niedermann.nextcloud.deck.last_account_color</string>
+    <!-- To be concatenated with the account id -->
     <string name="shared_preference_last_board_for_account_" translatable="false">it.niedermann.nextcloud.deck.last_board_for_account_</string>
+    <!-- To be concatenated with the account id, underscore and board id -->
     <string name="shared_preference_last_stack_for_account_and_board_" translatable="false">it.niedermann.nextcloud.deck.last_stack_for_board_</string>
 
     <!-- Transitions -->

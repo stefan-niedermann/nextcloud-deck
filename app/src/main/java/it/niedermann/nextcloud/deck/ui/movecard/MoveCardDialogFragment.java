@@ -3,15 +3,20 @@ package it.niedermann.nextcloud.deck.ui.movecard;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -23,9 +28,9 @@ import it.niedermann.nextcloud.deck.ui.pickstack.PickStackFragment;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackListener;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackViewModel;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
-import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
 
-public class MoveCardDialogFragment extends ThemedDialogFragment implements PickStackListener {
+public class MoveCardDialogFragment extends DialogFragment implements Themed, PickStackListener {
 
     private static final String KEY_ORIGIN_ACCOUNT_ID = "account_id";
     private static final String KEY_ORIGIN_BOARD_LOCAL_ID = "board_local_id";
@@ -37,6 +42,7 @@ public class MoveCardDialogFragment extends ThemedDialogFragment implements Pick
     private String originCardTitle;
     private Long originCardLocalId;
     private boolean originCardHasAttachmentsOrComments;
+    private View dialogView;
 
     private DialogMoveCardBinding binding;
     private PickStackViewModel viewModel;
@@ -74,10 +80,12 @@ public class MoveCardDialogFragment extends ThemedDialogFragment implements Pick
         originCardTitle = args.getString(KEY_ORIGIN_CARD_TITLE);
     }
 
-    @Nullable
+    @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DialogMoveCardBinding.inflate(inflater);
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        final var dialogBuilder = new MaterialAlertDialogBuilder(requireContext());
+
+        binding = DialogMoveCardBinding.inflate(LayoutInflater.from(requireContext()));
         binding.title.setText(getString(R.string.action_card_move_title, originCardTitle));
         binding.submit.setOnClickListener((v) -> {
             DeckLog.verbose("[Move card] Attempt to move to", Stack.class.getSimpleName(), "#" + selectedStack.getLocalId());
@@ -85,14 +93,24 @@ public class MoveCardDialogFragment extends ThemedDialogFragment implements Pick
             dismiss();
         });
         binding.cancel.setOnClickListener((v) -> dismiss());
-        return binding.getRoot();
+        dialogView = binding.getRoot();
+        return dialogBuilder
+                .setView(dialogView)
+                .create();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return this.dialogView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         getChildFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_container, PickStackFragment.newInstance(false))
+                .replace(R.id.fragment_container, PickStackFragment.newInstance(false), PickStackFragment.class.getSimpleName())
                 .commit();
     }
 
@@ -106,12 +124,13 @@ public class MoveCardDialogFragment extends ThemedDialogFragment implements Pick
     public void onStackPicked(@NonNull Account account, @Nullable Board board, @Nullable Stack stack) {
         this.selectedAccount = account;
         this.selectedBoard = board;
-
-        if (board != null) {
-            applyTheme(board.getColor());
-        }
-
         this.selectedStack = stack;
+
+        applyTheme(board == null
+                ? ContextCompat.getColor(requireContext(), R.color.accent)
+                : board.getColor()
+        );
+
         if (board == null || stack == null) {
             binding.submit.setEnabled(false);
             binding.moveWarning.setVisibility(GONE);
@@ -122,7 +141,7 @@ public class MoveCardDialogFragment extends ThemedDialogFragment implements Pick
     }
 
     @Override
-    public void applyTheme(int color) {
+    public void applyTheme(@ColorInt int color) {
         final var utils = ThemeUtils.of(color, requireContext());
 
         utils.material.colorMaterialButtonText(binding.cancel);

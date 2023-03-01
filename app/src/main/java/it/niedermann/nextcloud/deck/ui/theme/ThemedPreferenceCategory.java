@@ -1,15 +1,14 @@
 package it.niedermann.nextcloud.deck.ui.theme;
 
-import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentAccountColor;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceViewHolder;
+
+import it.niedermann.nextcloud.deck.persistence.BaseRepository;
 
 public class ThemedPreferenceCategory extends PreferenceCategory {
 
@@ -18,10 +17,16 @@ public class ThemedPreferenceCategory extends PreferenceCategory {
         super.onBindViewHolder(holder);
 
         final var view = holder.itemView.findViewById(android.R.id.title);
-        @Nullable final Context context = getContext();
+        final var context = getContext();
+        final var repo = new BaseRepository(context);
+
         if (view instanceof TextView) {
-            final var scheme = ThemeUtils.createScheme(readCurrentAccountColor(context), context);
-            ((TextView) view).setTextColor(scheme.getOnPrimaryContainer());
+            repo.getCurrentAccountId()
+                    .thenComposeAsync(repo::getCurrentAccountColor)
+                    .thenAcceptAsync(accountColor -> {
+                        final var utils = ThemeUtils.of(accountColor, context);
+                        utils.platform.colorTextView((TextView) view);
+                    });
         }
     }
 

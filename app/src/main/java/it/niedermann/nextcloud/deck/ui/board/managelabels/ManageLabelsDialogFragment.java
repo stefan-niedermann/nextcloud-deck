@@ -21,22 +21,25 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.DialogBoardManageLabelsBinding;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.theme.DeleteAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
+import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
 
 public class ManageLabelsDialogFragment extends ThemedDialogFragment implements ManageLabelListener, EditLabelListener {
 
-    private MainViewModel viewModel;
+    private LabelsViewModel labelsViewModel;
     private DialogBoardManageLabelsBinding binding;
     private ManageLabelsAdapter adapter;
     private String[] colors;
 
+    private static final String KEY_ACCOUNT = "account";
     private static final String KEY_BOARD_ID = "board_id";
 
+    private Account account;
     private long boardId;
 
     @Override
@@ -44,8 +47,14 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
         super.onAttach(context);
         final Bundle args = getArguments();
 
-        if (args == null || !args.containsKey(KEY_BOARD_ID)) {
-            throw new IllegalArgumentException(KEY_BOARD_ID + " must be provided as arguments");
+        if (args == null || !args.containsKey(KEY_ACCOUNT) || !args.containsKey(KEY_BOARD_ID)) {
+            throw new IllegalArgumentException(KEY_ACCOUNT + " and " + KEY_BOARD_ID + " must be provided as arguments");
+        }
+
+        this.account = (Account) args.getSerializable(KEY_ACCOUNT);
+
+        if (this.account == null) {
+            throw new IllegalStateException(KEY_ACCOUNT + " must not be null");
         }
 
         this.boardId = args.getLong(KEY_BOARD_ID);
@@ -60,13 +69,13 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        labelsViewModel = new ViewModelProvider(requireActivity(), new SyncViewModel.Factory(this.requireActivity().getApplication(), account)).get(LabelsViewModel.class);
         final var dialogBuilder = new MaterialAlertDialogBuilder(requireContext());
         binding = DialogBoardManageLabelsBinding.inflate(requireActivity().getLayoutInflater());
         colors = getResources().getStringArray(R.array.board_default_colors);
         adapter = new ManageLabelsAdapter(this, requireContext());
         binding.labels.setAdapter(adapter);
-        viewModel.getFullBoardById(viewModel.getCurrentAccount().getId(), boardId).observe(this, (fullBoard) -> {
+        labelsViewModel.getFullBoardById(boardId).observe(this, fullBoard -> {
             if (fullBoard == null) {
                 throw new IllegalStateException("FullBoard should not be null");
             }
@@ -80,7 +89,7 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
             label.setTitle(binding.addLabelTitle.getText().toString());
             label.setColor(colors[new Random().nextInt(colors.length)]);
 
-            viewModel.createLabel(viewModel.getCurrentAccount().getId(), label, boardId, new IResponseCallback<>() {
+            labelsViewModel.createLabel(label, boardId, new IResponseCallback<>() {
                 @Override
                 public void onResponse(Label response) {
                     requireActivity().runOnUiThread(() -> {
@@ -124,10 +133,11 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
         utils.material.colorTextInputLayout(binding.addLabelTitleWrapper);
     }
 
-    public static DialogFragment newInstance(long boardLocalId) {
+    public static DialogFragment newInstance(@NonNull Account account, long boardLocalId) {
         final DialogFragment dialog = new ManageLabelsDialogFragment();
 
         final Bundle args = new Bundle();
+        args.putSerializable(KEY_ACCOUNT, account);
         args.putLong(KEY_BOARD_ID, boardLocalId);
         dialog.setArguments(args);
 
@@ -136,7 +146,7 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
 
     @Override
     public void requestDelete(@NonNull Label label) {
-        viewModel.countCardsWithLabel(label.getLocalId(), (count) -> requireActivity().runOnUiThread(() -> {
+        labelsViewModel.countCardsWithLabel(label.getLocalId(), count -> requireActivity().runOnUiThread(() -> {
             if (count > 0) {
                 new DeleteAlertDialogBuilder(requireContext())
                         .setTitle(getString(R.string.delete_something, label.getTitle()))
@@ -151,7 +161,7 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
     }
 
     private void deleteLabel(@NonNull Label label) {
-        viewModel.deleteLabel(label, new IResponseCallback<>() {
+        labelsViewModel.deleteLabel(label, new IResponseCallback<>() {
             @Override
             public void onResponse(Void response) {
                 DeckLog.info("Successfully deleted label", label.getTitle());
@@ -159,7 +169,7 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
 
             @Override
             public void onError(Throwable throwable) {
-                if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                if (SyncManager.isNoOnVoidError(throwable)) {
                     IResponseCallback.super.onError(throwable);
                     toastFromThread(throwable.getLocalizedMessage());
                 }
@@ -174,7 +184,7 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
 
     @Override
     public void onLabelUpdated(@NonNull Label label) {
-        viewModel.updateLabel(label, new IResponseCallback<>() {
+        labelsViewModel.updateLabel(label, new IResponseCallback<>() {
             @Override
             public void onResponse(Label label) {
                 DeckLog.info("Successfully update label", label.getTitle());

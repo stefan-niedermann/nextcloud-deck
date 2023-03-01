@@ -1,14 +1,11 @@
 package it.niedermann.nextcloud.deck.ui.tiles;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 
 import it.niedermann.nextcloud.deck.ui.preparecreate.PrepareCreateActivity;
 
-@TargetApi(Build.VERSION_CODES.N)
 public class EditCardTileService extends TileService {
 
     @Override

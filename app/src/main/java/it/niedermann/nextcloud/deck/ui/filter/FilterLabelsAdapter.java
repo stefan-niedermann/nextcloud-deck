@@ -1,21 +1,26 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
 import android.content.res.ColorStateList;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemFilterLabelBinding;
 import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
 
 @SuppressWarnings("WeakerAccess")
 public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapter.LabelViewHolder> {
@@ -27,8 +32,10 @@ public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapte
     private static final Label NOT_ASSIGNED = null;
     @Nullable
     private final SelectionListener<Label> selectionListener;
+    @ColorInt
+    private final int color;
 
-    public FilterLabelsAdapter(@NonNull List<Label> labels, @NonNull List<Label> selectedLabels, boolean noAssignedLabel, @Nullable SelectionListener<Label> selectionListener) {
+    public FilterLabelsAdapter(@NonNull Collection<Label> labels, @NonNull Collection<Label> selectedLabels, boolean noAssignedLabel, @Nullable SelectionListener<Label> selectionListener, @ColorInt int color) {
         super();
         this.labels.add(NOT_ASSIGNED);
         this.labels.addAll(labels);
@@ -37,8 +44,8 @@ public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapte
         }
         this.selectedLabels.addAll(selectedLabels);
         this.selectionListener = selectionListener;
+        this.color = color;
         setHasStableIds(true);
-        notifyDataSetChanged();
     }
 
     @Override
@@ -67,8 +74,8 @@ public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapte
         return labels.size();
     }
 
-    class LabelViewHolder extends RecyclerView.ViewHolder {
-        private ItemFilterLabelBinding binding;
+    class LabelViewHolder extends RecyclerView.ViewHolder implements Themed {
+        private final ItemFilterLabelBinding binding;
 
         LabelViewHolder(@NonNull ItemFilterLabelBinding binding) {
             super(binding.getRoot());
@@ -80,9 +87,10 @@ public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapte
             binding.label.setText(label.getTitle());
             final int labelColor = label.getColor();
             binding.label.setChipBackgroundColor(ColorStateList.valueOf(labelColor));
-            final int color = ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(labelColor);
-            binding.label.setTextColor(color);
+            final int textColor = ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(labelColor);
+            binding.label.setTextColor(textColor);
             itemView.setSelected(selectedLabels.contains(label));
+            applyTheme(color);
             bindClickListener(label);
         }
 
@@ -93,6 +101,7 @@ public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapte
             binding.label.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(itemView.getContext(), R.color.primary)));
             binding.label.setRippleColor(null);
             itemView.setSelected(selectedLabels.contains(NOT_ASSIGNED));
+            applyTheme(color);
             bindClickListener(NOT_ASSIGNED);
         }
 
@@ -112,6 +121,14 @@ public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapte
                     }
                 }
             });
+        }
+
+        @Override
+        public void applyTheme(int color) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                final var utils = ThemeUtils.of(color, itemView.getContext());
+                utils.deck.colorSelectedCheck(binding.selectedCheck.getContext(), binding.selectedCheck.getDrawable());
+            }
         }
     }
 }

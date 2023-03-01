@@ -14,15 +14,21 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import com.nextcloud.android.sso.AccountImporter;
+import com.nextcloud.android.sso.api.ParsedResponse;
 import com.nextcloud.android.sso.exceptions.AccountImportCancelledException;
 import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGranted;
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
-import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import com.nextcloud.android.sso.ui.UiExceptionManager;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -31,6 +37,7 @@ import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityImportAccountBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
@@ -43,9 +50,9 @@ public class ImportAccountActivity extends AppCompatActivity {
 
     private String prefKeyWifiOnly;
     private boolean originalWifiOnlyValue = false;
-    private String sharedPreferenceLastAccount;
     private String urlFragmentUpdateDeck;
 
+    private ImportAccountViewModel importAccountViewModel;
     private ActivityImportAccountBinding binding;
 
     @Override
@@ -54,23 +61,25 @@ public class ImportAccountActivity extends AppCompatActivity {
 
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
 
+        importAccountViewModel = new ViewModelProvider(this).get(ImportAccountViewModel.class);
         binding = ActivityImportAccountBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
 
         prefKeyWifiOnly = getString(R.string.pref_key_wifi_only);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        sharedPreferenceLastAccount = getString(R.string.shared_preference_last_account);
         urlFragmentUpdateDeck = getString(R.string.url_fragment_update_deck);
 
         originalWifiOnlyValue = sharedPreferences.getBoolean(prefKeyWifiOnly, false);
 
-        binding.welcomeText.setText(getString(R.string.welcome_text, getString(R.string.app_name)));
+        importAccountViewModel.hasAccounts().observe(this, hasAccounts -> binding.welcomeText.setText(hasAccounts
+                ? getString(R.string.welcome_text_further_accounts)
+                : getString(R.string.welcome_text, getString(R.string.app_name))));
+
         binding.addButton.setOnClickListener((v) -> {
             binding.status.setText("");
             binding.addButton.setEnabled(false);
             binding.updateDeckButton.setVisibility(View.GONE);
-            disableWifiPref();
             try {
                 AccountImporter.pickNewAccount(this);
             } catch (NextcloudFilesAppNotInstalledException e) {
@@ -99,113 +108,143 @@ public class ImportAccountActivity extends AppCompatActivity {
         if (requestCode == REQUEST_AUTH_TOKEN_SSO && resultCode == RESULT_CANCELED) {
             binding.addButton.setEnabled(true);
         } else {
-            try {
-                AccountImporter.onActivityResult(requestCode, resultCode, data, ImportAccountActivity.this, new AccountImporter.IAccountAccessGranted() {
-                    @SuppressLint("ApplySharedPref")
-                    @Override
-                    public void accountAccessGranted(SingleSignOnAccount account) {
-                        runOnUiThread(() -> {
-                            binding.status.setText(null);
-                            binding.status.setVisibility(View.GONE);
-                            binding.progressCircular.setVisibility(View.VISIBLE);
-                            binding.progressText.setVisibility(View.VISIBLE);
-                            binding.progressCircular.setIndeterminate(true);
-                            binding.progressText.setText(R.string.progress_import_indeterminate);
-                        });
+            disableWifiPref().thenAcceptAsync(v -> {
+                try {
+                    AccountImporter.onActivityResult(requestCode, resultCode, data, ImportAccountActivity.this, new AccountImporter.IAccountAccessGranted() {
+                        @Override
+                        public void accountAccessGranted(SingleSignOnAccount account) {
+                            runOnUiThread(() -> {
+                                binding.status.setText(null);
+                                binding.status.setVisibility(View.GONE);
+                                binding.progressCircular.setVisibility(View.VISIBLE);
+                                binding.progressText.setVisibility(View.VISIBLE);
+                                binding.progressCircular.setIndeterminate(true);
+                                binding.progressText.setText(R.string.progress_import_indeterminate);
+                            });
 
-                        SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
-                        final var syncManager = new SyncManager(ImportAccountActivity.this);
-                        final var accountToCreate = new Account(account.name, account.userId, account.url);
-                        syncManager.createAccount(accountToCreate, new IResponseCallback<>() {
-                            @Override
-                            public void onResponse(Account createdAccount) {
-                                // Remember last account - THIS HAS TO BE DONE SYNCHRONOUSLY
-                                DeckLog.log("--- Write: shared_preference_last_account | ", createdAccount.getId());
-                                sharedPreferences
-                                        .edit()
-                                        .putLong(sharedPreferenceLastAccount, createdAccount.getId())
-                                        .commit();
+                            final var accountToCreate = new Account(account.name, account.userId, account.url);
+                            importAccountViewModel.createAccount(accountToCreate, new IResponseCallback<>() {
+                                @Override
+                                public void onResponse(Account createdAccount) {
+                                    try {
+                                        final var syncManager = new SyncManager(ImportAccountActivity.this, createdAccount);
 
-                                syncManager.refreshCapabilities(new ResponseCallback<>(createdAccount) {
-                                    @Override
-                                    public void onResponse(Capabilities response) {
-                                        if (!response.isMaintenanceEnabled()) {
-                                            if (response.getDeckVersion().isSupported()) {
-                                                var progress$ = syncManager.synchronize(new ResponseCallback<>(account) {
-                                                    @Override
-                                                    public void onResponse(Boolean response) {
-                                                        restoreWifiPref();
-                                                        SyncWorker.update(getApplicationContext());
-                                                        setResult(RESULT_OK);
-                                                        finish();
-                                                    }
+                                        syncManager.refreshCapabilities(new ResponseCallback<>(createdAccount) {
+                                            @Override
+                                            public void onResponse(Capabilities response) {
+                                                if (!response.isMaintenanceEnabled()) {
+                                                    if (response.getDeckVersion().isSupported()) {
+                                                        final var callback = new IResponseCallback<>() {
+                                                            @Override
+                                                            public void onResponse(Object response) {
+                                                                var progress$ = syncManager.synchronize(new ResponseCallback<>(account) {
+                                                                    @Override
+                                                                    public void onResponse(Boolean response) {
+                                                                        restoreWifiPref();
+                                                                        SyncWorker.update(getApplicationContext());
+                                                                        importAccountViewModel.saveCurrentAccount(account);
+                                                                        setResult(RESULT_OK);
+                                                                        finish();
+                                                                    }
 
-                                                    @Override
-                                                    public void onError(Throwable throwable) {
-                                                        super.onError(throwable);
-                                                        setStatusText(throwable.getMessage());
-                                                        runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
-                                                        rollbackAccountCreation(syncManager, createdAccount.getId());
+                                                                    @Override
+                                                                    public void onError(Throwable throwable) {
+                                                                        super.onError(throwable);
+                                                                        setStatusText(throwable.getMessage());
+                                                                        runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                                                                        rollbackAccountCreation(createdAccount.getId());
+                                                                    }
+                                                                });
+
+                                                                runOnUiThread(() -> progress$.observe(ImportAccountActivity.this, (progress) -> {
+                                                                    DeckLog.log("New progress value", progress.first, progress.second);
+                                                                    if (progress.first > 0) {
+                                                                        binding.progressCircular.setIndeterminate(false);
+                                                                    }
+                                                                    if (progress.first < progress.second) {
+                                                                        binding.progressText.setText(getString(R.string.progress_import, progress.first + 1, progress.second));
+                                                                    }
+                                                                    binding.progressCircular.setProgress(progress.first);
+                                                                    binding.progressCircular.setMax(progress.second);
+                                                                }));
+                                                            }
+                                                        };
+
+                                                        if (response.getDeckVersion().firstCallHasDifferentResponseStructure()) {
+                                                            syncManager.fetchBoardsFromServer(new ResponseCallback<>(account) {
+                                                                @Override
+                                                                public void onResponse(ParsedResponse<List<FullBoard>> response) {
+                                                                    callback.onResponse(createdAccount);
+                                                                }
+
+                                                                @SuppressLint("MissingSuperCall")
+                                                                @Override
+                                                                public void onError(Throwable throwable) {
+                                                                    // We proceed with the import anyway. It's just important that one request has been done.
+                                                                    callback.onResponse(createdAccount);
+                                                                }
+                                                            });
+                                                        } else {
+                                                            callback.onResponse(createdAccount);
+                                                        }
+                                                    } else {
+                                                        setStatusText(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()));
+                                                        runOnUiThread(() -> {
+                                                            binding.updateDeckButton.setOnClickListener((v) -> startActivity(new Intent(Intent.ACTION_VIEW)
+                                                                    .setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck))));
+                                                            binding.updateDeckButton.setVisibility(View.VISIBLE);
+                                                        });
+                                                        rollbackAccountCreation(createdAccount.getId());
                                                     }
-                                                });
-                                                runOnUiThread(() -> progress$.observe(ImportAccountActivity.this, (progress) -> {
-                                                    DeckLog.log("New progress value", progress.first, progress.second);
-                                                    if (progress.first > 0) {
-                                                        binding.progressCircular.setIndeterminate(false);
-                                                    }
-                                                    if (progress.first < progress.second) {
-                                                        binding.progressText.setText(getString(R.string.progress_import, progress.first + 1, progress.second));
-                                                    }
-                                                    binding.progressCircular.setProgress(progress.first);
-                                                    binding.progressCircular.setMax(progress.second);
-                                                }));
-                                            } else {
-                                                setStatusText(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()));
-                                                runOnUiThread(() -> {
-                                                    binding.updateDeckButton.setOnClickListener((v) -> startActivity(new Intent(Intent.ACTION_VIEW)
-                                                            .setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck))));
-                                                    binding.updateDeckButton.setVisibility(View.VISIBLE);
-                                                });
-                                                rollbackAccountCreation(syncManager, createdAccount.getId());
+                                                } else {
+                                                    setStatusText(R.string.maintenance_mode);
+                                                    rollbackAccountCreation(createdAccount.getId());
+                                                }
                                             }
-                                        } else {
-                                            setStatusText(R.string.maintenance_mode);
-                                            rollbackAccountCreation(syncManager, createdAccount.getId());
-                                        }
-                                    }
 
-                                    @Override
-                                    public void onError(Throwable throwable) {
-                                        super.onError(throwable);
-                                        if (throwable instanceof OfflineException) {
-                                            setStatusText(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account);
-                                        } else {
-                                            setStatusText(throwable.getMessage());
-                                            runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
-                                        }
-                                        rollbackAccountCreation(syncManager, createdAccount.getId());
+                                            @Override
+                                            public void onError(Throwable throwable) {
+                                                super.onError(throwable);
+                                                if (throwable instanceof OfflineException) {
+                                                    setStatusText(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account);
+                                                } else {
+                                                    setStatusText(throwable.getMessage());
+                                                    runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                                                }
+                                                rollbackAccountCreation(createdAccount.getId());
+                                            }
+                                        });
+                                    } catch (NextcloudFilesAppAccountNotFoundException e) {
+                                        setStatusText(e.getMessage());
+                                        runOnUiThread(() -> ExceptionDialogFragment.newInstance(e, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                                        rollbackAccountCreation(createdAccount.getId());
                                     }
-                                });
-                            }
-
-                            @Override
-                            public void onError(Throwable error) {
-                                IResponseCallback.super.onError(error);
-                                if (error instanceof SQLiteConstraintException) {
-                                    DeckLog.error("Account has already been added, this should not be the case");
                                 }
-                                setStatusText(error.getMessage());
-                                runOnUiThread(() -> ExceptionDialogFragment.newInstance(error, accountToCreate).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
-                                restoreWifiPref();
-                            }
-                        });
-                    }
-                });
-            } catch (AccountImportCancelledException e) {
-                runOnUiThread(() -> binding.addButton.setEnabled(true));
-                restoreWifiPref();
-                DeckLog.info("Account import has been canceled.");
-            }
+
+                                @Override
+                                public void onError(Throwable error) {
+                                    IResponseCallback.super.onError(error);
+                                    if (error instanceof SQLiteConstraintException) {
+                                        DeckLog.warn("Account already added");
+                                        runOnUiThread(() -> setStatusText(getString(R.string.account_already_added, accountToCreate.getName())));
+                                    } else {
+                                        runOnUiThread(() -> {
+                                            setStatusText(error.getMessage());
+                                            ExceptionDialogFragment.newInstance(error, accountToCreate).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                        });
+                                    }
+                                    runOnUiThread(() -> binding.addButton.setEnabled(true));
+                                    restoreWifiPref();
+                                }
+                            });
+                        }
+                    });
+                } catch (AccountImportCancelledException e) {
+                    runOnUiThread(() -> binding.addButton.setEnabled(true));
+                    restoreWifiPref();
+                    DeckLog.info("Account import has been canceled.");
+                }
+            }, ContextCompat.getMainExecutor(this));
         }
     }
 
@@ -221,14 +260,9 @@ public class ImportAccountActivity extends AppCompatActivity {
         AccountImporter.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
-    @SuppressLint("ApplySharedPref")
-    private void rollbackAccountCreation(@NonNull SyncManager syncManager, final long accountId) {
+    private void rollbackAccountCreation(final long accountId) {
         DeckLog.log("Rolling back account creation for " + accountId);
-        syncManager.deleteAccount(accountId);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        DeckLog.log("--- Remove: shared_preference_last_account |", accountId);
-        editor.remove(sharedPreferenceLastAccount);
-        editor.commit(); // Has to be done synchronously
+        importAccountViewModel.deleteAccount(accountId);
         runOnUiThread(() -> binding.addButton.setEnabled(true));
         restoreWifiPref();
     }
@@ -248,12 +282,11 @@ public class ImportAccountActivity extends AppCompatActivity {
     }
 
     @SuppressLint("ApplySharedPref")
-    private void disableWifiPref() {
-        DeckLog.info("--- Temporarily disable sync on wifi only setting");
-        sharedPreferences
-                .edit()
-                .putBoolean(prefKeyWifiOnly, false)
-                .commit();
+    private CompletableFuture<Void> disableWifiPref() {
+        return CompletableFuture.runAsync(() -> {
+            DeckLog.info("--- Temporarily disable sync on wifi only setting");
+            sharedPreferences.edit().putBoolean(prefKeyWifiOnly, false).commit();
+        });
     }
 
     private void restoreWifiPref() {

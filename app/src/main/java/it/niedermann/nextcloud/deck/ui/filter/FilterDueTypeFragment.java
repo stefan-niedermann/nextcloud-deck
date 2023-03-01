@@ -28,7 +28,8 @@ public class FilterDueTypeFragment extends Fragment implements SelectionListener
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 
         binding.dueType.setItemAnimator(null);
-        binding.dueType.setAdapter(new FilterDueTypeAdapter(requireNonNull(filterViewModel.getFilterInformationDraft().getValue()).getDueType(), this));
+        filterViewModel.getCurrentBoardColor$().observe(getViewLifecycleOwner(),
+                color -> binding.dueType.setAdapter(new FilterDueTypeAdapter(requireNonNull(filterViewModel.getFilterInformationDraft().getValue()).getDueType(), this, color)));
 
         return binding.getRoot();
     }

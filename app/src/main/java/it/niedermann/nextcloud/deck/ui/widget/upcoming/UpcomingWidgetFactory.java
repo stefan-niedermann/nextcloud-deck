@@ -16,7 +16,7 @@ import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.persistence.BaseRepository;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterSectionItem;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsUtil;
@@ -24,7 +24,7 @@ import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsUtil;
 public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private final Context context;
     private final int appWidgetId;
-    private final SyncManager syncManager;
+    private final BaseRepository baseRepository;
     private final int headerHorizontalPadding;
     private final int headerVerticalPaddingNth;
 
@@ -34,7 +34,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     UpcomingWidgetFactory(@NonNull Context context, Intent intent) {
         this.context = context;
         this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-        this.syncManager = new SyncManager(context);
+        this.baseRepository = new BaseRepository(context);
         this.headerHorizontalPadding = DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1hx);
         this.headerVerticalPaddingNth = DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_2x);
     }
@@ -47,7 +47,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
     @Override
     public void onDataSetChanged() {
         try {
-            final List<UpcomingCardsAdapterItem> response = syncManager.getCardsForUpcomingCardsForWidget();
+            final List<UpcomingCardsAdapterItem> response = baseRepository.getCardsForUpcomingCardsForWidget();
             DeckLog.verbose(UpcomingWidgetFactory.class.getSimpleName(), "with id", appWidgetId, "fetched", response.size(), "cards from the database.");
             data.clear();
             data.addAll(UpcomingCardsUtil.addDueDateSeparators(context, response));

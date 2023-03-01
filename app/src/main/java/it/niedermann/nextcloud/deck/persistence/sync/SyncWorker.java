@@ -4,19 +4,29 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.WorkerThread;
 import androidx.preference.PreferenceManager;
 import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.ListenableWorker;
 import androidx.work.NetworkType;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
+
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.persistence.BaseRepository;
 
 public class SyncWorker extends Worker {
 
@@ -25,25 +35,62 @@ public class SyncWorker extends Worker {
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build();
 
+    private final BaseRepository baseRepository;
+    private final SharedPreferences.Editor editor;
+
     public SyncWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
+        this.baseRepository = new BaseRepository(context);
+        this.editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
     }
 
     @NonNull
     @Override
     public Result doWork() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
-        SyncManager syncManager = new SyncManager(getApplicationContext(), null);
-        if (syncManager.hasInternetConnection()) {
-            DeckLog.info("Starting background synchronization");
-            sharedPreferencesEditor.putLong(getApplicationContext().getString(R.string.shared_preference_last_background_sync), System.currentTimeMillis());
-            sharedPreferencesEditor.apply();
-            boolean success = syncManager.synchronizeEverything();
-            DeckLog.info("Finishing background synchronization. Success: ", success);
-            return success ? Result.failure() : Result.success();
+        DeckLog.info("Starting background synchronization");
+        editor.putLong(getApplicationContext().getString(R.string.shared_preference_last_background_sync), System.currentTimeMillis());
+        editor.apply();
+
+        try {
+            return synchronizeEverything(getApplicationContext(), baseRepository.readAccountsDirectly());
+        } catch (NextcloudFilesAppAccountNotFoundException e) {
+            return Result.failure();
+        } finally {
+            DeckLog.info("Finishing background synchronization.");
         }
-        return Result.success();
+    }
+
+    @WorkerThread
+    private ListenableWorker.Result synchronizeEverything(@NonNull Context context, @NonNull List<Account> accounts) throws NextcloudFilesAppAccountNotFoundException {
+        if (accounts.isEmpty()) {
+            return Result.success();
+        }
+        final var success = new AtomicBoolean(true);
+        final var latch = new CountDownLatch(accounts.size());
+
+        try {
+            for (Account account : accounts) {
+                new SyncManager(context, account).synchronize(new ResponseCallback<>(account) {
+                    @Override
+                    public void onResponse(Boolean response) {
+                        success.set(success.get() && Boolean.TRUE.equals(response));
+                        latch.countDown();
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        success.set(false);
+                        super.onError(throwable);
+                        latch.countDown();
+                    }
+                });
+            }
+            latch.await();
+            return success.get() ? Result.success() : Result.failure();
+        } catch (InterruptedException e) {
+            DeckLog.logError(e);
+            return Result.failure();
+        }
     }
 
     public static void update(@NonNull Context context) {

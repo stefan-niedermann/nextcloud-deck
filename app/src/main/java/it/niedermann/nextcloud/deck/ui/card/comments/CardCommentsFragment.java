@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui.card.comments;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -18,6 +19,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.time.Instant;
 
 import it.niedermann.android.util.DimensionUtil;
@@ -25,6 +29,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabCommentsBinding;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -32,30 +37,46 @@ import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
-import it.niedermann.nextcloud.deck.util.ViewUtil;
+import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
 
 public class CardCommentsFragment extends Fragment implements CommentEditedListener, CommentDeletedListener, CommentSelectAsReplyListener {
 
+    private static final String KEY_ACCOUNT = "account";
     private FragmentCardEditTabCommentsBinding binding;
-    private EditCardViewModel mainViewModel;
+    private EditCardViewModel editCardViewModel;
     private CommentsViewModel commentsViewModel;
     private CardCommentsAdapter adapter;
 
-    public static Fragment newInstance() {
-        return new CardCommentsFragment();
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        final var args = getArguments();
+
+        if (args == null || !args.containsKey(KEY_ACCOUNT)) {
+            throw new IllegalArgumentException(KEY_ACCOUNT + " must be provided.");
+        }
+
+        final var account = (Account) args.getSerializable(KEY_ACCOUNT);
+
+        if (account == null) {
+            throw new IllegalArgumentException(KEY_ACCOUNT + " must not be null.");
+        }
+
+        editCardViewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
+        commentsViewModel = new ViewModelProvider(this, new SyncViewModel.Factory(requireActivity().getApplication(), account)).get(CommentsViewModel.class);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentCardEditTabCommentsBinding.inflate(inflater, container, false);
 
-        mainViewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
+        binding = FragmentCardEditTabCommentsBinding.inflate(inflater, container, false);
 
         // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
         // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
-        if (mainViewModel.getFullCard() == null) {
+        if (editCardViewModel.getFullCard() == null) {
             DeckLog.logError(new IllegalStateException("Cannot populate " + CardCommentsFragment.class.getSimpleName() + " because viewModel.getFullCard() is null"));
             if (requireActivity() instanceof EditActivity) {
                 Toast.makeText(getContext(), R.string.error_edit_activity_killed_by_android, Toast.LENGTH_LONG).show();
@@ -66,12 +87,16 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
             return binding.getRoot();
         }
 
-        commentsViewModel = new ViewModelProvider(this).get(CommentsViewModel.class);
 
-        adapter = new CardCommentsAdapter(requireContext(), mainViewModel.getAccount(), requireActivity().getMenuInflater(), this, this, getChildFragmentManager(), this);
+        adapter = new CardCommentsAdapter(requireContext(), editCardViewModel.getAccount(), requireActivity().getMenuInflater(), this, this, getChildFragmentManager(), this);
         binding.comments.setAdapter(adapter);
         binding.replyCommentCancelButton.setOnClickListener((v) -> commentsViewModel.setReplyToComment(null));
-        ViewUtil.addAvatar(binding.avatar, mainViewModel.getAccount().getUrl(), mainViewModel.getAccount().getUserName(), DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
+        Glide.with(binding.avatar.getContext())
+                .load(editCardViewModel.getAccount().getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details)))
+                .placeholder(R.drawable.ic_person_grey600_24dp)
+                .error(R.drawable.ic_person_grey600_24dp)
+                .apply(RequestOptions.circleCropTransform())
+                .into(binding.avatar);
 
         commentsViewModel.getReplyToComment().observe(getViewLifecycleOwner(), (comment) -> {
             if (comment == null) {
@@ -79,10 +104,9 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
             } else {
                 binding.replyCommentText.setMarkdownString(comment.getComment().getMessage());
                 binding.replyComment.setVisibility(VISIBLE);
-//                setupMentions(mainViewModel.getAccount(), comment.getComment().getMentions(), binding.replyCommentText);
             }
         });
-        commentsViewModel.getFullCommentsForLocalCardId(mainViewModel.getFullCard().getLocalId()).observe(getViewLifecycleOwner(),
+        commentsViewModel.getFullCommentsForLocalCardId(editCardViewModel.getFullCard().getLocalId()).observe(getViewLifecycleOwner(),
                 (comments) -> {
                     if (comments != null && comments.size() > 0) {
                         binding.emptyContentView.setVisibility(GONE);
@@ -93,20 +117,20 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
                         binding.comments.setVisibility(GONE);
                     }
                 });
-        if (mainViewModel.canEdit()) {
+        if (editCardViewModel.canEdit()) {
             binding.addCommentLayout.setVisibility(VISIBLE);
             binding.fab.setOnClickListener(v -> {
                 // Do not handle empty comments (https://github.com/stefan-niedermann/nextcloud-deck/issues/440)
                 if (!TextUtils.isEmpty(binding.message.getText().toString().trim())) {
                     binding.emptyContentView.setVisibility(GONE);
                     binding.comments.setVisibility(VISIBLE);
-                    final DeckComment comment = new DeckComment(binding.message.getText().toString().trim(), mainViewModel.getAccount().getUserName(), Instant.now());
+                    final DeckComment comment = new DeckComment(binding.message.getText().toString().trim(), editCardViewModel.getAccount().getUserName(), Instant.now());
                     final FullDeckComment parent = commentsViewModel.getReplyToComment().getValue();
                     if (parent != null) {
                         comment.setParentId(parent.getId());
                         commentsViewModel.setReplyToComment(null);
                     }
-                    commentsViewModel.addCommentToCard(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), comment);
+                    commentsViewModel.addCommentToCard(editCardViewModel.getAccount().getId(), editCardViewModel.getFullCard().getLocalId(), comment);
                 }
                 binding.message.setText(null);
             });
@@ -116,7 +140,7 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
                 }
                 return true;
             });
-            binding.message.addTextChangedListener(new CardCommentsMentionProposer(getViewLifecycleOwner(), mainViewModel.getAccount(), mainViewModel.getBoardId(), binding.message, binding.mentionProposerWrapper, binding.mentionProposer));
+            binding.message.addTextChangedListener(new CardCommentsMentionProposer(getViewLifecycleOwner(), editCardViewModel.getAccount(), editCardViewModel.getBoardId(), binding.message, binding.mentionProposerWrapper, binding.mentionProposer));
         } else {
             binding.addCommentLayout.setVisibility(GONE);
         }
@@ -126,11 +150,11 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (mainViewModel.canEdit()) {
+        if (editCardViewModel.canEdit()) {
             binding.message.requestFocus();
             requireActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
-        mainViewModel.getBoardColor().observe(getViewLifecycleOwner(), this::applyTheme);
+        editCardViewModel.getBoardColor().observe(getViewLifecycleOwner(), this::applyTheme);
     }
 
     @Override
@@ -141,12 +165,12 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
 
     @Override
     public void onCommentEdited(Long id, String comment) {
-        commentsViewModel.updateComment(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), id, comment);
+        commentsViewModel.updateComment(editCardViewModel.getAccount().getId(), editCardViewModel.getFullCard().getLocalId(), id, comment);
     }
 
     @Override
     public void onCommentDeleted(Long localId) {
-        commentsViewModel.deleteComment(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), localId, new IResponseCallback<>() {
+        commentsViewModel.deleteComment(editCardViewModel.getAccount().getId(), editCardViewModel.getFullCard().getLocalId(), localId, new IResponseCallback<>() {
             @Override
             public void onResponse(Void response) {
                 DeckLog.info("Successfully deleted comment with localId", localId);
@@ -154,9 +178,9 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
 
             @Override
             public void onError(Throwable throwable) {
-                if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                if (SyncManager.isNoOnVoidError(throwable)) {
                     IResponseCallback.super.onError(throwable);
-                    requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                    requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, editCardViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                 }
             }
         });
@@ -172,5 +196,15 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
     @Override
     public void onSelectAsReply(FullDeckComment comment) {
         commentsViewModel.setReplyToComment(comment);
+    }
+
+    public static Fragment newInstance(@NonNull Account account) {
+        final var fragment = new CardCommentsFragment();
+
+        final var args = new Bundle();
+        args.putSerializable(KEY_ACCOUNT, account);
+        fragment.setArguments(args);
+
+        return fragment;
     }
 }

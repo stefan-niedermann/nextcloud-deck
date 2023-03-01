@@ -18,13 +18,13 @@ import java.util.NoSuchElementException;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.persistence.BaseRepository;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 
 public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private final Context context;
     private final int appWidgetId;
-    private final SyncManager syncManager;
+    private final BaseRepository baseRepository;
 
     @NonNull
     private final List<FilterWidgetCard> data = new ArrayList<>();
@@ -33,7 +33,7 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
         this.context = context;
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
-        this.syncManager = new SyncManager(context);
+        this.baseRepository = new BaseRepository(context);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
     @Override
     public void onDataSetChanged() {
         try {
-            final List<FilterWidgetCard> response = syncManager.getCardsForFilterWidget(appWidgetId);
+            final List<FilterWidgetCard> response = baseRepository.getCardsForFilterWidget(appWidgetId);
             DeckLog.verbose(StackWidget.class.getSimpleName(), "with id", appWidgetId, "fetched", response.size(), "cards from the database.");
             data.clear();
             Collections.sort(response, Comparator.comparingLong(value -> value.getCard().getCard().getOrder()));
@@ -78,7 +78,7 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
         widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_stack_entry);
         widget_entry.setTextViewText(R.id.widget_entry_content_tv, filterWidgetCard.getCard().getCard().getTitle());
 
-        final Intent intent = EditActivity.createEditCardIntent(context,  syncManager.readAccountDirectly(filterWidgetCard.getCard().getAccountId()), filterWidgetCard.getStack().getBoardId(), filterWidgetCard.getCard().getLocalId());
+        final Intent intent = EditActivity.createEditCardIntent(context,  baseRepository.readAccountDirectly(filterWidgetCard.getCard().getAccountId()), filterWidgetCard.getStack().getBoardId(), filterWidgetCard.getCard().getLocalId());
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         widget_entry.setOnClickFillInIntent(R.id.widget_stack_entry, intent);
 

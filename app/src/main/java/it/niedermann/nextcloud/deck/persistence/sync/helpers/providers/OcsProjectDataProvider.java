@@ -88,7 +88,7 @@ public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject>
                 resource.setProjectId(entity.getLocalId());
                 resource.setLocalId(dataBaseAdapter.createProjectResourceDirectly(accountId, resource));
                 if ("deck-card".equals(resource.getType())) {
-                    dataBaseAdapter.assignCardToProjectIfMissng(accountId, entity.getLocalId(), resource.getId());
+                    dataBaseAdapter.assignCardToProjectIfMissing(accountId, entity.getLocalId(), resource.getId());
                 }
             }
         }

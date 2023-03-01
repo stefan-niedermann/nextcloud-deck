@@ -75,7 +75,7 @@
     <style name="tabStyle" parent="Widget.Material3.TabLayout">
         <item name="backgroundColor">@android:color/transparent</item>
         <item name="itemBackground">@android:color/transparent</item>
-        <item name="tabIndicatorColor">@color/defaultBrand</item>
+        <item name="tabIndicatorColor">?attr/colorAccent</item>
         <item name="tabTextColor">?attr/colorAccent</item>
         <item name="tabIconTint">?attr/colorAccent</item>
     </style>
@@ -105,7 +105,7 @@
 
     <style name="NavigationView">
         <!-- https://github.com/stefan-niedermann/nextcloud-deck/issues/444 -->
-        <item name="android:ellipsize">end</item>
+        <item name="android:ellipsize">middle</item>
         <item name="android:listDivider">@null</item>
         <item name="android:colorControlHighlight">@android:color/transparent</item>
     </style>

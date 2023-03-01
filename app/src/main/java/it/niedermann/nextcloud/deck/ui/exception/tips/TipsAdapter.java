@@ -18,6 +18,7 @@ import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nextcloud.android.sso.exceptions.NextcloudApiNotRespondingException;
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotSupportedException;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.exceptions.TokenMismatchException;
@@ -72,6 +73,11 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
 
     public void setThrowable(@NonNull Context context, @Nullable Account account, @NonNull Throwable throwable) {
         if (throwable instanceof TokenMismatchException) {
+            add(R.string.error_dialog_tip_token_mismatch_retry);
+            add(R.string.error_dialog_tip_clear_storage_might_help);
+            add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
+        } else if (throwable instanceof NextcloudFilesAppAccountNotFoundException) {
+            // TODO we can give better hints here...
             add(R.string.error_dialog_tip_token_mismatch_retry);
             add(R.string.error_dialog_tip_clear_storage_might_help);
             add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);

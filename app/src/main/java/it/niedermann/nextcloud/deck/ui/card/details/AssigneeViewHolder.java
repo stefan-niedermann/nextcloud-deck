@@ -5,14 +5,17 @@ import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
+import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAssigneeBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
-import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class AssigneeViewHolder extends RecyclerView.ViewHolder {
-    private ItemAssigneeBinding binding;
+    private final ItemAssigneeBinding binding;
 
     @SuppressWarnings("WeakerAccess")
     public AssigneeViewHolder(ItemAssigneeBinding binding) {
@@ -21,7 +24,12 @@ public class AssigneeViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(@NonNull Account account, @NonNull User user, @Nullable Consumer<User> onClickListener) {
-        ViewUtil.addAvatar(binding.avatar, account.getUrl(), user.getUid(), R.drawable.ic_person_grey600_24dp);
+        Glide.with(binding.avatar.getContext())
+                .load(account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.avatar_size), user.getUid()))
+                .placeholder(R.drawable.ic_person_grey600_24dp)
+                .error(R.drawable.ic_person_grey600_24dp)
+                .apply(RequestOptions.circleCropTransform())
+                .into(binding.avatar);
         if (onClickListener != null) {
             itemView.setOnClickListener((v) -> onClickListener.accept(user));
         }

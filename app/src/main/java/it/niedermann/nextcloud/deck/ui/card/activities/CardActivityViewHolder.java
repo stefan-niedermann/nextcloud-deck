@@ -13,8 +13,8 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemActivityBinding;
 import it.niedermann.nextcloud.deck.model.enums.ActivityType;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
+import it.niedermann.nextcloud.deck.ui.theme.DeckViewThemeUtils;
 import it.niedermann.nextcloud.deck.util.DateUtil;
-import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class CardActivityViewHolder extends RecyclerView.ViewHolder {
     public ItemActivityBinding binding;
@@ -75,13 +75,13 @@ public class CardActivityViewHolder extends RecyclerView.ViewHolder {
     private static void setImageColor(@NonNull Context context, @NonNull ImageView imageView, @NonNull ActivityType type) {
         switch (type) {
             case ADD:
-                ViewUtil.setImageColor(context, imageView, R.color.activity_create);
+                DeckViewThemeUtils.setImageColor(context, imageView, R.color.activity_create);
                 break;
             case DELETE:
-                ViewUtil.setImageColor(context, imageView, R.color.activity_delete);
+                DeckViewThemeUtils.setImageColor(context, imageView, R.color.activity_delete);
                 break;
             default:
-                ViewUtil.setImageColor(context, imageView, R.color.grey600);
+                DeckViewThemeUtils.setImageColor(context, imageView, R.color.grey600);
                 break;
         }
     }

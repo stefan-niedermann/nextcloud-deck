@@ -15,10 +15,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?android:actionBarSize"
+            android:layout_height="wrap_content"
             app:title="@string/add_card" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -50,25 +50,24 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/fragment_container_wrapper"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_above="@+id/buttonBar"
         android:layout_below="@id/appBarLayout"
-        android:padding="@dimen/spacer_2x"
+        android:paddingHorizontal="@dimen/spacer_2x"
         app:layout_constraintBottom_toTopOf="@id/buttonBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/inputWrapper"
-        app:layout_constraintVertical_weight="1"
-        tools:background="@color/bg_highlighted">
+        app:layout_constraintVertical_weight="1">
 
-        <FrameLayout
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:id="@+id/buttonBar"
@@ -95,11 +94,11 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/submit"
             style="@style/Widget.Material3.Button"
-            android:enabled="false"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacer_1x"
             android:layout_weight=".5"
+            android:enabled="false"
             android:text="@string/simple_add"
             app:backgroundTint="@color/defaultBrand" />
     </LinearLayout>

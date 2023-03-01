@@ -5,10 +5,14 @@ import android.view.MenuInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.TooltipCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -23,9 +27,8 @@ import it.niedermann.nextcloud.deck.databinding.ItemCommentBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.util.DateUtil;
-import it.niedermann.nextcloud.deck.util.ViewUtil;
-import scheme.Scheme;
 
 public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
     private final ItemCommentBinding binding;
@@ -38,8 +41,14 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
         this.binding.message.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
-    public void bind(@NonNull FullDeckComment comment, @NonNull Account account, @NonNull Scheme scheme, @NonNull MenuInflater inflater, @NonNull CommentDeletedListener deletedListener, @NonNull CommentSelectAsReplyListener selectAsReplyListener, @NonNull FragmentManager fragmentManager, @NonNull Consumer<CharSequence> editListener) {
-        ViewUtil.addAvatar(binding.avatar, account.getUrl(), comment.getComment().getActorId(), DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
+    public void bind(@NonNull FullDeckComment comment, @NonNull Account account, @Nullable ThemeUtils utils, @NonNull MenuInflater inflater, @NonNull CommentDeletedListener deletedListener, @NonNull CommentSelectAsReplyListener selectAsReplyListener, @NonNull FragmentManager fragmentManager, @NonNull Consumer<CharSequence> editListener) {
+        Glide.with(binding.avatar.getContext())
+                .load(account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.avatar_size), comment.getComment().getActorId()))
+                .placeholder(R.drawable.ic_person_grey600_24dp)
+                .error(R.drawable.ic_person_grey600_24dp)
+                .apply(RequestOptions.circleCropTransform())
+                .into(binding.avatar);
+
         final var mentions = new HashMap<String, String>(comment.getComment().getMentions().size());
         for (final var mention : comment.getComment().getMentions()) {
             mentions.put(mention.getMentionId(), mention.getMentionDisplayName());
@@ -70,7 +79,7 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
                     return true;
                 });
                 menu.findItem(android.R.id.edit).setOnMenuItemClickListener(item -> {
-                    CardCommentsEditDialogFragment.newInstance(comment.getLocalId(), comment.getComment().getMessage()).show(fragmentManager, CardCommentsAdapter.class.getCanonicalName());
+                    CardCommentsEditDialogFragment.newInstance(comment.getLocalId(), comment.getComment().getMessage()).show(fragmentManager, CardCommentsEditDialogFragment.class.getCanonicalName());
                     return true;
                 });
             } else {
@@ -80,7 +89,9 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
         });
 
         TooltipCompat.setTooltipText(binding.creationDateTime, comment.getComment().getCreationDateTime().atZone(ZoneId.systemDefault()).format(dateFormatter));
-        DrawableCompat.setTint(binding.notSyncedYet.getDrawable(), scheme.getOnPrimaryContainer());
+        if (utils != null) {
+            utils.platform.colorImageView(binding.notSyncedYet, ColorRole.PRIMARY);
+        }
         binding.notSyncedYet.setVisibility(DBStatus.LOCAL_EDITED.equals(comment.getStatusEnum()) ? View.VISIBLE : View.GONE);
 
         if (comment.getParent() == null) {
@@ -88,7 +99,9 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
         } else {
             final int commentParentMaxLines = itemView.getContext().getResources().getInteger(R.integer.comment_parent_max_lines);
             binding.parentContainer.setVisibility(View.VISIBLE);
-            binding.parentBorder.setBackgroundColor(scheme.getOnPrimaryContainer());
+            if (utils != null) {
+                utils.platform.colorViewBackground(binding.parentBorder);
+            }
             binding.parent.setText(comment.getParent().getMessage());
             binding.parent.setOnClickListener((v) -> {
                 final boolean previouslyCollapsed = binding.parent.getMaxLines() == commentParentMaxLines;

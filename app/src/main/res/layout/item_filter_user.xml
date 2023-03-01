@@ -23,10 +23,11 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/selected_check"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="end|bottom"
-            app:srcCompat="@drawable/selected" />
+            app:srcCompat="@drawable/selected_check" />
     </FrameLayout>
 
     <TextView

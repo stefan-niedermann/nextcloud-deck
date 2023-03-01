@@ -12,21 +12,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.databinding.ItemArchivedBoardBinding;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 
 public class ArchivedBoardsAdapter extends RecyclerView.Adapter<ArchivedBoardViewHolder> {
 
-    private final boolean isSupportedVersion;
+    @NonNull
+    private final Account account;
     @NonNull
     private final Consumer<Board> onDearchiveListener;
     @NonNull
     private final FragmentManager fragmentManager;
     @NonNull
-    private List<Board> boards = new ArrayList<>();
+    private final List<Board> boards = new ArrayList<>();
 
     @SuppressWarnings("WeakerAccess")
-    public ArchivedBoardsAdapter(boolean isSupportedVersion, @NonNull FragmentManager fragmentManager, @NonNull Consumer<Board> onDearchiveListener) {
-        this.isSupportedVersion = isSupportedVersion;
+    public ArchivedBoardsAdapter(@NonNull Account account, @NonNull FragmentManager fragmentManager, @NonNull Consumer<Board> onDearchiveListener) {
+        this.account = account;
         this.fragmentManager = fragmentManager;
         this.onDearchiveListener = onDearchiveListener;
         setHasStableIds(true);
@@ -45,7 +47,7 @@ public class ArchivedBoardsAdapter extends RecyclerView.Adapter<ArchivedBoardVie
 
     @Override
     public void onBindViewHolder(@NonNull ArchivedBoardViewHolder holder, int position) {
-        holder.bind(isSupportedVersion, boards.get(position), fragmentManager, onDearchiveListener);
+        holder.bind(account, boards.get(position), fragmentManager, onDearchiveListener);
     }
 
     @Override

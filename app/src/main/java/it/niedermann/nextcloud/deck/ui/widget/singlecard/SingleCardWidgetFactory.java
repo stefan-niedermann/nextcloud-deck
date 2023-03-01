@@ -15,19 +15,19 @@ import java.util.NoSuchElementException;
 import it.niedermann.android.markdown.MarkdownUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullSingleCardWidgetModel;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.persistence.BaseRepository;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 
 public class SingleCardWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private final Context context;
     private final int appWidgetId;
-    private final SyncManager syncManager;
+    private final BaseRepository baseRepository;
     private FullSingleCardWidgetModel model;
 
     public SingleCardWidgetFactory(@NonNull Context context, @NonNull Intent intent) {
         this.context = context;
         this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-        this.syncManager = new SyncManager(context);
+        this.baseRepository = new BaseRepository(context);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class SingleCardWidgetFactory implements RemoteViewsService.RemoteViewsFa
     @Override
     public void onDataSetChanged() {
         try {
-            this.model = syncManager.getSingleCardWidgetModelDirectly(appWidgetId);
+            this.model = baseRepository.getSingleCardWidgetModelDirectly(appWidgetId);
         } catch (NoSuchElementException e) {
             this.model = null;
         }

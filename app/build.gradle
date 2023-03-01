@@ -6,7 +6,7 @@ android {
     buildToolsVersion "31.0.0"
     defaultConfig {
         applicationId "it.niedermann.nextcloud.deck"
-        minSdkVersion 23
+        minSdkVersion 24
         targetSdkVersion 33
         versionCode 1021008
         versionName "1.21.8"
@@ -71,6 +71,7 @@ dependencies {
     implementation project(path: ':cross-tab-drag-and-drop')
     // TabLayoutHelper
     implementation project(path: ':tab-layout-helper')
+    implementation project(path: ':reactive-livedata')
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.2'
 

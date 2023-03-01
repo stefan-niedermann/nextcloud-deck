@@ -3,16 +3,10 @@ package it.niedermann.nextcloud.deck.api;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
-import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.api.NextcloudAPI;
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
-import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import retrofit2.NextcloudRetrofitApiBuilder;
 
 /**
@@ -27,33 +21,18 @@ public class ApiProvider {
     private NextcloudServerAPI nextcloudAPI;
     @NonNull
     private final Context context;
-    @Nullable
-    private final String ssoAccountName;
-    private SingleSignOnAccount ssoAccount;
+    private final SingleSignOnAccount ssoAccount;
 
-    public ApiProvider(@NonNull Context context, @Nullable String ssoAccountName) {
+    public ApiProvider(@NonNull Context context, @NonNull SingleSignOnAccount ssoAccount) {
         this.context = context;
-        this.ssoAccountName = ssoAccountName;
-        setAccount();
+        this.ssoAccount = ssoAccount;
     }
 
     public synchronized void initSsoApi(@NonNull final NextcloudAPI.ApiConnectedListener callback) {
-        if(this.deckAPI == null) {
+        if (this.deckAPI == null) {
             final NextcloudAPI nextcloudAPI = new NextcloudAPI(context, ssoAccount, GsonConfig.getGson(), callback);
             this.deckAPI = new NextcloudRetrofitApiBuilder(nextcloudAPI, DECK_API_ENDPOINT).create(DeckAPI.class);
             this.nextcloudAPI = new NextcloudRetrofitApiBuilder(nextcloudAPI, NC_API_ENDPOINT).create(NextcloudServerAPI.class);
-        }
-    }
-
-    private void setAccount() {
-        try {
-            if (ssoAccountName == null) {
-                this.ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
-            } else {
-                this.ssoAccount = AccountImporter.getSingleSignOnAccount(context, ssoAccountName);
-            }
-        } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
-            DeckLog.logError(e);
         }
     }
 
@@ -65,18 +44,4 @@ public class ApiProvider {
         return nextcloudAPI;
     }
 
-    public String getServerUrl(){
-        if (ssoAccount == null) {
-            setAccount();
-        }
-        return ssoAccount.url;
-    }
-
-    public String getApiPath() {
-        return DECK_API_ENDPOINT;
-    }
-
-    public String getApiUrl() {
-        return getServerUrl() + getApiPath();
-    }
 }

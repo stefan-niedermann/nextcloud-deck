@@ -1,9 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.theme;
 
-import static it.niedermann.nextcloud.deck.ui.theme.ThemeUtils.readBrandMainColor;
-
-import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
+import it.niedermann.nextcloud.deck.persistence.BaseRepository;
 
 public abstract class ThemedDialogFragment extends DialogFragment implements Themed {
 
@@ -11,9 +11,11 @@ public abstract class ThemedDialogFragment extends DialogFragment implements The
     public void onStart() {
         super.onStart();
 
-        @Nullable final var context = getContext();
-        if (context != null) {
-            applyTheme(readBrandMainColor(context));
-        }
+        final var baseRepository = new BaseRepository(requireContext());
+
+        new ReactiveLiveData<>(baseRepository.getCurrentAccountId$())
+                .combineWith(baseRepository::getCurrentBoardId$)
+                .flatMap(ids -> baseRepository.getBoardColor$(ids.first, ids.second))
+                .observe(this, this::applyTheme);
     }
 }

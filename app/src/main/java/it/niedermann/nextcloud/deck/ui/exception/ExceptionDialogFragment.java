@@ -73,7 +73,7 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
                 .create();
     }
 
-    public static DialogFragment newInstance(Throwable throwable, @Nullable Account account) {
+    public static DialogFragment newInstance(@NonNull Throwable throwable, @Nullable Account account) {
         final var fragment = new ExceptionDialogFragment();
         final var args = new Bundle();
         args.putSerializable(KEY_THROWABLE, throwable);

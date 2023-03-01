@@ -2,7 +2,7 @@ package it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
+import static com.nextcloud.android.common.ui.util.PlatformThemeUtil.isDarkMode;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -39,14 +39,14 @@ public class PreviewDialog extends DialogFragment {
         final var context = requireContext();
 
         this.imageBuilder$ = this.viewModel.getImageBuilder();
-        this.imageBuilder$.observe(requireActivity(), builder -> {
+        this.imageBuilder$.observe(this, builder -> {
             if (builder == null) {
                 binding.avatar.setVisibility(GONE);
             } else {
                 final var circularProgressDrawable = new CircularProgressDrawable(context);
                 circularProgressDrawable.setStrokeWidth(5f);
                 circularProgressDrawable.setCenterRadius(30f);
-                circularProgressDrawable.setColorSchemeColors(isDarkTheme(context) ? Color.LTGRAY : Color.DKGRAY);
+                circularProgressDrawable.setColorSchemeColors(isDarkMode(context) ? Color.LTGRAY : Color.DKGRAY);
                 circularProgressDrawable.start();
                 binding.avatar.setVisibility(VISIBLE);
                 binding.avatar.post(() -> builder
@@ -55,7 +55,7 @@ public class PreviewDialog extends DialogFragment {
             }
         });
         this.title$ = this.viewModel.getTitle();
-        this.title$.observe(requireActivity(), title -> {
+        this.title$.observe(this, title -> {
             if (TextUtils.isEmpty(title)) {
                 binding.title.setVisibility(GONE);
             } else {

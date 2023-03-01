@@ -1,28 +1,31 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.Px;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemFilterUserBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
-import it.niedermann.nextcloud.deck.util.ViewUtil;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
 
 @SuppressWarnings("WeakerAccess")
 public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.UserViewHolder> {
-    @Px
-    final int avatarSize;
     @NonNull
     private final Account account;
     @Nullable
@@ -33,10 +36,11 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
     private final List<User> selectedUsers = new ArrayList<>();
     @Nullable
     private final SelectionListener<User> selectionListener;
+    @ColorInt
+    private final int color;
 
-    public FilterUserAdapter(@Px int avatarSize, @NonNull Account account, @NonNull List<User> users, @NonNull List<User> selectedUsers, boolean noAssignedUser, @Nullable SelectionListener<User> selectionListener) {
+    public FilterUserAdapter(@NonNull Account account, @NonNull Collection<User> users, @NonNull Collection<User> selectedUsers, boolean noAssignedUser, @Nullable SelectionListener<User> selectionListener, @ColorInt int color) {
         super();
-        this.avatarSize = avatarSize;
         this.account = account;
         this.users.add(NOT_ASSIGNED);
         this.users.addAll(users);
@@ -45,8 +49,8 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
         }
         this.selectedUsers.addAll(selectedUsers);
         this.selectionListener = selectionListener;
+        this.color = color;
         setHasStableIds(true);
-        notifyDataSetChanged();
     }
 
     @Override
@@ -75,8 +79,8 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
         return users.size();
     }
 
-    class UserViewHolder extends RecyclerView.ViewHolder {
-        private ItemFilterUserBinding binding;
+    class UserViewHolder extends RecyclerView.ViewHolder implements Themed {
+        private final ItemFilterUserBinding binding;
 
         UserViewHolder(@NonNull ItemFilterUserBinding binding) {
             super(binding.getRoot());
@@ -85,8 +89,14 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
 
         void bind(@NonNull final User user) {
             binding.title.setText(user.getDisplayname());
-            ViewUtil.addAvatar(binding.avatar, account.getUrl(), user.getUid(), avatarSize, R.drawable.ic_person_grey600_24dp);
+            Glide.with(binding.avatar.getContext())
+                    .load(account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.avatar_size), user.getUid()))
+                    .placeholder(R.drawable.ic_person_grey600_24dp)
+                    .error(R.drawable.ic_person_grey600_24dp)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(binding.avatar);
             itemView.setSelected(selectedUsers.contains(user));
+            applyTheme(color);
             bindClickListener(user);
         }
 
@@ -96,6 +106,7 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
                     .load(R.drawable.ic_baseline_block_24)
                     .into(binding.avatar);
             itemView.setSelected(selectedUsers.contains(NOT_ASSIGNED));
+            applyTheme(color);
             bindClickListener(NOT_ASSIGNED);
         }
 
@@ -115,6 +126,14 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
                     }
                 }
             });
+        }
+
+        @Override
+        public void applyTheme(int color) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                final var utils = ThemeUtils.of(color, itemView.getContext());
+                utils.deck.colorSelectedCheck(binding.selectedCheck.getContext(), binding.selectedCheck.getDrawable());
+            }
         }
     }
 }

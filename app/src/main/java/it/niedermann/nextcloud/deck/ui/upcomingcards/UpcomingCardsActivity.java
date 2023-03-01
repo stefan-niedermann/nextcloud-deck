@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
+
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityUpcomingCardsBinding;
@@ -41,8 +43,20 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
         binding.loadingSpinner.show();
 
         final var adapter = new UpcomingCardsAdapter(this, getSupportFragmentManager(),
-                viewModel::assignUser,
-                viewModel::unassignUser,
+                (a, c) -> {
+                    try {
+                        viewModel.assignUser(a, c);
+                    } catch (NextcloudFilesAppAccountNotFoundException e) {
+                        ExceptionDialogFragment.newInstance(e, a).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    }
+                },
+                (a, c) -> {
+                    try {
+                        viewModel.unassignUser(a, c);
+                    } catch (NextcloudFilesAppAccountNotFoundException e) {
+                        ExceptionDialogFragment.newInstance(e, a).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    }
+                },
                 (fullCard) -> viewModel.archiveCard(fullCard, new IResponseCallback<>() {
                     @Override
                     public void onResponse(FullCard response) {
@@ -63,7 +77,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
 
                     @Override
                     public void onError(Throwable throwable) {
-                        if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                        if (SyncManager.isNoOnVoidError(throwable)) {
                             IResponseCallback.super.onError(throwable);
                             runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                         }
@@ -107,7 +121,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
             @Override
             public void onError(Throwable throwable) {
                 IResponseCallback.super.onError(throwable);
-                if (!SyncManager.ignoreExceptionOnVoidError(throwable)) {
+                if (SyncManager.isNoOnVoidError(throwable)) {
                     ExceptionDialogFragment.newInstance(throwable, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 }
             }

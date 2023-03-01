@@ -13,11 +13,11 @@ import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
+import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 
 import org.jetbrains.annotations.Contract;
 
@@ -31,12 +31,12 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.ui.theme.DeckViewThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
-import it.niedermann.nextcloud.deck.util.ViewUtil;
 import it.niedermann.nextcloud.sso.glide.SingleSignOnUrl;
-import scheme.Scheme;
 
 public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
 
@@ -48,7 +48,7 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
      * Removes all {@link OnClickListener} and {@link OnLongClickListener}
      */
     @CallSuper
-    public void bind(@NonNull FullCard fullCard, @NonNull Account account, @Nullable Long boardRemoteId, boolean hasEditPermission, @MenuRes int optionsMenu, @NonNull CardOptionsItemSelectedListener optionsItemsSelectedListener, @NonNull String counterMaxValue, @NonNull Scheme scheme) {
+    public void bind(@NonNull FullCard fullCard, @NonNull Account account, @Nullable Long boardRemoteId, boolean hasEditPermission, @MenuRes int optionsMenu, @NonNull CardOptionsItemSelectedListener optionsItemsSelectedListener, @NonNull String counterMaxValue, @Nullable ThemeUtils utils) {
         final var context = itemView.getContext();
 
         bindCardClickListener(null);
@@ -57,7 +57,9 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
         getCardMenu().setVisibility(hasEditPermission ? View.VISIBLE : View.GONE);
         getCardTitle().setText(fullCard.getCard().getTitle().trim());
 
-        DrawableCompat.setTint(getNotSyncedYet().getDrawable(), scheme.getOnPrimaryContainer());
+        if (utils != null) {
+            utils.platform.colorImageView(getNotSyncedYet(), ColorRole.PRIMARY);
+        }
         // TODO should be discussed with UX
         // utils.material.themeCardView(getCard());
 
@@ -111,9 +113,8 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
     }
 
     private static void setupDueDate(@NonNull TextView cardDueDate, @NonNull Card card) {
-        final var context = cardDueDate.getContext();
-        cardDueDate.setText(DateUtil.getRelativeDateTimeString(context, card.getDueDate().toEpochMilli()));
-        ViewUtil.themeDueDate(context, cardDueDate, card.getDueDate().atZone(ZoneId.systemDefault()).toLocalDate());
+        cardDueDate.setText(DateUtil.getRelativeDateTimeString(cardDueDate.getContext(), card.getDueDate().toEpochMilli()));
+        DeckViewThemeUtils.themeDueDate(cardDueDate, card.getDueDate().atZone(ZoneId.systemDefault()).toLocalDate());
     }
 
     protected static void setupCoverImages(@NonNull Account account, @NonNull ViewGroup coverImagesHolder, @NonNull FullCard fullCard, int maxCoverImagesCount) {

@@ -52,8 +52,6 @@
     <string name="about_translators_title">Translators</string>
     <string name="about_translators_transifex">Nextcloud community on %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Testers</string>
-    <string name="about_testers" translatable="false">Julius, David</string>
     <string name="about_source_title">Source code</string>
     <string name="about_source">This project is hosted on GitHub: %1$s</string>
     <string name="about_issues_title">Issues</string>
@@ -84,7 +82,7 @@
 
     <string name="add_account">Add account</string>
     <string name="choose_account">Choose account</string>
-    <string name="add_card">Add new card</string>
+    <string name="add_card">Add card</string>
     <string name="activity">Activity</string>
     <string name="add_list">Add list</string>
     <string name="rename_list">Rename list</string>
@@ -123,7 +121,7 @@
     <string name="attachments">Attachments</string>
     <string name="no_cards">No cards yet</string>
     <string name="no_account">No account configured</string>
-    <string name="account_already_added">Account already added</string>
+    <string name="account_already_added">The account %1$s has already been added</string>
     <string name="account_is_getting_imported">Account is getting imported</string>
     <string name="not_synced_yet">Not synced yet</string>
     <string name="no_lists_yet">No lists yet</string>
@@ -179,6 +177,7 @@
     <string name="title_is_mandatory">Title is required</string>
     <string name="provide_at_least_a_title_or_description">Provide at least a title or description</string>
     <string name="welcome_text">Welcome to %1$s</string>
+    <string name="welcome_text_further_accounts">Add another account</string>
     <string name="maintenance_mode_explanation">The server %1$s is currently in maintenance mode. Please contact your administrator or try later again.</string>
     <string name="share_add_to_card">Add to card</string>
     <string name="share_success">Successfully added %1$s to %2$s</string>
@@ -333,7 +332,7 @@
     <string name="downloads">Downloads</string>
     <string name="files">Files</string>
     <string name="gallery">Gallery</string>
-    <string name="simple_attach">attach</string>
+    <string name="simple_attach">Attach</string>
     <string name="add_stack_widget">Add list widget</string>
     <string name="add_filter_widget">Add filter widget</string>
     <string name="simple_order">Order</string>

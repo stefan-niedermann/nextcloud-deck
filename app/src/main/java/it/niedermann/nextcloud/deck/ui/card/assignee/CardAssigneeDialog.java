@@ -1,11 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.card.assignee;
 
-import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
+import static com.nextcloud.android.common.ui.util.PlatformThemeUtil.isDarkMode;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
@@ -87,11 +86,11 @@ public class CardAssigneeDialog extends DialogFragment {
         final var circularProgressDrawable = new CircularProgressDrawable(context);
         circularProgressDrawable.setStrokeWidth(5f);
         circularProgressDrawable.setCenterRadius(30f);
-        circularProgressDrawable.setColorSchemeColors(isDarkTheme(context) ? Color.LTGRAY : Color.DKGRAY);
+        circularProgressDrawable.setColorSchemeColors(isDarkMode(context) ? Color.LTGRAY : Color.DKGRAY);
         circularProgressDrawable.start();
 
         binding.avatar.post(() -> Glide.with(binding.avatar.getContext())
-                .load(viewModel.getAccount().getUrl() + "/index.php/avatar/" + Uri.encode(user.getUid()) + "/" + binding.avatar.getWidth())
+                .load(viewModel.getAccount().getAvatarUrl(binding.avatar.getWidth(), user.getUid()))
                 .placeholder(circularProgressDrawable)
                 .error(R.drawable.ic_person_grey600_24dp)
                 .into(binding.avatar));

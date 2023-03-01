@@ -1,40 +1,49 @@
 package it.niedermann.nextcloud.deck.util;
 
+import static java.util.stream.Collectors.toList;
+
+import android.content.Context;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-import androidx.activity.ComponentActivity;
 import androidx.annotation.NonNull;
 import androidx.viewbinding.ViewBinding;
 
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
+import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
 public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extends BaseAdapter implements Filterable {
-    public static final long NO_CARD = Long.MIN_VALUE;
-    public static final long ITEM_CREATE = Long.MIN_VALUE;
-    @NonNull
-    protected final ComponentActivity activity;
     @NonNull
     private List<ItemType> itemList = new ArrayList<>();
     @NonNull
-    protected List<ItemType> itemsToExclude = new ArrayList<>();
+    private final List<ItemType> itemsToExclude = new ArrayList<>();
     @NonNull
     protected SyncManager syncManager;
-    protected final long accountId;
+    protected final Account account;
     protected final long boardId;
-    protected final long cardId;
+    protected final ReactiveLiveData<String> constraint$ = new ReactiveLiveData<String>();
+    private final AutoCompleteFilter filter = new AutoCompleteFilter() {
+        @Override
+        protected Filter.FilterResults performFiltering(CharSequence constraint) {
+            constraint$.postValue(constraint == null ? "" : constraint.toString());
+            return filterResults;
+        }
+    };
 
-    protected AutoCompleteAdapter(@NonNull ComponentActivity activity, long accountId, long boardId, long cardId) {
-        this.activity = activity;
-        this.accountId = accountId;
+    protected AutoCompleteAdapter(@NonNull Context context, @NonNull Account account, long boardId) throws NextcloudFilesAppAccountNotFoundException {
+        this.account = account;
         this.boardId = boardId;
-        this.cardId = cardId;
-        this.syncManager = new SyncManager(activity);
+        this.syncManager = new SyncManager(context, account);
     }
 
     @Override
@@ -49,7 +58,20 @@ public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extend
 
     @Override
     public long getItemId(int position) {
-        return itemList.get(position).getLocalId();
+        // Create proposals do have null as local ID
+        final var localId = itemList.get(position).getLocalId();
+        return localId == null ? Long.MIN_VALUE : localId;
+    }
+
+    protected List<ItemType> filterExcluded(@NonNull List<ItemType> users) {
+        return users.stream().filter(this::userIsNotInExclusionList).collect(toList());
+    }
+
+    private boolean userIsNotInExclusionList(@NonNull ItemType user) {
+        return itemsToExclude
+                .stream()
+                .map(IRemoteEntity::getLocalId)
+                .noneMatch(idToExclude -> Objects.equals(user.getLocalId(), idToExclude));
     }
 
     protected static class ViewHolder<ViewBindingType extends ViewBinding> {
@@ -64,7 +86,7 @@ public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extend
         protected final Filter.FilterResults filterResults = new Filter.FilterResults();
 
         @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
+        public void publishResults(CharSequence constraint, FilterResults results) {
             if (results != null && results.count > 0) {
                 if (!itemList.equals(results.values)) {
                     //noinspection unchecked
@@ -75,13 +97,33 @@ public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extend
                 notifyDataSetInvalidated();
             }
         }
+
+        private void publishResults(List<ItemType> list) {
+            DeckLog.verbose("New result list", list.stream().map(IRemoteEntity::toString).collect(toList()));
+            filterResults.values = list;
+            filterResults.count = list.size();
+            publishResults("", filterResults);
+        }
+
+        public Filter.FilterResults getFilter() {
+            return filterResults;
+        }
+    }
+
+    protected void publishResults(List<ItemType> list) {
+        filter.publishResults(list);
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
     }
 
     public void exclude(ItemType item) {
         this.itemsToExclude.add(item);
     }
 
-    public void include(ItemType item) {
+    public void doNotLongerExclude(ItemType item) {
         this.itemsToExclude.remove(item);
     }
 }

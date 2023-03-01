@@ -1,9 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.preparecreate;
 
-import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccount;
-import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentBoardId;
-import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentStackId;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -58,9 +54,9 @@ public class PrepareCreateActivity extends PickStackActivity {
         viewModel.saveCard(account, boardId, stackId, fullCard, new IResponseCallback<>() {
             @Override
             public void onResponse(FullCard response) {
-                saveCurrentAccount(PrepareCreateActivity.this, account);
-                saveCurrentBoardId(PrepareCreateActivity.this, account.getId(), boardId);
-                saveCurrentStackId(PrepareCreateActivity.this, account.getId(), boardId, stackId);
+                viewModel.saveCurrentAccount(account);
+                viewModel.saveCurrentBoardId(account.getId(), boardId);
+                viewModel.saveCurrentStackId(account.getId(), boardId, stackId);
 
                 callback.onResponse(null);
                 startActivity(EditActivity.createEditCardIntent(PrepareCreateActivity.this, account, boardId, response.getLocalId()));

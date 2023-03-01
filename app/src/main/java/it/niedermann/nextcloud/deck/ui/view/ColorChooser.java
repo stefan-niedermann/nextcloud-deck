@@ -21,7 +21,7 @@ import java.util.Arrays;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.WidgetColorChooserBinding;
-import it.niedermann.nextcloud.deck.util.ViewUtil;
+import it.niedermann.nextcloud.deck.ui.theme.DeckViewThemeUtils;
 
 public class ColorChooser extends LinearLayout {
 
@@ -60,17 +60,17 @@ public class ColorChooser extends LinearLayout {
             image.setLayoutParams(params);
             image.setOnClickListener((imageView) -> {
                 if (previouslySelectedImageView != null) { // null when first selection
-                    previouslySelectedImageView.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, previouslySelectedColor));
+                    previouslySelectedImageView.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, previouslySelectedColor));
                 }
-                image.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_alpha_check_36dp, color));
+                image.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_alpha_check_36dp, color));
                 selectedColor = color;
                 this.previouslySelectedColor = color;
                 this.previouslySelectedImageView = image;
-                binding.customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, ContextCompat.getColor(context, R.color.board_default_custom_color)));
+                binding.customColorChooser.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, ContextCompat.getColor(context, R.color.board_default_custom_color)));
                 binding.customColorPicker.setVisibility(View.GONE);
                 binding.brightnessSlide.setVisibility(View.GONE);
             });
-            image.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, color));
+            image.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, color));
             binding.colorPicker.addView(image, binding.colorPicker.getChildCount() - 1);
         }
 
@@ -79,21 +79,20 @@ public class ColorChooser extends LinearLayout {
             binding.customColorPicker.setVisibility(View.VISIBLE);
             binding.brightnessSlide.setVisibility(View.VISIBLE);
             if (previouslySelectedImageView != null) {
-                previouslySelectedImageView.setImageDrawable(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, selectedColor));
+                previouslySelectedImageView.setImageDrawable(DeckViewThemeUtils.getTintedImageView(context, R.drawable.circle_grey600_36dp, selectedColor));
                 previouslySelectedImageView = null;
             }
         });
 
         binding.customColorPicker.setColorListener((ColorEnvelopeListener) (envelope, fromUser) -> {
             if (previouslySelectedImageView != null) {
-                previouslySelectedImageView.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, previouslySelectedColor));
+                previouslySelectedImageView.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, previouslySelectedColor));
                 previouslySelectedImageView = null;
             }
-            @ColorInt
-            final int customColor = envelope.getColor();
+            @ColorInt final int customColor = envelope.getColor();
             selectedColor = customColor;
             previouslySelectedColor = customColor;
-            binding.customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(context, R.drawable.circle_alpha_colorize_36dp, selectedColor));
+            binding.customColorChooser.setImageDrawable(DeckViewThemeUtils.getTintedImageView(context, R.drawable.circle_alpha_colorize_36dp, selectedColor));
         });
     }
 
@@ -102,14 +101,14 @@ public class ColorChooser extends LinearLayout {
         selectedColor = newColor;
         for (int i = 0; i < colors.length; i++) {
             if (colors[i] == newColor) {
-                binding.customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, ContextCompat.getColor(context, R.color.board_default_custom_color)));
+                binding.customColorChooser.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, ContextCompat.getColor(context, R.color.board_default_custom_color)));
                 binding.colorPicker.getChildAt(i).performClick();
                 newColorIsCustomColor = false;
                 break;
             }
         }
         if (newColorIsCustomColor) {
-            binding.customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, this.selectedColor));
+            binding.customColorChooser.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, this.selectedColor));
         }
     }
 

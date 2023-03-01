@@ -1,8 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +13,8 @@ import java.util.Arrays;
 
 import it.niedermann.nextcloud.deck.databinding.ItemFilterDuetypeBinding;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
 
 public class FilterDueTypeAdapter extends RecyclerView.Adapter<FilterDueTypeAdapter.DueTypeViewHolder> {
     @NonNull
@@ -18,14 +22,16 @@ public class FilterDueTypeAdapter extends RecyclerView.Adapter<FilterDueTypeAdap
     private int selectedDueTypePosition;
     @Nullable
     private final SelectionListener<EDueType> selectionListener;
+    @ColorInt
+    private final int color;
 
     @SuppressWarnings("WeakerAccess")
-    public FilterDueTypeAdapter(@NonNull EDueType selectedDueType, @Nullable SelectionListener<EDueType> selectionListener) {
+    public FilterDueTypeAdapter(@NonNull EDueType selectedDueType, @Nullable SelectionListener<EDueType> selectionListener, @ColorInt int color) {
         super();
         this.selectedDueTypePosition = Arrays.binarySearch(dueTypes, selectedDueType);
         this.selectionListener = selectionListener;
+        this.color = color;
         setHasStableIds(true);
-        notifyDataSetChanged();
     }
 
     @NonNull
@@ -49,8 +55,8 @@ public class FilterDueTypeAdapter extends RecyclerView.Adapter<FilterDueTypeAdap
         return dueTypes.length;
     }
 
-    class DueTypeViewHolder extends RecyclerView.ViewHolder {
-        private ItemFilterDuetypeBinding binding;
+    class DueTypeViewHolder extends RecyclerView.ViewHolder implements Themed {
+        private final ItemFilterDuetypeBinding binding;
 
         DueTypeViewHolder(@NonNull ItemFilterDuetypeBinding binding) {
             super(binding.getRoot());
@@ -60,6 +66,7 @@ public class FilterDueTypeAdapter extends RecyclerView.Adapter<FilterDueTypeAdap
         void bind(final EDueType dueType) {
             binding.dueType.setText(dueType.toString(binding.dueType.getContext()));
             itemView.setSelected(dueTypes[selectedDueTypePosition].equals(dueType));
+            applyTheme(color);
 
             itemView.setOnClickListener(view -> {
                 final int oldSelection = selectedDueTypePosition;
@@ -79,6 +86,14 @@ public class FilterDueTypeAdapter extends RecyclerView.Adapter<FilterDueTypeAdap
                 }
                 notifyItemChanged(oldSelection);
             });
+        }
+
+        @Override
+        public void applyTheme(int color) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                final var utils = ThemeUtils.of(color, itemView.getContext());
+                utils.deck.colorSelectedCheck(binding.selectedCheck.getContext(), binding.selectedCheck.getDrawable());
+            }
         }
     }
 }

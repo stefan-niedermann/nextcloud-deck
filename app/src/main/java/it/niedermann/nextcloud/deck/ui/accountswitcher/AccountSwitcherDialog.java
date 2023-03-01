@@ -1,101 +1,107 @@
 package it.niedermann.nextcloud.deck.ui.accountswitcher;
 
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+import static android.app.Activity.RESULT_OK;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.nextcloud.android.sso.AccountImporter;
-import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGranted;
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
-import com.nextcloud.android.sso.ui.UiExceptionManager;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.android.util.DimensionUtil;
-import it.niedermann.nextcloud.deck.DeckApplication;
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogAccountSwitcherBinding;
-import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.ui.MainViewModel;
+import it.niedermann.nextcloud.deck.ui.ImportAccountActivity;
 import it.niedermann.nextcloud.deck.ui.manageaccounts.ManageAccountsActivity;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 
 public class AccountSwitcherDialog extends DialogFragment {
 
     private AccountSwitcherAdapter adapter;
     private DialogAccountSwitcherBinding binding;
-    private MainViewModel viewModel;
+    private AccountViewModel accountViewModel;
+
+    private final ActivityResultLauncher<Intent> importAccountLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() != RESULT_OK) {
+            requireActivity().finish();
+        }
+    });
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         binding = DialogAccountSwitcherBinding.inflate(requireActivity().getLayoutInflater());
-        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-
-        final Account currentAccount = viewModel.getCurrentAccount();
-        binding.accountName.setText(
-                TextUtils.isEmpty(currentAccount.getUserDisplayName())
-                        ? currentAccount.getUserName()
-                        : currentAccount.getUserDisplayName()
-        );
-        binding.accountHost.setText(Uri.parse(currentAccount.getUrl()).getHost());
-        binding.check.setSelected(true);
-
-        Glide.with(requireContext())
-                .load(currentAccount.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.currentAccountItemAvatar.getContext(), R.dimen.avatar_size)))
-                .placeholder(R.drawable.ic_baseline_account_circle_24)
-                .error(R.drawable.ic_baseline_account_circle_24)
-                .apply(RequestOptions.circleCropTransform())
-                .into(binding.currentAccountItemAvatar);
-
-        binding.accountLayout.setOnClickListener((v) -> dismiss());
+        accountViewModel = new ViewModelProvider(requireActivity()).get(AccountViewModel.class);
 
         adapter = new AccountSwitcherAdapter((localAccount -> {
-            viewModel.setCurrentAccount(localAccount);
+            accountViewModel.saveCurrentAccount(localAccount);
             dismiss();
         }));
 
-        observeOnce(viewModel.readAccounts(), requireActivity(), (accounts) ->
-                adapter.setAccounts(accounts.stream().filter(account ->
-                        !Objects.equals(account.getId(), viewModel.getCurrentAccount().getId())).collect(Collectors.toList())));
-
-        observeOnce(DeckApplication.readCurrentBoardColor(), requireActivity(), this::applyTheme);
-
+        binding.accountLayout.setOnClickListener((v) -> dismiss());
+        binding.check.setSelected(true);
         binding.accountsList.setAdapter(adapter);
-
         binding.addAccount.setOnClickListener((v) -> {
-            try {
-                AccountImporter.pickNewAccount(requireActivity());
-            } catch (NextcloudFilesAppNotInstalledException e) {
-                UiExceptionManager.showDialogForException(requireContext(), e);
-                DeckLog.warn("=============================================================");
-                DeckLog.warn("Nextcloud app is not installed. Cannot choose account");
-                DeckLog.logError(e);
-            } catch (AndroidGetAccountsPermissionNotGranted e) {
-                AccountImporter.requestAndroidAccountPermissionsAndPickAccount(requireActivity());
-            }
+            importAccountLauncher.launch(ImportAccountActivity.createIntent(requireContext()));
             dismiss();
         });
-
         binding.manageAccounts.setOnClickListener((v) -> {
             requireActivity().startActivity(ManageAccountsActivity.createIntent(requireContext()));
             dismiss();
         });
 
+        new ReactiveLiveData<>(accountViewModel.getCurrentAccount())
+                .flatMap(currentAccount -> {
+                    binding.accountName.setText(
+                            TextUtils.isEmpty(currentAccount.getUserDisplayName())
+                                    ? currentAccount.getUserName()
+                                    : currentAccount.getUserDisplayName()
+                    );
+                    binding.accountHost.setText(Uri.parse(currentAccount.getUrl()).getHost());
+
+                    Glide.with(requireContext())
+                            .load(currentAccount.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.currentAccountItemAvatar.getContext(), R.dimen.avatar_size)))
+                            .placeholder(R.drawable.ic_baseline_account_circle_24)
+                            .error(R.drawable.ic_baseline_account_circle_24)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(binding.currentAccountItemAvatar);
+
+                    applyTheme(currentAccount.getColor());
+
+                    return new ReactiveLiveData<>(accountViewModel.readAccounts())
+                            .map(accounts -> accounts
+                                    .stream()
+                                    .filter(account -> !Objects.equals(account.getId(), currentAccount.getId()))
+                                    .collect(Collectors.toList())
+                            );
+                })
+                .observe(this, adapter::setAccounts);
+
         return new MaterialAlertDialogBuilder(requireContext())
                 .setView(binding.getRoot())
                 .create();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -109,6 +115,9 @@ public class AccountSwitcherDialog extends DialogFragment {
     }
 
     private void applyTheme(int color) {
-//        applyThemeToLayerDrawable((LayerDrawable) binding.check.getDrawable(), R.id.area, mainColor);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            final var utils = ThemeUtils.of(color, requireContext());
+            utils.deck.colorSelectedCheck(binding.check.getContext(), binding.check.getDrawable());
+        }
     }
 }

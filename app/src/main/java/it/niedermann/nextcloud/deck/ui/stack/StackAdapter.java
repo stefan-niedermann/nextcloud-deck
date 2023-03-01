@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.stack;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -9,9 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Stack;
 
 public class StackAdapter extends FragmentStateAdapter {
+
+    @Nullable
+    private Account account;
+    @Nullable
+    private Long boardId;
     @NonNull
     private final List<Stack> stackList = new ArrayList<>();
 
@@ -26,22 +33,6 @@ public class StackAdapter extends FragmentStateAdapter {
 
     public Stack getItem(int position) {
         return stackList.get(position);
-    }
-
-    /**
-     * @return the position of the direct neighbour of the given {@param position} if available. Prefers neighbours to the start of the wanted, but might also return a neighbour to the end.
-     * @throws NoSuchElementException in case this is the only {@link Stack}.
-     */
-    public int getNeighbourPosition(int position) throws NoSuchElementException, IndexOutOfBoundsException {
-        if (position >= stackList.size()) {
-            throw new IndexOutOfBoundsException("Position " + position + " is not in the current stack list.");
-        }
-        if (stackList.size() < 2) {
-            throw new NoSuchElementException("There is no neighbour.");
-        }
-        return position > 0
-                ? position - 1
-                : position + 1;
     }
 
     /**
@@ -75,12 +66,28 @@ public class StackAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return StackFragment.newInstance(stackList.get(position).getLocalId());
+        final var stack = stackList.get(position);
+        if (account == null) {
+            throw new NullPointerException("Account in " + StackAdapter.class.getSimpleName() + " is null, can not create " + StackFragment.class.getSimpleName());
+        }
+        return StackFragment.newInstance(account, stack.getBoardId(), stack.getLocalId());
     }
 
-    public void setStacks(@NonNull List<Stack> stacks) {
+    public void setStacks(@Nullable Account account, @Nullable Long boardId, @NonNull List<Stack> stacks) {
+        this.account = account;
+        this.boardId = boardId;
         this.stackList.clear();
         this.stackList.addAll(stacks);
         notifyDataSetChanged();
+    }
+
+    @Nullable
+    public Account getAccount() {
+        return account;
+    }
+
+    @Nullable
+    public Long getBoardId() {
+        return boardId;
     }
 }

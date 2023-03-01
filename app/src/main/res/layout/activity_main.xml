@@ -11,7 +11,7 @@
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.MainActivity">
+        tools:context=".ui.main.MainActivity">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
@@ -108,7 +108,7 @@
                     android:background="?attr/colorPrimary"
                     tools:title="Deck">
 
-                    <androidx.appcompat.widget.Toolbar
+                    <com.google.android.material.appbar.MaterialToolbar
                         android:id="@+id/toolbar"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.Toolbar
+                    <com.google.android.material.appbar.MaterialToolbar
                         android:id="@+id/searchToolbar"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
                             android:inputType="text"
                             android:maxLines="1"
                             tools:hint="@string/app_name_short" />
-                    </androidx.appcompat.widget.Toolbar>
+                    </com.google.android.material.appbar.MaterialToolbar>
 
                     <ImageButton
                         android:id="@+id/enableSearch"
@@ -221,6 +221,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@null"
                     app:tabGravity="center"
                     app:tabMode="fixed" />
 
@@ -246,6 +247,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             android:text="@string/add_card"
+            android:visibility="gone"
             app:icon="@drawable/ic_add_white_24dp" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

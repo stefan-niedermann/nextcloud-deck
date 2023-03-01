@@ -61,7 +61,7 @@ public class BoardDaoTest extends AbstractDaoTest {
         boardVisibleArchived.setArchived(true);
         db.getBoardDao().update(boardInVisible1, boardInVisible2, boardInVisible3, boardVisibleArchived);
 
-        final var boards = TestUtil.getOrAwaitValue(db.getBoardDao().getBoardsForAccount(account.getId()));
+        final var boards = TestUtil.getOrAwaitValue(db.getBoardDao().getNotDeletedBoards(account.getId(), 1));
         assertEquals(4, boards.size());
         assertTrue(boards.stream().anyMatch((board -> boardVisible1.getLocalId().equals(board.getLocalId()))));
         assertTrue(boards.stream().anyMatch((board -> boardVisible2.getLocalId().equals(board.getLocalId()))));
@@ -92,7 +92,7 @@ public class BoardDaoTest extends AbstractDaoTest {
         board4.setArchived(true);
         db.getBoardDao().update(board5, board6, board7, board4);
 
-        final var boards = TestUtil.getOrAwaitValue(db.getBoardDao().getArchivedBoardsForAccount(account.getId()));
+        final var boards = TestUtil.getOrAwaitValue(db.getBoardDao().getNotDeletedBoards(account.getId(), 1));
         assertEquals(1, boards.size());
         assertFalse(boards.stream().anyMatch((board -> board1.getLocalId().equals(board.getLocalId()))));
         assertFalse(boards.stream().anyMatch((board -> board2.getLocalId().equals(board.getLocalId()))));
@@ -123,7 +123,7 @@ public class BoardDaoTest extends AbstractDaoTest {
         board4.setArchived(true);
         db.getBoardDao().update(board5, board6, board7, board4);
 
-        final var boards = TestUtil.getOrAwaitValue(db.getBoardDao().getNonArchivedBoardsForAccount(account.getId()));
+        final var boards = TestUtil.getOrAwaitValue(db.getBoardDao().getNotDeletedBoards(account.getId(), 0));
         assertEquals(3, boards.size());
         assertTrue(boards.stream().anyMatch((board -> board1.getLocalId().equals(board.getLocalId()))));
         assertTrue(boards.stream().anyMatch((board -> board2.getLocalId().equals(board.getLocalId()))));

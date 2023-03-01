@@ -85,6 +85,8 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullStack entity) {
         entity.getStack().setBoardId(board.getId());
+
+        dataBaseAdapter.saveNeighbourOfStack(entity.getAccountId(), entity.getStack().getBoardId(), entity.getLocalId());
         dataBaseAdapter.deleteStackPhysically(entity.getStack());
     }
 
@@ -145,6 +147,8 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
                 // not pushed up yet so:
                 continue;
             }
+
+            dataBaseAdapter.saveNeighbourOfStack(stackToDelete.getAccountId(), stackToDelete.getStack().getBoardId(), stackToDelete.getLocalId());
             dataBaseAdapter.deleteStackPhysically(stackToDelete.getStack());
         }
     }

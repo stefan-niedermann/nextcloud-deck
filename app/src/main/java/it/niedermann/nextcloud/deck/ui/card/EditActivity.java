@@ -1,13 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputFilter;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -21,17 +17,20 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
-import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.deck.ui.main.MainActivity;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.util.CardUtil;
+import it.niedermann.nextcloud.deck.util.OnTextChangedWatcher;
 
 public class EditActivity extends AppCompatActivity {
 
@@ -115,7 +114,12 @@ public class EditActivity extends AppCompatActivity {
         if (account == null) {
             throw new IllegalArgumentException(BUNDLE_KEY_ACCOUNT + " must not be null.");
         }
-        viewModel.setAccount(account);
+
+        try {
+            viewModel.setAccount(account);
+        } catch (NextcloudFilesAppAccountNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         final long cardLocalId = args.getLong(BUNDLE_KEY_CARD_LOCAL_ID);
         if (cardLocalId <= 0L) {
@@ -127,25 +131,27 @@ public class EditActivity extends AppCompatActivity {
             throw new IllegalArgumentException(BUNDLE_KEY_BOARD_LOCAL_ID + " must be a positive integer but was " + boardLocalId);
         }
 
-        observeOnce(viewModel.getFullBoardById(account.getId(), boardLocalId), EditActivity.this, (fullBoard -> {
-            viewModel.setBoardColor(fullBoard.getBoard().getColor());
-            viewModel.setCanEdit(fullBoard.getBoard().isPermissionEdit());
-            invalidateOptionsMenu();
-            observeOnce(viewModel.getFullCardWithProjectsByLocalId(account.getId(), cardLocalId), EditActivity.this, (fullCard) -> {
-                if (fullCard == null) {
-                    new MaterialAlertDialogBuilder(this)
-                            .setTitle(R.string.card_not_found)
-                            .setMessage(R.string.card_not_found_message)
-                            .setPositiveButton(R.string.simple_close, (a, b) -> super.finish())
-                            .show();
-                } else {
-                    viewModel.initializeExistingCard(boardLocalId, fullCard, account.getServerDeckVersionAsObject().isSupported());
+        new ReactiveLiveData<>(viewModel.getFullBoardById(account.getId(), boardLocalId))
+                .observeOnce(EditActivity.this, fullBoard -> {
+                    viewModel.setBoardColor(fullBoard.getBoard().getColor());
+                    viewModel.setCanEdit(fullBoard.getBoard().isPermissionEdit());
                     invalidateOptionsMenu();
-                    setupViewPager();
-                    setupTitle();
-                }
-            });
-        }));
+                    new ReactiveLiveData<>(viewModel.getFullCardWithProjectsByLocalId(account.getId(), cardLocalId))
+                            .observeOnce(EditActivity.this, fullCard -> {
+                                if (fullCard == null) {
+                                    new MaterialAlertDialogBuilder(this)
+                                            .setTitle(R.string.card_not_found)
+                                            .setMessage(R.string.card_not_found_message)
+                                            .setPositiveButton(R.string.simple_close, (a, b) -> super.finish())
+                                            .show();
+                                } else {
+                                    viewModel.initializeExistingCard(boardLocalId, fullCard, account.getServerDeckVersionAsObject().isSupported());
+                                    invalidateOptionsMenu();
+                                    setupViewPager(account);
+                                    setupTitle();
+                                }
+                            });
+                });
 
         DeckLog.verbose("Finished loading intent data: { accountId =", viewModel.getAccount().getId(), "cardId =", cardLocalId, "}");
     }
@@ -212,11 +218,11 @@ public class EditActivity extends AppCompatActivity {
         }
     }
 
-    private void setupViewPager() {
+    private void setupViewPager(@NonNull Account account) {
         binding.tabLayout.removeAllTabs();
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final var adapter = new CardTabAdapter(this);
+        final var adapter = new CardTabAdapter(this, account);
         final var mediator = new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> {
             tab.setIcon(viewModel.hasCommentsAbility()
                     ? tabIconsWithComments[position]
@@ -243,20 +249,7 @@ public class EditActivity extends AppCompatActivity {
         binding.title.setFilters(new InputFilter[]{new InputFilter.LengthFilter(viewModel.getAccount().getServerDeckVersionAsObject().getCardTitleMaxLength())});
         if (viewModel.canEdit()) {
             binding.title.setHint(R.string.edit);
-            binding.title.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    viewModel.getFullCard().getCard().setTitle(binding.title.getText().toString());
-                }
-
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                }
-            });
+            binding.title.addTextChangedListener(new OnTextChangedWatcher(s -> viewModel.getFullCard().getCard().setTitle(binding.title.getText().toString())));
         } else {
             binding.title.setEnabled(false);
         }

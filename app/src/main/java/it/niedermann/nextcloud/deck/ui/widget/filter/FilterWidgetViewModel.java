@@ -3,24 +3,20 @@ package it.niedermann.nextcloud.deck.ui.widget.filter;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
-public class FilterWidgetViewModel extends AndroidViewModel {
+public class FilterWidgetViewModel extends BaseViewModel {
 
-    @NonNull
-    private final SyncManager syncManager;
     @NonNull
     private final MutableLiveData<FilterWidget> config$ = new MutableLiveData<>(new FilterWidget());
 
     public FilterWidgetViewModel(@NonNull Application application) {
         super(application);
-        this.syncManager = new SyncManager(application);
     }
 
     public LiveData<FilterWidget> getFilterWidgetConfiguration() {
@@ -28,6 +24,6 @@ public class FilterWidgetViewModel extends AndroidViewModel {
     }
 
     public void updateFilterWidget(@NonNull IResponseCallback<Integer> callback) {
-        syncManager.createFilterWidget(config$.getValue(), callback);
+        baseRepository.createFilterWidget(config$.getValue(), callback);
     }
 }

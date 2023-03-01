@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- https://github.com/stefan-niedermann/nextcloud-deck/issues/444 -->
-    <style name="NavigationView">
-        <item name="android:ellipsize">middle</item>
-        <item name="android:listDivider">@null</item>
-        <item name="android:colorControlHighlight">@android:color/transparent</item>
-    </style>
-</resources>

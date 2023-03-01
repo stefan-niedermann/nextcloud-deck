@@ -1,9 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.pickstack;
 
-import static androidx.lifecycle.Transformations.switchMap;
-import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentAccountId;
-import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentBoardId;
-import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentStackId;
+import static java.util.Collections.emptyList;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,24 +11,30 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.FragmentPickStackBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
-import it.niedermann.nextcloud.deck.ui.ImportAccountActivity;
 import it.niedermann.nextcloud.deck.ui.preparecreate.AccountAdapter;
 import it.niedermann.nextcloud.deck.ui.preparecreate.BoardAdapter;
+import it.niedermann.nextcloud.deck.ui.preparecreate.PickStackAdapter;
 import it.niedermann.nextcloud.deck.ui.preparecreate.SelectedListener;
-import it.niedermann.nextcloud.deck.ui.preparecreate.StackAdapter;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
 
-public class PickStackFragment extends Fragment {
+public class PickStackFragment extends Fragment implements Themed, PickStackListener {
 
     private FragmentPickStackBinding binding;
     private PickStackViewModel viewModel;
@@ -41,68 +44,15 @@ public class PickStackFragment extends Fragment {
     private PickStackListener pickStackListener;
 
     private boolean showBoardsWithoutEditPermission = false;
-    private long lastAccountId;
-    private long lastBoardId;
-    private long lastStackId;
 
-    private ArrayAdapter<Account> accountAdapter;
-    private ArrayAdapter<Board> boardAdapter;
-    private ArrayAdapter<Stack> stackAdapter;
+    private ArrayAdapter<Account> pickAccountAdapter;
+    private ArrayAdapter<Board> pickBoardAdapter;
+    private PickStackAdapter pickStackAdapter;
 
-    @Nullable
-    private LiveData<List<Board>> boardsLiveData;
-    @NonNull
-    private final Observer<List<Board>> boardsObserver = (boards) -> {
-        boardAdapter.clear();
-        boardAdapter.addAll(boards);
-        binding.boardSelect.setEnabled(true);
-
-        if (boards.size() > 0) {
-            binding.boardSelect.setEnabled(true);
-
-            Board boardToSelect = null;
-            for (final var board : boards) {
-                if (board.getLocalId() == lastBoardId) {
-                    boardToSelect = board;
-                    break;
-                }
-            }
-            if (boardToSelect == null) {
-                boardToSelect = boards.get(0);
-            }
-            binding.boardSelect.setSelection(boardAdapter.getPosition(boardToSelect));
-        } else {
-            binding.boardSelect.setEnabled(false);
-            pickStackListener.onStackPicked((Account) binding.accountSelect.getSelectedItem(), null, null);
-        }
-    };
-
-    @Nullable
-    private LiveData<List<Stack>> stacksLiveData;
-    @NonNull
-    private final Observer<List<Stack>> stacksObserver = (stacks) -> {
-        stackAdapter.clear();
-        stackAdapter.addAll(stacks);
-
-        if (stacks.size() > 0) {
-            binding.stackSelect.setEnabled(true);
-
-            Stack stackToSelect = null;
-            for (final var stack : stacks) {
-                if (stack.getLocalId() == lastStackId) {
-                    stackToSelect = stack;
-                    break;
-                }
-            }
-            if (stackToSelect == null) {
-                stackToSelect = stacks.get(0);
-            }
-            binding.stackSelect.setSelection(stackAdapter.getPosition(stackToSelect));
-        } else {
-            binding.stackSelect.setEnabled(false);
-            pickStackListener.onStackPicked((Account) binding.accountSelect.getSelectedItem(), (Board) binding.boardSelect.getSelectedItem(), null);
-        }
-    };
+    private final ReactiveLiveData<Void> selectionChanged$ = new ReactiveLiveData<>();
+    private final AtomicReference<Long> selectedAccount = new AtomicReference<>();
+    private final Map<Long, Long> selectedBoard = new HashMap<>();
+    private final Map<Pair<Long, Long>, Long> selectedStack = new HashMap<>();
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -127,57 +77,191 @@ public class PickStackFragment extends Fragment {
         binding = FragmentPickStackBinding.inflate(getLayoutInflater());
         viewModel = new ViewModelProvider(requireActivity()).get(PickStackViewModel.class);
 
-        accountAdapter = new AccountAdapter(requireContext());
-        binding.accountSelect.setAdapter(accountAdapter);
+        pickAccountAdapter = new AccountAdapter(requireContext());
+        binding.accountSelect.setAdapter(pickAccountAdapter);
         binding.accountSelect.setEnabled(false);
-        boardAdapter = new BoardAdapter(requireContext());
-        binding.boardSelect.setAdapter(boardAdapter);
-        binding.stackSelect.setEnabled(false);
-        stackAdapter = new StackAdapter(requireContext());
-        binding.stackSelect.setAdapter(stackAdapter);
-        binding.stackSelect.setEnabled(false);
-
-        switchMap(viewModel.hasAccounts(), hasAccounts -> {
-            if (hasAccounts) {
-                return viewModel.readAccounts();
-            } else {
-                // TODO After successfully importing the account, the creation will throw a TokenMissMatchException - Recreate SyncManager?
-                startActivity(ImportAccountActivity.createIntent(requireContext()));
-                return null;
-            }
-        }).observe(getViewLifecycleOwner(), (List<Account> accounts) -> {
-            if (accounts == null || accounts.size() == 0) {
-                throw new IllegalStateException("hasAccounts() returns true, but readAccounts() returns null or has no entry");
-            }
-
-            lastAccountId = readCurrentAccountId(requireContext());
-            lastBoardId = readCurrentBoardId(requireContext(), lastAccountId);
-            lastStackId = readCurrentStackId(requireContext(), lastAccountId, lastBoardId);
-
-            accountAdapter.clear();
-            accountAdapter.addAll(accounts);
-            binding.accountSelect.setEnabled(true);
-
-            for (Account account : accounts) {
-                if (account.getId() == lastAccountId) {
-                    binding.accountSelect.setSelection(accountAdapter.getPosition(account));
-                    break;
-                }
-            }
+        binding.accountSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
+            selectedAccount.set(parent.getSelectedItemId());
+            selectionChanged$.setValue(null);
         });
 
-        binding.accountSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) ->
-                updateLiveDataSource(boardsLiveData, boardsObserver, showBoardsWithoutEditPermission
-                        ? viewModel.getBoards(parent.getSelectedItemId())
-                        : viewModel.getBoardsWithEditPermission(parent.getSelectedItemId())));
+        pickBoardAdapter = new BoardAdapter(requireContext());
+        binding.boardSelect.setAdapter(pickBoardAdapter);
+        binding.boardSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
+            selectedBoard.put(binding.accountSelect.getSelectedItemId(), parent.getSelectedItemId());
+            selectionChanged$.setValue(null);
+        });
 
-        binding.boardSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) ->
-                updateLiveDataSource(stacksLiveData, stacksObserver, viewModel.getStacksForBoard(binding.accountSelect.getSelectedItemId(), parent.getSelectedItemId())));
+        pickStackAdapter = new PickStackAdapter(stack -> {
+            selectedStack.put(new Pair<>(binding.accountSelect.getSelectedItemId(), binding.boardSelect.getSelectedItemId()), stack.getLocalId());
+            selectionChanged$.setValue(null);
+        });
+        binding.stackSelect.setAdapter(pickStackAdapter);
 
-        binding.stackSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) ->
-                pickStackListener.onStackPicked((Account) binding.accountSelect.getSelectedItem(), (Board) binding.boardSelect.getSelectedItem(), (Stack) parent.getSelectedItem()));
+        selectionChanged$
+                .flatMap(() -> viewModel.readAccounts())
+                .flatMap(accounts -> {
+                    binding.accountSelect.setEnabled(false);
+                    binding.boardSelect.setEnabled(false);
+                    setAccounts(accounts);
+
+                    return getSelectedAccount()
+                            .map(accountIdToSelect -> selectAccount(accounts, accountIdToSelect))
+                            .flatMap(accountId -> getBoards(accountId, showBoardsWithoutEditPermission)
+                                    .flatMap(boards -> {
+                                        binding.boardSelect.setEnabled(false);
+                                        setBoards(boards);
+
+                                        return getSelectedBoard(accountId)
+                                                .map(boardId -> selectBoard(boards, boardId))
+                                                .flatMap(boardId -> getStacks(accountId, boardId)
+                                                        .flatMap(stacks -> {
+                                                            setStacks(stacks);
+
+                                                            return getSelectedStack(accountId, boardId)
+                                                                    .map(stackId -> selectStack(stacks, stackId));
+                                                        }));
+                                    }));
+
+                }).observe(this);
+
+        selectionChanged$.setValue(null);
 
         return binding.getRoot();
+    }
+
+    private ReactiveLiveData<Long> getSelectedAccount() {
+        if (selectedAccount.get() == null) {
+            return new ReactiveLiveData<>(viewModel.getCurrentAccountId$());
+        } else {
+            return new ReactiveLiveData<>(selectedAccount.get());
+        }
+    }
+
+    private void setAccounts(@NonNull Collection<Account> accounts) {
+        pickAccountAdapter.clear();
+        pickAccountAdapter.addAll(accounts);
+
+        if (accounts.size() > 1) {
+            binding.accountSelect.setVisibility(View.VISIBLE);
+            binding.accountSelect.setEnabled(true);
+        } else {
+            binding.accountSelect.setVisibility(View.GONE);
+        }
+    }
+
+
+    @Nullable
+    private Long selectAccount(@NonNull Collection<Account> accounts, @Nullable Long accountIdToSelect) {
+        final var matchingAccount = accounts
+                .stream()
+                .filter(account -> Objects.equals(account.getId(), accountIdToSelect))
+                .findAny()
+                .or(() -> accounts.stream().findAny());
+
+        if (matchingAccount.isPresent()) {
+            binding.accountSelect.setSelection(pickAccountAdapter.getPosition(matchingAccount.get()));
+            return matchingAccount.get().getId();
+        } else {
+            return null;
+        }
+    }
+
+    private ReactiveLiveData<Long> getSelectedBoard(@Nullable Long accountId) {
+        if (accountId == null) {
+            return new ReactiveLiveData<>(null);
+        } else if (selectedBoard.containsKey(accountId)) {
+            return new ReactiveLiveData<>(Objects.requireNonNull(selectedBoard.get(accountId)));
+        } else {
+            return new ReactiveLiveData<>(viewModel.getCurrentBoardId$(accountId));
+        }
+    }
+
+    private ReactiveLiveData<List<Board>> getBoards(@Nullable Long accountId, boolean showBoardsWithoutEditPermission) {
+        if (accountId == null) {
+            return new ReactiveLiveData<>(emptyList());
+        } else if (showBoardsWithoutEditPermission) {
+            return new ReactiveLiveData<>(viewModel.getNotArchivedBoards(accountId));
+        } else {
+            return new ReactiveLiveData<>(viewModel.getBoardsWithEditPermission(accountId));
+        }
+    }
+
+    private void setBoards(@NonNull Collection<Board> boards) {
+        pickBoardAdapter.clear();
+        pickBoardAdapter.addAll(boards);
+
+        if (boards.size() > 1) {
+            binding.boardSelect.setVisibility(View.VISIBLE);
+            binding.boardSelect.setEnabled(true);
+        } else {
+            binding.boardSelect.setVisibility(View.GONE);
+        }
+    }
+
+    @Nullable
+    private Long selectBoard(@NonNull Collection<Board> boards, @Nullable Long boardIdToSelect) {
+        final var matchingBoard = boards
+                .stream()
+                .filter(board -> Objects.equals(board.getLocalId(), boardIdToSelect))
+                .findAny()
+                .or(() -> boards.stream().findAny());
+
+        if (matchingBoard.isPresent()) {
+            binding.boardSelect.setSelection(pickBoardAdapter.getPosition(matchingBoard.get()));
+            applyTheme(matchingBoard.get().getColor());
+            return matchingBoard.get().getLocalId();
+        } else {
+            onStackPicked((Account) binding.accountSelect.getSelectedItem(), null, null);
+            return null;
+        }
+    }
+
+    private ReactiveLiveData<List<Stack>> getStacks(@Nullable Long accountId, @Nullable Long boardId) {
+        if (accountId == null || boardId == null) {
+            return new ReactiveLiveData<>(emptyList());
+        } else {
+            return new ReactiveLiveData<>(viewModel.getStacksForBoard(accountId, boardId));
+        }
+    }
+
+    private void setStacks(@NonNull Collection<Stack> stacks) {
+        pickStackAdapter.setStacks(stacks);
+    }
+
+    private ReactiveLiveData<Long> getSelectedStack(@Nullable Long accountId, @Nullable Long boardId) {
+        if (selectedStack.containsKey(new Pair<>(accountId, boardId))) {
+            return new ReactiveLiveData<>(Objects.requireNonNull(selectedStack.get(new Pair<>(accountId, boardId))));
+        } else if (accountId == null || boardId == null) {
+            return new ReactiveLiveData<>(null);
+        } else {
+            return new ReactiveLiveData<>(viewModel.getCurrentStackId$(accountId, boardId));
+        }
+    }
+
+    private Long selectStack(@NonNull Collection<Stack> stacks, @Nullable Long stackIdToSelect) {
+        final var matchingStack = stacks
+                .stream()
+                .filter(stack -> Objects.equals(stack.getLocalId(), stackIdToSelect))
+                .findAny()
+                .or(() -> stacks.stream().findAny());
+
+        if (matchingStack.isPresent()) {
+            pickStackAdapter.setSelection(matchingStack.get());
+            onStackPicked((Account) binding.accountSelect.getSelectedItem(), (Board) binding.boardSelect.getSelectedItem(), matchingStack.get());
+            return matchingStack.get().getLocalId();
+        } else {
+            onStackPicked((Account) binding.accountSelect.getSelectedItem(), (Board) binding.boardSelect.getSelectedItem(), null);
+            return null;
+        }
+    }
+
+    @Override
+    public void onStackPicked(@NonNull Account account, @Nullable Board board, @Nullable Stack stack) {
+        DeckLog.verbose("Picked account", account.getName());
+        DeckLog.verbose("Picked board", board == null ? "null" : board.getTitle());
+        DeckLog.verbose("Picked stack", stack == null ? "null" : stack.getTitle());
+        pickStackListener.onStackPicked(account, board, stack);
     }
 
     @Override
@@ -186,15 +270,9 @@ public class PickStackFragment extends Fragment {
         this.binding = null;
     }
 
-    /**
-     * Updates the source of the given liveData and de- and reregisters the given observer.
-     */
-    private <T> void updateLiveDataSource(@Nullable LiveData<T> liveData, Observer<T> observer, LiveData<T> newSource) {
-        if (liveData != null) {
-            liveData.removeObserver(observer);
-        }
-        liveData = newSource;
-        liveData.observe(getViewLifecycleOwner(), observer);
+    @Override
+    public void applyTheme(int color) {
+        pickStackAdapter.applyTheme(color);
     }
 
     public static PickStackFragment newInstance(boolean showBoardsWithoutEditPermission) {

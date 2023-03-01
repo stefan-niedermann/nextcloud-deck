@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.accountswitcher;
 
 import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -15,7 +16,7 @@ import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAccountChooseBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.sso.glide.SingleSignOnUrl;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 
 public class AccountSwitcherViewHolder extends RecyclerView.ViewHolder {
 
@@ -34,12 +35,17 @@ public class AccountSwitcherViewHolder extends RecyclerView.ViewHolder {
         );
         binding.accountHost.setText(Uri.parse(account.getUrl()).getHost());
         Glide.with(itemView.getContext())
-                .load(new SingleSignOnUrl(account.getName(), account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.accountItemAvatar.getContext(), R.dimen.avatar_size))))
+                .load(account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.accountItemAvatar.getContext(), R.dimen.avatar_size)))
                 .placeholder(R.drawable.ic_baseline_account_circle_24)
                 .error(R.drawable.ic_baseline_account_circle_24)
                 .apply(RequestOptions.circleCropTransform())
                 .into(binding.accountItemAvatar);
         itemView.setOnClickListener((v) -> onAccountClick.accept(account));
         binding.delete.setVisibility(View.GONE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            final var utils = ThemeUtils.of(account.getColor(), itemView.getContext());
+            utils.deck.colorSelectedCheck(binding.currentAccountIndicator.getContext(), binding.currentAccountIndicator.getDrawable());
+        }
     }
 }

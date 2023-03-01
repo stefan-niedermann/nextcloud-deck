@@ -1,29 +1,26 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
-import static androidx.lifecycle.Transformations.distinctUntilChanged;
-import static androidx.lifecycle.Transformations.map;
-
 import android.app.Application;
 
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
 @SuppressWarnings("WeakerAccess")
-public class FilterViewModel extends AndroidViewModel {
-
-    private final SyncManager syncManager;
+public class FilterViewModel extends BaseViewModel {
 
     @IntRange(from = 0, to = 2)
     private int currentFilterTab = 0;
@@ -35,7 +32,10 @@ public class FilterViewModel extends AndroidViewModel {
 
     public FilterViewModel(@NonNull Application application) {
         super(application);
-        this.syncManager = new SyncManager(application);
+    }
+
+    public CompletableFuture<Account> getCurrentAccount() {
+        return baseRepository.getCurrentAccountId().thenApplyAsync(baseRepository::readAccountDirectly);
     }
 
     public void publishFilterInformationDraft() {
@@ -60,7 +60,9 @@ public class FilterViewModel extends AndroidViewModel {
 
     @NonNull
     public LiveData<Boolean> hasActiveFilter() {
-        return distinctUntilChanged(map(getFilterInformation(), FilterInformation::hasActiveFilter));
+        return new ReactiveLiveData<>(getFilterInformation())
+                .map(FilterInformation::hasActiveFilter)
+                .distinctUntilChanged();
     }
 
     public void createFilterInformationDraft() {
@@ -130,11 +132,22 @@ public class FilterViewModel extends AndroidViewModel {
         return this.currentFilterTab;
     }
 
-    public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long boardId) {
-        return syncManager.findProposalsForUsersToAssign(accountId, boardId, -1L, -1);
+    // TODO Use in Filter fragments
+    public LiveData<Integer> getCurrentBoardColor$() {
+        return new ReactiveLiveData<>(baseRepository.getCurrentAccountId$())
+                .combineWith(baseRepository::getCurrentBoardId$)
+                .flatMap(ids -> baseRepository.getBoardColor$(ids.first, ids.second));
     }
 
-    public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId) {
-        return syncManager.findProposalsForLabelsToAssign(accountId, boardId, -1L);
+    public LiveData<List<User>> findProposalsForUsersToAssign() {
+        return new ReactiveLiveData<>(baseRepository.getCurrentAccountId$())
+                .combineWith(baseRepository::getCurrentBoardId$)
+                .flatMap(ids -> baseRepository.findProposalsForUsersToAssignForCards(ids.first, ids.second, -1L, -1));
+    }
+
+    public LiveData<List<Label>> findProposalsForLabelsToAssign() {
+        return new ReactiveLiveData<>(baseRepository.getCurrentAccountId$())
+                .combineWith(baseRepository::getCurrentBoardId$)
+                .flatMap(ids -> baseRepository.findProposalsForLabelsToAssign(ids.first, ids.second, -1L));
     }
 }

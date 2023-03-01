@@ -5,12 +5,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemPrepareCreateBoardBinding;
 import it.niedermann.nextcloud.deck.model.Board;
-import it.niedermann.nextcloud.deck.util.ViewUtil;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 
 public class BoardAdapter extends AbstractAdapter<Board> {
 
@@ -37,7 +38,8 @@ public class BoardAdapter extends AbstractAdapter<Board> {
         final var board = getItem(position);
         if (board != null) {
             binding.boardTitle.setText(board.getTitle());
-            binding.avatar.setImageDrawable(ViewUtil.getTintedImageView(binding.avatar.getContext(), R.drawable.circle_grey600_36dp, board.getColor()));
+            final var utils = ThemeUtils.of(ContextCompat.getColor(getContext(), R.color.defaultBrand), getContext());
+            binding.avatar.setImageDrawable(utils.deck.getColoredBoardDrawable(binding.avatar.getContext(), board.getColor()));
         } else {
             DeckLog.logError(new IllegalArgumentException("No item for position " + position));
         }

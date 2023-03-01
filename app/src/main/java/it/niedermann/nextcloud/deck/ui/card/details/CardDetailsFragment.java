@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -47,6 +48,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabDetailsBinding;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -68,9 +70,16 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
     private AssigneeAdapter adapter;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+    private static final String KEY_ACCOUNT = "account";
 
-    public static Fragment newInstance() {
-        return new CardDetailsFragment();
+    public static Fragment newInstance(@NonNull Account account) {
+        final var fragment = new CardDetailsFragment();
+
+        final var args = new Bundle();
+        args.putSerializable(KEY_ACCOUNT, account);
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
     @Override
@@ -79,6 +88,12 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
                              Bundle savedInstanceState) {
         binding = FragmentCardEditTabDetailsBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
+
+        final var args = getArguments();
+
+        if (args == null || !args.containsKey(KEY_ACCOUNT)) {
+            throw new IllegalStateException(KEY_ACCOUNT + " must be provided");
+        }
 
         // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
         // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
@@ -92,7 +107,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         avatarLayoutParams.setMargins(0, 0, DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.spacer_1x), 0);
 
         setupAssignees();
-        setupLabels();
+        setupLabels((Account) args.getSerializable(KEY_ACCOUNT));
         setupDueDate();
         setupDescription();
         setupProjects();
@@ -198,8 +213,9 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
                 } else {
                     date = LocalDate.now();
                 }
-                ThemedDatePickerDialog.newInstance(this, date.getYear(), date.getMonthValue(), date.getDayOfMonth())
-                        .show(getChildFragmentManager(), ThemedDatePickerDialog.class.getCanonicalName());
+                viewModel.getCurrentBoardColor(viewModel.getAccount().getId(), viewModel.getBoardId())
+                        .thenAcceptAsync(color -> ThemedDatePickerDialog.newInstance(this, date.getYear(), date.getMonthValue(), date.getDayOfMonth(), color)
+                                .show(getChildFragmentManager(), ThemedDatePickerDialog.class.getCanonicalName()), ContextCompat.getMainExecutor(requireContext()));
             });
 
             binding.dueDateTime.setOnClickListener(v -> {
@@ -209,8 +225,9 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
                 } else {
                     time = LocalTime.now();
                 }
-                ThemedTimePickerDialog.newInstance(this, time.getHour(), time.getMinute(), true)
-                        .show(getChildFragmentManager(), ThemedTimePickerDialog.class.getCanonicalName());
+                viewModel.getCurrentBoardColor(viewModel.getAccount().getId(), viewModel.getBoardId())
+                        .thenAcceptAsync(color -> ThemedTimePickerDialog.newInstance(this, time.getHour(), time.getMinute(), true, color)
+                                .show(getChildFragmentManager(), ThemedTimePickerDialog.class.getCanonicalName()), ContextCompat.getMainExecutor(requireContext()));
             });
 
             binding.clearDueDate.setOnClickListener(v -> {
@@ -226,29 +243,30 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         }
     }
 
-    private void setupLabels() {
+    private void setupLabels(@NonNull Account account) {
         final long accountId = viewModel.getAccount().getId();
         final long boardId = viewModel.getBoardId();
         binding.labelsGroup.removeAllViews();
         if (viewModel.canEdit()) {
             Long localCardId = viewModel.getFullCard().getCard().getLocalId();
             localCardId = localCardId == null ? -1 : localCardId;
-            binding.labels.setAdapter(new LabelAutoCompleteAdapter(requireActivity(), accountId, boardId, localCardId));
+            try {
+                binding.labels.setAdapter(new LabelAutoCompleteAdapter(requireActivity(), account, boardId, localCardId));
+            } catch (NextcloudFilesAppAccountNotFoundException e) {
+                ExceptionDialogFragment.newInstance(e, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                // TODO Handle error
+            }
             binding.labels.setOnItemClickListener((adapterView, view, position, id) -> {
                 final var label = (Label) adapterView.getItemAtPosition(position);
-                if (LabelAutoCompleteAdapter.ITEM_CREATE == label.getLocalId()) {
-                    final Label newLabel = new Label(label);
-                    newLabel.setBoardId(boardId);
-                    newLabel.setTitle(((LabelAutoCompleteAdapter) binding.labels.getAdapter()).getLastFilterText());
-                    newLabel.setLocalId(null);
-                    viewModel.createLabel(accountId, newLabel, boardId, new IResponseCallback<>() {
+                if (label.getLocalId() == null) {
+                    viewModel.createLabel(accountId, label, boardId, new IResponseCallback<>() {
                         @Override
                         public void onResponse(Label response) {
                             requireActivity().runOnUiThread(() -> {
-                                newLabel.setLocalId(response.getLocalId());
+                                label.setLocalId(response.getLocalId());
                                 ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(response);
                                 viewModel.getFullCard().getLabels().add(response);
-                                binding.labelsGroup.addView(createChipFromLabel(newLabel));
+                                binding.labelsGroup.addView(createChipFromLabel(label));
                                 binding.labelsGroup.setVisibility(VISIBLE);
                             });
                         }
@@ -256,8 +274,9 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
                         @Override
                         public void onError(Throwable throwable) {
                             IResponseCallback.super.onError(throwable);
-                            requireActivity().runOnUiThread(() -> ThemedSnackbar.make(requireView(), getString(R.string.error_create_label, newLabel.getTitle()), Snackbar.LENGTH_LONG)
-                                    .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show());
+                            viewModel.getCurrentBoardColor(viewModel.getAccount().getId(), viewModel.getBoardId())
+                                    .thenAcceptAsync(color -> ThemedSnackbar.make(requireView(), getString(R.string.error_create_label, label.getTitle()), Snackbar.LENGTH_LONG, color)
+                                            .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show(), ContextCompat.getMainExecutor(requireContext()));
                         }
                     });
                 } else {
@@ -291,7 +310,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
             chip.setOnCloseIconClickListener(v -> {
                 binding.labelsGroup.removeView(chip);
                 viewModel.getFullCard().getLabels().remove(label);
-                ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(label);
+                ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).doNotLongerExclude(label);
             });
         }
         try {
@@ -311,7 +330,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
     }
 
     private void setupAssignees() {
-        adapter = new AssigneeAdapter((user) -> CardAssigneeDialog.newInstance(user).show(getChildFragmentManager(), CardAssigneeDialog.class.getSimpleName()), viewModel.getAccount());
+        adapter = new AssigneeAdapter(user -> CardAssigneeDialog.newInstance(user).show(getChildFragmentManager(), CardAssigneeDialog.class.getSimpleName()), viewModel.getAccount());
         binding.assignees.setAdapter(adapter);
         binding.assignees.post(() -> {
             @Px final int gutter = DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.spacer_1x);
@@ -323,7 +342,12 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         if (viewModel.canEdit()) {
             Long localCardId = viewModel.getFullCard().getCard().getLocalId();
             localCardId = localCardId == null ? -1 : localCardId;
-            binding.people.setAdapter(new UserAutoCompleteAdapter(requireActivity(), viewModel.getAccount(), viewModel.getBoardId(), localCardId));
+            try {
+                binding.people.setAdapter(new UserAutoCompleteAdapter(requireActivity(), viewModel.getAccount(), viewModel.getBoardId(), localCardId));
+            } catch (NextcloudFilesAppAccountNotFoundException e) {
+                ExceptionDialogFragment.newInstance(e, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                // TODO Handle error
+            }
             binding.people.setOnItemClickListener((adapterView, view, position, id) -> {
                 final var user = (User) adapterView.getItemAtPosition(position);
                 viewModel.getFullCard().getAssignedUsers().add(user);
@@ -404,11 +428,15 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
     public void onUnassignUser(@NonNull User user) {
         viewModel.getFullCard().getAssignedUsers().remove(user);
         adapter.removeUser(user);
-        ((UserAutoCompleteAdapter) binding.people.getAdapter()).include(user);
-        ThemedSnackbar.make(requireView(), getString(R.string.unassigned_user, user.getDisplayname()), Snackbar.LENGTH_LONG).setAction(R.string.simple_undo, v1 -> {
-            viewModel.getFullCard().getAssignedUsers().add(user);
-            ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
-            adapter.addUser(user);
-        }).show();
+        ((UserAutoCompleteAdapter) binding.people.getAdapter()).doNotLongerExclude(user);
+
+        viewModel.getCurrentBoardColor(viewModel.getAccount().getId(), viewModel.getBoardId())
+                .thenAcceptAsync(color -> ThemedSnackbar.make(requireView(), getString(R.string.unassigned_user, user.getDisplayname()), Snackbar.LENGTH_LONG, color)
+                        .setAction(R.string.simple_undo, v1 -> {
+                            viewModel.getFullCard().getAssignedUsers().add(user);
+                            ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
+                            adapter.addUser(user);
+                        })
+                        .show(), ContextCompat.getMainExecutor(requireContext()));
     }
 }

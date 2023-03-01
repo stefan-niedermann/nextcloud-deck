@@ -1,29 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- ======================================= -->
+    <!-- Base Theme                              -->
+    <!-- ======================================= -->
+
     <color name="primary">@android:color/white</color>
-    <color name="accent">#000000</color>
+    <color name="accent">@android:color/black</color>
     <color name="defaultBrand">#0082C9</color>
     <color name="danger">#d40000</color>
+
+    <!-- ======================================= -->
+    <!-- Custom styles                           -->
+    <!-- TODO REMOVE                             -->
+    <!-- ======================================= -->
+
+    <color name="grey600">#757575</color>
     <color name="fg_secondary">#999</color>
     <color name="bg_highlighted">#eee</color>
-    <color name="grey600">#757575</color>
     <color name="bg_info_box">#dddddd</color>
     <color name="bg_card">@android:color/white</color>
-    <color name="bg_card_wrapper">#fafafa</color>
-    <color name="dark_fg_primary">#e5e5e5</color>
     <color name="defaultTextHighlightBackground">#2233334a</color>
 
+    <!-- ======================================= -->
+    <!-- Widgets                                 -->
+    <!-- ======================================= -->
+
+    <color name="widget_outer_background">#eef9f9f9</color>
+    <color name="widget_background">#ddffffff</color>
+    <color name="widget_foreground">#222222</color>
+
+    <!-- ======================================= -->
+    <!-- Static colors                           -->
+    <!-- Are theme independent and should match  -->
+    <!-- the colors of the Deck server app.      -->
+    <!-- ======================================= -->
+
+    <!-- Due Date badges -->
+    <color name="due_tomorrow">#f2f2f2</color>
+    <color name="due_today">#f1c14b</color>
+    <color name="due_overdue">#ef6e6b</color>
+    <color name="due_text_tomorrow">#666666</color>
+    <color name="due_text_today">#333333</color>
+    <color name="due_text_overdue">#ffffff</color>
+
+    <!-- Activity -->
     <color name="activity_create">#00D400</color>
     <color name="activity_delete">#D40000</color>
 
+    <!-- ======================================= -->
+    <!-- Static colors                           -->
+    <!-- These colors are stored in the backend  -->
+    <!-- and must not be altered. They are       -->
+    <!-- theme independent.                      -->
+    <!-- ======================================= -->
 
-    <!-- due date colors -->
-    <color name="due_tomorrow">#7fffc53a</color>
-    <color name="due_today">#7feca700</color>
-    <color name="due_overdue">#ef6e6b</color>
-    <color name="overdue_text_color">#FFFFFF</color>
-
-    <!-- board color picker colors -->
+    <!-- Default colors for boards, labels, … -->
     <color name="board_default_color">#b6469d</color>
     <color name="board_default_custom_color">#616161</color>
     <string-array name="board_default_colors">
@@ -39,8 +71,4 @@
         <item>#5b64b3</item>
         <item>#8855a8</item>
     </string-array>
-
-    <color name="widget_outer_background">#eef9f9f9</color>
-    <color name="widget_background">#ddffffff</color>
-    <color name="widget_foreground">#222222</color>
 </resources>

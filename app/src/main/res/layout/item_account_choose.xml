@@ -29,7 +29,7 @@
             android:layout_height="12dp"
             android:layout_gravity="end|bottom"
             android:visibility="gone"
-            app:srcCompat="@drawable/selected"
+            app:srcCompat="@drawable/selected_check"
             tools:src="@drawable/ic_check_grey600_24dp"
             tools:visibility="visible" />
     </FrameLayout>

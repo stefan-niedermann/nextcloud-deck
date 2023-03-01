@@ -19,9 +19,9 @@ public class Version implements Comparable<Version> {
     private static final Version VERSION_1_3_0 = new Version("1.3.0", 1, 3, 0);
 
     private String originalVersion = "?";
-    private int major;
-    private int minor;
-    private int patch;
+    private final int major;
+    private final int minor;
+    private final int patch;
 
     public Version(String originalVersion, int major, int minor, int patch) {
         this(major, minor, patch);
@@ -54,12 +54,8 @@ public class Version implements Comparable<Version> {
         return originalVersion;
     }
 
-    public void setOriginalVersion(String originalVersion) {
-        this.originalVersion = originalVersion;
-    }
-
     public static Version of(String versionString) {
-        int major = 0, minor = 0, micro = 0;
+        int major = 0, minor = 0, patch = 0;
         if (versionString != null) {
             final String[] split = versionString.split("\\.");
             if (split.length > 0) {
@@ -67,12 +63,12 @@ public class Version implements Comparable<Version> {
                 if (split.length > 1) {
                     minor = extractNumber(split[1]);
                     if (split.length > 2) {
-                        micro = extractNumber(split[2]);
+                        patch = extractNumber(split[2]);
                     }
                 }
             }
         }
-        return new Version(versionString, major, minor, micro);
+        return new Version(versionString, major, minor, patch);
     }
 
     private static int extractNumber(String containsNumbers) {
@@ -184,6 +180,17 @@ public class Version implements Comparable<Version> {
         return isGreaterOrEqualTo(VERSION_1_0_0)
                 ? 255
                 : 100;
+    }
+
+    /**
+     * The first response structure of the very first call to at least the <code>/boards</code> endpoint of the Deck API can be different compared to all following calls.
+     * This behavior is tracked in an upstream issue and might be resolved in the future with a specific version.
+     *
+     * @return whether or not it is needed to make one request that must be ignored due to a different data structure before performing any other requests.
+     * @see <a href="https://github.com/nextcloud/deck/issues/3229">issue</a>
+     */
+    public boolean firstCallHasDifferentResponseStructure() {
+        return true;
     }
 
     /**

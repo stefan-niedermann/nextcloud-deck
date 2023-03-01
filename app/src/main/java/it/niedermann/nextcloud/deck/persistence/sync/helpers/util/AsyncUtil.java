@@ -1,19 +1,19 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.util;
 
+import androidx.annotation.NonNull;
+
 import java.util.concurrent.CountDownLatch;
+import java.util.function.Consumer;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 
 public class AsyncUtil {
-    public interface LatchCallback {
-        void doWork(CountDownLatch latch);
-    }
 
-    public static void awaitAsyncWork(int count, LatchCallback worker){
-        CountDownLatch countDownLatch = new CountDownLatch(count);
-        worker.doWork(countDownLatch);
+    public static void awaitAsyncWork(int count, @NonNull Consumer<CountDownLatch> worker) {
+        final var latch = new CountDownLatch(count);
+        worker.accept(latch);
         try {
-            countDownLatch.await();
+            latch.await();
         } catch (InterruptedException e) {
             DeckLog.logError(e);
         }

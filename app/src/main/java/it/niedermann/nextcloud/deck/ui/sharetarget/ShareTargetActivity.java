@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.view.Menu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,22 +18,21 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.File;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
-import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
-import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
-import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.deck.ui.main.MainActivity;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
 public class ShareTargetActivity extends MainActivity implements SelectCardListener {
@@ -76,12 +74,12 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                 binding.toolbar.setSubtitle(receivedText);
             }
         } catch (Throwable throwable) {
-            ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            showExceptionDialog(throwable, null);
         }
     }
 
     @Override
-    public void onCardSelected(FullCard fullCard) {
+    public void onCardSelected(@NonNull FullCard fullCard, long boardId) {
         if (cardSelected) {
             return;
         }
@@ -94,7 +92,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
             }
         } catch (Throwable throwable) {
             cardSelected = false;
-            ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            showExceptionDialog(throwable, fullCard.getAccountId());
         }
     }
 
@@ -175,15 +173,13 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                                     IResponseCallback.super.onError(throwable);
                                     runOnUiThread(() -> {
                                         cardSelected = false;
-                                        ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                        showExceptionDialog(throwable, fullCard.getAccountId());
                                     });
                                 }
                             });
                             break;
                         case 1:
-                            final var currentAccount = mainViewModel.getCurrentAccount();
-                            final var comment = new DeckComment(receivedText.trim(), currentAccount.getUserName(), Instant.now());
-                            mainViewModel.addCommentToCard(currentAccount.getId(), fullCard.getLocalId(), comment);
+                            mainViewModel.addCommentToCard(fullCard.getAccountId(), receivedText.trim(), fullCard.getLocalId());
                             Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
                             finish();
                             break;
@@ -192,14 +188,8 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
     }
 
     @Override
-    protected void setCurrentBoard(@NonNull Board board) {
-        super.setCurrentBoard(board);
+    protected void applyBoard(@NonNull Account account, @NonNull Map<Integer, Long> navigationMap, @Nullable FullBoard currentBoard) {
+        super.applyBoard(account, navigationMap, currentBoard);
         binding.toolbar.setTitle(R.string.simple_select);
-        showEditButtonsIfPermissionsGranted();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
     }
 }

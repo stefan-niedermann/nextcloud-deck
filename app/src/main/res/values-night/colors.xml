@@ -1,15 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- ======================================= -->
+    <!-- Base Theme                              -->
+    <!-- ======================================= -->
+
     <color name="primary">@android:color/black</color>
     <color name="accent">@android:color/white</color>
+
+    <!-- ======================================= -->
+    <!-- Custom styles                           -->
+    <!-- TODO REMOVE                             -->
+    <!-- ======================================= -->
+
     <color name="fg_secondary">#666</color>
     <color name="bg_highlighted">#212121</color>
     <color name="bg_info_box">#222222</color>
     <color name="bg_card">#1e1e1e</color>
-    <color name="bg_card_wrapper">@color/primary</color>
     <color name="defaultTextHighlightBackground">#55eeeeff</color>
+
+    <!-- ======================================= -->
+    <!-- Widgets                                 -->
+    <!-- ======================================= -->
 
     <color name="widget_outer_background">#dd121212</color>
     <color name="widget_background">#dd000000</color>
     <color name="widget_foreground">#d8d8d8</color>
+
+    <!-- ======================================= -->
+    <!-- Static colors                           -->
+    <!-- Are theme independent and should match  -->
+    <!-- the colors of the Deck server app.      -->
+    <!-- ======================================= -->
+
+    <!-- Due Date badges -->
+    <color name="due_tomorrow">#232323</color>
+    <color name="due_today">#ac7c06</color>
+    <color name="due_overdue">#aa2926</color>
+    <color name="due_text_tomorrow">#ffffff</color>
+    <color name="due_text_today">#ffffff</color>
+    <color name="due_text_overdue">#ffffff</color>
 </resources>

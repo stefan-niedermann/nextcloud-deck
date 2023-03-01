@@ -1,31 +1,30 @@
 package it.niedermann.nextcloud.deck.ui.card.comments;
 
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
+
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-
-import static androidx.lifecycle.Transformations.distinctUntilChanged;
+import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
 
 @SuppressWarnings("WeakerAccess")
-public class CommentsViewModel extends AndroidViewModel {
-
-    private final SyncManager syncManager;
+public class CommentsViewModel extends SyncViewModel {
 
     private final MutableLiveData<FullDeckComment> replyToComment = new MutableLiveData<>();
 
-    public CommentsViewModel(@NonNull Application application) {
-        super(application);
-        this.syncManager = new SyncManager(application);
+    public CommentsViewModel(@NonNull Application application, @NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {
+        super(application, account);
     }
 
     public void setReplyToComment(FullDeckComment replyToComment) {
@@ -37,7 +36,7 @@ public class CommentsViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<FullDeckComment>> getFullCommentsForLocalCardId(long localCardId) {
-        return distinctUntilChanged(syncManager.getFullCommentsForLocalCardId(localCardId));
+        return distinctUntilChanged(baseRepository.getFullCommentsForLocalCardId(localCardId));
     }
 
     public void addCommentToCard(long accountId, long cardId, @NonNull DeckComment comment) {

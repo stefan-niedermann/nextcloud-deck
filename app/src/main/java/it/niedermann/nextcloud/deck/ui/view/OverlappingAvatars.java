@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.ui.view;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -69,7 +68,7 @@ public class OverlappingAvatars extends RelativeLayout {
             addView(avatar);
             avatar.requestLayout();
             Glide.with(context)
-                    .load(account.getUrl() + "/index.php/avatar/" + Uri.encode(assignedUsers.get(avatarCount).getUid()) + "/" + avatarSize)
+                    .load(account.getAvatarUrl(avatarSize, assignedUsers.get(avatarCount).getUid()))
                     .placeholder(R.drawable.ic_person_grey600_24dp)
                     .error(R.drawable.ic_person_grey600_24dp)
                     .apply(RequestOptions.circleCropTransform())

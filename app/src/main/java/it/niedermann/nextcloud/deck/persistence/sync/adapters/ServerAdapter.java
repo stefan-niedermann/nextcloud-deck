@@ -4,16 +4,14 @@ import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.webkit.MimeTypeMap;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 
 import com.nextcloud.android.sso.api.ParsedResponse;
+import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
 import java.io.File;
 import java.util.List;
@@ -44,6 +42,7 @@ import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.model.propagation.Reorder;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.util.ConnectivityUtil;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -51,43 +50,36 @@ import okhttp3.ResponseBody;
 
 public class ServerAdapter {
 
-    private final String prefKeyWifiOnly;
+    private final ConnectivityUtil connectivityUtil;
     private final String prefKeyEtags;
-    final SharedPreferences sharedPreferences;
-
-    @NonNull
-    private final Context applicationContext;
+    private final SharedPreferences sharedPreferences;
     private final ApiProvider provider;
 
-    public ServerAdapter(@NonNull Context applicationContext, @Nullable String ssoAccountName) {
-        this.applicationContext = applicationContext;
-        prefKeyWifiOnly = applicationContext.getResources().getString(R.string.pref_key_wifi_only);
-        prefKeyEtags = applicationContext.getResources().getString(R.string.pref_key_etags);
-        provider = new ApiProvider(applicationContext, ssoAccountName);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+    public ServerAdapter(@NonNull Context context,
+                         @NonNull SingleSignOnAccount ssoAccount,
+                         @NonNull ConnectivityUtil connectivityUtil) {
+        this(context, new ApiProvider(context, ssoAccount), connectivityUtil);
+    }
+
+    public ServerAdapter(@NonNull Context context,
+                         @NonNull ApiProvider apiProvider,
+                         @NonNull ConnectivityUtil connectivityUtil) {
+        this.prefKeyEtags = context.getResources().getString(R.string.pref_key_etags);
+        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        this.connectivityUtil = connectivityUtil;
+        this.provider = apiProvider;
+    }
+
+    @Deprecated()
+    public boolean hasInternetConnection() {
+        return connectivityUtil.hasInternetConnection();
     }
 
     public void ensureInternetConnection() {
-        final boolean isConnected = hasInternetConnection();
+        final boolean isConnected = connectivityUtil.hasInternetConnection();
         if (!isConnected) {
             throw new OfflineException();
         }
-    }
-
-    public boolean hasInternetConnection() {
-        ConnectivityManager cm = (ConnectivityManager) applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (cm != null) {
-            if (sharedPreferences.getBoolean(prefKeyWifiOnly, false)) {
-                NetworkInfo networkInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-                if (networkInfo == null) {
-                    return false;
-                }
-                return networkInfo.isConnected();
-            } else {
-                return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
-            }
-        }
-        return false;
     }
 
     // TODO what is this?

@@ -55,7 +55,7 @@ public interface UserDao extends GenericDao<User> {
             "and ( uid LIKE :searchTerm or displayname LIKE :searchTerm or primaryKey LIKE :searchTerm ) " +
             "and u.localId <> (select b.ownerId from board b where localId = :boardId)" +
             "ORDER BY u.displayname")
-    List<User> searchUserByUidOrDisplayNameForACLDirectly(final long accountId, final long boardId, final String searchTerm);
+    LiveData<List<User>> searchUserByUidOrDisplayNameForACL(final long accountId, final long boardId, final String searchTerm);
 
     @Query("SELECT * FROM user WHERE accountId = :accountId and uid = :uid")
     User getUserByUidDirectly(final long accountId, final String uid);

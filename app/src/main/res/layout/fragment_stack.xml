@@ -27,7 +27,7 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingTop="@dimen/spacer_1x"
-        android:paddingBottom="80dp"
+        android:paddingBottom="@dimen/stack_bottom_padding"
         android:scrollbarStyle="outsideOverlay"
         android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

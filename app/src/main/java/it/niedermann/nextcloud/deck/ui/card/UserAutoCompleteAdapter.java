@@ -1,40 +1,74 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 
 import androidx.activity.ComponentActivity;
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import java.util.List;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
+import it.niedermann.android.util.DimensionUtil;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAutocompleteUserBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.extrawurst.UserSearchLiveData;
 import it.niedermann.nextcloud.deck.util.AutoCompleteAdapter;
-import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
+
+    private static final long NO_CARD = Long.MIN_VALUE;
     @NonNull
     private final Account account;
-    private final UserSearchLiveData liveSearchForACL;
-    private LiveData<List<User>> liveData;
-    private Observer<List<User>> observer;
 
-    public UserAutoCompleteAdapter(@NonNull ComponentActivity activity, @NonNull Account account, long boardId) {
+    /**
+     * Use this constructor to find users to be added to the ACL of a board
+     */
+    public UserAutoCompleteAdapter(@NonNull ComponentActivity activity, @NonNull Account account, long boardId) throws NextcloudFilesAppAccountNotFoundException {
         this(activity, account, boardId, NO_CARD);
     }
 
-    public UserAutoCompleteAdapter(@NonNull ComponentActivity activity, @NonNull Account account, long boardId, long cardId) {
-        super(activity, account.getId(), boardId, cardId);
+    /**
+     * Use this constructor to find users to be added to a specific card which are already in the ACL of the board
+     */
+    public UserAutoCompleteAdapter(@NonNull ComponentActivity activity, @NonNull Account account, long boardId, long cardId) throws NextcloudFilesAppAccountNotFoundException {
+        super(activity, account, boardId);
         this.account = account;
-        this.liveSearchForACL = syncManager.searchUserByUidOrDisplayNameForACL();
+
+        final ReactiveLiveData<List<User>> results$;
+
+        constraint$
+                .filter(constraint -> !TextUtils.isEmpty(constraint))
+                .debounce(300)
+                .observe(activity, constraint -> {
+                    DeckLog.verbose("Triggering remote search");
+                    syncManager.triggerUserSearch(account, constraint);
+                });
+
+        if (cardId == NO_CARD) {
+            // No card means this adapter is used for searching users for Board ACL
+            results$ = constraint$.flatMap(constraint -> TextUtils.isEmpty(constraint)
+                    ? syncManager.findProposalsForUsersToAssignForACL(account.getId(), boardId, activity.getResources().getInteger(R.integer.max_users_suggested))
+                    : syncManager.searchUserByUidOrDisplayNameForACL(account.getId(), boardId, constraint));
+        } else {
+            // Card is given, so we are searching for users to assign to a card (limited to users whom the board is shared with)
+            results$ = constraint$.flatMap(constraint -> TextUtils.isEmpty(constraint)
+                    ? syncManager.findProposalsForUsersToAssignForCards(account.getId(), boardId, cardId, activity.getResources().getInteger(R.integer.max_users_suggested))
+                    : syncManager.searchUserByUidOrDisplayNameForCards(account.getId(), boardId, cardId, constraint));
+        }
+
+        results$
+                .map(this::filterExcluded)
+                .distinctUntilChanged()
+                .observe(activity, this::publishResults);
     }
 
     @Override
@@ -47,41 +81,14 @@ public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
             binding = ItemAutocompleteUserBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         }
 
-        ViewUtil.addAvatar(binding.icon, account.getUrl(), getItem(position).getUid(), R.drawable.ic_person_grey600_24dp);
+        Glide.with(binding.icon.getContext())
+                .load(account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.icon.getContext(), R.dimen.avatar_size), getItem(position).getUid()))
+                .placeholder(R.drawable.ic_person_grey600_24dp)
+                .error(R.drawable.ic_person_grey600_24dp)
+                .apply(RequestOptions.circleCropTransform())
+                .into(binding.icon);
         binding.label.setText(getItem(position).getDisplayname());
 
         return binding.getRoot();
-    }
-
-    @Override
-    public Filter getFilter() {
-        return new AutoCompleteFilter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                if (constraint != null) {
-                    activity.runOnUiThread(() -> {
-                        final int constraintLength = constraint.toString().trim().length();
-                        if (cardId == NO_CARD) {
-                            liveData = constraintLength > 0
-                                    ? liveSearchForACL.search(accountId, boardId, constraint.toString())
-                                    : syncManager.findProposalsForUsersToAssignForACL(accountId, boardId, activity.getResources().getInteger(R.integer.max_users_suggested));
-                        } else {
-                            liveData = constraintLength > 0
-                                    ? syncManager.searchUserByUidOrDisplayName(accountId, boardId, cardId, constraint.toString())
-                                    : syncManager.findProposalsForUsersToAssign(accountId, boardId, cardId, activity.getResources().getInteger(R.integer.max_users_suggested));
-                        }
-                        liveData.removeObservers(activity);
-                        observer = users -> {
-                            users.removeAll(itemsToExclude);
-                            filterResults.values = users;
-                            filterResults.count = users.size();
-                            publishResults(constraint, filterResults);
-                        };
-                        liveData.observe(activity, observer);
-                    });
-                }
-                return filterResults;
-            }
-        };
     }
 }

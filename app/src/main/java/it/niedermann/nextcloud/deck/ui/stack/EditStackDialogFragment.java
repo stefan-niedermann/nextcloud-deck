@@ -4,8 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,13 +22,19 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogStackCreateBinding;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
+import it.niedermann.nextcloud.deck.util.OnTextChangedWatcher;
 
 public class EditStackDialogFragment extends ThemedDialogFragment implements DialogInterface.OnClickListener {
+
+    private static final String KEY_ACCOUNT_ID = "account_id";
+    private static final String KEY_BOARD_ID = "board_id";
     private static final String KEY_STACK_ID = "stack_id";
     private static final String KEY_OLD_TITLE = "old_title";
     private EditStackListener editStackListener;
-
     private DialogStackCreateBinding binding;
+
+    private Bundle args;
+    private boolean createMode;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -51,12 +55,18 @@ public class EditStackDialogFragment extends ThemedDialogFragment implements Dia
                 .setView(binding.getRoot())
                 .setNeutralButton(android.R.string.cancel, null);
 
-        final var args = getArguments();
+        args = getArguments();
 
         if (args == null) {
+            throw new IllegalArgumentException("Pass either " + KEY_ACCOUNT_ID + " and " + KEY_BOARD_ID + " for creating a new stack or " + KEY_STACK_ID + " for editing an existing stack.");
+        }
+
+        if (args.getLong(KEY_STACK_ID, -1) == -1) {
+            createMode = true;
             builder.setTitle(R.string.add_list)
                     .setPositiveButton(R.string.simple_add, null);
         } else {
+            createMode = false;
             binding.input.setText(args.getString(KEY_OLD_TITLE));
             builder.setTitle(R.string.rename_list)
                     .setPositiveButton(R.string.simple_rename, null);
@@ -69,26 +79,13 @@ public class EditStackDialogFragment extends ThemedDialogFragment implements Dia
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> onClick(dialog, DialogInterface.BUTTON_POSITIVE));
         });
 
-        binding.input.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Nothing to do
+        binding.input.addTextChangedListener(new OnTextChangedWatcher(s -> {
+            final boolean inputIsValid = inputIsValid(binding.input.getText());
+            if (inputIsValid) {
+                binding.inputWrapper.setError(null);
             }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                final boolean inputIsValid = inputIsValid(binding.input.getText());
-                if (inputIsValid) {
-                    binding.inputWrapper.setError(null);
-                }
-                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(inputIsValid);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // Nothing to do
-            }
-        });
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(inputIsValid);
+        }));
 
         binding.input.setOnEditorActionListener((textView, actionId, event) -> {
             //noinspection SwitchStatementWithTooFewBranches
@@ -118,21 +115,6 @@ public class EditStackDialogFragment extends ThemedDialogFragment implements Dia
         this.binding = null;
     }
 
-    public static DialogFragment newInstance() {
-        return new EditStackDialogFragment();
-    }
-
-    public static DialogFragment newInstance(long stackId, @Nullable String oldTitle) {
-        final var dialog = new EditStackDialogFragment();
-
-        final var args = new Bundle();
-        args.putLong(KEY_STACK_ID, stackId);
-        args.putString(KEY_OLD_TITLE, oldTitle);
-
-        dialog.setArguments(args);
-        return dialog;
-    }
-
     @Override
     public void applyTheme(int color) {
         final var utils = ThemeUtils.of(color, requireContext());
@@ -142,16 +124,13 @@ public class EditStackDialogFragment extends ThemedDialogFragment implements Dia
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-        final var args = getArguments();
-        final var createMode = args == null;
-
         //noinspection SwitchStatementWithTooFewBranches
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
                 final var currentUserInput = binding.input.getText();
                 if (inputIsValid(currentUserInput)) {
                     if (createMode) {
-                        editStackListener.onCreateStack(binding.input.getText().toString());
+                        editStackListener.onCreateStack(args.getLong(KEY_ACCOUNT_ID), args.getLong(KEY_BOARD_ID), binding.input.getText().toString());
                     } else {
                         editStackListener.onUpdateStack(args.getLong(KEY_STACK_ID), binding.input.getText().toString());
                     }
@@ -166,7 +145,35 @@ public class EditStackDialogFragment extends ThemedDialogFragment implements Dia
         }
     }
 
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        editStackListener.onDismiss(dialog);
+    }
+
     private static boolean inputIsValid(@Nullable CharSequence input) {
         return input != null && !input.toString().trim().isEmpty();
+    }
+
+    public static DialogFragment newInstance(long accountId, long boardId) {
+        final var dialog = new EditStackDialogFragment();
+
+        final var args = new Bundle();
+        args.putLong(KEY_ACCOUNT_ID, accountId);
+        args.putLong(KEY_BOARD_ID, boardId);
+
+        dialog.setArguments(args);
+        return dialog;
+    }
+
+    public static DialogFragment newInstance(long stackId, @Nullable String oldTitle) {
+        final var dialog = new EditStackDialogFragment();
+
+        final var args = new Bundle();
+        args.putLong(KEY_STACK_ID, stackId);
+        args.putString(KEY_OLD_TITLE, oldTitle);
+
+        dialog.setArguments(args);
+        return dialog;
     }
 }

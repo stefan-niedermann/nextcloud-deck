@@ -1,42 +1,40 @@
 package it.niedermann.nextcloud.deck.ui.manageaccounts;
 
-import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccount;
-
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
 @SuppressWarnings("WeakerAccess")
-public class ManageAccountsViewModel extends AndroidViewModel {
-
-    private SyncManager syncManager;
+public class ManageAccountsViewModel extends BaseViewModel {
 
     public ManageAccountsViewModel(@NonNull Application application) {
         super(application);
-        this.syncManager = new SyncManager(application);
     }
 
     public LiveData<Account> readAccount(long id) {
-        return syncManager.readAccount(id);
+        return baseRepository.readAccount(id);
     }
 
     public LiveData<List<Account>> readAccounts() {
-        return syncManager.readAccounts();
+        return baseRepository.readAccounts();
     }
 
-    public void setNewAccount(@NonNull Account account) {
-        saveCurrentAccount(getApplication(), account);
-        syncManager = new SyncManager(getApplication());
+    public CompletableFuture<Long> getCurrentAccountId() {
+        return baseRepository.getCurrentAccountId();
+    }
+
+    public void saveCurrentAccount(@NonNull Account account) {
+        baseRepository.saveCurrentAccount(account);
     }
 
     public void deleteAccount(long id) {
-        syncManager.deleteAccount(id);
+        baseRepository.deleteAccount(id);
     }
 }

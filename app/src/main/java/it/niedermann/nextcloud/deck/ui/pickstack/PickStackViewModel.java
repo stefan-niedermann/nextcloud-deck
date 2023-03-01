@@ -1,10 +1,11 @@
 package it.niedermann.nextcloud.deck.ui.pickstack;
 
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
+
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -13,14 +14,10 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-
-import static androidx.lifecycle.Transformations.distinctUntilChanged;
+import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
 @SuppressWarnings("WeakerAccess")
-public class PickStackViewModel extends AndroidViewModel {
-
-    private final SyncManager syncManager;
+public class PickStackViewModel extends BaseViewModel {
 
     private Account selectedAccount;
     @Nullable
@@ -34,7 +31,18 @@ public class PickStackViewModel extends AndroidViewModel {
 
     public PickStackViewModel(@NonNull Application application) {
         super(application);
-        this.syncManager = new SyncManager(application);
+    }
+
+    public LiveData<Long> getCurrentAccountId$() {
+        return baseRepository.getCurrentAccountId$();
+    }
+
+    public LiveData<Long> getCurrentBoardId$(long accountId) {
+        return baseRepository.getCurrentBoardId$(accountId);
+    }
+
+    public LiveData<Long> getCurrentStackId$(long accountId, long boardId) {
+        return baseRepository.getCurrentStackId$(accountId, boardId);
     }
 
     public LiveData<Boolean> submitButtonEnabled() {
@@ -81,22 +89,22 @@ public class PickStackViewModel extends AndroidViewModel {
     }
 
     public LiveData<Boolean> hasAccounts() {
-        return syncManager.hasAccounts();
+        return baseRepository.hasAccounts();
     }
 
     public LiveData<List<Account>> readAccounts() {
-        return syncManager.readAccounts();
+        return baseRepository.readAccounts();
     }
 
-    public LiveData<List<Board>> getBoards(long accountId) {
-        return syncManager.getBoards(accountId);
+    public LiveData<List<Board>> getNotArchivedBoards(long accountId) {
+        return baseRepository.getBoards(accountId, false);
     }
 
     public LiveData<List<Board>> getBoardsWithEditPermission(long accountId) {
-        return syncManager.getBoardsWithEditPermission(accountId);
+        return baseRepository.getBoardsWithEditPermission(accountId);
     }
 
     public LiveData<List<Stack>> getStacksForBoard(long accountId, long localBoardId) {
-        return syncManager.getStacksForBoard(accountId, localBoardId);
+        return baseRepository.getStacksForBoard(accountId, localBoardId);
     }
 }

@@ -60,7 +60,7 @@
             android:scaleType="center"
             android:scaleX=".7"
             android:scaleY=".7"
-            app:srcCompat="@drawable/selected" />
+            app:srcCompat="@drawable/selected_check" />
     </LinearLayout>
 
     <View

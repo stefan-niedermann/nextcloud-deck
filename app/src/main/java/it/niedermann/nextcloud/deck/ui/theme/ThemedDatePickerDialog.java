@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.theme;
 
-import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
-import static it.niedermann.nextcloud.deck.ui.theme.ThemeUtils.readBrandMainColor;
+import static com.nextcloud.android.common.ui.util.PlatformThemeUtil.isDarkMode;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,11 +18,17 @@ import scheme.Scheme;
 
 public class ThemedDatePickerDialog extends DatePickerDialog implements Themed {
 
+    private static final String BUNDLE_KEY_COLOR = "color";
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final var context = requireContext();
-        setThemeDark(isDarkTheme(context));
-        applyTheme(readBrandMainColor(context));
+        final var args = getArguments();
+        if (args == null || !args.containsKey(BUNDLE_KEY_COLOR)) {
+            throw new IllegalArgumentException("Please provide at least local comment id");
+        }
+
+        applyTheme(args.getInt(BUNDLE_KEY_COLOR));
+        setThemeDark(isDarkMode(requireContext()));
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -47,8 +52,13 @@ public class ThemedDatePickerDialog extends DatePickerDialog implements Themed {
      * @param dayOfMonth  The initial day of the dialog.
      * @return a new DatePickerDialog instance.
      */
-    public static DatePickerDialog newInstance(OnDateSetListener callBack, int year, int monthOfYear, int dayOfMonth) {
+    public static DatePickerDialog newInstance(OnDateSetListener callBack, int year, int monthOfYear, int dayOfMonth, @ColorInt int color) {
         final var dialog = new ThemedDatePickerDialog();
+
+        final var args = new Bundle();
+        args.putInt(BUNDLE_KEY_COLOR, color);
+        dialog.setArguments(args);
+
         dialog.initialize(callBack, year, monthOfYear - 1, dayOfMonth);
         return dialog;
     }
@@ -62,8 +72,13 @@ public class ThemedDatePickerDialog extends DatePickerDialog implements Themed {
      *                         TimeZone of the Calendar object)
      * @return a new DatePickerDialog instance
      */
-    public static DatePickerDialog newInstance(OnDateSetListener callback, Calendar initialSelection) {
+    public static DatePickerDialog newInstance(OnDateSetListener callback, Calendar initialSelection, @ColorInt int color) {
         final var dialog = new ThemedDatePickerDialog();
+
+        final var args = new Bundle();
+        args.putInt(BUNDLE_KEY_COLOR, color);
+        dialog.setArguments(args);
+
         dialog.initialize(callback, initialSelection);
         return dialog;
     }

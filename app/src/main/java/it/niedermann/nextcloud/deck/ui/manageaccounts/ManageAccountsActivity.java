@@ -1,8 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.manageaccounts;
 
-import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentAccountId;
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +8,10 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.databinding.ActivityManageAccountsBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 
@@ -34,7 +33,7 @@ public class ManageAccountsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
-        adapter = new ManageAccountAdapter((account) -> viewModel.setNewAccount(account), (accountPair) -> {
+        adapter = new ManageAccountAdapter((account) -> viewModel.saveCurrentAccount(account), (accountPair) -> {
             if (accountPair.first != null) {
                 viewModel.deleteAccount(accountPair.first.getId());
             } else {
@@ -42,29 +41,25 @@ public class ManageAccountsActivity extends AppCompatActivity {
             }
             Account newAccount = accountPair.second;
             if (newAccount != null) {
-                viewModel.setNewAccount(newAccount);
+                viewModel.saveCurrentAccount(newAccount);
             } else {
                 Log.i(TAG, "Got delete account request, but new account is null. Maybe last account has been deleted?");
             }
         });
         binding.accounts.setAdapter(adapter);
 
-        observeOnce(viewModel.readAccount(readCurrentAccountId(this)), this, (account -> {
-            adapter.setCurrentAccount(account);
-            viewModel.readAccounts().observe(this, (localAccounts -> {
-                if (localAccounts.size() == 0) {
-                    Log.i(TAG, "No accounts, finishing " + ManageAccountsActivity.class.getSimpleName());
-                    finish();
-                } else {
-                    adapter.setAccounts(localAccounts);
-                }
-            }));
-        }));
-    }
-
-    @Override
-    public void onBackPressed() {
-        onSupportNavigateUp();
+        viewModel.getCurrentAccountId().thenAcceptAsync(accountId -> new ReactiveLiveData<>(viewModel.readAccount(accountId))
+                .observeOnce(this, account -> {
+                    adapter.setCurrentAccount(account);
+                    viewModel.readAccounts().observe(this, (localAccounts -> {
+                        if (localAccounts.size() == 0) {
+                            Log.i(TAG, "No accounts, finishing " + ManageAccountsActivity.class.getSimpleName());
+                            finish();
+                        } else {
+                            adapter.setAccounts(localAccounts);
+                        }
+                    }));
+                }), ContextCompat.getMainExecutor(this));
     }
 
     @Override

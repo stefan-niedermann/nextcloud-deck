@@ -10,8 +10,9 @@ import androidx.fragment.app.DialogFragment;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.ui.theme.DeleteAlertDialogBuilder;
+import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
 
-public class DeleteAttachmentDialogFragment extends DialogFragment {
+public class DeleteAttachmentDialogFragment extends ThemedDialogFragment {
 
     private static final String KEY_ATTACHMENT = "attachment";
 
@@ -45,6 +46,11 @@ public class DeleteAttachmentDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.simple_delete, (dialog, whichButton) -> deleteAttachmentListener.onAttachmentDeleted(attachment))
                 .setNeutralButton(android.R.string.cancel, null)
                 .create();
+    }
+
+    @Override
+    public void applyTheme(int color) {
+
     }
 
     public static DialogFragment newInstance(Attachment attachment) {

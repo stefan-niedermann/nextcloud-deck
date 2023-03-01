@@ -37,14 +37,14 @@ public class DataBaseAdapterTest {
 
     @Before
     public void createAdapter() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        final var constructor = DataBaseAdapter.class.getDeclaredConstructor(Context.class, DeckDatabase.class, ExecutorService.class);
+        final var constructor = DataBaseAdapter.class.getDeclaredConstructor(Context.class, DeckDatabase.class, ExecutorService.class, ExecutorService.class);
         if (isPrivate(constructor.getModifiers())) {
             constructor.setAccessible(true);
             db = Room
                     .inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), DeckDatabase.class)
                     .allowMainThreadQueries()
                     .build();
-            adapter = constructor.newInstance(ApplicationProvider.getApplicationContext(), db, MoreExecutors.newDirectExecutorService());
+            adapter = constructor.newInstance(ApplicationProvider.getApplicationContext(), db, MoreExecutors.newDirectExecutorService(), MoreExecutors.newDirectExecutorService());
         }
     }
 

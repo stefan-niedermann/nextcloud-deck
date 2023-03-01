@@ -1,13 +1,12 @@
 package it.niedermann.nextcloud.deck.ui.card.comments;
 
-import static it.niedermann.nextcloud.deck.ui.theme.ThemeUtils.readBrandMainColor;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,11 +19,14 @@ import it.niedermann.nextcloud.deck.databinding.ItemCommentBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
-import scheme.Scheme;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
 
-public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHolder> {
+public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHolder> implements Themed {
 
-    private final Scheme scheme;
+    @NonNull
+    private final Context context;
+    @Nullable
+    private ThemeUtils utils;
     @NonNull
     private final List<FullDeckComment> comments = new ArrayList<>();
     @NonNull
@@ -40,14 +42,22 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
     @NonNull
     private final CommentEditedListener editListener;
 
-    CardCommentsAdapter(@NonNull Context context, @NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull CommentDeletedListener deletedListener, @NonNull CommentSelectAsReplyListener selectAsReplyListener, @NonNull FragmentManager fragmentManager, CommentEditedListener editListener) {
+    CardCommentsAdapter(
+            @NonNull Context context,
+            @NonNull Account account,
+            @NonNull MenuInflater menuInflater,
+            @NonNull CommentDeletedListener deletedListener,
+            @NonNull CommentSelectAsReplyListener selectAsReplyListener,
+            @NonNull FragmentManager fragmentManager,
+            @NonNull CommentEditedListener editListener
+    ) {
+        this.context = context;
         this.account = account;
         this.menuInflater = menuInflater;
         this.deletedListener = deletedListener;
         this.selectAsReplyListener = selectAsReplyListener;
         this.fragmentManager = fragmentManager;
         this.editListener = editListener;
-        this.scheme = ThemeUtils.createScheme(readBrandMainColor(context), context);
         setHasStableIds(true);
     }
 
@@ -65,7 +75,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
     @Override
     public void onBindViewHolder(@NonNull ItemCommentViewHolder holder, int position) {
         final var comment = comments.get(position);
-        holder.bind(comment, account, scheme, menuInflater, deletedListener, selectAsReplyListener, fragmentManager, (changedText) -> {
+        holder.bind(comment, account, utils, menuInflater, deletedListener, selectAsReplyListener, fragmentManager, (changedText) -> {
             if (!Objects.equals(changedText, comment.getComment().getMessage())) {
                 DeckLog.info("Toggled checkbox in comment with localId", comment.getLocalId());
                 this.editListener.onCommentEdited(comment.getLocalId(), changedText.toString());
@@ -89,5 +99,11 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
     @Override
     public int getItemCount() {
         return comments.size();
+    }
+
+    @Override
+    public void applyTheme(int color) {
+        this.utils = ThemeUtils.of(color, context);
+        notifyDataSetChanged();
     }
 }

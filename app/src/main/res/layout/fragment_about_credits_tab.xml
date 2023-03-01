@@ -118,17 +118,5 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@string/about_translators_transifex" />
-
-        <TextView
-            style="?android:attr/listSeparatorTextViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/about_testers_title" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="@string/about_testers" />
     </LinearLayout>
 </ScrollView>

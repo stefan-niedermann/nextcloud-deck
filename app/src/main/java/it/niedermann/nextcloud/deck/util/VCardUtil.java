@@ -23,8 +23,13 @@ public class VCardUtil {
         final var cr = context.getContentResolver();
         try (final var cursor = cr.query(contactUri, null, null, null, null)) {
             if (cursor != null && cursor.moveToFirst()) {
-                final String lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
-                return Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_VCARD_URI, lookupKey);
+                final var columnIndex = cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY);
+                if (columnIndex >= 0) {
+                    final String lookupKey = cursor.getString(columnIndex);
+                    return Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_VCARD_URI, lookupKey);
+                } else {
+                    throw new NoSuchElementException("Could not find column index for " + ContactsContract.Contacts.LOOKUP_KEY);
+                }
             } else {
                 throw new NoSuchElementException("Cursor has zero entries");
             }

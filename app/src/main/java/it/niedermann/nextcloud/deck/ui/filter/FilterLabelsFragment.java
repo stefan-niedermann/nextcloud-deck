@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
 import static java.util.Objects.requireNonNull;
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,9 +12,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterLabelsBinding;
 import it.niedermann.nextcloud.deck.model.Label;
-import it.niedermann.nextcloud.deck.ui.MainViewModel;
 
 public class FilterLabelsFragment extends Fragment implements SelectionListener<Label> {
 
@@ -26,18 +25,20 @@ public class FilterLabelsFragment extends Fragment implements SelectionListener<
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         final var binding = DialogFilterLabelsBinding.inflate(requireActivity().getLayoutInflater());
-        final var mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 
-        observeOnce(filterViewModel.findProposalsForLabelsToAssign(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId()), requireActivity(), (labels) -> {
-            binding.labels.setNestedScrollingEnabled(false);
-            binding.labels.setAdapter(new FilterLabelsAdapter(
-                    labels,
-                    requireNonNull(filterViewModel.getFilterInformationDraft().getValue()).getLabels(),
-                    requireNonNull(filterViewModel.getFilterInformationDraft().getValue()).isNoAssignedLabel(),
-                    this));
-        });
+        new ReactiveLiveData<>(filterViewModel.findProposalsForLabelsToAssign())
+                .combineWith(() -> filterViewModel.getCurrentBoardColor$())
+                .observeOnce(getViewLifecycleOwner(), pair -> {
+                    binding.labels.setNestedScrollingEnabled(false);
+                    binding.labels.setAdapter(new FilterLabelsAdapter(
+                            pair.first,
+                            requireNonNull(filterViewModel.getFilterInformationDraft().getValue()).getLabels(),
+                            requireNonNull(filterViewModel.getFilterInformationDraft().getValue()).isNoAssignedLabel(),
+                            this,
+                            pair.second));
+                });
 
         return binding.getRoot();
     }

@@ -8,16 +8,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
+import java.net.MalformedURLException;
+
 import it.niedermann.nextcloud.deck.TestUtil;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DeckDatabaseTestUtil;
+import it.niedermann.nextcloud.sso.glide.SingleSignOnUrl;
 
 @RunWith(RobolectricTestRunner.class)
 public class AccountDaoTest extends AbstractDaoTest {
 
     @Test
-    public void testCreate() {
+    public void testCreate() throws MalformedURLException {
         final var accountToCreate = new Account();
         accountToCreate.setName("test@example.com");
         accountToCreate.setUserName("test");
@@ -31,7 +34,9 @@ public class AccountDaoTest extends AbstractDaoTest {
         assertEquals(Integer.valueOf(Capabilities.DEFAULT_COLOR), account.getColor());
         assertEquals(Integer.valueOf(Capabilities.DEFAULT_TEXT_COLOR), account.getTextColor());
         assertEquals("0.6.4", account.getServerDeckVersion());
-        assertEquals("https://example.com/index.php/avatar/test/1337", account.getAvatarUrl(1337));
+        final var expectedAvatarUrl = new SingleSignOnUrl("test@example.com", "https://example.com/index.php/avatar/test/1337");
+        assertEquals(expectedAvatarUrl.getSsoAccountName(), account.getAvatarUrl(1337).getSsoAccountName());
+        assertEquals(expectedAvatarUrl.toURL(), account.getAvatarUrl(1337).toURL());
         assertEquals(1, db.getAccountDao().countAccountsDirectly());
         assertNull(account.getEtag());
         assertFalse(account.isMaintenanceEnabled());

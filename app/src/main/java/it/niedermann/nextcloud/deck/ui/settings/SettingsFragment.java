@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.settings;
 
-import static it.niedermann.nextcloud.deck.DeckApplication.setAppTheme;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,10 +7,13 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import it.niedermann.nextcloud.deck.DeckApplication;
+import java.util.stream.Stream;
+
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
@@ -20,6 +21,7 @@ import it.niedermann.nextcloud.deck.ui.theme.ThemedSwitchPreference;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
+    private PreferencesViewModel preferencesViewModel;
     private ThemedSwitchPreference wifiOnlyPref;
     private ThemedSwitchPreference compactPref;
     private ThemedSwitchPreference coverImagesPref;
@@ -30,6 +32,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.settings, rootKey);
+
+        preferencesViewModel = new ViewModelProvider(requireActivity()).get(PreferencesViewModel.class);
 
         wifiOnlyPref = findPreference(getString(R.string.pref_key_wifi_only));
         coverImagesPref = findPreference(getString(R.string.pref_key_cover_images));
@@ -61,7 +65,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         final var themePref = findPreference(getString(R.string.pref_key_dark_theme));
         if (themePref != null) {
             themePref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-                setAppTheme(Integer.parseInt((String) newValue));
+                preferencesViewModel.setAppTheme(Integer.parseInt((String) newValue));
                 requireActivity().setResult(Activity.RESULT_OK);
                 ActivityCompat.recreate(requireActivity());
                 return true;
@@ -75,13 +79,15 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        DeckApplication.readCurrentAccountColor().observe(getViewLifecycleOwner(), (mainColor) -> {
-            wifiOnlyPref.applyTheme(mainColor);
-            compactPref.applyTheme(mainColor);
-            coverImagesPref.applyTheme(mainColor);
-            compressImageAttachmentsPref.applyTheme(mainColor);
-            debuggingPref.applyTheme(mainColor);
-            eTagPref.applyTheme(mainColor);
-        });
+        new ReactiveLiveData<>(preferencesViewModel.getCurrentAccountId$())
+                .flatMap(preferencesViewModel::getAccountColor)
+                .observe(getViewLifecycleOwner(), color -> Stream.of(
+                                wifiOnlyPref,
+                                compactPref,
+                                coverImagesPref,
+                                compressImageAttachmentsPref,
+                                debuggingPref,
+                                eTagPref)
+                        .forEach(pref -> pref.applyTheme(color)));
     }
 }

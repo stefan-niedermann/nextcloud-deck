@@ -1,8 +1,5 @@
 package it.niedermann.nextcloud.deck.ui;
 
-import static androidx.lifecycle.Transformations.distinctUntilChanged;
-import static androidx.lifecycle.Transformations.map;
-
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.net.Uri;
@@ -14,25 +11,24 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
-import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 import it.niedermann.nextcloud.deck.util.ProjectUtil;
 
-public class PushNotificationViewModel extends AndroidViewModel {
+public class PushNotificationViewModel extends BaseViewModel {
 
     // Provided by Files app NotificationJob
     private static final String KEY_SUBJECT = "subject";
@@ -41,12 +37,10 @@ public class PushNotificationViewModel extends AndroidViewModel {
     private static final String KEY_ACCOUNT = "account";
     private static final String KEY_CARD_REMOTE_ID = "objectId";
 
-    private final SyncManager readAccountSyncManager;
     private final MutableLiveData<Account> account = new MutableLiveData<>();
 
     public PushNotificationViewModel(@NonNull Application application) {
         super(application);
-        this.readAccountSyncManager = new SyncManager(application);
     }
 
     @WorkerThread
@@ -63,8 +57,7 @@ public class PushNotificationViewModel extends AndroidViewModel {
                     .orElseThrow(() -> new IllegalArgumentException("Account not found"));
             this.account.postValue(account);
 
-            SingleAccountHelper.setCurrentAccount(getApplication(), account.getName());
-            final var syncManager = new SyncManager(getApplication());
+            final var syncManager = new SyncManager(getApplication(), account);
 
             final var card = syncManager.getCardByRemoteIDDirectly(account.getId(), cardRemoteId);
 
@@ -200,7 +193,7 @@ public class PushNotificationViewModel extends AndroidViewModel {
     }
 
     private Optional<Account> extractAccount(@NonNull Bundle bundle) {
-        return Optional.ofNullable(readAccountSyncManager.readAccountDirectly(bundle.getString(KEY_ACCOUNT)));
+        return Optional.ofNullable(baseRepository.readAccountDirectly(bundle.getString(KEY_ACCOUNT)));
     }
 
     private Optional<Long> extractBoardLocalId(@NonNull SyncManager syncManager, long accountId, long cardRemoteId) {
@@ -230,7 +223,9 @@ public class PushNotificationViewModel extends AndroidViewModel {
     }
 
     public LiveData<Integer> getAccount() {
-        return distinctUntilChanged(map(this.account, Account::getColor));
+        return new ReactiveLiveData<>(this.account)
+                .map(Account::getColor)
+                .distinctUntilChanged();
     }
 
     public interface PushNotificationCallback extends IResponseCallback<CardInformation> {

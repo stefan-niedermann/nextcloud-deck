@@ -30,7 +30,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
             android:layout_marginBottom="48dp"
             android:gravity="center_horizontal"
             android:textSize="24sp"
@@ -71,6 +70,7 @@
             android:layout_marginTop="@dimen/spacer_4x"
             android:indeterminate="true"
             android:indeterminateTint="@color/defaultBrand"
+            android:progressTint="@color/defaultBrand"
             android:visibility="gone" />
 
         <TextView

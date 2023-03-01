@@ -49,9 +49,9 @@ public class ShareProgressDialogFragment extends ThemedDialogFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        viewModel.getMax().observe(requireActivity(), (nextMax) -> binding.progress.setMax(nextMax));
+        viewModel.getMax().observe(this, binding.progress::setMax);
 
-        viewModel.getProgress().observe(requireActivity(), (progress) -> {
+        viewModel.getProgress().observe(this, progress -> {
             binding.progress.setProgress(progress);
             binding.progressText.setText(getString(R.string.progress_count, progress, viewModel.getMaxValue()));
             final Integer currentMaxValue = viewModel.getMaxValue();
@@ -63,7 +63,7 @@ public class ShareProgressDialogFragment extends ThemedDialogFragment {
             }
         });
 
-        viewModel.getExceptions().observe(requireActivity(), (exceptions) -> {
+        viewModel.getExceptions().observe(this, (exceptions) -> {
             final int exceptionsCount = exceptions.size();
             if (exceptionsCount > 0) {
                 binding.errorCounter.setText(getResources().getQuantityString(R.plurals.progress_error_count, exceptionsCount, exceptionsCount));
@@ -81,7 +81,7 @@ public class ShareProgressDialogFragment extends ThemedDialogFragment {
             }
         });
 
-        viewModel.getDuplicateAttachments().observe(requireActivity(), (duplicates) -> {
+        viewModel.getDuplicateAttachments().observe(this, (duplicates) -> {
             final int duplicatesCount = duplicates.size();
             if (duplicatesCount > 0) {
                 final var params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);

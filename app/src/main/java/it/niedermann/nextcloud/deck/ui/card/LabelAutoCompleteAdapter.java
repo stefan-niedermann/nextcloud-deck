@@ -1,50 +1,89 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 
 import androidx.activity.ComponentActivity;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
+
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAutocompleteLabelBinding;
+import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.util.AutoCompleteAdapter;
 
 public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
-    @Nullable
-    private Label createLabel;
-    private String lastFilterText;
-    private boolean canManage = false;
 
-    public LabelAutoCompleteAdapter(@NonNull ComponentActivity activity, long accountId, long boardId, long cardId) {
-        super(activity, accountId, boardId, cardId);
+    @NonNull
+    protected final Context context;
+    @ColorInt
+    private final int createLabelColor;
+    private final ReactiveLiveData<Boolean> canManage$;
+
+    public LabelAutoCompleteAdapter(@NonNull ComponentActivity activity, @NonNull Account account, long boardId, long cardId) throws NextcloudFilesAppAccountNotFoundException {
+        super(activity, account, boardId);
+        this.context = activity;
         final String[] colors = activity.getResources().getStringArray(R.array.board_default_colors);
-        @ColorInt int createLabelColor = Color.parseColor(colors[new Random().nextInt(colors.length)]);
-        observeOnce(syncManager.getFullBoardById(accountId, boardId), activity, (fullBoard) -> {
-            if (fullBoard.getBoard().isPermissionManage()) {
-                canManage = true;
-                createLabel = new Label();
-                createLabel.setLocalId(ITEM_CREATE);
-                createLabel.setBoardId(boardId);
-                createLabel.setAccountId(accountId);
-                createLabel.setColor(createLabelColor);
-            }
-        });
+        createLabelColor = Color.parseColor(colors[new Random().nextInt(colors.length)]);
+
+        canManage$ = new ReactiveLiveData<>(syncManager.getFullBoardById(account.getId(), boardId))
+                .map(FullBoard::getBoard)
+                .map(Board::isPermissionManage);
+
+        constraint$
+                .flatMap(constraint -> TextUtils.isEmpty(constraint)
+                        ? syncManager.findProposalsForLabelsToAssign(account.getId(), boardId, cardId)
+                        : syncManager.searchNotYetAssignedLabelsByTitle(account, boardId, cardId, constraint))
+                .map(this::filterExcluded)
+                .flatMap(this::addCreateLabelIfNeeded)
+                .distinctUntilChanged()
+                .observe(activity, this::publishResults);
+    }
+
+    private ReactiveLiveData<List<Label>> addCreateLabelIfNeeded(@NonNull List<Label> labels) {
+        return canManage$
+                .combineWith(() -> constraint$)
+                .map(args -> {
+                    final var canManage = args.first;
+                    final var constraint = args.second;
+                    if (canManage && !TextUtils.isEmpty(constraint) && !labelTitleIsPresent(labels, constraint)) {
+                        labels.add(createLabel(constraint));
+                    }
+                    return labels;
+                });
+    }
+
+    private boolean labelTitleIsPresent(@NonNull Collection<Label> labels, @NonNull CharSequence title) {
+        return labels.stream().map(Label::getTitle).anyMatch(title::equals);
+    }
+
+    @NonNull
+    private Label createLabel(String title) {
+        final var label = new Label();
+        label.setLocalId(null);
+        label.setBoardId(boardId);
+        label.setAccountId(account.getId());
+        label.setTitle(title);
+        label.setColor(createLabelColor);
+        return label;
     }
 
     @Override
@@ -61,11 +100,15 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
         final int labelColor = label.getColor();
         final int color = ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(labelColor);
 
-        binding.label.setText(label.getTitle());
+        if (label.getLocalId() == null) {
+            binding.label.setText(String.format(context.getString(R.string.label_add, label.getTitle())));
+        } else {
+            binding.label.setText(label.getTitle());
+        }
         binding.label.setChipBackgroundColor(ColorStateList.valueOf(labelColor));
         binding.label.setTextColor(color);
 
-        if (ITEM_CREATE == label.getLocalId()) {
+        if (label.getLocalId() == null) {
             final var plusIcon = DrawableCompat.wrap(ContextCompat.getDrawable(binding.label.getContext(), R.drawable.ic_plus));
             DrawableCompat.setTint(plusIcon, color);
             binding.label.setChipIcon(plusIcon);
@@ -74,50 +117,5 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
         }
 
         return binding.getRoot();
-    }
-
-    @Override
-    public Filter getFilter() {
-        return new AutoCompleteFilter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                if (constraint != null) {
-                    lastFilterText = constraint.toString();
-                    activity.runOnUiThread(() -> {
-                        final var liveData = constraint.toString().trim().length() > 0
-                                ? syncManager.searchNotYetAssignedLabelsByTitle(accountId, boardId, cardId, constraint.toString())
-                                : syncManager.findProposalsForLabelsToAssign(accountId, boardId, cardId);
-                        observeOnce(liveData, activity, (labels -> {
-                            labels.removeAll(itemsToExclude);
-                            final boolean constraintLengthGreaterZero = constraint.toString().trim().length() > 0;
-                            if (canManage && constraintLengthGreaterZero && !labelTitleIsPresent(labels, constraint)) {
-                                if (createLabel == null) {
-                                    throw new IllegalStateException("Owner has right to edit card, but createLabel is null");
-                                }
-                                createLabel.setTitle(String.format(activity.getString(R.string.label_add), constraint));
-                                labels.add(createLabel);
-                            }
-                            filterResults.values = labels;
-                            filterResults.count = labels.size();
-                            publishResults(constraint, filterResults);
-                        }));
-                    });
-                }
-                return filterResults;
-            }
-        };
-    }
-
-    private static boolean labelTitleIsPresent(@NonNull Collection<Label> labels, @NonNull CharSequence title) {
-        for (final var label : labels) {
-            if (label.getTitle().contentEquals(title)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public String getLastFilterText() {
-        return this.lastFilterText;
     }
 }

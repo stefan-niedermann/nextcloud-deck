@@ -12,6 +12,7 @@ import com.google.gson.annotations.JsonAdapter;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Objects;
 
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -218,9 +219,9 @@ public class Board extends AbstractRemoteEntity implements Serializable {
         if (permissionEdit != board.permissionEdit) return false;
         if (permissionManage != board.permissionManage) return false;
         if (permissionShare != board.permissionShare) return false;
-        if (title != null ? !title.equals(board.title) : board.title != null) return false;
-        if (color != null ? !color.equals(board.color) : board.color != null) return false;
-        return deletedAt != null ? deletedAt.equals(board.deletedAt) : board.deletedAt == null;
+        if (!Objects.equals(title, board.title)) return false;
+        if (!Objects.equals(color, board.color)) return false;
+        return Objects.equals(deletedAt, board.deletedAt);
     }
 
     @Override

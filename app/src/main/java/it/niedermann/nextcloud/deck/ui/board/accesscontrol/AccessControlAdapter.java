@@ -9,10 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAccessControlBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemAccessControlOwnerBinding;
@@ -21,7 +25,6 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.Themed;
-import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Themed {
 
@@ -76,15 +79,25 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
         final AccessControl ac = accessControls.get(position);
         switch (getItemViewType(position)) {
             case TYPE_HEADER: {
-                final OwnerViewHolder ownerHolder = (OwnerViewHolder) holder;
+                final var ownerHolder = (OwnerViewHolder) holder;
                 ownerHolder.binding.owner.setText(ac.getUser().getDisplayname());
-                ViewUtil.addAvatar(ownerHolder.binding.avatar, account.getUrl(), ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
+                Glide.with(ownerHolder.binding.avatar.getContext())
+                        .load(account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(ownerHolder.binding.avatar.getContext(), R.dimen.avatar_size), ac.getUser().getUid()))
+                        .placeholder(R.drawable.ic_person_grey600_24dp)
+                        .error(R.drawable.ic_person_grey600_24dp)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(ownerHolder.binding.avatar);
                 break;
             }
             case TYPE_ITEM:
             default: {
-                final AccessControlViewHolder acHolder = (AccessControlViewHolder) holder;
-                ViewUtil.addAvatar(acHolder.binding.avatar, account.getUrl(), ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
+                final var acHolder = (AccessControlViewHolder) holder;
+                Glide.with(acHolder.binding.avatar.getContext())
+                        .load(account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(acHolder.binding.avatar.getContext(), R.dimen.avatar_size), ac.getUser().getUid()))
+                        .placeholder(R.drawable.ic_person_grey600_24dp)
+                        .error(R.drawable.ic_person_grey600_24dp)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(acHolder.binding.avatar);
 
                 acHolder.binding.username.setText(ac.getUser().getDisplayname());
                 acHolder.binding.username.setCompoundDrawables(null, null, ac.getStatus() == DBStatus.LOCAL_EDITED.getId()

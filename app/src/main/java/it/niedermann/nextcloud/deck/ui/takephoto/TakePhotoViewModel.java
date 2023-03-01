@@ -2,17 +2,19 @@ package it.niedermann.nextcloud.deck.ui.takephoto;
 
 import static androidx.camera.core.CameraSelector.DEFAULT_BACK_CAMERA;
 import static androidx.camera.core.CameraSelector.DEFAULT_FRONT_CAMERA;
-import static androidx.lifecycle.Transformations.map;
+
+import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.camera.core.CameraSelector;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
-public class TakePhotoViewModel extends ViewModel {
+public class TakePhotoViewModel extends BaseViewModel {
 
     @NonNull
     private CameraSelector cameraSelector = DEFAULT_BACK_CAMERA;
@@ -20,6 +22,22 @@ public class TakePhotoViewModel extends ViewModel {
     private final MutableLiveData<Integer> cameraSelectorToggleButtonImageResource = new MutableLiveData<>(R.drawable.ic_baseline_camera_front_24);
     @NonNull
     private final MutableLiveData<Boolean> torchEnabled = new MutableLiveData<>(false);
+
+    public TakePhotoViewModel(@NonNull Application application) {
+        super(application);
+    }
+
+    public LiveData<Long> getCurrentAccountId$() {
+        return baseRepository.getCurrentAccountId$();
+    }
+
+    public LiveData<Long> getCurrentBoardId$(long accountId) {
+        return baseRepository.getCurrentBoardId$(accountId);
+    }
+
+    public LiveData<Integer> getBoardColor$(long accountId, long boardId) {
+        return baseRepository.getBoardColor$(accountId, boardId);
+    }
 
     @NonNull
     public CameraSelector getCameraSelector() {
@@ -50,8 +68,9 @@ public class TakePhotoViewModel extends ViewModel {
     }
 
     public LiveData<Integer> getTorchToggleButtonImageResource() {
-        return map(isTorchEnabled(), enabled -> enabled
-                ? R.drawable.ic_baseline_flash_off_24
-                : R.drawable.ic_baseline_flash_on_24);
+        return new ReactiveLiveData<>(isTorchEnabled())
+                .map(enabled -> enabled
+                        ? R.drawable.ic_baseline_flash_off_24
+                        : R.drawable.ic_baseline_flash_on_24);
     }
 }

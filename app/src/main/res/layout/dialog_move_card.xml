@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingStart="@dimen/spacer_2x"
+    android:paddingHorizontal="@dimen/spacer_2x"
     android:paddingTop="@dimen/spacer_2x"
-    android:paddingEnd="@dimen/spacer_2x"
     android:paddingBottom="@dimen/spacer_1x">
 
     <TextView
         android:id="@+id/title"
-        style="@style/TextAppearance.AppCompat.Title"
+        style="@style/TextAppearance.Material3.TitleLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacer_1x"
@@ -20,24 +19,22 @@
         android:maxLines="5"
         tools:text="@string/action_card_move_title" />
 
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title"
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginTop="@dimen/spacer_2x">
 
-        <FrameLayout
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_container"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <TextView
         android:id="@+id/move_warning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/scrollView"
         android:layout_marginTop="@dimen/spacer_2x"
         android:drawablePadding="@dimen/spacer_3x"
         android:paddingStart="@dimen/spacer_3x"
@@ -52,7 +49,6 @@
     <com.google.android.flexbox.FlexboxLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/move_warning"
         android:layout_marginTop="@dimen/spacer_1x"
         android:orientation="horizontal"
         app:justifyContent="space_between">
@@ -76,4 +72,4 @@
             android:text="@string/simple_move"
             android:textColor="@color/defaultBrand" />
     </com.google.android.flexbox.FlexboxLayout>
-</RelativeLayout>
+</LinearLayout>

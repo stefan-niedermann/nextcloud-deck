@@ -7,9 +7,10 @@ import android.widget.ImageView;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 
 import it.niedermann.android.util.ClipboardUtil;
 import it.niedermann.nextcloud.deck.R;
@@ -33,7 +34,7 @@ public abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
         setNotSyncedYetStatus(!DBStatus.LOCAL_EDITED.equals(attachment.getStatusEnum()), color);
         itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menuInflater.inflate(R.menu.attachment_menu, menu);
-            if(EAttachmentType.DECK_FILE.equals(attachment.getType())) {
+            if (EAttachmentType.DECK_FILE.equals(attachment.getType())) {
                 menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
                     DeleteAttachmentDialogFragment.newInstance(attachment).show(fragmentManager, DeleteAttachmentDialogFragment.class.getCanonicalName());
                     return false;
@@ -55,9 +56,9 @@ public abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
 
     protected void setNotSyncedYetStatus(boolean synced, @ColorInt int color) {
         final var notSyncedYet = getNotSyncedYetStatusIcon();
-        final var scheme = ThemeUtils.createScheme(color, notSyncedYet.getContext());
+        final var utils = ThemeUtils.of(color, notSyncedYet.getContext());
 
-        DrawableCompat.setTint(notSyncedYet.getDrawable(), scheme.getOnPrimaryContainer());
+        utils.platform.colorImageView(notSyncedYet, ColorRole.PRIMARY);
         notSyncedYet.setVisibility(synced ? View.GONE : View.VISIBLE);
     }
 

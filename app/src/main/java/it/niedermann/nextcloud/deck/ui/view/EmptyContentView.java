@@ -9,10 +9,14 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
+import com.nextcloud.android.common.ui.theme.utils.ColorRole;
+
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.WidgetEmptyContentViewBinding;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
 
-public class EmptyContentView extends RelativeLayout {
+public class EmptyContentView extends RelativeLayout implements Themed {
 
     private static final int NO_DESCRIPTION = -1;
 
@@ -23,11 +27,8 @@ public class EmptyContentView extends RelativeLayout {
 
         binding = WidgetEmptyContentViewBinding.inflate(LayoutInflater.from(context), this, true);
 
-        final var styles = context.obtainStyledAttributes(attrs,
-                R.styleable.EmptyContentView, 0, 0);
-
+        final var styles = context.obtainStyledAttributes(attrs, R.styleable.EmptyContentView, 0, 0);
         @StringRes int descriptionRes = styles.getResourceId(R.styleable.EmptyContentView_description, NO_DESCRIPTION);
-
         binding.title.setText(getResources().getString(styles.getResourceId(R.styleable.EmptyContentView_title, R.string.no_content)));
         if (descriptionRes == NO_DESCRIPTION) {
             binding.description.setVisibility(View.GONE);
@@ -44,5 +45,14 @@ public class EmptyContentView extends RelativeLayout {
 
     public void showDescription() {
         binding.description.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, getContext());
+
+//        utils.platform.colorImageView(binding.image, ColorRole.SECONDARY_CONTAINER);
+        utils.platform.colorTextView(binding.title, ColorRole.ON_SURFACE);
+        utils.platform.colorTextView(binding.description, ColorRole.ON_SURFACE);
     }
 }

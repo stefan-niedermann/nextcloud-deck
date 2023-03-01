@@ -96,6 +96,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.migration.Migra
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.migration.Migration_28_29;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.migration.Migration_29_30;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.migration.Migration_30_31;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.migration.Migration_31_32;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.migration.Migration_8_9;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.migration.Migration_9_10;
 
@@ -134,7 +135,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.migration.Migra
                 FilterWidgetSort.class,
         },
         exportSchema = false,
-        version = 31
+        version = 32
 )
 @TypeConverters({DateTypeConverter.class, EnumConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -186,6 +187,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 .addMigrations(new Migration_28_29())
                 .addMigrations(new Migration_29_30(context))
                 .addMigrations(new Migration_30_31())
+                .addMigrations(new Migration_31_32(context))
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();

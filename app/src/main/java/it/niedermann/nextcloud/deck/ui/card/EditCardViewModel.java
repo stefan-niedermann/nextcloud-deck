@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
-import static androidx.lifecycle.Transformations.switchMap;
 
 import android.app.Application;
 import android.content.SharedPreferences;
@@ -10,14 +9,17 @@ import android.text.TextUtils;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.preference.PreferenceManager;
 
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
+
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.android.sharedpreferences.SharedPreferenceBooleanLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -32,9 +34,10 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
 @SuppressWarnings("WeakerAccess")
-public class EditCardViewModel extends AndroidViewModel {
+public class EditCardViewModel extends BaseViewModel {
 
     private SyncManager syncManager;
     private Account account;
@@ -51,7 +54,6 @@ public class EditCardViewModel extends AndroidViewModel {
 
     public EditCardViewModel(@NonNull Application application) {
         super(application);
-        this.syncManager = new SyncManager(application);
         this.boardColor$.setValue(ContextCompat.getColor(application, R.color.primary));
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(application);
     }
@@ -60,19 +62,22 @@ public class EditCardViewModel extends AndroidViewModel {
      * The result {@link LiveData} will emit <code>true</code> if the preview mode is enabled and <code>false</code> if the edit mode is enabled.
      */
     public LiveData<Boolean> getDescriptionMode() {
-        return distinctUntilChanged(switchMap(distinctUntilChanged(new SharedPreferenceBooleanLiveData(sharedPreferences, getApplication().getString(R.string.shared_preference_description_preview), false)), (isPreview) -> {
-            // When we are in preview mode but the description of the card is empty, we explicitly switch to the edit mode
-            final var fullCard = getFullCard();
-            if (fullCard == null) {
-                throw new IllegalStateException("Description mode must be queried after initializing " + EditCardViewModel.class.getSimpleName() + " with a card.");
-            }
-            if (isPreview && TextUtils.isEmpty(fullCard.getCard().getDescription())) {
-                descriptionIsPreview.setValue(false);
-            } else {
-                descriptionIsPreview.setValue(isPreview);
-            }
-            return descriptionIsPreview;
-        }));
+        return new ReactiveLiveData<>(new SharedPreferenceBooleanLiveData(sharedPreferences, getApplication().getString(R.string.shared_preference_description_preview), false))
+                .distinctUntilChanged()
+                .flatMap(isPreview -> {
+                    // When we are in preview mode but the description of the card is empty, we explicitly switch to the edit mode
+                    final var fullCard = getFullCard();
+                    if (fullCard == null) {
+                        throw new IllegalStateException("Description mode must be queried after initializing " + EditCardViewModel.class.getSimpleName() + " with a card.");
+                    }
+                    if (isPreview && TextUtils.isEmpty(fullCard.getCard().getDescription())) {
+                        descriptionIsPreview.setValue(false);
+                    } else {
+                        descriptionIsPreview.setValue(isPreview);
+                    }
+                    return descriptionIsPreview;
+                })
+                .distinctUntilChanged();
     }
 
     /**
@@ -108,10 +113,14 @@ public class EditCardViewModel extends AndroidViewModel {
         this.isSupportedVersion = isSupportedVersion;
     }
 
-    public void setAccount(@NonNull Account account) {
+    public void setAccount(@NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {
         this.account = account;
-        this.syncManager = new SyncManager(getApplication(), account.getName());
+        this.syncManager = new SyncManager(getApplication(), account);
         hasCommentsAbility = account.getServerDeckVersionAsObject().supportsComments();
+    }
+
+    public CompletableFuture<Integer> getCurrentBoardColor(long accountId, long boardId) {
+        return baseRepository.getCurrentBoardColor(accountId, boardId);
     }
 
     public boolean hasChanges() {
@@ -155,7 +164,7 @@ public class EditCardViewModel extends AndroidViewModel {
     }
 
     public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {
-        return syncManager.getFullBoardById(accountId, localId);
+        return baseRepository.getFullBoardById(accountId, localId);
     }
 
     public void createLabel(long accountId, Label label, long localBoardId, @NonNull IResponseCallback<Label> callback) {
@@ -163,7 +172,7 @@ public class EditCardViewModel extends AndroidViewModel {
     }
 
     public LiveData<FullCardWithProjects> getFullCardWithProjectsByLocalId(long accountId, long cardLocalId) {
-        return syncManager.getFullCardWithProjectsByLocalId(accountId, cardLocalId);
+        return baseRepository.getFullCardWithProjectsByLocalId(accountId, cardLocalId);
     }
 
     /**
@@ -186,10 +195,10 @@ public class EditCardViewModel extends AndroidViewModel {
     }
 
     public LiveData<Card> getCardByRemoteID(long accountId, long remoteId) {
-        return syncManager.getCardByRemoteID(accountId, remoteId);
+        return baseRepository.getCardByRemoteID(accountId, remoteId);
     }
 
     public LiveData<Board> getBoardByRemoteId(long accountId, long remoteId) {
-        return syncManager.getBoardByRemoteId(accountId, remoteId);
+        return baseRepository.getBoardByRemoteId(accountId, remoteId);
     }
 }

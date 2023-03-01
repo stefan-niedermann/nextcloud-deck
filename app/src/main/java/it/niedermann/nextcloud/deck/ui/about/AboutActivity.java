@@ -13,16 +13,16 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import it.niedermann.nextcloud.deck.DeckApplication;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityAboutBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
 
-public class AboutActivity extends AppCompatActivity {
-    private static final String BUNDLE_KEY_ACCOUNT = "account";
+public class AboutActivity extends AppCompatActivity implements Themed {
 
+    private static final String KEY_ACCOUNT = "account";
     private ActivityAboutBinding binding;
     private final static int[] tabTitles = new int[]{
             R.string.about_credits_tab_title,
@@ -35,13 +35,22 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
 
+        final var args = getIntent().getExtras();
+
+        if (args == null || !args.containsKey(KEY_ACCOUNT)) {
+            throw new IllegalArgumentException("Provide at least " + KEY_ACCOUNT);
+        }
+
+        final var account = (Account) args.getSerializable(KEY_ACCOUNT);
+
         binding = ActivityAboutBinding.inflate(getLayoutInflater());
+
         setContentView(binding.getRoot());
-
-        DeckApplication.readCurrentAccountColor().observe(this, color -> ThemeUtils.of(color, this).deck.themeTabLayout(binding.tabLayout));
-
         setSupportActionBar(binding.toolbar);
-        binding.viewPager.setAdapter(new TabsPagerAdapter(this, (Account) getIntent().getSerializableExtra(BUNDLE_KEY_ACCOUNT)));
+
+        applyTheme(account.getColor());
+
+        binding.viewPager.setAdapter(new TabsPagerAdapter(this, account));
         new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> tab.setText(tabTitles[position])).attach();
     }
 
@@ -49,6 +58,13 @@ public class AboutActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         this.binding = null;
+    }
+
+    @Override
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, this);
+
+        utils.deck.themeTabLayout(binding.tabLayout);
     }
 
     private static class TabsPagerAdapter extends FragmentStateAdapter {
@@ -70,7 +86,7 @@ public class AboutActivity extends AppCompatActivity {
                 case 1:
                     return new AboutFragmentContributingTab();
                 case 2:
-                    return new AboutFragmentLicenseTab();
+                    return AboutFragmentLicenseTab.newInstance(account);
                 default:
                     throw new IllegalArgumentException("position must be between 0 and 2");
             }
@@ -91,6 +107,6 @@ public class AboutActivity extends AppCompatActivity {
     @NonNull
     public static Intent createIntent(@NonNull Context context, @NonNull Account account) {
         return new Intent(context, AboutActivity.class)
-                .putExtra(BUNDLE_KEY_ACCOUNT, account);
+                .putExtra(KEY_ACCOUNT, account);
     }
 }

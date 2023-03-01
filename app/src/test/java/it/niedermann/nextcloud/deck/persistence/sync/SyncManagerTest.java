@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.persistence.sync;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
@@ -38,13 +37,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
-import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
 
 import it.niedermann.nextcloud.deck.TestUtil;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -62,11 +59,11 @@ import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AbstractSyncDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.util.ConnectivityUtil;
 
 @RunWith(RobolectricTestRunner.class)
 public class SyncManagerTest {
@@ -78,22 +75,14 @@ public class SyncManagerTest {
     private final ServerAdapter serverAdapter = mock(ServerAdapter.class);
     private final DataBaseAdapter dataBaseAdapter = mock(DataBaseAdapter.class);
     private final SyncHelper.Factory syncHelperFactory = mock(SyncHelper.Factory.class);
+    private final ConnectivityUtil connectivityUtil = mock(ConnectivityUtil.class);
 
     private SyncManager syncManager;
 
     @Before
-    public void setup() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        final var constructor = SyncManager.class.getDeclaredConstructor(Context.class,
-                DataBaseAdapter.class,
-                ServerAdapter.class,
-                ExecutorService.class,
-                SyncHelper.Factory.class);
-        constructor.setAccessible(true);
-        syncManager = constructor.newInstance(context,
-                dataBaseAdapter,
-                serverAdapter,
-                MoreExecutors.newDirectExecutorService(),
-                syncHelperFactory);
+    public void setup() {
+        when(dataBaseAdapter.getCurrentAccountId$()).thenReturn(new MutableLiveData<>());
+        syncManager = new SyncManager(context, serverAdapter, connectivityUtil, syncHelperFactory, dataBaseAdapter, MoreExecutors.newDirectExecutorService());
     }
 
     @Test
@@ -250,15 +239,6 @@ public class SyncManagerTest {
     }
 
     @Test
-    public void testHasInternetConnection() {
-        when(serverAdapter.hasInternetConnection()).thenReturn(true);
-        assertTrue(syncManager.hasInternetConnection());
-
-        when(serverAdapter.hasInternetConnection()).thenReturn(false);
-        assertFalse(syncManager.hasInternetConnection());
-    }
-
-    @Test
     public void testReadAccountDirectly() {
         final var account = new Account(1337L, "Test", "Peter", "example.com");
         when(dataBaseAdapter.readAccountDirectly(1337L)).thenReturn(account);
@@ -268,7 +248,7 @@ public class SyncManagerTest {
     @Test
     public void testReadAccounts() throws InterruptedException {
         final var accounts = Collections.singletonList(new Account(1337L, "Test", "Peter", "example.com"));
-        final var wrappedAccounts = new WrappedLiveData<List<Account>>();
+        final var wrappedAccounts = new MutableLiveData<List<Account>>();
         wrappedAccounts.setValue(accounts);
         when(dataBaseAdapter.readAccounts()).thenReturn(wrappedAccounts);
 
@@ -468,21 +448,6 @@ public class SyncManagerTest {
 
 
         // Bad paths
-
-        assertThrows(IllegalArgumentException.class, () -> syncManagerSpy.synchronize(new ResponseCallback<>(new Account(null)) {
-            @Override
-            public void onResponse(Boolean response) {
-
-            }
-        }));
-
-        //noinspection ConstantConditions
-        assertThrows(IllegalArgumentException.class, () -> syncManagerSpy.synchronize(new ResponseCallback<>(null) {
-            @Override
-            public void onResponse(Boolean response) {
-
-            }
-        }));
 
         final var syncHelper_negative = new SyncHelperMock(false);
         when(syncHelperFactory.create(any(), any(), any())).thenReturn(syncHelper_negative);

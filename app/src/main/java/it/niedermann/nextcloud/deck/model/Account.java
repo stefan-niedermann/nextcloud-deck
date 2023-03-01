@@ -12,7 +12,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import com.nextcloud.android.sso.model.SingleSignOnAccount;
+import com.bumptech.glide.Glide;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -20,7 +20,7 @@ import java.util.Objects;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
-import it.niedermann.nextcloud.deck.ui.accountswitcher.AccountSwitcherDialog;
+import it.niedermann.nextcloud.sso.glide.SingleSignOnUrl;
 
 @Entity(indices = {@Index(value = "name", unique = true)})
 public class Account implements Serializable {
@@ -218,12 +218,17 @@ public class Account implements Serializable {
     }
 
     /**
-     * A cache buster parameter is added for duplicate account names on different hosts which shall be fetched from the same {@link SingleSignOnAccount} (e. g. {@link AccountSwitcherDialog})
-     *
-     * @return an {@link String} to fetch the avatar for this account.
+     * @return The {@link #getAvatarUrl(int, String)} of this {@link Account}
      */
-    public String getAvatarUrl(@Px int size) {
-        return getUrl() + "/index.php/avatar/" + Uri.encode(getUserName()) + "/" + size;
+    public SingleSignOnUrl getAvatarUrl(@Px int size) {
+        return getAvatarUrl(size, getUserName());
+    }
+
+    /**
+     * @return a {@link SingleSignOnUrl} to fetch the avatar of the given <code>userName</code> from the instance of this {@link Account} via {@link Glide}.
+     */
+    public SingleSignOnUrl getAvatarUrl(@Px int size, @NonNull String userName) {
+        return new SingleSignOnUrl(getName(), getUrl() + "/index.php/avatar/" + Uri.encode(userName) + "/" + size);
     }
 
     @Override
@@ -239,9 +244,7 @@ public class Account implements Serializable {
                 url.equals(account.url) &&
                 color.equals(account.color) &&
                 textColor.equals(account.textColor) &&
-                serverDeckVersion.equals(account.serverDeckVersion) &&
-                Objects.equals(etag, account.etag) &&
-                Objects.equals(boardsEtag, account.boardsEtag);
+                serverDeckVersion.equals(account.serverDeckVersion);
     }
 
     @Override

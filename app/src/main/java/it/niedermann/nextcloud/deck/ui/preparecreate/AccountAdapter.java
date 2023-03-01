@@ -16,7 +16,6 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemPrepareCreateAccountBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.sso.glide.SingleSignOnUrl;
 
 public class AccountAdapter extends AbstractAdapter<Account> {
 
@@ -40,17 +39,17 @@ public class AccountAdapter extends AbstractAdapter<Account> {
             binding = ItemPrepareCreateAccountBinding.bind(convertView);
         }
 
-        final var item = getItem(position);
-        if (item != null) {
-            binding.username.setText(item.getUserDisplayName());
+        final var account = getItem(position);
+        if (account != null) {
+            binding.username.setText(account.getUserDisplayName());
             try {
-                binding.instance.setText(new URL(item.getUrl()).getHost());
+                binding.instance.setText(new URL(account.getUrl()).getHost());
             } catch (Throwable t) {
-                binding.instance.setText(item.getUrl());
+                binding.instance.setText(account.getUrl());
             }
 
             Glide.with(getContext())
-                    .load(new SingleSignOnUrl(item.getName(), item.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.avatar_size))))
+                    .load(account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.avatar_size)))
                     .placeholder(R.drawable.ic_baseline_account_circle_24)
                     .error(R.drawable.ic_baseline_account_circle_24)
                     .apply(RequestOptions.circleCropTransform())

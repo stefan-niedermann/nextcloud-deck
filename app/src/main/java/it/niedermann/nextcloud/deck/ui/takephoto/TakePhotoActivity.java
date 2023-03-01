@@ -31,7 +31,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
-import it.niedermann.nextcloud.deck.DeckApplication;
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.ActivityTakePhotoBinding;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
@@ -63,7 +63,10 @@ public class TakePhotoActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // TODO do not only rely on current board color in case a card has been opened from a widget
-        DeckApplication.readCurrentBoardColor().observe(this, this::applyBoardColorBrand);
+        new ReactiveLiveData<>(viewModel.getCurrentAccountId$())
+                .combineWith(viewModel::getCurrentBoardId$)
+                .flatMap(ids -> viewModel.getBoardColor$(ids.first, ids.second))
+                .observe(this, this::applyBoardColorBrand);
 
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
         cameraProviderFuture.addListener(() -> {

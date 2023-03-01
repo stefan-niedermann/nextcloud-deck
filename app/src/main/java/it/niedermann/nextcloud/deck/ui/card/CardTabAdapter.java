@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.card.activities.CardActivityFragment;
 import it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentsFragment;
 import it.niedermann.nextcloud.deck.ui.card.comments.CardCommentsFragment;
@@ -12,10 +13,15 @@ import it.niedermann.nextcloud.deck.ui.card.details.CardDetailsFragment;
 
 public class CardTabAdapter extends FragmentStateAdapter {
 
+    private final Account account;
     private boolean hasCommentsAbility = false;
 
-    public CardTabAdapter(final FragmentActivity fa) {
+    public CardTabAdapter(
+            @NonNull final FragmentActivity fa,
+            @NonNull final Account account
+    ) {
         super(fa);
+        this.account = account;
     }
 
     @NonNull
@@ -23,12 +29,12 @@ public class CardTabAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return CardDetailsFragment.newInstance();
+                return CardDetailsFragment.newInstance(account);
             case 1:
                 return CardAttachmentsFragment.newInstance();
             case 2:
                 return hasCommentsAbility
-                        ? CardCommentsFragment.newInstance()
+                        ? CardCommentsFragment.newInstance(account)
                         : CardActivityFragment.newInstance();
             case 3:
                 if (hasCommentsAbility) {

@@ -76,7 +76,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     protected boolean removeChild(AbstractSyncDataProvider<?> child) {
         boolean isRemoved = super.removeChild(child);
         if (isRemoved && child.getClass() == StackDataProvider.class) {
-            progressDone ++;
+            progressDone++;
             updateProgress();
         }
         return isRemoved;
@@ -191,11 +191,11 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, ResponseCallback<Boolean> callback) {
         Long accountId = callback.getAccount().getId();
         List<Label> locallyChangedLabels = dataBaseAdapter.getLocallyChangedLabels(accountId);
-        AsyncUtil.awaitAsyncWork(locallyChangedLabels.size(), (countDownLatch) -> {
+        AsyncUtil.awaitAsyncWork(locallyChangedLabels.size(), latch -> {
             for (Label label : locallyChangedLabels) {
                 Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
                 label.setBoardId(board.getId());
-                syncHelper.doUpSyncFor(new LabelDataProvider(this, board, Collections.singletonList(label)), countDownLatch);
+                syncHelper.doUpSyncFor(new LabelDataProvider(this, board, Collections.singletonList(label)), latch);
             }
         });
 
@@ -228,13 +228,17 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard fullBoard) {
-        dataBaseAdapter.deleteBoard(fullBoard.getBoard(), true);
+    public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard board) {
+        dataBaseAdapter.saveNeighbourOfBoard(board.getAccountId(), board.getLocalId());
+        dataBaseAdapter.removeCurrentStackId(board.getAccountId(), board.getLocalId());
+        dataBaseAdapter.deleteBoard(board.getBoard(), true);
     }
 
     @Override
-    public void deletePhysicallyInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard fullBoard) {
-        dataBaseAdapter.deleteBoardPhysically(fullBoard.getBoard());
+    public void deletePhysicallyInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard board) {
+        dataBaseAdapter.saveNeighbourOfBoard(board.getAccountId(), board.getLocalId());
+        dataBaseAdapter.removeCurrentStackId(board.getAccountId(), board.getLocalId());
+        dataBaseAdapter.deleteBoardPhysically(board.getBoard());
     }
 
     @Override
@@ -251,6 +255,8 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
                 // not pushed up yet so:
                 continue;
             }
+
+            dataBaseAdapter.saveNeighbourOfBoard(board.getAccountId(), board.getLocalId());
             dataBaseAdapter.deleteBoardPhysically(board.getBoard());
         }
     }
