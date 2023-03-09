@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 
 import androidx.annotation.NonNull;
@@ -16,12 +15,11 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import java.util.Objects;
-
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogStackCreateBinding;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
+import it.niedermann.nextcloud.deck.util.KeyboardUtils;
 import it.niedermann.nextcloud.deck.util.OnTextChangedWatcher;
 
 public class EditStackDialogFragment extends ThemedDialogFragment implements DialogInterface.OnClickListener {
@@ -104,8 +102,7 @@ public class EditStackDialogFragment extends ThemedDialogFragment implements Dia
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding.input.requestFocus();
-        Objects.requireNonNull(requireDialog().getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        KeyboardUtils.showKeyboardForEditText(binding.input);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 

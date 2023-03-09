@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,12 +13,11 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import java.util.Objects;
-
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogAddCommentBinding;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
+import it.niedermann.nextcloud.deck.util.KeyboardUtils;
 
 public class CardCommentsEditDialogFragment extends ThemedDialogFragment {
     private static final String BUNDLE_KEY_COMMENT_ID = "commentId";
@@ -64,8 +62,7 @@ public class CardCommentsEditDialogFragment extends ThemedDialogFragment {
         if (args.containsKey(BUNDLE_KEY_COMMENT_MESSAGE)) {
             binding.input.setText(args.getString(BUNDLE_KEY_COMMENT_MESSAGE));
         }
-        binding.input.requestFocus();
-        Objects.requireNonNull(requireDialog().getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        KeyboardUtils.showKeyboardForEditText(binding.input);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 

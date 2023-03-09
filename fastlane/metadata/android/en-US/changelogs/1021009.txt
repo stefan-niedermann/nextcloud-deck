@@ -1,4 +1,5 @@
 - 🎨 Unify material theming with Nextcloud files app
 - ↔️ Improve 'Move Card' Dialog (#972)
+- 🐞 Fix collapsed input fields of dialogs (#1385)
 - 🐞 Fix not themed filter indicator
 - 🐞 Fix loading cover images in multi account setup in Upcoming cards view

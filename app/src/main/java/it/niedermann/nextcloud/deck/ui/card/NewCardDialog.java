@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
@@ -32,6 +31,7 @@ import it.niedermann.nextcloud.deck.ui.preparecreate.PrepareCreateViewModel;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
+import it.niedermann.nextcloud.deck.util.KeyboardUtils;
 import it.niedermann.nextcloud.deck.util.OnTextChangedWatcher;
 
 public class NewCardDialog extends ThemedDialogFragment implements DialogInterface.OnClickListener {
@@ -128,8 +128,7 @@ public class NewCardDialog extends ThemedDialogFragment implements DialogInterfa
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding.input.requestFocus();
-        requireDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        KeyboardUtils.showKeyboardForEditText(binding.input);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
