@@ -34,11 +34,11 @@
             android:paddingTop="@dimen/spacer_1x"
             android:paddingEnd="@dimen/spacer_2x">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/card_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4sp"
+                android:paddingVertical="2sp"
                 android:layout_weight="1"
                 android:textColor="?attr/colorAccent"
                 android:textSize="18sp"
@@ -55,25 +55,16 @@
                 app:srcCompat="@drawable/ic_sync_blue_24dp"
                 tools:visibility="visible" />
 
-            <LinearLayout
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/card_due_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/spacer_1hx"
-                tools:ignore="RtlSymmetry">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/card_due_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="@dimen/spacer_1hx"
-                    android:gravity="center"
-                    android:padding="@dimen/spacer_1hx"
-                    android:paddingEnd="@dimen/spacer_1x"
-                    app:drawableStartCompat="@drawable/calendar_blank_grey600_24dp"
-                    tools:text="tomorrow" />
-
-            </LinearLayout>
+                android:drawablePadding="@dimen/spacer_1hx"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/spacer_1x"
+                android:paddingVertical="@dimen/spacer_1hx"
+                app:drawableStartCompat="@drawable/calendar_blank_grey600_24dp"
+                tools:text="tomorrow" />
         </LinearLayout>
 
         <it.niedermann.nextcloud.deck.ui.view.labellayout.DefaultLabelLayout
@@ -100,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/card_count_comments"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -111,7 +102,7 @@
                     app:drawableTint="@color/grey600"
                     tools:text="2" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/card_count_tasks"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -120,7 +111,7 @@
                     tools:drawableStartCompat="@drawable/ic_check_grey600_24dp"
                     tools:text="1/2" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/card_count_attachments"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -152,7 +143,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/label_menu"
                     android:padding="@dimen/spacer_1hx"
-                    android:tint="?attr/colorAccent"
+                    app:tint="?attr/colorAccent"
                     app:srcCompat="@drawable/ic_menu" />
             </LinearLayout>
         </LinearLayout>
