@@ -18,7 +18,7 @@ android {
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.2'
 
-    implementation "androidx.lifecycle:lifecycle-livedata:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-livedata:2.6.0"
     implementation 'androidx.core:core:1.9.0'
 
     testImplementation 'junit:junit:4.13.2'
