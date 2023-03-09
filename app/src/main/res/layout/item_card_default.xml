@@ -133,8 +133,9 @@
                     android:layout_marginEnd="@dimen/spacer_1x"
                     android:gravity="end"
                     android:orientation="horizontal"
-                    tools:layout_height="match_parent"
-                    tools:layout_width="80dp" />
+                    tools:background="@tools:sample/avatars"
+                    tools:layout_height="@dimen/avatar_size_small"
+                    tools:layout_width="@dimen/avatar_size_small" />
 
                 <ImageView
                     android:id="@+id/card_menu"
