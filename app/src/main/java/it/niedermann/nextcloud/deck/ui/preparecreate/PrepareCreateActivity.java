@@ -39,7 +39,7 @@ public class PrepareCreateActivity extends PickStackActivity {
         if (requireContent()) {
             fullCard = viewModel.createFullCard(account.getServerDeckVersionAsObject(), getContent());
         } else {
-            final Intent intent = getIntent();
+            final var intent = getIntent();
             if (intent == null) {
                 throw new IllegalStateException("Intent should not be null because title is required.");
             }

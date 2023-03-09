@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -130,10 +129,8 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
 
         @Override
         public void applyTheme(int color) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                final var utils = ThemeUtils.of(color, itemView.getContext());
-                utils.deck.colorSelectedCheck(binding.selectedCheck.getContext(), binding.selectedCheck.getDrawable());
-            }
+            final var utils = ThemeUtils.of(color, itemView.getContext());
+            utils.deck.themeSelectedCheck(binding.selectedCheck.getContext(), binding.selectedCheck.getDrawable());
         }
     }
 }

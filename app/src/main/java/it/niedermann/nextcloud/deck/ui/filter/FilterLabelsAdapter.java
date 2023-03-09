@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
 import android.content.res.ColorStateList;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -125,10 +124,8 @@ public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapte
 
         @Override
         public void applyTheme(int color) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                final var utils = ThemeUtils.of(color, itemView.getContext());
-                utils.deck.colorSelectedCheck(binding.selectedCheck.getContext(), binding.selectedCheck.getDrawable());
-            }
+            final var utils = ThemeUtils.of(color, itemView.getContext());
+            utils.deck.themeSelectedCheck(binding.selectedCheck.getContext(), binding.selectedCheck.getDrawable());
         }
     }
 }

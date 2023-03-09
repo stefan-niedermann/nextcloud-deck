@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.accountswitcher;
 
 import android.net.Uri;
-import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -43,9 +42,7 @@ public class AccountSwitcherViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener((v) -> onAccountClick.accept(account));
         binding.delete.setVisibility(View.GONE);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            final var utils = ThemeUtils.of(account.getColor(), itemView.getContext());
-            utils.deck.colorSelectedCheck(binding.currentAccountIndicator.getContext(), binding.currentAccountIndicator.getDrawable());
-        }
+        final var utils = ThemeUtils.of(account.getColor(), itemView.getContext());
+        utils.deck.themeSelectedCheck(binding.currentAccountIndicator.getContext(), binding.currentAccountIndicator.getDrawable());
     }
 }

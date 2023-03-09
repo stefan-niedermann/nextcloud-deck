@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.preparecreate;
 
-import android.os.Build;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,9 +36,7 @@ class PickStackViewHolder extends RecyclerView.ViewHolder implements Themed {
 
     @Override
     public void applyTheme(@ColorInt int color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            final var utils = ThemeUtils.of(color, itemView.getContext());
-            utils.deck.colorSelectedCheck(binding.selectedCheck.getContext(), binding.selectedCheck.getDrawable());
-        }
+        final var utils = ThemeUtils.of(color, itemView.getContext());
+        utils.deck.themeSelectedCheck(binding.selectedCheck.getContext(), binding.selectedCheck.getDrawable());
     }
 }

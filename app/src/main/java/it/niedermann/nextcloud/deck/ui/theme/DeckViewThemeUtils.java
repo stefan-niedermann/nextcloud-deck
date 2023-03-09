@@ -12,12 +12,13 @@ import android.os.Build;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -30,9 +31,10 @@ import com.nextcloud.android.common.ui.theme.utils.AndroidViewThemeUtils;
 import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 import com.nextcloud.android.common.ui.theme.utils.MaterialViewThemeUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
+import java.util.Optional;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import kotlin.Pair;
 
@@ -73,7 +75,7 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
 
     public Drawable themeNavigationViewIcon(@NonNull Context context, @DrawableRes int icon) {
         return withScheme(context, scheme -> {
-            final var colorStateListe = buildColorStateList(
+            final var colorStateList = buildColorStateList(
                     new Pair<>(android.R.attr.state_checked, scheme.getOnSecondaryContainer()),
                     new Pair<>(-android.R.attr.state_checked, scheme.getOnSurfaceVariant())
             );
@@ -81,7 +83,7 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
             final var drawable = ContextCompat.getDrawable(context, icon);
             assert drawable != null;
             final var wrapped = DrawableCompat.wrap(drawable).mutate();
-            DrawableCompat.setTintList(wrapped, colorStateListe);
+            DrawableCompat.setTintList(wrapped, colorStateList);
             wrapped.invalidateSelf();
 
             return wrapped;
@@ -101,21 +103,73 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
     /**
      * Use <strong>only</strong> for <code>@drawable/selected_check</code>
      */
-    @RequiresApi(api = Build.VERSION_CODES.Q)
-    public void colorSelectedCheck(@NonNull Context context, @NonNull Drawable selectedCheck) {
-        try {
-            final var check = ((StateListDrawable) selectedCheck);
-            final var checkSelectedIndex = check.findStateDrawableIndex(new int[]{android.R.attr.state_selected});
-            final var checkSelectedDrawable = check.getStateDrawable(checkSelectedIndex);
+    public void themeSelectedCheck(@NonNull Context context, @NonNull Drawable selectedCheck) {
+        getStateDrawable(selectedCheck, android.R.attr.state_selected, R.id.foreground)
+                .ifPresent(drawable -> platform.tintDrawable(context, drawable, ColorRole.ON_PRIMARY));
+        getStateDrawable(selectedCheck, android.R.attr.state_selected, R.id.background)
+                .ifPresent(drawable -> platform.tintDrawable(context, drawable, ColorRole.PRIMARY));
+    }
 
-            final var backgroundDrawable = ((LayerDrawable) checkSelectedDrawable).findDrawableByLayerId(R.id.background);
-            final var foregroundDrawable = ((LayerDrawable) checkSelectedDrawable).findDrawableByLayerId(R.id.foreground);
-            platform.tintDrawable(context, backgroundDrawable, ColorRole.PRIMARY);
-            platform.tintDrawable(context, foregroundDrawable, ColorRole.ON_PRIMARY);
+    /**
+     * Use <strong>only</strong> for <code>@drawable/filter</code>
+     */
+    public void themeFilterIndicator(@NonNull Context context, @NonNull Drawable filter) {
+        getStateDrawable(filter, android.R.attr.state_activated, R.id.indicator)
+                .ifPresent(drawable -> platform.tintDrawable(context, drawable, ColorRole.PRIMARY));
+    }
+
+    private Optional<Drawable> getStateDrawable(@NonNull Drawable drawable, @AttrRes int state, @IdRes int layerId) {
+        return getStateDrawable(drawable, new int[]{state}, layerId);
+    }
+
+    private Optional<Drawable> getStateDrawable(@NonNull Drawable drawable, @AttrRes int[] states, @IdRes int layerId) {
+        try {
+            final var stateListDrawable = ((StateListDrawable) drawable);
+            return findStateDrawableIndex(stateListDrawable, states)
+                    .flatMap(stateIndex -> getStateDrawable(stateListDrawable, stateIndex))
+                    .map(layerDrawable -> layerDrawable.findDrawableByLayerId(layerId));
         } catch (Exception e) {
-            DeckLog.error(e);
+            return Optional.empty();
         }
     }
+
+    private Optional<Integer> findStateDrawableIndex(@NonNull StateListDrawable drawable, int[] states) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return Optional.of(drawable.findStateDrawableIndex(states));
+        } else {
+            try {
+                // getStateDrawableIndex has been renamed and made public since API 29 / Android 10 / Android Q
+
+                //noinspection JavaReflectionMemberAccess
+                final var getStateDrawableIndex = StateListDrawable.class.getMethod("getStateDrawableIndex", int[].class);
+                //noinspection PrimitiveArrayArgumentToVarargsMethod
+                return Optional.ofNullable((Integer) getStateDrawableIndex.invoke(drawable, states));
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                return Optional.empty();
+            }
+        }
+    }
+
+    private Optional<LayerDrawable> getStateDrawable(@NonNull StateListDrawable drawable, int index) {
+        Drawable result;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            result = drawable.getStateDrawable(index);
+        } else {
+            try {
+                result = (Drawable) StateListDrawable.class.getMethod("getStateDrawable", int.class).invoke(drawable, index);
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                return Optional.empty();
+            }
+        }
+
+        if (result instanceof LayerDrawable) {
+            return Optional.of((LayerDrawable) result);
+        }
+
+        return Optional.empty();
+    }
+
 
     @Deprecated(forRemoval = true)
     public static void themeDueDate(@NonNull TextView cardDueDate, @NonNull LocalDate dueDate) {

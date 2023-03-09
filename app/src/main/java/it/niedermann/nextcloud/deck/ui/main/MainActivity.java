@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         stackAdapter = new StackAdapter(this);
         binding.viewPager.setAdapter(stackAdapter);
         binding.viewPager.setOffscreenPageLimit(2);
-        binding.filter.setOnClickListener((v) -> FilterDialogFragment.newInstance().show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName()));
+        binding.filterWrapper.setOnClickListener((v) -> FilterDialogFragment.newInstance().show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName()));
         binding.filterText.addTextChangedListener(new OnTextChangedWatcher(filterViewModel::setFilterText));
         binding.enableSearch.setOnClickListener(v -> showFilterTextToolbar());
         binding.toolbar.setOnClickListener(v -> showFilterTextToolbar());
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         drawerMenuInflater = new DrawerMenuInflater<>(this, binding.navigationView.getMenu());
 
         preferencesViewModel.isDebugModeEnabled$().observe(this, enabled -> headerBinding.copyDebugLogs.setVisibility(enabled ? View.VISIBLE : View.GONE));
-        filterViewModel.hasActiveFilter().observe(this, hasActiveFilter -> binding.filterIndicator.setVisibility(hasActiveFilter ? View.VISIBLE : View.GONE));
+        filterViewModel.hasActiveFilter().observe(this, hasActiveFilter -> binding.filterWrapper.setActivated(hasActiveFilter));
 
         // Flag to distinguish user initiated stack changes from stack changes derived by changing the board
         final var boardChanged = new AtomicBoolean(true);
@@ -318,7 +318,6 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
     private Map<Integer, Long> applyBoards(@NonNull Account account, boolean hasArchivedBoards, @Nullable List<FullBoard> fullBoards) {
         DeckLog.verbose("=== Apply Boards", fullBoards, "for", account);
-        filterViewModel.clearFilterInformation(true);
         binding.navigationView.setItemIconTintList(null);
 
         final Map<Integer, Long> navigationMap;
@@ -338,6 +337,8 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
     protected void applyBoard(@NonNull Account account, @NonNull Map<Integer, Long> navigationMap, @Nullable FullBoard currentBoard) {
         DeckLog.verbose("===== Apply Board", currentBoard);
+        filterViewModel.clearFilterInformation(true);
+
         if (currentBoard == null) {
             applyBoardTheme(account.getColor());
             showEditButtonsIfPermissionsGranted(false, false);
@@ -424,11 +425,11 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     private void applyBoardTheme(@ColorInt int color) {
         final var utils = ThemeUtils.of(color, this);
 
+        utils.deck.themeFilterIndicator(this, binding.filterWrapper.getDrawable());
         utils.deck.themeTabLayout(binding.stackTitles);
         utils.material.themeExtendedFAB(binding.fab);
         utils.androidx.themeSwipeRefreshLayout(binding.swipeRefreshLayout);
         utils.platform.colorEditText(binding.filterText);
-        utils.platform.tintDrawable(this, binding.filterIndicator.getDrawable());
         binding.emptyContentViewStacks.applyTheme(color);
     }
 

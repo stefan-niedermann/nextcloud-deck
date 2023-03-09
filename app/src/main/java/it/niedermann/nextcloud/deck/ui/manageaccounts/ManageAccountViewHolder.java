@@ -4,7 +4,6 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 import android.net.Uri;
-import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -58,9 +57,7 @@ public class ManageAccountViewHolder extends RecyclerView.ViewHolder {
             binding.currentAccountIndicator.setVisibility(GONE);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            final var utils = ThemeUtils.of(account.getColor(), itemView.getContext());
-            utils.deck.colorSelectedCheck(binding.currentAccountIndicator.getContext(), binding.currentAccountIndicator.getDrawable());
-        }
+        final var utils = ThemeUtils.of(account.getColor(), itemView.getContext());
+        utils.deck.themeSelectedCheck(binding.currentAccountIndicator.getContext(), binding.currentAccountIndicator.getDrawable());
     }
 }

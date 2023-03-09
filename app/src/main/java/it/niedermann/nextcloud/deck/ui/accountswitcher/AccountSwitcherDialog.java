@@ -5,7 +5,6 @@ import static android.app.Activity.RESULT_OK;
 import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -115,9 +114,7 @@ public class AccountSwitcherDialog extends DialogFragment {
     }
 
     private void applyTheme(int color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            final var utils = ThemeUtils.of(color, requireContext());
-            utils.deck.colorSelectedCheck(binding.check.getContext(), binding.check.getDrawable());
-        }
+        final var utils = ThemeUtils.of(color, requireContext());
+        utils.deck.themeSelectedCheck(binding.check.getContext(), binding.check.getDrawable());
     }
 }
