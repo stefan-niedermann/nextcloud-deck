@@ -136,5 +136,5 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:4.9.2'
     testImplementation 'org.mockito:mockito-core:5.1.1'
     testImplementation 'androidx.test:core:1.5.0'
-    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation 'androidx.arch.core:core-testing:2.2.0'
 }
