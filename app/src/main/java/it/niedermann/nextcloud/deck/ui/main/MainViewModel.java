@@ -20,8 +20,6 @@ import java.util.concurrent.CompletableFuture;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -32,14 +30,16 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
 @SuppressWarnings("WeakerAccess")
 public class MainViewModel extends BaseViewModel {
 
     @Nullable
-    private SyncManager syncManager;
+    private SyncRepository syncRepository;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
@@ -47,9 +47,9 @@ public class MainViewModel extends BaseViewModel {
 
     public void recreateSyncManager(@NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {
         try {
-            this.syncManager = new SyncManager(getApplication(), account);
+            this.syncRepository = new SyncRepository(getApplication(), account);
         } catch (NextcloudFilesAppAccountNotFoundException e) {
-            this.syncManager = null;
+            this.syncRepository = null;
             throw e;
         }
     }
@@ -59,18 +59,18 @@ public class MainViewModel extends BaseViewModel {
     }
 
     public void synchronize(@NonNull Account account, @NonNull IResponseCallback<Boolean> callback) {
-        if (syncManager == null) {
+        if (syncRepository == null) {
             callback.onError(getInvalidSyncManagerException());
         } else {
-            syncManager.synchronize(ResponseCallback.from(account, callback));
+            syncRepository.synchronize(ResponseCallback.from(account, callback));
         }
     }
 
     public void refreshCapabilities(@NonNull ResponseCallback<Capabilities> callback) {
-        if (syncManager == null) {
+        if (syncRepository == null) {
             callback.onError(getInvalidSyncManagerException());
         } else {
-            syncManager.refreshCapabilities(callback);
+            syncRepository.refreshCapabilities(callback);
         }
     }
 
@@ -91,42 +91,42 @@ public class MainViewModel extends BaseViewModel {
     }
 
     public void createBoard(@NonNull Account account, @NonNull Board board, @NonNull IResponseCallback<FullBoard> callback) {
-        if (syncManager == null) {
+        if (syncRepository == null) {
             callback.onError(getInvalidSyncManagerException());
         } else {
-            syncManager.createBoard(account, board, callback);
+            syncRepository.createBoard(account, board, callback);
         }
     }
 
     public void updateBoard(@NonNull FullBoard board, @NonNull IResponseCallback<FullBoard> callback) {
-        if (syncManager == null) {
+        if (syncRepository == null) {
             callback.onError(getInvalidSyncManagerException());
         } else {
-            syncManager.updateBoard(board, callback);
+            syncRepository.updateBoard(board, callback);
         }
     }
 
     public void archiveBoard(@NonNull Board board, @NonNull IResponseCallback<FullBoard> callback) {
-        if (syncManager == null) {
+        if (syncRepository == null) {
             callback.onError(getInvalidSyncManagerException());
         } else {
-            syncManager.archiveBoard(board, callback);
+            syncRepository.archiveBoard(board, callback);
         }
     }
 
     public void cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, @ColorInt int targetBoardColor, boolean cloneCards, @NonNull IResponseCallback<FullBoard> callback) {
-        if (syncManager == null) {
+        if (syncRepository == null) {
             callback.onError(getInvalidSyncManagerException());
         } else {
-            syncManager.cloneBoard(originAccountId, originBoardLocalId, targetAccountId, targetBoardColor, cloneCards, callback);
+            syncRepository.cloneBoard(originAccountId, originBoardLocalId, targetAccountId, targetBoardColor, cloneCards, callback);
         }
     }
 
     public void deleteBoard(@NonNull Board board, @NonNull IResponseCallback<Void> callback) {
-        if (syncManager == null) {
+        if (syncRepository == null) {
             callback.onError(getInvalidSyncManagerException());
         } else {
-            syncManager.deleteBoard(board, callback);
+            syncRepository.deleteBoard(board, callback);
         }
     }
 
@@ -135,98 +135,98 @@ public class MainViewModel extends BaseViewModel {
     }
 
     public void createStack(long accountId, long boardId, @NonNull String title, @NonNull IResponseCallback<FullStack> callback) {
-        if (syncManager == null) {
+        if (syncRepository == null) {
             callback.onError(getInvalidSyncManagerException());
         } else {
-            syncManager.createStack(accountId, boardId, title, callback);
+            syncRepository.createStack(accountId, boardId, title, callback);
         }
     }
 
     public LiveData<FullStack> getStack(long accountId, long localStackId) {
-        if (syncManager == null) {
+        if (syncRepository == null) {
             return new MutableLiveData<>();
         }
-        return syncManager.getStack(accountId, localStackId);
+        return syncRepository.getStack(accountId, localStackId);
     }
 
     public void reorderStack(long accountId, long boardId, long stackLocalId, boolean moveToRight) {
-        if (syncManager == null) {
+        if (syncRepository == null) {
             DeckLog.logError(getInvalidSyncManagerException());
         } else {
-            syncManager.reorderStack(accountId, boardId, stackLocalId, moveToRight);
+            syncRepository.reorderStack(accountId, boardId, stackLocalId, moveToRight);
         }
     }
 
     public void updateStackTitle(long localStackId, @NonNull String newTitle, @NonNull IResponseCallback<FullStack> callback) {
-        if (syncManager == null) {
+        if (syncRepository == null) {
             callback.onError(getInvalidSyncManagerException());
         } else {
-            syncManager.updateStackTitle(localStackId, newTitle, callback);
+            syncRepository.updateStackTitle(localStackId, newTitle, callback);
         }
     }
 
     public void deleteStack(long accountId, long boardId, long stackLocalId, @NonNull IResponseCallback<Void> callback) {
-        if (syncManager == null) {
+        if (syncRepository == null) {
             callback.onError(getInvalidSyncManagerException());
         } else {
-            syncManager.deleteStack(accountId, boardId, stackLocalId, callback);
+            syncRepository.deleteStack(accountId, boardId, stackLocalId, callback);
         }
     }
 
     public void reorder(@NonNull FullCard movedCard, long newStackId, int newIndex) {
-        if (syncManager == null) {
+        if (syncRepository == null) {
             DeckLog.logError(getInvalidSyncManagerException());
         } else {
-            syncManager.reorder(movedCard.getAccountId(), movedCard, newStackId, newIndex);
+            syncRepository.reorder(movedCard.getAccountId(), movedCard, newStackId, newIndex);
         }
     }
 
     public void countCardsInStack(long accountId, long stackId, @NonNull IResponseCallback<Integer> callback) {
-        if (syncManager == null) {
+        if (syncRepository == null) {
             callback.onError(getInvalidSyncManagerException());
         } else {
-            syncManager.countCardsInStackDirectly(accountId, stackId, callback);
+            syncRepository.countCardsInStackDirectly(accountId, stackId, callback);
         }
     }
 
     public void archiveCardsInStack(long accountId, long stackId, @NonNull FilterInformation filterInformation, @NonNull IResponseCallback<Void> callback) {
-        if (syncManager == null) {
+        if (syncRepository == null) {
             callback.onError(getInvalidSyncManagerException());
         } else {
-            syncManager.archiveCardsInStack(accountId, stackId, filterInformation, callback);
+            syncRepository.archiveCardsInStack(accountId, stackId, filterInformation, callback);
         }
     }
 
     public void updateCard(@NonNull FullCard fullCard, @NonNull IResponseCallback<FullCard> callback) {
-        if (syncManager == null) {
+        if (syncRepository == null) {
             callback.onError(getInvalidSyncManagerException());
         } else {
-            syncManager.updateCard(fullCard, callback);
+            syncRepository.updateCard(fullCard, callback);
         }
     }
 
     public void addCommentToCard(long accountId, String message, long cardId) {
-        if (syncManager == null) {
+        if (syncRepository == null) {
             DeckLog.logError(getInvalidSyncManagerException());
         } else {
-            supplyAsync(() -> syncManager.readAccountDirectly(accountId))
-                    .thenAcceptAsync(account -> syncManager.addCommentToCard(account.getId(), cardId, new DeckComment(message, account.getUserName(), Instant.now())));
+            supplyAsync(() -> syncRepository.readAccountDirectly(accountId))
+                    .thenAcceptAsync(account -> syncRepository.addCommentToCard(account.getId(), cardId, new DeckComment(message, account.getUserName(), Instant.now())));
         }
     }
 
     public void addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file, @NonNull IResponseCallback<Attachment> callback) {
-        if (syncManager == null) {
+        if (syncRepository == null) {
             callback.onError(getInvalidSyncManagerException());
         } else {
-            syncManager.addAttachmentToCard(accountId, localCardId, mimeType, file, callback);
+            syncRepository.addAttachmentToCard(accountId, localCardId, mimeType, file, callback);
         }
     }
 
     public void addOrUpdateSingleCardWidget(int widgetId, long accountId, long boardId, long localCardId) {
-        if (syncManager == null) {
+        if (syncRepository == null) {
             DeckLog.logError(getInvalidSyncManagerException());
         } else {
-            syncManager.addOrUpdateSingleCardWidget(widgetId, accountId, boardId, localCardId);
+            syncRepository.addOrUpdateSingleCardWidget(widgetId, accountId, boardId, localCardId);
         }
     }
 

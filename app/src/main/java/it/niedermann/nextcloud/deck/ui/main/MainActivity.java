@@ -59,8 +59,6 @@ import it.niedermann.android.tablayouthelper.TabTitleGenerator;
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityMainBinding;
 import it.niedermann.nextcloud.deck.databinding.NavHeaderMainBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
@@ -73,7 +71,9 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.ImportAccountActivity;
 import it.niedermann.nextcloud.deck.ui.StackChangeCallback;
 import it.niedermann.nextcloud.deck.ui.accountswitcher.AccountSwitcherDialog;
@@ -620,7 +620,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
                                     @Override
                                     public void onError(Throwable throwable) {
-                                        if (SyncManager.isNoOnVoidError(throwable)) {
+                                        if (SyncRepository.isNoOnVoidError(throwable)) {
                                             IResponseCallback.super.onError(throwable);
                                             showExceptionDialog(throwable, stack.getAccountId());
                                         }
@@ -810,7 +810,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
             @Override
             public void onError(Throwable throwable) {
-                if (SyncManager.isNoOnVoidError(throwable)) {
+                if (SyncRepository.isNoOnVoidError(throwable)) {
                     IResponseCallback.super.onError(throwable);
                     showExceptionDialog(throwable, accountId);
                 }
@@ -828,7 +828,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
             @Override
             public void onError(Throwable throwable) {
-                if (SyncManager.isNoOnVoidError(throwable)) {
+                if (SyncRepository.isNoOnVoidError(throwable)) {
                     IResponseCallback.super.onError(throwable);
                     showExceptionDialog(throwable, board.getAccountId());
                 }

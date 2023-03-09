@@ -14,11 +14,11 @@ import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundExce
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
 
 public class NewCardViewModel extends SyncViewModel {
@@ -35,7 +35,7 @@ public class NewCardViewModel extends SyncViewModel {
         final var result = new CompletableFuture<FullCard>();
 
         supplyAsync(() -> baseRepository.readAccountDirectly(accountId))
-                .thenAcceptAsync(account -> syncManager.createFullCard(accountId, boardId, stackId, createFullCard(account.getServerDeckVersionAsObject(), content),
+                .thenAcceptAsync(account -> syncRepository.createFullCard(accountId, boardId, stackId, createFullCard(account.getServerDeckVersionAsObject(), content),
                         new IResponseCallback<>() {
                             @Override
                             public void onResponse(FullCard response) {

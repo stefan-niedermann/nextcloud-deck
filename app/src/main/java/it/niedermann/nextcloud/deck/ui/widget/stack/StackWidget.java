@@ -21,7 +21,7 @@ import java.util.concurrent.Executors;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Stack;
-import it.niedermann.nextcloud.deck.persistence.BaseRepository;
+import it.niedermann.nextcloud.deck.repository.BaseRepository;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.main.MainActivity;
 

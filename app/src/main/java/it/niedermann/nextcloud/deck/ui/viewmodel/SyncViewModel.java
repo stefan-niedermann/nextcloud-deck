@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.archivedboards.ArchivedBoardsViewModel;
 import it.niedermann.nextcloud.deck.ui.board.accesscontrol.AccessControlViewModel;
 import it.niedermann.nextcloud.deck.ui.board.managelabels.LabelsViewModel;
@@ -18,24 +18,24 @@ import it.niedermann.nextcloud.deck.ui.card.comments.CommentsViewModel;
 import it.niedermann.nextcloud.deck.ui.stack.StackViewModel;
 
 /**
- * To be used for {@link ViewModel}s which need an {@link SyncManager} instance
+ * To be used for {@link ViewModel}s which need an {@link SyncRepository} instance
  */
 public abstract class SyncViewModel extends BaseViewModel {
 
     protected final Account account;
-    protected final SyncManager syncManager;
+    protected final SyncRepository syncRepository;
 
     public SyncViewModel(@NonNull Application application,
                          @NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {
-        this(application, account, new SyncManager(application, account));
+        this(application, account, new SyncRepository(application, account));
     }
 
     public SyncViewModel(@NonNull Application application,
                          @NonNull Account account,
-                         @NonNull SyncManager syncManager) {
-        super(application, syncManager);
+                         @NonNull SyncRepository syncRepository) {
+        super(application, syncRepository);
         this.account = account;
-        this.syncManager = syncManager;
+        this.syncRepository = syncRepository;
     }
 
     public static class Factory implements ViewModelProvider.Factory {

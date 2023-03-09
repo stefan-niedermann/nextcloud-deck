@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
-import it.niedermann.nextcloud.deck.persistence.PreferencesRepository;
+import it.niedermann.nextcloud.deck.repository.PreferencesRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
 public class PreferencesViewModel extends BaseViewModel {

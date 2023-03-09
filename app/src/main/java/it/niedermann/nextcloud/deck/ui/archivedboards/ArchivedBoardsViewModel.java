@@ -11,10 +11,10 @@ import java.util.Collections;
 import java.util.List;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
 
 public class ArchivedBoardsViewModel extends SyncViewModel {
@@ -29,14 +29,14 @@ public class ArchivedBoardsViewModel extends SyncViewModel {
     }
 
     public void updateBoard(@NonNull FullBoard board, @NonNull IResponseCallback<FullBoard> callback) {
-        syncManager.updateBoard(board, callback);
+        syncRepository.updateBoard(board, callback);
     }
 
     public void deleteBoard(@NonNull Board board, @NonNull IResponseCallback<Void> callback) {
-        syncManager.deleteBoard(board, callback);
+        syncRepository.deleteBoard(board, callback);
     }
 
     public void dearchiveBoard(@NonNull Board board, @NonNull IResponseCallback<FullBoard> callback) {
-        syncManager.dearchiveBoard(board, callback);
+        syncRepository.dearchiveBoard(board, callback);
     }
 }

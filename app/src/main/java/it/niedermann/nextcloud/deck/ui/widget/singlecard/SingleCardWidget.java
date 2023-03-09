@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullSingleCardWidgetModel;
-import it.niedermann.nextcloud.deck.persistence.BaseRepository;
+import it.niedermann.nextcloud.deck.repository.BaseRepository;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 

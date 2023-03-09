@@ -20,7 +20,7 @@ import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.repository.SyncRepository;
 
 public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extends BaseAdapter implements Filterable {
     @NonNull
@@ -28,7 +28,7 @@ public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extend
     @NonNull
     private final List<ItemType> itemsToExclude = new ArrayList<>();
     @NonNull
-    protected SyncManager syncManager;
+    protected SyncRepository syncRepository;
     protected final Account account;
     protected final long boardId;
     protected final ReactiveLiveData<String> constraint$ = new ReactiveLiveData<String>();
@@ -43,7 +43,7 @@ public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extend
     protected AutoCompleteAdapter(@NonNull Context context, @NonNull Account account, long boardId) throws NextcloudFilesAppAccountNotFoundException {
         this.account = account;
         this.boardId = boardId;
-        this.syncManager = new SyncManager(context, account);
+        this.syncRepository = new SyncRepository(context, account);
     }
 
     @Override

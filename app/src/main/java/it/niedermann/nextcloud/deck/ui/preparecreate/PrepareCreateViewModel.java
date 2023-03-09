@@ -8,12 +8,12 @@ import androidx.annotation.Nullable;
 
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
 @SuppressWarnings("WeakerAccess")
@@ -37,7 +37,7 @@ public class PrepareCreateViewModel extends BaseViewModel {
 
     public void saveCard(@NonNull Account account, long boardLocalId, long stackLocalId, @NonNull FullCard fullCard, @NonNull IResponseCallback<FullCard> callback) {
         try {
-            new SyncManager(getApplication(), account).createFullCard(account.getId(), boardLocalId, stackLocalId, fullCard, callback);
+            new SyncRepository(getApplication(), account).createFullCard(account.getId(), boardLocalId, stackLocalId, fullCard, callback);
         } catch (NextcloudFilesAppAccountNotFoundException e) {
             callback.onError(e);
         }

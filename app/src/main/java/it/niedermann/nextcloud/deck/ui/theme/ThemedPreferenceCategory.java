@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceViewHolder;
 
-import it.niedermann.nextcloud.deck.persistence.BaseRepository;
+import it.niedermann.nextcloud.deck.repository.BaseRepository;
 
 public class ThemedPreferenceCategory extends PreferenceCategory {
 

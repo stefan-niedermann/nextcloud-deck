@@ -15,8 +15,8 @@ import java.io.Serializable;
 
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
-import it.niedermann.nextcloud.deck.api.json.JsonColorSerializer;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
+import it.niedermann.nextcloud.deck.remote.api.json.JsonColorSerializer;
 
 @Entity(inheritSuperIndices = true,
         indices = {@Index("boardId"), @Index(value = {"boardId", "title"}, unique = true, name = "idx_label_title_unique")},

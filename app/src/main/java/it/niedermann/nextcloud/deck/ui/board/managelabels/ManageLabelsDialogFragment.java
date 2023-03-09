@@ -19,11 +19,11 @@ import java.util.Random;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.DialogBoardManageLabelsBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Label;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.theme.DeleteAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
@@ -169,7 +169,7 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
 
             @Override
             public void onError(Throwable throwable) {
-                if (SyncManager.isNoOnVoidError(throwable)) {
+                if (SyncRepository.isNoOnVoidError(throwable)) {
                     IResponseCallback.super.onError(throwable);
                     toastFromThread(throwable.getLocalizedMessage());
                 }

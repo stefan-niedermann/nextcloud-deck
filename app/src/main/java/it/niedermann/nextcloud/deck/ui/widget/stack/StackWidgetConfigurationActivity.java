@@ -13,14 +13,14 @@ import java.util.Collections;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetBoard;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetStack;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.ui.PickStackActivity;
 
 public class StackWidgetConfigurationActivity extends PickStackActivity {

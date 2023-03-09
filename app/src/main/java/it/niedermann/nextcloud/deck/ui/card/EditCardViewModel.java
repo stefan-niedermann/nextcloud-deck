@@ -23,7 +23,6 @@ import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.android.sharedpreferences.SharedPreferenceBooleanLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -33,13 +32,14 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
 @SuppressWarnings("WeakerAccess")
 public class EditCardViewModel extends BaseViewModel {
 
-    private SyncManager syncManager;
+    private SyncRepository syncRepository;
     private Account account;
     private long boardId;
     private FullCardWithProjects originalCard;
@@ -115,7 +115,7 @@ public class EditCardViewModel extends BaseViewModel {
 
     public void setAccount(@NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {
         this.account = account;
-        this.syncManager = new SyncManager(getApplication(), account);
+        this.syncRepository = new SyncRepository(getApplication(), account);
         hasCommentsAbility = account.getServerDeckVersionAsObject().supportsComments();
     }
 
@@ -168,7 +168,7 @@ public class EditCardViewModel extends BaseViewModel {
     }
 
     public void createLabel(long accountId, Label label, long localBoardId, @NonNull IResponseCallback<Label> callback) {
-        syncManager.createLabel(accountId, label, localBoardId, callback);
+        syncRepository.createLabel(accountId, label, localBoardId, callback);
     }
 
     public LiveData<FullCardWithProjects> getFullCardWithProjectsByLocalId(long accountId, long cardLocalId) {
@@ -179,19 +179,19 @@ public class EditCardViewModel extends BaseViewModel {
      * Saves the current {@link #fullCard}. If it is a new card, it will be created, otherwise it will be updated.
      */
     public void saveCard(@NonNull IResponseCallback<FullCard> callback) {
-        syncManager.updateCard(getFullCard(), callback);
+        syncRepository.updateCard(getFullCard(), callback);
     }
 
     public LiveData<List<Activity>> syncActivitiesForCard(@NonNull Card card) {
-        return syncManager.syncActivitiesForCard(card);
+        return syncRepository.syncActivitiesForCard(card);
     }
 
     public void addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file, @NonNull IResponseCallback<Attachment> callback) {
-        syncManager.addAttachmentToCard(accountId, localCardId, mimeType, file, callback);
+        syncRepository.addAttachmentToCard(accountId, localCardId, mimeType, file, callback);
     }
 
     public void deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId, @NonNull IResponseCallback<Void> callback) {
-        syncManager.deleteAttachmentOfCard(accountId, localCardId, localAttachmentId, callback);
+        syncRepository.deleteAttachmentOfCard(accountId, localCardId, localAttachmentId, callback);
     }
 
     public LiveData<Card> getCardByRemoteID(long accountId, long remoteId) {

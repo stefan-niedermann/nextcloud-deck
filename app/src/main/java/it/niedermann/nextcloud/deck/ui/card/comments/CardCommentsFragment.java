@@ -26,12 +26,12 @@ import java.time.Instant;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabCommentsBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
@@ -177,7 +177,7 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
 
             @Override
             public void onError(Throwable throwable) {
-                if (SyncManager.isNoOnVoidError(throwable)) {
+                if (SyncRepository.isNoOnVoidError(throwable)) {
                     IResponseCallback.super.onError(throwable);
                     requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, editCardViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                 }

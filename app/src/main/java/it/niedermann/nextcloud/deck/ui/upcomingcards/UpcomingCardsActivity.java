@@ -13,12 +13,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import it.niedermann.nextcloud.deck.DeckLog;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityUpcomingCardsBinding;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.movecard.MoveCardListener;
@@ -77,7 +77,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
 
                     @Override
                     public void onError(Throwable throwable) {
-                        if (SyncManager.isNoOnVoidError(throwable)) {
+                        if (SyncRepository.isNoOnVoidError(throwable)) {
                             IResponseCallback.super.onError(throwable);
                             runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                         }
@@ -121,7 +121,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
             @Override
             public void onError(Throwable throwable) {
                 IResponseCallback.super.onError(throwable);
-                if (SyncManager.isNoOnVoidError(throwable)) {
+                if (SyncRepository.isNoOnVoidError(throwable)) {
                     ExceptionDialogFragment.newInstance(throwable, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 }
             }

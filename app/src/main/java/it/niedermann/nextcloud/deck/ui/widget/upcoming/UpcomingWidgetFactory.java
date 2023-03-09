@@ -16,7 +16,7 @@ import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.persistence.BaseRepository;
+import it.niedermann.nextcloud.deck.repository.BaseRepository;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterSectionItem;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsUtil;

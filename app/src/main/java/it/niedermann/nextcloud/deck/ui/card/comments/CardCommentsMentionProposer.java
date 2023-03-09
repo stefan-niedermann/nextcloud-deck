@@ -23,7 +23,7 @@ import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
-import it.niedermann.nextcloud.deck.persistence.BaseRepository;
+import it.niedermann.nextcloud.deck.repository.BaseRepository;
 import it.niedermann.nextcloud.deck.ui.card.comments.util.CommentsUtil;
 
 public class CardCommentsMentionProposer implements TextWatcher {

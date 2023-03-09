@@ -3,7 +3,7 @@ package it.niedermann.nextcloud.deck.ui.theme;
 import androidx.fragment.app.DialogFragment;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
-import it.niedermann.nextcloud.deck.persistence.BaseRepository;
+import it.niedermann.nextcloud.deck.repository.BaseRepository;
 
 public abstract class ThemedDialogFragment extends DialogFragment implements Themed {
 

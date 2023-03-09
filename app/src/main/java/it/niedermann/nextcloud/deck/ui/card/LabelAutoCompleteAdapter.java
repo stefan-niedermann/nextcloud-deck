@@ -44,14 +44,14 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
         final String[] colors = activity.getResources().getStringArray(R.array.board_default_colors);
         createLabelColor = Color.parseColor(colors[new Random().nextInt(colors.length)]);
 
-        canManage$ = new ReactiveLiveData<>(syncManager.getFullBoardById(account.getId(), boardId))
+        canManage$ = new ReactiveLiveData<>(syncRepository.getFullBoardById(account.getId(), boardId))
                 .map(FullBoard::getBoard)
                 .map(Board::isPermissionManage);
 
         constraint$
                 .flatMap(constraint -> TextUtils.isEmpty(constraint)
-                        ? syncManager.findProposalsForLabelsToAssign(account.getId(), boardId, cardId)
-                        : syncManager.searchNotYetAssignedLabelsByTitle(account, boardId, cardId, constraint))
+                        ? syncRepository.findProposalsForLabelsToAssign(account.getId(), boardId, cardId)
+                        : syncRepository.searchNotYetAssignedLabelsByTitle(account, boardId, cardId, constraint))
                 .map(this::filterExcluded)
                 .flatMap(this::addCreateLabelIfNeeded)
                 .distinctUntilChanged()

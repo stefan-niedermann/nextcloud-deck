@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import it.niedermann.nextcloud.deck.persistence.BaseRepository;
+import it.niedermann.nextcloud.deck.repository.BaseRepository;
 
 /**
  * To be used for {@link ViewModel}s which need an {@link BaseRepository} instance

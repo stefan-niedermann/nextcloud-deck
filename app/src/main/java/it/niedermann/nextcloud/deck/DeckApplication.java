@@ -8,7 +8,7 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import it.niedermann.nextcloud.deck.persistence.PreferencesRepository;
+import it.niedermann.nextcloud.deck.repository.PreferencesRepository;
 import it.niedermann.nextcloud.deck.util.CustomAppGlideModule;
 
 public class DeckApplication extends Application {

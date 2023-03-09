@@ -22,14 +22,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import it.niedermann.android.crosstabdnd.DragAndDropTab;
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.FragmentStackBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.card.CardActionListener;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
@@ -174,7 +174,7 @@ public class StackFragment extends Fragment implements Themed, DragAndDropTab<Ca
             @Override
             public void onError(Throwable throwable) {
                 IResponseCallback.super.onError(throwable);
-                if (SyncManager.isNoOnVoidError(throwable)) {
+                if (SyncRepository.isNoOnVoidError(throwable)) {
                     ExceptionDialogFragment.newInstance(throwable, null).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 }
             }
@@ -231,7 +231,7 @@ public class StackFragment extends Fragment implements Themed, DragAndDropTab<Ca
 
             @Override
             public void onError(Throwable throwable) {
-                if (SyncManager.isNoOnVoidError(throwable)) {
+                if (SyncRepository.isNoOnVoidError(throwable)) {
                     IResponseCallback.super.onError(throwable);
                     showExceptionDialog(throwable, fullCard.getAccountId());
                 }

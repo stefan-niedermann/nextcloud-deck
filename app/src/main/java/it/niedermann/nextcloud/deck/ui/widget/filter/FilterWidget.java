@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.persistence.BaseRepository;
+import it.niedermann.nextcloud.deck.repository.BaseRepository;
 
 public class FilterWidget extends AppWidgetProvider {
     public static final String ACCOUNT_KEY = "filter_widget_account";

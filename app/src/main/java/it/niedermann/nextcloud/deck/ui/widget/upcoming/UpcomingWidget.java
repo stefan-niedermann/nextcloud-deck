@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.ESortCriteria;
 import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
@@ -30,7 +29,8 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetSort;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
-import it.niedermann.nextcloud.deck.persistence.BaseRepository;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.repository.BaseRepository;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 
 public class UpcomingWidget extends AppWidgetProvider {

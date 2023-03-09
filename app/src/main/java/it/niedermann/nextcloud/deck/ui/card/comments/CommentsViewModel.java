@@ -12,10 +12,10 @@ import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundExce
 
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
 
 @SuppressWarnings("WeakerAccess")
@@ -40,14 +40,14 @@ public class CommentsViewModel extends SyncViewModel {
     }
 
     public void addCommentToCard(long accountId, long cardId, @NonNull DeckComment comment) {
-        syncManager.addCommentToCard(accountId, cardId, comment);
+        syncRepository.addCommentToCard(accountId, cardId, comment);
     }
 
     public void updateComment(long accountId, long localCardId, long localCommentId, String comment) {
-        syncManager.updateComment(accountId, localCardId, localCommentId, comment);
+        syncRepository.updateComment(accountId, localCardId, localCommentId, comment);
     }
 
     public void deleteComment(long accountId, long localCardId, long localCommentId, @NonNull IResponseCallback<Void> callback) {
-        syncManager.deleteComment(accountId, localCardId, localCommentId, callback);
+        syncRepository.deleteComment(accountId, localCardId, localCommentId, callback);
     }
 }

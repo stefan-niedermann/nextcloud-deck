@@ -32,15 +32,15 @@ import java.util.concurrent.CompletableFuture;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityImportAccountBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
+import it.niedermann.nextcloud.deck.remote.SyncWorker;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
@@ -127,7 +127,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(Account createdAccount) {
                                     try {
-                                        final var syncManager = new SyncManager(ImportAccountActivity.this, createdAccount);
+                                        final var syncManager = new SyncRepository(ImportAccountActivity.this, createdAccount);
 
                                         syncManager.refreshCapabilities(new ResponseCallback<>(createdAccount) {
                                             @Override

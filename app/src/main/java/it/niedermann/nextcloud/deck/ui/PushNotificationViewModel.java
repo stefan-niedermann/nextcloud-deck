@@ -21,10 +21,10 @@ import java.util.Optional;
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 import it.niedermann.nextcloud.deck.util.ProjectUtil;
 
@@ -57,7 +57,7 @@ public class PushNotificationViewModel extends BaseViewModel {
                     .orElseThrow(() -> new IllegalArgumentException("Account not found"));
             this.account.postValue(account);
 
-            final var syncManager = new SyncManager(getApplication(), account);
+            final var syncManager = new SyncRepository(getApplication(), account);
 
             final var card = syncManager.getCardByRemoteIDDirectly(account.getId(), cardRemoteId);
 
@@ -196,8 +196,8 @@ public class PushNotificationViewModel extends BaseViewModel {
         return Optional.ofNullable(baseRepository.readAccountDirectly(bundle.getString(KEY_ACCOUNT)));
     }
 
-    private Optional<Long> extractBoardLocalId(@NonNull SyncManager syncManager, long accountId, long cardRemoteId) {
-        return Optional.ofNullable(syncManager.getBoardLocalIdByAccountAndCardRemoteIdDirectly(accountId, cardRemoteId));
+    private Optional<Long> extractBoardLocalId(@NonNull SyncRepository syncRepository, long accountId, long cardRemoteId) {
+        return Optional.ofNullable(syncRepository.getBoardLocalIdByAccountAndCardRemoteIdDirectly(accountId, cardRemoteId));
     }
 
     public Optional<String> extractSubject(@Nullable Bundle bundle) {

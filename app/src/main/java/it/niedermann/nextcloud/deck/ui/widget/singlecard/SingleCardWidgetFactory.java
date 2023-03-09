@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 import it.niedermann.android.markdown.MarkdownUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullSingleCardWidgetModel;
-import it.niedermann.nextcloud.deck.persistence.BaseRepository;
+import it.niedermann.nextcloud.deck.repository.BaseRepository;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 
 public class SingleCardWidgetFactory implements RemoteViewsService.RemoteViewsFactory {

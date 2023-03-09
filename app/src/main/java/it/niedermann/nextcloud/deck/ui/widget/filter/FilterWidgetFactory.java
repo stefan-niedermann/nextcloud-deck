@@ -15,7 +15,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
-import it.niedermann.nextcloud.deck.persistence.BaseRepository;
+import it.niedermann.nextcloud.deck.repository.BaseRepository;
 
 public class FilterWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private final Context context;

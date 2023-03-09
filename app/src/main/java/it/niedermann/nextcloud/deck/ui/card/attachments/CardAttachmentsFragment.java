@@ -64,13 +64,13 @@ import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabAttachmentsBinding;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.AbstractPickerAdapter;
 import it.niedermann.nextcloud.deck.ui.card.attachments.picker.ContactAdapter;
@@ -500,7 +500,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 
                 @Override
                 public void onError(Throwable throwable) {
-                    if (SyncManager.isNoOnVoidError(throwable)) {
+                    if (SyncRepository.isNoOnVoidError(throwable)) {
                         IResponseCallback.super.onError(throwable);
                         requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                     }

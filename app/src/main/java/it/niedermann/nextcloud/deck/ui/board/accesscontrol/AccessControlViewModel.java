@@ -10,10 +10,10 @@ import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundExce
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
 
 public class AccessControlViewModel extends SyncViewModel {
@@ -35,14 +35,14 @@ public class AccessControlViewModel extends SyncViewModel {
     }
 
     public void createAccessControl(@NonNull Account account, @NonNull AccessControl entity, @NonNull IResponseCallback<AccessControl> callback) {
-        syncManager.createAccessControl(account.getId(), entity, callback);
+        syncRepository.createAccessControl(account.getId(), entity, callback);
     }
 
     public void updateAccessControl(@NonNull AccessControl entity, @NonNull IResponseCallback<AccessControl> callback) {
-        syncManager.updateAccessControl(entity, callback);
+        syncRepository.updateAccessControl(entity, callback);
     }
 
     public void deleteAccessControl(@NonNull AccessControl entity, @NonNull IResponseCallback<Void> callback) {
-        syncManager.deleteAccessControl(entity, callback);
+        syncRepository.deleteAccessControl(entity, callback);
     }
 }
