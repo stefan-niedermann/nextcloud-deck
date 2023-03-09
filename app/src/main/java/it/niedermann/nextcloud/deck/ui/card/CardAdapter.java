@@ -87,9 +87,9 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
             return R.layout.item_card_compact;
         } else {
             final var fullCard = cardList.get(position);
-            if (fullCard.getAttachments().size() == 0
-                    && fullCard.getAssignedUsers().size() == 0
-                    && fullCard.getLabels().size() == 0
+            if (fullCard.getAttachments().isEmpty()
+                    && fullCard.getAssignedUsers().isEmpty()
+                    && fullCard.getLabels().isEmpty()
                     && fullCard.getCommentCount() == 0
                     && fullCard.getCard().getTaskStatus().taskCount == 0) {
                 return R.layout.item_card_default_only_title;
