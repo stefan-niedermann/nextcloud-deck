@@ -16,7 +16,7 @@
             android:id="@+id/coverImages"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            tools:background="@color/bg_info_box" />
+            tools:background="@tools:sample/backgrounds/scenic" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,8 +80,8 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/label_menu"
                     android:padding="@dimen/spacer_1hx"
-                    app:tint="?attr/colorAccent"
-                    app:srcCompat="@drawable/ic_menu" />
+                    app:srcCompat="@drawable/ic_menu"
+                    app:tint="?attr/colorAccent" />
             </LinearLayout>
 
             <it.niedermann.nextcloud.deck.ui.view.labellayout.CompactLabelLayout

@@ -23,7 +23,7 @@
             android:layout_marginBottom="@dimen/spacer_1x"
             android:orientation="horizontal"
             android:visibility="gone"
-            tools:background="@color/bg_info_box"
+            tools:background="@tools:sample/backgrounds/scenic"
             tools:visibility="visible" />
 
         <LinearLayout

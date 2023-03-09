@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@null"
-            tools:background="@color/board_default_color" />
+            tools:src="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/initials"
@@ -29,9 +29,7 @@
             android:textSize="20dp"
             android:translationY="-2dp"
             android:visibility="gone"
-            tools:ignore="SpUsage"
-            tools:text="G"
-            tools:visibility="visible" />
+            tools:ignore="SpUsage" />
 
     </FrameLayout>
 
