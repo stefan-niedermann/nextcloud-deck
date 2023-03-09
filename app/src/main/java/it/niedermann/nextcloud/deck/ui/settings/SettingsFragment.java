@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.settings;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -66,7 +65,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         if (themePref != null) {
             themePref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
                 preferencesViewModel.setAppTheme(Integer.parseInt((String) newValue));
-                requireActivity().setResult(Activity.RESULT_OK);
                 ActivityCompat.recreate(requireActivity());
                 return true;
             });

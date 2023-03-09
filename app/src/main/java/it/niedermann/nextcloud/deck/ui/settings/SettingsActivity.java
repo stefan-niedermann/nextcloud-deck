@@ -35,7 +35,9 @@ public class SettingsActivity extends AppCompatActivity implements Themed {
         applyTheme(account.getColor());
         setSupportActionBar(binding.toolbar);
         setContentView(binding.getRoot());
-        setResult(RESULT_CANCELED);
+
+        // TODO We should only set this if a preference has changed that influences the MainActivity
+        setResult(RESULT_OK);
     }
 
     @Override
