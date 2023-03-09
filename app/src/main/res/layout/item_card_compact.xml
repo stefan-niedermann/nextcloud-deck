@@ -32,12 +32,12 @@
                 android:paddingStart="@dimen/spacer_2x"
                 android:paddingEnd="@dimen/spacer_1x">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/card_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4sp"
                     android:layout_weight="1"
+                    android:paddingVertical="2sp"
                     android:textColor="?attr/colorAccent"
                     android:textSize="18sp"
                     tools:ignore="RtlSymmetry"
@@ -53,25 +53,16 @@
                     app:srcCompat="@drawable/ic_sync_blue_24dp"
                     tools:visibility="visible" />
 
-                <LinearLayout
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/card_due_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/spacer_1hx"
-                    tools:ignore="RtlSymmetry">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/card_due_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="@dimen/spacer_1hx"
-                        android:gravity="center"
-                        android:padding="@dimen/spacer_1hx"
-                        android:paddingEnd="@dimen/spacer_1x"
-                        app:drawableStartCompat="@drawable/calendar_blank_grey600_24dp"
-                        tools:text="tomorrow" />
-
-                </LinearLayout>
+                    android:drawablePadding="@dimen/spacer_1hx"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/spacer_1x"
+                    android:paddingVertical="@dimen/spacer_1hx"
+                    app:drawableStartCompat="@drawable/calendar_blank_grey600_24dp"
+                    tools:text="tomorrow" />
 
                 <ImageView
                     android:id="@+id/card_menu"
