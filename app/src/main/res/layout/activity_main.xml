@@ -135,6 +135,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@android:color/transparent"
+                            android:hint="@string/simple_filter"
                             android:inputType="text"
                             android:maxLines="1"
                             tools:hint="@string/app_name_short" />
