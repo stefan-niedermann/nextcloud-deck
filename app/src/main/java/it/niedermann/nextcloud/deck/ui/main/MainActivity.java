@@ -50,6 +50,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import it.niedermann.android.crosstabdnd.CrossTabDragAndDrop;
@@ -64,6 +65,7 @@ import it.niedermann.nextcloud.deck.databinding.NavHeaderMainBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -165,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         stackAdapter = new StackAdapter(this);
         binding.viewPager.setAdapter(stackAdapter);
         binding.viewPager.setOffscreenPageLimit(2);
-        binding.filterWrapper.setOnClickListener((v) -> FilterDialogFragment.newInstance().show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName()));
+        binding.filterWrapper.setOnClickListener((v) -> FilterDialogFragment.newInstance().show(getSupportFragmentManager(), FilterDialogFragment.class.getCanonicalName()));
         binding.filterText.addTextChangedListener(new OnTextChangedWatcher(filterViewModel::setFilterText));
         binding.enableSearch.setOnClickListener(v -> showFilterTextToolbar());
         binding.toolbar.setOnClickListener(v -> showFilterTextToolbar());
@@ -612,8 +614,8 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                     ? R.string.do_you_want_to_archive_all_cards_of_the_filtered_list
                                     : R.string.do_you_want_to_archive_all_cards_of_the_list, stack.getTitle()))
                             .setPositiveButton(R.string.simple_archive, (dialog, whichButton) -> {
-                                final var filterInformation = filterViewModel.getFilterInformation().getValue();
-                                mainViewModel.archiveCardsInStack(stack.getAccountId(), stackLocalId, filterInformation == null ? new FilterInformation() : filterInformation, new IResponseCallback<>() {
+                                final var filterInformation = Optional.ofNullable(filterViewModel.getFilterInformation().getValue()).orElse(new FilterInformation());
+                                mainViewModel.archiveCardsInStack(stack.getAccountId(), stackLocalId, filterInformation, new IResponseCallback<>() {
                                     @Override
                                     public void onResponse(Void response) {
                                         DeckLog.info("Successfully archived all cards in stack local id", stackLocalId);
@@ -769,31 +771,16 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     }
 
     /**
-     * Find a StackFragment by it's ID, may return null.
-     *
-     * @param stackId ID of the stack to find
-     * @return Instance of StackFragment
-     */
-    @Nullable
-    public StackFragment findStackFragmentById(long stackId) {
-        return (StackFragment) getSupportFragmentManager().findFragmentByTag("f" + stackId);
-    }
-
-    /**
-     * This method is called when a new Card is created
-     *
-     * @param createdCard The new Card's data
+     * @param createdCard The new {@link Card}s data
      */
     @Override
-    public void onCardCreated(FullCard createdCard) {
+    public void onCardCreated(@NonNull FullCard createdCard) {
         final var card = createdCard.getCard();
         DeckLog.log("Card Created! Title:" + card.getTitle() + " in stack ID: " + card.getStackId());
 
         // Scroll the given StackFragment to the bottom, so the new Card is in view.
-        final var fragment = findStackFragmentById(card.getStackId());
-        if (fragment != null) {
-            fragment.scrollToBottom();
-        }
+        Optional.ofNullable((StackFragment) getSupportFragmentManager().findFragmentByTag("f" + card.getStackId()))
+                .ifPresent(StackFragment::scrollToBottom);
     }
 
     @Override
