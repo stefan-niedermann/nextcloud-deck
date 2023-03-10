@@ -48,7 +48,6 @@
     <string name="about_translators_title">Tradutores</string>
     <string name="about_translators_transifex">Comunidade Nextcloud no %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Testadores</string>
     <string name="about_source_title">Código-fonte</string>
     <string name="about_source">Este projeto está hospedado no GitHub: %1$s</string>
     <string name="about_issues_title">Problemas</string>
@@ -78,7 +77,7 @@
 
     <string name="add_account">Adicionar conta</string>
     <string name="choose_account">Escolher conta</string>
-    <string name="add_card">Adicionar novo cartão</string>
+    <string name="add_card">Adicionar cartão</string>
     <string name="activity">Atividade</string>
     <string name="add_list">Adicionar lista</string>
     <string name="rename_list">Renomear lista</string>
@@ -101,7 +100,6 @@
     <string name="attachments">Anexos</string>
     <string name="no_cards">Nenhum cartão ainda</string>
     <string name="no_account">Nenhuma conta configurada</string>
-    <string name="account_already_added">Conta já adicionada</string>
     <string name="account_is_getting_imported">Conta está sendo importada</string>
     <string name="not_synced_yet">Ainda não sincronizado</string>
     <string name="no_lists_yet">Ainda sem listas</string>
@@ -315,7 +313,6 @@
     <string name="downloads">Downloads</string>
     <string name="files">Arquivos</string>
     <string name="gallery">Galeria</string>
-    <string name="simple_attach">anexar</string>
     <string name="add_stack_widget">Adicionar widget de lista</string>
     <string name="add_filter_widget">Adicionar widget de filtro</string>
     <string name="simple_order">Pedido</string>

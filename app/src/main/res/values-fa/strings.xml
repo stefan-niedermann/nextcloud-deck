@@ -47,7 +47,6 @@
     <string name="about_translators_title">مترجم</string>
     <string name="about_translators_transifex">انجمن نکست کلود در %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">آزمایش کنندگان</string>
     <string name="about_source_title">کد منبع</string>
     <string name="about_source">این پروژه در GitHub میزبانی شده است: %1$s</string>
     <string name="about_issues_title">مسائل</string>
@@ -77,7 +76,7 @@
 
     <string name="add_account">ایحاد حساب کاربری</string>
     <string name="choose_account">حساب کاربری را انتخاب کنید</string>
-    <string name="add_card">افزودن کارت</string>
+    <string name="add_card">افزودن برگه</string>
     <string name="activity">فعالیت</string>
     <string name="add_list">افزودن لیست</string>
     <string name="rename_list">تغییر نام لیست</string>
@@ -100,7 +99,6 @@
     <string name="attachments">پیوست ها</string>
     <string name="no_cards">هنوز کارت وجود ندارد</string>
     <string name="no_account">هیچ حساب پیکربندی نشده است</string>
-    <string name="account_already_added">حساب قبلاً اضافه شده است</string>
     <string name="account_is_getting_imported">حساب وارد می شود</string>
     <string name="not_synced_yet">هنوز همگام سازی نشده است</string>
     <string name="no_lists_yet">هنوز لیست وجود ندارد</string>
@@ -306,7 +304,6 @@
     <string name="downloads">بارگیری ها</string>
     <string name="files">فایل ها</string>
     <string name="gallery">گالری</string>
-    <string name="simple_attach">ضمیمه کردن</string>
     <string name="add_stack_widget">افزودن ابزارک لیست</string>
     <string name="add_filter_widget">افزودن ابزارک پالایه</string>
     <string name="simple_order">ترتیب</string>

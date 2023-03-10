@@ -48,7 +48,6 @@
     <string name="about_translators_title">المترجِمون</string>
     <string name="about_translators_transifex">مجتمع نكست كلاود على %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">المجَرِّبون</string>
     <string name="about_source_title">الشفرة المصدرية</string>
     <string name="about_source">هذا المشروع مستضاف على جيت هب: %1$s</string>
     <string name="about_issues_title">المشاكل</string>
@@ -78,7 +77,6 @@
 
     <string name="add_account">أضف حسابا</string>
     <string name="choose_account">اختر حسابًا</string>
-    <string name="add_card">إضافة بطاقة جديدة</string>
     <string name="activity">نشاط</string>
     <string name="add_list">إضافة قائمة</string>
     <string name="rename_list">إعادة تسمية القائمة</string>
@@ -101,7 +99,6 @@
     <string name="attachments">المرفقات</string>
     <string name="no_cards">لا توجد بطاقات حتى الآن</string>
     <string name="no_account">لم يتم إعداد أي حساب بعد.</string>
-    <string name="account_already_added">تمت إضافة الحساب بالفعل </string>
     <string name="account_is_getting_imported">يتم استيراد الحساب </string>
     <string name="not_synced_yet">لم يتم التزامن حتى الآن</string>
     <string name="no_lists_yet">لا توجد قائمة حتى الآن</string>
@@ -328,7 +325,6 @@
     <string name="downloads">التنزيلات</string>
     <string name="files">الملفات</string>
     <string name="gallery">معرض الصور</string>
-    <string name="simple_attach">إرفاق</string>
     <string name="add_stack_widget">إضافة قائمة الودجات </string>
     <string name="add_filter_widget">إضافة تصفية الودجات</string>
     <string name="simple_order">طلب</string>

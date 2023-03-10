@@ -48,7 +48,6 @@
     <string name="about_translators_title">翻译人员</string>
     <string name="about_translators_transifex">%1$s 上的 Nextcloud 社区</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">测试者</string>
     <string name="about_source_title">源代码</string>
     <string name="about_source">此项目托管在 GitHub：%1$s</string>
     <string name="about_issues_title">问题</string>
@@ -78,7 +77,7 @@
 
     <string name="add_account">添加账号</string>
     <string name="choose_account">选择账号</string>
-    <string name="add_card">添加新卡片</string>
+    <string name="add_card">新建卡片</string>
     <string name="activity">动态</string>
     <string name="add_list">添加列表</string>
     <string name="rename_list">重命名列表</string>
@@ -101,7 +100,6 @@
     <string name="attachments">附件</string>
     <string name="no_cards">暂无卡片</string>
     <string name="no_account">没有已配置的账号</string>
-    <string name="account_already_added">账号已被添加</string>
     <string name="account_is_getting_imported">账号已被导入</string>
     <string name="not_synced_yet">尚未同步</string>
     <string name="no_lists_yet">尚无名单</string>
@@ -307,7 +305,6 @@
     <string name="downloads">下载项</string>
     <string name="files">文件</string>
     <string name="gallery">相册</string>
-    <string name="simple_attach">附加</string>
     <string name="add_stack_widget">添加列表小部件</string>
     <string name="add_filter_widget">添加过滤器小部件</string>
     <string name="simple_order">顺序</string>

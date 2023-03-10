@@ -48,7 +48,6 @@
     <string name="about_translators_title">Prevajalci</string>
     <string name="about_translators_transifex">Skupnost Nextcloud na %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Preizkuševalci</string>
     <string name="about_source_title">Izvorna koda</string>
     <string name="about_source">Projekt gostuje na GitHub: %1$s</string>
     <string name="about_issues_title">Odzivi</string>
@@ -78,7 +77,7 @@
 
     <string name="add_account">Dodaj račun</string>
     <string name="choose_account">Izbor računa</string>
-    <string name="add_card">Dodaj novo nalogo</string>
+    <string name="add_card">Dodaj nalogo</string>
     <string name="activity">Dejavnost</string>
     <string name="add_list">Dodaj seznam</string>
     <string name="rename_list">Preimenuj seznam</string>
@@ -101,7 +100,6 @@
     <string name="attachments">Priloge</string>
     <string name="no_cards">Ni še vpisanih nalog</string>
     <string name="no_account">Ni nastavljenega nobenega računa</string>
-    <string name="account_already_added">Račun je že dodan</string>
     <string name="account_is_getting_imported">Poteka uvažanje računa</string>
     <string name="not_synced_yet">Še ni usklajeno</string>
     <string name="no_lists_yet">Ni še dodanega seznama</string>
@@ -319,7 +317,6 @@
     <string name="downloads">Prejemi</string>
     <string name="files">Datoteke</string>
     <string name="gallery">Galerija</string>
-    <string name="simple_attach">pripni</string>
     <string name="add_stack_widget">Dodaj gradnik seznama</string>
     <string name="add_filter_widget">Dodaj gradnik filtra</string>
     <string name="simple_order">Razvrstitev</string>

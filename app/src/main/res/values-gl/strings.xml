@@ -48,7 +48,6 @@
     <string name="about_translators_title">Tradutores</string>
     <string name="about_translators_transifex">Comunidade Nextcloud en %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Probadores</string>
     <string name="about_source_title">Código fonte</string>
     <string name="about_source">Este proxecto está aloxado en GitHub: %1$s</string>
     <string name="about_issues_title">Incidencias</string>
@@ -78,7 +77,7 @@
 
     <string name="add_account">Engadir unha conta</string>
     <string name="choose_account">Escolla unha conta</string>
-    <string name="add_card">Engadir unha nova tarxeta</string>
+    <string name="add_card">Engadir tarxeta</string>
     <string name="activity">Actividade</string>
     <string name="add_list">Engadir unha lista...</string>
     <string name="rename_list">Renomear a lista</string>
@@ -101,7 +100,6 @@
     <string name="attachments">Anexos</string>
     <string name="no_cards">Aínda non hai tarxetas</string>
     <string name="no_account">Non hai ningunha conta configurada</string>
-    <string name="account_already_added">Foi engadida a conta</string>
     <string name="account_is_getting_imported">A conta está a importarse</string>
     <string name="not_synced_yet">Aínda non foi sincronizado</string>
     <string name="no_lists_yet">Non hai listas</string>
@@ -311,7 +309,6 @@
     <string name="downloads">Descargas</string>
     <string name="files">Ficheiros</string>
     <string name="gallery">Galería</string>
-    <string name="simple_attach">anexar</string>
     <string name="add_stack_widget">Engadir o trebello de lista</string>
     <string name="add_filter_widget">Engadir o trebello de filtro</string>
     <string name="simple_order">Orde</string>

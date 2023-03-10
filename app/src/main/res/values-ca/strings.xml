@@ -48,7 +48,6 @@
     <string name="about_translators_title">Traductors</string>
     <string name="about_translators_transifex">La comunitat de Nextcloud a %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Provadors</string>
     <string name="about_source_title">Codi font</string>
     <string name="about_source">Aquest projecte és allotjat a GitHub: %1$s</string>
     <string name="about_issues_title">Incidències</string>
@@ -78,7 +77,6 @@
 
     <string name="add_account">Afegeix un compte</string>
     <string name="choose_account">Trieu un compte</string>
-    <string name="add_card">Afegeix una nova targeta</string>
     <string name="activity">Activitat</string>
     <string name="add_list">Afegeix una llista</string>
     <string name="rename_list">Canvia el nom de la llista</string>
@@ -101,7 +99,6 @@
     <string name="attachments">Adjunts</string>
     <string name="no_cards">Encara no hi ha cap targeta.</string>
     <string name="no_account">No hi ha cap compte configurat.</string>
-    <string name="account_already_added">El compte ja s\'ha afegit.</string>
     <string name="account_is_getting_imported">S\'importa el compte.</string>
     <string name="not_synced_yet">No sincronitzat encara</string>
     <string name="no_lists_yet">Encara no hi ha llistes</string>
@@ -311,7 +308,6 @@
     <string name="downloads">Baixades</string>
     <string name="files">Fitxers</string>
     <string name="gallery">Galeria</string>
-    <string name="simple_attach">Adjuntar</string>
     <string name="add_stack_widget">Afegeix giny de llista</string>
     <string name="add_filter_widget">Afegir un giny per filtrar</string>
     <string name="simple_order">Ordre</string>

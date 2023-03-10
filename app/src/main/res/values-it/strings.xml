@@ -48,7 +48,6 @@
     <string name="about_translators_title">Traduttori</string>
     <string name="about_translators_transifex">La comunità di Nextcloud su %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Test</string>
     <string name="about_source_title">Codice sorgente</string>
     <string name="about_source">Questo progetto è ospitato su GitHub: %1$s</string>
     <string name="about_issues_title">Problemi</string>
@@ -78,7 +77,7 @@
 
     <string name="add_account">Aggiungi account</string>
     <string name="choose_account">Scegli account</string>
-    <string name="add_card">Aggiungi nuova scheda</string>
+    <string name="add_card">Aggiungi scheda</string>
     <string name="activity">Attività</string>
     <string name="add_list">Aggiungi elenco</string>
     <string name="rename_list">Rinomina elenco</string>
@@ -101,7 +100,6 @@
     <string name="attachments">Allegati</string>
     <string name="no_cards">Ancora nessuna scheda</string>
     <string name="no_account">Nessun account configurato</string>
-    <string name="account_already_added">Account già aggiunto</string>
     <string name="account_is_getting_imported">L\'account è in fase di importazione</string>
     <string name="not_synced_yet">Non ancora sincronizzata</string>
     <string name="no_lists_yet">Ancora nessun elenco</string>
@@ -315,7 +313,6 @@
     <string name="downloads">Scaricamenti</string>
     <string name="files">File</string>
     <string name="gallery">Galleria</string>
-    <string name="simple_attach">allega</string>
     <string name="add_stack_widget">Aggiungi widget elenco</string>
     <string name="add_filter_widget">Aggiungi widget di filtro</string>
     <string name="simple_order">Ordinamento</string>

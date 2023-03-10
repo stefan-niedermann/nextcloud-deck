@@ -46,7 +46,6 @@
     <string name="about_translators_title">Þýðendur</string>
     <string name="about_translators_transifex">Nextcloud-samfélagið á %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">prófarar</string>
     <string name="about_source_title">Upprunakóði</string>
     <string name="about_source">Þetta verkefni er hýst á GitHub: %1$s</string>
     <string name="about_issues_title">Vandamál</string>
@@ -71,6 +70,7 @@
 
     <string name="add_account">Bæta við notandaaðgangi</string>
     <string name="choose_account">Veldu aðgang</string>
+    <string name="add_card">Bæta við spjaldi</string>
     <string name="activity">Virkni</string>
     <string name="add_list">Bæta við lista</string>
     <string name="rename_list">Endurnefna lista</string>
@@ -93,7 +93,6 @@
     <string name="attachments">Viðhengi</string>
     <string name="no_cards">Engin spjöld ennþá</string>
     <string name="no_account">Enginn aðgangur stilltur.</string>
-    <string name="account_already_added">Aðgangi þegar bætt við</string>
     <string name="account_is_getting_imported">Verið er að flytja inn aðgang</string>
     <string name="not_synced_yet">Ekki ennþá samstillt</string>
     <string name="no_lists_yet">Engir listar ennþá</string>

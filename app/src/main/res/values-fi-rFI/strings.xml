@@ -46,7 +46,6 @@
     <string name="about_translators_title">Kääntäjät</string>
     <string name="about_translators_transifex">Nextcloud-yhteisö paikassa %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Testaajat</string>
     <string name="about_source_title">Lähdekoodi</string>
     <string name="about_source">Tämä projekti on GitHubissa: %1$s</string>
     <string name="about_issues_title">Ongelmat</string>
@@ -76,7 +75,7 @@
 
     <string name="add_account">Lisää tili</string>
     <string name="choose_account">Valitse tili</string>
-    <string name="add_card">Lisää uusi kortti</string>
+    <string name="add_card">Lisää kortti</string>
     <string name="activity">Aktiviteetti</string>
     <string name="add_list">Lisää lista</string>
     <string name="rename_list">Nimeä lista uudelleen</string>
@@ -99,7 +98,6 @@
     <string name="attachments">Liitteet</string>
     <string name="no_cards">Ei kortteja vielä</string>
     <string name="no_account">Tiliä ei ole määritetty</string>
-    <string name="account_already_added">Tili on jo lisätty</string>
     <string name="account_is_getting_imported">Tiliä tuodaan sisään</string>
     <string name="not_synced_yet">Ei vielä synkronoitu</string>
     <string name="no_lists_yet">Ei vielä listoja</string>

@@ -48,7 +48,6 @@
     <string name="about_translators_title">Tradutore</string>
     <string name="about_translators_transifex">Comunidade Nextcloud in su %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Collaudadores</string>
     <string name="about_source_title">Còdighe fonte</string>
     <string name="about_source">Custu progetu nch\'est allogadu in GitHub: %1$s</string>
     <string name="about_issues_title">Problemas</string>
@@ -78,7 +77,7 @@
 
     <string name="add_account">Agiunghe contu</string>
     <string name="choose_account">Sèbera contu</string>
-    <string name="add_card">Agiùnghe ischeda noa</string>
+    <string name="add_card">Agiunghe ischeda</string>
     <string name="activity">Atividade</string>
     <string name="add_list">Agiunghe lista</string>
     <string name="rename_list">Torra a numenare sa lista</string>
@@ -101,7 +100,6 @@
     <string name="attachments">Alligongiados</string>
     <string name="no_cards">Perun\'ischeda ancora</string>
     <string name="no_account">Perunu contu cunfiguradu</string>
-    <string name="account_already_added">Contu giai agiuntu</string>
     <string name="account_is_getting_imported">Importende su contu</string>
     <string name="not_synced_yet">Non sincronizadu ancora</string>
     <string name="no_lists_yet">Perunu elencu ancora</string>
@@ -308,7 +306,6 @@
     <string name="downloads">Iscarrigados</string>
     <string name="files">Archìvios</string>
     <string name="gallery">Galleria</string>
-    <string name="simple_attach">alligòngia</string>
     <string name="add_stack_widget">Agiunghe lista widget</string>
     <string name="add_filter_widget">Agiunghe filtru widget</string>
     <string name="simple_order">Ordinamentu</string>

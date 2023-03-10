@@ -46,7 +46,6 @@
     <string name="about_translators_title">מתרגמים</string>
     <string name="about_translators_transifex">קהילת nextcloud ב %1$s</string>
     <string name="about_translators_transifex_label">טרנסיפקס</string>
-    <string name="about_testers_title">בודקים</string>
     <string name="about_source_title">קוד מקור</string>
     <string name="about_source">הפרוייקט מתארח ב GitHub %1$s</string>
     <string name="about_issues_title">תקלות</string>
@@ -76,7 +75,7 @@
 
     <string name="add_account">הוספת חשבון</string>
     <string name="choose_account">נא לבחור חשבון</string>
-    <string name="add_card">הוספת כרטיס חדש</string>
+    <string name="add_card">הוספת כרטיס</string>
     <string name="activity">פעילות</string>
     <string name="add_list">הוספת רשימה</string>
     <string name="rename_list">שינוי שם רשימה</string>
@@ -99,7 +98,6 @@
     <string name="attachments">קבצים מצורפים</string>
     <string name="no_cards">אין כרטיסים עדיין</string>
     <string name="no_account">לא מוגדר חשבון</string>
-    <string name="account_already_added">כבר נוסף חשבון</string>
     <string name="account_is_getting_imported">החשבון מיובא</string>
     <string name="not_synced_yet">לא מסונכרן עדיין</string>
     <string name="no_lists_yet">אין רשימות עדיין</string>

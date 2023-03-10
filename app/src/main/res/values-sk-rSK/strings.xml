@@ -48,7 +48,6 @@
     <string name="about_translators_title">Prekladatelia</string>
     <string name="about_translators_transifex">Nextcloud komunita na %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Testeri</string>
     <string name="about_source_title">Zdrojový kód</string>
     <string name="about_source">Tento projekt sa nachádza na sieti GitHub: %1$s</string>
     <string name="about_issues_title">Problémy</string>
@@ -78,7 +77,7 @@
 
     <string name="add_account">Pridať účet</string>
     <string name="choose_account">Zvoliť účet</string>
-    <string name="add_card">Pridať novú kartu</string>
+    <string name="add_card">Pridať kartu</string>
     <string name="activity">Aktivita</string>
     <string name="add_list">Pridať zoznam</string>
     <string name="rename_list">Premenovať zoznam</string>
@@ -101,7 +100,6 @@
     <string name="attachments">Prílohy</string>
     <string name="no_cards">Zatiaľ žiadne karty</string>
     <string name="no_account">Nie je nastavený žiadny účet</string>
-    <string name="account_already_added">Účet už bol pridaný</string>
     <string name="account_is_getting_imported">Účet sa importuje</string>
     <string name="not_synced_yet">Zatiaľ nie je synchronizovaný</string>
     <string name="no_lists_yet">Zatiaľ žiadne zoznamy</string>
@@ -319,7 +317,6 @@
     <string name="downloads">Sťahovania</string>
     <string name="files">Súbory</string>
     <string name="gallery">Galéria</string>
-    <string name="simple_attach">priložiť</string>
     <string name="add_stack_widget">Pridať ovládací prvok zoznamu</string>
     <string name="add_filter_widget">Pridať ovládací prvok filteru</string>
     <string name="simple_order">Zoradiť</string>

@@ -48,7 +48,6 @@
     <string name="about_translators_title">Переводчики</string>
     <string name="about_translators_transifex">Сообщество Nextcloud на сайте %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Тестеры</string>
     <string name="about_source_title">Исходный код</string>
     <string name="about_source">Этот проект размещен на GitHub: %1$s</string>
     <string name="about_issues_title">Проблемы</string>
@@ -101,7 +100,6 @@
     <string name="attachments">Вложения</string>
     <string name="no_cards">Ещё нет ни одной карточки</string>
     <string name="no_account">Учётная запись не настроена</string>
-    <string name="account_already_added">Учётная запись уже добавлена</string>
     <string name="account_is_getting_imported">Выполняется импорт учётной записи</string>
     <string name="not_synced_yet">Ещё не синхронизировано</string>
     <string name="no_lists_yet">Нет ни одного списка</string>
@@ -319,7 +317,6 @@
     <string name="downloads">Загрузки</string>
     <string name="files">Файлы</string>
     <string name="gallery">Галерея</string>
-    <string name="simple_attach">вложить</string>
     <string name="add_stack_widget">Добавить виджет списка</string>
     <string name="add_filter_widget">Добавить виджет фильтра</string>
     <string name="simple_order">Порядок</string>

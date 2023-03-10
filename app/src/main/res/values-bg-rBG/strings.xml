@@ -48,7 +48,6 @@
     <string name="about_translators_title">Преводачи</string>
     <string name="about_translators_transifex">Nextcloud общност на %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Тестери</string>
     <string name="about_source_title">Изходен код</string>
     <string name="about_source">Този проект се хоства на GitHub: %1$s</string>
     <string name="about_issues_title">Проблеми</string>
@@ -78,7 +77,6 @@
 
     <string name="add_account">Добавяне на профил</string>
     <string name="choose_account">Изберете профил</string>
-    <string name="add_card">Добавяне на нова карта</string>
     <string name="activity">Активност</string>
     <string name="add_list">Добавяне на списък</string>
     <string name="rename_list">Преименуване на списък</string>
@@ -101,7 +99,6 @@
     <string name="attachments">Прикачени файлове</string>
     <string name="no_cards">Все още няма карти</string>
     <string name="no_account">Няма конфигуриран профил</string>
-    <string name="account_already_added">Профилът вече е добавен</string>
     <string name="account_is_getting_imported">Профилът се импортира</string>
     <string name="not_synced_yet">Все още не е синхронизиран</string>
     <string name="no_lists_yet">Все още няма списъци</string>
@@ -311,7 +308,6 @@
     <string name="downloads">Изтегляния</string>
     <string name="files">Файлове</string>
     <string name="gallery">Галерия</string>
-    <string name="simple_attach">прикачване</string>
     <string name="add_stack_widget">Добавяне на списък на изпълними модули</string>
     <string name="add_filter_widget">Добавяне на филтър на изпълними модули</string>
     <string name="simple_order">Ред/поръчка/</string>

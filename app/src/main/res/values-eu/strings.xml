@@ -48,7 +48,6 @@
     <string name="about_translators_title">Itzultzaileak</string>
     <string name="about_translators_transifex">%1$s Nextcloud komunitatea</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Probatzaileak</string>
     <string name="about_source_title">Iturburu-kodea</string>
     <string name="about_source">Proiektu hau GitHub-en du ostatu: %1$s</string>
     <string name="about_issues_title">Arazoak</string>
@@ -78,7 +77,7 @@
 
     <string name="add_account">Gehitu kontua</string>
     <string name="choose_account">Aukeratu kontua</string>
-    <string name="add_card">Gehitu txartel berria</string>
+    <string name="add_card">Gehitu txartela</string>
     <string name="activity">Jarduera</string>
     <string name="add_list">Gehitu zerrenda</string>
     <string name="rename_list">Aldatu izena zerrendari</string>
@@ -101,7 +100,6 @@
     <string name="attachments">Eranskinak</string>
     <string name="no_cards">Ez dago txartelik oraindik</string>
     <string name="no_account">Ez da konturik konfiguratu</string>
-    <string name="account_already_added">Kontua jada gehituta</string>
     <string name="account_is_getting_imported">Kontua importatua izaten ari da</string>
     <string name="not_synced_yet">Oraindik sinkronizatu gabe</string>
     <string name="no_lists_yet">Ez dago zerrendarik</string>
@@ -311,7 +309,6 @@
     <string name="downloads">Deskargak</string>
     <string name="files">Fitxategiak</string>
     <string name="gallery">Galeria</string>
-    <string name="simple_attach">Erantsi</string>
     <string name="add_stack_widget">Gehitu zerrenda trepeta</string>
     <string name="add_filter_widget">Gehitu iragazki trepeta</string>
     <string name="simple_order">Ordena</string>

@@ -43,7 +43,6 @@
     <string name="about_translators_title">Преведувачи</string>
     <string name="about_translators_transifex">Nextcloud заедницата на %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Тестери</string>
     <string name="about_source_title">Изворен код</string>
     <string name="about_source">Овој проект е хостиран на GitHub: %1$s</string>
     <string name="about_translate_title">Преведи</string>
@@ -68,7 +67,7 @@
 
     <string name="add_account">Додади сметка</string>
     <string name="choose_account">Одбери сметка</string>
-    <string name="add_card">Додади нова картица</string>
+    <string name="add_card">Додади картица</string>
     <string name="activity">Активност</string>
     <string name="add_list">Додади листа</string>
     <string name="rename_list">Преименувај листа</string>
@@ -89,7 +88,6 @@
     <string name="attachments">Прилози</string>
     <string name="no_cards">Сеуште нема картици</string>
     <string name="no_account">Нема конфигурирано сметка</string>
-    <string name="account_already_added">Сметката е веќе додадена</string>
     <string name="not_synced_yet">Сеуште не е синхронизирано</string>
     <string name="no_lists_yet">Сеуште нема листи</string>
     <string name="do_you_want_to_save_your_changes">Дали сакате да ги зачувате промените?</string>
@@ -246,7 +244,6 @@
     <string name="downloads">Преземања</string>
     <string name="files">Датотеки</string>
     <string name="gallery">Галерија</string>
-    <string name="simple_attach">закачи</string>
     <string name="edit_description">Измени опис</string>
     <string name="widget_upcoming_title">Престојни картици</string>
     <string name="simple_search">Барај</string>

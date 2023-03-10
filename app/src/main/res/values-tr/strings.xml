@@ -48,7 +48,6 @@
     <string name="about_translators_title">Çevirmenler</string>
     <string name="about_translators_transifex">%1$s üzerindeki Nextcloud topluluğu</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Sınayıcılar</string>
     <string name="about_source_title">Kaynak kodu</string>
     <string name="about_source">Bu proje GitHub üzerinde barındırılmaktadır: %1$s</string>
     <string name="about_issues_title">Sorunlar</string>
@@ -78,7 +77,7 @@
 
     <string name="add_account">Hesap ekle</string>
     <string name="choose_account">Hesap seçin</string>
-    <string name="add_card">Yeni kart ekle</string>
+    <string name="add_card">Kart ekle</string>
     <string name="activity">Etkinlik</string>
     <string name="add_list">Liste ekle</string>
     <string name="rename_list">Listeyi yeniden adlandır</string>
@@ -101,7 +100,6 @@
     <string name="attachments">Ek dosyalar</string>
     <string name="no_cards">Henüz bir kart yok</string>
     <string name="no_account">Henüz bir hesap yapılandırılmamış</string>
-    <string name="account_already_added">Hesap zaten eklenmiş</string>
     <string name="account_is_getting_imported">Hesap içe aktarılıyor</string>
     <string name="not_synced_yet">Henüz eşitlenmemiş</string>
     <string name="no_lists_yet">Henüz bir liste yok</string>
@@ -311,7 +309,6 @@
     <string name="downloads">İndirmeler</string>
     <string name="files">Dosyalar</string>
     <string name="gallery">Galeri</string>
-    <string name="simple_attach">ekle</string>
     <string name="add_stack_widget">Liste pano bileşeni ekle</string>
     <string name="add_filter_widget">Süzgeç pano bileşeni ekle</string>
     <string name="simple_order">Sıralama</string>

@@ -48,7 +48,6 @@
     <string name="about_translators_title">Μεταφραστές</string>
     <string name="about_translators_transifex">Κοινότητα Nextcloud στο %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Δοκιμαστές</string>
     <string name="about_source_title">Πηγαίος κώδικας</string>
     <string name="about_source">Το πρότζεκτ φιλοξενείται στο GitHub: %1$s</string>
     <string name="about_issues_title">Ζητήματα</string>
@@ -78,7 +77,6 @@
 
     <string name="add_account"> Προσθήκη λογαριασμού </string>
     <string name="choose_account">Επιλογή λογαριασμού</string>
-    <string name="add_card">Προσθήκη νέας καρτέλας</string>
     <string name="activity">Δραστηριότητα</string>
     <string name="add_list">Προσθήκη λίστας</string>
     <string name="rename_list">Μετονομασία λίστας</string>
@@ -101,7 +99,6 @@
     <string name="attachments">Συνημμένα</string>
     <string name="no_cards">Καμία κάρτα ακόμη</string>
     <string name="no_account">Δεν ρυθμίστηκε λογαριασμός</string>
-    <string name="account_already_added">Ο λογαριασμός έχει προστεθεί ήδη</string>
     <string name="account_is_getting_imported">Ο λογαριασμός εισάγεται</string>
     <string name="not_synced_yet">Δεν είναι ακόμα συγχρονισμένα</string>
     <string name="no_lists_yet">Χωρίς λίστες ακόμη</string>
@@ -302,7 +299,6 @@
     <string name="downloads">Λήψεις</string>
     <string name="files">Αρχεία</string>
     <string name="gallery">Εκθεσιακός χώρος</string>
-    <string name="simple_attach">Επισυνάπτω</string>
     <string name="add_stack_widget">Προσθήκη λίστας widget</string>
     <string name="add_filter_widget">Προσθήκη φίλτρου μικροεφαρμογής</string>
     <string name="simple_order">Σειρά</string>

@@ -48,7 +48,6 @@
     <string name="about_translators_title">Vertalers</string>
     <string name="about_translators_transifex">Nextcloud-gemeenschap op %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Testers</string>
     <string name="about_source_title">Broncode</string>
     <string name="about_source">Dit project wordt gehost op GitHub: %1$s</string>
     <string name="about_issues_title">Problemen</string>
@@ -78,7 +77,7 @@
 
     <string name="add_account">Account toevoegen</string>
     <string name="choose_account">Kies account</string>
-    <string name="add_card">Toevoegen nieuwe kaart</string>
+    <string name="add_card">Toevoegen kaart</string>
     <string name="activity">Activiteit</string>
     <string name="add_list">Stapel toevoegen</string>
     <string name="rename_list">Stapel hernoemen</string>
@@ -101,7 +100,6 @@
     <string name="attachments">Bijlagen</string>
     <string name="no_cards">Nog geen kaarten</string>
     <string name="no_account">Geen account geconfigureerd</string>
-    <string name="account_already_added">Account al toegevoegd</string>
     <string name="account_is_getting_imported">Account wordt geïmporteerd</string>
     <string name="not_synced_yet">Nog niet gesynchroniseerd</string>
     <string name="no_lists_yet">Nog geen lijsten</string>
@@ -312,7 +310,6 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="downloads">Downloads</string>
     <string name="files">Bestanden</string>
     <string name="gallery">Galerij</string>
-    <string name="simple_attach">bijvoegen</string>
     <string name="add_stack_widget">Toevoegen lijst widget</string>
     <string name="add_filter_widget">Toevoegen filterwidget</string>
     <string name="simple_order">Volgorde</string>

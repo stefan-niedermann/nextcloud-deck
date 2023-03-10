@@ -45,7 +45,6 @@
     <string name="about_translators_title">Vertėjai</string>
     <string name="about_translators_transifex">Nextcloud bendruomenė, esanti %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Testuotojai</string>
     <string name="about_source_title">Pradinis kodas</string>
     <string name="about_issues_title">Problemos</string>
     <string name="about_translate_title">Versti</string>
@@ -67,7 +66,7 @@
     <string name="card_not_found">Kortelė nerasta</string>
     <string name="add_account">Pridėti paskyrą</string>
     <string name="choose_account">Parinkti paskyrą</string>
-    <string name="add_card">Pridėti naują kortelę</string>
+    <string name="add_card">Pridėti kortelę</string>
     <string name="activity">Veikla</string>
     <string name="add_list">Pridėti sąrašą</string>
     <string name="rename_list">Pervadinti sąrašą</string>
@@ -89,7 +88,6 @@
     <string name="attachments">Priedai</string>
     <string name="no_cards">Kol kas kortelių nėra</string>
     <string name="no_account">Nėra sukonfiguruotų paskyrų</string>
-    <string name="account_already_added">Paskyra jau pridėta</string>
     <string name="not_synced_yet">Kol kas nesinchronizuota</string>
     <string name="no_lists_yet">Kol kas sąrašų nėra</string>
     <string name="do_you_want_to_save_your_changes">Ar norite įrašyti savo pakeitimus?</string>

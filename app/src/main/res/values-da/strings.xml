@@ -48,7 +48,6 @@
     <string name="about_translators_title">Oversættere</string>
     <string name="about_translators_transifex">Nextcloud fællesskabet på %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Testere</string>
     <string name="about_source_title">Kildekode</string>
     <string name="about_source">Dette projekt hostes på GitHub: %1$s</string>
     <string name="about_issues_title">Problemer</string>
@@ -78,7 +77,6 @@
 
     <string name="add_account">Tilføj konto</string>
     <string name="choose_account">Vælg konto</string>
-    <string name="add_card">Tilføj nyt kort</string>
     <string name="activity">Aktivitet</string>
     <string name="add_list">Tilføj liste</string>
     <string name="rename_list">Omdøb liste</string>
@@ -101,7 +99,6 @@
     <string name="attachments">Vedhæftede filer</string>
     <string name="no_cards">Endnu ingen kort</string>
     <string name="no_account">Der er ikke konfigureret en konto</string>
-    <string name="account_already_added">Konto er allerede tilføjet</string>
     <string name="account_is_getting_imported">Kontoen importeres</string>
     <string name="not_synced_yet">Ikke synkronsieret endnu</string>
     <string name="no_lists_yet">Endnu ingen lister</string>
@@ -226,7 +223,6 @@
     <string name="downloads">Downloads</string>
     <string name="files">Filer</string>
     <string name="gallery">Galleri</string>
-    <string name="simple_attach">vedhæft</string>
     <string name="edit_description">Rediger beskrivelse</string>
     <string name="widget_upcoming_title">Kommende kort</string>
     <string name="app_logo">App logo</string>

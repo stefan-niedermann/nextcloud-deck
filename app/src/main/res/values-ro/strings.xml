@@ -48,7 +48,6 @@
     <string name="about_translators_title">Traducători</string>
     <string name="about_translators_transifex">Comunitatea Nextcloud pe %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Testeri</string>
     <string name="about_source_title">Cod sursă</string>
     <string name="about_source">Acest proiect este găzduit pe GitHub: %1$s</string>
     <string name="about_issues_title">Probleme</string>
@@ -78,7 +77,6 @@
 
     <string name="add_account">Adaugă cont</string>
     <string name="choose_account">Alege cont</string>
-    <string name="add_card">Adaugă card nou</string>
     <string name="activity">Activitate</string>
     <string name="add_list">Adaugă listă </string>
     <string name="rename_list">Redenumești lista</string>
@@ -101,7 +99,6 @@
     <string name="attachments">Atașamente </string>
     <string name="no_cards">Nu există carduri încă </string>
     <string name="no_account">Niciun cont configurat</string>
-    <string name="account_already_added">Contul a fost deja adăugat</string>
     <string name="account_is_getting_imported">Se importă contul</string>
     <string name="not_synced_yet">Nu este sincronizat încă</string>
     <string name="no_lists_yet">Nu există încă liste</string>
@@ -315,7 +312,6 @@
     <string name="downloads">Descărcări</string>
     <string name="files">Fișiere</string>
     <string name="gallery">Galerie</string>
-    <string name="simple_attach">Atașează</string>
     <string name="add_stack_widget">Adăugați widget listă</string>
     <string name="add_filter_widget">Adăugați un widget de filtrare</string>
     <string name="simple_order">Ordine</string>

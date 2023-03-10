@@ -48,7 +48,6 @@
     <string name="about_translators_title">翻訳者</string>
     <string name="about_translators_transifex">%1$sのNextcloud コミュニティー</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">テスター</string>
     <string name="about_source_title">ソースコード</string>
     <string name="about_source">このプロジェクトはGitHub:%1$sにホストされています。</string>
     <string name="about_issues_title">問題</string>
@@ -78,7 +77,7 @@
 
     <string name="add_account">アカウントを追加</string>
     <string name="choose_account">アカウント選択</string>
-    <string name="add_card">新しいカードを追加</string>
+    <string name="add_card">カードを追加</string>
     <string name="activity">アクティビティ</string>
     <string name="add_list">リストを追加</string>
     <string name="rename_list">リスト名を変更</string>
@@ -101,7 +100,6 @@
     <string name="attachments">添付ファイル</string>
     <string name="no_cards">まだカードはありません</string>
     <string name="no_account">アカウントが設定されていません。</string>
-    <string name="account_already_added">アカウントはすでに追加されています</string>
     <string name="account_is_getting_imported">アカウントをインポート中です</string>
     <string name="not_synced_yet">未同期です</string>
     <string name="no_lists_yet">まだリストがありません</string>
@@ -308,7 +306,6 @@
     <string name="downloads">ダウンロード</string>
     <string name="files">ファイル</string>
     <string name="gallery">ギャラリー</string>
-    <string name="simple_attach">参加</string>
     <string name="add_stack_widget">リストのウィジェットを追加</string>
     <string name="add_filter_widget">フィルターのウィジェットを追加</string>
     <string name="simple_order">並び替え</string>

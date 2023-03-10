@@ -48,7 +48,6 @@
     <string name="about_translators_title">Преводиоци</string>
     <string name="about_translators_transifex">Некстклауд заједница на %1$s</string>
     <string name="about_translators_transifex_label">Трансифекс</string>
-    <string name="about_testers_title">Тестери</string>
     <string name="about_source_title">Изворни кôд</string>
     <string name="about_source">Овај пројекат се налази на Гитхабу: %1$s</string>
     <string name="about_issues_title">Проблеми</string>
@@ -78,7 +77,7 @@
 
     <string name="add_account">Додај налог</string>
     <string name="choose_account">Одаберите налог</string>
-    <string name="add_card">Додај нову картицу</string>
+    <string name="add_card">Додај картицу</string>
     <string name="activity">Активност</string>
     <string name="add_list">Додај списак</string>
     <string name="rename_list">Преименуј списак</string>
@@ -101,7 +100,6 @@
     <string name="attachments">Прилози</string>
     <string name="no_cards">Још нема картица</string>
     <string name="no_account">Налог није подешен</string>
-    <string name="account_already_added">Налог је већ додат</string>
     <string name="account_is_getting_imported">Налог се увози</string>
     <string name="not_synced_yet">Још није синхронизовано</string>
     <string name="no_lists_yet">Нема још спискова</string>
@@ -315,7 +313,6 @@
     <string name="downloads">Преузимања</string>
     <string name="files">Фајлови</string>
     <string name="gallery">Галерија</string>
-    <string name="simple_attach">приложи</string>
     <string name="add_stack_widget">Додај виџет листе</string>
     <string name="add_filter_widget">Додај филтер виџет</string>
     <string name="simple_order">Редослед</string>

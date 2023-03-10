@@ -48,7 +48,6 @@
     <string name="about_translators_title">Fordítók</string>
     <string name="about_translators_transifex">Nextcloud közösség a %1$s</string>
     <string name="about_translators_transifex_label">Transifexen</string>
-    <string name="about_testers_title">Tesztelők</string>
     <string name="about_source_title">Forráskód</string>
     <string name="about_source">A projekt a GitHubon található: %1$s</string>
     <string name="about_issues_title">Hibajegyek</string>
@@ -78,7 +77,7 @@
 
     <string name="add_account">Fiók hozzáadása</string>
     <string name="choose_account">Válasszon fiókot</string>
-    <string name="add_card">Új kártya hozzáadása</string>
+    <string name="add_card">Kártya hozzáadása</string>
     <string name="activity">Tevékenység</string>
     <string name="add_list">Lista hozzáadása</string>
     <string name="rename_list">Lista átnevezése</string>
@@ -101,7 +100,6 @@
     <string name="attachments">Mellékletek</string>
     <string name="no_cards">Még nincsenek kártyák</string>
     <string name="no_account">Nincs fiók beállítva</string>
-    <string name="account_already_added">A fiók már hozzá lett adva</string>
     <string name="account_is_getting_imported">A fiók importálásra kerül</string>
     <string name="not_synced_yet">Még nincs szinkronizálva</string>
     <string name="no_lists_yet">Még nincsenek listák</string>
@@ -311,7 +309,6 @@
     <string name="downloads">Letöltések</string>
     <string name="files">Fájlok</string>
     <string name="gallery">Galéria</string>
-    <string name="simple_attach">csatolás</string>
     <string name="add_stack_widget">Lista felületi elem hozzáadása</string>
     <string name="add_filter_widget">Szűrő modul hozzáadása</string>
     <string name="simple_order">Rendezés</string>

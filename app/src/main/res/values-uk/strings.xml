@@ -48,7 +48,6 @@
     <string name="about_translators_title">Перекладачі</string>
     <string name="about_translators_transifex">Спільнота Nextcloud на %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Тестувальники</string>
     <string name="about_source_title">Вихідний код</string>
     <string name="about_source">Цей проєкт розміщено на GitHub:%1$s</string>
     <string name="about_issues_title">Проблеми</string>
@@ -78,7 +77,7 @@
 
     <string name="add_account">Додати обліковий запис</string>
     <string name="choose_account">Оберіть обліковий запис</string>
-    <string name="add_card">Додати нову картку</string>
+    <string name="add_card">Додати картку</string>
     <string name="activity">Активність</string>
     <string name="add_list">Додати список</string>
     <string name="rename_list">Перейменувати список</string>
@@ -101,7 +100,6 @@
     <string name="attachments">Вкладення</string>
     <string name="no_cards">Ще немає жодної картки</string>
     <string name="no_account">Жодного налаштованого облікового запису</string>
-    <string name="account_already_added">Обліковий запис вже додано</string>
     <string name="account_is_getting_imported">Відбувається імпорт облікового запису</string>
     <string name="not_synced_yet">Поки не синхронізовано</string>
     <string name="no_lists_yet">Поки що відсутні списки</string>

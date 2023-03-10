@@ -48,7 +48,6 @@
     <string name="about_translators_title">Prevoditelji</string>
     <string name="about_translators_transifex">Zajednica Nextcloud na %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Ispitivači</string>
     <string name="about_source_title">Izvorni kod</string>
     <string name="about_source">Ovaj je projekt smješten na platformi GitHub: %1$s</string>
     <string name="about_issues_title">Poteškoće</string>
@@ -101,7 +100,6 @@
     <string name="attachments">Privici</string>
     <string name="no_cards">Još nema kartica</string>
     <string name="no_account">Nema konfiguriranih računa</string>
-    <string name="account_already_added">Račun je već dodan</string>
     <string name="account_is_getting_imported">Račun se uvozi</string>
     <string name="not_synced_yet">Još nije sinkronizirano</string>
     <string name="no_lists_yet">Još nema popisa</string>
@@ -311,7 +309,6 @@
     <string name="downloads">Preuzimanja</string>
     <string name="files">Datoteke</string>
     <string name="gallery">Galerija</string>
-    <string name="simple_attach">priloži</string>
     <string name="add_stack_widget">Dodaj widget s popisom</string>
     <string name="add_filter_widget">Dodaj widget s filtrom</string>
     <string name="simple_order">Redoslijed</string>

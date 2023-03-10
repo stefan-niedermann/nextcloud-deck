@@ -48,7 +48,6 @@
     <string name="about_translators_title">번역자</string>
     <string name="about_translators_transifex">%1$s에 위치한 Nextcloud 커뮤니티</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">테스터</string>
     <string name="about_source_title">소스 코드</string>
     <string name="about_source">이 프로젝트는 깃허브에 호스팅 중입니다: %1$s</string>
     <string name="about_issues_title">문제점</string>
@@ -78,7 +77,7 @@
 
     <string name="add_account">계정 추가</string>
     <string name="choose_account">계정 선택</string>
-    <string name="add_card">새 카드 추가</string>
+    <string name="add_card">카드 추가</string>
     <string name="activity">활동</string>
     <string name="add_list">목록 추가</string>
     <string name="rename_list">목록 이름 바꾸기</string>
@@ -101,7 +100,6 @@
     <string name="attachments">첨부파일</string>
     <string name="no_cards">아직 카드가 없음</string>
     <string name="no_account">설정된 계정이 없음</string>
-    <string name="account_already_added">계정이 이미 추가되어있음</string>
     <string name="account_is_getting_imported">계정을 불러오고 있음</string>
     <string name="not_synced_yet">아직 동기화되지 않았음</string>
     <string name="no_lists_yet">리스트 없음</string>
@@ -304,7 +302,6 @@
     <string name="downloads">다운로드</string>
     <string name="files">파일</string>
     <string name="gallery">갤러리</string>
-    <string name="simple_attach">첨부하기</string>
     <string name="add_stack_widget">목록 위젯 추가</string>
     <string name="add_filter_widget">필터 위젯 추가</string>
     <string name="simple_order">순서</string>

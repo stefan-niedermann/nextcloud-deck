@@ -48,7 +48,6 @@
     <string name="about_translators_title">Oversettere</string>
     <string name="about_translators_transifex">Nextcloud-fellesskapet på %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Testere</string>
     <string name="about_source_title">Kildekode</string>
     <string name="about_source">Dette prosjektet er på GitHub: %1$s</string>
     <string name="about_issues_title">Problemer</string>
@@ -78,7 +77,7 @@
 
     <string name="add_account">Legg til en konto</string>
     <string name="choose_account">Velg konto</string>
-    <string name="add_card">Legg til nytt kort</string>
+    <string name="add_card">Legg til kort</string>
     <string name="activity">Aktivitet</string>
     <string name="add_list">Legg til liste</string>
     <string name="rename_list">Gi nytt navn på listen</string>
@@ -101,7 +100,6 @@
     <string name="attachments">Vedlegg</string>
     <string name="no_cards">Ingen kort enda</string>
     <string name="no_account">Ingen konto konfigurert</string>
-    <string name="account_already_added">Kontoen er allerede lagt til</string>
     <string name="account_is_getting_imported">Kontoen blir importert</string>
     <string name="not_synced_yet">Ikke synkronisert enda</string>
     <string name="no_lists_yet">Ingen lister enda</string>
@@ -311,7 +309,6 @@
     <string name="downloads">Nedlastinger</string>
     <string name="files">Filer</string>
     <string name="gallery">Galleri</string>
-    <string name="simple_attach">legg ved</string>
     <string name="add_stack_widget">Legg til liste widget</string>
     <string name="add_filter_widget">Legg til filter widget</string>
     <string name="simple_order">Sortering</string>
