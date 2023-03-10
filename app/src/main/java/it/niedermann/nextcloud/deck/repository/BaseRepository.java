@@ -18,7 +18,6 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.database.DataBaseAdapter;
@@ -46,6 +45,7 @@ import it.niedermann.nextcloud.deck.remote.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.remote.helpers.util.ConnectivityUtil;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
+import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
 
 /**
  * Allows basic local access to the {@link DataBaseAdapter} layer but also to some app states which are stored in {@link SharedPreferences}.
@@ -71,7 +71,7 @@ public class BaseRepository {
     }
 
     protected BaseRepository(@NonNull Context context, @NonNull ConnectivityUtil connectivityUtil) {
-        this(context, connectivityUtil, new DataBaseAdapter(context.getApplicationContext()), Executors.newCachedThreadPool());
+        this(context, connectivityUtil, new DataBaseAdapter(context.getApplicationContext()), ExecutorServiceProvider.getExecutorService());
     }
 
     protected BaseRepository(@NonNull Context context,
