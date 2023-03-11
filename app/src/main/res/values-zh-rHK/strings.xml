@@ -100,6 +100,7 @@
     <string name="attachments">附件</string>
     <string name="no_cards">尚無卡片</string>
     <string name="no_account">沒有已設定的賬戶</string>
+    <string name="account_already_added">賬戶 %1$s 已添加</string>
     <string name="account_is_getting_imported">已匯入賬戶</string>
     <string name="not_synced_yet">尚未同步完成</string>
     <string name="no_lists_yet">尚無清單</string>
@@ -305,6 +306,7 @@
     <string name="downloads">下載</string>
     <string name="files">檔案</string>
     <string name="gallery">圖片庫</string>
+    <string name="simple_attach">附帶</string>
     <string name="add_stack_widget">添加列表小工具</string>
     <string name="add_filter_widget">添加過濾小工具</string>
     <string name="simple_order">排序</string>

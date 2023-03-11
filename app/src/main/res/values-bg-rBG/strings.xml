@@ -77,6 +77,7 @@
 
     <string name="add_account">Добавяне на профил</string>
     <string name="choose_account">Изберете профил</string>
+    <string name="add_card">Добави карта</string>
     <string name="activity">Активност</string>
     <string name="add_list">Добавяне на списък</string>
     <string name="rename_list">Преименуване на списък</string>

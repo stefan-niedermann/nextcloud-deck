@@ -148,6 +148,7 @@
     <string name="title_is_mandatory">Otsikko on pakollinen</string>
     <string name="provide_at_least_a_title_or_description">Anna vähintään otsikko tai kuvaus</string>
     <string name="welcome_text">Tervetuloa kohteeseen %1$s</string>
+    <string name="welcome_text_further_accounts">Lisää toinen tili</string>
     <string name="maintenance_mode_explanation">Palvelin%1$s on juuri ylläpitotilassa. Ota yhteys järjestelmän ylläpitäjään tai yritä myöhemmin uudelleen.</string>
     <string name="share_add_to_card">Lisää kortille</string>
     <string name="share_success">Onnistuneesti lisätty %1$s kohteeseen %2$s</string>

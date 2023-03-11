@@ -126,6 +126,7 @@
     <string name="settings_etags">Використовувати ETags</string>
     <string name="settings_etags_summary">Прискорює синхронізацію</string>
     <string name="settings_background_sync">Фонова синхронізація</string>
+    <string name="settings_compress_image_attachments">Архівувати зображення під час завантаження</string>
     <string name="search_in">Шукати в %1$s</string>
     <string name="settings_compress_image_attachments_summary">Швидше завантаження, менша якість</string>
     <string name="pref_value_wifi_and_mobile">Синхронізація за допомогою Wi-Fi та мобільних даних</string>

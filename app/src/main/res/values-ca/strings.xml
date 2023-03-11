@@ -77,6 +77,7 @@
 
     <string name="add_account">Afegeix un compte</string>
     <string name="choose_account">Trieu un compte</string>
+    <string name="add_card">Afegeix una targeta</string>
     <string name="activity">Activitat</string>
     <string name="add_list">Afegeix una llista</string>
     <string name="rename_list">Canvia el nom de la llista</string>

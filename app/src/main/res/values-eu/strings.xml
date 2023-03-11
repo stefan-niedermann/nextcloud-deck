@@ -100,6 +100,7 @@
     <string name="attachments">Eranskinak</string>
     <string name="no_cards">Ez dago txartelik oraindik</string>
     <string name="no_account">Ez da konturik konfiguratu</string>
+    <string name="account_already_added">%1$s ontua dagoeneko gehitu da</string>
     <string name="account_is_getting_imported">Kontua importatua izaten ari da</string>
     <string name="not_synced_yet">Oraindik sinkronizatu gabe</string>
     <string name="no_lists_yet">Ez dago zerrendarik</string>
@@ -155,6 +156,7 @@
     <string name="title_is_mandatory">Izenburua beharrezkoa da</string>
     <string name="provide_at_least_a_title_or_description">Jarri gutxienez izenburu edo deskribapen bat</string>
     <string name="welcome_text">Ongi etorri %1$s(e)ra</string>
+    <string name="welcome_text_further_accounts">Gehitu beste kontu bat</string>
     <string name="maintenance_mode_explanation">%1$s zerbitzaria mantentze moduan dago. Mesedez jarri harremanetan zure administratzailearekin edo saiatu berriro.</string>
     <string name="share_add_to_card">Gehitu txartelera</string>
     <string name="share_success">%1$s ondo gehitu da %2$s -ra</string>
@@ -309,6 +311,7 @@
     <string name="downloads">Deskargak</string>
     <string name="files">Fitxategiak</string>
     <string name="gallery">Galeria</string>
+    <string name="simple_attach">Erantsi</string>
     <string name="add_stack_widget">Gehitu zerrenda trepeta</string>
     <string name="add_filter_widget">Gehitu iragazki trepeta</string>
     <string name="simple_order">Ordena</string>

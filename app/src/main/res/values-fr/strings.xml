@@ -100,6 +100,7 @@
     <string name="attachments">Pièces jointes</string>
     <string name="no_cards">Aucune carte pour l\'instant</string>
     <string name="no_account">Aucun compte n\'est configuré</string>
+    <string name="account_already_added">Le compte %1$s a déjà été ajouté</string>
     <string name="account_is_getting_imported">Compte en cours d\'import</string>
     <string name="not_synced_yet">Aucune synchronisation pour l\'instant</string>
     <string name="no_lists_yet">Aucune liste pour l\'instant</string>
@@ -157,6 +158,7 @@
     <string name="title_is_mandatory">Un titre est obligatoire</string>
     <string name="provide_at_least_a_title_or_description">Renseignez le titre ou la description</string>
     <string name="welcome_text">Bienvenue sur %1$s</string>
+    <string name="welcome_text_further_accounts">Ajouter un autre compte</string>
     <string name="maintenance_mode_explanation">Le serveur %1$s est actuellement en maintenance. Veuillez contacter votre administrateur ou réessayer plus tard.</string>
     <string name="share_add_to_card">Ajouter à la carte</string>
     <string name="share_success">Ajout de %1$s à %2$s réussi</string>
@@ -313,6 +315,7 @@
     <string name="downloads">Téléchargements</string>
     <string name="files">Fichiers</string>
     <string name="gallery">Galerie</string>
+    <string name="simple_attach">Joindre</string>
     <string name="add_stack_widget">Ajouter un widget liste</string>
     <string name="add_filter_widget">Ajouter un widget filtre</string>
     <string name="simple_order">Trier</string>

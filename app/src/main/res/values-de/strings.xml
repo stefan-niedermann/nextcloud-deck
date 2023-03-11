@@ -77,6 +77,7 @@
 
     <string name="add_account">Konto hinzufügen</string>
     <string name="choose_account">Konto auswählen</string>
+    <string name="add_card">Karte hinzufügen</string>
     <string name="activity">Aktivität</string>
     <string name="add_list">Liste hinzufügen</string>
     <string name="rename_list">Liste umbenennen</string>
@@ -99,6 +100,7 @@
     <string name="attachments">Anhänge</string>
     <string name="no_cards">Bislang keine Karten</string>
     <string name="no_account">Kein Konto eingerichtet</string>
+    <string name="account_already_added">Das Konto %1$s wurde bereits hinzugefügt</string>
     <string name="account_is_getting_imported">Konto wird importiert</string>
     <string name="not_synced_yet">Noch nicht synchronisiert</string>
     <string name="no_lists_yet">Noch keine Listen vorhanden</string>
@@ -154,6 +156,7 @@
     <string name="title_is_mandatory">Titel ist erforderlich</string>
     <string name="provide_at_least_a_title_or_description">Mindestens einen Titel oder eine Beschreibung eingeben</string>
     <string name="welcome_text">Willkommen bei %1$s</string>
+    <string name="welcome_text_further_accounts">Weiteres Konto hinzufügen</string>
     <string name="maintenance_mode_explanation">Der Server %1$s ist momentan im Wartungsmodus. Bitte nehmen Sie Kontakt mit Ihrem Administrator auf oder versuchen Sie es später nochmal!</string>
     <string name="share_add_to_card">Zur Karte hinzufügen</string>
     <string name="share_success">%1$s erfolgreich zu %2$s hinzugefügt</string>
@@ -308,6 +311,7 @@
     <string name="downloads">Downloads</string>
     <string name="files">Dateien</string>
     <string name="gallery">Galerie</string>
+    <string name="simple_attach">Anhängen</string>
     <string name="add_stack_widget">Ein Listen-Widget hinzufügen</string>
     <string name="add_filter_widget">Filter-Widget hinzufügen</string>
     <string name="simple_order">Reihenfolge</string>
