@@ -100,6 +100,7 @@
     <string name="attachments">Ek dosyalar</string>
     <string name="no_cards">Henüz bir kart yok</string>
     <string name="no_account">Henüz bir hesap yapılandırılmamış</string>
+    <string name="account_already_added">%1$s hesabı zaten eklenmiş</string>
     <string name="account_is_getting_imported">Hesap içe aktarılıyor</string>
     <string name="not_synced_yet">Henüz eşitlenmemiş</string>
     <string name="no_lists_yet">Henüz bir liste yok</string>
@@ -155,6 +156,7 @@
     <string name="title_is_mandatory">Başlığın yazılması zorunludur</string>
     <string name="provide_at_least_a_title_or_description">Lütfen en azından bir başlık ya da açıklama yazın</string>
     <string name="welcome_text">%1$s panonuza hoş geldiniz</string>
+    <string name="welcome_text_further_accounts">Başka bir hesap ekle</string>
     <string name="maintenance_mode_explanation">%1$s sunucusu şu anda bakım kipinde. Lütfen yöneticinizle görüşün ya da bir süre sonra yeniden deneyin.</string>
     <string name="share_add_to_card">Karta ekle</string>
     <string name="share_success">%1$s, %2$s üzerine eklendi</string>
@@ -309,6 +311,7 @@
     <string name="downloads">İndirmeler</string>
     <string name="files">Dosyalar</string>
     <string name="gallery">Galeri</string>
+    <string name="simple_attach">Dosya ekle</string>
     <string name="add_stack_widget">Liste pano bileşeni ekle</string>
     <string name="add_filter_widget">Süzgeç pano bileşeni ekle</string>
     <string name="simple_order">Sıralama</string>
