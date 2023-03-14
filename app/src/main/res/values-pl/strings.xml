@@ -100,6 +100,7 @@
     <string name="attachments">Załączniki</string>
     <string name="no_cards">Brak kart</string>
     <string name="no_account">Nie skonfigurowano konta</string>
+    <string name="account_already_added">Konto %1$s już jest dodane</string>
     <string name="account_is_getting_imported">Importowanie konta</string>
     <string name="not_synced_yet">Jeszcze nie zsynchronizowane</string>
     <string name="no_lists_yet">Brak list</string>
@@ -159,6 +160,7 @@
     <string name="title_is_mandatory">Tytuł jest wymagany</string>
     <string name="provide_at_least_a_title_or_description">Podaj co najmniej tytuł lub opis</string>
     <string name="welcome_text">Witamy w %1$s</string>
+    <string name="welcome_text_further_accounts">Dodaj kolejne konto</string>
     <string name="maintenance_mode_explanation">Serwer %1$s jest obecnie w trybie konserwacji. Skontaktuj się z administratorem lub spróbuj ponownie później.</string>
     <string name="share_add_to_card">Dodaj do karty</string>
     <string name="share_success">Pomyślnie dodano %1$s do %2$s</string>
@@ -317,6 +319,7 @@
     <string name="downloads">Pobrane</string>
     <string name="files">Pliki</string>
     <string name="gallery">Galeria</string>
+    <string name="simple_attach">Dołącz</string>
     <string name="add_stack_widget">Dodaj widżet listy</string>
     <string name="add_filter_widget">Dodaj widżet filtra</string>
     <string name="simple_order">Kolejność</string>
