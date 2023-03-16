@@ -100,6 +100,7 @@
     <string name="attachments">Прикачени файлове</string>
     <string name="no_cards">Все още няма карти</string>
     <string name="no_account">Няма конфигуриран профил</string>
+    <string name="account_already_added">Профилът %1$s, вече е добавен</string>
     <string name="account_is_getting_imported">Профилът се импортира</string>
     <string name="not_synced_yet">Все още не е синхронизиран</string>
     <string name="no_lists_yet">Все още няма списъци</string>
@@ -155,6 +156,7 @@
     <string name="title_is_mandatory">Заглавието е задължително/нужно/</string>
     <string name="provide_at_least_a_title_or_description">Посочете поне заглавие или описание</string>
     <string name="welcome_text">Добре дошли на%1$s</string>
+    <string name="welcome_text_further_accounts">Добавяне на друг профил</string>
     <string name="maintenance_mode_explanation">Сървърът %1$s в момента е в режим на поддръжка. Моля, свържете се с вашият администратор или опитайте отново по -късно.</string>
     <string name="share_add_to_card">Добавяне към карта</string>
     <string name="share_success">Успешно добавен %1$sкъм%2$s</string>
@@ -309,6 +311,7 @@
     <string name="downloads">Изтегляния</string>
     <string name="files">Файлове</string>
     <string name="gallery">Галерия</string>
+    <string name="simple_attach">Прикачване</string>
     <string name="add_stack_widget">Добавяне на списък на изпълними модули</string>
     <string name="add_filter_widget">Добавяне на филтър на изпълними модули</string>
     <string name="simple_order">Ред/поръчка/</string>
