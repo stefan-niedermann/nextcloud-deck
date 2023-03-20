@@ -23,7 +23,7 @@ public class RequestHelper {
 
         final ResponseConsumer<T> cb = new ResponseConsumer<>(callback);
         return call.getObservableFromCall()
-                .subscribeOn(Schedulers.from(ExecutorServiceProvider.getExecutorService()))
+                .subscribeOn(Schedulers.from(ExecutorServiceProvider.getLinkedBlockingQueueExecutor()))
                 .subscribe(cb, cb.getExceptionConsumer());
     }
 

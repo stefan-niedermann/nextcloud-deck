@@ -71,7 +71,7 @@ public class BaseRepository {
     }
 
     protected BaseRepository(@NonNull Context context, @NonNull ConnectivityUtil connectivityUtil) {
-        this(context, connectivityUtil, new DataBaseAdapter(context.getApplicationContext()), ExecutorServiceProvider.getExecutorService());
+        this(context, connectivityUtil, new DataBaseAdapter(context.getApplicationContext()), ExecutorServiceProvider.getLinkedBlockingQueueExecutor());
     }
 
     protected BaseRepository(@NonNull Context context,
