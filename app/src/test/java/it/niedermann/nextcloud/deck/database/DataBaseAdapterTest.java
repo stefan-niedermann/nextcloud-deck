@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
+import it.niedermann.nextcloud.deck.TestUtil;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 
 @RunWith(RobolectricTestRunner.class)
@@ -111,4 +112,30 @@ public class DataBaseAdapterTest {
         assertEquals(leet + 1, args.get(1));
     }
 
+    @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
+    @Test
+    public void testSearchCards() throws InterruptedException {
+        final var account = DeckDatabaseTestUtil.createAccount(db.getAccountDao());
+        final var user = DeckDatabaseTestUtil.createUser(db.getUserDao(), account);
+        final var board = DeckDatabaseTestUtil.createBoard(db.getBoardDao(), account, user);
+
+        final var stack1 = DeckDatabaseTestUtil.createStack(db.getStackDao(), account, board);
+        final var stack2 = DeckDatabaseTestUtil.createStack(db.getStackDao(), account, board);
+        final var card1 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack1, "Foo", "Hello world");
+        final var card2 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack1, "Bar", "Hello Bar");
+        final var card3 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack2, "Baz", "");
+        final var card4 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack2, "Qux", "Hello Foo");
+        final var card5 = DeckDatabaseTestUtil.createCard(db.getCardDao(), account, stack2, "Lorem", "Ipsum");
+
+        var result = TestUtil.getOrAwaitValue(adapter.searchCards(account.getId(), "Hello"));
+
+        assertEquals(2, result.size());
+
+        assertEquals(2, result.get(result.keySet().stream().filter(stack -> stack.getLocalId().equals(stack1.getLocalId())).findAny().get()).size());
+        assertEquals(1, result.get(result.keySet().stream().filter(stack -> stack.getLocalId().equals(stack2.getLocalId())).findAny().get()).size());
+
+        assertEquals(1, result.get(result.keySet().stream().filter(stack -> stack.getLocalId().equals(stack1.getLocalId())).findAny().get()).stream().filter(fullCard -> fullCard.getLocalId().equals(card1.getLocalId())).count());
+        assertEquals(1, result.get(result.keySet().stream().filter(stack -> stack.getLocalId().equals(stack1.getLocalId())).findAny().get()).stream().filter(fullCard -> fullCard.getLocalId().equals(card2.getLocalId())).count());
+        assertEquals(1, result.get(result.keySet().stream().filter(stack -> stack.getLocalId().equals(stack2.getLocalId())).findAny().get()).stream().filter(fullCard -> fullCard.getLocalId().equals(card4.getLocalId())).count());
+    }
 }

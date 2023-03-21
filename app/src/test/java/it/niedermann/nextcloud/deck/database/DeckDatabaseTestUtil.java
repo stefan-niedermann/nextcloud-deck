@@ -62,10 +62,14 @@ public class DeckDatabaseTestUtil {
     }
 
     public static Card createCard(@NonNull CardDao dao, @NonNull Account account, @NonNull Stack stack) {
+        return createCard(dao, account, stack, randomString(15), randomString(50));
+    }
+
+    public static Card createCard(@NonNull CardDao dao, @NonNull Account account, @NonNull Stack stack, @NonNull String title, @NonNull String description) {
         final var cardToCreate = new Card();
         cardToCreate.setAccountId(account.getId());
-        cardToCreate.setTitle(randomString(15));
-        cardToCreate.setDescription(randomString(50));
+        cardToCreate.setTitle(title);
+        cardToCreate.setDescription(description);
         cardToCreate.setStackId(stack.getLocalId());
         cardToCreate.setId(currentLong++);
 

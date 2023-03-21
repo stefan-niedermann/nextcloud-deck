@@ -866,6 +866,11 @@ public class DataBaseAdapter {
                 .distinctUntilChanged();
     }
 
+    public LiveData<Map<Stack, List<FullCard>>> searchCards(final long accountId, @NonNull String term) {
+        // TODO
+        return new ReactiveLiveData<>();
+    }
+
     public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long boardId, long notAssignedToLocalCardId, final int topX) {
         return new ReactiveLiveData<>(db.getUserDao().findProposalsForUsersToAssign(accountId, boardId, notAssignedToLocalCardId, topX))
                 .distinctUntilChanged();

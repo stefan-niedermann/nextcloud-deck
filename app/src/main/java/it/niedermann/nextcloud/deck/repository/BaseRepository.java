@@ -14,6 +14,7 @@ import androidx.lifecycle.LiveData;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -295,6 +296,12 @@ public class BaseRepository {
 
     public LiveData<List<AccessControl>> getAccessControlByLocalBoardId(long accountId, Long id) {
         return dataBaseAdapter.getAccessControlByLocalBoardId(accountId, id);
+    }
+
+    // -- Card search --
+
+    public LiveData<Map<Stack, List<FullCard>>> searchCards(final long accountId, @NonNull String term) {
+        return dataBaseAdapter.searchCards(accountId, term);
     }
 
     // --- User search ---
