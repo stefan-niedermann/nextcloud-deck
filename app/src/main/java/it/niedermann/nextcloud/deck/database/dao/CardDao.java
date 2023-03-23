@@ -124,4 +124,17 @@ public interface CardDao extends GenericDao<Card> {
     @Transaction
     @Query(QUERY_UPCOMING_CARDS)
     List<FullCard> getUpcomingCardsDirectly();
+
+    @Transaction
+    @Query("SELECT c.* FROM card c " +
+            "inner join Stack s on c.stackId = s.id " +
+            "WHERE s.boardId = :localBoardId " +
+            "and (c.title like :term or c.description like :term) " +
+            "and c.accountId = :accountId " +
+            "and s.accountId = :accountId " +
+            "and c.status <> 3 " +
+            "and s.status <> 3 " +
+            "and c.archived = 0 " +
+            "order by s.`order`, c.`order`")
+    LiveData<List<FullCard>> searchCard(long accountId, long localBoardId, String term);
 }
