@@ -84,7 +84,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'androidx.preference:preference:1.2.0'
-    def roomVersion = "2.5.0"
+    def roomVersion = "2.5.1"
     implementation "androidx.room:room-runtime:$roomVersion"
     annotationProcessor "androidx.room:room-compiler:$roomVersion"
     implementation 'androidx.core:core-splashscreen:1.0.0'
