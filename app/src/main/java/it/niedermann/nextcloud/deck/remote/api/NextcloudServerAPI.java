@@ -1,11 +1,8 @@
 package it.niedermann.nextcloud.deck.remote.api;
 
 
-import com.nextcloud.android.sso.api.ParsedResponse;
-
 import java.util.List;
 
-import io.reactivex.Observable;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
@@ -14,6 +11,7 @@ import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectList;
 import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -34,31 +32,31 @@ public interface NextcloudServerAPI {
     // Capabilities
 
     @GET("cloud/capabilities?format=json")
-    Observable<ParsedResponse<Capabilities>> getCapabilities(@Header("If-None-Match") String eTag);
+    Call<Capabilities> getCapabilities(@Header("If-None-Match") String eTag);
 
 
     // Projects
 
     @GET("collaboration/resources/deck-card/{cardId}?format=json")
-    Observable<OcsProjectList> getProjectsForCard(@Path("cardId") long cardId);
+    Call<OcsProjectList> getProjectsForCard(@Path("cardId") long cardId);
 
 
     // Users
 
     @GET("apps/files_sharing/api/v1/sharees?format=json&lookup=false&perPage=20&itemType=0%2C1%2C7")
-    Observable<OcsUserList> searchUser(@Query("search") String searchTerm);
+    Call<OcsUserList> searchUser(@Query("search") String searchTerm);
 
     @GET("cloud/groups/{search}?format=json")
-    Observable<GroupMemberUIDs> searchGroupMembers(@Path("search") String groupUid);
+    Call<GroupMemberUIDs> searchGroupMembers(@Path("search") String groupUid);
 
     @GET("cloud/users/{search}?format=json")
-    Observable<OcsUser> getSingleUserData(@Path("search") String userUid);
+    Call<OcsUser> getSingleUserData(@Path("search") String userUid);
 
 
     // Activities
 
     @GET("apps/activity/api/v2/activity/filter?format=json&object_type=deck_card&limit=50&since=-1&sort=asc")
-    Observable<List<Activity>> getActivitiesForCard(@Query("object_id") long cardId);
+    Call<List<Activity>> getActivitiesForCard(@Query("object_id") long cardId);
 
 
     // Comments
@@ -68,26 +66,26 @@ public interface NextcloudServerAPI {
             "Content-Type: application/json;charset=utf-8"
     })
     @GET("apps/deck/api/v1.0/cards/{cardId}/comments")
-    Observable<OcsComment> getCommentsForCard(@Path("cardId") long cardId);
+    Call<OcsComment> getCommentsForCard(@Path("cardId") long cardId);
 
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json;charset=utf-8"
     })
     @POST("apps/deck/api/v1.0/cards/{cardId}/comments")
-    Observable<OcsComment> createCommentForCard(@Path("cardId") long cardId, @Body DeckComment comment);
+    Call<OcsComment> createCommentForCard(@Path("cardId") long cardId, @Body DeckComment comment);
 
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json;charset=utf-8"
     })
     @PUT("apps/deck/api/v1.0/cards/{cardId}/comments/{commentId}")
-    Observable<OcsComment> updateCommentForCard(@Path("cardId") long cardId, @Path("commentId") long commentId, @Body DeckComment comment);
+    Call<OcsComment> updateCommentForCard(@Path("cardId") long cardId, @Path("commentId") long commentId, @Body DeckComment comment);
 
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json;charset=utf-8"
     })
     @DELETE("apps/deck/api/v1.0/cards/{cardId}/comments/{commentId}")
-    Observable<Void> deleteCommentForCard(@Path("cardId") long cardId, @Path("commentId") long commentId);
+    Call<Void> deleteCommentForCard(@Path("cardId") long cardId, @Path("commentId") long commentId);
 }

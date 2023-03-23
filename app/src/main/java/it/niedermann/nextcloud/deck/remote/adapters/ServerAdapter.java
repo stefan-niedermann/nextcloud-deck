@@ -10,7 +10,6 @@ import android.webkit.MimeTypeMap;
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
-import com.nextcloud.android.sso.api.ParsedResponse;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
 import java.io.File;
@@ -94,7 +93,7 @@ public class ServerAdapter {
 //        return lastSyncHeader;
     }
 
-    public void getBoards(@NonNull ResponseCallback<ParsedResponse<List<FullBoard>>> responseCallback) {
+    public void getBoards(@NonNull ResponseCallback<List<FullBoard>> responseCallback) {
         RequestHelper.request(provider, () -> isEtagsEnabled()
                 ? provider.getDeckAPI().getBoards(true, getLastSyncDateFormatted(responseCallback.getAccount().getId()), responseCallback.getAccount().getBoardsEtag())
                 : provider.getDeckAPI().getBoards(true, getLastSyncDateFormatted(responseCallback.getAccount().getId())), responseCallback);
@@ -104,7 +103,7 @@ public class ServerAdapter {
         return sharedPreferences.getBoolean(prefKeyEtags, true);
     }
 
-    public void getCapabilities(String eTag, @NonNull ResponseCallback<ParsedResponse<Capabilities>> responseCallback) {
+    public void getCapabilities(String eTag, @NonNull ResponseCallback<Capabilities> responseCallback) {
         ensureInternetConnection();
         RequestHelper.request(provider, () -> provider.getNextcloudAPI().getCapabilities(eTag), responseCallback);
     }

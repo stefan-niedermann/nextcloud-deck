@@ -18,7 +18,6 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.nextcloud.android.sso.AccountImporter;
-import com.nextcloud.android.sso.api.ParsedResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
@@ -78,6 +77,7 @@ import it.niedermann.nextcloud.deck.remote.helpers.providers.StackDataProvider;
 import it.niedermann.nextcloud.deck.remote.helpers.providers.partial.BoardWithAclDownSyncDataProvider;
 import it.niedermann.nextcloud.deck.remote.helpers.providers.partial.BoardWithStacksAndLabelsUpSyncDataProvider;
 import it.niedermann.nextcloud.deck.remote.helpers.util.ConnectivityUtil;
+import okhttp3.Headers;
 
 /**
  * Extends {@link BaseRepository} by synchronization capabilities.
@@ -126,7 +126,7 @@ public class SyncRepository extends BaseRepository {
     }
 
     @AnyThread
-    public void fetchBoardsFromServer(@NonNull ResponseCallback<ParsedResponse<List<FullBoard>>> callback) {
+    public void fetchBoardsFromServer(@NonNull ResponseCallback<List<FullBoard>> callback) {
         executor.submit(() -> serverAdapter.getBoards(callback));
     }
 
@@ -288,12 +288,15 @@ public class SyncRepository extends BaseRepository {
                 Account accountForEtag = dataBaseAdapter.getAccountByIdDirectly(callback.getAccount().getId());
                 serverAdapter.getCapabilities(accountForEtag.getEtag(), new ResponseCallback<>(callback.getAccount()) {
                     @Override
-                    public void onResponse(ParsedResponse<Capabilities> response) {
+                    public void onResponse(Capabilities response) {}
+
+                    @Override
+                    public void onResponseWithHeaders(Capabilities response, Headers headers) {
                         Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
-                        acc.applyCapabilities(response.getResponse(), response.getHeaders().get("ETag"));
+                        acc.applyCapabilities(response, headers.get("ETag"));
                         dataBaseAdapter.updateAccount(acc);
                         callback.getAccount().setServerDeckVersion(acc.getServerDeckVersion());
-                        callback.onResponse(response.getResponse());
+                        callback.onResponse(response);
                     }
 
                     @SuppressLint("MissingSuperCall")
@@ -307,7 +310,7 @@ public class SyncRepository extends BaseRepository {
                                 final Capabilities capabilities = GsonConfig.getGson().fromJson(errorString, Capabilities.class);
                                 if (capabilities.isMaintenanceEnabled()) {
                                     DeckLog.verbose("Yes, it is in maintenance mode according to the capabilities");
-                                    executor.submit(() -> onResponse(ParsedResponse.of(capabilities)));
+                                    executor.submit(() -> onResponseWithHeaders(capabilities, Headers.of()));
                                 } else {
                                     DeckLog.error("No, it is not in maintenance mode according to the capabilities.");
                                     callback.onError(throwable);

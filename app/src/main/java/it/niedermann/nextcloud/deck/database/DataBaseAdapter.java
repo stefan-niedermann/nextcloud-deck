@@ -110,7 +110,7 @@ public class DataBaseAdapter {
     private final int defaultColor;
 
     public DataBaseAdapter(@NonNull Context appContext) {
-        this(appContext, DeckDatabase.getInstance(appContext), Executors.newCachedThreadPool(), ExecutorServiceProvider.getLinkedBlockingQueueExecutor());
+        this(appContext, DeckDatabase.getInstance(appContext),Executors.newCachedThreadPool(), ExecutorServiceProvider.getLinkedBlockingQueueExecutor());
     }
 
     @VisibleForTesting

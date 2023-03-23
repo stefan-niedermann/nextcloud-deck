@@ -5,8 +5,6 @@ import android.util.Pair;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.nextcloud.android.sso.api.ParsedResponse;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +24,7 @@ import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.remote.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.remote.helpers.util.AsyncUtil;
+import okhttp3.Headers;
 
 public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
@@ -46,15 +45,18 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<List<FullBoard>> responder, Instant lastSync) {
         serverAdapter.getBoards(new ResponseCallback<>(responder.getAccount()) {
             @Override
-            public void onResponse(ParsedResponse<List<FullBoard>> response) {
-                progressTotal = response.getResponse().size();
+            public void onResponse(List<FullBoard> response) {}
+
+            @Override
+            public void onResponseWithHeaders(List<FullBoard> response, Headers headers) {
+                progressTotal = response.size();
                 updateProgress();
-                String etag = response.getHeaders().get("ETag");
+                String etag = headers.get("ETag");
                 if (etag != null && !etag.equals(account.getBoardsEtag())) {
                     account.setBoardsEtag(etag);
                     dataBaseAdapter.updateAccount(account);
                 }
-                responder.onResponse(response.getResponse());
+                responder.onResponse(response);
             }
 
             @SuppressLint("MissingSuperCall")
