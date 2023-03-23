@@ -19,7 +19,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import com.nextcloud.android.sso.AccountImporter;
-import com.nextcloud.android.sso.api.ParsedResponse;
 import com.nextcloud.android.sso.exceptions.AccountImportCancelledException;
 import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGranted;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
@@ -173,7 +172,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                                         if (response.getDeckVersion().firstCallHasDifferentResponseStructure()) {
                                                             syncManager.fetchBoardsFromServer(new ResponseCallback<>(account) {
                                                                 @Override
-                                                                public void onResponse(ParsedResponse<List<FullBoard>> response) {
+                                                                public void onResponse(List<FullBoard> response) {
                                                                     callback.onResponse(createdAccount);
                                                                 }
 
