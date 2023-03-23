@@ -114,9 +114,9 @@ public class DataBaseAdapter {
 
     @VisibleForTesting
     protected DataBaseAdapter(@NonNull Context applicationContext,
-                            @NonNull DeckDatabase db,
-                            @NonNull ExecutorService widgetNotifierExecutor,
-                            @NonNull ExecutorService executor) {
+                              @NonNull DeckDatabase db,
+                              @NonNull ExecutorService widgetNotifierExecutor,
+                              @NonNull ExecutorService executor) {
         this.context = applicationContext;
         this.db = db;
         this.widgetNotifierExecutor = widgetNotifierExecutor;
@@ -866,7 +866,11 @@ public class DataBaseAdapter {
                 .distinctUntilChanged();
     }
 
-    public LiveData<Map<Stack, List<FullCard>>> searchCards(final long accountId, @NonNull String term) {
+    /**
+     * Search all {@link FullCard}s grouped by {@link Stack}s which contain the term in {@link Card#getTitle()} or {@link Card#getDescription()}.
+     * {@link Stack}s ar sorted by {@link Stack#getOrder()}, {@link Card}s for each {@link Stack} are sorted by {@link Card#getOrder()}.
+     */
+    public LiveData<Map<Stack, List<FullCard>>> searchCards(final long accountId, final long localBoardId, @NonNull String term, int limitPerStack) {
         // TODO
         return new ReactiveLiveData<>();
     }

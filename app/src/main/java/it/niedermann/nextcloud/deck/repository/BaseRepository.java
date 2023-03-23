@@ -300,8 +300,8 @@ public class BaseRepository {
 
     // -- Card search --
 
-    public LiveData<Map<Stack, List<FullCard>>> searchCards(final long accountId, @NonNull String term) {
-        return dataBaseAdapter.searchCards(accountId, term);
+    public LiveData<Map<Stack, List<FullCard>>> searchCards(final long accountId, final long localBoardId, @NonNull String term) {
+        return dataBaseAdapter.searchCards(accountId, localBoardId, term, Integer.MAX_VALUE);
     }
 
     // --- User search ---
