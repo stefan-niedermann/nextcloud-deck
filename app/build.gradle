@@ -78,7 +78,7 @@ dependencies {
     // Android X
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.camera:camera-camera2:1.2.1'
-    implementation 'androidx.camera:camera-lifecycle:1.2.1'
+    implementation 'androidx.camera:camera-lifecycle:1.2.2'
     implementation 'androidx.camera:camera-view:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
