@@ -72,7 +72,7 @@ public class ImportAccountActivity extends AppCompatActivity {
 
         originalWifiOnlyValue = sharedPreferences.getBoolean(prefKeyWifiOnly, false);
 
-        importAccountViewModel.hasAccounts().observe(this, hasAccounts -> binding.welcomeText.setText(hasAccounts
+        importAccountViewModel.hasAccounts().observeOnce(this, hasAccounts -> binding.welcomeText.setText(hasAccounts
                 ? getString(R.string.welcome_text_further_accounts)
                 : getString(R.string.welcome_text, getString(R.string.app_name))));
 
