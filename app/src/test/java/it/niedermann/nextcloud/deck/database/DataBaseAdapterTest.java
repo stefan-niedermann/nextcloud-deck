@@ -12,6 +12,7 @@ import static it.niedermann.nextcloud.deck.database.DeckDatabaseTestUtil.createU
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 
@@ -19,6 +20,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -42,6 +44,9 @@ import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 
 @RunWith(RobolectricTestRunner.class)
 public class DataBaseAdapterTest {
+
+    @Rule
+    public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
     private DeckDatabase db;
     private DataBaseAdapter adapter;
