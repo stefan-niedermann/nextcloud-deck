@@ -47,10 +47,7 @@ public abstract class PickStackActivity extends AppCompatActivity implements The
 
         hasAccounts$
                 .filter(hasAccounts -> !hasAccounts)
-                .observe(this, () -> {
-                    startActivity(ImportAccountActivity.createIntent(this));
-                    finish();
-                });
+                .observe(this, () -> startActivity(ImportAccountActivity.createIntent(this)));
 
         hasAccounts$
                 .filter(hasAccounts -> hasAccounts)
@@ -109,6 +106,8 @@ public abstract class PickStackActivity extends AppCompatActivity implements The
     public void applyTheme(int color) {
         final var utils = ThemeUtils.of(color, this);
 
+        utils.platform.themeStatusBar(this);
+        utils.material.themeToolbar(binding.toolbar);
         utils.material.colorMaterialButtonText(binding.cancel);
         utils.material.colorMaterialButtonPrimaryFilled(binding.submit);
         utils.material.colorTextInputLayout(binding.inputWrapper);

@@ -65,46 +65,32 @@ public class MainActivityNavigationHandler implements NavigationView.OnNavigatio
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (account == null) {
+            DeckLog.warn("Current account is null, can handle selected navigation item #" + item.getItemId() + ": \"" + item.getTitle() + "\"");
+            return false;
+        }
+
         switch (item.getItemId()) {
             case MENU_ID_ABOUT:
-                if (account == null) {
-                    DeckLog.warn("Current account is null, can not launch dialog to create board.");
-                    return false;
-                }
                 activity.startActivity(AboutActivity.createIntent(activity, account));
                 break;
             case MENU_ID_SETTINGS:
-                if (account == null) {
-                    DeckLog.warn("Current account is null, can not launch dialog to create board.");
-                    return false;
-                }
                 settingsLauncher.launch(SettingsActivity.createIntent(activity, account));
                 break;
             case MENU_ID_ADD_BOARD:
-                if (account == null) {
-                    DeckLog.warn("Current account is null, can not launch dialog to create board.");
-                    return false;
-                }
                 EditBoardDialogFragment.newInstance(account).show(activity.getSupportFragmentManager(), EditBoardDialogFragment.class.getSimpleName());
                 break;
             case MENU_ID_ARCHIVED_BOARDS:
-                if (account == null) {
-                    DeckLog.warn("Current account is null, can not launch dialog to create board.");
-                    return false;
-                }
                 activity.startActivity(ArchivedBoardsActivity.createIntent(activity, account));
                 break;
             case MENU_ID_UPCOMING_CARDS:
-                activity.startActivity(UpcomingCardsActivity.createIntent(activity));
+                activity.startActivity(UpcomingCardsActivity.createIntent(activity, account));
                 break;
             default:
-                if (account == null) {
-                    DeckLog.warn("Current account is null, can not launch dialog to create board.");
-                    return false;
-                }
                 onBoardSelected.accept(account.getId(), navigationMap.get(item.getItemId()));
                 break;
         }
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

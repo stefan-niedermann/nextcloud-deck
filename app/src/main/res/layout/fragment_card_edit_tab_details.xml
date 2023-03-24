@@ -13,7 +13,6 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/labelsWrapper"
-            style="@style/textInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/label_labels"
@@ -44,7 +43,6 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/peopleWrapper"
-            style="@style/textInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacer_2x"
@@ -79,7 +77,6 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dueDateDateWrapper"
-            style="@style/textInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacer_2x"
@@ -107,7 +104,6 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dueDateTimeWrapper"
-            style="@style/textInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacer_1hx"
@@ -161,7 +157,6 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/descriptionEditorWrapper"
-                style="@style/textInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacer_1x"
@@ -197,7 +192,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="bottom"
                 android:layout_marginEnd="6dp"
-                android:background="?attr/colorPrimary"
+                android:background="?android:windowBackground"
                 android:contentDescription="@string/edit_description"
                 android:paddingStart="@dimen/spacer_1hx"
                 android:paddingTop="@dimen/spacer_1x"

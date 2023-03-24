@@ -4,19 +4,17 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
-import com.nextcloud.android.common.ui.theme.utils.ColorRole;
-
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.WidgetEmptyContentViewBinding;
-import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
-import it.niedermann.nextcloud.deck.ui.theme.Themed;
 
-public class EmptyContentView extends RelativeLayout implements Themed {
+public class EmptyContentView extends RelativeLayout {
 
     private static final int NO_DESCRIPTION = -1;
 
@@ -47,12 +45,15 @@ public class EmptyContentView extends RelativeLayout implements Themed {
         binding.description.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void applyTheme(int color) {
-        final var utils = ThemeUtils.of(color, getContext());
+    public ImageView getImage() {
+        return binding.image;
+    }
 
-//        utils.platform.colorImageView(binding.image, ColorRole.SECONDARY_CONTAINER);
-        utils.platform.colorTextView(binding.title, ColorRole.ON_SURFACE);
-        utils.platform.colorTextView(binding.description, ColorRole.ON_SURFACE);
+    public TextView getTitle() {
+        return binding.title;
+    }
+
+    public TextView getDescription() {
+        return binding.description;
     }
 }

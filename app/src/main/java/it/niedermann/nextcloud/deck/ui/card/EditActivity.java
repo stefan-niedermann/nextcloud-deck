@@ -287,8 +287,10 @@ public class EditActivity extends AppCompatActivity {
 
         final var utils = ThemeUtils.of(color, this);
 
+        utils.platform.themeStatusBar(this);
+        utils.material.themeToolbar(binding.toolbar);
         utils.platform.colorEditText(binding.title);
-        utils.deck.themeTabLayout(binding.tabLayout);
+        utils.material.themeTabLayoutOnSurface(binding.tabLayout);
     }
 
     @NonNull

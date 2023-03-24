@@ -32,12 +32,15 @@ public class SettingsActivity extends AppCompatActivity implements Themed {
 
         binding = ActivitySettingsBinding.inflate(getLayoutInflater());
 
-        applyTheme(account.getColor());
-        setSupportActionBar(binding.toolbar);
         setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
+        applyTheme(account.getColor());
+        setResult(RESULT_CANCELED);
 
-        // TODO We should only set this if a preference has changed that influences the MainActivity
-        setResult(RESULT_OK);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(binding.settingsFragment.getId(), SettingsFragment.newInstance(account))
+                .commit();
     }
 
     @Override
@@ -56,8 +59,8 @@ public class SettingsActivity extends AppCompatActivity implements Themed {
     public void applyTheme(int color) {
         final var utils = ThemeUtils.of(color, this);
 
-//        utils.platform.themeStatusBar(this);
-//        utils.material.themeToolbar(binding.toolbar);
+        utils.platform.themeStatusBar(this);
+        utils.material.themeToolbar(binding.toolbar);
     }
 
     @NonNull

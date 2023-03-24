@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -36,10 +37,11 @@ import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
 import it.niedermann.nextcloud.deck.util.KeyboardUtils;
 
-public class CardCommentsFragment extends Fragment implements CommentEditedListener, CommentDeletedListener, CommentSelectAsReplyListener {
+public class CardCommentsFragment extends Fragment implements Themed, CommentEditedListener, CommentDeletedListener, CommentSelectAsReplyListener {
 
     private static final String KEY_ACCOUNT = "account";
     private FragmentCardEditTabCommentsBinding binding;
@@ -185,9 +187,12 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
         });
     }
 
-    private void applyTheme(int color) {
+    @Override
+    public void applyTheme(@ColorInt int color) {
         final var utils = ThemeUtils.of(color, requireContext());
 
+        utils.deck.themeEmptyContentView(binding.emptyContentView);
+        utils.platform.colorViewBackground(binding.addCommentLayout);
         utils.material.themeFAB(binding.fab);
         utils.material.colorTextInputLayout(binding.messageWrapper);
     }

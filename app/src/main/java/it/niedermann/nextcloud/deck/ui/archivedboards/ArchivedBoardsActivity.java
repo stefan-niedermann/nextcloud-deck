@@ -23,6 +23,7 @@ import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.edit.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.Themed;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
 
@@ -46,11 +47,12 @@ public class ArchivedBoardsActivity extends AppCompatActivity implements Themed,
         }
 
         account = (Account) args.getSerializable(KEY_ACCOUNT);
-
         binding = ActivityArchivedBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
+
+        applyTheme(account.getColor());
 
         archivedBoardsViewModel = new SyncViewModel.Provider(this, getApplication(), account).get(ArchivedBoardsViewModel.class);
 
@@ -144,13 +146,6 @@ public class ArchivedBoardsActivity extends AppCompatActivity implements Themed,
                 .show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
     }
 
-    @NonNull
-    public static Intent createIntent(@NonNull Context context, @NonNull Account account) {
-        return new Intent(context, ArchivedBoardsActivity.class)
-                .putExtra(KEY_ACCOUNT, account)
-                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    }
-
     @Override
     public void onDismiss(DialogInterface dialog) {
 
@@ -158,6 +153,16 @@ public class ArchivedBoardsActivity extends AppCompatActivity implements Themed,
 
     @Override
     public void applyTheme(int color) {
-        binding.emptyContentView.applyTheme(color);
+        final var utils = ThemeUtils.of(color, this);
+
+        utils.platform.themeStatusBar(this);
+        utils.material.themeToolbar(binding.toolbar);
+    }
+
+    @NonNull
+    public static Intent createIntent(@NonNull Context context, @NonNull Account account) {
+        return new Intent(context, ArchivedBoardsActivity.class)
+                .putExtra(KEY_ACCOUNT, account)
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 }

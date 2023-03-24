@@ -14,7 +14,6 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/settingsFragment"
-        android:name="it.niedermann.nextcloud.deck.ui.settings.SettingsFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

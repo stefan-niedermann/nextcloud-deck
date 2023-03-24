@@ -38,7 +38,6 @@
                     style="@style/Widget.Material3.Button.IconButton"
                     android:layout_width="48dp"
                     android:layout_height="match_parent"
-                    android:background="?attr/colorPrimary"
                     android:contentDescription="@string/add_list"
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:tooltipText="@string/manage_list"
@@ -125,7 +124,7 @@
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary">
+            android:background="?android:windowBackground">
 
             <com.google.android.material.search.SearchBar
                 android:id="@+id/toolbar"
@@ -188,7 +187,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="?attr/colorPrimary"
         android:fitsSystemWindows="false"
         android:theme="@style/NavigationView"
         app:headerLayout="@layout/nav_header_main"

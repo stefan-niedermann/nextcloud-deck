@@ -14,8 +14,10 @@ import androidx.lifecycle.ViewModelProvider;
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.databinding.ActivityManageAccountsBinding;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
 
-public class ManageAccountsActivity extends AppCompatActivity {
+public class ManageAccountsActivity extends AppCompatActivity implements Themed {
 
     private static final String TAG = ManageAccountsActivity.class.getSimpleName();
 
@@ -33,7 +35,7 @@ public class ManageAccountsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
-        adapter = new ManageAccountAdapter((account) -> viewModel.saveCurrentAccount(account), (accountPair) -> {
+        adapter = new ManageAccountAdapter(account -> viewModel.saveCurrentAccount(account), accountPair -> {
             if (accountPair.first != null) {
                 viewModel.deleteAccount(accountPair.first.getId());
             } else {
@@ -47,6 +49,8 @@ public class ManageAccountsActivity extends AppCompatActivity {
             }
         });
         binding.accounts.setAdapter(adapter);
+
+        viewModel.getCurrentAccountColor().observe(this, this::applyTheme);
 
         viewModel.getCurrentAccountId().thenAcceptAsync(accountId -> new ReactiveLiveData<>(viewModel.readAccount(accountId))
                 .observeOnce(this, account -> {
@@ -66,6 +70,14 @@ public class ManageAccountsActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         this.binding = null;
+    }
+
+    @Override
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, this);
+
+        utils.platform.themeStatusBar(this);
+        utils.material.themeToolbar(binding.toolbar);
     }
 
     public static Intent createIntent(@NonNull Context context) {

@@ -39,6 +39,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.ui.view.EmptyContentView;
 import kotlin.Pair;
 
 /**
@@ -69,18 +70,6 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
         tabLayout.setBackground(null);
     }
 
-    /**
-     * Convenience method for calling {@link #themeTabLayout(TabLayout, int)} with the primary color
-     */
-    public void themeTabLayout(@NonNull TabLayout tabLayout) {
-        themeTabLayout(tabLayout, ContextCompat.getColor(tabLayout.getContext(), R.color.primary));
-    }
-
-    public void themeTabLayout(@NonNull TabLayout tabLayout, @ColorInt int backgroundColor) {
-        this.material.themeTabLayout(tabLayout);
-        tabLayout.setBackgroundColor(backgroundColor);
-    }
-
     public void themeSearchBar(@NonNull SearchBar searchBar) {
         withScheme(searchBar.getContext(), scheme -> {
             final var colorStateList = ColorStateList.valueOf(
@@ -98,6 +87,15 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
             }
 
             return searchBar;
+        });
+    }
+
+    public void themeEmptyContentView(@NonNull EmptyContentView emptyContentView) {
+        withScheme(emptyContentView.getContext(), scheme -> {
+            platform.colorImageView(emptyContentView.getImage(), ColorRole.SURFACE_VARIANT);
+            platform.colorTextView(emptyContentView.getTitle(), ColorRole.ON_BACKGROUND);
+            platform.colorTextView(emptyContentView.getDescription(), ColorRole.ON_BACKGROUND);
+            return emptyContentView;
         });
     }
 

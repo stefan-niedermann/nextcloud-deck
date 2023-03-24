@@ -72,15 +72,13 @@ public class FilterDialogFragment extends ThemedDialogFragment {
             tab.setText(tabTitles[position]);
         }).attach();
 
-        binding.viewPager.post(() -> {
-            binding.viewPager.setCurrentItem(filterViewModel.getCurrentFilterTab(), false);
-            binding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-                @Override
-                public void onPageSelected(int position) {
-                    super.onPageSelected(position);
-                    filterViewModel.setCurrentFilterTab(position);
-                }
-            });
+        binding.viewPager.setCurrentItem(filterViewModel.getCurrentFilterTab(), false);
+        binding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                filterViewModel.setCurrentFilterTab(position);
+            }
         });
         filterViewModel.createFilterInformationDraft();
 
