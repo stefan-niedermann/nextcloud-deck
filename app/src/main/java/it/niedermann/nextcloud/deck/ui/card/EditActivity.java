@@ -44,6 +44,7 @@ public class EditActivity extends AppCompatActivity {
     /**
      * @deprecated This is only here to maintain compatibility with {@link Version#supportsComments()}
      */
+    @Deprecated
     private static final int[] tabTitles = new int[]{
             R.string.card_edit_details,
             R.string.card_edit_attachments,
@@ -60,6 +61,7 @@ public class EditActivity extends AppCompatActivity {
     /**
      * @deprecated This is only here to maintain compatibility with {@link Version#supportsComments()}
      */
+    @Deprecated
     private static final int[] tabIcons = new int[]{
             R.drawable.ic_home_grey600_24dp,
             R.drawable.ic_attach_file_grey600_24dp,

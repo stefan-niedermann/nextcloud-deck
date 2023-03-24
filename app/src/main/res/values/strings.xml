@@ -355,4 +355,8 @@
     <string name="show_error">Show error</string>
     <string name="push_notification_link_empty">Due to a known issue in the Deck web app we are unfortunately not able to display this card. For more information see: %1$s</string>
     <string name="push_notification_link_empty_link" translatable="false">https://github.com/nextcloud/deck/issues/3431</string>
+    <string name="enter_search_term_title">Enter search term</string>
+    <string name="enter_search_term_description">Enter search term to find cards in this board</string>
+    <string name="no_search_results_title">No search results</string>
+    <string name="no_search_results_description">We haven\'t found any result for the given search term</string>
 </resources>

@@ -44,9 +44,9 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
     public void bind(@NonNull FullDeckComment comment, @NonNull Account account, @Nullable ThemeUtils utils, @NonNull MenuInflater inflater, @NonNull CommentDeletedListener deletedListener, @NonNull CommentSelectAsReplyListener selectAsReplyListener, @NonNull FragmentManager fragmentManager, @NonNull Consumer<CharSequence> editListener) {
         Glide.with(binding.avatar.getContext())
                 .load(account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.avatar_size), comment.getComment().getActorId()))
+                .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.ic_person_grey600_24dp)
                 .error(R.drawable.ic_person_grey600_24dp)
-                .apply(RequestOptions.circleCropTransform())
                 .into(binding.avatar);
 
         final var mentions = new HashMap<String, String>(comment.getComment().getMentions().size());

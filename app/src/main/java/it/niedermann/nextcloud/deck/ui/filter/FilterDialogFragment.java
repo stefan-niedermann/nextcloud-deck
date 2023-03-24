@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
 import android.app.Dialog;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -108,7 +107,7 @@ public class FilterDialogFragment extends ThemedDialogFragment {
     public void applyTheme(@ColorInt int color) {
         final var utils = ThemeUtils.of(color, requireContext());
 
-        utils.deck.themeTabLayout(binding.tabLayout, Color.TRANSPARENT);
+        utils.deck.themeTabLayoutOnTransparent(binding.tabLayout);
         utils.platform.tintDrawable(requireContext(), indicator, ColorRole.PRIMARY);
     }
 

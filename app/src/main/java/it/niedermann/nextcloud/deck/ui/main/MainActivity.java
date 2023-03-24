@@ -2,19 +2,19 @@ package it.niedermann.nextcloud.deck.ui.main;
 
 import static java.util.Collections.emptyList;
 
-import android.animation.AnimatorInflater;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkRequest;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.PopupMenu;
 
 import androidx.activity.OnBackPressedCallback;
@@ -34,10 +34,13 @@ import androidx.core.splashscreen.SplashScreen;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -90,6 +93,8 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.filter.FilterDialogFragment;
 import it.niedermann.nextcloud.deck.ui.filter.FilterViewModel;
+import it.niedermann.nextcloud.deck.ui.main.search.SearchAdapter;
+import it.niedermann.nextcloud.deck.ui.main.search.SearchResults;
 import it.niedermann.nextcloud.deck.ui.settings.PreferencesViewModel;
 import it.niedermann.nextcloud.deck.ui.stack.DeleteStackDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.DeleteStackListener;
@@ -110,6 +115,21 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     private PreferencesViewModel preferencesViewModel;
     protected MainViewModel mainViewModel;
     private FilterViewModel filterViewModel;
+    private SearchAdapter searchAdapter;
+    @Nullable
+    private MutableLiveData<SearchResults> searchResults$ = null;
+    private final Observer<SearchResults> searchResultsObserver = results -> {
+        if (results.result.isEmpty()) {
+            binding.emptyContentViewSearchNoResults.setVisibility(View.VISIBLE);
+            binding.emptyContentViewSearchNoTerm.setVisibility(View.GONE);
+            binding.searchResults.setVisibility(View.GONE);
+        } else {
+            binding.emptyContentViewSearchNoResults.setVisibility(View.GONE);
+            binding.searchResults.setVisibility(View.VISIBLE);
+        }
+        this.searchAdapter.setItems(results);
+    };
+    private final ReactiveLiveData<String> searchTerm$ = new ReactiveLiveData<>();
     private StackAdapter stackAdapter;
     private DrawerMenuInflater<MainActivity> drawerMenuInflater;
     private Menu listMenu;
@@ -124,8 +144,8 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         public void handleOnBackPressed() {
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawer(GravityCompat.START);
-            } else if (binding.searchToolbar.getVisibility() == View.VISIBLE) {
-                hideFilterTextToolbar();
+            } else if (binding.searchView.isShowing()) {
+                binding.searchView.hide();
             } else {
                 finish();
             }
@@ -164,14 +184,24 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         navigationHandler = new MainActivityNavigationHandler(this, binding.drawerLayout, mainViewModel::saveCurrentBoardId);
         binding.navigationView.setNavigationItemSelectedListener(navigationHandler);
 
+        searchAdapter = new SearchAdapter();
+        binding.searchResults.setAdapter(searchAdapter);
+        binding.searchView.getEditText().addTextChangedListener(new OnTextChangedWatcher(value -> {
+            if (TextUtils.isEmpty(value)) {
+                binding.emptyContentViewSearchNoTerm.setVisibility(View.VISIBLE);
+                binding.emptyContentViewSearchNoResults.setVisibility(View.GONE);
+                binding.searchResults.setVisibility(View.GONE);
+                searchAdapter.setItems(new SearchResults());
+            } else {
+                binding.emptyContentViewSearchNoTerm.setVisibility(View.GONE);
+                binding.searchResults.setVisibility(View.VISIBLE);
+                searchTerm$.setValue(value);
+            }
+        }));
+
         stackAdapter = new StackAdapter(this);
         binding.viewPager.setAdapter(stackAdapter);
         binding.viewPager.setOffscreenPageLimit(2);
-        binding.filterWrapper.setOnClickListener((v) -> FilterDialogFragment.newInstance().show(getSupportFragmentManager(), FilterDialogFragment.class.getCanonicalName()));
-        binding.filterText.addTextChangedListener(new OnTextChangedWatcher(filterViewModel::setFilterText));
-        binding.enableSearch.setOnClickListener(v -> showFilterTextToolbar());
-        binding.toolbar.setOnClickListener(v -> showFilterTextToolbar());
-        binding.accountSwitcher.setOnClickListener(v -> AccountSwitcherDialog.newInstance().show(getSupportFragmentManager(), AccountSwitcherDialog.class.getSimpleName()));
 
         headerBinding.copyDebugLogs.setOnClickListener((v) -> {
             try {
@@ -199,7 +229,11 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         drawerMenuInflater = new DrawerMenuInflater<>(this, binding.navigationView.getMenu());
 
         preferencesViewModel.isDebugModeEnabled$().observe(this, enabled -> headerBinding.copyDebugLogs.setVisibility(enabled ? View.VISIBLE : View.GONE));
-        filterViewModel.hasActiveFilter().observe(this, hasActiveFilter -> binding.filterWrapper.setActivated(hasActiveFilter));
+        filterViewModel.hasActiveFilter().observe(this, hasActiveFilter -> {
+            final var menu = binding.toolbar.getMenu();
+            menu.findItem(R.id.filter).setVisible(!hasActiveFilter);
+            menu.findItem(R.id.filter_active).setVisible(hasActiveFilter);
+        });
 
         // Flag to distinguish user initiated stack changes from stack changes derived by changing the board
         final var boardChanged = new AtomicBoolean(true);
@@ -275,12 +309,22 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         }
 
         Glide
-                .with(binding.accountSwitcher.getContext())
-                .load(account.getAvatarUrl(binding.accountSwitcher.getWidth()))
+                .with(binding.toolbar.getContext())
+                .load(account.getAvatarUrl(binding.toolbar.getMenu().findItem(R.id.avatar).getIcon().getIntrinsicWidth()))
+                .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.ic_baseline_account_circle_24)
                 .error(R.drawable.ic_baseline_account_circle_24)
-                .apply(RequestOptions.circleCropTransform())
-                .into(binding.accountSwitcher);
+                .into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        binding.toolbar.getMenu().findItem(R.id.avatar).setIcon(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+                });
 
         DeckLog.verbose("Displaying maintenance mode info for", account.getName() + ":", account.isMaintenanceEnabled());
         binding.infoBox.setVisibility(account.isMaintenanceEnabled() ? View.VISIBLE : View.GONE);
@@ -340,13 +384,17 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     protected void applyBoard(@NonNull Account account, @NonNull Map<Integer, Long> navigationMap, @Nullable FullBoard currentBoard) {
         DeckLog.verbose("===== Apply Board", currentBoard);
         filterViewModel.clearFilterInformation(true);
+        binding.toolbar.getMenu().findItem(R.id.filter).setVisible(true);
+        binding.toolbar.getMenu().findItem(R.id.filter_active).setVisible(false);
+        binding.appBarLayout.setExpanded(true);
+
+        observeSearchTerm(account, currentBoard);
 
         if (currentBoard == null) {
             applyBoardTheme(account.getColor());
             showEditButtonsIfPermissionsGranted(false, false);
 
-            binding.toolbar.setTitle(R.string.app_name_short);
-            binding.filterText.setHint(R.string.app_name_short);
+            binding.toolbar.setHint(R.string.app_name_short);
             binding.fab.setText(R.string.add_board);
             binding.fab.setOnClickListener(v -> {
                 binding.fab.hide();
@@ -356,8 +404,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             applyBoardTheme(currentBoard.getBoard().getColor());
             showEditButtonsIfPermissionsGranted(true, currentBoard.board.isPermissionEdit());
 
-            binding.toolbar.setTitle(currentBoard.getBoard().getTitle());
-            binding.filterText.setHint(getString(R.string.search_in, currentBoard.getBoard().getTitle()));
+            binding.toolbar.setHint(getString(R.string.search_in, currentBoard.getBoard().getTitle()));
             binding.fab.setText(R.string.add_list);
             binding.fab.setOnClickListener(v -> {
                 binding.fab.hide();
@@ -373,6 +420,21 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                     .ifPresent(menuItemId -> binding.navigationView.setCheckedItem(menuItemId));
         }
 
+        binding.searchView.clearText();
+    }
+
+    private void observeSearchTerm(@NonNull Account account, @Nullable FullBoard currentBoard) {
+        if (searchResults$ != null) {
+            searchResults$.removeObserver(searchResultsObserver);
+        }
+        if (currentBoard != null) {
+            searchResults$ = searchTerm$
+                    .filter(() -> binding.searchView.isShowing())
+                    .flatMap(term -> new ReactiveLiveData<>(mainViewModel.searchCards(account.getId(), currentBoard.getLocalId(), term, Integer.MAX_VALUE))
+                            .combineWith(() -> new MutableLiveData<>(term)))
+                    .map(result -> new SearchResults(account, currentBoard.getBoard(), result.first, result.second));
+            searchResults$.observe(this, searchResultsObserver);
+        }
     }
 
     private void applyStacks(@Nullable Account account, @Nullable Long boardId, @Nullable List<Stack> stacks) {
@@ -427,11 +489,11 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     private void applyBoardTheme(@ColorInt int color) {
         final var utils = ThemeUtils.of(color, this);
 
-        utils.deck.themeFilterIndicator(this, binding.filterWrapper.getDrawable());
-        utils.deck.themeTabLayout(binding.stackTitles);
+        utils.deck.themeSearchBar(binding.toolbar);
+        utils.deck.themeSearchView(binding.searchView);
+        utils.deck.themeTabLayoutOnTransparent(binding.stackTitles);
         utils.material.themeExtendedFAB(binding.fab);
         utils.androidx.themeSwipeRefreshLayout(binding.swipeRefreshLayout);
-        utils.platform.colorEditText(binding.filterText);
         binding.emptyContentViewStacks.applyTheme(color);
     }
 
@@ -602,9 +664,20 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final int itemId = item.getItemId();
-        if (itemId == R.id.archive_cards) {
+
+        if (itemId == R.id.filter || itemId == R.id.filter_active) {
+            FilterDialogFragment.newInstance().show(getSupportFragmentManager(), FilterDialogFragment.class.getCanonicalName());
+        } else if (itemId == R.id.avatar) {
+            AccountSwitcherDialog.newInstance().show(getSupportFragmentManager(), AccountSwitcherDialog.class.getSimpleName());
+        } else if (itemId == R.id.archive_cards) {
             final var stack = stackAdapter.getItem(binding.viewPager.getCurrentItem());
             final var stackLocalId = stack.getLocalId();
             mainViewModel.countCardsInStack(stack.getAccountId(), stackLocalId, numberOfCards -> runOnUiThread(() ->
@@ -705,27 +778,6 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     @Override
     public void onBottomReached() {
         binding.fab.extend();
-    }
-
-    private void showFilterTextToolbar() {
-        binding.toolbar.setVisibility(View.GONE);
-        binding.searchToolbar.setVisibility(View.VISIBLE);
-        binding.searchToolbar.setNavigationOnClickListener(v1 -> onBackPressedCallback.handleOnBackPressed());
-        binding.enableSearch.setVisibility(View.GONE);
-        binding.filterText.requestFocus();
-        final var imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(binding.filterText, InputMethodManager.SHOW_IMPLICIT);
-        binding.toolbarCard.setStateListAnimator(AnimatorInflater.loadStateListAnimator(this, R.animator.appbar_elevation_on));
-    }
-
-    private void hideFilterTextToolbar() {
-        binding.filterText.setText(null);
-        final var imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        binding.searchToolbar.setVisibility(View.GONE);
-        binding.enableSearch.setVisibility(View.VISIBLE);
-        binding.toolbar.setVisibility(View.VISIBLE);
-        binding.toolbarCard.setStateListAnimator(AnimatorInflater.loadStateListAnimator(this, R.animator.appbar_elevation_off));
     }
 
     private void registerAutoSyncOnNetworkAvailable(@NonNull Account account) {
@@ -912,5 +964,4 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 .newInstance(throwable, account)
                 .show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
     }
-
 }

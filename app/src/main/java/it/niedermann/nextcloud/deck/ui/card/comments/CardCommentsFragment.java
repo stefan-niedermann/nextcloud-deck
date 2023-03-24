@@ -93,9 +93,9 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
         binding.replyCommentCancelButton.setOnClickListener((v) -> commentsViewModel.setReplyToComment(null));
         Glide.with(binding.avatar.getContext())
                 .load(editCardViewModel.getAccount().getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details)))
+                .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.ic_person_grey600_24dp)
                 .error(R.drawable.ic_person_grey600_24dp)
-                .apply(RequestOptions.circleCropTransform())
                 .into(binding.avatar);
 
         commentsViewModel.getReplyToComment().observe(getViewLifecycleOwner(), (comment) -> {

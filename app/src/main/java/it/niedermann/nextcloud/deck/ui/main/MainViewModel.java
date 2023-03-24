@@ -16,6 +16,7 @@ import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundExce
 import java.io.File;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
@@ -56,6 +57,10 @@ public class MainViewModel extends BaseViewModel {
 
     private Exception getInvalidSyncManagerException() {
         return new IllegalStateException("SyncManager is null");
+    }
+
+    public LiveData<Map<Stack, List<FullCard>>> searchCards(long accountId, long boardId, @NonNull String term, int limit) {
+        return baseRepository.searchCards(accountId, boardId, term, limit);
     }
 
     public void synchronize(@NonNull Account account, @NonNull IResponseCallback<Boolean> callback) {

@@ -30,6 +30,7 @@ public class GalleryItemViewHolder extends RecyclerView.ViewHolder {
         Glide.with(itemView.getContext())
                 .load(image)
                 .placeholder(R.drawable.ic_image_grey600_24dp)
+                .error(R.drawable.ic_image_grey600_24dp)
                 .into(binding.preview);
     }
 

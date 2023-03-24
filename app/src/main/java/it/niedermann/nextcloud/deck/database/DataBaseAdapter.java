@@ -35,6 +35,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -114,9 +115,9 @@ public class DataBaseAdapter {
 
     @VisibleForTesting
     protected DataBaseAdapter(@NonNull Context applicationContext,
-                            @NonNull DeckDatabase db,
-                            @NonNull ExecutorService widgetNotifierExecutor,
-                            @NonNull ExecutorService executor) {
+                              @NonNull DeckDatabase db,
+                              @NonNull ExecutorService widgetNotifierExecutor,
+                              @NonNull ExecutorService executor) {
         this.context = applicationContext;
         this.db = db;
         this.widgetNotifierExecutor = widgetNotifierExecutor;
@@ -864,6 +865,44 @@ public class DataBaseAdapter {
         validateSearchTerm(searchTerm);
         return new ReactiveLiveData<>(db.getLabelDao().searchNotYetAssignedLabelsByTitle(accountId, boardId, notYetAssignedToLocalCardId, "%" + searchTerm.trim() + "%"))
                 .distinctUntilChanged();
+    }
+
+    /**
+     * Search all {@link FullCard}s grouped by {@link Stack}s which contain the term in {@link Card#getTitle()} or {@link Card#getDescription()}.
+     * {@link Stack}s are sorted by {@link Stack#getOrder()}, {@link Card}s for each {@link Stack} are sorted by {@link Card#getOrder()}.
+     */
+    public LiveData<Map<Stack, List<FullCard>>> searchCards(final long accountId, final long localBoardId, @NonNull String term, int limitPerStack) {
+        String sqlSearchTerm = term.trim();
+        if (sqlSearchTerm.isEmpty()) {
+            throw new IllegalArgumentException("empty search term");
+        }
+        sqlSearchTerm = "%" + sqlSearchTerm + "%";
+
+
+        return new ReactiveLiveData<>(db.getCardDao().searchCard(accountId, localBoardId, sqlSearchTerm))
+                .map(result -> mapToStacksForCardSearch(result, limitPerStack), executor);
+    }
+
+    private Map<Stack, List<FullCard>> mapToStacksForCardSearch(List<FullCard> matches, int limitPerStack) {
+        Map<Stack, List<FullCard>> result = new HashMap<>();
+        if (matches != null && !matches.isEmpty()) {
+            // results are sorted by stack -> jackpot:
+            Stack lastStack = null;
+            for (FullCard card : matches) {
+                // find right bucket
+                if (lastStack == null || !Objects.equals(lastStack.getLocalId(), card.getCard().getStackId())) {
+                    lastStack = db.getStackDao().getStackByLocalIdDirectly(card.getCard().getStackId());
+                }
+                // check if bucket exists
+                List<FullCard> fullCards = result.computeIfAbsent(lastStack, k -> new ArrayList<>());
+                // create bucket
+                if (fullCards.size() < limitPerStack) {
+                    // put into bucket
+                    fullCards.add(card);
+                }
+            }
+        }
+        return result;
     }
 
     public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long boardId, long notAssignedToLocalCardId, final int topX) {
