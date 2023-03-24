@@ -16,7 +16,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -63,8 +62,7 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
             throw new IllegalArgumentException(KEY_ACCOUNT + " must not be null.");
         }
 
-        editCardViewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
-        commentsViewModel = new ViewModelProvider(this, new SyncViewModel.Factory(requireActivity().getApplication(), account)).get(CommentsViewModel.class);
+        commentsViewModel = new SyncViewModel.Provider(this, requireActivity().getApplication(), account).get(CommentsViewModel.class);
     }
 
     @Override

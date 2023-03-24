@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogNewCardBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
@@ -65,7 +66,8 @@ public class NewCardDialog extends ThemedDialogFragment implements DialogInterfa
         }
         this.account = (Account) getArguments().getSerializable(KEY_ACCOUNT);
 
-        newCardViewModel = new ViewModelProvider(requireActivity(), new SyncViewModel.Factory(requireActivity().getApplication(), account)).get(NewCardViewModel.class);
+        newCardViewModel = new SyncViewModel.Provider(requireActivity(), requireActivity().getApplication(), account).get(NewCardViewModel.class);
+        DeckLog.log(newCardViewModel);
         viewModel = new ViewModelProvider(requireActivity()).get(PrepareCreateViewModel.class);
     }
 

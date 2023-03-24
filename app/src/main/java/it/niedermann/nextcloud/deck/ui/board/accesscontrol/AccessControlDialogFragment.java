@@ -13,7 +13,6 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
@@ -76,7 +75,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        accessControlViewModel = new ViewModelProvider(requireActivity(), new SyncViewModel.Factory(requireActivity().getApplication(), account)).get(AccessControlViewModel.class);
+        accessControlViewModel = new SyncViewModel.Provider(requireActivity(), requireActivity().getApplication(), account).get(AccessControlViewModel.class);
         final var dialogBuilder = new MaterialAlertDialogBuilder(requireContext());
 
         binding = DialogBoardShareBinding.inflate(requireActivity().getLayoutInflater());

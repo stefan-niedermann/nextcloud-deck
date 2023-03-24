@@ -90,7 +90,7 @@ public class StackFragment extends Fragment implements Themed, DragAndDropTab<Ca
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = requireActivity();
         binding = FragmentStackBinding.inflate(inflater, container, false);
-        stackViewModel = new ViewModelProvider(requireActivity(), new SyncViewModel.Factory(this.requireActivity().getApplication(), account)).get(StackViewModel.class);
+        stackViewModel = new SyncViewModel.Provider(requireActivity(), requireActivity().getApplication(), account).get(StackViewModel.class);
 
         applyTheme(account.getColor());
 

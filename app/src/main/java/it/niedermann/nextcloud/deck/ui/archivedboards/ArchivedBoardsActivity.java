@@ -9,7 +9,6 @@ import androidx.annotation.AnyThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -53,7 +52,7 @@ public class ArchivedBoardsActivity extends AppCompatActivity implements Themed,
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
-        archivedBoardsViewModel = new ViewModelProvider(this, new SyncViewModel.Factory(getApplication(), account)).get(ArchivedBoardsViewModel.class);
+        archivedBoardsViewModel = new SyncViewModel.Provider(this, getApplication(), account).get(ArchivedBoardsViewModel.class);
 
         adapter = new ArchivedBoardsAdapter(account, getSupportFragmentManager(), this::onArchive);
         binding.recyclerView.setAdapter(adapter);
