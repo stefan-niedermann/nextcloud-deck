@@ -337,4 +337,5 @@
     <string name="card_outdated">El contenido de esta tarjeta puede estar desactualizado.</string>
     <string name="show_error">Mostrar error</string>
     <string name="push_notification_link_empty">Debido a un error conocido en la aplicación web Deck lamentablemente no es posible mostrar esta tarjeta. Para más información ver: %1$s</string>
+    <string name="no_search_results_title">No hay resultados de búsqueda</string>
     </resources>

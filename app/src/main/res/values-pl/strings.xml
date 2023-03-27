@@ -341,4 +341,5 @@
     <string name="card_outdated">Treść tej karty może być nieaktualna.</string>
     <string name="show_error">Pokaż błąd</string>
     <string name="push_notification_link_empty">Ze względu na znany problem w aplikacji internetowej Deck nie możemy niestety wyświetlić tej karty. Więcej informacji: %1$s</string>
+    <string name="no_search_results_title">Brak wyników wyszukiwania</string>
     </resources>

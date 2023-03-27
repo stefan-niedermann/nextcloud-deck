@@ -333,4 +333,5 @@
     <string name="card_outdated">Bu kartın içeriği eski olabilir.</string>
     <string name="show_error">Hatayı görüntüle</string>
     <string name="push_notification_link_empty">Deck web uygulamasında bilinen bir sorun nedeniyle bu kart görüntülenemiyor. Ayrıntılı bilgi almak için şuraya bakabilirsiniz: %1$s</string>
+    <string name="no_search_results_title">Aramadan bir sonuç alınamadı</string>
     </resources>

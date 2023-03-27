@@ -337,4 +337,5 @@
     <string name="card_outdated">Le contenu de cette carte est peut-être obsolète.</string>
     <string name="show_error">Afficher les erreurs</string>
     <string name="push_notification_link_empty">En raison d\'un problème connu dans l\'application Web Deck, nous ne sommes malheureusement pas en mesure d\'afficher cette carte pour l\'instant. Pour plus d\'informations voir: %1$s</string>
+    <string name="no_search_results_title">Aucun résultat de recherche</string>
     </resources>

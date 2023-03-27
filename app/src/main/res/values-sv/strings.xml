@@ -333,4 +333,5 @@
     <string name="card_outdated">Innehållet på detta kort kan vara inaktuellt.</string>
     <string name="show_error">Visa felet</string>
     <string name="push_notification_link_empty">På grund av ett känt problem i Deck-webbappen kan vi tyvärr inte visa detta kort. För mer information se: %1$s</string>
+    <string name="no_search_results_title">Inga sökresultat</string>
     </resources>

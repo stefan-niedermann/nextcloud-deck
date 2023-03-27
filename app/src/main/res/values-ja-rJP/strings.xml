@@ -327,4 +327,5 @@
     <string name="card_outdated">このカードのコンテンツは古くなっています。</string>
     <string name="show_error">エラーを表示</string>
     <string name="push_notification_link_empty">Deck Webアプリの既知の問題により、このカードを表示することができません。詳しい情報は、次をご確認ください: %1$s</string>
+    <string name="no_search_results_title">検索結果なし</string>
     </resources>

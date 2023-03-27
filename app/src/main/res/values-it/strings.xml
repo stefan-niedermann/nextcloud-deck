@@ -334,4 +334,5 @@
     <string name="card_outdated">Il contenuto di questa scheda potrebbe essere obsoleto.</string>
     <string name="show_error">Mostra errore</string>
     <string name="push_notification_link_empty">A causa di un problema noto nella web app di Deck, sfortunatamente non possiamo mostrare questa scheda. Per altre informazioni vedi: %1$s</string>
+    <string name="no_search_results_title">Nessun risultato di ricerca</string>
     </resources>

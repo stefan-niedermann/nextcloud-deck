@@ -330,4 +330,5 @@
     <string name="card_outdated">Innholdet i dette kortet kan være utdatert.</string>
     <string name="show_error">Vis feil</string>
     <string name="push_notification_link_empty">På grunn av en kjent feil i Stokk web appen får vi dessverre ikke vist innholdet i dette kortet. Gå på følgende link for mer informasjon: %1$s</string>
+    <string name="no_search_results_title">Ingen søkeresultater</string>
     </resources>

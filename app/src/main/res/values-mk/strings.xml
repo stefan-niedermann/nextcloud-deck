@@ -247,4 +247,5 @@
     <string name="edit_description">Измени опис</string>
     <string name="widget_upcoming_title">Престојни картици</string>
     <string name="simple_search">Барај</string>
+    <string name="no_search_results_title">Нема резултати од пребарувањето</string>
     </resources>

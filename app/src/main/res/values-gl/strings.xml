@@ -333,4 +333,5 @@
     <string name="card_outdated">O contido desta tarxeta podería estar desactualizado.</string>
     <string name="show_error">Amosar o erro</string>
     <string name="push_notification_link_empty">Por mor dun problema coñecido da apli web Deck non é posíbel amosar esta tarxeta. Para máis info: %1$s</string>
+    <string name="no_search_results_title">Sen resultados de busca</string>
     </resources>

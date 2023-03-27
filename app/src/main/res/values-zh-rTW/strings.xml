@@ -329,4 +329,5 @@
     <string name="card_outdated">此卡片內容可能過時。</string>
     <string name="show_error">顯示錯誤</string>
     <string name="push_notification_link_empty">基於一個Deck網頁應用程式的已知錯誤我們無法顯示此卡片。更多詳情請見 %1$s</string>
+    <string name="no_search_results_title">無搜尋結果</string>
     </resources>

@@ -331,4 +331,5 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="card_outdated">De inhoud van deze kaart kan verouderd zijn.</string>
     <string name="show_error">Bekijk fout</string>
     <string name="push_notification_link_empty">Vanwege een bekend probleem met de Deck web app is het helaas niet mogelijk deze kaart te tonen. Voor meer info kijk: %1$s</string>
+    <string name="no_search_results_title">Geen zoekresultaten</string>
     </resources>

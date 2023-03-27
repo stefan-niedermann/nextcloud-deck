@@ -213,4 +213,5 @@
     <string name="edit_description">Taisyti aprašą</string>
     <string name="widget_upcoming_title">Artėjančios kortelės</string>
     <string name="simple_search">Ieškoti</string>
+    <string name="no_search_results_title">Nėra paieškos rezultatų</string>
     </resources>

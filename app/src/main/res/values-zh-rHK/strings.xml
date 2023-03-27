@@ -329,4 +329,5 @@
     <string name="card_outdated">此卡片的內容可能已過時。</string>
     <string name="show_error">顯示錯誤</string>
     <string name="push_notification_link_empty">由於 Deck 網絡應用程式中的一個已知問題，我們無法顯示此卡。 有關更多資訊，請參閱：%1$s</string>
+    <string name="no_search_results_title">無搜尋結果</string>
     </resources>
