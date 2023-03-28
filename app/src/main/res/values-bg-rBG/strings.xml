@@ -333,4 +333,8 @@
     <string name="card_outdated">Съдържанието на тази карта може да е остаряло.</string>
     <string name="show_error">Показване на грешка</string>
     <string name="push_notification_link_empty">Поради известен проблем в уеб приложението Deck, за съжаление не можем да покажем тази карта. За повече информация погледнете: %1$s</string>
-    </resources>
+    <string name="enter_search_term_title">Въвеждане на термин за търсене</string>
+    <string name="enter_search_term_description">Въвеждане на термин за търсене, за да намерите карти в този панел</string>
+    <string name="no_search_results_title">Няма резултати от търсенето</string>
+    <string name="no_search_results_description">Не са намерени резултати за зададения термин за търсене</string>
+</resources>

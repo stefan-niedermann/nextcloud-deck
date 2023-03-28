@@ -333,5 +333,8 @@
     <string name="card_outdated">Der Inhalt dieser Karte ist möglicherweise veraltet.</string>
     <string name="show_error">Fehler anzeigen</string>
     <string name="push_notification_link_empty">Aufgrund eines bekannten Problems in der Deck-Server-App können wir diese Karte leider nicht anzeigen. Weitere Informationen finden Sie unter: %1$s</string>
+    <string name="enter_search_term_title">Suchbegriff eingeben</string>
+    <string name="enter_search_term_description">Einen Suchebegriff eingeben zum Finden von Karten in diesem Board</string>
     <string name="no_search_results_title">Keine Suchergebnisse</string>
-    </resources>
+    <string name="no_search_results_description">Wir haben keinen Ergebnisse für diesen Suchbegriff gefunden</string>
+</resources>
