@@ -35,7 +35,7 @@ public class SettingsActivity extends AppCompatActivity implements Themed {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         applyTheme(account.getColor());
-        setResult(RESULT_CANCELED);
+        setResult(RESULT_OK);
 
         getSupportFragmentManager()
                 .beginTransaction()
