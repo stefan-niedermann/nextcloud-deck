@@ -333,5 +333,8 @@
     <string name="card_outdated">A kártya tartalma elavult lehet.</string>
     <string name="show_error">Hiba megjelenítése</string>
     <string name="push_notification_link_empty">A Kártyák webes alkalmazás egy ismert probléma miatt nem tudja megjeleníteni ezt a kártyát. További információkért lásd: %1$s</string>
+    <string name="enter_search_term_title">Adja meg a keresési kifejezést</string>
+    <string name="enter_search_term_description">Adja meg a keresési kifejezést a táblán lévő kártyák kereséséhez</string>
     <string name="no_search_results_title">Nincs találat</string>
-    </resources>
+    <string name="no_search_results_description">Nincs találat a megadott keresési kifejezésre</string>
+</resources>

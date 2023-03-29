@@ -329,5 +329,8 @@
     <string name="card_outdated">此卡片的內容可能已過時。</string>
     <string name="show_error">顯示錯誤</string>
     <string name="push_notification_link_empty">由於 Deck 網絡應用程式中的一個已知問題，我們無法顯示此卡。 有關更多資訊，請參閱：%1$s</string>
+    <string name="enter_search_term_title">輸入搜尋字詞</string>
+    <string name="enter_search_term_description">輸入要在此面板中尋找卡片的字詞</string>
     <string name="no_search_results_title">無搜尋結果</string>
-    </resources>
+    <string name="no_search_results_description">我們無法根據您指定的搜尋字詞找到任何結果</string>
+</resources>

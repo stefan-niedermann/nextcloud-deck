@@ -337,5 +337,8 @@
     <string name="card_outdated">Садржај ове картице је можда застарео.</string>
     <string name="show_error">Прикажи грешку</string>
     <string name="push_notification_link_empty">Услед познатог проблема са Шпил веб апликацијом, нажалост нисмо у стању да прикажемо ову картицу. За више информација, погледајте: %1$s</string>
+    <string name="enter_search_term_title">Унесите појам за претрагу</string>
+    <string name="enter_search_term_description">Унесите појам за претрагу да пронађете картице у овој табли</string>
     <string name="no_search_results_title">Нема резултата претраге</string>
-    </resources>
+    <string name="no_search_results_description">Нисмо пронашли ниједан резултат за наведени појам претраге</string>
+</resources>
