@@ -100,6 +100,7 @@
     <string name="attachments">Bijlagen</string>
     <string name="no_cards">Nog geen kaarten</string>
     <string name="no_account">Geen account geconfigureerd</string>
+    <string name="account_already_added">De account %1$s werd reeds toegevoegd</string>
     <string name="account_is_getting_imported">Account wordt geïmporteerd</string>
     <string name="not_synced_yet">Nog niet gesynchroniseerd</string>
     <string name="no_lists_yet">Nog geen lijsten</string>
@@ -155,6 +156,7 @@
     <string name="title_is_mandatory">Titel is verplicht</string>
     <string name="provide_at_least_a_title_or_description">Geef ten minste een titel of beschrijving op</string>
     <string name="welcome_text">Welkom bij %1$s</string>
+    <string name="welcome_text_further_accounts">Voeg een andere account toe</string>
     <string name="maintenance_mode_explanation">De server %1$s is momenteel in onderhoud modus. Neem contact op met uw beheerder of probeer het later nog eens.</string>
     <string name="share_add_to_card">Toevoegen aan kaart</string>
     <string name="share_success">Succesvol %1$s toegevoegd aan %2$s</string>
@@ -310,6 +312,7 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="downloads">Downloads</string>
     <string name="files">Bestanden</string>
     <string name="gallery">Galerij</string>
+    <string name="simple_attach">Bijvoegen</string>
     <string name="add_stack_widget">Toevoegen lijst widget</string>
     <string name="add_filter_widget">Toevoegen filterwidget</string>
     <string name="simple_order">Volgorde</string>
@@ -331,5 +334,6 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="card_outdated">De inhoud van deze kaart kan verouderd zijn.</string>
     <string name="show_error">Bekijk fout</string>
     <string name="push_notification_link_empty">Vanwege een bekend probleem met de Deck web app is het helaas niet mogelijk deze kaart te tonen. Voor meer info kijk: %1$s</string>
+    <string name="enter_search_term_title">Voer een zoekwoord in</string>
     <string name="no_search_results_title">Geen zoekresultaten</string>
     </resources>

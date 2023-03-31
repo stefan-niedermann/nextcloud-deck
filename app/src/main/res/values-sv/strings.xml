@@ -333,5 +333,8 @@
     <string name="card_outdated">Innehållet på detta kort kan vara inaktuellt.</string>
     <string name="show_error">Visa felet</string>
     <string name="push_notification_link_empty">På grund av ett känt problem i Deck-webbappen kan vi tyvärr inte visa detta kort. För mer information se: %1$s</string>
+    <string name="enter_search_term_title">Ange sökterm</string>
+    <string name="enter_search_term_description">Ange sökterm för att hitta kort i denna tavla</string>
     <string name="no_search_results_title">Inga sökresultat</string>
-    </resources>
+    <string name="no_search_results_description">Vi har inte hittat något resultat för den givna söktermen</string>
+</resources>

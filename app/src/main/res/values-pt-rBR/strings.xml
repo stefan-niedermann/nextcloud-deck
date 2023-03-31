@@ -337,5 +337,8 @@
     <string name="card_outdated">O conteúdo deste cartão pode estar desatualizado.</string>
     <string name="show_error">Mostrar erro</string>
     <string name="push_notification_link_empty">Devido a um problema conhecido no aplicativo da web Deck, infelizmente não podemos exibir este cartão. Para mais informações, veja: %1$s</string>
+    <string name="enter_search_term_title">Insira o termo de pesquisa</string>
+    <string name="enter_search_term_description">Digite o termo de pesquisa para encontrar cartões neste quadro</string>
     <string name="no_search_results_title">Nenhum resultado encontrado</string>
-    </resources>
+    <string name="no_search_results_description">Não encontramos nenhum resultado para o termo de pesquisa fornecido</string>
+</resources>
