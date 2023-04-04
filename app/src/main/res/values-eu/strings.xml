@@ -333,5 +333,8 @@
     <string name="card_outdated">Baliteke txartel honen edukia zaharkituta egotea.</string>
     <string name="show_error">Erakutsi errorea</string>
     <string name="push_notification_link_empty">Deck web aplikazioaren arazo ezagun bat dela eta, zoritxarrez, ezin dugu txartel hau erakutsi. Informazio gehiagorako, ikus: %1$s</string>
+    <string name="enter_search_term_title">Sartu bilaketa-terminoa</string>
+    <string name="enter_search_term_description">Sartu bilaketa-terminoa taula honetan txartelak aurkitzeko</string>
     <string name="no_search_results_title">Ez dago bilaketaren emaitzarik</string>
-    </resources>
+    <string name="no_search_results_description">Ez dugu emaitzarik aurkitu emandako bilaketa-terminoarentzat</string>
+</resources>
