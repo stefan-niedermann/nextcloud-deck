@@ -244,7 +244,7 @@
     <string name="error_dialog_tip_sync_only_on_wifi">If you have enabled the "Sync only on Wi-Fi" setting, you can only synchronize when you are connected to a Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Something seems to be wrong with your Nextcloud app. Please try to force stop both, the Nextcloud app and the Nextcloud Deck app.</string>
     <string name="error_dialog_tip_files_delete_storage">If force stopping them does not help, you can try to clear the storage of both apps.</string>
-    <string name="error_dialog_timeout_instance">There wasn\'t a response from your server in the given time. Please make sure your instance is running well.</string>
+    <string name="error_dialog_timeout_instance">There was not a response from your server in the given time. Please make sure your instance is running well.</string>
     <string name="error_dialog_timeout_toggle">Check your network connection. Sometimes toggling the mobile data or Wi-Fi off and on again can help.</string>
     <string name="error_dialog_check_server">The response of your server was not correct. Please check whether you can access the Deck app via web interface.</string>
     <string name="error_dialog_check_server_logs">There is an issue with your Nextcloud setup. Please have a look into the server log files.</string>
@@ -358,5 +358,5 @@
     <string name="enter_search_term_title">Enter search term</string>
     <string name="enter_search_term_description">Enter search term to find cards in this board</string>
     <string name="no_search_results_title">No search results</string>
-    <string name="no_search_results_description">We haven\'t found any result for the given search term</string>
+    <string name="no_search_results_description">We have not found any result for the given search term</string>
 </resources>
