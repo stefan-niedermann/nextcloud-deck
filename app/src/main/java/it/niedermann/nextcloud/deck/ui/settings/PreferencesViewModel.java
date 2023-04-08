@@ -25,10 +25,6 @@ public class PreferencesViewModel extends BaseViewModel {
         return baseRepository.getCurrentAccountId$();
     }
 
-    public LiveData<Integer> getAccountColor(long accountId) {
-        return baseRepository.getAccountColor(accountId);
-    }
-
     public void setAppTheme(int setting) {
         preferencesRepository.setAppTheme(setting);
     }

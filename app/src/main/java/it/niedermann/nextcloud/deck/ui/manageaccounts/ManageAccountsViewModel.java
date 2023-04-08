@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
@@ -16,6 +17,11 @@ public class ManageAccountsViewModel extends BaseViewModel {
 
     public ManageAccountsViewModel(@NonNull Application application) {
         super(application);
+    }
+
+    public LiveData<Integer> getCurrentAccountColor() {
+        return new ReactiveLiveData<>(baseRepository.getCurrentAccountId$())
+                .flatMap(baseRepository::getAccountColor);
     }
 
     public LiveData<Account> readAccount(long id) {

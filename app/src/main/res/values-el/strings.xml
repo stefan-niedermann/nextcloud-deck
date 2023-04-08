@@ -77,6 +77,7 @@
 
     <string name="add_account"> Προσθήκη λογαριασμού </string>
     <string name="choose_account">Επιλογή λογαριασμού</string>
+    <string name="add_card">Προσθήκη καρτέλας</string>
     <string name="activity">Δραστηριότητα</string>
     <string name="add_list">Προσθήκη λίστας</string>
     <string name="rename_list">Μετονομασία λίστας</string>
@@ -310,4 +311,5 @@
     <string name="app_logo">Λογότυπο εφαρμογής</string>
     <string name="log_file">Αρχείο καταγραφής</string>
     <string name="simple_search">Αναζήτηση</string>
+    <string name="no_search_results_title">Κανένα αποτέλεσμα</string>
     </resources>

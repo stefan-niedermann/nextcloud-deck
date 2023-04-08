@@ -12,8 +12,10 @@ import androidx.lifecycle.ViewModelProvider;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabActivitiesBinding;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
 
-public class CardActivityFragment extends Fragment {
+public class CardActivityFragment extends Fragment implements Themed {
 
     private FragmentCardEditTabActivitiesBinding binding;
 
@@ -36,6 +38,8 @@ public class CardActivityFragment extends Fragment {
             return binding.getRoot();
         }
 
+        viewModel.getBoardColor().observe(getViewLifecycleOwner(), this::applyTheme);
+
         viewModel.syncActivitiesForCard(viewModel.getFullCard().getCard()).observe(getViewLifecycleOwner(), (activities -> {
             if (activities == null || activities.size() == 0) {
                 binding.emptyContentView.setVisibility(View.VISIBLE);
@@ -53,5 +57,12 @@ public class CardActivityFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         this.binding = null;
+    }
+
+    @Override
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, requireContext());
+
+        utils.deck.themeEmptyContentView(binding.emptyContentView);
     }
 }

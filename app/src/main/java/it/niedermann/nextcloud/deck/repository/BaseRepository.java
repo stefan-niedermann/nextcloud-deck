@@ -14,6 +14,7 @@ import androidx.lifecycle.LiveData;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -71,7 +72,7 @@ public class BaseRepository {
     }
 
     protected BaseRepository(@NonNull Context context, @NonNull ConnectivityUtil connectivityUtil) {
-        this(context, connectivityUtil, new DataBaseAdapter(context.getApplicationContext()), ExecutorServiceProvider.getExecutorService());
+        this(context, connectivityUtil, new DataBaseAdapter(context.getApplicationContext()), ExecutorServiceProvider.getLinkedBlockingQueueExecutor());
     }
 
     protected BaseRepository(@NonNull Context context,
@@ -295,6 +296,12 @@ public class BaseRepository {
 
     public LiveData<List<AccessControl>> getAccessControlByLocalBoardId(long accountId, Long id) {
         return dataBaseAdapter.getAccessControlByLocalBoardId(accountId, id);
+    }
+
+    // -- Card search --
+
+    public LiveData<Map<Stack, List<FullCard>>> searchCards(final long accountId, final long localBoardId, @NonNull String term, int limit) {
+        return dataBaseAdapter.searchCards(accountId, localBoardId, term, limit);
     }
 
     // --- User search ---

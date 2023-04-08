@@ -330,7 +330,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
     }
 
     private void setupAssignees() {
-        adapter = new AssigneeAdapter(user -> CardAssigneeDialog.newInstance(user).show(getChildFragmentManager(), CardAssigneeDialog.class.getSimpleName()), viewModel.getAccount());
+        adapter = new AssigneeAdapter((user) -> CardAssigneeDialog.newInstance(user).show(getChildFragmentManager(), CardAssigneeDialog.class.getSimpleName()), viewModel.getAccount());
         binding.assignees.setAdapter(adapter);
         binding.assignees.post(() -> {
             @Px final int gutter = DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.spacer_1x);

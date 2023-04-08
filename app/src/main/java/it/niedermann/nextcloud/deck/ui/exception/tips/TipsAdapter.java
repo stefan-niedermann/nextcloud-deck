@@ -163,9 +163,9 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
             add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
         } else if (throwable instanceof RuntimeException) {
             if (throwable.getMessage() != null && throwable.getMessage().toLowerCase().contains("database")) {
-                Intent reportIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.url_report_bug)))
+                final var intent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.url_report_bug)))
                         .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_report_issue);
-                add(R.string.error_dialog_tip_database_upgrade_failed, reportIntent);
+                add(R.string.error_dialog_tip_database_upgrade_failed, intent);
                 add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
             }
         } else if (throwable instanceof UnknownErrorException) {

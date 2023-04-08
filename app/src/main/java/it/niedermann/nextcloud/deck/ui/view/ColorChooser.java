@@ -89,7 +89,8 @@ public class ColorChooser extends LinearLayout {
                 previouslySelectedImageView.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, previouslySelectedColor));
                 previouslySelectedImageView = null;
             }
-            @ColorInt final int customColor = envelope.getColor();
+            @ColorInt
+            final int customColor = envelope.getColor();
             selectedColor = customColor;
             previouslySelectedColor = customColor;
             binding.customColorChooser.setImageDrawable(DeckViewThemeUtils.getTintedImageView(context, R.drawable.circle_alpha_colorize_36dp, selectedColor));

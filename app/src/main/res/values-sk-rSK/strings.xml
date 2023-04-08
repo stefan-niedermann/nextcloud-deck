@@ -338,4 +338,5 @@
     <string name="card_outdated">Obsah tejto karty môže byť zastaraný.</string>
     <string name="show_error">Zobraziť chybu</string>
     <string name="push_notification_link_empty">Kvôli známemu problému vo webovej aplikácii Deck, žiaľ, nemôžeme túto kartu zobraziť. Viac informácií nájdete na: %1$s</string>
+    <string name="no_search_results_title">Žiadne výsledky vyhľadávania</string>
     </resources>

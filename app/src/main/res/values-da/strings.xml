@@ -77,6 +77,7 @@
 
     <string name="add_account">Tilføj konto</string>
     <string name="choose_account">Vælg konto</string>
+    <string name="add_card">Tilføj kort</string>
     <string name="activity">Aktivitet</string>
     <string name="add_list">Tilføj liste</string>
     <string name="rename_list">Omdøb liste</string>

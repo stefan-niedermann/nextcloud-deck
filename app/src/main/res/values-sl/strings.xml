@@ -338,4 +338,5 @@
     <string name="card_outdated">Vsebina te kartice je morda zastarela.</string>
     <string name="show_error">Pokaži napako</string>
     <string name="push_notification_link_empty">Zaradi znane težave v spletnem programu Deck te kartice ni mogoče prikazati. Več informacij je na voljo na: %1$s</string>
+    <string name="no_search_results_title">Ni zadetkov iskanja</string>
     </resources>

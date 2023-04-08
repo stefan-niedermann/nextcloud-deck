@@ -100,6 +100,7 @@
     <string name="attachments">Anexos</string>
     <string name="no_cards">Nenhum cartão ainda</string>
     <string name="no_account">Nenhuma conta configurada</string>
+    <string name="account_already_added">The account %1$s has already been added</string>
     <string name="account_is_getting_imported">Conta está sendo importada</string>
     <string name="not_synced_yet">Ainda não sincronizado</string>
     <string name="no_lists_yet">Ainda sem listas</string>
@@ -157,6 +158,7 @@
     <string name="title_is_mandatory">O Título é obrigatório </string>
     <string name="provide_at_least_a_title_or_description">Forneça ao menos um título ou descrição</string>
     <string name="welcome_text">Bem-vindo ao %1$s</string>
+    <string name="welcome_text_further_accounts">Add another account</string>
     <string name="maintenance_mode_explanation">O servidor %1$s está no modo de manutenção. Entre em contato com o administrador ou tente novamente mais tarde.</string>
     <string name="share_add_to_card">Adicionar ao cartão</string>
     <string name="share_success">%1$s adicionado com sucesso à %2$s</string>
@@ -313,6 +315,7 @@
     <string name="downloads">Downloads</string>
     <string name="files">Arquivos</string>
     <string name="gallery">Galeria</string>
+    <string name="simple_attach">Attach</string>
     <string name="add_stack_widget">Adicionar widget de lista</string>
     <string name="add_filter_widget">Adicionar widget de filtro</string>
     <string name="simple_order">Pedido</string>
@@ -334,4 +337,8 @@
     <string name="card_outdated">O conteúdo deste cartão pode estar desatualizado.</string>
     <string name="show_error">Mostrar erro</string>
     <string name="push_notification_link_empty">Devido a um problema conhecido no aplicativo da web Deck, infelizmente não podemos exibir este cartão. Para mais informações, veja: %1$s</string>
-    </resources>
+    <string name="enter_search_term_title">Insira o termo de pesquisa</string>
+    <string name="enter_search_term_description">Digite o termo de pesquisa para encontrar cartões neste quadro</string>
+    <string name="no_search_results_title">Nenhum resultado encontrado</string>
+    <string name="no_search_results_description">Não encontramos nenhum resultado para o termo de pesquisa fornecido</string>
+</resources>

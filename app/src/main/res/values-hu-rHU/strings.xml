@@ -100,6 +100,7 @@
     <string name="attachments">Mellékletek</string>
     <string name="no_cards">Még nincsenek kártyák</string>
     <string name="no_account">Nincs fiók beállítva</string>
+    <string name="account_already_added">A(z) %1$s fiók már hozzá lett adva</string>
     <string name="account_is_getting_imported">A fiók importálásra kerül</string>
     <string name="not_synced_yet">Még nincs szinkronizálva</string>
     <string name="no_lists_yet">Még nincsenek listák</string>
@@ -155,6 +156,7 @@
     <string name="title_is_mandatory">Cím szükséges</string>
     <string name="provide_at_least_a_title_or_description">Legalább címet vagy leírást adjon meg</string>
     <string name="welcome_text">Üdvözli a %1$s</string>
+    <string name="welcome_text_further_accounts">Másik fiók hozzáadása</string>
     <string name="maintenance_mode_explanation">A(z) %1$s kiszolgáló jelenleg karbantartási módban van. Lépjen kapcsolatba a rendszergazdával vagy próbálja újra.</string>
     <string name="share_add_to_card">Kártyához adás</string>
     <string name="share_success">%1$s sikeresen hozzáadva ehhez: %2$s</string>
@@ -309,6 +311,7 @@
     <string name="downloads">Letöltések</string>
     <string name="files">Fájlok</string>
     <string name="gallery">Galéria</string>
+    <string name="simple_attach">Hozzáadás</string>
     <string name="add_stack_widget">Lista felületi elem hozzáadása</string>
     <string name="add_filter_widget">Szűrő modul hozzáadása</string>
     <string name="simple_order">Rendezés</string>
@@ -330,4 +333,8 @@
     <string name="card_outdated">A kártya tartalma elavult lehet.</string>
     <string name="show_error">Hiba megjelenítése</string>
     <string name="push_notification_link_empty">A Kártyák webes alkalmazás egy ismert probléma miatt nem tudja megjeleníteni ezt a kártyát. További információkért lásd: %1$s</string>
-    </resources>
+    <string name="enter_search_term_title">Adja meg a keresési kifejezést</string>
+    <string name="enter_search_term_description">Adja meg a keresési kifejezést a táblán lévő kártyák kereséséhez</string>
+    <string name="no_search_results_title">Nincs találat</string>
+    <string name="no_search_results_description">Nincs találat a megadott keresési kifejezésre</string>
+</resources>

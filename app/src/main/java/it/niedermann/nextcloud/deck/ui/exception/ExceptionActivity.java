@@ -13,6 +13,7 @@ import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityExceptionBinding;
 import it.niedermann.nextcloud.deck.ui.exception.tips.TipsAdapter;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.exception.ExceptionUtil;
 
 public class ExceptionActivity extends AppCompatActivity {
@@ -45,6 +46,11 @@ public class ExceptionActivity extends AppCompatActivity {
         binding.stacktrace.setText(debugInfo);
         binding.copy.setOnClickListener((v) -> ClipboardUtil.INSTANCE.copyToClipboard(this, getString(R.string.simple_exception), "```\n" + debugInfo + "\n```"));
         binding.close.setOnClickListener((v) -> finish());
+
+        final var utils = ThemeUtils.defaultBrand(this);
+
+        utils.material.colorMaterialButtonText(binding.close);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.copy);
 
         adapter.setThrowable(this, null, throwable);
     }

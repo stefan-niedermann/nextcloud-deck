@@ -100,6 +100,7 @@
     <string name="attachments">Pièces jointes</string>
     <string name="no_cards">Aucune carte pour l\'instant</string>
     <string name="no_account">Aucun compte n\'est configuré</string>
+    <string name="account_already_added">Le compte %1$s a déjà été ajouté</string>
     <string name="account_is_getting_imported">Compte en cours d\'import</string>
     <string name="not_synced_yet">Aucune synchronisation pour l\'instant</string>
     <string name="no_lists_yet">Aucune liste pour l\'instant</string>
@@ -157,6 +158,7 @@
     <string name="title_is_mandatory">Un titre est obligatoire</string>
     <string name="provide_at_least_a_title_or_description">Renseignez le titre ou la description</string>
     <string name="welcome_text">Bienvenue sur %1$s</string>
+    <string name="welcome_text_further_accounts">Ajouter un autre compte</string>
     <string name="maintenance_mode_explanation">Le serveur %1$s est actuellement en maintenance. Veuillez contacter votre administrateur ou réessayer plus tard.</string>
     <string name="share_add_to_card">Ajouter à la carte</string>
     <string name="share_success">Ajout de %1$s à %2$s réussi</string>
@@ -279,7 +281,7 @@
     <string name="widget_stack_title">Liste</string>
     <string name="widget_filter_title">Filtrer</string>
     <string name="widget_stack_header_icon">Icône d’en-tête du widget</string>
-    <string name="widget_placeholder_icon">Espace réservé à l\'icône du widget</string>
+    <string name="widget_placeholder_icon">Icône d\'espace réservé des composants</string>
     <string name="select_stack">Sélectionner la liste</string>
     <string name="project_type_deck_board">Tableau de l\'application Deck</string>
     <string name="project_type_deck_card">Carte de l\'application Deck</string>
@@ -313,8 +315,9 @@
     <string name="downloads">Téléchargements</string>
     <string name="files">Fichiers</string>
     <string name="gallery">Galerie</string>
-    <string name="add_stack_widget">Ajouter un widget liste</string>
-    <string name="add_filter_widget">Ajouter un widget filtre</string>
+    <string name="simple_attach">Joindre</string>
+    <string name="add_stack_widget">Ajouter un composant liste</string>
+    <string name="add_filter_widget">Ajouter un composant filtre</string>
     <string name="simple_order">Trier</string>
     <string name="edit_description">Modifier la description</string>
     <string name="widget_upcoming_title">Cartes planifiées</string>
@@ -334,4 +337,8 @@
     <string name="card_outdated">Le contenu de cette carte est peut-être obsolète.</string>
     <string name="show_error">Afficher les erreurs</string>
     <string name="push_notification_link_empty">En raison d\'un problème connu dans l\'application Web Deck, nous ne sommes malheureusement pas en mesure d\'afficher cette carte pour l\'instant. Pour plus d\'informations voir: %1$s</string>
-    </resources>
+    <string name="enter_search_term_title">Entrez votre recherche</string>
+    <string name="enter_search_term_description">Entrez le mot recherché pour trouver des cartes dans ce tableau</string>
+    <string name="no_search_results_title">Aucun résultat de recherche</string>
+    <string name="no_search_results_description">Aucun résultat trouvé pour le mot recherché</string>
+</resources>

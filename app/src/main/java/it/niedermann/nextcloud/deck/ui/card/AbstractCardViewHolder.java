@@ -137,7 +137,8 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
                         coverImagesHolder.addView(coverImageView);
                         Glide.with(coverImageView)
                                 .load(new SingleSignOnUrl(account.getName(), AttachmentUtil.getThumbnailUrl(account, fullCard.getId(), coverImage, coverWidth, coverHeight)))
-                                .placeholder(R.color.bg_info_box)
+                                .placeholder(R.drawable.ic_image_grey600_24dp)
+                                .error(R.drawable.ic_image_grey600_24dp)
                                 .into(coverImageView);
                     }
                 });

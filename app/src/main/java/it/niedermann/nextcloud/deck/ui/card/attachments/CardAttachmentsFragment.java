@@ -517,10 +517,10 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     private void applyTheme(@ColorInt int color) {
         final var utils = ThemeUtils.of(color, requireContext());
 
+        utils.deck.themeEmptyContentView(binding.emptyContentView);
         utils.material.themeFAB(binding.fab);
         utils.platform.colorBottomNavigationView(binding.bottomNavigation);
-        utils.platform.colorViewBackground(binding.pickerHeader, ColorRole.SURFACE);
-        utils.platform.colorViewBackground(binding.pickerRecyclerView, ColorRole.SURFACE);
+        utils.platform.colorViewBackground(binding.bottomSheetParent, ColorRole.SURFACE);
 
         adapter.applyTheme(color);
     }

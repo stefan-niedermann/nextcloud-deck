@@ -100,6 +100,7 @@
     <string name="attachments">Bilagor</string>
     <string name="no_cards">Inga kort än</string>
     <string name="no_account">Inget konto konfigurerat</string>
+    <string name="account_already_added">Konto %1$s har redan lagts till</string>
     <string name="account_is_getting_imported">Kontot importeras</string>
     <string name="not_synced_yet">Inte synkroniserad än</string>
     <string name="no_lists_yet">Inga listor än</string>
@@ -155,6 +156,7 @@
     <string name="title_is_mandatory">Titel måste anges</string>
     <string name="provide_at_least_a_title_or_description">Ange åtminstone en titel eller beskrivning</string>
     <string name="welcome_text">Välkommen till %1$s</string>
+    <string name="welcome_text_further_accounts">Lägg till ett annat konto</string>
     <string name="maintenance_mode_explanation">Servern %1$s är för närvarande i underhållsläge. Kontakta din administratör eller försök igen senare.</string>
     <string name="share_add_to_card">Lägg till i kort</string>
     <string name="share_success">La till %1$s till %2$s</string>
@@ -309,6 +311,7 @@
     <string name="downloads">Nedladdningar</string>
     <string name="files">Filer</string>
     <string name="gallery">Galleri</string>
+    <string name="simple_attach">Bifoga</string>
     <string name="add_stack_widget">Lägg till listwidget</string>
     <string name="add_filter_widget">Lägg till filterwidget</string>
     <string name="simple_order">Ordning</string>
@@ -330,4 +333,8 @@
     <string name="card_outdated">Innehållet på detta kort kan vara inaktuellt.</string>
     <string name="show_error">Visa felet</string>
     <string name="push_notification_link_empty">På grund av ett känt problem i Deck-webbappen kan vi tyvärr inte visa detta kort. För mer information se: %1$s</string>
-    </resources>
+    <string name="enter_search_term_title">Ange sökterm</string>
+    <string name="enter_search_term_description">Ange sökterm för att hitta kort i denna tavla</string>
+    <string name="no_search_results_title">Inga sökresultat</string>
+    <string name="no_search_results_description">Vi har inte hittat något resultat för den givna söktermen</string>
+</resources>

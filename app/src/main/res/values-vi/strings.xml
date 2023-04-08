@@ -326,4 +326,5 @@
     <string name="card_outdated">Nội dung của thẻ này có thể đã lỗi thời.</string>
     <string name="show_error">Hiện lỗi</string>
     <string name="push_notification_link_empty">Do lỗi đã biết ở ứng dụng Deck trên web, không may là chúng tôi không thể hiển thị thẻ này. Để biết thêm thông tin hãy xem: %1$s</string>
+    <string name="no_search_results_title">Không có kết quả tìm kiếm</string>
     </resources>

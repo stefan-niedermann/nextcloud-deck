@@ -64,7 +64,9 @@ public class AboutActivity extends AppCompatActivity implements Themed {
     public void applyTheme(int color) {
         final var utils = ThemeUtils.of(color, this);
 
-        utils.deck.themeTabLayout(binding.tabLayout);
+        utils.platform.themeStatusBar(this);
+        utils.material.themeToolbar(binding.toolbar);
+        utils.material.themeTabLayoutOnSurface(binding.tabLayout);
     }
 
     private static class TabsPagerAdapter extends FragmentStateAdapter {

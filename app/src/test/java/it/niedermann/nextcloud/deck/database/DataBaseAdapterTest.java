@@ -1,13 +1,18 @@
 package it.niedermann.nextcloud.deck.database;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static java.lang.reflect.Modifier.isProtected;
 import static it.niedermann.nextcloud.deck.database.DeckDatabaseTestUtil.createAccount;
 import static it.niedermann.nextcloud.deck.database.DeckDatabaseTestUtil.createBoard;
+import static it.niedermann.nextcloud.deck.database.DeckDatabaseTestUtil.createCard;
+import static it.niedermann.nextcloud.deck.database.DeckDatabaseTestUtil.createStack;
 import static it.niedermann.nextcloud.deck.database.DeckDatabaseTestUtil.createUser;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 
@@ -15,6 +20,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -25,12 +31,22 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 
+import it.niedermann.nextcloud.deck.TestUtil;
+import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 
 @RunWith(RobolectricTestRunner.class)
 public class DataBaseAdapterTest {
+
+    @Rule
+    public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
     private DeckDatabase db;
     private DataBaseAdapter adapter;
@@ -111,4 +127,50 @@ public class DataBaseAdapterTest {
         assertEquals(leet + 1, args.get(1));
     }
 
+    @Test
+    public void testSearchCards() throws InterruptedException {
+        final var account = createAccount(db.getAccountDao());
+        final var user = createUser(db.getUserDao(), account);
+        final var board = createBoard(db.getBoardDao(), account, user);
+
+        final var stack1 = createStack(db.getStackDao(), account, board);
+        final var stack2 = createStack(db.getStackDao(), account, board);
+        final var card1_1 = createCard(db.getCardDao(), account, stack1, "Foo", "Hello world");
+        final var card1_2 = createCard(db.getCardDao(), account, stack1, "Bar", "Hello Bar");
+        final var card1_3 = createCard(db.getCardDao(), account, stack2, "Baz", "");
+        final var card2_1 = createCard(db.getCardDao(), account, stack2, "Qux", "Hello Foo");
+        final var card2_2 = createCard(db.getCardDao(), account, stack2, "Lorem", "Ipsum");
+
+        var result = TestUtil.getOrAwaitValue(adapter.searchCards(account.getId(), board.getLocalId(), "Hello", 3));
+        assertEquals(2, result.size());
+        assertEquals(2, countCardsOf(result, stack1));
+        assertEquals(1, countCardsOf(result, stack2));
+        assertTrue(containsCard(result, stack1, card1_1));
+        assertTrue(containsCard(result, stack1, card1_2));
+        assertTrue(containsCard(result, stack2, card2_1));
+    }
+
+    private int countCardsOf(@NonNull Map<Stack, List<FullCard>> map, @NonNull Stack stackToFind) {
+        for (final var stack : map.keySet()) {
+            if (Objects.equals(stack.getLocalId(), stackToFind.getLocalId())) {
+                //noinspection ConstantConditions
+                return map.get(stack).size();
+            }
+        }
+        throw new NoSuchElementException();
+    }
+
+    private boolean containsCard(@NonNull Map<Stack, List<FullCard>> map, @NonNull Stack stackToFind, @NonNull Card cardToFind) {
+        for (final var stack : map.keySet()) {
+            if (Objects.equals(stack.getLocalId(), stackToFind.getLocalId())) {
+                //noinspection ConstantConditions
+                for (final var fullCard : map.get(stack)) {
+                    if (Objects.equals(fullCard.getLocalId(), cardToFind.getLocalId())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

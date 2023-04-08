@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,12 +21,13 @@ import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
 
 /**
  * Warning: Do not move this class to another package or folder!
  * The integration of the Nextcloud Android app <a href="https://github.com/nextcloud/android/blob/master/src/main/java/com/nextcloud/client/integrations/deck/DeckApiImpl.java#L42">assumes it to be at this location</a>.
  */
-public class PushNotificationActivity extends AppCompatActivity {
+public class PushNotificationActivity extends AppCompatActivity implements Themed {
 
     private ActivityPushNotificationBinding binding;
     private PushNotificationViewModel viewModel;
@@ -52,7 +52,7 @@ public class PushNotificationActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
 
         binding.progress.setIndeterminate(true);
-        viewModel.getAccount().observe(this, this::applyThemeToSubmitButton);
+        viewModel.getAccount().observe(this, this::applyTheme);
         executor.submit(() -> viewModel.getCardInformation(intent.getExtras(), new PushNotificationViewModel.PushNotificationCallback() {
             @Override
             public void onResponse(@NonNull PushNotificationViewModel.CardInformation cardInformation) {
@@ -88,7 +88,7 @@ public class PushNotificationActivity extends AppCompatActivity {
     private void fallbackToBrowser(@NonNull Uri uri) {
         DeckLog.warn("Falling back to browser as push notification handler:", uri);
 
-        binding.submit.setOnClickListener((v) -> startActivity(new Intent(Intent.ACTION_VIEW, uri)));
+        binding.submit.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, uri)));
 
         viewModel.extractSubject(intent.getExtras()).ifPresent(binding.subject::setText);
         viewModel.extractMessage(intent.getExtras()).ifPresent(message -> {
@@ -119,11 +119,12 @@ public class PushNotificationActivity extends AppCompatActivity {
         return true;
     }
 
-    // TODO implement Branded interface
-    // TODO apply branding based on board color
-    public void applyThemeToSubmitButton(@ColorInt int color) {
+    @Override
+    public void applyTheme(int color) {
         final var utils = ThemeUtils.of(color, this);
 
+        utils.platform.themeStatusBar(this);
+        utils.material.themeToolbar(binding.toolbar);
         utils.platform.themeHorizontalProgressBar(binding.progress);
         Stream.of(binding.submit, binding.showError)
                 .forEach(utils.material::colorMaterialButtonPrimaryFilled);

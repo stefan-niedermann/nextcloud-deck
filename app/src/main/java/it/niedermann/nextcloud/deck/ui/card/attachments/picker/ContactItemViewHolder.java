@@ -1,5 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments.picker;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static it.niedermann.nextcloud.deck.util.VCardUtil.getColorBasedOnDisplayName;
+
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -18,10 +22,6 @@ import java.util.function.BiConsumer;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemPickerUserBinding;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-import static it.niedermann.nextcloud.deck.util.VCardUtil.getColorBasedOnDisplayName;
 
 public class ContactItemViewHolder extends RecyclerView.ViewHolder {
 
@@ -51,8 +51,9 @@ public class ContactItemViewHolder extends RecyclerView.ViewHolder {
             binding.initials.setText(null);
             Glide.with(itemView.getContext())
                     .load(image)
-                    .placeholder(R.drawable.ic_person_grey600_24dp)
                     .apply(RequestOptions.circleCropTransform())
+                    .placeholder(R.drawable.ic_person_grey600_24dp)
+                    .error(R.drawable.ic_person_grey600_24dp)
                     .into(binding.avatar);
         }
     }

@@ -322,4 +322,5 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Tìtulu (rechertu)</string>
     <string name="saving_new_card">Sarvende s\'ischeda noa...</string>
+    <string name="no_search_results_title">Perunu resurtadu de chirca</string>
     </resources>

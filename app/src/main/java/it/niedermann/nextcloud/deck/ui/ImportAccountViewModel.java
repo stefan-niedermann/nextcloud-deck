@@ -3,8 +3,8 @@ package it.niedermann.nextcloud.deck.ui;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
@@ -15,8 +15,8 @@ public class ImportAccountViewModel extends BaseViewModel {
         super(application);
     }
 
-    public LiveData<Boolean> hasAccounts() {
-        return baseRepository.hasAccounts();
+    public ReactiveLiveData<Boolean> hasAccounts() {
+        return new ReactiveLiveData<>(baseRepository.hasAccounts());
     }
 
     public void saveCurrentAccount(@NonNull Account account) {

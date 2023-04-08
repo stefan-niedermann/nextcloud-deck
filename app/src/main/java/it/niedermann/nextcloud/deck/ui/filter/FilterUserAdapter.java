@@ -90,9 +90,9 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
             binding.title.setText(user.getDisplayname());
             Glide.with(binding.avatar.getContext())
                     .load(account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.avatar_size), user.getUid()))
+                    .apply(RequestOptions.circleCropTransform())
                     .placeholder(R.drawable.ic_person_grey600_24dp)
                     .error(R.drawable.ic_person_grey600_24dp)
-                    .apply(RequestOptions.circleCropTransform())
                     .into(binding.avatar);
             itemView.setSelected(selectedUsers.contains(user));
             applyTheme(color);

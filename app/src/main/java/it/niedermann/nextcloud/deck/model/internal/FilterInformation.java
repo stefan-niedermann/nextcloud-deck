@@ -14,7 +14,7 @@ import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 
 public class FilterInformation implements Serializable {
 
-    public enum EArchiveStatus{
+    public enum EArchiveStatus {
         ALL, ARCHIVED, NON_ARCHIVED
     }
 
@@ -168,12 +168,12 @@ public class FilterInformation implements Serializable {
         if (filterInformation == null) {
             return false;
         }
-        return filterInformation.getDueType() != EDueType.NO_FILTER
-                || filterInformation.getUsers().size() > 0
-                || filterInformation.getProjects().size() > 0
-                || filterInformation.getLabels().size() > 0
-                || filterInformation.noAssignedUser
-                || filterInformation.noAssignedProject
-                || filterInformation.noAssignedLabel;
+        return !(filterInformation.getDueType() == EDueType.NO_FILTER
+                && filterInformation.getUsers().isEmpty()
+                && filterInformation.getProjects().isEmpty()
+                && filterInformation.getLabels().isEmpty()
+                && !filterInformation.noAssignedUser
+                && !filterInformation.noAssignedProject
+                && !filterInformation.noAssignedLabel);
     }
 }

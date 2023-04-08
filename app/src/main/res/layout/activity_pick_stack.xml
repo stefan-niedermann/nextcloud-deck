@@ -6,25 +6,18 @@
     android:layout_height="match_parent"
     tools:showIn="@layout/activity_pick_stack">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/inputWrapper"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:title="@string/add_card" />
-    </com.google.android.material.appbar.AppBarLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/add_card" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputWrapper"
-        style="@style/textInputLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/title_mandatory"
@@ -34,7 +27,7 @@
         app:layout_constraintBottom_toTopOf="@id/fragment_container_wrapper"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:visibility="visible">
 
         <EditText
@@ -55,13 +48,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_above="@+id/buttonBar"
-        android:layout_below="@id/appBarLayout"
-        android:paddingHorizontal="@dimen/spacer_2x"
+        android:layout_below="@id/toolbar"
+        android:padding="@dimen/spacer_2x"
         app:layout_constraintBottom_toTopOf="@id/buttonBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/inputWrapper"
-        app:layout_constraintVertical_weight="1">
+        app:layout_constraintVertical_weight="1"
+        tools:background="@color/bg_highlighted">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_container"

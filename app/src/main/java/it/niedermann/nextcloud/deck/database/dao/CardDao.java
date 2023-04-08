@@ -17,23 +17,23 @@ import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 public interface CardDao extends GenericDao<Card> {
 
     String QUERY_UPCOMING_CARDS = "SELECT c.* FROM card c " +
-                "join stack s on s.localId = c.stackId " +
-                "join board b on b.localId = s.boardId " +
+            "join stack s on s.localId = c.stackId " +
+            "join board b on b.localId = s.boardId " +
             "WHERE b.archived = 0 and c.archived = 0 and b.status <> 3 and s.status <> 3 and c.status <> 3 " +
-                "and (c.deletedAt is null or c.deletedAt = 0) " +
-                "and (s.deletedAt is null or s.deletedAt = 0) " +
-                "and (b.deletedAt is null or b.deletedAt = 0) " +
-                // FUll Logic: (hasDueDate AND isIn_PRIVATE_Board) OR (isInSharedBoard AND (assignedToMe OR (hasDueDate AND noAssignees)))
-                "and (" +
-                    "(c.dueDate is not null AND NOT exists(select 1 from AccessControl ac where ac.boardId = b.localId and ac.status <> 3))" + //(hasDueDate AND isInPrivateBoard)
-                    "OR (" +
-                        "exists(select 1 from AccessControl ac where ac.boardId = b.localId and ac.status <> 3) " + //OR (isInSharedBoard AND
-                        "AND (" +
-                            "(c.dueDate is not null AND not exists(select 1 from JoinCardWithUser j where j.cardId = c.localId)) " + // hasDueDate AND noAssignees OR
-                            "OR exists(select 1 from JoinCardWithUser j where j.cardId = c.localId and j.userId in (select u.localId from user u where u.uid in (select a.userName from Account a)))" + //(assignedToMe
-                        ")" +
-                    ")" +
-                ")" +
+            "and (c.deletedAt is null or c.deletedAt = 0) " +
+            "and (s.deletedAt is null or s.deletedAt = 0) " +
+            "and (b.deletedAt is null or b.deletedAt = 0) " +
+            // FUll Logic: (hasDueDate AND isIn_PRIVATE_Board) OR (isInSharedBoard AND (assignedToMe OR (hasDueDate AND noAssignees)))
+            "and (" +
+            "(c.dueDate is not null AND NOT exists(select 1 from AccessControl ac where ac.boardId = b.localId and ac.status <> 3))" + //(hasDueDate AND isInPrivateBoard)
+            "OR (" +
+            "exists(select 1 from AccessControl ac where ac.boardId = b.localId and ac.status <> 3) " + //OR (isInSharedBoard AND
+            "AND (" +
+            "(c.dueDate is not null AND not exists(select 1 from JoinCardWithUser j where j.cardId = c.localId)) " + // hasDueDate AND noAssignees OR
+            "OR exists(select 1 from JoinCardWithUser j where j.cardId = c.localId and j.userId in (select u.localId from user u where u.uid in (select a.userName from Account a)))" + //(assignedToMe
+            ")" +
+            ")" +
+            ")" +
             "ORDER BY c.dueDate asc";
 
     @Query("SELECT * FROM card WHERE stackId = :localStackId order by `order`, createdAt asc")
@@ -53,7 +53,8 @@ public interface CardDao extends GenericDao<Card> {
     @Query("SELECT * FROM card WHERE accountId = :accountId and localId = :localId")
     FullCard getFullCardByLocalIdDirectly(final long accountId, final long localId);
 
-    @Transaction                                                                                // v not deleted!
+    @Transaction
+    // v not deleted!
     @Query("SELECT * FROM card WHERE accountId = :accountId AND archived = 0 AND stackId = :localStackId and status<>3 order by `order`, createdAt asc")
     LiveData<List<FullCard>> getFullCardsForStack(final long accountId, final long localStackId);
 
@@ -72,6 +73,7 @@ public interface CardDao extends GenericDao<Card> {
     @Transaction
     @Query("SELECT * FROM card WHERE accountId = :accountId and localId = :localCardId")
     LiveData<FullCard> getFullCardByLocalId(final long accountId, final long localCardId);
+
     @Transaction
     @Query("SELECT * FROM card WHERE accountId = :accountId and localId = :localCardId")
     LiveData<FullCardWithProjects> getFullCardWithProjectsByLocalId(final long accountId, final long localCardId);
@@ -124,4 +126,17 @@ public interface CardDao extends GenericDao<Card> {
     @Transaction
     @Query(QUERY_UPCOMING_CARDS)
     List<FullCard> getUpcomingCardsDirectly();
+
+    @Transaction
+    @Query("SELECT c.* FROM card c " +
+            "inner join Stack s on c.stackId = s.localId " +
+            "WHERE s.boardId = :localBoardId " +
+            "and (c.title like :term or c.description like :term) " +
+            "and c.accountId = :accountId " +
+            "and s.accountId = :accountId " +
+            "and c.status <> 3 " +
+            "and s.status <> 3 " +
+            "and c.archived = 0 " +
+            "order by s.`order`, c.`order`")
+    LiveData<List<FullCard>> searchCard(long accountId, long localBoardId, String term);
 }

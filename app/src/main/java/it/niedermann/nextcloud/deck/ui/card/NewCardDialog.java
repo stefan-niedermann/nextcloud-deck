@@ -65,7 +65,7 @@ public class NewCardDialog extends ThemedDialogFragment implements DialogInterfa
         }
         this.account = (Account) getArguments().getSerializable(KEY_ACCOUNT);
 
-        newCardViewModel = new ViewModelProvider(requireActivity(), new SyncViewModel.Factory(requireActivity().getApplication(), account)).get(NewCardViewModel.class);
+        newCardViewModel = new SyncViewModel.Provider(requireActivity(), requireActivity().getApplication(), account).get(NewCardViewModel.class);
         viewModel = new ViewModelProvider(requireActivity()).get(PrepareCreateViewModel.class);
     }
 

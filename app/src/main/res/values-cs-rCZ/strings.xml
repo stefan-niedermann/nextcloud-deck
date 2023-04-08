@@ -77,6 +77,7 @@
 
     <string name="add_account">Přidat účet</string>
     <string name="choose_account">Zvolte účet</string>
+    <string name="add_card">Přidat kartu</string>
     <string name="activity">Aktivita</string>
     <string name="add_list">Přidat seznam</string>
     <string name="rename_list">Přejmenovat seznam</string>
@@ -99,6 +100,7 @@
     <string name="attachments">Přílohy</string>
     <string name="no_cards">Zatím žádné karty</string>
     <string name="no_account">Nenastaven žádný účet</string>
+    <string name="account_already_added">Účet %1$s už byl přidán</string>
     <string name="account_is_getting_imported">Účet je importován</string>
     <string name="not_synced_yet">Doposud nesynchronizováno</string>
     <string name="no_lists_yet">Zatím žádné seznamy</string>
@@ -158,6 +160,7 @@
     <string name="title_is_mandatory">Je třeba zadat nadpis</string>
     <string name="provide_at_least_a_title_or_description">Zadejte alespoň nadpis nebo popis</string>
     <string name="welcome_text">Vítejte v %1$s</string>
+    <string name="welcome_text_further_accounts">Přidat další účet</string>
     <string name="maintenance_mode_explanation">Na serveru %1$s v tuto chvíli probíhá údržba. Obraťte se na jeho správce nebo to zkuste později znovu.</string>
     <string name="share_add_to_card">Přidat do karty</string>
     <string name="share_success">%1$s úspěšně přidáno do %2$s</string>
@@ -316,6 +319,7 @@
     <string name="downloads">Stažené</string>
     <string name="files">Soubory</string>
     <string name="gallery">Galerie</string>
+    <string name="simple_attach">Přiložit</string>
     <string name="add_stack_widget">Přidat ovládací prvek seznam</string>
     <string name="add_filter_widget">Přidat ovládací prvek filtru</string>
     <string name="simple_order">Pořadí</string>
@@ -337,4 +341,8 @@
     <string name="card_outdated">Obsah této karty může být neaktuální.</string>
     <string name="show_error">Zobrazit chybu</string>
     <string name="push_notification_link_empty">Kvůli známému problému v aplikaci Deck na straně serveru žel není možné tuto kartu zobrazit. Podrobnosti viz: %1$s</string>
-    </resources>
+    <string name="enter_search_term_title">Zadejte hledaný pojem</string>
+    <string name="enter_search_term_description">Pokud chcete hledat karty na této tabuli, zadejte hledaný pojem</string>
+    <string name="no_search_results_title">Nic nenalezeno</string>
+    <string name="no_search_results_description">Pro daný hledaný pojem nebylo nic nalezeno</string>
+</resources>

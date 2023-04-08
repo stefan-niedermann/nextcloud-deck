@@ -10,6 +10,7 @@ import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import it.niedermann.nextcloud.deck.databinding.ItemTipBinding;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 
 public class TipsViewHolder extends RecyclerView.ViewHolder {
     private final ItemTipBinding binding;
@@ -27,6 +28,10 @@ public class TipsViewHolder extends RecyclerView.ViewHolder {
             binding.actionButton.setVisibility(View.VISIBLE);
             binding.actionButton.setText(actionIntent.getIntExtra(INTENT_EXTRA_BUTTON_TEXT, 0));
             binding.actionButton.setOnClickListener((v) -> actionButtonClickedListener.accept(actionIntent));
+
+            final var utils = ThemeUtils.defaultBrand(itemView.getContext());
+
+            utils.material.colorMaterialButtonPrimaryOutlined(binding.actionButton);
         } else {
             binding.actionButton.setVisibility(View.GONE);
         }

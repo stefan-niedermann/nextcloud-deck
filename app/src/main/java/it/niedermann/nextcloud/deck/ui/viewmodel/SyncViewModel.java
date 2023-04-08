@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
@@ -19,6 +20,11 @@ import it.niedermann.nextcloud.deck.ui.stack.StackViewModel;
 
 /**
  * To be used for {@link ViewModel}s which need an {@link SyncRepository} instance
+ * <p>
+ * <code>
+ * new SyncViewModel.Provider(requireActivity(), requireActivity().getApplication(), account).get(CustomViewModel.class)
+ * </code>
+ * </p>
  */
 public abstract class SyncViewModel extends BaseViewModel {
 
@@ -38,7 +44,27 @@ public abstract class SyncViewModel extends BaseViewModel {
         this.syncRepository = syncRepository;
     }
 
-    public static class Factory implements ViewModelProvider.Factory {
+    public static class Provider extends ViewModelProvider {
+
+        @NonNull
+        private final Account account;
+
+        public Provider(@NonNull ViewModelStoreOwner owner, @NonNull Application application, @NonNull Account account) {
+            super(owner, new SyncViewModel.Factory(application, account));
+            this.account = account;
+        }
+
+        /**
+         * Calls {@link #get(String, Class)} with a custom key to retrieve a {@link ViewModel} instance scoped by the {@param modelClass} for the {@link Account} provided in the constructor.
+         */
+        @NonNull
+        @Override
+        public <T extends ViewModel> T get(@NonNull Class<T> modelClass) {
+            return get(modelClass.getCanonicalName() + "@" + account.getName(), modelClass);
+        }
+    }
+
+    private static class Factory implements ViewModelProvider.Factory {
 
         private final Application application;
         private final Account account;

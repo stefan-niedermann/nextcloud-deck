@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -69,7 +68,7 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        labelsViewModel = new ViewModelProvider(requireActivity(), new SyncViewModel.Factory(this.requireActivity().getApplication(), account)).get(LabelsViewModel.class);
+        labelsViewModel = new SyncViewModel.Provider(requireActivity(), requireActivity().getApplication(), account).get(LabelsViewModel.class);
         final var dialogBuilder = new MaterialAlertDialogBuilder(requireContext());
         binding = DialogBoardManageLabelsBinding.inflate(requireActivity().getLayoutInflater());
         colors = getResources().getStringArray(R.array.board_default_colors);

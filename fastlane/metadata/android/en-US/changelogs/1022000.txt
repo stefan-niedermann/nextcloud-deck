@@ -1,3 +1,4 @@
+- 🔍 Implement new SearchBar
 - 🎨 Unify material theming with Nextcloud files app
 - ↔️ Improve 'Move Card' Dialog (#972)
 - 🐞 Fix collapsed input fields of dialogs (#1385)

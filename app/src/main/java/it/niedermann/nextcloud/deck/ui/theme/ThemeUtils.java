@@ -6,6 +6,7 @@ import android.content.Context;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.nextcloud.android.common.ui.color.ColorUtil;
 import com.nextcloud.android.common.ui.theme.MaterialSchemes;
@@ -18,6 +19,7 @@ import com.nextcloud.android.common.ui.theme.utils.MaterialViewThemeUtils;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import it.niedermann.nextcloud.deck.R;
 import scheme.Scheme;
 
 public class ThemeUtils extends ViewThemeUtilsBase {
@@ -48,6 +50,10 @@ public class ThemeUtils extends ViewThemeUtilsBase {
                 MaterialSchemes.Companion.fromColor(c),
                 new ColorUtil(context)
         ));
+    }
+
+    public static ThemeUtils defaultBrand(@NonNull Context context) {
+        return of(ContextCompat.getColor(context, R.color.defaultBrand), context);
     }
 
     @Deprecated

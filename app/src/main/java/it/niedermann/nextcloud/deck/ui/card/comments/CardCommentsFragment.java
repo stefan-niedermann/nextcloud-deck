@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -36,10 +37,11 @@ import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
 import it.niedermann.nextcloud.deck.util.KeyboardUtils;
 
-public class CardCommentsFragment extends Fragment implements CommentEditedListener, CommentDeletedListener, CommentSelectAsReplyListener {
+public class CardCommentsFragment extends Fragment implements Themed, CommentEditedListener, CommentDeletedListener, CommentSelectAsReplyListener {
 
     private static final String KEY_ACCOUNT = "account";
     private FragmentCardEditTabCommentsBinding binding;
@@ -64,7 +66,7 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
         }
 
         editCardViewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
-        commentsViewModel = new ViewModelProvider(this, new SyncViewModel.Factory(requireActivity().getApplication(), account)).get(CommentsViewModel.class);
+        commentsViewModel = new SyncViewModel.Provider(this, requireActivity().getApplication(), account).get(CommentsViewModel.class);
     }
 
     @Override
@@ -93,9 +95,9 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
         binding.replyCommentCancelButton.setOnClickListener((v) -> commentsViewModel.setReplyToComment(null));
         Glide.with(binding.avatar.getContext())
                 .load(editCardViewModel.getAccount().getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details)))
+                .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.ic_person_grey600_24dp)
                 .error(R.drawable.ic_person_grey600_24dp)
-                .apply(RequestOptions.circleCropTransform())
                 .into(binding.avatar);
 
         commentsViewModel.getReplyToComment().observe(getViewLifecycleOwner(), (comment) -> {
@@ -185,9 +187,12 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
         });
     }
 
-    private void applyTheme(int color) {
+    @Override
+    public void applyTheme(@ColorInt int color) {
         final var utils = ThemeUtils.of(color, requireContext());
 
+        utils.deck.themeEmptyContentView(binding.emptyContentView);
+        utils.platform.colorViewBackground(binding.addCommentLayout);
         utils.material.themeFAB(binding.fab);
         utils.material.colorTextInputLayout(binding.messageWrapper);
     }

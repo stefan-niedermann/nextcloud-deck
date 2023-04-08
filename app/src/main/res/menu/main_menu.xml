@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/filter"
+        android:icon="@drawable/ic_filter_list_white_24dp"
+        android:title="@string/simple_filter"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/filter_active"
+        android:icon="@drawable/filter_active"
+        android:title="@string/simple_filter"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/avatar"
+        android:icon="@drawable/ic_baseline_account_circle_24"
+        android:title="@string/choose_account"
+        app:showAsAction="ifRoom" />
+</menu>

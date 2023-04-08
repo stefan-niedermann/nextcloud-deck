@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.theme;
 
 import static com.nextcloud.android.common.ui.util.ColorStateListUtilsKt.buildColorStateList;
+import static com.nextcloud.android.common.ui.util.PlatformThemeUtil.isDarkMode;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 import android.content.Context;
@@ -24,6 +25,8 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.widget.TextViewCompat;
 
+import com.google.android.material.search.SearchBar;
+import com.google.android.material.search.SearchView;
 import com.google.android.material.tabs.TabLayout;
 import com.nextcloud.android.common.ui.theme.MaterialSchemes;
 import com.nextcloud.android.common.ui.theme.ViewThemeUtilsBase;
@@ -36,6 +39,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.ui.view.EmptyContentView;
 import kotlin.Pair;
 
 /**
@@ -58,19 +62,48 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
     }
 
     /**
-     * Convenience method for calling {@link #themeTabLayout(TabLayout, int)} with the primary color
+     * Themes the <code>tabLayout</code> using {@link MaterialViewThemeUtils#themeTabLayout(TabLayout)}
+     * and then applies <code>null</code> as {@link TabLayout#setBackground(Drawable)}.
      */
-    public void themeTabLayout(@NonNull TabLayout tabLayout) {
-        themeTabLayout(tabLayout, ContextCompat.getColor(tabLayout.getContext(), R.color.primary));
+    public void themeTabLayoutOnTransparent(@NonNull TabLayout tabLayout) {
+        this.material.themeTabLayout(tabLayout);
+        tabLayout.setBackground(null);
     }
 
-    /**
-     * Themes the <code>tabLayout</code> using {@link MaterialViewThemeUtils#themeTabLayout(TabLayout)}
-     * and then applies <code>backgroundColor</code>.
-     */
-    public void themeTabLayout(@NonNull TabLayout tabLayout, @ColorInt int backgroundColor) {
-        this.material.themeTabLayout(tabLayout);
-        tabLayout.setBackgroundColor(backgroundColor);
+    public void themeSearchBar(@NonNull SearchBar searchBar) {
+        withScheme(searchBar.getContext(), scheme -> {
+            final var colorStateList = ColorStateList.valueOf(
+                    isDarkMode(searchBar.getContext())
+                            ? scheme.getSurface()
+                            : scheme.getSurfaceVariant());
+
+            searchBar.setBackgroundTintList(colorStateList);
+
+            final var menu = searchBar.getMenu();
+            for (int i = 0; i < menu.size(); i++) {
+                if (menu.getItem(i).getItemId() != R.id.avatar) {
+                    platform.colorToolbarMenuIcon(searchBar.getContext(), menu.getItem(i));
+                }
+            }
+
+            return searchBar;
+        });
+    }
+
+    public void themeEmptyContentView(@NonNull EmptyContentView emptyContentView) {
+        withScheme(emptyContentView.getContext(), scheme -> {
+            platform.colorImageView(emptyContentView.getImage(), ColorRole.SURFACE_VARIANT);
+            platform.colorTextView(emptyContentView.getTitle(), ColorRole.ON_BACKGROUND);
+            platform.colorTextView(emptyContentView.getDescription(), ColorRole.ON_BACKGROUND);
+            return emptyContentView;
+        });
+    }
+
+    public void themeSearchView(@NonNull SearchView searchView) {
+        withScheme(searchView.getContext(), scheme -> {
+            searchView.setBackgroundTintList(ColorStateList.valueOf(scheme.getSurface()));
+            return searchView;
+        });
     }
 
     public Drawable themeNavigationViewIcon(@NonNull Context context, @DrawableRes int icon) {
@@ -107,14 +140,6 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
         getStateDrawable(selectedCheck, android.R.attr.state_selected, R.id.foreground)
                 .ifPresent(drawable -> platform.tintDrawable(context, drawable, ColorRole.ON_PRIMARY));
         getStateDrawable(selectedCheck, android.R.attr.state_selected, R.id.background)
-                .ifPresent(drawable -> platform.tintDrawable(context, drawable, ColorRole.PRIMARY));
-    }
-
-    /**
-     * Use <strong>only</strong> for <code>@drawable/filter</code>
-     */
-    public void themeFilterIndicator(@NonNull Context context, @NonNull Drawable filter) {
-        getStateDrawable(filter, android.R.attr.state_activated, R.id.indicator)
                 .ifPresent(drawable -> platform.tintDrawable(context, drawable, ColorRole.PRIMARY));
     }
 

@@ -10,10 +10,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.ActivityUpcomingCardsBinding;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -22,9 +24,13 @@ import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.movecard.MoveCardListener;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
 
-public class UpcomingCardsActivity extends AppCompatActivity implements MoveCardListener {
+public class UpcomingCardsActivity extends AppCompatActivity implements Themed, MoveCardListener {
 
+    private static final String KEY_ACCOUNT = "account";
+    private Account account;
     private UpcomingCardsViewModel viewModel;
     private ActivityUpcomingCardsBinding binding;
 
@@ -34,11 +40,18 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
 
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
 
+        if (!getIntent().hasExtra(KEY_ACCOUNT)) {
+            throw new IllegalArgumentException(KEY_ACCOUNT + " must be provided");
+        }
+
+        account = (Account) getIntent().getSerializableExtra(KEY_ACCOUNT);
+
         binding = ActivityUpcomingCardsBinding.inflate(getLayoutInflater());
         viewModel = new ViewModelProvider(this).get(UpcomingCardsViewModel.class);
 
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
+        applyTheme(account.getColor());
 
         binding.loadingSpinner.show();
 
@@ -57,7 +70,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
                         ExceptionDialogFragment.newInstance(e, a).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                     }
                 },
-                (fullCard) -> viewModel.archiveCard(fullCard, new IResponseCallback<>() {
+                fullCard -> viewModel.archiveCard(fullCard, new IResponseCallback<>() {
                     @Override
                     public void onResponse(FullCard response) {
                         DeckLog.info("Successfully archived", Card.class.getSimpleName(), fullCard.getCard().getTitle());
@@ -69,7 +82,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
                         runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                     }
                 }),
-                (card) -> viewModel.deleteCard(card, new IResponseCallback<>() {
+                card -> viewModel.deleteCard(card, new IResponseCallback<>() {
                     @Override
                     public void onResponse(Void response) {
                         DeckLog.info("Successfully deleted card", card.getTitle());
@@ -105,8 +118,9 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
     }
 
     @NonNull
-    public static Intent createIntent(@NonNull Context context) {
+    public static Intent createIntent(@NonNull Context context, @NonNull Account account) {
         return new Intent(context, UpcomingCardsActivity.class)
+                .putExtra(KEY_ACCOUNT, account)
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
@@ -126,5 +140,14 @@ public class UpcomingCardsActivity extends AppCompatActivity implements MoveCard
                 }
             }
         });
+    }
+
+    @Override
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, this);
+
+        utils.platform.colorCircularProgressBar(binding.loadingSpinner, ColorRole.PRIMARY);
+        utils.platform.themeStatusBar(this);
+        utils.material.themeToolbar(binding.toolbar);
     }
 }

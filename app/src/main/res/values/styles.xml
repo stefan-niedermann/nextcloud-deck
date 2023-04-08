@@ -2,15 +2,15 @@
 
     <style name="BaseTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">?android:colorPrimary</item>
         <item name="colorAccent">@color/accent</item>
 
-        <item name="android:windowBackground">?attr/colorPrimary</item>
-        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:windowBackground">@color/bg_default</item>
+        <item name="android:statusBarColor">@color/bg_default</item>
+        <item name="android:navigationBarColor">@color/bg_default</item>
         <item name="android:windowLightStatusBar">@bool/isDayMode</item>
         <item name="android:colorControlNormal">?attr/colorAccent</item>
         <item name="android:colorControlActivated">?attr/colorAccent</item>
-        <item name="android:textColorLink">?android:colorAccent</item>
+        <item name="android:textColorLink">?attr/colorAccent</item>
         <item name="android:textColorHighlight">@color/defaultTextHighlightBackground</item>
 
         <!-- Workaround: Preferences Dialogs are using AlertDialogs instead of MaterialAlertDialogs. -->
@@ -18,7 +18,6 @@
         <item name="alertDialogTheme">@style/PreferencesAlertDialogTheme</item>
 
         <item name="materialAlertDialogTheme">@style/MaterialAlertDialogTheme</item>
-        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
 
         <item name="toolbarStyle">@style/toolbarStyle</item>
         <item name="chipGroupStyle">@style/chipGroupStyle</item>
@@ -47,14 +46,6 @@
         <item name="android:textColor">?attr/colorAccent</item>
     </style>
 
-    <style name="AppBottomSheetDialogTheme" parent="Theme.Material3.DayNight.BottomSheetDialog">
-        <item name="android:navigationBarColor">@color/primary</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowIsFloating">false</item>
-
-        <item name="bottomSheetStyle">@style/bottomSheetStyle</item>
-    </style>
-
     <style name="chipGroupStyle" parent="Widget.Material3.ChipGroup">
         <item name="chipSpacingVertical">0dp</item>
     </style>
@@ -64,12 +55,8 @@
         <item name="chipCornerRadius">40dp</item>
     </style>
 
-    <style name="bottomSheetStyle" parent="Widget.Material3.BottomSheet.Modal">
-        <item name="android:background">@drawable/bottom_sheet_rounded</item>
-    </style>
-
     <style name="toolbarStyle" parent="@style/Widget.Material3.Toolbar">
-        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:background">?android:windowBackground</item>
     </style>
 
     <style name="tabStyle" parent="Widget.Material3.TabLayout">
@@ -86,11 +73,6 @@
         <item name="android:focusable">true</item>
         <item name="cardElevation">2dp</item>
         <item name="cardBackgroundColor">@color/bg_card</item>
-    </style>
-
-    <style name="textInputLayoutStyle" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense">
-        <item name="boxStrokeColor">@color/text_input_layout_color</item>
-        <item name="hintTextColor">@color/text_input_layout_color</item>
     </style>
 
     <style name="textAppearanceHeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">

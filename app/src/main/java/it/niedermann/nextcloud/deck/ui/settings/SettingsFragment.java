@@ -1,25 +1,29 @@
 package it.niedermann.nextcloud.deck.ui.settings;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import java.util.stream.Stream;
 
-import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.remote.SyncWorker;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedSwitchPreference;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
+    private static final String KEY_ACCOUNT = "account";
+    private Account account;
     private PreferencesViewModel preferencesViewModel;
     private ThemedSwitchPreference wifiOnlyPref;
     private ThemedSwitchPreference compactPref;
@@ -27,6 +31,18 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private ThemedSwitchPreference compressImageAttachmentsPref;
     private ThemedSwitchPreference debuggingPref;
     private ThemedSwitchPreference eTagPref;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        final var args = getArguments();
+        if (args == null || !args.containsKey(KEY_ACCOUNT)) {
+            throw new IllegalArgumentException(KEY_ACCOUNT + " must be provided");
+        }
+
+        account = (Account) args.getSerializable(KEY_ACCOUNT);
+    }
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -77,15 +93,18 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        new ReactiveLiveData<>(preferencesViewModel.getCurrentAccountId$())
-                .flatMap(preferencesViewModel::getAccountColor)
-                .observe(getViewLifecycleOwner(), color -> Stream.of(
-                                wifiOnlyPref,
-                                compactPref,
-                                coverImagesPref,
-                                compressImageAttachmentsPref,
-                                debuggingPref,
-                                eTagPref)
-                        .forEach(pref -> pref.applyTheme(color)));
+        Stream.of(wifiOnlyPref, compactPref, coverImagesPref, compressImageAttachmentsPref, debuggingPref, eTagPref)
+                .forEach(pref -> pref.applyTheme(account.getColor()));
+    }
+
+    @NonNull
+    public static Fragment newInstance(@NonNull Account account) {
+        final var fragment = new SettingsFragment();
+
+        final var args = new Bundle();
+        args.putSerializable(KEY_ACCOUNT, account);
+        fragment.setArguments(args);
+
+        return fragment;
     }
 }

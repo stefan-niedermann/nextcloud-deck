@@ -76,7 +76,7 @@
     <string name="card_not_found_message">カードが見つかりませんでした。最近削除されたのかもしれません。</string>
 
     <string name="add_account">アカウントを追加</string>
-    <string name="choose_account">アカウント選択</string>
+    <string name="choose_account">アカウントを選択</string>
     <string name="add_card">カードを追加</string>
     <string name="activity">アクティビティ</string>
     <string name="add_list">リストを追加</string>
@@ -100,6 +100,7 @@
     <string name="attachments">添付ファイル</string>
     <string name="no_cards">まだカードはありません</string>
     <string name="no_account">アカウントが設定されていません。</string>
+    <string name="account_already_added">アカウント名%1$sは、すでに追加されています。</string>
     <string name="account_is_getting_imported">アカウントをインポート中です</string>
     <string name="not_synced_yet">未同期です</string>
     <string name="no_lists_yet">まだリストがありません</string>
@@ -153,6 +154,7 @@
     <string name="title_is_mandatory">タイトルは必要です</string>
     <string name="provide_at_least_a_title_or_description">少なくともタイトルまたは説明を入力してください</string>
     <string name="welcome_text">%1$sにようこそ</string>
+    <string name="welcome_text_further_accounts">別のアカウントを追加</string>
     <string name="maintenance_mode_explanation">サーバー%1$sは現在メンテナンスモードです。管理者に問い合わせるか後で試してください。</string>
     <string name="share_add_to_card">カードに追加</string>
     <string name="share_success">%1$sを%2$sに追加できました</string>
@@ -306,6 +308,7 @@
     <string name="downloads">ダウンロード</string>
     <string name="files">ファイル</string>
     <string name="gallery">ギャラリー</string>
+    <string name="simple_attach">添付</string>
     <string name="add_stack_widget">リストのウィジェットを追加</string>
     <string name="add_filter_widget">フィルターのウィジェットを追加</string>
     <string name="simple_order">並び替え</string>
@@ -327,4 +330,8 @@
     <string name="card_outdated">このカードのコンテンツは古くなっています。</string>
     <string name="show_error">エラーを表示</string>
     <string name="push_notification_link_empty">Deck Webアプリの既知の問題により、このカードを表示することができません。詳しい情報は、次をご確認ください: %1$s</string>
-    </resources>
+    <string name="enter_search_term_title">単語を入力して検索</string>
+    <string name="enter_search_term_description">単語を入力してボードのカードを検索する</string>
+    <string name="no_search_results_title">検索結果なし</string>
+    <string name="no_search_results_description">入力された単語からは、結果が見つかりませんでした。</string>
+</resources>

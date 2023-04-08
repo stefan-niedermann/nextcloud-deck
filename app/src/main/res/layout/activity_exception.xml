@@ -6,31 +6,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:title="@string/simple_exception" />
-
-    </com.google.android.material.appbar.AppBarLayout>
+        android:layout_height="wrap_content"
+        tools:title="@string/simple_exception" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/spacer_2x">
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/message"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/hint_error_appeared"
-            app:drawableEndCompat="@drawable/ic_bug_report_black_24dp"
-            tools:ignore="HardcodedText" />
+            app:drawableEndCompat="@drawable/ic_bug_report_black_24dp" />
 
     </LinearLayout>
 
@@ -95,8 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacer_1x"
             android:layout_weight=".5"
-            android:text="@string/simple_close"
-            android:textColor="@color/defaultBrand" />
+            android:text="@string/simple_close" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/copy"
@@ -105,8 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacer_1x"
             android:layout_weight=".5"
-            android:text="@string/simple_copy"
-            app:backgroundTint="@color/defaultBrand" />
+            android:text="@string/simple_copy" />
 
     </LinearLayout>
 </LinearLayout>

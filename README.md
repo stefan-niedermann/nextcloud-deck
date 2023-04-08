@@ -49,7 +49,7 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 * [Pick a good first issue](https://github.com/stefan-niedermann/nextcloud-deck/labels/good%20first%20issue) :notebook:
 * Create a [Pull Request](https://opensource.guide/how-to-contribute/#opening-a-pull-request)
 * Help increasing the test coverage by contributing unit tests
-* Translate the app on [Transifex](https://www.transifex.com/nextcloud/nextcloud/android-deck/)
+* Translate the app on [Transifex](https://app.transifex.com/nextcloud/nextcloud/android-deck/)
 * Send me a bottle of your favorite beer :beers: :wink:
 
 ## 🔗 Requirements

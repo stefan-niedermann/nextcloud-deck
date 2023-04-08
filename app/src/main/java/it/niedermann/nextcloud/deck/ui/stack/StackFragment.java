@@ -19,6 +19,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nextcloud.android.common.ui.theme.utils.ColorRole;
+
 import it.niedermann.android.crosstabdnd.DragAndDropTab;
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -37,6 +39,7 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.filter.FilterViewModel;
 import it.niedermann.nextcloud.deck.ui.movecard.MoveCardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.movecard.MoveCardListener;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.Themed;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
 import it.niedermann.nextcloud.deck.util.CardUtil;
@@ -90,9 +93,7 @@ public class StackFragment extends Fragment implements Themed, DragAndDropTab<Ca
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = requireActivity();
         binding = FragmentStackBinding.inflate(inflater, container, false);
-        stackViewModel = new ViewModelProvider(requireActivity(), new SyncViewModel.Factory(this.requireActivity().getApplication(), account)).get(StackViewModel.class);
-
-        applyTheme(account.getColor());
+        stackViewModel = new SyncViewModel.Provider(requireActivity(), requireActivity().getApplication(), account).get(StackViewModel.class);
 
         final var filterViewModel = new ViewModelProvider(activity).get(FilterViewModel.class);
 
@@ -123,6 +124,8 @@ public class StackFragment extends Fragment implements Themed, DragAndDropTab<Ca
 
         adapter = new CardAdapter(activity, this, selectCardListener);
         binding.recyclerView.setAdapter(adapter);
+
+        stackViewModel.getBoardColor$(account.getId(), boardId).observe(getViewLifecycleOwner(), this::applyTheme);
 
         new ReactiveLiveData<>(stackViewModel.getAccount(account.getId()))
                 .tap(() -> binding.loadingSpinner.show())
@@ -292,7 +295,10 @@ public class StackFragment extends Fragment implements Themed, DragAndDropTab<Ca
 
     @Override
     public void applyTheme(int color) {
-        binding.emptyContentView.applyTheme(color);
+        final var utils = ThemeUtils.of(color, requireContext());
+
+        utils.platform.colorCircularProgressBar(binding.loadingSpinner, ColorRole.PRIMARY);
+        utils.deck.themeEmptyContentView(binding.emptyContentView);
     }
 
     public static Fragment newInstance(@NonNull Account account, long boardId, long stackId) {

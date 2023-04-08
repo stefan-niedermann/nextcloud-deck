@@ -77,6 +77,7 @@
 
     <string name="add_account">Добавяне на профил</string>
     <string name="choose_account">Изберете профил</string>
+    <string name="add_card">Добави карта</string>
     <string name="activity">Активност</string>
     <string name="add_list">Добавяне на списък</string>
     <string name="rename_list">Преименуване на списък</string>
@@ -99,6 +100,7 @@
     <string name="attachments">Прикачени файлове</string>
     <string name="no_cards">Все още няма карти</string>
     <string name="no_account">Няма конфигуриран профил</string>
+    <string name="account_already_added">Профилът %1$s, вече е добавен</string>
     <string name="account_is_getting_imported">Профилът се импортира</string>
     <string name="not_synced_yet">Все още не е синхронизиран</string>
     <string name="no_lists_yet">Все още няма списъци</string>
@@ -154,6 +156,7 @@
     <string name="title_is_mandatory">Заглавието е задължително/нужно/</string>
     <string name="provide_at_least_a_title_or_description">Посочете поне заглавие или описание</string>
     <string name="welcome_text">Добре дошли на%1$s</string>
+    <string name="welcome_text_further_accounts">Добавяне на друг профил</string>
     <string name="maintenance_mode_explanation">Сървърът %1$s в момента е в режим на поддръжка. Моля, свържете се с вашият администратор или опитайте отново по -късно.</string>
     <string name="share_add_to_card">Добавяне към карта</string>
     <string name="share_success">Успешно добавен %1$sкъм%2$s</string>
@@ -308,6 +311,7 @@
     <string name="downloads">Изтегляния</string>
     <string name="files">Файлове</string>
     <string name="gallery">Галерия</string>
+    <string name="simple_attach">Прикачване</string>
     <string name="add_stack_widget">Добавяне на списък на изпълними модули</string>
     <string name="add_filter_widget">Добавяне на филтър на изпълними модули</string>
     <string name="simple_order">Ред/поръчка/</string>
@@ -329,4 +333,8 @@
     <string name="card_outdated">Съдържанието на тази карта може да е остаряло.</string>
     <string name="show_error">Показване на грешка</string>
     <string name="push_notification_link_empty">Поради известен проблем в уеб приложението Deck, за съжаление не можем да покажем тази карта. За повече информация погледнете: %1$s</string>
-    </resources>
+    <string name="enter_search_term_title">Въвеждане на термин за търсене</string>
+    <string name="enter_search_term_description">Въвеждане на термин за търсене, за да намерите карти в този панел</string>
+    <string name="no_search_results_title">Няма резултати от търсенето</string>
+    <string name="no_search_results_description">Не са намерени резултати за зададения термин за търсене</string>
+</resources>

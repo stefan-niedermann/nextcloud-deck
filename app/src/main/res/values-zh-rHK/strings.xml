@@ -100,6 +100,7 @@
     <string name="attachments">附件</string>
     <string name="no_cards">尚無卡片</string>
     <string name="no_account">沒有已設定的賬戶</string>
+    <string name="account_already_added">賬戶 %1$s 已添加</string>
     <string name="account_is_getting_imported">已匯入賬戶</string>
     <string name="not_synced_yet">尚未同步完成</string>
     <string name="no_lists_yet">尚無清單</string>
@@ -153,6 +154,7 @@
     <string name="title_is_mandatory">標題為必填</string>
     <string name="provide_at_least_a_title_or_description">提供至少一個標題或描述</string>
     <string name="welcome_text">歡迎來到 %1$s</string>
+    <string name="welcome_text_further_accounts">新增另一個賬號</string>
     <string name="maintenance_mode_explanation">伺服器 %1$s 當前處於維護模式。請與您的管理員聯繫或再試一次。</string>
     <string name="share_add_to_card">加到 card</string>
     <string name="share_success">成功新增 %1$s 至 %2$s</string>
@@ -305,6 +307,7 @@
     <string name="downloads">下載</string>
     <string name="files">檔案</string>
     <string name="gallery">圖片庫</string>
+    <string name="simple_attach">附帶</string>
     <string name="add_stack_widget">添加列表小工具</string>
     <string name="add_filter_widget">添加過濾小工具</string>
     <string name="simple_order">排序</string>
@@ -326,4 +329,8 @@
     <string name="card_outdated">此卡片的內容可能已過時。</string>
     <string name="show_error">顯示錯誤</string>
     <string name="push_notification_link_empty">由於 Deck 網絡應用程式中的一個已知問題，我們無法顯示此卡。 有關更多資訊，請參閱：%1$s</string>
-    </resources>
+    <string name="enter_search_term_title">輸入搜尋字詞</string>
+    <string name="enter_search_term_description">輸入要在此面板中尋找卡片的字詞</string>
+    <string name="no_search_results_title">無搜尋結果</string>
+    <string name="no_search_results_description">我們無法根據您指定的搜尋字詞找到任何結果</string>
+</resources>

@@ -338,4 +338,5 @@
     <string name="card_outdated">Данные этой карты возможно неактуальны.</string>
     <string name="show_error">Показать ошибку</string>
     <string name="push_notification_link_empty">Из-за известной проблемы в веб-приложении Deck мы, к сожалению, не можем отобразить эту карту. Для получения дополнительной информации см: %1$s </string>
+    <string name="no_search_results_title">Ничего не найдено</string>
     </resources>

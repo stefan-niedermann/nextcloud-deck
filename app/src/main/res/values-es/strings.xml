@@ -77,6 +77,7 @@
 
     <string name="add_account">Añadir cuenta</string>
     <string name="choose_account">Elija una cuenta</string>
+    <string name="add_card">Añadir tarjeta</string>
     <string name="activity">Actividad</string>
     <string name="add_list">Agregar lista</string>
     <string name="rename_list">Renombrar lista</string>
@@ -99,6 +100,7 @@
     <string name="attachments">Adjuntos</string>
     <string name="no_cards">Todavía no hay tarjetas</string>
     <string name="no_account">No hay cuenta configurada</string>
+    <string name="account_already_added">La cuenta %1$s ya había sido añadida</string>
     <string name="account_is_getting_imported">La cuenta está siendo importada</string>
     <string name="not_synced_yet">No sincronizado todavía</string>
     <string name="no_lists_yet">Aún no hay listas</string>
@@ -156,6 +158,7 @@
     <string name="title_is_mandatory">Se requiere un título</string>
     <string name="provide_at_least_a_title_or_description">Indique al menos un título o una descripción</string>
     <string name="welcome_text">Bienvenido a %1$s</string>
+    <string name="welcome_text_further_accounts">Añadir otra cuenta</string>
     <string name="maintenance_mode_explanation">El servidor %1$s está actualmente en modo de mantenimiento. Por favor, contacta con tu administrador o vuelve a intentarlo más tarde.</string>
     <string name="share_add_to_card">Añadir a la tarjeta</string>
     <string name="share_success">Añadido satisfactoriamente %1$s a %2$s</string>
@@ -312,6 +315,7 @@
     <string name="downloads">Descargas</string>
     <string name="files">Archivos</string>
     <string name="gallery">Galería</string>
+    <string name="simple_attach">Adjuntar</string>
     <string name="add_stack_widget">Agregar lista de widget</string>
     <string name="add_filter_widget">Añadir filtro de widget</string>
     <string name="simple_order">Ordenar</string>
@@ -333,4 +337,8 @@
     <string name="card_outdated">El contenido de esta tarjeta puede estar desactualizado.</string>
     <string name="show_error">Mostrar error</string>
     <string name="push_notification_link_empty">Debido a un error conocido en la aplicación web Deck lamentablemente no es posible mostrar esta tarjeta. Para más información ver: %1$s</string>
-    </resources>
+    <string name="enter_search_term_title">Ingrese término de búsqueda</string>
+    <string name="enter_search_term_description">Ingrese término de búsqueda para conseguir tarjetas en este tablero</string>
+    <string name="no_search_results_title">No hay resultados de búsqueda</string>
+    <string name="no_search_results_description">No hemos conseguido ningún resultado para el término de búsqueda ingresado</string>
+</resources>
