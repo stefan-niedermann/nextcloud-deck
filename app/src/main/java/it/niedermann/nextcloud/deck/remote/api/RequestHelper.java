@@ -22,7 +22,7 @@ public class RequestHelper {
         }
 
         final ResponseConsumer<T> cb = new ResponseConsumer<>(callback);
-        ExecutorServiceProvider.getExecutorService().submit(() -> call.getObservableFromCall().enqueue(cb));
+        ExecutorServiceProvider.getLinkedBlockingQueueExecutor().submit(() -> call.getObservableFromCall().enqueue(cb));
 //                .subscribeOn(Schedulers.from(ExecutorServiceProvider.getExecutorService()))
 //                .subscribe(cb, cb.getExceptionConsumer());
     }
@@ -41,7 +41,7 @@ public class RequestHelper {
 
         @Override
         public void onResponse(Call<T> call, Response<T> response) {
-            ExecutorServiceProvider.getExecutorService().submit( () -> {
+            ExecutorServiceProvider.getLinkedBlockingQueueExecutor().submit( () -> {
                 if(response.isSuccessful()) {
                     T responseObject = response.body();
                     callback.fillAccountIDs(responseObject);
@@ -54,7 +54,7 @@ public class RequestHelper {
 
         @Override
         public void onFailure(Call<T> call, Throwable t) {
-            ExecutorServiceProvider.getExecutorService().submit( () -> {
+            ExecutorServiceProvider.getLinkedBlockingQueueExecutor().submit( () -> {
                 DeckLog.logError(t);
                 callback.onError(ServerCommunicationErrorHandler.translateError(t));
             });
