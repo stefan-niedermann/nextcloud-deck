@@ -42,17 +42,14 @@ public class RequestHelper {
         }
 
         @Override
-        public void onResponse(Call<T> call, Response<T> response) {
-            ExecutorServiceProvider.getLinkedBlockingQueueExecutor().submit( () -> {
-                if(response.isSuccessful()) {
-                    T responseObject = response.body();
-                    callback.fillAccountIDs(responseObject);
-                    callback.onResponseWithHeaders(responseObject, response.headers());
-                } else {
-
-                    onFailure(call, new NextcloudHttpRequestFailedException(response.code(), buildCause(call, response)));
-                }
-            });
+        public void onResponse(@NonNull Call<T> call, Response<T> response) {
+            if(response.isSuccessful()) {
+                T responseObject = response.body();
+                callback.fillAccountIDs(responseObject);
+                callback.onResponseWithHeaders(responseObject, response.headers());
+            } else {
+                onFailure(call, new NextcloudHttpRequestFailedException(response.code(), buildCause(call, response)));
+            }
         }
 
         private RuntimeException buildCause(Call<T> call, Response<T> response){
@@ -74,11 +71,9 @@ public class RequestHelper {
         }
 
         @Override
-        public void onFailure(Call<T> call, Throwable t) {
-            ExecutorServiceProvider.getLinkedBlockingQueueExecutor().submit( () -> {
-                DeckLog.logError(t);
-                callback.onError(ServerCommunicationErrorHandler.translateError(t));
-            });
+        public void onFailure(@NonNull Call<T> call, Throwable t) {
+            DeckLog.logError(t);
+            callback.onError(ServerCommunicationErrorHandler.translateError(t));
         }
     }
 }
