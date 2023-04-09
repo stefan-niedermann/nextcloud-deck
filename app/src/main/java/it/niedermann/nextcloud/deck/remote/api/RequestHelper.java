@@ -6,6 +6,7 @@ import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
+import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,9 +48,28 @@ public class RequestHelper {
                     callback.fillAccountIDs(responseObject);
                     callback.onResponseWithHeaders(responseObject, response.headers());
                 } else {
-                    onFailure(call, new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("HTTP StatusCode wasn't 2xx")));
+
+                    onFailure(call, new NextcloudHttpRequestFailedException(response.code(), buildCause(call, response)));
                 }
             });
+        }
+
+        private RuntimeException buildCause(Call<T> call, Response<T> response){
+            Request request = call.request();
+            String url = request.url().redact();
+            String method = request.method();
+            int code = response.code();
+            String responseBody = "<empty>";
+            try ( var body = response.errorBody()) {
+                if (body != null) {
+                    responseBody = body.string();
+                }
+            } catch (Exception e) {
+                responseBody = "<unable to build response body: "+e.getMessage()+">";
+            }
+            return new RuntimeException("HTTP StatusCode wasn't 2xx:\n" +
+                    "Got [HTTP " + code + "] for Call [" + method + " " + url + "] with Message:\n" +
+                    "[" + responseBody + "]");
         }
 
         @Override
