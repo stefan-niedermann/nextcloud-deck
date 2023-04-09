@@ -225,7 +225,6 @@
     <string name="error_dialog_tip_sync_only_on_wifi">Se você habilitou a configuração \"Sincronizar apenas em Wi-Fi\", você só poderá sincronizar quando estiver conectado a um Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Parece que algo está errado com seu aplicativo Nextcloud. Tente forçar a parada de ambos, o aplicativo Nextcloud e o Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Se forçar a parada deles não resolver, tente limpar o armazenamento dos dois aplicativos.</string>
-    <string name="error_dialog_timeout_instance">Não houve resposta do seu servidor no tempo especificado. Verifique se sua instância está funcionando bem.</string>
     <string name="error_dialog_timeout_toggle">Verifique sua conexão de rede. Às vezes, ativar e desativar os dados móveis ou o Wi-Fi novamente pode ajudar.</string>
     <string name="error_dialog_check_server">A resposta do seu servidor não estava correta. Verifique se você pode acessar o aplicativo Deck pela interface web.</string>
     <string name="error_dialog_check_server_logs">Há um problema com sua configuração do Nextcloud. Por favor, dê uma olhada nos arquivos de log do servidor.</string>
@@ -340,5 +339,4 @@
     <string name="enter_search_term_title">Insira o termo de pesquisa</string>
     <string name="enter_search_term_description">Digite o termo de pesquisa para encontrar cartões neste quadro</string>
     <string name="no_search_results_title">Nenhum resultado encontrado</string>
-    <string name="no_search_results_description">Não encontramos nenhum resultado para o termo de pesquisa fornecido</string>
-</resources>
+    </resources>

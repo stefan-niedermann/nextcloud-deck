@@ -225,7 +225,6 @@
     <string name="error_dialog_tip_sync_only_on_wifi">Če je izbrana možnost »Usklajuj le prek povezave Wi-Fi«, je usklajevanje mogoče izključno ob uporabi povezave Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Kaže, da je nekaj narobe s programom Nextcloud. Poskusite vsiljeno zaustaviti programa Nextcloud in Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Vsiljeno zaustavljanje ni imelo ustreznega učinka. Poskusite lahko še počistiti podatke shrambe obeh programov.</string>
-    <string name="error_dialog_timeout_instance">V podanem času program ni pridobil ustreznega odziva strežnika. Prepričajte se, da program deluje pravilno.</string>
     <string name="error_dialog_timeout_toggle">Preverite omrežno povezavo. Včasih preklapljanje med mobilnimi in Wi-Fi podatki razreši težavo.</string>
     <string name="error_dialog_check_server">Prejet je napačen odziv s strežnika. Preverite, ali imate dostop do programa Deck prek spletnega vmesnika.</string>
     <string name="error_dialog_check_server_logs">Prišlo je do napake z namestitvijo Nextcloud. Preverite zapis dnevnika na strežniku.</string>

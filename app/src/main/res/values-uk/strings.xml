@@ -214,7 +214,6 @@
     <string name="error_dialog_tip_clear_storage">Ви можете очистити сховище, відкривши інформацію про програму та вибравши Пам’ять → Очистити пам’ять.</string>
     <string name="error_dialog_tip_offline_connection_refused">Відмовлено у з\'єднанні. Будь ласка, перевірте, чи доступний ваш сервер з бравзера.</string>
     <string name="error_dialog_tip_files_delete_storage">Якщо примусове їх завершення не допомагає, спробуйте очистити сховище обох програм.</string>
-    <string name="error_dialog_timeout_instance">За відведений час відповіді від вашого сервера не надійшло. Переконайтесь, що ваш сервер працює добре.</string>
     <string name="error_dialog_check_server_logs">Виникла проблема з налаштуванням Nextcloud. Будь ласка, подивіться файли журналу сервера.</string>
     <string name="error_dialog_check_maintenance">Будь ласка, перевірте, чи ваш сервер Nextcloud наразі не перебуває в режимі обслуговування.</string>
     <string name="error_dialog_insufficient_storage">Ваш сервер Nextcloud не має вільного місця. Будь ласка видаліть деякі файлі, щоб синхронізувати ваші локальні зміни з вашим хмарним сховищем.</string>

@@ -219,7 +219,6 @@
     <string name="error_dialog_tip_sync_only_on_wifi">如果您开启了“仅在Wi-Fi上同步”设置，则只有连接到Wi-Fi时才能进行同步。 </string>
     <string name="error_dialog_tip_files_force_stop">您的 Nextcloud 应用似乎出现了问题。请尝试强行停止 Nextcloud 和 Nextcloud 看板两个应用。</string>
     <string name="error_dialog_tip_files_delete_storage">如果强行停止没有效果，您可以尝试清除两个应用的存储空间。</string>
-    <string name="error_dialog_timeout_instance">服务器没有在规定的时间内回答。请确保您的服务器实例在正常运行。</string>
     <string name="error_dialog_timeout_toggle">检查您的网络连接。有时候关闭并重新开启移动数据或 Wi-Fi 有帮助。</string>
     <string name="error_dialog_check_server">服务器的回答不正确。请检查您是否能通过网页访问看板应用。</string>
     <string name="error_dialog_check_server_logs">您的 Nextcloud 配置有一些问题。请查看服务器日志。</string>

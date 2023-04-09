@@ -229,7 +229,6 @@
     <string name="error_dialog_tip_sync_only_on_wifi">إذا قمت بتعطيل إعدادات \"التزامن فقط على شبكة الإنترنت Wi-Fi \" سيمكنك التزامن فقط عندما تكون متصلًا بشبكة الإنترنت. </string>
     <string name="error_dialog_tip_files_force_stop">يبدو أن هناك خطأ ما في تطبيق نكست كلاود الخاص بك. يرجى محاولة فرض إيقاف كلا من تطبيق نكست كلاود وتطبيق Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">إذا لم يساعد إيقافهم بالقوة ، فيمكنك محاولة مسح تخزين كلا التطبيقين.</string>
-    <string name="error_dialog_timeout_instance">لم يكن هناك استجابة من الخادم الخاص بك في الوقت المحدد. يرجى التأكد من أن الخادم الخاص بك يعمل بشكل جيد.</string>
     <string name="error_dialog_timeout_toggle">تحقق من اتصالك بالشبكة. يمكن أن يساعد إيقاف بيانات الهاتف المحمول أو إيقاف تشغيل Wi-Fi وتشغيله مرة أخرى أحيانا.</string>
     <string name="error_dialog_check_server">لم تكن استجابة الخادم الخاص بك صحيحة. يرجى التحقق مما إذا كان يمكنك الوصول إلى تطبيق Deck عبر واجهة الويب.</string>
     <string name="error_dialog_check_server_logs">هناك مشكلة في إعداد Nextcloud الخاص بك. يرجى إلقاء نظرة على ملفات سجل الخادم.</string>
@@ -347,4 +346,5 @@
     <string name="card_outdated">ربما يكون محتوى هذه البطاقة قديمًا.</string>
     <string name="show_error">عرض الخطأ</string>
     <string name="push_notification_link_empty">نظرًا لوجود مشكلة معروفة في تطبيق الويب \"Deck\"، لا يمكننا للأسف عرض هذه البطاقة. لمزيد من المعلومات، راجع: %1$s</string>
+    <string name="no_search_results_title">لا توجد نتائج</string>
     </resources>

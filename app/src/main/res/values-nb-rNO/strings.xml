@@ -221,7 +221,6 @@
     <string name="error_dialog_tip_sync_only_on_wifi">Hvis du har aktivert innstillingen \"Synkroniser på Wi-Fi\", kan du bare synkronisere når du er koblet til et trådløst nettverk.</string>
     <string name="error_dialog_tip_files_force_stop">Det virker som noe er galt med Nextcloud appen. Vennligst prøv å tvinge avslutning av Nextcloud appen og Nextcloud Deck appen.</string>
     <string name="error_dialog_tip_files_delete_storage">Hvis det ikke hjelper med tving avslutt, så kan du prøve å tømme lageret for begge appene.</string>
-    <string name="error_dialog_timeout_instance">Serveren svarer ikke innen en gitt tid. Vennligst påse at serveren er tilgjengelig.</string>
     <string name="error_dialog_timeout_toggle">Sjekk nettverkstilkoblingen. Noen ganger hjelper det å skru av og på mobil data eller WI-FI tilkoblingen.</string>
     <string name="error_dialog_check_server">Svaret fra serveren var feil. Vennligst påse at du har tilgang til Deck appen via nettgrensesnittet.</string>
     <string name="error_dialog_check_server_logs">Det er et problem med Nextcloud oppsettet ditt. Vennligst ta en titt i loggfilene til serveren.</string>

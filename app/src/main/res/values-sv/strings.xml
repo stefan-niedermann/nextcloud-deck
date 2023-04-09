@@ -223,7 +223,6 @@
     <string name="error_dialog_tip_sync_only_on_wifi">Om du har aktiverat \"Synkronisera enbart med Wi-Fi\" kan du bara synkronisera när du är ansluten till Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Något verkar fel med din Nextcloud-app. Försök att tvångsavsluta både Nextcloud och Nextcloud Deck-appen.</string>
     <string name="error_dialog_tip_files_delete_storage">Om tvångsavslutning ej hjälper kan du försöka rensa datan på båda appar.</string>
-    <string name="error_dialog_timeout_instance">Din server svarade inte inom den angivna tiden. Kontrollera att den fungerar normalt.</string>
     <string name="error_dialog_timeout_toggle">Kontrollera din nätverksanslutning. Ibland kan det hjälpa att slå av och på mobildata eller Wi-Fi.</string>
     <string name="error_dialog_check_server">Inkorrekt svar från din server. Kontrollera att du har tillgång till Deck-appen genom din webbläsare.</string>
     <string name="error_dialog_check_server_logs">Det finns problem med din Nextcloud-installation. Ta gärna en titt i serverns loggfiler. </string>
@@ -336,5 +335,4 @@
     <string name="enter_search_term_title">Ange sökterm</string>
     <string name="enter_search_term_description">Ange sökterm för att hitta kort i denna tavla</string>
     <string name="no_search_results_title">Inga sökresultat</string>
-    <string name="no_search_results_description">Vi har inte hittat något resultat för den givna söktermen</string>
-</resources>
+    </resources>

@@ -221,7 +221,6 @@
     <string name="error_dialog_tip_sync_only_on_wifi">\"Wi-Fi接続時のみ同期する\"が有効になっている場合、Wi-Fiに接続している場合のみ同期可能です。</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloudアプリで何か不具合が発生しました。NextcloudアプリとNextcloud Deckアプリの両方を強制終了してください。</string>
     <string name="error_dialog_tip_files_delete_storage">強制終了で改善されない場合は、両方のアプリのストレージをクリアしてみてください。</string>
-    <string name="error_dialog_timeout_instance">一定時間内にサーバーからの反応がありませんでした。サーバーが正常に動いているか確認してください。</string>
     <string name="error_dialog_timeout_toggle">ネットワーク接続を確認してください。モバイルデータやWi-Fiのオフ/オンを繰り返してみるとうまくいく場合があります。</string>
     <string name="error_dialog_check_server">サーバーからの反応が不正です。WebインターフェースからDeckアプリにアクセス出来るか確認してください。</string>
     <string name="error_dialog_check_server_logs">Nextcloudのセットアップに問題があります。サーバーのログファイルを確認してください。</string>
@@ -333,5 +332,4 @@
     <string name="enter_search_term_title">単語を入力して検索</string>
     <string name="enter_search_term_description">単語を入力してボードのカードを検索する</string>
     <string name="no_search_results_title">検索結果なし</string>
-    <string name="no_search_results_description">入力された単語からは、結果が見つかりませんでした。</string>
-</resources>
+    </resources>

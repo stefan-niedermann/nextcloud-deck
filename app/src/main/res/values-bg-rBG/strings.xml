@@ -223,7 +223,6 @@
     <string name="error_dialog_tip_sync_only_on_wifi">Ако сте активирали настройката „Синхронизиране само в Wi-Fi“, можете да синхронизирате само когато сте свързани с Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Изглежда, че нещо не е наред с вашето приложение Nextcloud. Моля, опитайте да спрете принудиттелно и двете приложения -и Nextcloud и приложението Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Ако принудителното им спиране не помогне, можете да опитате да изчистите хранилището на двете приложения.</string>
-    <string name="error_dialog_timeout_instance">Нямаше отговор от вашия сървър в дадения момент. Моля, уверете се, че вашият сървър работи добре.</string>
     <string name="error_dialog_timeout_toggle">Проверете си мрежовата връзка. Понякога изключването и повторното включване на мобилни данни или Wi-Fi може да помогне.</string>
     <string name="error_dialog_check_server">Отговорът на вашия сървър не беше правилен. Моля, проверете дали имате достъп до приложението Deck чрез уеб интерфейс.</string>
     <string name="error_dialog_check_server_logs">Има проблем с вашата настройка на Nextcloud. Моля, разгледайте лог файловете на сървъра.</string>
@@ -336,5 +335,4 @@
     <string name="enter_search_term_title">Въвеждане на термин за търсене</string>
     <string name="enter_search_term_description">Въвеждане на термин за търсене, за да намерите карти в този панел</string>
     <string name="no_search_results_title">Няма резултати от търсенето</string>
-    <string name="no_search_results_description">Не са намерени резултати за зададения термин за търсене</string>
-</resources>
+    </resources>

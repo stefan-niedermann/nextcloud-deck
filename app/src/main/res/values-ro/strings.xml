@@ -222,7 +222,6 @@
     <string name="error_dialog_tip_sync_only_on_wifi">Daca ai activat optiunea de \"Sincronizare doar prin Wi-Fi\", atunci iti poti sincroniza fiserele doar cand esti conectat la o retea Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Ceva pare a fi în neregulă cu aplicația dvs. Nextcloud. Vă rugăm să încercați să forțați oprirea ambelor aplicații, Nextcloud și Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Dacă oprirea forțată a acestora nu ajută, puteți încerca să ștergeți stocarea ambelor aplicații.</string>
-    <string name="error_dialog_timeout_instance">Nu a existat un răspuns de la serverul dvs. în timpul dat. Vă rugăm să vă asigurați că instanța dvs. funcționează bine.</string>
     <string name="error_dialog_timeout_toggle">Verificați conexiunea la rețea. Uneori, dezactivarea și activarea datelor mobile sau a rețelei Wi-Fi poate ajuta.</string>
     <string name="error_dialog_check_server">Răspunsul serverului dvs. nu a fost corect. Vă rugăm să verificați dacă puteți accesa aplicația Deck prin interfața web.</string>
     <string name="error_dialog_check_server_logs">Există o problemă cu configurarea dvs. Nextcloud. Vă rugăm să aruncați o privire în log-urile serverului.</string>

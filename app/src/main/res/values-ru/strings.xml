@@ -225,7 +225,6 @@
     <string name="error_dialog_tip_sync_only_on_wifi">Если вы включили параметр «Синхронизация только по Wi-Fi», вы можете синхронизировать только при подключении к Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Похоже, что с приложением Nextcloud ведёт себя неожиданным образом. Попробуйте принудительно остановить приложения Nextcloud и Nextcloud Карточки. </string>
     <string name="error_dialog_tip_files_delete_storage">Если принудительная остановка не поможет, попробуйте очистить хранилище обоих приложений.</string>
-    <string name="error_dialog_timeout_instance">Не получено сообщений от вашего сервера за указанное время. Пожалуйста убедитесь что все работает.</string>
     <string name="error_dialog_timeout_toggle">Проверьте ваше сетевое соединение. Иногда переподключение к мобильной или Wi-Fi сети может решить проблему.</string>
     <string name="error_dialog_check_server">Получен неверный ответ от сервера. Проверьте из браузера доступность приложения Карточки, установленного на сервере.</string>
     <string name="error_dialog_check_server_logs">Есть замечания по вашей установке Nextcloud. Пожалуйста проверьте журналы сервера.</string>

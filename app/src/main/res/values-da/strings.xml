@@ -186,7 +186,6 @@
     <string name="error_dialog_title">Åh nej - hvad nu? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Forsøg venligst at tvinge app\'en til at lukke og start den påny igen. Der kan have været en ukorrekt forbindelse til Nextcloud-app\'en.</string>
     <string name="error_dialog_tip_files_delete_storage">Hvis det ikke hjælper at stoppe begge, så kan du forsøge at rydde lagerpladsen for begge apps.</string>
-    <string name="error_dialog_timeout_instance">Der var intet svar fra din server på nuværende tidspunkt. Sørg venligst for at sikre, at din instans kører rigtigt. </string>
     <string name="error_dialog_check_server_logs">Der er et problem med din opsætning af Nextcloud. Kig venligst i serverens logfiler. </string>
     <string name="error_dialog_check_maintenance">Sørg venligst for at din Nextcloud-instans ikke er i vedligeholdelsestilstand. </string>
     <string name="error_dialog_insufficient_storage">Din Nextcloud-instans har ikke mere ledig lagerplads. Slet venligst nogle filer for at synkronisere dine lokale ændringer ind i skyen.</string>
@@ -231,4 +230,5 @@
     <string name="simple_search">Søg</string>
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Titel (påkrævet)</string>
+    <string name="no_search_results_title">Ingen søgeresultater</string>
     </resources>

@@ -225,7 +225,6 @@
     <string name="error_dialog_tip_sync_only_on_wifi">Ak máte aktivovanú \"Synchronizáciu iba na Wi-Fi\", môžete synchronizovať iba ak ste pripojený k Wi-Fi sieti.</string>
     <string name="error_dialog_tip_files_force_stop">Zdá sa, že s Nextcloudom niečo nie je v poriadku. Pokúste sa vynútiť zastavenie aplikácie Nextcloud aj aplikácie Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Ak ich ukončenie nepomôže, môžete skúsiť vyčistiť úložiská oboch aplikácií.</string>
-    <string name="error_dialog_timeout_instance">Server dlho neodpovedal. Uistite sa, vami využívaná inštancia funguje dobre.</string>
     <string name="error_dialog_timeout_toggle">Skontrolujte pripojenie k sieti. Niekedy pomôže vypnutie a znovu zapnutie mobilných dát alebo Wi-Fi.</string>
     <string name="error_dialog_check_server">Odpoveď vášho servera nebola správna. Skontrolujte, či máte prístup k aplikácii Deck prostredníctvom webového rozhrania.</string>
     <string name="error_dialog_check_server_logs">V nastavení vášho Nextcloudu je problém. Skontrolujte súbor so záznamom udalostí na serveri.</string>

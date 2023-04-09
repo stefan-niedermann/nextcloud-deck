@@ -219,7 +219,6 @@
     <string name="error_dialog_tip_sync_only_on_wifi">Si as ativadu s\'impostatzione \"Sincroniza cun Wi-Fi ebbia\", podes sincronizare isceti cando b\'at connessione a su Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Paret chi ddoe at unu problema cun s\'aplicatzione tua de Nextcloud. Proa a firmare ambas is aplicatzione Nextcloud e Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Si a ddas firmare no agiudat, podes proare a cantzellare s\'archiviatzione de ambas is aplicatziones.</string>
-    <string name="error_dialog_timeout_instance">No ddoe at àpidu peruna risposta dae su serbidore in su tempus istabilidu. Segura·ti chi s\'istantza tua si siat esecutende in manera curreta.</string>
     <string name="error_dialog_timeout_toggle">Controlla·ti sa connessione a sa rete. Cando non cando a disativare is datos mòbiles o Wi-Fi e a ddos torrare a ativare podet agiudare.</string>
     <string name="error_dialog_check_server">Sa risposta de su serbidore tuo no est curreta. Controlla si podes atzèdere a s\'aplicatzione Deck tràmite s\'interfache Deck.</string>
     <string name="error_dialog_check_server_logs">Ddoe at àpidu unu problema in s\'installatzione tua de Nextcloud. Controlla in is documentos de registru de su serbidore.</string>

@@ -221,7 +221,6 @@
     <string name="error_dialog_tip_sync_only_on_wifi">Si heu habilitat el paràmetre de \"Sync només en Wi-Fi\", només podeu sincronitzar quan esteu connectat a una Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Sembla que alguna cosa està malament a la vostra aplicació Nextcloud. Si us plau, intenteu forçar l\'aturada tant de l\'aplicació Nextcloud com de l\'aplicació Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Si l\'aturada forçada no ajuda, podeu provar de netejar l\'emmagatzematge d\'ambdues aplicacions.</string>
-    <string name="error_dialog_timeout_instance">No hi ha hagut resposta del vostre servidor en el temps donat. Si us plau, assegureu-vos que la vostra instància funciona correctament.</string>
     <string name="error_dialog_timeout_toggle">Comproveu la vostra connexió a xarxa. De vegades, apagar i encendre les dades mòbils o el wifi pot ajudar.</string>
     <string name="error_dialog_check_server">La resposta del vostre servidor no ha estat correcta. Si us plau, comproveu que podeu accedir a l\'aplicació Deck des de la interfície web.</string>
     <string name="error_dialog_check_server_logs">Hi ha un problema amb el vostre arranjament del Nextcloud. Si us plau, mireu-vos els fitxers de bitàcola del servidor.</string>
@@ -330,4 +329,5 @@
     <string name="card_outdated">El contingut d\'aquesta targeta pot estar obsolet.</string>
     <string name="show_error">Mostra l\'error</string>
     <string name="push_notification_link_empty">A causa d\'un error conegut en l\'aplicació web Tauler, lamentablement no podem mostrar aquesta targeta. Per a més informació vegeu: %1$s</string>
+    <string name="no_search_results_title">No s\'han trobat resultats</string>
     </resources>
