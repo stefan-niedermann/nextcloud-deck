@@ -7,6 +7,7 @@ import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
 import okhttp3.Request;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,7 +61,7 @@ public class RequestHelper {
             String method = request.method();
             int code = response.code();
             String responseBody = "<empty>";
-            try ( var body = response.errorBody()) {
+            try (ResponseBody body = response.errorBody()) {
                 if (body != null) {
                     responseBody = body.string();
                 }
