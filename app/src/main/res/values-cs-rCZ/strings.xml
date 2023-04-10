@@ -227,6 +227,7 @@
     <string name="error_dialog_tip_sync_only_on_wifi">Pokud máte zapnuté nastavení „Synchr. pouze přes Wi-Fi“ – synchronizovat tedy můžete pouze pokud jste připojeni k Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Zdá se, že s vaší aplikací Nextcloud není něco v pořádku. Zkuste vynutit zastavení obojího – aplikace Nextcloud a Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Pokud vynucení jejich zastavení nepomůže, můžete zkusit vyčistit úložiště obou aplikací.</string>
+    <string name="error_dialog_timeout_instance">Server neodpověděl do určené doby. Ověřte, že vámi využívaná instance je v pořádku spuštěná.</string>
     <string name="error_dialog_timeout_toggle">Zkontrolujte nastavení sítě. Někdy může pomoci vypnout a zase zapnout mobilní data nebo Wi-Fi.</string>
     <string name="error_dialog_check_server">Odpověď od serveru nebyla správná. Zkontrolujte, zda k aplikaci Deck můžete přistupovat přes webové rozhraní.</string>
     <string name="error_dialog_check_server_logs">Je problém s nastavením vámi využívané instance Nextcloud. Podívejte se do souborů se záznamem událostí na serveru.</string>
@@ -343,4 +344,5 @@
     <string name="enter_search_term_title">Zadejte hledaný pojem</string>
     <string name="enter_search_term_description">Pokud chcete hledat karty na této tabuli, zadejte hledaný pojem</string>
     <string name="no_search_results_title">Nic nenalezeno</string>
-    </resources>
+    <string name="no_search_results_description">Pro daný hledaný pojem nebylo nic nalezeno</string>
+</resources>
