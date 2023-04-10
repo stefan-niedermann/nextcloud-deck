@@ -48,19 +48,19 @@ public class RequestHelper {
                 callback.fillAccountIDs(responseObject);
                 callback.onResponseWithHeaders(responseObject, response.headers());
             } else {
-                onFailure(call, new NextcloudHttpRequestFailedException(response.code(), buildCause(call, response)));
+                onFailure(call, new NextcloudHttpRequestFailedException(response.code(), buildCause(response)));
             }
         }
 
-        private RuntimeException buildCause(Call<T> call, Response<T> response){
-            Request request = call.request();
+        private RuntimeException buildCause(Response<T> response){
+            Request request = response.raw().request();
             String url = request.url().redact();
             String method = request.method();
             int code = response.code();
             String responseBody = "<empty>";
             try (ResponseBody body = response.errorBody()) {
                 if (body != null) {
-                    responseBody = body.string();
+                    responseBody = response.errorBody().string() ;
                 }
             } catch (Exception e) {
                 responseBody = "<unable to build response body: "+e.getMessage()+">";
