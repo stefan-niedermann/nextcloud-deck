@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.remote.helpers;
 
+import android.annotation.SuppressLint;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -43,6 +45,9 @@ public class SyncHelper {
 
     // Sync Server -> App
     public <T extends IRemoteEntity> void doSyncFor(@NonNull final AbstractSyncDataProvider<T> provider) {
+        doSyncFor(provider, true);
+    }
+    public <T extends IRemoteEntity> void doSyncFor(@NonNull final AbstractSyncDataProvider<T> provider, boolean parallel) {
         provider.registerChildInParent(provider);
         provider.getAllFromServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<>(account) {
             @Override
@@ -74,7 +79,33 @@ public class SyncHelper {
                             }
                         }
                         existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
-                        provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer, responseCallback);
+                        final T tmp = existingEntity;
+                        if (parallel) {
+                            provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer, responseCallback);
+                        } else {
+                            DeckLog.verbose("### SYNC Sequencial!"+tmp.getId());
+                            CountDownLatch latch = new CountDownLatch(1);
+                            provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer, new ResponseCallback<>(responseCallback.getAccount()) {
+                                @Override
+                                public void onResponse(Boolean response) {
+                                    DeckLog.verbose("### SYNC board "+tmp.getId()+" done! Changes: "+response);
+                                    latch.countDown();
+                                }
+
+                                @SuppressLint("MissingSuperCall")
+                                @Override
+                                public void onError(Throwable throwable) {
+                                    DeckLog.verbose("### SYNC board done (error)! ");
+                                    responseCallback.onError(throwable);
+                                    latch.countDown();
+                                }
+                            });
+                            try {
+                                latch.await();
+                            } catch (InterruptedException e) {
+                                onError(e);
+                            }
+                        }
                     }
 
                     provider.handleDeletes(serverAdapter, dataBaseAdapter, accountId, response);
