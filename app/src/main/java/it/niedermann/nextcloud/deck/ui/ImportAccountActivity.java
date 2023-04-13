@@ -68,6 +68,8 @@ public class ImportAccountActivity extends AppCompatActivity {
 
         setContentView(binding.getRoot());
 
+        resetAvatar();
+
         prefKeyWifiOnly = getString(R.string.pref_key_wifi_only);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         urlFragmentUpdateDeck = getString(R.string.url_fragment_update_deck);
@@ -275,6 +277,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                 Glide
                         .with(binding.image.getContext())
                         .load(R.mipmap.ic_launcher)
+                        .apply(RequestOptions.circleCropTransform())
                         .into(binding.image)
         );
     }
@@ -285,8 +288,8 @@ public class ImportAccountActivity extends AppCompatActivity {
                         .with(binding.image.getContext())
                         .load(account.getAvatarUrl(binding.image.getWidth()))
                         .apply(RequestOptions.circleCropTransform())
-                        .placeholder(R.mipmap.ic_launcher)
-                        .error(R.mipmap.ic_launcher)
+                        .placeholder(R.drawable.ic_person_grey600_24dp)
+                        .error(R.drawable.ic_person_grey600_24dp)
                         .into(binding.image)
         );
     }

@@ -68,6 +68,7 @@
             android:paddingHorizontal="@dimen/spacer_4x"
             android:paddingVertical="@dimen/spacer_3x"
             android:text="@string/choose_account"
+            android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/welcome_text" />
