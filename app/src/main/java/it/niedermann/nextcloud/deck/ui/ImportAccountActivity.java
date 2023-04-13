@@ -18,6 +18,8 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.api.ParsedResponse;
 import com.nextcloud.android.sso.exceptions.AccountImportCancelledException;
@@ -77,7 +79,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                 : getString(R.string.welcome_text, getString(R.string.app_name))));
 
         binding.addButton.setOnClickListener((v) -> {
-            binding.status.setText("");
+            binding.progressText.setText("");
             binding.addButton.setEnabled(false);
             binding.updateDeckButton.setVisibility(View.GONE);
             try {
@@ -113,16 +115,15 @@ public class ImportAccountActivity extends AppCompatActivity {
                     AccountImporter.onActivityResult(requestCode, resultCode, data, ImportAccountActivity.this, new AccountImporter.IAccountAccessGranted() {
                         @Override
                         public void accountAccessGranted(SingleSignOnAccount account) {
+                            final var accountToCreate = new Account(account.name, account.userId, account.url);
+
                             runOnUiThread(() -> {
-                                binding.status.setText(null);
-                                binding.status.setVisibility(View.GONE);
                                 binding.progressCircular.setVisibility(View.VISIBLE);
-                                binding.progressText.setVisibility(View.VISIBLE);
                                 binding.progressCircular.setIndeterminate(true);
                                 binding.progressText.setText(R.string.progress_import_indeterminate);
+                                setAvatar(accountToCreate);
                             });
 
-                            final var accountToCreate = new Account(account.name, account.userId, account.url);
                             importAccountViewModel.createAccount(accountToCreate, new IResponseCallback<>() {
                                 @Override
                                 public void onResponse(Account createdAccount) {
@@ -235,6 +236,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                     }
                                     runOnUiThread(() -> binding.addButton.setEnabled(true));
                                     restoreWifiPref();
+                                    resetAvatar();
                                 }
                             });
                         }
@@ -265,6 +267,28 @@ public class ImportAccountActivity extends AppCompatActivity {
         importAccountViewModel.deleteAccount(accountId);
         runOnUiThread(() -> binding.addButton.setEnabled(true));
         restoreWifiPref();
+        resetAvatar();
+    }
+
+    private void resetAvatar() {
+        runOnUiThread(() ->
+                Glide
+                        .with(binding.image.getContext())
+                        .load(R.mipmap.ic_launcher)
+                        .into(binding.image)
+        );
+    }
+
+    private void setAvatar(@NonNull Account account) {
+        runOnUiThread(() ->
+                Glide
+                        .with(binding.image.getContext())
+                        .load(account.getAvatarUrl(binding.image.getWidth()))
+                        .apply(RequestOptions.circleCropTransform())
+                        .placeholder(R.mipmap.ic_launcher)
+                        .error(R.mipmap.ic_launcher)
+                        .into(binding.image)
+        );
     }
 
     private void setStatusText(@StringRes int statusText) {
@@ -275,9 +299,7 @@ public class ImportAccountActivity extends AppCompatActivity {
         runOnUiThread(() -> {
             binding.updateDeckButton.setVisibility(View.GONE);
             binding.progressCircular.setVisibility(View.GONE);
-            binding.progressText.setVisibility(View.GONE);
-            binding.status.setVisibility(View.VISIBLE);
-            binding.status.setText(statusText);
+            binding.progressText.setText(statusText);
         });
     }
 
