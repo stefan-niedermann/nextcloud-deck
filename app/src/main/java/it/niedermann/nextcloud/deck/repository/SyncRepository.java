@@ -182,7 +182,7 @@ public class SyncRepository extends BaseRepository {
                             syncHelper.setResponseCallback(callback);
 
                             try {
-                                syncHelper.doSyncFor(new BoardDataProvider(progress$));
+                                syncHelper.doSyncFor(new BoardDataProvider(progress$, false), false);
                             } catch (Throwable e) {
                                 DeckLog.logError(e);
                                 responseCallback.onError(e);

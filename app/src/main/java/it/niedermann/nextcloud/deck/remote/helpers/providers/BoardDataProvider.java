@@ -30,7 +30,10 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
     private int progressTotal = 0;
     private int progressDone = 0;
+    private boolean isParallel = true;
     private MutableLiveData<Pair<Integer, Integer>> progress = null;
+
+    private ResponseCallback<Boolean> stepByStepCallback;
 
     public BoardDataProvider() {
         super(null);
@@ -39,6 +42,12 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     public BoardDataProvider(MutableLiveData<Pair<Integer, Integer>> progress) {
         this();
         this.progress = progress;
+
+    }
+
+    public BoardDataProvider(MutableLiveData<Pair<Integer, Integer>> progress$, boolean isParallel) {
+        this(progress$);
+        this.isParallel = isParallel;
     }
 
     @Override
@@ -161,6 +170,9 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
     @Override
     public void goDeeper(SyncHelper syncHelper, FullBoard existingEntity, FullBoard entityFromServer, ResponseCallback<Boolean> callback) {
+        if (!isParallel) {
+            stepByStepCallback = callback;
+        }
         List<Label> labels = entityFromServer.getLabels();
         if (labels != null && !labels.isEmpty()) {
             syncHelper.doSyncFor(new LabelDataProvider(this, existingEntity.getBoard(), labels));
@@ -176,6 +188,20 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
         if (entityFromServer.getStacks() != null && !entityFromServer.getStacks().isEmpty()) {
             syncHelper.doSyncFor(new StackDataProvider(this, existingEntity));
+    }
+}
+
+    @Override
+    public void childDone(AbstractSyncDataProvider<?> child, ResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
+        removeChild(child);
+        if (!stillGoingDeeper && children.isEmpty()) {
+            if (parent != null) {
+                parent.childDone(this, responseCallback, syncChangedSomething);
+            } else {
+                responseCallback.onResponse(syncChangedSomething);
+            }
+        } else if (!isParallel && children.isEmpty()) {
+            stepByStepCallback.onResponse(syncChangedSomething);
         }
     }
 
