@@ -21,6 +21,8 @@
             android:layout_marginBottom="32dp"
             android:contentDescription="@null"
             android:src="@mipmap/ic_launcher"
+            android:background="@drawable/shape_circular"
+            android:clipToOutline="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

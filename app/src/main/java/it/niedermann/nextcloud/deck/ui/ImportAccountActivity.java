@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import static android.os.Build.VERSION;
+import static android.os.Build.VERSION_CODES;
 import static com.nextcloud.android.sso.AccountImporter.REQUEST_AUTH_TOKEN_SSO;
 
 import android.annotation.SuppressLint;
@@ -19,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.api.ParsedResponse;
 import com.nextcloud.android.sso.exceptions.AccountImportCancelledException;
@@ -67,6 +68,10 @@ public class ImportAccountActivity extends AppCompatActivity {
         binding = ActivityImportAccountBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
+
+        if (VERSION.SDK_INT < VERSION_CODES.S) {
+            binding.image.setClipToOutline(true);
+        }
 
         resetAvatar();
 
@@ -277,7 +282,6 @@ public class ImportAccountActivity extends AppCompatActivity {
                 Glide
                         .with(binding.image.getContext())
                         .load(R.mipmap.ic_launcher)
-                        .apply(RequestOptions.circleCropTransform())
                         .into(binding.image)
         );
     }
@@ -287,9 +291,8 @@ public class ImportAccountActivity extends AppCompatActivity {
                 Glide
                         .with(binding.image.getContext())
                         .load(account.getAvatarUrl(binding.image.getWidth()))
-                        .apply(RequestOptions.circleCropTransform())
-                        .placeholder(R.drawable.ic_person_grey600_24dp)
-                        .error(R.drawable.ic_person_grey600_24dp)
+                        .placeholder(R.mipmap.ic_launcher)
+                        .error(R.mipmap.ic_launcher)
                         .into(binding.image)
         );
     }
