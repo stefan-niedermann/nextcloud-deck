@@ -67,9 +67,14 @@ android {
 }
 
 dependencies {
-    // Cross tab drag'n'drop
+    def cameraVersion = "1.2.2"
+    def lifecycleVersion = "2.6.1"
+    def roomVersion = "2.5.1"
+    def glideVersion = "4.15.1"
+    def nextcloudCommonsVersion = "1.6.4"
+    def androidCommonsVersion = "0.2.9"
+
     implementation project(path: ':cross-tab-drag-and-drop')
-    // TabLayoutHelper
     implementation project(path: ':tab-layout-helper')
     implementation project(path: ':reactive-livedata')
 
@@ -77,38 +82,37 @@ dependencies {
 
     // Android X
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.camera:camera-camera2:1.2.1'
-    implementation 'androidx.camera:camera-lifecycle:1.2.1'
-    implementation 'androidx.camera:camera-view:1.2.1'
+    implementation "androidx.camera:camera-camera2:$cameraVersion"
+    implementation "androidx.camera:camera-lifecycle:$cameraVersion"
+    implementation "androidx.camera:camera-view:$cameraVersion"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
-    implementation 'androidx.preference:preference:1.2.0'
-    def roomVersion = "2.5.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation "androidx.room:room-runtime:$roomVersion"
     annotationProcessor "androidx.room:room-compiler:$roomVersion"
     implementation 'androidx.core:core-splashscreen:1.0.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    implementation 'androidx.work:work-runtime:2.8.0'
+    implementation 'androidx.work:work-runtime:2.8.1'
     implementation "com.google.android.material:material:$rootProject.materialVersion"
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.15.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
 
     // Image compression
     implementation 'id.zelory:compressor:3.0.1'
 
     // Single-Sign-On
-    implementation 'com.github.nextcloud:Android-SingleSignOn:0.6.1'
+    implementation 'com.github.nextcloud:Android-SingleSignOn:0.7.0'
     implementation 'com.github.nextcloud:android-common:0.8.0'
-    implementation 'com.github.stefan-niedermann.nextcloud-commons:sso-glide:1.6.4'
-    implementation 'com.github.stefan-niedermann.nextcloud-commons:exception:1.6.4'
-    implementation('com.github.stefan-niedermann.nextcloud-commons:markdown:1.6.4') {
+    implementation "com.github.stefan-niedermann.nextcloud-commons:sso-glide:$nextcloudCommonsVersion"
+    implementation "com.github.stefan-niedermann.nextcloud-commons:exception:$nextcloudCommonsVersion"
+    implementation("com.github.stefan-niedermann.nextcloud-commons:markdown:$nextcloudCommonsVersion") {
         exclude group: 'org.jetbrains', module: 'annotations-java5'
     }
-    implementation 'com.github.stefan-niedermann.android-commons:util:0.2.9'
-    implementation 'com.github.stefan-niedermann.android-commons:shared-preferences:0.2.9'
+    implementation "com.github.stefan-niedermann.android-commons:util:$androidCommonsVersion"
+    implementation "com.github.stefan-niedermann.android-commons:shared-preferences:$androidCommonsVersion"
 
     // Custom Date / Time Picker for branding support
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
@@ -134,7 +138,7 @@ dependencies {
     // Tests
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.robolectric:robolectric:4.10'
-    testImplementation 'org.mockito:mockito-core:5.2.0'
+    testImplementation 'org.mockito:mockito-core:5.3.0'
     testImplementation 'androidx.test:core:1.5.0'
     testImplementation 'androidx.arch.core:core-testing:2.2.0'
 }
