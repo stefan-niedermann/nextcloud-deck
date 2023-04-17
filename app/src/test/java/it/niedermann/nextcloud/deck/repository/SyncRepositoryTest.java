@@ -40,7 +40,6 @@ import org.robolectric.RobolectricTestRunner;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import it.niedermann.nextcloud.deck.TestUtil;
@@ -64,6 +63,7 @@ import it.niedermann.nextcloud.deck.remote.helpers.providers.AbstractSyncDataPro
 import it.niedermann.nextcloud.deck.remote.helpers.providers.CardDataProvider;
 import it.niedermann.nextcloud.deck.remote.helpers.providers.StackDataProvider;
 import it.niedermann.nextcloud.deck.remote.helpers.util.ConnectivityUtil;
+import okhttp3.Headers;
 
 @RunWith(RobolectricTestRunner.class)
 public class SyncRepositoryTest {
@@ -274,7 +274,8 @@ public class SyncRepositoryTest {
         final var serverResponse = new Capabilities();
         serverResponse.setDeckVersion(Version.of("1.0.0"));
         when(mockedResponse.getResponse()).thenReturn(serverResponse);
-        when(mockedResponse.getHeaders()).thenReturn(Map.of("ETag", "New-ETag"));
+        Headers headers = Headers.of("ETag", "New-ETag");
+//        when(mockedResponse.getHeaders()).thenReturn(Map.of("ETag", "New-ETag"));
         when(dataBaseAdapter.getAccountByIdDirectly(anyLong())).thenReturn(account);
 
         // Happy path
@@ -283,8 +284,8 @@ public class SyncRepositoryTest {
             assertEquals("The old eTag must be passed to the " + ServerAdapter.class.getSimpleName(),
                     "This-Is-The-Old_ETag", invocation.getArgument(0));
             //noinspection unchecked
-            ((ResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
-                    .onResponse(mockedResponse);
+            ((ResponseCallback<Capabilities>) invocation.getArgument(1))
+                    .onResponseWithHeaders(serverResponse, headers);
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
@@ -425,7 +426,7 @@ public class SyncRepositoryTest {
         // Act as if refreshing capabilities is always successful
         doAnswer((invocation -> {
             //noinspection unchecked
-            ((IResponseCallback<Capabilities>) invocation.getArgument(0)).onResponse(capabilities);
+            ((IResponseCallback<Capabilities>) invocation.getArgument(0)).onResponseWithHeaders(capabilities, Headers.of());
             return null;
         })).when(syncManagerSpy).refreshCapabilities(any());
 
@@ -478,7 +479,7 @@ public class SyncRepositoryTest {
         @Override
         public <T extends IRemoteEntity> void doSyncFor(@NonNull AbstractSyncDataProvider<T> provider) {
             if (success) {
-                cb.onResponse(true);
+                cb.onResponseWithHeaders(true, Headers.of());
             } else {
                 cb.onError(new RuntimeException("Bad path mocking"));
             }
