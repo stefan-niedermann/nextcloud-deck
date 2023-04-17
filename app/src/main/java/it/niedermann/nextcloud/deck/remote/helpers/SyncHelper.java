@@ -1,10 +1,12 @@
 package it.niedermann.nextcloud.deck.remote.helpers;
 
 import android.annotation.SuppressLint;
+import android.database.sqlite.SQLiteConstraintException;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.gson.Gson;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.net.HttpURLConnection;
@@ -64,7 +66,13 @@ public class SyncHelper {
                         T existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
 
                         if (existingEntity == null) {
-                            provider.createInDB(dataBaseAdapter, accountId, entityFromServer);
+                            try {
+                                provider.createInDB(dataBaseAdapter, accountId, entityFromServer);
+                            } catch (SQLiteConstraintException e) {
+                                throw new RuntimeException("ConstraintViolation! Entity: " + provider.getClass().getSimpleName()+"\n"
+                                        +entityFromServer.getClass().getSimpleName()+": "+ new Gson().toJson(entityFromServer),
+                                        e);
+                            }
                         } else {
                             //TODO: how to handle deletes? what about archived?
                             if (existingEntity.getStatus() != DBStatus.UP_TO_DATE.getId()) {
