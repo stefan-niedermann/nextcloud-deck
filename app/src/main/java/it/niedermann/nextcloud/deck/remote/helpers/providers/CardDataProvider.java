@@ -22,6 +22,7 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
 import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -43,6 +44,15 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         super(parent);
         this.board = board;
         this.stack = stack;
+    }
+
+    @Override
+    public void onInsertFailed(DataBaseAdapter dataBaseAdapter, RuntimeException cause, Account account, long accountId, List<FullCard> response, FullCard entityFromServer) {
+        Account foundAccount = dataBaseAdapter.getAccountByIdDirectly(accountId);
+        Stack foundStack = dataBaseAdapter.getStackByLocalIdDirectly(entityFromServer.getEntity().getStackId());
+        throw new RuntimeException("Error creating Attachment.\n" +
+                "AccountID: "+accountId+" (parent-DataProvider gave StackID: "+stack.getLocalId()+" in account "+stack.getAccountId()+") (existing: "+(foundAccount != null)+")\n" +
+                "stackID: "+entityFromServer.getEntity().getStackId()+" (existing: "+(foundStack != null)+")", cause);
     }
 
     @Override

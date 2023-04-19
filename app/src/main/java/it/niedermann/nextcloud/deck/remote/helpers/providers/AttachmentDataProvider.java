@@ -10,8 +10,10 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.database.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
@@ -30,6 +32,15 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
         this.stack = stack;
         this.card = card;
         this.attachments = attachments;
+    }
+
+    @Override
+    public void onInsertFailed(DataBaseAdapter dataBaseAdapter, RuntimeException cause, Account account, long accountId, List<Attachment> response, Attachment entityFromServer) {
+        Account foundAccount = dataBaseAdapter.getAccountByIdDirectly(accountId);
+        Card foundCard = dataBaseAdapter.getCardByLocalIdDirectly(accountId, entityFromServer.getCardId());
+        throw new RuntimeException("Error creating Attachment.\n" +
+                "AccountID: "+accountId+" (parent-DataProvider gave CardID: "+card.getLocalId()+" in account "+card.getAccountId()+") (existing: "+(foundAccount != null)+")\n" +
+                "cardID: "+entityFromServer.getCardId()+" (existing: "+(foundCard != null)+")", cause);
     }
 
     @Override

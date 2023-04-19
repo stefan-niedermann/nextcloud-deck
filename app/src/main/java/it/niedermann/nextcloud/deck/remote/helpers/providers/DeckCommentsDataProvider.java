@@ -11,6 +11,7 @@ import java.util.concurrent.CountDownLatch;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.database.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
@@ -46,6 +47,18 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
                 responder.onError(throwable);
             }
         });
+    }
+
+    @Override
+    public void onInsertFailed(DataBaseAdapter dataBaseAdapter, RuntimeException cause, Account account, long accountId, List<OcsComment> response, OcsComment entityFromServer) {
+        Account foundAccount = dataBaseAdapter.getAccountByIdDirectly(accountId);
+        DeckComment comment = entityFromServer.getSingle();
+        Card foundCard = dataBaseAdapter.getCardByLocalIdDirectly(accountId, comment.getObjectId());
+        DeckComment foundComment = dataBaseAdapter.getCommentByLocalIdDirectly(accountId, comment.getParentId());
+        throw new RuntimeException("Error creating Comment.\n" +
+                "AccountID: "+accountId+" (existing: "+(foundAccount != null)+")\n" +
+                "cardID: "+comment.getObjectId()+" (parent-DataProvider gave CardID: "+card.getLocalId()+" in account "+card.getAccountId()+") (existing: "+(foundCard != null)+")\n" +
+                "parentID: "+comment.getParentId()+" (existing: "+(foundComment != null)+")", cause);
     }
 
     private void verifyCommentListIntegrity(List<OcsComment> comments) {
