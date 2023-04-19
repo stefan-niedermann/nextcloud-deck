@@ -100,6 +100,7 @@
     <string name="attachments">Вложения</string>
     <string name="no_cards">Ещё нет ни одной карточки</string>
     <string name="no_account">Учётная запись не настроена</string>
+    <string name="account_already_added">Учетная запись %1$s уже была добавлена</string>
     <string name="account_is_getting_imported">Выполняется импорт учётной записи</string>
     <string name="not_synced_yet">Ещё не синхронизировано</string>
     <string name="no_lists_yet">Нет ни одного списка</string>
@@ -225,6 +226,7 @@
     <string name="error_dialog_tip_sync_only_on_wifi">Если вы включили параметр «Синхронизация только по Wi-Fi», вы можете синхронизировать только при подключении к Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Похоже, что с приложением Nextcloud ведёт себя неожиданным образом. Попробуйте принудительно остановить приложения Nextcloud и Nextcloud Карточки. </string>
     <string name="error_dialog_tip_files_delete_storage">Если принудительная остановка не поможет, попробуйте очистить хранилище обоих приложений.</string>
+    <string name="error_dialog_timeout_instance">Ответ от сервера не был получен в отведённое время. Проверьте работоспособность сервера.</string>
     <string name="error_dialog_timeout_toggle">Проверьте ваше сетевое соединение. Иногда переподключение к мобильной или Wi-Fi сети может решить проблему.</string>
     <string name="error_dialog_check_server">Получен неверный ответ от сервера. Проверьте из браузера доступность приложения Карточки, установленного на сервере.</string>
     <string name="error_dialog_check_server_logs">Есть замечания по вашей установке Nextcloud. Пожалуйста проверьте журналы сервера.</string>
@@ -316,6 +318,7 @@
     <string name="downloads">Загрузки</string>
     <string name="files">Файлы</string>
     <string name="gallery">Галерея</string>
+    <string name="simple_attach">Вложить</string>
     <string name="add_stack_widget">Добавить виджет списка</string>
     <string name="add_filter_widget">Добавить виджет фильтра</string>
     <string name="simple_order">Порядок</string>

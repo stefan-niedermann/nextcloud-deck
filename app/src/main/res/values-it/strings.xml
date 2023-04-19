@@ -100,6 +100,7 @@
     <string name="attachments">Allegati</string>
     <string name="no_cards">Ancora nessuna scheda</string>
     <string name="no_account">Nessun account configurato</string>
+    <string name="account_already_added">L\'account %1$s è già stato aggiunto</string>
     <string name="account_is_getting_imported">L\'account è in fase di importazione</string>
     <string name="not_synced_yet">Non ancora sincronizzata</string>
     <string name="no_lists_yet">Ancora nessun elenco</string>
@@ -223,6 +224,7 @@
     <string name="error_dialog_tip_sync_only_on_wifi">Se hai attivato l\'impostazione \"Sincronizza solo con Wi-Fi\", puoi sincronizzare solo quando sei connesso a una rete Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Sembra che ci sia un problema con la tua applicazione di Nextcloud. Prova a fermare entrambe le applicazioni Nextcloud e Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Se fermarle non aiuta, puoi provare a cancellare l\'archiviazione di entrambe le applicazioni.</string>
+    <string name="error_dialog_timeout_instance">Non c\'è stata risposta dal tuo server nel tempo stabilito. Assicurati che la tua istanza funzioni correttamente.</string>
     <string name="error_dialog_timeout_toggle">Controlla la tua connessione di rete. A volte disattivare e riattivare i dati mobili o Wi-Fi può aiutare.</string>
     <string name="error_dialog_check_server">La risposta del tuo server non era corretta. Controlla se puoi accedere all\'applicazione Deck tramite l\'interfaccia web.</string>
     <string name="error_dialog_check_server_logs">Si è verificato un problema con la tua installazione di Nextcloud. Controlla nei file di registro del server.</string>
@@ -312,6 +314,7 @@
     <string name="downloads">Scaricamenti</string>
     <string name="files">File</string>
     <string name="gallery">Galleria</string>
+    <string name="simple_attach">Allega</string>
     <string name="add_stack_widget">Aggiungi widget elenco</string>
     <string name="add_filter_widget">Aggiungi widget di filtro</string>
     <string name="simple_order">Ordinamento</string>
