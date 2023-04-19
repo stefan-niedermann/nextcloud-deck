@@ -8,6 +8,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.database.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
@@ -145,5 +146,9 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
 
     public T applyUpdatesFromRemote(T localEntity, T remoteEntity, Long accountId) {
         return remoteEntity;
+    }
+
+    public void onInsertFailed(DataBaseAdapter dataBaseAdapter, RuntimeException cause, Account account, long accountId, List<T> response, T entityFromServer) {
+        throw cause;
     }
 }

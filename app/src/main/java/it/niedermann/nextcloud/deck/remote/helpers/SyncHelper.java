@@ -69,6 +69,7 @@ public class SyncHelper {
                             try {
                                 provider.createInDB(dataBaseAdapter, accountId, entityFromServer);
                             } catch (SQLiteConstraintException e) {
+                                provider.onInsertFailed(dataBaseAdapter, e, account, accountId, response, entityFromServer);
                                 throw new RuntimeException("ConstraintViolation! Entity: " + provider.getClass().getSimpleName()+"\n"
                                         +entityFromServer.getClass().getSimpleName()+": "+ new Gson().toJson(entityFromServer),
                                         e);
