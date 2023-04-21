@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.database.DataBaseAdapter;
@@ -38,9 +39,13 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
     public void onInsertFailed(DataBaseAdapter dataBaseAdapter, RuntimeException cause, Account account, long accountId, List<Attachment> response, Attachment entityFromServer) {
         Account foundAccount = dataBaseAdapter.getAccountByIdDirectly(accountId);
         Card foundCard = dataBaseAdapter.getCardByLocalIdDirectly(accountId, entityFromServer.getCardId());
+        List<Long> accountIDs = dataBaseAdapter.getAllAccountsDirectly().stream().map(Account::getId).collect(Collectors.toList());
+        List<Long> allCardIDs = dataBaseAdapter.getAllCardIDs();
         throw new RuntimeException("Error creating Attachment.\n" +
                 "AccountID: "+accountId+" (parent-DataProvider gave CardID: "+card.getLocalId()+" in account "+card.getAccountId()+") (existing: "+(foundAccount != null)+")\n" +
-                "cardID: "+entityFromServer.getCardId()+" (existing: "+(foundCard != null)+")", cause);
+                "cardID: "+entityFromServer.getCardId()+" (existing: "+(foundCard != null)+")\n" +
+                "all existing account-IDs: "+accountIDs + "\n" +
+                "all existing card-IDs: "+allCardIDs, cause);
     }
 
     @Override

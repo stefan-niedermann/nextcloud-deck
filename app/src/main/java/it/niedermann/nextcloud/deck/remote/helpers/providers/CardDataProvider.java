@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.database.DataBaseAdapter;
@@ -50,9 +51,13 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     public void onInsertFailed(DataBaseAdapter dataBaseAdapter, RuntimeException cause, Account account, long accountId, List<FullCard> response, FullCard entityFromServer) {
         Account foundAccount = dataBaseAdapter.getAccountByIdDirectly(accountId);
         Stack foundStack = dataBaseAdapter.getStackByLocalIdDirectly(entityFromServer.getEntity().getStackId());
-        throw new RuntimeException("Error creating Attachment.\n" +
+        List<Long> accountIDs = dataBaseAdapter.getAllAccountsDirectly().stream().map(Account::getId).collect(Collectors.toList());
+        List<Long> allStackIDs = dataBaseAdapter.getAllStackIDs();
+        throw new RuntimeException("Error creating Card.\n" +
                 "AccountID: "+accountId+" (parent-DataProvider gave StackID: "+stack.getLocalId()+" in account "+stack.getAccountId()+") (existing: "+(foundAccount != null)+")\n" +
-                "stackID: "+entityFromServer.getEntity().getStackId()+" (existing: "+(foundStack != null)+")", cause);
+                "stackID: "+entityFromServer.getEntity().getStackId()+" (existing: "+(foundStack != null)+")\n" +
+                "all existing account-IDs: "+accountIDs + "\n" +
+                "all existing stack-IDs: "+ allStackIDs, cause);
     }
 
     @Override

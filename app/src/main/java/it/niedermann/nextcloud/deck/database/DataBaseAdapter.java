@@ -1786,4 +1786,12 @@ public class DataBaseAdapter {
                 ? entities.get(position - 1).getLocalId()
                 : entities.get(position + 1).getLocalId());
     }
+
+    // TODO TEST stuff, remove when done
+    public List<Long> getAllStackIDs() {
+        return db.getStackDao().getAllIDs();
+    }
+    public List<Long> getAllCardIDs() {
+        return db.getCardDao().getAllIDs();
+    }
 }

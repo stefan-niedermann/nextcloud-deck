@@ -67,4 +67,7 @@ public interface StackDao extends GenericDao<Stack> {
 
     @Query("SELECT s.localId FROM stack s join Board b on s.boardId = b.localId where b.archived <> 0 and b.accountId in (:accountIds)")
     List<Long> getLocalStackIdsInArchivedBoardsByAccountIdsDirectly(List<Long> accountIds);
+
+    @Query("SELECT s.localId FROM stack s")
+    List<Long>  getAllIDs();
 }
