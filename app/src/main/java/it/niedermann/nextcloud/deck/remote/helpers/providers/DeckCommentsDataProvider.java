@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.database.DataBaseAdapter;
@@ -55,10 +56,14 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
         DeckComment comment = entityFromServer.getSingle();
         Card foundCard = dataBaseAdapter.getCardByLocalIdDirectly(accountId, comment.getObjectId());
         DeckComment foundComment = dataBaseAdapter.getCommentByLocalIdDirectly(accountId, comment.getParentId());
+        List<Long> accountIDs = dataBaseAdapter.getAllAccountsDirectly().stream().map(Account::getId).collect(Collectors.toList());
+        List<Long> allCardIDs = dataBaseAdapter.getAllCardIDs();
         throw new RuntimeException("Error creating Comment.\n" +
                 "AccountID: "+accountId+" (existing: "+(foundAccount != null)+")\n" +
                 "cardID: "+comment.getObjectId()+" (parent-DataProvider gave CardID: "+card.getLocalId()+" in account "+card.getAccountId()+") (existing: "+(foundCard != null)+")\n" +
-                "parentID: "+comment.getParentId()+" (existing: "+(foundComment != null)+")", cause);
+                "parentID: "+comment.getParentId()+" (existing: "+(foundComment != null)+")\n" +
+                "all existing account-IDs: "+accountIDs + "\n" +
+                "all existing card-IDs: "+allCardIDs, cause);
     }
 
     private void verifyCommentListIntegrity(List<OcsComment> comments) {

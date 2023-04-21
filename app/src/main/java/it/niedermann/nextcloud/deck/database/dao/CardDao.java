@@ -139,4 +139,6 @@ public interface CardDao extends GenericDao<Card> {
             "and c.archived = 0 " +
             "order by s.`order`, c.`order`")
     LiveData<List<FullCard>> searchCard(long accountId, long localBoardId, String term);
+    @Query("SELECT s.localId FROM card s")
+    List<Long>  getAllIDs();
 }
