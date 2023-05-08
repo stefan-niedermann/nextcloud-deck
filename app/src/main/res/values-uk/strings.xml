@@ -100,6 +100,7 @@
     <string name="attachments">Вкладення</string>
     <string name="no_cards">Ще немає жодної картки</string>
     <string name="no_account">Жодного налаштованого облікового запису</string>
+    <string name="account_already_added">Обліковий запис %1$s вже додано</string>
     <string name="account_is_getting_imported">Відбувається імпорт облікового запису</string>
     <string name="not_synced_yet">Поки не синхронізовано</string>
     <string name="no_lists_yet">Поки що відсутні списки</string>
@@ -119,10 +120,14 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Створюйте нові списки за допомогою кнопки (+)</string>
     <string name="add_a_new_card_using_the_button">Додавайте нові картки за допомогою кнопки (+)</string>
+    <string name="update_deck">Оновіть додаток Колода на сервері</string>
+    <string name="deck_outdated_please_update">Ваша версія веб-додатку Deck застаріла (%1$s). Будь ласка, оновіть її, щоб використовувати цей додаток для Android як клієнт.</string>
     <string name="delete_board_message">Це безповоротно вилучіть дошку разом зі списками та картками</string>
     <string name="settings_theme_title">Тема</string>
     <string name="settings_branding_title">Оформлення</string>
     <string name="settings_compact_title">Компактний режим</string>
+    <string name="settings_cover_images_title">Зображення обкладинки</string>
+    <string name="settings_debugging">Журнали налагодження</string>
     <string name="settings_etags">Використовувати ETags</string>
     <string name="settings_etags_summary">Прискорює синхронізацію</string>
     <string name="settings_background_sync">Фонова синхронізація</string>
@@ -154,6 +159,7 @@
     <string name="title_is_mandatory">Заголовок обов\'язковий</string>
     <string name="provide_at_least_a_title_or_description">Щонайменше додайте назву чи опис</string>
     <string name="welcome_text">Вітаємо у %1$s</string>
+    <string name="welcome_text_further_accounts">Додати інший обліковий запис</string>
     <string name="maintenance_mode_explanation">Зараз сервер %1$s у режимі технічного обслуговування. Будь ласка, сконтактуйте з вашим адміністратором або спробуйте пізніше.</string>
     <string name="share_add_to_card">Додати до картки</string>
     <string name="share_success">Успішно додано %1$s до %2$s</string>
@@ -254,6 +260,7 @@
     <string name="widget_placeholder_icon">Піктограма поля віджету</string>
     <string name="select_stack">Виберіть список</string>
     <string name="project_type_deck_board">Дошка Deck</string>
+    <string name="project_type_deck_card">Картка</string>
     <string name="project_type_file">Файл</string>
     <string name="projects_title">Проєкти</string>
     <string name="simple_move">Перемістити</string>
@@ -266,6 +273,7 @@
     <string name="files">Робота з файлами</string>
     <string name="gallery">Галерея</string>
     <string name="edit_description">Редагувати опис</string>
+    <string name="widget_upcoming_title">Очікують на виконання</string>
     <string name="simple_search">Пошук</string>
     <string name="no_search_results_title">Нічого не знайдено</string>
     </resources>
