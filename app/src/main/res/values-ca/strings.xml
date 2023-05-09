@@ -87,7 +87,7 @@
     <string name="action_card_unassign">Desassigna\'m la targeta</string>
     <string name="action_card_archive">Arxiva la targeta</string>
     <string name="action_card_delete">Suprimeix targeta</string>
-    <string name="add_board">Afegeix una taula</string>
+    <string name="add_board">Afegeix un tauler</string>
 
     <string name="label_clear_due_date">Esborra la data de venciment</string>
     <string name="label_add">Afegeix %1$s</string>
@@ -324,7 +324,7 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Títol (necessari)</string>
     <string name="saving_new_card">Desant una nova targeta...</string>
-    <string name="progress_import">S\'està important %1$d taula de%2$d...</string>
+    <string name="progress_import">S\'està important el tauler %1$d/%2$d...</string>
     <string name="progress_import_indeterminate">Important taules...</string>
     <string name="card_outdated">El contingut d\'aquesta targeta pot estar obsolet.</string>
     <string name="show_error">Mostra l\'error</string>
