@@ -293,6 +293,7 @@
     <string name="edit_description">Muokkaa kuvausta</string>
     <string name="widget_upcoming_title">Tulevat kortit</string>
     <string name="copy_logs">Kopioi lokit leikepöydälle</string>
+    <string name="app_logo">Sovelluksen logo</string>
     <string name="log_file">Lokitiedosto</string>
     <string name="copying_logs_to_file">Kopioidaan lokeja tiedostoon…</string>
     <string name="account_imported">Tili tuotu</string>
