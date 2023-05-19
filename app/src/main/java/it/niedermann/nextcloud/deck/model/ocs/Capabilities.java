@@ -7,7 +7,7 @@ import androidx.annotation.ColorInt;
 public class Capabilities {
 
     @ColorInt
-    public static final int DEFAULT_COLOR = -16743735; // #0082C9;
+    public static final int DEFAULT_COLOR = -5599488; // #AA8F00;
     @ColorInt
     public static final int DEFAULT_TEXT_COLOR = Color.WHITE;
 
