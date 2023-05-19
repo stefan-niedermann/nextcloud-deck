@@ -43,7 +43,7 @@
     <string name="about_maintainer_title">Prižiūrėtojas</string>
     <string name="about_developers_title">Plėtotojai</string>
     <string name="about_translators_title">Vertėjai</string>
-    <string name="about_translators_transifex">Nextcloud bendruomenė, esanti %1$s</string>
+    <string name="about_translators_transifex">communis bendruomenė, esanti %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_source_title">Pradinis kodas</string>
     <string name="about_issues_title">Problemos</string>
@@ -163,12 +163,12 @@
     <string name="maintenance_mode">Serveris yra techninės priežiūros veiksenoje</string>
     <string name="server_error">Serverio klaida</string>
     <string name="error_dialog_title">O, ne - Kas dabar? 🙁</string>
-    <string name="error_dialog_tip_token_mismatch_retry">Pabandykite priverstinai uždaryti programą ir vėl paleiskite ją iš naujo. Galbūt buvo nepavyko užmegžti ryšį su „Nextcloud“ programa.</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Pabandykite priverstinai uždaryti programą ir vėl paleiskite ją iš naujo. Galbūt buvo nepavyko užmegžti ryšį su „communis“ programa.</string>
     <string name="error_dialog_tip_clear_storage">Saugyklą galite išvalyti atidarę programos nustatymus ir pasirinkdami Saugykla → Išvalyti saugyklą.</string>
     <string name="error_dialog_tip_files_delete_storage">Jei priverstinis programos sustabdymas nepadėjo, galite pabandyti išvalyti abiejų programų saugyklas.</string>
-    <string name="error_dialog_check_server_logs">Kyla problemų dėl „Nextcloud“ programos nustatymų. Peržiūrėkite serverio sisteminio žurnalo įrašus.</string>
-    <string name="error_dialog_check_maintenance">Patikrinkite, ar jūsų „Nextcloud“ programa šiuo metu aptarnavimo režime.</string>
-    <string name="error_dialog_insufficient_storage">„Nextcloud“ programa nebeturi laisvos vietos saugykloje. Prašome, ištrinkite nereikalingus failus, kad lokalūs pakeitimai būtų sinchronizuoti su debesimi.</string>
+    <string name="error_dialog_check_server_logs">Kyla problemų dėl „communis“ programos nustatymų. Peržiūrėkite serverio sisteminio žurnalo įrašus.</string>
+    <string name="error_dialog_check_maintenance">Patikrinkite, ar jūsų „communis“ programa šiuo metu aptarnavimo režime.</string>
+    <string name="error_dialog_insufficient_storage">„communis“ programa nebeturi laisvos vietos saugykloje. Prašome, ištrinkite nereikalingus failus, kad lokalūs pakeitimai būtų sinchronizuoti su debesimi.</string>
     <string name="error_dialog_we_need_info">Norint jums padėti, mums reikia techninės informacijos:</string>
     <string name="error_action_open_deck_info">Atidaryti programos informaciją</string>
     <string name="error_action_open_network">Tinklo nustatymai</string>

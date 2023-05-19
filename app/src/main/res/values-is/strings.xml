@@ -44,14 +44,14 @@
     <string name="about_maintainer_title">Umsjónarmaður</string>
     <string name="about_developers_title">Hönnuðir</string>
     <string name="about_translators_title">Þýðendur</string>
-    <string name="about_translators_transifex">Nextcloud-samfélagið á %1$s</string>
+    <string name="about_translators_transifex">communis-samfélagið á %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_source_title">Upprunakóði</string>
     <string name="about_source">Þetta verkefni er hýst á GitHub: %1$s</string>
     <string name="about_issues_title">Vandamál</string>
     <string name="about_issues">Þú getur tilkynnt um villur, beðið um viðbótareiginleika og betrumbætur á GitHub villuskrásetjaranum: %1$s</string>
     <string name="about_translate_title">Þýða</string>
-    <string name="about_translate">Gakktu í Nextcloud-teymið á Transifex og hjálpaðu okkur að þýða þetta forrit: %1$s</string>
+    <string name="about_translate">Gakktu í communis-teymið á Transifex og hjálpaðu okkur að þýða þetta forrit: %1$s</string>
     <string name="about_app_license_title">Notkunarleyfi forritsins</string>
     <string name="about_app_license">Þessu forriti er dreift með almenna GNU GENERAL PUBLIC notkunarleyfinu v3+.</string>
     <string name="about_app_license_button">Skoða leyfi</string>

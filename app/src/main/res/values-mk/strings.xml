@@ -41,7 +41,7 @@
     <string name="about_maintainer_title">Одржувачи</string>
     <string name="about_developers_title">Развивачи</string>
     <string name="about_translators_title">Преведувачи</string>
-    <string name="about_translators_transifex">Nextcloud заедницата на %1$s</string>
+    <string name="about_translators_transifex">communis заедницата на %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_source_title">Изворен код</string>
     <string name="about_source">Овој проект е хостиран на GitHub: %1$s</string>
