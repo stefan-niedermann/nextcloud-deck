@@ -509,7 +509,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         @ColorInt final int headerTextColor = ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(accountColor);
         headerBinding.headerView.setBackgroundColor(accountColor);
         headerBinding.appName.setTextColor(headerTextColor);
-        DrawableCompat.setTint(headerBinding.logo.getDrawable(), headerTextColor);
+//        DrawableCompat.setTint(headerBinding.logo.getDrawable(), headerTextColor);
         DrawableCompat.setTint(headerBinding.copyDebugLogs.getDrawable(), headerTextColor);
     }
 

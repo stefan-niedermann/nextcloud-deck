@@ -9,17 +9,18 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="@dimen/drawer_header_logo_size"
-        android:layout_height="@dimen/drawer_header_logo_size"
+        android:layout_width="@dimen/drawer_header_height"
+        android:layout_height="@dimen/drawer_header_height"
         android:layout_margin="@dimen/spacer_2x"
         android:contentDescription="@string/app_logo"
         android:gravity="center"
-        android:padding="@dimen/spacer_1hx"
-        android:src="@drawable/ic_app_logo"
+        android:padding="0dp"
+        android:src="@mipmap/ic_launcher_foreground"
+        android:scaleX="2"
+        android:scaleY="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/header_view"
-        app:tint="@android:color/white" />
+        app:layout_constraintTop_toTopOf="@id/header_view" />
 
     <TextView
         android:id="@+id/app_name"
