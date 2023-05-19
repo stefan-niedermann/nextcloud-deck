@@ -14,8 +14,7 @@
     <uses-sdk tools:overrideLibrary="androidx.camera.core, androidx.camera.camera2, androidx.camera.lifecycle, androidx.camera.view" />
 
     <queries>
-        <package android:name="com.nextcloud.client" />
-        <package android:name="com.nextcloud.android.beta" />
+        <package android:name="de.erzbistumkoeln.communis.client" />
     </queries>
 
     <application
