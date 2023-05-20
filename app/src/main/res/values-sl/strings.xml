@@ -100,6 +100,7 @@
     <string name="attachments">Priloge</string>
     <string name="no_cards">Ni še vpisanih nalog</string>
     <string name="no_account">Ni nastavljenega nobenega računa</string>
+    <string name="account_already_added">Račun %1$s je že dodan.</string>
     <string name="account_is_getting_imported">Poteka uvažanje računa</string>
     <string name="not_synced_yet">Še ni usklajeno</string>
     <string name="no_lists_yet">Ni še dodanega seznama</string>
@@ -159,6 +160,7 @@
     <string name="title_is_mandatory">Naslov je obvezen podatek!</string>
     <string name="provide_at_least_a_title_or_description">Vpisati je treba vsaj naslov oziroma opis</string>
     <string name="welcome_text">Dobrodošli v %1$s</string>
+    <string name="welcome_text_further_accounts">Dodaj račun</string>
     <string name="maintenance_mode_explanation">Strežnik %1$s je trenutno v načinu vzdrževanja. Stopite v stik s skrbnikom, ali pa poskusite kasneje.</string>
     <string name="share_add_to_card">Dodaj k nalogi</string>
     <string name="share_success">Uspešno dodano %1$s v %2$s</string>
@@ -225,6 +227,7 @@
     <string name="error_dialog_tip_sync_only_on_wifi">Če je izbrana možnost »Usklajuj le prek povezave Wi-Fi«, je usklajevanje mogoče izključno ob uporabi povezave Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Kaže, da je nekaj narobe s programom Nextcloud. Poskusite vsiljeno zaustaviti programa Nextcloud in Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Vsiljeno zaustavljanje ni imelo ustreznega učinka. Poskusite lahko še počistiti podatke shrambe obeh programov.</string>
+    <string name="error_dialog_timeout_instance">V podanem času program ni pridobil ustreznega odziva s strežnika. Prepričajte se, da program deluje pravilno.</string>
     <string name="error_dialog_timeout_toggle">Preverite omrežno povezavo. Včasih preklapljanje med mobilnimi in Wi-Fi podatki razreši težavo.</string>
     <string name="error_dialog_check_server">Prejet je napačen odziv s strežnika. Preverite, ali imate dostop do programa Deck prek spletnega vmesnika.</string>
     <string name="error_dialog_check_server_logs">Prišlo je do napake z namestitvijo Nextcloud. Preverite zapis dnevnika na strežniku.</string>
@@ -316,6 +319,7 @@
     <string name="downloads">Prejemi</string>
     <string name="files">Datoteke</string>
     <string name="gallery">Galerija</string>
+    <string name="simple_attach">Pripni</string>
     <string name="add_stack_widget">Dodaj gradnik seznama</string>
     <string name="add_filter_widget">Dodaj gradnik filtra</string>
     <string name="simple_order">Razvrstitev</string>
@@ -337,5 +341,8 @@
     <string name="card_outdated">Vsebina te kartice je morda zastarela.</string>
     <string name="show_error">Pokaži napako</string>
     <string name="push_notification_link_empty">Zaradi znane težave v spletnem programu Deck te kartice ni mogoče prikazati. Več informacij je na voljo na: %1$s</string>
+    <string name="enter_search_term_title">Vpis iskalnega niza</string>
+    <string name="enter_search_term_description">Vpišite iskalni niz za kartice in zbirke</string>
     <string name="no_search_results_title">Ni zadetkov iskanja</string>
-    </resources>
+    <string name="no_search_results_description">Za vpisan iskalni niz ni najdenih zadetkov</string>
+</resources>
