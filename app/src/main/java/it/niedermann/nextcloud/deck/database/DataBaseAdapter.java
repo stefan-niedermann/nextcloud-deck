@@ -1622,7 +1622,7 @@ public class DataBaseAdapter {
         executor.submit(() -> {
             // Glide Module depends on correct account being set.
             // TODO Use SingleSignOnURL where possible, allow passing ssoAccountName to MarkdownEditor
-            SingleAccountHelper.setCurrentAccount(context, account.getName());
+            SingleAccountHelper.commitCurrentAccount(context, account.getName());
 
             DeckLog.log("--- Write:", context.getString(R.string.shared_preference_last_account), "→", account.getId());
             sharedPreferencesEditor.putLong(context.getString(R.string.shared_preference_last_account), account.getId());
@@ -1634,7 +1634,7 @@ public class DataBaseAdapter {
         executor.submit(() -> {
             // Glide Module depends on correct account being set.
             // TODO Use SingleSignOnURL where possible, allow passing ssoAccountName to MarkdownEditor
-            SingleAccountHelper.setCurrentAccount(context, null);
+            SingleAccountHelper.commitCurrentAccount(context, null);
 
             DeckLog.log("--- Remove:", context.getString(R.string.shared_preference_last_account));
             sharedPreferencesEditor.remove(context.getString(R.string.shared_preference_last_account));

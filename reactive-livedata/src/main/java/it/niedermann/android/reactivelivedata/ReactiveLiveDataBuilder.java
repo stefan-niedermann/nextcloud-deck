@@ -12,6 +12,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
 import kotlin.Triple;
+import kotlin.jvm.functions.Function1;
 
 /**
  * Partial implementation of <a href="https://reactivex.io/documentation/operators.html">ReactiveX</a> features
@@ -22,16 +23,16 @@ public interface ReactiveLiveDataBuilder<T> {
      * @see <a href="https://reactivex.io/documentation/operators/map.html">ReactiveX#map</a>
      */
     @NonNull
-    <Y> ReactiveLiveDataBuilder<Y> map(@NonNull Function<T, Y> mapFunction);
+    <Y> ReactiveLiveDataBuilder<Y> map(@NonNull Function1<T, Y> mapFunction);
 
     /**
      * @see <a href="https://reactivex.io/documentation/operators/flatmap.html">ReactiveX#flatmap</a>
      */
     @NonNull
-    <Y> ReactiveLiveDataBuilder<Y> flatMap(@NonNull Function<T, LiveData<Y>> flatMapFunction);
+    <Y> ReactiveLiveDataBuilder<Y> flatMap(@NonNull Function1<T, LiveData<Y>> flatMapFunction);
 
     /**
-     * @see #flatMap(Function)
+     * @see #flatMap(Function1)
      */
     @NonNull
     <Y> ReactiveLiveDataBuilder<Y> flatMap(@NonNull Supplier<LiveData<Y>> flatMapSupplier);
