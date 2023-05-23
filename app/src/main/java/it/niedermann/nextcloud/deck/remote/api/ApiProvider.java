@@ -30,7 +30,7 @@ public class ApiProvider {
 
     public synchronized void initSsoApi(@NonNull final NextcloudAPI.ApiConnectedListener callback) {
         if (this.deckAPI == null) {
-            final NextcloudAPI nextcloudAPI = new NextcloudAPI(context, ssoAccount, GsonConfig.getGson(), callback);
+            final var nextcloudAPI = new NextcloudAPI(context, ssoAccount, GsonConfig.getGson(), callback);
             this.deckAPI = new NextcloudRetrofitApiBuilder(nextcloudAPI, DECK_API_ENDPOINT).create(DeckAPI.class);
             this.nextcloudAPI = new NextcloudRetrofitApiBuilder(nextcloudAPI, NC_API_ENDPOINT).create(NextcloudServerAPI.class);
         }
