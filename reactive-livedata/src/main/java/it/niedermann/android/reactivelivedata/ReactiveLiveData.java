@@ -27,6 +27,7 @@ import it.niedermann.android.reactivelivedata.merge.MergeLiveData;
 import it.niedermann.android.reactivelivedata.take.TakeLiveData;
 import it.niedermann.android.reactivelivedata.tap.TapLiveData;
 import kotlin.Triple;
+import kotlin.jvm.functions.Function1;
 
 /**
  * @see ReactiveLiveDataBuilder
@@ -81,27 +82,27 @@ public class ReactiveLiveData<T> extends MediatorLiveData<T> implements Reactive
     }
 
     /**
-     * @see Transformations#map(LiveData, Function)
+     * @see Transformations#map(LiveData, Function1)
      */
     @NonNull
     @Override
-    public <Y> ReactiveLiveData<Y> map(@NonNull Function<T, Y> mapFunction) {
+    public <Y> ReactiveLiveData<Y> map(@NonNull Function1<T, Y> mapFunction) {
         return new MapLiveData<>(this, mapFunction);
     }
 
     /**
-     * @see #map(Function) but the mapFunction will be executed on the given executor
+     * @see #map(Function1) but the mapFunction will be executed on the given executor
      */
-    public <Y> ReactiveLiveData<Y> map(@NonNull Function<T, Y> mapFunction, @NonNull ExecutorService executor) {
+    public <Y> ReactiveLiveData<Y> map(@NonNull Function1<T, Y> mapFunction, @NonNull ExecutorService executor) {
         return new MapLiveData<>(this, mapFunction, executor);
     }
 
     /**
-     * @see Transformations#switchMap(LiveData, Function)
+     * @see Transformations#switchMap(LiveData, Function1)
      */
     @NonNull
     @Override
-    public <Y> ReactiveLiveData<Y> flatMap(@NonNull Function<T, LiveData<Y>> flatMapFunction) {
+    public <Y> ReactiveLiveData<Y> flatMap(@NonNull Function1<T, LiveData<Y>> flatMapFunction) {
         return new FlatMapLiveData<>(this, flatMapFunction);
     }
 
