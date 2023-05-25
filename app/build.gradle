@@ -67,7 +67,7 @@ android {
 }
 
 dependencies {
-    def cameraVersion = "1.2.2"
+    def cameraVersion = "1.2.3"
     def lifecycleVersion = "2.6.1"
     def roomVersion = "2.5.1"
     def glideVersion = "4.15.1"
