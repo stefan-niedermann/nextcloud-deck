@@ -167,7 +167,7 @@
     <string name="choose_list">Escull la llista</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Obre al navegador</string>
-    <string name="updating_card">S\'està actualitzant la targeta...</string>
+    <string name="updating_card">S\'està actualitzant la targeta…</string>
 
     <string name="move_list_right">Mou la llista a la dreta</string>
     <string name="move_list_left">Mou la llista a l\'esquerra</string>
@@ -267,7 +267,7 @@
     <string name="error_action_open_battery_settings">Paràmetres de la bateria</string>
     <string name="move_warning">Ni es poden transferir comentaris ni fitxers adjunts quan es mogui la targeta a un altre tauler.</string>
     <string name="clone_board">Clonar tauler</string>
-    <string name="cloning_board">Clonant %1$s ...</string>
+    <string name="cloning_board">Clonant %1$s …</string>
     <string name="successfully_cloned_board">S\'ha clonat amb èxit %1$s</string>
     <string name="attachment_does_not_yet_exist">Encara no existeix el fitxer adjunt al Deck</string>
     <string name="card_does_not_yet_exist">La targeta encara no existeix al Deck</string>
@@ -318,14 +318,14 @@
     <string name="copy_logs">Copia els registres al porta-retalls</string>
     <string name="app_logo">Logo de l\'aplicació</string>
     <string name="log_file">Fitxer de registre</string>
-    <string name="copying_logs_to_file">Copiant registres al fitxer...</string>
+    <string name="copying_logs_to_file">Copiant registres al fitxer…</string>
     <string name="account_imported">Compte importat</string>
     <string name="simple_search">Cerca</string>
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Títol (necessari)</string>
-    <string name="saving_new_card">Desant una nova targeta...</string>
-    <string name="progress_import">S\'està important el tauler %1$d/%2$d...</string>
-    <string name="progress_import_indeterminate">Important taules...</string>
+    <string name="saving_new_card">Desant una nova targeta…</string>
+    <string name="progress_import">S\'està important el tauler %1$d/%2$d…</string>
+    <string name="progress_import_indeterminate">Important taules…</string>
     <string name="card_outdated">El contingut d\'aquesta targeta pot estar obsolet.</string>
     <string name="show_error">Mostra l\'error</string>
     <string name="push_notification_link_empty">A causa d\'un error conegut en l\'aplicació web Tauler, lamentablement no podem mostrar aquesta targeta. Per a més informació vegeu: %1$s</string>
