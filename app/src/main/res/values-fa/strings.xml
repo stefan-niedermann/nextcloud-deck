@@ -19,6 +19,7 @@
     <string name="simple_filter">فیلتر</string>
     <string name="simple_overdue">منقضی شده</string>
     <string name="simple_clear">پاک کردن</string>
+    <string name="simple_discard">لغو تغییرات</string>
     <string name="simple_update">به روز رسانی</string>
     <string name="simple_delete">حذف</string>
     <string name="simple_rename">تغییرنام</string>
@@ -99,6 +100,7 @@
     <string name="attachments">پیوست ها</string>
     <string name="no_cards">هنوز کارت وجود ندارد</string>
     <string name="no_account">هیچ حساب پیکربندی نشده است</string>
+    <string name="account_already_added">حساب کاربری %1$s قبلا اضافه شده است.</string>
     <string name="account_is_getting_imported">حساب وارد می شود</string>
     <string name="not_synced_yet">هنوز همگام سازی نشده است</string>
     <string name="no_lists_yet">هنوز لیست وجود ندارد</string>
@@ -154,6 +156,7 @@
     <string name="title_is_mandatory">عنوان الزامی است</string>
     <string name="provide_at_least_a_title_or_description">حداقل عنوان یا توصیفی ارائه دهید</string>
     <string name="welcome_text">به %1$s خوش آمدید</string>
+    <string name="welcome_text_further_accounts">افزودن حساب کاربری دیگر</string>
     <string name="maintenance_mode_explanation">سرور %1$s در حال حاضر در حالت تعمیر و نگهداری است. لطفاً با مدیریت تماس بگیرید یا بعداً دوباره امتحان کنید.</string>
     <string name="share_add_to_card">افزودن به کارت</string>
     <string name="share_success">با موفقیت %1$s به %2$s اضافه شد</string>
@@ -220,6 +223,7 @@
     <string name="error_dialog_tip_sync_only_on_wifi">اگر شما گزینه «هم‌گام‌سازی فقط روی وای‌فای» را در تنظیمات فعال کرده باشید، تنها زمانی که به وای‌فای متصل باشید می‌توانید هم‌گام‌سازی کنید.</string>
     <string name="error_dialog_tip_files_force_stop">به نظر می رسد مشکلی در برنامه ابرسانا شما وجود ندارد. لطفا سعی کنید هر دو برنامه ابرسانا و برنامه کارت‌های سانا را مجبور به توقف کنید.</string>
     <string name="error_dialog_tip_files_delete_storage">اگر متوقف کردن اجباری کمکی نکرد ، می توانید فضای ذخیره سازی هر دو برنامه را پاک کنید.</string>
+    <string name="error_dialog_timeout_instance">در زمان تعیین شده پاسخی از سرور نمونه شما دریافت نشده است. لطفاً مطمئن شوید که سرور نمونه شما به درستی کار می‌کند.</string>
     <string name="error_dialog_timeout_toggle">اتصال شبکه خود را بررسی کنید. بعضی اوقات خاموش و روشن کردن مجدد داده تلفن همراه یا Wi-Fi می تواند کمک کند.</string>
     <string name="error_dialog_check_server">پاسخ سرور شما درست نبود. لطفا بررسی کنید که آیا می توانید از طریق رابط وب به برنامه کارت‌های سانا دسترسی پیدا کنید یا خیر.</string>
     <string name="error_dialog_check_server_logs">مشکلی در راه اندازی ابرسانا شما وجود دارد. لطفاً به پرونده های ثبت سرور نگاهی بیندازید.</string>
@@ -280,6 +284,10 @@
     <string name="project_type_deck_card">کارت deck</string>
     <string name="project_type_file">فایل</string>
     <string name="projects_title">پروژه ها</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d منابع</item>
+        <item quantity="other">%1$dمنابع</item>
+    </plurals>
     <string name="no_assigned_label">برچسب اختصاصی وجود ندارد</string>
     <string name="single_card">کارت تک</string>
     <string name="project_type_room">اتاق گفتگو</string>
@@ -303,6 +311,7 @@
     <string name="downloads">بارگیری ها</string>
     <string name="files">فایل ها</string>
     <string name="gallery">گالری</string>
+    <string name="simple_attach">ضمیمه کردن</string>
     <string name="add_stack_widget">افزودن ابزارک لیست</string>
     <string name="add_filter_widget">افزودن ابزارک پالایه</string>
     <string name="simple_order">ترتیب</string>
@@ -324,4 +333,7 @@
     <string name="card_outdated">ممکن است محتوای این کارت قدیمی باشد.</string>
     <string name="show_error">نشان دادن خطا</string>
     <string name="push_notification_link_empty">به دلیل یک مشکل شناخته شده در برنامه وب برگه‌دان، متأسفانه قادر به نمایش این کارت نیستیم. برای اطلاعات بیشتر ببین: %1$s</string>
-    </resources>
+    <string name="enter_search_term_title">کلمه مورد جستجو را وارد فرمایید</string>
+    <string name="no_search_results_title">جستجو نتیجه‌ای نداشت</string>
+    <string name="no_search_results_description">برای جستجوی شما نتیجه‌ای پیدا نکردیم.</string>
+</resources>
