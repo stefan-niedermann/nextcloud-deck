@@ -100,6 +100,7 @@
     <string name="attachments">المرفقات</string>
     <string name="no_cards">لا توجد بطاقات حتى الآن</string>
     <string name="no_account">لم يتم إعداد أي حساب بعد.</string>
+    <string name="account_already_added">الحساب %1$s سبقت إضافته</string>
     <string name="account_is_getting_imported">يتم استيراد الحساب </string>
     <string name="not_synced_yet">لم يتم التزامن حتى الآن</string>
     <string name="no_lists_yet">لا توجد قائمة حتى الآن</string>
@@ -163,6 +164,7 @@
     <string name="title_is_mandatory">العنوان مطلوب</string>
     <string name="provide_at_least_a_title_or_description">أدخل عنوانًا أو وصفًا على الأقل</string>
     <string name="welcome_text">مرحبًا بك في %1$s</string>
+    <string name="welcome_text_further_accounts">أضف حساباً آخر</string>
     <string name="maintenance_mode_explanation">سيرفر %1$s حاليًا في وضع الصيانة. فضلًا تواصل مع المسؤول أو أعد المحاولة لاحقًا. </string>
     <string name="share_add_to_card">إضافة بطاقة</string>
     <string name="share_success">تم إضافة %1$s إلى %2$s بنجاح </string>
@@ -229,6 +231,7 @@
     <string name="error_dialog_tip_sync_only_on_wifi">إذا قمت بتعطيل إعدادات \"التزامن فقط على شبكة الإنترنت Wi-Fi \" سيمكنك التزامن فقط عندما تكون متصلًا بشبكة الإنترنت. </string>
     <string name="error_dialog_tip_files_force_stop">يبدو أن هناك خطأ ما في تطبيق نكست كلاود الخاص بك. يرجى محاولة فرض إيقاف كلا من تطبيق نكست كلاود وتطبيق Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">إذا لم يساعد إيقافهم بالقوة ، فيمكنك محاولة مسح تخزين كلا التطبيقين.</string>
+    <string name="error_dialog_timeout_instance">لا توجد استجابة من خادومك بهذا الاسم. رجاءً تأكد من أن النظام يعمل على الخادوم كما يجب.</string>
     <string name="error_dialog_timeout_toggle">تحقق من اتصالك بالشبكة. يمكن أن يساعد إيقاف بيانات الهاتف المحمول أو إيقاف تشغيل Wi-Fi وتشغيله مرة أخرى أحيانا.</string>
     <string name="error_dialog_check_server">لم تكن استجابة الخادم الخاص بك صحيحة. يرجى التحقق مما إذا كان يمكنك الوصول إلى تطبيق Deck عبر واجهة الويب.</string>
     <string name="error_dialog_check_server_logs">هناك مشكلة في إعداد Nextcloud الخاص بك. يرجى إلقاء نظرة على ملفات سجل الخادم.</string>
@@ -325,6 +328,7 @@
     <string name="downloads">التنزيلات</string>
     <string name="files">الملفات</string>
     <string name="gallery">معرض الصور</string>
+    <string name="simple_attach">إرفاق</string>
     <string name="add_stack_widget">إضافة قائمة الودجات </string>
     <string name="add_filter_widget">إضافة تصفية الودجات</string>
     <string name="simple_order">طلب</string>
@@ -346,5 +350,8 @@
     <string name="card_outdated">ربما يكون محتوى هذه البطاقة قديمًا.</string>
     <string name="show_error">عرض الخطأ</string>
     <string name="push_notification_link_empty">نظرًا لوجود مشكلة معروفة في تطبيق الويب \"Deck\"، لا يمكننا للأسف عرض هذه البطاقة. لمزيد من المعلومات، راجع: %1$s</string>
+    <string name="enter_search_term_title">أدخل عبارة البحث</string>
+    <string name="enter_search_term_description">أدخل عبارة البحث لإيجاد البطاقات على الرقعة</string>
     <string name="no_search_results_title">لا توجد نتائج</string>
-    </resources>
+    <string name="no_search_results_description">لم يُمكن إيجاد أي نتيجة للعبارة المبحوث عنها</string>
+</resources>

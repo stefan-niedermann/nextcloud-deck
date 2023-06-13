@@ -181,7 +181,7 @@
     <string name="filter_week">Próximos 7 días</string>
     <string name="filter_month">Próximos 30 días</string>
     <string name="filter_no_due">Sen data de caducidade</string>
-    <string name="filter_later">Despois</string>
+    <string name="filter_later">Após</string>
     <string name="filter_by_tag">Filtrar pola etiqueta</string>
     <string name="filter_by_assigned_user">Filtrar polo usuario asignado</string>
     <string name="filter_by_duedate">Filtrar pola data de caducidade</string>
@@ -220,7 +220,7 @@
     <string name="error_dialog_tip_offline_no_internet">Semella que tentou facer unha sincronización cando non ten conexión a Internet.</string>
     <string name="error_dialog_tip_offline_connection_refused">A conexión foi rexeitada. Comprobe que é posíbel acceder ao servidor cun navegador web.</string>
     <string name="error_dialog_tip_offline_connection_timeout">A conexión excedeu o tempo de agarda. Comprobe se ten conexión á Internet. Isto tamén pode deberse a que o servidor estea moi ocupado.</string>
-    <string name="error_dialog_tip_sync_only_on_wifi">Se activou o axuste «Sincronizar só con Wi-Fi»\", só poderá sincronizar cando estea conectado a unha rede Wi-Fi.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Se activou o axuste «Sincronizar só con Wi-Fi», só poderá sincronizar cando estea conectado a unha rede Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Semella que algo está mal na súa apli Nextcloud. Tente forzar a parar ambas, a apli Nextcloud e a apli Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Se detelos pola forza non axuda, pode tentar limpar o almacenamento de ambas as aplicacións.</string>
     <string name="error_dialog_timeout_toggle">Comprobe a súa conexión de rede. Ás veces apagar e volver acender os datos móbiles ou a wifi pode axudar.</string>

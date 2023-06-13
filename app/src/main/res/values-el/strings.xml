@@ -299,6 +299,7 @@
     <string name="downloads">Λήψεις</string>
     <string name="files">Αρχεία</string>
     <string name="gallery">Εκθεσιακός χώρος</string>
+    <string name="simple_attach">Συνημμένο</string>
     <string name="add_stack_widget">Προσθήκη λίστας widget</string>
     <string name="add_filter_widget">Προσθήκη φίλτρου μικροεφαρμογής</string>
     <string name="simple_order">Σειρά</string>
