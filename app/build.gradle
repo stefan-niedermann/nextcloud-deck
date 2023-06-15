@@ -71,7 +71,7 @@ dependencies {
     def lifecycleVersion = "2.6.1"
     def roomVersion = "2.5.1"
     def glideVersion = "4.15.1"
-    def nextcloudCommonsVersion = "1.8.0"
+    def nextcloudCommonsVersion = "1.8.1"
     def androidCommonsVersion = "0.2.9"
 
     implementation project(path: ':cross-tab-drag-and-drop')
