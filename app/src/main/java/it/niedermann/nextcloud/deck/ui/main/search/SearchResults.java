@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 
 public class SearchResults {
@@ -18,7 +18,7 @@ public class SearchResults {
     public final Account account;
 
     @Nullable
-    public final Board board;
+    public final FullBoard fullBoard;
 
     @NonNull
     public final Map<Stack, List<FullCard>> result;
@@ -30,9 +30,9 @@ public class SearchResults {
         this(null, null, Collections.emptyMap(), "");
     }
 
-    public SearchResults(@Nullable Account account, @Nullable Board board, @NonNull Map<Stack, List<FullCard>> result, @NonNull String term) {
+    public SearchResults(@Nullable Account account, @Nullable FullBoard fullBoard, @NonNull Map<Stack, List<FullCard>> result, @NonNull String term) {
         this.account = account;
-        this.board = board;
+        this.fullBoard = fullBoard;
         this.result = result;
         this.term = term;
     }

@@ -24,7 +24,9 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
@@ -55,7 +57,7 @@ public class MainViewModel extends BaseViewModel {
         }
     }
 
-    private Exception getInvalidSyncManagerException() {
+    private IllegalStateException getInvalidSyncManagerException() {
         return new IllegalStateException("SyncManager is null");
     }
 
@@ -257,5 +259,56 @@ public class MainViewModel extends BaseViewModel {
 
     public LiveData<Long> getCurrentStackId$(long accountId, long boardId) {
         return baseRepository.getCurrentStackId$(accountId, boardId);
+    }
+
+    public CompletableFuture<Account> getAccountFuture(long accountId) {
+        return supplyAsync(() -> baseRepository.readAccountDirectly(accountId));
+    }
+
+
+    public void archiveCard(@NonNull FullCard card, @NonNull IResponseCallback<FullCard> callback) {
+        if (syncRepository == null) {
+            callback.onError(getInvalidSyncManagerException());
+        } else {
+            syncRepository.archiveCard(card, callback);
+        }
+    }
+
+    public void deleteCard(@NonNull Card card, @NonNull IResponseCallback<Void> callback) {
+        if (syncRepository == null) {
+            callback.onError(getInvalidSyncManagerException());
+        } else {
+            syncRepository.deleteCard(card, callback);
+        }
+    }
+
+    public void assignUserToCard(@NonNull FullCard fullCard) {
+        if (syncRepository == null) {
+            throw getInvalidSyncManagerException();
+        } else {
+            final var syncRepositoryRef = syncRepository;
+            getAccountFuture(fullCard.getAccountId()).thenAcceptAsync(account -> syncRepositoryRef.assignUserToCard(getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard()));
+        }
+    }
+
+    public void unassignUserFromCard(@NonNull FullCard fullCard) {
+        if (syncRepository == null) {
+            throw getInvalidSyncManagerException();
+        } else {
+            final var syncRepositoryRef = syncRepository;
+            getAccountFuture(fullCard.getAccountId()).thenAcceptAsync(account -> syncRepositoryRef.unassignUserFromCard(getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard()));
+        }
+    }
+
+    private User getUserByUidDirectly(long accountId, String uid) {
+        return baseRepository.getUserByUidDirectly(accountId, uid);
+    }
+
+    public void moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId, @NonNull IResponseCallback<Void> callback) {
+        if (syncRepository == null) {
+            callback.onError(getInvalidSyncManagerException());
+        } else {
+            syncRepository.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId, callback);
+        }
     }
 }

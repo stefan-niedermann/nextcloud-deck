@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.main.search;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -12,26 +13,35 @@ import java.util.Comparator;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemSearchCardBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemSearchStackBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
+import it.niedermann.nextcloud.deck.ui.card.CardActionListener;
+import it.niedermann.nextcloud.deck.ui.card.CardOptionsItemSelectedListener;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> implements CardOptionsItemSelectedListener {
 
     private static final int TYPE_STACK = 0;
     private static final int TYPE_CARD = 1;
 
+    @NonNull
+    private CardActionListener cardActionListener;
     @Nullable
     private Account account;
     @Nullable
-    private Board board;
+    private FullBoard fullBoard;
     private final List<IRemoteEntity> items = new ArrayList<>();
     @NonNull
     private String term = "";
+
+    public SearchAdapter(@NonNull CardActionListener cardActionListener) {
+        this.cardActionListener = cardActionListener;
+    }
 
     @NonNull
     @Override
@@ -64,16 +74,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
                             final var searchStackViewHolder = (SearchStackViewHolder) holder;
                             searchStackViewHolder.bind(stack);
 
-                            if (board == null) {
+                            if (fullBoard == null) {
                                 DeckLog.logError(new IllegalStateException("board is null"));
                                 return;
                             }
-                            searchStackViewHolder.applyTheme(board.getColor());
+                            searchStackViewHolder.applyTheme(fullBoard.getBoard().getColor());
                         });
                 break;
             }
             case TYPE_CARD: {
-                if (account == null || board == null) {
+                if (account == null || fullBoard == null) {
                     DeckLog.logError(new IllegalStateException("account or board is null"));
                     break;
                 }
@@ -85,8 +95,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
                         .map(item -> (FullCard) item)
                         .ifPresent(fullCard -> {
                             final var searchCardViewHolder = (SearchCardViewHolder) holder;
-                            searchCardViewHolder.bind(account, board.getLocalId(), fullCard);
-                            searchCardViewHolder.applyTheme(board.getColor(), term);
+                            searchCardViewHolder.bind(account, fullBoard.getLocalId(), fullCard, fullBoard.getId(), R.menu.card_menu, this);
+                            searchCardViewHolder.applyTheme(fullBoard.getBoard().getColor(), term);
                         });
                 break;
             }
@@ -123,7 +133,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
 
     public void setItems(@NonNull SearchResults results) {
         this.account = results.account;
-        this.board = results.board;
+        this.fullBoard = results.fullBoard;
         this.term = results.term;
 
         this.items.clear();
@@ -136,5 +146,40 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
                 });
 
         notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onCardOptionsItemSelected(@NonNull MenuItem menuItem, @NonNull FullCard fullCard) {
+        final int itemId = menuItem.getItemId();
+        if (itemId == R.id.share_link) {
+            if (fullBoard == null) {
+                DeckLog.warn("Can not share link to card", fullCard.getCard().getTitle(), "because fullBoard is null");
+                return false;
+            }
+            cardActionListener.onShareLink(fullBoard, fullCard);
+            return true;
+        } else if (itemId == R.id.share_content) {
+            cardActionListener.onShareContent(fullCard);
+        } else if (itemId == R.id.action_card_assign) {
+            cardActionListener.onAssignCurrentUser(fullCard);
+            return true;
+        } else if (itemId == R.id.action_card_unassign) {
+            cardActionListener.onUnassignCurrentUser(fullCard);
+            return true;
+        } else if (itemId == R.id.action_card_move) {
+            if (fullBoard == null) {
+                DeckLog.warn("Can not move card", fullCard.getCard().getTitle(), "because fullBoard is null");
+                return false;
+            }
+            cardActionListener.onMove(fullBoard, fullCard);
+            return true;
+        } else if (itemId == R.id.action_card_archive) {
+            cardActionListener.onArchive(fullCard);
+            return true;
+        } else if (itemId == R.id.action_card_delete) {
+            cardActionListener.onDelete(fullCard);
+            return true;
+        }
+        return true;
     }
 }

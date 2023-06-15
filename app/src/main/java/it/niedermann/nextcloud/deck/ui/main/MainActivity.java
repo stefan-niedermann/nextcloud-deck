@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.main;
 
 import static java.util.Collections.emptyList;
+import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -86,6 +87,7 @@ import it.niedermann.nextcloud.deck.ui.board.ArchiveBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.edit.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.edit.EditBoardListener;
+import it.niedermann.nextcloud.deck.ui.card.CardActionListener;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CreateCardListener;
 import it.niedermann.nextcloud.deck.ui.card.NewCardDialog;
@@ -95,6 +97,8 @@ import it.niedermann.nextcloud.deck.ui.filter.FilterDialogFragment;
 import it.niedermann.nextcloud.deck.ui.filter.FilterViewModel;
 import it.niedermann.nextcloud.deck.ui.main.search.SearchAdapter;
 import it.niedermann.nextcloud.deck.ui.main.search.SearchResults;
+import it.niedermann.nextcloud.deck.ui.movecard.MoveCardDialogFragment;
+import it.niedermann.nextcloud.deck.ui.movecard.MoveCardListener;
 import it.niedermann.nextcloud.deck.ui.settings.PreferencesViewModel;
 import it.niedermann.nextcloud.deck.ui.stack.DeleteStackDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.DeleteStackListener;
@@ -105,10 +109,19 @@ import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedSnackbar;
+import it.niedermann.nextcloud.deck.util.CardUtil;
 import it.niedermann.nextcloud.deck.util.CustomAppGlideModule;
 import it.niedermann.nextcloud.deck.util.OnTextChangedWatcher;
 
-public class MainActivity extends AppCompatActivity implements DeleteStackListener, EditStackListener, DeleteBoardListener, EditBoardListener, ArchiveBoardListener, OnScrollListener, CreateCardListener {
+public class MainActivity extends AppCompatActivity implements DeleteStackListener,
+        EditStackListener,
+        DeleteBoardListener,
+        EditBoardListener,
+        ArchiveBoardListener,
+        OnScrollListener,
+        CreateCardListener,
+        CardActionListener,
+        MoveCardListener {
 
     protected ActivityMainBinding binding;
     private NavHeaderMainBinding headerBinding;
@@ -184,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         navigationHandler = new MainActivityNavigationHandler(this, binding.drawerLayout, mainViewModel::saveCurrentBoardId);
         binding.navigationView.setNavigationItemSelectedListener(navigationHandler);
 
-        searchAdapter = new SearchAdapter();
+        searchAdapter = new SearchAdapter(this);
         binding.searchResults.setAdapter(searchAdapter);
         binding.searchView.getEditText().addTextChangedListener(new OnTextChangedWatcher(value -> {
             if (TextUtils.isEmpty(value)) {
@@ -432,7 +445,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                     .filter(() -> binding.searchView.isShowing())
                     .flatMap(term -> new ReactiveLiveData<>(mainViewModel.searchCards(account.getId(), currentBoard.getLocalId(), term, Integer.MAX_VALUE))
                             .combineWith(() -> new MutableLiveData<>(term)))
-                    .map(result -> new SearchResults(account, currentBoard.getBoard(), result.first, result.second));
+                    .map(result -> new SearchResults(account, currentBoard, result.first, result.second));
             searchResults$.observe(this, searchResultsObserver);
         }
     }
@@ -936,6 +949,100 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 .show();
     }
 
+    @Override
+    public void onArchive(@NonNull FullCard fullCard) {
+        mainViewModel.archiveCard(fullCard, new IResponseCallback<>() {
+            @Override
+            public void onResponse(FullCard response) {
+                DeckLog.info("Successfully archived", Card.class.getSimpleName(), fullCard.getCard().getTitle());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                IResponseCallback.super.onError(throwable);
+                showExceptionDialog(throwable, fullCard.getAccountId());
+            }
+        });
+    }
+
+    @Override
+    public void onDelete(@NonNull FullCard fullCard) {
+        mainViewModel.deleteCard(fullCard.getCard(), new IResponseCallback<>() {
+            @Override
+            public void onResponse(Void response) {
+                DeckLog.info("Successfully deleted card", fullCard.getCard().getTitle());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                if (SyncRepository.isNoOnVoidError(throwable)) {
+                    IResponseCallback.super.onError(throwable);
+                    showExceptionDialog(throwable, fullCard.getAccountId());
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onAssignCurrentUser(@NonNull FullCard fullCard) {
+        mainViewModel.assignUserToCard(fullCard);
+    }
+
+    @Override
+    public void onUnassignCurrentUser(@NonNull FullCard fullCard) {
+        mainViewModel.unassignUserFromCard(fullCard);
+    }
+
+    @Override
+    public void onMove(@NonNull FullBoard fullBoard, @NonNull FullCard fullCard) {
+        DeckLog.verbose("[Move card] Launch move dialog for " + Card.class.getSimpleName() + " \"" + fullCard.getCard().getTitle() + "\" (#" + fullCard.getLocalId() + ") from " + Stack.class.getSimpleName() + " #" + fullCard.getCard().getStackId());
+        MoveCardDialogFragment
+                .newInstance(fullCard.getAccountId(), fullBoard.getBoard().getLocalId(), fullCard.getCard().getTitle(), fullCard.getLocalId(), CardUtil.cardHasCommentsOrAttachments(fullCard))
+                .show(getSupportFragmentManager(), MoveCardDialogFragment.class.getSimpleName());
+    }
+
+    @Override
+    public void onShareLink(@NonNull FullBoard fullBoard, @NonNull FullCard fullCard) {
+        mainViewModel.getAccountFuture(fullCard.getAccountId()).thenAcceptAsync(account -> {
+            final int shareLinkRes = account.getServerDeckVersionAsObject().getShareLinkResource();
+            final var shareIntent = new Intent()
+                    .setAction(Intent.ACTION_SEND)
+                    .setType(TEXT_PLAIN)
+                    .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
+                    .putExtra(Intent.EXTRA_TITLE, fullCard.getCard().getTitle())
+                    .putExtra(Intent.EXTRA_TEXT, account.getUrl() + getString(shareLinkRes, fullBoard.getBoard().getId(), fullCard.getCard().getId()));
+            startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
+        }, ContextCompat.getMainExecutor(this));
+    }
+
+    @Override
+    public void onShareContent(@NonNull FullCard fullCard) {
+        final var shareIntent = new Intent()
+                .setAction(Intent.ACTION_SEND)
+                .setType(TEXT_PLAIN)
+                .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
+                .putExtra(Intent.EXTRA_TITLE, fullCard.getCard().getTitle())
+                .putExtra(Intent.EXTRA_TEXT, CardUtil.getCardContentAsString(this, fullCard));
+        startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
+    }
+
+    @Override
+    public void move(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
+        mainViewModel.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId, new IResponseCallback<>() {
+            @Override
+            public void onResponse(Void response) {
+                DeckLog.log("Moved", Card.class.getSimpleName(), originCardLocalId, "to", Stack.class.getSimpleName(), targetStackLocalId);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                IResponseCallback.super.onError(throwable);
+                if (SyncRepository.isNoOnVoidError(throwable)) {
+                    ExceptionDialogFragment.newInstance(throwable, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
+            }
+        });
+    }
 
     /**
      * Displays a {@link ThemedSnackbar} for an exception of a failed sync, but only if the cause wasn't maintenance mode (this should be handled by a TextView instead of a snackbar).
