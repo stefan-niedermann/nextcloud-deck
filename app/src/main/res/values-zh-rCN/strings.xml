@@ -145,9 +145,9 @@
     <string name="no_content">暂无内容</string>
     <string name="last_background_sync">上次后台同步时间：</string>
     <string name="simple_off">关闭</string>
-    <string name="minutes_15">15 分钟 </string>
-    <string name="hour_1">1 小时 </string>
-    <string name="hours_6">6 小时 </string>
+    <string name="minutes_15">15分钟 </string>
+    <string name="hour_1">1小时 </string>
+    <string name="hours_6">6小时 </string>
     <string name="action_card_move">移动卡片</string>
     <string name="action_card_move_title">移动 %1$s</string>
     <string name="title_is_mandatory">标题是必需的</string>

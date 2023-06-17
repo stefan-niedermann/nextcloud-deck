@@ -31,7 +31,7 @@
     <string name="simple_comment">Comentario</string>
     <string name="simple_disabled">desactivado</string>
     <string name="simple_copied">Copiada</string>
-    <string name="simple_archive">Aquivar</string>
+    <string name="simple_archive">Arquivar</string>
     <string name="simple_unassigned">Sen asignar</string>
     <string name="hint_error_appeared">Produciuse un erro</string>
 
@@ -79,7 +79,7 @@
     <string name="choose_account">Escolla unha conta</string>
     <string name="add_card">Engadir tarxeta</string>
     <string name="activity">Actividade</string>
-    <string name="add_list">Engadir unha lista...</string>
+    <string name="add_list">Engadir unha lista…</string>
     <string name="rename_list">Renomear a lista</string>
     <string name="delete_list">Eliminar lista</string>
     <string name="label_menu">menú</string>
@@ -321,14 +321,14 @@
     <string name="copy_logs">Copiar os rexistros ao portapapeis</string>
     <string name="app_logo">Logotipo da apli</string>
     <string name="log_file">Ficheiro de rexistro</string>
-    <string name="copying_logs_to_file">Copiando rexistro ao ficheiro...</string>
+    <string name="copying_logs_to_file">Copiando o rexistro ao ficheiro…</string>
     <string name="account_imported">Conta importada</string>
     <string name="simple_search">Buscar</string>
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Título (requerido)</string>
-    <string name="saving_new_card">Gardando nova tarxeta...</string>
-    <string name="progress_import">Importando taboleiro %1$d de %2$d ...</string>
-    <string name="progress_import_indeterminate">Importando taboleiros...</string>
+    <string name="saving_new_card">Gardando a nova tarxeta…</string>
+    <string name="progress_import">Importando taboleiro %1$d de %2$d…</string>
+    <string name="progress_import_indeterminate">Importando taboleiros…</string>
     <string name="card_outdated">O contido desta tarxeta podería estar desactualizado.</string>
     <string name="show_error">Amosar o erro</string>
     <string name="push_notification_link_empty">Por mor dun problema coñecido da apli web Deck non é posíbel amosar esta tarxeta. Para máis info: %1$s</string>
