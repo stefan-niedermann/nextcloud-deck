@@ -221,7 +221,7 @@
     <string name="error_dialog_tip_offline_connection_refused">A conexión foi rexeitada. Comprobe que é posíbel acceder ao servidor cun navegador web.</string>
     <string name="error_dialog_tip_offline_connection_timeout">A conexión excedeu o tempo de agarda. Comprobe se ten conexión á Internet. Isto tamén pode deberse a que o servidor estea moi ocupado.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Se activou o axuste «Sincronizar só con Wi-Fi», só poderá sincronizar cando estea conectado a unha rede Wi-Fi.</string>
-    <string name="error_dialog_tip_files_force_stop">Semella que algo está mal na súa apli Nextcloud. Tente forzar a parar ambas, a apli Nextcloud e a apli Tarxeteiro de Nextcloud.</string>
+    <string name="error_dialog_tip_files_force_stop">Semella que algo foi mal na súa apli Nextcloud. Tente forzar a parar ambas, a apli Nextcloud e a apli Tarxeteiro de Nextcloud.</string>
     <string name="error_dialog_tip_files_delete_storage">Se detelos pola forza non axuda, pode tentar limpar o almacenamento de ambas as aplicacións.</string>
     <string name="error_dialog_timeout_toggle">Comprobe a súa conexión de rede. Ás veces apagar e volver acender os datos móbiles ou a wifi pode axudar.</string>
     <string name="error_dialog_check_server">A resposta do servidor non foi correcta. Comprobe se pode acceder a Tarxeteiro a través de interface web.</string>
@@ -235,7 +235,7 @@
     <string name="error_dialog_user_not_found_in_database">O usuario actual non coincide co que temos na nosa base de datos. Se está a usar LDAP na súa instancia de Nextcloud, é posíbel que a súa apli de Nextcloud teña almacenado un ID de usuario antigo.</string>
     <string name="error_dialog_capabilities_not_parsable">Non foi posíbel obter as funcionalidades do seu servidor. Asegúrese de que o seu servidor funciona correctamente e que outras aplis de cliente poidan acceder a Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Non foi posíbel enviar un arquivo anexo. Probe compartilo doutro xeito e infórmenos deste erro.</string>
-    <string name="error_dialog_certificate">Semella que hai algo mal co certificado do servidor. Consulte todas as contas na apli Nextcloud para obter máis información.</string>
+    <string name="error_dialog_certificate">Semella que algo foi mal co certificado do servidor. Consulte todas as contas na apli Nextcloud para obter máis información.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Desactive todas as optimizacións de batería para Nextcloud e a apli Tarxeteiro.</string>
     <string name="error_dialog_unknown_error">A instancia de Nextcloud non semella accesíbel. Comprobe a conexión a Internet e se pode conectarse á súa instancia a través do navegador.</string>
     <string name="error_dialog_min_version">A apli de Android Tarxeteiro necesita a apli Nextcloud Android 3.18 ou superior. </string>
