@@ -9,7 +9,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 33
         versionCode 1023002
-        versionName "1.23.2"
+        versionName "1.23.2-communis.2"
         vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
@@ -52,6 +52,10 @@ android {
         mdm {
             dimension "version"
             applicationIdSuffix ".mdm"
+        }
+        communis {
+            dimension "version"
+            applicationIdSuffix ".communis"
         }
     }
     testOptions {
