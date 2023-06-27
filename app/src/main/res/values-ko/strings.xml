@@ -49,7 +49,7 @@
     <string name="about_translators_transifex">%1$s에 위치한 Nextcloud 커뮤니티</string>
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_source_title">소스 코드</string>
-    <string name="about_source">이 프로젝트는 깃허브에 호스팅 중입니다: %1$s</string>
+    <string name="about_source">이 프로젝트는 깃허브에서 호스팅 중입니다: %1$s</string>
     <string name="about_issues_title">문제점</string>
     <string name="about_issues">GitHub 이슈 트래커에서 이 앱의 버그를 보고하거나 기능을 제안할 수 있습니다: %1$s</string>
     <string name="about_translate_title">번역</string>
@@ -243,7 +243,7 @@
     <string name="info_box_maintenance_mode">서버가 유지 관리 모드임</string>
     <string name="info_box_version_not_supported">%1$s서버 버전은 지원되지 않습니다. %2$s로 업데이트 해주십시오.</string>
     <string name="share_link">링크 공유</string>
-    <string name="share_content">컨텐츠 공유</string>
+    <string name="share_content">콘텐츠 공유</string>
     <string name="share_content_duedate">기한: %1$s</string>
     <string name="share_content_labels">태그: %1$s</string>
     <string name="archive_cards">카드들 보관</string>
@@ -319,5 +319,5 @@
     <string name="saving_new_card">새 카드 저장...</string>
     <string name="progress_import">%2$d에서 보드 %1$d 가져오기</string>
     <string name="progress_import_indeterminate">보드 가져오기</string>
-    <string name="no_search_results_title">결과를 찾을 수 없음</string>
+    <string name="no_search_results_title">검색 결과 없음</string>
     </resources>
