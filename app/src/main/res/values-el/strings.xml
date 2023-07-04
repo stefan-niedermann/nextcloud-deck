@@ -100,6 +100,7 @@
     <string name="attachments">Συνημμένα</string>
     <string name="no_cards">Καμία κάρτα ακόμη</string>
     <string name="no_account">Δεν ρυθμίστηκε λογαριασμός</string>
+    <string name="account_already_added">Ο λογαριασμός %1$s έχει ήδη προστεθεί </string>
     <string name="account_is_getting_imported">Ο λογαριασμός εισάγεται</string>
     <string name="not_synced_yet">Δεν είναι ακόμα συγχρονισμένα</string>
     <string name="no_lists_yet">Χωρίς λίστες ακόμη</string>
@@ -216,6 +217,7 @@
     <string name="error_dialog_tip_offline_connection_timeout">Το χρονικό όριο της σύνδεσης έληξε, ελέγξτε αν είστε συνδεδεμένοι στο διαδίκτυο. Αυτό μπορεί επίσης να συμβεί όταν ο διακομιστής σας είναι απασχολημένος.</string>
     <string name="error_dialog_tip_files_force_stop">Κάτι φαίνεται να πάει στραβά με την εφαρμογή Nextcloud. Προσπαθήστε να τερματίσετε την εφαρμογή Nextcloud και την εφαρμογή Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Εάν ο τερματισμός δεν βοηθήσει, μπορείτε να εκκαθαρίσετε τον αποθηκευτικό χώρο και των δύο εφαρμογών.</string>
+    <string name="error_dialog_timeout_instance">Δεν υπήρχε απάντηση από τον διακομιστή σας. Βεβαιωθείτε ότι η σύνδεσή σας λειτουργεί κανονικά.</string>
     <string name="error_dialog_timeout_toggle">Ελέγξτε τη σύνδεση δικτύου σας. Κάποιες φορές η εναλλαγή δεδομένων κινητής τηλεφωνίας ή Wi-Fi μπορεί να βοηθήσει.</string>
     <string name="error_dialog_check_server">Η απάντηση του διακομιστή σας δεν ήταν σωστή. Ελέγξτε αν μπορείτε να αποκτήσετε πρόσβαση στην εφαρμογή Deck μέσω του περιηγητή σας.</string>
     <string name="error_dialog_check_server_logs">Υπάρχει ένα πρόβλημα με τη ρύθμιση Nextcloud. Ελέγξτε τα αρχεία καταγραφής του διακομιστή.</string>
