@@ -66,7 +66,7 @@
     <string name="about_license_tab_title">Ліцензія</string>
     <string name="seconds_ago">секунд тому</string>
     <string name="edit">Редагувати</string>
-    <string name="label_labels">Вибрати позначки</string>
+    <string name="label_labels">Вибрати мітки</string>
     <string name="label_description">Опис</string>
     <string name="hint_assign_people">Додавання користувача</string>
     <string name="hint_due_date_date">Дата завершення</string>
@@ -185,7 +185,7 @@
     <string name="filter_month">Наступні 30 днів</string>
     <string name="filter_no_due">Без дати завершення</string>
     <string name="filter_later">Пізніше</string>
-    <string name="filter_by_tag">Відібрати за позначками</string>
+    <string name="filter_by_tag">Відібрати за мітками</string>
     <string name="filter_by_assigned_user">Відібрати за призначеним користувачем</string>
     <string name="filter_by_duedate">Відібрати за датою завершення</string>
 
@@ -194,12 +194,12 @@
     <string name="action_archived_cards">Перегляд заархівованих карток</string>
     <string name="attachment_already_exists">Вкладення уже наявне</string>
     <string name="pick_custom_color">Вибрати власний колір</string>
-    <string name="manage_tags">Керування позначками</string>
-    <string name="add_tag">Додати позначку</string>
+    <string name="manage_tags">Керування мітками</string>
+    <string name="add_tag">Додати мітку</string>
     <string name="tag_already_exists">%1$s уже наявне</string>
     <string name="tag_successfully_added">%1$s успіно додано</string>
     <string name="edit_tag">Редагувати %1$s</string>
-    <string name="filter_tags_title">Позначки</string>
+    <string name="filter_tags_title">Мітки</string>
     <string name="filter_user_title">Користувачі</string>
     <string name="filter_duedate_title">Дата завершення</string>
 
