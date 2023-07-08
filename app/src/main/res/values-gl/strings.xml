@@ -157,7 +157,7 @@
     <string name="provide_at_least_a_title_or_description">Forneza polo menos un título ou descrición</string>
     <string name="welcome_text">Dámoslle a benvida a %1$s</string>
     <string name="welcome_text_further_accounts">Engadir outra conta</string>
-    <string name="maintenance_mode_explanation">O servidor %1$s está atopase en modo de mantemento. Póñase en contacto co seu administrador ou ténteo de novo máis tarde.</string>
+    <string name="maintenance_mode_explanation">O servidor %1$s está atopase en modo de mantemento. Póñase en contacto coa administración desta instancia ou ténteo de novo máis tarde.</string>
     <string name="share_add_to_card">Engadir á tarxeta</string>
     <string name="share_success">%1$s foi engadido satisfactoriamente  a %2$s</string>
     <string name="add_comment">Engadir comentario</string>
