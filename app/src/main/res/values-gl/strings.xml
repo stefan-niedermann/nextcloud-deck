@@ -108,8 +108,8 @@
     <string name="do_you_want_to_archive_all_cards_of_the_list">Quere arquivar todas as tarxetas de %1$s?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Quere arquivar todas as tarxetas filtradas de %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
-        <item quantity="one">Isto eliminará de xeito permanente %1$d tarxeta desta lista.</item>
-        <item quantity="other">Isto eliminará de xeito permanente as %1$d tarxetas desta lista.</item>
+        <item quantity="one">Isto eliminará definitivamente %1$d tarxeta desta lista.</item>
+        <item quantity="other">Isto eliminará definitivamente as %1$d tarxetas desta lista.</item>
     </plurals>
     <plurals name="do_you_want_to_delete_the_label">
         <item quantity="one">Isto retirará a etiqueta de %1$d tarxeta.</item>
@@ -119,7 +119,7 @@
     <string name="add_a_new_card_using_the_button">Engadir unha nova tarxeta co botón +</string>
     <string name="update_deck">Actualizar a aplicación web Tarxeteiro</string>
     <string name="deck_outdated_please_update">A versión da súa aplicación web Tarxeteiro é antiga de máis (%1$s). Actualice para usar esta apli de Android como cliente.</string>
-    <string name="delete_board_message">Isto eliminará este taboleiro de xeito permanente incluíndo todas as listas e tarxetas.</string>
+    <string name="delete_board_message">Isto eliminará este taboleiro definitivamente incluíndo todas as listas e tarxetas.</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Xestión da marca</string>
     <string name="settings_compact_title">Modo compacto</string>
@@ -144,7 +144,7 @@
     <string name="you_are_currently_offline">Agora está sen conexión</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Para engadir unha conta tes que estar conectado a internet.</string>
     <string name="owner">Propietario</string>
-    <string name="attachment_delete_message">Isto eliminará este anexo  de xeito permanente.</string>
+    <string name="attachment_delete_message">Isto eliminará este anexo  definitivamente.</string>
     <string name="no_content">Aínda non hai contido</string>
     <string name="last_background_sync">Última sincronización do traballo en segundo plano:</string>
     <string name="simple_off">Apagado</string>
@@ -213,15 +213,15 @@
     <string name="error_edit_activity_killed_by_android">Android rematou o modo de edición porque necesitaba máis recursos do sistema para outras aplicacións.</string>
 
     <string name="error_dialog_title">Vaites, e agora que? 🙁</string>
-    <string name="error_dialog_tip_token_mismatch_retry">Probe a forzar o peche da apli e reiniciala de novo. Pode haber unha conexión incorrecta coa apli Nextcloud.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Se o problema continúa, tente limpar o almacenamento de ambas as aplis: Nextcloud e Tarxeteiro de Nextcloud para resolver este problema.</string>
-    <string name="error_dialog_tip_database_upgrade_failed">Produciuse un fallo ao anovar a base de datos. Informe do problema e borre o almacenamento para usar a apli normalmente.</string>
-    <string name="error_dialog_tip_clear_storage">Pode limpar o almacenamento abrindo a información da apli e seleccionando Almacenamento → Limpar o almacenamento.</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Probe a forzar o peche da aplicación e reiniciala de novo. Pode haber unha conexión incorrecta coa aplicación Nextcloud.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Se o problema continúa, tente limpar o almacenamento de ámbalas dúas aplicacións: Nextcloud e Tarxeteiro de Nextcloud para resolver este problema.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Produciuse un fallo ao anovar a base de datos. Informe do problema e borre o almacenamento para usar a aplicación normalmente.</string>
+    <string name="error_dialog_tip_clear_storage">Pode limpar o almacenamento abrindo a información da aplicación e seleccionando Almacenamento → Limpar o almacenamento.</string>
     <string name="error_dialog_tip_offline_no_internet">Semella que tentou facer unha sincronización cando non ten conexión a Internet.</string>
     <string name="error_dialog_tip_offline_connection_refused">A conexión foi rexeitada. Comprobe que é posíbel acceder ao servidor cun navegador web.</string>
     <string name="error_dialog_tip_offline_connection_timeout">A conexión excedeu o tempo de agarda. Comprobe se ten conexión á Internet. Isto tamén pode deberse a que o servidor estea moi ocupado.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Se activou o axuste «Sincronizar só con Wi-Fi», só poderá sincronizar cando estea conectado a unha rede Wi-Fi.</string>
-    <string name="error_dialog_tip_files_force_stop">Semella que algo foi mal na súa apli Nextcloud. Tente forzar a parar ambas, a apli Nextcloud e a apli Tarxeteiro de Nextcloud.</string>
+    <string name="error_dialog_tip_files_force_stop">Semella que algo foi mal na súa aplicación Nextcloud. Tente forzar a parar ámbalas dúas aplicacións,  Nextcloud e Tarxeteiro de Nextcloud</string>
     <string name="error_dialog_tip_files_delete_storage">Se detelos pola forza non axuda, pode tentar limpar o almacenamento de ambas as aplicacións.</string>
     <string name="error_dialog_timeout_instance">Non houbo resposta do seu servidor no tempo dado. Asegúrese de que a súa instancia funciona correctamente.</string>
     <string name="error_dialog_timeout_toggle">Comprobe a súa conexión de rede. Ás veces apagar e volver acender os datos móbiles ou a wifi pode axudar.</string>
@@ -232,16 +232,16 @@
     <string name="error_dialog_we_need_info">Necesitamos a seguinte información técnica para axudarlle:</string>
     <string name="error_dialog_redirect">O seu servidor respondeu cun código de estado HTTP 302, o que implica que non ten instalada a aplicación Tarxeteiro no servidor ou que algo está mal configurado. Isto pode ser causado por substitucións personalizadas nun ficheiro .htaccess ou por aplicacións Nextcloud como Client OID.</string>
     <string name="error_dialog_version_not_parsable">Non foi posíbel determinar a versión da aplicación Tarxeteiro do lado do servidor. Asegúrese de que estea instalado e activado.</string>
-    <string name="error_dialog_account_might_not_be_authorized">É posíbel que a conta da súa apli de Nextcloud xa non estea autorizada.</string>
-    <string name="error_dialog_user_not_found_in_database">O usuario actual non coincide co que temos na nosa base de datos. Se está a usar LDAP na súa instancia de Nextcloud, é posíbel que a súa apli de Nextcloud teña almacenado un ID de usuario antigo.</string>
-    <string name="error_dialog_capabilities_not_parsable">Non foi posíbel obter as funcionalidades do seu servidor. Asegúrese de que o seu servidor funciona correctamente e que outras aplis de cliente poidan acceder a Nextcloud.</string>
+    <string name="error_dialog_account_might_not_be_authorized">É posíbel que a conta da súa aplicación de Nextcloud xa non estea autorizada.</string>
+    <string name="error_dialog_user_not_found_in_database">O usuario actual non coincide co que temos na nosa base de datos. Se está a usar LDAP na súa instancia de Nextcloud, é posíbel que a súa aplicación de Nextcloud teña almacenado un ID de usuario antigo.</string>
+    <string name="error_dialog_capabilities_not_parsable">Non foi posíbel obter as funcionalidades do seu servidor. Asegúrese de que o seu servidor funciona correctamente e que outras aplicacións de cliente poidan acceder a Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Non foi posíbel enviar un arquivo anexo. Probe compartilo doutro xeito e infórmenos deste erro.</string>
-    <string name="error_dialog_certificate">Semella que algo foi mal co certificado do servidor. Consulte todas as contas na apli Nextcloud para obter máis información.</string>
-    <string name="error_dialog_tip_disable_battery_optimizations">Desactive todas as optimizacións de batería para Nextcloud e a apli Tarxeteiro.</string>
+    <string name="error_dialog_certificate">Semella que algo foi mal co certificado do servidor. Consulte todas as contas na aplicación Nextcloud para obter máis información.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Desactive todas as optimizacións de batería para Nextcloud e a aplicación Tarxeteiro.</string>
     <string name="error_dialog_unknown_error">A instancia de Nextcloud non semella accesíbel. Comprobe a conexión a Internet e se pode conectarse á súa instancia a través do navegador.</string>
-    <string name="error_dialog_min_version">A apli de Android Tarxeteiro necesita a apli Nextcloud Android 3.18 ou superior. </string>
-    <string name="error_action_open_deck_info">Abrir a info da apli</string>
-    <string name="error_action_open_nextcloud_app">Abrir a apli Nextcloud</string>
+    <string name="error_dialog_min_version">A aplicación de Android Tarxeteiro necesita a aplicación Nextcloud Android 3.18 ou superior. </string>
+    <string name="error_action_open_deck_info">Abrir a info da aplicación</string>
+    <string name="error_action_open_nextcloud_app">Abrir a aplicación Nextcloud</string>
     <string name="error_action_open_network">Axustes da rede</string>
     <string name="error_action_server_logs">Rexistros do servidor</string>
     <string name="error_action_open_in_browser">Abrir no navegador</string>
@@ -320,7 +320,7 @@
     <!-- Category header for a section in the settings which contain features for advanced users -->
     <string name="simple_expert_settings">Axustes para expertos</string>
     <string name="copy_logs">Copiar os rexistros ao portapapeis</string>
-    <string name="app_logo">Logotipo da apli</string>
+    <string name="app_logo">Logotipo da aplicación</string>
     <string name="log_file">Ficheiro de rexistro</string>
     <string name="copying_logs_to_file">Copiando o rexistro ao ficheiro…</string>
     <string name="account_imported">Conta importada</string>
@@ -332,7 +332,7 @@
     <string name="progress_import_indeterminate">Importando taboleiros…</string>
     <string name="card_outdated">O contido desta tarxeta podería estar desactualizado.</string>
     <string name="show_error">Amosar o erro</string>
-    <string name="push_notification_link_empty">Por mor dun problema coñecido da apli web Tarxeteiro non é posíbel amosar esta tarxeta. Para máis info: %1$s</string>
+    <string name="push_notification_link_empty">Por mor dun problema coñecido da aplicación web Tarxeteiro non é posíbel amosar esta tarxeta. Para máis info: %1$s</string>
     <string name="enter_search_term_title">Introduza o termo da busca</string>
     <string name="enter_search_term_description">Introduza o termo de busca para atopar tarxetas neste taboleiro</string>
     <string name="no_search_results_title">Sen resultados de busca</string>

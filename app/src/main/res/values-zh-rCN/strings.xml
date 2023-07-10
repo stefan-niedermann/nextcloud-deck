@@ -1,7 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">打开导航条</string>
     <string name="navigation_drawer_close">关闭导航条</string>
-    <string name="hint_search_deck">搜索 deck</string>
+    <string name="hint_search_deck">搜索看板</string>
 
     <string name="simple_boards">面板</string>
     <string name="simple_add">添加</string>
@@ -115,8 +115,8 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">使用 + 按钮添加新列表</string>
     <string name="add_a_new_card_using_the_button">使用 + 按钮来创建一张卡片</string>
-    <string name="update_deck">更新 Deck 网页应用</string>
-    <string name="deck_outdated_please_update">你的 Deck 网页应用版本过旧 （%1$s）。请更新为使用安卓应用作为客户端。</string>
+    <string name="update_deck">更新看板网页应用</string>
+    <string name="deck_outdated_please_update">你的看板网页应用版本过旧 （%1$s）。请更新为使用安卓应用作为客户端。</string>
     <string name="delete_board_message">此操作将永久删除此面板，包括所有列表和卡片。</string>
     <string name="settings_theme_title">主题</string>
     <string name="settings_branding_title">添加商标</string>
@@ -212,32 +212,32 @@
 
     <string name="error_dialog_title">哦，糟糕。所以会怎么样？🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">请尝试强行关闭应用并重新打开。可能与 Nextcloud 应用的连接不正确。</string>
-    <string name="error_dialog_tip_clear_storage_might_help">如果问题持续存在，尝试通过清除 Nextcloud 和 Nextcloud 看板两个应用的存储空间来解决问题。</string>
+    <string name="error_dialog_tip_clear_storage_might_help">如果问题持续存在，尝试通过清除Nextcloud和Nextcloud看板两个应用的存储空间来解决问题。</string>
     <string name="error_dialog_tip_database_upgrade_failed">数据库升级失败。请报告问题并清除应用存储来正常使用此应用。</string>
     <string name="error_dialog_tip_clear_storage">您可以通过打开应用信息，选择“存储>清除存储”来清除存储。</string>
     <string name="error_dialog_tip_offline_no_internet">看起来您试图在没有互联网连接的情况下触发同步。 </string>
     <string name="error_dialog_tip_offline_connection_refused">连接被拒绝，请检查您的服务器能否通过浏览器连接。</string>
     <string name="error_dialog_tip_offline_connection_timeout">连接超时，请检查您是否已连接到互联网。这也可能是您的服务器繁忙所致。</string>
     <string name="error_dialog_tip_sync_only_on_wifi">如果您开启了“仅在Wi-Fi上同步”设置，则只有连接到Wi-Fi时才能进行同步。 </string>
-    <string name="error_dialog_tip_files_force_stop">您的 Nextcloud 应用似乎出现了问题。请尝试强行停止 Nextcloud 和 Nextcloud 看板两个应用。</string>
+    <string name="error_dialog_tip_files_force_stop">您的Nextcloud应用似乎出现了问题。请尝试强行停止Nextcloud和Nextcloud看板两个应用。</string>
     <string name="error_dialog_tip_files_delete_storage">如果强行停止没有效果，您可以尝试清除两个应用的存储空间。</string>
     <string name="error_dialog_timeout_instance">在指定的时间内，您的服务器没有响应。请确保您的 Nextcloud 运行良好。</string>
     <string name="error_dialog_timeout_toggle">检查您的网络连接。有时候关闭并重新开启移动数据或 Wi-Fi 有帮助。</string>
-    <string name="error_dialog_check_server">服务器的回答不正确。请检查您是否能通过网页访问看板应用。</string>
+    <string name="error_dialog_check_server">服务器的响应不正确。请检查您是否能通过网页访问看板应用。</string>
     <string name="error_dialog_check_server_logs">您的 Nextcloud 配置有一些问题。请查看服务器日志。</string>
     <string name="error_dialog_check_maintenance">请检查您的 Nextcloud 实例是否处于维护模式。</string>
     <string name="error_dialog_insufficient_storage">您的 Nextcloud 实例已经没有可用的存储空间了。请删除一些文件来允许本地的变更同步到云。</string>
     <string name="error_dialog_we_need_info">我们需要以下技术信息来帮助您：</string>
-    <string name="error_dialog_redirect">您的服务器确实响应了一个HTTP 302状态码，这意味着您没有在您的服务器上安装 Deck 应用程序或有什么配置错误。这可能是由 .htaccess 文件中的自定义覆盖或由 Nextcloud 应用程序 (如OID Client)引起的。</string>
-    <string name="error_dialog_version_not_parsable">我们无法确定服务器端 Deck 应用程序的版本。请确保它已安装并启用。</string>
+    <string name="error_dialog_redirect">您的服务器确实响应了一个HTTP 302状态码，这意味着您没有在您的服务器上安装看板应用程序或有什么配置错误。这可能是由 .htaccess 文件中的自定义覆盖或由 Nextcloud应用程序 (如OID Client)引起的。</string>
+    <string name="error_dialog_version_not_parsable">我们无法确定服务器端看板应用程序的版本。请确保它已安装并启用。</string>
     <string name="error_dialog_account_might_not_be_authorized">您的Nextcloud应用账号可能不再被授权。</string>
     <string name="error_dialog_user_not_found_in_database">当前用户与数据库中的用户不匹配。如果你在 Nextcloud 实例上使用 LDAP，那么 Nextcloud 应用程序可能存储了一个旧的用户ID。</string>
     <string name="error_dialog_capabilities_not_parsable">我们无法获取您服务器的容量。请确保您的服务器运行良好，其他客户端应用程序能够访问Nextcloud。</string>
     <string name="error_dialog_attachment_upload_failed">无法上传一个附件。请尝试用另一种方式分享它，并让我们知道这个bug。</string>
     <string name="error_dialog_certificate">服务器的证书似乎有问题。请查看 Nextcloud 应用程序中的所有账户以获取更多信息。</string>
-    <string name="error_dialog_tip_disable_battery_optimizations">请禁用针对 Nextcloud 和 Deck 应用程序的所有电池优化。</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">请禁用针对Nextcloud和看板应用程序的所有电池优化。</string>
     <string name="error_dialog_unknown_error">您的 Nextcloud 实例似乎不可访问。请检查您的互联网连接，以及您是否能够通过浏览器连接到您的实例。</string>
-    <string name="error_dialog_min_version">Deck 安卓应用需要的 Nextcloud 安卓应用的最低版本为 3.18</string>
+    <string name="error_dialog_min_version">看板Android应用需要的Nextcloud Android应用的最低版本为3.18</string>
     <string name="error_action_open_deck_info">打开应用信息</string>
     <string name="error_action_open_nextcloud_app">打开 Nextcloud 应用</string>
     <string name="error_action_open_network">网络设置</string>
@@ -269,16 +269,16 @@
     <string name="clone_board">克隆面板</string>
     <string name="cloning_board">正在克隆 %1$s ......</string>
     <string name="successfully_cloned_board">成功克隆了 %1$s</string>
-    <string name="attachment_does_not_yet_exist">附件在 Deck 中还不存在</string>
-    <string name="card_does_not_yet_exist">卡片在 Deck 中还不存在</string>
+    <string name="attachment_does_not_yet_exist">附件在看板中还不存在</string>
+    <string name="card_does_not_yet_exist">卡片在看板中还不存在</string>
 
     <string name="widget_stack_title">列表</string>
     <string name="widget_filter_title">过滤器</string>
     <string name="widget_stack_header_icon">小部件标题图标</string>
     <string name="widget_placeholder_icon">小部件占位符图标 </string>
     <string name="select_stack">选择列表</string>
-    <string name="project_type_deck_board">Deck 看板</string>
-    <string name="project_type_deck_card">Deck 卡片</string>
+    <string name="project_type_deck_board">看板</string>
+    <string name="project_type_deck_card">看板卡片</string>
     <string name="project_type_file">文件</string>
     <string name="projects_title">项目</string>
     <plurals name="resources_count">
@@ -328,7 +328,7 @@
     <string name="progress_import_indeterminate">正导入面板…</string>
     <string name="card_outdated">这张卡片的内容可能过期</string>
     <string name="show_error">显示错误</string>
-    <string name="push_notification_link_empty">由于 Deck 网页应用程序中一个已知的问题，我们不能显示这张卡片。更多信息见：%1$s</string>
+    <string name="push_notification_link_empty">由于看板网页应用程序中一个已知的问题，我们不能显示这张卡片。更多信息见：%1$s</string>
     <string name="enter_search_term_title">输入搜索词</string>
     <string name="enter_search_term_description">输入搜索词以查找此面板中的卡片</string>
     <string name="no_search_results_title">无搜索结果</string>
