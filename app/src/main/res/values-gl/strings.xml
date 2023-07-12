@@ -234,7 +234,7 @@
     <string name="error_dialog_version_not_parsable">Non foi posíbel determinar a versión da aplicación Tarxeteiro do lado do servidor. Asegúrese de que estea instalado e activado.</string>
     <string name="error_dialog_account_might_not_be_authorized">É posíbel que a conta da súa aplicación de Nextcloud xa non estea autorizada.</string>
     <string name="error_dialog_user_not_found_in_database">O usuario actual non coincide co que temos na nosa base de datos. Se está a usar LDAP na súa instancia de Nextcloud, é posíbel que a súa aplicación de Nextcloud teña almacenado un ID de usuario antigo.</string>
-    <string name="error_dialog_capabilities_not_parsable">Non foi posíbel obter as funcionalidades do seu servidor. Asegúrese de que o seu servidor funciona correctamente e que outras aplicacións de cliente poidan acceder a Nextcloud.</string>
+    <string name="error_dialog_capabilities_not_parsable">Non foi posíbel recuperar as funcionalidades do seu servidor. Asegúrese de que o seu servidor funciona correctamente e que outras aplicacións de cliente poidan acceder a Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Non foi posíbel enviar un arquivo anexo. Probe compartilo doutro xeito e infórmenos deste fallo.</string>
     <string name="error_dialog_certificate">Semella que algo foi mal co certificado do servidor. Consulte todas as contas na aplicación Nextcloud para obter máis información.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Desactive todas as optimizacións de batería para Nextcloud e a aplicación Tarxeteiro.</string>
