@@ -141,7 +141,7 @@
     <string name="unassigned_user">%1$s atanmamış</string>
     <string name="no_activities">Bu kart üzerinde yapılmış bir işlem yok. İşlemleri yükleyip görebilmek için İnternet bağlantınızın olması gerekir.</string>
     <string name="share_board">Panoyu paylaş</string>
-    <string name="you_are_currently_offline">Şu anda çevrimdışısınız</string>
+    <string name="you_are_currently_offline">Şu anda çevrim dışısınız</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Bir hesap ekleyebilmeniz için çalışan bir İnternet bağlantınız olmalı.</string>
     <string name="owner">Sahibi</string>
     <string name="attachment_delete_message">Bu işlem bu ek dosyasını silecek.</string>
