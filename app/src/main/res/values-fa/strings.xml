@@ -334,6 +334,7 @@
     <string name="show_error">نشان دادن خطا</string>
     <string name="push_notification_link_empty">به دلیل یک مشکل شناخته شده در برنامه وب برگه‌دان، متأسفانه قادر به نمایش این کارت نیستیم. برای اطلاعات بیشتر ببین: %1$s</string>
     <string name="enter_search_term_title">کلمه مورد جستجو را وارد فرمایید</string>
+    <string name="enter_search_term_description">برای یافتن کارت ها در این تابلو عبارت جستجو را وارد کنید.</string>
     <string name="no_search_results_title">جستجو نتیجه‌ای نداشت</string>
     <string name="no_search_results_description">برای جستجوی شما نتیجه‌ای پیدا نکردیم.</string>
 </resources>
