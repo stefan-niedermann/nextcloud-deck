@@ -153,7 +153,7 @@
     <string name="hours_6">6 horas</string>
     <string name="action_card_move">Mover a tarxeta</string>
     <string name="action_card_move_title">Mover %1$s</string>
-    <string name="title_is_mandatory">É necesario un título</string>
+    <string name="title_is_mandatory">Precisase un título</string>
     <string name="provide_at_least_a_title_or_description">Forneza polo menos un título ou descrición</string>
     <string name="welcome_text">Dámoslle a benvida a %1$s</string>
     <string name="welcome_text_further_accounts">Engadir outra conta</string>
@@ -239,7 +239,7 @@
     <string name="error_dialog_certificate">Semella que algo foi mal co certificado do servidor. Consulte todas as contas na aplicación Nextcloud para obter máis información.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Desactive todas as optimizacións de batería para Nextcloud e a aplicación Tarxeteiro.</string>
     <string name="error_dialog_unknown_error">A instancia de Nextcloud non semella accesíbel. Comprobe a conexión a Internet e se pode conectarse á súa instancia a través do navegador.</string>
-    <string name="error_dialog_min_version">A aplicación de Android Tarxeteiro necesita a aplicación Nextcloud Android 3.18 ou superior. </string>
+    <string name="error_dialog_min_version">A aplicación de Android Tarxeteiro precisa a aplicación Nextcloud Android 3.18 ou superior. </string>
     <string name="error_action_open_deck_info">Abrir a info da aplicación</string>
     <string name="error_action_open_nextcloud_app">Abrir a aplicación Nextcloud</string>
     <string name="error_action_open_network">Axustes da rede</string>
