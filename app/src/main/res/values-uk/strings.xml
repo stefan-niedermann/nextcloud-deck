@@ -265,6 +265,8 @@
     <string name="project_type_file">Файл</string>
     <string name="projects_title">Проєкти</string>
     <string name="simple_move">Перемістити</string>
+    <string name="clone_cards">Копіювати картки</string>
+    <string name="simple_clone">Копіювати</string>
     <string name="simple_contact">Контакт</string>
     <string name="simple_file">Файл</string>
     <string name="simple_camera">Камера</string>

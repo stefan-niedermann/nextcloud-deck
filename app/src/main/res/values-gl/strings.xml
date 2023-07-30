@@ -128,7 +128,7 @@
     <string name="settings_etags">Usar ETags</string>
     <string name="settings_etags_summary">Aumenta a velocidade de sincronización</string>
     <string name="settings_background_sync">Sincronización do traballo en segundo plano</string>
-    <string name="settings_compress_image_attachments">Comprime imaxes ao subilas</string>
+    <string name="settings_compress_image_attachments">Comprime imaxes ao envialas</string>
     <string name="search_in">Buscar en %1$s</string>
     <string name="settings_compress_image_attachments_summary">Envíos máis rápidos, menor calidade</string>
     <string name="pref_value_wifi_and_mobile">Sincronización con wifi e con datos móbiles</string>
@@ -292,7 +292,7 @@
     <string name="single_card">Terxeta única</string>
     <string name="project_type_room">Sala de conversas</string>
     <string name="simple_move">Mover</string>
-    <string name="cannot_upload_files_without_permission">Non é posíbel subir ficheiros sen permisos</string>
+    <string name="cannot_upload_files_without_permission">Non é posíbel enviar ficheiros sen permisos</string>
     <string name="clone_cards">Clonar tarxetas</string>
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Avatar do usuario</string>
