@@ -118,7 +118,7 @@
     <string name="add_a_new_list_using_the_button">Engadir unha nova lista co botón +</string>
     <string name="add_a_new_card_using_the_button">Engadir unha nova tarxeta co botón +</string>
     <string name="update_deck">Actualizar a aplicación web Tarxeteiro</string>
-    <string name="deck_outdated_please_update">A versión da súa aplicación web Tarxeteiro é antiga de máis (%1$s). Actualice para usar esta apli de Android como cliente.</string>
+    <string name="deck_outdated_please_update">A versión da súa aplicación web Tarxeteiro é antiga de máis (%1$s). Actualice para usar esta aplicación de Android como cliente.</string>
     <string name="delete_board_message">Isto eliminará este taboleiro definitivamente incluíndo todas as listas e tarxetas.</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_branding_title">Xestión da marca</string>
