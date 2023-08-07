@@ -1,2 +1,1 @@
-- 🔎 Provide card actions (move, delete, share, …) in search view (#1484)
-- ⚙️ Updated dependencies
+- 🐞 Fix rare crash after attaching image to card (#1512)

@@ -1,5 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments.picker;
 
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.Q;
+import static android.provider.BaseColumns._ID;
+import static android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
@@ -14,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,11 +30,6 @@ import java.util.function.BiConsumer;
 
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentImageBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemPhotoPreviewBinding;
-
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.Q;
-import static android.provider.BaseColumns._ID;
-import static android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
 public class GalleryAdapter extends AbstractCursorPickerAdapter<RecyclerView.ViewHolder> {
 
@@ -81,8 +82,13 @@ public class GalleryAdapter extends AbstractCursorPickerAdapter<RecyclerView.Vie
                                         contentResolver, id,
                                         MediaStore.Images.Thumbnails.MINI_KIND, null);
                             }
-                            new Handler(Looper.getMainLooper()).post(() -> ((GalleryItemViewHolder) holder).bind(ContentUris.withAppendedId(
-                                    EXTERNAL_CONTENT_URI, id), thumbnail, onSelect));
+                            new Handler(Looper.getMainLooper()).post(() -> {
+                                // https://github.com/stefan-niedermann/nextcloud-deck/issues/1512
+                                if (lifecycleOwner.getLifecycle().getCurrentState() != Lifecycle.State.DESTROYED) {
+                                    ((GalleryItemViewHolder) holder).bind(ContentUris.withAppendedId(
+                                            EXTERNAL_CONTENT_URI, id), thumbnail, onSelect);
+                                }
+                            });
                         } catch (IOException ignored) {
                             new Handler(Looper.getMainLooper()).post(((GalleryItemViewHolder) holder)::bindError);
                         }
