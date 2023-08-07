@@ -1,1 +1,2 @@
+- 🐞 Crash after starting to type in search bar (#1511)
 - 🐞 Fix rare crash after attaching image to card (#1512)
