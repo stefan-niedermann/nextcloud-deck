@@ -100,6 +100,7 @@
     <string name="attachments">Vedlegg</string>
     <string name="no_cards">Ingen kort enda</string>
     <string name="no_account">Ingen konto konfigurert</string>
+    <string name="account_already_added">Kontoen %1$s har allerede blitt lagt til</string>
     <string name="account_is_getting_imported">Kontoen blir importert</string>
     <string name="not_synced_yet">Ikke synkronisert enda</string>
     <string name="no_lists_yet">Ingen lister enda</string>
@@ -155,6 +156,7 @@
     <string name="title_is_mandatory">Tittel er påkrevd</string>
     <string name="provide_at_least_a_title_or_description">I det minste gi en tittel eller beskrivelse</string>
     <string name="welcome_text">Velkommen til %1$s</string>
+    <string name="welcome_text_further_accounts">Legg til en ny konto</string>
     <string name="maintenance_mode_explanation">Serveren %1$s er for øyeblikket i vedlikeholds modus. Vennligs kontakt din administrator eller prøv igjen senere.</string>
     <string name="share_add_to_card">Legg til i kort</string>
     <string name="share_success">%1$sble vellykket lagt til %2$s</string>
@@ -221,6 +223,7 @@
     <string name="error_dialog_tip_sync_only_on_wifi">Hvis du har aktivert innstillingen \"Synkroniser på Wi-Fi\", kan du bare synkronisere når du er koblet til et trådløst nettverk.</string>
     <string name="error_dialog_tip_files_force_stop">Det virker som noe er galt med Nextcloud appen. Vennligst prøv å tvinge avslutning av Nextcloud appen og Nextcloud Deck appen.</string>
     <string name="error_dialog_tip_files_delete_storage">Hvis det ikke hjelper med tving avslutt, så kan du prøve å tømme lageret for begge appene.</string>
+    <string name="error_dialog_timeout_instance">Serveren svarer ikke innen en gitt tid. Vennligst påse at serveren er tilgjengelig.</string>
     <string name="error_dialog_timeout_toggle">Sjekk nettverkstilkoblingen. Noen ganger hjelper det å skru av og på mobil data eller WI-FI tilkoblingen.</string>
     <string name="error_dialog_check_server">Svaret fra serveren var feil. Vennligst påse at du har tilgang til Deck appen via nettgrensesnittet.</string>
     <string name="error_dialog_check_server_logs">Det er et problem med Nextcloud oppsettet ditt. Vennligst ta en titt i loggfilene til serveren.</string>
@@ -308,6 +311,7 @@
     <string name="downloads">Nedlastinger</string>
     <string name="files">Filer</string>
     <string name="gallery">Galleri</string>
+    <string name="simple_attach">Legg ved</string>
     <string name="add_stack_widget">Legg til liste widget</string>
     <string name="add_filter_widget">Legg til filter widget</string>
     <string name="simple_order">Sortering</string>
@@ -329,5 +333,8 @@
     <string name="card_outdated">Innholdet i dette kortet kan være utdatert.</string>
     <string name="show_error">Vis feil</string>
     <string name="push_notification_link_empty">På grunn av en kjent feil i Stokk web appen får vi dessverre ikke vist innholdet i dette kortet. Gå på følgende link for mer informasjon: %1$s</string>
+    <string name="enter_search_term_title">Skriv inn søkeord</string>
+    <string name="enter_search_term_description">Skriv inn søkeord for å finne kort på dette brettet</string>
     <string name="no_search_results_title">Ingen søkeresultater</string>
-    </resources>
+    <string name="no_search_results_description">Vi fant ingen resultater for dine oppgitte søkeord</string>
+</resources>
