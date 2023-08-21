@@ -70,7 +70,7 @@ dependencies {
     def cameraVersion = "1.2.3"
     def lifecycleVersion = "2.6.1"
     def roomVersion = "2.5.2"
-    def glideVersion = "4.15.1"
+    def glideVersion = "4.16.0"
     def nextcloudCommonsVersion = "1.8.2"
     def androidCommonsVersion = "0.2.9"
 
