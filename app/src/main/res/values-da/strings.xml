@@ -53,7 +53,7 @@
     <string name="about_issues_title">Problemer</string>
     <string name="about_issues">Du kan rapportere fejl, foreslå forbedringer og ønske nye funktioner på Github: %1$s</string>
     <string name="about_translate_title">Oversæt</string>
-    <string name="about_translate">Bliv en dal af Nextcloudholdet på Transifex, og hjælp os med at oversætte denne app: %1$s</string>
+    <string name="about_translate">Bliv en del af Nextcloudholdet på Transifex, og hjælp os med at oversætte denne app: %1$s</string>
     <string name="about_app_license_title">Applicens</string>
     <string name="about_app_license">Denne app er udgivet under licensen GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Se licens</string>
