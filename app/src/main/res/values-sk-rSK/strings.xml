@@ -316,6 +316,7 @@
     <string name="downloads">Sťahovania</string>
     <string name="files">Súbory</string>
     <string name="gallery">Galéria</string>
+    <string name="simple_attach"> Priložiť</string>
     <string name="add_stack_widget">Pridať ovládací prvok zoznamu</string>
     <string name="add_filter_widget">Pridať ovládací prvok filteru</string>
     <string name="simple_order">Zoradiť</string>
