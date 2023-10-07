@@ -128,9 +128,9 @@
     <string name="settings_etags">Erabili ETags</string>
     <string name="settings_etags_summary">Sinkronizazioa bizkortzen du</string>
     <string name="settings_background_sync">Atzeko planoko sinkronizazioa</string>
-    <string name="settings_compress_image_attachments">Konprimatu irudiak kargatzerakoan</string>
+    <string name="settings_compress_image_attachments">Konprimatu irudiak igotzerakoan</string>
     <string name="search_in">Bilatu %1$s(e)n</string>
-    <string name="settings_compress_image_attachments_summary">Kargatze arinagoa, kalitate gutxiago</string>
+    <string name="settings_compress_image_attachments_summary">Igoera arinagoa, kalitate gutxiago</string>
     <string name="pref_value_wifi_and_mobile">Sinkronizatu Wi-Fi eta datu mugikorrekin</string>
     <string name="pref_value_wifi_only">Sinkronizatu Wi-Fiarekin soilik</string>
     <string-array name="darkmode_entries">
@@ -263,8 +263,8 @@
     <string name="add_text_as_comment">Gehitu iruzkin gisa</string>
     <string name="progress_count">%2$dtik%1$d</string>
     <plurals name="progress_error_count">
-        <item quantity="one">%1$derrore kargatzerakoan</item>
-        <item quantity="other">%1$derrore kargatzerakoan</item>
+        <item quantity="one">%1$derrore igotzerakoan</item>
+        <item quantity="other">%1$derrore igotzerakoan</item>
     </plurals>
     <string name="simple_report">Jakinarazi</string>
     <string name="error_action_open_battery_settings">Bateria ezarpenak</string>
@@ -292,7 +292,7 @@
     <string name="single_card">Txartel bakana</string>
     <string name="project_type_room">Talk gela</string>
     <string name="simple_move">Mugitu</string>
-    <string name="cannot_upload_files_without_permission">Ezin dira fitxategiak baimenik gabe kargatu</string>
+    <string name="cannot_upload_files_without_permission">Ezin dira fitxategiak baimenik gabe igo</string>
     <string name="clone_cards">Klonatu txartelak</string>
     <string name="simple_clone">Klonatu</string>
     <string name="user_avatar">Erabltzaile-avatarra</string>
@@ -306,7 +306,7 @@
     <string name="show_all_contacts">Erakutsi kontaktu guztiak</string>
     <string name="show_all_files">Erakustsi fitxategi guztiak</string>
     <string name="recent">Azkenak</string>
-    <string name="upload_a_new_attachment">Kargatu eranskin berria</string>
+    <string name="upload_a_new_attachment">Igo eranskin berria</string>
     <string name="contacts">Kontaktuak</string>
     <string name="downloads">Deskargak</string>
     <string name="files">Fitxategiak</string>
