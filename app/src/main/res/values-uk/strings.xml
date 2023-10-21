@@ -217,14 +217,20 @@
 
     <string name="error_dialog_title">От халепа!</string>
     <string name="error_dialog_tip_token_mismatch_retry">Спробуйте примусово закрити застосунок та наново запустити. Можливо, встановлено неправильне з\'єднання із застосунком Nextcloud.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Не вдалося оновити базу даних. Будь ласка, повідомте про проблему, очистіть сховище даних для подальшого використання застосунку.</string>
     <string name="error_dialog_tip_clear_storage">Ви можете очистити сховище, відкривши інформацію про програму та вибравши Пам’ять → Очистити пам’ять.</string>
+    <string name="error_dialog_tip_offline_no_internet">Схоже, ви намагаєтеся виконати синхронізацію без доступу до мережі.</string>
     <string name="error_dialog_tip_offline_connection_refused">Відмовлено у з\'єднанні. Будь ласка, перевірте, чи доступний ваш сервер з бравзера.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">З\'єднання розірвано. Будь ласка, перевірте доступ до мережі. Також, це може бути наслідком того, що сервер зай</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Якщо ви увімкнете параметр \"Синхронізація тільки з Wi-Fi\", то синхронізація буде виконуватися лише за умови наявности з\'єднання через Wi-Fi.</string>
     <string name="error_dialog_tip_files_delete_storage">Якщо примусове їх завершення не допомагає, спробуйте очистити сховище обох програм.</string>
+    <string name="error_dialog_timeout_toggle">Перевірте доступ до мережі. Часом може допомогти послідовне вимикання та вмикання мобільних даних або Wi-Fi.</string>
     <string name="error_dialog_check_server_logs">Виникла проблема з налаштуванням Nextcloud. Будь ласка, подивіться файли журналу сервера.</string>
     <string name="error_dialog_check_maintenance">Будь ласка, перевірте, чи ваш сервер Nextcloud наразі не перебуває в режимі обслуговування.</string>
     <string name="error_dialog_insufficient_storage">Ваш сервер Nextcloud не має вільного місця. Будь ласка видаліть деякі файлі, щоб синхронізувати ваші локальні зміни з вашим хмарним сховищем.</string>
     <string name="error_dialog_we_need_info">Нам потрібна наступна технічна інформація, щоб допомогти вам:</string>
     <string name="error_dialog_version_not_parsable">Не вдалося визначити версію застосунку Deck на сервері. Будь ласка, перевірте, чи  застосунок встановлено та увімкнено.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Ймовірно, що ваш обліковий запис у застосунку Nextcloud більше не авторизовано.</string>
     <string name="error_dialog_unknown_error">Схоже, що ваша хмара Nextcloud не доступна. Будь ласка, перевірте з\'єднання з мережею, а також можливість встановити з\'єднання через бравзер.</string>
     <string name="error_action_open_deck_info">Відкрити інформацію про застосунок</string>
     <string name="error_action_open_nextcloud_app">Відкрити програму Nextcloud</string>
@@ -277,6 +283,7 @@
     <string name="gallery">Галерея</string>
     <string name="edit_description">Редагувати опис</string>
     <string name="widget_upcoming_title">Очікують на виконання</string>
+    <string name="app_logo">Лоґо застосунку</string>
     <string name="simple_search">Пошук</string>
     <string name="no_search_results_title">Нічого не знайдено</string>
     </resources>
