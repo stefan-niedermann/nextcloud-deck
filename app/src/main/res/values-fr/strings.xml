@@ -300,7 +300,7 @@
     <string name="clone_cards">Dupliquer des cartes</string>
     <string name="simple_clone">Dupliquer</string>
     <string name="user_avatar">Avatar utilisateur</string>
-    <string name="simple_unassign">Désassigner</string>
+    <string name="simple_unassign">Désattribuer</string>
     <string name="simple_contact">Contact</string>
     <string name="simple_file">Fichier</string>
     <string name="simple_camera">Appareil photo</string>
