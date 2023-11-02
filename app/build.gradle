@@ -78,7 +78,7 @@ dependencies {
     implementation project(path: ':tab-layout-helper')
     implementation project(path: ':reactive-livedata')
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 
     // Android X
     implementation 'androidx.appcompat:appcompat:1.6.1'
