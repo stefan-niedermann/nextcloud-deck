@@ -153,7 +153,7 @@
     <string name="hours_6">6 horas</string>
     <string name="action_card_move">Mover a tarxeta</string>
     <string name="action_card_move_title">Mover %1$s</string>
-    <string name="title_is_mandatory">Precisase un título</string>
+    <string name="title_is_mandatory">Precísase dun título</string>
     <string name="provide_at_least_a_title_or_description">Forneza polo menos un título ou descrición</string>
     <string name="welcome_text">Dámoslle a benvida a %1$s</string>
     <string name="welcome_text_further_accounts">Engadir outra conta</string>
