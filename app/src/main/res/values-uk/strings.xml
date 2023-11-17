@@ -78,7 +78,7 @@
     <string name="add_account">Додати обліковий запис</string>
     <string name="choose_account">Оберіть обліковий запис</string>
     <string name="add_card">Додати картку</string>
-    <string name="activity">Активність</string>
+    <string name="activity">Дії</string>
     <string name="add_list">Додати список</string>
     <string name="rename_list">Перейменувати список</string>
     <string name="delete_list">Вилучити список</string>
@@ -94,7 +94,7 @@
 
     <string name="card_edit_details">Деталі</string>
     <string name="card_edit_attachments">Вкладення</string>
-    <string name="card_edit_activity">Активність</string>
+    <string name="card_edit_activity">Дії</string>
     <string name="about_server_app_version_text">Версія застосунку серверу:</string>
     <string name="no_files_attached_to_this_card">До цієї картки не прикріплено жодного файла.</string>
     <string name="attachments">Вкладення</string>
