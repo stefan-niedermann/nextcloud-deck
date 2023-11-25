@@ -185,6 +185,7 @@
     <string name="simple_contact">Tengiliður</string>
     <string name="simple_file">Skrá</string>
     <string name="simple_camera">Myndavél</string>
+    <string name="show_all_contacts">Birta alla tengiliði ...</string>
     <string name="recent">Nýlegt</string>
     <string name="contacts">Tengiliðir</string>
     <string name="downloads">Sótt gögn</string>
