@@ -179,6 +179,7 @@
     <string name="widget_stack_title">Listi</string>
     <string name="widget_filter_title">Sía</string>
     <string name="select_stack">Veldu lista</string>
+    <string name="project_type_deck_board">Deck-borð</string>
     <string name="project_type_file">Skrá</string>
     <string name="projects_title">Verkefni</string>
     <string name="simple_move">Færa</string>
