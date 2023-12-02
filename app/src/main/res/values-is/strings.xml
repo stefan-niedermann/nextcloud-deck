@@ -192,5 +192,7 @@
     <string name="downloads">Sótt gögn</string>
     <string name="files">Skrár</string>
     <string name="gallery">Myndasafn</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Ítarlegar stillingar</string>
     <string name="simple_search">Search</string>
     </resources>
