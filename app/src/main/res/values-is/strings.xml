@@ -68,6 +68,7 @@
     <string name="hint_due_date_date">Skiladagur</string>
     <string name="hint_due_date_time">Tími</string>
 
+    <string name="card_not_found">Spjald fannst ekki</string>
     <string name="add_account">Bæta við notandaaðgangi</string>
     <string name="choose_account">Veldu aðgang</string>
     <string name="add_card">Bæta við spjaldi</string>
@@ -192,6 +193,8 @@
     <string name="downloads">Sótt gögn</string>
     <string name="files">Skrár</string>
     <string name="gallery">Myndasafn</string>
+    <string name="edit_description">Breyta lýsingu</string>
+    <string name="widget_upcoming_title">Spjöld á næstunni</string>
     <!-- Category header for a section in the settings which contain features for advanced users -->
     <string name="simple_expert_settings">Ítarlegar stillingar</string>
     <string name="simple_search">Search</string>
