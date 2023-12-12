@@ -98,7 +98,7 @@
     <string name="about_server_app_version_text">Versión da aplicación do servidor:</string>
     <string name="no_files_attached_to_this_card">Non hai ficheiros anexos a esta tarxeta.</string>
     <string name="attachments">Anexos</string>
-    <string name="no_cards">Aínda non hai tarxetas</string>
+    <string name="no_cards">Aínda non hai ningunha tarxeta</string>
     <string name="no_account">Non hai ningunha conta configurada</string>
     <string name="account_already_added">A conta%1$sxa fora engadida</string>
     <string name="account_is_getting_imported">A conta está a importarse</string>
