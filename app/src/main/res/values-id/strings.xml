@@ -220,6 +220,10 @@
     <string name="error_dialog_tip_offline_connection_timeout">Waktu koneksi habis, silakan periksa jika Anda terhubung ke internet. Ini mungkin juga terjadi ketika server Anda sedang sibuk.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Jika Anda mengaktifkan pengaturan \"Sinkronisasi saja pada Wi-Fi\", Anda hanya bisa menyinkronkan ketika Anda terhubung ke Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Ada yang salah dengan aplikasi Nextcloud Anda. Silakan mencoba untuk menghentikan kedua-dua aplikasi, Nextcloud dan Nextcloud Deck.</string>
+    <string name="error_dialog_check_server_logs">Ada masalah dengan penyiapan Nextcloud Anda. Silakan lihat berkas log server.</string>
+    <string name="error_dialog_check_maintenance">Tolong periksa apakah instansi Nextcloud Anda saat ini tidak dalam mode pemeliharaan.</string>
+    <string name="error_dialog_insufficient_storage">Instansi Nextcloud Anda tidak memiliki penyimpanan gratis yang tersisa. Silakan hapus beberapa berkas untuk menyinkronkan perubahan lokal Anda ke cloud Anda.</string>
+    <string name="error_dialog_we_need_info">Kami membutuhkan informasi teknis berikut untuk membantu Anda.</string>
     <string name="error_action_open_in_browser">Buka di peramban</string>
     <string name="error_action_install">Pasang</string>
     <string name="error_action_report_issue">Laporan</string>
