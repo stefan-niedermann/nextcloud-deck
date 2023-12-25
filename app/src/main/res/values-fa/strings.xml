@@ -247,7 +247,7 @@
     <string name="error_action_open_in_browser">باز کردن در مرورگر</string>
     <string name="error_action_install">نصب</string>
     <string name="error_action_report_issue">گزارش</string>
-    <string name="error_action_update_files_app">یه‌روزرسانی</string>
+    <string name="error_action_update_files_app">به‌روزرسانی</string>
     <string name="info_box_maintenance_mode">کارساز در حال نگه‌داری است</string>
     <string name="info_box_version_not_supported">نسخه سرور %1$s پشتیبانی نمی شود ، لطفاً آن را به %2$s به روز کنید</string>
     <string name="share_link">لینک را به اشتراک بگذارید</string>
