@@ -226,7 +226,7 @@
     <string name="error_dialog_check_server">Respons dari server Anda tidak benar. Silakan periksa apakah Anda dapat mengakses aplikasi Longgok melalui antarmuka web.</string>
     <string name="error_dialog_check_server_logs">Ada masalah dengan penyiapan Nextcloud Anda. Silakan lihat berkas log server.</string>
     <string name="error_dialog_check_maintenance">Tolong periksa apakah instansi Nextcloud Anda saat ini tidak dalam mode pemeliharaan.</string>
-    <string name="error_dialog_insufficient_storage">Instansi Nextcloud Anda tidak memiliki penyimpanan gratis yang tersisa. Silakan hapus beberapa berkas untuk menyinkronkan perubahan lokal Anda ke cloud Anda.</string>
+    <string name="error_dialog_insufficient_storage">Instansi Nextcloud Anda tidak memiliki penyimpanan gratis yang tersisa. Silakan hapus beberapa berkas untuk menyinkronkan perubahan lokal Anda ke awan Anda.</string>
     <string name="error_dialog_we_need_info">Kami membutuhkan informasi teknis berikut untuk membantu Anda.</string>
     <string name="error_dialog_version_not_parsable">Kami tidak dapat menentukan versi aplikasi Longgok sisi server. Pastikan aplikasi tersebut terinstal dan diaktifkan.</string>
     <string name="error_dialog_account_might_not_be_authorized">Akun aplikasi Nextcloud Anda mungkin tidak lagi diotorisasi.</string>
