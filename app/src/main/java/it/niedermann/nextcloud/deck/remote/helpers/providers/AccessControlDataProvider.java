@@ -41,9 +41,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
                         public void onResponse(GroupMemberUIDs response) {
                             accessControl.setGroupMemberUIDs(response);
                             if (response.getUids().size() > 0) {
-                                ExecutorServiceProvider.awaitExectuion(
-                                        () -> ensureGroupMembersInDB(responder.getAccount(), dataBaseAdapter, serverAdapter, response)
-                                );
+                                ensureGroupMembersInDB(responder.getAccount(), dataBaseAdapter, serverAdapter, response)
                             }
                             latch.countDown();
                         }
