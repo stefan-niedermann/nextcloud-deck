@@ -17,7 +17,6 @@ import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.remote.helpers.util.AsyncUtil;
-import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
 
 public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessControl> {
 
@@ -41,7 +40,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
                         public void onResponse(GroupMemberUIDs response) {
                             accessControl.setGroupMemberUIDs(response);
                             if (response.getUids().size() > 0) {
-                                ensureGroupMembersInDB(responder.getAccount(), dataBaseAdapter, serverAdapter, response)
+                                ensureGroupMembersInDB(responder.getAccount(), dataBaseAdapter, serverAdapter, response);
                             }
                             latch.countDown();
                         }
