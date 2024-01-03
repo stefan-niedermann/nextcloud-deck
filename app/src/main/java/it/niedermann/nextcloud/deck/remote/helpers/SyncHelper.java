@@ -23,6 +23,7 @@ import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.remote.helpers.providers.AbstractSyncDataProvider;
 import it.niedermann.nextcloud.deck.remote.helpers.providers.IRelationshipProvider;
+import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
 
 public class SyncHelper {
     @NonNull
@@ -56,6 +57,7 @@ public class SyncHelper {
             public void onResponse(List<T> response) {
                 if (response != null) {
                     provider.goingDeeper();
+
                     for (T entityFromServer : response) {
                         if (entityFromServer == null) {
                             // see https://github.com/stefan-niedermann/nextcloud-deck/issues/574
@@ -63,11 +65,12 @@ public class SyncHelper {
                             continue;
                         }
                         entityFromServer.setAccountId(accountId);
+
                         T existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
 
                         if (existingEntity == null) {
                             try {
-                                provider.createInDB(dataBaseAdapter, accountId, entityFromServer);
+                                ExecutorServiceProvider.awaitExectuion(() -> provider.createInDB(dataBaseAdapter, accountId, entityFromServer));
                             } catch (SQLiteConstraintException e) {
                                 provider.onInsertFailed(dataBaseAdapter, e, account, accountId, response, entityFromServer);
                                 throw new RuntimeException("ConstraintViolation! Entity: " + provider.getClass().getSimpleName()+"\n"

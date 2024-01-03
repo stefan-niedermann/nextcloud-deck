@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.util;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -16,7 +17,6 @@ public class ExecutorServiceProvider {
             60L, TimeUnit.SECONDS, new LinkedBlockingQueue<>()) {
         @Override
         public Future<?> submit(Runnable task) {
-            DeckLog.log("##submitting");
             return super.submit(new RetryableRunnable(task));
         }
     };
@@ -27,6 +27,19 @@ public class ExecutorServiceProvider {
 
     public static ExecutorService getLinkedBlockingQueueExecutor() {
         return EXECUTOR;
+    }
+
+    public static void awaitExectuion(Runnable r) {
+        CountDownLatch l = new CountDownLatch(1);
+        EXECUTOR.submit(() -> {
+            r.run();
+            l.countDown();
+        });
+        try {
+            l.await();
+        } catch (Throwable e) {
+            DeckLog.error(e);
+        }
     }
 
     private static class RetryableRunnable implements Runnable {
