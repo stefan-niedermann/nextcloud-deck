@@ -54,7 +54,7 @@ public class RequestHelper {
 
         private RuntimeException buildCause(Response<T> response){
             Request request = response.raw().request();
-            String url = request.url().redact();
+            String url = request.url().toString();
             String method = request.method();
             int code = response.code();
             String responseBody = "<empty>";

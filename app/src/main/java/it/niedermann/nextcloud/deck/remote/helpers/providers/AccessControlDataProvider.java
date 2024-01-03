@@ -75,7 +75,17 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
                         user.setUid(response.getId());
                         user.setPrimaryKey(response.getId());
                         user.setDisplayname(response.getDisplayName());
-                        dataBaseAdapter.createUser(account.getId(), user);
+                        try {
+                            dataBaseAdapter.createUser(getAccount().getId(), user);
+                        } catch (Exception e) {
+                            try {
+                                // retry... if still nothing: skip.
+                                Thread.sleep(500);
+                                dataBaseAdapter.createUser(getAccount().getId(), user);
+                            } catch (Exception ex) {
+                                throw new RuntimeException(ex);
+                            }
+                        }
                         memberLatch.countDown();
                     }
 
