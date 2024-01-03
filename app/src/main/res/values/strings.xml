@@ -241,6 +241,7 @@
     <string name="error_dialog_tip_offline_no_internet">It looks like you tried to trigger a synchronization without an internet connection.</string>
     <string name="error_dialog_tip_offline_connection_refused">Connection was refused, please check if your server is reachable via web browser.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Connection timed out, please check if you\'re connected to the internet. This may also happen when your server is busy.</string>
+    <string name="error_dialog_tip_connection_rejected">Connection was rejected, please check if your server is protected by an anti-flooding mechanism. This is most likely a problem caused by Cloudflare protected Servers.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">If you have enabled the "Sync only on Wi-Fi" setting, you can only synchronize when you are connected to a Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Something seems to be wrong with your Nextcloud app. Please try to force stop both, the Nextcloud app and the Nextcloud Deck app.</string>
     <string name="error_dialog_tip_files_delete_storage">If force stopping them does not help, you can try to clear the storage of both apps.</string>
