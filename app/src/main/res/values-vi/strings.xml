@@ -304,6 +304,7 @@
     <string name="downloads">Tải xuống</string>
     <string name="files">Tệp</string>
     <string name="gallery">Thư viện</string>
+    <string name="simple_attach">Gắn kết</string>
     <string name="add_stack_widget">Thêm tiện ích danh sách</string>
     <string name="add_filter_widget">Thêm tiện ích lọc</string>
     <string name="simple_order">Thứ tự</string>
@@ -323,7 +324,10 @@
     <string name="progress_import">Đang nhập dự án %1$d trong số %2$d...</string>
     <string name="progress_import_indeterminate">Đang nhập các dự án...</string>
     <string name="card_outdated">Nội dung của thẻ này có thể đã lỗi thời.</string>
-    <string name="show_error">Hiện lỗi</string>
+    <string name="show_error">Xem lỗi</string>
     <string name="push_notification_link_empty">Do lỗi đã biết ở ứng dụng Deck trên web, không may là chúng tôi không thể hiển thị thẻ này. Để biết thêm thông tin hãy xem: %1$s</string>
+    <string name="enter_search_term_title">Nhập thuật ngữ tìm kiếm</string>
+    <string name="enter_search_term_description">Nhập thuật ngữ tìm kiếm để tìm các thẻ trong bảng này</string>
     <string name="no_search_results_title">Không có kết quả tìm kiếm</string>
-    </resources>
+    <string name="no_search_results_description">Chúng tôi không tìm thấy kết quả nào cho thuật ngữ tìm kiếm đã cho.</string>
+</resources>
