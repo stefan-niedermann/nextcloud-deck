@@ -197,25 +197,28 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
 
 
     @Deprecated(forRemoval = true)
-    public static void themeDueDate(@NonNull TextView cardDueDate, @NonNull LocalDate dueDate) {
+    public static void themeTemporalChip(@NonNull TextView cardDueDate, @NonNull LocalDate date, boolean isDone) {
         final var context = cardDueDate.getContext();
-        final long diff = DAYS.between(LocalDate.now(), dueDate);
 
         @ColorInt @Nullable Integer textColor = null;
         @DrawableRes int backgroundDrawable = 0;
 
-        if (diff == 1) {
-            // due date: tomorrow
-            backgroundDrawable = R.drawable.due_tomorrow_background;
-            textColor = ContextCompat.getColor(context, R.color.due_text_tomorrow);
-        } else if (diff == 0) {
-            // due date: today
-            backgroundDrawable = R.drawable.due_today_background;
-            textColor = ContextCompat.getColor(context, R.color.due_text_today);
-        } else if (diff < 0) {
-            // due date: overdue
-            backgroundDrawable = R.drawable.due_overdue_background;
-            textColor = ContextCompat.getColor(context, R.color.due_text_overdue);
+        if (isDone) {
+            // due date: done
+            backgroundDrawable = R.drawable.due_done_background;
+            textColor = ContextCompat.getColor(context, R.color.due_text_done);
+        } else {
+            final long diff = DAYS.between(LocalDate.now(), date);
+
+            if (diff == 0) {
+                // due date: today
+                backgroundDrawable = R.drawable.due_today_background;
+                textColor = ContextCompat.getColor(context, R.color.due_text_today);
+            } else if (diff < 0) {
+                // due date: overdue
+                backgroundDrawable = R.drawable.due_overdue_background;
+                textColor = ContextCompat.getColor(context, R.color.due_text_overdue);
+            } // else we use default text styling
         }
 
         cardDueDate.setBackgroundResource(backgroundDrawable);

@@ -58,7 +58,15 @@ public class SingleCardWidget extends AppWidgetProvider {
                     views.setTextViewText(R.id.title, fullModel.getFullCard().getCard().getTitle());
                     views.setRemoteAdapter(R.id.description_lv, serviceIntent);
 
-                    if (fullModel.getFullCard().getCard().getDueDate() != null) {
+                    if (fullModel.getFullCard().getCard().getDone() != null) {
+                        views.setTextViewText(R.id.card_due_date, DateUtil.getRelativeDateTimeString(context, fullModel.getFullCard().getCard().getDone().toEpochMilli()));
+                        // TODO Use multiple views for background colors and only set the necessary to View.VISIBLE
+                        // https://stackoverflow.com/a/3376537
+                        // Because otherwise using Reflection is the only way
+                        views.setViewVisibility(R.id.card_due_date, View.VISIBLE);
+                        views.setViewVisibility(R.id.card_due_date_image, View.VISIBLE);
+                        views.setImageViewResource(R.id.card_due_date_image, R.drawable.calendar_blank_grey600_24dp);
+                    } else if (fullModel.getFullCard().getCard().getDueDate() != null) {
                         views.setTextViewText(R.id.card_due_date, DateUtil.getRelativeDateTimeString(context, fullModel.getFullCard().getCard().getDueDate().toEpochMilli()));
                         // TODO Use multiple views for background colors and only set the necessary to View.VISIBLE
                         // https://stackoverflow.com/a/3376537

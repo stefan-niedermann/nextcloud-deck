@@ -21,6 +21,7 @@ import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 
 import org.jetbrains.annotations.Contract;
 
+import java.time.Instant;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -65,8 +66,8 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
 
         getNotSyncedYet().setVisibility(DBStatus.LOCAL_EDITED.equals(fullCard.getStatusEnum()) ? View.VISIBLE : View.GONE);
 
-        if (fullCard.getCard().getDueDate() != null) {
-            setupDueDate(getCardDueDate(), fullCard.getCard());
+        if (fullCard.getCard().getDueDate() != null || fullCard.getCard().getDone() != null) {
+            setupTemporalChip(getCardDueDate(), fullCard.getCard());
             getCardDueDate().setVisibility(View.VISIBLE);
         } else {
             getCardDueDate().setVisibility(View.GONE);
@@ -112,9 +113,15 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
         return getCard();
     }
 
-    private static void setupDueDate(@NonNull TextView cardDueDate, @NonNull Card card) {
-        cardDueDate.setText(DateUtil.getRelativeDateTimeString(cardDueDate.getContext(), card.getDueDate().toEpochMilli()));
-        DeckViewThemeUtils.themeDueDate(cardDueDate, card.getDueDate().atZone(ZoneId.systemDefault()).toLocalDate());
+    /**
+     * Sets up a temporal information, e. g. {@link Card#getDone()} or {@link Card#getDueDate()}
+     */
+    private static void setupTemporalChip(@NonNull TextView cardDueDate, @NonNull Card card) {
+        final boolean isDone = card.getDone() != null;
+        final Instant temporalInformation = isDone ? card.getDone() : card.getDueDate();
+
+        cardDueDate.setText(DateUtil.getRelativeDateTimeString(cardDueDate.getContext(), temporalInformation.toEpochMilli()));
+        DeckViewThemeUtils.themeTemporalChip(cardDueDate, temporalInformation.atZone(ZoneId.systemDefault()).toLocalDate(), isDone);
     }
 
     protected static void setupCoverImages(@NonNull Account account, @NonNull ViewGroup coverImagesHolder, @NonNull FullCard fullCard, int maxCoverImagesCount) {
