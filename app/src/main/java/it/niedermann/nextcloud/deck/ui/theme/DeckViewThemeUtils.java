@@ -197,7 +197,7 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
 
 
     @Deprecated(forRemoval = true)
-    public static void themeTemporalChip(@NonNull TextView cardDueDate, @NonNull LocalDate date, boolean isDone) {
+    public static void themeDueDate(@NonNull TextView cardDueDate, @NonNull LocalDate date, boolean isDone) {
         final var context = cardDueDate.getContext();
 
         @ColorInt @Nullable Integer textColor = null;

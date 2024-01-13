@@ -33,6 +33,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListen
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog.OnTimeSetListener;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -152,6 +153,8 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         binding.descriptionEditor.setSearchColor(color);
         binding.descriptionViewer.setSearchColor(color);
 
+        utils.material.colorMaterialButtonPrimaryFilled(binding.markAsDone);
+
         // TODO apply correct branding on the BrandedDatePicker
     }
 
@@ -194,6 +197,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
     }
 
     private void setupDueDate() {
+
         if (this.viewModel.getFullCard().getCard().getDueDate() != null) {
             final var dueDate = this.viewModel.getFullCard().getCard().getDueDate().atZone(ZoneId.systemDefault());
             binding.dueDateDate.setText(dueDate == null ? null : dueDate.format(dateFormatter));
@@ -206,6 +210,16 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         }
 
         if (viewModel.canEdit()) {
+            if (this.viewModel.getFullCard().getCard().getDone() == null) {
+                binding.markAsDone.setVisibility(VISIBLE);
+            } else {
+                binding.markAsDone.setVisibility(GONE);
+            }
+
+            binding.markAsDone.setOnClickListener(v -> {
+                viewModel.getFullCard().getCard().setDone(Instant.now());
+            });
+
             binding.dueDateDate.setOnClickListener(v -> {
                 final LocalDate date;
                 if (viewModel.getFullCard() != null && viewModel.getFullCard().getCard() != null && viewModel.getFullCard().getCard().getDueDate() != null) {
@@ -240,6 +254,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
             binding.dueDateDate.setEnabled(false);
             binding.dueDateTime.setEnabled(false);
             binding.clearDueDate.setVisibility(GONE);
+            binding.markAsDone.setVisibility(GONE);
         }
     }
 

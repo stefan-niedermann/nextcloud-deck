@@ -83,7 +83,7 @@
             android:layout_marginEnd="@dimen/spacer_2x"
             android:hint="@string/hint_due_date_date"
             android:labelFor="@id/dueDateDate"
-            app:layout_constraintBottom_toTopOf="@id/descriptionWrapper"
+            app:layout_constraintBottom_toTopOf="@id/markAsDone"
             app:layout_constraintEnd_toStartOf="@id/dueDateTimeWrapper"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintStart_toStartOf="parent"
@@ -144,6 +144,21 @@
             app:layout_constraintStart_toEndOf="@id/dueDateTimeWrapper"
             app:layout_constraintTop_toTopOf="@id/dueDateTimeWrapper"
             app:srcCompat="@drawable/ic_close_circle_grey600" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/markAsDone"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacer_2x"
+            android:layout_marginBottom="@dimen/spacer_1hx"
+            android:text="@string/simple_completed"
+            app:backgroundTint="@color/defaultBrand"
+            app:icon="@drawable/ic_check_white_24dp"
+            app:layout_constraintBottom_toTopOf="@id/descriptionWrapper"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/dueDateTimeWrapper"
+            app:layout_constraintTop_toBottomOf="@id/dueDateDateWrapper" />
 
         <RelativeLayout
             android:id="@+id/descriptionWrapper"

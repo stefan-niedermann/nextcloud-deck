@@ -19,6 +19,7 @@
     <string name="simple_open">Open</string>
     <string name="simple_switch">Switch</string>
     <string name="simple_filter">Filter</string>
+    <string name="simple_completed">Completed</string>
     <string name="simple_overdue">Overdue</string>
     <string name="simple_clear">Clear</string>
     <string name="simple_discard">Discard</string>
