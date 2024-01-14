@@ -36,11 +36,11 @@ public class ThemedDatePickerDialog extends DatePickerDialog implements Themed {
     public void applyTheme(int color) {
         final var scheme = ThemeUtils.createScheme(color, requireContext());
 
-        @ColorInt final int buttonTextColor = scheme.getOnPrimaryContainer();
+        @ColorInt final int buttonTextColor = scheme.getOnSecondaryContainer();
         setOkColor(buttonTextColor);
         setCancelColor(buttonTextColor);
 
-        setAccentColor(Scheme.dark(color).getPrimaryContainer());
+        setAccentColor(Scheme.dark(color).getSecondaryContainer());
     }
 
     /**

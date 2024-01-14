@@ -157,7 +157,6 @@
             app:icon="@drawable/ic_check_white_24dp"
             app:layout_constraintBottom_toTopOf="@id/descriptionWrapper"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/dueDateTimeWrapper"
             app:layout_constraintTop_toBottomOf="@id/dueDateDateWrapper" />
 
         <RelativeLayout

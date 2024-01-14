@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
+import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener;
@@ -149,6 +150,11 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
                 binding.peopleWrapper,
                 binding.descriptionEditorWrapper
         ).forEach(utils.material::colorTextInputLayout);
+
+        Stream.of(
+                binding.clearDueDate,
+                binding.descriptionToggle
+        ).forEach(v -> utils.platform.colorImageView(v, ColorRole.SECONDARY));
 
         binding.descriptionEditor.setSearchColor(color);
         binding.descriptionViewer.setSearchColor(color);
