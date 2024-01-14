@@ -146,19 +146,27 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
     }
 
     private void appendTextAndFinish(@NonNull FullCard fullCard, @NonNull String receivedText) {
-        final String[] targets = {getString(R.string.append_text_to_description), getString(R.string.add_text_as_comment)};
+        final String[] targets = {getString(R.string.append_text_to_description), getString(R.string.append_text_as_task), getString(R.string.add_text_as_comment)};
         new MaterialAlertDialogBuilder(this)
                 .setOnCancelListener(dialog -> cardSelected = false)
                 .setItems(targets, (dialog, which) -> {
                     switch (which) {
                         case 0:
+                        case 1: {
                             final String oldDescription = fullCard.getCard().getDescription();
                             DeckLog.info("Adding to card with id", fullCard.getCard().getId(), "(" + fullCard.getCard().getTitle() + "):", receivedText);
-                            fullCard.getCard().setDescription(
-                                    (oldDescription == null || oldDescription.length() == 0)
-                                            ? receivedText
-                                            : oldDescription + "\n\n" + receivedText
-                            );
+
+                            if (which == 0) {
+                                fullCard.getCard().setDescription((oldDescription == null || oldDescription.length() == 0)
+                                        ? receivedText
+                                        : oldDescription + "\n\n" + receivedText
+                                );
+                            } else {
+                                fullCard.getCard().setDescription((oldDescription == null || oldDescription.length() == 0)
+                                        ? "- [ ] " + receivedText
+                                        : oldDescription + "\n- [ ] " + receivedText
+                                );
+                            }
                             mainViewModel.updateCard(fullCard, new IResponseCallback<>() {
                                 @Override
                                 public void onResponse(FullCard response) {
@@ -178,11 +186,13 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                                 }
                             });
                             break;
-                        case 1:
+                        }
+                        case 2: {
                             mainViewModel.addCommentToCard(fullCard.getAccountId(), receivedText.trim(), fullCard.getLocalId());
                             Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
                             finish();
                             break;
+                        }
                     }
                 }).create().show();
     }
