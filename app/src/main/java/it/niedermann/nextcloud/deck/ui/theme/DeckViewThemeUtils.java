@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.ui.theme;
 
 import static com.nextcloud.android.common.ui.util.ColorStateListUtilsKt.buildColorStateList;
 import static com.nextcloud.android.common.ui.util.PlatformThemeUtil.isDarkMode;
-import static java.time.temporal.ChronoUnit.DAYS;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -11,7 +10,6 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
@@ -23,7 +21,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.core.widget.TextViewCompat;
 
 import com.google.android.material.search.SearchBar;
 import com.google.android.material.search.SearchView;
@@ -35,7 +32,6 @@ import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 import com.nextcloud.android.common.ui.theme.utils.MaterialViewThemeUtils;
 
 import java.lang.reflect.InvocationTargetException;
-import java.time.LocalDate;
 import java.util.Optional;
 
 import it.niedermann.nextcloud.deck.R;
@@ -193,39 +189,6 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
         }
 
         return Optional.empty();
-    }
-
-
-    @Deprecated(forRemoval = true)
-    public static void themeDueDate(@NonNull TextView cardDueDate, @NonNull LocalDate date, boolean isDone) {
-        final var context = cardDueDate.getContext();
-
-        @ColorInt @Nullable Integer textColor = null;
-        @DrawableRes int backgroundDrawable = 0;
-
-        if (isDone) {
-            // due date: done
-            backgroundDrawable = R.drawable.due_done_background;
-            textColor = ContextCompat.getColor(context, R.color.due_text_done);
-        } else {
-            final long diff = DAYS.between(LocalDate.now(), date);
-
-            if (diff == 0) {
-                // due date: today
-                backgroundDrawable = R.drawable.due_today_background;
-                textColor = ContextCompat.getColor(context, R.color.due_text_today);
-            } else if (diff < 0) {
-                // due date: overdue
-                backgroundDrawable = R.drawable.due_overdue_background;
-                textColor = ContextCompat.getColor(context, R.color.due_text_overdue);
-            } // else we use default text styling
-        }
-
-        cardDueDate.setBackgroundResource(backgroundDrawable);
-        if (textColor != null) {
-            cardDueDate.setTextColor(textColor);
-            TextViewCompat.setCompoundDrawableTintList(cardDueDate, ColorStateList.valueOf(textColor));
-        }
     }
 
     @Deprecated(forRemoval = true)

@@ -22,7 +22,6 @@ import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 import org.jetbrains.annotations.Contract;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,10 +31,9 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.ui.theme.DeckViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.view.DueDateChip;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
-import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 import it.niedermann.nextcloud.sso.glide.SingleSignOnUrl;
 
@@ -91,7 +89,7 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    protected abstract TextView getCardDueDate();
+    protected abstract DueDateChip getCardDueDate();
 
     protected abstract ImageView getNotSyncedYet();
 
@@ -113,12 +111,14 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
         return getCard();
     }
 
-    private static void setupDueDate(@NonNull TextView cardDueDate, @NonNull Card card) {
+    private static void setupDueDate(@NonNull DueDateChip cardDueDate, @NonNull Card card) {
         final boolean isDone = card.getDone() != null;
         final Instant date = isDone ? card.getDone() : card.getDueDate();
 
-        cardDueDate.setText(DateUtil.getRelativeDateTimeString(cardDueDate.getContext(), date.toEpochMilli()));
-        DeckViewThemeUtils.themeDueDate(cardDueDate, date.atZone(ZoneId.systemDefault()).toLocalDate(), isDone);
+        if (date == null) {
+            throw new IllegalArgumentException("Expected due date or done date to be present but both were null.");
+        }
+        cardDueDate.setDueDate(date, isDone);
     }
 
     protected static void setupCoverImages(@NonNull Account account, @NonNull ViewGroup coverImagesHolder, @NonNull FullCard fullCard, int maxCoverImagesCount) {

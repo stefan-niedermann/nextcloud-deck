@@ -52,15 +52,11 @@
                     app:srcCompat="@drawable/ic_sync_blue_24dp"
                     tools:visibility="visible" />
 
-                <com.google.android.material.textview.MaterialTextView
+                <it.niedermann.nextcloud.deck.ui.view.DueDateChip
                     android:id="@+id/card_due_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="@dimen/spacer_1hx"
-                    android:gravity="center"
-                    android:paddingHorizontal="@dimen/spacer_1x"
-                    android:paddingVertical="@dimen/spacer_1hx"
-                    app:drawableStartCompat="@drawable/calendar_blank_grey600_24dp"
+                    tools:chipIcon="@drawable/ic_time_24"
                     tools:text="tomorrow" />
 
                 <ImageView

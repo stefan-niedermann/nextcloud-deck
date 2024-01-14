@@ -19,6 +19,7 @@ import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.view.DueDateChip;
 
 public class DefaultCardViewHolder extends AbstractCardViewHolder {
     private final ItemCardDefaultBinding binding;
@@ -93,7 +94,7 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
     }
 
     @Override
-    protected TextView getCardDueDate() {
+    protected DueDateChip getCardDueDate() {
         return binding.cardDueDate;
     }
 

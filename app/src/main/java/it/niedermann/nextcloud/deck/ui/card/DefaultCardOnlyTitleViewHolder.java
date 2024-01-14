@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import com.google.android.material.card.MaterialCardView;
 
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultOnlyTitleBinding;
+import it.niedermann.nextcloud.deck.ui.view.DueDateChip;
 
 public class DefaultCardOnlyTitleViewHolder extends AbstractCardViewHolder {
     private final ItemCardDefaultOnlyTitleBinding binding;
@@ -35,7 +36,7 @@ public class DefaultCardOnlyTitleViewHolder extends AbstractCardViewHolder {
     }
 
     @Override
-    protected TextView getCardDueDate() {
+    protected DueDateChip getCardDueDate() {
         return binding.cardDueDate;
     }
 
