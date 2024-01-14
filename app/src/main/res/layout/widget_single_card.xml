@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:contentDescription="@null"
-                tools:src="@drawable/calendar_blank_grey600_24dp" />
+                tools:src="@drawable/ic_time_24" />
 
             <TextView
                 android:id="@+id/card_due_date"

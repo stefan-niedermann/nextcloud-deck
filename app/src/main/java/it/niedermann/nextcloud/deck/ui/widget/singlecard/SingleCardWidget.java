@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.widget.singlecard;
 
+import static java.time.temporal.ChronoUnit.DAYS;
 import static it.niedermann.nextcloud.deck.util.WidgetUtil.pendingIntentFlagCompat;
 
 import android.app.PendingIntent;
@@ -13,9 +14,12 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -53,27 +57,29 @@ public class SingleCardWidget extends AppWidgetProvider {
                         views.setViewVisibility(R.id.description_lv, View.VISIBLE);
                     }
 
+                    final var card = fullModel.getFullCard().getCard();
+
                     views.setOnClickPendingIntent(R.id.widget_card, pendingIntent);
                     views.setPendingIntentTemplate(R.id.description_lv, pendingIntent);
-                    views.setTextViewText(R.id.title, fullModel.getFullCard().getCard().getTitle());
+                    views.setTextViewText(R.id.title, card.getTitle());
                     views.setRemoteAdapter(R.id.description_lv, serviceIntent);
 
-                    if (fullModel.getFullCard().getCard().getDone() != null) {
-                        views.setTextViewText(R.id.card_due_date, DateUtil.getRelativeDateTimeString(context, fullModel.getFullCard().getCard().getDone().toEpochMilli()));
-                        // TODO Use multiple views for background colors and only set the necessary to View.VISIBLE
-                        // https://stackoverflow.com/a/3376537
-                        // Because otherwise using Reflection is the only way
+                    // TODO Use multiple views for background colors and only set the necessary to View.VISIBLE
+                    // https://stackoverflow.com/a/3376537
+                    // Because otherwise using Reflection is the only way
+                    if (card.getDone() != null) {
+                        views.setTextViewText(R.id.card_due_date, DateUtil.getRelativeDateTimeString(context, card.getDone().toEpochMilli()));
                         views.setViewVisibility(R.id.card_due_date, View.VISIBLE);
                         views.setViewVisibility(R.id.card_due_date_image, View.VISIBLE);
-                        views.setImageViewResource(R.id.card_due_date_image, R.drawable.calendar_blank_grey600_24dp);
-                    } else if (fullModel.getFullCard().getCard().getDueDate() != null) {
-                        views.setTextViewText(R.id.card_due_date, DateUtil.getRelativeDateTimeString(context, fullModel.getFullCard().getCard().getDueDate().toEpochMilli()));
-                        // TODO Use multiple views for background colors and only set the necessary to View.VISIBLE
-                        // https://stackoverflow.com/a/3376537
-                        // Because otherwise using Reflection is the only way
+                        views.setImageViewResource(R.id.card_due_date_image, R.drawable.ic_check_white_24dp);
+                    } else if (card.getDueDate() != null) {
+                        views.setTextViewText(R.id.card_due_date, DateUtil.getRelativeDateTimeString(context, card.getDueDate().toEpochMilli()));
                         views.setViewVisibility(R.id.card_due_date, View.VISIBLE);
                         views.setViewVisibility(R.id.card_due_date_image, View.VISIBLE);
-                        views.setImageViewResource(R.id.card_due_date_image, R.drawable.calendar_blank_grey600_24dp);
+
+                        final long diff = DAYS.between(LocalDate.now(), card.getDueDate().atZone(ZoneId.systemDefault()).toLocalDate());
+                        @DrawableRes final var dueDateImage = diff < 0 ? R.drawable.ic_time_filled_24 : R.drawable.ic_time_24;
+                        views.setImageViewResource(R.id.card_due_date_image, dueDateImage);
                     } else {
                         views.setViewVisibility(R.id.card_due_date, View.GONE);
                         views.setViewVisibility(R.id.card_due_date_image, View.GONE);
