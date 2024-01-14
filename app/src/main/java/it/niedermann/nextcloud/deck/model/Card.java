@@ -92,6 +92,7 @@ public class Card extends AbstractRemoteEntity {
         this.order = card.getOrder();
         this.archived = card.isArchived();
         this.dueDate = card.getDueDate();
+        this.done = card.getDone();
         this.notified = card.isNotified();
         this.overdue = card.getOverdue();
         this.commentsUnread = card.getCommentsUnread();

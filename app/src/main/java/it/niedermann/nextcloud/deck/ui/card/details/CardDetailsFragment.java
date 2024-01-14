@@ -153,7 +153,7 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         binding.descriptionEditor.setSearchColor(color);
         binding.descriptionViewer.setSearchColor(color);
 
-        utils.material.colorMaterialButtonPrimaryFilled(binding.markAsDone);
+        utils.material.colorMaterialButtonPrimaryTonal(binding.markAsDone);
 
         // TODO apply correct branding on the BrandedDatePicker
     }
