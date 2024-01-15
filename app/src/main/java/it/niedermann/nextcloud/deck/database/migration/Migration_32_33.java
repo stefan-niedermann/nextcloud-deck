@@ -17,6 +17,9 @@ public class Migration_32_33 extends Migration {
     public void migrate(@NonNull SupportSQLiteDatabase database) {
         database.execSQL("ALTER TABLE `Card` add column done INTEGER");
         // reset etags, so cards will be fetched after app-update
-        database.execSQL("UPDATE `Card` SET etag = NULL");
+        database.execSQL("UPDATE `Account` SET `boardsEtag` = NULL");
+        database.execSQL("UPDATE `Board` SET `etag` = NULL");
+        database.execSQL("UPDATE `Stack` SET `etag` = NULL");
+        database.execSQL("UPDATE `Card` SET `etag` = NULL");
     }
 }
