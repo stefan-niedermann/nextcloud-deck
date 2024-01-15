@@ -69,95 +69,22 @@
             android:layout_marginTop="@dimen/spacer_1x"
             android:layout_marginBottom="@dimen/spacer_1hx"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toTopOf="@id/dueDateDateWrapper"
+            app:layout_constraintBottom_toTopOf="@id/cardDueDateView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/peopleWrapper"
             tools:listitem="@tools:sample/avatars" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/dueDateDateWrapper"
-            android:layout_width="0dp"
+        <it.niedermann.nextcloud.deck.ui.card.details.CardDueDateView
+            android:id="@+id/cardDueDateView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacer_2x"
-            android:layout_marginEnd="@dimen/spacer_2x"
-            android:hint="@string/hint_due_date_date"
-            android:labelFor="@id/dueDateDate"
-            app:layout_constraintBottom_toTopOf="@id/markAsDone"
-            app:layout_constraintEnd_toStartOf="@id/dueDateTimeWrapper"
-            app:layout_constraintHorizontal_weight="2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/assignees"
-            app:startIconDrawable="@drawable/calendar_blank_grey600_24dp">
-
-            <EditText
-                android:id="@+id/dueDateDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="true"
-                android:focusable="false"
-                android:importantForAutofill="no"
-                android:inputType="date"
-                android:maxLines="1"
-                tools:text="01/07/2020" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/dueDateTimeWrapper"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacer_1hx"
-            android:hint="@string/hint_due_date_time"
-            android:labelFor="@id/dueDateTime"
-            app:layout_constraintBottom_toBottomOf="@id/dueDateDateWrapper"
-            app:layout_constraintEnd_toStartOf="@id/clearDueDate"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@id/dueDateDateWrapper"
-            app:layout_constraintTop_toTopOf="@id/dueDateDateWrapper">
-
-            <EditText
-                android:id="@+id/dueDateTime"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:enabled="true"
-                android:focusable="false"
-                android:importantForAutofill="no"
-                android:inputType="datetime"
-                android:maxLines="1"
-                android:minLines="0"
-                android:textAlignment="center"
-                tools:text="11:45" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <ImageView
-            android:id="@+id/clearDueDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/spacer_1hx"
-            android:layout_marginStart="@dimen/spacer_1x"
-            android:layout_marginEnd="0dp"
-            android:contentDescription="@string/label_clear_due_date"
-            android:padding="@dimen/spacer_11qx"
-            android:translationY="@dimen/spacer_1hx"
-            app:layout_constraintBottom_toBottomOf="@id/dueDateTimeWrapper"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/dueDateTimeWrapper"
-            app:layout_constraintTop_toTopOf="@id/dueDateTimeWrapper"
-            app:srcCompat="@drawable/ic_close_circle_grey600" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/markAsDone"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacer_2x"
-            android:layout_marginBottom="@dimen/spacer_1hx"
-            android:text="@string/simple_completed"
-            app:backgroundTint="@color/defaultBrand"
-            app:icon="@drawable/ic_check_white_24dp"
             app:layout_constraintBottom_toTopOf="@id/descriptionWrapper"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dueDateDateWrapper" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/assignees" />
+
 
         <RelativeLayout
             android:id="@+id/descriptionWrapper"
@@ -167,7 +94,7 @@
             app:layout_constraintBottom_toTopOf="@id/projectsTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dueDateDateWrapper">
+            app:layout_constraintTop_toBottomOf="@id/cardDueDateView">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/descriptionEditorWrapper"

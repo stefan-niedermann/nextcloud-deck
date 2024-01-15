@@ -29,18 +29,8 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
 import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog.OnTimeSetListener;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.stream.Stream;
 
 import it.niedermann.android.markdown.MarkdownEditor;
@@ -61,17 +51,13 @@ import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeDialog;
 import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
-import it.niedermann.nextcloud.deck.ui.theme.ThemedDatePickerDialog;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedSnackbar;
-import it.niedermann.nextcloud.deck.ui.theme.ThemedTimePickerDialog;
 
-public class CardDetailsFragment extends Fragment implements OnDateSetListener, OnTimeSetListener, CardAssigneeListener {
+public class CardDetailsFragment extends Fragment implements CardDueDateView.DueDateChangedListener, CardAssigneeListener {
 
     private FragmentCardEditTabDetailsBinding binding;
     private EditCardViewModel viewModel;
     private AssigneeAdapter adapter;
-    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
-    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
     private static final String KEY_ACCOUNT = "account";
 
     public static Fragment newInstance(@NonNull Account account) {
@@ -123,16 +109,16 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
         viewModel.getBoardColor().observe(getViewLifecycleOwner(), this::applyTheme);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        // https://github.com/wdullaer/MaterialDateTimePicker#why-are-my-callbacks-lost-when-the-device-changes-orientation
-        final var dpd = (DatePickerDialog) getChildFragmentManager().findFragmentByTag(ThemedDatePickerDialog.class.getCanonicalName());
-        final var tpd = (TimePickerDialog) getChildFragmentManager().findFragmentByTag(ThemedTimePickerDialog.class.getCanonicalName());
-        if (tpd != null) tpd.setOnTimeSetListener(this);
-        if (dpd != null) dpd.setOnDateSetListener(this);
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//
+//        // https://github.com/wdullaer/MaterialDateTimePicker#why-are-my-callbacks-lost-when-the-device-changes-orientation
+//        final var dpd = (DatePickerDialog) getChildFragmentManager().findFragmentByTag(ThemedDatePickerDialog.class.getCanonicalName());
+//        final var tpd = (TimePickerDialog) getChildFragmentManager().findFragmentByTag(ThemedTimePickerDialog.class.getCanonicalName());
+//        if (tpd != null) tpd.setOnTimeSetListener(this);
+//        if (dpd != null) dpd.setOnDateSetListener(this);
+//    }
 
     @Override
     public void onDestroy() {
@@ -145,21 +131,15 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
 
         Stream.of(
                 binding.labelsWrapper,
-                binding.dueDateDateWrapper,
-                binding.dueDateTimeWrapper,
                 binding.peopleWrapper,
                 binding.descriptionEditorWrapper
         ).forEach(utils.material::colorTextInputLayout);
 
-        Stream.of(
-                binding.clearDueDate,
-                binding.descriptionToggle
-        ).forEach(v -> utils.platform.colorImageView(v, ColorRole.SECONDARY));
+        utils.platform.colorImageView(binding.descriptionToggle, ColorRole.SECONDARY);
 
+        binding.cardDueDateView.applyTheme(color);
         binding.descriptionEditor.setSearchColor(color);
         binding.descriptionViewer.setSearchColor(color);
-
-        utils.material.colorMaterialButtonPrimaryTonal(binding.markAsDone);
 
         // TODO apply correct branding on the BrandedDatePicker
     }
@@ -203,65 +183,24 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
     }
 
     private void setupDueDate() {
+        final var card = this.viewModel.getFullCard().getCard();
+        binding.cardDueDateView.setDueDateListener(this);
+        binding.cardDueDateView.setEnabled(this.viewModel.canEdit());
+        binding.cardDueDateView.setDueDate(getChildFragmentManager(), card.getDueDate(), card.getDone());
+    }
 
-        if (this.viewModel.getFullCard().getCard().getDueDate() != null) {
-            final var dueDate = this.viewModel.getFullCard().getCard().getDueDate().atZone(ZoneId.systemDefault());
-            binding.dueDateDate.setText(dueDate == null ? null : dueDate.format(dateFormatter));
-            binding.dueDateTime.setText(dueDate == null ? null : dueDate.format(timeFormatter));
-            binding.clearDueDate.setVisibility(VISIBLE);
-        } else {
-            binding.clearDueDate.setVisibility(GONE);
-            binding.dueDateDate.setText(null);
-            binding.dueDateTime.setText(null);
-        }
+    @Override
+    public void onDueDateChanged(@Nullable Instant dueDate) {
+        final var card = this.viewModel.getFullCard().getCard();
+        card.setDueDate(dueDate);
+        binding.cardDueDateView.setDueDate(getChildFragmentManager(), card.getDueDate(), card.getDone());
+    }
 
-        if (viewModel.canEdit()) {
-            if (this.viewModel.getFullCard().getCard().getDone() == null) {
-                binding.markAsDone.setVisibility(VISIBLE);
-            } else {
-                binding.markAsDone.setVisibility(GONE);
-            }
-
-            binding.markAsDone.setOnClickListener(v -> {
-                viewModel.getFullCard().getCard().setDone(Instant.now());
-            });
-
-            binding.dueDateDate.setOnClickListener(v -> {
-                final LocalDate date;
-                if (viewModel.getFullCard() != null && viewModel.getFullCard().getCard() != null && viewModel.getFullCard().getCard().getDueDate() != null) {
-                    date = viewModel.getFullCard().getCard().getDueDate().atZone(ZoneId.systemDefault()).toLocalDate();
-                } else {
-                    date = LocalDate.now();
-                }
-                viewModel.getCurrentBoardColor(viewModel.getAccount().getId(), viewModel.getBoardId())
-                        .thenAcceptAsync(color -> ThemedDatePickerDialog.newInstance(this, date.getYear(), date.getMonthValue(), date.getDayOfMonth(), color)
-                                .show(getChildFragmentManager(), ThemedDatePickerDialog.class.getCanonicalName()), ContextCompat.getMainExecutor(requireContext()));
-            });
-
-            binding.dueDateTime.setOnClickListener(v -> {
-                final LocalTime time;
-                if (viewModel.getFullCard() != null && viewModel.getFullCard().getCard() != null && viewModel.getFullCard().getCard().getDueDate() != null) {
-                    time = viewModel.getFullCard().getCard().getDueDate().atZone(ZoneId.systemDefault()).toLocalTime();
-                } else {
-                    time = LocalTime.now();
-                }
-                viewModel.getCurrentBoardColor(viewModel.getAccount().getId(), viewModel.getBoardId())
-                        .thenAcceptAsync(color -> ThemedTimePickerDialog.newInstance(this, time.getHour(), time.getMinute(), true, color)
-                                .show(getChildFragmentManager(), ThemedTimePickerDialog.class.getCanonicalName()), ContextCompat.getMainExecutor(requireContext()));
-            });
-
-            binding.clearDueDate.setOnClickListener(v -> {
-                binding.dueDateDate.setText(null);
-                binding.dueDateTime.setText(null);
-                viewModel.getFullCard().getCard().setDueDate(null);
-                binding.clearDueDate.setVisibility(GONE);
-            });
-        } else {
-            binding.dueDateDate.setEnabled(false);
-            binding.dueDateTime.setEnabled(false);
-            binding.clearDueDate.setVisibility(GONE);
-            binding.markAsDone.setVisibility(GONE);
-        }
+    @Override
+    public void onDoneChanged(@Nullable Instant done) {
+        final var card = this.viewModel.getFullCard().getCard();
+        card.setDone(done);
+        binding.cardDueDateView.setDueDate(getChildFragmentManager(), card.getDueDate(), card.getDone());
     }
 
     private void setupLabels(@NonNull Account account) {
@@ -382,53 +321,6 @@ public class CardDetailsFragment extends Fragment implements OnDateSetListener, 
 
         if (this.viewModel.getFullCard().getAssignedUsers() != null) {
             adapter.setUsers(this.viewModel.getFullCard().getAssignedUsers());
-        }
-    }
-
-    @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        int hourOfDay;
-        int minute;
-
-        final var selectedTime = binding.dueDateTime.getText();
-        if (TextUtils.isEmpty(selectedTime)) {
-            hourOfDay = 0;
-            minute = 0;
-        } else {
-            final LocalTime oldTime = LocalTime.from(this.viewModel.getFullCard().getCard().getDueDate().atZone(ZoneId.systemDefault()));
-            hourOfDay = oldTime.getHour();
-            minute = oldTime.getMinute();
-        }
-
-        final var newDateTime = ZonedDateTime.of(
-                LocalDate.of(year, monthOfYear + 1, dayOfMonth),
-                LocalTime.of(hourOfDay, minute),
-                ZoneId.systemDefault()
-        );
-        this.viewModel.getFullCard().getCard().setDueDate(newDateTime.toInstant());
-        binding.dueDateDate.setText(newDateTime.format(dateFormatter));
-
-        if (this.viewModel.getFullCard().getCard().getDueDate() == null || this.viewModel.getFullCard().getCard().getDueDate().toEpochMilli() == 0) {
-            binding.clearDueDate.setVisibility(GONE);
-        } else {
-            binding.clearDueDate.setVisibility(VISIBLE);
-        }
-    }
-
-    @Override
-    public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
-        final var oldInstant = this.viewModel.getFullCard().getCard().getDueDate();
-        final var oldDateTime = oldInstant == null ? ZonedDateTime.now() : oldInstant.atZone(ZoneId.systemDefault());
-        final var newDateTime = oldDateTime.with(
-                LocalTime.of(hourOfDay, minute)
-        );
-
-        this.viewModel.getFullCard().getCard().setDueDate(newDateTime.toInstant());
-        binding.dueDateTime.setText(newDateTime.format(timeFormatter));
-        if (this.viewModel.getFullCard().getCard().getDueDate() == null || this.viewModel.getFullCard().getCard().getDueDate().toEpochMilli() == 0) {
-            binding.clearDueDate.setVisibility(GONE);
-        } else {
-            binding.clearDueDate.setVisibility(VISIBLE);
         }
     }
 
