@@ -183,24 +183,27 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
     }
 
     private void setupDueDate() {
+        final var version = this.viewModel.getAccount().getServerDeckVersionAsObject();
         final var card = this.viewModel.getFullCard().getCard();
         binding.cardDueDateView.setDueDateListener(this);
         binding.cardDueDateView.setEnabled(this.viewModel.canEdit());
-        binding.cardDueDateView.setDueDate(getChildFragmentManager(), card.getDueDate(), card.getDone());
+        binding.cardDueDateView.setDueDate(getChildFragmentManager(), version, card.getDueDate(), card.getDone());
     }
 
     @Override
     public void onDueDateChanged(@Nullable Instant dueDate) {
+        final var version = this.viewModel.getAccount().getServerDeckVersionAsObject();
         final var card = this.viewModel.getFullCard().getCard();
         card.setDueDate(dueDate);
-        binding.cardDueDateView.setDueDate(getChildFragmentManager(), card.getDueDate(), card.getDone());
+        binding.cardDueDateView.setDueDate(getChildFragmentManager(), version, card.getDueDate(), card.getDone());
     }
 
     @Override
     public void onDoneChanged(@Nullable Instant done) {
+        final var version = this.viewModel.getAccount().getServerDeckVersionAsObject();
         final var card = this.viewModel.getFullCard().getCard();
         card.setDone(done);
-        binding.cardDueDateView.setDueDate(getChildFragmentManager(), card.getDueDate(), card.getDone());
+        binding.cardDueDateView.setDueDate(getChildFragmentManager(), version, card.getDueDate(), card.getDone());
     }
 
     private void setupLabels(@NonNull Account account) {

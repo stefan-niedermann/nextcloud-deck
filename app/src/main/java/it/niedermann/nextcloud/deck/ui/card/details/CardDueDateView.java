@@ -27,6 +27,7 @@ import java.util.stream.Stream;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ViewCardDueDateBinding;
+import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.Themed;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedDatePickerDialog;
@@ -40,6 +41,7 @@ public class CardDueDateView extends FrameLayout implements DatePickerDialog.OnD
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("d. MMM yyyy HH:mm");
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+    boolean supportsDone = false;
     @Nullable
     private Instant dueDate = null;
     @Nullable
@@ -64,6 +66,9 @@ public class CardDueDateView extends FrameLayout implements DatePickerDialog.OnD
         binding = ViewCardDueDateBinding.inflate(LayoutInflater.from(context), this, true);
     }
 
+    /**
+     * @noinspection unused
+     */
     public CardDueDateView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         binding = ViewCardDueDateBinding.inflate(LayoutInflater.from(context), this, true);
@@ -77,8 +82,9 @@ public class CardDueDateView extends FrameLayout implements DatePickerDialog.OnD
         }
     }
 
-    public void setDueDate(@NonNull FragmentManager fragmentManager, @Nullable Instant dueDate, @Nullable Instant done) {
+    public void setDueDate(@NonNull FragmentManager fragmentManager, @NonNull Version version, @Nullable Instant dueDate, @Nullable Instant done) {
         this.fragmentManager = fragmentManager;
+        this.supportsDone = version.supportsDone();
         this.dueDate = dueDate;
         this.done = done;
         render();
@@ -88,6 +94,72 @@ public class CardDueDateView extends FrameLayout implements DatePickerDialog.OnD
         setVisibilityState();
         setTextState();
         setInteraction();
+    }
+
+    private void setVisibilityState() {
+        if (done == null) {
+            Stream.of(
+                    binding.dueDateDateWrapper,
+                    binding.dueDateTimeWrapper
+            ).forEach(v -> v.setVisibility(View.VISIBLE));
+
+            Stream.of(
+                    binding.doneCheck,
+                    binding.doneDueDate,
+                    binding.doneDate,
+                    binding.clearDone
+            ).forEach(v -> v.setVisibility(View.GONE));
+
+            binding.markAsDone.setVisibility(supportsDone ? View.VISIBLE : View.GONE);
+            binding.clearDueDate.setVisibility(dueDate == null || !isEnabled() ? View.GONE : View.VISIBLE);
+        } else {
+
+            Stream.of(
+                    binding.doneCheck,
+                    binding.doneDate,
+                    binding.clearDone
+            ).forEach(v -> v.setVisibility(View.VISIBLE));
+
+            Stream.of(
+                    binding.markAsDone,
+                    binding.dueDateDateWrapper,
+                    binding.dueDateTimeWrapper,
+                    binding.clearDueDate
+            ).forEach(v -> v.setVisibility(View.GONE));
+
+            binding.doneDueDate.setVisibility(dueDate == null || !isEnabled() ? View.GONE : View.VISIBLE);
+        }
+    }
+
+    private void setTextState() {
+        if (done == null) {
+            binding.doneDate.setText(null);
+            binding.doneDueDate.setText(null);
+
+            if (this.dueDate == null) {
+                binding.dueDateDate.setText(null);
+                binding.dueDateTime.setText(null);
+
+            } else {
+                final var dueDate = this.dueDate.atZone(ZoneId.systemDefault());
+                binding.dueDateDate.setText(dueDate.format(dateFormatter));
+                binding.dueDateTime.setText(dueDate.format(timeFormatter));
+            }
+
+        } else {
+            binding.dueDateDate.setText(null);
+            binding.dueDateTime.setText(null);
+
+            binding.doneDate.setText(done.atZone(ZoneId.systemDefault()).format(dateTimeFormatter));
+
+            if (this.dueDate == null) {
+                binding.doneDueDate.setText(null);
+
+            } else {
+                final var dueDate = this.dueDate.atZone(ZoneId.systemDefault());
+                binding.doneDueDate.setText(getContext().getString(R.string.label_due_at, dueDate.format(dateTimeFormatter)));
+            }
+        }
     }
 
     private void setInteraction() {
@@ -103,11 +175,15 @@ public class CardDueDateView extends FrameLayout implements DatePickerDialog.OnD
                 }
             });
 
-            binding.markAsDone.setOnClickListener(v -> {
-                if (this.dueDateChangedListener != null) {
-                    this.dueDateChangedListener.onDoneChanged(Instant.now());
-                }
-            });
+            if (supportsDone) {
+                binding.markAsDone.setOnClickListener(v -> {
+                    if (this.dueDateChangedListener != null) {
+                        this.dueDateChangedListener.onDoneChanged(Instant.now());
+                    }
+                });
+            } else {
+                binding.markAsDone.setOnClickListener(null);
+            }
 
             binding.clearDueDate.setOnClickListener(v -> {
                 if (this.dueDateChangedListener != null) {
@@ -154,72 +230,6 @@ public class CardDueDateView extends FrameLayout implements DatePickerDialog.OnD
         }
     }
 
-    private void setTextState() {
-        if (done == null) {
-            binding.doneDate.setText(null);
-            binding.doneDueDate.setText(null);
-
-            if (this.dueDate == null) {
-                binding.dueDateDate.setText(null);
-                binding.dueDateTime.setText(null);
-
-            } else {
-                final var dueDate = this.dueDate.atZone(ZoneId.systemDefault());
-                binding.dueDateDate.setText(dueDate.format(dateFormatter));
-                binding.dueDateTime.setText(dueDate.format(timeFormatter));
-            }
-
-        } else {
-            binding.dueDateDate.setText(null);
-            binding.dueDateTime.setText(null);
-
-            binding.doneDate.setText(done.atZone(ZoneId.systemDefault()).format(dateTimeFormatter));
-
-            if (this.dueDate == null) {
-                binding.doneDueDate.setText(null);
-
-            } else {
-                final var dueDate = this.dueDate.atZone(ZoneId.systemDefault());
-                binding.doneDueDate.setText(getContext().getString(R.string.label_due_at, dueDate.format(dateTimeFormatter)));
-            }
-        }
-    }
-
-    private void setVisibilityState() {
-        if (done == null) {
-            Stream.of(
-                    binding.markAsDone,
-                    binding.dueDateDateWrapper,
-                    binding.dueDateTimeWrapper
-            ).forEach(v -> v.setVisibility(View.VISIBLE));
-
-            Stream.of(
-                    binding.doneCheck,
-                    binding.doneDueDate,
-                    binding.doneDate,
-                    binding.clearDone
-            ).forEach(v -> v.setVisibility(View.GONE));
-
-            binding.clearDueDate.setVisibility(dueDate == null || !isEnabled() ? View.GONE : View.VISIBLE);
-        } else {
-
-            Stream.of(
-                    binding.doneCheck,
-                    binding.doneDate,
-                    binding.clearDone
-            ).forEach(v -> v.setVisibility(View.VISIBLE));
-
-            Stream.of(
-                    binding.markAsDone,
-                    binding.dueDateDateWrapper,
-                    binding.dueDateTimeWrapper,
-                    binding.clearDueDate
-            ).forEach(v -> v.setVisibility(View.GONE));
-
-            binding.doneDueDate.setVisibility(dueDate == null || !isEnabled() ? View.GONE : View.VISIBLE);
-        }
-    }
-
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         int hourOfDay;
@@ -230,6 +240,7 @@ public class CardDueDateView extends FrameLayout implements DatePickerDialog.OnD
             hourOfDay = 0;
             minute = 0;
         } else {
+            assert this.dueDate != null; // Since selectedTime is not empty and is derived from dueDate, dueDate itself shouldn't be null here.
             final var oldTime = LocalTime.from(this.dueDate.atZone(ZoneId.systemDefault()));
             hourOfDay = oldTime.getHour();
             minute = oldTime.getMinute();
@@ -269,19 +280,13 @@ public class CardDueDateView extends FrameLayout implements DatePickerDialog.OnD
                 binding.dueDateTimeWrapper
         ).forEach(utils.material::colorTextInputLayout);
 
-//        Stream.of(
-//                binding.doneDueDate,
-//                binding.doneDate
-//        ).forEach(v -> utils.platform.colorTextView(v, ColorRole.ON_SURFACE));
-
-        utils.platform.colorTextView(binding.doneDate, ColorRole.ON_SURFACE);
-        utils.platform.colorTextView(binding.doneDueDate, ColorRole.ON_SURFACE_VARIANT);
-
         Stream.of(
                 binding.clearDone,
                 binding.clearDueDate
         ).forEach(v -> utils.platform.colorImageView(v, ColorRole.SECONDARY));
 
+        utils.platform.colorTextView(binding.doneDate, ColorRole.ON_SURFACE);
+        utils.platform.colorTextView(binding.doneDueDate, ColorRole.ON_SURFACE_VARIANT);
         utils.material.colorMaterialButtonPrimaryTonal(binding.markAsDone);
     }
 

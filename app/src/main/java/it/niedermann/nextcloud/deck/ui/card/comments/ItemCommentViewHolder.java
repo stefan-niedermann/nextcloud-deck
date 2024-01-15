@@ -64,7 +64,7 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
             inflater.inflate(R.menu.comment_menu, menu);
             menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> ClipboardUtil.INSTANCE.copyToClipboard(itemView.getContext(), comment.getComment().getMessage()));
             final var replyMenuItem = menu.findItem(R.id.reply);
-            if (comment.getStatusEnum() != DBStatus.LOCAL_EDITED && account.getServerDeckVersionAsObject().supportsCommentsReplys()) {
+            if (comment.getStatusEnum() != DBStatus.LOCAL_EDITED && account.getServerDeckVersionAsObject().supportsCommentsReplies()) {
                 replyMenuItem.setOnMenuItemClickListener(item -> {
                     selectAsReplyListener.onSelectAsReply(comment);
                     return true;

@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Attachment;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 
 public class Version implements Comparable<Version> {
@@ -17,6 +18,7 @@ public class Version implements Comparable<Version> {
     private static final Version VERSION_1_0_0 = new Version("1.0.0", 1, 0, 0);
     private static final Version VERSION_1_0_3 = new Version("1.0.3", 1, 0, 3);
     private static final Version VERSION_1_3_0 = new Version("1.3.0", 1, 3, 0);
+    private static final Version VERSION_1_12_0 = new Version("1.12.0", 1, 12, 0);
 
     private String originalVersion = "?";
     private final int major;
@@ -148,11 +150,11 @@ public class Version implements Comparable<Version> {
     /**
      * Replying to a {@link DeckComment} does cause synchronization errors because the API expected the
      * <code>parentId</code> to be a {@link String} up until {@link Version} 1.0.3
-     * https://github.com/nextcloud/deck/issues/1831#issuecomment-627207849
      *
      * @return whether or not the server supports replying to comments
+     * @see <a href="https://github.com/nextcloud/deck/issues/1831#issuecomment-627207849">Deck server issue #1831</a>
      */
-    public boolean supportsCommentsReplys() {
+    public boolean supportsCommentsReplies() {
         return isGreaterOrEqualTo(VERSION_1_0_3);
     }
 
@@ -168,6 +170,15 @@ public class Version implements Comparable<Version> {
      */
     public boolean supportsFileAttachments() {
         return isGreaterOrEqualTo(VERSION_1_3_0);
+    }
+
+    /**
+     * Cards started to have an additional property called <a href="https://github.com/nextcloud/deck/pull/4137"><code>done</code></a> with {@link #VERSION_1_12_0}.
+     *
+     * @return whether or not the server supports the {@link Card#getDone()} state
+     */
+    public boolean supportsDone() {
+        return isGreaterOrEqualTo(VERSION_1_12_0);
     }
 
     /**
