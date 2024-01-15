@@ -9,25 +9,40 @@
         android:id="@+id/doneCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/spacer_1hx"
         android:layout_marginStart="@dimen/spacer_1qx"
         android:layout_marginEnd="0dp"
+        android:layout_marginBottom="@dimen/spacer_1hx"
         android:contentDescription="@null"
         android:padding="@dimen/spacer_11qx"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_check_white_24dp"
-        app:tint="?attr/colorOnSurface" />
+        app:tint="?attr/colorOnSurface"
+        tools:visibility="gone" />
 
     <TextView
         android:id="@+id/doneDate"
+        style="?attr/textAppearanceBody1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/doneCheck"
         app:layout_constraintEnd_toStartOf="@id/clearDone"
         app:layout_constraintStart_toEndOf="@id/doneCheck"
         app:layout_constraintTop_toTopOf="@id/doneCheck"
-        tools:text="@tools:sample/date/ddmmyy" />
+        tools:text="@tools:sample/date/ddmmyy"
+        tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/done_due_date"
+        style="?attr/textAppearanceBody1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacer_1x"
+        app:layout_constraintEnd_toStartOf="@id/clearDone"
+        app:layout_constraintStart_toEndOf="@id/doneCheck"
+        app:layout_constraintTop_toBottomOf="@id/doneDate"
+        tools:text="@tools:sample/date/ddmmyy"
+        tools:visibility="gone" />
 
     <ImageView
         android:id="@+id/clearDone"
@@ -41,16 +56,8 @@
         app:layout_constraintBottom_toBottomOf="@id/doneDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/doneDate"
-        app:srcCompat="@drawable/ic_close_circle_grey600" />
-
-    <TextView
-        android:id="@+id/done_due_date"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@id/clearDone"
-        app:layout_constraintStart_toEndOf="@id/doneCheck"
-        app:layout_constraintTop_toBottomOf="@id/doneDate"
-        tools:text="@tools:sample/date/ddmmyy" />
+        app:srcCompat="@drawable/ic_close_circle_grey600"
+        tools:visibility="gone" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dueDateDateWrapper"

@@ -25,6 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.stream.Stream;
 
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ViewCardDueDateBinding;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.Themed;
@@ -36,6 +37,7 @@ public class CardDueDateView extends FrameLayout implements DatePickerDialog.OnD
     private final ViewCardDueDateBinding binding;
     @Nullable
     private DueDateChangedListener dueDateChangedListener;
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("d. MMM yyyy HH:mm");
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
     @Nullable
@@ -171,14 +173,14 @@ public class CardDueDateView extends FrameLayout implements DatePickerDialog.OnD
             binding.dueDateDate.setText(null);
             binding.dueDateTime.setText(null);
 
-            binding.doneDate.setText(done.atZone(ZoneId.systemDefault()).format(dateFormatter));
+            binding.doneDate.setText(done.atZone(ZoneId.systemDefault()).format(dateTimeFormatter));
 
             if (this.dueDate == null) {
                 binding.doneDueDate.setText(null);
 
             } else {
                 final var dueDate = this.dueDate.atZone(ZoneId.systemDefault());
-                binding.doneDueDate.setText(dueDate.format(dateFormatter));
+                binding.doneDueDate.setText(getContext().getString(R.string.label_due_at, dueDate.format(dateTimeFormatter)));
             }
         }
     }
@@ -267,10 +269,13 @@ public class CardDueDateView extends FrameLayout implements DatePickerDialog.OnD
                 binding.dueDateTimeWrapper
         ).forEach(utils.material::colorTextInputLayout);
 
-        Stream.of(
-                binding.doneDueDate,
-                binding.doneDate
-        ).forEach(utils.platform::colorTextView);
+//        Stream.of(
+//                binding.doneDueDate,
+//                binding.doneDate
+//        ).forEach(v -> utils.platform.colorTextView(v, ColorRole.ON_SURFACE));
+
+        utils.platform.colorTextView(binding.doneDate, ColorRole.ON_SURFACE);
+        utils.platform.colorTextView(binding.doneDueDate, ColorRole.ON_SURFACE_VARIANT);
 
         Stream.of(
                 binding.clearDone,
