@@ -153,7 +153,7 @@
     <string name="title_is_mandatory">제목을 비워 둘 수 없음</string>
     <string name="provide_at_least_a_title_or_description">적어도 제목이나 내용을 기술하시오.</string>
     <string name="welcome_text">%1$s에 오신 것을 환영합니다.</string>
-    <string name="maintenance_mode_explanation">%1$s서버는 현재 유지보수 모드입니다. 관리자에게 연락하거나 나중에 시도해주십시오.</string>
+    <string name="maintenance_mode_explanation">%1$s서버는 현재 유지 보수 모드입니다. 관리자에게 연락하거나 나중에 시도해주십시오.</string>
     <string name="share_add_to_card">카드를 더하십시오.</string>
     <string name="share_success">%1$s가  %2$s에  성공적으로 더해졌습니다.</string>
     <string name="add_comment">덧글 달기</string>
@@ -204,7 +204,7 @@
     <string name="operation_not_yet_supported">아직 지원되지 않습니다!</string>
     <string name="error_revoking_ac">%1$s에 대한 접근 취소 중에 에러가 발생했습니다.</string>
     <string name="error_create_label">%1$s라벨을 만드는 중에 에러가 발생했습니다.</string>
-    <string name="maintenance_mode">서버가 유지 관리 모드입니다.</string>
+    <string name="maintenance_mode">서버가 유지 보수 모드입니다.</string>
     <string name="server_error">서버 오류</string>
     <string name="error_edit_activity_killed_by_android">다른 앱에 시스템 자원이 더 필요하여 안드로이드가 편집모드를 종료했습니다.</string>
 
@@ -240,7 +240,7 @@
     <string name="error_action_install">설치</string>
     <string name="error_action_report_issue">보고</string>
     <string name="error_action_update_files_app">업데이트</string>
-    <string name="info_box_maintenance_mode">서버가 유지 관리 모드임</string>
+    <string name="info_box_maintenance_mode">서버가 유지 보수 모드임</string>
     <string name="info_box_version_not_supported">%1$s서버 버전은 지원되지 않습니다. %2$s로 업데이트 해주십시오.</string>
     <string name="share_link">링크 공유</string>
     <string name="share_content">콘텐츠 공유</string>

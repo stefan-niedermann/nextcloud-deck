@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
@@ -101,6 +102,12 @@ public class ImportAccountActivity extends AppCompatActivity {
                 AccountImporter.requestAndroidAccountPermissionsAndPickAccount(this);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        super.onResume();
     }
 
     @Override
@@ -254,6 +261,12 @@ public class ImportAccountActivity extends AppCompatActivity {
                 }
             }, ContextCompat.getMainExecutor(this));
         }
+    }
+
+    @Override
+    protected void onStop() {
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        super.onStop();
     }
 
     @Override

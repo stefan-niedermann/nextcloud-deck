@@ -221,6 +221,7 @@
     <string name="error_dialog_tip_sync_only_on_wifi">如果啟用了「僅在 Wi-Fi 上同步」設定，則只能在連線到 Wi-Fi 時進行同步。</string>
     <string name="error_dialog_tip_files_force_stop">您的 Nextcloud 應用程式似乎有問題。請嘗試強制停止 Nextcloud 應用程式和 Nextcloud Deck 應用程式。</string>
     <string name="error_dialog_tip_files_delete_storage">如果強制停止沒有幫助，請試著清除這兩個應用程式的儲存區。</string>
+    <string name="error_dialog_timeout_instance">在指定的時間內，您的伺服器沒有回應。請確保您的 站台正常運作。</string>
     <string name="error_dialog_timeout_toggle">檢查您的網絡連線。有時候，切換行動數據或 Wi-Fi 可能會有所幫助。</string>
     <string name="error_dialog_check_server">您伺服器的回應不正確。請檢查您是否可以通過 web 界面存取看板應用程式。</string>
     <string name="error_dialog_check_server_logs">您的 Nextcloud 設定有問題，請查看您的伺服器記錄檔。</string>
@@ -257,6 +258,7 @@
     <string name="manage_list">管理清單</string>
     <string name="simple_reply">回覆</string>
     <string name="append_text_to_description">附加到描述</string>
+    <string name="append_text_as_task">追加為任務</string>
     <string name="add_text_as_comment">新增為留言</string>
     <string name="progress_count">%1$d 之 %2$d</string>
     <plurals name="progress_error_count">
@@ -331,4 +333,5 @@
     <string name="enter_search_term_title">輸入搜尋字詞</string>
     <string name="enter_search_term_description">輸入要在此看板中尋找卡片的字詞</string>
     <string name="no_search_results_title">無搜尋結果</string>
-    </resources>
+    <string name="no_search_results_description">對於指定的搜尋詞，我們沒有找到任何結果</string>
+</resources>
