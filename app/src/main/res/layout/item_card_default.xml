@@ -99,9 +99,10 @@
                     android:id="@+id/card_count_tasks"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/spacer_1qx"
                     android:gravity="center_vertical"
                     android:padding="@dimen/spacer_1hx"
-                    tools:drawableStartCompat="@drawable/ic_check_grey600_24dp"
+                    tools:drawableStartCompat="@drawable/ic_check_box_24"
                     tools:text="1/2" />
 
                 <com.google.android.material.textview.MaterialTextView

@@ -79,7 +79,7 @@ public class CompactCardViewHolder extends AbstractCardViewHolder {
     }
 
     @Override
-    protected View getCardMenu() {
+    protected ImageView getCardMenu() {
         return binding.cardMenu;
     }
 

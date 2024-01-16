@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
-import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.ImageView;
@@ -51,7 +50,7 @@ public class DefaultCardOnlyTitleViewHolder extends AbstractCardViewHolder {
     }
 
     @Override
-    protected View getCardMenu() {
+    protected ImageView getCardMenu() {
         return binding.cardMenu;
     }
 
