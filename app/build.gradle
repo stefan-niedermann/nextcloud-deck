@@ -129,9 +129,6 @@ dependencies {
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
-    // ReactiveX
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
-
     // Zoom Layout
     implementation("com.otaliastudios:zoomlayout:1.9.0")
 

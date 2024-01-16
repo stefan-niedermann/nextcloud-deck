@@ -36,6 +36,11 @@ public class ApiProvider {
         }
     }
 
+    @NonNull
+    public Context getContext() {
+        return this.context;
+    }
+
     public DeckAPI getDeckAPI() {
         return deckAPI;
     }
