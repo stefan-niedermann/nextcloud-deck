@@ -44,7 +44,7 @@ public class DueDateChip extends Chip {
 
         final var typedValue = new TypedValue();
         final var theme = getContext().getTheme();
-        theme.resolveAttribute(R.attr.colorOnSurface, typedValue, true);
+        theme.resolveAttribute(R.attr.colorOnSurfaceVariant, typedValue, true);
         this.colorOnSurface = typedValue.data;
 
         final var styles = context.obtainStyledAttributes(attrs, R.styleable.DueDateChip, defStyleAttr, 0);
