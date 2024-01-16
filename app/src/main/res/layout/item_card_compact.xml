@@ -56,6 +56,7 @@
                     android:id="@+id/card_due_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:compactMode="true"
                     tools:chipIcon="@drawable/ic_time_24"
                     tools:text="tomorrow" />
 

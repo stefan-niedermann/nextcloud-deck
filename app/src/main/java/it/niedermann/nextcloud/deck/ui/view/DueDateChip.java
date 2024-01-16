@@ -27,24 +27,30 @@ import it.niedermann.nextcloud.deck.util.DateUtil;
 
 public class DueDateChip extends Chip {
 
-    protected @ColorInt int colorOnSurface;
+    @ColorInt
+    protected final int colorOnSurface;
+    protected final boolean compactMode;
 
     public DueDateChip(Context context) {
-        super(context);
-        initialize();
+        this(context, null);
     }
 
     public DueDateChip(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        initialize();
+        this(context, attrs, R.attr.chipStyle);
     }
 
     public DueDateChip(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initialize();
-    }
 
-    private void initialize() {
+        final var typedValue = new TypedValue();
+        final var theme = getContext().getTheme();
+        theme.resolveAttribute(R.attr.colorOnSurface, typedValue, true);
+        this.colorOnSurface = typedValue.data;
+
+        final var styles = context.obtainStyledAttributes(attrs, R.styleable.DueDateChip, defStyleAttr, 0);
+        this.compactMode = styles.getBoolean(R.styleable.DueDateChip_compactMode, false);
+        styles.recycle();
+
         setEnsureMinTouchTargetSize(false);
         setMinHeight(0);
         setChipMinHeight(0);
@@ -52,14 +58,18 @@ public class DueDateChip extends Chip {
         setPadding(padding, padding, padding, padding);
         setClickable(false);
 
-        final var typedValue = new TypedValue();
-        final var theme = getContext().getTheme();
-        theme.resolveAttribute(R.attr.colorOnSurface, typedValue, true);
-        this.colorOnSurface = typedValue.data;
+        if (compactMode) {
+            setChipEndPadding(0);
+            setTextEndPadding(0);
+        }
     }
 
     public void setDueDate(@NonNull Instant date, boolean isDone) {
-        setText(DateUtil.getRelativeDateTimeString(getContext(), date.toEpochMilli()));
+        if (compactMode) {
+            setText(null);
+        } else {
+            setText(DateUtil.getRelativeDateTimeString(getContext(), date.toEpochMilli()));
+        }
 
         @DrawableRes final int chipIconRes;
         @Nullable @ColorRes final Integer textColorRes;
