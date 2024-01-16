@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.view;
 
-import static java.time.temporal.ChronoUnit.DAYS;
+import static java.time.temporal.ChronoUnit.HOURS;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -18,7 +18,7 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.chip.Chip;
 
 import java.time.Instant;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 import it.niedermann.android.util.DimensionUtil;
@@ -52,11 +52,12 @@ public class DueDateChip extends Chip {
         styles.recycle();
 
         setEnsureMinTouchTargetSize(false);
-        setMinHeight(0);
-        setChipMinHeight(0);
+        setClickable(false);
+
         @Px final var padding = DimensionUtil.INSTANCE.dpToPx(getContext(), R.dimen.spacer_1x);
         setPadding(padding, padding, padding, padding);
-        setClickable(false);
+        setMinHeight(0);
+        setChipMinHeight(0);
 
         if (compactMode) {
             setChipEndPadding(0);
@@ -76,28 +77,24 @@ public class DueDateChip extends Chip {
         @ColorRes final int backgroundColorRes;
 
         if (isDone) { // Done
-            chipIconRes = R.drawable.ic_check_white_24dp;
+            chipIconRes = R.drawable.ic_check_circle_24;
             backgroundColorRes = R.color.due_done;
             textColorRes = R.color.due_text_done;
 
-        } else {
-            final long diff = DAYS.between(LocalDate.now(), date.atZone(ZoneId.systemDefault()).toLocalDate());
+        } else if (date.isBefore(Instant.now())) { // Overdue
+            chipIconRes = R.drawable.ic_time_filled_24;
+            backgroundColorRes = R.color.due_overdue;
+            textColorRes = R.color.due_text_overdue;
 
-            if (diff == 0) { // Today
-                chipIconRes = R.drawable.ic_time_24;
-                backgroundColorRes = R.color.due_today;
-                textColorRes = R.color.due_text_today;
+        } else if (HOURS.between(LocalDateTime.now(), date.atZone(ZoneId.systemDefault())) < 24) { // Next 24 Hours
+            chipIconRes = R.drawable.ic_time_24;
+            backgroundColorRes = R.color.due_today;
+            textColorRes = R.color.due_text_today;
 
-            } else if (diff < 0) { // Overdue
-                chipIconRes = R.drawable.ic_time_filled_24;
-                backgroundColorRes = R.color.due_overdue;
-                textColorRes = R.color.due_text_overdue;
-
-            } else { // Future
-                chipIconRes = R.drawable.ic_time_24;
-                backgroundColorRes = android.R.color.transparent;
-                textColorRes = null;
-            }
+        } else { // Future
+            chipIconRes = R.drawable.ic_time_24;
+            backgroundColorRes = android.R.color.transparent;
+            textColorRes = null;
         }
 
         setChipIcon(ContextCompat.getDrawable(getContext(), chipIconRes));

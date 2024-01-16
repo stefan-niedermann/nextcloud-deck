@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.widget.singlecard;
 
-import static java.time.temporal.ChronoUnit.DAYS;
 import static it.niedermann.nextcloud.deck.util.WidgetUtil.pendingIntentFlagCompat;
 
 import android.app.PendingIntent;
@@ -18,8 +17,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.Instant;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -71,14 +69,16 @@ public class SingleCardWidget extends AppWidgetProvider {
                         views.setTextViewText(R.id.card_due_date, DateUtil.getRelativeDateTimeString(context, card.getDone().toEpochMilli()));
                         views.setViewVisibility(R.id.card_due_date, View.VISIBLE);
                         views.setViewVisibility(R.id.card_due_date_image, View.VISIBLE);
-                        views.setImageViewResource(R.id.card_due_date_image, R.drawable.ic_check_white_24dp);
+                        views.setImageViewResource(R.id.card_due_date_image, R.drawable.ic_check_circle_24);
                     } else if (card.getDueDate() != null) {
                         views.setTextViewText(R.id.card_due_date, DateUtil.getRelativeDateTimeString(context, card.getDueDate().toEpochMilli()));
                         views.setViewVisibility(R.id.card_due_date, View.VISIBLE);
                         views.setViewVisibility(R.id.card_due_date_image, View.VISIBLE);
 
-                        final long diff = DAYS.between(LocalDate.now(), card.getDueDate().atZone(ZoneId.systemDefault()).toLocalDate());
-                        @DrawableRes final var dueDateImage = diff < 0 ? R.drawable.ic_time_filled_24 : R.drawable.ic_time_24;
+                        @DrawableRes final var dueDateImage = card.getDueDate().isBefore(Instant.now())
+                                ? R.drawable.ic_time_filled_24
+                                : R.drawable.ic_time_24;
+
                         views.setImageViewResource(R.id.card_due_date_image, dueDateImage);
                     } else {
                         views.setViewVisibility(R.id.card_due_date, View.GONE);
