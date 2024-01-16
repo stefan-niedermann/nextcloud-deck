@@ -1,1 +1,2 @@
 - ☑️ Share text as task to card description todo item (#1558)
+- ☀️ Force keeping screen on while importing first account
