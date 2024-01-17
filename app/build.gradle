@@ -2,12 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion "31.0.0"
+    compileSdk 34
+    namespace 'it.niedermann.nextcloud.deck'
+
     defaultConfig {
         applicationId "it.niedermann.nextcloud.deck"
-        minSdkVersion 24
-        targetSdkVersion 33
+        minSdk 24
+        targetSdk 34
         versionCode 1023004
         versionName "1.23.4"
         vectorDrawables.useSupportLibrary true
@@ -29,8 +30,8 @@ android {
     }
     compileOptions {
         coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     flavorDimensions "version"
     productFlavors {
@@ -63,16 +64,15 @@ android {
         abortOnError false
         disable 'MissingTranslation'
     }
-    namespace 'it.niedermann.nextcloud.deck'
 }
 
 dependencies {
-    def cameraVersion = "1.2.3"
+    def cameraVersion = "1.3.1"
     def lifecycleVersion = "2.6.2"
-    def roomVersion = "2.5.2"
+    def roomVersion = "2.6.1"
     def glideVersion = "4.16.0"
     def nextcloudCommonsVersion = "1.8.2"
-    def androidCommonsVersion = "0.2.9"
+    def androidCommonsVersion = "0.3.2"
 
     implementation project(path: ':cross-tab-drag-and-drop')
     implementation project(path: ':tab-layout-helper')
@@ -93,7 +93,7 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$roomVersion"
     implementation 'androidx.core:core-splashscreen:1.0.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    implementation 'androidx.work:work-runtime:2.8.1'
+    implementation 'androidx.work:work-runtime:2.9.0'
     implementation "com.google.android.material:material:$rootProject.materialVersion"
 
     // Glide
@@ -105,7 +105,7 @@ dependencies {
 
     // Single-Sign-On
     implementation 'com.github.nextcloud:Android-SingleSignOn:0.8.1'
-    implementation 'com.github.nextcloud:android-common:0.12.0'
+    implementation 'com.github.nextcloud:android-common:0.13.0'
     implementation "com.github.stefan-niedermann.nextcloud-commons:sso-glide:$nextcloudCommonsVersion"
     implementation "com.github.stefan-niedermann.nextcloud-commons:exception:$nextcloudCommonsVersion"
     implementation("com.github.stefan-niedermann.nextcloud-commons:markdown:$nextcloudCommonsVersion") {
