@@ -260,7 +260,6 @@
     <string name="manage_list">Hantera lista</string>
     <string name="simple_reply">Svara</string>
     <string name="append_text_to_description">Lägg till beskrivning</string>
-    <string name="append_text_as_task">Lägg till som uppgift</string>
     <string name="add_text_as_comment">Lägg till som kommentar</string>
     <string name="progress_count">%1$d av %2$d</string>
     <plurals name="progress_error_count">

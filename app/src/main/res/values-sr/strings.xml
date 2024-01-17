@@ -262,7 +262,6 @@
     <string name="manage_list">Управљај списком</string>
     <string name="simple_reply">Одговори</string>
     <string name="append_text_to_description">Придодај на опис</string>
-    <string name="append_text_as_task">Надовежи као задатак</string>
     <string name="add_text_as_comment">Додај као коментар</string>
     <string name="progress_count">%1$d од %2$d</string>
     <plurals name="progress_error_count">
