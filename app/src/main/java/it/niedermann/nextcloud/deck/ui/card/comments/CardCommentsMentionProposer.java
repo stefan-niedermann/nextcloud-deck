@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
@@ -56,9 +55,9 @@ public class CardCommentsMentionProposer implements TextWatcher {
         this.mentionProposerWrapper = mentionProposerWrapper;
         this.mentionProposer = avatarProposer;
         baseRepository = new BaseRepository(editText.getContext());
-        avatarSize = DimensionUtil.INSTANCE.dpToPx(mentionProposer.getContext(), R.dimen.avatar_size_small);
+        avatarSize = mentionProposer.getResources().getDimensionPixelSize(R.dimen.avatar_size_small);
         layoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
-        layoutParams.setMarginEnd(DimensionUtil.INSTANCE.dpToPx(mentionProposer.getContext(), R.dimen.spacer_1x));
+        layoutParams.setMarginEnd(mentionProposer.getResources().getDimensionPixelSize(R.dimen.spacer_1x));
     }
 
     @Override

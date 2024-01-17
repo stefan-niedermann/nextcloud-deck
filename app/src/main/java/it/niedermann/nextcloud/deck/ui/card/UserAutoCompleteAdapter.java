@@ -15,7 +15,6 @@ import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundExce
 import java.util.List;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAutocompleteUserBinding;
@@ -82,7 +81,7 @@ public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
         }
 
         Glide.with(binding.icon.getContext())
-                .load(account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.icon.getContext(), R.dimen.avatar_size), getItem(position).getUid()))
+                .load(account.getAvatarUrl(binding.icon.getResources().getDimensionPixelSize(R.dimen.avatar_size), getItem(position).getUid()))
                 .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.ic_person_grey600_24dp)
                 .error(R.drawable.ic_person_grey600_24dp)

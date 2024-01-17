@@ -35,7 +35,6 @@ import java.util.stream.Stream;
 
 import it.niedermann.android.markdown.MarkdownEditor;
 import it.niedermann.android.util.ColorUtil;
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabDetailsBinding;
@@ -90,9 +89,9 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
             return binding.getRoot();
         }
 
-        @Px final int avatarSize = DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.avatar_size);
+        @Px final int avatarSize = getResources().getDimensionPixelSize(R.dimen.avatar_size);
         final var avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
-        avatarLayoutParams.setMargins(0, 0, DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.spacer_1x), 0);
+        avatarLayoutParams.setMargins(0, 0, getResources().getDimensionPixelSize(R.dimen.spacer_1x), 0);
 
         setupAssignees();
         setupLabels((Account) args.getSerializable(KEY_ACCOUNT));
@@ -296,8 +295,8 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
         adapter = new AssigneeAdapter((user) -> CardAssigneeDialog.newInstance(user).show(getChildFragmentManager(), CardAssigneeDialog.class.getSimpleName()), viewModel.getAccount());
         binding.assignees.setAdapter(adapter);
         binding.assignees.post(() -> {
-            @Px final int gutter = DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.spacer_1x);
-            final int spanCount = (int) (float) binding.labelsWrapper.getWidth() / (DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.avatar_size) + gutter);
+            @Px final int gutter = getResources().getDimensionPixelSize(R.dimen.spacer_1x);
+            final int spanCount = (int) (float) binding.labelsWrapper.getWidth() / (getResources().getDimensionPixelSize(R.dimen.avatar_size) + gutter);
             binding.assignees.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
             binding.assignees.addItemDecoration(new AssigneeDecoration(spanCount, gutter));
         });
