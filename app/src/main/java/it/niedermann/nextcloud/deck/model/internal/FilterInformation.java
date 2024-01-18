@@ -9,6 +9,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.enums.EDoneType;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 
@@ -20,6 +21,8 @@ public class FilterInformation implements Serializable {
 
     @NonNull
     private EDueType dueType = EDueType.NO_FILTER;
+    @NonNull
+    private EDoneType doneType = EDoneType.NO_FILTER;
     private boolean noAssignedLabel = false;
     private boolean noAssignedUser = false;
     private boolean noAssignedProject = false;
@@ -41,6 +44,7 @@ public class FilterInformation implements Serializable {
     public FilterInformation(@Nullable FilterInformation filterInformation) {
         if (filterInformation != null) {
             this.dueType = filterInformation.getDueType();
+            this.doneType = filterInformation.getDoneType();
             this.archiveStatus = filterInformation.getArchiveStatus();
             this.users.addAll(filterInformation.getUsers());
             this.labels.addAll(filterInformation.getLabels());
@@ -69,6 +73,15 @@ public class FilterInformation implements Serializable {
 
     public void setDueType(@NonNull EDueType dueType) {
         this.dueType = dueType;
+    }
+
+    @NonNull
+    public EDoneType getDoneType() {
+        return doneType;
+    }
+
+    public void setDoneType(@NonNull EDoneType doneType) {
+        this.doneType = doneType;
     }
 
     @NonNull
@@ -152,6 +165,7 @@ public class FilterInformation implements Serializable {
     public String toString() {
         return "FilterInformation{" +
                 "dueType=" + dueType +
+                ", doneType=" + doneType +
                 ", noAssignedLabel=" + noAssignedLabel +
                 ", noAssignedUser=" + noAssignedUser +
                 ", users=" + users +
@@ -169,6 +183,7 @@ public class FilterInformation implements Serializable {
             return false;
         }
         return !(filterInformation.getDueType() == EDueType.NO_FILTER
+                && filterInformation.getDoneType() == EDoneType.NO_FILTER
                 && filterInformation.getUsers().isEmpty()
                 && filterInformation.getProjects().isEmpty()
                 && filterInformation.getLabels().isEmpty()

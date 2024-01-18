@@ -19,6 +19,7 @@ import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterBinding;
+import it.niedermann.nextcloud.deck.model.enums.EDoneType;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
@@ -32,6 +33,7 @@ public class FilterDialogFragment extends ThemedDialogFragment {
     private final static int[] tabTitles = new int[]{
             R.string.filter_tags_title,
             R.string.filter_user_title,
+            R.string.filter_done_title,
             R.string.filter_duedate_title
     };
 
@@ -63,6 +65,9 @@ public class FilterDialogFragment extends ThemedDialogFragment {
                         tab.setIcon(draft.getUsers().size() > 0 || draft.isNoAssignedUser() ? indicator : null);
                         break;
                     case 2:
+                        tab.setIcon(draft.getDoneType() != EDoneType.NO_FILTER ? indicator : null);
+                        break;
+                    case 3:
                         tab.setIcon(draft.getDueType() != EDueType.NO_FILTER ? indicator : null);
                         break;
                     default:
@@ -124,6 +129,8 @@ public class FilterDialogFragment extends ThemedDialogFragment {
                 case 1:
                     return new FilterUserFragment();
                 case 2:
+                    return new FilterDoneTypeFragment();
+                case 3:
                     return new FilterDueTypeFragment();
                 default:
                     throw new IllegalArgumentException("position must be between 0 and 2 but was " + position);

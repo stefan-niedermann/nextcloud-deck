@@ -60,6 +60,7 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.appwidgets.StackWidgetModel;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
+import it.niedermann.nextcloud.deck.model.enums.EDoneType;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -259,9 +260,9 @@ public class DataBaseAdapter {
 
     public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId, @Nullable FilterInformation filter) {
         return new ReactiveLiveData<>(
-                filter == null
-                        ? db.getCardDao().getFullCardsForStack(accountId, localStackId)
-                        : db.getCardDao().getFilteredFullCardsForStack(getQueryForFilter(filter, accountId, localStackId)))
+                FilterInformation.hasActiveFilter(filter)
+                        ? db.getCardDao().getFilteredFullCardsForStack(getQueryForFilter(filter, accountId, localStackId))
+                        : db.getCardDao().getFullCardsForStack(accountId, localStackId))
                 .tap(this::filterRelationsForCard, executor)
                 .distinctUntilChanged();
 
@@ -284,9 +285,9 @@ public class DataBaseAdapter {
 
     @WorkerThread
     public List<FullCard> getFullCardsForStackDirectly(long accountId, long localStackId, @Nullable FilterInformation filter) {
-        return filter == null
-                ? db.getCardDao().getFullCardsForStackDirectly(accountId, localStackId)
-                : db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, accountId, localStackId));
+        return FilterInformation.hasActiveFilter(filter)
+                ? db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, accountId, localStackId))
+                : db.getCardDao().getFullCardsForStackDirectly(accountId, localStackId);
     }
 
     @AnyThread
@@ -369,6 +370,20 @@ public class DataBaseAdapter {
                     throw new IllegalArgumentException("You need to add your new EDueType value\"" + filter.getDueType() + "\" here!");
             }
         }
+
+        if (filter.getDoneType() != EDoneType.NO_FILTER) {
+            switch (filter.getDoneType()) {
+                case DONE:
+                    query.append("and (c.done is not null and c.done != 0)");
+                    break;
+                case UNDONE:
+                    query.append("and (c.done is null or c.done = 0)");
+                    break;
+                default:
+                    throw new IllegalArgumentException("You need to add your new EDueType value\"" + filter.getDueType() + "\" here!");
+            }
+        }
+
         if (!TextUtils.isEmpty(filter.getFilterText())) {
             query.append(" and (c.description like ? or c.title like ?) ");
             String filterText = "%" + filter.getFilterText() + "%";

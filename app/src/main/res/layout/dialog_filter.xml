@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@null"
         app:tabInlineLabel="true"
-        app:tabMode="fixed"
+        app:tabMode="auto"
         app:tabUnboundedRipple="true" />
 
     <androidx.viewpager2.widget.ViewPager2
