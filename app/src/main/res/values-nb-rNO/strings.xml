@@ -260,6 +260,7 @@
     <string name="manage_list">Håndtere liste</string>
     <string name="simple_reply">Svar</string>
     <string name="append_text_to_description">Legg til beskrivelsen</string>
+    <string name="append_text_as_task">Legg til beskrivelse som oppgave</string>
     <string name="add_text_as_comment">Legg til som kommentar</string>
     <string name="progress_count">%1$d av %2$d</string>
     <plurals name="progress_error_count">

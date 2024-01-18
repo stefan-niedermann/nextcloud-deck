@@ -158,6 +158,7 @@
     <string name="title_is_mandatory">Il titolo è richiesto</string>
     <string name="provide_at_least_a_title_or_description">Fornisci almeno un titolo e una descrizione</string>
     <string name="welcome_text">Benvenuto in %1$s</string>
+    <string name="welcome_text_further_accounts">Aggiungi un altro account</string>
     <string name="maintenance_mode_explanation">Il server %1$s attualmente è in manutenzione. Contatta l\'amministratore o riprova più tardi.</string>
     <string name="share_add_to_card">Aggiungi a scheda</string>
     <string name="share_success">Aggiunto %1$s a %2$s correttamente</string>
@@ -261,6 +262,7 @@
     <string name="manage_list">Gestisci elenco</string>
     <string name="simple_reply">Rispondi</string>
     <string name="append_text_to_description">Aggiungi alla descrizione</string>
+    <string name="append_text_as_task">Accoda alla descrizione come attività</string>
     <string name="add_text_as_comment">Aggiungi come commento</string>
     <string name="progress_count">%1$d di %2$d</string>
     <plurals name="progress_error_count">
@@ -336,5 +338,8 @@
     <string name="card_outdated">Il contenuto di questa scheda potrebbe essere obsoleto.</string>
     <string name="show_error">Mostra errore</string>
     <string name="push_notification_link_empty">A causa di un problema noto nella web app di Deck, sfortunatamente non possiamo mostrare questa scheda. Per altre informazioni vedi: %1$s</string>
+    <string name="enter_search_term_title">Inserisci termine di ricerca</string>
+    <string name="enter_search_term_description">Inserisci il termine di ricerca per trovare schede in questa lavagna</string>
     <string name="no_search_results_title">Nessun risultato di ricerca</string>
-    </resources>
+    <string name="no_search_results_description">Non abbiamo trovato alcun risultato per il termine di ricerca scelto</string>
+</resources>

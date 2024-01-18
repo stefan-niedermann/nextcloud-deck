@@ -262,6 +262,7 @@
     <string name="manage_list">Administrar su lista</string>
     <string name="simple_reply">Responder</string>
     <string name="append_text_to_description">Añadir a la descripción</string>
+    <string name="append_text_as_task">Añadir a la descripción como tarea</string>
     <string name="add_text_as_comment">Añadir como comentario</string>
     <string name="progress_count">%1$d de %2$d</string>
     <plurals name="progress_error_count">

@@ -268,6 +268,7 @@
     <string name="manage_list">إدارة القائمة </string>
     <string name="simple_reply">رد</string>
     <string name="append_text_to_description">إلحاق بالوصف </string>
+    <string name="append_text_as_task">إلحاق بالوصف كمُهمة</string>
     <string name="add_text_as_comment">أضف كتعليق</string>
     <string name="progress_count">%1$d من %2$d</string>
     <plurals name="progress_error_count">
