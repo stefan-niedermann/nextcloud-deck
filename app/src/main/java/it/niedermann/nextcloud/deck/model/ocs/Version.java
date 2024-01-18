@@ -182,7 +182,7 @@ public class Version implements Comparable<Version> {
      * @see <a href="https://github.com/nextcloud/deck/issues/534">Deck server issue #534</a>
      */
     public boolean supportsDone() {
-        return isGreaterOrEqualTo(VERSION_1_12_0);
+        return isGreaterOrEqualTo(VERSION_1_12_2);
     }
 
     /**
