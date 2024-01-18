@@ -199,7 +199,7 @@
 
     <string name="filter_done_no_filter">All</string>
     <string name="filter_done_done">Completed</string>
-    <string name="filter_done_undone">Uncompleted</string>
+    <string name="filter_done_undone">Not completed</string>
 
     <string name="archived_cards">Archived cards</string>
     <string name="attachment_already_exists">Attachment already exists</string>
