@@ -367,7 +367,7 @@ public class DataBaseAdapter {
                     query.append("and datetime(c.duedate/1000, 'unixepoch', 'localtime') between datetime('now', 'localtime') and datetime('now', '+30 day', 'localtime')");
                     break;
                 default:
-                    throw new IllegalArgumentException("You need to add your new EDueType value\"" + filter.getDueType() + "\" here!");
+                    throw new IllegalArgumentException("You need to add your new " + EDueType.class.getSimpleName() + " value\"" + filter.getDueType() + "\" here!");
             }
         }
 
@@ -380,7 +380,7 @@ public class DataBaseAdapter {
                     query.append("and (c.done is null or c.done = 0)");
                     break;
                 default:
-                    throw new IllegalArgumentException("You need to add your new EDueType value\"" + filter.getDueType() + "\" here!");
+                    throw new IllegalArgumentException("You need to add your new " + EDoneType.class.getSimpleName() + " value\"" + filter.getDueType() + "\" here!");
             }
         }
 
