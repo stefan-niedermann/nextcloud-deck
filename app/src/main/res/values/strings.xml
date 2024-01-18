@@ -17,7 +17,7 @@
     <string name="simple_close">Close</string>
     <string name="simple_filter">Filter</string>
     <string name="simple_completed">Completed</string>
-    <string name="simple_clear">Clear</string>
+    <string name="simple_reset">Reset</string>
     <string name="simple_discard">Discard</string>
     <string name="simple_update">Update</string>
     <string name="simple_delete">Delete</string>
