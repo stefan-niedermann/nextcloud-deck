@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.function.Consumer;
 
 import it.niedermann.android.util.ClipboardUtil;
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCommentBinding;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -43,7 +42,7 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(@NonNull FullDeckComment comment, @NonNull Account account, @Nullable ThemeUtils utils, @NonNull MenuInflater inflater, @NonNull CommentDeletedListener deletedListener, @NonNull CommentSelectAsReplyListener selectAsReplyListener, @NonNull FragmentManager fragmentManager, @NonNull Consumer<CharSequence> editListener) {
         Glide.with(binding.avatar.getContext())
-                .load(account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.avatar_size), comment.getComment().getActorId()))
+                .load(account.getAvatarUrl(binding.avatar.getResources().getDimensionPixelSize(R.dimen.avatar_size), comment.getComment().getActorId()))
                 .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.ic_person_grey600_24dp)
                 .error(R.drawable.ic_person_grey600_24dp)

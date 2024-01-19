@@ -18,7 +18,6 @@ import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
 import java.util.Arrays;
 
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.WidgetColorChooserBinding;
 import it.niedermann.nextcloud.deck.ui.theme.DeckViewThemeUtils;
@@ -45,7 +44,7 @@ public class ColorChooser extends LinearLayout {
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
-        params.setMargins(0, DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1x), 0, 0);
+        params.setMargins(0, getResources().getDimensionPixelSize(R.dimen.spacer_1x), 0, 0);
         params.setFlexBasisPercent(.15f);
 
         final var styles = context.obtainStyledAttributes(attrs, R.styleable.ColorChooser, 0, 0);

@@ -21,7 +21,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
@@ -54,7 +53,7 @@ public class DueDateChip extends Chip {
         setEnsureMinTouchTargetSize(false);
         setClickable(false);
 
-        @Px final var padding = DimensionUtil.INSTANCE.dpToPx(getContext(), R.dimen.spacer_1x);
+        @Px final var padding = getResources().getDimensionPixelSize(R.dimen.spacer_1x);
         setPadding(padding, padding, padding, padding);
         setMinHeight(0);
         setChipMinHeight(0);
