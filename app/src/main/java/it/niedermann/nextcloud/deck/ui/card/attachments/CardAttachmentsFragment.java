@@ -161,7 +161,15 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         mBottomSheetBehaviour.setDraggable(true);
         mBottomSheetBehaviour.setHideable(true);
         mBottomSheetBehaviour.setState(STATE_HIDDEN);
-        mBottomSheetBehaviour.addBottomSheetCallback(new CardAttachmentsBottomsheetBehaviorCallback(requireContext(), backPressedCallback, binding.fab, binding.pickerBackdrop, binding.bottomNavigation, R.color.mdtp_transparent_black, android.R.color.transparent, R.dimen.attachments_bottom_navigation_height));
+        mBottomSheetBehaviour.addBottomSheetCallback(new CardAttachmentsBottomsheetBehaviorCallback(
+                requireContext(),
+                backPressedCallback,
+                binding.fab,
+                binding.pickerBackdrop,
+                binding.bottomNavigation,
+                R.color.bottom_sheet_backdrop,
+                android.R.color.transparent,
+                R.dimen.attachments_bottom_navigation_height));
         binding.pickerBackdrop.setOnClickListener(v -> mBottomSheetBehaviour.setState(STATE_HIDDEN));
 
         final var displayMetrics = getResources().getDisplayMetrics();
