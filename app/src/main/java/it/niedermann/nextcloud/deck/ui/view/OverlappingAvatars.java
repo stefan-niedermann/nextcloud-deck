@@ -16,7 +16,6 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
@@ -41,10 +40,12 @@ public class OverlappingAvatars extends RelativeLayout {
 
     public OverlappingAvatars(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        maxAvatarCount = context.getResources().getInteger(R.integer.max_avatar_count);
-        avatarBorderSize = DimensionUtil.INSTANCE.dpToPx(context, R.dimen.avatar_size_small_overlapping_border);
-        avatarSize = DimensionUtil.INSTANCE.dpToPx(context, R.dimen.avatar_size_small) + avatarBorderSize * 2;
-        overlapPx = DimensionUtil.INSTANCE.dpToPx(context, R.dimen.avatar_size_small_overlapping);
+
+        final var resources = getResources();
+        maxAvatarCount = resources.getInteger(R.integer.max_avatar_count);
+        avatarBorderSize = resources.getDimensionPixelSize(R.dimen.avatar_size_small_overlapping_border);
+        avatarSize = resources.getDimensionPixelSize(R.dimen.avatar_size_small) + avatarBorderSize * 2;
+        overlapPx = resources.getDimensionPixelSize(R.dimen.avatar_size_small_overlapping);
         borderDrawable = ContextCompat.getDrawable(context, R.drawable.avatar_border);
         assert borderDrawable != null;
         DrawableCompat.setTint(borderDrawable, ContextCompat.getColor(context, R.color.bg_card));

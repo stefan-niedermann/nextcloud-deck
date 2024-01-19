@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Attachment;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 
 public class Version implements Comparable<Version> {
@@ -17,6 +18,8 @@ public class Version implements Comparable<Version> {
     private static final Version VERSION_1_0_0 = new Version("1.0.0", 1, 0, 0);
     private static final Version VERSION_1_0_3 = new Version("1.0.3", 1, 0, 3);
     private static final Version VERSION_1_3_0 = new Version("1.3.0", 1, 3, 0);
+    private static final Version VERSION_1_12_0 = new Version("1.12.0", 1, 12, 0);
+    private static final Version VERSION_1_12_2 = new Version("1.12.2", 1, 12, 2);
 
     private String originalVersion = "?";
     private final int major;
@@ -137,7 +140,7 @@ public class Version implements Comparable<Version> {
     }
 
     /**
-     * {@link DeckComment} API only available starting with {@link Version} 1.0.0-alpha1
+     * {@link DeckComment} API only available starting with {@link Version} <code>1.0.0-alpha1</code>
      *
      * @return whether or not the server supports the {@link DeckComment} API
      */
@@ -147,12 +150,12 @@ public class Version implements Comparable<Version> {
 
     /**
      * Replying to a {@link DeckComment} does cause synchronization errors because the API expected the
-     * <code>parentId</code> to be a {@link String} up until {@link Version} 1.0.3
-     * https://github.com/nextcloud/deck/issues/1831#issuecomment-627207849
+     * <code>parentId</code> to be a {@link String} up until {@link #VERSION_1_0_3}
      *
      * @return whether or not the server supports replying to comments
+     * @see <a href="https://github.com/nextcloud/deck/issues/1831#issuecomment-627207849">Deck server issue #1831</a>
      */
-    public boolean supportsCommentsReplys() {
+    public boolean supportsCommentsReplies() {
         return isGreaterOrEqualTo(VERSION_1_0_3);
     }
 
@@ -171,15 +174,25 @@ public class Version implements Comparable<Version> {
     }
 
     /**
-     * Title max length has been increased from 100 to 255 characters beginning with server {@link Version} 1.0.0
+     * Cards started to have an additional property called <a href="https://github.com/nextcloud/deck/pull/4137"><code>done</code></a> with version <a href="https://github.com/nextcloud/deck/releases/tag/v1.12.0">{@link #VERSION_1_12_0}</a> of the Deck server app.
+     * However, there was an <a href="https://github.com/nextcloud/deck/issues/534#issuecomment-1892061055">issue that would have required to call a second endpoint when marking a card as <code>undone</code></a> which was <a href="https://github.com/nextcloud/deck/pull/5491">fixed</a> in {@link #VERSION_1_12_2}.
+     * We therefore support the <code>done</code> property only starting with {@link #VERSION_1_12_2}.
+     *
+     * @return whether or not the server supports the {@link Card#getDone()} state
+     * @see <a href="https://github.com/nextcloud/deck/issues/534">Deck server issue #534</a>
+     */
+    public boolean supportsDone() {
+        return isGreaterOrEqualTo(VERSION_1_12_2);
+    }
+
+    /**
+     * Title max length has been increased from <code>100</code> to <code>255</code> characters beginning with server {@link #VERSION_1_0_0}
      *
      * @return the number of characters that the title fields of cards allow
      * @see <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/422">issue</a>
      */
     public int getCardTitleMaxLength() {
-        return isGreaterOrEqualTo(VERSION_1_0_0)
-                ? 255
-                : 100;
+        return isGreaterOrEqualTo(VERSION_1_0_0) ? 255 : 100;
     }
 
     /**
@@ -194,15 +207,19 @@ public class Version implements Comparable<Version> {
     }
 
     /**
-     * URL to view a card in the web interface has been changed in {@link Version} 1.0.0
+     * URL to view a card in the web interface has been changed in {@link #VERSION_1_0_0}
      *
      * @return the id of the string resource which contains the partial URL to open a card in the web UI
      * @see <a href="https://github.com/nextcloud/deck/pull/1977">documentation in PR</a>
      */
     @StringRes
     public int getShareLinkResource() {
-        return isGreaterOrEqualTo(VERSION_1_0_0)
-                ? R.string.url_fragment_share_card_since_1_0_0
-                : R.string.url_fragment_share_card_pre_1_0_0;
+        if (isGreaterOrEqualTo(VERSION_1_12_0)) { // Probably even earlier, but there are likely redirects
+            return R.string.url_fragment_share_card_since_1_12_0;
+        } else if (isGreaterOrEqualTo(VERSION_1_0_0)) {
+            return R.string.url_fragment_share_card_since_1_0_0;
+        } else {
+            return R.string.url_fragment_share_card_pre_1_0_0;
+        }
     }
 }

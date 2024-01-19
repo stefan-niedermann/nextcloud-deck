@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -35,8 +34,10 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
         this.context = context;
         this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         this.baseRepository = new BaseRepository(context);
-        this.headerHorizontalPadding = DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1hx);
-        this.headerVerticalPaddingNth = DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_2x);
+
+        final var resources = context.getResources();
+        this.headerHorizontalPadding = resources.getDimensionPixelSize(R.dimen.spacer_1hx);
+        this.headerVerticalPaddingNth = resources.getDimensionPixelSize(R.dimen.spacer_2x);
     }
 
     @Override

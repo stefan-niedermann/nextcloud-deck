@@ -408,6 +408,7 @@ public class JsonToEntityParser {
             card.setLastModified(getTimestampFromLong(e.get("lastModified")));
             card.setCreatedAt(getTimestampFromLong(e.get("createdAt")));
             card.setDeletedAt(getTimestampFromLong(e.get("deletedAt")));
+            card.setDone(getTimestampFromString(e.get("done")));
             if (e.has("labels") && !e.get("labels").isJsonNull()) {
                 JsonArray labelsJson = e.getAsJsonArray("labels");
                 List<Label> labels = new ArrayList<>();
