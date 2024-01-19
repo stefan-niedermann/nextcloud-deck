@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import java.util.List;
@@ -47,7 +48,7 @@ public class CommentsViewModel extends SyncViewModel {
         syncRepository.updateComment(accountId, localCardId, localCommentId, comment);
     }
 
-    public void deleteComment(long accountId, long localCardId, long localCommentId, @NonNull IResponseCallback<Void> callback) {
+    public void deleteComment(long accountId, long localCardId, long localCommentId, @NonNull IResponseCallback<EmptyResponse> callback) {
         syncRepository.deleteComment(accountId, localCardId, localCommentId, callback);
     }
 }

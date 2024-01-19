@@ -11,6 +11,7 @@ import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import java.io.File;
@@ -129,7 +130,7 @@ public class MainViewModel extends BaseViewModel {
         }
     }
 
-    public void deleteBoard(@NonNull Board board, @NonNull IResponseCallback<Void> callback) {
+    public void deleteBoard(@NonNull Board board, @NonNull IResponseCallback<EmptyResponse> callback) {
         if (syncRepository == null) {
             callback.onError(getInvalidSyncManagerException());
         } else {
@@ -172,7 +173,7 @@ public class MainViewModel extends BaseViewModel {
         }
     }
 
-    public void deleteStack(long accountId, long boardId, long stackLocalId, @NonNull IResponseCallback<Void> callback) {
+    public void deleteStack(long accountId, long boardId, long stackLocalId, @NonNull IResponseCallback<EmptyResponse> callback) {
         if (syncRepository == null) {
             callback.onError(getInvalidSyncManagerException());
         } else {
@@ -196,7 +197,7 @@ public class MainViewModel extends BaseViewModel {
         }
     }
 
-    public void archiveCardsInStack(long accountId, long stackId, @NonNull FilterInformation filterInformation, @NonNull IResponseCallback<Void> callback) {
+    public void archiveCardsInStack(long accountId, long stackId, @NonNull FilterInformation filterInformation, @NonNull IResponseCallback<EmptyResponse> callback) {
         if (syncRepository == null) {
             callback.onError(getInvalidSyncManagerException());
         } else {
@@ -274,7 +275,7 @@ public class MainViewModel extends BaseViewModel {
         }
     }
 
-    public void deleteCard(@NonNull Card card, @NonNull IResponseCallback<Void> callback) {
+    public void deleteCard(@NonNull Card card, @NonNull IResponseCallback<EmptyResponse> callback) {
         if (syncRepository == null) {
             callback.onError(getInvalidSyncManagerException());
         } else {
@@ -304,7 +305,7 @@ public class MainViewModel extends BaseViewModel {
         return baseRepository.getUserByUidDirectly(accountId, uid);
     }
 
-    public void moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId, @NonNull IResponseCallback<Void> callback) {
+    public void moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId, @NonNull IResponseCallback<EmptyResponse> callback) {
         if (syncRepository == null) {
             callback.onError(getInvalidSyncManagerException());
         } else {

@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
+
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.ActivityArchivedBinding;
@@ -82,7 +84,7 @@ public class ArchivedBoardsActivity extends AppCompatActivity implements Themed,
     public void onBoardDeleted(Board board) {
         archivedBoardsViewModel.deleteBoard(board, new IResponseCallback<>() {
             @Override
-            public void onResponse(Void response) {
+            public void onResponse(EmptyResponse response) {
                 DeckLog.info("Successfully deleted board", board.getTitle());
             }
 

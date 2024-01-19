@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
+
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -33,7 +35,7 @@ public class PrepareCreateActivity extends PickStackActivity {
     }
 
     @Override
-    protected void onSubmit(Account account, long boardId, long stackId, @NonNull IResponseCallback<Void> callback) {
+    protected void onSubmit(Account account, long boardId, long stackId, @NonNull IResponseCallback<EmptyResponse> callback) {
         Toast.makeText(this, R.string.saving_new_card, Toast.LENGTH_SHORT).show();
         final FullCard fullCard;
         if (requireContent()) {

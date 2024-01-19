@@ -46,6 +46,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
 import com.nextcloud.android.common.ui.theme.utils.ColorRole;
+import com.nextcloud.android.sso.api.EmptyResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.File;
@@ -494,7 +495,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         if (attachment.getLocalId() != null) {
             editViewModel.deleteAttachmentOfCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), attachment.getLocalId(), new IResponseCallback<>() {
                 @Override
-                public void onResponse(Void response) {
+                public void onResponse(EmptyResponse response) {
                     DeckLog.info("Successfully delete", Attachment.class.getSimpleName(), attachment.getFilename(), "from", Card.class.getSimpleName(), editViewModel.getFullCard().getCard().getTitle());
                 }
 

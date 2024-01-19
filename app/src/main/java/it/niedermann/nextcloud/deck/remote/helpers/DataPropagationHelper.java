@@ -3,6 +3,8 @@ package it.niedermann.nextcloud.deck.remote.helpers;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
+
 import java.util.concurrent.ExecutorService;
 import java.util.function.BiConsumer;
 
@@ -109,7 +111,7 @@ public class DataPropagationHelper {
         }
     }
 
-    public <T extends IRemoteEntity> void deleteEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, @NonNull ResponseCallback<Void> callback){
+    public <T extends IRemoteEntity> void deleteEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, @NonNull ResponseCallback<EmptyResponse> callback){
         final long accountId = callback.getAccount().getId();
         // known to server?
         if (entity.getId() != null) {
@@ -122,7 +124,7 @@ public class DataPropagationHelper {
             try {
                 provider.deleteOnServer(serverAdapter, accountId, new ResponseCallback<>(new Account(accountId)) {
                     @Override
-                    public void onResponse(Void response) {
+                    public void onResponse(EmptyResponse response) {
                         executor.submit(() -> {
                             provider.deletePhysicallyInDB(dataBaseAdapter, accountId, entity);
                             callback.onResponse(null);

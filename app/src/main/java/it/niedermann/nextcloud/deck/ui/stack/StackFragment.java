@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nextcloud.android.common.ui.theme.utils.ColorRole;
+import com.nextcloud.android.sso.api.EmptyResponse;
 
 import it.niedermann.android.crosstabdnd.DragAndDropTab;
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
@@ -170,7 +171,7 @@ public class StackFragment extends Fragment implements Themed, DragAndDropTab<Ca
     public void move(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
         stackViewModel.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId, new IResponseCallback<>() {
             @Override
-            public void onResponse(Void response) {
+            public void onResponse(EmptyResponse response) {
                 DeckLog.log("Moved", Card.class.getSimpleName(), originCardLocalId, "to", Stack.class.getSimpleName(), targetStackLocalId);
             }
 
@@ -228,7 +229,7 @@ public class StackFragment extends Fragment implements Themed, DragAndDropTab<Ca
     public void onDelete(@NonNull FullCard fullCard) {
         stackViewModel.deleteCard(fullCard.getCard(), new IResponseCallback<>() {
             @Override
-            public void onResponse(Void response) {
+            public void onResponse(EmptyResponse response) {
                 DeckLog.info("Successfully deleted card", fullCard.getCard().getTitle());
             }
 

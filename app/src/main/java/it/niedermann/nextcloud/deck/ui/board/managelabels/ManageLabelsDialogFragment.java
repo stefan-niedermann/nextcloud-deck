@@ -13,6 +13,7 @@ import androidx.annotation.UiThread;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.nextcloud.android.sso.api.EmptyResponse;
 
 import java.util.Random;
 
@@ -162,7 +163,7 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
     private void deleteLabel(@NonNull Label label) {
         labelsViewModel.deleteLabel(label, new IResponseCallback<>() {
             @Override
-            public void onResponse(Void response) {
+            public void onResponse(EmptyResponse response) {
                 DeckLog.info("Successfully deleted label", label.getTitle());
             }
 

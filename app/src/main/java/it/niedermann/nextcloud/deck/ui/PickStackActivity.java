@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
+
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPickStackBinding;
@@ -61,7 +63,7 @@ public abstract class PickStackActivity extends AppCompatActivity implements The
             viewModel.setSubmitInProgress(true);
             onSubmit(viewModel.getAccount(), viewModel.getBoardLocalId(), viewModel.getStackLocalId(), new IResponseCallback<>() {
                 @Override
-                public void onResponse(Void response) {
+                public void onResponse(EmptyResponse response) {
                     runOnUiThread(() -> viewModel.setSubmitInProgress(false));
                 }
 
@@ -113,7 +115,7 @@ public abstract class PickStackActivity extends AppCompatActivity implements The
         utils.material.colorTextInputLayout(binding.inputWrapper);
     }
 
-    abstract protected void onSubmit(Account account, long boardLocalId, long stackId, @NonNull IResponseCallback<Void> callback);
+    abstract protected void onSubmit(Account account, long boardLocalId, long stackId, @NonNull IResponseCallback<EmptyResponse> callback);
 
     abstract protected boolean showBoardsWithoutEditPermission();
 

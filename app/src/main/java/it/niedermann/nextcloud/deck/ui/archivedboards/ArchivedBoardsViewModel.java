@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import java.util.Collections;
@@ -32,7 +33,7 @@ public class ArchivedBoardsViewModel extends SyncViewModel {
         syncRepository.updateBoard(board, callback);
     }
 
-    public void deleteBoard(@NonNull Board board, @NonNull IResponseCallback<Void> callback) {
+    public void deleteBoard(@NonNull Board board, @NonNull IResponseCallback<EmptyResponse> callback) {
         syncRepository.deleteBoard(board, callback);
     }
 

@@ -50,9 +50,9 @@ public class ResponseCallbackTest {
     @Test
     public void testFrom() {
         // No lambda, since Mockito requires a non final class for a spy
-        final var originalCallback = new IResponseCallback<Void>() {
+        final var originalCallback = new IResponseCallback<EmptyResponse>() {
             @Override
-            public void onResponse(Void response) {
+            public void onResponse(EmptyResponse response) {
                 // Do nothing...
             }
         };

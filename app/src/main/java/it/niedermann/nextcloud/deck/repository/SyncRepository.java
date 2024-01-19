@@ -18,6 +18,7 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.nextcloud.android.sso.AccountImporter;
+import com.nextcloud.android.sso.api.EmptyResponse;
 import com.nextcloud.android.sso.api.ParsedResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
@@ -559,7 +560,7 @@ public class SyncRepository extends BaseRepository {
     }
 
     @AnyThread
-    public void deleteComment(long accountId, long localCardId, long localCommentId, @NonNull IResponseCallback<Void> callback) {
+    public void deleteComment(long accountId, long localCardId, long localCommentId, @NonNull IResponseCallback<EmptyResponse> callback) {
         executor.submit(() -> {
             final Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             final Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
@@ -571,7 +572,7 @@ public class SyncRepository extends BaseRepository {
     }
 
     @AnyThread
-    public void deleteBoard(@NonNull Board board, @NonNull IResponseCallback<Void> callback) {
+    public void deleteBoard(@NonNull Board board, @NonNull IResponseCallback<EmptyResponse> callback) {
         executor.submit(() -> {
             long accountId = board.getAccountId();
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
@@ -614,14 +615,14 @@ public class SyncRepository extends BaseRepository {
     }
 
     @AnyThread
-    public void deleteAccessControl(@NonNull AccessControl entity, @NonNull IResponseCallback<Void> callback) {
+    public void deleteAccessControl(@NonNull AccessControl entity, @NonNull IResponseCallback<EmptyResponse> callback) {
         executor.submit(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(entity.getAccountId());
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(entity.getAccountId(), entity.getBoardId());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter, executor).deleteEntity(
                     new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, new ResponseCallback<>(account) {
                         @Override
-                        public void onResponse(Void response) {
+                        public void onResponse(EmptyResponse response) {
                             // revoked own board-access?
                             if (entity.getAccountId() == entity.getAccountId() && entity.getUser().getUid().equals(account.getUserName())) {
                                 dataBaseAdapter.saveNeighbourOfBoard(board.getAccountId(), board.getLocalId());
@@ -658,7 +659,7 @@ public class SyncRepository extends BaseRepository {
     }
 
     @AnyThread
-    public void deleteStack(long accountId, long boardLocalId, long stackLocalId, @NonNull IResponseCallback<Void> callback) {
+    public void deleteStack(long accountId, long boardLocalId, long stackLocalId, @NonNull IResponseCallback<EmptyResponse> callback) {
         executor.submit(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullStack fullStack = dataBaseAdapter.getFullStackByLocalIdDirectly(stackLocalId);
@@ -828,7 +829,7 @@ public class SyncRepository extends BaseRepository {
     }
 
     @AnyThread
-    public void deleteCard(@NonNull Card card, @NonNull IResponseCallback<Void> callback) {
+    public void deleteCard(@NonNull Card card, @NonNull IResponseCallback<EmptyResponse> callback) {
         executor.submit(() -> {
             FullCard fullCard = dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId());
             if (fullCard == null) {
@@ -868,7 +869,7 @@ public class SyncRepository extends BaseRepository {
     }
 
     @AnyThread
-    public void archiveCardsInStack(long accountId, long stackLocalId, @NonNull FilterInformation filterInformation, @NonNull IResponseCallback<Void> callback) {
+    public void archiveCardsInStack(long accountId, long stackLocalId, @NonNull FilterInformation filterInformation, @NonNull IResponseCallback<EmptyResponse> callback) {
         executor.submit(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(stackLocalId);
@@ -1033,7 +1034,7 @@ public class SyncRepository extends BaseRepository {
      */
     @SuppressWarnings("JavadocReference")
     @AnyThread
-    public void moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId, @NonNull IResponseCallback<Void> callback) {
+    public void moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId, @NonNull IResponseCallback<EmptyResponse> callback) {
         executor.submit(() -> {
             final FullCard originalCard = dataBaseAdapter.getFullCardByLocalIdDirectly(originAccountId, originCardLocalId);
             final int newIndex = dataBaseAdapter.getHighestCardOrderInStack(targetStackLocalId) + 1;
@@ -1207,7 +1208,7 @@ public class SyncRepository extends BaseRepository {
     }
 
     @AnyThread
-    public void deleteLabel(@NonNull Label label, @NonNull IResponseCallback<Void> callback) {
+    public void deleteLabel(@NonNull Label label, @NonNull IResponseCallback<EmptyResponse> callback) {
         executor.submit(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(label.getAccountId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
@@ -1243,7 +1244,7 @@ public class SyncRepository extends BaseRepository {
                 serverAdapter.assignUserToCard(board.getId(), stack.getId(), card.getId(), user.getUid(), new ResponseCallback<>(account) {
 
                     @Override
-                    public void onResponse(Void response) {
+                    public void onResponse(EmptyResponse response) {
                         dataBaseAdapter.setStatusForJoinCardWithUser(localCardId, localUserId, DBStatus.UP_TO_DATE.getId());
                     }
                 });
@@ -1272,7 +1273,7 @@ public class SyncRepository extends BaseRepository {
                 serverAdapterToUse.assignLabelToCard(board.getId(), stack.getId(), card.getId(), label.getId(), new ResponseCallback<>(account) {
 
                     @Override
-                    public void onResponse(Void response) {
+                    public void onResponse(EmptyResponse response) {
                         dataBaseAdapter.setStatusForJoinCardWithLabel(localCardId, localLabelId, DBStatus.UP_TO_DATE.getId());
                     }
                 });
@@ -1290,7 +1291,7 @@ public class SyncRepository extends BaseRepository {
             if (connectivityUtil.hasInternetConnection()) {
                 serverAdapter.unassignLabelFromCard(board.getId(), stack.getId(), card.getId(), label.getId(), new ResponseCallback<>(account) {
                     @Override
-                    public void onResponse(Void response) {
+                    public void onResponse(EmptyResponse response) {
                         dataBaseAdapter.deleteJoinedLabelForCardPhysically(card.getLocalId(), label.getLocalId());
                     }
                 });
@@ -1308,7 +1309,7 @@ public class SyncRepository extends BaseRepository {
                 Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
                 serverAdapter.unassignUserFromCard(board.getId(), stack.getId(), card.getId(), user.getUid(), new ResponseCallback<>(account) {
                     @Override
-                    public void onResponse(Void response) {
+                    public void onResponse(EmptyResponse response) {
                         dataBaseAdapter.deleteJoinedUserForCardPhysically(card.getLocalId(), user.getLocalId());
                     }
                 });
@@ -1499,7 +1500,7 @@ public class SyncRepository extends BaseRepository {
     }
 
     @AnyThread
-    public void deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId, @NonNull IResponseCallback<Void> callback) {
+    public void deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId, @NonNull IResponseCallback<EmptyResponse> callback) {
         executor.submit(() -> {
             if (connectivityUtil.hasInternetConnection()) {
                 FullCard card = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, localCardId);

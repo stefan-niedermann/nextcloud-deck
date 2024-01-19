@@ -3,6 +3,8 @@ package it.niedermann.nextcloud.deck.remote.helpers.providers;
 import android.annotation.SuppressLint;
 import android.net.Uri;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
+
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
@@ -101,7 +103,7 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, Attachment entity, DataBaseAdapter dataBaseAdapter) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<EmptyResponse> callback, Attachment entity, DataBaseAdapter dataBaseAdapter) {
         serverAdapter.deleteAttachment(board.getId(), stack.getId(), card.getId(), entity.getId(), callback);
     }
 

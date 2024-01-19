@@ -5,6 +5,7 @@ import android.util.Pair;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
 import com.nextcloud.android.sso.api.ParsedResponse;
 
 import java.time.Instant;
@@ -242,7 +243,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, FullBoard entity, DataBaseAdapter dataBaseAdapter) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<EmptyResponse> callback, FullBoard entity, DataBaseAdapter dataBaseAdapter) {
         serverAdapter.deleteBoard(entity.getBoard(), callback);
     }
 

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.nextcloud.android.common.ui.theme.utils.ColorRole;
+import com.nextcloud.android.sso.api.EmptyResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -84,7 +85,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements Themed, 
                 }),
                 card -> viewModel.deleteCard(card, new IResponseCallback<>() {
                     @Override
-                    public void onResponse(Void response) {
+                    public void onResponse(EmptyResponse response) {
                         DeckLog.info("Successfully deleted card", card.getTitle());
                     }
 
@@ -128,7 +129,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements Themed, 
     public void move(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
         viewModel.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId, new IResponseCallback<>() {
             @Override
-            public void onResponse(Void response) {
+            public void onResponse(EmptyResponse response) {
                 DeckLog.log("Moved", Card.class.getSimpleName(), originCardLocalId, "to", Stack.class.getSimpleName(), targetStackLocalId);
             }
 

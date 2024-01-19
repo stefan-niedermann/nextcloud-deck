@@ -13,6 +13,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.preference.PreferenceManager;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import java.io.File;
@@ -190,7 +191,7 @@ public class EditCardViewModel extends BaseViewModel {
         syncRepository.addAttachmentToCard(accountId, localCardId, mimeType, file, callback);
     }
 
-    public void deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId, @NonNull IResponseCallback<Void> callback) {
+    public void deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId, @NonNull IResponseCallback<EmptyResponse> callback) {
         syncRepository.deleteAttachmentOfCard(accountId, localCardId, localAttachmentId, callback);
     }
 

@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
@@ -32,7 +33,7 @@ public class LabelsViewModel extends SyncViewModel {
         syncRepository.createLabel(account.getId(), label, localBoardId, callback);
     }
 
-    public void deleteLabel(@NonNull Label label, @NonNull IResponseCallback<Void> callback) {
+    public void deleteLabel(@NonNull Label label, @NonNull IResponseCallback<EmptyResponse> callback) {
         syncRepository.deleteLabel(label, callback);
     }
 

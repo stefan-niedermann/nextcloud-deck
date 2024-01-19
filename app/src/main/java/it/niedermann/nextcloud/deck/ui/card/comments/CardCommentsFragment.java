@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.nextcloud.android.sso.api.EmptyResponse;
 
 import java.time.Instant;
 
@@ -173,7 +174,7 @@ public class CardCommentsFragment extends Fragment implements Themed, CommentEdi
     public void onCommentDeleted(Long localId) {
         commentsViewModel.deleteComment(editCardViewModel.getAccount().getId(), editCardViewModel.getFullCard().getLocalId(), localId, new IResponseCallback<>() {
             @Override
-            public void onResponse(Void response) {
+            public void onResponse(EmptyResponse response) {
                 DeckLog.info("Successfully deleted comment with localId", localId);
             }
 
