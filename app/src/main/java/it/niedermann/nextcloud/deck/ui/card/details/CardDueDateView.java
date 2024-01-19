@@ -116,8 +116,7 @@ public class CardDueDateView extends FrameLayout implements DatePickerDialog.OnD
 
             Stream.of(
                     binding.doneCheck,
-                    binding.doneDate,
-                    binding.clearDone
+                    binding.doneDate
             ).forEach(v -> v.setVisibility(View.VISIBLE));
 
             Stream.of(
@@ -127,6 +126,7 @@ public class CardDueDateView extends FrameLayout implements DatePickerDialog.OnD
                     binding.clearDueDate
             ).forEach(v -> v.setVisibility(View.GONE));
 
+            binding.clearDone.setVisibility(supportsDone ? View.VISIBLE : View.GONE);
             binding.doneDueDate.setVisibility(dueDate == null || !isEnabled() ? View.GONE : View.VISIBLE);
         }
     }
