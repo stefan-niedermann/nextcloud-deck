@@ -27,6 +27,7 @@ public class CardUpdate extends Card {
         setAccountId(card.getAccountId());
         setId(card.getId());
         setLocalId(card.getLocalId());
+        setDone(card.getCard().getDone());
     }
 
     public User getOwner() {

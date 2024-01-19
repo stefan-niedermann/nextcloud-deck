@@ -57,6 +57,7 @@ public class Card extends AbstractRemoteEntity {
     private String type;
     private Instant createdAt;
     private Instant deletedAt;
+    private Instant done;
     private int attachmentCount;
 
     private Long userId;
@@ -91,6 +92,7 @@ public class Card extends AbstractRemoteEntity {
         this.order = card.getOrder();
         this.archived = card.isArchived();
         this.dueDate = card.getDueDate();
+        this.done = card.getDone();
         this.notified = card.isNotified();
         this.overdue = card.getOverdue();
         this.commentsUnread = card.getCommentsUnread();
@@ -252,6 +254,14 @@ public class Card extends AbstractRemoteEntity {
         return this.order;
     }
 
+    public Instant getDone() {
+        return done;
+    }
+
+    public void setDone(Instant done) {
+        this.done = done;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -274,6 +284,8 @@ public class Card extends AbstractRemoteEntity {
             return false;
         if (deletedAt != null ? !deletedAt.equals(card.deletedAt) : card.deletedAt != null)
             return false;
+        if (done != null ? !done.equals(card.done) : card.done != null)
+            return false;
         if (userId != null ? !userId.equals(card.userId) : card.userId != null) return false;
         return dueDate != null ? dueDate.equals(card.dueDate) : card.dueDate == null;
     }
@@ -286,6 +298,7 @@ public class Card extends AbstractRemoteEntity {
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (deletedAt != null ? deletedAt.hashCode() : 0);
+        result = 31 * result + (done != null ? done.hashCode() : 0);
         result = 31 * result + attachmentCount;
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
         result = 31 * result + order;
@@ -306,6 +319,7 @@ public class Card extends AbstractRemoteEntity {
                 ", type='" + type + '\'' +
                 ", createdAt=" + createdAt +
                 ", deletedAt=" + deletedAt +
+                ", done=" + done +
                 ", attachmentCount=" + attachmentCount +
                 ", userId=" + userId +
                 ", order=" + order +

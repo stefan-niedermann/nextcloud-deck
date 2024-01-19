@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAssigneeBinding;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -25,7 +24,7 @@ public class AssigneeViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(@NonNull Account account, @NonNull User user, @Nullable Consumer<User> onClickListener) {
         Glide.with(binding.avatar.getContext())
-                .load(account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.avatar_size), user.getUid()))
+                .load(account.getAvatarUrl(binding.avatar.getResources().getDimensionPixelSize(R.dimen.avatar_size), user.getUid()))
                 .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.ic_person_grey600_24dp)
                 .error(R.drawable.ic_person_grey600_24dp)

@@ -8,4 +8,7 @@
         <attr name="description" format="string" />
         <attr name="image" format="reference" />
     </declare-styleable>
+    <declare-styleable name="DueDateChip">
+        <attr name="compactMode" format="boolean" />
+    </declare-styleable>
 </resources>

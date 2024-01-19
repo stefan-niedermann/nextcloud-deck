@@ -38,12 +38,12 @@
     <!-- ======================================= -->
 
     <!-- Due Date badges -->
-    <color name="due_tomorrow">#f2f2f2</color>
-    <color name="due_today">#f1c14b</color>
-    <color name="due_overdue">#ef6e6b</color>
-    <color name="due_text_tomorrow">#666666</color>
-    <color name="due_text_today">#333333</color>
-    <color name="due_text_overdue">#ffffff</color>
+    <color name="due_today">#f8f2e5</color>
+    <color name="due_overdue">#fbe7e6</color>
+    <color name="due_done">#e9f1eb</color>
+    <color name="due_text_today">#855d00</color>
+    <color name="due_text_overdue">#c61610</color>
+    <color name="due_text_done">#286c39</color>
 
     <!-- Activity -->
     <color name="activity_create">#00D400</color>

@@ -18,7 +18,6 @@ import org.jetbrains.annotations.Contract;
 
 import java.util.List;
 
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemSearchCardBinding;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -64,7 +63,7 @@ public class SearchCardViewHolder extends SearchViewHolder {
                     .load(new SingleSignOnUrl(account.getName(), AttachmentUtil.getThumbnailUrl(account, fullCard.getId(), coverImages.get(), binding.coverImages.getWidth())))
                     .apply(new RequestOptions().transform(
                             new CenterCrop(),
-                            new RoundedCorners(DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1x))
+                            new RoundedCorners(context.getResources().getDimensionPixelSize(R.dimen.spacer_1x))
                     ))
                     .placeholder(R.drawable.ic_image_grey600_24dp)
                     .error(R.drawable.ic_image_grey600_24dp)

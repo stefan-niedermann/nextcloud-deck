@@ -21,7 +21,7 @@ import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 
 import org.jetbrains.annotations.Contract;
 
-import java.time.ZoneId;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,10 +31,9 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.ui.theme.DeckViewThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.view.DueDateChip;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
-import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 import it.niedermann.nextcloud.sso.glide.SingleSignOnUrl;
 
@@ -59,13 +58,15 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
 
         if (utils != null) {
             utils.platform.colorImageView(getNotSyncedYet(), ColorRole.PRIMARY);
+            utils.platform.colorImageView(getCardMenu(), ColorRole.ON_SURFACE);
+            utils.platform.colorTextView(getCardTitle(), ColorRole.ON_SURFACE);
         }
         // TODO should be discussed with UX
         // utils.material.themeCardView(getCard());
 
         getNotSyncedYet().setVisibility(DBStatus.LOCAL_EDITED.equals(fullCard.getStatusEnum()) ? View.VISIBLE : View.GONE);
 
-        if (fullCard.getCard().getDueDate() != null) {
+        if (fullCard.getCard().getDueDate() != null || fullCard.getCard().getDone() != null) {
             setupDueDate(getCardDueDate(), fullCard.getCard());
             getCardDueDate().setVisibility(View.VISIBLE);
         } else {
@@ -90,13 +91,13 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    protected abstract TextView getCardDueDate();
+    protected abstract DueDateChip getCardDueDate();
 
     protected abstract ImageView getNotSyncedYet();
 
     protected abstract TextView getCardTitle();
 
-    protected abstract View getCardMenu();
+    protected abstract ImageView getCardMenu();
 
     protected abstract MaterialCardView getCard();
 
@@ -112,9 +113,14 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
         return getCard();
     }
 
-    private static void setupDueDate(@NonNull TextView cardDueDate, @NonNull Card card) {
-        cardDueDate.setText(DateUtil.getRelativeDateTimeString(cardDueDate.getContext(), card.getDueDate().toEpochMilli()));
-        DeckViewThemeUtils.themeDueDate(cardDueDate, card.getDueDate().atZone(ZoneId.systemDefault()).toLocalDate());
+    private static void setupDueDate(@NonNull DueDateChip cardDueDate, @NonNull Card card) {
+        final boolean isDone = card.getDone() != null;
+        final Instant date = isDone ? card.getDone() : card.getDueDate();
+
+        if (date == null) {
+            throw new IllegalArgumentException("Expected due date or done date to be present but both were null.");
+        }
+        cardDueDate.setDueDate(date, isDone);
     }
 
     protected static void setupCoverImages(@NonNull Account account, @NonNull ViewGroup coverImagesHolder, @NonNull FullCard fullCard, int maxCoverImagesCount) {

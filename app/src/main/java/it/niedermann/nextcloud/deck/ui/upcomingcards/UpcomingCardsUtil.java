@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.upcomingcards;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 import android.content.Context;
 
 import androidx.annotation.NonNull;
@@ -17,8 +19,6 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Card;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-
 public class UpcomingCardsUtil {
 
     private UpcomingCardsUtil() {
@@ -31,7 +31,7 @@ public class UpcomingCardsUtil {
             return EUpcomingDueType.NO_DUE;
         }
 
-        long diff = DAYS.between(LocalDate.now(), dueDate.atZone(ZoneId.systemDefault()).toLocalDate());
+        final long diff = DAYS.between(LocalDate.now(), dueDate.atZone(ZoneId.systemDefault()).toLocalDate());
 
         if (diff > 7) {
             return EUpcomingDueType.LATER;

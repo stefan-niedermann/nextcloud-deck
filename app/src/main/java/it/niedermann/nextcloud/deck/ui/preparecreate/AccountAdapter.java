@@ -11,7 +11,6 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.net.URL;
 
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemPrepareCreateAccountBinding;
@@ -49,7 +48,7 @@ public class AccountAdapter extends AbstractAdapter<Account> {
             }
 
             Glide.with(getContext())
-                    .load(account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.avatar_size)))
+                    .load(account.getAvatarUrl(binding.avatar.getResources().getDimensionPixelSize(R.dimen.avatar_size)))
                     .placeholder(R.drawable.ic_baseline_account_circle_24)
                     .error(R.drawable.ic_baseline_account_circle_24)
                     .apply(RequestOptions.circleCropTransform())

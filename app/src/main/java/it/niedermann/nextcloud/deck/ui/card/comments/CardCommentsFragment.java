@@ -25,7 +25,6 @@ import com.nextcloud.android.sso.api.EmptyResponse;
 
 import java.time.Instant;
 
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabCommentsBinding;
@@ -95,7 +94,7 @@ public class CardCommentsFragment extends Fragment implements Themed, CommentEdi
         binding.comments.setAdapter(adapter);
         binding.replyCommentCancelButton.setOnClickListener((v) -> commentsViewModel.setReplyToComment(null));
         Glide.with(binding.avatar.getContext())
-                .load(editCardViewModel.getAccount().getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details)))
+                .load(editCardViewModel.getAccount().getAvatarUrl(binding.avatar.getResources().getDimensionPixelSize(R.dimen.icon_size_details)))
                 .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.ic_person_grey600_24dp)
                 .error(R.drawable.ic_person_grey600_24dp)
