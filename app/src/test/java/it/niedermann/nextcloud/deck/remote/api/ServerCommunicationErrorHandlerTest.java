@@ -51,6 +51,6 @@ public class ServerCommunicationErrorHandlerTest {
     @Test
     public void shouldSkip_KnownExceptions_WithNullMessages() {
         assertEquals(ClassNotFoundException.class, ServerCommunicationErrorHandler.translateError(new ClassNotFoundException()).getClass());
-        assertEquals(UnknownErrorException.class, ServerCommunicationErrorHandler.translateError(new UnknownErrorException()).getClass());
+        assertEquals(UnknownErrorException.class, ServerCommunicationErrorHandler.translateError(new UnknownErrorException("Foo")).getClass());
     }
 }
