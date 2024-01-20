@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Itxi nabigatzeko menu lerrakorra</string>
     <string name="hint_search_deck">Bilatu bilduma</string>
 
-    <string name="simple_boards">Mahaiak</string>
     <string name="simple_add">Gehitu</string>
     <string name="simple_save">Gorde</string>
     <string name="simple_more">Gehiago</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Errorea</string>
     <string name="simple_exception">Salbuespena</string>
     <string name="simple_close">Itxi</string>
-    <string name="simple_open">Ireki</string>
-    <string name="simple_switch">Aldatu</string>
     <string name="simple_filter">Iragazkiak</string>
-    <string name="simple_overdue">Atzeratuta</string>
-    <string name="simple_clear">Garbitu</string>
+    <string name="simple_completed">Osatua</string>
+    <string name="simple_reset">Berrezarri</string>
     <string name="simple_discard">Baztertu</string>
     <string name="simple_update">Eguneratu</string>
     <string name="simple_delete">Ezabatu</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Hautatu</string>
     <string name="simple_comment">Iruzkina</string>
     <string name="simple_disabled">desgaituta</string>
-    <string name="simple_copied">Kopiatuta</string>
     <string name="simple_archive">Artxibatu</string>
     <string name="simple_unassigned">Esleitu gabea</string>
     <string name="hint_error_appeared">Errore bat agertu da</string>
@@ -90,6 +86,7 @@
     <string name="add_board">Gehitu mahaia</string>
 
     <string name="label_clear_due_date">Ezabatu epe-muga</string>
+    <string name="label_clear_done">Osatu gabe</string>
     <string name="label_add">Gehitu %1$s</string>
 
     <string name="card_edit_details">Xehetasunak</string>
@@ -99,9 +96,7 @@
     <string name="no_files_attached_to_this_card">Ez dago fitxategirik txartel honi erantsita.</string>
     <string name="attachments">Eranskinak</string>
     <string name="no_cards">Ez dago txartelik oraindik</string>
-    <string name="no_account">Ez da konturik konfiguratu</string>
     <string name="account_already_added">%1$s ontua dagoeneko gehitu da</string>
-    <string name="account_is_getting_imported">Kontua importatua izaten ari da</string>
     <string name="not_synced_yet">Oraindik sinkronizatu gabe</string>
     <string name="no_lists_yet">Ez dago zerrendarik</string>
     <string name="do_you_want_to_save_your_changes">Zure aldaketak gorde nahi dituzu?</string>
@@ -117,11 +112,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Gehitu zerrenda berria + botoia erabiliz</string>
     <string name="add_a_new_card_using_the_button">Gehitu txartel berria + botoia erabiliz</string>
-    <string name="update_deck">Eguneratu Deck web apl.</string>
     <string name="deck_outdated_please_update">Zure Deck web apl. zaharregia da (%1$s).Mesedez eguneratu ezazu android aplikazio hau bezero gisa erabiltzeko.</string>
     <string name="delete_board_message">Honek mahai hau eta bertako zerrenda eta txartel guztiak ezabatuko ditu.</string>
     <string name="settings_theme_title">Gaia</string>
-    <string name="settings_branding_title">Marka</string>
     <string name="settings_compact_title">Modu trinkoa</string>
     <string name="settings_cover_images_title">Azaleko irudiak</string>
     <string name="settings_debugging">Arazketa erregistroak</string>
@@ -157,7 +150,6 @@
     <string name="provide_at_least_a_title_or_description">Jarri gutxienez izenburu edo deskribapen bat</string>
     <string name="welcome_text">Ongi etorri %1$s(e)ra</string>
     <string name="welcome_text_further_accounts">Gehitu beste kontu bat</string>
-    <string name="maintenance_mode_explanation">%1$s zerbitzaria mantentze moduan dago. Mesedez jarri harremanetan zure administratzailearekin edo saiatu berriro.</string>
     <string name="share_add_to_card">Gehitu txartelera</string>
     <string name="share_success">%1$s ondo gehitu da %2$s -ra</string>
     <string name="add_comment">Gehitu iruzkina</string>
@@ -166,7 +158,6 @@
     <string name="no_boards">Ez dago mahairik oraindik</string>
     <string name="add_a_new_board_using_the_button">Gehitu mahai berria + botoia erabiliz</string>
     <string name="choose_board">Aukeratu mahaia</string>
-    <string name="choose_list">Aukeratu zerrenda</string>
     <string name="task_count">%2$s(e)tik %1$s</string>
     <string name="open_in_browser">Ireki nabigatzailean</string>
     <string name="updating_card">Txartela eguneratzen...</string>
@@ -182,13 +173,12 @@
     <string name="filter_month">Hurrengo 30 egunetan</string>
     <string name="filter_no_due">Epe-mugarik gabe</string>
     <string name="filter_later">Beranduago</string>
-    <string name="filter_by_tag">Iragazi etiketaz</string>
-    <string name="filter_by_assigned_user">Iragazi esleitutako erabiltzailez</string>
-    <string name="filter_by_duedate">Iragazi epe-mugaz</string>
+
+    <string name="filter_done_no_filter">Denak</string>
+    <string name="filter_done_done">Osatua</string>
+    <string name="filter_done_undone">Osatu gabe</string>
 
     <string name="archived_cards">Artxibatutako txartelak</string>
-    <string name="action_card_dearchive">Desegin txartelak artxibatzea</string>
-    <string name="action_archived_cards">Arakatu artxibatutako txartelak</string>
     <string name="attachment_already_exists">Eranskina existitzen da dagoeneko</string>
     <string name="pick_custom_color">Aukeratu kolore pertsonalizatua</string>
     <string name="manage_tags">Kudeatu etiketak</string>
@@ -199,6 +189,7 @@
     <string name="filter_tags_title">Etiketak</string>
     <string name="filter_user_title">Erabiltzaileak</string>
     <string name="filter_duedate_title">Epe-muga</string>
+    <string name="filter_done_title">Osatua</string>
 
     <string name="action_board_dearchive">Desegin mahaia artxibatzea</string>
     <string name="archived_boards">Artxibatutako mahaiak</string>
@@ -209,7 +200,6 @@
     <string name="error_revoking_ac">Errorea sarrera %1$s(r)entzako baliogabetzen</string>
     <string name="error_create_label">Errorea %1$s etiketa sortzen</string>
     <string name="maintenance_mode">Zerbitzaria mantentze moduan dago</string>
-    <string name="server_error">Zerbitzari akatsa</string>
     <string name="error_edit_activity_killed_by_android">Androidek edizio modua eten du sistemako baliabide gehiago behar dituelako beste aplikazio batzuentzat.</string>
 
     <string name="error_dialog_title">Oh ez - Orain zer? 🙁</string>
@@ -276,10 +266,8 @@
     <string name="card_does_not_yet_exist">Txartela oraindik ez dago Deck-en</string>
 
     <string name="widget_stack_title">Zerrenda</string>
-    <string name="widget_filter_title">Iragazkia</string>
     <string name="widget_stack_header_icon">Goiburu widgetaren ikonoa</string>
     <string name="widget_placeholder_icon">Leku-marka widgetaren ikonoa</string>
-    <string name="select_stack">Hautatu zerrenda</string>
     <string name="project_type_deck_board">Deck mahaia</string>
     <string name="project_type_deck_card">Deck txartela</string>
     <string name="project_type_file">Fitxategia</string>
@@ -297,9 +285,6 @@
     <string name="simple_clone">Klonatu</string>
     <string name="user_avatar">Erabltzaile-avatarra</string>
     <string name="simple_unassign">Kendu esleipena</string>
-    <string name="simple_contact">Kontaktua</string>
-    <string name="simple_file">Fitxategia</string>
-    <string name="simple_camera">Kamera</string>
     <string name="take_photo">Atera argazki bat</string>
     <string name="take_photo_switch_camera">Aldatu kamera</string>
     <string name="take_photo_toggle_torch">Txandakatu linterna</string>

@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="hint_search_deck">Search deck</string>
 
-    <string name="simple_boards">Boards</string>
     <string name="simple_add">Add</string>
     <string name="simple_save">Save</string>
     <string name="simple_more">More</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Error</string>
     <string name="simple_exception">Exception</string>
     <string name="simple_close">Close</string>
-    <string name="simple_open">Open</string>
-    <string name="simple_switch">Switch</string>
     <string name="simple_filter">Filter</string>
-    <string name="simple_overdue">Overdue</string>
-    <string name="simple_clear">Clear</string>
+    <string name="simple_completed">Completed</string>
+    <string name="simple_reset">Reset</string>
     <string name="simple_discard">Discard</string>
     <string name="simple_update">Update</string>
     <string name="simple_delete">Delete</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Select</string>
     <string name="simple_comment">Comment</string>
     <string name="simple_disabled">disabled</string>
-    <string name="simple_copied">Copied</string>
     <string name="simple_archive">Archive</string>
     <string name="simple_unassigned">Unassigned</string>
     <string name="hint_error_appeared">An error appeared</string>
@@ -90,6 +86,7 @@
     <string name="add_board">Add board</string>
 
     <string name="label_clear_due_date">Clear due date</string>
+    <string name="label_clear_done">Not completed</string>
     <string name="label_add">Add %1$s</string>
 
     <string name="card_edit_details">Details</string>
@@ -99,9 +96,7 @@
     <string name="no_files_attached_to_this_card">There are no files attached to this card.</string>
     <string name="attachments">Attachments</string>
     <string name="no_cards">No cards yet</string>
-    <string name="no_account">No account configured</string>
     <string name="account_already_added">The account %1$s has already been added</string>
-    <string name="account_is_getting_imported">Account is getting imported</string>
     <string name="not_synced_yet">Not synced yet</string>
     <string name="no_lists_yet">No lists yet</string>
     <string name="do_you_want_to_save_your_changes">Do you want to save your changes?</string>
@@ -117,11 +112,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Add a new list using the + button</string>
     <string name="add_a_new_card_using_the_button">Add a new card using the + button</string>
-    <string name="update_deck">Update Deck web app</string>
     <string name="deck_outdated_please_update">Your Deck web app version is too old (%1$s). Please update to use this Android app as client.</string>
     <string name="delete_board_message">This will permanently delete this board including all lists and cards.</string>
     <string name="settings_theme_title">Theme</string>
-    <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Compact mode</string>
     <string name="settings_cover_images_title">Cover images</string>
     <string name="settings_debugging">Debug logs</string>
@@ -157,7 +150,6 @@
     <string name="provide_at_least_a_title_or_description">Provide at least a title or description</string>
     <string name="welcome_text">Welcome to %1$s</string>
     <string name="welcome_text_further_accounts">Add another account</string>
-    <string name="maintenance_mode_explanation">The server %1$s is currently in maintenance mode. Please contact your administrator or try later again.</string>
     <string name="share_add_to_card">Add to card</string>
     <string name="share_success">Successfully added %1$s to %2$s</string>
     <string name="add_comment">Add comment</string>
@@ -166,7 +158,6 @@
     <string name="no_boards">No boards yet</string>
     <string name="add_a_new_board_using_the_button">Add a new board using the + button</string>
     <string name="choose_board">Choose board</string>
-    <string name="choose_list">Choose list</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Open in browser</string>
     <string name="updating_card">Updating card…</string>
@@ -182,13 +173,12 @@
     <string name="filter_month">Next 30 days</string>
     <string name="filter_no_due">No due date</string>
     <string name="filter_later">Later</string>
-    <string name="filter_by_tag">Filter by tag</string>
-    <string name="filter_by_assigned_user">Filter by assigned user</string>
-    <string name="filter_by_duedate">Filter by due date</string>
+
+    <string name="filter_done_no_filter">All</string>
+    <string name="filter_done_done">Completed</string>
+    <string name="filter_done_undone">Not completed</string>
 
     <string name="archived_cards">Archived cards</string>
-    <string name="action_card_dearchive">Undo card archiving</string>
-    <string name="action_archived_cards">Browse archived cards</string>
     <string name="attachment_already_exists">Attachment already exists</string>
     <string name="pick_custom_color">Pick custom colour</string>
     <string name="manage_tags">Manage tags</string>
@@ -199,6 +189,7 @@
     <string name="filter_tags_title">Tags</string>
     <string name="filter_user_title">Users</string>
     <string name="filter_duedate_title">Due date</string>
+    <string name="filter_done_title">Completed</string>
 
     <string name="action_board_dearchive">Undo board archiving</string>
     <string name="archived_boards">Archived boards</string>
@@ -209,7 +200,6 @@
     <string name="error_revoking_ac">Error while revoking the access for %1$s</string>
     <string name="error_create_label">Error while creating label %1$s</string>
     <string name="maintenance_mode">Server is in maintenance mode</string>
-    <string name="server_error">Server error</string>
     <string name="error_edit_activity_killed_by_android">Android finished the edit mode because it needed more system resources for other apps.</string>
 
     <string name="error_dialog_title">Oh no - What now? 🙁</string>
@@ -260,7 +250,7 @@
     <string name="manage_list">Manage list</string>
     <string name="simple_reply">Reply</string>
     <string name="append_text_to_description">Append to description</string>
-    <string name="append_text_as_task">Append as task</string>
+    <string name="append_text_as_task">Append to description as task</string>
     <string name="add_text_as_comment">Add as comment</string>
     <string name="progress_count">%1$d of %2$d</string>
     <plurals name="progress_error_count">
@@ -277,10 +267,8 @@
     <string name="card_does_not_yet_exist">Card does not yet exist in Deck</string>
 
     <string name="widget_stack_title">List</string>
-    <string name="widget_filter_title">Filter</string>
     <string name="widget_stack_header_icon">Widget header icon</string>
     <string name="widget_placeholder_icon">Widget placeholder icon</string>
-    <string name="select_stack">Select list</string>
     <string name="project_type_deck_board">Deck board</string>
     <string name="project_type_deck_card">Deck card</string>
     <string name="project_type_file">File</string>
@@ -298,9 +286,6 @@
     <string name="simple_clone">Clone</string>
     <string name="user_avatar">User avatar</string>
     <string name="simple_unassign">Unassign</string>
-    <string name="simple_contact">Contact</string>
-    <string name="simple_file">File</string>
-    <string name="simple_camera">Camera</string>
     <string name="take_photo">Take a photo</string>
     <string name="take_photo_switch_camera">Switch camera</string>
     <string name="take_photo_toggle_torch">Toggle torch</string>

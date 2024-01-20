@@ -1,5 +1,4 @@
 <resources>
-    <string name="simple_boards">Табли</string>
     <string name="simple_add">Додади</string>
     <string name="simple_save">Зачувај</string>
     <string name="simple_more">Повеќе</string>
@@ -10,11 +9,9 @@
     <string name="simple_error">Грешка</string>
     <string name="simple_exception">Исклучок</string>
     <string name="simple_close">Затвори</string>
-    <string name="simple_open">Отвори</string>
-    <string name="simple_switch">Прфрли</string>
     <string name="simple_filter">Филтер</string>
-    <string name="simple_overdue">Заостанати</string>
-    <string name="simple_clear">Исчисти</string>
+    <string name="simple_completed">Завршено</string>
+    <string name="simple_reset">Ресетирање</string>
     <string name="simple_update">Ажурирај</string>
     <string name="simple_delete">Избриши</string>
     <string name="simple_rename">Преименувај</string>
@@ -25,7 +22,6 @@
     <string name="simple_select">Select</string>
     <string name="simple_comment">Коментар</string>
     <string name="simple_disabled">оневозможен</string>
-    <string name="simple_copied">Копирано</string>
     <string name="simple_archive">Архива</string>
     <string name="simple_unassigned">Неназначени</string>
     <string name="hint_error_appeared">Настана грешка</string>
@@ -87,7 +83,6 @@
     <string name="no_files_attached_to_this_card">Нема датотеки закачени на оваа картица.</string>
     <string name="attachments">Прилози</string>
     <string name="no_cards">Сеуште нема картици</string>
-    <string name="no_account">Нема конфигурирано сметка</string>
     <string name="not_synced_yet">Сеуште не е синхронизирано</string>
     <string name="no_lists_yet">Сеуште нема листи</string>
     <string name="do_you_want_to_save_your_changes">Дали сакате да ги зачувате промените?</string>
@@ -105,7 +100,6 @@
     <string name="add_a_new_card_using_the_button">Додади нова картица со копчето +</string>
     <string name="delete_board_message">Ова трајно ќе ја избрише оваа табла и сите листи во неа и сите картици.</string>
     <string name="settings_theme_title">Тема</string>
-    <string name="settings_branding_title">Брендирање</string>
     <string name="settings_compact_title">Компактен мод</string>
     <string name="settings_background_sync">Синхронизација во позадина</string>
     <string name="pref_value_wifi_and_mobile">Синхронизирај на Wi-Fi и на мобилен интернет</string>
@@ -132,7 +126,6 @@
     <string name="action_card_move_title">Премести %1$s</string>
     <string name="provide_at_least_a_title_or_description">Внесете барем наслов или опис</string>
     <string name="welcome_text">Добредојдовте во %1$s</string>
-    <string name="maintenance_mode_explanation">Серверот %1$s е моментално во мод за одржување. Контактирајте го администраторот или обидете се покасно.</string>
     <string name="share_add_to_card">Додади во картица</string>
     <string name="share_success">Успешно додадено %1$s во %2$s</string>
     <string name="add_comment">Додади коментар</string>
@@ -141,7 +134,6 @@
     <string name="no_boards">Сеуште нема табли</string>
     <string name="add_a_new_board_using_the_button">Додади нова табла со копчето +</string>
     <string name="choose_board">Избери табла</string>
-    <string name="choose_list">Избери листа</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Отвори во прелистувач</string>
     <string name="updating_card">Ажурирање на картица...</string>
@@ -157,13 +149,10 @@
     <string name="filter_month">Следни 30 дена</string>
     <string name="filter_no_due">Нема краен рок</string>
     <string name="filter_later">Покасно</string>
-    <string name="filter_by_tag">Филтрирај по ознака</string>
-    <string name="filter_by_assigned_user">Филтрирај по назначени корисници</string>
-    <string name="filter_by_duedate">Филтрирај по краен рок</string>
 
+    <string name="filter_done_no_filter">Сите</string>
+    <string name="filter_done_done">Завршено</string>
     <string name="archived_cards">Архивирани картици</string>
-    <string name="action_card_dearchive">Врати архивирана картица</string>
-    <string name="action_archived_cards">Пребарувај во архивираните картици</string>
     <string name="attachment_already_exists">Прилогот веќе постои</string>
     <string name="pick_custom_color">Избери боја</string>
     <string name="manage_tags">Уреди ги ознаките</string>
@@ -174,6 +163,7 @@
     <string name="filter_tags_title">Ознаки</string>
     <string name="filter_user_title">Корисници</string>
     <string name="filter_duedate_title">До датум</string>
+    <string name="filter_done_title">Завршено</string>
 
     <string name="action_board_dearchive">Врати архивирана табла</string>
     <string name="archived_boards">Архивирани табли</string>
@@ -184,7 +174,6 @@
     <string name="error_revoking_ac">Грешка при одземање на пристапот на %1$s</string>
     <string name="error_create_label">решка при креирање на ознака %1$s</string>
     <string name="maintenance_mode">Серверот е во мод за одржување</string>
-    <string name="server_error">Грешка на серверот</string>
     <string name="error_dialog_title">О не - Што сега? 🙁</string>
     <string name="error_dialog_timeout_toggle">Проверете го вашиот интернет. Некогаш помага исклучување и повторно вклучување на интернетот.</string>
     <string name="error_dialog_check_maintenance">Проверете дане е серверот во мод за одржување.</string>
@@ -216,8 +205,6 @@
     <string name="cloning_board">Клонирање %1$s…</string>
     <string name="successfully_cloned_board">Успешно клонирање на %1$s</string>
     <string name="widget_stack_title">Лист</string>
-    <string name="widget_filter_title">Филтер</string>
-    <string name="select_stack">Избери листа</string>
     <string name="project_type_file">Датотека</string>
     <string name="projects_title">Проекти</string>
     <plurals name="resources_count">
@@ -230,9 +217,6 @@
     <string name="simple_move">Премести</string>
     <string name="clone_cards">Клинирај картици</string>
     <string name="simple_clone">Клонирај</string>
-    <string name="simple_contact">Контакт</string>
-    <string name="simple_file">Датотека</string>
-    <string name="simple_camera">Камера</string>
     <string name="take_photo">Направи фотографија</string>
     <string name="take_photo_switch_camera">Префрли камера</string>
     <string name="show_all_contacts">Прикажи ги сите контакти</string>

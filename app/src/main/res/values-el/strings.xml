@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Κλείσιμο συρταριού πλοήγησης</string>
     <string name="hint_search_deck">Αναζήτηση πίνακα</string>
 
-    <string name="simple_boards">Πίνακες</string>
     <string name="simple_add">Προσθήκη</string>
     <string name="simple_save">Αποθήκευση</string>
     <string name="simple_more">Περισσότερα</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Σφάλμα</string>
     <string name="simple_exception">Εξαίρεση</string>
     <string name="simple_close">Κλείσιμο</string>
-    <string name="simple_open">Άνοιγμα</string>
-    <string name="simple_switch">Αλλαγή</string>
     <string name="simple_filter">Φίλτρο</string>
-    <string name="simple_overdue">Εκπρόθεσμος</string>
-    <string name="simple_clear">Εκκαθάριση</string>
+    <string name="simple_completed">Ολοκληρωμένες</string>
+    <string name="simple_reset">Επαναφορά</string>
     <string name="simple_discard">Απόρριψη</string>
     <string name="simple_update">Ενημέρωση</string>
     <string name="simple_delete">Διαγραφή</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Επιλογή</string>
     <string name="simple_comment">Σχόλιο</string>
     <string name="simple_disabled">απενεργοποιημένο</string>
-    <string name="simple_copied">Αντιγράφτηκε</string>
     <string name="simple_archive">Αρχειοθέτηση</string>
     <string name="simple_unassigned">Χωρίς ανάθεση</string>
     <string name="hint_error_appeared">Παρουσιάστηκε σφάλμα</string>
@@ -99,9 +95,7 @@
     <string name="no_files_attached_to_this_card">Δεν υπάρχουν συνημμένα αρχεία στην κάρτα</string>
     <string name="attachments">Συνημμένα</string>
     <string name="no_cards">Καμία κάρτα ακόμη</string>
-    <string name="no_account">Δεν ρυθμίστηκε λογαριασμός</string>
     <string name="account_already_added">Ο λογαριασμός %1$s έχει ήδη προστεθεί </string>
-    <string name="account_is_getting_imported">Ο λογαριασμός εισάγεται</string>
     <string name="not_synced_yet">Δεν είναι ακόμα συγχρονισμένα</string>
     <string name="no_lists_yet">Χωρίς λίστες ακόμη</string>
     <string name="do_you_want_to_save_your_changes">Θέλετε να αποθηκεύσετε τις αλλαγές σας;</string>
@@ -117,11 +111,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Προσθήκη νέας λίστας με το κουμπί +</string>
     <string name="add_a_new_card_using_the_button">Προσθέστε νέα κάρτα με το κουμπί +</string>
-    <string name="update_deck">Ενημέρωση εφαρμογής ιστού Deck</string>
     <string name="deck_outdated_please_update">Η έκδοση της εφαρμογής ιστού Deck είναι πολύ παλαιά (%1$s). Παρακαλούμε αναβαθμίστε ώστε να μπορείτε να χρησιμοποιήσετε αυτή την εφαρμογή Android ως πελάτη.</string>
     <string name="delete_board_message">Μόνιμη διαγραφή πίνακα με όλες τις λίστες και κάρτες.</string>
     <string name="settings_theme_title">Θέμα</string>
-    <string name="settings_branding_title">Επωνυμία</string>
     <string name="settings_compact_title">Συμπαγής λειτουργία</string>
     <string name="settings_etags_summary">Επιταχύνει τον συγχρονισμό</string>
     <string name="settings_background_sync">Συγχρονισμός στο παρασκήνιο</string>
@@ -153,7 +145,6 @@
     <string name="title_is_mandatory">Απαιτείται τίτλος</string>
     <string name="provide_at_least_a_title_or_description">Προσθέστε τουλάχιστον τίτλο ή περιγραφή</string>
     <string name="welcome_text">Καλώς ήρθατε στο %1$s</string>
-    <string name="maintenance_mode_explanation">Ο διακομιστής %1$s είναι σε κατάσταση συντήρησης. Επικοινωνήστε με τον διαχειριστή ή δοκιμάστε αργότερα.</string>
     <string name="share_add_to_card">Προσθήκη στην κάρτα</string>
     <string name="share_success">Επιτυχής προσθήκη %1$s από %2$s</string>
     <string name="add_comment">Προσθήκη σχολίου</string>
@@ -162,7 +153,6 @@
     <string name="no_boards">Κανένας πίνακας ακόμη</string>
     <string name="add_a_new_board_using_the_button">Προσθέστε νέο πίνακα με το κουμπί +</string>
     <string name="choose_board">Επιλογή πίνακα</string>
-    <string name="choose_list">Επιλογή λίστας</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Άνοιγμα στον περιηγητή ιστού</string>
     <string name="updating_card">Ενημέρωση καρτέλας...</string>
@@ -178,13 +168,10 @@
     <string name="filter_month">Επόμενες 30 ημέρες</string>
     <string name="filter_no_due">Χωρίς ημερομηνία λήξης</string>
     <string name="filter_later">Αργότερα</string>
-    <string name="filter_by_tag">Φίλτρο ανά ετικέτα</string>
-    <string name="filter_by_assigned_user">Φίλτρο ανά χρήστη</string>
-    <string name="filter_by_duedate">Φίλτρο ανά ημερομηνία λήξης</string>
 
+    <string name="filter_done_no_filter">\'Ολα</string>
+    <string name="filter_done_done">Ολοκληρωμένες</string>
     <string name="archived_cards">Αρχειοθετημένες κάρτες</string>
-    <string name="action_card_dearchive">Αναίρεση αρχειοθέτησης κάρτας</string>
-    <string name="action_archived_cards">Περιήγηση στις αρχειοθετημένες καρτέλες</string>
     <string name="attachment_already_exists">Το συνημμένο υπάρχει ήδη</string>
     <string name="pick_custom_color">Επιλέξτε προσαρμοσμένο χρώμα</string>
     <string name="manage_tags">Διαχείριση ετικετών</string>
@@ -195,6 +182,7 @@
     <string name="filter_tags_title">Ετικέτες</string>
     <string name="filter_user_title">Χρήστες</string>
     <string name="filter_duedate_title">Προθεσμία</string>
+    <string name="filter_done_title">Ολοκληρωμένες</string>
 
     <string name="action_board_dearchive">Αναίρεση αρχειοθέτησης πίνακα</string>
     <string name="archived_boards">Αρχειοθέτηση πινάκων </string>
@@ -205,7 +193,6 @@
     <string name="error_revoking_ac">Σφάλμα κατά την ανάκληση πρόσβασης για %1$s</string>
     <string name="error_create_label">Σφάλμα κατά τη δημιουργία ετικέτας %1$s</string>
     <string name="maintenance_mode">Ο διακομιστής βρίσκεται σε λειτουργία συντήρησης</string>
-    <string name="server_error">Σφάλμα διακομιστή</string>
     <string name="error_edit_activity_killed_by_android">Το Android ολοκλήρωσε τη λειτουργία επεξεργασίας επειδή χρειαζόταν περισσότερους πόρους συστήματος για άλλες εφαρμογές.</string>
 
     <string name="error_dialog_title">Ωχ όχι - Τώρα τί; 🙁</string>
@@ -266,10 +253,8 @@
     <string name="card_does_not_yet_exist">Η κάρτα δεν υπάρχει ακόμα στο Deck</string>
 
     <string name="widget_stack_title">Λίστα</string>
-    <string name="widget_filter_title">Φίλτρο</string>
     <string name="widget_stack_header_icon">Εικονίδιο επικεφαλίδας του γραφικού στοιχείου</string>
     <string name="widget_placeholder_icon">Εικονίδιο υποκατάστασης γραφικού στοιχείου</string>
-    <string name="select_stack">Επιλέξτε λίστα</string>
     <string name="project_type_deck_board">Πίνακας του Deck</string>
     <string name="project_type_deck_card">Κάρτα του Deck</string>
     <string name="project_type_file">Αρχείο</string>
@@ -287,9 +272,6 @@
     <string name="simple_clone">Κλώνος</string>
     <string name="user_avatar">Άβαταρ χρήστη</string>
     <string name="simple_unassign">Αποδέσμευση</string>
-    <string name="simple_contact">Επικοινωνία</string>
-    <string name="simple_file">Αρχείο</string>
-    <string name="simple_camera">Κάμερα</string>
     <string name="take_photo">Βγάλε μια φωτογραφία</string>
     <string name="take_photo_switch_camera">Εναλλαγή κάμερας</string>
     <string name="take_photo_toggle_torch">Εναλλαγή φακού</string>

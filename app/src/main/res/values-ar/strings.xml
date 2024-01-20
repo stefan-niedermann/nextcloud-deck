@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">إقفال التنقل </string>
     <string name="hint_search_deck">بحث الادراج</string>
 
-    <string name="simple_boards">الالواح</string>
     <string name="simple_add">إضافة</string>
     <string name="simple_save">حفظ</string>
     <string name="simple_more">المزيد</string>
@@ -14,11 +13,8 @@
     <string name="simple_error">خطأ</string>
     <string name="simple_exception">استثناء</string>
     <string name="simple_close">إغلاق</string>
-    <string name="simple_open">افتح</string>
-    <string name="simple_switch">تبديل</string>
     <string name="simple_filter">فلتر</string>
-    <string name="simple_overdue">تأخر</string>
-    <string name="simple_clear">مسح </string>
+    <string name="simple_completed">مُكتمل</string>
     <string name="simple_discard">الغاء</string>
     <string name="simple_update">تحديث</string>
     <string name="simple_delete">حذف </string>
@@ -30,7 +26,6 @@
     <string name="simple_select">تحديد</string>
     <string name="simple_comment">تعليق</string>
     <string name="simple_disabled">معطّل</string>
-    <string name="simple_copied">نُسخت </string>
     <string name="simple_archive">الأرشيف</string>
     <string name="simple_unassigned">غير معيين </string>
     <string name="hint_error_appeared">حدث خطأ</string>
@@ -90,6 +85,7 @@
     <string name="add_board">إضافة لوح</string>
 
     <string name="label_clear_due_date">مسح حسب التاريخ </string>
+    <string name="label_clear_done">غير مكتمل</string>
     <string name="label_add">اضف %1$s</string>
 
     <string name="card_edit_details">التفاصيل</string>
@@ -99,9 +95,7 @@
     <string name="no_files_attached_to_this_card">لا يوجد ملفات مرفقة لهذه البطاقة.</string>
     <string name="attachments">المرفقات</string>
     <string name="no_cards">لا توجد بطاقات حتى الآن</string>
-    <string name="no_account">لم يتم إعداد أي حساب بعد.</string>
     <string name="account_already_added">الحساب %1$s سبقت إضافته</string>
-    <string name="account_is_getting_imported">يتم استيراد الحساب </string>
     <string name="not_synced_yet">لم يتم التزامن حتى الآن</string>
     <string name="no_lists_yet">لا توجد قائمة حتى الآن</string>
     <string name="do_you_want_to_save_your_changes">هل تريد حفظ التغييرات؟ </string>
@@ -125,11 +119,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">إضافة قائمة جديدة باستخدام زر + </string>
     <string name="add_a_new_card_using_the_button">إضافة بطاقة جديدة باستخدام زر +</string>
-    <string name="update_deck">تحديث تطبيق Deck</string>
     <string name="deck_outdated_please_update">إصدار تطبيق Deck الخاص بك قديم جدًا (%1$s). يرجى تحديثه لاستعمال تطبيق أندرويد كعميل.</string>
     <string name="delete_board_message"> سوف يحذف هذا اللوح ويتضمن ذلك جميع القوائم والبطاقات.</string>
     <string name="settings_theme_title">المظهر</string>
-    <string name="settings_branding_title">وسم</string>
     <string name="settings_compact_title">النمط المضغوط</string>
     <string name="settings_cover_images_title">صور الغلاف</string>
     <string name="settings_debugging">سجلات تصحيح الأخطاء </string>
@@ -165,7 +157,6 @@
     <string name="provide_at_least_a_title_or_description">أدخل عنوانًا أو وصفًا على الأقل</string>
     <string name="welcome_text">مرحبًا بك في %1$s</string>
     <string name="welcome_text_further_accounts">أضف حساباً آخر</string>
-    <string name="maintenance_mode_explanation">سيرفر %1$s حاليًا في وضع الصيانة. فضلًا تواصل مع المسؤول أو أعد المحاولة لاحقًا. </string>
     <string name="share_add_to_card">إضافة بطاقة</string>
     <string name="share_success">تم إضافة %1$s إلى %2$s بنجاح </string>
     <string name="add_comment">أضف تعليق</string>
@@ -174,7 +165,6 @@
     <string name="no_boards">لا يوجد لوح حتى الآن</string>
     <string name="add_a_new_board_using_the_button">إضافة بطاقة جديدة باستخدام زر +</string>
     <string name="choose_board">اختر لوح </string>
-    <string name="choose_list">اختر قائمة</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">فتح في المتصفح</string>
     <string name="updating_card">تحديث البطاقة...</string>
@@ -190,13 +180,10 @@
     <string name="filter_month">ال 30 يوم القادمة</string>
     <string name="filter_no_due">لا تأريخ انجاز</string>
     <string name="filter_later">لاحقا</string>
-    <string name="filter_by_tag">تصفية بواسطة الوسم</string>
-    <string name="filter_by_assigned_user">تصفية بواسطة المستخدم الموكل إليه</string>
-    <string name="filter_by_duedate">تصفية حسب تاريخ الإنجاز</string>
+
+    <string name="filter_done_undone">غير مكتمل</string>
 
     <string name="archived_cards">البطاقات المؤرشفة</string>
-    <string name="action_card_dearchive">التراجع عن أرشفة البطاقة </string>
-    <string name="action_archived_cards">تصفح البطاقات المؤرشفة </string>
     <string name="attachment_already_exists">المرفقات موجودة بالفعل </string>
     <string name="pick_custom_color">اختر لون مخصص</string>
     <string name="manage_tags">إدارة الوسوم</string>
@@ -207,7 +194,6 @@
     <string name="filter_tags_title">الوسوم</string>
     <string name="filter_user_title">المستخدمين:</string>
     <string name="filter_duedate_title">تاريخ الانجاز</string>
-
     <string name="action_board_dearchive">التراجع عن أرشفة اللوح</string>
     <string name="archived_boards">الالواح المؤرشفة</string>
 
@@ -217,7 +203,6 @@
     <string name="error_revoking_ac">حدث خطأ أثناء إلغاء الوصول لـ %1$s</string>
     <string name="error_create_label">حدث خطأ أثناء إنشاء علامة %1$s</string>
     <string name="maintenance_mode">الخادم في وضع الصيانة</string>
-    <string name="server_error">خطأ في الخادم</string>
     <string name="error_edit_activity_killed_by_android">أنهى Android وضع التحرير لأنه بحاجه إلى المزيد من موارد النظام للتطبيقات الأخرى.</string>
 
     <string name="error_dialog_title">آه لا، ماذا الان؟🙁</string>
@@ -268,7 +253,7 @@
     <string name="manage_list">إدارة القائمة </string>
     <string name="simple_reply">رد</string>
     <string name="append_text_to_description">إلحاق بالوصف </string>
-    <string name="append_text_as_task">قُم بإلحاقه كمُهمة</string>
+    <string name="append_text_as_task">إلحاق بالوصف كمُهمة</string>
     <string name="add_text_as_comment">أضف كتعليق</string>
     <string name="progress_count">%1$d من %2$d</string>
     <plurals name="progress_error_count">
@@ -290,10 +275,8 @@
     <string name="card_does_not_yet_exist">البطاقة غير موجودة حتى الآن في Deck</string>
 
     <string name="widget_stack_title">قائمة</string>
-    <string name="widget_filter_title">تصفية</string>
     <string name="widget_stack_header_icon">أيقونة رأسية</string>
     <string name="widget_placeholder_icon">أيقونة العنصر النائب</string>
-    <string name="select_stack">اختر قائمة </string>
     <string name="project_type_deck_board">لوح Deck</string>
     <string name="project_type_deck_card">بطاقة Deck</string>
     <string name="project_type_file">الملف</string>
@@ -315,9 +298,6 @@
     <string name="simple_clone">استنسخ</string>
     <string name="user_avatar">صورة المستخدم الشخصية </string>
     <string name="simple_unassign">إلغاء التعيين</string>
-    <string name="simple_contact">التواصل</string>
-    <string name="simple_file">ملف</string>
-    <string name="simple_camera">الكاميرا</string>
     <string name="take_photo">التقاط صورة</string>
     <string name="take_photo_switch_camera">تغيير الكاميرا</string>
     <string name="take_photo_toggle_torch">تشغيل / تعطيل الكشاف</string>

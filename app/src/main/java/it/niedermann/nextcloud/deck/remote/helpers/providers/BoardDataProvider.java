@@ -42,7 +42,6 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     public BoardDataProvider(MutableLiveData<Pair<Integer, Integer>> progress) {
         this();
         this.progress = progress;
-
     }
 
     public BoardDataProvider(MutableLiveData<Pair<Integer, Integer>> progress$, boolean isParallel) {
@@ -54,7 +53,8 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<List<FullBoard>> responder, Instant lastSync) {
         serverAdapter.getBoards(new ResponseCallback<>(responder.getAccount()) {
             @Override
-            public void onResponse(List<FullBoard> response) {}
+            public void onResponse(List<FullBoard> response) {
+            }
 
             @Override
             public void onResponseWithHeaders(List<FullBoard> response, Headers headers) {
@@ -188,8 +188,8 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
         if (entityFromServer.getStacks() != null && !entityFromServer.getStacks().isEmpty()) {
             syncHelper.doSyncFor(new StackDataProvider(this, existingEntity));
+        }
     }
-}
 
     @Override
     public void childDone(AbstractSyncDataProvider<?> child, ResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {

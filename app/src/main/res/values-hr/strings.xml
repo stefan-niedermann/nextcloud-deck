@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Zatvori navigacijsku ladicu</string>
     <string name="hint_search_deck">Traži Deck</string>
 
-    <string name="simple_boards">Ploče</string>
     <string name="simple_add">Dodaj</string>
     <string name="simple_save">Spremi</string>
     <string name="simple_more">Više</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Pogreška</string>
     <string name="simple_exception">Izuzetak</string>
     <string name="simple_close">Zatvori</string>
-    <string name="simple_open">Otvori</string>
-    <string name="simple_switch">Promijeni</string>
     <string name="simple_filter">Filtar</string>
-    <string name="simple_overdue">Kasni</string>
-    <string name="simple_clear">Izbriši</string>
+    <string name="simple_completed">Završeno</string>
+    <string name="simple_reset">Resetiraj</string>
     <string name="simple_discard">Odbaci</string>
     <string name="simple_update">Ažuriraj</string>
     <string name="simple_delete">Izbriši</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Odaberi</string>
     <string name="simple_comment">Komentar</string>
     <string name="simple_disabled">onemogućeno</string>
-    <string name="simple_copied">Kopirano</string>
     <string name="simple_archive">Arhiva</string>
     <string name="simple_unassigned">Nedodijeljeno</string>
     <string name="hint_error_appeared">Pojavila se pogreška</string>
@@ -99,8 +95,6 @@
     <string name="no_files_attached_to_this_card">Nema datoteka pridruženih ovoj kartici.</string>
     <string name="attachments">Privici</string>
     <string name="no_cards">Još nema kartica</string>
-    <string name="no_account">Nema konfiguriranih računa</string>
-    <string name="account_is_getting_imported">Račun se uvozi</string>
     <string name="not_synced_yet">Još nije sinkronizirano</string>
     <string name="no_lists_yet">Još nema popisa</string>
     <string name="do_you_want_to_save_your_changes">Želite li spremiti promjene?</string>
@@ -118,11 +112,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Dodaj novi popis s pomoću gumba +</string>
     <string name="add_a_new_card_using_the_button">Dodaj novu karticu s pomoću gumba +</string>
-    <string name="update_deck">Ažuriraj web-aplikaciju Deck</string>
     <string name="deck_outdated_please_update">Vaša inačica web-aplikacije Deck je prestara (%1$s). Ažurirajte je kako biste se koristili ovom aplikacijom za Android kao klijentom.</string>
     <string name="delete_board_message">Trajno ćete izbrisati ovu ploču, uključujući sve stogove i kartice.</string>
     <string name="settings_theme_title">Tema</string>
-    <string name="settings_branding_title">Brendiranje</string>
     <string name="settings_compact_title">Kompaktni način rada</string>
     <string name="settings_cover_images_title">Naslovne slike</string>
     <string name="settings_debugging">Otkloni pogreške iz zapisa</string>
@@ -157,7 +149,6 @@
     <string name="title_is_mandatory">Naslov je obavezan</string>
     <string name="provide_at_least_a_title_or_description">Unesite naziv ili opis</string>
     <string name="welcome_text">Dobro došli u %1$s</string>
-    <string name="maintenance_mode_explanation">Poslužitelj %1$s trenutno je u načinu održavanja. Obratite se svom administratoru ili pokušajte kasnije.</string>
     <string name="share_add_to_card">Dodaj kartici</string>
     <string name="share_success">%1$s uspješno dodano %2$s</string>
     <string name="add_comment">Dodaj komentar</string>
@@ -166,7 +157,6 @@
     <string name="no_boards">Još nema ploča</string>
     <string name="add_a_new_board_using_the_button">Dodaj novu ploču s pomoću gumba +</string>
     <string name="choose_board">Odaberi ploču</string>
-    <string name="choose_list">Odaberi popis</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Otvori u pregledniku</string>
     <string name="updating_card">Ažuriranje kartice…</string>
@@ -182,13 +172,10 @@
     <string name="filter_month">Sljedećih 30 dana</string>
     <string name="filter_no_due">Nema datuma dospijeća</string>
     <string name="filter_later">Kasnije</string>
-    <string name="filter_by_tag">Filtriraj prema oznaci</string>
-    <string name="filter_by_assigned_user">Filtriraj prema dodijeljenom korisniku</string>
-    <string name="filter_by_duedate">Filtriraj prema datumu dospijeća</string>
 
+    <string name="filter_done_no_filter">Sve</string>
+    <string name="filter_done_done">Završeno</string>
     <string name="archived_cards">Arhivirane kartice</string>
-    <string name="action_card_dearchive">Poništi arhiviranje kartice</string>
-    <string name="action_archived_cards">Pretraži arhivirane kartice</string>
     <string name="attachment_already_exists">Privitak već postoji</string>
     <string name="pick_custom_color">Odaberi prilagođenu boju</string>
     <string name="manage_tags">Upravljaj oznakama</string>
@@ -199,6 +186,7 @@
     <string name="filter_tags_title">Oznake</string>
     <string name="filter_user_title">Korisnici</string>
     <string name="filter_duedate_title">Datum dospijeća</string>
+    <string name="filter_done_title">Završeno</string>
 
     <string name="action_board_dearchive">Poništi arhiviranje ploče</string>
     <string name="archived_boards">Arhivirane ploče</string>
@@ -209,7 +197,6 @@
     <string name="error_revoking_ac">Pogreška pri opozivanju prava pristupa za %1$s</string>
     <string name="error_create_label">Pogreška pri stvaranju oznake %1$s</string>
     <string name="maintenance_mode">Poslužitelj je u načinu održavanja</string>
-    <string name="server_error">Greška poslužitelja</string>
     <string name="error_edit_activity_killed_by_android">Android je zatvorio način uređivanja jer treba više resursa sustava za ostale aplikacije.</string>
 
     <string name="error_dialog_title">Ups, što sada? 🙁</string>
@@ -272,10 +259,8 @@
     <string name="card_does_not_yet_exist">Kartica ne postoji u aplikaciji Deck</string>
 
     <string name="widget_stack_title">Popis</string>
-    <string name="widget_filter_title">Filtar</string>
     <string name="widget_stack_header_icon">Ikona zaglavlja widgeta</string>
     <string name="widget_placeholder_icon">Privremena ikona widgeta</string>
-    <string name="select_stack">Odaberi popis</string>
     <string name="project_type_deck_board">Deck ploča</string>
     <string name="project_type_deck_card">Deck kartica</string>
     <string name="project_type_file">Datoteka</string>
@@ -294,9 +279,6 @@
     <string name="simple_clone">Kloniraj</string>
     <string name="user_avatar">Avatar korisnika</string>
     <string name="simple_unassign">Poništi dodjelu</string>
-    <string name="simple_contact">Kontakt</string>
-    <string name="simple_file">Datoteka</string>
-    <string name="simple_camera">Kamera</string>
     <string name="take_photo">Snimi fotografiju</string>
     <string name="take_photo_switch_camera">Promijeni kameru</string>
     <string name="take_photo_toggle_torch">Uključi/isključi svjetlo</string>

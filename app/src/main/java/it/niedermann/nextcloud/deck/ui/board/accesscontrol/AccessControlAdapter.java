@@ -16,7 +16,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAccessControlBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemAccessControlOwnerBinding;
@@ -82,7 +81,7 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
                 final var ownerHolder = (OwnerViewHolder) holder;
                 ownerHolder.binding.owner.setText(ac.getUser().getDisplayname());
                 Glide.with(ownerHolder.binding.avatar.getContext())
-                        .load(account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(ownerHolder.binding.avatar.getContext(), R.dimen.avatar_size), ac.getUser().getUid()))
+                        .load(account.getAvatarUrl(ownerHolder.binding.avatar.getResources().getDimensionPixelSize(R.dimen.avatar_size), ac.getUser().getUid()))
                         .apply(RequestOptions.circleCropTransform())
                         .placeholder(R.drawable.ic_person_grey600_24dp)
                         .error(R.drawable.ic_person_grey600_24dp)
@@ -93,7 +92,7 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
             default: {
                 final var acHolder = (AccessControlViewHolder) holder;
                 Glide.with(acHolder.binding.avatar.getContext())
-                        .load(account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(acHolder.binding.avatar.getContext(), R.dimen.avatar_size), ac.getUser().getUid()))
+                        .load(account.getAvatarUrl(acHolder.binding.avatar.getResources().getDimensionPixelSize(R.dimen.avatar_size), ac.getUser().getUid()))
                         .apply(RequestOptions.circleCropTransform())
                         .placeholder(R.drawable.ic_person_grey600_24dp)
                         .error(R.drawable.ic_person_grey600_24dp)

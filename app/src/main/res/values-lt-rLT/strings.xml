@@ -1,7 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Atidaryti naršymo stalčių</string>
     <string name="navigation_drawer_close">Uždaryti naršymo stalčių</string>
-    <string name="simple_boards">Lentos</string>
     <string name="simple_add">Pridėti</string>
     <string name="simple_save">Įrašyti</string>
     <string name="simple_more">Daugiau</string>
@@ -12,11 +11,9 @@
     <string name="simple_error">Klaida</string>
     <string name="simple_exception">Išimtis</string>
     <string name="simple_close">Užverti</string>
-    <string name="simple_open">Atverti</string>
-    <string name="simple_switch">Perjungti</string>
     <string name="simple_filter">Filtras</string>
-    <string name="simple_overdue">Praėjęs galutinis terminas</string>
-    <string name="simple_clear">Išvalyti</string>
+    <string name="simple_completed">Užbaigta</string>
+    <string name="simple_reset">Atstatyti</string>
     <string name="simple_discard">Atmesti</string>
     <string name="simple_update">Atnaujinti</string>
     <string name="simple_delete">Ištrinti</string>
@@ -28,7 +25,6 @@
     <string name="simple_select">Pasirinkti</string>
     <string name="simple_comment">Komentaras</string>
     <string name="simple_disabled">išjungta</string>
-    <string name="simple_copied">Nukopijuota</string>
     <string name="simple_archive">Archyvuoti</string>
     <string name="hint_error_appeared">Atsirado klaida</string>
 
@@ -87,13 +83,11 @@
     <string name="no_files_attached_to_this_card">Prie šios kortelės nėra jokių pridėtų priedų.</string>
     <string name="attachments">Priedai</string>
     <string name="no_cards">Kol kas kortelių nėra</string>
-    <string name="no_account">Nėra sukonfiguruotų paskyrų</string>
     <string name="not_synced_yet">Kol kas nesinchronizuota</string>
     <string name="no_lists_yet">Kol kas sąrašų nėra</string>
     <string name="do_you_want_to_save_your_changes">Ar norite įrašyti savo pakeitimus?</string>
     <string name="delete_board_message">Tai negrįžtamai ištrins šią lentą, įskaitant visus sąrašus bei korteles.</string>
     <string name="settings_theme_title">Apipavidalinimas</string>
-    <string name="settings_branding_title">Prekės ženklas</string>
     <string name="settings_compact_title">Kompaktiška veiksena</string>
     <string name="settings_background_sync">Foninis sinchronizavimas</string>
     <string name="search_in">Ieškoti %1$s</string>
@@ -137,13 +131,10 @@
     <string name="filter_month">Artimiausios 30 dienų</string>
     <string name="filter_no_due">Be galutinio termino</string>
     <string name="filter_later">Vėliau</string>
-    <string name="filter_by_tag">Filtruoti pagal žymę</string>
-    <string name="filter_by_assigned_user">Filtruoti pagal priskirtą naudotoją</string>
-    <string name="filter_by_duedate">Filtruoti pagal galutinio termino datą</string>
 
+    <string name="filter_done_no_filter">Visos</string>
+    <string name="filter_done_done">Užbaigta</string>
     <string name="archived_cards">Archyvuotos kortelės</string>
-    <string name="action_card_dearchive">Atšaukti kortelių archyvavimą</string>
-    <string name="action_archived_cards">Naršyti archyvuotas korteles</string>
     <string name="attachment_already_exists">Priedas jau yra</string>
     <string name="manage_tags">Tvarkyti žymes</string>
     <string name="add_tag">Pridėti žymę</string>
@@ -153,6 +144,7 @@
     <string name="filter_tags_title">Žymės</string>
     <string name="filter_user_title">Naudotojai</string>
     <string name="filter_duedate_title">Galutinis terminas</string>
+    <string name="filter_done_title">Užbaigta</string>
 
     <string name="action_board_dearchive">Atšaukti lentų archyvavimą</string>
     <string name="archived_boards">Archyvuotos lentos</string>
@@ -161,7 +153,6 @@
     <string name="synchronization_failed">Sinchronizacija nepavyko</string>
     <string name="operation_not_yet_supported">Kol kas nepalaikoma</string>
     <string name="maintenance_mode">Serveris yra techninės priežiūros veiksenoje</string>
-    <string name="server_error">Serverio klaida</string>
     <string name="error_dialog_title">O, ne - Kas dabar? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Pabandykite priverstinai uždaryti programą ir vėl paleiskite ją iš naujo. Galbūt buvo nepavyko užmegžti ryšį su „Nextcloud“ programa.</string>
     <string name="error_dialog_tip_clear_storage">Saugyklą galite išvalyti atidarę programos nustatymus ir pasirinkdami Saugykla → Išvalyti saugyklą.</string>
@@ -191,15 +182,11 @@
     <string name="cloning_board">Dubliuojama %1$s…</string>
     <string name="successfully_cloned_board">Sėkmingai dubliuota %1$s</string>
     <string name="widget_stack_title">Sąrašas</string>
-    <string name="widget_filter_title">Filtras</string>
     <string name="project_type_file">Failas</string>
     <string name="projects_title">Projektai</string>
     <string name="simple_move">Perkelti</string>
     <string name="clone_cards">Dubliuoti korteles</string>
     <string name="simple_clone">Dubliuoti</string>
-    <string name="simple_contact">Adresatas</string>
-    <string name="simple_file">Failas</string>
-    <string name="simple_camera">Kamera</string>
     <string name="take_photo">Fotografuoti</string>
     <string name="take_photo_switch_camera">Perjungti kamerą</string>
     <string name="show_all_contacts">Rodyti visus adresatus</string>

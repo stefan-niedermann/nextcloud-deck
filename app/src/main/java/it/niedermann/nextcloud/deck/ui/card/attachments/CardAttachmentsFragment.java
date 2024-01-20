@@ -61,7 +61,6 @@ import id.zelory.compressor.constraint.QualityConstraint;
 import id.zelory.compressor.constraint.ResolutionConstraint;
 import id.zelory.compressor.constraint.SizeConstraint;
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabAttachmentsBinding;
@@ -155,12 +154,20 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                 this.binding.attachmentsList.setVisibility(VISIBLE);
             }
         });
-        galleryItemDecoration = new GalleryItemDecoration(DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.spacer_1qx));
+        galleryItemDecoration = new GalleryItemDecoration(getResources().getDimensionPixelSize(R.dimen.spacer_1qx));
         mBottomSheetBehaviour = BottomSheetBehavior.from(binding.bottomSheetParent);
         mBottomSheetBehaviour.setDraggable(true);
         mBottomSheetBehaviour.setHideable(true);
         mBottomSheetBehaviour.setState(STATE_HIDDEN);
-        mBottomSheetBehaviour.addBottomSheetCallback(new CardAttachmentsBottomsheetBehaviorCallback(requireContext(), backPressedCallback, binding.fab, binding.pickerBackdrop, binding.bottomNavigation, R.color.mdtp_transparent_black, android.R.color.transparent, R.dimen.attachments_bottom_navigation_height));
+        mBottomSheetBehaviour.addBottomSheetCallback(new CardAttachmentsBottomsheetBehaviorCallback(
+                requireContext(),
+                backPressedCallback,
+                binding.fab,
+                binding.pickerBackdrop,
+                binding.bottomNavigation,
+                R.color.bottom_sheet_backdrop,
+                android.R.color.transparent,
+                R.dimen.attachments_bottom_navigation_height));
         binding.pickerBackdrop.setOnClickListener(v -> mBottomSheetBehaviour.setState(STATE_HIDDEN));
 
         final var displayMetrics = getResources().getDisplayMetrics();

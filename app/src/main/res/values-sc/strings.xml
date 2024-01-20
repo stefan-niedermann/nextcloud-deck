@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Serra su calàsciu de navigatzione</string>
     <string name="hint_search_deck">Chirca deck</string>
 
-    <string name="simple_boards">Tabellas</string>
     <string name="simple_add">Agiunghe</string>
     <string name="simple_save">Sarva</string>
     <string name="simple_more">Àteru</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Errore</string>
     <string name="simple_exception">Etzetzione</string>
     <string name="simple_close">Serra</string>
-    <string name="simple_open">Aberi</string>
-    <string name="simple_switch">Càmbia</string>
     <string name="simple_filter">Filtru</string>
-    <string name="simple_overdue">Iscàdidu</string>
-    <string name="simple_clear">Lìmpia</string>
+    <string name="simple_completed">Cumpletadu</string>
+    <string name="simple_reset">Torra a impostare</string>
     <string name="simple_discard">Iscarta</string>
     <string name="simple_update">Agiorna</string>
     <string name="simple_delete">Cantzella</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Seletziona</string>
     <string name="simple_comment">Cummenta</string>
     <string name="simple_disabled">disativadu</string>
-    <string name="simple_copied">Copiadu</string>
     <string name="simple_archive">Archìviu</string>
     <string name="simple_unassigned"> No assignadu</string>
     <string name="hint_error_appeared">Ddoe at àpidu un errore</string>
@@ -99,8 +95,6 @@
     <string name="no_files_attached_to_this_card">Non ddoe at documentos alligongiados a cust\'ischeda.</string>
     <string name="attachments">Alligongiados</string>
     <string name="no_cards">Perun\'ischeda ancora</string>
-    <string name="no_account">Perunu contu cunfiguradu</string>
-    <string name="account_is_getting_imported">Importende su contu</string>
     <string name="not_synced_yet">Non sincronizadu ancora</string>
     <string name="no_lists_yet">Perunu elencu ancora</string>
     <string name="do_you_want_to_save_your_changes">Cheres sarvare is modìficas?</string>
@@ -116,11 +110,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Agiunghe un\'elementu nou a sa lista cun su butone +</string>
     <string name="add_a_new_card_using_the_button">Agiunghe un\'ischeda noa cun su butone +</string>
-    <string name="update_deck">Agiorna s\'aplicatzione web Deck</string>
     <string name="deck_outdated_please_update">Sa versione tua de s\'aplicatzione web Deck est tropu bècia (%1$s). Agiorna pro impreare cust\'aplicatzione Android comente cliente.</string>
     <string name="delete_board_message">Custu at a cantzellare de su totu custa lavagna cun totu is listas e ischedas incluidas.</string>
     <string name="settings_theme_title">Tema</string>
-    <string name="settings_branding_title">Marca</string>
     <string name="settings_compact_title">Modalidade cumpata</string>
     <string name="settings_cover_images_title">Cua imàgines</string>
     <string name="settings_debugging">Registros de debug</string>
@@ -155,7 +147,6 @@
     <string name="title_is_mandatory">Su tìtulu est rechertu</string>
     <string name="provide_at_least_a_title_or_description">Fruni a su mancu unu tìtulu e una descritzione</string>
     <string name="welcome_text">Ti donamus sa benebènnida in %1$s</string>
-    <string name="maintenance_mode_explanation">Su serbidore %1$s immoe est in modalidade de mantenidura. Pro praghere, cuntata a s\'amministradore tuo o proa prus a tardu.</string>
     <string name="share_add_to_card">Agiùnghe a s\'ischeda</string>
     <string name="share_success">Agiuntu%1$s a %2$s in manera curreta</string>
     <string name="add_comment">Agiunghe cummentu</string>
@@ -164,7 +155,6 @@
     <string name="no_boards">Peruna tabella ancora</string>
     <string name="add_a_new_board_using_the_button">Agiunghe una lavagna noa cun su butone +</string>
     <string name="choose_board">Sèbera lavagna</string>
-    <string name="choose_list">Sèbera lista</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Aberi in su navigadore</string>
     <string name="updating_card">Agiornende ischeda...</string>
@@ -180,13 +170,10 @@
     <string name="filter_month">30 dies imbenientes</string>
     <string name="filter_no_due">Peruna data de iscadèntzia</string>
     <string name="filter_later">Luego</string>
-    <string name="filter_by_tag">Filtra pro etichetas</string>
-    <string name="filter_by_assigned_user">Filtra pro utente assignadu</string>
-    <string name="filter_by_duedate">Filtra pro data de iscadèntzia</string>
 
+    <string name="filter_done_no_filter">Totu</string>
+    <string name="filter_done_done">Cumpletadu</string>
     <string name="archived_cards">Ischedas archiviadas</string>
-    <string name="action_card_dearchive">Annulla archiviamentu ischeda</string>
-    <string name="action_archived_cards">Isfògia ischedas archiviadas</string>
     <string name="attachment_already_exists">S\'alligongiadu esistit giai</string>
     <string name="pick_custom_color">Sèbera colore personalizadu</string>
     <string name="manage_tags">Gesti etichetas</string>
@@ -197,6 +184,7 @@
     <string name="filter_tags_title">Etichetas</string>
     <string name="filter_user_title">Utentes</string>
     <string name="filter_duedate_title">Iscadèntzia</string>
+    <string name="filter_done_title">Cumpletadu</string>
 
     <string name="action_board_dearchive">Annulla archiviamentu lavagna</string>
     <string name="archived_boards">Lavagnas archiviadas</string>
@@ -207,7 +195,6 @@
     <string name="error_revoking_ac">Errore boghende s\'atzessu a %1$s</string>
     <string name="error_create_label">Errore creende eticheta%1$s</string>
     <string name="maintenance_mode">Su serbidore est in modalidade de mantenidura</string>
-    <string name="server_error">Errore serbidore</string>
     <string name="error_edit_activity_killed_by_android">Android at agabbadu sa modalidade de modìfica ca rechediat prus risorsas de sistema pro àteras aplicatziones.</string>
 
     <string name="error_dialog_title">Oh no - E immoe? 🙁</string>
@@ -270,10 +257,8 @@
     <string name="card_does_not_yet_exist">Tèssera no esistit in Deck</string>
 
     <string name="widget_stack_title">Lista</string>
-    <string name="widget_filter_title">Filtru</string>
     <string name="widget_stack_header_icon">Icona intestatzione widget</string>
     <string name="widget_placeholder_icon">Icona pro marcare su logu Widget</string>
-    <string name="select_stack">Seletziona lista</string>
     <string name="project_type_deck_board">Tabella in Deck</string>
     <string name="project_type_deck_card">Ischeda in Deck</string>
     <string name="project_type_file">Documentu</string>
@@ -291,9 +276,6 @@
     <string name="simple_clone">Clona</string>
     <string name="user_avatar">Avatar de s\'utente</string>
     <string name="simple_unassign">Disassigna</string>
-    <string name="simple_contact">Cuntata</string>
-    <string name="simple_file">Archìviu</string>
-    <string name="simple_camera">Fotocàmera</string>
     <string name="take_photo">Tira una foto</string>
     <string name="take_photo_switch_camera">Càmbia fotocàmera</string>
     <string name="take_photo_toggle_torch">Ativa sa tortza</string>

@@ -1,7 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">פתיחת מגירת ניווט</string>
     <string name="navigation_drawer_close">סגירת מגירת ניווט</string>
-    <string name="simple_boards">לוחות</string>
     <string name="simple_add">הוספה</string>
     <string name="simple_save">שמור</string>
     <string name="simple_more">עוד</string>
@@ -12,11 +11,9 @@
     <string name="simple_error">שגיאה</string>
     <string name="simple_exception">חריגה</string>
     <string name="simple_close">סגירה</string>
-    <string name="simple_open">פתיחה</string>
-    <string name="simple_switch">החלפה</string>
     <string name="simple_filter">מסנן</string>
-    <string name="simple_overdue">באיחור</string>
-    <string name="simple_clear">פינוי</string>
+    <string name="simple_completed">הושלם</string>
+    <string name="simple_reset">איפוס</string>
     <string name="simple_discard">התעלמות</string>
     <string name="simple_update">עדכון</string>
     <string name="simple_delete">מחיקה</string>
@@ -28,7 +25,6 @@
     <string name="simple_select">בחירה</string>
     <string name="simple_comment">הערה</string>
     <string name="simple_disabled">מושבת</string>
-    <string name="simple_copied">הועתק</string>
     <string name="simple_archive">לארכיון</string>
     <string name="simple_unassigned">לא הוקצה</string>
     <string name="hint_error_appeared">הופיעה שגיאה</string>
@@ -97,8 +93,6 @@
     <string name="no_files_attached_to_this_card">לא מצורפים קבצים לכרטיס הזה.</string>
     <string name="attachments">קבצים מצורפים</string>
     <string name="no_cards">אין כרטיסים עדיין</string>
-    <string name="no_account">לא מוגדר חשבון</string>
-    <string name="account_is_getting_imported">החשבון מיובא</string>
     <string name="not_synced_yet">לא מסונכרן עדיין</string>
     <string name="no_lists_yet">אין רשימות עדיין</string>
     <string name="do_you_want_to_save_your_changes">לשמור את השינויים שלך?</string>
@@ -118,7 +112,6 @@
     <string name="add_a_new_card_using_the_button">ניתן להוסיף כרטיס חדש עם הכפתור +</string>
     <string name="delete_board_message">פעולה זו תמחק את הלוח הזה על כל רשימותיו וכרטיסיו.</string>
     <string name="settings_theme_title">ערכת עיצוב</string>
-    <string name="settings_branding_title">מיתוג</string>
     <string name="settings_background_sync">סנכרון ברקע</string>
     <string name="search_in">חיפוש תחת %1$s</string>
     <string name="pref_value_wifi_and_mobile">עדכון דרך רשת אלחוטית ונתונים סלולריים</string>
@@ -145,7 +138,6 @@
     <string name="action_card_move_title">העברת %1$s</string>
     <string name="provide_at_least_a_title_or_description">נא לספק לפחות כותרת או תיאור</string>
     <string name="welcome_text">ברוך בואך אל %1$s</string>
-    <string name="maintenance_mode_explanation">השרת %1$s נמצא במצב תחזוקה. נא ליצור קשר עם ההנהלה או לנסות מאוחר יותר.</string>
     <string name="share_add_to_card">הוספה לכרטיס</string>
     <string name="share_success">%1$s נוסף בהצלחה אל %2$s</string>
     <string name="add_comment">הוספת הערה</string>
@@ -154,7 +146,6 @@
     <string name="no_boards">אין לוחות עדיין</string>
     <string name="add_a_new_board_using_the_button">ניתן להוסיף לוח חדש עם הכפתור +</string>
     <string name="choose_board">נא לבחור לוח</string>
-    <string name="choose_list">נא לבחור רשימה</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">פתיחה בדפדפן</string>
     <string name="updating_card">הכרטיס מעודכן…</string>
@@ -170,13 +161,10 @@
     <string name="filter_month">ב־30 הימים הבאים</string>
     <string name="filter_no_due">ללא תאריך יעד</string>
     <string name="filter_later">אחר כך</string>
-    <string name="filter_by_tag">סינון לפי תגית</string>
-    <string name="filter_by_assigned_user">סינון לפי משתמש מוקצה</string>
-    <string name="filter_by_duedate">סינון לפי תאריך יעד</string>
 
+    <string name="filter_done_no_filter">הכול</string>
+    <string name="filter_done_done">הושלם</string>
     <string name="archived_cards">כרטיסים בארכיון</string>
-    <string name="action_card_dearchive">ביטול העברת כרטיס לארכיון</string>
-    <string name="action_archived_cards">עיון בכרטיסים בארכיון</string>
     <string name="attachment_already_exists">הקובץ לצירוף כבר קיים</string>
     <string name="pick_custom_color">נא לבחור צבע מותאם אישית</string>
     <string name="manage_tags">ניהול תגיות</string>
@@ -187,6 +175,7 @@
     <string name="filter_tags_title">תגיות</string>
     <string name="filter_user_title">משתמשים</string>
     <string name="filter_duedate_title">תאריך יעד</string>
+    <string name="filter_done_title">הושלם</string>
 
     <string name="action_board_dearchive">ביטול העברת הלוח לארכיון</string>
     <string name="archived_boards">לוחות שנשמרו בארכיון</string>
@@ -196,7 +185,6 @@
     <string name="operation_not_yet_supported">אין תמיכה עדיין</string>
     <string name="error_revoking_ac">שגיאה בעת שלילת הגישה של %1$s</string>
     <string name="error_create_label">שגיאה ביצירת התווית %1$s</string>
-    <string name="server_error">שגיאת שרת</string>
     <string name="error_dialog_title">שוד ושבר - מה עכשיו? 🙁</string>
     <string name="error_dialog_tip_files_delete_storage">אם כפיית עצירה לא עוזרת, ניתן לנסות לרוקן את האחסון של שני היישומונים.</string>
     <string name="error_dialog_check_maintenance">נא לבדוק שעותק ה־Nextcloud שלך אינו במצב תחזוקה כרגע.</string>
@@ -215,16 +203,12 @@
     <string name="simple_report">דיווח</string>
     <string name="clone_board">שכפול לוח</string>
     <string name="widget_stack_title">רשימה</string>
-    <string name="widget_filter_title">מסנן</string>
     <string name="project_type_deck_board">לוח חסיפה</string>
     <string name="project_type_deck_card">כרטיס בחסיפה</string>
     <string name="project_type_file">קובץ</string>
     <string name="projects_title">מיזמים</string>
     <string name="simple_move">העברה</string>
     <string name="cannot_upload_files_without_permission">לא ניתן להעלות קבצים ללא הרשאות</string>
-    <string name="simple_contact">איש/אשת קשר</string>
-    <string name="simple_file">קובץ</string>
-    <string name="simple_camera">מצלמה</string>
     <string name="recent">אחרונים</string>
     <string name="contacts">אנשי קשר</string>
     <string name="downloads">הורדות</string>

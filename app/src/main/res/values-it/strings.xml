@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Chiudi il cassetto di navigazione</string>
     <string name="hint_search_deck">Cerca Deck</string>
 
-    <string name="simple_boards">Lavagne</string>
     <string name="simple_add">Aggiungi</string>
     <string name="simple_save">Salva</string>
     <string name="simple_more">Altro</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Errore</string>
     <string name="simple_exception">Eccezione</string>
     <string name="simple_close">Chiudi</string>
-    <string name="simple_open">Apri</string>
-    <string name="simple_switch">Cambia</string>
     <string name="simple_filter">Filtro</string>
-    <string name="simple_overdue">Scadenza</string>
-    <string name="simple_clear">Pulisci</string>
+    <string name="simple_completed">Completato</string>
+    <string name="simple_reset">Ripristina</string>
     <string name="simple_discard">Scarta</string>
     <string name="simple_update">Aggiorna</string>
     <string name="simple_delete">Elimina</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Seleziona</string>
     <string name="simple_comment">Commento</string>
     <string name="simple_disabled">disabilitato</string>
-    <string name="simple_copied">Copiato</string>
     <string name="simple_archive">Archivio</string>
     <string name="simple_unassigned">Non assegnato</string>
     <string name="hint_error_appeared">Si è verificato un errore</string>
@@ -90,6 +86,7 @@
     <string name="add_board">Aggiungi lavagna</string>
 
     <string name="label_clear_due_date">Cancella la scadenza</string>
+    <string name="label_clear_done">Non completato</string>
     <string name="label_add">Aggiungi %1$s</string>
 
     <string name="card_edit_details">Dettagli</string>
@@ -99,9 +96,7 @@
     <string name="no_files_attached_to_this_card">Non ci sono file allegati a questa scheda.</string>
     <string name="attachments">Allegati</string>
     <string name="no_cards">Ancora nessuna scheda</string>
-    <string name="no_account">Nessun account configurato</string>
     <string name="account_already_added">L\'account %1$s è già stato aggiunto</string>
-    <string name="account_is_getting_imported">L\'account è in fase di importazione</string>
     <string name="not_synced_yet">Non ancora sincronizzata</string>
     <string name="no_lists_yet">Ancora nessun elenco</string>
     <string name="do_you_want_to_save_your_changes">Vuoi salvare le tue modifiche?</string>
@@ -119,11 +114,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Aggiungi un nuovo elenco usando il pulsante +</string>
     <string name="add_a_new_card_using_the_button">Aggiungi una nuova scheda utilizzando il pulsante +</string>
-    <string name="update_deck">Aggiorna l\'applicazione web Deck</string>
     <string name="deck_outdated_please_update">La tua versione dell\'applicazione web Deck è troppo datata (%1$s). Aggiorna per utilizzare questa applicazione Android come client.</string>
     <string name="delete_board_message">Questo eliminerà definitivamente questa lavagna inclusi tutti gli elenchi e le schede.</string>
     <string name="settings_theme_title">Tema</string>
-    <string name="settings_branding_title">Marchio</string>
     <string name="settings_compact_title">Modalità compatta</string>
     <string name="settings_cover_images_title">Immagini di copertina</string>
     <string name="settings_debugging">Registri di debug</string>
@@ -158,7 +151,7 @@
     <string name="title_is_mandatory">Il titolo è richiesto</string>
     <string name="provide_at_least_a_title_or_description">Fornisci almeno un titolo e una descrizione</string>
     <string name="welcome_text">Benvenuto in %1$s</string>
-    <string name="maintenance_mode_explanation">Il server %1$s attualmente è in manutenzione. Contatta l\'amministratore o riprova più tardi.</string>
+    <string name="welcome_text_further_accounts">Aggiungi un altro account</string>
     <string name="share_add_to_card">Aggiungi a scheda</string>
     <string name="share_success">Aggiunto %1$s a %2$s correttamente</string>
     <string name="add_comment">Aggiungi commento</string>
@@ -167,7 +160,6 @@
     <string name="no_boards">Ancora nessuna lavagna</string>
     <string name="add_a_new_board_using_the_button">Aggiungi una nuova lavagna utilizzando il pulsante +</string>
     <string name="choose_board">Scegli lavagna</string>
-    <string name="choose_list">Scegli elenco</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Apri nel browser</string>
     <string name="updating_card">Aggiornamento scheda...</string>
@@ -183,13 +175,12 @@
     <string name="filter_month">30 giorni successivi</string>
     <string name="filter_no_due">Nessuna data di scadenza</string>
     <string name="filter_later">Più tardi</string>
-    <string name="filter_by_tag">Filtra per etichette</string>
-    <string name="filter_by_assigned_user">Filtra per utente assegnato</string>
-    <string name="filter_by_duedate">Filtra per data di scadenza</string>
+
+    <string name="filter_done_no_filter">Tutti</string>
+    <string name="filter_done_done">Completato</string>
+    <string name="filter_done_undone">Non completato</string>
 
     <string name="archived_cards">Schede archiviate</string>
-    <string name="action_card_dearchive">Annulla archiviazione della scheda</string>
-    <string name="action_archived_cards">Sfoglia le schede archiviate</string>
     <string name="attachment_already_exists">L\'allegato esiste già</string>
     <string name="pick_custom_color">Scegli colore personalizzato</string>
     <string name="manage_tags">Gestisci etichette</string>
@@ -200,6 +191,7 @@
     <string name="filter_tags_title">Etichette</string>
     <string name="filter_user_title">Utenti</string>
     <string name="filter_duedate_title">Data di scadenza</string>
+    <string name="filter_done_title">Completato</string>
 
     <string name="action_board_dearchive">Annulla archiviazione della lavagna</string>
     <string name="archived_boards">Lavagne archiviate</string>
@@ -210,7 +202,6 @@
     <string name="error_revoking_ac">Errore durante la revoca dell\'accesso a %1$s</string>
     <string name="error_create_label">Errore durante la creazione dell\'etichetta %1$s</string>
     <string name="maintenance_mode">Il server è in modalità di manutenzione</string>
-    <string name="server_error">Errore del server</string>
     <string name="error_edit_activity_killed_by_android">Android ha terminato la modalità di modifica poiché richiedeva più risorse di sistema per le altre applicazioni.</string>
 
     <string name="error_dialog_title">Oh no - E adesso? 🙁</string>
@@ -261,6 +252,7 @@
     <string name="manage_list">Gestisci elenco</string>
     <string name="simple_reply">Rispondi</string>
     <string name="append_text_to_description">Aggiungi alla descrizione</string>
+    <string name="append_text_as_task">Accoda alla descrizione come attività</string>
     <string name="add_text_as_comment">Aggiungi come commento</string>
     <string name="progress_count">%1$d di %2$d</string>
     <plurals name="progress_error_count">
@@ -278,10 +270,8 @@
     <string name="card_does_not_yet_exist">La scheda non esiste ancora in Deck</string>
 
     <string name="widget_stack_title">Elenco</string>
-    <string name="widget_filter_title">Filtro</string>
     <string name="widget_stack_header_icon">Icona intestazione widget</string>
     <string name="widget_placeholder_icon">Icona segnaposto dei widget</string>
-    <string name="select_stack">Seleziona elenco</string>
     <string name="project_type_deck_board">Lavagna di Deck</string>
     <string name="project_type_deck_card">Scheda di Deck</string>
     <string name="project_type_file">File</string>
@@ -300,9 +290,6 @@
     <string name="simple_clone">Clona</string>
     <string name="user_avatar">Avatar dell\'utente</string>
     <string name="simple_unassign">Rimuovi assegnazione</string>
-    <string name="simple_contact">Contatto</string>
-    <string name="simple_file">File</string>
-    <string name="simple_camera">Fotocamera</string>
     <string name="take_photo">Scatta una foto</string>
     <string name="take_photo_switch_camera">Cambia fotocamera</string>
     <string name="take_photo_toggle_torch">Attiva la torcia</string>
@@ -336,5 +323,8 @@
     <string name="card_outdated">Il contenuto di questa scheda potrebbe essere obsoleto.</string>
     <string name="show_error">Mostra errore</string>
     <string name="push_notification_link_empty">A causa di un problema noto nella web app di Deck, sfortunatamente non possiamo mostrare questa scheda. Per altre informazioni vedi: %1$s</string>
+    <string name="enter_search_term_title">Inserisci termine di ricerca</string>
+    <string name="enter_search_term_description">Inserisci il termine di ricerca per trovare schede in questa lavagna</string>
     <string name="no_search_results_title">Nessun risultato di ricerca</string>
-    </resources>
+    <string name="no_search_results_description">Non abbiamo trovato alcun risultato per il termine di ricerca scelto</string>
+</resources>

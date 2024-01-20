@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Gezinme çekmecesini kapat</string>
     <string name="hint_search_deck">Tahta ara</string>
 
-    <string name="simple_boards">Kartlar</string>
     <string name="simple_add">Ekle</string>
     <string name="simple_save">Kaydet</string>
     <string name="simple_more">Diğer</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Hata</string>
     <string name="simple_exception">İstisna</string>
     <string name="simple_close">Kapat</string>
-    <string name="simple_open">Aç</string>
-    <string name="simple_switch">Değiştir</string>
     <string name="simple_filter">Süzgeç</string>
-    <string name="simple_overdue">Zamanı geçmiş</string>
-    <string name="simple_clear">Temizle</string>
+    <string name="simple_completed">Tamamlanmış</string>
+    <string name="simple_reset">Sıfırla</string>
     <string name="simple_discard">Yok say</string>
     <string name="simple_update">Güncelle</string>
     <string name="simple_delete">Sil</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Seç</string>
     <string name="simple_comment">Açıklama</string>
     <string name="simple_disabled">devre dışı</string>
-    <string name="simple_copied">Kopyalandı</string>
     <string name="simple_archive">Arşivle</string>
     <string name="simple_unassigned">Atanmamış</string>
     <string name="hint_error_appeared">Bir sorun çıktı</string>
@@ -90,6 +86,7 @@
     <string name="add_board">Pano ekle</string>
 
     <string name="label_clear_due_date">Bitiş tarihini temizle</string>
+    <string name="label_clear_done">Tamamlanmamış</string>
     <string name="label_add">%1$s ekle</string>
 
     <string name="card_edit_details">Ayrıntılar</string>
@@ -99,9 +96,7 @@
     <string name="no_files_attached_to_this_card">Bu karta eklenmiş bir dosya yok.</string>
     <string name="attachments">Ek dosyalar</string>
     <string name="no_cards">Henüz bir kart yok</string>
-    <string name="no_account">Henüz bir hesap yapılandırılmamış</string>
     <string name="account_already_added">%1$s hesabı zaten eklenmiş</string>
-    <string name="account_is_getting_imported">Hesap içe aktarılıyor</string>
     <string name="not_synced_yet">Henüz eşitlenmemiş</string>
     <string name="no_lists_yet">Henüz bir liste yok</string>
     <string name="do_you_want_to_save_your_changes">Değişiklikleri kaydetmek ister misiniz?</string>
@@ -117,11 +112,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">+ düğmesini kullanarak yeni bir liste ekleyebilirsiniz</string>
     <string name="add_a_new_card_using_the_button">+ düğmesini kullanarak yeni bir kart ekleyebilirsiniz</string>
-    <string name="update_deck">Tahta internet uygulamasını güncelle</string>
     <string name="deck_outdated_please_update">Tahta internet uygulaması sürümünüz çok eski (%1$s). İstemci olarak kullanabilmek için bu Android uygulamasını güncelleyin.</string>
     <string name="delete_board_message">Bu işlem içindeki tüm liste ve kartlarla birlikte bu panoyu silecek.</string>
     <string name="settings_theme_title">Tema</string>
-    <string name="settings_branding_title">Markalama</string>
     <string name="settings_compact_title">Sıkışık kip</string>
     <string name="settings_cover_images_title">Kapak görselleri</string>
     <string name="settings_debugging">Hata ayıklama günlükleri</string>
@@ -157,7 +150,6 @@
     <string name="provide_at_least_a_title_or_description">Lütfen en azından bir başlık ya da açıklama yazın</string>
     <string name="welcome_text">%1$s panonuza hoş geldiniz</string>
     <string name="welcome_text_further_accounts">Başka bir hesap ekle</string>
-    <string name="maintenance_mode_explanation">%1$s sunucusu şu anda bakım kipinde. Lütfen yöneticinizle görüşün ya da bir süre sonra yeniden deneyin.</string>
     <string name="share_add_to_card">Karta ekle</string>
     <string name="share_success">%1$s, %2$s üzerine eklendi</string>
     <string name="add_comment">Yorum ekle</string>
@@ -166,7 +158,6 @@
     <string name="no_boards">Henüz bir pano yok</string>
     <string name="add_a_new_board_using_the_button">+ düğmesini kullanarak yeni bir pano ekleyebilirsiniz</string>
     <string name="choose_board">Pano seçin</string>
-    <string name="choose_list">Liste seçin</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Tarayıcıda aç</string>
     <string name="updating_card">Kart güncelleniyor…</string>
@@ -182,13 +173,12 @@
     <string name="filter_month">Gelecek 30 gün</string>
     <string name="filter_no_due">Bitiş tarihi yok</string>
     <string name="filter_later">Sonra</string>
-    <string name="filter_by_tag">Etikete göre süz</string>
-    <string name="filter_by_assigned_user">Atanmış kullanıcıya göre süz</string>
-    <string name="filter_by_duedate">Bitiş tarihine göre süz</string>
+
+    <string name="filter_done_no_filter">Tümü</string>
+    <string name="filter_done_done">Tamamlanmış</string>
+    <string name="filter_done_undone">Tamamlanmamış</string>
 
     <string name="archived_cards">Arşivlenmiş kartlar</string>
-    <string name="action_card_dearchive">Kart arşivlemeyi geri al</string>
-    <string name="action_archived_cards">Arşivlenmiş kartlara göz at</string>
     <string name="attachment_already_exists">Ek dosya zaten var</string>
     <string name="pick_custom_color">Özel renk seçin</string>
     <string name="manage_tags">Etiket yönetimi</string>
@@ -199,6 +189,7 @@
     <string name="filter_tags_title">Etiketler</string>
     <string name="filter_user_title">Kullanıcılar</string>
     <string name="filter_duedate_title">Bitiş tarihi</string>
+    <string name="filter_done_title">Tamamlanmış</string>
 
     <string name="action_board_dearchive">Pano arşivlemeyi geri al</string>
     <string name="archived_boards">Arşivlenmiş panolar</string>
@@ -209,7 +200,6 @@
     <string name="error_revoking_ac">%1$s için erişim izni geri alınırken sorun çıktı</string>
     <string name="error_create_label">%1$s etiketi eklenirken sorun çıktı</string>
     <string name="maintenance_mode">Sunucu bakım kipinde</string>
-    <string name="server_error">Sunucu sorunu</string>
     <string name="error_edit_activity_killed_by_android">Sistem kaynakları başka uygulamalar için gerektiğinden Android düzenleme kipini kapattı.</string>
 
     <string name="error_dialog_title">Hayıır. Şimdi ne olacak? 🙁</string>
@@ -276,10 +266,8 @@
     <string name="card_does_not_yet_exist">Kart henüz panoda bulunmuyor</string>
 
     <string name="widget_stack_title">Listele</string>
-    <string name="widget_filter_title">Süzgeç</string>
     <string name="widget_stack_header_icon">Pano bileşeni başlık simgesi</string>
     <string name="widget_placeholder_icon">Pano bileşeni yer belirteci simgesi</string>
-    <string name="select_stack">Liste seçin</string>
     <string name="project_type_deck_board">Tahta panosu</string>
     <string name="project_type_deck_card">Tahta kartı</string>
     <string name="project_type_file">Dosya</string>
@@ -297,9 +285,6 @@
     <string name="simple_clone">Kopyala</string>
     <string name="user_avatar">Kullanıcı avatarı</string>
     <string name="simple_unassign">Atamayı kaldır</string>
-    <string name="simple_contact">Kişi</string>
-    <string name="simple_file">Dosya</string>
-    <string name="simple_camera">Kamera</string>
     <string name="take_photo">Bir fotoğraf çekin</string>
     <string name="take_photo_switch_camera">Kamerayı değiştir</string>
     <string name="take_photo_toggle_torch">El fenerini aç/kapat</string>

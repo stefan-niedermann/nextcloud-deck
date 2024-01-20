@@ -28,7 +28,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.test.core.app.ApplicationProvider;
 
 import com.google.common.util.concurrent.MoreExecutors;
-import com.nextcloud.android.sso.api.ParsedResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import org.junit.Before;
@@ -211,8 +210,8 @@ public class SyncRepositoryTest {
         final var callback = mock(IResponseCallback.class);
         when(dataBaseAdapter.createAccountDirectly(any(Account.class))).thenReturn(account);
         doAnswer(invocation -> {
-            ((ResponseCallback<ParsedResponse<List<FullBoard>>>) invocation.getArgument(0))
-                    .onResponse(ParsedResponse.of(Collections.emptyList()));
+            ((ResponseCallback<List<FullBoard>>) invocation.getArgument(0))
+                    .onResponse(Collections.emptyList());
             return null;
         }).when(serverAdapter).getBoards(any());
 
@@ -228,8 +227,8 @@ public class SyncRepositoryTest {
         final var callback = mock(IResponseCallback.class);
         when(dataBaseAdapter.createAccountDirectly(any(Account.class))).thenReturn(account);
         doAnswer(invocation -> {
-            ((ResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(0))
-                    .onError(new NextcloudHttpRequestFailedException(404, new RuntimeException()));
+            ((ResponseCallback<Capabilities>) invocation.getArgument(0))
+                    .onError(new NextcloudHttpRequestFailedException(ApplicationProvider.getApplicationContext(), 404, new RuntimeException()));
             return null;
         }).when(serverAdapter).getBoards(any());
 
@@ -269,13 +268,9 @@ public class SyncRepositoryTest {
     public void testRefreshCapabilities() throws ExecutionException, InterruptedException {
         final var account = new Account(1337L, "Test", "Peter", "example.com");
         account.setEtag("This-Is-The-Old_ETag");
-        //noinspection unchecked
-        final var mockedResponse = mock(ParsedResponse.class);
         final var serverResponse = new Capabilities();
         serverResponse.setDeckVersion(Version.of("1.0.0"));
-        when(mockedResponse.getResponse()).thenReturn(serverResponse);
-        Headers headers = Headers.of("ETag", "New-ETag");
-//        when(mockedResponse.getHeaders()).thenReturn(Map.of("ETag", "New-ETag"));
+        final var headers = Headers.of("ETag", "New-ETag");
         when(dataBaseAdapter.getAccountByIdDirectly(anyLong())).thenReturn(account);
 
         // Happy path
@@ -309,8 +304,8 @@ public class SyncRepositoryTest {
         account.setMaintenanceEnabled(true);
         doAnswer(invocation -> {
             //noinspection unchecked
-            ((ResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
-                    .onError(new NextcloudHttpRequestFailedException(304, new RuntimeException()));
+            ((ResponseCallback<Capabilities>) invocation.getArgument(1))
+                    .onError(new NextcloudHttpRequestFailedException(ApplicationProvider.getApplicationContext(), 304, new RuntimeException()));
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
@@ -335,8 +330,8 @@ public class SyncRepositoryTest {
 
         doAnswer(invocation -> {
             //noinspection unchecked
-            ((ResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
-                    .onError(new NextcloudHttpRequestFailedException(500, new RuntimeException()));
+            ((ResponseCallback<Capabilities>) invocation.getArgument(1))
+                    .onError(new NextcloudHttpRequestFailedException(ApplicationProvider.getApplicationContext(), 500, new RuntimeException()));
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
@@ -358,8 +353,8 @@ public class SyncRepositoryTest {
 
         doAnswer(invocation -> {
             //noinspection unchecked
-            ((ResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
-                    .onError(new NextcloudHttpRequestFailedException(503, new RuntimeException("{\"ocs\": {\"meta\": {\"statuscode\": 503}, \"data\": {\"version\": {\"major\": 20, \"minor\": 0, \"patch\": 1}}}}")));
+            ((ResponseCallback<Capabilities>) invocation.getArgument(1))
+                    .onError(new NextcloudHttpRequestFailedException(ApplicationProvider.getApplicationContext(), 503, new RuntimeException("{\"ocs\": {\"meta\": {\"statuscode\": 503}, \"data\": {\"version\": {\"major\": 20, \"minor\": 0, \"patch\": 1}}}}")));
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
@@ -380,7 +375,7 @@ public class SyncRepositoryTest {
 
         doAnswer(invocation -> {
             //noinspection unchecked
-            ((ResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
+            ((ResponseCallback<Capabilities>) invocation.getArgument(1))
                     .onError(new NetworkErrorException());
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());

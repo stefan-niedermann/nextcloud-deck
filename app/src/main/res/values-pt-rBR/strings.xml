@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Fechar a gaveta de navegação</string>
     <string name="hint_search_deck">Deck de pesquisa </string>
 
-    <string name="simple_boards">Quadros</string>
     <string name="simple_add">Adicionar</string>
     <string name="simple_save">Salvar</string>
     <string name="simple_more">Mais</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Erro</string>
     <string name="simple_exception">Exceção</string>
     <string name="simple_close">Fechar</string>
-    <string name="simple_open">Abrir</string>
-    <string name="simple_switch">Alterar</string>
     <string name="simple_filter">Filtro</string>
-    <string name="simple_overdue">Vencidos</string>
-    <string name="simple_clear">Limpar</string>
+    <string name="simple_completed">Finalizado</string>
+    <string name="simple_reset">Redefinir</string>
     <string name="simple_discard">Descartar</string>
     <string name="simple_update">Atualizar</string>
     <string name="simple_delete">Excluir</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Selecionar</string>
     <string name="simple_comment">Comentário</string>
     <string name="simple_disabled">desativado</string>
-    <string name="simple_copied">Copiado</string>
     <string name="simple_archive">Arquivados</string>
     <string name="simple_unassigned">Não atribuído</string>
     <string name="hint_error_appeared">Um erro apareceu </string>
@@ -90,6 +86,7 @@
     <string name="add_board">Adicionar painel</string>
 
     <string name="label_clear_due_date">Remover data de vencimento</string>
+    <string name="label_clear_done">Não concluída</string>
     <string name="label_add">Adicionar %1$s</string>
 
     <string name="card_edit_details">Detalhes</string>
@@ -99,9 +96,7 @@
     <string name="no_files_attached_to_this_card">Não há arquivos anexados a este cartão.</string>
     <string name="attachments">Anexos</string>
     <string name="no_cards">Nenhum cartão ainda</string>
-    <string name="no_account">Nenhuma conta configurada</string>
     <string name="account_already_added">The account %1$s has already been added</string>
-    <string name="account_is_getting_imported">Conta está sendo importada</string>
     <string name="not_synced_yet">Ainda não sincronizado</string>
     <string name="no_lists_yet">Ainda sem listas</string>
     <string name="do_you_want_to_save_your_changes">Deseja salvar suas alterações?</string>
@@ -119,11 +114,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Adicione uma nova lista usando o botão +</string>
     <string name="add_a_new_card_using_the_button">Adicionar um novo cartão usando o botão +</string>
-    <string name="update_deck">Atualize o aplicativo web Deck</string>
     <string name="deck_outdated_please_update">A versão do seu aplicativo web Deck é muito antiga (%1$s). Atualize-a para usar este aplicativo Android como cliente.</string>
     <string name="delete_board_message">Isso excluirá permanentemente este painel incluindo listas e cartões.</string>
     <string name="settings_theme_title">Tema</string>
-    <string name="settings_branding_title">Marcação</string>
     <string name="settings_compact_title">Modo compacto</string>
     <string name="settings_cover_images_title">Imagens de capa</string>
     <string name="settings_debugging">Logs de debug</string>
@@ -159,7 +152,6 @@
     <string name="provide_at_least_a_title_or_description">Forneça ao menos um título ou descrição</string>
     <string name="welcome_text">Bem-vindo ao %1$s</string>
     <string name="welcome_text_further_accounts">Add another account</string>
-    <string name="maintenance_mode_explanation">O servidor %1$s está no modo de manutenção. Entre em contato com o administrador ou tente novamente mais tarde.</string>
     <string name="share_add_to_card">Adicionar ao cartão</string>
     <string name="share_success">%1$s adicionado com sucesso à %2$s</string>
     <string name="add_comment">Adicionar comentário</string>
@@ -168,7 +160,6 @@
     <string name="no_boards">Sem painéis ainda</string>
     <string name="add_a_new_board_using_the_button">Adicionar um novo painel usando o botão +</string>
     <string name="choose_board">Escolher painel</string>
-    <string name="choose_list">Escolher lista</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Abrir no navegador</string>
     <string name="updating_card">Atualizando cartão...</string>
@@ -184,13 +175,12 @@
     <string name="filter_month">Próximos 30 dias</string>
     <string name="filter_no_due">Sem data de vencimento</string>
     <string name="filter_later">Mais tarde</string>
-    <string name="filter_by_tag">Filtrar por etiqueta</string>
-    <string name="filter_by_assigned_user">Filtrar por usuário atribuído</string>
-    <string name="filter_by_duedate">Filtrar por data de vencimento</string>
+
+    <string name="filter_done_no_filter">Tudos</string>
+    <string name="filter_done_done">Finalizado</string>
+    <string name="filter_done_undone">Não concluída</string>
 
     <string name="archived_cards">Cartões arquivados</string>
-    <string name="action_card_dearchive">Desfazer arquivamento do cartão</string>
-    <string name="action_archived_cards">Navegar pelos cartões arquivados</string>
     <string name="attachment_already_exists">O anexo já existe</string>
     <string name="pick_custom_color">Escolher cor personalizada</string>
     <string name="manage_tags">Gerenciar etiquetas</string>
@@ -201,6 +191,7 @@
     <string name="filter_tags_title">Etiquetas</string>
     <string name="filter_user_title">Usuários</string>
     <string name="filter_duedate_title">Data de vencimento</string>
+    <string name="filter_done_title">Finalizado</string>
 
     <string name="action_board_dearchive">Desfazer arquivamento do painel</string>
     <string name="archived_boards">Painéis arquivados</string>
@@ -211,7 +202,6 @@
     <string name="error_revoking_ac">Ocorreu um erro ao revogar o acesso para %1$s</string>
     <string name="error_create_label">Erro ao criar o rótulo %1$s</string>
     <string name="maintenance_mode">O servidor está em modo de manutenção </string>
-    <string name="server_error">Erro no servidor</string>
     <string name="error_edit_activity_killed_by_android">O Android terminou o modo de edição porque precisava de mais recursos do sistema para outros aplicativos.</string>
 
     <string name="error_dialog_title">Oh não - E agora? 🙁</string>
@@ -279,10 +269,8 @@
     <string name="card_does_not_yet_exist">O cartão ainda não existe no Deck</string>
 
     <string name="widget_stack_title">Lista</string>
-    <string name="widget_filter_title">Filtrar</string>
     <string name="widget_stack_header_icon">Ícone do cabeçalho do widget</string>
     <string name="widget_placeholder_icon">Ícone do marcador de posição do widget</string>
-    <string name="select_stack">Selecionar lista</string>
     <string name="project_type_deck_board">Painel de deck</string>
     <string name="project_type_deck_card">Cartão de deck</string>
     <string name="project_type_file">Arquivo</string>
@@ -301,9 +289,6 @@
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Avatar do usuário</string>
     <string name="simple_unassign">Desatribuir</string>
-    <string name="simple_contact">Contato</string>
-    <string name="simple_file">Arquivo</string>
-    <string name="simple_camera">Câmera</string>
     <string name="take_photo">Tire uma foto</string>
     <string name="take_photo_switch_camera">Trocar câmera</string>
     <string name="take_photo_toggle_torch">Alternar a lanterna</string>

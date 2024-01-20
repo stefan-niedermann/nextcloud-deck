@@ -11,7 +11,6 @@ import com.google.android.flexbox.FlexboxLayout;
 import java.util.LinkedList;
 import java.util.List;
 
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Label;
@@ -26,7 +25,7 @@ public abstract class LabelLayout extends FlexboxLayout {
 
     public LabelLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.gutter = DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1hx);
+        this.gutter = context.getResources().getDimensionPixelSize(R.dimen.spacer_1hx);
     }
 
     /**

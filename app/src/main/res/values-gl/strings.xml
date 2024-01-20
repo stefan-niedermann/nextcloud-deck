@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Pechar o caixón de navegación</string>
     <string name="hint_search_deck">Buscar na Gabeta</string>
 
-    <string name="simple_boards">Taboleiros</string>
     <string name="simple_add">Engadir</string>
     <string name="simple_save">Gardar</string>
     <string name="simple_more">Máis</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Erro</string>
     <string name="simple_exception">Excepción</string>
     <string name="simple_close">Pechar</string>
-    <string name="simple_open">Abrir</string>
-    <string name="simple_switch">Cambiar</string>
     <string name="simple_filter">Filtro</string>
-    <string name="simple_overdue">Caducado</string>
-    <string name="simple_clear">Limpar</string>
+    <string name="simple_completed">Completado</string>
+    <string name="simple_reset">Restabelecer</string>
     <string name="simple_discard">Desbortar</string>
     <string name="simple_update">Actualizar</string>
     <string name="simple_delete">Eliminar</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Seleccionar</string>
     <string name="simple_comment">Comentario</string>
     <string name="simple_disabled">desactivado</string>
-    <string name="simple_copied">Copiada</string>
     <string name="simple_archive">Arquivar</string>
     <string name="simple_unassigned">Sen asignar</string>
     <string name="hint_error_appeared">Produciuse un erro</string>
@@ -90,6 +86,7 @@
     <string name="add_board">Engadir taboleiro</string>
 
     <string name="label_clear_due_date">Limpar a data de caducidade</string>
+    <string name="label_clear_done">Sen completar</string>
     <string name="label_add">Engadir %1$s</string>
 
     <string name="card_edit_details">Detalles</string>
@@ -99,9 +96,7 @@
     <string name="no_files_attached_to_this_card">Non hai ficheiros anexos a esta tarxeta.</string>
     <string name="attachments">Anexos</string>
     <string name="no_cards">Aínda non hai ningunha tarxeta</string>
-    <string name="no_account">Non hai ningunha conta configurada</string>
     <string name="account_already_added">A conta%1$sxa fora engadida</string>
-    <string name="account_is_getting_imported">A conta está a importarse</string>
     <string name="not_synced_yet">Aínda non foi sincronizado</string>
     <string name="no_lists_yet">Non hai listas</string>
     <string name="do_you_want_to_save_your_changes">Quere gardar os cambios?</string>
@@ -117,11 +112,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Engadir unha nova lista co botón +</string>
     <string name="add_a_new_card_using_the_button">Engadir unha nova tarxeta co botón +</string>
-    <string name="update_deck">Actualizar a aplicación web Gabeta</string>
     <string name="deck_outdated_please_update">A versión da súa aplicación web Gabeta é antiga de máis (%1$s). Actualice para usar esta aplicación de Android como cliente.</string>
     <string name="delete_board_message">Isto eliminará este taboleiro definitivamente incluíndo todas as listas e tarxetas.</string>
     <string name="settings_theme_title">Tema</string>
-    <string name="settings_branding_title">Xestión da marca</string>
     <string name="settings_compact_title">Modo compacto</string>
     <string name="settings_cover_images_title">Imaxe de portada</string>
     <string name="settings_debugging">Rexistros de depuración</string>
@@ -157,7 +150,6 @@
     <string name="provide_at_least_a_title_or_description">Forneza polo menos un título ou descrición</string>
     <string name="welcome_text">Dámoslle a benvida a %1$s</string>
     <string name="welcome_text_further_accounts">Engadir outra conta</string>
-    <string name="maintenance_mode_explanation">O servidor %1$s atopase en modo de mantemento. Póñase en contacto coa administración desta instancia ou ténteo de novo máis tarde.</string>
     <string name="share_add_to_card">Engadir á tarxeta</string>
     <string name="share_success">%1$s foi engadido satisfactoriamente  a %2$s</string>
     <string name="add_comment">Engadir comentario</string>
@@ -166,7 +158,6 @@
     <string name="no_boards">Aínda non hai taboleiros</string>
     <string name="add_a_new_board_using_the_button">Engadir un novo taboleiro co botón +</string>
     <string name="choose_board">Escoller o taboleiro</string>
-    <string name="choose_list">Escoller a lista</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Abrir no navegador</string>
     <string name="updating_card">Actualizado tarxeta…</string>
@@ -182,13 +173,12 @@
     <string name="filter_month">Próximos 30 días</string>
     <string name="filter_no_due">Sen data de caducidade</string>
     <string name="filter_later">Após</string>
-    <string name="filter_by_tag">Filtrar pola etiqueta</string>
-    <string name="filter_by_assigned_user">Filtrar polo usuario asignado</string>
-    <string name="filter_by_duedate">Filtrar pola data de caducidade</string>
+
+    <string name="filter_done_no_filter">Todo</string>
+    <string name="filter_done_done">Completado</string>
+    <string name="filter_done_undone">Sen completar</string>
 
     <string name="archived_cards">Tarxetas arquivadas</string>
-    <string name="action_card_dearchive">Desfacer o arquivo de tarxetas</string>
-    <string name="action_archived_cards">Examinar as tarxetas arquivadas</string>
     <string name="attachment_already_exists">O anexo xa existe</string>
     <string name="pick_custom_color">Escolla a cor personalizada</string>
     <string name="manage_tags">Xestionar as etiquetas</string>
@@ -199,6 +189,7 @@
     <string name="filter_tags_title">Etiquetas</string>
     <string name="filter_user_title">Usuarios</string>
     <string name="filter_duedate_title">Data de caducidade</string>
+    <string name="filter_done_title">Completado</string>
 
     <string name="action_board_dearchive">Desfacer o arquivo de taboleiros</string>
     <string name="archived_boards">Taboleiros arquivados</string>
@@ -209,7 +200,6 @@
     <string name="error_revoking_ac">Produciuse un erro ao revogar o acceso a %1$s</string>
     <string name="error_create_label">Produciuse un erro ao crear a etiqueta %1$s</string>
     <string name="maintenance_mode">O servidor está en modo mantemento</string>
-    <string name="server_error">Produciuse un erro de servidor</string>
     <string name="error_edit_activity_killed_by_android">Android rematou o modo de edición porque necesitaba máis recursos do sistema para outras aplicacións.</string>
 
     <string name="error_dialog_title">Vaites, e agora que? 🙁</string>
@@ -276,10 +266,8 @@
     <string name="card_does_not_yet_exist">Aínda non existe a tarxeta na Gabeta</string>
 
     <string name="widget_stack_title">Lista</string>
-    <string name="widget_filter_title">Filtro</string>
     <string name="widget_stack_header_icon">Icona de cabeceira do trebello</string>
     <string name="widget_placeholder_icon">Icona de marcador de posición do trebello</string>
-    <string name="select_stack">Seleccionar a lista</string>
     <string name="project_type_deck_board">Taboleiro da Gabeta</string>
     <string name="project_type_deck_card">Tarxeta</string>
     <string name="project_type_file">Ficheiro</string>
@@ -297,9 +285,6 @@
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Avatar do usuario</string>
     <string name="simple_unassign">Desasignar</string>
-    <string name="simple_contact">Contacto</string>
-    <string name="simple_file">Ficheiro</string>
-    <string name="simple_camera">Cámara</string>
     <string name="take_photo">Tirar unha foto</string>
     <string name="take_photo_switch_camera">Cambiar de cámara</string>
     <string name="take_photo_toggle_torch">Alternar o facho</string>

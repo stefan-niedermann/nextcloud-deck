@@ -23,7 +23,8 @@ public interface CardDao extends GenericDao<Card> {
             "and (c.deletedAt is null or c.deletedAt = 0) " +
             "and (s.deletedAt is null or s.deletedAt = 0) " +
             "and (b.deletedAt is null or b.deletedAt = 0) " +
-            // FUll Logic: (hasDueDate AND isIn_PRIVATE_Board) OR (isInSharedBoard AND (assignedToMe OR (hasDueDate AND noAssignees)))
+            "and (c.done      is null or c.done      = 0) " +
+            // Full Logic: (hasDueDate AND isIn_PRIVATE_Board) OR (isInSharedBoard AND (assignedToMe OR (hasDueDate AND noAssignees)))
             "and (" +
             "(c.dueDate is not null AND NOT exists(select 1 from AccessControl ac where ac.boardId = b.localId and ac.status <> 3))" + //(hasDueDate AND isInPrivateBoard)
             "OR (" +

@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Cerrar cajón de navegación</string>
     <string name="hint_search_deck">Buscar deck</string>
 
-    <string name="simple_boards">Tableros</string>
     <string name="simple_add">Añadir</string>
     <string name="simple_save">Guardar</string>
     <string name="simple_more">Más</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Error</string>
     <string name="simple_exception">Excepción</string>
     <string name="simple_close">Cerrar</string>
-    <string name="simple_open">Abrir</string>
-    <string name="simple_switch">Cambiar</string>
     <string name="simple_filter">Filtro</string>
-    <string name="simple_overdue">Demorado</string>
-    <string name="simple_clear">Borrar</string>
+    <string name="simple_completed">Completado</string>
+    <string name="simple_reset">Restablecer</string>
     <string name="simple_discard">Descartar</string>
     <string name="simple_update">Actualizar</string>
     <string name="simple_delete">Eliminar</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Seleccionar</string>
     <string name="simple_comment">Comentario</string>
     <string name="simple_disabled">deshabilitado</string>
-    <string name="simple_copied">Copiado</string>
     <string name="simple_archive">Archivar</string>
     <string name="simple_unassigned">No asignado</string>
     <string name="hint_error_appeared">Ha ocurrido un error</string>
@@ -90,6 +86,7 @@
     <string name="add_board">Añadir tablero</string>
 
     <string name="label_clear_due_date">Borrar fecha de finalización</string>
+    <string name="label_clear_done">No completado</string>
     <string name="label_add">Añadir %1$s</string>
 
     <string name="card_edit_details">Detalles</string>
@@ -99,9 +96,7 @@
     <string name="no_files_attached_to_this_card">No hay archivos adjuntos a esta tarjeta.</string>
     <string name="attachments">Adjuntos</string>
     <string name="no_cards">Todavía no hay tarjetas</string>
-    <string name="no_account">No hay cuenta configurada</string>
     <string name="account_already_added">La cuenta %1$s ya había sido añadida</string>
-    <string name="account_is_getting_imported">La cuenta está siendo importada</string>
     <string name="not_synced_yet">No sincronizado todavía</string>
     <string name="no_lists_yet">Aún no hay listas</string>
     <string name="do_you_want_to_save_your_changes">¿Desea guardar los cambios?</string>
@@ -119,11 +114,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Añadir una nueva lista usando el botón +</string>
     <string name="add_a_new_card_using_the_button">Añadir una nueva tarjeta usando el botón +</string>
-    <string name="update_deck">Actualizar la aplicación web Deck</string>
     <string name="deck_outdated_please_update">La versión de tu aplicación web Deck es demasiado antigua (%1$s). Por favor, actualiza para usar esta aplicación Android como cliente.</string>
     <string name="delete_board_message">Esto borrará permanente el tablero, incluyendo todas las listas y tarjetas.</string>
     <string name="settings_theme_title">Tema</string>
-    <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Modo compacto</string>
     <string name="settings_cover_images_title">Imagen de la cubierta</string>
     <string name="settings_debugging">Logs de depuración</string>
@@ -159,7 +152,6 @@
     <string name="provide_at_least_a_title_or_description">Indique al menos un título o una descripción</string>
     <string name="welcome_text">Bienvenido a %1$s</string>
     <string name="welcome_text_further_accounts">Añadir otra cuenta</string>
-    <string name="maintenance_mode_explanation">El servidor %1$s está actualmente en modo de mantenimiento. Por favor, contacta con tu administrador o vuelve a intentarlo más tarde.</string>
     <string name="share_add_to_card">Añadir a la tarjeta</string>
     <string name="share_success">Añadido satisfactoriamente %1$s a %2$s</string>
     <string name="add_comment">Agregar comentario</string>
@@ -168,7 +160,6 @@
     <string name="no_boards">Todavía no hay tableros</string>
     <string name="add_a_new_board_using_the_button">Añadir un nuevo tablero utilizando el botón +</string>
     <string name="choose_board">Escoger tablero</string>
-    <string name="choose_list">Elegir lista</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Abrir en navegador</string>
     <string name="updating_card">Actualizando tarjeta…</string>
@@ -184,13 +175,12 @@
     <string name="filter_month">Siguientes 30 días</string>
     <string name="filter_no_due">Sin fecha de vencimiento</string>
     <string name="filter_later">Después</string>
-    <string name="filter_by_tag">Filtrar por etiqueta</string>
-    <string name="filter_by_assigned_user">Filtrar por usuario asignado</string>
-    <string name="filter_by_duedate">Filtrar por fecha de finalización</string>
+
+    <string name="filter_done_no_filter">Todo</string>
+    <string name="filter_done_done">Completado</string>
+    <string name="filter_done_undone">No completado</string>
 
     <string name="archived_cards">Tarjetas archivadas</string>
-    <string name="action_card_dearchive">Deshacer archivado de tarjeta</string>
-    <string name="action_archived_cards">Explorar las tarjetas archivadas</string>
     <string name="attachment_already_exists">El adjunto ya existe</string>
     <string name="pick_custom_color">Escoger color personalizado</string>
     <string name="manage_tags">Gestionar etiquetas</string>
@@ -201,6 +191,7 @@
     <string name="filter_tags_title">Etiquetas</string>
     <string name="filter_user_title">Usuarios</string>
     <string name="filter_duedate_title">Fecha de fin</string>
+    <string name="filter_done_title">Completado</string>
 
     <string name="action_board_dearchive">Deshacer archivado del tablero</string>
     <string name="archived_boards">Tableros archivados</string>
@@ -211,7 +202,6 @@
     <string name="error_revoking_ac">Error al revocar el acceso a %1$s</string>
     <string name="error_create_label">Error al crear la etiqueta %1$s</string>
     <string name="maintenance_mode">El servidor está en modo mantenimiento</string>
-    <string name="server_error">Error en el servidor</string>
     <string name="error_edit_activity_killed_by_android">Android finalizó el modo de edición debido a que se necesitaban más recursos del sistema para otras aplicaciones.</string>
 
     <string name="error_dialog_title">Oh no - ¿Ahora qué? 🙁</string>
@@ -262,6 +252,7 @@
     <string name="manage_list">Administrar su lista</string>
     <string name="simple_reply">Responder</string>
     <string name="append_text_to_description">Añadir a la descripción</string>
+    <string name="append_text_as_task">Añadir a la descripción como tarea</string>
     <string name="add_text_as_comment">Añadir como comentario</string>
     <string name="progress_count">%1$d de %2$d</string>
     <plurals name="progress_error_count">
@@ -279,10 +270,8 @@
     <string name="card_does_not_yet_exist">La tarjeta todavía no existe en Deck</string>
 
     <string name="widget_stack_title">Lista</string>
-    <string name="widget_filter_title">Filtro</string>
     <string name="widget_stack_header_icon">Icono de la cabecera del widget</string>
     <string name="widget_placeholder_icon">Espacio para el icono del widget</string>
-    <string name="select_stack">Seleccione lista</string>
     <string name="project_type_deck_board">Tablero Deck</string>
     <string name="project_type_deck_card">Tarjeta Deck</string>
     <string name="project_type_file">Archivo</string>
@@ -301,9 +290,6 @@
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Usar avatar</string>
     <string name="simple_unassign">Sin asignar</string>
-    <string name="simple_contact">Contacto</string>
-    <string name="simple_file">Archivo</string>
-    <string name="simple_camera">Camera</string>
     <string name="take_photo">Tomar una foto</string>
     <string name="take_photo_switch_camera">Cambiar cámara</string>
     <string name="take_photo_toggle_torch">Activar/desactivar linterna</string>

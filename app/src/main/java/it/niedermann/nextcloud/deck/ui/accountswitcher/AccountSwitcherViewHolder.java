@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAccountChooseBinding;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -34,7 +33,7 @@ public class AccountSwitcherViewHolder extends RecyclerView.ViewHolder {
         );
         binding.accountHost.setText(Uri.parse(account.getUrl()).getHost());
         Glide.with(itemView.getContext())
-                .load(account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.accountItemAvatar.getContext(), R.dimen.avatar_size)))
+                .load(account.getAvatarUrl(binding.accountItemAvatar.getResources().getDimensionPixelSize(R.dimen.avatar_size)))
                 .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.ic_baseline_account_circle_24)
                 .error(R.drawable.ic_baseline_account_circle_24)

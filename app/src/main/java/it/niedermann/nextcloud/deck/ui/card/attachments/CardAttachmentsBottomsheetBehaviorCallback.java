@@ -1,5 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
+
 import android.content.Context;
 import android.view.View;
 
@@ -15,12 +19,6 @@ import com.google.android.material.animation.ArgbEvaluatorCompat;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import it.niedermann.android.util.DimensionUtil;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
 
 public class CardAttachmentsBottomsheetBehaviorCallback extends BottomSheetBehavior.BottomSheetCallback {
     @NonNull
@@ -55,7 +53,7 @@ public class CardAttachmentsBottomsheetBehaviorCallback extends BottomSheetBehav
         this.bottomNavigation = bottomNavigation;
         this.backdropColorExpanded = ContextCompat.getColor(context, backdropColorExpanded);
         this.backdropColorCollapsed = ContextCompat.getColor(context, backdropColorCollapsed);
-        this.bottomNavigationHeight = DimensionUtil.INSTANCE.dpToPx(context, bottomNavigationHeight);
+        this.bottomNavigationHeight = context.getResources().getDimensionPixelSize(bottomNavigationHeight);
     }
 
     @Override

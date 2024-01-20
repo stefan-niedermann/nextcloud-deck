@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Luk navigationsskuffe</string>
     <string name="hint_search_deck">Søg i deck</string>
 
-    <string name="simple_boards">Tavler</string>
     <string name="simple_add">Tilføj</string>
     <string name="simple_save">Gem</string>
     <string name="simple_more">Mere</string>
@@ -14,11 +13,8 @@
     <string name="simple_error">Fejl</string>
     <string name="simple_exception">Undtagelse</string>
     <string name="simple_close">Luk</string>
-    <string name="simple_open">Åbn</string>
-    <string name="simple_switch">Byt rundt</string>
     <string name="simple_filter">Filter</string>
-    <string name="simple_overdue">Overskredet</string>
-    <string name="simple_clear">Ryd</string>
+    <string name="simple_completed">Fuldført</string>
     <string name="simple_discard">Kassér</string>
     <string name="simple_update">Opdatér</string>
     <string name="simple_delete">Slet</string>
@@ -30,7 +26,6 @@
     <string name="simple_select">Vælg</string>
     <string name="simple_comment">Kommentér</string>
     <string name="simple_disabled">slået fra</string>
-    <string name="simple_copied">opieret</string>
     <string name="simple_archive">Arkivér</string>
     <string name="simple_unassigned">Ikke tildelt</string>
     <string name="hint_error_appeared">En fejl opstod</string>
@@ -90,6 +85,7 @@
     <string name="add_board">Tilføj liste</string>
 
     <string name="label_clear_due_date">Ryd forfaldsdato</string>
+    <string name="label_clear_done">Ikke afsluttet</string>
     <string name="label_add">Tilføj %1$s</string>
 
     <string name="card_edit_details">Detaljer</string>
@@ -99,8 +95,6 @@
     <string name="no_files_attached_to_this_card">Der er ingen filer hæftet til dette kort.</string>
     <string name="attachments">Vedhæftede filer</string>
     <string name="no_cards">Endnu ingen kort</string>
-    <string name="no_account">Der er ikke konfigureret en konto</string>
-    <string name="account_is_getting_imported">Kontoen importeres</string>
     <string name="not_synced_yet">Ikke synkronsieret endnu</string>
     <string name="no_lists_yet">Endnu ingen lister</string>
     <string name="do_you_want_to_save_your_changes">Vil du gemme dine ændringer?</string>
@@ -108,7 +102,6 @@
     <string name="add_a_new_card_using_the_button">Tilføj et nyt kort med knappen +</string>
     <string name="delete_board_message">Dette vil permanent slette denne tavle, inklusive alle lister og kort.</string>
     <string name="settings_theme_title">Tema</string>
-    <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Kompakt tilstand</string>
     <string name="settings_background_sync">Synkronisering i baggrunden</string>
     <string name="search_in">Søg i %1$s</string>
@@ -137,7 +130,6 @@
     <string name="title_is_mandatory">Titel er påkrævet</string>
     <string name="provide_at_least_a_title_or_description">Angiv mindst titel eller beskrivelse</string>
     <string name="welcome_text">Velkommen til %1$s</string>
-    <string name="maintenance_mode_explanation">Serveren %1$s er aktuelt i vedligeholdelsestilstand. Kontakt venligst din administrator eller forsøg igen senere.</string>
     <string name="share_add_to_card">Tilføj til kort</string>
     <string name="share_success">Tilføjede %1$s til %2$s med succes</string>
     <string name="add_comment">Tillføj kommentar</string>
@@ -146,7 +138,6 @@
     <string name="no_boards">Endnu ingen tavler</string>
     <string name="add_a_new_board_using_the_button">Tilføj en ny tavle med knappen +</string>
     <string name="choose_board">Vælg tavle</string>
-    <string name="choose_list">Vælg liste</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Åbn i browser</string>
     <string name="updating_card">Opdaterer kort ...</string>
@@ -162,9 +153,8 @@
     <string name="filter_month">Næste 30 dage</string>
     <string name="filter_no_due">Ingen forfaldsdato</string>
     <string name="filter_later">Senere</string>
-    <string name="filter_by_tag">Filtrer vha. mærkat</string>
-    <string name="filter_by_assigned_user">Filtrer vha. tildelt bruger</string>
-    <string name="filter_by_duedate">Filtrer vha. forfaldsdato</string>
+
+    <string name="filter_done_undone">Ikke afsluttet</string>
 
     <string name="archived_cards">Arkiverede kort</string>
     <string name="pick_custom_color">Vælg brugerdefineret farve</string>
@@ -174,7 +164,6 @@
     <string name="filter_tags_title">Tags</string>
     <string name="filter_user_title">Brugere</string>
     <string name="filter_duedate_title">Forfaldsdato</string>
-
     <string name="archived_boards">Arkiverede lister</string>
 
     <string name="error">Der skete en fejl</string>
@@ -182,7 +171,6 @@
     <string name="operation_not_yet_supported">Understøttes endnu ikke</string>
     <string name="error_revoking_ac">Fejl under tilbagekaldelse af adgang for %1$s</string>
     <string name="maintenance_mode">Serveren er i vedligeholdelsestilstand</string>
-    <string name="server_error">Serverfejl</string>
     <string name="error_dialog_title">Åh nej - hvad nu? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Forsøg venligst at tvinge app\'en til at lukke og start den påny igen. Der kan have været en ukorrekt forbindelse til Nextcloud-app\'en.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Opgraderingen af databasen mislykkedes. Rapportér venligst problemet og ryd lageret for at bruge appen normalt.</string>
@@ -208,13 +196,9 @@
     <string name="error_action_open_battery_settings">Batteriindstillinger</string>
     <string name="clone_board">Klon tavle</string>
     <string name="widget_stack_title">Liste</string>
-    <string name="widget_filter_title">Filter</string>
     <string name="project_type_file">Fil</string>
     <string name="projects_title">Projekter</string>
     <string name="simple_move">Flyt</string>
-    <string name="simple_contact">Kontakt</string>
-    <string name="simple_file">Fil</string>
-    <string name="simple_camera">Kamera</string>
     <string name="take_photo">Tag et billede</string>
     <string name="take_photo_switch_camera">Skift kamera</string>
     <string name="show_all_contacts">Vis alle kontakter</string>

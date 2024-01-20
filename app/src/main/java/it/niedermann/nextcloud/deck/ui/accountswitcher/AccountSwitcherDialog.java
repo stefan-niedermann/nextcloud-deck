@@ -24,7 +24,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogAccountSwitcherBinding;
 import it.niedermann.nextcloud.deck.ui.ImportAccountActivity;
@@ -76,7 +75,7 @@ public class AccountSwitcherDialog extends DialogFragment {
                     binding.accountHost.setText(Uri.parse(currentAccount.getUrl()).getHost());
 
                     Glide.with(requireContext())
-                            .load(currentAccount.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.currentAccountItemAvatar.getContext(), R.dimen.avatar_size)))
+                            .load(currentAccount.getAvatarUrl(binding.currentAccountItemAvatar.getResources().getDimensionPixelSize(R.dimen.avatar_size)))
                             .apply(RequestOptions.circleCropTransform())
                             .placeholder(R.drawable.ic_baseline_account_circle_24)
                             .error(R.drawable.ic_baseline_account_circle_24)

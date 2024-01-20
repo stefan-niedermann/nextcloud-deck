@@ -37,7 +37,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:visibility="gone"
-            app:selector="@drawable/wheel"
+            app:selector="@drawable/colorpickerview_wheel"
             tools:visibility="visible" />
 
         <com.skydoves.colorpickerview.sliders.BrightnessSlideBar
@@ -49,7 +49,7 @@
             android:visibility="gone"
             app:borderColor_BrightnessSlider="@android:color/darker_gray"
             app:borderSize_BrightnessSlider="5"
-            app:selector_BrightnessSlider="@drawable/wheel"
+            app:selector_BrightnessSlider="@drawable/colorpickerview_wheel"
             tools:visibility="visible" />
     </LinearLayout>
 </ScrollView>

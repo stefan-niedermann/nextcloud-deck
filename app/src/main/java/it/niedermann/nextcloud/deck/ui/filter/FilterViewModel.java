@@ -15,6 +15,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.enums.EDoneType;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
@@ -77,6 +78,12 @@ public class FilterViewModel extends BaseViewModel {
     public void setFilterInformationDraftDueType(@NonNull EDueType dueType) {
         final var newDraft = new FilterInformation(filterInformationDraft.getValue());
         newDraft.setDueType(dueType);
+        this.filterInformationDraft.postValue(newDraft);
+    }
+
+    public void setFilterInformationDraftDoneType(@NonNull EDoneType doneType) {
+        final var newDraft = new FilterInformation(filterInformationDraft.getValue());
+        newDraft.setDoneType(doneType);
         this.filterInformationDraft.postValue(newDraft);
     }
 

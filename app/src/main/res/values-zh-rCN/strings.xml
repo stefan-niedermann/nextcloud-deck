@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">关闭导航条</string>
     <string name="hint_search_deck">搜索看板</string>
 
-    <string name="simple_boards">面板</string>
     <string name="simple_add">添加</string>
     <string name="simple_save">保存</string>
     <string name="simple_more">更多</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">错误</string>
     <string name="simple_exception">异常</string>
     <string name="simple_close">关闭</string>
-    <string name="simple_open">打开</string>
-    <string name="simple_switch">切换</string>
     <string name="simple_filter">筛选</string>
-    <string name="simple_overdue">逾期</string>
-    <string name="simple_clear">清空</string>
+    <string name="simple_completed">已完成</string>
+    <string name="simple_reset">重置</string>
     <string name="simple_discard">丢弃</string>
     <string name="simple_update">更新</string>
     <string name="simple_delete">删除</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">选择</string>
     <string name="simple_comment">注释</string>
     <string name="simple_disabled">已禁用</string>
-    <string name="simple_copied">已复制</string>
     <string name="simple_archive">归档</string>
     <string name="simple_unassigned">未分配</string>
     <string name="hint_error_appeared">发生了一个错误</string>
@@ -90,6 +86,7 @@
     <string name="add_board">添加面板</string>
 
     <string name="label_clear_due_date">清除截止日期</string>
+    <string name="label_clear_done">没完成</string>
     <string name="label_add">添加 %1$s</string>
 
     <string name="card_edit_details">详情</string>
@@ -99,9 +96,7 @@
     <string name="no_files_attached_to_this_card">没有文件附加到这张卡片上。</string>
     <string name="attachments">附件</string>
     <string name="no_cards">暂无卡片</string>
-    <string name="no_account">没有已配置的账号</string>
     <string name="account_already_added">账号 %1$s 已添加</string>
-    <string name="account_is_getting_imported">账号已被导入</string>
     <string name="not_synced_yet">尚未同步</string>
     <string name="no_lists_yet">尚无名单</string>
     <string name="do_you_want_to_save_your_changes">您希望保存变更吗？</string>
@@ -115,11 +110,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">使用 + 按钮添加新列表</string>
     <string name="add_a_new_card_using_the_button">使用 + 按钮来创建一张卡片</string>
-    <string name="update_deck">更新看板网页应用</string>
     <string name="deck_outdated_please_update">你的看板网页应用版本过旧 （%1$s）。请更新为使用安卓应用作为客户端。</string>
     <string name="delete_board_message">此操作将永久删除此面板，包括所有列表和卡片。</string>
     <string name="settings_theme_title">主题</string>
-    <string name="settings_branding_title">添加商标</string>
     <string name="settings_compact_title">紧凑模式</string>
     <string name="settings_cover_images_title">封面图片</string>
     <string name="settings_debugging">调试日志</string>
@@ -155,7 +148,6 @@
     <string name="provide_at_least_a_title_or_description">提供至少一个标题或描述</string>
     <string name="welcome_text">欢迎来到 %1$s</string>
     <string name="welcome_text_further_accounts">添加另一个账号</string>
-    <string name="maintenance_mode_explanation">服务器 %1$s 正处于维护模式。请联系你的管理员或稍后再试。</string>
     <string name="share_add_to_card">添加到卡片</string>
     <string name="share_success">成功将 %1$s 添加到 %2$s</string>
     <string name="add_comment">添加评论</string>
@@ -164,7 +156,6 @@
     <string name="no_boards">暂无卡片</string>
     <string name="add_a_new_board_using_the_button">使用 \"+\"按钮添加新列表</string>
     <string name="choose_board">选择面板</string>
-    <string name="choose_list">选择目录</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">在浏览器中打开</string>
     <string name="updating_card">正在更新卡片…</string>
@@ -180,13 +171,12 @@
     <string name="filter_month">下个30天</string>
     <string name="filter_no_due">无截止日期</string>
     <string name="filter_later">稍晚</string>
-    <string name="filter_by_tag">标签筛选</string>
-    <string name="filter_by_assigned_user">根据指定用户过滤</string>
-    <string name="filter_by_duedate">根据截止日期过滤</string>
+
+    <string name="filter_done_no_filter">所有</string>
+    <string name="filter_done_done">已完成</string>
+    <string name="filter_done_undone">没完成</string>
 
     <string name="archived_cards">已归档卡片</string>
-    <string name="action_card_dearchive">撤销卡片归档</string>
-    <string name="action_archived_cards">浏览已归档卡片</string>
     <string name="attachment_already_exists">附件已存在</string>
     <string name="pick_custom_color">自定义颜色</string>
     <string name="manage_tags">管理标签</string>
@@ -197,6 +187,7 @@
     <string name="filter_tags_title">标签</string>
     <string name="filter_user_title">用户</string>
     <string name="filter_duedate_title">截止日期</string>
+    <string name="filter_done_title">已完成</string>
 
     <string name="action_board_dearchive">撤销看板归档</string>
     <string name="archived_boards">已归档面板</string>
@@ -207,7 +198,6 @@
     <string name="error_revoking_ac">撤回 %1$s 的权限时出错</string>
     <string name="error_create_label">创建标签 %1$s 时出错</string>
     <string name="maintenance_mode">服务器处于维护模式下 </string>
-    <string name="server_error">服务器错误</string>
     <string name="error_edit_activity_killed_by_android">安卓系统结束了编辑模式，因为它需要为其他应用程序提供更多的系统资源。</string>
 
     <string name="error_dialog_title">哦，糟糕。所以会怎么样？🙁</string>
@@ -273,10 +263,8 @@
     <string name="card_does_not_yet_exist">卡片在看板中还不存在</string>
 
     <string name="widget_stack_title">列表</string>
-    <string name="widget_filter_title">过滤器</string>
     <string name="widget_stack_header_icon">小部件标题图标</string>
     <string name="widget_placeholder_icon">小部件占位符图标 </string>
-    <string name="select_stack">选择列表</string>
     <string name="project_type_deck_board">看板</string>
     <string name="project_type_deck_card">看板卡片</string>
     <string name="project_type_file">文件</string>
@@ -293,9 +281,6 @@
     <string name="simple_clone">克隆</string>
     <string name="user_avatar">用户头像</string>
     <string name="simple_unassign">取消分配</string>
-    <string name="simple_contact">联系人</string>
-    <string name="simple_file">文件</string>
-    <string name="simple_camera">相机</string>
     <string name="take_photo">拍一张照</string>
     <string name="take_photo_switch_camera">切换相机</string>
     <string name="take_photo_toggle_torch">切换闪光灯</string>
