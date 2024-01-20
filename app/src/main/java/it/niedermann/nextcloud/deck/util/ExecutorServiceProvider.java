@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.util;
 
+import androidx.annotation.NonNull;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -29,26 +31,33 @@ public class ExecutorServiceProvider {
         return EXECUTOR;
     }
 
-    public static void awaitExectuion(Runnable r) {
-        CountDownLatch l = new CountDownLatch(1);
+    public static void awaitExecution(@NonNull Runnable runnable) {
+        final var latch = new CountDownLatch(1);
         EXECUTOR.submit(() -> {
-            r.run();
-            l.countDown();
+            runnable.run();
+            latch.countDown();
         });
         try {
-            l.await();
+            latch.await();
         } catch (Throwable e) {
             DeckLog.error(e);
         }
     }
 
     private static class RetryableRunnable implements Runnable {
-        private static final int MAX_RETRIES = 5;
+        private final int maxRetries;
+        @NonNull
         private final Runnable runnable;
-        private int retriesLeft = MAX_RETRIES;
+        private int retriesLeft;
 
-        public RetryableRunnable(Runnable runnable) {
+        public RetryableRunnable(@NonNull Runnable runnable) {
+            this(runnable, 5);
+        }
+
+        public RetryableRunnable(@NonNull Runnable runnable, int maxRetries) {
             this.runnable = runnable;
+            this.maxRetries = maxRetries;
+            this.retriesLeft = maxRetries;
         }
 
         @Override
@@ -57,7 +66,7 @@ public class ExecutorServiceProvider {
                 runnable.run();
             } catch (Exception e) {
                 if (retriesLeft < 1) {
-                    DeckLog.error("Error executing task, already retried", MAX_RETRIES, " times, giving up. Error causing this:", DeckLog.getStacktraceAsString(e));
+                    DeckLog.error("Error executing task, already retried", maxRetries, " times, giving up. Error causing this:", DeckLog.getStacktraceAsString(e));
                     throw e;
                 }
                 DeckLog.error("Error executing task, retrying for", retriesLeft, " more times. Error causing this:", DeckLog.getStacktraceAsString(e));
