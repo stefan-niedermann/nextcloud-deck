@@ -9,6 +9,8 @@ import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import java.util.function.Supplier;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.exceptions.OfflineException;
+import it.niedermann.nextcloud.deck.remote.helpers.util.ConnectivityUtil;
 import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
@@ -18,14 +20,32 @@ import retrofit2.Response;
 
 public class RequestHelper {
 
-    public static <T> void request(@NonNull final ApiProvider provider,
-                                   @NonNull final Supplier<Call<T>> callProvider,
-                                   @NonNull final ResponseCallback<T> callback) {
-        if (provider.getDeckAPI() == null) {
-            provider.initSsoApi(callback::onError);
+    @NonNull
+    private final ApiProvider apiProvider;
+
+    @NonNull
+    private final ConnectivityUtil connectivityUtil;
+
+    public RequestHelper(
+            @NonNull ApiProvider apiProvider,
+            @NonNull ConnectivityUtil connectivityUtil
+    ) {
+        this.apiProvider = apiProvider;
+        this.connectivityUtil = connectivityUtil;
+    }
+
+    public <T> void request(@NonNull final Supplier<Call<T>> callProvider,
+                            @NonNull final ResponseCallback<T> callback) {
+
+        if (!connectivityUtil.hasInternetConnection()) {
+            throw new OfflineException();
         }
 
-        final ResponseConsumer<T> cb = new ResponseConsumer<>(provider.getContext(), callback);
+        if (this.apiProvider.getDeckAPI() == null) {
+            this.apiProvider.initSsoApi(callback::onError);
+        }
+
+        final var cb = new ResponseConsumer<>(this.apiProvider.getContext(), callback);
         ExecutorServiceProvider.getLinkedBlockingQueueExecutor().submit(() -> callProvider.get().enqueue(cb));
     }
 
@@ -59,7 +79,7 @@ public class RequestHelper {
             String responseBody = "<empty>";
             try (ResponseBody body = response.errorBody()) {
                 if (body != null) {
-                    responseBody = response.errorBody().string();
+                    responseBody = body.string();
                 }
             } catch (Exception e) {
                 responseBody = "<unable to build response body: " + e.getMessage() + ">";
