@@ -472,7 +472,7 @@ public class SyncRepositoryTest {
         }
 
         @Override
-        public <T extends IRemoteEntity> void doSyncFor(@NonNull AbstractSyncDataProvider<T> provider) {
+        public <T extends IRemoteEntity> void doSyncFor(@NonNull AbstractSyncDataProvider<T> provider, boolean parallel) {
             if (success) {
                 cb.onResponseWithHeaders(true, Headers.of());
             } else {
