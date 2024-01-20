@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Închideți sertarul de navigare</string>
     <string name="hint_search_deck">Căutați în deck</string>
 
-    <string name="simple_boards">Panouri </string>
     <string name="simple_add">Adaugă</string>
     <string name="simple_save">Salvează</string>
     <string name="simple_more">Mai mult</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Eroare</string>
     <string name="simple_exception">Excepție </string>
     <string name="simple_close">Închide</string>
-    <string name="simple_open">Deschide</string>
-    <string name="simple_switch">Schimbă </string>
     <string name="simple_filter">Filtru</string>
-    <string name="simple_overdue">Termen depășit </string>
-    <string name="simple_clear">Șterge </string>
+    <string name="simple_completed">Terminat</string>
+    <string name="simple_reset">Resetare</string>
     <string name="simple_discard">Anulează</string>
     <string name="simple_update">Actualizare</string>
     <string name="simple_delete">Șterge</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Selectează </string>
     <string name="simple_comment">Comentariu</string>
     <string name="simple_disabled">dezactivat</string>
-    <string name="simple_copied">Copiat</string>
     <string name="simple_archive">Arhivă</string>
     <string name="simple_unassigned">Nealocat</string>
     <string name="hint_error_appeared">A apărut o eroare</string>
@@ -90,6 +86,7 @@
     <string name="add_board">Adaugă panou</string>
 
     <string name="label_clear_due_date">Șterge data limită </string>
+    <string name="label_clear_done">Necompletat</string>
     <string name="label_add">Adaugă %1$s</string>
 
     <string name="card_edit_details">Detalii</string>
@@ -99,9 +96,7 @@
     <string name="no_files_attached_to_this_card">Nu există fișiere atașate la acest card.</string>
     <string name="attachments">Atașamente </string>
     <string name="no_cards">Nu există carduri încă </string>
-    <string name="no_account">Niciun cont configurat</string>
     <string name="account_already_added">Contul %1$s a fost deja adăugat</string>
-    <string name="account_is_getting_imported">Se importă contul</string>
     <string name="not_synced_yet">Nu este sincronizat încă</string>
     <string name="no_lists_yet">Nu există încă liste</string>
     <string name="do_you_want_to_save_your_changes">Doriți să salvați modificările?</string>
@@ -119,11 +114,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Adăugați o nouă listă folosind butonul +</string>
     <string name="add_a_new_card_using_the_button">Adăugați un card nou folosind butonul +</string>
-    <string name="update_deck">Actualizare aplicație web Deck</string>
     <string name="deck_outdated_please_update">Versiunea aplicației dvs. web Deck este prea veche. (%1$s). Actualizați pentru a utiliza această aplicație Android ca și client.</string>
     <string name="delete_board_message">Vei șterge definitiv acest panou, inclusiv toate listele și cardurile.</string>
     <string name="settings_theme_title">Teme</string>
-    <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Mod compact</string>
     <string name="settings_cover_images_title">Imagine de copertă </string>
     <string name="settings_debugging">Log-uri depanare</string>
@@ -159,7 +152,6 @@
     <string name="provide_at_least_a_title_or_description">Furnizați cel puțin un titlu sau o descriere</string>
     <string name="welcome_text">Bine venit la %1$s</string>
     <string name="welcome_text_further_accounts">Adaugă un alt cont</string>
-    <string name="maintenance_mode_explanation">Serverul %1$s  este în prezent în modul de mentenanță. Vă rugăm să contactați administratorul sau să încercați din nou mai târziu.</string>
     <string name="share_add_to_card">Adaugă la card</string>
     <string name="share_success">Adăugat cu succes%1$s la %2$s</string>
     <string name="add_comment">Adaugă comentariu</string>
@@ -168,7 +160,6 @@
     <string name="no_boards">Nu există panouri încă</string>
     <string name="add_a_new_board_using_the_button">Adăugați un nou panou folosind butonul +</string>
     <string name="choose_board">Alegeți panou</string>
-    <string name="choose_list">Alegeți listă</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Deschide în Browser</string>
     <string name="updating_card">Actualizare card...</string>
@@ -184,13 +175,12 @@
     <string name="filter_month">Următorele 30 zile</string>
     <string name="filter_no_due">Fără dată limită</string>
     <string name="filter_later">Mai târziu</string>
-    <string name="filter_by_tag">Filtrare după etichetă</string>
-    <string name="filter_by_assigned_user">Filtrează după utilizatorul atribuit</string>
-    <string name="filter_by_duedate">Filtrează după data scadentă</string>
+
+    <string name="filter_done_no_filter">Toate </string>
+    <string name="filter_done_done">Terminat</string>
+    <string name="filter_done_undone">Necompletat</string>
 
     <string name="archived_cards">Carduri arhivate</string>
-    <string name="action_card_dearchive">Anulați arhivarea cardurilor</string>
-    <string name="action_archived_cards">Răsfoiți cardurile arhivate</string>
     <string name="attachment_already_exists">Atașamentul există deja</string>
     <string name="pick_custom_color">Alegeți culoarea personalizată</string>
     <string name="manage_tags">Administrați etichete</string>
@@ -201,6 +191,7 @@
     <string name="filter_tags_title">Etichete</string>
     <string name="filter_user_title">Utilizatori</string>
     <string name="filter_duedate_title">Data scadenței</string>
+    <string name="filter_done_title">Terminat</string>
 
     <string name="action_board_dearchive">Anulați arhivarea panoului</string>
     <string name="archived_boards">Panouri arhivate</string>
@@ -211,7 +202,6 @@
     <string name="error_revoking_ac">Eroare la revocarea accesului pentru %1$s</string>
     <string name="error_create_label">Eroare la crearea etichetei %1$s</string>
     <string name="maintenance_mode">Serverul se afla in modul de mentenanta</string>
-    <string name="server_error">Eroare server</string>
     <string name="error_edit_activity_killed_by_android">Android a închis modul de editare, deoarece avea nevoie de mai multe resurse de sistem pentru alte aplicații.</string>
 
     <string name="error_dialog_title">Ooo nu - Acum ce? 🙁</string>
@@ -278,10 +268,8 @@
     <string name="card_does_not_yet_exist">Cardul nu există încă în Deck</string>
 
     <string name="widget_stack_title">Listă</string>
-    <string name="widget_filter_title">Filtru</string>
     <string name="widget_stack_header_icon">Pictogramă antet widget</string>
     <string name="widget_placeholder_icon">Pictogramă substituent widget</string>
-    <string name="select_stack">Selectează listă</string>
     <string name="project_type_deck_board">Panou Deck</string>
     <string name="project_type_deck_card">Card Deck</string>
     <string name="project_type_file">Fișier</string>
@@ -300,9 +288,6 @@
     <string name="simple_clone">Clonează</string>
     <string name="user_avatar">Avatar utilizator</string>
     <string name="simple_unassign">Anulați atribuirea</string>
-    <string name="simple_contact">Contact</string>
-    <string name="simple_file">Fișier</string>
-    <string name="simple_camera">Camera</string>
     <string name="take_photo">Fă o fotografie</string>
     <string name="take_photo_switch_camera">Schimbă camera</string>
     <string name="take_photo_toggle_torch">Comutați lanterna</string>

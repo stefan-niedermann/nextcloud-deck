@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Zavrieť navigačný panel</string>
     <string name="hint_search_deck">Vyhľadávací panel</string>
 
-    <string name="simple_boards">Nástenky</string>
     <string name="simple_add">Pridať</string>
     <string name="simple_save">Uložiť</string>
     <string name="simple_more">Viac</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Chyba</string>
     <string name="simple_exception">Výnimka</string>
     <string name="simple_close">Zatvoriť</string>
-    <string name="simple_open">Otvoriť</string>
-    <string name="simple_switch">Prepnúť</string>
     <string name="simple_filter">Filter</string>
-    <string name="simple_overdue">Po termíne</string>
-    <string name="simple_clear">Vyčistiť</string>
+    <string name="simple_completed">Dokončené</string>
+    <string name="simple_reset">Resetovať</string>
     <string name="simple_discard">Odstrániť</string>
     <string name="simple_update">Aktualizovať</string>
     <string name="simple_delete">Zmazať</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Vybrať</string>
     <string name="simple_comment">Komentár</string>
     <string name="simple_disabled">zakázané</string>
-    <string name="simple_copied">Skopírované</string>
     <string name="simple_archive">Archivovať</string>
     <string name="simple_unassigned">Nepriradený</string>
     <string name="hint_error_appeared">Vyskytla sa chyba</string>
@@ -90,6 +86,7 @@
     <string name="add_board">Pridať nástenk</string>
 
     <string name="label_clear_due_date">Odstrániť termín dokončenia</string>
+    <string name="label_clear_done">Nedokončené</string>
     <string name="label_add">Pridať %1$s</string>
 
     <string name="card_edit_details">Podrobnosti</string>
@@ -99,8 +96,6 @@
     <string name="no_files_attached_to_this_card">K tejto karte nie sú pripojené žiadne súbory.</string>
     <string name="attachments">Prílohy</string>
     <string name="no_cards">Zatiaľ žiadne karty</string>
-    <string name="no_account">Nie je nastavený žiadny účet</string>
-    <string name="account_is_getting_imported">Účet sa importuje</string>
     <string name="not_synced_yet">Zatiaľ nie je synchronizovaný</string>
     <string name="no_lists_yet">Zatiaľ žiadne zoznamy</string>
     <string name="do_you_want_to_save_your_changes">Chcete uložiť zmeny?</string>
@@ -120,11 +115,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Pridajte nový zoznam pomocou tlačidla +</string>
     <string name="add_a_new_card_using_the_button">Pridajte novú kartu pomocou tlačidla +</string>
-    <string name="update_deck">Aktualizovať Panel webovej aplikácie</string>
     <string name="deck_outdated_please_update">Verzia vášho balíčka je príliš stará (%1$s). Ak chcete túto aplikáciu pre Android používať ako klienta, aktualizujte ju.</string>
     <string name="delete_board_message">Táto nástenka sa natrvalo odstráni, vrátane všetkých zoznamov a kariet.</string>
     <string name="settings_theme_title">Vzhľad</string>
-    <string name="settings_branding_title">Použitie vlastného loga</string>
     <string name="settings_compact_title">Kompaktný režim</string>
     <string name="settings_cover_images_title">Titulný obrázok</string>
     <string name="settings_debugging">Ladiaci záznam</string>
@@ -160,7 +153,6 @@
     <string name="provide_at_least_a_title_or_description">Uveďte aspoň názov alebo popis</string>
     <string name="welcome_text">Vitajte v %1$s</string>
     <string name="welcome_text_further_accounts">Pridať ďalší účet</string>
-    <string name="maintenance_mode_explanation">Server %1$s je v móde údržby. Kontaktujte svojho správcu alebo to skúste znova neskôr.</string>
     <string name="share_add_to_card">Pridať do košíka</string>
     <string name="share_success">%1$s úspešne pridané do %2$s</string>
     <string name="add_comment">Pridať komentár</string>
@@ -169,7 +161,6 @@
     <string name="no_boards">Zatiaľ žiadne nástenky</string>
     <string name="add_a_new_board_using_the_button">Pridajte novú nástenku pomocou tlačidla +</string>
     <string name="choose_board">Vybrať nástenku</string>
-    <string name="choose_list">Vybrať zoznam</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Otvoriť v prehliadači</string>
     <string name="updating_card">Aktualizácia karty…</string>
@@ -185,13 +176,12 @@
     <string name="filter_month">Následujúcich 30 dní</string>
     <string name="filter_no_due">Bez termínu</string>
     <string name="filter_later">Neskôr</string>
-    <string name="filter_by_tag">Filtrovať podľa štítkov</string>
-    <string name="filter_by_assigned_user">Filtrovať podľa priradeného používateľa</string>
-    <string name="filter_by_duedate">Filtrovať podľa termínu</string>
+
+    <string name="filter_done_no_filter">Všetko</string>
+    <string name="filter_done_done">Dokončené</string>
+    <string name="filter_done_undone">Nedokončené</string>
 
     <string name="archived_cards">Archivované karty</string>
-    <string name="action_card_dearchive">Odarchivovať kartu</string>
-    <string name="action_archived_cards">Prechádzať archivované karty</string>
     <string name="attachment_already_exists">Príloha už existuje</string>
     <string name="pick_custom_color">Vyberte vlastnú farbu</string>
     <string name="manage_tags">Spravovať štítky</string>
@@ -202,6 +192,7 @@
     <string name="filter_tags_title">Štítky</string>
     <string name="filter_user_title">Používatelia</string>
     <string name="filter_duedate_title">Termín dokončenia</string>
+    <string name="filter_done_title">Dokončené</string>
 
     <string name="action_board_dearchive">Zrušiť archiváciu nástenky</string>
     <string name="archived_boards">Archivované nástenky</string>
@@ -212,7 +203,6 @@
     <string name="error_revoking_ac">Chyba pri zrušení prístupu pre %1$s</string>
     <string name="error_create_label">Pri vytváraní označenia %1$s sa vyskytla chyba</string>
     <string name="maintenance_mode">Server je v móde údržby</string>
-    <string name="server_error">Chyba servera</string>
     <string name="error_edit_activity_killed_by_android">Android ukončil úpravy, pretože viac systémových prostriedkov potreboval pre ďalšie aplikácie.</string>
 
     <string name="error_dialog_title">Ale nie - Čo teraz? 🙁</string>
@@ -280,10 +270,8 @@
     <string name="card_does_not_yet_exist">Karta ešte na nástenke neexistuje</string>
 
     <string name="widget_stack_title">Zoznam</string>
-    <string name="widget_filter_title">Filter</string>
     <string name="widget_stack_header_icon">Ikona hlavičky miniaplikácie</string>
     <string name="widget_placeholder_icon">Ikona zástupného symbolu miniaplikácie</string>
-    <string name="select_stack">Vyberte zoznam</string>
     <string name="project_type_deck_board">Palubná doska</string>
     <string name="project_type_deck_card">Palubná karta</string>
     <string name="project_type_file">Súbor</string>
@@ -303,9 +291,6 @@
     <string name="simple_clone">Duplikovať</string>
     <string name="user_avatar">Avatar užívateľa</string>
     <string name="simple_unassign">Zrušiť priradenie</string>
-    <string name="simple_contact">Kontakt</string>
-    <string name="simple_file">Súbor</string>
-    <string name="simple_camera">Kamera</string>
     <string name="take_photo">Urobiť fotografiu</string>
     <string name="take_photo_switch_camera">Prepnúť kameru</string>
     <string name="take_photo_toggle_torch">Prepnúť baterku</string>

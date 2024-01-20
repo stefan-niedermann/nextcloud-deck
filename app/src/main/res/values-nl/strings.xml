@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Sluit navigatie</string>
     <string name="hint_search_deck">Zoeken kaarten</string>
 
-    <string name="simple_boards">Bord</string>
     <string name="simple_add">Toevoegen</string>
     <string name="simple_save">Bewaren</string>
     <string name="simple_more">Meer</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Fout</string>
     <string name="simple_exception">Uitzondering</string>
     <string name="simple_close">Sluit</string>
-    <string name="simple_open">Openen</string>
-    <string name="simple_switch">Wissel</string>
     <string name="simple_filter">Filter</string>
-    <string name="simple_overdue">Vervallen</string>
-    <string name="simple_clear">Terug</string>
+    <string name="simple_completed">Voltooid</string>
+    <string name="simple_reset">Herstellen</string>
     <string name="simple_discard">Weggooien</string>
     <string name="simple_update">Bijwerken</string>
     <string name="simple_delete">Verwijderen</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Selecteer</string>
     <string name="simple_comment">Reactie</string>
     <string name="simple_disabled">uitgeschakeld</string>
-    <string name="simple_copied">Gekopieerd</string>
     <string name="simple_archive">Archiveer</string>
     <string name="simple_unassigned">Niet-toegewezen</string>
     <string name="hint_error_appeared">Er is een fout verschenen</string>
@@ -90,6 +86,7 @@
     <string name="add_board">Toevoegen bord</string>
 
     <string name="label_clear_due_date">Wis vervaldatum</string>
+    <string name="label_clear_done">Niet compleet</string>
     <string name="label_add">Toevoegen %1$s</string>
 
     <string name="card_edit_details">Details</string>
@@ -99,9 +96,7 @@
     <string name="no_files_attached_to_this_card">Er zijn geen bestanden gekoppeld aan deze kaart.</string>
     <string name="attachments">Bijlagen</string>
     <string name="no_cards">Nog geen kaarten</string>
-    <string name="no_account">Geen account geconfigureerd</string>
     <string name="account_already_added">De account %1$s werd reeds toegevoegd</string>
-    <string name="account_is_getting_imported">Account wordt geïmporteerd</string>
     <string name="not_synced_yet">Nog niet gesynchroniseerd</string>
     <string name="no_lists_yet">Nog geen lijsten</string>
     <string name="do_you_want_to_save_your_changes">Wil je de wijzigingen opslaan?</string>
@@ -117,11 +112,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Voeg een nieuwe stapel toe met de + knop</string>
     <string name="add_a_new_card_using_the_button">Voeg een nieuwe kaart toe met de \'+\' knop</string>
-    <string name="update_deck">Update de Deck-app bij</string>
     <string name="deck_outdated_please_update">De versie van deze Deck-app is te oud (%1$s). Update de app om te gebruikem als client.</string>
     <string name="delete_board_message">Dit zal dit bord inclusief alle stapels en kaarten definitief verwijderen.</string>
     <string name="settings_theme_title">Thema</string>
-    <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Compacte modus</string>
     <string name="settings_cover_images_title">Cover afbeeldingen</string>
     <string name="settings_debugging">Debug logs</string>
@@ -157,7 +150,6 @@
     <string name="provide_at_least_a_title_or_description">Geef ten minste een titel of beschrijving op</string>
     <string name="welcome_text">Welkom bij %1$s</string>
     <string name="welcome_text_further_accounts">Voeg een andere account toe</string>
-    <string name="maintenance_mode_explanation">De server %1$s is momenteel in onderhoud modus. Neem contact op met uw beheerder of probeer het later nog eens.</string>
     <string name="share_add_to_card">Toevoegen aan kaart</string>
     <string name="share_success">Succesvol %1$s toegevoegd aan %2$s</string>
     <string name="add_comment">Reactie toevoegen</string>
@@ -166,7 +158,6 @@
     <string name="no_boards">Nog geen borden</string>
     <string name="add_a_new_board_using_the_button">Voeg een nieuw bord toe met de \'+\' knop</string>
     <string name="choose_board">Kies bord</string>
-    <string name="choose_list">Kies stapel</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Open in browser</string>
     <string name="updating_card">Kaart wordt geüpdatet...</string>
@@ -182,13 +173,12 @@
     <string name="filter_month">Komende 30 dagen</string>
     <string name="filter_no_due">Geen vervaldatum</string>
     <string name="filter_later">Later</string>
-    <string name="filter_by_tag">Filter op label</string>
-    <string name="filter_by_assigned_user">Filter op toegewezen gebruiker</string>
-    <string name="filter_by_duedate">Filter op vervaldatum</string>
+
+    <string name="filter_done_no_filter">Alle</string>
+    <string name="filter_done_done">Voltooid</string>
+    <string name="filter_done_undone">Niet compleet</string>
 
     <string name="archived_cards">Gearchiveerde kaarten</string>
-    <string name="action_card_dearchive">Kaartarchivering ongedaan maken</string>
-    <string name="action_archived_cards">Blader door gearchiveerde kaarten</string>
     <string name="attachment_already_exists">Bijlage bestaat al</string>
     <string name="pick_custom_color">Kies een maatwerkkleur</string>
     <string name="manage_tags">Berichttags</string>
@@ -199,6 +189,7 @@
     <string name="filter_tags_title">Labels</string>
     <string name="filter_user_title">Gebruikers</string>
     <string name="filter_duedate_title">Vervaldatum</string>
+    <string name="filter_done_title">Voltooid</string>
 
     <string name="action_board_dearchive">Archiveren van bord ongedaan maken</string>
     <string name="archived_boards">Gearchiveerde borden</string>
@@ -209,7 +200,6 @@
     <string name="error_revoking_ac">Fout bij het intrekken van de toegang voor %1$s</string>
     <string name="error_create_label">Fout bij creëren label %1$s</string>
     <string name="maintenance_mode">Server in onderhoudsmodus</string>
-    <string name="server_error">Serverfout</string>
     <string name="error_edit_activity_killed_by_android">Android beëindigde de bewerkingsmodus omdat het meer systeembronnen nodig had voor andere apps.</string>
 
     <string name="error_dialog_title">Oh nee - wat nu? 🙁</string>
@@ -277,10 +267,8 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="card_does_not_yet_exist">Kaart bestaat nog niet in Deck</string>
 
     <string name="widget_stack_title">Lijst</string>
-    <string name="widget_filter_title">Filter</string>
     <string name="widget_stack_header_icon">Widget koptekst icoon</string>
     <string name="widget_placeholder_icon">Widget plaatsvervanger pictogram</string>
-    <string name="select_stack">Lijst selecteren</string>
     <string name="project_type_deck_board">Deck board</string>
     <string name="project_type_deck_card">Deck kaart</string>
     <string name="project_type_file">Bestand</string>
@@ -298,9 +286,6 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="simple_clone">Klonen</string>
     <string name="user_avatar">Gebruik avatar</string>
     <string name="simple_unassign">Toewijzing intrekken</string>
-    <string name="simple_contact">Contactpersoon</string>
-    <string name="simple_file">Bestand</string>
-    <string name="simple_camera">Camera</string>
     <string name="take_photo">Neem een foto</string>
     <string name="take_photo_switch_camera">Omschakelen camera</string>
     <string name="take_photo_toggle_torch">Omschakelen zaklamp</string>

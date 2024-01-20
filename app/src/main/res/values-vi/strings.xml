@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Đóng ngăn điều hướng</string>
     <string name="hint_search_deck">Tìm kiếm deck</string>
 
-    <string name="simple_boards">Dự án</string>
     <string name="simple_add">Thêm</string>
     <string name="simple_save">Lưu</string>
     <string name="simple_more">Thêm</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Lỗi</string>
     <string name="simple_exception">Ngoại lệ</string>
     <string name="simple_close">Đóng</string>
-    <string name="simple_open">Mở</string>
-    <string name="simple_switch">Chuyển</string>
     <string name="simple_filter">Lọc</string>
-    <string name="simple_overdue">Quá hạn</string>
-    <string name="simple_clear">Xóa</string>
+    <string name="simple_completed">Hoàn thành</string>
+    <string name="simple_reset">Đặt lại</string>
     <string name="simple_discard">Bỏ qua thay đổi</string>
     <string name="simple_update">Cập nhật</string>
     <string name="simple_delete">Xóa</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Chọn</string>
     <string name="simple_comment">Bình luận</string>
     <string name="simple_disabled">đã tắt</string>
-    <string name="simple_copied">Đã sao chép</string>
     <string name="simple_archive">Lưu trữ</string>
     <string name="simple_unassigned">Chưa được phân công</string>
     <string name="hint_error_appeared">Có lỗi xuất hiện</string>
@@ -90,6 +86,7 @@
     <string name="add_board">Thêm dự án</string>
 
     <string name="label_clear_due_date">Xoá thời hạn</string>
+    <string name="label_clear_done">Chưa hoàn thành</string>
     <string name="label_add">Thêm %1$s</string>
 
     <string name="card_edit_details">Thông tin</string>
@@ -99,8 +96,6 @@
     <string name="no_files_attached_to_this_card">Không có tệp nào được đính kèm vào thẻ này.</string>
     <string name="attachments">Đính kèm</string>
     <string name="no_cards">Chưa có thẻ nào</string>
-    <string name="no_account">Không có tài khoản nào được thiết lập</string>
-    <string name="account_is_getting_imported">Tài khoản đang được nhập</string>
     <string name="not_synced_yet">Chưa được đồng bộ hoá</string>
     <string name="no_lists_yet">Chưa có danh sách</string>
     <string name="do_you_want_to_save_your_changes">Bạn có muốn lưu các thay đổi của bạn không?</string>
@@ -114,11 +109,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Thêm một danh sách mới bằng nút +</string>
     <string name="add_a_new_card_using_the_button">Thêm một thẻ mới bằng nút +</string>
-    <string name="update_deck">Cập nhật ứng dụng web Deck</string>
     <string name="deck_outdated_please_update">Phiên bản ứng dụng web Deck của bạn quá cũ (%1$s). Vui lòng cập nhật để sử dụng ứng dụng Android này làm ứng dụng khách.</string>
     <string name="delete_board_message">Việc này sẽ vĩnh viễn xoá dự án này kể cả tất cả danh sách và thẻ.</string>
     <string name="settings_theme_title">Chủ đề</string>
-    <string name="settings_branding_title">Nhãn hiệu</string>
     <string name="settings_compact_title">Chế độ thu gọn</string>
     <string name="settings_cover_images_title">Hình ảnh trang bìa</string>
     <string name="settings_debugging">Nhật ký gỡ lỗi</string>
@@ -153,7 +146,6 @@
     <string name="title_is_mandatory">Tiêu đề là bắt buộc</string>
     <string name="provide_at_least_a_title_or_description">Hãy cung cấp ít nhất là một tiêu đề hoặc mô tả</string>
     <string name="welcome_text">Chào mừng đến %1$s</string>
-    <string name="maintenance_mode_explanation">Máy chủ %1$s hiện tại đang trong chế độ bảo trì. Vui lòng liên hệ với quản trị viên của bạn hoặc thử lại sau.</string>
     <string name="share_add_to_card">Thêm vào thẻ</string>
     <string name="share_success">Đã thêm %1$s vào %2$s thành công</string>
     <string name="add_comment">Thêm bình luận</string>
@@ -162,7 +154,6 @@
     <string name="no_boards">Chưa có dự án nào</string>
     <string name="add_a_new_board_using_the_button">Thêm một dự án mới bằng nút +</string>
     <string name="choose_board">Chọn dự án</string>
-    <string name="choose_list">Chọn danh sách</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Mở trong trình duyệt</string>
     <string name="updating_card">Đang cập nhật thẻ...</string>
@@ -178,13 +169,12 @@
     <string name="filter_month">30 ngày tiếp theo</string>
     <string name="filter_no_due">Không có thời hạn</string>
     <string name="filter_later">Để sau</string>
-    <string name="filter_by_tag">Lọc theo nhãn</string>
-    <string name="filter_by_assigned_user">Lọc theo người dùng được phân công</string>
-    <string name="filter_by_duedate">Lọc theo thời hạn</string>
+
+    <string name="filter_done_no_filter">Tất cả</string>
+    <string name="filter_done_done">Hoàn thành</string>
+    <string name="filter_done_undone">Chưa hoàn thành</string>
 
     <string name="archived_cards">Thẻ đã lưu trữ</string>
-    <string name="action_card_dearchive">Hoàn tác lưu trữ thẻ</string>
-    <string name="action_archived_cards">Duyệt các thẻ đã lưu trữ</string>
     <string name="attachment_already_exists">Tệp đính kèm đã tồn tại</string>
     <string name="pick_custom_color">Chọn màu tuỳ chỉnh</string>
     <string name="manage_tags">Quản lý nhãn</string>
@@ -195,6 +185,7 @@
     <string name="filter_tags_title">Nhãn</string>
     <string name="filter_user_title">Người dùng</string>
     <string name="filter_duedate_title">Thời hạn</string>
+    <string name="filter_done_title">Hoàn thành</string>
 
     <string name="action_board_dearchive">Hoàn tác lưu trữ dự án</string>
     <string name="archived_boards">Dự án đã lưu trữ</string>
@@ -205,7 +196,6 @@
     <string name="error_revoking_ac">Lỗi khi thu hồi quyền truy cập cho %1$s</string>
     <string name="error_create_label">Lỗi khi tạo nhãn %1$s</string>
     <string name="maintenance_mode">Máy chủ đang trong chế độ bảo trì</string>
-    <string name="server_error">Lỗi máy chủ</string>
     <string name="error_edit_activity_killed_by_android">Android đã hoàn thành chế độ chỉnh sửa vì nó cần nhiều tài nguyên hệ thống hơn cho các ứng dụng khác.</string>
 
     <string name="error_dialog_title">Ôi không - Làm gì bây giờ? 🙁</string>
@@ -270,10 +260,8 @@
     <string name="card_does_not_yet_exist">Thẻ chưa tồn tại trong Deck</string>
 
     <string name="widget_stack_title">Danh sách</string>
-    <string name="widget_filter_title">Lọc</string>
     <string name="widget_stack_header_icon">Biểu tượng tiêu đề tiện ích</string>
     <string name="widget_placeholder_icon">Biểu tượng chỗ giữ chỗ tiện ích</string>
-    <string name="select_stack">Chọn danh sách</string>
     <string name="project_type_deck_board">Dự án Deck</string>
     <string name="project_type_deck_card">Thẻ Deck</string>
     <string name="project_type_file">Tập tin</string>
@@ -290,9 +278,6 @@
     <string name="simple_clone">Nhân bản</string>
     <string name="user_avatar">Ảnh đại diện người dùng</string>
     <string name="simple_unassign">Bỏ phân công</string>
-    <string name="simple_contact">Liên hệ</string>
-    <string name="simple_file">Tệp</string>
-    <string name="simple_camera">Máy ảnh</string>
     <string name="take_photo">Chụp ảnh</string>
     <string name="take_photo_switch_camera">Chuyển máy ảnh</string>
     <string name="take_photo_toggle_torch">Bật/tắt đèn pin</string>

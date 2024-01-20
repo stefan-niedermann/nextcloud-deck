@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Затвори навигациону фиоку</string>
     <string name="hint_search_deck">Претражи шпил</string>
 
-    <string name="simple_boards">Табле</string>
     <string name="simple_add">Додај</string>
     <string name="simple_save">Сачувај</string>
     <string name="simple_more">Још</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Грешка</string>
     <string name="simple_exception">Изузетак</string>
     <string name="simple_close">Затвори</string>
-    <string name="simple_open">Отвори</string>
-    <string name="simple_switch">Пребаци</string>
     <string name="simple_filter">Филтер</string>
-    <string name="simple_overdue">Прошао рок</string>
-    <string name="simple_clear">Очисти</string>
+    <string name="simple_completed">Завршено</string>
+    <string name="simple_reset">Ресетуј</string>
     <string name="simple_discard">Одбаци</string>
     <string name="simple_update">Ажурирај</string>
     <string name="simple_delete">Обриши</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Обележи</string>
     <string name="simple_comment">Коментар</string>
     <string name="simple_disabled">искључено</string>
-    <string name="simple_copied">Копирано</string>
     <string name="simple_archive">Архива</string>
     <string name="simple_unassigned">Недодељен</string>
     <string name="hint_error_appeared">Дошло је до грешке</string>
@@ -90,6 +86,7 @@
     <string name="add_board">Додај таблу</string>
 
     <string name="label_clear_due_date">Избриши рок</string>
+    <string name="label_clear_done">Није довршено</string>
     <string name="label_add">Додај %1$s</string>
 
     <string name="card_edit_details">Детаљи</string>
@@ -99,9 +96,7 @@
     <string name="no_files_attached_to_this_card">Нема фајлова закачених за ову картицу.</string>
     <string name="attachments">Прилози</string>
     <string name="no_cards">Још нема картица</string>
-    <string name="no_account">Налог није подешен</string>
     <string name="account_already_added">Налог %1$s је већ додат</string>
-    <string name="account_is_getting_imported">Налог се увози</string>
     <string name="not_synced_yet">Још није синхронизовано</string>
     <string name="no_lists_yet">Нема још спискова</string>
     <string name="do_you_want_to_save_your_changes">Да ли желите да сачувате измене?</string>
@@ -119,11 +114,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Додај нови списак користећи + дугме</string>
     <string name="add_a_new_card_using_the_button">Додајте нову картицу на + дугме</string>
-    <string name="update_deck">Ажурирај Шпил веб апликацију</string>
     <string name="deck_outdated_please_update">Верзија Ваше Шпил веб апликације је сувише стара (%1$s). Молимо вас да као клијента користите ову Андроид апликацију.</string>
     <string name="delete_board_message">Ово ће трајно да уклони ову таблу укључујући све спискове и картице.</string>
     <string name="settings_theme_title">Тема</string>
-    <string name="settings_branding_title">Брендирање</string>
     <string name="settings_compact_title">Компактан режим</string>
     <string name="settings_cover_images_title">Омоти</string>
     <string name="settings_debugging">Дневници за отклањање грешака</string>
@@ -159,7 +152,6 @@
     <string name="provide_at_least_a_title_or_description">Дајте бар наслов или опис</string>
     <string name="welcome_text">Добродошли у %1$s</string>
     <string name="welcome_text_further_accounts">Додај други налог</string>
-    <string name="maintenance_mode_explanation">Сервер %1$s је тренутно у режиму одржавања. Контактирајте администратора или покушајте касније.</string>
     <string name="share_add_to_card">Додај на картицу</string>
     <string name="share_success">Успешно додат %1$s на %2$s</string>
     <string name="add_comment">Додај коментар</string>
@@ -168,7 +160,6 @@
     <string name="no_boards">Још нема табли</string>
     <string name="add_a_new_board_using_the_button">Додајте нову таблу преко + дугмета</string>
     <string name="choose_board">Одаберите таблу</string>
-    <string name="choose_list">Одаберите списак</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Отвори у прегледачу</string>
     <string name="updating_card">Ажурирам картицу…</string>
@@ -184,13 +175,12 @@
     <string name="filter_month">Следећих 30 дана</string>
     <string name="filter_no_due">Без рока</string>
     <string name="filter_later">После</string>
-    <string name="filter_by_tag">Филтрирај по ознаци</string>
-    <string name="filter_by_assigned_user">Филтрирај по додељеном кориснику</string>
-    <string name="filter_by_duedate">Филтрирај по року</string>
+
+    <string name="filter_done_no_filter">Све</string>
+    <string name="filter_done_done">Завршено</string>
+    <string name="filter_done_undone">Није довршено</string>
 
     <string name="archived_cards">Архивиране картице</string>
-    <string name="action_card_dearchive">Поништи архивирање картице</string>
-    <string name="action_archived_cards">Прегледај архивиране картице</string>
     <string name="attachment_already_exists">Прилог већ постоји</string>
     <string name="pick_custom_color">Одаберите произвољну боју</string>
     <string name="manage_tags">Управљање ознакама</string>
@@ -201,6 +191,7 @@
     <string name="filter_tags_title">Ознаке</string>
     <string name="filter_user_title">Корисници</string>
     <string name="filter_duedate_title">Рок</string>
+    <string name="filter_done_title">Завршено</string>
 
     <string name="action_board_dearchive">Поништи архивирање табле</string>
     <string name="archived_boards">Архивиране табле</string>
@@ -211,7 +202,6 @@
     <string name="error_revoking_ac">Грешка приликом уклањања приступа за %1$s</string>
     <string name="error_create_label">Грешка приликом креирања ознаке %1$s</string>
     <string name="maintenance_mode">Server je u režimu za održavanje</string>
-    <string name="server_error">Грешка на серверу</string>
     <string name="error_edit_activity_killed_by_android">Андроид нам је довршио режим измена пошто су системски ресурси требали другим апликацијама.</string>
 
     <string name="error_dialog_title">О, не - шта сад? 🙁</string>
@@ -280,10 +270,8 @@
     <string name="card_does_not_yet_exist">Картица још не постоји у Шпил апликацији</string>
 
     <string name="widget_stack_title">Излистај</string>
-    <string name="widget_filter_title">Филтер</string>
     <string name="widget_stack_header_icon">Заглавње иконице виџета</string>
     <string name="widget_placeholder_icon">Иконица виџета</string>
-    <string name="select_stack">Одабир списка</string>
     <string name="project_type_deck_board">Табла Шпила</string>
     <string name="project_type_deck_card">Картица Шпила</string>
     <string name="project_type_file">Фајл</string>
@@ -302,9 +290,6 @@
     <string name="simple_clone">Клонирај</string>
     <string name="user_avatar">Кориснички аватар</string>
     <string name="simple_unassign">Уклони доделу</string>
-    <string name="simple_contact">Контакт</string>
-    <string name="simple_file">Фајл</string>
-    <string name="simple_camera">Камера</string>
     <string name="take_photo">Сликај</string>
     <string name="take_photo_switch_camera">Пребаци камеру</string>
     <string name="take_photo_toggle_torch">Пребаци стање лампе</string>

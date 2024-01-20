@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Закрыть панель навигации</string>
     <string name="hint_search_deck">Поиск карточки</string>
 
-    <string name="simple_boards">Доски</string>
     <string name="simple_add">Добавить</string>
     <string name="simple_save">Сохранить</string>
     <string name="simple_more">Больше</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Ошибка</string>
     <string name="simple_exception">Исключение</string>
     <string name="simple_close">Закрыть</string>
-    <string name="simple_open">Открыто</string>
-    <string name="simple_switch">Переключить</string>
     <string name="simple_filter">Фильтр</string>
-    <string name="simple_overdue">Просроченные</string>
-    <string name="simple_clear">Очистить</string>
+    <string name="simple_completed">Выполнено</string>
+    <string name="simple_reset">Сброс</string>
     <string name="simple_discard">Отмена</string>
     <string name="simple_update">Обновить</string>
     <string name="simple_delete">Удалить</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Выбрать</string>
     <string name="simple_comment">Комментарий</string>
     <string name="simple_disabled">отключено</string>
-    <string name="simple_copied">Скопировано</string>
     <string name="simple_archive">Переместить в архив</string>
     <string name="simple_unassigned">Не назначен</string>
     <string name="hint_error_appeared">Произошла ошибка</string>
@@ -90,6 +86,7 @@
     <string name="add_board">Добавить доску</string>
 
     <string name="label_clear_due_date">Удалить срок исполнения</string>
+    <string name="label_clear_done">Не завершено</string>
     <string name="label_add">Добавить %1$s </string>
 
     <string name="card_edit_details">Свойства</string>
@@ -99,9 +96,7 @@
     <string name="no_files_attached_to_this_card">К этой карточке файлы не прикреплены.</string>
     <string name="attachments">Вложения</string>
     <string name="no_cards">Ещё нет ни одной карточки</string>
-    <string name="no_account">Учётная запись не настроена</string>
     <string name="account_already_added">Учетная запись %1$s уже была добавлена</string>
-    <string name="account_is_getting_imported">Выполняется импорт учётной записи</string>
     <string name="not_synced_yet">Ещё не синхронизировано</string>
     <string name="no_lists_yet">Нет ни одного списка</string>
     <string name="do_you_want_to_save_your_changes">Сохранить изменения?</string>
@@ -121,11 +116,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Нажмите кнопку «+» для добавления нового списка</string>
     <string name="add_a_new_card_using_the_button">Нажмите кнопку «+» для добавления новой карточки</string>
-    <string name="update_deck">Обновите приложение Карточки на сервере</string>
     <string name="deck_outdated_please_update">На сервере установлена устаревшая версия приложение Карточки (%1$s). Обновите приложение на сервере, чтобы использовать приложение для Android.</string>
     <string name="delete_board_message">Это действие приведёт к удалению этой рабочей доски, всех списков и карточек.</string>
     <string name="settings_theme_title">Оформление</string>
-    <string name="settings_branding_title">Брендирование</string>
     <string name="settings_compact_title">компактный режим</string>
     <string name="settings_cover_images_title">Обложки</string>
     <string name="settings_debugging">Отладочные журналы</string>
@@ -161,7 +154,6 @@
     <string name="provide_at_least_a_title_or_description">Создайте заголовок или описание</string>
     <string name="welcome_text">Добро пожаловать в %1$s</string>
     <string name="welcome_text_further_accounts">Добавить другой аккаунт</string>
-    <string name="maintenance_mode_explanation">Сервер %1$s в режиме обслуживания. Свяжитесь с вашим администратором или повторите попытку позже.</string>
     <string name="share_add_to_card">Добавить в карточку</string>
     <string name="share_success">%1$s добавлено в %2$s</string>
     <string name="add_comment">Добавить комментарий</string>
@@ -170,7 +162,6 @@
     <string name="no_boards">Пока нет досок</string>
     <string name="add_a_new_board_using_the_button">Добавьте новую доску с помощью кнопки (+)</string>
     <string name="choose_board">Выбрать доску</string>
-    <string name="choose_list">Выбрать список</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Открыть в браузере</string>
     <string name="updating_card">Обновление карточки…</string>
@@ -186,13 +177,12 @@
     <string name="filter_month">Следующие 30 дней</string>
     <string name="filter_no_due">Без назначенной даты</string>
     <string name="filter_later">Позже</string>
-    <string name="filter_by_tag">Отфильтровать по метке</string>
-    <string name="filter_by_assigned_user">Отфильтровать по назначению</string>
-    <string name="filter_by_duedate">Отфильтровать по сроку исполнения</string>
+
+    <string name="filter_done_no_filter">Все</string>
+    <string name="filter_done_done">Выполнено</string>
+    <string name="filter_done_undone">Не завершено</string>
 
     <string name="archived_cards">Карточки в архиве</string>
-    <string name="action_card_dearchive">Отменить архивацию карточки</string>
-    <string name="action_archived_cards">Показать архив карточек</string>
     <string name="attachment_already_exists">Вложение уже существует</string>
     <string name="pick_custom_color">Выберите цвет</string>
     <string name="manage_tags">Управление метками</string>
@@ -203,6 +193,7 @@
     <string name="filter_tags_title">Метки</string>
     <string name="filter_user_title">Пользователи</string>
     <string name="filter_duedate_title">Дата исполнения</string>
+    <string name="filter_done_title">Выполнено</string>
 
     <string name="action_board_dearchive">Отменить архивацию доски</string>
     <string name="archived_boards">Архив досок</string>
@@ -213,7 +204,6 @@
     <string name="error_revoking_ac">Не удалось отозвать доступ %1$s</string>
     <string name="error_create_label">Не удалось создать метку %1$s</string>
     <string name="maintenance_mode">Сервер находится в режиме обслуживания</string>
-    <string name="server_error">Ошибка сервера</string>
     <string name="error_edit_activity_killed_by_android">Android прекратил режим редактирования так как ему понадобилось больше системных ресурсов для других приложений.</string>
 
     <string name="error_dialog_title">О нет, что теперь? 🙁</string>
@@ -282,10 +272,8 @@
     <string name="card_does_not_yet_exist">Карточка не создана на доске</string>
 
     <string name="widget_stack_title">Список</string>
-    <string name="widget_filter_title">Фильтр</string>
     <string name="widget_stack_header_icon">иконка заголовка виджета</string>
     <string name="widget_placeholder_icon">Иконка заглушки виджета</string>
-    <string name="select_stack">Выберите список</string>
     <string name="project_type_deck_board">Доска</string>
     <string name="project_type_deck_card">Карточка</string>
     <string name="project_type_file">Файл</string>
@@ -305,9 +293,6 @@
     <string name="simple_clone">Скопировать</string>
     <string name="user_avatar">Изображение профиля</string>
     <string name="simple_unassign">Отменить назначение</string>
-    <string name="simple_contact">Контакт</string>
-    <string name="simple_file">Файл</string>
-    <string name="simple_camera">Камера</string>
     <string name="take_photo">Сделать фотографию</string>
     <string name="take_photo_switch_camera">Переключить камеру</string>
     <string name="take_photo_toggle_torch">Подсветка</string>

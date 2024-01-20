@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Navigationsleiste schließen</string>
     <string name="hint_search_deck">Deck durchsuchen</string>
 
-    <string name="simple_boards">Boards</string>
     <string name="simple_add">Hinzufügen</string>
     <string name="simple_save">Speichern</string>
     <string name="simple_more">Mehr</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Fehler</string>
     <string name="simple_exception">Ausnahme</string>
     <string name="simple_close">Schließen</string>
-    <string name="simple_open">Öffnen</string>
-    <string name="simple_switch">Wechseln</string>
     <string name="simple_filter">Filter</string>
-    <string name="simple_overdue">Überfällig</string>
-    <string name="simple_clear">Leeren</string>
+    <string name="simple_completed">Fertiggestellt</string>
+    <string name="simple_reset">Zurücksetzen</string>
     <string name="simple_discard">Verwerfen</string>
     <string name="simple_update">Aktualisieren</string>
     <string name="simple_delete">Löschen</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Auswählen</string>
     <string name="simple_comment">Kommentar</string>
     <string name="simple_disabled">Deaktiviert</string>
-    <string name="simple_copied">Kopiert</string>
     <string name="simple_archive">Archivieren</string>
     <string name="simple_unassigned">Nicht zugewiesen</string>
     <string name="hint_error_appeared">Es ist ein Fehler aufgetreten</string>
@@ -90,6 +86,7 @@
     <string name="add_board">Board hinzufügen</string>
 
     <string name="label_clear_due_date">Fälligkeitsdatum entfernen</string>
+    <string name="label_clear_done">Nicht fertiggestellt</string>
     <string name="label_add">%1$s hinzufügen</string>
 
     <string name="card_edit_details">Details</string>
@@ -99,9 +96,7 @@
     <string name="no_files_attached_to_this_card">Dieser Karte sind keine Dateien angehängt.</string>
     <string name="attachments">Anhänge</string>
     <string name="no_cards">Bislang keine Karten</string>
-    <string name="no_account">Kein Konto eingerichtet</string>
     <string name="account_already_added">Das Konto %1$s wurde bereits hinzugefügt</string>
-    <string name="account_is_getting_imported">Konto wird importiert</string>
     <string name="not_synced_yet">Noch nicht synchronisiert</string>
     <string name="no_lists_yet">Noch keine Listen vorhanden</string>
     <string name="do_you_want_to_save_your_changes">Möchten Sie Ihre Änderungen speichern?</string>
@@ -117,11 +112,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Eine neue Liste mit der + Taste hinzufügen</string>
     <string name="add_a_new_card_using_the_button">Eine neue Karte mit der + Taste hinzufügen</string>
-    <string name="update_deck">Deck Web-App aktualisieren</string>
     <string name="deck_outdated_please_update">Ihre Deck Web-App-Version ist zu alt (%1$s). Bitte aktualisieren Sie, um diese Android-App als Client zu verwenden.</string>
     <string name="delete_board_message">Dies wird dieses Board endgültig inklusive aller Listen und Karten löschen.</string>
     <string name="settings_theme_title">Design</string>
-    <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Kompakt-Modus</string>
     <string name="settings_cover_images_title">Coverbilder</string>
     <string name="settings_debugging">Protokolldateien zur Fehlersuche</string>
@@ -157,7 +150,6 @@
     <string name="provide_at_least_a_title_or_description">Mindestens einen Titel oder eine Beschreibung eingeben</string>
     <string name="welcome_text">Willkommen bei %1$s</string>
     <string name="welcome_text_further_accounts">Weiteres Konto hinzufügen</string>
-    <string name="maintenance_mode_explanation">Der Server %1$s ist momentan im Wartungsmodus. Bitte nehmen Sie Kontakt mit Ihrem Administrator auf oder versuchen Sie es später nochmal!</string>
     <string name="share_add_to_card">Zur Karte hinzufügen</string>
     <string name="share_success">%1$s erfolgreich zu %2$s hinzugefügt</string>
     <string name="add_comment">Kommentar hinzufügen</string>
@@ -166,7 +158,6 @@
     <string name="no_boards">Noch keine Boards vorhanden</string>
     <string name="add_a_new_board_using_the_button">Ein neues Board mit der +-Taste hinzufügen</string>
     <string name="choose_board">Board auswählen</string>
-    <string name="choose_list">Liste auswählen</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Im Browser öffnen</string>
     <string name="updating_card">Karte wird aktualisiert…</string>
@@ -182,13 +173,12 @@
     <string name="filter_month">Die nächsten 30 Tage</string>
     <string name="filter_no_due">Kein Fälligkeitsdatum</string>
     <string name="filter_later">Später</string>
-    <string name="filter_by_tag">Nach Schlagwort filtern</string>
-    <string name="filter_by_assigned_user">Nach zugewiesenem Benutzer filtern</string>
-    <string name="filter_by_duedate">Nach Fälligkeitsdatum filtern</string>
+
+    <string name="filter_done_no_filter">Alle</string>
+    <string name="filter_done_done">Fertiggestellt</string>
+    <string name="filter_done_undone">Nicht fertiggestellt</string>
 
     <string name="archived_cards">Archivierte Karten</string>
-    <string name="action_card_dearchive">Karte archivieren rückgängig machen</string>
-    <string name="action_archived_cards">Archivierte Karten durchsuchen</string>
     <string name="attachment_already_exists">Anhang existiert bereits</string>
     <string name="pick_custom_color">Wählen Sie eine benutzerdefinierte Farbe aus</string>
     <string name="manage_tags">Schlagworte verwalten</string>
@@ -199,6 +189,7 @@
     <string name="filter_tags_title">Schlagworte</string>
     <string name="filter_user_title">Benutzer</string>
     <string name="filter_duedate_title">Fälligkeitsdatum</string>
+    <string name="filter_done_title">Fertiggestellt</string>
 
     <string name="action_board_dearchive">Board archivieren rückgängig machen</string>
     <string name="archived_boards">Archivierte Boards</string>
@@ -209,7 +200,6 @@
     <string name="error_revoking_ac">Fehler beim Widerruf des Zugriffs für %1$s</string>
     <string name="error_create_label">Fehler beim Erstellen des Labels %1$s</string>
     <string name="maintenance_mode">Server befindet sich im Wartungsmodus</string>
-    <string name="server_error">Serverfehler</string>
     <string name="error_edit_activity_killed_by_android">Android hat den Bearbeitungsmodus beendet, da mehr Systemressourcen für andere Apps benötigt wurden.</string>
 
     <string name="error_dialog_title">Oh nein - Was jetzt? 🙁</string>
@@ -277,10 +267,8 @@
     <string name="card_does_not_yet_exist">Karte existiert bislang nicht in Deck</string>
 
     <string name="widget_stack_title">Liste</string>
-    <string name="widget_filter_title">Filter</string>
     <string name="widget_stack_header_icon">Widget-Kopf-Icon</string>
     <string name="widget_placeholder_icon">Widget-Platzhalter-Symbol</string>
-    <string name="select_stack">Liste auswählen</string>
     <string name="project_type_deck_board">Deck-Board</string>
     <string name="project_type_deck_card">Deck-Karte</string>
     <string name="project_type_file">Datei</string>
@@ -298,9 +286,6 @@
     <string name="simple_clone">Klonen</string>
     <string name="user_avatar">Benutzer-Avatar</string>
     <string name="simple_unassign">Zuordnung aufheben</string>
-    <string name="simple_contact">Kontakt</string>
-    <string name="simple_file">Datei</string>
-    <string name="simple_camera">Kamera</string>
     <string name="take_photo">Foto aufnehmen</string>
     <string name="take_photo_switch_camera">Kamera wechseln</string>
     <string name="take_photo_toggle_torch">Taschenlampe umschalten</string>

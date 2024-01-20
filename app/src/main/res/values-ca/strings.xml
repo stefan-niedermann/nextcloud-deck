@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Tanca el calaix de navegació</string>
     <string name="hint_search_deck">Cerca targetes</string>
 
-    <string name="simple_boards">Taulers</string>
     <string name="simple_add">Afegeix</string>
     <string name="simple_save">Desa</string>
     <string name="simple_more">Més</string>
@@ -14,11 +13,8 @@
     <string name="simple_error">Error</string>
     <string name="simple_exception">Excepció</string>
     <string name="simple_close">Tanca</string>
-    <string name="simple_open">Obert</string>
-    <string name="simple_switch">Canvia</string>
     <string name="simple_filter">Filtre</string>
-    <string name="simple_overdue">Endarrerit</string>
-    <string name="simple_clear">Neteja</string>
+    <string name="simple_completed">S\'ha completat</string>
     <string name="simple_discard">Descarta\'l</string>
     <string name="simple_update">Actualitza</string>
     <string name="simple_delete">Eliminar</string>
@@ -30,7 +26,6 @@
     <string name="simple_select">Selecciona</string>
     <string name="simple_comment">Comentari</string>
     <string name="simple_disabled">inhabilitat</string>
-    <string name="simple_copied">Copiat</string>
     <string name="simple_archive">Arxiu</string>
     <string name="simple_unassigned">Sense assignar</string>
     <string name="hint_error_appeared">Ha succeït un error</string>
@@ -90,6 +85,7 @@
     <string name="add_board">Afegeix un tauler</string>
 
     <string name="label_clear_due_date">Esborra la data de venciment</string>
+    <string name="label_clear_done">No completat</string>
     <string name="label_add">Afegeix %1$s</string>
 
     <string name="card_edit_details">Detalls</string>
@@ -99,8 +95,6 @@
     <string name="no_files_attached_to_this_card">No hi ha fitxers adjunts a aquesta targeta.</string>
     <string name="attachments">Adjunts</string>
     <string name="no_cards">Encara no hi ha cap targeta.</string>
-    <string name="no_account">No hi ha cap compte configurat.</string>
-    <string name="account_is_getting_imported">S\'importa el compte.</string>
     <string name="not_synced_yet">No sincronitzat encara</string>
     <string name="no_lists_yet">Encara no hi ha llistes</string>
     <string name="do_you_want_to_save_your_changes">Voleu desar els canvis?</string>
@@ -116,11 +110,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Afegiu una nova llista usant el botó +</string>
     <string name="add_a_new_card_using_the_button">Afegiu una targeta nova mitjançant el botó +.</string>
-    <string name="update_deck">Actualitza l\'aplicació del tauler</string>
     <string name="deck_outdated_please_update">La vostra versió del tauler és massa antiga (%1$s). Si us plau, actualitza\'l per poder utilitzar aquesta aplicació d\'Android com a client.</string>
     <string name="delete_board_message">Això suprimirà permanentment aquest tauler, incloent-hi totes les llistes i targetes.</string>
     <string name="settings_theme_title">Tema</string>
-    <string name="settings_branding_title">Marcatge</string>
     <string name="settings_compact_title">Mode compacte</string>
     <string name="settings_cover_images_title">Imatge de portada</string>
     <string name="settings_debugging">Registre de depuració</string>
@@ -155,7 +147,6 @@
     <string name="title_is_mandatory">El títol és necessari</string>
     <string name="provide_at_least_a_title_or_description">Poseu-hi almenys un títol o descripció</string>
     <string name="welcome_text">Benvingut a %1$s</string>
-    <string name="maintenance_mode_explanation">El servidor %1$s és actualment en mode de manteniment. Si us plau, contacteu el vostre administrador o proveu de nou més tard.</string>
     <string name="share_add_to_card">Afegeix a la targeta</string>
     <string name="share_success">S\'ha afegit amb èxit %1$s a %2$s</string>
     <string name="add_comment">Afegeix un comentari</string>
@@ -164,7 +155,6 @@
     <string name="no_boards">Encara no hi ha taulers</string>
     <string name="add_a_new_board_using_the_button">Afegeix un nou tauler usant el botó +</string>
     <string name="choose_board">Escull el tauler</string>
-    <string name="choose_list">Escull la llista</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Obre al navegador</string>
     <string name="updating_card">S\'està actualitzant la targeta…</string>
@@ -180,13 +170,10 @@
     <string name="filter_month">Propers 30 dies</string>
     <string name="filter_no_due">Sense venciment</string>
     <string name="filter_later">Més tard</string>
-    <string name="filter_by_tag">Filtra per etiqueta</string>
-    <string name="filter_by_assigned_user">Filtra per usuari assignat</string>
-    <string name="filter_by_duedate">Filtra per data de venciment</string>
+
+    <string name="filter_done_undone">No completat</string>
 
     <string name="archived_cards">Targetes arxivades</string>
-    <string name="action_card_dearchive">Desfés l\'arxivament de la targeta</string>
-    <string name="action_archived_cards">Navega per les targetes arxivades</string>
     <string name="attachment_already_exists">L\'adjunció ja existeix</string>
     <string name="pick_custom_color">Escull un color personalitzat</string>
     <string name="manage_tags">Gestiona les etiquetes</string>
@@ -197,7 +184,6 @@
     <string name="filter_tags_title">Etiquetes</string>
     <string name="filter_user_title">Usuaris</string>
     <string name="filter_duedate_title">Data de venciment</string>
-
     <string name="action_board_dearchive">Desfés l\'arxivament del tauler</string>
     <string name="archived_boards">Taulers arxivats</string>
 
@@ -207,7 +193,6 @@
     <string name="error_revoking_ac">S\'ha produït un error revocant l\'accés per a %1$s</string>
     <string name="error_create_label">S\'ha produït un error quan es creava l\'etiqueta %1$s</string>
     <string name="maintenance_mode">El servidor és en mode de manteniment</string>
-    <string name="server_error">Error del servidor</string>
     <string name="error_edit_activity_killed_by_android">L\'Android ha tancat el mode d\'edició perquè necessitava més recursos del sistema per a altres aplicacions.</string>
 
     <string name="error_dialog_title">Oh no! - I ara què? 🙁</string>
@@ -273,10 +258,8 @@
     <string name="card_does_not_yet_exist">La targeta encara no existeix al Deck</string>
 
     <string name="widget_stack_title">Llista</string>
-    <string name="widget_filter_title">Filtra</string>
     <string name="widget_stack_header_icon">Icona de capçalera de giny</string>
     <string name="widget_placeholder_icon">Marcador de posició de la icona del giny</string>
-    <string name="select_stack">Seleccionar llista</string>
     <string name="project_type_deck_board">Tauler de Deck</string>
     <string name="project_type_deck_card">Targeta de Deck</string>
     <string name="project_type_file">Fitxer</string>
@@ -294,9 +277,6 @@
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Utilitzar avatar</string>
     <string name="simple_unassign">No ho assignis</string>
-    <string name="simple_contact">Contacte</string>
-    <string name="simple_file">Fitxer</string>
-    <string name="simple_camera">Càmera</string>
     <string name="take_photo">Prendre una fotografia</string>
     <string name="take_photo_switch_camera">Canviar la càmera</string>
     <string name="take_photo_toggle_torch">Commuta la llanterna</string>

@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Loka leiðsagnarsleða</string>
     <string name="hint_search_deck">Leita að spjaldi</string>
 
-    <string name="simple_boards">Borð</string>
     <string name="simple_add">Bæta við</string>
     <string name="simple_save">Vista</string>
     <string name="simple_more">Meira</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Villa</string>
     <string name="simple_exception">Frávik</string>
     <string name="simple_close">Loka</string>
-    <string name="simple_open">Opna</string>
-    <string name="simple_switch">Skipta</string>
     <string name="simple_filter">Sía</string>
-    <string name="simple_overdue">Fram yfir tímamörk</string>
-    <string name="simple_clear">Hreinsa</string>
+    <string name="simple_completed">Lokið</string>
+    <string name="simple_reset">Endurstilla</string>
     <string name="simple_discard">Fleygja</string>
     <string name="simple_update">Uppfæra</string>
     <string name="simple_delete">Eyða</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Velja</string>
     <string name="simple_comment">Athugasemd</string>
     <string name="simple_disabled">óvirkt</string>
-    <string name="simple_copied">Afritað</string>
     <string name="simple_archive">Safn</string>
     <string name="simple_unassigned">Ekki úthlutað</string>
     <string name="hint_error_appeared">Villa kom upp</string>
@@ -90,6 +86,7 @@
     <string name="add_board">Bæta við borði</string>
 
     <string name="label_clear_due_date">Fjarlægja skiladag</string>
+    <string name="label_clear_done">Er ekki lokið</string>
     <string name="label_add">Bæta við {0:s}</string>
 
     <string name="card_edit_details">Nánar</string>
@@ -99,9 +96,7 @@
     <string name="no_files_attached_to_this_card">Það eru engar skrár á þessu spjaldi.</string>
     <string name="attachments">Viðhengi</string>
     <string name="no_cards">Engin spjöld ennþá</string>
-    <string name="no_account">Enginn aðgangur stilltur.</string>
     <string name="account_already_added">Aðgangnum %1$s hefur þegar verið bætt við</string>
-    <string name="account_is_getting_imported">Verið er að flytja inn aðgang</string>
     <string name="not_synced_yet">Ekki ennþá samstillt</string>
     <string name="no_lists_yet">Engir listar ennþá</string>
     <string name="do_you_want_to_save_your_changes">Viltu vista breytingarnar þínar?</string>
@@ -117,11 +112,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Bættu við nýjum lista með + hnappnum</string>
     <string name="add_a_new_card_using_the_button">Bættu við nýju spjaldi með + hnappnum</string>
-    <string name="update_deck">Uppfærðu Deck-vefforritið</string>
     <string name="deck_outdated_please_update">Vefútgáfa Deck-spjaldaforritsins er of gömul (%1$s). Uppfærðu hana til að geta notað þetta Android-forrit sem biðlara.</string>
     <string name="delete_board_message">Þetta mun eyða endanlega þessu borði ásamt öllum listum þess og spjöldum.</string>
     <string name="settings_theme_title">Þema</string>
-    <string name="settings_branding_title">Vörumerking</string>
     <string name="settings_compact_title">Þjappaður hamur</string>
     <string name="settings_cover_images_title">Forsíðumyndir</string>
     <string name="settings_debugging">Villuleitarskrár</string>
@@ -157,7 +150,6 @@
     <string name="provide_at_least_a_title_or_description">Gefðu upp í það minnsta titil eða lýsingu</string>
     <string name="welcome_text">Velkomin í %s</string>
     <string name="welcome_text_further_accounts">Bæta við öðrum aðgangi</string>
-    <string name="maintenance_mode_explanation">Netþjónninn %1$s er núna í viðhaldsham. Hafðu samband við kerfisstjóra eða prófaðu aftur síðar.</string>
     <string name="share_add_to_card">Bæta á spjald</string>
     <string name="share_success">Tókst að bæta %1$s í %2$s</string>
     <string name="add_comment">Bæta við athugasemd</string>
@@ -166,7 +158,6 @@
     <string name="no_boards">Engin borð ennþá</string>
     <string name="add_a_new_board_using_the_button">Bættu við nýju borði með + hnappnum</string>
     <string name="choose_board">Veldu borð</string>
-    <string name="choose_list">Veldu lista</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Opna í vafra</string>
     <string name="updating_card">Uppfæri spjald…</string>
@@ -182,13 +173,12 @@
     <string name="filter_month">Næstu 30 daga</string>
     <string name="filter_no_due">Enginn lokadagur</string>
     <string name="filter_later">Seinna</string>
-    <string name="filter_by_tag">Sía eftir merkjum</string>
-    <string name="filter_by_assigned_user">Sía eftir úthlutuðum notanda</string>
-    <string name="filter_by_duedate">Sía eftir lokadagsetningu</string>
+
+    <string name="filter_done_no_filter">Allt</string>
+    <string name="filter_done_done">Lokið</string>
+    <string name="filter_done_undone">Er ekki lokið</string>
 
     <string name="archived_cards">Spjöld í geymslu</string>
-    <string name="action_card_dearchive">Afturkalla að setja spjöld í geymslu</string>
-    <string name="action_archived_cards">Skoða spjöld í geymslu</string>
     <string name="attachment_already_exists">Viðhengið er þegar til staðar</string>
     <string name="pick_custom_color">Veldu sérsniðinn lit</string>
     <string name="manage_tags">Sýsla með merki</string>
@@ -199,6 +189,7 @@
     <string name="filter_tags_title">Merki</string>
     <string name="filter_user_title">Notendur</string>
     <string name="filter_duedate_title">Skiladagur</string>
+    <string name="filter_done_title">Lokið</string>
 
     <string name="action_board_dearchive">Afturkalla að setja borð í geymslu</string>
     <string name="archived_boards">Borð í geymslu</string>
@@ -209,7 +200,6 @@
     <string name="error_revoking_ac">Villa við að afturkalla aðgang að %1$s</string>
     <string name="error_create_label">Villa kom upp við að útbúa skýringuna %1$s</string>
     <string name="maintenance_mode">Þjónn er í viðhaldsham</string>
-    <string name="server_error">Villa frá þjóni</string>
     <string name="error_edit_activity_killed_by_android">Android hætti í breytingaham vegna þess að það vantaði kerfistilföng fyrir önnur forrit.</string>
 
     <string name="error_dialog_title">Ó-nei - Hvað nú? 🙁</string>
@@ -276,10 +266,8 @@
     <string name="card_does_not_yet_exist">Spjald er ekki ennþá til í Deck</string>
 
     <string name="widget_stack_title">Listi</string>
-    <string name="widget_filter_title">Sía</string>
     <string name="widget_stack_header_icon">Táknmynd fyrir haus viðmótshluta</string>
     <string name="widget_placeholder_icon">Frátökutáknmynd fyrir viðmótshluta</string>
-    <string name="select_stack">Veldu lista</string>
     <string name="project_type_deck_board">Deck-borð</string>
     <string name="project_type_deck_card">Deck-spjald</string>
     <string name="project_type_file">Skrá</string>
@@ -297,9 +285,6 @@
     <string name="simple_clone">Klóna</string>
     <string name="user_avatar">Auðkennismynd notanda</string>
     <string name="simple_unassign">Aftengja úthlutun</string>
-    <string name="simple_contact">Tengiliður</string>
-    <string name="simple_file">Skrá</string>
-    <string name="simple_camera">Myndavél</string>
     <string name="take_photo">Taka ljósmynd</string>
     <string name="take_photo_switch_camera">Skipta á milli myndavéla</string>
     <string name="take_photo_toggle_torch">Víxla vasaljósi af/á</string>

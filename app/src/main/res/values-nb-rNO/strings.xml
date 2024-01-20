@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Lukk navigasjonsskuff</string>
     <string name="hint_search_deck">Søk i Stokk</string>
 
-    <string name="simple_boards">Tavler</string>
     <string name="simple_add">Legg til</string>
     <string name="simple_save">Lagre</string>
     <string name="simple_more">Mer</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Feil</string>
     <string name="simple_exception">Avbrudd</string>
     <string name="simple_close">Lukk</string>
-    <string name="simple_open">Åpne</string>
-    <string name="simple_switch">Endre</string>
     <string name="simple_filter">Filter</string>
-    <string name="simple_overdue">Utløpt</string>
-    <string name="simple_clear">Tøm</string>
+    <string name="simple_completed">Ferdig</string>
+    <string name="simple_reset">Tilbakestill</string>
     <string name="simple_discard">Slett</string>
     <string name="simple_update">Oppdater</string>
     <string name="simple_delete">Slett</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Velg</string>
     <string name="simple_comment">Kommentar</string>
     <string name="simple_disabled">deaktiver</string>
-    <string name="simple_copied">Kopiert</string>
     <string name="simple_archive">Arkiv</string>
     <string name="simple_unassigned">Ikke tildelt</string>
     <string name="hint_error_appeared">En feil oppsto</string>
@@ -90,6 +86,7 @@
     <string name="add_board">Legg til tavle</string>
 
     <string name="label_clear_due_date">Fjern forfallsdato</string>
+    <string name="label_clear_done">Ikke ferdigstilt</string>
     <string name="label_add">Legg til%1$s</string>
 
     <string name="card_edit_details">Detaljer</string>
@@ -99,9 +96,7 @@
     <string name="no_files_attached_to_this_card">Det er ingen filter vedlagt dette kortet.</string>
     <string name="attachments">Vedlegg</string>
     <string name="no_cards">Ingen kort enda</string>
-    <string name="no_account">Ingen konto konfigurert</string>
     <string name="account_already_added">Kontoen %1$s har allerede blitt lagt til</string>
-    <string name="account_is_getting_imported">Kontoen blir importert</string>
     <string name="not_synced_yet">Ikke synkronisert enda</string>
     <string name="no_lists_yet">Ingen lister enda</string>
     <string name="do_you_want_to_save_your_changes">Ønsker du å lagre din endringer?</string>
@@ -117,11 +112,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Legg til ny liste ved å bruke + knappen</string>
     <string name="add_a_new_card_using_the_button">Legg til nytt kort ved å bruke + knappen</string>
-    <string name="update_deck">Oppdater Stokk web app</string>
     <string name="deck_outdated_please_update">Din web app versjon av Stokk er for gammel (%1$s). Vennligst oppdater for å bruke denne android appen som klient.</string>
     <string name="delete_board_message">Dette vil uopprettelig slette denne tavlen inkludert alle lister og kort.</string>
     <string name="settings_theme_title">Tema</string>
-    <string name="settings_branding_title">Branding</string>
     <string name="settings_compact_title">Kompakt modus</string>
     <string name="settings_cover_images_title">Forsidebilder</string>
     <string name="settings_debugging">Debug-logger</string>
@@ -157,7 +150,6 @@
     <string name="provide_at_least_a_title_or_description">I det minste gi en tittel eller beskrivelse</string>
     <string name="welcome_text">Velkommen til %1$s</string>
     <string name="welcome_text_further_accounts">Legg til en ny konto</string>
-    <string name="maintenance_mode_explanation">Serveren %1$s er for øyeblikket i vedlikeholds modus. Vennligs kontakt din administrator eller prøv igjen senere.</string>
     <string name="share_add_to_card">Legg til i kort</string>
     <string name="share_success">%1$sble vellykket lagt til %2$s</string>
     <string name="add_comment">Legg til kommentar</string>
@@ -166,7 +158,6 @@
     <string name="no_boards">Ingen tavle enda</string>
     <string name="add_a_new_board_using_the_button">Legg til ny tavle ved å bruke + knappen</string>
     <string name="choose_board">Velg tavle</string>
-    <string name="choose_list">Velg liste</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Åpne i nettleser</string>
     <string name="updating_card">Oppdaterer kort...</string>
@@ -182,13 +173,12 @@
     <string name="filter_month">Neste 30 dager</string>
     <string name="filter_no_due">Ingen forfallsdato</string>
     <string name="filter_later">Senere</string>
-    <string name="filter_by_tag">Filtrer på knagg</string>
-    <string name="filter_by_assigned_user">Filtrer på tildelt bruker</string>
-    <string name="filter_by_duedate">Filtrer på forfallsdato</string>
+
+    <string name="filter_done_no_filter">Alle</string>
+    <string name="filter_done_done">Ferdig</string>
+    <string name="filter_done_undone">Ikke ferdigstilt</string>
 
     <string name="archived_cards">Arkiver tavle</string>
-    <string name="action_card_dearchive">Angre arkivering av kort</string>
-    <string name="action_archived_cards">Bla gjennom arkiverte kort</string>
     <string name="attachment_already_exists">Vedlegget eksisterer allerede</string>
     <string name="pick_custom_color">Velg tilpasset farge</string>
     <string name="manage_tags">Håndtere etiketter</string>
@@ -199,6 +189,7 @@
     <string name="filter_tags_title">Merkelapper</string>
     <string name="filter_user_title">Brukere</string>
     <string name="filter_duedate_title">Forfallsdato</string>
+    <string name="filter_done_title">Ferdig</string>
 
     <string name="action_board_dearchive">Angre arkivering av tavle</string>
     <string name="archived_boards">Arkiverte tavler</string>
@@ -209,7 +200,6 @@
     <string name="error_revoking_ac">Feil ved tilbakekalling av tilgang for%1$s</string>
     <string name="error_create_label">Feil ved opprettelse av etikett %1$s</string>
     <string name="maintenance_mode">Server i vedlikeholdsmodus</string>
-    <string name="server_error">Tjenerfeil</string>
     <string name="error_edit_activity_killed_by_android">Android avsluttet redigeringsmodus fordi det trengte flere systemressurser til andre apper.</string>
 
     <string name="error_dialog_title">Å nei - Hva nå? 🙁</string>
@@ -277,10 +267,8 @@
     <string name="card_does_not_yet_exist">Kortet finnes ikke i Deck enda</string>
 
     <string name="widget_stack_title">Liste</string>
-    <string name="widget_filter_title">Filter</string>
     <string name="widget_stack_header_icon">Widget topptekstikon</string>
     <string name="widget_placeholder_icon">Widget plassholderikon</string>
-    <string name="select_stack">Velg liste</string>
     <string name="project_type_deck_board">Deck tavle</string>
     <string name="project_type_deck_card">Deck kort</string>
     <string name="project_type_file">Fil</string>
@@ -298,9 +286,6 @@
     <string name="simple_clone">Klone</string>
     <string name="user_avatar">Bruker avatar</string>
     <string name="simple_unassign">Fjern tildeling</string>
-    <string name="simple_contact">Kontakt</string>
-    <string name="simple_file">Fil</string>
-    <string name="simple_camera">Kamera</string>
     <string name="take_photo">Ta et bilde</string>
     <string name="take_photo_switch_camera">Bytt kamera</string>
     <string name="take_photo_toggle_torch">Lommelykt av/på</string>

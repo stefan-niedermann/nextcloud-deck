@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Zavřít panel navigace</string>
     <string name="hint_search_deck">Hledat sloupec</string>
 
-    <string name="simple_boards">Tabule</string>
     <string name="simple_add">Přidat</string>
     <string name="simple_save">Uložit</string>
     <string name="simple_more">Další</string>
@@ -14,11 +13,8 @@
     <string name="simple_error">Chyba</string>
     <string name="simple_exception">Výjimka</string>
     <string name="simple_close">Zavřít</string>
-    <string name="simple_open">Otevřeno</string>
-    <string name="simple_switch">Přepnout</string>
     <string name="simple_filter">Filtr</string>
-    <string name="simple_overdue">Po termínu</string>
-    <string name="simple_clear">Vyčistit</string>
+    <string name="simple_completed">Dokončeno</string>
     <string name="simple_discard">Zahodit</string>
     <string name="simple_update">Aktualizovat</string>
     <string name="simple_delete">Smazat</string>
@@ -30,7 +26,6 @@
     <string name="simple_select">Vybrat</string>
     <string name="simple_comment">Komentář</string>
     <string name="simple_disabled">vypnuto</string>
-    <string name="simple_copied">Zkopírováno</string>
     <string name="simple_archive">Archiv</string>
     <string name="simple_unassigned">Nepřiřazeno</string>
     <string name="hint_error_appeared">Objevila se chyba</string>
@@ -90,6 +85,7 @@
     <string name="add_board">Přidat tabuli</string>
 
     <string name="label_clear_due_date">Vymazat termín</string>
+    <string name="label_clear_done">Nedokončeno</string>
     <string name="label_add">Přidat %1$s</string>
 
     <string name="card_edit_details">Podrobnosti</string>
@@ -99,9 +95,7 @@
     <string name="no_files_attached_to_this_card">K této kartě nejsou připojeny žádné soubory.</string>
     <string name="attachments">Přílohy</string>
     <string name="no_cards">Zatím žádné karty</string>
-    <string name="no_account">Nenastaven žádný účet</string>
     <string name="account_already_added">Účet %1$s už byl přidán</string>
-    <string name="account_is_getting_imported">Účet je importován</string>
     <string name="not_synced_yet">Doposud nesynchronizováno</string>
     <string name="no_lists_yet">Zatím žádné seznamy</string>
     <string name="do_you_want_to_save_your_changes">Chcete vámi provedené změny uložit?</string>
@@ -121,11 +115,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Nový seznam přidáte tlačítkem +</string>
     <string name="add_a_new_card_using_the_button">Novou kartu přidáte tlačítkem +</string>
-    <string name="update_deck">Aktualizujte webovou aplikaci Deck</string>
     <string name="deck_outdated_please_update">Verze aplikace Deck na straně serveru (webová) je zastaralá (%1$s). Zaktualizujte ji tam prosím, abyste mohli používat tuto Android aplikaci jako klienta.</string>
     <string name="delete_board_message">Toto tabuli nadobro smaže, včetně všech seznamů a karet.</string>
     <string name="settings_theme_title">Vzhled</string>
-    <string name="settings_branding_title">Opatření vlastním logem</string>
     <string name="settings_compact_title">Kompaktní režim</string>
     <string name="settings_cover_images_title">Titulní obrázky</string>
     <string name="settings_debugging">Záznamy ladících událostí</string>
@@ -161,7 +153,6 @@
     <string name="provide_at_least_a_title_or_description">Zadejte alespoň nadpis nebo popis</string>
     <string name="welcome_text">Vítejte v %1$s</string>
     <string name="welcome_text_further_accounts">Přidat další účet</string>
-    <string name="maintenance_mode_explanation">Na serveru %1$s v tuto chvíli probíhá údržba. Obraťte se na jeho správce nebo to zkuste později znovu.</string>
     <string name="share_add_to_card">Přidat do karty</string>
     <string name="share_success">%1$s úspěšně přidáno do %2$s</string>
     <string name="add_comment">Přidat komentář</string>
@@ -170,7 +161,6 @@
     <string name="no_boards">Zatím žádné tabule</string>
     <string name="add_a_new_board_using_the_button">Novou tabuli přidáte pomocí tlačítka +</string>
     <string name="choose_board">Zvolit tabuli</string>
-    <string name="choose_list">Zvolit seznam</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Otevřít v prohlížeči</string>
     <string name="updating_card">Aktualizace karty…</string>
@@ -186,13 +176,10 @@
     <string name="filter_month">Příštích 30 dnů</string>
     <string name="filter_no_due">Žádný termín</string>
     <string name="filter_later">Později</string>
-    <string name="filter_by_tag">Filtrovat podle štítku</string>
-    <string name="filter_by_assigned_user">Filtrovat podle uživatele, který je úkolem pověřen</string>
-    <string name="filter_by_duedate">Filtrovat podle termínu</string>
+
+    <string name="filter_done_undone">Nedokončeno</string>
 
     <string name="archived_cards">Archivované karty</string>
-    <string name="action_card_dearchive">Vzít zpět archivaci karty</string>
-    <string name="action_archived_cards">Procházet archivované karty</string>
     <string name="attachment_already_exists">Příloha už existuje</string>
     <string name="pick_custom_color">Zvolte uživatelsky určenou barvu</string>
     <string name="manage_tags">Spravovat štítky</string>
@@ -203,7 +190,6 @@
     <string name="filter_tags_title">Štítky</string>
     <string name="filter_user_title">Uživatelé</string>
     <string name="filter_duedate_title">Datum termínu</string>
-
     <string name="action_board_dearchive">Vzít zpět archivaci tabule</string>
     <string name="archived_boards">Archivované tabule</string>
 
@@ -213,7 +199,6 @@
     <string name="error_revoking_ac">Chyba při rušení přístupu pro %1$s</string>
     <string name="error_create_label">Chyba při vytváření štítku %1$s</string>
     <string name="maintenance_mode">Na serveru probíhá údržba</string>
-    <string name="server_error">Chyba serveru</string>
     <string name="error_edit_activity_killed_by_android">Systém android ukončil režim úprav, protože potřeboval více systémových prostředků pro ostatní aplikace.</string>
 
     <string name="error_dialog_title">Ó ne – co teď? 🙁</string>
@@ -282,10 +267,8 @@
     <string name="card_does_not_yet_exist">Karta ještě neexistuje v Deck</string>
 
     <string name="widget_stack_title">Seznam</string>
-    <string name="widget_filter_title">Filtr</string>
     <string name="widget_stack_header_icon">Ikona hlavičky ovládacího prvku</string>
     <string name="widget_placeholder_icon">Ikona výplně ovládacího prvku</string>
-    <string name="select_stack">Vybrat seznam</string>
     <string name="project_type_deck_board">Tabule aplikace Deck</string>
     <string name="project_type_deck_card">Karta aplikace Deck</string>
     <string name="project_type_file">Soubor</string>
@@ -305,9 +288,6 @@
     <string name="simple_clone">Klonovat</string>
     <string name="user_avatar">Zástupný obrázek uživatele</string>
     <string name="simple_unassign">Zrušit přirazení</string>
-    <string name="simple_contact">Kontakt</string>
-    <string name="simple_file">Soubor</string>
-    <string name="simple_camera">Kamera</string>
     <string name="take_photo">Vyfotit</string>
     <string name="take_photo_switch_camera">Přepnout kameru</string>
     <string name="take_photo_toggle_torch">Vyp/zap. přisvícení</string>

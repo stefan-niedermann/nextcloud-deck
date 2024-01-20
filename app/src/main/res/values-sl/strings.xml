@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Zapri bočno okno</string>
     <string name="hint_search_deck">Preišči zbirko</string>
 
-    <string name="simple_boards">Zbirke</string>
     <string name="simple_add">Dodaj</string>
     <string name="simple_save">Shrani</string>
     <string name="simple_more">Več</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Napaka</string>
     <string name="simple_exception">Izjema</string>
     <string name="simple_close">Zapri</string>
-    <string name="simple_open">Odpri</string>
-    <string name="simple_switch">Preklopi</string>
     <string name="simple_filter">Filter</string>
-    <string name="simple_overdue">Preteklo</string>
-    <string name="simple_clear">Počisti</string>
+    <string name="simple_completed">Končano</string>
+    <string name="simple_reset">Ponastavi</string>
     <string name="simple_discard">Opusti</string>
     <string name="simple_update">Posodobi</string>
     <string name="simple_delete">Izbriši</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Izbor</string>
     <string name="simple_comment">Opomba</string>
     <string name="simple_disabled">onemogočeno</string>
-    <string name="simple_copied">Kopirano!</string>
     <string name="simple_archive">Arhiv</string>
     <string name="simple_unassigned">Nedodeljeno</string>
     <string name="hint_error_appeared">Prišlo je do napake</string>
@@ -90,6 +86,7 @@
     <string name="add_board">Dodaj zbirko</string>
 
     <string name="label_clear_due_date">Počisti datum poteka</string>
+    <string name="label_clear_done">Ni končano</string>
     <string name="label_add">Dodaj %1$s</string>
 
     <string name="card_edit_details">Podrobnosti</string>
@@ -99,9 +96,7 @@
     <string name="no_files_attached_to_this_card">K tej nalogi ni priloženih datotek.</string>
     <string name="attachments">Priloge</string>
     <string name="no_cards">Ni še vpisanih nalog</string>
-    <string name="no_account">Ni nastavljenega nobenega računa</string>
     <string name="account_already_added">Račun %1$s je že dodan.</string>
-    <string name="account_is_getting_imported">Poteka uvažanje računa</string>
     <string name="not_synced_yet">Še ni usklajeno</string>
     <string name="no_lists_yet">Ni še dodanega seznama</string>
     <string name="do_you_want_to_save_your_changes">Ali želite shraniti spremembe?</string>
@@ -121,11 +116,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Nov seznam dodate s klikom na gumb +</string>
     <string name="add_a_new_card_using_the_button">Novo nalogo je mogoče dodati z gumbom +</string>
-    <string name="update_deck">Posodobi spletni program Deck</string>
     <string name="deck_outdated_please_update">Različica zbirke je prestara (%1$s). Za uporabo tega odjemalca je treba zbirko najprej posodobiti.</string>
     <string name="delete_board_message">S tem dejanjem bo zbirka z vsemi paketi nalog in nalogami trajno izbrisana.</string>
     <string name="settings_theme_title">Tema</string>
-    <string name="settings_branding_title">Prilagajanje oblikovanja</string>
     <string name="settings_compact_title">Stisnjen pogled</string>
     <string name="settings_cover_images_title">Naslovne slike</string>
     <string name="settings_debugging">Razhroščevanje dnevnikov</string>
@@ -161,7 +154,6 @@
     <string name="provide_at_least_a_title_or_description">Vpisati je treba vsaj naslov oziroma opis</string>
     <string name="welcome_text">Dobrodošli v %1$s</string>
     <string name="welcome_text_further_accounts">Dodaj račun</string>
-    <string name="maintenance_mode_explanation">Strežnik %1$s je trenutno v načinu vzdrževanja. Stopite v stik s skrbnikom, ali pa poskusite kasneje.</string>
     <string name="share_add_to_card">Dodaj k nalogi</string>
     <string name="share_success">Uspešno dodano %1$s v %2$s</string>
     <string name="add_comment">Dodaj opombo</string>
@@ -170,7 +162,6 @@
     <string name="no_boards">Ni še vpisanih zbirk</string>
     <string name="add_a_new_board_using_the_button">Novo zbirko je mogoče dodati z gumbom +</string>
     <string name="choose_board">Izbor zbirke</string>
-    <string name="choose_list">Izbor seznama</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Odpri v brskalniku</string>
     <string name="updating_card">Poteka posodabljanje naloge ...</string>
@@ -186,13 +177,12 @@
     <string name="filter_month">Naslednjih 30 dni</string>
     <string name="filter_no_due">Ni datuma preteka</string>
     <string name="filter_later">Kasneje</string>
-    <string name="filter_by_tag">Filtriraj po oznaki</string>
-    <string name="filter_by_assigned_user">Filtriraj po dodeljenem uporabniku</string>
-    <string name="filter_by_duedate">Filtriraj po datumu preteka</string>
+
+    <string name="filter_done_no_filter">Vse</string>
+    <string name="filter_done_done">Končano</string>
+    <string name="filter_done_undone">Ni končano</string>
 
     <string name="archived_cards">Arhivirane naloge</string>
-    <string name="action_card_dearchive">Razveljavi arhiviranje naloge</string>
-    <string name="action_archived_cards">Prebrskaj med arhiviranimi nalogami</string>
     <string name="attachment_already_exists">Priloga že obstaja</string>
     <string name="pick_custom_color">Izbor barve po meri</string>
     <string name="manage_tags">Upravljanje oznak</string>
@@ -203,6 +193,7 @@
     <string name="filter_tags_title">Oznake</string>
     <string name="filter_user_title">Uporabniki</string>
     <string name="filter_duedate_title">Datum preteka</string>
+    <string name="filter_done_title">Končano</string>
 
     <string name="action_board_dearchive">Razveljavi arhiviranje zbirke</string>
     <string name="archived_boards">Arhivirane zbirke</string>
@@ -213,7 +204,6 @@
     <string name="error_revoking_ac">Prišlo je do napake med obnavljanjem dostopa do %1$s.</string>
     <string name="error_create_label">Prišlo je do napake med ustvarjanjem oznake %1$s.</string>
     <string name="maintenance_mode">Strežnik je v načinu vzdrževanja.</string>
-    <string name="server_error">Napaka strežnika</string>
     <string name="error_edit_activity_killed_by_android">Urejevalni način je bil sistemsko zaustavljen, ker druge naprave zahtevajo več virov.</string>
 
     <string name="error_dialog_title">Ojoj, kaj pa zdaj? 🙁</string>
@@ -282,10 +272,8 @@
     <string name="card_does_not_yet_exist">Naloga v Deck še ne obstaja</string>
 
     <string name="widget_stack_title">Seznam</string>
-    <string name="widget_filter_title">Filter</string>
     <string name="widget_stack_header_icon">Ikona glave gradnika</string>
     <string name="widget_placeholder_icon">Ikona vsebnika gradnika</string>
-    <string name="select_stack">Izbor seznama</string>
     <string name="project_type_deck_board">Zbirka Deck</string>
     <string name="project_type_deck_card">Naloga Deck</string>
     <string name="project_type_file">Datoteka</string>
@@ -305,9 +293,6 @@
     <string name="simple_clone">Kloniraj</string>
     <string name="user_avatar">Podoba uporabnika</string>
     <string name="simple_unassign">Odstrani</string>
-    <string name="simple_contact">Stik</string>
-    <string name="simple_file">Datoteka</string>
-    <string name="simple_camera">Kamera</string>
     <string name="take_photo">Zajemi posnetek</string>
     <string name="take_photo_switch_camera">Preklopi kamero</string>
     <string name="take_photo_toggle_torch">Preklopi bliskavico</string>

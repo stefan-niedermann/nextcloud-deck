@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Navigációs fiók bezárása</string>
     <string name="hint_search_deck">Kártyák keresése</string>
 
-    <string name="simple_boards">Táblák</string>
     <string name="simple_add">Hozzáadás</string>
     <string name="simple_save">Mentés</string>
     <string name="simple_more">Továbbiak</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Hiba</string>
     <string name="simple_exception">Kivétel</string>
     <string name="simple_close">Bezárás</string>
-    <string name="simple_open">Megnyitás</string>
-    <string name="simple_switch">Váltás</string>
     <string name="simple_filter">Szűrés</string>
-    <string name="simple_overdue">Lejárt</string>
-    <string name="simple_clear">Törlés</string>
+    <string name="simple_completed">Teljesített</string>
+    <string name="simple_reset">Alaphelyzetbe állítás</string>
     <string name="simple_discard">Elvetés</string>
     <string name="simple_update">Frissítés</string>
     <string name="simple_delete">Törlés</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Kiválasztás</string>
     <string name="simple_comment">Megjegyzés</string>
     <string name="simple_disabled">letiltva</string>
-    <string name="simple_copied">Másolva</string>
     <string name="simple_archive">Archívum</string>
     <string name="simple_unassigned">Nem hozzárendelt</string>
     <string name="hint_error_appeared">Hiba történt</string>
@@ -90,6 +86,7 @@
     <string name="add_board">Tábla hozzáadása</string>
 
     <string name="label_clear_due_date">Határidő eltávolítása</string>
+    <string name="label_clear_done">Nincs kész</string>
     <string name="label_add">%1$s hozzáadása</string>
 
     <string name="card_edit_details">Részletek</string>
@@ -99,9 +96,7 @@
     <string name="no_files_attached_to_this_card">Nincsenek fájlok mellékelve ehhez a kártyához.</string>
     <string name="attachments">Mellékletek</string>
     <string name="no_cards">Még nincsenek kártyák</string>
-    <string name="no_account">Nincs fiók beállítva</string>
     <string name="account_already_added">A(z) %1$s fiók már hozzá lett adva</string>
-    <string name="account_is_getting_imported">A fiók importálásra kerül</string>
     <string name="not_synced_yet">Még nincs szinkronizálva</string>
     <string name="no_lists_yet">Még nincsenek listák</string>
     <string name="do_you_want_to_save_your_changes">Biztos, hogy menti a változásokat?</string>
@@ -117,11 +112,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Új lista hozzáadása a + gombbal</string>
     <string name="add_a_new_card_using_the_button">Új kártya hozzáadása a + gombbal</string>
-    <string name="update_deck">Kártyák webalkalmazás frissítése</string>
     <string name="deck_outdated_please_update">A Kártyák verziója túl régi (%1$s). Frissítse, hogy ezt az androidos alkalmazást használhassa kliensként.</string>
     <string name="delete_board_message">Ez véglegesen törli ezt a táblát az összes listával és kártyával együtt.</string>
     <string name="settings_theme_title">Téma</string>
-    <string name="settings_branding_title">Márkázas</string>
     <string name="settings_compact_title">Kompakt mód</string>
     <string name="settings_cover_images_title">Borítóképek</string>
     <string name="settings_debugging">Hibakeresési naplók</string>
@@ -157,7 +150,6 @@
     <string name="provide_at_least_a_title_or_description">Legalább címet vagy leírást adjon meg</string>
     <string name="welcome_text">Üdvözli a %1$s</string>
     <string name="welcome_text_further_accounts">Másik fiók hozzáadása</string>
-    <string name="maintenance_mode_explanation">A(z) %1$s kiszolgáló jelenleg karbantartási módban van. Lépjen kapcsolatba a rendszergazdával vagy próbálja újra.</string>
     <string name="share_add_to_card">Kártyához adás</string>
     <string name="share_success">%1$s sikeresen hozzáadva ehhez: %2$s</string>
     <string name="add_comment">Hozzászólás hozzáadása</string>
@@ -166,7 +158,6 @@
     <string name="no_boards">Még nincsenek táblák</string>
     <string name="add_a_new_board_using_the_button">Új tábla hozzáadása a + gombbal</string>
     <string name="choose_board">Válasszon táblát</string>
-    <string name="choose_list">Válasszon listát</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Megnyitás böngészőben</string>
     <string name="updating_card">Kártya frissítése…</string>
@@ -182,13 +173,12 @@
     <string name="filter_month">Következő 30 nap</string>
     <string name="filter_no_due">Nincs határidő</string>
     <string name="filter_later">Később</string>
-    <string name="filter_by_tag">Szűrés címke szerint</string>
-    <string name="filter_by_assigned_user">Szűrés hozzárendelt felhasználó szerint</string>
-    <string name="filter_by_duedate">Szűrés határidő szerint</string>
+
+    <string name="filter_done_no_filter">Összes</string>
+    <string name="filter_done_done">Teljesített</string>
+    <string name="filter_done_undone">Nincs kész</string>
 
     <string name="archived_cards">Archivált kártyák</string>
-    <string name="action_card_dearchive">Kártya archiválásának visszavonása</string>
-    <string name="action_archived_cards">Archivált kártyák tallózása</string>
     <string name="attachment_already_exists">A melléklet már létezik</string>
     <string name="pick_custom_color">Válasszon egyéni színt</string>
     <string name="manage_tags">Címkék kezelése</string>
@@ -199,6 +189,7 @@
     <string name="filter_tags_title">Címkék</string>
     <string name="filter_user_title">Felhasználók</string>
     <string name="filter_duedate_title">Határidő</string>
+    <string name="filter_done_title">Teljesített</string>
 
     <string name="action_board_dearchive">Tábla archiválásának visszavonása</string>
     <string name="archived_boards">Archivált táblák</string>
@@ -209,7 +200,6 @@
     <string name="error_revoking_ac">Hiba a(z) %1$s elérésének visszavonásakor</string>
     <string name="error_create_label">Hiba a(z) %1$s címke létrehozásakor</string>
     <string name="maintenance_mode">A kiszolgáló karbantartási módban van</string>
-    <string name="server_error">Kiszolgálóhiba</string>
     <string name="error_edit_activity_killed_by_android">Az Android befejezte a szerkesztési módot, mert több rendszererőforrás szükséges a többi alkalmazás számára.</string>
 
     <string name="error_dialog_title">Jaj ne – Most mi legyen? 🙁</string>
@@ -276,10 +266,8 @@
     <string name="card_does_not_yet_exist">A kártya még nem létezik a Kártyákban</string>
 
     <string name="widget_stack_title">Lista</string>
-    <string name="widget_filter_title">Szűrő</string>
     <string name="widget_stack_header_icon">Modul fejlécikonja</string>
     <string name="widget_placeholder_icon">Modul helykitöltő ikonja</string>
-    <string name="select_stack">Válasszon listát</string>
     <string name="project_type_deck_board">Kártyatábla</string>
     <string name="project_type_deck_card">Kártya</string>
     <string name="project_type_file">Fájl</string>
@@ -297,9 +285,6 @@
     <string name="simple_clone">Klónozás</string>
     <string name="user_avatar">Felhasználói profilkép</string>
     <string name="simple_unassign">Elvétel</string>
-    <string name="simple_contact">Kapcsolat</string>
-    <string name="simple_file">Fájl</string>
-    <string name="simple_camera">Fényképezőgép</string>
     <string name="take_photo">Felvétel készítése</string>
     <string name="take_photo_switch_camera">Fényképezőgép váltása</string>
     <string name="take_photo_toggle_torch">Lámpa be/ki</string>

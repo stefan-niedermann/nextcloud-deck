@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">Згорнути скриньку з навігацією</string>
     <string name="hint_search_deck">Пошукова колода</string>
 
-    <string name="simple_boards">Дошки</string>
     <string name="simple_add">Додати</string>
     <string name="simple_save">Зберегти</string>
     <string name="simple_more">Додатково</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">Помилка</string>
     <string name="simple_exception">Виняток</string>
     <string name="simple_close">закрити</string>
-    <string name="simple_open">Відкрити</string>
-    <string name="simple_switch">Перемкнути</string>
     <string name="simple_filter">Фільтр</string>
-    <string name="simple_overdue">Протерміновано</string>
-    <string name="simple_clear">Очистити</string>
+    <string name="simple_completed">Виконано</string>
+    <string name="simple_reset">Відхилити зміни</string>
     <string name="simple_discard">Відхилити</string>
     <string name="simple_update">Оновлення</string>
     <string name="simple_delete">Вилучити</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">Вибрати</string>
     <string name="simple_comment">Коментар</string>
     <string name="simple_disabled">вимкнено</string>
-    <string name="simple_copied">Скопійовано</string>
     <string name="simple_archive">Архів</string>
     <string name="simple_unassigned">Скасовано призначення</string>
     <string name="hint_error_appeared">Сталася помилка </string>
@@ -90,6 +86,7 @@
     <string name="add_board">Додати дошку</string>
 
     <string name="label_clear_due_date">Очистити до</string>
+    <string name="label_clear_done">Не завершено</string>
     <string name="label_add">Додати %1$s</string>
 
     <string name="card_edit_details">Деталі</string>
@@ -99,9 +96,7 @@
     <string name="no_files_attached_to_this_card">До цієї картки не прикріплено жодного файла.</string>
     <string name="attachments">Вкладення</string>
     <string name="no_cards">Ще немає жодної картки</string>
-    <string name="no_account">Жодного налаштованого облікового запису</string>
     <string name="account_already_added">Обліковий запис %1$s вже додано</string>
-    <string name="account_is_getting_imported">Відбувається імпорт облікового запису</string>
     <string name="not_synced_yet">Поки не синхронізовано</string>
     <string name="no_lists_yet">Поки що відсутні списки</string>
     <string name="do_you_want_to_save_your_changes">Зберегти зміни?</string>
@@ -120,11 +115,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Створюйте нові списки за допомогою кнопки (+)</string>
     <string name="add_a_new_card_using_the_button">Додавайте нові картки за допомогою кнопки (+)</string>
-    <string name="update_deck">Оновіть додаток Колода на сервері</string>
     <string name="deck_outdated_please_update">Ваша версія веб-додатку Deck застаріла (%1$s). Будь ласка, оновіть її, щоб використовувати цей додаток для Android як клієнт.</string>
     <string name="delete_board_message">Це безповоротно вилучіть дошку разом зі списками та картками</string>
     <string name="settings_theme_title">Тема</string>
-    <string name="settings_branding_title">Оформлення</string>
     <string name="settings_compact_title">Компактний режим</string>
     <string name="settings_cover_images_title">Зображення обкладинки</string>
     <string name="settings_debugging">Журнали налагодження</string>
@@ -160,7 +153,6 @@
     <string name="provide_at_least_a_title_or_description">Щонайменше додайте назву чи опис</string>
     <string name="welcome_text">Вітаємо у %1$s</string>
     <string name="welcome_text_further_accounts">Додати інший обліковий запис</string>
-    <string name="maintenance_mode_explanation">Зараз сервер %1$s у режимі технічного обслуговування. Будь ласка, сконтактуйте з вашим адміністратором або спробуйте пізніше.</string>
     <string name="share_add_to_card">Додати до картки</string>
     <string name="share_success">Успішно додано %1$s до %2$s</string>
     <string name="add_comment">Додати коментар</string>
@@ -169,7 +161,6 @@
     <string name="no_boards">Дошки відсутні</string>
     <string name="add_a_new_board_using_the_button">Створюйте нові дошки за допомогою кнопки (+)</string>
     <string name="choose_board">Виберіть дошку</string>
-    <string name="choose_list">Виберіть список</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Відкрити у переглядачі</string>
     <string name="updating_card">Оновлюю картку...</string>
@@ -185,13 +176,12 @@
     <string name="filter_month">Наступні 30 днів</string>
     <string name="filter_no_due">Без дати завершення</string>
     <string name="filter_later">Пізніше</string>
-    <string name="filter_by_tag">Відібрати за мітками</string>
-    <string name="filter_by_assigned_user">Відібрати за призначеним користувачем</string>
-    <string name="filter_by_duedate">Відібрати за датою завершення</string>
+
+    <string name="filter_done_no_filter">Всі</string>
+    <string name="filter_done_done">Виконано</string>
+    <string name="filter_done_undone">Не завершено</string>
 
     <string name="archived_cards">Заархівовані картки</string>
-    <string name="action_card_dearchive">Скасувати архівування картки</string>
-    <string name="action_archived_cards">Перегляд заархівованих карток</string>
     <string name="attachment_already_exists">Вкладення уже наявне</string>
     <string name="pick_custom_color">Вибрати власний колір</string>
     <string name="manage_tags">Керування мітками</string>
@@ -202,6 +192,7 @@
     <string name="filter_tags_title">Мітки</string>
     <string name="filter_user_title">Користувачі</string>
     <string name="filter_duedate_title">Дата завершення</string>
+    <string name="filter_done_title">Виконано</string>
 
     <string name="action_board_dearchive">Скасувати архівування дошки</string>
     <string name="archived_boards">Архівовані дошки</string>
@@ -212,7 +203,6 @@
     <string name="error_revoking_ac">Помилка під час відкликання доступу для %1$s</string>
     <string name="error_create_label">Помилка під час створення ярлика %1$s</string>
     <string name="maintenance_mode">Сервер у режимі обслуговування</string>
-    <string name="server_error">Помилка серверу</string>
     <string name="error_edit_activity_killed_by_android">Android вивантажив режим редагування через нестачу системних ресурсів.</string>
 
     <string name="error_dialog_title">От халепа!</string>
@@ -266,10 +256,8 @@
     <string name="card_does_not_yet_exist">Картка поки відсутня у застосунку</string>
 
     <string name="widget_stack_title">Список</string>
-    <string name="widget_filter_title">Фільтр</string>
     <string name="widget_stack_header_icon">Піктограма заголовку віджету</string>
     <string name="widget_placeholder_icon">Піктограма поля віджету</string>
-    <string name="select_stack">Виберіть список</string>
     <string name="project_type_deck_board">Дошка Deck</string>
     <string name="project_type_deck_card">Картка</string>
     <string name="project_type_file">Файл</string>
@@ -277,9 +265,6 @@
     <string name="simple_move">Перемістити</string>
     <string name="clone_cards">Копіювати картки</string>
     <string name="simple_clone">Копіювати</string>
-    <string name="simple_contact">Контакт</string>
-    <string name="simple_file">Файл</string>
-    <string name="simple_camera">Камера</string>
     <string name="show_all_contacts">Показувати всі контакти</string>
     <string name="recent">Нещодавні</string>
     <string name="contacts">Контакти</string>

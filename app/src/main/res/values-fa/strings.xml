@@ -3,7 +3,6 @@
     <string name="navigation_drawer_close">بستن کشو ناوبری</string>
     <string name="hint_search_deck">جست‌وجوی برگه‌دان</string>
 
-    <string name="simple_boards">تخته ها</string>
     <string name="simple_add">افزودن</string>
     <string name="simple_save">ذخیره</string>
     <string name="simple_more">بیش‌تر</string>
@@ -14,11 +13,9 @@
     <string name="simple_error">خطا</string>
     <string name="simple_exception">استثنا</string>
     <string name="simple_close">بسته</string>
-    <string name="simple_open">باز کردن</string>
-    <string name="simple_switch">تعویض</string>
     <string name="simple_filter">فیلتر</string>
-    <string name="simple_overdue">منقضی شده</string>
-    <string name="simple_clear">پاک کردن</string>
+    <string name="simple_completed">نکمیل شده</string>
+    <string name="simple_reset">بازنشاندن</string>
     <string name="simple_discard">لغو تغییرات</string>
     <string name="simple_update">به روز رسانی</string>
     <string name="simple_delete">حذف</string>
@@ -30,7 +27,6 @@
     <string name="simple_select">انتخاب</string>
     <string name="simple_comment">نظر</string>
     <string name="simple_disabled">غیر فعال</string>
-    <string name="simple_copied">کپی شد</string>
     <string name="simple_archive">بایگانی</string>
     <string name="simple_unassigned">تخصیص داده نشده</string>
     <string name="hint_error_appeared">خطایی بروز کرد</string>
@@ -90,6 +86,7 @@
     <string name="add_board">تخته را اضافه کنید</string>
 
     <string name="label_clear_due_date">تاریخ مقرر را پاک کنید</string>
+    <string name="label_clear_done">Not completed</string>
     <string name="label_add">افزودن%1$s</string>
 
     <string name="card_edit_details">جزئیات</string>
@@ -99,9 +96,7 @@
     <string name="no_files_attached_to_this_card">هیچ پرونده ای به این کارت وصل نشده است.</string>
     <string name="attachments">پیوست ها</string>
     <string name="no_cards">هنوز کارت وجود ندارد</string>
-    <string name="no_account">هیچ حساب پیکربندی نشده است</string>
     <string name="account_already_added">حساب کاربری %1$s قبلا اضافه شده است.</string>
-    <string name="account_is_getting_imported">حساب وارد می شود</string>
     <string name="not_synced_yet">هنوز همگام سازی نشده است</string>
     <string name="no_lists_yet">هنوز لیست وجود ندارد</string>
     <string name="do_you_want_to_save_your_changes">آیا می خواهید تغییرات خود را ذخیره کنید؟</string>
@@ -117,11 +112,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">با استفاده از دکمه + لیست جدیدی اضافه کنید</string>
     <string name="add_a_new_card_using_the_button">با استفاده از دکمه + یک کارت جدید اضافه کنید</string>
-    <string name="update_deck">عرشه را به روز کنید</string>
     <string name="deck_outdated_please_update">نسخه عرشه شما خیلی قدیمی است لطفاً برای استفاده از این برنامه اندرویدی به عنوان مشتری ، بروزرسانی کنید.</string>
     <string name="delete_board_message">با این کار این صفحه شامل همه لیست ها و کارت ها برای همیشه حذف می شود.</string>
     <string name="settings_theme_title">تم تاریک</string>
-    <string name="settings_branding_title">نام تجاری</string>
     <string name="settings_compact_title">حالت جمع و جور</string>
     <string name="settings_cover_images_title">تصاویر جلد</string>
     <string name="settings_debugging">اشکال‌زدایی گزارش‌ها</string>
@@ -157,7 +150,6 @@
     <string name="provide_at_least_a_title_or_description">حداقل عنوان یا توصیفی ارائه دهید</string>
     <string name="welcome_text">به %1$s خوش آمدید</string>
     <string name="welcome_text_further_accounts">افزودن حساب کاربری دیگر</string>
-    <string name="maintenance_mode_explanation">سرور %1$s در حال حاضر در حالت تعمیر و نگهداری است. لطفاً با مدیریت تماس بگیرید یا بعداً دوباره امتحان کنید.</string>
     <string name="share_add_to_card">افزودن به کارت</string>
     <string name="share_success">با موفقیت %1$s به %2$s اضافه شد</string>
     <string name="add_comment">افزودن نظر</string>
@@ -166,7 +158,6 @@
     <string name="no_boards">هنوز تابلویی وجود ندارد</string>
     <string name="add_a_new_board_using_the_button">با استفاده از دکمه + یک صفحه جدید اضافه کنید</string>
     <string name="choose_board">تخته را انتخاب کنید</string>
-    <string name="choose_list">لیست را انتخاب کنید</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">باز کردن در مرورگر</string>
     <string name="updating_card">درحال به روزرسانی کارت</string>
@@ -182,13 +173,12 @@
     <string name="filter_month">30 روز آینده</string>
     <string name="filter_no_due">تاریخ موعد ندارد</string>
     <string name="filter_later">بعدا</string>
-    <string name="filter_by_tag">فیلتر برچسب</string>
-    <string name="filter_by_assigned_user">فیلتر توسط کاربر اختصاص داده شده</string>
-    <string name="filter_by_duedate">فیلتر به سررسید</string>
+
+    <string name="filter_done_no_filter">همه</string>
+    <string name="filter_done_done">نکمیل شده</string>
+    <string name="filter_done_undone">Not completed</string>
 
     <string name="archived_cards">کارتهای بایگانی شده</string>
-    <string name="action_card_dearchive">واگرد بایگانی کارت</string>
-    <string name="action_archived_cards">کارتهای بایگانی شده را مرور کنید</string>
     <string name="attachment_already_exists">پیوست از قبل وجود دارد</string>
     <string name="pick_custom_color">رنگ سفارشی را انتخاب کنید</string>
     <string name="manage_tags">مدیریت برچسب ها</string>
@@ -199,6 +189,7 @@
     <string name="filter_tags_title">برچسب ها</string>
     <string name="filter_user_title">کاربران</string>
     <string name="filter_duedate_title">تاریخ سررسید</string>
+    <string name="filter_done_title">نکمیل شده</string>
 
     <string name="action_board_dearchive">واگرد بایگانی صفحه</string>
     <string name="archived_boards">تابلوهای بایگانی شده</string>
@@ -209,7 +200,6 @@
     <string name="error_revoking_ac">هنگام لغو دسترسی %1$s خطایی رخ داد</string>
     <string name="error_create_label">هنگام ایجاد برچسب %1$s خطایی رخ داد</string>
     <string name="maintenance_mode">کارساز در حالت نگه‌داری است</string>
-    <string name="server_error">خطای سرور</string>
     <string name="error_edit_activity_killed_by_android">Android حالت ویرایش را به پایان رساند زیرا به منابع سیستم بیشتری برای برنامه های دیگر نیاز داشت.</string>
 
     <string name="error_dialog_title">اوه نه - حالا چی؟ 🙁</string>
@@ -276,10 +266,8 @@
     <string name="card_does_not_yet_exist">کارت هنوز در deck وجود ندارد</string>
 
     <string name="widget_stack_title">لیست</string>
-    <string name="widget_filter_title">پالایه</string>
     <string name="widget_stack_header_icon">نماد عنوان ویجت</string>
     <string name="widget_placeholder_icon">نماد مکان‌نمای ویجت</string>
-    <string name="select_stack">لیست را انتخاب کنید</string>
     <string name="project_type_deck_board">تخته deck</string>
     <string name="project_type_deck_card">کارت deck</string>
     <string name="project_type_file">فایل</string>
@@ -297,9 +285,6 @@
     <string name="simple_clone">شبیه سازی</string>
     <string name="user_avatar">آواتار کاربر</string>
     <string name="simple_unassign">واگذار نکردن</string>
-    <string name="simple_contact">مخاطب</string>
-    <string name="simple_file">فایل</string>
-    <string name="simple_camera">دوربین</string>
     <string name="take_photo">عکس گرفتن</string>
     <string name="take_photo_switch_camera">دوربین را عوض کنید</string>
     <string name="take_photo_toggle_torch">تغییر مشعل</string>
