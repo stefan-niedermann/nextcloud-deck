@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.remote.api;
 
 
+import com.nextcloud.android.sso.api.EmptyResponse;
 import com.nextcloud.android.sso.api.ParsedResponse;
 
 import java.util.List;
@@ -89,5 +90,5 @@ public interface NextcloudServerAPI {
             "Content-Type: application/json;charset=utf-8"
     })
     @DELETE("apps/deck/api/v1.0/cards/{cardId}/comments/{commentId}")
-    Observable<Void> deleteCommentForCard(@Path("cardId") long cardId, @Path("commentId") long commentId);
+    Observable<EmptyResponse> deleteCommentForCard(@Path("cardId") long cardId, @Path("commentId") long commentId);
 }

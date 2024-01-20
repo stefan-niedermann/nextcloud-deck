@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.remote.helpers.providers;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
+
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
@@ -91,7 +93,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, FullStack entity, DataBaseAdapter dataBaseAdapter) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<EmptyResponse> callback, FullStack entity, DataBaseAdapter dataBaseAdapter) {
         entity.getStack().setBoardId(board.getId());
         serverAdapter.deleteStack(board.getBoard(), entity.getStack(), callback);
     }

@@ -2,6 +2,8 @@ package it.niedermann.nextcloud.deck.remote.helpers.providers;
 
 import androidx.annotation.NonNull;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
+
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
@@ -63,7 +65,7 @@ public class ActivityDataProvider extends AbstractSyncDataProvider<Activity> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, Activity entity, DataBaseAdapter dataBaseAdapter) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<EmptyResponse> callback, Activity entity, DataBaseAdapter dataBaseAdapter) {
         // nope.
     }
 

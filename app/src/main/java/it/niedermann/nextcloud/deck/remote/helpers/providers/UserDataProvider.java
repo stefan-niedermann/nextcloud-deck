@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.remote.helpers.providers;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
+
 import java.time.Instant;
 import java.util.List;
 
@@ -62,7 +64,7 @@ public class UserDataProvider extends AbstractSyncDataProvider<User> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, User entity, DataBaseAdapter dataBaseAdapter) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<EmptyResponse> callback, User entity, DataBaseAdapter dataBaseAdapter) {
         //TODO: implement
     }
 

@@ -1,13 +1,13 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion "31.0.0"
-    defaultConfig {
-        minSdkVersion 22
-        targetSdkVersion 33
-    }
+    compileSdk 34
     namespace 'it.niedermann.android.tablayouthelper'
+
+    defaultConfig {
+        minSdk 22
+        targetSdk 34
+    }
 }
 
 dependencies {

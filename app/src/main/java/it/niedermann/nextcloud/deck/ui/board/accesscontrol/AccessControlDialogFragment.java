@@ -16,6 +16,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
+import com.nextcloud.android.sso.api.EmptyResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import java.util.List;
@@ -141,7 +142,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
     public void deleteAccessControl(AccessControl ac) {
         accessControlViewModel.deleteAccessControl(ac, new IResponseCallback<>() {
             @Override
-            public void onResponse(Void response) {
+            public void onResponse(EmptyResponse response) {
                 DeckLog.info("Successfully deleted access control for user", ac.getUser().getDisplayname());
             }
 

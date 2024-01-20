@@ -21,8 +21,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          check-latest: true
+          cache: 'gradle'
       - name: Lint
-        run: bash ./gradlew lintDebug --stacktrace
+        run: bash ./gradlew lintDebug --stacktrace --no-configuration-cache
 
   test:
     name: Unit tests
@@ -30,8 +36,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          check-latest: true
+          cache: 'gradle'
       - name: Unit tests
-        run: bash ./gradlew test --stacktrace
+        run: bash ./gradlew test --stacktrace --no-configuration-cache
 
   apk:
     name: Generate APK
@@ -39,8 +51,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          check-latest: true
+          cache: 'gradle'
       - name: Build debug APK
-        run: bash ./gradlew assembleDev
+        run: bash ./gradlew assembleDev --no-configuration-cache
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:

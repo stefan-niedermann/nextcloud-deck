@@ -15,6 +15,7 @@
     <!-- TODO REMOVE                             -->
     <!-- ======================================= -->
 
+    <color name="bottom_sheet_backdrop">#7f000000</color>
     <color name="grey600">#757575</color>
     <color name="fg_secondary">#999</color>
     <color name="bg_highlighted">#eee</color>

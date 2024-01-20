@@ -2,6 +2,8 @@ package it.niedermann.nextcloud.deck.remote.helpers.providers;
 
 import android.annotation.SuppressLint;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
+
 import it.niedermann.nextcloud.deck.database.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -83,7 +85,7 @@ public class CardPropagationDataProvider extends CardDataProvider {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, FullCard entity, DataBaseAdapter dataBaseAdapter) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<EmptyResponse> callback, FullCard entity, DataBaseAdapter dataBaseAdapter) {
         serverAdapter.deleteCard(board.getId(), stack.getId(), entity.getCard(), callback);
     }
 }

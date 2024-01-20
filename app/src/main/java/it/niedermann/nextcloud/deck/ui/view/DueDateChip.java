@@ -35,7 +35,7 @@ public class DueDateChip extends Chip {
     }
 
     public DueDateChip(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.chipStyle);
+        this(context, attrs, com.google.android.material.R.attr.chipStyle);
     }
 
     public DueDateChip(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -43,7 +43,7 @@ public class DueDateChip extends Chip {
 
         final var typedValue = new TypedValue();
         final var theme = getContext().getTheme();
-        theme.resolveAttribute(R.attr.colorOnSurfaceVariant, typedValue, true);
+        theme.resolveAttribute(com.google.android.material.R.attr.colorOnSecondary, typedValue, true);
         this.colorOnSurface = typedValue.data;
 
         final var styles = context.obtainStyledAttributes(attrs, R.styleable.DueDateChip, defStyleAttr, 0);

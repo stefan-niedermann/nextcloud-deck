@@ -1,25 +1,26 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion "31.0.0"
-    defaultConfig {
-        minSdkVersion 22
-        targetSdkVersion 33
-    }
+    compileSdk 34
     namespace 'it.niedermann.android.reactivelivedata'
+
+    defaultConfig {
+        minSdk 22
+        targetSdk 34
+    }
+
     compileOptions {
         coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 
-    implementation "androidx.lifecycle:lifecycle-livedata:2.6.2"
-    implementation 'androidx.core:core:1.10.1'
+    implementation "androidx.lifecycle:lifecycle-livedata:2.7.0"
+    implementation 'androidx.core:core:1.12.0'
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.robolectric:robolectric:4.11.1'
