@@ -72,7 +72,7 @@ dependencies {
     def lifecycleVersion = "2.6.2"
     def roomVersion = "2.6.1"
     def glideVersion = "4.16.0"
-    def nextcloudCommonsVersion = "agp-8-SNAPSHOT"
+    def nextcloudCommonsVersion = "1.9.0"
     def androidCommonsVersion = "0.3.2"
 
     implementation project(path: ':cross-tab-drag-and-drop')
@@ -105,7 +105,7 @@ dependencies {
     implementation 'id.zelory:compressor:3.0.1'
 
     // Single-Sign-On
-    implementation 'com.github.nextcloud:Android-SingleSignOn:e29b605a26'
+    implementation 'com.github.nextcloud:Android-SingleSignOn:1.0.0'
     implementation 'com.github.nextcloud:android-common:0.13.0'
     implementation "com.github.stefan-niedermann.nextcloud-commons:sso-glide:$nextcloudCommonsVersion"
     implementation "com.github.stefan-niedermann.nextcloud-commons:exception:$nextcloudCommonsVersion"
