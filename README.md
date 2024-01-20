@@ -40,9 +40,6 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 * Dark mode 🌙
 * Translated in many languages 🌎
 
-## 🏁 Planned features
-* Enhanced support for projects
-
 ## 👪 Join the team
 * Test the app with different devices
 * Report issues in the [issue tracker](https://github.com/stefan-niedermann/nextcloud-deck/issues)
