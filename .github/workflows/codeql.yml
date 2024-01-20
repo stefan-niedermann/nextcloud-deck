@@ -28,6 +28,6 @@ jobs:
         with:
           languages: java
       - name: Build debug APK
-        run: bash ./gradlew assembleDev --stacktrace
+        run: bash ./gradlew assembleDev --stacktrace --no-configuration-cache
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
