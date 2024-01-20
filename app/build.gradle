@@ -122,7 +122,7 @@ dependencies {
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
     // Custom Color Picker
-    implementation 'com.github.skydoves:colorpickerview:2.2.4'
+    implementation 'com.github.skydoves:colorpickerview:2.3.0'
 
     // Gson
     implementation 'com.google.code.gson:gson:2.10.1'
