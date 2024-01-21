@@ -15,6 +15,7 @@
     <string name="simple_close">Luk</string>
     <string name="simple_filter">Filter</string>
     <string name="simple_completed">Fuldført</string>
+    <string name="simple_reset">Nulstil</string>
     <string name="simple_discard">Kassér</string>
     <string name="simple_update">Opdatér</string>
     <string name="simple_delete">Slet</string>
@@ -154,6 +155,8 @@
     <string name="filter_no_due">Ingen forfaldsdato</string>
     <string name="filter_later">Senere</string>
 
+    <string name="filter_done_no_filter">Alle</string>
+    <string name="filter_done_done">Fuldført</string>
     <string name="filter_done_undone">Ikke afsluttet</string>
 
     <string name="archived_cards">Arkiverede kort</string>
@@ -164,6 +167,8 @@
     <string name="filter_tags_title">Tags</string>
     <string name="filter_user_title">Brugere</string>
     <string name="filter_duedate_title">Forfaldsdato</string>
+    <string name="filter_done_title">Fuldført</string>
+
     <string name="archived_boards">Arkiverede lister</string>
 
     <string name="error">Der skete en fejl</string>

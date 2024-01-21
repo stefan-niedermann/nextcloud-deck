@@ -37,14 +37,14 @@ public class ExceptionActivity extends AppCompatActivity {
         }
 
         final var adapter = new TipsAdapter(this::startActivity);
-        final String debugInfo = "Full Crash:\n\n" + ExceptionUtil.INSTANCE.getDebugInfos(this, throwable, BuildConfig.FLAVOR);
+        final String debugInfo = "Full Crash:\n\n" + ExceptionUtil.getDebugInfos(this, throwable, BuildConfig.FLAVOR);
 
         binding.tips.setAdapter(adapter);
         binding.tips.setNestedScrollingEnabled(false);
         binding.toolbar.setTitle(R.string.error);
         binding.message.setText(throwable.getMessage());
         binding.stacktrace.setText(debugInfo);
-        binding.copy.setOnClickListener((v) -> ClipboardUtil.INSTANCE.copyToClipboard(this, getString(R.string.simple_exception), "```\n" + debugInfo + "\n```"));
+        binding.copy.setOnClickListener((v) -> ClipboardUtil.copyToClipboard(this, getString(R.string.simple_exception), "```\n" + debugInfo + "\n```"));
         binding.close.setOnClickListener((v) -> finish());
 
         final var utils = ThemeUtils.defaultBrand(this);

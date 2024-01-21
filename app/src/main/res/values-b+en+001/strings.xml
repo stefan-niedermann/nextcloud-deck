@@ -87,6 +87,7 @@
 
     <string name="label_clear_due_date">Clear due date</string>
     <string name="label_clear_done">Not completed</string>
+    <string name="label_due_at">Due at: %1$s</string>
     <string name="label_add">Add %1$s</string>
 
     <string name="card_edit_details">Details</string>

@@ -36,7 +36,7 @@
     <string name="delete_board">Вилучити дошку</string>
     <string name="delete_something">Вилучити %1$s</string>
 
-    <string name="about">Про програму</string>
+    <string name="about">Про застосунок</string>
     <string name="about_version_title">Версія</string>
     <string name="about_version">Ви використовуєте%1$s</string>
     <string name="about_maintainer_title">Підтримка</string>
@@ -51,7 +51,7 @@
     <string name="about_translate_title">Перекласти</string>
     <string name="about_translate">Приєднуйтесь до команди Nextcloud на Transifex та допоможіть нам перекласти цей застосунок:%1$s</string>
     <string name="about_app_license_title">Ліцензія застосунку</string>
-    <string name="about_app_license">Ця програма ліцензована під GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license">Цей застосунок ліцензовано ліцензією GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Переглянути ліцензію</string>
     <string name="about_icons_disclaimer_title">Значки</string>
     <string name="about_icons_disclaimer_app_icon">Для оригінального розміру піктограми див. %1$s.</string>
@@ -208,12 +208,12 @@
     <string name="error_dialog_title">От халепа!</string>
     <string name="error_dialog_tip_token_mismatch_retry">Спробуйте примусово закрити застосунок та наново запустити. Можливо, встановлено неправильне з\'єднання із застосунком Nextcloud.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Не вдалося оновити базу даних. Будь ласка, повідомте про проблему, очистіть сховище даних для подальшого використання застосунку.</string>
-    <string name="error_dialog_tip_clear_storage">Ви можете очистити сховище, відкривши інформацію про програму та вибравши Пам’ять → Очистити пам’ять.</string>
+    <string name="error_dialog_tip_clear_storage">Ви можете очистити сховище, для цього відкрийте інформацію про застосунок та виберіть \"Пам’ять\" → \"Очистити пам’ять\".</string>
     <string name="error_dialog_tip_offline_no_internet">Схоже, ви намагаєтеся виконати синхронізацію без доступу до мережі.</string>
     <string name="error_dialog_tip_offline_connection_refused">Відмовлено у з\'єднанні. Будь ласка, перевірте, чи доступний ваш сервер з бравзера.</string>
     <string name="error_dialog_tip_offline_connection_timeout">З\'єднання розірвано. Будь ласка, перевірте доступ до мережі. Також, це може бути наслідком того, що сервер зай</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Якщо ви увімкнете параметр \"Синхронізація тільки з Wi-Fi\", то синхронізація буде виконуватися лише за умови наявности з\'єднання через Wi-Fi.</string>
-    <string name="error_dialog_tip_files_delete_storage">Якщо примусове їх завершення не допомагає, спробуйте очистити сховище обох програм.</string>
+    <string name="error_dialog_tip_files_delete_storage">Якщо примусове їх завершення не допомагає, спробуйте очистити сховище даних обох застосунків.</string>
     <string name="error_dialog_timeout_toggle">Перевірте доступ до мережі. Часом може допомогти послідовне вимикання та вмикання мобільних даних або Wi-Fi.</string>
     <string name="error_dialog_check_server_logs">Виникла проблема з налаштуванням Nextcloud. Будь ласка, подивіться файли журналу сервера.</string>
     <string name="error_dialog_check_maintenance">Будь ласка, перевірте, чи ваш сервер Nextcloud наразі не перебуває в режимі обслуговування.</string>
@@ -227,7 +227,7 @@
     <string name="error_dialog_certificate">Ймовірно виникли проблеми з сертифікатом серверу. Перевірте всі записи у застосунку Nextcloud для отримання додаткової інформації.</string>
     <string name="error_dialog_unknown_error">Схоже, що ваша хмара Nextcloud не доступна. Будь ласка, перевірте з\'єднання з мережею, а також можливість встановити з\'єднання через бравзер.</string>
     <string name="error_action_open_deck_info">Відкрити інформацію про застосунок</string>
-    <string name="error_action_open_nextcloud_app">Відкрити програму Nextcloud</string>
+    <string name="error_action_open_nextcloud_app">Відкрити застосунок Nextcloud</string>
     <string name="error_action_open_network">Налаштування мережі</string>
     <string name="error_action_server_logs">Журнал сервера</string>
     <string name="error_action_open_in_browser">Відкрити у переглядачі</string>

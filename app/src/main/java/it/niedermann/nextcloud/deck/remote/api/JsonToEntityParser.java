@@ -585,7 +585,7 @@ public class JsonToEntityParser {
         String rawString = getNullAsEmptyString(element.get(field));
         try {
             if (!rawString.trim().isEmpty()) {
-                String colorAsString = ColorUtil.INSTANCE.formatColorToParsableHexString(rawString);
+                String colorAsString = ColorUtil.formatColorToParsableHexString(rawString);
                 return Color.parseColor(colorAsString);
             }
         } catch (Exception e) {

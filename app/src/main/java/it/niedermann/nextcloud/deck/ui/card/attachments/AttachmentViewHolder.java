@@ -47,7 +47,7 @@ public abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
                 menu.findItem(android.R.id.copyUrl).setVisible(false);
             } else {
                 menu.findItem(android.R.id.copyUrl).setVisible(true);
-                menu.findItem(android.R.id.copyUrl).setOnMenuItemClickListener(item -> ClipboardUtil.INSTANCE.copyToClipboard(itemView.getContext(), attachment.getFilename(), attachmentUri));
+                menu.findItem(android.R.id.copyUrl).setOnMenuItemClickListener(item -> ClipboardUtil.copyToClipboard(itemView.getContext(), attachment.getFilename(), attachmentUri));
             }
         });
     }

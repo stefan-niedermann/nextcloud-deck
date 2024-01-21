@@ -87,6 +87,7 @@
 
     <string name="label_clear_due_date">Fälligkeitsdatum entfernen</string>
     <string name="label_clear_done">Nicht fertiggestellt</string>
+    <string name="label_due_at">Fällig am: %1$s</string>
     <string name="label_add">%1$s hinzufügen</string>
 
     <string name="card_edit_details">Details</string>

@@ -15,6 +15,7 @@
     <string name="simple_close">Затваряне</string>
     <string name="simple_filter">Филтър</string>
     <string name="simple_completed">Завършен</string>
+    <string name="simple_reset">Възстановяване</string>
     <string name="simple_discard">Отхвърляне</string>
     <string name="simple_update">Обновяване</string>
     <string name="simple_delete">Изтриване</string>
@@ -173,6 +174,8 @@
     <string name="filter_no_due">Няма крайна дата</string>
     <string name="filter_later">По-късно</string>
 
+    <string name="filter_done_no_filter">Всички</string>
+    <string name="filter_done_done">Завършен</string>
     <string name="filter_done_undone">Незавършен</string>
 
     <string name="archived_cards">Архивирани карти</string>
@@ -186,6 +189,8 @@
     <string name="filter_tags_title">Етикети</string>
     <string name="filter_user_title">Потребители</string>
     <string name="filter_duedate_title">Крайна дата</string>
+    <string name="filter_done_title">Завършен</string>
+
     <string name="action_board_dearchive">Отмяна на архивирането на таблото</string>
     <string name="archived_boards">Архивирани табла</string>
 

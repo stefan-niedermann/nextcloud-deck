@@ -14,7 +14,7 @@ public class JsonColorSerializer extends TypeAdapter<Integer> {
         if (value == null) {
             out.nullValue();
         } else {
-            out.value(ColorUtil.INSTANCE.intColorToHexString(value));
+            out.value(ColorUtil.intColorToHexString(value));
         }
     }
 
