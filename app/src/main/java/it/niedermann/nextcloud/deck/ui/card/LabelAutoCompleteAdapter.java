@@ -98,7 +98,7 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
 
         final var label = getItem(position);
         final int labelColor = label.getColor();
-        final int color = ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(labelColor);
+        final int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
 
         if (label.getLocalId() == null) {
             binding.label.setText(String.format(context.getString(R.string.label_add, label.getTitle())));

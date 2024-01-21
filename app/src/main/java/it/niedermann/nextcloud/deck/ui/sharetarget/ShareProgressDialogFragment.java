@@ -70,7 +70,7 @@ public class ShareProgressDialogFragment extends ThemedDialogFragment {
                 binding.errorReportButton.setOnClickListener((v) -> {
                     final StringBuilder debugInfos = new StringBuilder(exceptionsCount + " attachments failed to upload:");
                     for (Throwable t : exceptions) {
-                        debugInfos.append(ExceptionUtil.INSTANCE.getDebugInfos(requireContext(), t, BuildConfig.FLAVOR));
+                        debugInfos.append(ExceptionUtil.getDebugInfos(requireContext(), t, BuildConfig.FLAVOR));
                     }
                     ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException(debugInfos.toString()), null)
                             .show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());

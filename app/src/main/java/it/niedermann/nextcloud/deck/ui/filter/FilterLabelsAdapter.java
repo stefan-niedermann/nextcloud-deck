@@ -86,7 +86,7 @@ public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapte
             binding.label.setText(label.getTitle());
             final int labelColor = label.getColor();
             binding.label.setChipBackgroundColor(ColorStateList.valueOf(labelColor));
-            final int textColor = ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(labelColor);
+            final int textColor = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
             binding.label.setTextColor(textColor);
             itemView.setSelected(selectedLabels.contains(label));
             applyTheme(color);

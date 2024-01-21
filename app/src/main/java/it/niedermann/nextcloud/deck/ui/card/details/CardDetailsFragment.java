@@ -278,7 +278,7 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
         try {
             final int labelColor = label.getColor();
             chip.setChipBackgroundColor(ColorStateList.valueOf(labelColor));
-            final int color = ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(labelColor);
+            final int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
             chip.setTextColor(color);
 
             if (chip.getCloseIcon() != null) {

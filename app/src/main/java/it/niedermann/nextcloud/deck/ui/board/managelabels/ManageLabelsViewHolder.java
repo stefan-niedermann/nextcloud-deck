@@ -23,7 +23,7 @@ public class ManageLabelsViewHolder extends RecyclerView.ViewHolder {
         binding.label.setText(label.getTitle());
         final int labelColor = label.getColor();
         binding.label.setChipBackgroundColor(ColorStateList.valueOf(labelColor));
-        final int color = ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(labelColor);
+        final int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
         binding.label.setTextColor(color);
         binding.delete.setOnClickListener((v) -> listener.requestDelete(label));
         binding.editText.setOnClickListener((v) -> listener.requestEdit(label));

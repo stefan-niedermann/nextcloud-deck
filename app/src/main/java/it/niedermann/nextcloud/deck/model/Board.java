@@ -97,7 +97,7 @@ public class Board extends AbstractRemoteEntity implements Serializable {
 
     public void setColor(String color) {
         try {
-            setColor(Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(color)));
+            setColor(Color.parseColor(ColorUtil.formatColorToParsableHexString(color)));
         } catch (Exception e) {
             DeckLog.logError(e);
             setColor(Color.GRAY);

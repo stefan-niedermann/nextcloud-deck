@@ -33,8 +33,8 @@ public class Migration_20_21 extends Migration {
                 @ColorInt int color1;
                 @ColorInt int color2;
                 try {
-                    color1 = Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(colorAsString1));
-                    color2 = Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(colorAsString2));
+                    color1 = Color.parseColor(ColorUtil.formatColorToParsableHexString(colorAsString1));
+                    color2 = Color.parseColor(ColorUtil.formatColorToParsableHexString(colorAsString2));
                 } catch (Exception e) {
                     color1 = Color.GRAY;
                     color2 = Color.GRAY;
@@ -64,7 +64,7 @@ public class Migration_20_21 extends Migration {
 
                 @ColorInt int color1;
                 try {
-                    color1 = Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(colorAsString1));
+                    color1 = Color.parseColor(ColorUtil.formatColorToParsableHexString(colorAsString1));
                 } catch (Exception e) {
                     color1 = Color.GRAY;
                 }
@@ -98,7 +98,7 @@ public class Migration_20_21 extends Migration {
 
                 @ColorInt int color1;
                 try {
-                    color1 = Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(colorAsString1));
+                    color1 = Color.parseColor(ColorUtil.formatColorToParsableHexString(colorAsString1));
                 } catch (Exception e) {
                     color1 = Color.GRAY;
                 }

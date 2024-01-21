@@ -72,12 +72,11 @@ dependencies {
     def lifecycleVersion = "2.6.2"
     def roomVersion = "2.6.1"
     def glideVersion = "4.16.0"
-    def nextcloudCommonsVersion = "1.9.0"
-    def androidCommonsVersion = "0.4.0"
+    def nextcloudCommonsVersion = "2.0.0"
+    def androidCommonsVersion = "1.0.0"
 
     implementation project(path: ':cross-tab-drag-and-drop')
     implementation project(path: ':tab-layout-helper')
-    implementation project(path: ':reactive-livedata')
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 
@@ -114,6 +113,7 @@ dependencies {
     }
     implementation "com.github.stefan-niedermann.android-commons:util:$androidCommonsVersion"
     implementation "com.github.stefan-niedermann.android-commons:shared-preferences:$androidCommonsVersion"
+    implementation "com.github.stefan-niedermann.android-commons:reactive-livedata:$androidCommonsVersion"
 
     // Custom Date / Time Picker for branding support
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
@@ -142,4 +142,9 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:5.7.0'
     testImplementation 'androidx.test:core:1.5.0'
     testImplementation 'androidx.arch.core:core-testing:2.2.0'
+}
+configurations.all {
+    resolutionStrategy {
+        force "com.github.stefan-niedermann.android-commons:util:new-util-api-4-SNAPSHOT"
+    }
 }
