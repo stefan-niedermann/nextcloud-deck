@@ -15,6 +15,7 @@
     <string name="simple_close">إغلاق</string>
     <string name="simple_filter">فلتر</string>
     <string name="simple_completed">مُكتمل</string>
+    <string name="simple_reset">إعادة التعيين</string>
     <string name="simple_discard">الغاء</string>
     <string name="simple_update">تحديث</string>
     <string name="simple_delete">حذف </string>
@@ -86,6 +87,7 @@
 
     <string name="label_clear_due_date">مسح حسب التاريخ </string>
     <string name="label_clear_done">غير مكتمل</string>
+    <string name="label_due_at">بسبب: %1$s</string>
     <string name="label_add">اضف %1$s</string>
 
     <string name="card_edit_details">التفاصيل</string>
@@ -181,6 +183,8 @@
     <string name="filter_no_due">لا تأريخ انجاز</string>
     <string name="filter_later">لاحقا</string>
 
+    <string name="filter_done_no_filter">الكل</string>
+    <string name="filter_done_done">مُكتمل</string>
     <string name="filter_done_undone">غير مكتمل</string>
 
     <string name="archived_cards">البطاقات المؤرشفة</string>
@@ -194,6 +198,8 @@
     <string name="filter_tags_title">الوسوم</string>
     <string name="filter_user_title">المستخدمين:</string>
     <string name="filter_duedate_title">تاريخ الانجاز</string>
+    <string name="filter_done_title">مُكتمل</string>
+
     <string name="action_board_dearchive">التراجع عن أرشفة اللوح</string>
     <string name="archived_boards">الالواح المؤرشفة</string>
 

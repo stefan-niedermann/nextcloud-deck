@@ -87,6 +87,7 @@
 
     <string name="label_clear_due_date">Borrar fecha de finalización</string>
     <string name="label_clear_done">No completado</string>
+    <string name="label_due_at">Caduca en: %1$s</string>
     <string name="label_add">Añadir %1$s</string>
 
     <string name="card_edit_details">Detalles</string>

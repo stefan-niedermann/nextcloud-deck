@@ -15,6 +15,7 @@
     <string name="simple_close">Tanca</string>
     <string name="simple_filter">Filtre</string>
     <string name="simple_completed">S\'ha completat</string>
+    <string name="simple_reset">Reinicialitza</string>
     <string name="simple_discard">Descarta\'l</string>
     <string name="simple_update">Actualitza</string>
     <string name="simple_delete">Eliminar</string>
@@ -171,6 +172,8 @@
     <string name="filter_no_due">Sense venciment</string>
     <string name="filter_later">Més tard</string>
 
+    <string name="filter_done_no_filter">Totes</string>
+    <string name="filter_done_done">S\'ha completat</string>
     <string name="filter_done_undone">No completat</string>
 
     <string name="archived_cards">Targetes arxivades</string>
@@ -184,6 +187,8 @@
     <string name="filter_tags_title">Etiquetes</string>
     <string name="filter_user_title">Usuaris</string>
     <string name="filter_duedate_title">Data de venciment</string>
+    <string name="filter_done_title">S\'ha completat</string>
+
     <string name="action_board_dearchive">Desfés l\'arxivament del tauler</string>
     <string name="archived_boards">Taulers arxivats</string>
 

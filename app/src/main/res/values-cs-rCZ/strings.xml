@@ -15,6 +15,7 @@
     <string name="simple_close">Zavřít</string>
     <string name="simple_filter">Filtr</string>
     <string name="simple_completed">Dokončeno</string>
+    <string name="simple_reset">Vrátit na výchozí</string>
     <string name="simple_discard">Zahodit</string>
     <string name="simple_update">Aktualizovat</string>
     <string name="simple_delete">Smazat</string>
@@ -177,6 +178,8 @@
     <string name="filter_no_due">Žádný termín</string>
     <string name="filter_later">Později</string>
 
+    <string name="filter_done_no_filter">Vše</string>
+    <string name="filter_done_done">Dokončeno</string>
     <string name="filter_done_undone">Nedokončeno</string>
 
     <string name="archived_cards">Archivované karty</string>
@@ -190,6 +193,8 @@
     <string name="filter_tags_title">Štítky</string>
     <string name="filter_user_title">Uživatelé</string>
     <string name="filter_duedate_title">Datum termínu</string>
+    <string name="filter_done_title">Dokončeno</string>
+
     <string name="action_board_dearchive">Vzít zpět archivaci tabule</string>
     <string name="archived_boards">Archivované tabule</string>
 
