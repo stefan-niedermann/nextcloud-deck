@@ -1,3 +1,4 @@
 - ☑️ Support Completed / Uncompleted state (#1556) - Requires deck server ≥ 1.12.2
+- 📎 Open file attachments in Nextcloud Files app (#1561) - Requires deck server ≥ 1.12.2
 - ☑️ Share text as task to card description (#1558)
 - ☀️ Force keeping screen on while importing first account

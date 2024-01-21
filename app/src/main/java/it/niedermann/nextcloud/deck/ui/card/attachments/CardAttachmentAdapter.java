@@ -2,7 +2,7 @@ package it.niedermann.nextcloud.deck.ui.card.attachments;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
 import static androidx.recyclerview.widget.RecyclerView.NO_ID;
-import static it.niedermann.nextcloud.deck.util.AttachmentUtil.openAttachmentInBrowser;
+import static it.niedermann.nextcloud.deck.util.AttachmentUtil.openAttachment;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -112,7 +112,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
             }
             case VIEW_TYPE_DEFAULT:
             default: {
-                onClickListener = (event) -> openAttachmentInBrowser(account, context, cardRemoteId, attachment);
+                onClickListener = (event) -> openAttachment(account, context, cardRemoteId, attachment);
                 break;
             }
         }

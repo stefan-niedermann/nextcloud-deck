@@ -3,6 +3,7 @@
 - [I have experienced an error](#i-have-experienced-an-error)
 - [Why has my bug report been closed?](#why-has-my-bug-report-been-closed)
 - [Why is my card not visible in the upcoming cards view?](#why-is-my-card-not-visible-in-the-upcoming-cards-view)
+- [Why does the browser open when clicking on an attachment?](#why-does-the-browser-open-when-clicking-on-an-attachment)
 - [Known issues](#known-issues)
 - [Why don't you make an option for…?](#why-dont-you-make-an-option-for)
 - [Why don't you make an iOS app?](#why-dont-you-make-an-ios-app)
@@ -65,6 +66,16 @@ This is necessary for two reasons:
 ## Why is my card not visible in the upcoming cards view?
 
 Checkout the [Upcoming Analyzer](https://upcoming-analyzer.niedermann.it/) to check out the criterias your card needs to match to be shown in the upcoming cards view.
+
+## Why does the browser open when clicking on an attachment?
+
+The Deck server app supports two different type of attachments:
+- Attachments added prior to Deck server 1.3 have been added as `deck_file` attachments
+- Attachments added with Deck server 1.3 or later are added as `file` attachments
+
+The latter are stored as usual files in your Nextcloud, usually in the `/Deck` folder of your account.  
+Only `file` attachments are able show preview images and to get opened directly, while `deck_file` attachments are effectively only available via the Web UI.  
+We opened a [feature request](https://github.com/nextcloud/deck/issues/3101) to implement an `occ` migration command, but the current state of implementation is unclear.
 
 ## Known issues
 
