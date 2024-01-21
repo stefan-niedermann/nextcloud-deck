@@ -143,8 +143,3 @@ dependencies {
     testImplementation 'androidx.test:core:1.5.0'
     testImplementation 'androidx.arch.core:core-testing:2.2.0'
 }
-configurations.all {
-    resolutionStrategy {
-        force "com.github.stefan-niedermann.android-commons:util:new-util-api-4-SNAPSHOT"
-    }
-}
