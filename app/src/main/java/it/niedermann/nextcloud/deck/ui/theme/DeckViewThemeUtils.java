@@ -10,6 +10,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
@@ -21,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.widget.TextViewCompat;
 
 import com.google.android.material.search.SearchBar;
 import com.google.android.material.search.SearchView;
@@ -99,6 +101,13 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
         withScheme(searchView.getContext(), scheme -> {
             searchView.setBackgroundTintList(ColorStateList.valueOf(scheme.getSurface()));
             return searchView;
+        });
+    }
+
+    public void colorTextViewCompoundDrawables(@NonNull TextView textView) {
+        withScheme(textView.getContext(), scheme -> {
+            TextViewCompat.setCompoundDrawableTintList(textView, ColorStateList.valueOf(scheme.getOnSurfaceVariant()));
+            return textView;
         });
     }
 

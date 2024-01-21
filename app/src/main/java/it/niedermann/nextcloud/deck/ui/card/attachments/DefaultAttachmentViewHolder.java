@@ -13,9 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
+import com.nextcloud.android.common.ui.theme.utils.ColorRole;
+
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentDefaultBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
 public class DefaultAttachmentViewHolder extends AttachmentViewHolder {
@@ -52,5 +55,18 @@ public class DefaultAttachmentViewHolder extends AttachmentViewHolder {
         } else {
             binding.modified.setVisibility(View.GONE);
         }
+
+        applyTheme(color);
+    }
+
+    protected void applyTheme(@ColorInt int color) {
+        super.applyTheme(color);
+
+        final var utils = ThemeUtils.of(color, getPreview().getContext());
+
+        utils.platform.colorTextView(binding.filename, ColorRole.ON_SURFACE);
+        utils.platform.colorImageView(getPreview(), ColorRole.ON_SURFACE_VARIANT);
+        utils.platform.colorTextView(binding.filesize, ColorRole.ON_SURFACE_VARIANT);
+        utils.platform.colorTextView(binding.modified, ColorRole.ON_SURFACE_VARIANT);
     }
 }

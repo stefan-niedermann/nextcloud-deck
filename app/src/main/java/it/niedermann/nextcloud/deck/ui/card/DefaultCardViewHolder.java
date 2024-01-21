@@ -95,13 +95,20 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
             }
         }
 
+
+    }
+
+    @Override
+    protected void applyTheme(@Nullable ThemeUtils utils) {
+        super.applyTheme(utils);
         if (utils != null) {
             Stream.of(
                     binding.cardCountAttachments,
                     binding.cardCountTasks,
                     binding.cardCountComments
             ).forEach(v -> {
-                utils.platform.colorTextView(v, ColorRole.ON_SURFACE_VARIANT );
+                utils.deck.colorTextViewCompoundDrawables(v);
+                utils.platform.colorTextView(v, ColorRole.ON_SURFACE_VARIANT);
             });
         }
     }
