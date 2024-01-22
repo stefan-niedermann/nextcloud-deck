@@ -29,17 +29,20 @@ public class FilesUtil {
      */
     @WorkerThread
     public static File copyContentUriToTempFile(@NonNull Context context, @NonNull Uri currentUri, long accountId, Long localCardId) throws IOException, IllegalArgumentException {
-        final var inputStream = context.getContentResolver().openInputStream(currentUri);
-        if (inputStream == null) {
-            throw new IOException("Could not open input stream for " + currentUri.getPath());
-        }
-        final var cacheFile = getTempCacheFile(context, "attachments/account-" + accountId + "/card-" + (localCardId == null ? "pending-creation" : localCardId) + '/' + UriUtils.getDisplayNameForUri(currentUri, context));
-        final var outputStream = new FileOutputStream(cacheFile);
-        byte[] buffer = new byte[4096];
+        final File cacheFile;
+        try (var inputStream = context.getContentResolver().openInputStream(currentUri)) {
+            if (inputStream == null) {
+                throw new IOException("Could not open input stream for " + currentUri.getPath());
+            }
+            cacheFile = getTempCacheFile(context, "attachments/account-" + accountId + "/card-" + (localCardId == null ? "pending-creation" : localCardId) + '/' + UriUtils.getDisplayNameForUri(currentUri, context));
+            try (var outputStream = new FileOutputStream(cacheFile)) {
+                byte[] buffer = new byte[4096];
 
-        int count;
-        while ((count = inputStream.read(buffer)) > 0) {
-            outputStream.write(buffer, 0, count);
+                int count;
+                while ((count = inputStream.read(buffer)) > 0) {
+                    outputStream.write(buffer, 0, count);
+                }
+            }
         }
         DeckLog.verbose("----- wrote");
         return cacheFile;
