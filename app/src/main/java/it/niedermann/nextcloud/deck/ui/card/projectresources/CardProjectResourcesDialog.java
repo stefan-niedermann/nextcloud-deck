@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui.card.projectresources;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,7 +46,7 @@ public class CardProjectResourcesDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        binding = DialogProjectResourcesBinding.inflate(LayoutInflater.from(requireContext()));
+        binding = DialogProjectResourcesBinding.inflate(getLayoutInflater());
         viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
 
         return new MaterialAlertDialogBuilder(requireContext())

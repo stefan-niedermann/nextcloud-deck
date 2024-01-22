@@ -18,7 +18,7 @@ import it.niedermann.nextcloud.deck.remote.helpers.SyncHelper;
 public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
 
     @Nullable
-    protected AbstractSyncDataProvider<?> parent;
+    protected final AbstractSyncDataProvider<?> parent;
     protected final List<AbstractSyncDataProvider<?>> children = new ArrayList<>();
     protected boolean stillGoingDeeper = false;
 

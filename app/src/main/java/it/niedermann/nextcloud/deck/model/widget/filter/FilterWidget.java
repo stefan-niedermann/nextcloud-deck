@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 
@@ -113,7 +114,7 @@ public class FilterWidget {
         FilterWidget that = (FilterWidget) o;
 
         if (id != that.id) return false;
-        if (title != null ? !title.equals(that.title) : that.title != null) return false;
+        if (!Objects.equals(title, that.title)) return false;
         if (dueType != that.dueType) return false;
         if (widgetType != that.widgetType) return false;
         if (!accounts.equals(that.accounts)) return false;

@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -62,7 +61,7 @@ public class CardAssigneeDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        binding = DialogPreviewBinding.inflate(LayoutInflater.from(requireContext()));
+        binding = DialogPreviewBinding.inflate(getLayoutInflater());
         viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
 
         final var dialogBuilder = new DeleteAlertDialogBuilder(requireContext());

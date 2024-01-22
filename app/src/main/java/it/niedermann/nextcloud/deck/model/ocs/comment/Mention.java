@@ -6,6 +6,8 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 @Entity(inheritSuperIndices = true,
         indices = {
                 @Index("commentId")
@@ -84,14 +86,14 @@ public class Mention {
 
         Mention mention = (Mention) o;
 
-        if (id != null ? !id.equals(mention.id) : mention.id != null) return false;
-        if (commentId != null ? !commentId.equals(mention.commentId) : mention.commentId != null)
+        if (!Objects.equals(id, mention.id)) return false;
+        if (!Objects.equals(commentId, mention.commentId))
             return false;
-        if (mentionId != null ? !mentionId.equals(mention.mentionId) : mention.mentionId != null)
+        if (!Objects.equals(mentionId, mention.mentionId))
             return false;
-        if (mentionType != null ? !mentionType.equals(mention.mentionType) : mention.mentionType != null)
+        if (!Objects.equals(mentionType, mention.mentionType))
             return false;
-        return mentionDisplayName != null ? mentionDisplayName.equals(mention.mentionDisplayName) : mention.mentionDisplayName == null;
+        return Objects.equals(mentionDisplayName, mention.mentionDisplayName);
     }
 
     @Override

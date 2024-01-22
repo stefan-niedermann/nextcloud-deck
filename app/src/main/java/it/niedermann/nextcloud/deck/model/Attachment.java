@@ -7,6 +7,7 @@ import androidx.room.Index;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.model.enums.EAttachmentType;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
@@ -169,24 +170,24 @@ public class Attachment extends AbstractRemoteEntity implements Comparable<Attac
 
         if (cardId != that.cardId) return false;
         if (filesize != that.filesize) return false;
-        if (type != null ? !type.equals(that.type) : that.type != null) return false;
-        if (data != null ? !data.equals(that.data) : that.data != null) return false;
-        if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null)
+        if (!Objects.equals(type, that.type)) return false;
+        if (!Objects.equals(data, that.data)) return false;
+        if (!Objects.equals(createdAt, that.createdAt))
             return false;
-        if (createdBy != null ? !createdBy.equals(that.createdBy) : that.createdBy != null)
+        if (!Objects.equals(createdBy, that.createdBy))
             return false;
-        if (deletedAt != null ? !deletedAt.equals(that.deletedAt) : that.deletedAt != null)
+        if (!Objects.equals(deletedAt, that.deletedAt))
             return false;
-        if (mimetype != null ? !mimetype.equals(that.mimetype) : that.mimetype != null)
+        if (!Objects.equals(mimetype, that.mimetype))
             return false;
-        if (dirname != null ? !dirname.equals(that.dirname) : that.dirname != null) return false;
-        if (basename != null ? !basename.equals(that.basename) : that.basename != null)
+        if (!Objects.equals(dirname, that.dirname)) return false;
+        if (!Objects.equals(basename, that.basename))
             return false;
-        if (extension != null ? !extension.equals(that.extension) : that.extension != null)
+        if (!Objects.equals(extension, that.extension))
             return false;
-        if (filename != null ? !filename.equals(that.filename) : that.filename != null)
+        if (!Objects.equals(filename, that.filename))
             return false;
-        return localPath != null ? localPath.equals(that.localPath) : that.localPath == null;
+        return Objects.equals(localPath, that.localPath);
     }
 
     @Override

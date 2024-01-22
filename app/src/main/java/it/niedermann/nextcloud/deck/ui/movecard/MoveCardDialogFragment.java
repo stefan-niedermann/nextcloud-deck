@@ -85,7 +85,7 @@ public class MoveCardDialogFragment extends DialogFragment implements Themed, Pi
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         final var dialogBuilder = new MaterialAlertDialogBuilder(requireContext());
 
-        binding = DialogMoveCardBinding.inflate(LayoutInflater.from(requireContext()));
+        binding = DialogMoveCardBinding.inflate(getLayoutInflater());
         binding.title.setText(getString(R.string.action_card_move_title, originCardTitle));
         binding.submit.setOnClickListener((v) -> {
             DeckLog.verbose("[Move card] Attempt to move to", Stack.class.getSimpleName(), "#" + selectedStack.getLocalId());

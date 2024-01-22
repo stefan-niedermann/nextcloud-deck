@@ -21,10 +21,10 @@ import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 
 public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment> {
 
-    private FullCard card;
-    private Board board;
-    private Stack stack;
-    private List<Attachment> attachments;
+    private final FullCard card;
+    private final Board board;
+    private final Stack stack;
+    private final List<Attachment> attachments;
 
     public AttachmentDataProvider(AbstractSyncDataProvider<?> parent, Board board, Stack stack, FullCard card, List<Attachment> attachments) {
         super(parent);

@@ -49,11 +49,11 @@
         android:contentDescription="@string/copy_logs"
         android:padding="@dimen/spacer_2x"
         android:src="@drawable/ic_bug_report_black_24dp"
-        android:tint="@android:color/white"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:tint="@android:color/white"
         app:tooltipText="@string/copy_logs"
         tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -75,7 +75,7 @@ public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extend
     }
 
     protected static class ViewHolder<ViewBindingType extends ViewBinding> {
-        public ViewBindingType binding;
+        public final ViewBindingType binding;
 
         public ViewHolder(ViewBindingType binding) {
             this.binding = binding;

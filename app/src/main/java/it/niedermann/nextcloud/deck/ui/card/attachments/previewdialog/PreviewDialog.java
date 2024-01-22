@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -34,7 +33,7 @@ public class PreviewDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(requireActivity()).get(PreviewDialogViewModel.class);
-        binding = DialogPreviewBinding.inflate(LayoutInflater.from(requireContext()));
+        binding = DialogPreviewBinding.inflate(getLayoutInflater());
 
         final var context = requireContext();
 

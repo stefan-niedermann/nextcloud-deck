@@ -7,6 +7,8 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 import it.niedermann.nextcloud.deck.model.enums.ESortCriteria;
 
 @Entity(
@@ -108,8 +110,8 @@ public class FilterWidgetSort {
 
         if (direction != that.direction) return false;
         if (ruleOrder != that.ruleOrder) return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (filterWidgetId != null ? !filterWidgetId.equals(that.filterWidgetId) : that.filterWidgetId != null)
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(filterWidgetId, that.filterWidgetId))
             return false;
         return criteria == that.criteria;
     }

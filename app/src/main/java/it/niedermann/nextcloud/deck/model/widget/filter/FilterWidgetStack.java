@@ -6,6 +6,8 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 import it.niedermann.nextcloud.deck.model.Stack;
 
 @Entity(
@@ -73,10 +75,10 @@ public class FilterWidgetStack {
 
         FilterWidgetStack that = (FilterWidgetStack) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (filterBoardId != null ? !filterBoardId.equals(that.filterBoardId) : that.filterBoardId != null)
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(filterBoardId, that.filterBoardId))
             return false;
-        return stackId != null ? stackId.equals(that.stackId) : that.stackId == null;
+        return Objects.equals(stackId, that.stackId);
     }
 
     @Override

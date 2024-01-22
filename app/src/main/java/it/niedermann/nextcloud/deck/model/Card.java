@@ -9,6 +9,7 @@ import androidx.room.Index;
 import com.google.gson.annotations.SerializedName;
 
 import java.time.Instant;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -276,18 +277,18 @@ public class Card extends AbstractRemoteEntity {
         if (notified != card.notified) return false;
         if (overdue != card.overdue) return false;
         if (commentsUnread != card.commentsUnread) return false;
-        if (title != null ? !title.equals(card.title) : card.title != null) return false;
-        if (description != null ? !description.equals(card.description) : card.description != null)
+        if (!Objects.equals(title, card.title)) return false;
+        if (!Objects.equals(description, card.description))
             return false;
-        if (type != null ? !type.equals(card.type) : card.type != null) return false;
-        if (createdAt != null ? !createdAt.equals(card.createdAt) : card.createdAt != null)
+        if (!Objects.equals(type, card.type)) return false;
+        if (!Objects.equals(createdAt, card.createdAt))
             return false;
-        if (deletedAt != null ? !deletedAt.equals(card.deletedAt) : card.deletedAt != null)
+        if (!Objects.equals(deletedAt, card.deletedAt))
             return false;
-        if (done != null ? !done.equals(card.done) : card.done != null)
+        if (!Objects.equals(done, card.done))
             return false;
-        if (userId != null ? !userId.equals(card.userId) : card.userId != null) return false;
-        return dueDate != null ? dueDate.equals(card.dueDate) : card.dueDate == null;
+        if (!Objects.equals(userId, card.userId)) return false;
+        return Objects.equals(dueDate, card.dueDate);
     }
 
     @Override

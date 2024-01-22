@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.model.Board;
 
@@ -109,12 +110,12 @@ public class FilterWidgetBoard {
         FilterWidgetBoard that = (FilterWidgetBoard) o;
 
         if (includeNoLabel != that.includeNoLabel) return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (filterAccountId != null ? !filterAccountId.equals(that.filterAccountId) : that.filterAccountId != null)
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(filterAccountId, that.filterAccountId))
             return false;
-        if (boardId != null ? !boardId.equals(that.boardId) : that.boardId != null) return false;
-        if (stacks != null ? !stacks.equals(that.stacks) : that.stacks != null) return false;
-        return labels != null ? labels.equals(that.labels) : that.labels == null;
+        if (!Objects.equals(boardId, that.boardId)) return false;
+        if (!Objects.equals(stacks, that.stacks)) return false;
+        return Objects.equals(labels, that.labels);
     }
 
     @Override

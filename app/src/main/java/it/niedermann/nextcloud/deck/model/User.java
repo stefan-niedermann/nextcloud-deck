@@ -6,6 +6,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
@@ -77,10 +78,10 @@ public class User extends AbstractRemoteEntity implements Serializable {
 
         User user = (User) o;
 
-        if (primaryKey != null ? !primaryKey.equals(user.primaryKey) : user.primaryKey != null)
+        if (!Objects.equals(primaryKey, user.primaryKey))
             return false;
-        if (uid != null ? !uid.equals(user.uid) : user.uid != null) return false;
-        return displayname != null ? displayname.equals(user.displayname) : user.displayname == null;
+        if (!Objects.equals(uid, user.uid)) return false;
+        return Objects.equals(displayname, user.displayname);
     }
 
     @Override

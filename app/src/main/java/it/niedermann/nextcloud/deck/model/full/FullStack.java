@@ -5,6 +5,7 @@ import androidx.room.Ignore;
 import androidx.room.Relation;
 
 import java.util.List;
+import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
@@ -47,8 +48,8 @@ public class FullStack implements IRemoteEntity {
 
         FullStack fullStack = (FullStack) o;
 
-        if (stack != null ? !stack.equals(fullStack.stack) : fullStack.stack != null) return false;
-        return cards != null ? cards.equals(fullStack.cards) : fullStack.cards == null;
+        if (!Objects.equals(stack, fullStack.stack)) return false;
+        return Objects.equals(cards, fullStack.cards);
     }
 
     @Override

@@ -12,6 +12,7 @@ import androidx.room.Index;
 import com.google.gson.annotations.JsonAdapter;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -97,7 +98,7 @@ public class Label extends AbstractRemoteEntity implements Serializable {
         Label label = (Label) o;
 
         if (boardId != label.boardId) return false;
-        if (title != null ? !title.equals(label.title) : label.title != null) return false;
+        if (!Objects.equals(title, label.title)) return false;
         return color.equals(label.color);
     }
 
