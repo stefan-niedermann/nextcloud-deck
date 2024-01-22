@@ -173,6 +173,10 @@ public class Version implements Comparable<Version> {
         return isGreaterOrEqualTo(VERSION_1_3_0);
     }
 
+    public boolean supportsDeletingFileAttachments() {
+        return isGreaterOrEqualTo(VERSION_1_12_2);
+    }
+
     /**
      * Cards started to have an additional property called <a href="https://github.com/nextcloud/deck/pull/4137"><code>done</code></a> with version <a href="https://github.com/nextcloud/deck/releases/tag/v1.12.0">{@link #VERSION_1_12_0}</a> of the Deck server app.
      * However, there was an <a href="https://github.com/nextcloud/deck/issues/534#issuecomment-1892061055">issue that would have required to call a second endpoint when marking a card as <code>undone</code></a> which was <a href="https://github.com/nextcloud/deck/pull/5491">fixed</a> in {@link #VERSION_1_12_2}.

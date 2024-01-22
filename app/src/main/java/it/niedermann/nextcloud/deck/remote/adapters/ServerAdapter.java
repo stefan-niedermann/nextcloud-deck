@@ -305,9 +305,9 @@ public class ServerAdapter {
         RequestHelper.request(provider, () -> provider.getDeckAPI().downloadAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId), responseCallback);
     }
 
-    public void deleteAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, long remoteAttachmentId, @NonNull ResponseCallback<EmptyResponse> responseCallback) {
+    public void deleteAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, @NonNull Attachment attachment, @NonNull ResponseCallback<EmptyResponse> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(provider, () -> provider.getDeckAPI().deleteAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().deleteAttachment(attachment.getType().getValue(), remoteBoardId, remoteStackId, remoteCardId, attachment.getId()), responseCallback);
     }
 
     public void restoreAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, long remoteAttachmentId, @NonNull ResponseCallback<Attachment> responseCallback) {

@@ -81,7 +81,6 @@ We opened a [feature request](https://github.com/nextcloud/deck/issues/3101) to 
 
 Here is a collection of issues which are caused by the (not by us developed) Deck server app and can not be fixed within Deck Android. Please [contact the Nextcloud GmbH](https://nextcloud.com/contact/) if you want them to be fixed.
 
-- Attachments are not deletable since Deck server 1.3: https://github.com/nextcloud/deck/issues/2904
 - Viewing archived cards is not possible: https://github.com/nextcloud/deck/issues/2613
 - Renaming a list in the web UI does not update in Deck Android: https://github.com/nextcloud/deck/issues/2866
 
