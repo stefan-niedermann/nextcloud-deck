@@ -6,6 +6,8 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 
 @Entity(
@@ -73,10 +75,10 @@ public class FilterWidgetProject {
 
         FilterWidgetProject that = (FilterWidgetProject) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (filterAccountId != null ? !filterAccountId.equals(that.filterAccountId) : that.filterAccountId != null)
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(filterAccountId, that.filterAccountId))
             return false;
-        return projectId != null ? projectId.equals(that.projectId) : that.projectId == null;
+        return Objects.equals(projectId, that.projectId);
     }
 
     @Override

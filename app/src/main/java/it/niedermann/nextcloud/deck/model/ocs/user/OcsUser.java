@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.model.ocs.user;
 
+import java.util.Objects;
+
 public class OcsUser {
     String id;
     String displayName;
@@ -36,8 +38,8 @@ public class OcsUser {
 
         OcsUser ocsUser = (OcsUser) o;
 
-        if (id != null ? !id.equals(ocsUser.id) : ocsUser.id != null) return false;
-        return displayName != null ? displayName.equals(ocsUser.displayName) : ocsUser.displayName == null;
+        if (!Objects.equals(id, ocsUser.id)) return false;
+        return Objects.equals(displayName, ocsUser.displayName);
     }
 
     @Override

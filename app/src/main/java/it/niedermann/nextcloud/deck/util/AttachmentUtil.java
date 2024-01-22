@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -10,6 +11,11 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.Px;
+
+import com.nextcloud.android.sso.helper.VersionCheckHelper;
+import com.nextcloud.android.sso.model.FilesAppType;
+
+import java.util.Optional;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -57,21 +63,52 @@ public class AttachmentUtil {
     }
 
     /**
-     * Tries to open the given {@link Attachment} in web browser. Displays a toast on failure.
+     * Tries to open the given {@link Attachment} in the Nextcloud Android app with a fallback to the web browser.
+     * Displays a toast on failure.
      */
-    public static void openAttachmentInBrowser(@NonNull Account account, @NonNull Context context, Long cardRemoteId, Attachment attachment) {
+    public static void openAttachment(@NonNull Account account, @NonNull Context context, @Nullable Long cardRemoteId, Attachment attachment) {
         if (cardRemoteId == null) {
             Toast.makeText(context, R.string.card_does_not_yet_exist, Toast.LENGTH_LONG).show();
             DeckLog.logError(new IllegalArgumentException("cardRemoteId must not be null."));
             return;
         }
 
+        final var intent = generateNextcloudFilesIntent(context, account, attachment)
+                .orElse(generateBrowserIntent(account, cardRemoteId, attachment));
+
         try {
-            context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(getCopyDownloadUrl(account, cardRemoteId, attachment))));
+            context.startActivity(intent);
         } catch (IllegalArgumentException e) {
             Toast.makeText(context, R.string.attachment_does_not_yet_exist, Toast.LENGTH_LONG).show();
             DeckLog.logError(new IllegalArgumentException("attachmentRemoteId must not be null."));
         }
+    }
+
+    private static Optional<Intent> generateNextcloudFilesIntent(@NonNull Context context, @NonNull Account account, Attachment attachment) {
+        final var packageManager = context.getPackageManager();
+
+        for (final var type : FilesAppType.values()) {
+            try {
+                if (VersionCheckHelper.getNextcloudFilesVersionCode(context, type) > 30110000) {
+                    final var intent = new Intent(Intent.ACTION_VIEW)
+                            .setClassName(type.packageId, "com.owncloud.android.ui.activity.FileDisplayActivity")
+                            .putExtra("KEY_FILE_ID", String.valueOf(attachment.getFileId()))
+                            .putExtra("KEY_ACCOUNT", account.getName());
+
+                    if (packageManager.resolveActivity(intent, 0) != null) {
+                        return Optional.of(intent);
+                    }
+                }
+            } catch (PackageManager.NameNotFoundException ignored) {
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    private static Intent generateBrowserIntent(@NonNull Account account, long cardRemoteId, @NonNull Attachment attachment) {
+        return new Intent(Intent.ACTION_VIEW)
+                .setData(Uri.parse(getCopyDownloadUrl(account, cardRemoteId, attachment)));
     }
 
     public static String getCopyDownloadUrl(@NonNull Account account, @NonNull Long cardRemoteId, @NonNull Attachment attachment) {

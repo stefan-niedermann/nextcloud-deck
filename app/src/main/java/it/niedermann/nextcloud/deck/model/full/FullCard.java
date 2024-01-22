@@ -9,6 +9,7 @@ import androidx.room.Relation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import it.niedermann.android.crosstabdnd.DragAndDropModel;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -146,15 +147,15 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
 
         FullCard fullCard = (FullCard) o;
 
-        if (card != null ? !card.equals(fullCard.card) : fullCard.card != null) return false;
-        if (labels != null ? !labels.equals(fullCard.labels) : fullCard.labels != null)
+        if (!Objects.equals(card, fullCard.card)) return false;
+        if (!Objects.equals(labels, fullCard.labels))
             return false;
-        if (assignedUsers != null ? !assignedUsers.equals(fullCard.assignedUsers) : fullCard.assignedUsers != null)
+        if (!Objects.equals(assignedUsers, fullCard.assignedUsers))
             return false;
-        if (owner != null ? !owner.equals(fullCard.owner) : fullCard.owner != null) return false;
-        if (attachments != null ? !attachments.equals(fullCard.attachments) : fullCard.attachments != null)
+        if (!Objects.equals(owner, fullCard.owner)) return false;
+        if (!Objects.equals(attachments, fullCard.attachments))
             return false;
-        return commentIDs != null ? commentIDs.equals(fullCard.commentIDs) : fullCard.commentIDs == null;
+        return Objects.equals(commentIDs, fullCard.commentIDs);
     }
 
     @Override

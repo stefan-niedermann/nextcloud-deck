@@ -20,7 +20,8 @@
             android:layout_gravity="center"
             android:contentDescription="@null"
             android:padding="@dimen/spacer_1hx"
-            app:srcCompat="@drawable/ic_attach_file_grey600_24dp" />
+            app:srcCompat="@drawable/ic_attach_file_grey600_24dp"
+            app:tint="?attr/colorSecondary" />
 
         <ImageView
             android:id="@+id/not_synced_yet"
@@ -30,6 +31,7 @@
             android:contentDescription="@string/not_synced_yet"
             android:visibility="gone"
             app:srcCompat="@drawable/ic_sync_blue_24dp"
+            app:tint="?attr/colorPrimary"
             tools:visibility="visible" />
     </FrameLayout>
 
@@ -41,6 +43,7 @@
         android:layout_marginEnd="@dimen/spacer_1x"
         android:layout_weight="1"
         android:textAppearance="?attr/textAppearanceListItem"
+        android:textColor="?attr/colorOnSurface"
         tools:maxLength="30"
         tools:text="@tools:sample/lorem/random" />
 
@@ -56,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:textAppearance="?attr/textAppearanceListItemSecondary"
+            android:textColor="?attr/colorOnSurfaceVariant"
             tools:text="1.98 MB" />
 
         <TextView
@@ -64,6 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:textAppearance="?attr/textAppearanceListItemSecondary"
+            android:textColor="?attr/colorOnSurfaceVariant"
             tools:text="Mar 4" />
     </LinearLayout>
 </LinearLayout>

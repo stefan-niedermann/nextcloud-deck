@@ -31,7 +31,7 @@ public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extend
     protected SyncRepository syncRepository;
     protected final Account account;
     protected final long boardId;
-    protected final ReactiveLiveData<String> constraint$ = new ReactiveLiveData<String>();
+    protected final ReactiveLiveData<String> constraint$ = new ReactiveLiveData<>();
     private final AutoCompleteFilter filter = new AutoCompleteFilter() {
         @Override
         protected Filter.FilterResults performFiltering(CharSequence constraint) {
@@ -75,7 +75,7 @@ public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extend
     }
 
     protected static class ViewHolder<ViewBindingType extends ViewBinding> {
-        public ViewBindingType binding;
+        public final ViewBindingType binding;
 
         public ViewHolder(ViewBindingType binding) {
             this.binding = binding;

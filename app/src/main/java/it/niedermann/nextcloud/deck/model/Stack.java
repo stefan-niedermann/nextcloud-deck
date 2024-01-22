@@ -6,6 +6,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.time.Instant;
+import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
@@ -107,8 +108,8 @@ public class Stack extends AbstractRemoteEntity {
 
         if (boardId != stack.boardId) return false;
         if (order != stack.order) return false;
-        if (title != null ? !title.equals(stack.title) : stack.title != null) return false;
-        return deletedAt != null ? deletedAt.equals(stack.deletedAt) : stack.deletedAt == null;
+        if (!Objects.equals(title, stack.title)) return false;
+        return Objects.equals(deletedAt, stack.deletedAt);
     }
 
     @Override

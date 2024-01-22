@@ -41,48 +41,26 @@ public class CardActivityViewHolder extends RecyclerView.ViewHolder {
 
     private static void setImageResource(@NonNull ImageView imageView, @NonNull ActivityType type) {
         switch (type) {
-            case CHANGE:
-                imageView.setImageResource(R.drawable.type_change_36dp);
-                break;
-            case ADD:
-                imageView.setImageResource(R.drawable.type_add_color_36dp);
-                break;
-            case DELETE:
-                imageView.setImageResource(R.drawable.type_delete_color_36dp);
-                break;
-            case ARCHIVE:
-                imageView.setImageResource(R.drawable.type_archive_grey600_36dp);
-                break;
-            case TAGGED_WITH_LABEL:
-                imageView.setImageResource(R.drawable.type_label_grey600_36dp);
-                break;
-            case COMMENT:
-                imageView.setImageResource(R.drawable.type_comment_grey600_36dp);
-                break;
-            case FILES:
-                imageView.setImageResource(R.drawable.type_file_36dp);
-                break;
-            case HISTORY:
-                imageView.setImageResource(R.drawable.type_history_36dp);
-                break;
-            case DECK:
-            default:
-                imageView.setImageResource(R.drawable.ic_app_logo);
-                break;
+            case CHANGE -> imageView.setImageResource(R.drawable.type_change_36dp);
+            case ADD -> imageView.setImageResource(R.drawable.type_add_color_36dp);
+            case DELETE -> imageView.setImageResource(R.drawable.type_delete_color_36dp);
+            case ARCHIVE -> imageView.setImageResource(R.drawable.type_archive_grey600_36dp);
+            case TAGGED_WITH_LABEL ->
+                    imageView.setImageResource(R.drawable.type_label_grey600_36dp);
+            case COMMENT -> imageView.setImageResource(R.drawable.type_comment_grey600_36dp);
+            case FILES -> imageView.setImageResource(R.drawable.type_file_36dp);
+            case HISTORY -> imageView.setImageResource(R.drawable.type_history_36dp);
+            default -> imageView.setImageResource(R.drawable.ic_app_logo);
         }
     }
 
     private static void setImageColor(@NonNull Context context, @NonNull ImageView imageView, @NonNull ActivityType type) {
         switch (type) {
-            case ADD:
-                DeckViewThemeUtils.setImageColor(context, imageView, R.color.activity_create);
-                break;
-            case DELETE:
-                DeckViewThemeUtils.setImageColor(context, imageView, R.color.activity_delete);
-                break;
-            default:
-                DeckViewThemeUtils.setImageColor(context, imageView, R.color.grey600);
-                break;
+            case ADD ->
+                    DeckViewThemeUtils.setImageColor(context, imageView, R.color.activity_create);
+            case DELETE ->
+                    DeckViewThemeUtils.setImageColor(context, imageView, R.color.activity_delete);
+            default -> DeckViewThemeUtils.setImageColor(context, imageView, R.color.grey600);
         }
     }
 }

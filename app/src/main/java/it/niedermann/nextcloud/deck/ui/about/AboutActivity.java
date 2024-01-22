@@ -82,16 +82,12 @@ public class AboutActivity extends AppCompatActivity implements Themed {
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            switch (position) {
-                case 0:
-                    return AboutFragmentCreditsTab.newInstance(account);
-                case 1:
-                    return new AboutFragmentContributingTab();
-                case 2:
-                    return AboutFragmentLicenseTab.newInstance(account);
-                default:
-                    throw new IllegalArgumentException("position must be between 0 and 2");
-            }
+            return switch (position) {
+                case 0 -> AboutFragmentCreditsTab.newInstance(account);
+                case 1 -> new AboutFragmentContributingTab();
+                case 2 -> AboutFragmentLicenseTab.newInstance(account);
+                default -> throw new IllegalArgumentException("position must be between 0 and 2");
+            };
         }
 
         @Override

@@ -99,10 +99,8 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
         } else if (throwable instanceof NextcloudHttpRequestFailedException) {
             int statusCode = ((NextcloudHttpRequestFailedException) throwable).getStatusCode();
             switch (statusCode) {
-                case 302:
-                    add(R.string.error_dialog_redirect);
-                    break;
-                case 500:
+                case 302 -> add(R.string.error_dialog_redirect);
+                case 500 -> {
                     if (account != null) {
                         add(R.string.error_dialog_check_server_logs, new Intent(Intent.ACTION_VIEW)
                                 .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_server_logs)
@@ -110,13 +108,9 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
                     } else {
                         add(R.string.error_dialog_check_server_logs);
                     }
-                    break;
-                case 503:
-                    add(R.string.error_dialog_check_maintenance);
-                    break;
-                case 507:
-                    add(R.string.error_dialog_insufficient_storage);
-                    break;
+                }
+                case 503 -> add(R.string.error_dialog_check_maintenance);
+                case 507 -> add(R.string.error_dialog_insufficient_storage);
             }
         } else if (throwable instanceof UploadAttachmentFailedException) {
             add(R.string.error_dialog_attachment_upload_failed);

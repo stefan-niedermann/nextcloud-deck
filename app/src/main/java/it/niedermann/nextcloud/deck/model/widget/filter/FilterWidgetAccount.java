@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.model.Account;
 
@@ -136,14 +137,14 @@ public class FilterWidgetAccount {
 
         if (includeNoUser != that.includeNoUser) return false;
         if (includeNoProject != that.includeNoProject) return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (filterWidgetId != null ? !filterWidgetId.equals(that.filterWidgetId) : that.filterWidgetId != null)
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(filterWidgetId, that.filterWidgetId))
             return false;
-        if (accountId != null ? !accountId.equals(that.accountId) : that.accountId != null)
+        if (!Objects.equals(accountId, that.accountId))
             return false;
-        if (boards != null ? !boards.equals(that.boards) : that.boards != null) return false;
-        if (users != null ? !users.equals(that.users) : that.users != null) return false;
-        return projects != null ? projects.equals(that.projects) : that.projects == null;
+        if (!Objects.equals(boards, that.boards)) return false;
+        if (!Objects.equals(users, that.users)) return false;
+        return Objects.equals(projects, that.projects);
     }
 
     @Override

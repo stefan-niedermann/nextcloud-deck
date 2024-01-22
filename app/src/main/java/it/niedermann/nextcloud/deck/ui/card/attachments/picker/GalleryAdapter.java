@@ -50,25 +50,21 @@ public class GalleryAdapter extends AbstractCursorPickerAdapter<RecyclerView.Vie
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case VIEW_TYPE_ITEM_NATIVE:
-                return new GalleryPhotoPreviewItemViewHolder(ItemPhotoPreviewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-            case VIEW_TYPE_ITEM:
-                return new GalleryItemViewHolder(ItemAttachmentImageBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-            default:
-                throw new IllegalStateException("Unknown viewType " + viewType);
-        }
+        return switch (viewType) {
+            case VIEW_TYPE_ITEM_NATIVE ->
+                    new GalleryPhotoPreviewItemViewHolder(ItemPhotoPreviewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+            case VIEW_TYPE_ITEM ->
+                    new GalleryItemViewHolder(ItemAttachmentImageBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+            default -> throw new IllegalStateException("Unknown viewType " + viewType);
+        };
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
-            case VIEW_TYPE_ITEM_NATIVE: {
-                ((GalleryPhotoPreviewItemViewHolder) holder).bind(openNativePicker, lifecycleOwner);
-                break;
-            }
-            case VIEW_TYPE_ITEM: {
+            case VIEW_TYPE_ITEM_NATIVE -> ((GalleryPhotoPreviewItemViewHolder) holder).bind(openNativePicker, lifecycleOwner);
+            case VIEW_TYPE_ITEM -> {
                 final long id = getItemId(position);
                 if (!bindExecutor.isTerminated()) {
                     bindExecutor.execute(() -> {

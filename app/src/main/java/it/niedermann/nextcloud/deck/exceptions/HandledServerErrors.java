@@ -21,8 +21,7 @@ public enum HandledServerErrors {
     }
 
     public static HandledServerErrors fromThrowable(Throwable throwable) {
-        if (throwable instanceof NextcloudHttpRequestFailedException) {
-            NextcloudHttpRequestFailedException requestFailedException = (NextcloudHttpRequestFailedException) throwable;
+        if (throwable instanceof NextcloudHttpRequestFailedException requestFailedException) {
             if (requestFailedException.getCause() != null) {
                 String errorString = requestFailedException.getCause().getMessage();
                 try {

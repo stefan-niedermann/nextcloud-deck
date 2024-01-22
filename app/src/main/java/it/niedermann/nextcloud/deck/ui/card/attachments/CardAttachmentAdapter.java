@@ -2,7 +2,7 @@ package it.niedermann.nextcloud.deck.ui.card.attachments;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
 import static androidx.recyclerview.widget.RecyclerView.NO_ID;
-import static it.niedermann.nextcloud.deck.util.AttachmentUtil.openAttachmentInBrowser;
+import static it.niedermann.nextcloud.deck.util.AttachmentUtil.openAttachment;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -80,13 +80,12 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
     @Override
     public AttachmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final var context = parent.getContext();
-        switch (viewType) {
-            case VIEW_TYPE_IMAGE:
-                return new ImageAttachmentViewHolder(ItemAttachmentImageBinding.inflate(LayoutInflater.from(context), parent, false));
-            case VIEW_TYPE_DEFAULT:
-            default:
-                return new DefaultAttachmentViewHolder(ItemAttachmentDefaultBinding.inflate(LayoutInflater.from(context), parent, false));
-        }
+        return switch (viewType) {
+            case VIEW_TYPE_IMAGE ->
+                    new ImageAttachmentViewHolder(ItemAttachmentImageBinding.inflate(LayoutInflater.from(context), parent, false));
+            default ->
+                    new DefaultAttachmentViewHolder(ItemAttachmentDefaultBinding.inflate(LayoutInflater.from(context), parent, false));
+        };
     }
 
     @Override
@@ -112,7 +111,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
             }
             case VIEW_TYPE_DEFAULT:
             default: {
-                onClickListener = (event) -> openAttachmentInBrowser(account, context, cardRemoteId, attachment);
+                onClickListener = (event) -> openAttachment(account, context, cardRemoteId, attachment);
                 break;
             }
         }

@@ -6,6 +6,7 @@ import androidx.room.Ignore;
 import androidx.room.Relation;
 
 import java.util.List;
+import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -94,13 +95,13 @@ public class FullBoard implements IRemoteEntity {
 
         FullBoard fullBoard = (FullBoard) o;
 
-        if (board != null ? !board.equals(fullBoard.board) : fullBoard.board != null) return false;
-        if (labels != null ? !labels.equals(fullBoard.labels) : fullBoard.labels != null)
+        if (!Objects.equals(board, fullBoard.board)) return false;
+        if (!Objects.equals(labels, fullBoard.labels))
             return false;
-        if (owner != null ? !owner.equals(fullBoard.owner) : fullBoard.owner != null) return false;
-        if (participants != null ? !participants.equals(fullBoard.participants) : fullBoard.participants != null)
+        if (!Objects.equals(owner, fullBoard.owner)) return false;
+        if (!Objects.equals(participants, fullBoard.participants))
             return false;
-        return stacks != null ? stacks.equals(fullBoard.stacks) : fullBoard.stacks == null;
+        return Objects.equals(stacks, fullBoard.stacks);
     }
 
     @Override

@@ -46,14 +46,13 @@ public class ContactAdapter extends AbstractCursorPickerAdapter<RecyclerView.Vie
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case VIEW_TYPE_ITEM_NATIVE:
-                return new ContactNativeItemViewHolder(ItemPickerNativeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-            case VIEW_TYPE_ITEM:
-                return new ContactItemViewHolder(ItemPickerUserBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-            default:
-                throw new IllegalStateException("Unknown viewType " + viewType);
-        }
+        return switch (viewType) {
+            case VIEW_TYPE_ITEM_NATIVE ->
+                    new ContactNativeItemViewHolder(ItemPickerNativeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+            case VIEW_TYPE_ITEM ->
+                    new ContactItemViewHolder(ItemPickerUserBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+            default -> throw new IllegalStateException("Unknown viewType " + viewType);
+        };
     }
 
     @Override

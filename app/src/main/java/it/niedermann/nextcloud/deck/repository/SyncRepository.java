@@ -302,8 +302,7 @@ public class SyncRepository extends BaseRepository {
                     @SuppressLint("MissingSuperCall")
                     @Override
                     public void onError(Throwable throwable) {
-                        if (throwable instanceof NextcloudHttpRequestFailedException) {
-                            final NextcloudHttpRequestFailedException requestFailedException = (NextcloudHttpRequestFailedException) throwable;
+                        if (throwable instanceof NextcloudHttpRequestFailedException requestFailedException) {
                             DeckLog.verbose("HTTP Status " + requestFailedException.getStatusCode());
                             if (requestFailedException.getStatusCode() == HTTP_UNAVAILABLE && requestFailedException.getCause() != null) {
                                 final String errorString = requestFailedException.getCause().getMessage();

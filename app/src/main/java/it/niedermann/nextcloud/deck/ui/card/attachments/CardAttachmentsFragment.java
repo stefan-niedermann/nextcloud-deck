@@ -14,7 +14,6 @@ import static androidx.core.content.PermissionChecker.checkSelfPermission;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
 import static java.net.HttpURLConnection.HTTP_CONFLICT;
-import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
 import static it.niedermann.nextcloud.deck.util.FilesUtil.copyContentUriToTempFile;
 
@@ -176,13 +175,10 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                switch (adapter.getItemViewType(position)) {
-                    case VIEW_TYPE_IMAGE:
-                        return 1;
-                    case VIEW_TYPE_DEFAULT:
-                    default:
-                        return spanCount;
-                }
+                return switch (adapter.getItemViewType(position)) {
+                    case VIEW_TYPE_IMAGE -> 1;
+                    default -> spanCount;
+                };
             }
         });
         binding.attachmentsList.setLayoutManager(glm);
@@ -346,9 +342,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case REQUEST_CODE_PICK_CONTACT:
-            case REQUEST_CODE_PICK_CAMERA:
-            case REQUEST_CODE_PICK_FILE: {
+            case REQUEST_CODE_PICK_CONTACT, REQUEST_CODE_PICK_CAMERA, REQUEST_CODE_PICK_FILE -> {
                 if (resultCode == RESULT_OK) {
                     final Uri sourceUri = requestCode == REQUEST_CODE_PICK_CONTACT ? VCardUtil.getVCardContentUri(requireContext(), Uri.parse(data.getDataString())) : data.getData();
                     try {
@@ -358,9 +352,8 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                         ExceptionDialogFragment.newInstance(e, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                     }
                 }
-                break;
             }
-            default: {
+            default -> {
                 super.onActivityResult(requestCode, resultCode, data);
             }
         }
@@ -381,8 +374,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
             throw new UploadAttachmentFailedException("sourceUri is null");
         }
         switch (sourceUri.getScheme()) {
-            case ContentResolver.SCHEME_CONTENT:
-            case ContentResolver.SCHEME_FILE: {
+            case ContentResolver.SCHEME_CONTENT, ContentResolver.SCHEME_FILE -> {
                 DeckLog.verbose("--- found content URL", sourceUri.getPath());
                 // Separate Thread required because picked file might not yet be locally available
                 // https://github.com/stefan-niedermann/nextcloud-deck/issues/814
@@ -405,9 +397,8 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                         requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(e, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                     }
                 });
-                break;
             }
-            default: {
+            default -> {
                 throw new UploadAttachmentFailedException("Unknown URI scheme: " + sourceUri.getScheme());
             }
         }

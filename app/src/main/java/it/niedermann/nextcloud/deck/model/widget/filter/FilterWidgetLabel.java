@@ -5,6 +5,8 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 import it.niedermann.nextcloud.deck.model.Label;
 
 @Entity(
@@ -63,10 +65,10 @@ public class FilterWidgetLabel {
 
         FilterWidgetLabel that = (FilterWidgetLabel) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (filterBoardId != null ? !filterBoardId.equals(that.filterBoardId) : that.filterBoardId != null)
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(filterBoardId, that.filterBoardId))
             return false;
-        return labelId != null ? labelId.equals(that.labelId) : that.labelId == null;
+        return Objects.equals(labelId, that.labelId);
     }
 
     @Override

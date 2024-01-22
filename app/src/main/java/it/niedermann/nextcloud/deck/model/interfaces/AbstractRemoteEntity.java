@@ -7,6 +7,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.time.Instant;
+import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
@@ -158,11 +159,11 @@ public abstract class AbstractRemoteEntity implements IRemoteEntity {
 
         if (accountId != that.accountId) return false;
         if (status != that.status) return false;
-        if (localId != null ? !localId.equals(that.localId) : that.localId != null) return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (lastModified != null ? !lastModified.equals(that.lastModified) : that.lastModified != null)
+        if (!Objects.equals(localId, that.localId)) return false;
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(lastModified, that.lastModified))
             return false;
-        return lastModifiedLocal != null ? lastModifiedLocal.equals(that.lastModifiedLocal) : that.lastModifiedLocal == null;
+        return Objects.equals(lastModifiedLocal, that.lastModifiedLocal);
     }
 
     @Override

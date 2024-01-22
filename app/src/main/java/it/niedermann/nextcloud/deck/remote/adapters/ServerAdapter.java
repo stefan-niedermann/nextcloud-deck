@@ -272,8 +272,8 @@ public class ServerAdapter {
         this.requestHelper.request(() -> provider.getDeckAPI().downloadAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId), responseCallback);
     }
 
-    public void deleteAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, long remoteAttachmentId, @NonNull ResponseCallback<Void> responseCallback) {
-        this.requestHelper.request(() -> provider.getDeckAPI().deleteAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId), responseCallback);
+    public void deleteAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, @NonNull Attachment attachment, @NonNull ResponseCallback<Void> responseCallback) {
+        this.requestHelper.request(() -> provider.getDeckAPI().deleteAttachment(attachment.getType().getValue(), remoteBoardId, remoteStackId, remoteCardId, attachment.getId()), responseCallback);
     }
 
     public void restoreAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, long remoteAttachmentId, @NonNull ResponseCallback<Attachment> responseCallback) {

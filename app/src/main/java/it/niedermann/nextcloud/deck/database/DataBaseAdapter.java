@@ -351,36 +351,26 @@ public class DataBaseAdapter {
 
         if (filter.getDueType() != EDueType.NO_FILTER) {
             switch (filter.getDueType()) {
-                case NO_DUE:
-                    query.append("and c.dueDate is null ");
-                    break;
-                case OVERDUE:
-                    query.append("and datetime(c.duedate/1000, 'unixepoch', 'localtime') <= datetime('now', 'localtime') ");
-                    break;
-                case TODAY:
-                    query.append("and datetime(c.duedate/1000, 'unixepoch', 'localtime') between datetime('now', 'localtime') and datetime('now', '+24 hour', 'localtime') ");
-                    break;
-                case WEEK:
-                    query.append("and datetime(c.duedate/1000, 'unixepoch', 'localtime') between datetime('now', 'localtime') and datetime('now', '+7 day', 'localtime') ");
-                    break;
-                case MONTH:
-                    query.append("and datetime(c.duedate/1000, 'unixepoch', 'localtime') between datetime('now', 'localtime') and datetime('now', '+30 day', 'localtime') ");
-                    break;
-                default:
-                    throw new IllegalArgumentException("You need to add your new " + EDueType.class.getSimpleName() + " value\"" + filter.getDueType() + "\" here!");
+                case NO_DUE -> query.append("and c.dueDate is null ");
+                case OVERDUE ->
+                        query.append("and datetime(c.duedate/1000, 'unixepoch', 'localtime') <= datetime('now', 'localtime') ");
+                case TODAY ->
+                        query.append("and datetime(c.duedate/1000, 'unixepoch', 'localtime') between datetime('now', 'localtime') and datetime('now', '+24 hour', 'localtime') ");
+                case WEEK ->
+                        query.append("and datetime(c.duedate/1000, 'unixepoch', 'localtime') between datetime('now', 'localtime') and datetime('now', '+7 day', 'localtime') ");
+                case MONTH ->
+                        query.append("and datetime(c.duedate/1000, 'unixepoch', 'localtime') between datetime('now', 'localtime') and datetime('now', '+30 day', 'localtime') ");
+                default ->
+                        throw new IllegalArgumentException("You need to add your new " + EDueType.class.getSimpleName() + " value\"" + filter.getDueType() + "\" here!");
             }
         }
 
         if (filter.getDoneType() != EDoneType.NO_FILTER) {
             switch (filter.getDoneType()) {
-                case DONE:
-                    query.append("and (c.done is not null and c.done != 0) ");
-                    break;
-                case UNDONE:
-                    query.append("and (c.done is null or c.done = 0) ");
-                    break;
-                default:
-                    throw new IllegalArgumentException("You need to add your new " + EDoneType.class.getSimpleName() + " value\"" + filter.getDueType() + "\" here!");
+                case DONE -> query.append("and (c.done is not null and c.done != 0) ");
+                case UNDONE -> query.append("and (c.done is null or c.done = 0) ");
+                default ->
+                        throw new IllegalArgumentException("You need to add your new " + EDoneType.class.getSimpleName() + " value\"" + filter.getDueType() + "\" here!");
             }
         }
 

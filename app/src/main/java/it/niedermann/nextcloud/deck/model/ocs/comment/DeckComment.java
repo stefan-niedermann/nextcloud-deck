@@ -8,6 +8,7 @@ import androidx.room.Index;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -145,10 +146,10 @@ public class DeckComment extends AbstractRemoteEntity {
 
         DeckComment that = (DeckComment) o;
 
-        if (actorId != null ? !actorId.equals(that.actorId) : that.actorId != null) return false;
-        if (actorDisplayName != null ? !actorDisplayName.equals(that.actorDisplayName) : that.actorDisplayName != null)
+        if (!Objects.equals(actorId, that.actorId)) return false;
+        if (!Objects.equals(actorDisplayName, that.actorDisplayName))
             return false;
-        return message != null ? message.equals(that.message) : that.message == null;
+        return Objects.equals(message, that.message);
     }
 
     @Override

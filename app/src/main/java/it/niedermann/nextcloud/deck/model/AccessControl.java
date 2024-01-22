@@ -7,6 +7,8 @@ import androidx.room.Index;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
+
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
 
@@ -144,10 +146,10 @@ public class AccessControl extends AbstractRemoteEntity {
         if (permissionEdit != that.permissionEdit) return false;
         if (permissionShare != that.permissionShare) return false;
         if (permissionManage != that.permissionManage) return false;
-        if (type != null ? !type.equals(that.type) : that.type != null) return false;
-        if (boardId != null ? !boardId.equals(that.boardId) : that.boardId != null) return false;
-        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
-        return user != null ? user.equals(that.user) : that.user == null;
+        if (!Objects.equals(type, that.type)) return false;
+        if (!Objects.equals(boardId, that.boardId)) return false;
+        if (!Objects.equals(userId, that.userId)) return false;
+        return Objects.equals(user, that.user);
     }
 
     @Override

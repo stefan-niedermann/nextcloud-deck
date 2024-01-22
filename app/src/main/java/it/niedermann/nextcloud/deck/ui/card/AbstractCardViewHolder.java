@@ -55,16 +55,9 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
 
         getCardMenu().setVisibility(hasEditPermission ? View.VISIBLE : View.GONE);
         getCardTitle().setText(fullCard.getCard().getTitle().trim());
-
-        if (utils != null) {
-            utils.platform.colorImageView(getNotSyncedYet(), ColorRole.PRIMARY);
-            utils.platform.colorImageView(getCardMenu(), ColorRole.ON_SURFACE);
-            utils.platform.colorTextView(getCardTitle(), ColorRole.ON_SURFACE);
-        }
-        // TODO should be discussed with UX
-        // utils.material.themeCardView(getCard());
-
         getNotSyncedYet().setVisibility(DBStatus.LOCAL_EDITED.equals(fullCard.getStatusEnum()) ? View.VISIBLE : View.GONE);
+
+        applyTheme(utils);
 
         if (fullCard.getCard().getDueDate() != null || fullCard.getCard().getDone() != null) {
             setupDueDate(getCardDueDate(), fullCard.getCard());
@@ -89,6 +82,19 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
             popup.setOnMenuItemClickListener(item -> optionsItemsSelectedListener.onCardOptionsItemSelected(item, fullCard));
             popup.show();
         });
+    }
+
+    @CallSuper
+    protected void applyTheme(@Nullable ThemeUtils utils) {
+        if (utils != null) {
+            utils.platform.colorImageView(getNotSyncedYet(), ColorRole.PRIMARY);
+            utils.platform.colorImageView(getCardMenu(), ColorRole.ON_SURFACE);
+            utils.platform.colorTextView(getCardTitle(), ColorRole.ON_SURFACE);
+
+            // TODO should be discussed with UX
+            // utils.material.themeCardView(getCard());
+        }
+
     }
 
     protected abstract DueDateChip getCardDueDate();

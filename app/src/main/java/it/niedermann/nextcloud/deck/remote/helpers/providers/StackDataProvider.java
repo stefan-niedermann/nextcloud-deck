@@ -105,8 +105,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
             // so we can just skip this one and proceed with cards.
             return Collections.emptyList();
         }
-        List<FullStack> changedStacks = dataBaseAdapter.getLocallyChangedStacksForBoard(accountId, board.getLocalId());
-        return changedStacks;
+        return dataBaseAdapter.getLocallyChangedStacksForBoard(accountId, board.getLocalId());
     }
 
     @Override

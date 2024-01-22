@@ -1,7 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
 import static it.niedermann.nextcloud.deck.util.AttachmentUtil.getIconForMimeType;
-import static it.niedermann.nextcloud.deck.util.AttachmentUtil.openAttachmentInBrowser;
+import static it.niedermann.nextcloud.deck.util.AttachmentUtil.openAttachment;
 
 import android.text.format.Formatter;
 import android.view.MenuInflater;
@@ -13,9 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
+import com.nextcloud.android.common.ui.theme.utils.ColorRole;
+
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentDefaultBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
 public class DefaultAttachmentViewHolder extends AttachmentViewHolder {
@@ -40,7 +43,7 @@ public class DefaultAttachmentViewHolder extends AttachmentViewHolder {
     public void bind(@NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull FragmentManager fragmentManager, Long cardRemoteId, Attachment attachment, @Nullable View.OnClickListener onClickListener, @ColorInt int color) {
         super.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, color);
         getPreview().setImageResource(getIconForMimeType(attachment.getMimetype()));
-        itemView.setOnClickListener((event) -> openAttachmentInBrowser(account, itemView.getContext(), cardRemoteId, attachment));
+        itemView.setOnClickListener((event) -> openAttachment(account, itemView.getContext(), cardRemoteId, attachment));
         binding.filename.setText(attachment.getBasename());
         binding.filesize.setText(Formatter.formatFileSize(binding.filesize.getContext(), attachment.getFilesize()));
         if (attachment.getLastModifiedLocal() != null) {
@@ -52,5 +55,18 @@ public class DefaultAttachmentViewHolder extends AttachmentViewHolder {
         } else {
             binding.modified.setVisibility(View.GONE);
         }
+
+        applyTheme(color);
+    }
+
+    protected void applyTheme(@ColorInt int color) {
+        super.applyTheme(color);
+
+        final var utils = ThemeUtils.of(color, getPreview().getContext());
+
+        utils.platform.colorTextView(binding.filename, ColorRole.ON_SURFACE);
+        utils.platform.colorImageView(getPreview(), ColorRole.ON_SURFACE_VARIANT);
+        utils.platform.colorTextView(binding.filesize, ColorRole.ON_SURFACE_VARIANT);
+        utils.platform.colorTextView(binding.modified, ColorRole.ON_SURFACE_VARIANT);
     }
 }

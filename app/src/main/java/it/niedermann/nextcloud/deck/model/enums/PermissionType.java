@@ -7,10 +7,11 @@ public enum PermissionType {
     MANAGE(3, "PERMISSION_MANAGE"),
     SHARE(4, "PERMISSION_SHARE");
 
-    private long id;
-    private String key;
+    private final long id;
+    private final String key;
 
     PermissionType(long id, String key) {
+        this.id = id;
         this.key = key;
     }
 

@@ -48,8 +48,7 @@ public abstract class ResponseCallback<T> implements IResponseCallback<T> {
     }
 
     private boolean isListOfRemoteEntity(T response) {
-        if (response instanceof List) {
-            final var collection = (List<?>) response;
+        if (response instanceof List<?> collection) {
             return collection.size() > 0 && collection.get(0) instanceof AbstractRemoteEntity;
         }
         return false;
