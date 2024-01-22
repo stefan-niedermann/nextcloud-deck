@@ -140,9 +140,8 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 throw new IllegalStateException("Item at position " + position + " is a " + item.getClass().getSimpleName() + " but viewHolder is no " + UpcomingCardsSectionViewHolder.class.getSimpleName());
             }
         } else if (item.getClass() == UpcomingCardsAdapterItem.class || item instanceof UpcomingCardsAdapterItem) {
-            if (viewHolder instanceof AbstractCardViewHolder) {
+            if (viewHolder instanceof AbstractCardViewHolder cardViewHolder) {
                 final var cardItem = (UpcomingCardsAdapterItem) item;
-                final var cardViewHolder = ((AbstractCardViewHolder) viewHolder);
                 cardViewHolder.bind(cardItem.getFullCard(), cardItem.getAccount(), cardItem.getCurrentBoardRemoteId(), cardItem.currentBoardHasEditPermission(), R.menu.card_menu,
                         new UpcomingCardsOptionsItemSelectedListener(
                                 cardItem.getAccount(),

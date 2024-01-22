@@ -103,11 +103,10 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
         shareProgressViewModel.targetCardTitle = fullCard.getCard().getTitle();
 
         for (Parcelable sourceStream : mStreamsToUpload) {
-            if (!(sourceStream instanceof Uri)) {
+            if (!(sourceStream instanceof Uri uri)) {
                 shareProgressViewModel.addException(new UploadAttachmentFailedException("Expected sourceStream to be " + Uri.class.getSimpleName() + " but was: " + (sourceStream == null ? null : sourceStream.getClass().getSimpleName())));
                 return;
             }
-            final Uri uri = (Uri) sourceStream;
             if (!ContentResolver.SCHEME_CONTENT.equals(uri.getScheme())) {
                 shareProgressViewModel.addException(new UploadAttachmentFailedException("Unhandled URI scheme: " + uri.getScheme()));
                 return;

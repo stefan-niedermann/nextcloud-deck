@@ -71,8 +71,7 @@ public class ThemedSwitchPreference extends SwitchPreference implements Themed {
         if (view instanceof Switch) {
             return (Switch) view;
         }
-        if (view instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) view;
+        if (view instanceof ViewGroup viewGroup) {
             for (int i = 0; i < viewGroup.getChildCount(); i++) {
                 final var child = viewGroup.getChildAt(i);
                 if (child instanceof ViewGroup) {

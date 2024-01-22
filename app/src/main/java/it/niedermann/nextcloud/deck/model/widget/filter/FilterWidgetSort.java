@@ -104,9 +104,7 @@ public class FilterWidgetSort {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof FilterWidgetSort)) return false;
-
-        FilterWidgetSort that = (FilterWidgetSort) o;
+        if (!(o instanceof FilterWidgetSort that)) return false;
 
         if (direction != that.direction) return false;
         if (ruleOrder != that.ruleOrder) return false;
