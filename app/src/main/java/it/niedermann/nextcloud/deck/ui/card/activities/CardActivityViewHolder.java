@@ -44,9 +44,9 @@ public class CardActivityViewHolder extends RecyclerView.ViewHolder {
             case CHANGE -> imageView.setImageResource(R.drawable.type_change_36dp);
             case ADD -> imageView.setImageResource(R.drawable.type_add_color_36dp);
             case DELETE -> imageView.setImageResource(R.drawable.type_delete_color_36dp);
-            case ARCHIVE -> imageView.setImageResource(R.drawable.type_archive_grey600_36dp);
+            case ARCHIVE -> imageView.setImageResource(R.drawable.type_archive_36dp);
             case TAGGED_WITH_LABEL ->
-                    imageView.setImageResource(R.drawable.type_label_grey600_36dp);
+                    imageView.setImageResource(R.drawable.type_label_36dp);
             case COMMENT -> imageView.setImageResource(R.drawable.type_comment_36dp);
             case FILES -> imageView.setImageResource(R.drawable.type_file_36dp);
             case HISTORY -> imageView.setImageResource(R.drawable.type_history_36dp);
@@ -60,7 +60,7 @@ public class CardActivityViewHolder extends RecyclerView.ViewHolder {
                     DeckViewThemeUtils.setImageColor(context, imageView, R.color.activity_create);
             case DELETE ->
                     DeckViewThemeUtils.setImageColor(context, imageView, R.color.activity_delete);
-            default -> DeckViewThemeUtils.setImageColor(context, imageView, R.color.grey600);
+            default -> DeckViewThemeUtils.setImageColor(context, imageView, R.color.surfaceVariant);
         }
     }
 }

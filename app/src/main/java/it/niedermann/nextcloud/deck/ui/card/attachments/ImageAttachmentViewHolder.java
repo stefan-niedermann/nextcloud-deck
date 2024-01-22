@@ -43,8 +43,8 @@ public class ImageAttachmentViewHolder extends AttachmentViewHolder {
             @Nullable final String uri = AttachmentUtil.getThumbnailUrl(account, cardRemoteId, attachment, getPreview().getWidth());
             Glide.with(getPreview().getContext())
                     .load(uri)
-                    .placeholder(R.drawable.ic_image_grey600_24dp)
-                    .error(R.drawable.ic_image_grey600_24dp)
+                    .placeholder(R.drawable.ic_image_24dp)
+                    .error(R.drawable.ic_image_24dp)
                     .into(getPreview());
         });
 

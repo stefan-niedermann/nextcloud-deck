@@ -49,7 +49,7 @@
                     android:layout_marginTop="8sp"
                     android:contentDescription="@string/not_synced_yet"
                     android:visibility="gone"
-                    app:srcCompat="@drawable/ic_sync_blue_24dp"
+                    app:srcCompat="@drawable/ic_sync_18dp"
                     app:tint="?attr/colorPrimary"
                     tools:visibility="visible" />
 

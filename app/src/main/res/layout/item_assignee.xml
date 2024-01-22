@@ -12,6 +12,6 @@
         android:layout_gravity="center"
         android:scaleType="centerCrop"
         android:background="?attr/selectableItemBackgroundBorderless"
-        app:srcCompat="@drawable/ic_person_grey600_24dp"/>
+        app:srcCompat="@drawable/ic_person_24dp"/>
 
 </FrameLayout>

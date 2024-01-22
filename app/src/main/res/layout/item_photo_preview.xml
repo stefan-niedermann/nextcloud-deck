@@ -22,6 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent=".3"
-        app:srcCompat="@drawable/ic_baseline_photo_camera_24"
+        app:srcCompat="@drawable/ic_photo_camera_24"
         app:tint="@android:color/white" />
 </it.niedermann.nextcloud.deck.ui.view.SquareConstraintLayout>

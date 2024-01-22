@@ -326,8 +326,8 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 .with(binding.toolbar.getContext())
                 .load(account.getAvatarUrl(binding.toolbar.getMenu().findItem(R.id.avatar).getIcon().getIntrinsicWidth()))
                 .apply(RequestOptions.circleCropTransform())
-                .placeholder(R.drawable.ic_baseline_account_circle_24)
-                .error(R.drawable.ic_baseline_account_circle_24)
+                .placeholder(R.drawable.ic_account_circle_24)
+                .error(R.drawable.ic_account_circle_24)
                 .into(new CustomTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {

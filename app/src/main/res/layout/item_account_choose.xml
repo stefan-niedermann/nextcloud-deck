@@ -21,7 +21,7 @@
             android:contentDescription="@null"
             android:focusable="false"
             android:scaleType="center"
-            app:srcCompat="@drawable/ic_person_grey600_24dp" />
+            app:srcCompat="@drawable/ic_person_24dp" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/currentAccountIndicator"
@@ -30,7 +30,7 @@
             android:layout_gravity="end|bottom"
             android:visibility="gone"
             app:srcCompat="@drawable/selected_check"
-            tools:src="@drawable/ic_check_grey600_24dp"
+            tools:src="@drawable/ic_check_24dp"
             tools:visibility="visible" />
     </FrameLayout>
 

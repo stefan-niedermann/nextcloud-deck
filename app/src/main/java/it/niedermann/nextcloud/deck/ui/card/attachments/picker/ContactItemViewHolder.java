@@ -52,8 +52,8 @@ public class ContactItemViewHolder extends RecyclerView.ViewHolder {
             Glide.with(itemView.getContext())
                     .load(image)
                     .apply(RequestOptions.circleCropTransform())
-                    .placeholder(R.drawable.ic_person_grey600_24dp)
-                    .error(R.drawable.ic_person_grey600_24dp)
+                    .placeholder(R.drawable.ic_person_24dp)
+                    .error(R.drawable.ic_person_24dp)
                     .into(binding.avatar);
         }
     }
@@ -61,7 +61,7 @@ public class ContactItemViewHolder extends RecyclerView.ViewHolder {
     public void bindError() {
         itemView.setOnClickListener(null);
         Glide.with(itemView.getContext())
-                .load(R.drawable.ic_person_grey600_24dp)
+                .load(R.drawable.ic_person_24dp)
                 .into(binding.avatar);
     }
 }

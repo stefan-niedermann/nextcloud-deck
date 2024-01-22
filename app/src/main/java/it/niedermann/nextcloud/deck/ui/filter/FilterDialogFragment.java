@@ -44,7 +44,7 @@ public class FilterDialogFragment extends ThemedDialogFragment {
 
         final var context = requireContext();
 
-        indicator = ContextCompat.getDrawable(context, R.drawable.circle_grey600_8dp);
+        indicator = ContextCompat.getDrawable(context, R.drawable.circle_8dp);
 
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 

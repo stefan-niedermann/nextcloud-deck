@@ -5,8 +5,6 @@
     <!-- Base Theme                              -->
     <!-- ======================================= -->
 
-    <!--    <color name="primary">@android:color/white</color>-->
-    <color name="accent">@android:color/black</color>
     <color name="defaultBrand">#0082C9</color>
     <color name="danger">#d40000</color>
 

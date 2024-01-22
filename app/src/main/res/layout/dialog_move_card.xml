@@ -22,8 +22,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="@dimen/spacer_2x">
+        android:layout_marginTop="@dimen/spacer_2x"
+        android:layout_weight="1">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_container"
@@ -40,10 +40,10 @@
         android:paddingStart="@dimen/spacer_3x"
         android:paddingEnd="@dimen/spacer_1x"
         android:text="@string/move_warning"
-        android:textColor="@color/danger"
+        android:textColor="?attr/colorError"
         android:visibility="gone"
-        app:drawableStartCompat="@drawable/ic_warning_white_24dp"
-        app:drawableTint="@color/danger"
+        app:drawableStartCompat="@drawable/ic_warning_24dp"
+        app:drawableTint="?attr/colorError"
         tools:visibility="visible" />
 
     <com.google.android.flexbox.FlexboxLayout

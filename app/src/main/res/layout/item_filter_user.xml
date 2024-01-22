@@ -19,7 +19,7 @@
             android:layout_height="@dimen/avatar_size"
             android:layout_marginEnd="10dp"
             android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_person_grey600_24dp"
+            app:srcCompat="@drawable/ic_person_24dp"
             tools:srcCompat="@tools:sample/avatars" />
 
         <androidx.appcompat.widget.AppCompatImageView

@@ -134,7 +134,7 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
      */
     @Nullable
     public Drawable getColoredBoardDrawable(@NonNull Context context, @ColorInt int boardColor) {
-        final var drawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.circle_grey600_36dp, null);
+        final var drawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.circle_36dp, null);
         return drawable == null ? null : platform.colorDrawable(drawable, boardColor);
     }
 

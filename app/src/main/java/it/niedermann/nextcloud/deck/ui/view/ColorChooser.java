@@ -59,7 +59,7 @@ public class ColorChooser extends LinearLayout {
             image.setLayoutParams(params);
             image.setOnClickListener((imageView) -> {
                 if (previouslySelectedImageView != null) { // null when first selection
-                    previouslySelectedImageView.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, previouslySelectedColor));
+                    previouslySelectedImageView.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_36dp, previouslySelectedColor));
                 }
                 image.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_alpha_check_36dp, color));
                 selectedColor = color;
@@ -69,7 +69,7 @@ public class ColorChooser extends LinearLayout {
                 binding.customColorPicker.setVisibility(View.GONE);
                 binding.brightnessSlide.setVisibility(View.GONE);
             });
-            image.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, color));
+            image.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_36dp, color));
             binding.colorPicker.addView(image, binding.colorPicker.getChildCount() - 1);
         }
 
@@ -78,14 +78,14 @@ public class ColorChooser extends LinearLayout {
             binding.customColorPicker.setVisibility(View.VISIBLE);
             binding.brightnessSlide.setVisibility(View.VISIBLE);
             if (previouslySelectedImageView != null) {
-                previouslySelectedImageView.setImageDrawable(DeckViewThemeUtils.getTintedImageView(context, R.drawable.circle_grey600_36dp, selectedColor));
+                previouslySelectedImageView.setImageDrawable(DeckViewThemeUtils.getTintedImageView(context, R.drawable.circle_36dp, selectedColor));
                 previouslySelectedImageView = null;
             }
         });
 
         binding.customColorPicker.setColorListener((ColorEnvelopeListener) (envelope, fromUser) -> {
             if (previouslySelectedImageView != null) {
-                previouslySelectedImageView.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, previouslySelectedColor));
+                previouslySelectedImageView.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_36dp, previouslySelectedColor));
                 previouslySelectedImageView = null;
             }
             @ColorInt

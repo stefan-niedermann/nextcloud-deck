@@ -134,13 +134,13 @@ public class AttachmentUtil {
         if (TextUtils.isEmpty(mimeType)) {
             return R.drawable.ic_attach_file_24dp;
         } else if (MimeTypeUtil.isAudio(mimeType)) {
-            return R.drawable.ic_music_note_grey600_24dp;
+            return R.drawable.ic_music_note_24dp;
         } else if (MimeTypeUtil.isVideo(mimeType)) {
-            return R.drawable.ic_local_movies_grey600_24dp;
+            return R.drawable.ic_local_movies_24dp;
         } else if (MimeTypeUtil.isPdf(mimeType)) {
-            return R.drawable.ic_baseline_picture_as_pdf_24;
+            return R.drawable.ic_picture_as_pdf_24;
         } else if (MimeTypeUtil.isContact(mimeType)) {
-            return R.drawable.ic_baseline_contact_mail_24;
+            return R.drawable.ic_contact_mail_24;
         } else {
             return R.drawable.ic_attach_file_24dp;
         }

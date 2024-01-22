@@ -65,8 +65,8 @@ public class SearchCardViewHolder extends SearchViewHolder {
                             new CenterCrop(),
                             new RoundedCorners(context.getResources().getDimensionPixelSize(R.dimen.spacer_1x))
                     ))
-                    .placeholder(R.drawable.ic_image_grey600_24dp)
-                    .error(R.drawable.ic_image_grey600_24dp)
+                    .placeholder(R.drawable.ic_image_24dp)
+                    .error(R.drawable.ic_image_24dp)
                     .into(binding.coverImages));
         } else {
             binding.coverImages.setVisibility(View.GONE);

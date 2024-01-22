@@ -44,8 +44,8 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
         Glide.with(binding.avatar.getContext())
                 .load(account.getAvatarUrl(binding.avatar.getResources().getDimensionPixelSize(R.dimen.avatar_size), comment.getComment().getActorId()))
                 .apply(RequestOptions.circleCropTransform())
-                .placeholder(R.drawable.ic_person_grey600_24dp)
-                .error(R.drawable.ic_person_grey600_24dp)
+                .placeholder(R.drawable.ic_person_24dp)
+                .error(R.drawable.ic_person_24dp)
                 .into(binding.avatar);
 
         final var mentions = new HashMap<String, String>(comment.getComment().getMentions().size());

@@ -20,7 +20,7 @@
             android:layout_marginEnd="@dimen/spacer_2x"
             android:contentDescription="@null"
             android:padding="@dimen/spacer_1hx"
-            app:srcCompat="@drawable/ic_baseline_search_24" />
+            app:srcCompat="@drawable/ic_search_24" />
 
         <TextView
             android:id="@+id/title"

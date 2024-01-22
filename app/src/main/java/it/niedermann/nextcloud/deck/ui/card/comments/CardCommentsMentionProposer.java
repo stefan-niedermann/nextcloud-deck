@@ -92,8 +92,8 @@ public class CardCommentsMentionProposer implements TextWatcher {
                                         Glide.with(avatar.getContext())
                                                 .load(account.getAvatarUrl(avatarSize, user.getUid()))
                                                 .apply(RequestOptions.circleCropTransform())
-                                                .placeholder(R.drawable.ic_person_grey600_24dp)
-                                                .error(R.drawable.ic_person_grey600_24dp)
+                                                .placeholder(R.drawable.ic_person_24dp)
+                                                .error(R.drawable.ic_person_24dp)
                                                 .into(avatar);
                                     }
                                 } else {

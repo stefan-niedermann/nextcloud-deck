@@ -77,8 +77,8 @@ public class AccountSwitcherDialog extends DialogFragment {
                     Glide.with(requireContext())
                             .load(currentAccount.getAvatarUrl(binding.currentAccountItemAvatar.getResources().getDimensionPixelSize(R.dimen.avatar_size)))
                             .apply(RequestOptions.circleCropTransform())
-                            .placeholder(R.drawable.ic_baseline_account_circle_24)
-                            .error(R.drawable.ic_baseline_account_circle_24)
+                            .placeholder(R.drawable.ic_account_circle_24)
+                            .error(R.drawable.ic_account_circle_24)
                             .into(binding.currentAccountItemAvatar);
 
                     applyTheme(currentAccount.getColor());

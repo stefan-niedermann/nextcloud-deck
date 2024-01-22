@@ -85,7 +85,7 @@
             android:contentDescription="@null"
             android:tint="@color/grey600"
             tools:ignore="UseAppTint"
-            tools:src="@drawable/ic_comment_white_24dp" />
+            tools:src="@drawable/ic_comment_24dp" />
 
         <TextView
             android:id="@+id/card_count_comments"
@@ -102,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@null"
-            tools:src="@drawable/ic_check_grey600_24dp" />
+            tools:src="@drawable/ic_check_24dp" />
 
         <TextView
             android:id="@+id/card_count_tasks"

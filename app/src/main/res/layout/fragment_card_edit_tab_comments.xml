@@ -49,7 +49,7 @@
                 android:layout_marginHorizontal="@dimen/spacer_1x"
                 android:contentDescription="@string/simple_reply"
                 android:padding="@dimen/spacer_1x"
-                app:srcCompat="@drawable/ic_reply_grey600_24dp"
+                app:srcCompat="@drawable/ic_reply_24dp"
                 app:tint="?attr/colorSecondary" />
 
             <it.niedermann.android.markdown.MarkdownViewerImpl
@@ -72,7 +72,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@android:string/cancel"
                 android:padding="@dimen/spacer_1x"
-                app:srcCompat="@drawable/ic_close_circle_grey600" />
+                app:srcCompat="@drawable/ic_close_circle" />
         </LinearLayout>
 
 
@@ -93,7 +93,7 @@
                 android:layout_marginHorizontal="@dimen/spacer_1x"
                 android:contentDescription="@string/simple_reply"
                 android:padding="@dimen/spacer_1x"
-                app:srcCompat="@drawable/ic_baseline_mention_24"
+                app:srcCompat="@drawable/ic_mention_24"
                 app:tint="?attr/colorSecondary" />
 
             <LinearLayout
@@ -121,7 +121,7 @@
                 android:layout_margin="@dimen/spacer_1x"
                 android:contentDescription="@null"
                 android:translationY="@dimen/spacer_1qx"
-                app:srcCompat="@drawable/ic_person_grey600_24dp"
+                app:srcCompat="@drawable/ic_person_24dp"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -156,8 +156,7 @@
                 android:layout_gravity="center"
                 android:contentDescription="@string/add_comment"
                 android:translationY="@dimen/spacer_1qx"
-                app:backgroundTint="@color/defaultBrand"
-                app:srcCompat="@drawable/ic_send_white_24dp" />
+                app:srcCompat="@drawable/ic_send_24dp" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

@@ -37,7 +37,7 @@ public class AttachmentViewHolder extends RecyclerView.ViewHolder {
     public void bind(@NonNull Account account, @NonNull Attachment attachment, long cardRemoteId) {
         if (MimeTypeUtil.isImage(attachment.getMimetype())) {
             binding.preview.setTransitionName(parentContext.getString(R.string.transition_attachment_preview, String.valueOf(attachment.getLocalId())));
-            binding.preview.setImageResource(R.drawable.ic_image_grey600_24dp);
+            binding.preview.setImageResource(R.drawable.ic_image_24dp);
             binding.preview.post(() -> {
                 final String uri = AttachmentUtil.getThumbnailUrl(account, cardRemoteId, attachment, binding.preview.getWidth(), binding.preview.getHeight());
                 Glide.with(parentContext)
@@ -61,7 +61,7 @@ public class AttachmentViewHolder extends RecyclerView.ViewHolder {
                                 return false;
                             }
                         })
-                        .error(R.drawable.ic_image_grey600_24dp)
+                        .error(R.drawable.ic_image_24dp)
                         .into(binding.preview);
             });
         }

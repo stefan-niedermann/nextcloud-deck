@@ -51,7 +51,7 @@
                 android:layout_marginTop="8sp"
                 android:contentDescription="@string/not_synced_yet"
                 android:visibility="gone"
-                app:srcCompat="@drawable/ic_sync_blue_24dp"
+                app:srcCompat="@drawable/ic_sync_18dp"
                 app:tint="?attr/colorPrimary"
                 tools:visibility="visible" />
 
@@ -92,8 +92,7 @@
                     android:drawablePadding="@dimen/spacer_1hx"
                     android:gravity="center_vertical"
                     android:padding="@dimen/spacer_1hx"
-                    app:drawableStartCompat="@drawable/ic_comment_white_24dp"
-                    app:drawableTint="@color/grey600"
+                    app:drawableStartCompat="@drawable/ic_comment_24dp"
                     tools:text="2" />
 
                 <com.google.android.material.textview.MaterialTextView

@@ -96,7 +96,7 @@ public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapte
         public void bindNotAssigned() {
             binding.label.setText(itemView.getContext().getString(R.string.no_assigned_label));
             binding.label.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(itemView.getContext(), R.color.onSurface)));
-            binding.label.setChipIcon(ContextCompat.getDrawable(itemView.getContext(), R.drawable.ic_baseline_block_24));
+            binding.label.setChipIcon(ContextCompat.getDrawable(itemView.getContext(), R.drawable.ic_block_24));
             binding.label.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(itemView.getContext(), R.color.surface)));
             binding.label.setRippleColor(null);
             itemView.setSelected(selectedLabels.contains(NOT_ASSIGNED));
