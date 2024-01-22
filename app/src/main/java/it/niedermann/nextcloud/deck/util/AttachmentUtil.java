@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.Px;
 
+import com.nextcloud.android.sso.helper.VersionCheckHelper;
 import com.nextcloud.android.sso.model.FilesAppType;
 
 import java.util.Optional;
@@ -72,7 +73,7 @@ public class AttachmentUtil {
             return;
         }
 
-        final var intent = generateNextcloudFilesIntent(context.getPackageManager(), account, attachment)
+        final var intent = generateNextcloudFilesIntent(context, account, attachment)
                 .orElse(generateBrowserIntent(account, cardRemoteId, attachment));
 
         try {
@@ -83,15 +84,22 @@ public class AttachmentUtil {
         }
     }
 
-    private static Optional<Intent> generateNextcloudFilesIntent(@NonNull PackageManager packageManager, @NonNull Account account, Attachment attachment) {
-        for (final var type : FilesAppType.values()) {
-            final var intent = new Intent(Intent.ACTION_VIEW)
-                    .setClassName(type.packageId, "com.owncloud.android.ui.activity.FileDisplayActivity")
-                    .putExtra("KEY_FILE_ID", String.valueOf(attachment.getFileId()))
-                    .putExtra("KEY_ACCOUNT", account.getName());
+    private static Optional<Intent> generateNextcloudFilesIntent(@NonNull Context context, @NonNull Account account, Attachment attachment) {
+        final var packageManager = context.getPackageManager();
 
-            if (packageManager.resolveActivity(intent, 0) != null) {
-                return Optional.of(intent);
+        for (final var type : FilesAppType.values()) {
+            try {
+                if (VersionCheckHelper.getNextcloudFilesVersionCode(context, type) > 30110000) {
+                    final var intent = new Intent(Intent.ACTION_VIEW)
+                            .setClassName(type.packageId, "com.owncloud.android.ui.activity.FileDisplayActivity")
+                            .putExtra("KEY_FILE_ID", String.valueOf(attachment.getFileId()))
+                            .putExtra("KEY_ACCOUNT", account.getName());
+
+                    if (packageManager.resolveActivity(intent, 0) != null) {
+                        return Optional.of(intent);
+                    }
+                }
+            } catch (PackageManager.NameNotFoundException ignored) {
             }
         }
 
