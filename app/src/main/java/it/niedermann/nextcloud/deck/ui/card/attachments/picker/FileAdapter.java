@@ -1,5 +1,14 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments.picker;
 
+import static android.provider.BaseColumns._ID;
+import static android.provider.MediaStore.Files.FileColumns.DATE_ADDED;
+import static android.provider.MediaStore.Files.FileColumns.DATE_MODIFIED;
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE;
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
+import static android.provider.MediaStore.Files.FileColumns.MIME_TYPE;
+import static android.provider.MediaStore.Files.FileColumns.SIZE;
+import static android.provider.MediaStore.Files.FileColumns.TITLE;
+
 import android.content.ContentUris;
 import android.content.Context;
 import android.net.Uri;
@@ -20,15 +29,6 @@ import java.util.function.BiConsumer;
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentDefaultBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemPickerNativeBinding;
 
-import static android.provider.BaseColumns._ID;
-import static android.provider.MediaStore.Files.FileColumns.DATE_ADDED;
-import static android.provider.MediaStore.Files.FileColumns.DATE_MODIFIED;
-import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE;
-import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
-import static android.provider.MediaStore.Files.FileColumns.MIME_TYPE;
-import static android.provider.MediaStore.Files.FileColumns.SIZE;
-import static android.provider.MediaStore.Files.FileColumns.TITLE;
-
 public class FileAdapter extends AbstractCursorPickerAdapter<RecyclerView.ViewHolder> {
 
     private final int displayNameColumnIndex;
@@ -48,24 +48,20 @@ public class FileAdapter extends AbstractCursorPickerAdapter<RecyclerView.ViewHo
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case VIEW_TYPE_ITEM_NATIVE:
-                return new FileNativeItemViewHolder(ItemPickerNativeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-            case VIEW_TYPE_ITEM:
-                return new FileItemViewHolder(ItemAttachmentDefaultBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-            default:
-                throw new IllegalStateException("Unknown viewType " + viewType);
-        }
+        return switch (viewType) {
+            case VIEW_TYPE_ITEM_NATIVE ->
+                    new FileNativeItemViewHolder(ItemPickerNativeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+            case VIEW_TYPE_ITEM ->
+                    new FileItemViewHolder(ItemAttachmentDefaultBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+            default -> throw new IllegalStateException("Unknown viewType " + viewType);
+        };
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
-            case VIEW_TYPE_ITEM_NATIVE: {
-                ((FileNativeItemViewHolder) holder).bind(openNativePicker);
-                break;
-            }
-            case VIEW_TYPE_ITEM: {
+            case VIEW_TYPE_ITEM_NATIVE -> ((FileNativeItemViewHolder) holder).bind(openNativePicker);
+            case VIEW_TYPE_ITEM -> {
                 if (!cursor.isClosed()) {
                     bindExecutor.execute(() -> {
                         final long id = getItemId(position);
@@ -76,7 +72,6 @@ public class FileAdapter extends AbstractCursorPickerAdapter<RecyclerView.ViewHo
                         new Handler(Looper.getMainLooper()).post(() -> ((FileItemViewHolder) holder).bind(ContentUris.withAppendedId(MediaStore.Files.getContentUri("external"), id), name, mimeType, size, modified, onSelect));
                     });
                 }
-                break;
             }
         }
     }

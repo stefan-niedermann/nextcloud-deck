@@ -87,24 +87,12 @@ public class DeckLog {
                     .append("\n");
         }
         switch (severity) {
-            case DEBUG:
-                Log.d(TAG, print);
-                break;
-            case INFO:
-                Log.i(TAG, print);
-                break;
-            case WARN:
-                Log.w(TAG, print);
-                break;
-            case ERROR:
-                Log.e(TAG, print);
-                break;
-            case WTF:
-                Log.wtf(TAG, print);
-                break;
-            default:
-                Log.v(TAG, print);
-                break;
+            case DEBUG -> Log.d(TAG, print);
+            case INFO -> Log.i(TAG, print);
+            case WARN -> Log.w(TAG, print);
+            case ERROR -> Log.e(TAG, print);
+            case WTF -> Log.wtf(TAG, print);
+            default -> Log.v(TAG, print);
         }
     }
 

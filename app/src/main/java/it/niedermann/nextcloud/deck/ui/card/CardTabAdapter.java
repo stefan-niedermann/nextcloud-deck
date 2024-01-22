@@ -56,16 +56,11 @@ public class CardTabAdapter extends FragmentStateAdapter {
         if (!this.hasCommentsAbility) {
             return position;
         } else {
-            switch (position) {
-                case 0:
-                case 1:
-                    return position;
-                case 2: // Comments tab is on position 2
-                    return 3;
-                case 3: // Activities tab moved to position 3
-                default:
-                    return 2;
-            }
+            return switch (position) {
+                case 0, 1 -> position;
+                case 2 -> 3; // Comments tab is on position 2, Activities tab moved to position 3
+                default -> 2;
+            };
         }
     }
 

@@ -80,13 +80,12 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
     @Override
     public AttachmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final var context = parent.getContext();
-        switch (viewType) {
-            case VIEW_TYPE_IMAGE:
-                return new ImageAttachmentViewHolder(ItemAttachmentImageBinding.inflate(LayoutInflater.from(context), parent, false));
-            case VIEW_TYPE_DEFAULT:
-            default:
-                return new DefaultAttachmentViewHolder(ItemAttachmentDefaultBinding.inflate(LayoutInflater.from(context), parent, false));
-        }
+        return switch (viewType) {
+            case VIEW_TYPE_IMAGE ->
+                    new ImageAttachmentViewHolder(ItemAttachmentImageBinding.inflate(LayoutInflater.from(context), parent, false));
+            default ->
+                    new DefaultAttachmentViewHolder(ItemAttachmentDefaultBinding.inflate(LayoutInflater.from(context), parent, false));
+        };
     }
 
     @Override

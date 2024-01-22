@@ -142,14 +142,11 @@ public class NewCardDialog extends ThemedDialogFragment implements DialogInterfa
     public void onClick(DialogInterface dialog, int which) {
         final boolean openOnSuccess;
         switch (which) {
-            case DialogInterface.BUTTON_POSITIVE:
-                openOnSuccess = false;
-                break;
-            case DialogInterface.BUTTON_NEGATIVE:
-                openOnSuccess = true;
-                break;
-            default:
+            case DialogInterface.BUTTON_POSITIVE -> openOnSuccess = false;
+            case DialogInterface.BUTTON_NEGATIVE -> openOnSuccess = true;
+            default -> {
                 return;
+            }
         }
         if (Boolean.FALSE.equals(isPending.getValue())) {
             isPending.setValue(true);

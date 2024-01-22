@@ -71,24 +71,17 @@ public class MainActivityNavigationHandler implements NavigationView.OnNavigatio
         }
 
         switch (item.getItemId()) {
-            case MENU_ID_ABOUT:
-                activity.startActivity(AboutActivity.createIntent(activity, account));
-                break;
-            case MENU_ID_SETTINGS:
-                settingsLauncher.launch(SettingsActivity.createIntent(activity, account));
-                break;
-            case MENU_ID_ADD_BOARD:
-                EditBoardDialogFragment.newInstance(account).show(activity.getSupportFragmentManager(), EditBoardDialogFragment.class.getSimpleName());
-                break;
-            case MENU_ID_ARCHIVED_BOARDS:
-                activity.startActivity(ArchivedBoardsActivity.createIntent(activity, account));
-                break;
-            case MENU_ID_UPCOMING_CARDS:
-                activity.startActivity(UpcomingCardsActivity.createIntent(activity, account));
-                break;
-            default:
-                onBoardSelected.accept(account.getId(), navigationMap.get(item.getItemId()));
-                break;
+            case MENU_ID_ABOUT ->
+                    activity.startActivity(AboutActivity.createIntent(activity, account));
+            case MENU_ID_SETTINGS ->
+                    settingsLauncher.launch(SettingsActivity.createIntent(activity, account));
+            case MENU_ID_ADD_BOARD ->
+                    EditBoardDialogFragment.newInstance(account).show(activity.getSupportFragmentManager(), EditBoardDialogFragment.class.getSimpleName());
+            case MENU_ID_ARCHIVED_BOARDS ->
+                    activity.startActivity(ArchivedBoardsActivity.createIntent(activity, account));
+            case MENU_ID_UPCOMING_CARDS ->
+                    activity.startActivity(UpcomingCardsActivity.createIntent(activity, account));
+            default -> onBoardSelected.accept(account.getId(), navigationMap.get(item.getItemId()));
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);

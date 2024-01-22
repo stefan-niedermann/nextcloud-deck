@@ -58,20 +58,16 @@ public class FilterDialogFragment extends ThemedDialogFragment {
         new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> {
             filterInformationDraft.observe(this, (draft) -> {
                 switch (position) {
-                    case 0:
-                        tab.setIcon(draft.getLabels().size() > 0 || draft.isNoAssignedLabel() ? indicator : null);
-                        break;
-                    case 1:
-                        tab.setIcon(draft.getUsers().size() > 0 || draft.isNoAssignedUser() ? indicator : null);
-                        break;
-                    case 2:
-                        tab.setIcon(draft.getDoneType() != EDoneType.NO_FILTER ? indicator : null);
-                        break;
-                    case 3:
-                        tab.setIcon(draft.getDueType() != EDueType.NO_FILTER ? indicator : null);
-                        break;
-                    default:
-                        throw new IllegalStateException("position must be between 0 and 2 but was " + position);
+                    case 0 ->
+                            tab.setIcon(draft.getLabels().size() > 0 || draft.isNoAssignedLabel() ? indicator : null);
+                    case 1 ->
+                            tab.setIcon(draft.getUsers().size() > 0 || draft.isNoAssignedUser() ? indicator : null);
+                    case 2 ->
+                            tab.setIcon(draft.getDoneType() != EDoneType.NO_FILTER ? indicator : null);
+                    case 3 ->
+                            tab.setIcon(draft.getDueType() != EDueType.NO_FILTER ? indicator : null);
+                    default ->
+                            throw new IllegalStateException("position must be between 0 and 2 but was " + position);
                 }
             });
             tab.setText(tabTitles[position]);
@@ -123,18 +119,14 @@ public class FilterDialogFragment extends ThemedDialogFragment {
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            switch (position) {
-                case 0:
-                    return new FilterLabelsFragment();
-                case 1:
-                    return new FilterUserFragment();
-                case 2:
-                    return new FilterDoneTypeFragment();
-                case 3:
-                    return new FilterDueTypeFragment();
-                default:
-                    throw new IllegalArgumentException("position must be between 0 and 2 but was " + position);
-            }
+            return switch (position) {
+                case 0 -> new FilterLabelsFragment();
+                case 1 -> new FilterUserFragment();
+                case 2 -> new FilterDoneTypeFragment();
+                case 3 -> new FilterDueTypeFragment();
+                default ->
+                        throw new IllegalArgumentException("position must be between 0 and 2 but was " + position);
+            };
         }
 
         @Override

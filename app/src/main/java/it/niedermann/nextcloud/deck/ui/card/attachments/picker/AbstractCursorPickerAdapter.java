@@ -74,12 +74,11 @@ public abstract class AbstractCursorPickerAdapter<T extends RecyclerView.ViewHol
     public long getItemId(int position) {
         if (!cursor.isClosed() && cursor.moveToPosition(position - 1)) {
             //noinspection SwitchStatementWithTooFewBranches
-            switch (columnIndexType) {
-                case FIELD_TYPE_INTEGER:
-                    return cursor.getLong(columnIndex);
-                default:
-                    throw new IllegalStateException("Unknown type for columnIndex \"" + columnIndex + "\": " + columnIndexType);
-            }
+            return switch (columnIndexType) {
+                case FIELD_TYPE_INTEGER -> cursor.getLong(columnIndex);
+                default ->
+                        throw new IllegalStateException("Unknown type for columnIndex \"" + columnIndex + "\": " + columnIndexType);
+            };
         } else {
             return NO_ID;
         }
