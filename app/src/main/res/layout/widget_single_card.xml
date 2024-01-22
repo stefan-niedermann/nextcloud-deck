@@ -83,8 +83,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@null"
-            android:tint="@color/grey600"
-            tools:ignore="UseAppTint"
             tools:src="@drawable/ic_comment_24dp" />
 
         <TextView
@@ -118,8 +116,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@null"
-            android:tint="@color/grey600"
-            tools:ignore="UseAppTint"
             tools:src="@drawable/ic_attach_file_24dp" />
 
         <TextView

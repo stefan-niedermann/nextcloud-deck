@@ -15,7 +15,7 @@
         android:layout_above="@+id/title"
         android:layout_marginBottom="@dimen/spacer_2x"
         android:contentDescription="@null"
-        android:tint="@color/fg_secondary"
+        android:tint="?attr/colorSurfaceVariant"
         app:layout_constraintBottom_toTopOf="@id/title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

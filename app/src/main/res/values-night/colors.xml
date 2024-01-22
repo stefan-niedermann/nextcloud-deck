@@ -42,9 +42,7 @@
     <!-- TODO REMOVE                             -->
     <!-- ======================================= -->
 
-    <color name="fg_secondary">#666</color>
     <color name="bg_highlighted">#212121</color>
-    <color name="bg_info_box">#222222</color>
     <color name="bg_card">#1e1e1e</color>
     <color name="defaultTextHighlightBackground">#55eeeeff</color>
 

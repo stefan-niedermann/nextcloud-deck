@@ -61,7 +61,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|bottom"
-                        android:background="@color/bg_info_box"
+                        android:background="?attr/colorSurfaceVariant"
                         android:gravity="center"
                         android:padding="@dimen/spacer_1hx"
                         android:visibility="gone"
@@ -74,7 +74,7 @@
                             android:gravity="center"
                             android:paddingHorizontal="@dimen/spacer_1hx"
                             android:text="@string/info_box_maintenance_mode"
-                            android:textColor="@color/grey600"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             app:drawableStartCompat="@drawable/ic_info_outline_24dp" />
 
                     </LinearLayout>
