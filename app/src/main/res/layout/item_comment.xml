@@ -22,7 +22,7 @@
             android:id="@+id/parentBorder"
             android:layout_width="2dp"
             android:layout_height="match_parent"
-            android:background="?attr/colorPrimary" />
+            android:textColor="?attr/colorSecondary" />
 
         <TextView
             android:id="@+id/parent"
@@ -32,6 +32,7 @@
             android:maxLines="@integer/comment_parent_max_lines"
             android:paddingStart="@dimen/spacer_1x"
             android:paddingEnd="@null"
+            android:textColor="?attr/colorOnSurfaceVariant"
             tools:text="@tools:sample/lorem/random" />
     </LinearLayout>
 
@@ -41,10 +42,10 @@
         android:baselineAligned="false"
         android:orientation="horizontal">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacer_1x">
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacer_1x">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/avatar"
@@ -63,6 +64,7 @@
                 android:layout_gravity="bottom|end"
                 android:visibility="gone"
                 app:srcCompat="@drawable/ic_sync_blue_24dp"
+                app:tint="?attr/colorPrimary"
                 tools:visibility="visible" />
         </FrameLayout>
 
@@ -77,20 +79,22 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/actorDisplayName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAppearance="?attr/textAppearanceListItem"
+                    android:textColor="?attr/colorOnSurface"
                     tools:text="@tools:sample/full_names" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/creationDateTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textAppearance="?attr/textAppearanceListItemSecondary"
+                    android:textColor="?attr/colorOnSurface"
                     tools:text="@tools:sample/date/day_of_week" />
             </LinearLayout>
 

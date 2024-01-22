@@ -51,7 +51,7 @@
     <it.niedermann.nextcloud.deck.ui.theme.ThemedPreferenceCategory android:title="@string/simple_expert_settings">
 
         <it.niedermann.nextcloud.deck.ui.theme.ThemedSwitchPreference
-            android:icon="@drawable/ic_bug_report_black_24dp"
+            android:icon="@drawable/ic_bug_report_24dp"
             android:key="@string/pref_key_debugging"
             android:title="@string/settings_debugging"
             app:defaultValue="false" />

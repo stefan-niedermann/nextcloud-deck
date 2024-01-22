@@ -61,5 +61,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/coverImages"
         app:srcCompat="@drawable/ic_menu"
-        app:tint="?attr/colorAccent" />
+        app:tint="?attr/colorOnSurface" />
 </androidx.constraintlayout.widget.ConstraintLayout>

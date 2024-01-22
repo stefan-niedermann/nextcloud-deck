@@ -95,7 +95,7 @@ public class SingleCardWidget extends AppWidgetProvider {
                     } else {
                         views.setViewVisibility(R.id.card_count_attachments, View.VISIBLE);
                         views.setViewVisibility(R.id.card_count_attachments_image, View.VISIBLE);
-                        views.setImageViewResource(R.id.card_count_attachments_image, R.drawable.ic_attach_file_grey600_24dp);
+                        views.setImageViewResource(R.id.card_count_attachments_image, R.drawable.ic_attach_file_24dp);
                         setupCounter(views, R.id.card_count_attachments, attachmentsCount, counterMaxValue);
                     }
 

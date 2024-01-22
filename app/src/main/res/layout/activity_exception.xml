@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/hint_error_appeared"
-            app:drawableEndCompat="@drawable/ic_bug_report_black_24dp" />
+            app:drawableEndCompat="@drawable/ic_bug_report_24dp" />
 
     </LinearLayout>
 

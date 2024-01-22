@@ -132,7 +132,7 @@ public class AttachmentUtil {
     @DrawableRes
     public static int getIconForMimeType(@NonNull String mimeType) {
         if (TextUtils.isEmpty(mimeType)) {
-            return R.drawable.ic_attach_file_grey600_24dp;
+            return R.drawable.ic_attach_file_24dp;
         } else if (MimeTypeUtil.isAudio(mimeType)) {
             return R.drawable.ic_music_note_grey600_24dp;
         } else if (MimeTypeUtil.isVideo(mimeType)) {
@@ -142,7 +142,7 @@ public class AttachmentUtil {
         } else if (MimeTypeUtil.isContact(mimeType)) {
             return R.drawable.ic_baseline_contact_mail_24;
         } else {
-            return R.drawable.ic_attach_file_grey600_24dp;
+            return R.drawable.ic_attach_file_24dp;
         }
     }
 

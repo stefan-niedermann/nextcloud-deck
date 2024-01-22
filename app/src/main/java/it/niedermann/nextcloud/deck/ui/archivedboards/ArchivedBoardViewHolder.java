@@ -42,7 +42,7 @@ public class ArchivedBoardViewHolder extends RecyclerView.ViewHolder {
         if (account.getServerDeckVersionAsObject().isSupported()) {
             if (board.isPermissionManage()) {
                 binding.boardMenu.setVisibility(View.VISIBLE);
-                binding.boardMenu.setImageDrawable(util.platform.tintDrawable(context, R.drawable.ic_menu, ColorRole.ON_SURFACE));
+                binding.boardMenu.setImageDrawable(util.platform.tintDrawable(context, R.drawable.ic_menu, ColorRole.ON_SURFACE_VARIANT));
                 binding.boardMenu.setOnClickListener((v) -> {
                     PopupMenu popup = new PopupMenu(context, binding.boardMenu);
                     popup.getMenuInflater().inflate(R.menu.archived_board_menu, popup.getMenu());
@@ -72,7 +72,7 @@ public class ArchivedBoardViewHolder extends RecyclerView.ViewHolder {
                 });
             } else if (board.isPermissionShare()) {
                 binding.boardMenu.setVisibility(View.VISIBLE);
-                binding.boardMenu.setImageDrawable(util.platform.tintDrawable(context, R.drawable.ic_share_grey600_18dp, ColorRole.ON_SURFACE));
+                binding.boardMenu.setImageDrawable(util.platform.tintDrawable(context, R.drawable.ic_share_grey600_18dp, ColorRole.ON_SURFACE_VARIANT));
                 binding.boardMenu.setOnClickListener((v) -> AccessControlDialogFragment.newInstance(account, board.getLocalId()).show(fragmentManager, AccessControlDialogFragment.class.getSimpleName()));
             }
             binding.boardMenu.setVisibility(View.VISIBLE);

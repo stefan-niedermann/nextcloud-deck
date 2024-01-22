@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingVertical="2sp"
-                android:textColor="?attr/colorAccent"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="18sp"
                 tools:ignore="RtlSymmetry"
                 tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut l" />
@@ -52,6 +52,7 @@
                 android:contentDescription="@string/not_synced_yet"
                 android:visibility="gone"
                 app:srcCompat="@drawable/ic_sync_blue_24dp"
+                app:tint="?attr/colorPrimary"
                 tools:visibility="visible" />
 
             <it.niedermann.nextcloud.deck.ui.view.DueDateChip
@@ -111,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:padding="@dimen/spacer_1hx"
-                    app:drawableStartCompat="@drawable/ic_attach_file_grey600_24dp"
+                    app:drawableStartCompat="@drawable/ic_attach_file_24dp"
                     tools:text="3" />
             </LinearLayout>
 
@@ -138,7 +139,7 @@
                     android:contentDescription="@string/label_menu"
                     android:padding="@dimen/spacer_1hx"
                     app:srcCompat="@drawable/ic_menu"
-                    app:tint="?attr/colorAccent" />
+                    app:tint="?attr/colorOnSurface" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -47,7 +47,7 @@ public class CardActivityViewHolder extends RecyclerView.ViewHolder {
             case ARCHIVE -> imageView.setImageResource(R.drawable.type_archive_grey600_36dp);
             case TAGGED_WITH_LABEL ->
                     imageView.setImageResource(R.drawable.type_label_grey600_36dp);
-            case COMMENT -> imageView.setImageResource(R.drawable.type_comment_grey600_36dp);
+            case COMMENT -> imageView.setImageResource(R.drawable.type_comment_36dp);
             case FILES -> imageView.setImageResource(R.drawable.type_file_36dp);
             case HISTORY -> imageView.setImageResource(R.drawable.type_history_36dp);
             default -> imageView.setImageResource(R.drawable.ic_app_logo);

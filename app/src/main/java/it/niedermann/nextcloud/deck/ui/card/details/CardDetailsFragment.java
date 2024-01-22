@@ -149,7 +149,7 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
             viewModel.getDescriptionMode().observe(getViewLifecycleOwner(), (isPreviewMode) -> {
                 if (isPreviewMode) {
                     toggleEditorView(binding.descriptionViewer, binding.descriptionEditorWrapper, binding.descriptionViewer);
-                    binding.descriptionToggle.setImageResource(R.drawable.ic_edit_grey600_24dp);
+                    binding.descriptionToggle.setImageResource(R.drawable.ic_edit_24dp);
                 } else {
                     toggleEditorView(binding.descriptionEditorWrapper, binding.descriptionViewer, binding.descriptionEditor);
                     binding.descriptionToggle.setImageResource(R.drawable.ic_baseline_eye_24);

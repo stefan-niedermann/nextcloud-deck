@@ -88,7 +88,7 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
     protected void applyTheme(@Nullable ThemeUtils utils) {
         if (utils != null) {
             utils.platform.colorImageView(getNotSyncedYet(), ColorRole.PRIMARY);
-            utils.platform.colorImageView(getCardMenu(), ColorRole.ON_SURFACE);
+            utils.platform.colorImageView(getCardMenu(), ColorRole.ON_SURFACE_VARIANT);
             utils.platform.colorTextView(getCardTitle(), ColorRole.ON_SURFACE);
 
             // TODO should be discussed with UX

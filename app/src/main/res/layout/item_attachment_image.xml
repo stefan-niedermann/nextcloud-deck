@@ -24,5 +24,6 @@
         android:translationY="-8dp"
         android:visibility="gone"
         app:srcCompat="@drawable/ic_sync_blue_24dp"
+        app:tint="?attr/colorPrimary"
         tools:visibility="visible" />
 </it.niedermann.nextcloud.deck.ui.view.SquareRelativeLayout>

@@ -13,7 +13,7 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/files"
-        android:icon="@drawable/ic_attach_file_grey600_24dp"
+        android:icon="@drawable/ic_attach_file_24dp"
         android:title="@string/files"
         app:showAsAction="ifRoom" />
 </menu>

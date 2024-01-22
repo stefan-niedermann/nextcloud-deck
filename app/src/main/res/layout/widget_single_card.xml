@@ -120,7 +120,7 @@
             android:contentDescription="@null"
             android:tint="@color/grey600"
             tools:ignore="UseAppTint"
-            tools:src="@drawable/ic_attach_file_grey600_24dp" />
+            tools:src="@drawable/ic_attach_file_24dp" />
 
         <TextView
             android:id="@+id/card_count_attachments"

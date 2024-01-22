@@ -107,14 +107,14 @@ public class DrawerMenuInflater<T extends FragmentActivity & ArchiveBoardListene
         }
 
         if (hasArchivedBoards) {
-            menu.add(Menu.NONE, MENU_ID_ARCHIVED_BOARDS, Menu.NONE, R.string.archived_boards).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_archive_white_24dp));
+            menu.add(Menu.NONE, MENU_ID_ARCHIVED_BOARDS, Menu.NONE, R.string.archived_boards).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_archive_24dp));
         }
 
         if (currentServerVersionIsSupported) {
-            menu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, R.string.add_board).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_add_grey_24dp));
+            menu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, R.string.add_board).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_add_24dp));
         }
 
-        menu.add(Menu.NONE, MENU_ID_SETTINGS, Menu.NONE, R.string.simple_settings).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_settings_grey600_24dp));
+        menu.add(Menu.NONE, MENU_ID_SETTINGS, Menu.NONE, R.string.simple_settings).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_settings_24dp));
         menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, R.string.about).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_info_outline_grey600_24dp));
 
         return navigationMap;

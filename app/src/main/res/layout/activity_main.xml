@@ -42,7 +42,7 @@
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:tooltipText="@string/manage_list"
                     app:icon="@drawable/ic_menu"
-                    app:iconTint="?attr/colorAccent"
+                    app:iconTint="?attr/colorOnSurface"
                     tools:ignore="UnusedAttribute" />
             </LinearLayout>
 
@@ -131,7 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:menu="@menu/main_menu"
-                app:navigationIcon="@drawable/ic_arrow_back_white_24dp" />
+                app:navigationIcon="@drawable/ic_arrow_back_24dp" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -143,7 +143,7 @@
             android:layout_margin="@dimen/fab_margin"
             android:text="@string/add_card"
             android:visibility="gone"
-            app:icon="@drawable/ic_add_white_24dp" />
+            app:icon="@drawable/ic_add_24dp" />
 
         <com.google.android.material.search.SearchView
             android:id="@+id/search_view"

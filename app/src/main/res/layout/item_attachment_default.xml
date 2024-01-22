@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:contentDescription="@null"
             android:padding="@dimen/spacer_1hx"
-            app:srcCompat="@drawable/ic_attach_file_grey600_24dp"
+            app:srcCompat="@drawable/ic_attach_file_24dp"
             app:tint="?attr/colorSecondary" />
 
         <ImageView

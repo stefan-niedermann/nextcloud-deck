@@ -107,5 +107,6 @@ public class SearchCardViewHolder extends SearchViewHolder {
         utils.platform.colorTextView(binding.title, ColorRole.ON_SURFACE);
         utils.platform.highlightText(binding.title, binding.title.getText().toString(), term);
         utils.platform.highlightText(binding.description, binding.description.getText().toString(), term);
+        utils.platform.colorImageView(binding.cardMenu, ColorRole.ON_SURFACE_VARIANT);
     }
 }

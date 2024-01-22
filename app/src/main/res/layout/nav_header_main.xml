@@ -48,7 +48,7 @@
         android:background="?attr/selectableItemBackground"
         android:contentDescription="@string/copy_logs"
         android:padding="@dimen/spacer_2x"
-        android:src="@drawable/ic_bug_report_black_24dp"
+        android:src="@drawable/ic_bug_report_24dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -44,7 +44,7 @@
                 android:layout_gravity="center"
                 android:background="?android:selectableItemBackground"
                 android:padding="0dp"
-                app:srcCompat="@drawable/ic_delete_black_24dp" />
+                app:srcCompat="@drawable/ic_delete_24dp" />
         </LinearLayout>
 
         <com.google.android.flexbox.FlexboxLayout

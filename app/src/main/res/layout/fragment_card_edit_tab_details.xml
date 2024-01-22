@@ -108,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/spacer_2x"
-                    android:textColor="?attr/colorAccent"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="@dimen/font_size_description" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -119,7 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:padding="@dimen/spacer_2x"
-                android:textColor="?attr/colorAccent"
+                android:textColor="?attr/colorOnSurface"
                 android:textIsSelectable="true"
                 android:textSize="@dimen/font_size_description"
                 android:translationY="1dp"

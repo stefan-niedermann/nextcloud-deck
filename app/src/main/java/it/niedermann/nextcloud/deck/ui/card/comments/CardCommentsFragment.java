@@ -21,9 +21,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 import com.nextcloud.android.sso.api.EmptyResponse;
 
 import java.time.Instant;
+import java.util.stream.Stream;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -195,6 +197,14 @@ public class CardCommentsFragment extends Fragment implements Themed, CommentEdi
         utils.platform.colorViewBackground(binding.addCommentLayout);
         utils.material.themeFAB(binding.fab);
         utils.material.colorTextInputLayout(binding.messageWrapper);
+
+        Stream.of(
+                binding.replyCommentIcon,
+                binding.replyCommentCancelButton,
+                binding.mentionProposerIcon
+        ).forEach(v -> utils.platform.colorImageView(v, ColorRole.SECONDARY));
+
+        adapter.applyTheme(color);
     }
 
     @Override
