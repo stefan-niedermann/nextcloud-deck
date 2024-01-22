@@ -31,7 +31,7 @@ public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extend
     protected SyncRepository syncRepository;
     protected final Account account;
     protected final long boardId;
-    protected final ReactiveLiveData<String> constraint$ = new ReactiveLiveData<String>();
+    protected final ReactiveLiveData<String> constraint$ = new ReactiveLiveData<>();
     private final AutoCompleteFilter filter = new AutoCompleteFilter() {
         @Override
         protected Filter.FilterResults performFiltering(CharSequence constraint) {
