@@ -92,7 +92,7 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
 
     public void themeEmptyContentView(@NonNull EmptyContentView emptyContentView) {
         withScheme(emptyContentView.getContext(), scheme -> {
-            platform.colorImageView(emptyContentView.getImage(), ColorRole.SURFACE_VARIANT);
+            platform.colorImageView(emptyContentView.getImage(), ColorRole.ON_SURFACE_VARIANT);
             platform.colorTextView(emptyContentView.getTitle(), ColorRole.ON_BACKGROUND);
             platform.colorTextView(emptyContentView.getDescription(), ColorRole.ON_BACKGROUND);
             return emptyContentView;

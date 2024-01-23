@@ -80,7 +80,7 @@
     </style>
 
     <style name="materialCardViewStyle" parent="Widget.Material3.CardView.Outlined">
-        <item name="strokeColor">?attr/colorOutlineVariant</item>
+        <item name="strokeColor">?attr/colorSurfaceVariant</item>
         <item name="cardBackgroundColor">?attr/colorSurfaceContainer</item>
     </style>
 
