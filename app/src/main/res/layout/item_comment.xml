@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="54dp"
+        android:layout_marginBottom="@dimen/spacer_1x"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/spacer_1x"
         android:visibility="gone"
         tools:visibility="visible">
 
@@ -22,7 +22,7 @@
             android:id="@+id/parentBorder"
             android:layout_width="2dp"
             android:layout_height="match_parent"
-            android:textColor="?attr/colorSecondary" />
+            android:background="?attr/colorSecondary" />
 
         <TextView
             android:id="@+id/parent"
@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="@integer/comment_parent_max_lines"
+            android:paddingVertical="@dimen/spacer_1hx"
             android:paddingStart="@dimen/spacer_1x"
             android:paddingEnd="@null"
             android:textColor="?attr/colorOnSurfaceVariant"
@@ -95,6 +96,7 @@
                     android:layout_gravity="center"
                     android:textAppearance="?attr/textAppearanceListItemSecondary"
                     android:textColor="?attr/colorOnSurface"
+                    android:textColorHighlight="?attr/colorOnSurfaceVariant"
                     tools:text="@tools:sample/date/day_of_week" />
             </LinearLayout>
 
@@ -105,6 +107,7 @@
                 android:layout_gravity="center"
                 android:autofillHints="@null"
                 android:textAppearance="?attr/textAppearanceListItem"
+                android:textColor="?attr/colorOnSurface"
                 tools:maxLength="200"
                 tools:text="@tools:sample/lorem/random" />
         </LinearLayout>

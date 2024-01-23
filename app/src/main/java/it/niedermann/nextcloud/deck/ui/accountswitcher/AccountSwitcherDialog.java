@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -115,5 +116,9 @@ public class AccountSwitcherDialog extends DialogFragment {
     private void applyTheme(int color) {
         final var utils = ThemeUtils.of(color, requireContext());
         utils.deck.themeSelectedCheck(binding.check.getContext(), binding.check.getDrawable());
+        utils.platform.colorImageView(binding.addAccountIcon, ColorRole.ON_SURFACE);
+        utils.platform.colorImageView(binding.manageAccountsIcon, ColorRole.ON_SURFACE);
+        utils.platform.colorTextView(binding.addAccountLabel, ColorRole.ON_SURFACE);
+        utils.platform.colorTextView(binding.manageAccountsLabel, ColorRole.ON_SURFACE);
     }
 }

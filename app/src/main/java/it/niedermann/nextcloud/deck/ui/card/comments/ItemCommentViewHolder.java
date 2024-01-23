@@ -109,9 +109,11 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
         if (utils != null) {
             utils.platform.colorViewBackground(binding.parentBorder, ColorRole.SECONDARY);
             utils.platform.colorTextView(binding.parent, ColorRole.ON_SURFACE_VARIANT);
+
             utils.platform.colorImageView(binding.notSyncedYet, ColorRole.PRIMARY);
             utils.platform.colorTextView(binding.actorDisplayName, ColorRole.ON_SURFACE);
-            utils.platform.colorTextView(binding.actorDisplayName, ColorRole.ON_SURFACE);
+            utils.platform.colorTextView(binding.creationDateTime, ColorRole.ON_SURFACE_VARIANT);
+            utils.platform.colorTextView(binding.message, ColorRole.ON_SURFACE);
         }
     }
 
