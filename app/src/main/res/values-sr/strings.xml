@@ -87,6 +87,7 @@
 
     <string name="label_clear_due_date">Избриши рок</string>
     <string name="label_clear_done">Није довршено</string>
+    <string name="label_due_at">Доспева: %1$s</string>
     <string name="label_add">Додај %1$s</string>
 
     <string name="card_edit_details">Детаљи</string>
