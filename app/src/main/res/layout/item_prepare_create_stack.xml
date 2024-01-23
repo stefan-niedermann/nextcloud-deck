@@ -27,6 +27,6 @@
         android:layout_height="22dp"
         android:layout_marginStart="@dimen/spacer_1x"
         app:srcCompat="@drawable/selected_check"
-        tools:src="@drawable/ic_check_grey600_24dp" />
+        tools:src="@drawable/ic_check_24dp" />
 
 </LinearLayout>

@@ -21,15 +21,14 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.File;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Stream;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -43,8 +42,6 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     private ActivityTakePhotoBinding binding;
     private TakePhotoViewModel viewModel;
-
-    private FloatingActionButton[] brandedFABs;
 
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     private OrientationEventListener orientationEventListener;
@@ -92,8 +89,6 @@ public class TakePhotoActivity extends AppCompatActivity {
                 finish();
             }
         }, ContextCompat.getMainExecutor(this));
-
-        brandedFABs = new FloatingActionButton[]{binding.takePhoto, binding.switchCamera, binding.toggleTorch};
     }
 
     private ImageCapture getCaptureUseCase() {
@@ -186,6 +181,7 @@ public class TakePhotoActivity extends AppCompatActivity {
     private void applyBoardColorBrand(int color) {
         final var utils = ThemeUtils.of(color, this);
 
-        Arrays.stream(brandedFABs).forEach(utils.material::themeFAB);
+        Stream.of(binding.takePhoto).forEach(utils.material::themeFAB);
+        Stream.of(binding.switchCamera, binding.toggleTorch).forEach(utils.deck::themeSecondaryFAB);
     }
 }

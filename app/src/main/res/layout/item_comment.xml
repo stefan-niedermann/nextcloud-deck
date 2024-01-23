@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="54dp"
+        android:layout_marginBottom="@dimen/spacer_1x"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/spacer_1x"
         android:visibility="gone"
         tools:visibility="visible">
 
@@ -22,7 +22,7 @@
             android:id="@+id/parentBorder"
             android:layout_width="2dp"
             android:layout_height="match_parent"
-            android:background="?attr/colorPrimary" />
+            android:background="?attr/colorSecondary" />
 
         <TextView
             android:id="@+id/parent"
@@ -30,8 +30,10 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="@integer/comment_parent_max_lines"
+            android:paddingVertical="@dimen/spacer_1hx"
             android:paddingStart="@dimen/spacer_1x"
             android:paddingEnd="@null"
+            android:textColor="?attr/colorOnSurfaceVariant"
             tools:text="@tools:sample/lorem/random" />
     </LinearLayout>
 
@@ -41,10 +43,10 @@
         android:baselineAligned="false"
         android:orientation="horizontal">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacer_1x">
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacer_1x">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/avatar"
@@ -53,7 +55,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/spacer_1x"
                 android:contentDescription="@null"
-                app:srcCompat="@drawable/ic_person_grey600_24dp"
+                app:srcCompat="@drawable/ic_person_24dp"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -62,7 +64,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:visibility="gone"
-                app:srcCompat="@drawable/ic_sync_blue_24dp"
+                app:srcCompat="@drawable/ic_sync_18dp"
+                app:tint="?attr/colorPrimary"
                 tools:visibility="visible" />
         </FrameLayout>
 
@@ -77,20 +80,23 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/actorDisplayName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAppearance="?attr/textAppearanceListItem"
+                    android:textColor="?attr/colorOnSurface"
                     tools:text="@tools:sample/full_names" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/creationDateTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textAppearance="?attr/textAppearanceListItemSecondary"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textColorHighlight="?attr/colorOnSurfaceVariant"
                     tools:text="@tools:sample/date/day_of_week" />
             </LinearLayout>
 
@@ -101,6 +107,7 @@
                 android:layout_gravity="center"
                 android:autofillHints="@null"
                 android:textAppearance="?attr/textAppearanceListItem"
+                android:textColor="?attr/colorOnSurface"
                 tools:maxLength="200"
                 tools:text="@tools:sample/lorem/random" />
         </LinearLayout>

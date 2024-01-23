@@ -90,8 +90,8 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
             Glide.with(binding.avatar.getContext())
                     .load(account.getAvatarUrl(binding.avatar.getResources().getDimensionPixelSize(R.dimen.avatar_size), user.getUid()))
                     .apply(RequestOptions.circleCropTransform())
-                    .placeholder(R.drawable.ic_person_grey600_24dp)
-                    .error(R.drawable.ic_person_grey600_24dp)
+                    .placeholder(R.drawable.ic_person_24dp)
+                    .error(R.drawable.ic_person_24dp)
                     .into(binding.avatar);
             itemView.setSelected(selectedUsers.contains(user));
             applyTheme(color);
@@ -101,7 +101,7 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
         public void bindNotAssigned() {
             binding.title.setText(itemView.getContext().getString(R.string.simple_unassigned));
             Glide.with(itemView.getContext())
-                    .load(R.drawable.ic_baseline_block_24)
+                    .load(R.drawable.ic_block_24)
                     .into(binding.avatar);
             itemView.setSelected(selectedUsers.contains(NOT_ASSIGNED));
             applyTheme(color);

@@ -63,16 +63,16 @@ public class EditActivity extends AppCompatActivity {
      */
     @Deprecated
     private static final int[] tabIcons = new int[]{
-            R.drawable.ic_home_grey600_24dp,
-            R.drawable.ic_attach_file_grey600_24dp,
-            R.drawable.ic_activity_light_grey
+            R.drawable.ic_home_24dp,
+            R.drawable.ic_attach_file_24dp,
+            R.drawable.ic_activity_72dp
     };
 
     private static final int[] tabIconsWithComments = new int[]{
-            R.drawable.ic_home_grey600_24dp,
-            R.drawable.ic_attach_file_grey600_24dp,
-            R.drawable.type_comment_grey600_36dp,
-            R.drawable.ic_activity_light_grey
+            R.drawable.ic_home_24dp,
+            R.drawable.ic_attach_file_24dp,
+            R.drawable.type_comment_36dp,
+            R.drawable.ic_activity_72dp
     };
 
     @Override
@@ -162,7 +162,7 @@ public class EditActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         if (viewModel.canEdit()) {
             getMenuInflater().inflate(R.menu.card_edit_menu, menu);
-            @ColorInt final int color = ContextCompat.getColor(this, R.color.accent);
+            @ColorInt final int color = ContextCompat.getColor(this, R.color.onSurface);
             final var utils = ThemeUtils.of(color, this);
 
             for (int i = 0; i < menu.size(); i++) {
@@ -282,7 +282,7 @@ public class EditActivity extends AppCompatActivity {
         if (navigationIcon == null) {
             DeckLog.error("Expected navigationIcon to be present.");
         } else {
-            DrawableCompat.setTint(binding.toolbar.getNavigationIcon(), ContextCompat.getColor(this, R.color.accent));
+            DrawableCompat.setTint(binding.toolbar.getNavigationIcon(), ContextCompat.getColor(this, R.color.onSurface));
         }
 
         final var utils = ThemeUtils.of(color, this);

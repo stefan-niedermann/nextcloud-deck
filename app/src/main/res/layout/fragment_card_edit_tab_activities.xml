@@ -21,6 +21,6 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         app:description="@string/no_activities"
-        app:image="@drawable/ic_activity_light_grey"
+        app:image="@drawable/ic_activity_72dp"
         app:title="@string/activity" />
 </FrameLayout>

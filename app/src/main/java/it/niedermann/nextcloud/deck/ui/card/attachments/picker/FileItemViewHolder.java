@@ -1,5 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments.picker;
 
+import static android.text.format.Formatter.formatFileSize;
+import static it.niedermann.nextcloud.deck.util.AttachmentUtil.getIconForMimeType;
+import static it.niedermann.nextcloud.deck.util.DateUtil.getRelativeDateTimeString;
+
 import android.net.Uri;
 import android.util.Pair;
 
@@ -13,10 +17,6 @@ import java.util.function.BiConsumer;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentDefaultBinding;
-
-import static android.text.format.Formatter.formatFileSize;
-import static it.niedermann.nextcloud.deck.util.AttachmentUtil.getIconForMimeType;
-import static it.niedermann.nextcloud.deck.util.DateUtil.getRelativeDateTimeString;
 
 public class FileItemViewHolder extends RecyclerView.ViewHolder {
 
@@ -40,6 +40,6 @@ public class FileItemViewHolder extends RecyclerView.ViewHolder {
         binding.filesize.setText(null);
         binding.modified.setText(null);
         itemView.setOnClickListener(null);
-        binding.preview.setImageResource(R.drawable.ic_attach_file_grey600_24dp);
+        binding.preview.setImageResource(R.drawable.ic_attach_file_24dp);
     }
 }

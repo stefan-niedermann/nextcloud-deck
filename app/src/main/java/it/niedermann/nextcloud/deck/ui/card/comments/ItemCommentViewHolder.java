@@ -44,8 +44,8 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
         Glide.with(binding.avatar.getContext())
                 .load(account.getAvatarUrl(binding.avatar.getResources().getDimensionPixelSize(R.dimen.avatar_size), comment.getComment().getActorId()))
                 .apply(RequestOptions.circleCropTransform())
-                .placeholder(R.drawable.ic_person_grey600_24dp)
-                .error(R.drawable.ic_person_grey600_24dp)
+                .placeholder(R.drawable.ic_person_24dp)
+                .error(R.drawable.ic_person_24dp)
                 .into(binding.avatar);
 
         final var mentions = new HashMap<String, String>(comment.getComment().getMentions().size());
@@ -88,9 +88,6 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
         });
 
         TooltipCompat.setTooltipText(binding.creationDateTime, comment.getComment().getCreationDateTime().atZone(ZoneId.systemDefault()).format(dateFormatter));
-        if (utils != null) {
-            utils.platform.colorImageView(binding.notSyncedYet, ColorRole.PRIMARY);
-        }
         binding.notSyncedYet.setVisibility(DBStatus.LOCAL_EDITED.equals(comment.getStatusEnum()) ? View.VISIBLE : View.GONE);
 
         if (comment.getParent() == null) {
@@ -98,9 +95,6 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
         } else {
             final int commentParentMaxLines = itemView.getContext().getResources().getInteger(R.integer.comment_parent_max_lines);
             binding.parentContainer.setVisibility(View.VISIBLE);
-            if (utils != null) {
-                utils.platform.colorViewBackground(binding.parentBorder);
-            }
             binding.parent.setText(comment.getParent().getMessage());
             binding.parent.setOnClickListener((v) -> {
                 final boolean previouslyCollapsed = binding.parent.getMaxLines() == commentParentMaxLines;
@@ -110,6 +104,16 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
 //                        .start();
                 binding.parent.setMaxLines(previouslyCollapsed ? Integer.MAX_VALUE : commentParentMaxLines);
             });
+        }
+
+        if (utils != null) {
+            utils.platform.colorViewBackground(binding.parentBorder, ColorRole.SECONDARY);
+            utils.platform.colorTextView(binding.parent, ColorRole.ON_SURFACE_VARIANT);
+
+            utils.platform.colorImageView(binding.notSyncedYet, ColorRole.PRIMARY);
+            utils.platform.colorTextView(binding.actorDisplayName, ColorRole.ON_SURFACE);
+            utils.platform.colorTextView(binding.creationDateTime, ColorRole.ON_SURFACE_VARIANT);
+            utils.platform.colorTextView(binding.message, ColorRole.ON_SURFACE);
         }
     }
 

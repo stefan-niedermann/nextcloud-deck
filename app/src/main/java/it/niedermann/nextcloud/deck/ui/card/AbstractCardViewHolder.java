@@ -88,7 +88,7 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
     protected void applyTheme(@Nullable ThemeUtils utils) {
         if (utils != null) {
             utils.platform.colorImageView(getNotSyncedYet(), ColorRole.PRIMARY);
-            utils.platform.colorImageView(getCardMenu(), ColorRole.ON_SURFACE);
+            utils.platform.colorImageView(getCardMenu(), ColorRole.ON_SURFACE_VARIANT);
             utils.platform.colorTextView(getCardTitle(), ColorRole.ON_SURFACE);
 
             // TODO should be discussed with UX
@@ -149,8 +149,8 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
                         coverImagesHolder.addView(coverImageView);
                         Glide.with(coverImageView)
                                 .load(new SingleSignOnUrl(account.getName(), AttachmentUtil.getThumbnailUrl(account, fullCard.getId(), coverImage, coverWidth, coverHeight)))
-                                .placeholder(R.drawable.ic_image_grey600_24dp)
-                                .error(R.drawable.ic_image_grey600_24dp)
+                                .placeholder(R.drawable.ic_image_24dp)
+                                .error(R.drawable.ic_image_24dp)
                                 .into(coverImageView);
                     }
                 });

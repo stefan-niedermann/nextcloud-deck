@@ -22,7 +22,7 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         app:description="@string/no_files_attached_to_this_card"
-        app:image="@drawable/ic_attach_file_grey600_24dp"
+        app:image="@drawable/ic_attach_file_24dp"
         app:title="@string/attachments" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -33,8 +33,7 @@
         android:layout_margin="@dimen/fab_margin"
         android:contentDescription="@string/upload_a_new_attachment"
         android:visibility="gone"
-        app:backgroundTint="@color/defaultBrand"
-        app:srcCompat="@drawable/ic_file_upload_white_24dp"
+        app:srcCompat="@drawable/ic_file_upload_24dp"
         tools:visibility="visible" />
 
     <FrameLayout
@@ -78,9 +77,9 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/attachments_bottom_navigation_height"
             android:translationY="@dimen/attachments_bottom_navigation_height"
-            app:backgroundTint="?attr/colorPrimary"
-            app:itemIconTint="?attr/colorAccent"
-            app:itemTextColor="?attr/colorAccent"
+            app:backgroundTint="?attr/colorSurface"
+            app:itemIconTint="?attr/colorOnSecondaryContainer"
+            app:itemTextColor="?attr/colorOnSurface"
             app:menu="@menu/attachment_picker_menu" />
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -14,7 +14,7 @@
         android:layout_height="@dimen/avatar_size"
         android:layout_marginEnd="@dimen/spacer_2x"
         android:contentDescription="@null"
-        app:srcCompat="@drawable/circle_grey600_36dp"
+        app:srcCompat="@drawable/circle_36dp"
         tools:tint="@color/board_default_color" />
 
     <TextView

@@ -29,15 +29,15 @@ public class GalleryItemViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener((v) -> onSelect.accept(uri, new Pair<>(null, Glide.with(itemView.getContext()).load(image))));
         Glide.with(itemView.getContext())
                 .load(image)
-                .placeholder(R.drawable.ic_image_grey600_24dp)
-                .error(R.drawable.ic_image_grey600_24dp)
+                .placeholder(R.drawable.ic_image_24dp)
+                .error(R.drawable.ic_image_24dp)
                 .into(binding.preview);
     }
 
     public void bindError() {
         itemView.setOnClickListener(null);
         Glide.with(itemView.getContext())
-                .load(R.drawable.ic_image_grey600_24dp)
+                .load(R.drawable.ic_image_24dp)
                 .into(binding.preview);
     }
 }

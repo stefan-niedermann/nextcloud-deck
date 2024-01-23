@@ -8,12 +8,13 @@
     android:orientation="vertical"
     android:padding="@dimen/spacer_2x">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
         android:textAppearance="?attr/textAppearanceListItemSecondary"
+        android:textColor="?attr/colorOnSurfaceVariant"
         tools:text="4 days ago" />
 
     <LinearLayout
@@ -28,11 +29,12 @@
             android:layout_marginEnd="@dimen/spacer_2x"
             app:srcCompat="@drawable/type_change_36dp" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="?attr/colorOnSurface"
             tools:maxLength="150"
             tools:text="@tools:sample/lorem/random" />
     </LinearLayout>

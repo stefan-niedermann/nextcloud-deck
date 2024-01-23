@@ -1,25 +1,51 @@
 <resources>
 
     <style name="BaseTheme" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorAccent">@color/accent</item>
 
-        <item name="android:windowBackground">@color/bg_default</item>
-        <item name="android:statusBarColor">@color/bg_default</item>
-        <item name="android:navigationBarColor">@color/bg_default</item>
+        <item name="background">@color/bg_default</item>
+
+        <item name="colorError">@color/error</item>
+        <item name="colorErrorContainer">@color/errorContainer</item>
+        <item name="colorOnBackground">@color/onBackground</item>
+        <item name="colorOnError">@color/onError</item>
+        <item name="colorOnErrorContainer">@color/onErrorContainer</item>
+        <item name="colorOnPrimary">@color/onPrimary</item>
+        <item name="colorOnPrimaryContainer">@color/onPrimaryContainer</item>
+        <item name="colorOnSecondary">@color/onSecondary</item>
+        <item name="colorOnSecondaryContainer">@color/onSecondaryContainer</item>
+        <item name="colorOnSurface">@color/onSurface</item>
+        <item name="colorOnSurfaceVariant">@color/onSurfaceVariant</item>
+        <item name="colorOnTertiary">@color/onTertiary</item>
+        <item name="colorOnTertiaryContainer">@color/onTertiaryContainer</item>
+        <item name="colorOutline">@color/outline</item>
+        <item name="colorOutlineVariant">@color/outlineVariant</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryContainer">@color/primaryContainer</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorSecondaryContainer">@color/secondaryContainer</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorSurfaceVariant">@color/surfaceVariant</item>
+        <item name="colorTertiary">@color/tertiary</item>
+        <item name="colorTertiaryContainer">@color/tertiaryContainer</item>
+
+        <!-- Used by PopupMenus -->
+        <item name="colorSurfaceContainer">@color/colorSurfaceContainer</item>
+
+        <!-- Used by Material Dialogs & Material SearchBar -->
+        <item name="colorSurfaceContainerHigh">@color/colorSurfaceContainer</item>
+
+        <item name="android:windowBackground">?attr/background</item>
+        <item name="android:statusBarColor">?attr/background</item>
+        <item name="android:navigationBarColor">?attr/background</item>
         <item name="android:windowLightStatusBar">@bool/isDayMode</item>
-        <item name="android:colorControlNormal">?attr/colorAccent</item>
-        <item name="android:colorControlActivated">?attr/colorAccent</item>
-        <item name="android:textColorLink">?attr/colorAccent</item>
-        <item name="android:textColorHighlight">@color/defaultTextHighlightBackground</item>
+        <item name="android:colorControlNormal">?attr/colorOnSurfaceVariant</item>
+        <item name="android:colorControlActivated">?attr/colorOnSurfaceVariant</item>
+        <item name="android:textColorHighlight">?attr/colorSurfaceVariant</item>
 
         <!-- Workaround: Preferences Dialogs are using AlertDialogs instead of MaterialAlertDialogs. -->
         <!-- https://stackoverflow.com/questions/70650073/adjust-androidx-preference-dialogs-to-follow-material-you -->
         <item name="alertDialogTheme">@style/PreferencesAlertDialogTheme</item>
 
-        <item name="materialAlertDialogTheme">@style/MaterialAlertDialogTheme</item>
-
-        <item name="toolbarStyle">@style/toolbarStyle</item>
         <item name="chipGroupStyle">@style/chipGroupStyle</item>
         <item name="chipStyle">@style/chipStyle</item>
         <item name="tabStyle">@style/tabStyle</item>
@@ -30,20 +56,10 @@
 
     <style name="AppTheme" parent="BaseTheme" />
 
-    <style name="MaterialAlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
-        <item name="buttonBarPositiveButtonStyle">@style/buttonStyle</item>
-        <item name="buttonBarNegativeButtonStyle">@style/buttonStyle</item>
-        <item name="buttonBarNeutralButtonStyle">@style/buttonStyle</item>
-    </style>
-
-    <style name="PreferencesAlertDialogTheme" parent="MaterialAlertDialogTheme">
+    <style name="PreferencesAlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <!-- https://m3.material.io/components/dialogs/specs#6771d107-624e-47cc-b6d8-2b7b620ba2f1 -->
         <item name="dialogCornerRadius">28dp</item>
         <item name="android:background">?attr/colorSurface</item>
-    </style>
-
-    <style name="buttonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textColor">?attr/colorAccent</item>
     </style>
 
     <style name="chipGroupStyle" parent="Widget.Material3.ChipGroup">
@@ -55,24 +71,17 @@
         <item name="chipCornerRadius">40dp</item>
     </style>
 
-    <style name="toolbarStyle" parent="@style/Widget.Material3.Toolbar">
-        <item name="android:background">?android:windowBackground</item>
-    </style>
-
     <style name="tabStyle" parent="Widget.Material3.TabLayout">
         <item name="backgroundColor">@android:color/transparent</item>
         <item name="itemBackground">@android:color/transparent</item>
-        <item name="tabIndicatorColor">?attr/colorAccent</item>
-        <item name="tabTextColor">?attr/colorAccent</item>
-        <item name="tabIconTint">?attr/colorAccent</item>
+        <item name="tabIndicatorColor">?attr/colorSurfaceVariant</item>
+        <item name="tabTextColor">?attr/colorSurfaceVariant</item>
+        <item name="tabIconTint">?attr/colorPrimary</item>
     </style>
 
-    <style name="materialCardViewStyle" parent="Widget.Material3.CardView.Elevated">
-        <item name="strokeWidth">1dp</item>
-        <item name="strokeColor">@color/bg_highlighted</item>
-        <item name="android:focusable">true</item>
-        <item name="cardElevation">2dp</item>
-        <item name="cardBackgroundColor">@color/bg_card</item>
+    <style name="materialCardViewStyle" parent="Widget.Material3.CardView.Outlined">
+        <item name="strokeColor">?attr/colorSurfaceVariant</item>
+        <item name="cardBackgroundColor">?attr/colorSurfaceContainer</item>
     </style>
 
     <style name="textAppearanceHeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">

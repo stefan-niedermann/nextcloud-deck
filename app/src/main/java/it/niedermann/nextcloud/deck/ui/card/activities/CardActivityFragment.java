@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabActivitiesBinding;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
@@ -38,18 +39,22 @@ public class CardActivityFragment extends Fragment implements Themed {
             return binding.getRoot();
         }
 
-        viewModel.getBoardColor().observe(getViewLifecycleOwner(), this::applyTheme);
+        final var adapter = new CardActivityAdapter(requireActivity().getMenuInflater());
+        binding.activitiesList.setAdapter(adapter);
 
-        viewModel.syncActivitiesForCard(viewModel.getFullCard().getCard()).observe(getViewLifecycleOwner(), (activities -> {
-            if (activities == null || activities.size() == 0) {
-                binding.emptyContentView.setVisibility(View.VISIBLE);
-                binding.activitiesList.setVisibility(View.GONE);
-            } else {
-                binding.emptyContentView.setVisibility(View.GONE);
-                binding.activitiesList.setVisibility(View.VISIBLE);
-                binding.activitiesList.setAdapter(new CardActivityAdapter(activities, requireActivity().getMenuInflater()));
-            }
-        }));
+        new ReactiveLiveData<>(viewModel.syncActivitiesForCard(viewModel.getFullCard().getCard()))
+                .combineWith(viewModel::getBoardColor)
+                .observe(getViewLifecycleOwner(), data -> {
+                    applyTheme(data.second);
+                    if (data.first == null || data.first.size() == 0) {
+                        binding.emptyContentView.setVisibility(View.VISIBLE);
+                        binding.activitiesList.setVisibility(View.GONE);
+                    } else {
+                        binding.emptyContentView.setVisibility(View.GONE);
+                        binding.activitiesList.setVisibility(View.VISIBLE);
+                    }
+                    adapter.setData(data.first, ThemeUtils.of(data.second, requireContext()));
+                });
         return binding.getRoot();
     }
 

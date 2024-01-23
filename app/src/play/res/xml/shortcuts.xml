@@ -2,7 +2,7 @@
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/ic_add_grey_24dp"
+        android:icon="@drawable/ic_add_24dp"
         android:shortcutId="it.niedermann.nextcloud.deck"
         android:shortcutLongLabel="@string/add_card"
         android:shortcutShortLabel="@string/simple_add">

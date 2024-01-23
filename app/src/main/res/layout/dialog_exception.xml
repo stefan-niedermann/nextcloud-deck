@@ -35,7 +35,7 @@
             android:layout_marginTop="@dimen/spacer_2x"
             android:layout_marginBottom="@dimen/spacer_2x"
             android:layout_weight="1"
-            android:background="@color/bg_highlighted">
+            android:background="?attr/colorSurfaceVariant">
 
             <TextView
                 android:id="@+id/stacktrace"

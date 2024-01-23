@@ -5,6 +5,7 @@ import static com.nextcloud.android.common.ui.util.PlatformThemeUtil.isDarkMode;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -24,6 +25,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.widget.TextViewCompat;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.search.SearchBar;
 import com.google.android.material.search.SearchView;
 import com.google.android.material.tabs.TabLayout;
@@ -90,7 +92,7 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
 
     public void themeEmptyContentView(@NonNull EmptyContentView emptyContentView) {
         withScheme(emptyContentView.getContext(), scheme -> {
-            platform.colorImageView(emptyContentView.getImage(), ColorRole.SURFACE_VARIANT);
+            platform.colorImageView(emptyContentView.getImage(), ColorRole.ON_SURFACE_VARIANT);
             platform.colorTextView(emptyContentView.getTitle(), ColorRole.ON_BACKGROUND);
             platform.colorTextView(emptyContentView.getDescription(), ColorRole.ON_BACKGROUND);
             return emptyContentView;
@@ -134,7 +136,7 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
      */
     @Nullable
     public Drawable getColoredBoardDrawable(@NonNull Context context, @ColorInt int boardColor) {
-        final var drawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.circle_grey600_36dp, null);
+        final var drawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.circle_36dp, null);
         return drawable == null ? null : platform.colorDrawable(drawable, boardColor);
     }
 
@@ -212,5 +214,24 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
     @Deprecated(forRemoval = true)
     public static void setImageColor(@NonNull Context context, @NonNull ImageView imageView, @ColorRes int colorRes) {
         imageView.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(context, colorRes)));
+    }
+
+    /**
+     * @see <a href="https://github.com/nextcloud/android-common/pull/250">Upstream Pull Request</a>
+     */
+    @Deprecated(forRemoval = true)
+    public void themeSecondaryFAB(@NonNull FloatingActionButton fab) {
+        withScheme(fab.getContext(), scheme -> {
+            fab.setBackgroundTintList(buildColorStateList(
+                    new Pair<>(android.R.attr.state_enabled, scheme.getSecondaryContainer()),
+                    new Pair<>(-android.R.attr.state_enabled, Color.GRAY)
+            ));
+
+            fab.setImageTintList(buildColorStateList(
+                    new Pair<>(android.R.attr.state_enabled, scheme.getOnSecondaryContainer()),
+                    new Pair<>(-android.R.attr.state_enabled, Color.GRAY)
+            ));
+            return fab;
+        });
     }
 }

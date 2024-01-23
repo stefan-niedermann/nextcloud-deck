@@ -149,10 +149,10 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
             viewModel.getDescriptionMode().observe(getViewLifecycleOwner(), (isPreviewMode) -> {
                 if (isPreviewMode) {
                     toggleEditorView(binding.descriptionViewer, binding.descriptionEditorWrapper, binding.descriptionViewer);
-                    binding.descriptionToggle.setImageResource(R.drawable.ic_edit_grey600_24dp);
+                    binding.descriptionToggle.setImageResource(R.drawable.ic_edit_24dp);
                 } else {
                     toggleEditorView(binding.descriptionEditorWrapper, binding.descriptionViewer, binding.descriptionEditor);
-                    binding.descriptionToggle.setImageResource(R.drawable.ic_baseline_eye_24);
+                    binding.descriptionToggle.setImageResource(R.drawable.ic_eye_24);
                 }
             });
             binding.descriptionToggle.setOnClickListener((v) -> viewModel.toggleDescriptionPreviewMode());
@@ -267,7 +267,7 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
         final var chip = new Chip(requireContext());
         chip.setText(label.getTitle());
         if (viewModel.canEdit()) {
-            chip.setCloseIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_close_circle_grey600));
+            chip.setCloseIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_close_circle));
             chip.setCloseIconVisible(true);
             chip.setOnCloseIconClickListener(v -> {
                 binding.labelsGroup.removeView(chip);

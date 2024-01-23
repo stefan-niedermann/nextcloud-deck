@@ -11,7 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+        app:navigationIcon="@drawable/ic_arrow_back_24dp"
         app:title="@string/app_name" />
 
     <LinearLayout

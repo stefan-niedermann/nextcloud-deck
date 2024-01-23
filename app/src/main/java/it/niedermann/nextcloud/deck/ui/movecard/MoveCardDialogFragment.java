@@ -127,7 +127,7 @@ public class MoveCardDialogFragment extends DialogFragment implements Themed, Pi
         this.selectedStack = stack;
 
         applyTheme(board == null
-                ? ContextCompat.getColor(requireContext(), R.color.accent)
+                ? ContextCompat.getColor(requireContext(), R.color.onSurface)
                 : board.getColor()
         );
 

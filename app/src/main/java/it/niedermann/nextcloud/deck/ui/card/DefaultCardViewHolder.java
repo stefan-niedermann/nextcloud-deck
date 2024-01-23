@@ -87,7 +87,7 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
         } else {
             final String description = fullCard.getCard().getDescription();
             if (!TextUtils.isEmpty(description)) {
-                binding.cardCountTasks.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_baseline_subject_24), null, null, null);
+                binding.cardCountTasks.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_subject_24), null, null, null);
                 binding.cardCountTasks.setText(null);
                 binding.cardCountTasks.setVisibility(View.VISIBLE);
             } else {

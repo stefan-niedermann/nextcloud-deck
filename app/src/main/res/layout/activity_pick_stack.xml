@@ -54,8 +54,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/inputWrapper"
-        app:layout_constraintVertical_weight="1"
-        tools:background="@color/bg_highlighted">
+        app:layout_constraintVertical_weight="1">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_container"

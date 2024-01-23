@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAccountChooseBinding;
@@ -35,13 +36,15 @@ public class AccountSwitcherViewHolder extends RecyclerView.ViewHolder {
         Glide.with(itemView.getContext())
                 .load(account.getAvatarUrl(binding.accountItemAvatar.getResources().getDimensionPixelSize(R.dimen.avatar_size)))
                 .apply(RequestOptions.circleCropTransform())
-                .placeholder(R.drawable.ic_baseline_account_circle_24)
-                .error(R.drawable.ic_baseline_account_circle_24)
+                .placeholder(R.drawable.ic_account_circle_24)
+                .error(R.drawable.ic_account_circle_24)
                 .into(binding.accountItemAvatar);
         itemView.setOnClickListener((v) -> onAccountClick.accept(account));
         binding.delete.setVisibility(View.GONE);
 
         final var utils = ThemeUtils.of(account.getColor(), itemView.getContext());
         utils.deck.themeSelectedCheck(binding.currentAccountIndicator.getContext(), binding.currentAccountIndicator.getDrawable());
+        utils.platform.colorTextView(binding.accountName, ColorRole.ON_SURFACE);
+        utils.platform.colorTextView(binding.accountHost, ColorRole.ON_SURFACE_VARIANT);
     }
 }

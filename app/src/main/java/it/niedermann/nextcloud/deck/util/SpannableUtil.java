@@ -33,7 +33,7 @@ public class SpannableUtil {
     public static SpannableString disabled(@NonNull CharSequence text, @NonNull Context context) {
         final var spannable = new SpannableString(text);
         spannable.setSpan(new StyleSpan(Typeface.ITALIC), 0, spannable.length(), 0);
-        spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.fg_secondary)), 0, spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.onSurfaceVariant)), 0, spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannable;
     }
 

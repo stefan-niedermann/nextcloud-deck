@@ -20,7 +20,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:startIconDrawable="@drawable/ic_label_grey600_24dp">
+            app:startIconDrawable="@drawable/ic_label_24dp">
 
             <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
                 android:id="@+id/labels"
@@ -51,7 +51,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelsGroup"
-            app:startIconDrawable="@drawable/ic_person_grey600_24dp">
+            app:startIconDrawable="@drawable/ic_person_24dp">
 
             <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
                 android:id="@+id/people"
@@ -108,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/spacer_2x"
-                    android:textColor="?attr/colorAccent"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="@dimen/font_size_description" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -119,7 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:padding="@dimen/spacer_2x"
-                android:textColor="?attr/colorAccent"
+                android:textColor="?attr/colorOnSurface"
                 android:textIsSelectable="true"
                 android:textSize="@dimen/font_size_description"
                 android:translationY="1dp"
@@ -141,7 +141,7 @@
                 android:paddingBottom="@dimen/spacer_1hx"
                 android:translationY="-7dp"
                 android:visibility="invisible"
-                app:srcCompat="@drawable/ic_baseline_eye_24"
+                app:srcCompat="@drawable/ic_eye_24"
                 tools:visibility="visible" />
         </RelativeLayout>
 

@@ -97,7 +97,7 @@ public abstract class PickStackActivity extends AppCompatActivity implements The
     public void onStackPicked(@NonNull Account account, @Nullable Board board, @Nullable Stack stack) {
         viewModel.setSelected(account, board, stack);
         applyTheme(board == null
-                ? ContextCompat.getColor(this, R.color.accent)
+                ? ContextCompat.getColor(this, R.color.onSurface)
                 : board.getColor()
         );
     }

@@ -49,8 +49,8 @@ public class AccountAdapter extends AbstractAdapter<Account> {
 
             Glide.with(getContext())
                     .load(account.getAvatarUrl(binding.avatar.getResources().getDimensionPixelSize(R.dimen.avatar_size)))
-                    .placeholder(R.drawable.ic_baseline_account_circle_24)
-                    .error(R.drawable.ic_baseline_account_circle_24)
+                    .placeholder(R.drawable.ic_account_circle_24)
+                    .error(R.drawable.ic_account_circle_24)
                     .apply(RequestOptions.circleCropTransform())
                     .into(binding.avatar);
         } else {

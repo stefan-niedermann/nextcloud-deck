@@ -26,8 +26,8 @@ public class AssigneeViewHolder extends RecyclerView.ViewHolder {
         Glide.with(binding.avatar.getContext())
                 .load(account.getAvatarUrl(binding.avatar.getResources().getDimensionPixelSize(R.dimen.avatar_size), user.getUid()))
                 .apply(RequestOptions.circleCropTransform())
-                .placeholder(R.drawable.ic_person_grey600_24dp)
-                .error(R.drawable.ic_person_grey600_24dp)
+                .placeholder(R.drawable.ic_person_24dp)
+                .error(R.drawable.ic_person_24dp)
                 .into(binding.avatar);
         if (onClickListener != null) {
             itemView.setOnClickListener((v) -> onClickListener.accept(user));

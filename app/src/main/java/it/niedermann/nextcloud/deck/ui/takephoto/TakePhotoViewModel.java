@@ -19,7 +19,7 @@ public class TakePhotoViewModel extends BaseViewModel {
     @NonNull
     private CameraSelector cameraSelector = DEFAULT_BACK_CAMERA;
     @NonNull
-    private final MutableLiveData<Integer> cameraSelectorToggleButtonImageResource = new MutableLiveData<>(R.drawable.ic_baseline_camera_front_24);
+    private final MutableLiveData<Integer> cameraSelectorToggleButtonImageResource = new MutableLiveData<>(R.drawable.ic_camera_front_24);
     @NonNull
     private final MutableLiveData<Boolean> torchEnabled = new MutableLiveData<>(false);
 
@@ -51,10 +51,10 @@ public class TakePhotoViewModel extends BaseViewModel {
     public void toggleCameraSelector() {
         if (this.cameraSelector == DEFAULT_BACK_CAMERA) {
             this.cameraSelector = DEFAULT_FRONT_CAMERA;
-            this.cameraSelectorToggleButtonImageResource.postValue(R.drawable.ic_baseline_camera_rear_24);
+            this.cameraSelectorToggleButtonImageResource.postValue(R.drawable.ic_camera_rear_24);
         } else {
             this.cameraSelector = DEFAULT_BACK_CAMERA;
-            this.cameraSelectorToggleButtonImageResource.postValue(R.drawable.ic_baseline_camera_front_24);
+            this.cameraSelectorToggleButtonImageResource.postValue(R.drawable.ic_camera_front_24);
         }
     }
 
@@ -70,7 +70,7 @@ public class TakePhotoViewModel extends BaseViewModel {
     public LiveData<Integer> getTorchToggleButtonImageResource() {
         return new ReactiveLiveData<>(isTorchEnabled())
                 .map(enabled -> enabled
-                        ? R.drawable.ic_baseline_flash_off_24
-                        : R.drawable.ic_baseline_flash_on_24);
+                        ? R.drawable.ic_flash_off_24
+                        : R.drawable.ic_flash_on_24);
     }
 }
