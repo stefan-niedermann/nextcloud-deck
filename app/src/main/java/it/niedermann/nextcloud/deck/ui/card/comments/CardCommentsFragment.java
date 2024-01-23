@@ -21,9 +21,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 import com.nextcloud.android.sso.api.EmptyResponse;
 
 import java.time.Instant;
+import java.util.stream.Stream;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -96,8 +98,8 @@ public class CardCommentsFragment extends Fragment implements Themed, CommentEdi
         Glide.with(binding.avatar.getContext())
                 .load(editCardViewModel.getAccount().getAvatarUrl(binding.avatar.getResources().getDimensionPixelSize(R.dimen.icon_size_details)))
                 .apply(RequestOptions.circleCropTransform())
-                .placeholder(R.drawable.ic_person_grey600_24dp)
-                .error(R.drawable.ic_person_grey600_24dp)
+                .placeholder(R.drawable.ic_person_24dp)
+                .error(R.drawable.ic_person_24dp)
                 .into(binding.avatar);
 
         commentsViewModel.getReplyToComment().observe(getViewLifecycleOwner(), (comment) -> {
@@ -195,6 +197,14 @@ public class CardCommentsFragment extends Fragment implements Themed, CommentEdi
         utils.platform.colorViewBackground(binding.addCommentLayout);
         utils.material.themeFAB(binding.fab);
         utils.material.colorTextInputLayout(binding.messageWrapper);
+
+        Stream.of(
+                binding.replyCommentIcon,
+                binding.replyCommentCancelButton,
+                binding.mentionProposerIcon
+        ).forEach(v -> utils.platform.colorImageView(v, ColorRole.SECONDARY));
+
+        adapter.applyTheme(color);
     }
 
     @Override

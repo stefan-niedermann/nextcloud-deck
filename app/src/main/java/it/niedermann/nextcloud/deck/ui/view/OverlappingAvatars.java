@@ -48,7 +48,7 @@ public class OverlappingAvatars extends RelativeLayout {
         overlapPx = resources.getDimensionPixelSize(R.dimen.avatar_size_small_overlapping);
         borderDrawable = ContextCompat.getDrawable(context, R.drawable.avatar_border);
         assert borderDrawable != null;
-        DrawableCompat.setTint(borderDrawable, ContextCompat.getColor(context, R.color.bg_card));
+        DrawableCompat.setTint(borderDrawable, ContextCompat.getColor(context, R.color.colorSurfaceContainer));
     }
 
     public void setAvatars(@NonNull Account account, @NonNull List<User> assignedUsers) {
@@ -70,8 +70,8 @@ public class OverlappingAvatars extends RelativeLayout {
             avatar.requestLayout();
             Glide.with(context)
                     .load(account.getAvatarUrl(avatarSize, assignedUsers.get(avatarCount).getUid()))
-                    .placeholder(R.drawable.ic_person_grey600_24dp)
-                    .error(R.drawable.ic_person_grey600_24dp)
+                    .placeholder(R.drawable.ic_person_24dp)
+                    .error(R.drawable.ic_person_24dp)
                     .apply(RequestOptions.circleCropTransform())
                     .into(avatar);
         }

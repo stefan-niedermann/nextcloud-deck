@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/filter"
-        android:icon="@drawable/ic_filter_list_white_24dp"
+        android:icon="@drawable/ic_filter_list_24dp"
         android:title="@string/simple_filter"
         app:showAsAction="ifRoom" />
     <item
@@ -14,7 +14,7 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/avatar"
-        android:icon="@drawable/ic_baseline_account_circle_24"
+        android:icon="@drawable/ic_account_circle_24"
         android:title="@string/choose_account"
         app:showAsAction="ifRoom" />
 </menu>

@@ -51,7 +51,7 @@ public class AttachmentsActivity extends AppCompatActivity implements Attachment
         supportPostponeEnterTransition();
 
         setSupportActionBar(binding.toolbar);
-        final Drawable navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_arrow_back_white_24dp);
+        final Drawable navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_arrow_back_24dp);
         DrawableCompat.setTint(navigationIcon, ContextCompat.getColor(this, android.R.color.white));
         binding.toolbar.setNavigationIcon(navigationIcon);
 

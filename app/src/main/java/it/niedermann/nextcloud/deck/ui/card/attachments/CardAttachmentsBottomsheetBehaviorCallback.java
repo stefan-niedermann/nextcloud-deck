@@ -5,11 +5,11 @@ import static android.view.View.VISIBLE;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.ColorInt;
-import androidx.annotation.ColorRes;
 import androidx.annotation.DimenRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Px;
@@ -43,16 +43,15 @@ public class CardAttachmentsBottomsheetBehaviorCallback extends BottomSheetBehav
                                                       @NonNull FloatingActionButton fab,
                                                       @NonNull View pickerBackdrop,
                                                       @NonNull BottomNavigationView bottomNavigation,
-                                                      @ColorRes int backdropColorExpanded,
-                                                      @ColorRes int backdropColorCollapsed,
                                                       @DimenRes int bottomNavigationHeight
     ) {
         this.backPressedCallback = backPressedCallback;
         this.fab = fab;
         this.pickerBackdrop = pickerBackdrop;
         this.bottomNavigation = bottomNavigation;
-        this.backdropColorExpanded = ContextCompat.getColor(context, backdropColorExpanded);
-        this.backdropColorCollapsed = ContextCompat.getColor(context, backdropColorCollapsed);
+        final var color = ContextCompat.getColor(context, android.R.color.black);
+        this.backdropColorExpanded = Color.argb(127, Color.red(color), Color.green(color), Color.blue(color));
+        this.backdropColorCollapsed = ContextCompat.getColor(context, android.R.color.transparent);
         this.bottomNavigationHeight = context.getResources().getDimensionPixelSize(bottomNavigationHeight);
     }
 
@@ -75,13 +74,9 @@ public class CardAttachmentsBottomsheetBehaviorCallback extends BottomSheetBehav
             pickerBackdrop.setBackgroundColor(ArgbEvaluatorCompat.getInstance().evaluate(bottomSheetPercentageShown, backdropColorExpanded, backdropColorCollapsed));
             bottomNavigation.setTranslationY(bottomSheetPercentageShown * bottomNavigationHeight);
             if (slideOffset <= lastOffset && slideOffset != 0) {
-                if (fab.getVisibility() == GONE) {
-                    fab.show();
-                }
+                fab.show();
             } else {
-                if (fab.getVisibility() == VISIBLE) {
-                    fab.hide();
-                }
+                fab.hide();
             }
         }
         lastOffset = slideOffset;

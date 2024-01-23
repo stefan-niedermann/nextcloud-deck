@@ -42,7 +42,7 @@
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:tooltipText="@string/manage_list"
                     app:icon="@drawable/ic_menu"
-                    app:iconTint="?attr/colorAccent"
+                    app:iconTint="?attr/colorOnSurface"
                     tools:ignore="UnusedAttribute" />
             </LinearLayout>
 
@@ -61,7 +61,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|bottom"
-                        android:background="@color/bg_info_box"
+                        android:background="?attr/colorSurfaceVariant"
                         android:gravity="center"
                         android:padding="@dimen/spacer_1hx"
                         android:visibility="gone"
@@ -74,8 +74,8 @@
                             android:gravity="center"
                             android:paddingHorizontal="@dimen/spacer_1hx"
                             android:text="@string/info_box_maintenance_mode"
-                            android:textColor="@color/grey600"
-                            app:drawableStartCompat="@drawable/ic_info_outline_grey600_24dp" />
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            app:drawableStartCompat="@drawable/ic_info_outline_24dp" />
 
                     </LinearLayout>
 
@@ -83,16 +83,17 @@
                         android:id="@+id/info_box_version_not_supported"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/danger"
+                        android:background="?attr/colorError"
                         android:drawablePadding="@dimen/spacer_1hx"
                         android:gravity="center"
                         android:paddingHorizontal="@dimen/spacer_2x"
                         android:paddingVertical="@dimen/spacer_1x"
                         android:text="@string/info_box_version_not_supported"
-                        android:textColor="@android:color/white"
+                        android:textColor="?attr/colorOnError"
                         android:textSize="14sp"
                         android:visibility="gone"
-                        app:drawableStartCompat="@drawable/ic_warning_white_24dp"
+                        app:drawableStartCompat="@drawable/ic_warning_24dp"
+                        app:drawableTint="?attr/colorOnError"
                         tools:visibility="visible" />
 
                     <it.niedermann.nextcloud.deck.ui.view.EmptyContentView
@@ -131,7 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:menu="@menu/main_menu"
-                app:navigationIcon="@drawable/ic_arrow_back_white_24dp" />
+                app:navigationIcon="@drawable/ic_arrow_back_24dp" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -143,7 +144,7 @@
             android:layout_margin="@dimen/fab_margin"
             android:text="@string/add_card"
             android:visibility="gone"
-            app:icon="@drawable/ic_add_white_24dp" />
+            app:icon="@drawable/ic_add_24dp" />
 
         <com.google.android.material.search.SearchView
             android:id="@+id/search_view"
@@ -167,7 +168,7 @@
                 android:layout_height="match_parent"
                 android:visibility="gone"
                 app:description="@string/enter_search_term_description"
-                app:image="@drawable/ic_baseline_search_24"
+                app:image="@drawable/ic_search_24"
                 app:title="@string/enter_search_term_title" />
 
             <it.niedermann.nextcloud.deck.ui.view.EmptyContentView
@@ -176,7 +177,7 @@
                 android:layout_height="match_parent"
                 android:visibility="gone"
                 app:description="@string/no_search_results_description"
-                app:image="@drawable/ic_baseline_search_24"
+                app:image="@drawable/ic_search_24"
                 app:title="@string/no_search_results_title" />
         </com.google.android.material.search.SearchView>
 

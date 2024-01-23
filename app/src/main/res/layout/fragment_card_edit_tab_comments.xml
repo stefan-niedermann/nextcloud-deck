@@ -22,7 +22,7 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         app:description="@string/no_comments_yet"
-        app:image="@drawable/type_comment_grey600_36dp"
+        app:image="@drawable/type_comment_36dp"
         app:title="@string/card_edit_comments" />
 
     <LinearLayout
@@ -39,15 +39,18 @@
             android:background="@drawable/gradient_vertical"
             android:padding="@dimen/spacer_2x"
             android:visibility="gone"
+            app:tint="?attr/colorSecondary"
             tools:visibility="visible">
 
             <ImageView
+                android:id="@+id/replyCommentIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacer_1x"
                 android:contentDescription="@string/simple_reply"
                 android:padding="@dimen/spacer_1x"
-                app:srcCompat="@drawable/ic_reply_grey600_24dp" />
+                app:srcCompat="@drawable/ic_reply_24dp"
+                app:tint="?attr/colorSecondary" />
 
             <it.niedermann.android.markdown.MarkdownViewerImpl
                 android:id="@+id/replyCommentText"
@@ -69,7 +72,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@android:string/cancel"
                 android:padding="@dimen/spacer_1x"
-                app:srcCompat="@drawable/ic_close_circle_grey600" />
+                app:srcCompat="@drawable/ic_close_circle" />
         </LinearLayout>
 
 
@@ -84,12 +87,14 @@
             tools:visibility="visible">
 
             <ImageView
+                android:id="@+id/mentionProposerIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacer_1x"
                 android:contentDescription="@string/simple_reply"
                 android:padding="@dimen/spacer_1x"
-                app:srcCompat="@drawable/ic_baseline_mention_24" />
+                app:srcCompat="@drawable/ic_mention_24"
+                app:tint="?attr/colorSecondary" />
 
             <LinearLayout
                 android:id="@+id/mention_proposer"
@@ -116,7 +121,7 @@
                 android:layout_margin="@dimen/spacer_1x"
                 android:contentDescription="@null"
                 android:translationY="@dimen/spacer_1qx"
-                app:srcCompat="@drawable/ic_person_grey600_24dp"
+                app:srcCompat="@drawable/ic_person_24dp"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -151,8 +156,7 @@
                 android:layout_gravity="center"
                 android:contentDescription="@string/add_comment"
                 android:translationY="@dimen/spacer_1qx"
-                app:backgroundTint="@color/defaultBrand"
-                app:srcCompat="@drawable/ic_send_white_24dp" />
+                app:srcCompat="@drawable/ic_send_24dp" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

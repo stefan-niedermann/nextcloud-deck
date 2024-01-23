@@ -31,7 +31,7 @@
         android:layout_gravity="center|end"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:padding="@dimen/spacer_1x"
-        app:srcCompat="@drawable/ic_edit_grey600_24dp" />
+        app:srcCompat="@drawable/ic_edit_24dp" />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/delete"
@@ -40,5 +40,5 @@
         android:layout_gravity="center|end"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:padding="@dimen/spacer_1x"
-        app:srcCompat="@drawable/ic_delete_black_24dp" />
+        app:srcCompat="@drawable/ic_delete_24dp" />
 </LinearLayout>

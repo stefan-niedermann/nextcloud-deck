@@ -165,8 +165,6 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                 binding.fab,
                 binding.pickerBackdrop,
                 binding.bottomNavigation,
-                R.color.bottom_sheet_backdrop,
-                android.R.color.transparent,
                 R.dimen.attachments_bottom_navigation_height));
         binding.pickerBackdrop.setOnClickListener(v -> mBottomSheetBehaviour.setState(STATE_HIDDEN));
 

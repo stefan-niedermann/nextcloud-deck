@@ -56,7 +56,7 @@
         app:layout_constraintBottom_toBottomOf="@id/doneDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/doneDate"
-        app:srcCompat="@drawable/ic_close_circle_grey600"
+        app:srcCompat="@drawable/ic_close_circle"
         tools:visibility="gone" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -71,7 +71,7 @@
         app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/done_due_date"
-        app:startIconDrawable="@drawable/calendar_blank_grey600_24dp">
+        app:startIconDrawable="@drawable/calendar_blank_24dp">
 
         <EditText
             android:id="@+id/dueDateDate"
@@ -126,7 +126,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/dueDateTimeWrapper"
         app:layout_constraintTop_toTopOf="@id/dueDateTimeWrapper"
-        app:srcCompat="@drawable/ic_close_circle_grey600" />
+        app:srcCompat="@drawable/ic_close_circle" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/markAsDone"

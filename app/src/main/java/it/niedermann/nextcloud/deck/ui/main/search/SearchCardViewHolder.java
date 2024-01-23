@@ -65,8 +65,8 @@ public class SearchCardViewHolder extends SearchViewHolder {
                             new CenterCrop(),
                             new RoundedCorners(context.getResources().getDimensionPixelSize(R.dimen.spacer_1x))
                     ))
-                    .placeholder(R.drawable.ic_image_grey600_24dp)
-                    .error(R.drawable.ic_image_grey600_24dp)
+                    .placeholder(R.drawable.ic_image_24dp)
+                    .error(R.drawable.ic_image_24dp)
                     .into(binding.coverImages));
         } else {
             binding.coverImages.setVisibility(View.GONE);
@@ -107,5 +107,6 @@ public class SearchCardViewHolder extends SearchViewHolder {
         utils.platform.colorTextView(binding.title, ColorRole.ON_SURFACE);
         utils.platform.highlightText(binding.title, binding.title.getText().toString(), term);
         utils.platform.highlightText(binding.description, binding.description.getText().toString(), term);
+        utils.platform.colorImageView(binding.cardMenu, ColorRole.ON_SURFACE_VARIANT);
     }
 }

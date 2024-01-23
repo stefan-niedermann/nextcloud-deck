@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:layout_marginEnd="@dimen/spacer_2x"
         android:contentDescription="@null"
-        app:srcCompat="@drawable/ic_person_grey600_24dp"
+        app:srcCompat="@drawable/ic_person_24dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <LinearLayout
@@ -34,7 +34,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:textAppearance="?attr/textAppearanceListItem"
-                tools:drawableEnd="@drawable/ic_sync_blue_24dp"
+                tools:drawableEnd="@drawable/ic_sync_18dp"
                 tools:text="@tools:sample/full_names" />
 
             <androidx.appcompat.widget.AppCompatImageButton
@@ -44,7 +44,7 @@
                 android:layout_gravity="center"
                 android:background="?android:selectableItemBackground"
                 android:padding="0dp"
-                app:srcCompat="@drawable/ic_delete_black_24dp" />
+                app:srcCompat="@drawable/ic_delete_24dp" />
         </LinearLayout>
 
         <com.google.android.flexbox.FlexboxLayout

@@ -49,7 +49,7 @@ public class DrawerMenuInflater<T extends FragmentActivity & ArchiveBoardListene
         final var navigationMap = new HashMap<Integer, Long>();
 
         menu.clear();
-        menu.add(Menu.NONE, MENU_ID_UPCOMING_CARDS, Menu.NONE, R.string.widget_upcoming_title).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.calendar_blank_grey600_24dp));
+        menu.add(Menu.NONE, MENU_ID_UPCOMING_CARDS, Menu.NONE, R.string.widget_upcoming_title).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.calendar_blank_24dp));
 
         int index = 0;
         for (final var fullBoard : fullBoards) {
@@ -99,7 +99,7 @@ public class DrawerMenuInflater<T extends FragmentActivity & ArchiveBoardListene
                 } else if (fullBoard.getBoard().isPermissionShare()) {
                     final var contextMenu = new AppCompatImageButton(activity);
                     contextMenu.setBackgroundDrawable(null);
-                    contextMenu.setImageDrawable(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_share_grey600_18dp));
+                    contextMenu.setImageDrawable(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_share_18dp));
                     contextMenu.setOnClickListener((v) -> AccessControlDialogFragment.newInstance(account, fullBoard.getLocalId()).show(activity.getSupportFragmentManager(), AccessControlDialogFragment.class.getSimpleName()));
                     menuItem.setActionView(contextMenu);
                 }
@@ -107,15 +107,15 @@ public class DrawerMenuInflater<T extends FragmentActivity & ArchiveBoardListene
         }
 
         if (hasArchivedBoards) {
-            menu.add(Menu.NONE, MENU_ID_ARCHIVED_BOARDS, Menu.NONE, R.string.archived_boards).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_archive_white_24dp));
+            menu.add(Menu.NONE, MENU_ID_ARCHIVED_BOARDS, Menu.NONE, R.string.archived_boards).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_archive_24dp));
         }
 
         if (currentServerVersionIsSupported) {
-            menu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, R.string.add_board).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_add_grey_24dp));
+            menu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, R.string.add_board).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_add_24dp));
         }
 
-        menu.add(Menu.NONE, MENU_ID_SETTINGS, Menu.NONE, R.string.simple_settings).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_settings_grey600_24dp));
-        menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, R.string.about).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_info_outline_grey600_24dp));
+        menu.add(Menu.NONE, MENU_ID_SETTINGS, Menu.NONE, R.string.simple_settings).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_settings_24dp));
+        menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, R.string.about).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_info_outline_24dp));
 
         return navigationMap;
     }

@@ -13,7 +13,7 @@
         android:layout_height="24dp"
         android:layout_marginTop="@dimen/spacer_1hx"
         android:contentDescription="@null"
-        tools:src="@drawable/circle_grey600_36dp" />
+        tools:src="@drawable/circle_36dp" />
 
     <TextView
         android:id="@+id/board_title"

@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:contentDescription="@null"
             android:padding="@dimen/spacer_1hx"
-            app:srcCompat="@drawable/ic_attach_file_grey600_24dp"
+            app:srcCompat="@drawable/ic_attach_file_24dp"
             app:tint="?attr/colorSecondary" />
 
         <ImageView
@@ -30,7 +30,7 @@
             android:layout_gravity="bottom|end"
             android:contentDescription="@string/not_synced_yet"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_sync_blue_24dp"
+            app:srcCompat="@drawable/ic_sync_18dp"
             app:tint="?attr/colorPrimary"
             tools:visibility="visible" />
     </FrameLayout>

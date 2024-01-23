@@ -83,8 +83,8 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
                 Glide.with(ownerHolder.binding.avatar.getContext())
                         .load(account.getAvatarUrl(ownerHolder.binding.avatar.getResources().getDimensionPixelSize(R.dimen.avatar_size), ac.getUser().getUid()))
                         .apply(RequestOptions.circleCropTransform())
-                        .placeholder(R.drawable.ic_person_grey600_24dp)
-                        .error(R.drawable.ic_person_grey600_24dp)
+                        .placeholder(R.drawable.ic_person_24dp)
+                        .error(R.drawable.ic_person_24dp)
                         .into(ownerHolder.binding.avatar);
                 break;
             }
@@ -94,13 +94,13 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
                 Glide.with(acHolder.binding.avatar.getContext())
                         .load(account.getAvatarUrl(acHolder.binding.avatar.getResources().getDimensionPixelSize(R.dimen.avatar_size), ac.getUser().getUid()))
                         .apply(RequestOptions.circleCropTransform())
-                        .placeholder(R.drawable.ic_person_grey600_24dp)
-                        .error(R.drawable.ic_person_grey600_24dp)
+                        .placeholder(R.drawable.ic_person_24dp)
+                        .error(R.drawable.ic_person_24dp)
                         .into(acHolder.binding.avatar);
 
                 acHolder.binding.username.setText(ac.getUser().getDisplayname());
                 acHolder.binding.username.setCompoundDrawables(null, null, ac.getStatus() == DBStatus.LOCAL_EDITED.getId()
-                        ? ContextCompat.getDrawable(context, R.drawable.ic_sync_blue_24dp) : null, null);
+                        ? ContextCompat.getDrawable(context, R.drawable.ic_sync_18dp) : null, null);
                 acHolder.binding.delete.setOnClickListener((v) -> accessControlChangedListener.deleteAccessControl(ac));
 
                 if (hasManagePermission) {
