@@ -31,7 +31,7 @@ public class DeleteAlertDialogBuilder extends MaterialAlertDialogBuilder {
     public void applyTheme() {
         final var positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         if (positiveButton != null) {
-            positiveButton.setTextColor(ContextCompat.getColor(getContext(), R.color.danger));
+            positiveButton.setTextColor(ContextCompat.getColor(getContext(), R.color.error));
         }
     }
 }

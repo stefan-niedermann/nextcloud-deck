@@ -44,7 +44,6 @@
 
     <color name="bg_highlighted">#212121</color>
     <color name="bg_card">#1e1e1e</color>
-    <color name="defaultTextHighlightBackground">#55eeeeff</color>
 
     <!-- ======================================= -->
     <!-- Widgets                                 -->
