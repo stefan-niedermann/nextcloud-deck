@@ -15,6 +15,7 @@
 
     <queries>
         <package android:name="com.nextcloud.client" />
+        <package android:name="com.nextcloud.android.qa" />
         <package android:name="com.nextcloud.android.beta" />
     </queries>
 
