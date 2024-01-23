@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
+import com.nextcloud.android.sso.api.EmptyResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.net.HttpURLConnection;
@@ -176,10 +177,10 @@ public class SyncHelper {
         }
     }
 
-    private <T extends IRemoteEntity> ResponseCallback<Void> getDeleteCallback(@NonNull AbstractSyncDataProvider<T> provider, T entity) {
+    private <T extends IRemoteEntity> ResponseCallback<EmptyResponse> getDeleteCallback(@NonNull AbstractSyncDataProvider<T> provider, T entity) {
         return new ResponseCallback<>(account) {
             @Override
-            public void onResponse(Void response) {
+            public void onResponse(EmptyResponse response) {
                 provider.deletePhysicallyInDB(dataBaseAdapter, accountId, entity);
                 provider.goDeeperForUpSync(SyncHelper.this, serverAdapter, dataBaseAdapter, responseCallback);
             }

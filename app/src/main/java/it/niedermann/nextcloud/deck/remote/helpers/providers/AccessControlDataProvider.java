@@ -2,6 +2,8 @@ package it.niedermann.nextcloud.deck.remote.helpers.providers;
 
 import androidx.annotation.Nullable;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -184,7 +186,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, AccessControl entity, DataBaseAdapter dataBaseAdapter) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<EmptyResponse> callback, AccessControl entity, DataBaseAdapter dataBaseAdapter) {
         serverAdapter.deleteAccessControl(board.getBoard().getId(), entity, callback);
     }
 

@@ -2,6 +2,8 @@ package it.niedermann.nextcloud.deck.remote.helpers.providers;
 
 import android.annotation.SuppressLint;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -172,7 +174,7 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, OcsComment entity, DataBaseAdapter dataBaseAdapter) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<EmptyResponse> callback, OcsComment entity, DataBaseAdapter dataBaseAdapter) {
         DeckComment comment = entity.getSingle();
         comment.setObjectId(card.getId());
         serverAdapter.deleteCommentForCard(comment, callback);

@@ -2,6 +2,8 @@ package it.niedermann.nextcloud.deck.remote.helpers.providers;
 
 import androidx.annotation.Nullable;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -106,7 +108,7 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
 
     public abstract void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<T> callback, T entity);
 
-    public abstract void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, T entity, DataBaseAdapter dataBaseAdapter);
+    public abstract void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<EmptyResponse> callback, T entity, DataBaseAdapter dataBaseAdapter);
 
     public void childDone(AbstractSyncDataProvider<?> child, ResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
         removeChild(child);

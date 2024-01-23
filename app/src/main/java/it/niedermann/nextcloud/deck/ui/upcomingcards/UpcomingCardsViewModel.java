@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import java.util.List;
@@ -49,7 +50,7 @@ public class UpcomingCardsViewModel extends BaseViewModel {
         });
     }
 
-    public void deleteCard(@NonNull Card card, @NonNull IResponseCallback<Void> callback) {
+    public void deleteCard(@NonNull Card card, @NonNull IResponseCallback<EmptyResponse> callback) {
         executor.submit(() -> {
             final var account = baseRepository.readAccountDirectly(card.getAccountId());
             try {
@@ -61,7 +62,7 @@ public class UpcomingCardsViewModel extends BaseViewModel {
         });
     }
 
-    public void moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId, @NonNull IResponseCallback<Void> callback) {
+    public void moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId, @NonNull IResponseCallback<EmptyResponse> callback) {
         executor.submit(() -> {
             final var account = baseRepository.readAccountDirectly(originAccountId);
             try {

@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.remote.helpers.providers;
 
 import android.annotation.SuppressLint;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.time.Instant;
@@ -218,7 +219,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<Void> callback, FullCard entity, DataBaseAdapter dataBaseAdapter) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<EmptyResponse> callback, FullCard entity, DataBaseAdapter dataBaseAdapter) {
         serverAdapter.deleteCard(board.getId(), stack.getId(), entity.getCard(), callback);
     }
 
@@ -270,7 +271,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
                 } else {
                     serverAdapter.unassignLabelFromCard(board.getId(), stack.getId(), changedLabel.getCardId(), changedLabel.getLabelId(), new ResponseCallback<>(account) {
                         @Override
-                        public void onResponse(Void response) {
+                        public void onResponse(EmptyResponse response) {
                             dataBaseAdapter.deleteJoinedLabelForCardPhysicallyByRemoteIDs(account.getId(), changedLabel.getCardId(), changedLabel.getLabelId());
                         }
                     });
@@ -285,7 +286,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
                         LABEL_JOINS_IN_SYNC.add(changedLabel);
                         serverAdapter.assignLabelToCard(board.getId(), stack.getId(), changedLabel.getCardId(), changedLabel.getLabelId(), new ResponseCallback<>(account) {
                             @Override
-                            public void onResponse(Void response) {
+                            public void onResponse(EmptyResponse response) {
                                 Label label = dataBaseAdapter.getLabelByRemoteIdDirectly(account.getId(), changedLabel.getLabelId());
                                 dataBaseAdapter.setStatusForJoinCardWithLabel(card.getLocalId(), label.getLocalId(), DBStatus.UP_TO_DATE.getId());
                                 LABEL_JOINS_IN_SYNC.remove(changedLabel);
@@ -337,14 +338,14 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             if (changedUser.getStatusEnum() == DBStatus.LOCAL_DELETED) {
                 serverAdapter.unassignUserFromCard(board.getId(), stack.getId(), changedUser.getCardId(), user.getUid(), new ResponseCallback<>(account) {
                     @Override
-                    public void onResponse(Void response) {
+                    public void onResponse(EmptyResponse response) {
                         dataBaseAdapter.deleteJoinedUserForCardPhysicallyByRemoteIDs(account.getId(), changedUser.getCardId(), user.getUid());
                     }
                 });
             } else if (changedUser.getStatusEnum() == DBStatus.LOCAL_EDITED) {
                 serverAdapter.assignUserToCard(board.getId(), stack.getId(), changedUser.getCardId(), user.getUid(), new ResponseCallback<>(account) {
                     @Override
-                    public void onResponse(Void response) {
+                    public void onResponse(EmptyResponse response) {
                         dataBaseAdapter.setStatusForJoinCardWithUser(card.getLocalId(), user.getLocalId(), DBStatus.UP_TO_DATE.getId());
                     }
                 });

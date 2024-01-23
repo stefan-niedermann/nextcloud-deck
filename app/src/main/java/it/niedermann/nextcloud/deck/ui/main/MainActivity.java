@@ -45,6 +45,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.nextcloud.android.sso.api.EmptyResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.exceptions.UnknownErrorException;
@@ -706,7 +707,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                 final var filterInformation = Optional.ofNullable(filterViewModel.getFilterInformation().getValue()).orElse(new FilterInformation());
                                 mainViewModel.archiveCardsInStack(stack.getAccountId(), stackLocalId, filterInformation, new IResponseCallback<>() {
                                     @Override
-                                    public void onResponse(Void response) {
+                                    public void onResponse(EmptyResponse response) {
                                         DeckLog.info("Successfully archived all cards in stack local id", stackLocalId);
                                     }
 
@@ -860,7 +861,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     public void onDeleteStack(long accountId, long boardId, long stackId) {
         mainViewModel.deleteStack(accountId, boardId, stackId, new IResponseCallback<>() {
             @Override
-            public void onResponse(Void response) {
+            public void onResponse(EmptyResponse response) {
                 DeckLog.info("Successfully deleted stack with local id", stackId, "and remote id", stackId);
             }
 
@@ -878,7 +879,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     public void onBoardDeleted(Board board) {
         mainViewModel.deleteBoard(board, new IResponseCallback<>() {
             @Override
-            public void onResponse(Void response) {
+            public void onResponse(EmptyResponse response) {
                 DeckLog.info("Successfully deleted board", board.getTitle());
             }
 
@@ -969,7 +970,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     public void onDelete(@NonNull FullCard fullCard) {
         mainViewModel.deleteCard(fullCard.getCard(), new IResponseCallback<>() {
             @Override
-            public void onResponse(Void response) {
+            public void onResponse(EmptyResponse response) {
                 DeckLog.info("Successfully deleted card", fullCard.getCard().getTitle());
             }
 
@@ -1030,7 +1031,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     public void move(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
         mainViewModel.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId, new IResponseCallback<>() {
             @Override
-            public void onResponse(Void response) {
+            public void onResponse(EmptyResponse response) {
                 DeckLog.log("Moved", Card.class.getSimpleName(), originCardLocalId, "to", Stack.class.getSimpleName(), targetStackLocalId);
             }
 

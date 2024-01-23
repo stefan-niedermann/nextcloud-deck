@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.nextcloud.android.sso.api.EmptyResponse;
+
 import java.util.Collections;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -53,7 +55,7 @@ public class StackWidgetConfigurationActivity extends PickStackActivity {
     }
 
     @Override
-    protected void onSubmit(Account account, long boardId, long stackId, @NonNull IResponseCallback<Void> callback) {
+    protected void onSubmit(Account account, long boardId, long stackId, @NonNull IResponseCallback<EmptyResponse> callback) {
         final FilterWidget config = new FilterWidget(appWidgetId, EWidgetType.STACK_WIDGET);
         final FilterWidgetAccount filterWidgetAccount = new FilterWidgetAccount(account.getId(), false);
         filterWidgetAccount.setIncludeNoProject(false);

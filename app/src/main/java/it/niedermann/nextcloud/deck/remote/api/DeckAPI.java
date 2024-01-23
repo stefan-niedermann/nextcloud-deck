@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.deck.remote.api;
 
 
+import com.nextcloud.android.sso.api.EmptyResponse;
+
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.AccessControl;
@@ -52,7 +54,7 @@ public interface DeckAPI {
     Call<FullBoard> updateBoard(@Path("id") long id, @Body Board board);
 
     @DELETE("v1.0/boards/{id}")
-    Call<Void> deleteBoard(@Path("id") long id);
+    Call<EmptyResponse> deleteBoard(@Path("id") long id);
 
     @DELETE("v1.0/boards/{id}/undo_delete")
     Call<FullBoard> restoreBoard(@Path("id") long id);
@@ -73,7 +75,7 @@ public interface DeckAPI {
     Call<FullStack> updateStack(@Path("boardId") long boardId, @Path("stackId") long id, @Body Stack stack);
 
     @DELETE("v1.0/boards/{boardId}/stacks/{stackId}")
-    Call<Void> deleteStack(@Path("boardId") long boardId, @Path("stackId") long id);
+    Call<EmptyResponse> deleteStack(@Path("boardId") long boardId, @Path("stackId") long id);
 
     @GET("v1.0/boards/{boardId}/stacks/{stackId}")
     Call<FullStack> getStack(@Path("boardId") long boardId, @Path("stackId") long id, @Header(MODIFIED_SINCE_HEADER) String lastSync);
@@ -95,25 +97,25 @@ public interface DeckAPI {
 
     @FormUrlEncoded
     @PUT("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/assignLabel")
-    Call<Void> assignLabelToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("labelId") long labelId);
+    Call<EmptyResponse> assignLabelToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("labelId") long labelId);
 
     @FormUrlEncoded
     @PUT("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/removeLabel")
-    Call<Void> unassignLabelFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("labelId") long labelId);
+    Call<EmptyResponse> unassignLabelFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("labelId") long labelId);
 
     @FormUrlEncoded
     @PUT("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/assignUser")
-    Call<Void> assignUserToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("userId") String userUID);
+    Call<EmptyResponse> assignUserToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("userId") String userUID);
 
     @FormUrlEncoded
     @PUT("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/unassignUser")
-    Call<Void> unassignUserFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("userId") String userUID);
+    Call<EmptyResponse> unassignUserFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("userId") String userUID);
 
     @PUT("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/reorder")
     Call<List<FullCard>> moveCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Reorder reorder);
 
     @DELETE("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}")
-    Call<Void> deleteCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
+    Call<EmptyResponse> deleteCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
 
     /**
      * @see <a href="https://github.com/nextcloud/deck/issues/2874">This endpoint does only return {@link Attachment}s of type {@link EAttachmentType.DECK_FILE}</a>
@@ -138,7 +140,7 @@ public interface DeckAPI {
     Call<Label> createLabel(@Path("boardId") long boardId, @Body Label label);
 
     @DELETE("v1.0/boards/{boardId}/labels/{labelId}")
-    Call<Void> deleteLabel(@Path("boardId") long boardId, @Path("labelId") long labelId);
+    Call<EmptyResponse> deleteLabel(@Path("boardId") long boardId, @Path("labelId") long labelId);
 
 
     // Attachments
@@ -158,7 +160,7 @@ public interface DeckAPI {
     Call<Attachment> updateAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId, @Part MultipartBody.Part type, @Part MultipartBody.Part attachment);
 
     @DELETE("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}")
-    Call<Void> deleteAttachment(@Query("type") String type, @Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
+    Call<EmptyResponse> deleteAttachment(@Query("type") String type, @Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
 
     @PUT("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}/restore")
     Call<Attachment> restoreAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
@@ -173,6 +175,6 @@ public interface DeckAPI {
     Call<AccessControl> updateAccessControl(@Path("boardId") long boardId, @Path("aclId") long aclId, @Body AccessControl acl);
 
     @DELETE("v1.0/boards/{boardId}/acl/{aclId}")
-    Call<Void> deleteAccessControl(@Path("boardId") long boardId, @Path("aclId") long aclId, @Body AccessControl acl);
+    Call<EmptyResponse> deleteAccessControl(@Path("boardId") long boardId, @Path("aclId") long aclId, @Body AccessControl acl);
 
 }
