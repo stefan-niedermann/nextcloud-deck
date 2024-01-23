@@ -28,6 +28,9 @@
         <item name="colorTertiary">@color/tertiary</item>
         <item name="colorTertiaryContainer">@color/tertiaryContainer</item>
 
+        <!-- Used by PopupMenus -->
+        <item name="colorSurfaceContainer">@color/colorSurfaceContainerHigh</item>
+
         <!-- Used by Material Dialogs & Material SearchBar -->
         <item name="colorSurfaceContainerHigh">@color/colorSurfaceContainerHigh</item>
 
@@ -43,9 +46,6 @@
         <!-- https://stackoverflow.com/questions/70650073/adjust-androidx-preference-dialogs-to-follow-material-you -->
         <item name="alertDialogTheme">@style/PreferencesAlertDialogTheme</item>
 
-        <item name="materialAlertDialogTheme">@style/MaterialAlertDialogTheme</item>
-
-        <item name="toolbarStyle">@style/toolbarStyle</item>
         <item name="chipGroupStyle">@style/chipGroupStyle</item>
         <item name="chipStyle">@style/chipStyle</item>
         <item name="tabStyle">@style/tabStyle</item>
@@ -56,20 +56,10 @@
 
     <style name="AppTheme" parent="BaseTheme" />
 
-    <style name="MaterialAlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
-        <item name="buttonBarPositiveButtonStyle">@style/buttonStyle</item>
-        <item name="buttonBarNegativeButtonStyle">@style/buttonStyle</item>
-        <item name="buttonBarNeutralButtonStyle">@style/buttonStyle</item>
-    </style>
-
-    <style name="PreferencesAlertDialogTheme" parent="MaterialAlertDialogTheme">
+    <style name="PreferencesAlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <!-- https://m3.material.io/components/dialogs/specs#6771d107-624e-47cc-b6d8-2b7b620ba2f1 -->
         <item name="dialogCornerRadius">28dp</item>
         <item name="android:background">?attr/colorSurface</item>
-    </style>
-
-    <style name="buttonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
     <style name="chipGroupStyle" parent="Widget.Material3.ChipGroup">
@@ -79,10 +69,6 @@
     <style name="chipStyle" parent="Widget.Material3.Chip.Assist">
         <item name="chipStrokeWidth">0dp</item>
         <item name="chipCornerRadius">40dp</item>
-    </style>
-
-    <style name="toolbarStyle" parent="@style/Widget.Material3.Toolbar">
-        <item name="android:background">?android:windowBackground</item>
     </style>
 
     <style name="tabStyle" parent="Widget.Material3.TabLayout">
