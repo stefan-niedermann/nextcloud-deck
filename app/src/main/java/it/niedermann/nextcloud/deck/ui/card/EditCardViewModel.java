@@ -52,6 +52,7 @@ public class EditCardViewModel extends BaseViewModel {
     private final MutableLiveData<Integer> boardColor$ = new MutableLiveData<>();
     private final SharedPreferences sharedPreferences;
     private final MutableLiveData<Boolean> descriptionIsPreview = new MutableLiveData<>(false);
+    private boolean attachmentsBackPressedCallbackStatus = false;
 
     public EditCardViewModel(@NonNull Application application) {
         super(application);
@@ -201,5 +202,13 @@ public class EditCardViewModel extends BaseViewModel {
 
     public LiveData<Board> getBoardByRemoteId(long accountId, long remoteId) {
         return baseRepository.getBoardByRemoteId(accountId, remoteId);
+    }
+
+    public void setAttachmentsBackPressedCallbackStatus(boolean enabled) {
+        this.attachmentsBackPressedCallbackStatus = enabled;
+    }
+
+    public boolean getAttachmentsBackPressedCallbackStatus() {
+        return this.attachmentsBackPressedCallbackStatus;
     }
 }

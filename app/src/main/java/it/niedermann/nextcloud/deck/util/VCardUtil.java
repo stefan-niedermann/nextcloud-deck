@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -34,6 +35,27 @@ public class VCardUtil {
                 throw new NoSuchElementException("Cursor has zero entries");
             }
         }
+    }
+
+    public static Uri getAudioContentUri(@NonNull Context context, @NonNull Uri uri) throws NoSuchElementException {
+        try(final var cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Audio.AudioColumns.DISPLAY_NAME, MediaStore.Audio.AudioColumns.DATA}, null, null, null)) {
+            cursor.moveToFirst();
+
+            final var displayName = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DISPLAY_NAME));
+            final var data = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATA));
+
+
+
+//        ArrayList audio = new ArrayList();
+//        Cursor c = context.getContentResolver().query(uri, new String[]{MediaStore.Audio.Media.DISPLAY_NAME}, null, null, null);
+//
+//
+//        while (c.moveToNext()) {
+//            String name = c.getString(c.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
+//            audio.add(name);
+        }
+
+        return uri;
     }
 
     @ColorInt

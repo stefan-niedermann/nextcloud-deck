@@ -11,6 +11,7 @@ import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.widget.Toast;
 
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -174,14 +175,35 @@ public class TakePhotoActivity extends AppCompatActivity {
         this.binding = null;
     }
 
-    public static Intent createIntent(@NonNull Context context) {
-        return new Intent(context, TakePhotoActivity.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-    }
-
     private void applyBoardColorBrand(int color) {
         final var utils = ThemeUtils.of(color, this);
 
         Stream.of(binding.takePhoto).forEach(utils.material::themeFAB);
-        Stream.of(binding.switchCamera, binding.toggleTorch).forEach(utils.deck::themeSecondaryFAB);
+        Stream.of(binding.switchCamera, binding.toggleTorch).forEach(utils.material::themeSecondaryFAB);
+    }
+
+    public static final class TakePhoto extends ActivityResultContract<Void, Uri> {
+        @NonNull
+        @Override
+        public Intent createIntent(@NonNull Context context, Void unused) {
+            return new Intent(context, TakePhotoActivity.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        }
+
+        @Override
+        public Uri parseResult(int resultCode, @Nullable Intent data) {
+            if (data == null) {
+                DeckLog.error("Taking photo failed.");
+                return null;
+            }
+
+            final var uri = data.getData();
+
+            if (uri == null) {
+                DeckLog.error("Taking photo failed.");
+                return null;
+            }
+
+            return uri;
+        }
     }
 }

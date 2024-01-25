@@ -31,6 +31,7 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
@@ -119,12 +120,9 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
             if (cause != null) {
                 final String message = cause.getMessage();
                 if (message != null && message.toLowerCase().contains("certificate")) {
-                    final Intent filesOpenIntent = getOpenFilesIntent(context);
-                    if (filesOpenIntent == null) {
-                        add(R.string.error_dialog_certificate);
-                    } else {
-                        add(R.string.error_dialog_certificate, filesOpenIntent);
-                    }
+                    getOpenFilesIntent(context).ifPresentOrElse(
+                            intent -> add(R.string.error_dialog_certificate, intent),
+                            () -> add(R.string.error_dialog_certificate));
                 }
             }
         } else if (throwable instanceof DeckException) {
@@ -187,17 +185,18 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
         notifyItemInserted(tips.size());
     }
 
-    @Nullable
-    private static Intent getOpenFilesIntent(@NonNull Context context) {
+    private Optional<Intent> getOpenFilesIntent(@NonNull Context context) {
         final var pm = context.getPackageManager();
         for (final var filesAppType : FilesAppType.values()) {
             try {
                 pm.getPackageInfo(filesAppType.packageId, PackageManager.GET_ACTIVITIES);
-                return pm.getLaunchIntentForPackage(filesAppType.packageId)
-                        .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_nextcloud_app);
+                final var intent = pm.getLaunchIntentForPackage(filesAppType.packageId);
+                if (intent != null) {
+                    return Optional.of(intent.putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_nextcloud_app));
+                }
             } catch (PackageManager.NameNotFoundException ignored) {
             }
         }
-        return null;
+        return Optional.empty();
     }
 }

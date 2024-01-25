@@ -1,28 +1,20 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
-import static android.Manifest.permission.CAMERA;
-import static android.Manifest.permission.READ_CONTACTS;
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.READ_MEDIA_IMAGES;
-import static android.app.Activity.RESULT_OK;
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.TIRAMISU;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
-import static androidx.core.content.PermissionChecker.checkSelfPermission;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
 import static java.net.HttpURLConnection.HTTP_CONFLICT;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
 import static it.niedermann.nextcloud.deck.util.FilesUtil.copyContentUriToTempFile;
 
+import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +22,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,7 +33,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -51,16 +44,19 @@ import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 
 import id.zelory.compressor.constraint.FormatConstraint;
 import id.zelory.compressor.constraint.QualityConstraint;
 import id.zelory.compressor.constraint.ResolutionConstraint;
 import id.zelory.compressor.constraint.SizeConstraint;
-import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabAttachmentsBinding;
@@ -71,12 +67,8 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
-import it.niedermann.nextcloud.deck.ui.card.attachments.picker.AbstractPickerAdapter;
-import it.niedermann.nextcloud.deck.ui.card.attachments.picker.ContactAdapter;
-import it.niedermann.nextcloud.deck.ui.card.attachments.picker.FileAdapter;
-import it.niedermann.nextcloud.deck.ui.card.attachments.picker.GalleryAdapter;
-import it.niedermann.nextcloud.deck.ui.card.attachments.picker.GalleryItemDecoration;
-import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDialog;
+import it.niedermann.nextcloud.deck.ui.card.attachments.picker.AttachmentPicker;
+import it.niedermann.nextcloud.deck.ui.card.attachments.picker.AttachmentPickerAdapter;
 import it.niedermann.nextcloud.deck.ui.card.attachments.previewdialog.PreviewDialogViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.takephoto.TakePhotoActivity;
@@ -86,7 +78,7 @@ import it.niedermann.nextcloud.deck.util.JavaCompressor;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 import it.niedermann.nextcloud.deck.util.VCardUtil;
 
-public class CardAttachmentsFragment extends Fragment implements AttachmentDeletedListener, AttachmentClickedListener {
+public class CardAttachmentsFragment extends Fragment implements AttachmentDeletedListener, AttachmentClickedListener, Consumer<CompletableFuture<List<Uri>>> {
 
     private FragmentCardEditTabAttachmentsBinding binding;
     private EditCardViewModel editViewModel;
@@ -94,19 +86,10 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     private BottomSheetBehavior<LinearLayout> mBottomSheetBehaviour;
     private boolean compressImagesOnUpload = true;
     private final ExecutorService executor = Executors.newCachedThreadPool();
-
-    private RecyclerView.ItemDecoration galleryItemDecoration;
-
-    private static final int REQUEST_CODE_PICK_FILE = 1;
-    private static final int REQUEST_CODE_PICK_FILE_PERMISSION = 2;
-    private static final int REQUEST_CODE_PICK_CAMERA = 3;
-    private static final int REQUEST_CODE_PICK_GALLERY_PERMISSION = 4;
-    private static final int REQUEST_CODE_PICK_CONTACT = 5;
-    private static final int REQUEST_CODE_PICK_CONTACT_PICKER_PERMISSION = 6;
-
+    private final List<AttachmentPicker<?, ?>> pickers = new ArrayList<>();
     private CardAttachmentAdapter adapter;
+    private AttachmentPickerAdapter attachmentPickerAdapter;
 
-    private AbstractPickerAdapter<?> pickerAdapter;
 
     private final OnBackPressedCallback backPressedCallback = new OnBackPressedCallback(true) {
         @Override
@@ -118,22 +101,72 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     private int clickedItemPosition;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        final var registry = requireActivity().getActivityResultRegistry();
+        final var cr = requireContext().getContentResolver();
+
+        pickers.addAll(List.of(
+
+                new AttachmentPicker.MultiBuilder<>(registry, R.string.files, R.drawable.type_file_36dp,
+                        new ActivityResultContracts.GetMultipleContents())
+                        .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        .setInput("*/*")
+                        .build(),
+
+                new AttachmentPicker.SingleBuilder<>(registry, R.string.camera, R.drawable.ic_photo_camera_24,
+                        new TakePhotoActivity.TakePhoto())
+                        .setPermissions(Manifest.permission.CAMERA)
+                        .build(),
+
+                new AttachmentPicker.MultiBuilder<>(registry, R.string.gallery, R.drawable.ic_image_24dp,
+                        new ActivityResultContracts.PickMultipleVisualMedia())
+                        .setResultMapper((Consumer<List<Uri>>) uris -> uris.forEach(uri -> cr.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)))
+                        .setInput(new PickVisualMediaRequest.Builder()
+                                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                                .build())
+                        .build(),
+
+//                new AttachmentPicker.SingleBuilder<>(registry, R.string.voice_recorder, R.drawable.ic_music_note_24dp,
+//                        new VoiceRecorder())
+//                        .setResultMapper((Function<Uri, Uri>) uri -> {
+//                            String[] proj = {MediaStore.Audio.Media.DATA};
+//                            //Cursor cursor = managedQuery(contentUri, proj, null, null, null);
+//                            Cursor cursor = requireContext().getContentResolver().query(uri, proj, null, null, null); //Since manageQuery is deprecated
+//                            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+//                            cursor.moveToFirst();
+//                            final var newUri = cursor.getString(column_index);
+//                            return Uri.parse(newUri);
+//                        })
+//                        .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
+//                        .build(),
+
+
+                new AttachmentPicker.MultiBuilder<>(registry, R.string.videos, R.drawable.ic_local_movies_24dp,
+                        new ActivityResultContracts.PickMultipleVisualMedia())
+                        .setInput(new PickVisualMediaRequest.Builder()
+                                .setMediaType(ActivityResultContracts.PickVisualMedia.VideoOnly.INSTANCE)
+                                .build())
+                        .build(),
+
+                new AttachmentPicker.SingleBuilder<>(registry, R.string.contacts, R.drawable.ic_person_24dp,
+                        new ActivityResultContracts.PickContact())
+                        .setPermissions(Manifest.permission.READ_CONTACTS)
+                        .setResultMapper(uri -> uri == null ? null : VCardUtil.getVCardContentUri(requireContext(), uri))
+                        .build()
+        ));
+
+        final var lifecycle = getLifecycle();
+        pickers.forEach(lifecycle::addObserver);
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentCardEditTabAttachmentsBinding.inflate(inflater, container, false);
         editViewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
         previewViewModel = new ViewModelProvider(requireActivity()).get(PreviewDialogViewModel.class);
-        binding.bottomNavigation.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.gallery) {
-                showGalleryPicker();
-            } else if (item.getItemId() == R.id.contacts) {
-                showContactPicker();
-            } else if (item.getItemId() == R.id.files) {
-                showFilePicker();
-                return false;
-            }
-            return true;
-        });
 
         // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
         // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
@@ -142,62 +175,11 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
             return binding.getRoot();
         }
 
-        adapter = new CardAttachmentAdapter(getChildFragmentManager(), requireActivity().getMenuInflater(), this, editViewModel.getAccount(), editViewModel.getFullCard().getLocalId());
-        binding.attachmentsList.setAdapter(adapter);
-
-        adapter.isEmpty().observe(getViewLifecycleOwner(), (isEmpty) -> {
-            if (isEmpty) {
-                this.binding.emptyContentView.setVisibility(VISIBLE);
-                this.binding.attachmentsList.setVisibility(GONE);
-            } else {
-                this.binding.emptyContentView.setVisibility(GONE);
-                this.binding.attachmentsList.setVisibility(VISIBLE);
-            }
-        });
-        galleryItemDecoration = new GalleryItemDecoration(getResources().getDimensionPixelSize(R.dimen.spacer_1qx));
-        mBottomSheetBehaviour = BottomSheetBehavior.from(binding.bottomSheetParent);
-        mBottomSheetBehaviour.setDraggable(true);
-        mBottomSheetBehaviour.setHideable(true);
-        mBottomSheetBehaviour.setState(STATE_HIDDEN);
-        mBottomSheetBehaviour.addBottomSheetCallback(new CardAttachmentsBottomsheetBehaviorCallback(
-                requireContext(),
-                backPressedCallback,
-                binding.fab,
-                binding.pickerBackdrop,
-                binding.bottomNavigation,
-                R.dimen.attachments_bottom_navigation_height));
-        binding.pickerBackdrop.setOnClickListener(v -> mBottomSheetBehaviour.setState(STATE_HIDDEN));
-
-        final var displayMetrics = getResources().getDisplayMetrics();
-        final int spanCount = (int) ((displayMetrics.widthPixels / displayMetrics.density) / getResources().getInteger(R.integer.max_dp_attachment_column));
-        final var glm = new GridLayoutManager(getContext(), spanCount);
-        glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                return switch (adapter.getItemViewType(position)) {
-                    case VIEW_TYPE_IMAGE -> 1;
-                    default -> spanCount;
-                };
-            }
-        });
-        binding.attachmentsList.setLayoutManager(glm);
-        // https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html?m=1
-        // https://github.com/android/animation-samples/blob/master/GridToPager/app/src/main/java/com/google/samples/gridtopager/fragment/ImagePagerFragment.java
-        setExitSharedElementCallback(new SharedElementCallback() {
-            @Override
-            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                final var selectedViewHolder = (AttachmentViewHolder) binding.attachmentsList.findViewHolderForAdapterPosition(clickedItemPosition);
-                if (selectedViewHolder != null) {
-                    sharedElements.put(names.get(0), selectedViewHolder.getPreview());
-                }
-            }
-        });
-        adapter.setAttachments(editViewModel.getFullCard().getAttachments(), editViewModel.getFullCard().getId());
+        setupAttachments();
+        setupPickers();
 
         if (editViewModel.canEdit()) {
             binding.fab.setOnClickListener(v -> {
-                binding.bottomNavigation.setSelectedItemId(R.id.gallery);
-                showGalleryPicker();
                 mBottomSheetBehaviour.setState(STATE_COLLAPSED);
                 backPressedCallback.setEnabled(true);
                 requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), backPressedCallback);
@@ -221,159 +203,112 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        backPressedCallback.setEnabled(false);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        backPressedCallback.setEnabled(binding.bottomNavigation.getTranslationY() == 0);
+        backPressedCallback.setEnabled(editViewModel.getAttachmentsBackPressedCallbackStatus());
     }
 
-    private void showGalleryPicker() {
-        if (!(pickerAdapter instanceof GalleryAdapter)) {
-            if (SDK_INT >= TIRAMISU && (checkSelfPermission(requireActivity(), READ_MEDIA_IMAGES) != PERMISSION_GRANTED || checkSelfPermission(requireActivity(), CAMERA) != PERMISSION_GRANTED)) {
-                requestPermissions(new String[]{READ_MEDIA_IMAGES, CAMERA}, REQUEST_CODE_PICK_GALLERY_PERMISSION);
-            } else if (SDK_INT < TIRAMISU && (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED || checkSelfPermission(requireActivity(), CAMERA) != PERMISSION_GRANTED)) {
-                requestPermissions(new String[]{READ_EXTERNAL_STORAGE, CAMERA}, REQUEST_CODE_PICK_GALLERY_PERMISSION);
+    private void setupAttachments() {
+        adapter = new CardAttachmentAdapter(getChildFragmentManager(), requireActivity().getMenuInflater(), this, editViewModel.getAccount(), editViewModel.getFullCard().getLocalId());
+        binding.attachmentsList.setAdapter(adapter);
+
+        adapter.isEmpty().observe(getViewLifecycleOwner(), (isEmpty) -> {
+            if (isEmpty) {
+                this.binding.emptyContentView.setVisibility(VISIBLE);
+                this.binding.attachmentsList.setVisibility(GONE);
             } else {
-                unbindPickerAdapter();
-                pickerAdapter = new GalleryAdapter(requireContext(), (uri, pair) -> {
-                    previewViewModel.prepareDialog(pair.first, pair.second);
-                    PreviewDialog.newInstance().show(getChildFragmentManager(), PreviewDialog.class.getSimpleName());
-                    new ReactiveLiveData<>(previewViewModel.getResult())
-                            .observeOnce(getViewLifecycleOwner(), submitPositive -> {
-                                if (submitPositive) {
-                                    onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri));
-                                }
-                            });
-                }, this::openNativeCameraPicker, getViewLifecycleOwner());
-                if (binding.pickerRecyclerView.getItemDecorationCount() == 0) {
-                    binding.pickerRecyclerView.addItemDecoration(galleryItemDecoration);
-                }
-                binding.pickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
-                binding.pickerRecyclerView.setAdapter(pickerAdapter);
+                this.binding.emptyContentView.setVisibility(GONE);
+                this.binding.attachmentsList.setVisibility(VISIBLE);
             }
-        }
-    }
+        });
 
-    private void showContactPicker() {
-        if (!(pickerAdapter instanceof ContactAdapter)) {
-            if (checkSelfPermission(requireActivity(), READ_CONTACTS) != PERMISSION_GRANTED) {
-                requestPermissions(new String[]{READ_CONTACTS}, REQUEST_CODE_PICK_CONTACT_PICKER_PERMISSION);
-            } else {
-                unbindPickerAdapter();
-                pickerAdapter = new ContactAdapter(requireContext(), (uri, pair) -> {
-                    previewViewModel.prepareDialog(pair.first, pair.second);
-                    PreviewDialog.newInstance().show(getChildFragmentManager(), PreviewDialog.class.getSimpleName());
-                    new ReactiveLiveData<>(previewViewModel.getResult())
-                            .observeOnce(getViewLifecycleOwner(), submitPositive -> {
-                                if (submitPositive) {
-                                    onActivityResult(REQUEST_CODE_PICK_CONTACT, RESULT_OK, new Intent().setData(uri));
-                                }
-                            });
-                }, this::openNativeContactPicker);
-                removeGalleryItemDecoration();
-                binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-                binding.pickerRecyclerView.setAdapter(pickerAdapter);
+        final var displayMetrics = getResources().getDisplayMetrics();
+        final int spanCount = (int) ((displayMetrics.widthPixels / displayMetrics.density) / getResources().getInteger(R.integer.max_dp_attachment_picker));
+        final var attachmentGlm = new GridLayoutManager(getContext(), spanCount);
+        attachmentGlm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return switch (adapter.getItemViewType(position)) {
+                    case VIEW_TYPE_IMAGE -> 1;
+                    default -> spanCount;
+                };
             }
-        }
-    }
-
-    private void showFilePicker() {
-        if (!(pickerAdapter instanceof FileAdapter)) {
-            if (SDK_INT >= TIRAMISU) { // No READ_EXTERNAL_STORAGE permission needed for native file picker
-                openNativeFilePicker();
-            } else {
-                if (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_PICK_FILE_PERMISSION);
-                } else {
-                    openNativeFilePicker();
-//                unbindPickerAdapter();
-//                pickerAdapter = new FileAdapter(requireContext(), (uri, pair) -> {
-//                    previewViewModel.prepareDialog(pair.first, pair.second);
-//                    PreviewDialog.newInstance().show(getChildFragmentManager(), PreviewDialog.class.getSimpleName());
-//                    new ReactiveLiveData<>(previewViewModel.getResult())
-//                            .observeOnce(getViewLifecycleOwner(), submitPositive -> {
-//                                if (submitPositive) {
-//                                    onActivityResult(REQUEST_CODE_PICK_FILE, RESULT_OK, new Intent().setData(uri));
-//                                }
-//                            });
-//                }, this::openNativeFilePicker);
-//                removeGalleryItemDecoration();
-//                binding.pickerRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-//                binding.pickerRecyclerView.setAdapter(pickerAdapter);
+        });
+        binding.attachmentsList.setLayoutManager(attachmentGlm);
+        // https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html?m=1
+        // https://github.com/android/animation-samples/blob/master/GridToPager/app/src/main/java/com/google/samples/gridtopager/fragment/ImagePagerFragment.java
+        setExitSharedElementCallback(new SharedElementCallback() {
+            @Override
+            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                final var selectedViewHolder = (AttachmentViewHolder) binding.attachmentsList.findViewHolderForAdapterPosition(clickedItemPosition);
+                if (selectedViewHolder != null) {
+                    sharedElements.put(names.get(0), selectedViewHolder.getPreview());
                 }
             }
-        }
+        });
+        adapter.setAttachments(editViewModel.getFullCard().getAttachments(), editViewModel.getFullCard().getId());
     }
 
-    private void openNativeCameraPicker() {
-        startActivityForResult(TakePhotoActivity.createIntent(requireContext()), REQUEST_CODE_PICK_CAMERA);
-    }
+    private void setupPickers() {
+        final var displayMetrics = getResources().getDisplayMetrics();
+        final int spanCount = (int) ((displayMetrics.widthPixels / displayMetrics.density) / getResources().getInteger(R.integer.max_dp_attachment_picker));
 
-    private void openNativeContactPicker() {
-        final var intent = new Intent(Intent.ACTION_PICK).setType(ContactsContract.Contacts.CONTENT_TYPE);
-        if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
-            startActivityForResult(intent, REQUEST_CODE_PICK_CONTACT);
-        }
-    }
+        attachmentPickerAdapter = new AttachmentPickerAdapter(pickers, this);
+        binding.attachmentPicker.setAdapter(attachmentPickerAdapter);
+        binding.attachmentPicker.setLayoutManager(new GridLayoutManager(requireContext(), spanCount));
 
-    private void openNativeFilePicker() {
-        startActivityForResult(new Intent(Intent.ACTION_GET_CONTENT).addCategory(Intent.CATEGORY_OPENABLE).setType("*/*"), REQUEST_CODE_PICK_FILE);
-    }
-
-    private void unbindPickerAdapter() {
-        if (pickerAdapter != null) {
-            pickerAdapter.onDestroy();
-        }
-    }
-
-    private void removeGalleryItemDecoration() {
-        if (binding.pickerRecyclerView.getItemDecorationCount() > 0) {
-            binding.pickerRecyclerView.removeItemDecoration(galleryItemDecoration);
-        }
+        mBottomSheetBehaviour = BottomSheetBehavior.from(binding.bottomSheetParent);
+        mBottomSheetBehaviour.setDraggable(true);
+        mBottomSheetBehaviour.setHideable(true);
+        mBottomSheetBehaviour.setState(STATE_HIDDEN);
+        mBottomSheetBehaviour.addBottomSheetCallback(new CardAttachmentsBottomsheetBehaviorCallback(requireContext(), backPressedCallback, binding.fab, binding.pickerBackdrop));
+        binding.pickerBackdrop.setOnClickListener(v -> mBottomSheetBehaviour.setState(STATE_HIDDEN));
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_CODE_PICK_CONTACT, REQUEST_CODE_PICK_CAMERA, REQUEST_CODE_PICK_FILE -> {
-                if (resultCode == RESULT_OK) {
-                    final Uri sourceUri = requestCode == REQUEST_CODE_PICK_CONTACT ? VCardUtil.getVCardContentUri(requireContext(), Uri.parse(data.getDataString())) : data.getData();
-                    try {
-                        uploadNewAttachmentFromUri(sourceUri, requestCode == REQUEST_CODE_PICK_CAMERA ? data.getType() : requireContext().getContentResolver().getType(sourceUri));
-                        mBottomSheetBehaviour.setState(STATE_HIDDEN);
-                    } catch (Exception e) {
-                        ExceptionDialogFragment.newInstance(e, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+    public void accept(@NonNull CompletableFuture<List<Uri>> result) {
+        result.whenComplete((uris, throwable) -> {
+            if (throwable != null) {
+                handlePickerException(throwable);
+
+            } else if (uris == null || uris.isEmpty()) {
+                DeckLog.info("No items selected");
+
+            } else {
+                DeckLog.verbose("Number of items selected: " + uris.size());
+                try {
+                    for (final var uri : uris) {
+                        // TODO parallel?
+                        uploadNewAttachmentFromUri(uri);
                     }
+                } catch (Throwable t) {
+                    ExceptionDialogFragment.newInstance(t, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                } finally {
+                    mBottomSheetBehaviour.setState(STATE_HIDDEN);
                 }
             }
-            default -> {
-                super.onActivityResult(requestCode, resultCode, data);
-            }
+        });
+    }
+
+    private void handlePickerException(@NonNull Throwable throwable) {
+        final var cause = throwable instanceof CompletionException ? throwable.getCause() : throwable;
+
+        if (cause instanceof SecurityException) {
+            Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
+
+        } else if (cause instanceof ActivityNotFoundException) {
+            Toast.makeText(requireContext(), R.string.no_matching_app_installed, Toast.LENGTH_LONG).show();
+
+        } else {
+            mBottomSheetBehaviour.setState(STATE_HIDDEN);
+            ExceptionDialogFragment.newInstance(cause == null ? throwable : cause, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
         }
     }
 
-    @Override
-    public void onDestroy() {
-        if (this.pickerAdapter != null) {
-            this.pickerAdapter.onDestroy();
-            this.binding.pickerRecyclerView.setAdapter(null);
-        }
-        super.onDestroy();
-        this.binding = null;
-    }
-
-    private void uploadNewAttachmentFromUri(@NonNull Uri sourceUri, String mimeType) throws UploadAttachmentFailedException {
-        if (sourceUri == null) {
-            throw new UploadAttachmentFailedException("sourceUri is null");
-        }
+    private void uploadNewAttachmentFromUri(@NonNull Uri sourceUri) throws UploadAttachmentFailedException {
         switch (sourceUri.getScheme()) {
             case ContentResolver.SCHEME_CONTENT, ContentResolver.SCHEME_FILE -> {
+                final var mimeType = requireContext().getContentResolver().getType(sourceUri);
                 DeckLog.verbose("--- found content URL", sourceUri.getPath());
                 // Separate Thread required because picked file might not yet be locally available
                 // https://github.com/stefan-niedermann/nextcloud-deck/issues/814
@@ -397,9 +332,8 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                     }
                 });
             }
-            default -> {
-                throw new UploadAttachmentFailedException("Unknown URI scheme: " + sourceUri.getScheme());
-            }
+            default ->
+                    throw new UploadAttachmentFailedException("Unknown URI scheme: " + sourceUri.getScheme());
         }
     }
 
@@ -451,40 +385,6 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE_PICK_FILE_PERMISSION: {
-                if (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED) {
-                    showFilePicker();
-                } else {
-                    Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
-                }
-                break;
-            }
-            case REQUEST_CODE_PICK_GALLERY_PERMISSION: {
-                if (SDK_INT >= TIRAMISU && (checkSelfPermission(requireActivity(), READ_MEDIA_IMAGES) == PERMISSION_GRANTED && checkSelfPermission(requireActivity(), CAMERA) == PERMISSION_GRANTED)) {
-                    showGalleryPicker();
-                } else if (SDK_INT < TIRAMISU && (checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED && checkSelfPermission(requireActivity(), CAMERA) == PERMISSION_GRANTED)) {
-                    showGalleryPicker();
-                } else {
-                    Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
-                }
-                break;
-            }
-            case REQUEST_CODE_PICK_CONTACT_PICKER_PERMISSION: {
-                if (checkSelfPermission(requireActivity(), READ_CONTACTS) == PERMISSION_GRANTED) {
-                    showContactPicker();
-                } else {
-                    Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
-                }
-                break;
-            }
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
-
-    @Override
     public void onAttachmentDeleted(Attachment attachment) {
         adapter.removeAttachment(attachment);
         editViewModel.getFullCard().getAttachments().remove(attachment);
@@ -516,13 +416,53 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 
         utils.deck.themeEmptyContentView(binding.emptyContentView);
         utils.material.themeFAB(binding.fab);
-        utils.platform.colorBottomNavigationView(binding.bottomNavigation);
         utils.platform.colorViewBackground(binding.bottomSheetParent, ColorRole.SURFACE);
+        utils.deck.themeDragHandleView(binding.dragHandle);
 
         adapter.applyTheme(color);
+        attachmentPickerAdapter.applyTheme(color);
+    }
+
+    @Override
+    public void onPause() {
+        editViewModel.setAttachmentsBackPressedCallbackStatus(backPressedCallback.isEnabled());
+        backPressedCallback.setEnabled(false);
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        this.binding = null;
+        super.onDestroy();
     }
 
     public static Fragment newInstance() {
         return new CardAttachmentsFragment();
     }
+
+// THROWS SECURITYEXCEPTION
+//    private static final class VoiceRecorder extends ActivityResultContract<Void, Uri> {
+//        @NonNull
+//        @Override
+//        public Intent createIntent(@NonNull Context context, Void unused) {
+//            return new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
+//        }
+//
+//        @Override
+//        public Uri parseResult(int resultCode, @Nullable Intent data) {
+//            if (data == null) {
+//                DeckLog.error("Recording voice failed.");
+//                return null;
+//            }
+//
+//            final var uri = data.getData();
+//
+//            if (uri == null) {
+//                DeckLog.error("Recording voice failed.");
+//                return null;
+//            }
+//
+//            return uri;//Uri.withAppendedPath(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, uri.getLastPathSegment());
+//        }
+//    }
 }

@@ -191,7 +191,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
 
         utils.material.colorTextInputLayout(binding.peopleWrapper);
 
-        this.adapter.applyTheme(color);
+        adapter.applyTheme(color);
     }
 
     public static DialogFragment newInstance(@NonNull Account account, long boardLocalId) {
