@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.attachments;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +21,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
+import it.niedermann.nextcloud.sso.glide.SingleSignOnUrl;
 
 public class AttachmentViewHolder extends RecyclerView.ViewHolder {
     @NonNull
@@ -39,13 +41,15 @@ public class AttachmentViewHolder extends RecyclerView.ViewHolder {
             binding.preview.setTransitionName(parentContext.getString(R.string.transition_attachment_preview, String.valueOf(attachment.getLocalId())));
             binding.preview.setImageResource(R.drawable.ic_image_24dp);
             binding.preview.post(() -> {
-                final String uri = AttachmentUtil.getThumbnailUrl(account, cardRemoteId, attachment, binding.preview.getWidth(), binding.preview.getHeight());
-                Glide.with(parentContext)
-                        .load(uri)
+                final var requestManager = Glide.with(parentContext);
+
+                AttachmentUtil.getThumbnailUrl(account, cardRemoteId, attachment, binding.preview.getWidth(), binding.preview.getHeight())
+                        .map(Uri::toString)
+                        .map(uri -> requestManager.load(new SingleSignOnUrl(account.getName(), uri)))
+                        .orElseGet(() -> requestManager.load(R.drawable.ic_image_24dp))
                         .listener(new RequestListener<>() {
                             @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model,
-                                                        Target<Drawable> target, boolean isFirstResource) {
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, @NonNull Target<Drawable> target, boolean isFirstResource) {
                                 if (parentContext instanceof FragmentActivity) {
                                     ((FragmentActivity) parentContext).supportStartPostponedEnterTransition();
                                 }
@@ -53,8 +57,7 @@ public class AttachmentViewHolder extends RecyclerView.ViewHolder {
                             }
 
                             @Override
-                            public boolean onResourceReady(Drawable resource, Object model,
-                                                           Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            public boolean onResourceReady(@NonNull Drawable resource, @NonNull Object model, Target<Drawable> target, @NonNull DataSource dataSource, boolean isFirstResource) {
                                 if (parentContext instanceof FragmentActivity) {
                                     ((FragmentActivity) parentContext).supportStartPostponedEnterTransition();
                                 }

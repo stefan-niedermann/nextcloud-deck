@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
+import android.net.Uri;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,12 +17,15 @@ import it.niedermann.nextcloud.deck.databinding.ItemAttachmentImageBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
+import it.niedermann.nextcloud.sso.glide.SingleSignOnUrl;
 
 public class ImageAttachmentViewHolder extends AttachmentViewHolder {
+
+    @NonNull
     private final ItemAttachmentImageBinding binding;
 
     @SuppressWarnings("WeakerAccess")
-    public ImageAttachmentViewHolder(ItemAttachmentImageBinding binding) {
+    public ImageAttachmentViewHolder(@NonNull ItemAttachmentImageBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
     }
@@ -40,9 +44,11 @@ public class ImageAttachmentViewHolder extends AttachmentViewHolder {
         super.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, color);
 
         getPreview().post(() -> {
-            @Nullable final String uri = AttachmentUtil.getThumbnailUrl(account, cardRemoteId, attachment, getPreview().getWidth());
-            Glide.with(getPreview().getContext())
-                    .load(uri)
+            final var requestManager = Glide.with(getPreview().getContext());
+            AttachmentUtil.getThumbnailUrl(account, cardRemoteId, attachment, getPreview().getWidth())
+                    .map(Uri::toString)
+                    .map(uri -> requestManager.load(new SingleSignOnUrl(account.getName(), uri)))
+                    .orElseGet(() -> requestManager.load(R.drawable.ic_image_24dp))
                     .placeholder(R.drawable.ic_image_24dp)
                     .error(R.drawable.ic_image_24dp)
                     .into(getPreview());

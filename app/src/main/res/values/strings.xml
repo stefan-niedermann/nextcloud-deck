@@ -118,6 +118,7 @@
     <string name="about_server_app_version_text">Server app version:</string>
     <string name="no_files_attached_to_this_card">There are no files attached to this card.</string>
     <string name="attachments">Attachments</string>
+    <string name="append_to_description">Append to description</string>
     <string name="no_cards">No cards yet</string>
     <string name="account_already_added">The account %1$s has already been added</string>
     <string name="not_synced_yet">Not synced yet</string>

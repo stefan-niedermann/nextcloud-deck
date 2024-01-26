@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
+import android.net.Uri;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,24 +28,30 @@ public abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(@NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull FragmentManager fragmentManager, Long cardRemoteId, Attachment attachment, @Nullable View.OnClickListener onClickListener, @ColorInt int color) {
-        final String attachmentUri = (attachment.getId() == null || cardRemoteId == null)
-                ? attachment.getLocalPath()
-                : AttachmentUtil.getCopyDownloadUrl(account, cardRemoteId, attachment);
-
         final var synced = !DBStatus.LOCAL_EDITED.equals(attachment.getStatusEnum());
         getNotSyncedYetStatusIcon().setVisibility(synced ? View.GONE : View.VISIBLE);
+
+        final var uri = AttachmentUtil.getRemoteUrl(account, cardRemoteId, attachment)
+                .map(Uri::toString);
+
         itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menuInflater.inflate(R.menu.attachment_menu, menu);
+            if (uri.isPresent()) {
+                menu.findItem(android.R.id.copyUrl).setVisible(true);
+                menu.findItem(android.R.id.copyUrl).setOnMenuItemClickListener(item -> ClipboardUtil.copyToClipboard(itemView.getContext(), attachment.getFilename(), uri.get()));
+            } else {
+                menu.findItem(android.R.id.copyUrl).setVisible(false);
+            }
+
+            menu.findItem(R.id.append_to_description).setVisible(false);
+//                    .setOnMenuItemClickListener(item -> {
+//                return true;
+//            });
+
             menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
                 DeleteAttachmentDialogFragment.newInstance(attachment).show(fragmentManager, DeleteAttachmentDialogFragment.class.getCanonicalName());
-                return false;
+                return true;
             });
-            if (attachmentUri == null || attachment.getId() == null || cardRemoteId == null) {
-                menu.findItem(android.R.id.copyUrl).setVisible(false);
-            } else {
-                menu.findItem(android.R.id.copyUrl).setVisible(true);
-                menu.findItem(android.R.id.copyUrl).setOnMenuItemClickListener(item -> ClipboardUtil.copyToClipboard(itemView.getContext(), attachment.getFilename(), attachmentUri));
-            }
         });
 
         applyTheme(color);
