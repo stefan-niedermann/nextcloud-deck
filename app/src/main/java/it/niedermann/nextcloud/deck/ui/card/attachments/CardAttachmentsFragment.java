@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +79,7 @@ import it.niedermann.nextcloud.deck.util.JavaCompressor;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 import it.niedermann.nextcloud.deck.util.VCardUtil;
 
-public class CardAttachmentsFragment extends Fragment implements AttachmentDeletedListener, AttachmentClickedListener, Consumer<CompletableFuture<List<Uri>>> {
+public class CardAttachmentsFragment extends Fragment implements AttachmentDeletedListener, AttachmentInteractionListener, Consumer<CompletableFuture<List<Uri>>> {
 
     private FragmentCardEditTabAttachmentsBinding binding;
     private EditCardViewModel editViewModel;
@@ -209,7 +210,11 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     }
 
     private void setupAttachments() {
-        adapter = new CardAttachmentAdapter(getChildFragmentManager(), requireActivity().getMenuInflater(), this, editViewModel.getAccount(), editViewModel.getFullCard().getLocalId());
+        adapter = new CardAttachmentAdapter(getChildFragmentManager(),
+                requireActivity().getMenuInflater(),
+                this,
+                editViewModel.getAccount(),
+                editViewModel.getFullCard().getLocalId());
         binding.attachmentsList.setAdapter(adapter);
 
         adapter.isEmpty().observe(getViewLifecycleOwner(), (isEmpty) -> {
@@ -409,6 +414,20 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     @Override
     public void onAttachmentClicked(int position) {
         this.clickedItemPosition = position;
+    }
+
+    @Override
+    public void onAppendToDescription(@NonNull String markdown) {
+        if (editViewModel.canEdit()) {
+            final var oldDescription = editViewModel.getFullCard().getCard().getDescription();
+            if (TextUtils.isEmpty(oldDescription)) {
+                editViewModel.putDescription(markdown);
+            } else {
+                editViewModel.putDescription(oldDescription + "\n\n" + markdown);
+            }
+        } else {
+            Toast.makeText(requireContext(), R.string.insufficient_permission, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void applyTheme(@ColorInt int color) {

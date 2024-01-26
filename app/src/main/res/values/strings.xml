@@ -306,6 +306,7 @@
     <string name="project_type_room">Talk room</string>
     <string name="simple_move">Move</string>
     <string name="cannot_upload_files_without_permission">Cannot upload files without permissions</string>
+    <string name="insufficient_permission">Insufficient permission</string>
     <string name="no_matching_app_installed">No matching app installed</string>
     <string name="clone_cards">Clone cards</string>
     <string name="simple_clone">Clone</string>

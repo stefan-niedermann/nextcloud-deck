@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -49,6 +50,7 @@ public class EditCardViewModel extends BaseViewModel {
     private boolean hasCommentsAbility = false;
     private boolean pendingSaveOperation = false;
     private boolean canEdit = false;
+    private final MutableLiveData<String> descriptionChanged$ = new MutableLiveData<>();
     private final MutableLiveData<Integer> boardColor$ = new MutableLiveData<>();
     private final SharedPreferences sharedPreferences;
     private final MutableLiveData<Boolean> descriptionIsPreview = new MutableLiveData<>(false);
@@ -79,6 +81,16 @@ public class EditCardViewModel extends BaseViewModel {
                     }
                     return descriptionIsPreview;
                 })
+                .distinctUntilChanged();
+    }
+
+    public void putDescription(@Nullable String description) {
+        getFullCard().getCard().setDescription(description);
+        this.descriptionChanged$.postValue(description);
+    }
+
+    public LiveData<String> getDescription() {
+        return new ReactiveLiveData<>(this.descriptionChanged$)
                 .distinctUntilChanged();
     }
 
@@ -113,6 +125,7 @@ public class EditCardViewModel extends BaseViewModel {
         this.fullCard = fullCard;
         this.originalCard = new FullCardWithProjects(this.fullCard);
         this.isSupportedVersion = isSupportedVersion;
+        this.descriptionChanged$.postValue(fullCard.getCard().getDescription());
     }
 
     public void setAccount(@NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {

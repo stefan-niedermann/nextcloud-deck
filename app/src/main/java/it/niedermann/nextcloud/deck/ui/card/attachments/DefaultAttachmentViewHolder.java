@@ -16,6 +16,8 @@ import androidx.fragment.app.FragmentManager;
 
 import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 
+import java.util.function.Consumer;
+
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentDefaultBinding;
@@ -43,8 +45,15 @@ public class DefaultAttachmentViewHolder extends AttachmentViewHolder {
         return binding.notSyncedYet;
     }
 
-    public void bind(@NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull FragmentManager fragmentManager, Long cardRemoteId, Attachment attachment, @Nullable View.OnClickListener onClickListener, @ColorInt int color) {
-        super.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, color);
+    public void bind(@NonNull Account account,
+                     @NonNull MenuInflater menuInflater,
+                     @NonNull FragmentManager fragmentManager,
+                     Long cardRemoteId,
+                     Attachment attachment,
+                     @Nullable View.OnClickListener onClickListener,
+                     @NonNull Consumer<String> onAppendToDescription,
+                     @ColorInt int color) {
+        super.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, onAppendToDescription, color);
         getPreview().setImageResource(getIconForMimeType(attachment.getMimetype()));
         itemView.setOnClickListener((event) -> {
             final var intent = generateOpenAttachmentIntent(account, itemView.getContext(), cardRemoteId, attachment);

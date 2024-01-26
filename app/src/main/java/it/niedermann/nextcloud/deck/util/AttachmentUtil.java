@@ -36,7 +36,7 @@ public class AttachmentUtil {
      * @see #getThumbnailUrl(Account, Long, Attachment, int, int)
      */
     public static Optional<Uri> getThumbnailUrl(@NonNull Account account,
-                                                @NonNull Long cardRemoteId,
+                                                @Nullable Long cardRemoteId,
                                                 @NonNull Attachment attachment,
                                                 @Px int previewSize) {
         return getThumbnailUrl(account, cardRemoteId, attachment, previewSize, previewSize);
@@ -45,18 +45,50 @@ public class AttachmentUtil {
     /**
      * @return an {@link Uri} to the thumbnail of the given {@link Attachment}.
      * If a thumbnail is not available (see {@link Version#supportsFileAttachments()}), an {@link Uri} to
-     * the {@link Attachment} itself will be returned instead. Beware that this might be some huge data to load and process.
+     * the {@link Attachment} itself will be returned instead if the {@link Attachment} is an image.
+     * Beware that this fallback might potentially load much data.
      */
     public static Optional<Uri> getThumbnailUrl(@NonNull Account account,
-                                                @NonNull Long cardRemoteId,
+                                                @Nullable Long cardRemoteId,
                                                 @NonNull Attachment attachment,
                                                 @Px int previewWidth,
                                                 @Px int previewHeight) {
-        return getRemoteUrl(account, attachment)
-                .map(uri -> uri + "?x=" + previewWidth + "&y=" + previewHeight + "&a=true")
-                .map(Uri::parse)
-                .or(() -> getRemoteUrl_1_0(account, cardRemoteId, attachment))
+        return getThumbnailUrl(account, attachment, previewWidth, previewHeight)
+                .or(() -> getThumbnailUrl_1_0(account, cardRemoteId, attachment))
                 .or(() -> Optional.ofNullable(attachment.getLocalPath()).map(Uri::parse));
+    }
+
+    private static Optional<Uri> getThumbnailUrl(@NonNull Account account,
+                                                 @NonNull Attachment attachment,
+                                                 @Px int previewWidth,
+                                                 @Px int previewHeight) {
+        if (!account.getServerDeckVersionAsObject().supportsFileAttachments()) {
+            return Optional.empty();
+        }
+
+        if (attachment.getType() != EAttachmentType.FILE) {
+            return Optional.empty();
+        }
+
+        if (attachment.getFileId() == null) {
+            return Optional.empty();
+        }
+
+        if (!MimeTypeUtil.isImage(attachment.getMimetype())) {
+            return Optional.empty();
+        }
+
+        return Optional.of(account.getUrl() + "/index.php/core/preview?fileId=" + attachment.getFileId() + "&x=" + previewWidth + "&y=" + previewHeight + "&a=true")
+                .map(Uri::parse);
+    }
+
+    @Deprecated
+    private static Optional<Uri> getThumbnailUrl_1_0(@NonNull Account account,
+                                                     @Nullable Long cardRemoteId,
+                                                     @NonNull Attachment attachment) {
+        return MimeTypeUtil.isImage(attachment.getMimetype())
+                ? getRemoteUrl_1_0(account, cardRemoteId, attachment)
+                : Optional.empty();
     }
 
     /**

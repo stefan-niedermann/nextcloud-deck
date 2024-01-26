@@ -12,6 +12,10 @@ import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 
+import java.util.Optional;
+import java.util.function.Consumer;
+
+import it.niedermann.android.markdown.MarkdownUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentImageBinding;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -21,6 +25,7 @@ import it.niedermann.nextcloud.sso.glide.SingleSignOnUrl;
 
 public class ImageAttachmentViewHolder extends AttachmentViewHolder {
 
+    private static final int APPEND_TO_DESCRIPTION_PREVIEW_SIZE = 600;
     @NonNull
     private final ItemAttachmentImageBinding binding;
 
@@ -40,8 +45,24 @@ public class ImageAttachmentViewHolder extends AttachmentViewHolder {
         return binding.notSyncedYet;
     }
 
-    public void bind(@NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull FragmentManager fragmentManager, Long cardRemoteId, Attachment attachment, @Nullable View.OnClickListener onClickListener, @ColorInt int color) {
-        super.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, color);
+    @Override
+    protected Optional<String> getAppendToDescriptionContent(@NonNull Account account,
+                                                   @Nullable Long cardRemoteId,
+                                                   @NonNull Attachment attachment) {
+        return AttachmentUtil.getThumbnailUrl(account, cardRemoteId, attachment, APPEND_TO_DESCRIPTION_PREVIEW_SIZE)
+                .map(this::splicePathWithQuery)
+                .map(url -> "!" + MarkdownUtil.getMarkdownLink(attachment.getBasename(), url));
+    }
+
+    public void bind(@NonNull Account account,
+                     @NonNull MenuInflater menuInflater,
+                     @NonNull FragmentManager fragmentManager,
+                     Long cardRemoteId,
+                     Attachment attachment,
+                     @Nullable View.OnClickListener onClickListener,
+                     @NonNull Consumer<String> onAppendToDescription,
+                     @ColorInt int color) {
+        super.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, onAppendToDescription, color);
 
         getPreview().post(() -> {
             final var requestManager = Glide.with(getPreview().getContext());

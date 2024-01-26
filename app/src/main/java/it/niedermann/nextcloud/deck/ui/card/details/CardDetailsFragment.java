@@ -34,6 +34,7 @@ import java.time.Instant;
 import java.util.stream.Stream;
 
 import it.niedermann.android.markdown.MarkdownEditor;
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -146,35 +147,39 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
     private void setupDescription() {
         if (viewModel.canEdit()) {
             binding.descriptionViewer.setMovementMethod(LinkMovementMethod.getInstance());
-            viewModel.getDescriptionMode().observe(getViewLifecycleOwner(), (isPreviewMode) -> {
-                if (isPreviewMode) {
-                    toggleEditorView(binding.descriptionViewer, binding.descriptionEditorWrapper, binding.descriptionViewer);
-                    binding.descriptionToggle.setImageResource(R.drawable.ic_edit_24dp);
-                } else {
-                    toggleEditorView(binding.descriptionEditorWrapper, binding.descriptionViewer, binding.descriptionEditor);
-                    binding.descriptionToggle.setImageResource(R.drawable.ic_eye_24);
-                }
-            });
+            new ReactiveLiveData<>(viewModel.getDescriptionMode())
+                    .combineWith(() -> viewModel.getDescription())
+                    .observe(getViewLifecycleOwner(), pair -> {
+                        if (pair.first) {
+                            toggleEditorView(binding.descriptionViewer, binding.descriptionEditorWrapper, binding.descriptionViewer, pair.second);
+                            binding.descriptionToggle.setImageResource(R.drawable.ic_edit_24dp);
+                        } else {
+                            toggleEditorView(binding.descriptionEditorWrapper, binding.descriptionViewer, binding.descriptionEditor, pair.second);
+                            binding.descriptionToggle.setImageResource(R.drawable.ic_eye_24);
+                        }
+                    });
             binding.descriptionToggle.setOnClickListener((v) -> viewModel.toggleDescriptionPreviewMode());
         } else {
             binding.descriptionEditor.setEnabled(false);
             binding.descriptionEditorWrapper.setVisibility(GONE);
             binding.descriptionViewer.setEnabled(false);
             binding.descriptionViewer.setVisibility(VISIBLE);
-            binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
+            viewModel.getDescription().observe(getViewLifecycleOwner(), description -> binding.descriptionViewer.setMarkdownString(description));
         }
     }
 
-    private void toggleEditorView(@NonNull View viewToShow, @NonNull View viewToHide, @NonNull MarkdownEditor editorToShow) {
-        editorToShow.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
+    private void toggleEditorView(@NonNull View viewToShow, @NonNull View viewToHide, @NonNull MarkdownEditor editorToShow, @Nullable String description) {
+        editorToShow.setMarkdownString(description);
         if (!editorToShow.getMarkdownString().hasActiveObservers()) {
-            editorToShow.getMarkdownString().observe(getViewLifecycleOwner(), (description) -> {
+            editorToShow.getMarkdownString().observe(getViewLifecycleOwner(), (newDescription) -> {
                 if (viewModel.getFullCard() != null) {
-                    viewModel.getFullCard().getCard().setDescription(description == null ? "" : description.toString());
+                    // TODO This is the preferred way, but we need to preserve scroll and selection state
+                    // viewModel.putDescription(newDescription == null ? "" : newDescription.toString());
+                    viewModel.getFullCard().getCard().setDescription(newDescription == null ? "" : newDescription.toString());
                 } else {
                     ExceptionDialogFragment.newInstance(new IllegalStateException(FullCard.class.getSimpleName() + " was empty when trying to setup description"), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 }
-                binding.descriptionToggle.setVisibility(TextUtils.isEmpty(description) ? INVISIBLE : VISIBLE);
+                binding.descriptionToggle.setVisibility(TextUtils.isEmpty(newDescription) ? INVISIBLE : VISIBLE);
             });
         }
         viewToHide.setVisibility(GONE);

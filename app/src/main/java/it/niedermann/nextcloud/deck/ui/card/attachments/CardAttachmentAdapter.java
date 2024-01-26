@@ -54,19 +54,19 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
     @NonNull
     private final List<Attachment> attachments = new ArrayList<>();
     @NonNull
-    private final AttachmentClickedListener attachmentClickedListener;
+    private final AttachmentInteractionListener attachmentInteractionListener;
 
     CardAttachmentAdapter(
             @NonNull FragmentManager fragmentManager,
             @NonNull MenuInflater menuInflater,
-            @NonNull AttachmentClickedListener attachmentClickedListener,
+            @NonNull AttachmentInteractionListener attachmentInteractionListener,
             @NonNull Account account,
             @Nullable Long cardLocalId
     ) {
         super();
         this.fragmentManager = fragmentManager;
         this.menuInflater = menuInflater;
-        this.attachmentClickedListener = attachmentClickedListener;
+        this.attachmentInteractionListener = attachmentInteractionListener;
         this.account = account;
         this.cardLocalId = cardLocalId == null ? NO_ID : cardLocalId;
         setHasStableIds(true);
@@ -99,7 +99,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
         switch (getItemViewType(position)) {
             case VIEW_TYPE_IMAGE: {
                 onClickListener = (event) -> {
-                    attachmentClickedListener.onAttachmentClicked(position);
+                    attachmentInteractionListener.onAttachmentClicked(position);
                     final var intent = AttachmentsActivity.createIntent(context, account, cardLocalId, attachment.getLocalId());
                     if (context instanceof Activity) {
                         String transitionName = context.getString(R.string.transition_attachment_preview, String.valueOf(attachment.getLocalId()));
@@ -125,7 +125,9 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
                 break;
             }
         }
-        holder.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, color);
+        // FIXME only onAppendToDescription if write permission!!
+        // FIXME Trigger new description displayed!
+        holder.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, attachmentInteractionListener::onAppendToDescription, color);
     }
 
     @Override
