@@ -20,6 +20,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
+import okhttp3.Headers;
 
 public class NewCardViewModel extends SyncViewModel {
 
@@ -38,7 +39,7 @@ public class NewCardViewModel extends SyncViewModel {
                 .thenAcceptAsync(account -> syncRepository.createFullCard(accountId, boardId, stackId, createFullCard(account.getServerDeckVersionAsObject(), content),
                         new IResponseCallback<>() {
                             @Override
-                            public void onResponse(FullCard response) {
+                            public void onResponse(FullCard response, Headers headers) {
                                 result.complete(response);
                             }
 

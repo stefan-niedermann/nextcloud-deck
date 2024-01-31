@@ -146,7 +146,7 @@ public class BaseRepository {
     public void createAccount(@NonNull Account account, @NonNull IResponseCallback<Account> callback) {
         executor.submit(() -> {
             try {
-                callback.onResponse(dataBaseAdapter.createAccountDirectly(account));
+                callback.onResponse(dataBaseAdapter.createAccountDirectly(account), IResponseCallback.EMPTY_HEADERS);
             } catch (Throwable t) {
                 callback.onError(t);
             }
@@ -466,7 +466,7 @@ public class BaseRepository {
         executor.submit(() -> {
             try {
                 int filterWidgetId = dataBaseAdapter.createFilterWidgetDirectly(filterWidget);
-                callback.onResponse(filterWidgetId);
+                callback.onResponse(filterWidgetId, IResponseCallback.EMPTY_HEADERS);
             } catch (Throwable t) {
                 callback.onError(t);
             }
@@ -478,7 +478,7 @@ public class BaseRepository {
         executor.submit(() -> {
             try {
                 dataBaseAdapter.updateFilterWidgetDirectly(filterWidget);
-                callback.onResponse(Boolean.TRUE);
+                callback.onResponse(Boolean.TRUE, IResponseCallback.EMPTY_HEADERS);
             } catch (Throwable t) {
                 callback.onError(t);
             }
@@ -489,7 +489,7 @@ public class BaseRepository {
     public void getFilterWidget(@NonNull Integer filterWidgetId, @NonNull IResponseCallback<FilterWidget> callback) {
         executor.submit(() -> {
             try {
-                callback.onResponse(dataBaseAdapter.getFilterWidgetByIdDirectly(filterWidgetId));
+                callback.onResponse(dataBaseAdapter.getFilterWidgetByIdDirectly(filterWidgetId), IResponseCallback.EMPTY_HEADERS);
             } catch (Throwable t) {
                 callback.onError(t);
             }
@@ -501,7 +501,7 @@ public class BaseRepository {
         executor.submit(() -> {
             try {
                 dataBaseAdapter.deleteFilterWidgetDirectly(filterWidgetId);
-                callback.onResponse(Boolean.TRUE);
+                callback.onResponse(Boolean.TRUE, IResponseCallback.EMPTY_HEADERS);
             } catch (Throwable t) {
                 callback.onError(t);
             }

@@ -85,6 +85,7 @@ import it.niedermann.nextcloud.deck.ui.theme.ThemedSnackbar;
 import it.niedermann.nextcloud.deck.util.JavaCompressor;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 import it.niedermann.nextcloud.deck.util.VCardUtil;
+import okhttp3.Headers;
 
 public class CardAttachmentsFragment extends Fragment implements AttachmentDeletedListener, AttachmentClickedListener {
 
@@ -427,7 +428,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         adapter.addAttachment(a);
         editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload, new IResponseCallback<>() {
             @Override
-            public void onResponse(Attachment response) {
+            public void onResponse(Attachment response, Headers headers) {
                 requireActivity().runOnUiThread(() -> {
                     editViewModel.getFullCard().getAttachments().remove(a);
                     editViewModel.getFullCard().getAttachments().add(0, response);
@@ -491,7 +492,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         if (attachment.getLocalId() != null) {
             editViewModel.deleteAttachmentOfCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), attachment.getLocalId(), new IResponseCallback<>() {
                 @Override
-                public void onResponse(EmptyResponse response) {
+                public void onResponse(EmptyResponse response, Headers headers) {
                     DeckLog.info("Successfully delete", Attachment.class.getSimpleName(), attachment.getFilename(), "from", Card.class.getSimpleName(), editViewModel.getFullCard().getCard().getTitle());
                 }
 

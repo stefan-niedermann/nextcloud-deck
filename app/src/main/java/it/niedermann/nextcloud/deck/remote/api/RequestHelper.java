@@ -65,7 +65,7 @@ public class RequestHelper {
             if (response.isSuccessful()) {
                 T responseObject = response.body();
                 callback.fillAccountIDs(responseObject);
-                callback.onResponseWithHeaders(responseObject, response.headers());
+                callback.onResponse(responseObject, response.headers());
             } else {
                 onFailure(call, new NextcloudHttpRequestFailedException(context, response.code(), buildCause(response)));
             }

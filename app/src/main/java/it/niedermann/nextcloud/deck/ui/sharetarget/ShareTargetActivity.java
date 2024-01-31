@@ -34,6 +34,7 @@ import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
 import it.niedermann.nextcloud.deck.ui.main.MainActivity;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
+import okhttp3.Headers;
 
 public class ShareTargetActivity extends MainActivity implements SelectCardListener {
 
@@ -121,7 +122,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                     }
                     mainViewModel.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, tempFile, new IResponseCallback<>() {
                         @Override
-                        public void onResponse(Attachment response) {
+                        public void onResponse(Attachment response, Headers headers) {
                             runOnUiThread(shareProgressViewModel::increaseProgress);
                         }
 
@@ -168,7 +169,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                             }
                             mainViewModel.updateCard(fullCard, new IResponseCallback<>() {
                                 @Override
-                                public void onResponse(FullCard response) {
+                                public void onResponse(FullCard response, Headers headers) {
                                     runOnUiThread(() -> {
                                         Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
                                         finish();

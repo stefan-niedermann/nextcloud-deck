@@ -21,6 +21,7 @@ import java.util.Arrays;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
+import okhttp3.Headers;
 
 @RunWith(RobolectricTestRunner.class)
 public class ResponseCallbackTest {
@@ -30,7 +31,7 @@ public class ResponseCallbackTest {
         final var account = new Account(1337L);
         final var callback = new ResponseCallback<>(account) {
             @Override
-            public void onResponse(Object response) {
+            public void onResponse(Object response, Headers headers) {
                 fail("I didn't ask you!");
             }
         };
@@ -54,15 +55,15 @@ public class ResponseCallbackTest {
         // No lambda, since Mockito requires a non final class for a spy
         final var originalCallback = new IResponseCallback<EmptyResponse>() {
             @Override
-            public void onResponse(EmptyResponse response) {
+            public void onResponse(EmptyResponse response, Headers headers) {
                 // Do nothing...
             }
         };
         final var originalCallbackSpy = spy(originalCallback);
         final var callback = ResponseCallback.from(mock(Account.class), originalCallbackSpy);
 
-        callback.onResponse(null);
-        verify(originalCallbackSpy, times(1)).onResponse(null);
+        callback.onResponse(null, );
+        verify(originalCallbackSpy, times(1)).onResponse(null, );
 
         callback.onError(null);
         verify(originalCallbackSpy, times(1)).onError(null);

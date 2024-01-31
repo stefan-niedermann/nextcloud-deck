@@ -25,6 +25,7 @@ import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.remote.helpers.providers.AbstractSyncDataProvider;
 import it.niedermann.nextcloud.deck.remote.helpers.providers.IRelationshipProvider;
 import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
+import okhttp3.Headers;
 
 public class SyncHelper {
     @NonNull
@@ -55,7 +56,7 @@ public class SyncHelper {
         provider.registerChildInParent(provider);
         provider.getAllFromServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<>(account) {
             @Override
-            public void onResponse(List<T> response) {
+            public void onResponse(List<T> response, Headers headers) {
                 if (response != null) {
                     provider.goingDeeper();
 
@@ -100,7 +101,7 @@ public class SyncHelper {
                             CountDownLatch latch = new CountDownLatch(1);
                             provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer, new ResponseCallback<>(responseCallback.getAccount()) {
                                 @Override
-                                public void onResponse(Boolean response) {
+                                public void onResponse(Boolean response, Headers headers) {
                                     DeckLog.verbose("### SYNC board "+tmp.getId()+" done! Changes: "+response);
                                     latch.countDown();
                                 }
@@ -180,7 +181,7 @@ public class SyncHelper {
     private <T extends IRemoteEntity> ResponseCallback<EmptyResponse> getDeleteCallback(@NonNull AbstractSyncDataProvider<T> provider, T entity) {
         return new ResponseCallback<>(account) {
             @Override
-            public void onResponse(EmptyResponse response) {
+            public void onResponse(EmptyResponse response, Headers headers) {
                 provider.deletePhysicallyInDB(dataBaseAdapter, accountId, entity);
                 provider.goDeeperForUpSync(SyncHelper.this, serverAdapter, dataBaseAdapter, responseCallback);
             }
@@ -196,7 +197,7 @@ public class SyncHelper {
     private <T extends IRemoteEntity> ResponseCallback<T> getUpdateCallback(@NonNull AbstractSyncDataProvider<T> provider, @NonNull T entity, @Nullable CountDownLatch countDownLatch) {
         return new ResponseCallback<>(account) {
             @Override
-            public void onResponse(T response) {
+            public void onResponse(T response, Headers headers) {
                 response.setAccountId(this.account.getId());
                 T update = applyUpdatesFromRemote(provider, entity, response, accountId);
                 update.setId(response.getId());

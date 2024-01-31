@@ -9,11 +9,12 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
+import okhttp3.Headers;
 
 /**
  * Abstract implementation of {@link IResponseCallback} which is aware of an {@link Account}.
  *
- * @param <T> payload type of the {@link #onResponse(T)} method
+ * @param <T> payload type of the {@link IResponseCallback#onResponse(Object, Headers)} method
  */
 public abstract class ResponseCallback<T> implements IResponseCallback<T> {
     @NonNull
@@ -65,8 +66,8 @@ public abstract class ResponseCallback<T> implements IResponseCallback<T> {
     public static <T> ResponseCallback<T> from(@NonNull Account account, IResponseCallback<T> callback) {
         return new ResponseCallback<>(account) {
             @Override
-            public void onResponse(T response) {
-                callback.onResponse(response);
+            public void onResponse(T response, Headers headers) {
+                callback.onResponse(response, headers);
             }
 
             @SuppressLint("MissingSuperCall")

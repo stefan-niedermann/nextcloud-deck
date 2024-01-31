@@ -28,6 +28,7 @@ import it.niedermann.nextcloud.deck.ui.theme.DeleteAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
+import okhttp3.Headers;
 
 public class ManageLabelsDialogFragment extends ThemedDialogFragment implements ManageLabelListener, EditLabelListener {
 
@@ -91,7 +92,7 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
 
             labelsViewModel.createLabel(label, boardId, new IResponseCallback<>() {
                 @Override
-                public void onResponse(Label response) {
+                public void onResponse(Label response, Headers headers) {
                     requireActivity().runOnUiThread(() -> {
                         binding.fab.setEnabled(true);
                         binding.addLabelTitle.setText(null);
@@ -146,7 +147,7 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
 
     @Override
     public void requestDelete(@NonNull Label label) {
-        labelsViewModel.countCardsWithLabel(label.getLocalId(), count -> requireActivity().runOnUiThread(() -> {
+        labelsViewModel.countCardsWithLabel(label.getLocalId(), (count, headers) -> requireActivity().runOnUiThread(() -> {
             if (count > 0) {
                 new DeleteAlertDialogBuilder(requireContext())
                         .setTitle(getString(R.string.delete_something, label.getTitle()))
@@ -163,7 +164,7 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
     private void deleteLabel(@NonNull Label label) {
         labelsViewModel.deleteLabel(label, new IResponseCallback<>() {
             @Override
-            public void onResponse(EmptyResponse response) {
+            public void onResponse(EmptyResponse response, Headers headers) {
                 DeckLog.info("Successfully deleted label", label.getTitle());
             }
 
@@ -186,7 +187,7 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
     public void onLabelUpdated(@NonNull Label label) {
         labelsViewModel.updateLabel(label, new IResponseCallback<>() {
             @Override
-            public void onResponse(Label label) {
+            public void onResponse(Label label, Headers headers) {
                 DeckLog.info("Successfully update label", label.getTitle());
             }
 

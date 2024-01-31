@@ -23,6 +23,7 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.remote.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.remote.helpers.util.AsyncUtil;
@@ -55,11 +56,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<List<FullBoard>> responder, Instant lastSync) {
         serverAdapter.getBoards(new ResponseCallback<>(responder.getAccount()) {
             @Override
-            public void onResponse(List<FullBoard> response) {
-            }
-
-            @Override
-            public void onResponseWithHeaders(List<FullBoard> response, Headers headers) {
+            public void onResponse(List<FullBoard> response, Headers headers) {
                 progressTotal = response.size();
                 updateProgress();
                 String etag = headers.get("ETag");
@@ -67,7 +64,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
                     account.setBoardsEtag(etag);
                     dataBaseAdapter.updateAccount(account);
                 }
-                responder.onResponse(response);
+                responder.onResponse(response, headers);
             }
 
             @SuppressLint("MissingSuperCall")
@@ -200,10 +197,10 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
             if (parent != null) {
                 parent.childDone(this, responseCallback, syncChangedSomething);
             } else {
-                responseCallback.onResponse(syncChangedSomething);
+                responseCallback.onResponse(syncChangedSomething, IResponseCallback.EMPTY_HEADERS);
             }
         } else if (!isParallel && children.isEmpty()) {
-            stepByStepCallback.onResponse(syncChangedSomething);
+            stepByStepCallback.onResponse(syncChangedSomething, IResponseCallback.EMPTY_HEADERS);
         }
     }
 

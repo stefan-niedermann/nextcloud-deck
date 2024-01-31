@@ -20,7 +20,9 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
+import okhttp3.Headers;
 
 public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment> {
 
@@ -52,7 +54,7 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
 
     @Override
     public void getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<Attachment>> responder, Instant lastSync) {
-        responder.onResponse(attachments);
+        responder.onResponse(attachments, IResponseCallback.EMPTY_HEADERS);
     }
 
     @Override
@@ -88,9 +90,9 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
         File file = new File(entity.getLocalPath());
         serverAdapter.uploadAttachment(board.getId(), stack.getId(), card.getId(), file, new ResponseCallback<>(responder.getAccount()) {
             @Override
-            public void onResponse(Attachment response) {
+            public void onResponse(Attachment response, Headers headers) {
                 if (file.delete()) {
-                    responder.onResponse(response);
+                    responder.onResponse(response, headers);
                 } else {
                     responder.onError(new IOException("Could not delete local file after successful upload: " + file.getAbsolutePath()));
                 }

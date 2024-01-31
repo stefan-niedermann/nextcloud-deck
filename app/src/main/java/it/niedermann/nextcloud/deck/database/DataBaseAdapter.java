@@ -94,6 +94,7 @@ import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
 import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
+import okhttp3.Headers;
 
 public class DataBaseAdapter {
     @NonNull
@@ -1216,12 +1217,12 @@ public class DataBaseAdapter {
 
     @WorkerThread
     public void countCardsInStackDirectly(long accountId, long localStackId, @NonNull IResponseCallback<Integer> callback) {
-        callback.onResponse(db.getCardDao().countCardsInStackDirectly(accountId, localStackId));
+        callback.onResponse(db.getCardDao().countCardsInStackDirectly(accountId, localStackId), IResponseCallback.EMPTY_HEADERS);
     }
 
     @WorkerThread
     public void countCardsWithLabel(long localLabelId, @NonNull IResponseCallback<Integer> callback) {
-        callback.onResponse(db.getJoinCardWithLabelDao().countCardsWithLabelDirectly(localLabelId));
+        callback.onResponse(db.getJoinCardWithLabelDao().countCardsWithLabelDirectly(localLabelId), IResponseCallback.EMPTY_HEADERS);
     }
 
     @WorkerThread

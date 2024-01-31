@@ -42,6 +42,7 @@ import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.Themed;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
 import it.niedermann.nextcloud.deck.util.KeyboardUtils;
+import okhttp3.Headers;
 
 public class CardCommentsFragment extends Fragment implements Themed, CommentEditedListener, CommentDeletedListener, CommentSelectAsReplyListener {
 
@@ -175,7 +176,7 @@ public class CardCommentsFragment extends Fragment implements Themed, CommentEdi
     public void onCommentDeleted(Long localId) {
         commentsViewModel.deleteComment(editCardViewModel.getAccount().getId(), editCardViewModel.getFullCard().getLocalId(), localId, new IResponseCallback<>() {
             @Override
-            public void onResponse(EmptyResponse response) {
+            public void onResponse(EmptyResponse response, Headers headers) {
                 DeckLog.info("Successfully deleted comment with localId", localId);
             }
 
