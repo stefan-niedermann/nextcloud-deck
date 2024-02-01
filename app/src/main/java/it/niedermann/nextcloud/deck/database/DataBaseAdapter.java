@@ -94,6 +94,7 @@ import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
 import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
+import okhttp3.Headers;
 
 public class DataBaseAdapter {
     @NonNull
@@ -111,7 +112,7 @@ public class DataBaseAdapter {
     private final int defaultColor;
 
     public DataBaseAdapter(@NonNull Context appContext) {
-        this(appContext, DeckDatabase.getInstance(appContext), Executors.newCachedThreadPool(), ExecutorServiceProvider.getLinkedBlockingQueueExecutor());
+        this(appContext, DeckDatabase.getInstance(appContext),Executors.newCachedThreadPool(), ExecutorServiceProvider.getLinkedBlockingQueueExecutor());
     }
 
     @VisibleForTesting
@@ -1216,12 +1217,12 @@ public class DataBaseAdapter {
 
     @WorkerThread
     public void countCardsInStackDirectly(long accountId, long localStackId, @NonNull IResponseCallback<Integer> callback) {
-        callback.onResponse(db.getCardDao().countCardsInStackDirectly(accountId, localStackId));
+        callback.onResponse(db.getCardDao().countCardsInStackDirectly(accountId, localStackId), IResponseCallback.EMPTY_HEADERS);
     }
 
     @WorkerThread
     public void countCardsWithLabel(long localLabelId, @NonNull IResponseCallback<Integer> callback) {
-        callback.onResponse(db.getJoinCardWithLabelDao().countCardsWithLabelDirectly(localLabelId));
+        callback.onResponse(db.getJoinCardWithLabelDao().countCardsWithLabelDirectly(localLabelId), IResponseCallback.EMPTY_HEADERS);
     }
 
     @WorkerThread
@@ -1790,5 +1791,13 @@ public class DataBaseAdapter {
         return Optional.of(position > 0
                 ? entities.get(position - 1).getLocalId()
                 : entities.get(position + 1).getLocalId());
+    }
+
+    // TODO TEST stuff, remove when done
+    public List<Long> getAllStackIDs() {
+        return db.getStackDao().getAllIDs();
+    }
+    public List<Long> getAllCardIDs() {
+        return db.getCardDao().getAllIDs();
     }
 }

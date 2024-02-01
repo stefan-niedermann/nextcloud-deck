@@ -44,6 +44,7 @@ import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.Themed;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
 import it.niedermann.nextcloud.deck.util.CardUtil;
+import okhttp3.Headers;
 
 public class StackFragment extends Fragment implements Themed, DragAndDropTab<CardAdapter>, MoveCardListener, CardActionListener {
 
@@ -171,7 +172,7 @@ public class StackFragment extends Fragment implements Themed, DragAndDropTab<Ca
     public void move(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
         stackViewModel.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId, new IResponseCallback<>() {
             @Override
-            public void onResponse(EmptyResponse response) {
+            public void onResponse(EmptyResponse response, Headers headers) {
                 DeckLog.log("Moved", Card.class.getSimpleName(), originCardLocalId, "to", Stack.class.getSimpleName(), targetStackLocalId);
             }
 
@@ -213,7 +214,7 @@ public class StackFragment extends Fragment implements Themed, DragAndDropTab<Ca
     public void onArchive(@NonNull FullCard fullCard) {
         stackViewModel.archiveCard(fullCard, new IResponseCallback<>() {
             @Override
-            public void onResponse(FullCard response) {
+            public void onResponse(FullCard response, Headers headers) {
                 DeckLog.info("Successfully archived", Card.class.getSimpleName(), fullCard.getCard().getTitle());
             }
 
@@ -229,7 +230,7 @@ public class StackFragment extends Fragment implements Themed, DragAndDropTab<Ca
     public void onDelete(@NonNull FullCard fullCard) {
         stackViewModel.deleteCard(fullCard.getCard(), new IResponseCallback<>() {
             @Override
-            public void onResponse(EmptyResponse response) {
+            public void onResponse(EmptyResponse response, Headers headers) {
                 DeckLog.info("Successfully deleted card", fullCard.getCard().getTitle());
             }
 

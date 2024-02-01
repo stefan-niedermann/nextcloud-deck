@@ -35,6 +35,7 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedSnackbar;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
+import okhttp3.Headers;
 
 public class AccessControlDialogFragment extends DialogFragment implements AccessControlChangedListener, OnItemClickListener {
 
@@ -126,7 +127,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
     public void updateAccessControl(AccessControl accessControl) {
         accessControlViewModel.updateAccessControl(accessControl, new IResponseCallback<>() {
             @Override
-            public void onResponse(AccessControl response) {
+            public void onResponse(AccessControl response, Headers headers) {
                 DeckLog.info("Successfully updated", AccessControl.class.getSimpleName(), "for user", accessControl.getUser().getDisplayname());
             }
 
@@ -142,7 +143,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
     public void deleteAccessControl(AccessControl ac) {
         accessControlViewModel.deleteAccessControl(ac, new IResponseCallback<>() {
             @Override
-            public void onResponse(EmptyResponse response) {
+            public void onResponse(EmptyResponse response, Headers headers) {
                 DeckLog.info("Successfully deleted access control for user", ac.getUser().getDisplayname());
             }
 
@@ -172,7 +173,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
         ac.setUser(user);
         accessControlViewModel.createAccessControl(account, ac, new IResponseCallback<>() {
             @Override
-            public void onResponse(AccessControl response) {
+            public void onResponse(AccessControl response, Headers headers) {
                 DeckLog.info("Successfully created", AccessControl.class.getSimpleName(), "for user", user.getDisplayname());
             }
 

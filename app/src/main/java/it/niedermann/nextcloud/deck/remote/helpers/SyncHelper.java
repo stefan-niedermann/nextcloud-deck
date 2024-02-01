@@ -1,8 +1,12 @@
 package it.niedermann.nextcloud.deck.remote.helpers;
 
+import android.annotation.SuppressLint;
+import android.database.sqlite.SQLiteConstraintException;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.gson.Gson;
 import com.nextcloud.android.sso.api.EmptyResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
@@ -20,6 +24,8 @@ import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.remote.helpers.providers.AbstractSyncDataProvider;
 import it.niedermann.nextcloud.deck.remote.helpers.providers.IRelationshipProvider;
+import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
+import okhttp3.Headers;
 
 public class SyncHelper {
     @NonNull
@@ -44,12 +50,16 @@ public class SyncHelper {
 
     // Sync Server -> App
     public <T extends IRemoteEntity> void doSyncFor(@NonNull final AbstractSyncDataProvider<T> provider) {
+        doSyncFor(provider, true);
+    }
+    public <T extends IRemoteEntity> void doSyncFor(@NonNull final AbstractSyncDataProvider<T> provider, boolean parallel) {
         provider.registerChildInParent(provider);
         provider.getAllFromServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<>(account) {
             @Override
-            public void onResponse(List<T> response) {
+            public void onResponse(List<T> response, Headers headers) {
                 if (response != null) {
                     provider.goingDeeper();
+
                     for (T entityFromServer : response) {
                         if (entityFromServer == null) {
                             // see https://github.com/stefan-niedermann/nextcloud-deck/issues/574
@@ -57,10 +67,18 @@ public class SyncHelper {
                             continue;
                         }
                         entityFromServer.setAccountId(accountId);
+
                         T existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
 
                         if (existingEntity == null) {
-                            provider.createInDB(dataBaseAdapter, accountId, entityFromServer);
+                            try {
+                                ExecutorServiceProvider.awaitExecution(() -> provider.createInDB(dataBaseAdapter, accountId, entityFromServer));
+                            } catch (SQLiteConstraintException e) {
+                                provider.onInsertFailed(dataBaseAdapter, e, account, accountId, response, entityFromServer);
+                                throw new RuntimeException("ConstraintViolation! Entity: " + provider.getClass().getSimpleName()+"\n"
+                                        +entityFromServer.getClass().getSimpleName()+": "+ new Gson().toJson(entityFromServer),
+                                        e);
+                            }
                         } else {
                             //TODO: how to handle deletes? what about archived?
                             if (existingEntity.getStatus() != DBStatus.UP_TO_DATE.getId()) {
@@ -75,7 +93,33 @@ public class SyncHelper {
                             }
                         }
                         existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
-                        provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer, responseCallback);
+                        final T tmp = existingEntity;
+                        if (parallel) {
+                            provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer, responseCallback);
+                        } else {
+                            DeckLog.verbose("### SYNC Sequencial!"+tmp.getId());
+                            CountDownLatch latch = new CountDownLatch(1);
+                            provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer, new ResponseCallback<>(responseCallback.getAccount()) {
+                                @Override
+                                public void onResponse(Boolean response, Headers headers) {
+                                    DeckLog.verbose("### SYNC board "+tmp.getId()+" done! Changes: "+response);
+                                    latch.countDown();
+                                }
+
+                                @SuppressLint("MissingSuperCall")
+                                @Override
+                                public void onError(Throwable throwable) {
+                                    DeckLog.verbose("### SYNC board done (error)! ");
+                                    responseCallback.onError(throwable);
+                                    latch.countDown();
+                                }
+                            });
+                            try {
+                                latch.await();
+                            } catch (InterruptedException e) {
+                                onError(e);
+                            }
+                        }
                     }
 
                     provider.handleDeletes(serverAdapter, dataBaseAdapter, accountId, response);
@@ -137,7 +181,7 @@ public class SyncHelper {
     private <T extends IRemoteEntity> ResponseCallback<EmptyResponse> getDeleteCallback(@NonNull AbstractSyncDataProvider<T> provider, T entity) {
         return new ResponseCallback<>(account) {
             @Override
-            public void onResponse(EmptyResponse response) {
+            public void onResponse(EmptyResponse response, Headers headers) {
                 provider.deletePhysicallyInDB(dataBaseAdapter, accountId, entity);
                 provider.goDeeperForUpSync(SyncHelper.this, serverAdapter, dataBaseAdapter, responseCallback);
             }
@@ -153,7 +197,7 @@ public class SyncHelper {
     private <T extends IRemoteEntity> ResponseCallback<T> getUpdateCallback(@NonNull AbstractSyncDataProvider<T> provider, @NonNull T entity, @Nullable CountDownLatch countDownLatch) {
         return new ResponseCallback<>(account) {
             @Override
-            public void onResponse(T response) {
+            public void onResponse(T response, Headers headers) {
                 response.setAccountId(this.account.getId());
                 T update = applyUpdatesFromRemote(provider, entity, response, accountId);
                 update.setId(response.getId());

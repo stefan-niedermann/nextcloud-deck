@@ -214,7 +214,7 @@ public class EditActivity extends AppCompatActivity {
                         .setOnDismissListener(dialog -> viewModel.setPendingSaveOperation(false))
                         .show();
             } else {
-                viewModel.saveCard(response -> DeckLog.info("Successfully saved card", response.getCard().getTitle()));
+                viewModel.saveCard((response, headers) -> DeckLog.info("Successfully saved card", response.getCard().getTitle()));
                 super.finish();
             }
         }

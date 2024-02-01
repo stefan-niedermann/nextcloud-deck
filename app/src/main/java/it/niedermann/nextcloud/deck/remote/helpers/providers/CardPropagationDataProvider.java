@@ -13,6 +13,7 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
+import okhttp3.Headers;
 
 public class CardPropagationDataProvider extends CardDataProvider {
 
@@ -26,7 +27,7 @@ public class CardPropagationDataProvider extends CardDataProvider {
         if (board.getId() == null) {
             serverAdapter.createBoard(board, new ResponseCallback<>(responder.getAccount()) {
                 @Override
-                public void onResponse(FullBoard response) {
+                public void onResponse(FullBoard response, Headers headers) {
                     board.setId(response.getId());
                     board.setEtag(response.getEtag());
                     createOnServer(serverAdapter, dataBaseAdapter, accountId, responder, entity);
@@ -41,7 +42,7 @@ public class CardPropagationDataProvider extends CardDataProvider {
         } else  if (stack.getId() == null) {
             serverAdapter.createStack(board, stack.getStack(), new ResponseCallback<>(responder.getAccount()) {
                 @Override
-                public void onResponse(FullStack response) {
+                public void onResponse(FullStack response, Headers headers) {
                     stack.setId(response.getId());
                     stack.setEtag(response.getEtag());
                     createOnServer(serverAdapter, dataBaseAdapter, accountId, responder, entity);

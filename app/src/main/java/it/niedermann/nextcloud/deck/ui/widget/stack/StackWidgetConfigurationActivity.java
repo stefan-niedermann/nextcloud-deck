@@ -24,6 +24,7 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetStack;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.ui.PickStackActivity;
+import okhttp3.Headers;
 
 public class StackWidgetConfigurationActivity extends PickStackActivity {
     private int appWidgetId;
@@ -67,13 +68,13 @@ public class StackWidgetConfigurationActivity extends PickStackActivity {
 
         stackWidgetConfigurationViewModel.addStackWidget(config, new ResponseCallback<>(account) {
             @Override
-            public void onResponse(Integer response) {
+            public void onResponse(Integer response, Headers headers) {
                 final Intent updateIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null,
                         getApplicationContext(), StackWidget.class)
                         .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
                 setResult(RESULT_OK, updateIntent);
                 getApplicationContext().sendBroadcast(updateIntent);
-                callback.onResponse(null);
+                callback.onResponse(null, headers);
                 finish();
             }
 

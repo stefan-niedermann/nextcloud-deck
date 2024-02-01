@@ -39,6 +39,12 @@ public class DeckLog {
         }
     }
 
+    public static String getStacktraceAsString(Throwable e) {
+        final var sw = new StringWriter();
+        e.printStackTrace(new PrintWriter(sw));
+        return sw.toString();
+    }
+
     public enum Severity {
         VERBOSE, DEBUG, LOG, INFO, WARN, ERROR, WTF
     }

@@ -28,6 +28,7 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.Themed;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
+import okhttp3.Headers;
 
 public class ArchivedBoardsActivity extends AppCompatActivity implements Themed, DeleteBoardListener, EditBoardListener, ArchiveBoardListener {
 
@@ -84,7 +85,7 @@ public class ArchivedBoardsActivity extends AppCompatActivity implements Themed,
     public void onBoardDeleted(Board board) {
         archivedBoardsViewModel.deleteBoard(board, new IResponseCallback<>() {
             @Override
-            public void onResponse(EmptyResponse response) {
+            public void onResponse(EmptyResponse response, Headers headers) {
                 DeckLog.info("Successfully deleted board", board.getTitle());
             }
 
@@ -102,7 +103,7 @@ public class ArchivedBoardsActivity extends AppCompatActivity implements Themed,
     public void onUpdateBoard(FullBoard fullBoard) {
         archivedBoardsViewModel.updateBoard(fullBoard, new IResponseCallback<>() {
             @Override
-            public void onResponse(FullBoard response) {
+            public void onResponse(FullBoard response, Headers headers) {
                 DeckLog.info("Successfully updated board", fullBoard.getBoard().getTitle());
             }
 
@@ -118,7 +119,7 @@ public class ArchivedBoardsActivity extends AppCompatActivity implements Themed,
     public void onArchive(Board board) {
         archivedBoardsViewModel.dearchiveBoard(board, new IResponseCallback<>() {
             @Override
-            public void onResponse(FullBoard response) {
+            public void onResponse(FullBoard response, Headers headers) {
                 DeckLog.info("Successfully dearchived board", response.getBoard().getTitle());
             }
 

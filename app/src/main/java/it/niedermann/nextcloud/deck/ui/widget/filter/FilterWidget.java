@@ -76,7 +76,7 @@ public class FilterWidget extends AppWidgetProvider {
         final var baseRepository = new BaseRepository(context);
 
         for (int appWidgetId : appWidgetIds) {
-            baseRepository.deleteFilterWidget(appWidgetId, response -> DeckLog.verbose("Successfully deleted " + FilterWidget.class.getSimpleName() + " with id " + appWidgetId));
+            baseRepository.deleteFilterWidget(appWidgetId, (response, headers) -> DeckLog.verbose("Successfully deleted " + FilterWidget.class.getSimpleName() + " with id " + appWidgetId));
         }
     }
 }

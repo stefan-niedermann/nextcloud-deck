@@ -28,6 +28,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.repository.BaseRepository;
 import it.niedermann.nextcloud.deck.repository.SyncRepository;
+import okhttp3.Headers;
 
 public class SyncWorker extends Worker {
 
@@ -73,7 +74,7 @@ public class SyncWorker extends Worker {
             for (Account account : accounts) {
                 new SyncRepository(context, account).synchronize(new ResponseCallback<>(account) {
                     @Override
-                    public void onResponse(Boolean response) {
+                    public void onResponse(Boolean response, Headers headers) {
                         success.set(success.get() && Boolean.TRUE.equals(response));
                         latch.countDown();
                     }

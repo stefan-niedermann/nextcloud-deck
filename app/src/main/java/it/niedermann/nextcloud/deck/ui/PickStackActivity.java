@@ -27,6 +27,7 @@ import it.niedermann.nextcloud.deck.ui.pickstack.PickStackViewModel;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.Themed;
 import it.niedermann.nextcloud.deck.util.OnTextChangedWatcher;
+import okhttp3.Headers;
 
 public abstract class PickStackActivity extends AppCompatActivity implements Themed, PickStackListener {
 
@@ -63,7 +64,7 @@ public abstract class PickStackActivity extends AppCompatActivity implements The
             viewModel.setSubmitInProgress(true);
             onSubmit(viewModel.getAccount(), viewModel.getBoardLocalId(), viewModel.getStackLocalId(), new IResponseCallback<>() {
                 @Override
-                public void onResponse(EmptyResponse response) {
+                public void onResponse(EmptyResponse response, Headers headers) {
                     runOnUiThread(() -> viewModel.setSubmitInProgress(false));
                 }
 

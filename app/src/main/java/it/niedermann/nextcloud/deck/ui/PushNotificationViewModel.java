@@ -27,6 +27,7 @@ import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 import it.niedermann.nextcloud.deck.util.ProjectUtil;
+import okhttp3.Headers;
 
 public class PushNotificationViewModel extends BaseViewModel {
 
@@ -64,10 +65,10 @@ public class PushNotificationViewModel extends BaseViewModel {
             if (card.isPresent()) {
                 syncManager.synchronizeCard(new ResponseCallback<>(account) {
                     @Override
-                    public void onResponse(Boolean response) {
+                    public void onResponse(Boolean response, Headers headers) {
                         final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId);
                         if (boardLocalId.isPresent()) {
-                            callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()));
+                            callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()), headers);
                         } else {
                             DeckLog.wtf("Card with local ID", card.get().getLocalId(), "and remote ID", card.get().getId(), "is present, but could not find board for it.");
                             publishErrorToCallback("Given localBoardId for cardRemoteId" + cardRemoteId + "is null.", null, callback, bundle);
@@ -80,7 +81,7 @@ public class PushNotificationViewModel extends BaseViewModel {
                         final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId);
                         if (boardLocalId.isPresent()) {
                             new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(getApplication(), R.string.card_outdated, Toast.LENGTH_LONG).show());
-                            callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()));
+                            callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()), IResponseCallback.EMPTY_HEADERS);
                         } else {
                             DeckLog.wtf("Card with local ID", card.get().getLocalId(), "and remote ID", card.get().getId(), "is present, but could not find board for it.");
                             publishErrorToCallback("Given localBoardId for cardRemoteId" + cardRemoteId + "is null.", null, callback, bundle);
@@ -90,12 +91,12 @@ public class PushNotificationViewModel extends BaseViewModel {
             } else {
                 syncManager.synchronize(new ResponseCallback<>(account) {
                     @Override
-                    public void onResponse(Boolean response) {
+                    public void onResponse(Boolean response, Headers headers) {
                         final var card = syncManager.getCardByRemoteIDDirectly(account.getId(), cardRemoteId);
                         if (card.isPresent()) {
                             final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId);
                             if (boardLocalId.isPresent()) {
-                                callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()));
+                                callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()), headers);
                             } else {
                                 DeckLog.wtf("Card with local ID", card.get().getLocalId(), "and remote ID", card.get().getId(), "is present, but could not find board for it.");
                                 publishErrorToCallback("Could not find board locally for card with remote ID" + cardRemoteId + "even after full synchronization", null, callback, bundle);

@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.remote.helpers.providers;
 
+
 import com.nextcloud.android.sso.api.EmptyResponse;
 
 import java.time.Instant;
@@ -14,7 +15,9 @@ import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectList;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
+import okhttp3.Headers;
 
 public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject> {
     private final Card card;
@@ -28,8 +31,8 @@ public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject>
     public void getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<OcsProject>> responder, Instant lastSync) {
         serverAdapter.getProjectsForCard(card.getId(), new ResponseCallback<>(responder.getAccount()) {
             @Override
-            public void onResponse(OcsProjectList response) {
-                responder.onResponse(response.getProjects());
+            public void onResponse(OcsProjectList response, Headers headers) {
+                responder.onResponse(response.getProjects(), headers);
             }
 
             @Override
@@ -38,7 +41,7 @@ public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject>
                 // dont break the sync!
                 // TODO i got here HTTP 404 once, maybe this should be considered?
                 DeckLog.logError(throwable);
-                responder.onResponse(Collections.emptyList());
+                responder.onResponse(Collections.emptyList(), IResponseCallback.EMPTY_HEADERS);
             }
         });
     }

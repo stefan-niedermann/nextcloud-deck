@@ -18,6 +18,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.ui.PickStackActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
+import okhttp3.Headers;
 
 public class PrepareCreateActivity extends PickStackActivity {
 
@@ -55,12 +56,12 @@ public class PrepareCreateActivity extends PickStackActivity {
 
         viewModel.saveCard(account, boardId, stackId, fullCard, new IResponseCallback<>() {
             @Override
-            public void onResponse(FullCard response) {
+            public void onResponse(FullCard response, Headers headers) {
                 viewModel.saveCurrentAccount(account);
                 viewModel.saveCurrentBoardId(account.getId(), boardId);
                 viewModel.saveCurrentStackId(account.getId(), boardId, stackId);
 
-                callback.onResponse(null);
+                callback.onResponse(null, headers);
                 startActivity(EditActivity.createEditCardIntent(PrepareCreateActivity.this, account, boardId, response.getLocalId()));
                 finish();
             }

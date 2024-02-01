@@ -27,6 +27,7 @@ public class OfflineException extends IllegalStateException {
         OFFLINE("Device is currently offline", R.string.error_dialog_tip_offline_no_internet),
         CONNECTION_REFUSED("Connection refused", R.string.error_dialog_tip_offline_connection_refused),
         CONNECTION_TIMEOUT("Connection timeout", R.string.error_dialog_tip_offline_connection_timeout),
+        CONNECTION_REJECTED("Connection rejected", R.string.error_dialog_tip_connection_rejected),
         ;
 
         private final String key;

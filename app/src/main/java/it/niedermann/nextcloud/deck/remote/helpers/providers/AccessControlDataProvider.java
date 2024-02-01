@@ -17,8 +17,10 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.remote.helpers.util.AsyncUtil;
+import okhttp3.Headers;
 
 public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessControl> {
 
@@ -39,10 +41,10 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
                 if (TYPE_GROUP.equals(accessControl.getType())) {
                     serverAdapter.searchGroupMembers(accessControl.getUser().getUid(), new ResponseCallback<>(responder.getAccount()) {
                         @Override
-                        public void onResponse(GroupMemberUIDs response) {
+                        public void onResponse(GroupMemberUIDs response, Headers headers) {
                             accessControl.setGroupMemberUIDs(response);
                             if (response.getUids().size() > 0) {
-                                ensureGroupMembersInDB(getAccount(), dataBaseAdapter, serverAdapter, response);
+                                ensureGroupMembersInDB(responder.getAccount(), dataBaseAdapter, serverAdapter, response);
                             }
                             latch.countDown();
                         }
@@ -57,7 +59,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
             }
         });
 
-        responder.onResponse(acl);
+        responder.onResponse(acl, IResponseCallback.EMPTY_HEADERS);
     }
 
     private void ensureGroupMembersInDB(Account account, DataBaseAdapter dataBaseAdapter, ServerAdapter serverAdapter, GroupMemberUIDs response) {
@@ -68,13 +70,23 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
                 // unknown user. fetch!
                 serverAdapter.getSingleUserData(uid, new ResponseCallback<>(account) {
                     @Override
-                    public void onResponse(OcsUser response) {
+                    public void onResponse(OcsUser response, Headers headers) {
                         DeckLog.log(response);
                         User user = new User();
                         user.setUid(response.getId());
                         user.setPrimaryKey(response.getId());
                         user.setDisplayname(response.getDisplayName());
-                        dataBaseAdapter.createUser(account.getId(), user);
+                        try {
+                            dataBaseAdapter.createUser(getAccount().getId(), user);
+                        } catch (Exception e) {
+                            try {
+                                // retry... if still nothing: skip.
+                                Thread.sleep(500);
+                                dataBaseAdapter.createUser(getAccount().getId(), user);
+                            } catch (Exception ex) {
+                                throw new RuntimeException(ex);
+                            }
+                        }
                         memberLatch.countDown();
                     }
 
