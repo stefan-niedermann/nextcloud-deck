@@ -63,7 +63,7 @@ public class ResponseCallbackTest {
         final var callback = ResponseCallback.from(mock(Account.class), originalCallbackSpy);
 
         callback.onResponse(null, );
-        verify(originalCallbackSpy, times(1)).onResponse(null, );
+        verify(originalCallbackSpy, times(1)).onResponse(null, IResponseCallback.EMPTY_HEADERS);
 
         callback.onError(null);
         verify(originalCallbackSpy, times(1)).onError(null);
