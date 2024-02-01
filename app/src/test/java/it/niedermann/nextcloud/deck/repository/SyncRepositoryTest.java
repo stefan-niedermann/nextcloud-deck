@@ -440,7 +440,7 @@ public class SyncRepositoryTest {
 
         syncManagerSpy.synchronize(finalCallback);
 
-        verify(finalCallback, times(1)).onResponse(any(), IResponseCallback.EMPTY_HEADERS);
+        verify(finalCallback, times(1)).onResponse(any(), any(Headers.class));
 
 
         // Bad paths
