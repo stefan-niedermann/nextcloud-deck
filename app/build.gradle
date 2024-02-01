@@ -130,16 +130,13 @@ dependencies {
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
-    // ReactiveX
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
-
     // Zoom Layout
     implementation("com.otaliastudios:zoomlayout:1.9.0")
 
     // Tests
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.robolectric:robolectric:4.11.1'
-    testImplementation 'org.mockito:mockito-core:5.9.0'
+    testImplementation 'org.mockito:mockito-core:5.10.0'
     testImplementation 'androidx.test:core:1.5.0'
     testImplementation 'androidx.arch.core:core-testing:2.2.0'
 }

@@ -61,7 +61,7 @@ public class StackWidget extends AppWidgetProvider {
 
         for (int appWidgetId : appWidgetIds) {
             DeckLog.info("Delete", StackWidget.class.getSimpleName(), "with id", appWidgetId);
-            baseRepository.deleteFilterWidget(appWidgetId, response -> DeckLog.verbose("Successfully deleted " + StackWidget.class.getSimpleName() + " with id " + appWidgetId));
+            baseRepository.deleteFilterWidget(appWidgetId, (response, headers) -> DeckLog.verbose("Successfully deleted " + StackWidget.class.getSimpleName() + " with id " + appWidgetId));
         }
     }
 
@@ -88,7 +88,7 @@ public class StackWidget extends AppWidgetProvider {
                     views.setRemoteAdapter(R.id.stack_widget_lv, serviceIntent);
                     views.setEmptyView(R.id.stack_widget_lv, R.id.widget_stack_placeholder_iv);
 
-                    baseRepository.getFilterWidget(appWidgetId, response -> {
+                    baseRepository.getFilterWidget(appWidgetId, (response, headers) -> {
                         final Stack stack = baseRepository.getStackDirectly(response.getAccounts().get(0).getBoards().get(0).getStacks().get(0).getStackId());
                         @ColorInt final Integer boardColor = baseRepository.getBoardColorDirectly(response.getAccounts().get(0).getAccountId(), response.getAccounts().get(0).getBoards().get(0).getBoardId());
                         views.setTextViewText(R.id.widget_stack_title_tv, stack.getTitle());

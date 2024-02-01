@@ -19,7 +19,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.api.EmptyResponse;
-import com.nextcloud.android.sso.api.ParsedResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
@@ -79,6 +78,7 @@ import it.niedermann.nextcloud.deck.remote.helpers.providers.StackDataProvider;
 import it.niedermann.nextcloud.deck.remote.helpers.providers.partial.BoardWithAclDownSyncDataProvider;
 import it.niedermann.nextcloud.deck.remote.helpers.providers.partial.BoardWithStacksAndLabelsUpSyncDataProvider;
 import it.niedermann.nextcloud.deck.remote.helpers.util.ConnectivityUtil;
+import okhttp3.Headers;
 
 /**
  * Extends {@link BaseRepository} by synchronization capabilities.
@@ -127,7 +127,7 @@ public class SyncRepository extends BaseRepository {
     }
 
     @AnyThread
-    public void fetchBoardsFromServer(@NonNull ResponseCallback<ParsedResponse<List<FullBoard>>> callback) {
+    public void fetchBoardsFromServer(@NonNull ResponseCallback<List<FullBoard>> callback) {
         executor.submit(() -> serverAdapter.getBoards(callback));
     }
 
@@ -140,7 +140,7 @@ public class SyncRepository extends BaseRepository {
         executor.submit(() -> {
             refreshCapabilities(new ResponseCallback<>(responseCallback.getAccount()) {
                 @Override
-                public void onResponse(Capabilities response) {
+                public void onResponse(Capabilities response, Headers headers) {
                     if (response != null && !response.isMaintenanceEnabled()) {
                         if (response.getDeckVersion().isSupported()) {
                             final var lastSyncDate = LastSyncUtil.getLastSyncDate(callbackAccountId);
@@ -148,18 +148,18 @@ public class SyncRepository extends BaseRepository {
 
                             final var callback = new ResponseCallback<Boolean>(callbackAccount) {
                                 @Override
-                                public void onResponse(Boolean response) {
+                                public void onResponse(Boolean response, Headers headers) {
                                     syncHelper.setResponseCallback(new ResponseCallback<>(account) {
                                         @Override
-                                        public void onResponse(Boolean response) {
+                                        public void onResponse(Boolean response, Headers headers) {
                                             LastSyncUtil.setLastSyncDate(callbackAccountId, Instant.now());
-                                            responseCallback.onResponse(response);
+                                            responseCallback.onResponse(response, headers);
                                         }
 
                                         @Override
                                         public void onError(Throwable throwable) {
                                             super.onError(throwable);
-                                            responseCallback.onResponse(response);
+                                            responseCallback.onResponse(response, headers);
                                         }
                                     });
                                     executor.submit(() -> {
@@ -183,17 +183,17 @@ public class SyncRepository extends BaseRepository {
                             syncHelper.setResponseCallback(callback);
 
                             try {
-                                syncHelper.doSyncFor(new BoardDataProvider(progress$));
+                                syncHelper.doSyncFor(new BoardDataProvider(progress$, false), false);
                             } catch (Throwable e) {
                                 DeckLog.logError(e);
                                 responseCallback.onError(e);
                             }
                         } else {
                             DeckLog.warn("No sync. Server version not supported:", response.getDeckVersion().getOriginalVersion());
-                            responseCallback.onResponse(Boolean.FALSE);
+                            responseCallback.onResponse(Boolean.FALSE, headers);
                         }
                     } else {
-                        responseCallback.onResponse(Boolean.FALSE);
+                        responseCallback.onResponse(Boolean.FALSE, headers);
                         if (response != null) {
                             DeckLog.warn("No sync. Status maintenance mode:", response.isMaintenanceEnabled());
                         }
@@ -271,7 +271,7 @@ public class SyncRepository extends BaseRepository {
                     syncHelperFactory.create(serverAdapter, dataBaseAdapter, null)
                             .setResponseCallback(new ResponseCallback<>(account) {
                                 @Override
-                                public void onResponse(Boolean response) {
+                                public void onResponse(Boolean response, Headers headers) {
                                     liveData.postValue(dataBaseAdapter.readAccountsForHostWithReadAccessToBoardDirectly(host, boardRemoteId));
                                 }
                             }).doSyncFor(new BoardWithAclDownSyncDataProvider());
@@ -289,12 +289,12 @@ public class SyncRepository extends BaseRepository {
                 Account accountForEtag = dataBaseAdapter.getAccountByIdDirectly(callback.getAccount().getId());
                 serverAdapter.getCapabilities(accountForEtag.getEtag(), new ResponseCallback<>(callback.getAccount()) {
                     @Override
-                    public void onResponse(ParsedResponse<Capabilities> response) {
+                    public void onResponse(Capabilities response, Headers headers) {
                         Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
-                        acc.applyCapabilities(response.getResponse(), response.getHeaders().get("ETag"));
+                        acc.applyCapabilities(response, headers.get("ETag"));
                         dataBaseAdapter.updateAccount(acc);
                         callback.getAccount().setServerDeckVersion(acc.getServerDeckVersion());
-                        callback.onResponse(response.getResponse());
+                        callback.onResponse(response, headers);
                     }
 
                     @SuppressLint("MissingSuperCall")
@@ -307,7 +307,7 @@ public class SyncRepository extends BaseRepository {
                                 final Capabilities capabilities = GsonConfig.getGson().fromJson(errorString, Capabilities.class);
                                 if (capabilities.isMaintenanceEnabled()) {
                                     DeckLog.verbose("Yes, it is in maintenance mode according to the capabilities");
-                                    executor.submit(() -> onResponse(ParsedResponse.of(capabilities)));
+                                    executor.submit(() -> onResponse(capabilities, IResponseCallback.EMPTY_HEADERS));
                                 } else {
                                     DeckLog.error("No, it is not in maintenance mode according to the capabilities.");
                                     callback.onError(throwable);
@@ -326,7 +326,7 @@ public class SyncRepository extends BaseRepository {
                                     capabilities.setDeckVersion(acc.getServerDeckVersionAsObject());
                                     capabilities.setTextColor(acc.getTextColor());
                                     capabilities.setColor(acc.getColor());
-                                    callback.onResponse(capabilities);
+                                    callback.onResponse(capabilities, IResponseCallback.EMPTY_HEADERS);
                                 });
                             } else {
                                 callback.onError(throwable);
@@ -490,8 +490,8 @@ public class SyncRepository extends BaseRepository {
                 syncHelperFactory.create(serverAdapterToUse, dataBaseAdapter, null)
                         .setResponseCallback(new ResponseCallback<>(targetAccount) {
                             @Override
-                            public void onResponse(Boolean response) {
-                                callback.onResponse(dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, newBoardId));
+                            public void onResponse(Boolean response, Headers headers) {
+                                callback.onResponse(dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, newBoardId), headers);
                             }
 
                             @SuppressLint("MissingSuperCall")
@@ -501,7 +501,7 @@ public class SyncRepository extends BaseRepository {
                             }
                         }).doUpSyncFor(new BoardWithStacksAndLabelsUpSyncDataProvider(dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, newBoardId)));
             } else {
-                callback.onResponse(dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, newBoardId));
+                callback.onResponse(dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, newBoardId), IResponseCallback.EMPTY_HEADERS);
             }
         });
     }
@@ -514,7 +514,7 @@ public class SyncRepository extends BaseRepository {
                     syncHelperFactory.create(serverAdapter, dataBaseAdapter, null)
                             .setResponseCallback(new ResponseCallback<>(dataBaseAdapter.getAccountByIdDirectly(card.getAccountId())) {
                                 @Override
-                                public void onResponse(Boolean response) {
+                                public void onResponse(Boolean response, Headers headers) {
                                     // do nothing
                                 }
                             }).doSyncFor(new ActivityDataProvider(null, card));
@@ -534,7 +534,7 @@ public class SyncRepository extends BaseRepository {
             OcsComment commentEntity = OcsComment.of(comment);
             new DataPropagationHelper(serverAdapter, dataBaseAdapter, executor).createEntity(new DeckCommentsDataProvider(null, card), commentEntity, new ResponseCallback<>(account) {
                 @Override
-                public void onResponse(OcsComment response) {
+                public void onResponse(OcsComment response, Headers headers) {
                     // nothing so far
                 }
             });
@@ -551,7 +551,7 @@ public class SyncRepository extends BaseRepository {
             OcsComment commentEntity = OcsComment.of(entity);
             new DataPropagationHelper(serverAdapter, dataBaseAdapter, executor).updateEntity(new DeckCommentsDataProvider(null, card), commentEntity, new ResponseCallback<>(account) {
                 @Override
-                public void onResponse(OcsComment response) {
+                public void onResponse(OcsComment response, Headers headers) {
                     // nothing so far
                 }
             });
@@ -621,14 +621,14 @@ public class SyncRepository extends BaseRepository {
             new DataPropagationHelper(serverAdapter, dataBaseAdapter, executor).deleteEntity(
                     new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, new ResponseCallback<>(account) {
                         @Override
-                        public void onResponse(EmptyResponse response) {
+                        public void onResponse(EmptyResponse response, Headers headers) {
                             // revoked own board-access?
                             if (entity.getAccountId() == entity.getAccountId() && entity.getUser().getUid().equals(account.getUserName())) {
                                 dataBaseAdapter.saveNeighbourOfBoard(board.getAccountId(), board.getLocalId());
                                 dataBaseAdapter.removeCurrentStackId(board.getAccountId(), board.getLocalId());
                                 dataBaseAdapter.deleteBoardPhysically(board.getBoard());
                             }
-                            callback.onResponse(response);
+                            callback.onResponse(response, headers);
                         }
 
                         @SuppressLint("MissingSuperCall")
@@ -806,15 +806,15 @@ public class SyncRepository extends BaseRepository {
                 syncHelperFactory.create(serverAdapter, dataBaseAdapter, null)
                         .setResponseCallback(new ResponseCallback<>(account) {
                             @Override
-                            public void onResponse(Boolean response) {
-                                callback.onResponse(card);
+                            public void onResponse(Boolean response, Headers headers) {
+                                callback.onResponse(card, headers);
                             }
 
                             @SuppressLint("MissingSuperCall")
                             @Override
                             public void onError(Throwable throwable) {
                                 if (throwable.getClass() == DeckException.class && ((DeckException) throwable).getHint().equals(DeckException.Hint.DEPENDENCY_NOT_SYNCED_YET)) {
-                                    callback.onResponse(card);
+                                    callback.onResponse(card, IResponseCallback.EMPTY_HEADERS);
                                 } else {
                                     callback.onError(throwable);
                                 }
@@ -822,7 +822,7 @@ public class SyncRepository extends BaseRepository {
                         })
                         .doUpSyncFor(new CardDataProvider(null, board, stack));
             } else {
-                callback.onResponse(card);
+                callback.onResponse(card, IResponseCallback.EMPTY_HEADERS);
             }
         });
     }
@@ -875,7 +875,7 @@ public class SyncRepository extends BaseRepository {
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
             List<FullCard> cards = dataBaseAdapter.getFullCardsForStackDirectly(accountId, stackLocalId, filterInformation);
             if (cards.size() <= 0) {
-                callback.onResponse(null);
+                callback.onResponse(null, IResponseCallback.EMPTY_HEADERS);
                 return;
             }
             final CountDownLatch latch = new CountDownLatch(cards.size());
@@ -887,7 +887,7 @@ public class SyncRepository extends BaseRepository {
                 card.getCard().setArchived(true);
                 updateCardForArchive(stack, board, card, new ResponseCallback<>(account) {
                     @Override
-                    public void onResponse(FullCard response) {
+                    public void onResponse(FullCard response, Headers headers) {
                         latch.countDown();
                     }
 
@@ -901,7 +901,7 @@ public class SyncRepository extends BaseRepository {
             }
             try {
                 latch.await();
-                callback.onResponse(null);
+                callback.onResponse(null, IResponseCallback.EMPTY_HEADERS);
             } catch (InterruptedException e) {
                 callback.onError(e);
             }
@@ -916,9 +916,9 @@ public class SyncRepository extends BaseRepository {
                 fullBoard.getBoard().setArchived(true);
                 updateBoard(fullBoard, new IResponseCallback<>() {
                     @Override
-                    public void onResponse(FullBoard response) {
+                    public void onResponse(FullBoard response, Headers headers) {
                         dataBaseAdapter.saveNeighbourOfBoard(fullBoard.getAccountId(), fullBoard.getLocalId());
-                        callback.onResponse(response);
+                        callback.onResponse(response, headers);
                     }
 
                     @SuppressLint("MissingSuperCall")
@@ -941,9 +941,9 @@ public class SyncRepository extends BaseRepository {
                 b.getBoard().setArchived(false);
                 updateBoard(b, new IResponseCallback<>() {
                     @Override
-                    public void onResponse(FullBoard response) {
+                    public void onResponse(FullBoard response, Headers headers) {
                         dataBaseAdapter.saveCurrentBoardId(b.getAccountId(), b.getLocalId());
-                        callback.onResponse(response);
+                        callback.onResponse(response, headers);
                     }
 
                     @SuppressLint("MissingSuperCall")
@@ -995,8 +995,8 @@ public class SyncRepository extends BaseRepository {
                 syncHelperFactory.create(serverAdapter, dataBaseAdapter, null)
                         .setResponseCallback(new ResponseCallback<>(account) {
                             @Override
-                            public void onResponse(Boolean response) {
-                                callback.onResponse(dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId()));
+                            public void onResponse(Boolean response, Headers headers) {
+                                callback.onResponse(dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId()), headers);
                             }
 
                             @SuppressLint("MissingSuperCall")
@@ -1006,7 +1006,7 @@ public class SyncRepository extends BaseRepository {
                             }
                         }).doUpSyncFor(new CardPropagationDataProvider(null, board, stack));
             } else {
-                callback.onResponse(card);
+                callback.onResponse(card, IResponseCallback.EMPTY_HEADERS);
             }
         });
     }
@@ -1041,7 +1041,7 @@ public class SyncRepository extends BaseRepository {
             // ### maybe shortcut possible? (just moved to another stack)
             if (targetBoardLocalId == originalBoard.getLocalId()) {
                 reorder(originAccountId, originalCard, targetStackLocalId, newIndex);
-                callback.onResponse(null);
+                callback.onResponse(null, IResponseCallback.EMPTY_HEADERS);
                 return;
             }
             // ### get rid of original card where it is now.
@@ -1078,7 +1078,7 @@ public class SyncRepository extends BaseRepository {
             }
             new DataPropagationHelper(serverToUse, dataBaseAdapter, executor).createEntity(new CardPropagationDataProvider(null, targetBoard.getBoard(), targetFullStack), fullCardForServerPropagation, new ResponseCallback<>(targetAccount) {
                 @Override
-                public void onResponse(FullCard response) {
+                public void onResponse(FullCard response, Headers headers) {
                     originalInnerCard.setId(response.getId());
                     originalInnerCard.setLocalId(response.getLocalId());
                     latch.countDown();
@@ -1163,7 +1163,7 @@ public class SyncRepository extends BaseRepository {
                     }
                 }
             }
-            callback.onResponse(null);
+            callback.onResponse(null, IResponseCallback.EMPTY_HEADERS);
         });
     }
 
@@ -1191,7 +1191,7 @@ public class SyncRepository extends BaseRepository {
             label.setAccountId(accountId);
             new DataPropagationHelper(serverAdapterToUse, dataBaseAdapter, executor).createEntity(new LabelDataProvider(null, board, null), label, new ResponseCallback<>(account) {
                 @Override
-                public void onResponse(Label response) {
+                public void onResponse(Label response, Headers headers) {
                     assignLabelToCard(response, dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId));
                     liveData.postValue(response);
                 }
@@ -1243,7 +1243,7 @@ public class SyncRepository extends BaseRepository {
                 serverAdapter.assignUserToCard(board.getId(), stack.getId(), card.getId(), user.getUid(), new ResponseCallback<>(account) {
 
                     @Override
-                    public void onResponse(EmptyResponse response) {
+                    public void onResponse(EmptyResponse response, Headers headers) {
                         dataBaseAdapter.setStatusForJoinCardWithUser(localCardId, localUserId, DBStatus.UP_TO_DATE.getId());
                     }
                 });
@@ -1272,7 +1272,7 @@ public class SyncRepository extends BaseRepository {
                 serverAdapterToUse.assignLabelToCard(board.getId(), stack.getId(), card.getId(), label.getId(), new ResponseCallback<>(account) {
 
                     @Override
-                    public void onResponse(EmptyResponse response) {
+                    public void onResponse(EmptyResponse response, Headers headers) {
                         dataBaseAdapter.setStatusForJoinCardWithLabel(localCardId, localLabelId, DBStatus.UP_TO_DATE.getId());
                     }
                 });
@@ -1290,7 +1290,7 @@ public class SyncRepository extends BaseRepository {
             if (connectivityUtil.hasInternetConnection()) {
                 serverAdapter.unassignLabelFromCard(board.getId(), stack.getId(), card.getId(), label.getId(), new ResponseCallback<>(account) {
                     @Override
-                    public void onResponse(EmptyResponse response) {
+                    public void onResponse(EmptyResponse response, Headers headers) {
                         dataBaseAdapter.deleteJoinedLabelForCardPhysically(card.getLocalId(), label.getLocalId());
                     }
                 });
@@ -1308,7 +1308,7 @@ public class SyncRepository extends BaseRepository {
                 Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
                 serverAdapter.unassignUserFromCard(board.getId(), stack.getId(), card.getId(), user.getUid(), new ResponseCallback<>(account) {
                     @Override
-                    public void onResponse(EmptyResponse response) {
+                    public void onResponse(EmptyResponse response, Headers headers) {
                         dataBaseAdapter.deleteJoinedUserForCardPhysically(card.getLocalId(), user.getLocalId());
                     }
                 });
@@ -1319,7 +1319,7 @@ public class SyncRepository extends BaseRepository {
     public void triggerUserSearch(@NonNull Account account, @NonNull String constraint) {
         executor.submit(() -> serverAdapter.searchUser(constraint, new ResponseCallback<>(account) {
             @Override
-            public void onResponse(OcsUserList response) {
+            public void onResponse(OcsUserList response, Headers headers) {
                 if (response == null || response.getUsers().isEmpty()) {
                     return;
                 }
@@ -1422,7 +1422,7 @@ public class SyncRepository extends BaseRepository {
                 Account account = dataBaseAdapter.getAccountByIdDirectly(movedCard.getCard().getAccountId());
                 syncHelperFactory.create(serverAdapter, dataBaseAdapter, Instant.now()).setResponseCallback(new ResponseCallback<>(account) {
                     @Override
-                    public void onResponse(Boolean response) {
+                    public void onResponse(Boolean response, Headers headers) {
                         // doNothing();
                     }
                 }).doUpSyncFor(new StackDataProvider(null, board));
@@ -1470,7 +1470,7 @@ public class SyncRepository extends BaseRepository {
                 new DataPropagationHelper(serverAdapter, dataBaseAdapter, executor)
                         .updateEntity(new AttachmentDataProvider(null, board, stack, card, Collections.singletonList(attachment)), attachment, new ResponseCallback<>(account) {
                             @Override
-                            public void onResponse(Attachment response) {
+                            public void onResponse(Attachment response, Headers headers) {
                                 liveData.postValue(response);
                             }
 

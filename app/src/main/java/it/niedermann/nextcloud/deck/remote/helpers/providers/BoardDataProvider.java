@@ -6,7 +6,6 @@ import android.util.Pair;
 import androidx.lifecycle.MutableLiveData;
 
 import com.nextcloud.android.sso.api.EmptyResponse;
-import com.nextcloud.android.sso.api.ParsedResponse;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -24,15 +23,20 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.remote.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.remote.helpers.util.AsyncUtil;
+import okhttp3.Headers;
 
 public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
     private int progressTotal = 0;
     private int progressDone = 0;
+    private boolean isParallel = true;
     private MutableLiveData<Pair<Integer, Integer>> progress = null;
+
+    private ResponseCallback<Boolean> stepByStepCallback;
 
     public BoardDataProvider() {
         super(null);
@@ -43,19 +47,24 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
         this.progress = progress;
     }
 
+    public BoardDataProvider(MutableLiveData<Pair<Integer, Integer>> progress$, boolean isParallel) {
+        this(progress$);
+        this.isParallel = isParallel;
+    }
+
     @Override
     public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<List<FullBoard>> responder, Instant lastSync) {
         serverAdapter.getBoards(new ResponseCallback<>(responder.getAccount()) {
             @Override
-            public void onResponse(ParsedResponse<List<FullBoard>> response) {
-                progressTotal = response.getResponse().size();
+            public void onResponse(List<FullBoard> response, Headers headers) {
+                progressTotal = response.size();
                 updateProgress();
-                String etag = response.getHeaders().get("ETag");
+                String etag = headers.get("ETag");
                 if (etag != null && !etag.equals(account.getBoardsEtag())) {
                     account.setBoardsEtag(etag);
                     dataBaseAdapter.updateAccount(account);
                 }
-                responder.onResponse(response.getResponse());
+                responder.onResponse(response, headers);
             }
 
             @SuppressLint("MissingSuperCall")
@@ -160,6 +169,9 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
     @Override
     public void goDeeper(SyncHelper syncHelper, FullBoard existingEntity, FullBoard entityFromServer, ResponseCallback<Boolean> callback) {
+        if (!isParallel) {
+            stepByStepCallback = callback;
+        }
         List<Label> labels = entityFromServer.getLabels();
         if (labels != null && !labels.isEmpty()) {
             syncHelper.doSyncFor(new LabelDataProvider(this, existingEntity.getBoard(), labels));
@@ -175,6 +187,20 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
         if (entityFromServer.getStacks() != null && !entityFromServer.getStacks().isEmpty()) {
             syncHelper.doSyncFor(new StackDataProvider(this, existingEntity));
+        }
+    }
+
+    @Override
+    public void childDone(AbstractSyncDataProvider<?> child, ResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
+        removeChild(child);
+        if (!stillGoingDeeper && children.isEmpty()) {
+            if (parent != null) {
+                parent.childDone(this, responseCallback, syncChangedSomething);
+            } else {
+                responseCallback.onResponse(syncChangedSomething, IResponseCallback.EMPTY_HEADERS);
+            }
+        } else if (!isParallel && children.isEmpty()) {
+            stepByStepCallback.onResponse(syncChangedSomething, IResponseCallback.EMPTY_HEADERS);
         }
     }
 

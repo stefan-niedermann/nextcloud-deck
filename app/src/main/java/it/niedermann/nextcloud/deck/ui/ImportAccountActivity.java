@@ -23,7 +23,6 @@ import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.nextcloud.android.sso.AccountImporter;
-import com.nextcloud.android.sso.api.ParsedResponse;
 import com.nextcloud.android.sso.exceptions.AccountImportCancelledException;
 import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGranted;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
@@ -47,6 +46,7 @@ import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import okhttp3.Headers;
 
 public class ImportAccountActivity extends AppCompatActivity {
 
@@ -140,21 +140,21 @@ public class ImportAccountActivity extends AppCompatActivity {
 
                             importAccountViewModel.createAccount(accountToCreate, new IResponseCallback<>() {
                                 @Override
-                                public void onResponse(Account createdAccount) {
+                                public void onResponse(Account createdAccount, Headers headers) {
                                     try {
                                         final var syncManager = new SyncRepository(ImportAccountActivity.this, createdAccount);
 
                                         syncManager.refreshCapabilities(new ResponseCallback<>(createdAccount) {
                                             @Override
-                                            public void onResponse(Capabilities response) {
+                                            public void onResponse(Capabilities response, Headers headers) {
                                                 if (!response.isMaintenanceEnabled()) {
                                                     if (response.getDeckVersion().isSupported()) {
                                                         final var callback = new IResponseCallback<>() {
                                                             @Override
-                                                            public void onResponse(Object response) {
+                                                            public void onResponse(Object response, Headers headers) {
                                                                 var progress$ = syncManager.synchronize(new ResponseCallback<>(account) {
                                                                     @Override
-                                                                    public void onResponse(Boolean response) {
+                                                                    public void onResponse(Boolean response, Headers headers) {
                                                                         restoreWifiPref();
                                                                         SyncWorker.update(getApplicationContext());
                                                                         importAccountViewModel.saveCurrentAccount(account);
@@ -188,19 +188,19 @@ public class ImportAccountActivity extends AppCompatActivity {
                                                         if (response.getDeckVersion().firstCallHasDifferentResponseStructure()) {
                                                             syncManager.fetchBoardsFromServer(new ResponseCallback<>(account) {
                                                                 @Override
-                                                                public void onResponse(ParsedResponse<List<FullBoard>> response) {
-                                                                    callback.onResponse(createdAccount);
+                                                                public void onResponse(List<FullBoard> response, Headers headers) {
+                                                                    callback.onResponse(createdAccount, headers);
                                                                 }
 
                                                                 @SuppressLint("MissingSuperCall")
                                                                 @Override
                                                                 public void onError(Throwable throwable) {
                                                                     // We proceed with the import anyway. It's just important that one request has been done.
-                                                                    callback.onResponse(createdAccount);
+                                                                    callback.onResponse(createdAccount, headers);
                                                                 }
                                                             });
                                                         } else {
-                                                            callback.onResponse(createdAccount);
+                                                            callback.onResponse(createdAccount, headers);
                                                         }
                                                     } else {
                                                         setStatusText(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()));

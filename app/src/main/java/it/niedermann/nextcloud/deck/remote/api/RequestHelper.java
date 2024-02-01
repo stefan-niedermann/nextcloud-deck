@@ -1,60 +1,98 @@
 package it.niedermann.nextcloud.deck.remote.api;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 
-import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.plugins.RxJavaPlugins;
-import io.reactivex.schedulers.Schedulers;
+import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
+
+import java.util.function.Supplier;
+
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.exceptions.OfflineException;
+import it.niedermann.nextcloud.deck.remote.helpers.util.ConnectivityUtil;
 import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
+import okhttp3.Request;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RequestHelper {
 
-    static {
-        RxJavaPlugins.setErrorHandler(DeckLog::logError);
+    @NonNull
+    private final ApiProvider apiProvider;
+
+    @NonNull
+    private final ConnectivityUtil connectivityUtil;
+
+    public RequestHelper(
+            @NonNull ApiProvider apiProvider,
+            @NonNull ConnectivityUtil connectivityUtil
+    ) {
+        this.apiProvider = apiProvider;
+        this.connectivityUtil = connectivityUtil;
     }
 
-    public static <T> Disposable request(@NonNull final ApiProvider provider, @NonNull final ObservableProvider<T> call, @NonNull final ResponseCallback<T> callback) {
-        if (provider.getDeckAPI() == null) {
-            provider.initSsoApi(callback::onError);
+    public <T> void request(@NonNull final Supplier<Call<T>> callProvider,
+                            @NonNull final ResponseCallback<T> callback) {
+
+        if (!connectivityUtil.hasInternetConnection()) {
+            throw new OfflineException();
         }
 
-        final ResponseConsumer<T> cb = new ResponseConsumer<>(callback);
-        return call.getObservableFromCall()
-                .subscribeOn(Schedulers.from(ExecutorServiceProvider.getLinkedBlockingQueueExecutor()))
-                .subscribe(cb, cb.getExceptionConsumer());
+        if (this.apiProvider.getDeckAPI() == null) {
+            this.apiProvider.initSsoApi(callback::onError);
+        }
+
+        final var cb = new ResponseConsumer<>(this.apiProvider.getContext(), callback);
+        ExecutorServiceProvider.getLinkedBlockingQueueExecutor().submit(() -> callProvider.get().enqueue(cb));
     }
 
-    public interface ObservableProvider<T> {
-        Observable<T> getObservableFromCall();
-    }
-
-    public static class ResponseConsumer<T> implements Consumer<T> {
+    private static class ResponseConsumer<T> implements Callback<T> {
+        @NonNull
+        private final Context context;
         @NonNull
         private final ResponseCallback<T> callback;
-        @NonNull
-        private final Consumer<Throwable> exceptionConsumer = new Consumer<>() {
-            @Override
-            public void accept(final Throwable throwable) {
-                callback.onError(ServerCommunicationErrorHandler.translateError(throwable));
-            }
-        };
 
-        private ResponseConsumer(@NonNull ResponseCallback<T> callback) {
+        private ResponseConsumer(@NonNull Context context, @NonNull ResponseCallback<T> callback) {
+            this.context = context;
             this.callback = callback;
         }
 
         @Override
-        public void accept(final T t) {
-            callback.fillAccountIDs(t);
-            callback.onResponse(t);
+        public void onResponse(@NonNull Call<T> call, Response<T> response) {
+            if (response.isSuccessful()) {
+                T responseObject = response.body();
+                callback.fillAccountIDs(responseObject);
+                callback.onResponse(responseObject, response.headers());
+            } else {
+                onFailure(call, new NextcloudHttpRequestFailedException(context, response.code(), buildCause(response)));
+            }
         }
 
-        @NonNull
-        private Consumer<Throwable> getExceptionConsumer() {
-            return exceptionConsumer;
+        private RuntimeException buildCause(Response<T> response) {
+            Request request = response.raw().request();
+            String url = request.url().toString();
+            String method = request.method();
+            int code = response.code();
+            String responseBody = "<empty>";
+            try (ResponseBody body = response.errorBody()) {
+                if (body != null) {
+                    responseBody = body.string();
+                }
+            } catch (Exception e) {
+                responseBody = "<unable to build response body: " + e.getMessage() + ">";
+            }
+            return new RuntimeException("HTTP StatusCode wasn't 2xx:\n" +
+                    "Got [HTTP " + code + "] for Call [" + method + " " + url + "] with Message:\n" +
+                    "[" + responseBody + "]");
+        }
+
+        @Override
+        public void onFailure(@NonNull Call<T> call, @NonNull Throwable t) {
+            DeckLog.logError(t);
+            callback.onError(ServerCommunicationErrorHandler.translateError(t));
         }
     }
 }

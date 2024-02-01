@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.remote.api;
 
 import androidx.annotation.NonNull;
 
+import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.exceptions.UnknownErrorException;
 
 import java.util.Arrays;
@@ -16,7 +17,8 @@ public class ServerCommunicationErrorHandler {
     private static final Handler[] handlers = new Handler[]{
             new Handler(UnknownErrorException.class, Arrays.asList("econnrefused", "unable to resolve host",
                     "connection refused", "no address associated with hostname"), OfflineException.Reason.CONNECTION_REFUSED),
-            new Handler(ClassNotFoundException.class, Collections.singletonList("connecttimeoutexception"), OfflineException.Reason.CONNECTION_TIMEOUT)
+            new Handler(ClassNotFoundException.class, Collections.singletonList("connecttimeoutexception"), OfflineException.Reason.CONNECTION_TIMEOUT),
+            new Handler(NextcloudHttpRequestFailedException.class, Collections.singletonList("520"), OfflineException.Reason.CONNECTION_REJECTED)
     };
 
     public static Throwable translateError(Throwable error) {

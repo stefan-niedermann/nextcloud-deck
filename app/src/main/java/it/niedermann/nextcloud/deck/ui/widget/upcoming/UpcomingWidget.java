@@ -32,6 +32,7 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.repository.BaseRepository;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
+import okhttp3.Headers;
 
 public class UpcomingWidget extends AppWidgetProvider {
     private static final String PENDING_INTENT_ACTION_EDIT = "edit";
@@ -61,7 +62,7 @@ public class UpcomingWidget extends AppWidgetProvider {
                     }).collect(Collectors.toList()));
                     baseRepository.createFilterWidget(config, new IResponseCallback<>() {
                         @Override
-                        public void onResponse(Integer response) {
+                        public void onResponse(Integer response, Headers headers) {
                             DeckLog.verbose("Successfully created", UpcomingWidget.class.getSimpleName(), "with id", appWidgetId);
                             updateAppWidget(executor, context, appWidgetManager, appWidgetIds);
                         }
@@ -114,7 +115,7 @@ public class UpcomingWidget extends AppWidgetProvider {
 
         for (int appWidgetId : appWidgetIds) {
             DeckLog.info("Delete", UpcomingWidget.class.getSimpleName(), "with id", appWidgetId);
-            baseRepository.deleteFilterWidget(appWidgetId, response -> DeckLog.verbose("Successfully deleted " + UpcomingWidget.class.getSimpleName() + " with id " + appWidgetId));
+            baseRepository.deleteFilterWidget(appWidgetId, (response, headers) -> DeckLog.verbose("Successfully deleted " + UpcomingWidget.class.getSimpleName() + " with id " + appWidgetId));
         }
     }
 

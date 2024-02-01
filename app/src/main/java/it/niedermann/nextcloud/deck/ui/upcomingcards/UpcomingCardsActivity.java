@@ -27,6 +27,7 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.movecard.MoveCardListener;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.Themed;
+import okhttp3.Headers;
 
 public class UpcomingCardsActivity extends AppCompatActivity implements Themed, MoveCardListener {
 
@@ -73,7 +74,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements Themed, 
                 },
                 fullCard -> viewModel.archiveCard(fullCard, new IResponseCallback<>() {
                     @Override
-                    public void onResponse(FullCard response) {
+                    public void onResponse(FullCard response, Headers headers) {
                         DeckLog.info("Successfully archived", Card.class.getSimpleName(), fullCard.getCard().getTitle());
                     }
 
@@ -85,7 +86,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements Themed, 
                 }),
                 card -> viewModel.deleteCard(card, new IResponseCallback<>() {
                     @Override
-                    public void onResponse(EmptyResponse response) {
+                    public void onResponse(EmptyResponse response, Headers headers) {
                         DeckLog.info("Successfully deleted card", card.getTitle());
                     }
 
@@ -129,7 +130,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements Themed, 
     public void move(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
         viewModel.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId, new IResponseCallback<>() {
             @Override
-            public void onResponse(EmptyResponse response) {
+            public void onResponse(EmptyResponse response, Headers headers) {
                 DeckLog.log("Moved", Card.class.getSimpleName(), originCardLocalId, "to", Stack.class.getSimpleName(), targetStackLocalId);
             }
 

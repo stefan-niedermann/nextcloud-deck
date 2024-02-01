@@ -52,6 +52,7 @@ import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedSnackbar;
+import okhttp3.Headers;
 
 public class CardDetailsFragment extends Fragment implements CardDueDateView.DueDateChangedListener, CardAssigneeListener {
 
@@ -228,7 +229,7 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
                 if (label.getLocalId() == null) {
                     viewModel.createLabel(accountId, label, boardId, new IResponseCallback<>() {
                         @Override
-                        public void onResponse(Label response) {
+                        public void onResponse(Label response, Headers headers) {
                             requireActivity().runOnUiThread(() -> {
                                 label.setLocalId(response.getLocalId());
                                 ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(response);

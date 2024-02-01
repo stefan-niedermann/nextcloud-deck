@@ -13,7 +13,9 @@ import it.niedermann.nextcloud.deck.exceptions.HandledServerErrors;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
+import okhttp3.Headers;
 
 public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
 
@@ -33,7 +35,7 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
 
     @Override
     public void getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<Label>> responder, Instant lastSync) {
-        responder.onResponse(labels);
+        responder.onResponse(labels, IResponseCallback.EMPTY_HEADERS);
     }
 
     @Override
@@ -61,8 +63,8 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
     private ResponseCallback<Label> getLabelUniqueHandler(DataBaseAdapter dataBaseAdapter, Label entitiy, ResponseCallback<Label> responder) {
         return new ResponseCallback<>(responder.getAccount()) {
             @Override
-            public void onResponse(Label response) {
-                responder.onResponse(response);
+            public void onResponse(Label response, Headers headers) {
+                responder.onResponse(response, headers);
             }
 
             @SuppressLint("MissingSuperCall")
@@ -71,7 +73,7 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
                 if (HandledServerErrors.LABELS_TITLE_MUST_BE_UNIQUE == HandledServerErrors.fromThrowable(throwable)) {
                     DeckLog.log(throwable.getCause().getMessage() + ":", entitiy);
                     dataBaseAdapter.deleteLabelPhysically(entitiy);
-                    responder.onResponse(entitiy);
+                    responder.onResponse(entitiy, IResponseCallback.EMPTY_HEADERS);
                 } else {
                     responder.onError(throwable);
                 }

@@ -113,6 +113,7 @@ import it.niedermann.nextcloud.deck.ui.theme.ThemedSnackbar;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 import it.niedermann.nextcloud.deck.util.CustomAppGlideModule;
 import it.niedermann.nextcloud.deck.util.OnTextChangedWatcher;
+import okhttp3.Headers;
 
 public class MainActivity extends AppCompatActivity implements DeleteStackListener,
         EditStackListener,
@@ -359,7 +360,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                 DeckLog.verbose("Trigger synchronization for", account);
                 mainViewModel.synchronize(account, new IResponseCallback<>() {
                     @Override
-                    public void onResponse(Boolean response) {
+                    public void onResponse(Boolean response, Headers headers) {
                         DeckLog.info("End of synchronization for " + account + " → Stop spinner.");
                         runOnUiThread(() -> binding.swipeRefreshLayout.setRefreshing(false));
                     }
@@ -541,7 +542,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     public void onCreateStack(long accountId, long boardId, String stackName) {
         mainViewModel.createStack(accountId, boardId, stackName, new IResponseCallback<>() {
             @Override
-            public void onResponse(FullStack response) {
+            public void onResponse(FullStack response, Headers headers) {
                 binding.viewPager.post(() -> {
                     try {
                         binding.viewPager.setCurrentItem(stackAdapter.getPosition(response.getLocalId()));
@@ -568,7 +569,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     public void onUpdateStack(long localStackId, String stackName) {
         mainViewModel.updateStackTitle(localStackId, stackName, new IResponseCallback<>() {
             @Override
-            public void onResponse(FullStack response) {
+            public void onResponse(FullStack response, Headers headers) {
                 DeckLog.info("Successfully updated", Stack.class.getSimpleName(), "to", stackName);
             }
 
@@ -588,7 +589,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
         mainViewModel.createBoard(account, boardToCreate, new IResponseCallback<>() {
             @Override
-            public void onResponse(FullBoard response) {
+            public void onResponse(FullBoard response, Headers headers) {
                 runOnUiThread(() -> {
                     if (response != null) {
                         mainViewModel.saveCurrentBoardId(response.getAccountId(), response.getLocalId());
@@ -612,7 +613,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     public void onUpdateBoard(FullBoard fullBoard) {
         mainViewModel.updateBoard(fullBoard, new IResponseCallback<>() {
             @Override
-            public void onResponse(FullBoard response) {
+            public void onResponse(FullBoard response, Headers headers) {
                 DeckLog.info("Successfully updated board", fullBoard.getBoard().getTitle());
             }
 
@@ -628,7 +629,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         DeckLog.verbose("Refreshing capabilities for", account.getName());
         mainViewModel.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
-            public void onResponse(Capabilities response) {
+            public void onResponse(Capabilities response, Headers headers) {
                 DeckLog.verbose("Finished refreshing capabilities for", account.getName(), "successfully.");
                 if (response.isMaintenanceEnabled()) {
                     DeckLog.verbose("Maintenance mode is enabled.");
@@ -697,7 +698,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         } else if (itemId == R.id.archive_cards) {
             final var stack = stackAdapter.getItem(binding.viewPager.getCurrentItem());
             final var stackLocalId = stack.getLocalId();
-            mainViewModel.countCardsInStack(stack.getAccountId(), stackLocalId, numberOfCards -> runOnUiThread(() ->
+            mainViewModel.countCardsInStack(stack.getAccountId(), stackLocalId, (numberOfCards, headers) -> runOnUiThread(() ->
                     new MaterialAlertDialogBuilder(this)
                             .setTitle(R.string.archive_cards)
                             .setMessage(getString(FilterInformation.hasActiveFilter(filterViewModel.getFilterInformation().getValue())
@@ -707,7 +708,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                                 final var filterInformation = Optional.ofNullable(filterViewModel.getFilterInformation().getValue()).orElse(new FilterInformation());
                                 mainViewModel.archiveCardsInStack(stack.getAccountId(), stackLocalId, filterInformation, new IResponseCallback<>() {
                                     @Override
-                                    public void onResponse(EmptyResponse response) {
+                                    public void onResponse(EmptyResponse response, Headers headers) {
                                         DeckLog.info("Successfully archived all cards in stack local id", stackLocalId);
                                     }
 
@@ -752,7 +753,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             return true;
         } else if (itemId == R.id.delete_list) {
             final var stack = stackAdapter.getItem(binding.viewPager.getCurrentItem());
-            mainViewModel.countCardsInStack(stack.getAccountId(), stack.getLocalId(), numberOfCards -> runOnUiThread(() -> {
+            mainViewModel.countCardsInStack(stack.getAccountId(), stack.getLocalId(), (numberOfCards, headers) -> runOnUiThread(() -> {
                 if (numberOfCards != null && numberOfCards > 0) {
                     DeleteStackDialogFragment.newInstance(stack.getAccountId(), stack.getBoardId(), stack.getLocalId(), numberOfCards).show(getSupportFragmentManager(), DeleteStackDialogFragment.class.getCanonicalName());
                 } else {
@@ -812,7 +813,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                     DeckLog.log("Got Network connection");
                     mainViewModel.synchronize(account, new IResponseCallback<>() {
                         @Override
-                        public void onResponse(Boolean response) {
+                        public void onResponse(Boolean response, Headers headers) {
                             DeckLog.log("Auto-Sync after connection available successful");
                         }
 
@@ -861,7 +862,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     public void onDeleteStack(long accountId, long boardId, long stackId) {
         mainViewModel.deleteStack(accountId, boardId, stackId, new IResponseCallback<>() {
             @Override
-            public void onResponse(EmptyResponse response) {
+            public void onResponse(EmptyResponse response, Headers headers) {
                 DeckLog.info("Successfully deleted stack with local id", stackId, "and remote id", stackId);
             }
 
@@ -879,7 +880,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     public void onBoardDeleted(Board board) {
         mainViewModel.deleteBoard(board, new IResponseCallback<>() {
             @Override
-            public void onResponse(EmptyResponse response) {
+            public void onResponse(EmptyResponse response, Headers headers) {
                 DeckLog.info("Successfully deleted board", board.getTitle());
             }
 
@@ -899,7 +900,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     public void onArchive(@NonNull Board board) {
         mainViewModel.archiveBoard(board, new IResponseCallback<>() {
             @Override
-            public void onResponse(FullBoard response) {
+            public void onResponse(FullBoard response, Headers headers) {
                 DeckLog.info("Successfully archived board", board.getTitle());
             }
 
@@ -925,7 +926,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                     snackbar.show();
                     mainViewModel.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColor(), checkedItems[0], new IResponseCallback<>() {
                         @Override
-                        public void onResponse(FullBoard response) {
+                        public void onResponse(FullBoard response, Headers headers) {
                             runOnUiThread(() -> {
                                 snackbar.dismiss();
                                 mainViewModel.saveCurrentBoardId(response.getAccountId(), response.getLocalId());
@@ -954,7 +955,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     public void onArchive(@NonNull FullCard fullCard) {
         mainViewModel.archiveCard(fullCard, new IResponseCallback<>() {
             @Override
-            public void onResponse(FullCard response) {
+            public void onResponse(FullCard response, Headers headers) {
                 DeckLog.info("Successfully archived", Card.class.getSimpleName(), fullCard.getCard().getTitle());
             }
 
@@ -970,7 +971,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     public void onDelete(@NonNull FullCard fullCard) {
         mainViewModel.deleteCard(fullCard.getCard(), new IResponseCallback<>() {
             @Override
-            public void onResponse(EmptyResponse response) {
+            public void onResponse(EmptyResponse response, Headers headers) {
                 DeckLog.info("Successfully deleted card", fullCard.getCard().getTitle());
             }
 
@@ -1031,7 +1032,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     public void move(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
         mainViewModel.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId, new IResponseCallback<>() {
             @Override
-            public void onResponse(EmptyResponse response) {
+            public void onResponse(EmptyResponse response, Headers headers) {
                 DeckLog.log("Moved", Card.class.getSimpleName(), originCardLocalId, "to", Stack.class.getSimpleName(), targetStackLocalId);
             }
 

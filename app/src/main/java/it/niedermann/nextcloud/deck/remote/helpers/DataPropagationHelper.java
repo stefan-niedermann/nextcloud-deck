@@ -13,8 +13,10 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.remote.helpers.providers.AbstractSyncDataProvider;
+import okhttp3.Headers;
 
 public class DataPropagationHelper {
     @NonNull
@@ -49,7 +51,7 @@ public class DataPropagationHelper {
             try {
                 provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<>(callback.getAccount()) {
                     @Override
-                    public void onResponse(T response) {
+                    public void onResponse(T response, Headers headers) {
                         executor.submit(() -> {
                             response.setAccountId(accountId);
                             response.setLocalId(newID);
@@ -58,7 +60,7 @@ public class DataPropagationHelper {
                             }
                             response.setStatus(DBStatus.UP_TO_DATE.getId());
                             provider.updateInDB(dataBaseAdapter, accountId, response, false);
-                            callback.onResponse(response);
+                            callback.onResponse(response, headers);
                         });
                     }
 
@@ -72,7 +74,7 @@ public class DataPropagationHelper {
                 callback.onError(t);
             }
         } else {
-            callback.onResponse(entity);
+            callback.onResponse(entity, IResponseCallback.EMPTY_HEADERS);
         }
     }
 
@@ -89,11 +91,11 @@ public class DataPropagationHelper {
             try {
                 provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<>(new Account(accountId)) {
                     @Override
-                    public void onResponse(T response) {
+                    public void onResponse(T response, Headers headers) {
                         executor.submit(() -> {
                             entity.setStatus(DBStatus.UP_TO_DATE.getId());
                             provider.updateInDB(dataBaseAdapter, accountId, entity, false);
-                            callback.onResponse(entity);
+                            callback.onResponse(entity, headers);
                         });
                     }
 
@@ -107,7 +109,7 @@ public class DataPropagationHelper {
                 callback.onError(t);
             }
         } else {
-            callback.onResponse(entity);
+            callback.onResponse(entity, IResponseCallback.EMPTY_HEADERS);
         }
     }
 
@@ -124,10 +126,10 @@ public class DataPropagationHelper {
             try {
                 provider.deleteOnServer(serverAdapter, accountId, new ResponseCallback<>(new Account(accountId)) {
                     @Override
-                    public void onResponse(EmptyResponse response) {
+                    public void onResponse(EmptyResponse response, Headers headers) {
                         executor.submit(() -> {
                             provider.deletePhysicallyInDB(dataBaseAdapter, accountId, entity);
-                            callback.onResponse(null);
+                            callback.onResponse(null, headers);
                         });
                     }
 
@@ -141,7 +143,7 @@ public class DataPropagationHelper {
                 callback.onError(t);
             }
         } else {
-            callback.onResponse(null);
+            callback.onResponse(null, IResponseCallback.EMPTY_HEADERS);
         }
     }
 }

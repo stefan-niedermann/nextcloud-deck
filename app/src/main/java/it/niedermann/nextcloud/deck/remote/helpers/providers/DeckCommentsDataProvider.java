@@ -10,15 +10,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.database.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
+import okhttp3.Headers;
 
 public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsComment> {
 
@@ -33,21 +36,38 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
     public void getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<OcsComment>> responder, Instant lastSync) {
         serverAdapter.getCommentsForRemoteCardId(card.getId(), new ResponseCallback<>(responder.getAccount()) {
             @Override
-            public void onResponse(OcsComment response) {
+            public void onResponse(OcsComment response, Headers headers) {
                 if (response == null) {
                     response = new OcsComment();
                 }
                 List<OcsComment> comments = response.split();
                 Collections.sort(comments, Comparator.comparing(o -> o.getSingle().getCreationDateTime()));
                 verifyCommentListIntegrity(comments);
-                responder.onResponse(comments);
+                responder.onResponse(comments, headers);
             }
 
             @Override
             public void onError(Throwable throwable) {
+                super.onError(throwable);
                 responder.onError(throwable);
             }
         });
+    }
+
+    @Override
+    public void onInsertFailed(DataBaseAdapter dataBaseAdapter, RuntimeException cause, Account account, long accountId, List<OcsComment> response, OcsComment entityFromServer) {
+        Account foundAccount = dataBaseAdapter.getAccountByIdDirectly(accountId);
+        DeckComment comment = entityFromServer.getSingle();
+        Card foundCard = dataBaseAdapter.getCardByLocalIdDirectly(accountId, comment.getObjectId());
+        DeckComment foundComment = dataBaseAdapter.getCommentByLocalIdDirectly(accountId, comment.getParentId());
+        List<Long> accountIDs = dataBaseAdapter.getAllAccountsDirectly().stream().map(Account::getId).collect(Collectors.toList());
+        List<Long> allCardIDs = dataBaseAdapter.getAllCardIDs();
+        throw new RuntimeException("Error creating Comment.\n" +
+                "AccountID: "+accountId+" (existing: "+(foundAccount != null)+")\n" +
+                "cardID: "+comment.getObjectId()+" (parent-DataProvider gave CardID: "+card.getLocalId()+" in account "+card.getAccountId()+") (existing: "+(foundCard != null)+")\n" +
+                "parentID: "+comment.getParentId()+" (existing: "+(foundComment != null)+")\n" +
+                "all existing account-IDs: "+accountIDs + "\n" +
+                "all existing card-IDs: "+allCardIDs, cause);
     }
 
     private void verifyCommentListIntegrity(List<OcsComment> comments) {
@@ -123,9 +143,9 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
         CountDownLatch latch = new CountDownLatch(1);
         serverAdapter.createCommentForCard(comment, new ResponseCallback<>(responder.getAccount()) {
             @Override
-            public void onResponse(OcsComment response) {
+            public void onResponse(OcsComment response, Headers headers) {
                 latch.countDown();
-                responder.onResponse(response);
+                responder.onResponse(response, headers);
                 DeckLog.info("CREATED entity: "+entity.getComments().get(0).getMessage() + " with id " +entity.getComments().get(0).getLocalId());
             }
 

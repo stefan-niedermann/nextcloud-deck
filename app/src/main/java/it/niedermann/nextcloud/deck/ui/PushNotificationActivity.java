@@ -22,6 +22,7 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.Themed;
+import okhttp3.Headers;
 
 /**
  * Warning: Do not move this class to another package or folder!
@@ -55,7 +56,7 @@ public class PushNotificationActivity extends AppCompatActivity implements Theme
         viewModel.getAccount().observe(this, this::applyTheme);
         executor.submit(() -> viewModel.getCardInformation(intent.getExtras(), new PushNotificationViewModel.PushNotificationCallback() {
             @Override
-            public void onResponse(@NonNull PushNotificationViewModel.CardInformation cardInformation) {
+            public void onResponse(@NonNull PushNotificationViewModel.CardInformation cardInformation, Headers headers) {
                 runOnUiThread(() -> openCardOnSubmit(cardInformation.account, cardInformation.localBoardId, cardInformation.localCardId));
             }
 

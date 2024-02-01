@@ -3,10 +3,13 @@ package it.niedermann.nextcloud.deck.remote.api;
 import androidx.annotation.CallSuper;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import okhttp3.Headers;
 
 public interface IResponseCallback<T> {
 
-    void onResponse(T response);
+    Headers EMPTY_HEADERS = Headers.of();
+
+    void onResponse(T response, Headers headers);
 
     @CallSuper
     default void onError(Throwable throwable) {
@@ -14,10 +17,10 @@ public interface IResponseCallback<T> {
     }
 
     /**
-     * @return a default {@link IResponseCallback} which does nothing {@link #onResponse(Object)} and the default action fo {@link #onError(Throwable)}
+     * @return a default {@link IResponseCallback} which does nothing {@link #onResponse(Object, Headers)} and the default action fo {@link #onError(Throwable)}
      */
     static <T> IResponseCallback<T> empty() {
-        return response -> {
+        return (response, headers) -> {
             // Does nothing on default
         };
     }

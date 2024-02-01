@@ -28,7 +28,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.test.core.app.ApplicationProvider;
 
 import com.google.common.util.concurrent.MoreExecutors;
-import com.nextcloud.android.sso.api.ParsedResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import org.junit.Before;
@@ -40,7 +39,6 @@ import org.robolectric.RobolectricTestRunner;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import it.niedermann.nextcloud.deck.TestUtil;
@@ -64,6 +62,7 @@ import it.niedermann.nextcloud.deck.remote.helpers.providers.AbstractSyncDataPro
 import it.niedermann.nextcloud.deck.remote.helpers.providers.CardDataProvider;
 import it.niedermann.nextcloud.deck.remote.helpers.providers.StackDataProvider;
 import it.niedermann.nextcloud.deck.remote.helpers.util.ConnectivityUtil;
+import okhttp3.Headers;
 
 @RunWith(RobolectricTestRunner.class)
 public class SyncRepositoryTest {
@@ -153,7 +152,7 @@ public class SyncRepositoryTest {
 
         final var responseCallback = spy(new ResponseCallback<Boolean>(new Account(1L)) {
             @Override
-            public void onResponse(Boolean response) {
+            public void onResponse(Boolean response, Headers headers) {
 
             }
         });
@@ -184,7 +183,7 @@ public class SyncRepositoryTest {
 
         final var responseCallback = spy(new ResponseCallback<Boolean>(new Account(1L)) {
             @Override
-            public void onResponse(Boolean response) {
+            public void onResponse(Boolean response, Headers headers) {
 
             }
         });
@@ -211,14 +210,14 @@ public class SyncRepositoryTest {
         final var callback = mock(IResponseCallback.class);
         when(dataBaseAdapter.createAccountDirectly(any(Account.class))).thenReturn(account);
         doAnswer(invocation -> {
-            ((ResponseCallback<ParsedResponse<List<FullBoard>>>) invocation.getArgument(0))
-                    .onResponse(ParsedResponse.of(Collections.emptyList()));
+            ((ResponseCallback<List<FullBoard>>) invocation.getArgument(0))
+                    .onResponse(Collections.emptyList(), IResponseCallback.EMPTY_HEADERS);
             return null;
         }).when(serverAdapter).getBoards(any());
 
         syncRepository.createAccount(account, callback);
         verify(dataBaseAdapter, times(1)).createAccountDirectly(account);
-        verify(callback, times(1)).onResponse(account);
+        verify(callback, times(1)).onResponse(account, IResponseCallback.EMPTY_HEADERS);
     }
 
     @Test
@@ -228,14 +227,14 @@ public class SyncRepositoryTest {
         final var callback = mock(IResponseCallback.class);
         when(dataBaseAdapter.createAccountDirectly(any(Account.class))).thenReturn(account);
         doAnswer(invocation -> {
-            ((ResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(0))
+            ((ResponseCallback<Capabilities>) invocation.getArgument(0))
                     .onError(new NextcloudHttpRequestFailedException(ApplicationProvider.getApplicationContext(), 404, new RuntimeException()));
             return null;
         }).when(serverAdapter).getBoards(any());
 
         syncRepository.createAccount(account, callback);
         verify(dataBaseAdapter, times(1)).createAccountDirectly(account);
-        verify(callback, times(1)).onResponse(account);
+        verify(callback, times(1)).onResponse(account, IResponseCallback.EMPTY_HEADERS);
     }
 
     @Test
@@ -269,11 +268,9 @@ public class SyncRepositoryTest {
     public void testRefreshCapabilities() throws ExecutionException, InterruptedException {
         final var account = new Account(1337L, "Test", "Peter", "example.com");
         account.setEtag("This-Is-The-Old_ETag");
-        final var mockedResponse = mock(ParsedResponse.class);
         final var serverResponse = new Capabilities();
         serverResponse.setDeckVersion(Version.of("1.0.0"));
-        when(mockedResponse.getResponse()).thenReturn(serverResponse);
-        when(mockedResponse.getHeaders()).thenReturn(Map.of("ETag", "New-ETag"));
+        final var headers = Headers.of("ETag", "New-ETag");
         when(dataBaseAdapter.getAccountByIdDirectly(anyLong())).thenReturn(account);
 
         // Happy path
@@ -282,14 +279,14 @@ public class SyncRepositoryTest {
             assertEquals("The old eTag must be passed to the " + ServerAdapter.class.getSimpleName(),
                     "This-Is-The-Old_ETag", invocation.getArgument(0));
             //noinspection unchecked
-            ((ResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
-                    .onResponse(mockedResponse);
+            ((ResponseCallback<Capabilities>) invocation.getArgument(1))
+                    .onResponse(serverResponse, headers);
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
         syncRepository.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
-            public void onResponse(Capabilities response) {
+            public void onResponse(Capabilities response, Headers headers) {
                 assertEquals("Capabilities from server must be returned to the original callback",
                         Version.of("1.0.0"), response.getDeckVersion());
                 verify(dataBaseAdapter).updateAccount(argThat(account -> "New-ETag".equals(account.getEtag())));
@@ -307,14 +304,14 @@ public class SyncRepositoryTest {
         account.setMaintenanceEnabled(true);
         doAnswer(invocation -> {
             //noinspection unchecked
-            ((ResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
+            ((ResponseCallback<Capabilities>) invocation.getArgument(1))
                     .onError(new NextcloudHttpRequestFailedException(ApplicationProvider.getApplicationContext(), 304, new RuntimeException()));
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
         syncRepository.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
-            public void onResponse(Capabilities response) {
+            public void onResponse(Capabilities response, Headers headers) {
                 assertEquals("Capabilities from server must be returned to the original callback",
                         Version.of("1.0.0"), response.getDeckVersion());
                 assertFalse("The maintenance mode must be turned off after a HTTP 304 to avoid stucking \"offline\" and start a real request the next time - the maintenance mode might be off the next time.",
@@ -333,14 +330,14 @@ public class SyncRepositoryTest {
 
         doAnswer(invocation -> {
             //noinspection unchecked
-            ((ResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
+            ((ResponseCallback<Capabilities>) invocation.getArgument(1))
                     .onError(new NextcloudHttpRequestFailedException(ApplicationProvider.getApplicationContext(), 500, new RuntimeException()));
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
         syncRepository.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
-            public void onResponse(Capabilities response) {
+            public void onResponse(Capabilities response, Headers headers) {
                 fail("In case of an HTTP 500 the callback must not be responded successfully.");
             }
 
@@ -356,14 +353,14 @@ public class SyncRepositoryTest {
 
         doAnswer(invocation -> {
             //noinspection unchecked
-            ((ResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
+            ((ResponseCallback<Capabilities>) invocation.getArgument(1))
                     .onError(new NextcloudHttpRequestFailedException(ApplicationProvider.getApplicationContext(), 503, new RuntimeException("{\"ocs\": {\"meta\": {\"statuscode\": 503}, \"data\": {\"version\": {\"major\": 20, \"minor\": 0, \"patch\": 1}}}}")));
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
         syncRepository.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
-            public void onResponse(Capabilities response) {
+            public void onResponse(Capabilities response, Headers headers) {
                 assertEquals(Version.of("20.0.1"), response.getNextcloudVersion());
             }
 
@@ -378,14 +375,14 @@ public class SyncRepositoryTest {
 
         doAnswer(invocation -> {
             //noinspection unchecked
-            ((ResponseCallback<ParsedResponse<Capabilities>>) invocation.getArgument(1))
+            ((ResponseCallback<Capabilities>) invocation.getArgument(1))
                     .onError(new NetworkErrorException());
             return null;
         }).when(serverAdapter).getCapabilities(anyString(), any());
 
         syncRepository.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
-            public void onResponse(Capabilities response) {
+            public void onResponse(Capabilities response, Headers headers) {
                 fail("In case of any other exception the callback must not be responded successfully.");
             }
 
@@ -402,7 +399,7 @@ public class SyncRepositoryTest {
 
         syncRepository.refreshCapabilities(new ResponseCallback<>(account) {
             @Override
-            public void onResponse(Capabilities response) {
+            public void onResponse(Capabilities response, Headers headers) {
                 fail("In case of an " + OfflineException.class.getSimpleName() + " the callback must not be responded successfully.");
             }
 
@@ -424,14 +421,14 @@ public class SyncRepositoryTest {
         // Act as if refreshing capabilities is always successful
         doAnswer((invocation -> {
             //noinspection unchecked
-            ((IResponseCallback<Capabilities>) invocation.getArgument(0)).onResponse(capabilities);
+            ((IResponseCallback<Capabilities>) invocation.getArgument(0)).onResponse(capabilities, IResponseCallback.EMPTY_HEADERS);
             return null;
         })).when(syncManagerSpy).refreshCapabilities(any());
 
         // Actual method invocation
         final var finalCallback = spy(new ResponseCallback<Boolean>(account) {
             @Override
-            public void onResponse(Boolean response) {
+            public void onResponse(Boolean response, Headers headers) {
             }
         });
 
@@ -443,7 +440,7 @@ public class SyncRepositoryTest {
 
         syncManagerSpy.synchronize(finalCallback);
 
-        verify(finalCallback, times(1)).onResponse(any());
+        verify(finalCallback, times(1)).onResponse(any(), any(Headers.class));
 
 
         // Bad paths
@@ -475,9 +472,9 @@ public class SyncRepositoryTest {
         }
 
         @Override
-        public <T extends IRemoteEntity> void doSyncFor(@NonNull AbstractSyncDataProvider<T> provider) {
+        public <T extends IRemoteEntity> void doSyncFor(@NonNull AbstractSyncDataProvider<T> provider, boolean parallel) {
             if (success) {
-                cb.onResponse(true);
+                cb.onResponse(true, IResponseCallback.EMPTY_HEADERS);
             } else {
                 cb.onError(new RuntimeException("Bad path mocking"));
             }
@@ -486,7 +483,7 @@ public class SyncRepositoryTest {
         @Override
         public <T extends IRemoteEntity> void doUpSyncFor(@NonNull AbstractSyncDataProvider<T> provider) {
             if (success) {
-                cb.onResponse(true);
+                cb.onResponse(true, IResponseCallback.EMPTY_HEADERS);
             } else {
                 cb.onError(new RuntimeException("Bad path mocking"));
             }

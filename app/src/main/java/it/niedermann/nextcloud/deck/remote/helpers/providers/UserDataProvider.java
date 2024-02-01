@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.remote.helpers.providers;
 
+
 import com.nextcloud.android.sso.api.EmptyResponse;
 
 import java.time.Instant;
@@ -11,6 +12,7 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
+import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 
 public class UserDataProvider extends AbstractSyncDataProvider<User> {
@@ -30,7 +32,7 @@ public class UserDataProvider extends AbstractSyncDataProvider<User> {
 
     @Override
     public void getAllFromServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<List<User>> responder, Instant lastSync) {
-        responder.onResponse(users);
+        responder.onResponse(users, IResponseCallback.EMPTY_HEADERS);
     }
 
     @Override
