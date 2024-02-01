@@ -211,13 +211,13 @@ public class SyncRepositoryTest {
         when(dataBaseAdapter.createAccountDirectly(any(Account.class))).thenReturn(account);
         doAnswer(invocation -> {
             ((ResponseCallback<List<FullBoard>>) invocation.getArgument(0))
-                    .onResponse(Collections.emptyList(), );
+                    .onResponse(Collections.emptyList(), IResponseCallback.EMPTY_HEADERS);
             return null;
         }).when(serverAdapter).getBoards(any());
 
         syncRepository.createAccount(account, callback);
         verify(dataBaseAdapter, times(1)).createAccountDirectly(account);
-        verify(callback, times(1)).onResponse(account, );
+        verify(callback, times(1)).onResponse(account, IResponseCallback.EMPTY_HEADERS);
     }
 
     @Test
@@ -234,7 +234,7 @@ public class SyncRepositoryTest {
 
         syncRepository.createAccount(account, callback);
         verify(dataBaseAdapter, times(1)).createAccountDirectly(account);
-        verify(callback, times(1)).onResponse(account, );
+        verify(callback, times(1)).onResponse(account, IResponseCallback.EMPTY_HEADERS);
     }
 
     @Test
@@ -440,7 +440,7 @@ public class SyncRepositoryTest {
 
         syncManagerSpy.synchronize(finalCallback);
 
-        verify(finalCallback, times(1)).onResponse(any(), );
+        verify(finalCallback, times(1)).onResponse(any(), IResponseCallback.EMPTY_HEADERS);
 
 
         // Bad paths
@@ -483,7 +483,7 @@ public class SyncRepositoryTest {
         @Override
         public <T extends IRemoteEntity> void doUpSyncFor(@NonNull AbstractSyncDataProvider<T> provider) {
             if (success) {
-                cb.onResponse(true, );
+                cb.onResponse(true, IResponseCallback.EMPTY_HEADERS);
             } else {
                 cb.onError(new RuntimeException("Bad path mocking"));
             }

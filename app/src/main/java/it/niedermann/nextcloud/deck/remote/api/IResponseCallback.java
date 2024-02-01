@@ -7,7 +7,7 @@ import okhttp3.Headers;
 
 public interface IResponseCallback<T> {
 
-    static Headers EMPTY_HEADERS = Headers.of();
+    Headers EMPTY_HEADERS = Headers.of();
 
     void onResponse(T response, Headers headers);
 
