@@ -2,13 +2,14 @@ package it.niedermann.nextcloud.deck.ui.card.attachments;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
 import static androidx.recyclerview.widget.RecyclerView.NO_ID;
-import static it.niedermann.nextcloud.deck.util.AttachmentUtil.openAttachment;
+import static it.niedermann.nextcloud.deck.util.AttachmentUtil.generateOpenAttachmentIntent;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentDefaultBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentImageBinding;
@@ -52,19 +54,19 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
     @NonNull
     private final List<Attachment> attachments = new ArrayList<>();
     @NonNull
-    private final AttachmentClickedListener attachmentClickedListener;
+    private final AttachmentInteractionListener attachmentInteractionListener;
 
     CardAttachmentAdapter(
             @NonNull FragmentManager fragmentManager,
             @NonNull MenuInflater menuInflater,
-            @NonNull AttachmentClickedListener attachmentClickedListener,
+            @NonNull AttachmentInteractionListener attachmentInteractionListener,
             @NonNull Account account,
             @Nullable Long cardLocalId
     ) {
         super();
         this.fragmentManager = fragmentManager;
         this.menuInflater = menuInflater;
-        this.attachmentClickedListener = attachmentClickedListener;
+        this.attachmentInteractionListener = attachmentInteractionListener;
         this.account = account;
         this.cardLocalId = cardLocalId == null ? NO_ID : cardLocalId;
         setHasStableIds(true);
@@ -97,7 +99,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
         switch (getItemViewType(position)) {
             case VIEW_TYPE_IMAGE: {
                 onClickListener = (event) -> {
-                    attachmentClickedListener.onAttachmentClicked(position);
+                    attachmentInteractionListener.onAttachmentClicked(position);
                     final var intent = AttachmentsActivity.createIntent(context, account, cardLocalId, attachment.getLocalId());
                     if (context instanceof Activity) {
                         String transitionName = context.getString(R.string.transition_attachment_preview, String.valueOf(attachment.getLocalId()));
@@ -111,11 +113,21 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
             }
             case VIEW_TYPE_DEFAULT:
             default: {
-                onClickListener = (event) -> openAttachment(account, context, cardRemoteId, attachment);
+                onClickListener = (event) -> {
+                    final var intent = generateOpenAttachmentIntent(account, context, cardRemoteId, attachment);
+                    if (intent.isPresent()) {
+                        context.startActivity(intent.get());
+                    } else {
+                        Toast.makeText(context, R.string.attachment_does_not_yet_exist, Toast.LENGTH_LONG).show();
+                        DeckLog.logError(new IllegalArgumentException("attachmentRemoteId must not be null."));
+                    }
+                };
                 break;
             }
         }
-        holder.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, color);
+        // FIXME only onAppendToDescription if write permission!!
+        // FIXME Trigger new description displayed!
+        holder.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, attachmentInteractionListener::onAppendToDescription, color);
     }
 
     @Override

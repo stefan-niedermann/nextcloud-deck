@@ -10,13 +10,10 @@ import android.view.View;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.ColorInt;
-import androidx.annotation.DimenRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.Px;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.animation.ArgbEvaluatorCompat;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -27,32 +24,24 @@ public class CardAttachmentsBottomsheetBehaviorCallback extends BottomSheetBehav
     private final FloatingActionButton fab;
     @NonNull
     private final View pickerBackdrop;
-    @NonNull
-    private final BottomNavigationView bottomNavigation;
     @ColorInt
     private final int backdropColorExpanded;
     @ColorInt
     private final int backdropColorCollapsed;
-    @Px
-    private final int bottomNavigationHeight;
 
     private float lastOffset = -1;
 
     public CardAttachmentsBottomsheetBehaviorCallback(@NonNull Context context,
                                                       @NonNull OnBackPressedCallback backPressedCallback,
                                                       @NonNull FloatingActionButton fab,
-                                                      @NonNull View pickerBackdrop,
-                                                      @NonNull BottomNavigationView bottomNavigation,
-                                                      @DimenRes int bottomNavigationHeight
+                                                      @NonNull View pickerBackdrop
     ) {
         this.backPressedCallback = backPressedCallback;
         this.fab = fab;
         this.pickerBackdrop = pickerBackdrop;
-        this.bottomNavigation = bottomNavigation;
         final var color = ContextCompat.getColor(context, android.R.color.black);
         this.backdropColorExpanded = Color.argb(127, Color.red(color), Color.green(color), Color.blue(color));
         this.backdropColorCollapsed = ContextCompat.getColor(context, android.R.color.transparent);
-        this.bottomNavigationHeight = context.getResources().getDimensionPixelSize(bottomNavigationHeight);
     }
 
     @Override
@@ -72,7 +61,6 @@ public class CardAttachmentsBottomsheetBehaviorCallback extends BottomSheetBehav
         if (slideOffset <= 0) {
             final float bottomSheetPercentageShown = slideOffset * -1;
             pickerBackdrop.setBackgroundColor(ArgbEvaluatorCompat.getInstance().evaluate(bottomSheetPercentageShown, backdropColorExpanded, backdropColorCollapsed));
-            bottomNavigation.setTranslationY(bottomSheetPercentageShown * bottomNavigationHeight);
             if (slideOffset <= lastOffset && slideOffset != 0) {
                 fab.show();
             } else {

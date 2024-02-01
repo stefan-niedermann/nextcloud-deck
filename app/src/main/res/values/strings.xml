@@ -118,6 +118,7 @@
     <string name="about_server_app_version_text">Server app version:</string>
     <string name="no_files_attached_to_this_card">There are no files attached to this card.</string>
     <string name="attachments">Attachments</string>
+    <string name="append_to_description">Append to description</string>
     <string name="no_cards">No cards yet</string>
     <string name="account_already_added">The account %1$s has already been added</string>
     <string name="not_synced_yet">Not synced yet</string>
@@ -306,6 +307,8 @@
     <string name="project_type_room">Talk room</string>
     <string name="simple_move">Move</string>
     <string name="cannot_upload_files_without_permission">Cannot upload files without permissions</string>
+    <string name="insufficient_permission">Insufficient permission</string>
+    <string name="no_matching_app_installed">No matching app installed</string>
     <string name="clone_cards">Clone cards</string>
     <string name="simple_clone">Clone</string>
     <string name="user_avatar">User avatar</string>
@@ -317,10 +320,13 @@
     <string name="show_all_files">Show all files</string>
     <string name="recent">Recent</string>
     <string name="upload_a_new_attachment">Upload a new attachment</string>
+    <string name="camera">Camera</string>
     <string name="contacts">Contacts</string>
     <string name="downloads">Downloads</string>
     <string name="files">Files</string>
+    <string name="voice_recorder">Voice recorder</string>
     <string name="gallery">Gallery</string>
+    <string name="videos">Videos</string>
     <string name="simple_attach">Attach</string>
     <string name="add_stack_widget">Add list widget</string>
     <string name="add_filter_widget">Add filter widget</string>

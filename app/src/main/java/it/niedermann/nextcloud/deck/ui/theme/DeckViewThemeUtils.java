@@ -5,7 +5,6 @@ import static com.nextcloud.android.common.ui.util.PlatformThemeUtil.isDarkMode;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -25,7 +24,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.widget.TextViewCompat;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.bottomsheet.BottomSheetDragHandleView;
 import com.google.android.material.search.SearchBar;
 import com.google.android.material.search.SearchView;
 import com.google.android.material.tabs.TabLayout;
@@ -217,21 +216,21 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
     }
 
     /**
-     * @see <a href="https://github.com/nextcloud/android-common/pull/250">Upstream Pull Request</a>
+     * @see <a href="https://github.com/nextcloud/android-common/pull/269">Upstream Pull Request</a>
      */
     @Deprecated(forRemoval = true)
-    public void themeSecondaryFAB(@NonNull FloatingActionButton fab) {
-        withScheme(fab.getContext(), scheme -> {
-            fab.setBackgroundTintList(buildColorStateList(
-                    new Pair<>(android.R.attr.state_enabled, scheme.getSecondaryContainer()),
-                    new Pair<>(-android.R.attr.state_enabled, Color.GRAY)
-            ));
+    public void themeDragHandleView(@NonNull BottomSheetDragHandleView dragHandleView) {
+        withScheme(dragHandleView.getContext(), scheme -> {
+            dragHandleView.setImageTintList(ColorStateList.valueOf(scheme.getOnSurfaceVariant()));
+            return dragHandleView;
+        });
+    }
 
-            fab.setImageTintList(buildColorStateList(
-                    new Pair<>(android.R.attr.state_enabled, scheme.getOnSecondaryContainer()),
-                    new Pair<>(-android.R.attr.state_enabled, Color.GRAY)
-            ));
-            return fab;
+    public void colorImageViewBackgroundAndIconSecondary(@NonNull ImageView imageView) {
+        withScheme(imageView.getContext(), scheme -> {
+            imageView.setImageTintList(ColorStateList.valueOf(scheme.getOnSecondaryContainer()));
+            imageView.setBackgroundTintList(ColorStateList.valueOf(scheme.getSecondaryContainer()));
+            return imageView;
         });
     }
 }

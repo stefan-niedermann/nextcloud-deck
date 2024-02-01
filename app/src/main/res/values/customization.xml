@@ -6,6 +6,8 @@
     <integer name="max_users_suggested">3</integer>
     <!-- How many dp should one column in the attachments grid have -->
     <integer name="max_dp_attachment_column">110</integer>
+    <!-- How many dp should one launcher in the attachments picker have -->
+    <integer name="max_dp_attachment_picker">110</integer>
     <!-- Maximum characters of a comment. Caution: Server allow maximum 1000 characters! -->
     <integer name="comment_max_length">1000</integer>
     <!-- Parent comment line counter -->

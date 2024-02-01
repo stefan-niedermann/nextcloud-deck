@@ -1,12 +1,13 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
+import static it.niedermann.nextcloud.deck.util.AttachmentUtil.generateOpenAttachmentIntent;
 import static it.niedermann.nextcloud.deck.util.AttachmentUtil.getIconForMimeType;
-import static it.niedermann.nextcloud.deck.util.AttachmentUtil.openAttachment;
 
 import android.text.format.Formatter;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -15,6 +16,10 @@ import androidx.fragment.app.FragmentManager;
 
 import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 
+import java.util.function.Consumer;
+
+import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentDefaultBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -40,10 +45,25 @@ public class DefaultAttachmentViewHolder extends AttachmentViewHolder {
         return binding.notSyncedYet;
     }
 
-    public void bind(@NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull FragmentManager fragmentManager, Long cardRemoteId, Attachment attachment, @Nullable View.OnClickListener onClickListener, @ColorInt int color) {
-        super.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, color);
+    public void bind(@NonNull Account account,
+                     @NonNull MenuInflater menuInflater,
+                     @NonNull FragmentManager fragmentManager,
+                     Long cardRemoteId,
+                     Attachment attachment,
+                     @Nullable View.OnClickListener onClickListener,
+                     @NonNull Consumer<String> onAppendToDescription,
+                     @ColorInt int color) {
+        super.bind(account, menuInflater, fragmentManager, cardRemoteId, attachment, onClickListener, onAppendToDescription, color);
         getPreview().setImageResource(getIconForMimeType(attachment.getMimetype()));
-        itemView.setOnClickListener((event) -> openAttachment(account, itemView.getContext(), cardRemoteId, attachment));
+        itemView.setOnClickListener((event) -> {
+            final var intent = generateOpenAttachmentIntent(account, itemView.getContext(), cardRemoteId, attachment);
+            if (intent.isPresent()) {
+                itemView.getContext().startActivity(intent.get());
+            } else {
+                Toast.makeText(itemView.getContext(), R.string.attachment_does_not_yet_exist, Toast.LENGTH_LONG).show();
+                DeckLog.logError(new IllegalArgumentException("attachmentRemoteId must not be null."));
+            }
+        });
         binding.filename.setText(attachment.getBasename());
         binding.filesize.setText(Formatter.formatFileSize(binding.filesize.getContext(), attachment.getFilesize()));
         if (attachment.getLastModifiedLocal() != null) {

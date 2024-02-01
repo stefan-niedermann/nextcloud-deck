@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.net.Uri;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -147,8 +148,12 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
                         coverImageView.setLayoutParams(new LinearLayout.LayoutParams(coverWidth, coverHeight));
                         coverImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                         coverImagesHolder.addView(coverImageView);
-                        Glide.with(coverImageView)
-                                .load(new SingleSignOnUrl(account.getName(), AttachmentUtil.getThumbnailUrl(account, fullCard.getId(), coverImage, coverWidth, coverHeight)))
+
+                        final var requestManager = Glide.with(coverImageView);
+                        AttachmentUtil.getThumbnailUrl(account, fullCard.getId(), coverImage, coverWidth, coverHeight)
+                                .map(Uri::toString)
+                                .map(uri -> requestManager.load(new SingleSignOnUrl(account.getName(), uri)))
+                                .orElseGet(() -> requestManager.load(R.drawable.ic_image_24dp))
                                 .placeholder(R.drawable.ic_image_24dp)
                                 .error(R.drawable.ic_image_24dp)
                                 .into(coverImageView);

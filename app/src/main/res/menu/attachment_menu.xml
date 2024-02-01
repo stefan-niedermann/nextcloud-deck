@@ -6,6 +6,10 @@
         android:title="@android:string/copyUrl"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/append_to_description"
+        android:title="@string/append_to_description"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/delete"
         android:icon="@drawable/ic_delete_24dp"
         android:title="@string/simple_delete"

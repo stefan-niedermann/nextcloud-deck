@@ -6,11 +6,11 @@
     <dimen name="spacer_2x">16dp</dimen>
     <dimen name="spacer_3x">24dp</dimen>
     <dimen name="spacer_4x">32dp</dimen>
+    <dimen name="spacer_7x">56dp</dimen>
 
     <dimen name="stack_bottom_padding">80dp</dimen>
 
     <dimen name="compact_label_height">6dp</dimen>
-    <dimen name="attachments_bottom_navigation_height">80dp</dimen>
 
     <dimen name="font_size_description">18sp</dimen>
 

@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical"
         android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:listitem="@layout/item_attachment_default"
         tools:visibility="visible" />
 
@@ -53,33 +54,18 @@
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:id="@+id/dragHandle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/pickerRecyclerView"
+            android:id="@+id/attachment_picker"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="@dimen/spacer_1hx"
-            android:paddingEnd="@dimen/spacer_1hx"
-            android:paddingBottom="@dimen/attachments_bottom_navigation_height"
-            tools:listitem="@layout/support_simple_spinner_dropdown_item"
-            tools:visibility="gone" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom">
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigation"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/attachments_bottom_navigation_height"
-            android:translationY="@dimen/attachments_bottom_navigation_height"
-            app:backgroundTint="?attr/colorSurface"
-            app:itemIconTint="?attr/colorOnSecondaryContainer"
-            app:itemTextColor="?attr/colorOnSurface"
-            app:menu="@menu/attachment_picker_menu" />
+            android:layout_height="match_parent"
+            android:paddingHorizontal="@dimen/spacer_2x"
+            android:paddingBottom="@dimen/spacer_4x"
+            android:scrollbars="vertical"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/item_attachment_picker_type" />
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
