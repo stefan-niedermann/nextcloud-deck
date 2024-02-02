@@ -281,6 +281,7 @@
     <string name="project_type_room">Talk gela</string>
     <string name="simple_move">Mugitu</string>
     <string name="cannot_upload_files_without_permission">Ezin dira fitxategiak baimenik gabe igo</string>
+    <string name="insufficient_permission">Ez duzu behar adina baimenik</string>
     <string name="clone_cards">Klonatu txartelak</string>
     <string name="simple_clone">Klonatu</string>
     <string name="user_avatar">Erabltzaile-avatarra</string>
@@ -292,10 +293,12 @@
     <string name="show_all_files">Erakustsi fitxategi guztiak</string>
     <string name="recent">Azkenak</string>
     <string name="upload_a_new_attachment">Igo eranskin berria</string>
+    <string name="camera">Kamera</string>
     <string name="contacts">Kontaktuak</string>
     <string name="downloads">Deskargak</string>
     <string name="files">Fitxategiak</string>
     <string name="gallery">Galeria</string>
+    <string name="videos">Bideoak</string>
     <string name="simple_attach">Erantsi</string>
     <string name="add_stack_widget">Gehitu zerrenda trepeta</string>
     <string name="add_filter_widget">Gehitu iragazki trepeta</string>

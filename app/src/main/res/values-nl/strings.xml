@@ -95,6 +95,7 @@
     <string name="about_server_app_version_text">Server app versie:</string>
     <string name="no_files_attached_to_this_card">Er zijn geen bestanden gekoppeld aan deze kaart.</string>
     <string name="attachments">Bijlagen</string>
+    <string name="append_to_description">Toevoegen aan beschrijving</string>
     <string name="no_cards">Nog geen kaarten</string>
     <string name="account_already_added">De account %1$s werd reeds toegevoegd</string>
     <string name="not_synced_yet">Nog niet gesynchroniseerd</string>
@@ -282,6 +283,7 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="project_type_room">Praatruimte</string>
     <string name="simple_move">Verplaatsen</string>
     <string name="cannot_upload_files_without_permission">Kan  bestanden niet uploaden zonder toestemming</string>
+    <string name="insufficient_permission">Geen toestemming</string>
     <string name="clone_cards">Kaarten klonen</string>
     <string name="simple_clone">Klonen</string>
     <string name="user_avatar">Gebruik avatar</string>
@@ -293,10 +295,12 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="show_all_files">Toon alle bestanden</string>
     <string name="recent">Recent</string>
     <string name="upload_a_new_attachment">Upload een nieuwe bijlage</string>
+    <string name="camera">Camera</string>
     <string name="contacts">Contactpersonen</string>
     <string name="downloads">Downloads</string>
     <string name="files">Bestanden</string>
     <string name="gallery">Galerij</string>
+    <string name="videos">Video\'s</string>
     <string name="simple_attach">Bijvoegen</string>
     <string name="add_stack_widget">Toevoegen lijst widget</string>
     <string name="add_filter_widget">Toevoegen filterwidget</string>

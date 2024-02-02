@@ -285,6 +285,7 @@
     <string name="project_type_room">Sala de chat</string>
     <string name="simple_move">Mover</string>
     <string name="cannot_upload_files_without_permission">No se pueden cargar archivos sin permisos</string>
+    <string name="insufficient_permission">Permiso insuficiente</string>
     <string name="clone_cards">Clonar tarjetas</string>
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Avatar de usuario</string>
@@ -296,10 +297,12 @@
     <string name="show_all_files">Mostrar todos los archivos</string>
     <string name="recent">Reciente</string>
     <string name="upload_a_new_attachment">Cargar un nuevo adjunto</string>
+    <string name="camera">Cámara</string>
     <string name="contacts">Contactos</string>
     <string name="downloads">Descargas</string>
     <string name="files">Archivos</string>
     <string name="gallery">Galería</string>
+    <string name="videos">Videos</string>
     <string name="simple_attach">Adjuntar</string>
     <string name="add_stack_widget">Agregar widget de lista</string>
     <string name="add_filter_widget">Agregar widget de filtro</string>

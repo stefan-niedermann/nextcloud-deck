@@ -82,6 +82,7 @@
     <string name="about_server_app_version_text">Serverio programėlės versija:</string>
     <string name="no_files_attached_to_this_card">Prie šios kortelės nėra jokių pridėtų priedų.</string>
     <string name="attachments">Priedai</string>
+    <string name="append_to_description">Pridėti į aprašą</string>
     <string name="no_cards">Kol kas kortelių nėra</string>
     <string name="not_synced_yet">Kol kas nesinchronizuota</string>
     <string name="no_lists_yet">Kol kas sąrašų nėra</string>
@@ -185,6 +186,7 @@
     <string name="project_type_file">Failas</string>
     <string name="projects_title">Projektai</string>
     <string name="simple_move">Perkelti</string>
+    <string name="insufficient_permission">Nepakanka leidimų</string>
     <string name="clone_cards">Dubliuoti korteles</string>
     <string name="simple_clone">Dubliuoti</string>
     <string name="take_photo">Fotografuoti</string>
@@ -196,6 +198,7 @@
     <string name="downloads">Atsiuntimai</string>
     <string name="files">Failai</string>
     <string name="gallery">Galerija</string>
+    <string name="videos">Vaizdo įrašai</string>
     <string name="edit_description">Taisyti aprašą</string>
     <string name="widget_upcoming_title">Artėjančios kortelės</string>
     <string name="simple_search">Ieškoti</string>

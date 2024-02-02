@@ -95,6 +95,7 @@
     <string name="about_server_app_version_text">Versión da aplicación do servidor:</string>
     <string name="no_files_attached_to_this_card">Non hai ficheiros anexos a esta tarxeta.</string>
     <string name="attachments">Anexos</string>
+    <string name="append_to_description">Anexo á descrición</string>
     <string name="no_cards">Aínda non hai ningunha tarxeta</string>
     <string name="account_already_added">A conta%1$sxa fora engadida</string>
     <string name="not_synced_yet">Aínda non foi sincronizado</string>
@@ -281,6 +282,7 @@
     <string name="project_type_room">Sala de conversas</string>
     <string name="simple_move">Mover</string>
     <string name="cannot_upload_files_without_permission">Non é posíbel enviar ficheiros sen permisos</string>
+    <string name="insufficient_permission">Non ten permisos abondo</string>
     <string name="clone_cards">Clonar tarxetas</string>
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Avatar do usuario</string>
@@ -292,10 +294,12 @@
     <string name="show_all_files">Amosar todos os ficheiros</string>
     <string name="recent">Recente</string>
     <string name="upload_a_new_attachment">Enviar un novo anexo</string>
+    <string name="camera">Cámara</string>
     <string name="contacts">Contactos</string>
     <string name="downloads">Descargas</string>
     <string name="files">Ficheiros</string>
     <string name="gallery">Galería</string>
+    <string name="videos">Vídeos</string>
     <string name="simple_attach">Anexar</string>
     <string name="add_stack_widget">Engadir o trebello de lista</string>
     <string name="add_filter_widget">Engadir o trebello de filtro</string>

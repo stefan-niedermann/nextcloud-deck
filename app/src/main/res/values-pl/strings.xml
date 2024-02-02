@@ -95,6 +95,7 @@
     <string name="about_server_app_version_text">Wersja aplikacji serwera:</string>
     <string name="no_files_attached_to_this_card">Brak plików dołączonych do tej karty.</string>
     <string name="attachments">Załączniki</string>
+    <string name="append_to_description">Dołącz do opisu</string>
     <string name="no_cards">Brak kart</string>
     <string name="account_already_added">Konto %1$s już jest dodane</string>
     <string name="not_synced_yet">Jeszcze nie zsynchronizowane</string>
@@ -289,6 +290,7 @@
     <string name="project_type_room">Pokój rozmów</string>
     <string name="simple_move">Przenieś</string>
     <string name="cannot_upload_files_without_permission">Nie można wysyłać plików bez uprawnień</string>
+    <string name="insufficient_permission">Niewystarczające uprawnienie</string>
     <string name="clone_cards">Klonuj karty</string>
     <string name="simple_clone">Klonuj</string>
     <string name="user_avatar">Awatar użytkownika</string>
@@ -300,10 +302,12 @@
     <string name="show_all_files">Pokaż wszystkie pliki</string>
     <string name="recent">Ostatnie</string>
     <string name="upload_a_new_attachment">Prześlij nowy załącznik</string>
+    <string name="camera">Kamera</string>
     <string name="contacts">Kontakty</string>
     <string name="downloads">Pobrane</string>
     <string name="files">Pliki</string>
     <string name="gallery">Galeria</string>
+    <string name="videos">Filmy</string>
     <string name="simple_attach">Dołącz</string>
     <string name="add_stack_widget">Dodaj widżet listy</string>
     <string name="add_filter_widget">Dodaj widżet filtra</string>

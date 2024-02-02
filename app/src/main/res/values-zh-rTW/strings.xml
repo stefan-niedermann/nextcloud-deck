@@ -96,6 +96,7 @@
     <string name="about_server_app_version_text">伺服器 App 版本：</string>
     <string name="no_files_attached_to_this_card">沒有附加至此卡片的檔案。</string>
     <string name="attachments">附件</string>
+    <string name="append_to_description">附加到描述</string>
     <string name="no_cards">尚無卡片</string>
     <string name="account_already_added">已新增帳號 %1$s</string>
     <string name="not_synced_yet">尚未同步完成</string>
@@ -279,6 +280,7 @@
     <string name="project_type_room">聊天室</string>
     <string name="simple_move">移動</string>
     <string name="cannot_upload_files_without_permission">沒有權限無法上傳檔案</string>
+    <string name="insufficient_permission">權限不足</string>
     <string name="clone_cards">複製卡片</string>
     <string name="simple_clone">複製</string>
     <string name="user_avatar">使用者頭像</string>
@@ -290,10 +292,12 @@
     <string name="show_all_files">顯示全部檔案</string>
     <string name="recent">近期</string>
     <string name="upload_a_new_attachment">上傳新附件</string>
+    <string name="camera">攝影機</string>
     <string name="contacts">聯絡人</string>
     <string name="downloads">下載</string>
     <string name="files">檔案</string>
     <string name="gallery">相簿</string>
+    <string name="videos">影片</string>
     <string name="simple_attach">附加</string>
     <string name="add_stack_widget">加入清單小工具</string>
     <string name="add_filter_widget">加入篩選小工具</string>

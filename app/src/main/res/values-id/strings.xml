@@ -94,6 +94,7 @@
     <string name="about_server_app_version_text">Versi aplikasi server:</string>
     <string name="no_files_attached_to_this_card">Tidak ada berkas yang terlampir di kartu ini.</string>
     <string name="attachments">Lampiran</string>
+    <string name="append_to_description">Tambahkan ke deskripsi</string>
     <string name="no_cards">Belum ada kartu</string>
     <string name="account_already_added">Akun %1$s telah ditambahkan</string>
     <string name="not_synced_yet">Belum disinkronkan</string>
@@ -274,10 +275,12 @@
     <string name="show_all_files">Tampilkan semua berkas</string>
     <string name="recent">Terbaru</string>
     <string name="upload_a_new_attachment">Unggah lampiran baru</string>
+    <string name="camera">Kamera</string>
     <string name="contacts">Kontak</string>
     <string name="downloads">Unduhan</string>
     <string name="files">Berkas</string>
     <string name="gallery">Galeri</string>
+    <string name="videos">Video</string>
     <string name="simple_attach">Lampirkan</string>
     <string name="add_stack_widget">Tambahkan widget daftar</string>
     <string name="add_filter_widget">Tambahkan widget filter</string>

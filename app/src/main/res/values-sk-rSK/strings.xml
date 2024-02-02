@@ -95,6 +95,7 @@
     <string name="about_server_app_version_text">Verzia aplikácie na serveri:</string>
     <string name="no_files_attached_to_this_card">K tejto karte nie sú pripojené žiadne súbory.</string>
     <string name="attachments">Prílohy</string>
+    <string name="append_to_description">Pripojiť k popisu</string>
     <string name="no_cards">Zatiaľ žiadne karty</string>
     <string name="not_synced_yet">Zatiaľ nie je synchronizovaný</string>
     <string name="no_lists_yet">Zatiaľ žiadne zoznamy</string>
@@ -287,6 +288,7 @@
     <string name="project_type_room">Diskusná miestnosť</string>
     <string name="simple_move">Presunúť</string>
     <string name="cannot_upload_files_without_permission">Nie je možné nahrávať súbory bez povolenia</string>
+    <string name="insufficient_permission">Nedostatočné oprávnenia</string>
     <string name="clone_cards">Duplikovať karty</string>
     <string name="simple_clone">Duplikovať</string>
     <string name="user_avatar">Avatar užívateľa</string>
@@ -298,10 +300,12 @@
     <string name="show_all_files">Zobraziť všetky súbory</string>
     <string name="recent">Nedávne</string>
     <string name="upload_a_new_attachment">Nahrať novú prílohu</string>
+    <string name="camera">Kamera</string>
     <string name="contacts">Kontakty</string>
     <string name="downloads">Sťahovania</string>
     <string name="files">Súbory</string>
     <string name="gallery">Galéria</string>
+    <string name="videos">Videá</string>
     <string name="simple_attach"> Priložiť</string>
     <string name="add_stack_widget">Pridať ovládací prvok zoznamu</string>
     <string name="add_filter_widget">Pridať ovládací prvok filteru</string>

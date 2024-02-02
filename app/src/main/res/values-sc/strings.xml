@@ -94,6 +94,7 @@
     <string name="about_server_app_version_text">Versione aplicatzione serbidore:</string>
     <string name="no_files_attached_to_this_card">Non ddoe at documentos alligongiados a cust\'ischeda.</string>
     <string name="attachments">Alligongiados</string>
+    <string name="append_to_description">Agiunghe a sa descritzione</string>
     <string name="no_cards">Perun\'ischeda ancora</string>
     <string name="not_synced_yet">Non sincronizadu ancora</string>
     <string name="no_lists_yet">Perunu elencu ancora</string>
@@ -283,10 +284,12 @@
     <string name="show_all_files">Mustra totu is documentos</string>
     <string name="recent">Reghente</string>
     <string name="upload_a_new_attachment">Carriga un\'alligongiadu nou</string>
+    <string name="camera">Fotocamera</string>
     <string name="contacts">Cuntatos</string>
     <string name="downloads">Iscarrigados</string>
     <string name="files">Archìvios</string>
     <string name="gallery">Galleria</string>
+    <string name="videos">Vìdeos</string>
     <string name="add_stack_widget">Agiunghe lista widget</string>
     <string name="add_filter_widget">Agiunghe filtru widget</string>
     <string name="simple_order">Ordinamentu</string>

@@ -96,6 +96,7 @@
     <string name="about_server_app_version_text">Верзија апликације на серверу:</string>
     <string name="no_files_attached_to_this_card">Нема фајлова закачених за ову картицу.</string>
     <string name="attachments">Прилози</string>
+    <string name="append_to_description">Придодај на опис</string>
     <string name="no_cards">Још нема картица</string>
     <string name="account_already_added">Налог %1$s је већ додат</string>
     <string name="not_synced_yet">Још није синхронизовано</string>
@@ -287,6 +288,7 @@
     <string name="project_type_room">Причаоница</string>
     <string name="simple_move">Помери</string>
     <string name="cannot_upload_files_without_permission">Фајлови не могу да се отпреме без дозвола</string>
+    <string name="insufficient_permission">Дозволе нису довољне</string>
     <string name="clone_cards">Клонирај картице</string>
     <string name="simple_clone">Клонирај</string>
     <string name="user_avatar">Кориснички аватар</string>
@@ -298,10 +300,12 @@
     <string name="show_all_files">Прикажи све фајлове</string>
     <string name="recent">Недавно</string>
     <string name="upload_a_new_attachment">Отпреми нови прилог</string>
+    <string name="camera">Камера</string>
     <string name="contacts">Контакти</string>
     <string name="downloads">Преузимања</string>
     <string name="files">Фајлови</string>
     <string name="gallery">Галерија</string>
+    <string name="videos">Видео снимци</string>
     <string name="simple_attach">Приложи</string>
     <string name="add_stack_widget">Додај виџет листе</string>
     <string name="add_filter_widget">Додај филтер виџет</string>

@@ -94,6 +94,7 @@
     <string name="about_server_app_version_text">Inačica aplikacije poslužitelja:</string>
     <string name="no_files_attached_to_this_card">Nema datoteka pridruženih ovoj kartici.</string>
     <string name="attachments">Privici</string>
+    <string name="append_to_description">Dodaj opisu</string>
     <string name="no_cards">Još nema kartica</string>
     <string name="not_synced_yet">Još nije sinkronizirano</string>
     <string name="no_lists_yet">Još nema popisa</string>
@@ -286,10 +287,12 @@
     <string name="show_all_files">Prikaži sve datoteke</string>
     <string name="recent">Nedavni</string>
     <string name="upload_a_new_attachment">Otpremi novi privitak</string>
+    <string name="camera">Kamera</string>
     <string name="contacts">Kontakti</string>
     <string name="downloads">Preuzimanja</string>
     <string name="files">Datoteke</string>
     <string name="gallery">Galerija</string>
+    <string name="videos">Videozapisi</string>
     <string name="add_stack_widget">Dodaj widget s popisom</string>
     <string name="add_filter_widget">Dodaj widget s filtrom</string>
     <string name="simple_order">Redoslijed</string>

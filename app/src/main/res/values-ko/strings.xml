@@ -95,6 +95,7 @@
     <string name="about_server_app_version_text">서버 앱 버전:</string>
     <string name="no_files_attached_to_this_card">이 카드에 추가된 파일이 없습니다.</string>
     <string name="attachments">첨부파일</string>
+    <string name="append_to_description">설명에 추가</string>
     <string name="no_cards">아직 카드가 없음</string>
     <string name="not_synced_yet">아직 동기화되지 않았음</string>
     <string name="no_lists_yet">리스트 없음</string>
@@ -282,10 +283,12 @@
     <string name="show_all_files">모든 파일 보기</string>
     <string name="recent">최근 항목</string>
     <string name="upload_a_new_attachment">새 첨부 파일 업로드</string>
+    <string name="camera">카메라</string>
     <string name="contacts">연락처</string>
     <string name="downloads">다운로드</string>
     <string name="files">파일</string>
     <string name="gallery">갤러리</string>
+    <string name="videos">동영상</string>
     <string name="add_stack_widget">목록 위젯 추가</string>
     <string name="add_filter_widget">필터 위젯 추가</string>
     <string name="simple_order">순서</string>

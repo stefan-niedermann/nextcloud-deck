@@ -96,6 +96,7 @@
     <string name="about_server_app_version_text">Sunucu uygulaması sürümü:</string>
     <string name="no_files_attached_to_this_card">Bu karta eklenmiş bir dosya yok.</string>
     <string name="attachments">Ek dosyalar</string>
+    <string name="append_to_description">Açıklamaya ekle</string>
     <string name="no_cards">Henüz bir kart yok</string>
     <string name="account_already_added">%1$s hesabı zaten eklenmiş</string>
     <string name="not_synced_yet">Henüz eşitlenmemiş</string>
@@ -283,6 +284,7 @@
     <string name="project_type_room">Talk odası</string>
     <string name="simple_move">Taşı</string>
     <string name="cannot_upload_files_without_permission">İzinler olmadan dosyalar yüklenemez</string>
+    <string name="insufficient_permission">İzinler yetersiz</string>
     <string name="clone_cards">Kartları kopyala</string>
     <string name="simple_clone">Kopyala</string>
     <string name="user_avatar">Kullanıcı avatarı</string>
@@ -294,10 +296,12 @@
     <string name="show_all_files">Tüm dosyaları görüntüle</string>
     <string name="recent">Son kullanılan</string>
     <string name="upload_a_new_attachment">Ek dosya yükle</string>
+    <string name="camera">Kamera</string>
     <string name="contacts">Kişiler</string>
     <string name="downloads">İndirmeler</string>
     <string name="files">Dosyalar</string>
     <string name="gallery">Galeri</string>
+    <string name="videos">Görüntüler</string>
     <string name="simple_attach">Dosya ekle</string>
     <string name="add_stack_widget">Liste pano bileşeni ekle</string>
     <string name="add_filter_widget">Süzgeç pano bileşeni ekle</string>

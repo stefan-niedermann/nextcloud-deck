@@ -281,6 +281,7 @@
     <string name="project_type_room">اتاق گفتگو</string>
     <string name="simple_move">انتقال</string>
     <string name="cannot_upload_files_without_permission">بدون داشتن مجوز، امکان بارگذاری پرونده وجود ندارد</string>
+    <string name="insufficient_permission">Insufficient permission</string>
     <string name="clone_cards">شبیه سازی کارت</string>
     <string name="simple_clone">شبیه سازی</string>
     <string name="user_avatar">آواتار کاربر</string>
@@ -292,10 +293,12 @@
     <string name="show_all_files">نمایش همه پرونده ها</string>
     <string name="recent">اخیر</string>
     <string name="upload_a_new_attachment">پیوست جدیدی بارگذاری کنید</string>
+    <string name="camera">دوربین</string>
     <string name="contacts">مخاطبین</string>
     <string name="downloads">بارگیری ها</string>
     <string name="files">فایل ها</string>
     <string name="gallery">گالری</string>
+    <string name="videos">فیلم ها </string>
     <string name="simple_attach">ضمیمه کردن</string>
     <string name="add_stack_widget">افزودن ابزارک لیست</string>
     <string name="add_filter_widget">افزودن ابزارک پالایه</string>

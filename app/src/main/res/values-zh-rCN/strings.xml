@@ -95,6 +95,7 @@
     <string name="about_server_app_version_text">服务器应用版本：</string>
     <string name="no_files_attached_to_this_card">没有文件附加到这张卡片上。</string>
     <string name="attachments">附件</string>
+    <string name="append_to_description">添加到描述</string>
     <string name="no_cards">暂无卡片</string>
     <string name="account_already_added">账号 %1$s 已添加</string>
     <string name="not_synced_yet">尚未同步</string>
@@ -288,10 +289,12 @@
     <string name="show_all_files">显示所有文件</string>
     <string name="recent">最近</string>
     <string name="upload_a_new_attachment">上传一个新附件</string>
+    <string name="camera">相机</string>
     <string name="contacts">联系人</string>
     <string name="downloads">下载项</string>
     <string name="files">文件</string>
     <string name="gallery">相册</string>
+    <string name="videos">视频</string>
     <string name="simple_attach">附加</string>
     <string name="add_stack_widget">添加列表小部件</string>
     <string name="add_filter_widget">添加过滤器小部件</string>

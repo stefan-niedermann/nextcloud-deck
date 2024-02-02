@@ -95,6 +95,7 @@
     <string name="about_server_app_version_text">Версія застосунку серверу:</string>
     <string name="no_files_attached_to_this_card">До цієї картки не прикріплено жодного файла.</string>
     <string name="attachments">Вкладення</string>
+    <string name="append_to_description">Додати до опису</string>
     <string name="no_cards">Ще немає жодної картки</string>
     <string name="account_already_added">Обліковий запис %1$s вже додано</string>
     <string name="not_synced_yet">Поки не синхронізовано</string>
@@ -263,6 +264,7 @@
     <string name="project_type_file">Файл</string>
     <string name="projects_title">Проєкти</string>
     <string name="simple_move">Перемістити</string>
+    <string name="insufficient_permission">Недостатній дозвіл</string>
     <string name="clone_cards">Копіювати картки</string>
     <string name="simple_clone">Копіювати</string>
     <string name="show_all_contacts">Показувати всі контакти</string>
@@ -271,6 +273,7 @@
     <string name="downloads">Звантаження</string>
     <string name="files">Робота з файлами</string>
     <string name="gallery">Галерея</string>
+    <string name="videos">Відео</string>
     <string name="edit_description">Редагувати опис</string>
     <string name="widget_upcoming_title">Очікують на виконання</string>
     <string name="app_logo">Лоґо застосунку</string>

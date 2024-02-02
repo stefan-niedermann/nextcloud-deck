@@ -95,6 +95,7 @@
     <string name="about_server_app_version_text">Phiên bản ứng dụng máy chủ:</string>
     <string name="no_files_attached_to_this_card">Không có tệp nào được đính kèm vào thẻ này.</string>
     <string name="attachments">Đính kèm</string>
+    <string name="append_to_description">Thêm vào mô tả</string>
     <string name="no_cards">Chưa có thẻ nào</string>
     <string name="not_synced_yet">Chưa được đồng bộ hoá</string>
     <string name="no_lists_yet">Chưa có danh sách</string>
@@ -285,10 +286,12 @@
     <string name="show_all_files">Hiện tất cả tệp</string>
     <string name="recent">Gần đây</string>
     <string name="upload_a_new_attachment">Tải lên một tệp đính kèm mới</string>
+    <string name="camera">Máy ảnh</string>
     <string name="contacts">Danh bạ</string>
     <string name="downloads">Tải xuống</string>
     <string name="files">Tệp</string>
     <string name="gallery">Thư viện</string>
+    <string name="videos">Phim</string>
     <string name="simple_attach">Gắn kết</string>
     <string name="add_stack_widget">Thêm tiện ích danh sách</string>
     <string name="add_filter_widget">Thêm tiện ích lọc</string>

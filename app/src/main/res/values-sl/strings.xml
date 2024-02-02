@@ -95,6 +95,7 @@
     <string name="about_server_app_version_text">Različica programa na strežniku:</string>
     <string name="no_files_attached_to_this_card">K tej nalogi ni priloženih datotek.</string>
     <string name="attachments">Priloge</string>
+    <string name="append_to_description">Pripni k opisu</string>
     <string name="no_cards">Ni še vpisanih nalog</string>
     <string name="account_already_added">Račun %1$s je že dodan.</string>
     <string name="not_synced_yet">Še ni usklajeno</string>
@@ -289,6 +290,7 @@
     <string name="project_type_room">Klepetalnica</string>
     <string name="simple_move">Premakni</string>
     <string name="cannot_upload_files_without_permission">Brez ustreznih dovoljenj ni mogoče naložiti datotek</string>
+    <string name="insufficient_permission">Neustrezna dovoljenja</string>
     <string name="clone_cards">Kloniraj nalogo</string>
     <string name="simple_clone">Kloniraj</string>
     <string name="user_avatar">Podoba uporabnika</string>
@@ -300,10 +302,12 @@
     <string name="show_all_files">Pokaži vse datoteke</string>
     <string name="recent">Nedavne</string>
     <string name="upload_a_new_attachment">Pošlji novo prilogo</string>
+    <string name="camera">Kamera</string>
     <string name="contacts">Stiki</string>
     <string name="downloads">Prejemi</string>
     <string name="files">Datoteke</string>
     <string name="gallery">Galerija</string>
+    <string name="videos">Video posnetki</string>
     <string name="simple_attach">Pripni</string>
     <string name="add_stack_widget">Dodaj gradnik seznama</string>
     <string name="add_filter_widget">Dodaj gradnik filtra</string>

@@ -95,6 +95,7 @@
     <string name="about_server_app_version_text">Kiszolgáló alkalmazásverziója:</string>
     <string name="no_files_attached_to_this_card">Nincsenek fájlok mellékelve ehhez a kártyához.</string>
     <string name="attachments">Mellékletek</string>
+    <string name="append_to_description">Hozzáfűzés a leíráshoz</string>
     <string name="no_cards">Még nincsenek kártyák</string>
     <string name="account_already_added">A(z) %1$s fiók már hozzá lett adva</string>
     <string name="not_synced_yet">Még nincs szinkronizálva</string>
@@ -281,6 +282,7 @@
     <string name="project_type_room">Beszélgetés szoba</string>
     <string name="simple_move">Áthelyezés</string>
     <string name="cannot_upload_files_without_permission">Engedély nélkül nem tölthetők fel fájlok</string>
+    <string name="insufficient_permission">Elégtelen jogosultság</string>
     <string name="clone_cards">Kártyák klónozása</string>
     <string name="simple_clone">Klónozás</string>
     <string name="user_avatar">Felhasználói profilkép</string>
@@ -292,10 +294,12 @@
     <string name="show_all_files">Minden fájl megjelenítése</string>
     <string name="recent">Legutóbbiak</string>
     <string name="upload_a_new_attachment">Új melléklet feltöltése</string>
+    <string name="camera">Fényképezőgép</string>
     <string name="contacts">Névjegyek</string>
     <string name="downloads">Letöltések</string>
     <string name="files">Fájlok</string>
     <string name="gallery">Galéria</string>
+    <string name="videos">Videók</string>
     <string name="simple_attach">Hozzáadás</string>
     <string name="add_stack_widget">Lista felületi elem hozzáadása</string>
     <string name="add_filter_widget">Szűrő modul hozzáadása</string>

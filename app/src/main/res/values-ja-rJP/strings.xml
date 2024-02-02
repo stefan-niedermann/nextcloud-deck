@@ -94,6 +94,7 @@
     <string name="about_server_app_version_text">サーバーアプリバージョン：</string>
     <string name="no_files_attached_to_this_card">このカードに添付されたファイルはありません。</string>
     <string name="attachments">添付ファイル</string>
+    <string name="append_to_description">説明を追加</string>
     <string name="no_cards">まだカードはありません</string>
     <string name="account_already_added">アカウント名%1$sは、すでに追加されています。</string>
     <string name="not_synced_yet">未同期です</string>
@@ -285,10 +286,12 @@
     <string name="show_all_files">すべてのファイルを表示</string>
     <string name="recent">最近</string>
     <string name="upload_a_new_attachment">新しい添付をアップロードする</string>
+    <string name="camera">カメラ</string>
     <string name="contacts">連絡先</string>
     <string name="downloads">ダウンロード</string>
     <string name="files">ファイル</string>
     <string name="gallery">ギャラリー</string>
+    <string name="videos">動画</string>
     <string name="simple_attach">添付</string>
     <string name="add_stack_widget">リストのウィジェットを追加</string>
     <string name="add_filter_widget">フィルターのウィジェットを追加</string>

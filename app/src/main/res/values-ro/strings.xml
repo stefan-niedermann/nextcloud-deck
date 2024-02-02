@@ -95,6 +95,7 @@
     <string name="about_server_app_version_text">Versiunea aplicației de pe server</string>
     <string name="no_files_attached_to_this_card">Nu există fișiere atașate la acest card.</string>
     <string name="attachments">Atașamente </string>
+    <string name="append_to_description">Atașați la descriere</string>
     <string name="no_cards">Nu există carduri încă </string>
     <string name="account_already_added">Contul %1$s a fost deja adăugat</string>
     <string name="not_synced_yet">Nu este sincronizat încă</string>
@@ -295,10 +296,12 @@
     <string name="show_all_files">Arată toate fișierele</string>
     <string name="recent">Recente</string>
     <string name="upload_a_new_attachment">Încarcă un nou atașament</string>
+    <string name="camera">Camera</string>
     <string name="contacts">Contacte</string>
     <string name="downloads">Descărcări</string>
     <string name="files">Fișiere</string>
     <string name="gallery">Galerie</string>
+    <string name="videos">Fișiere video</string>
     <string name="simple_attach">Atașează</string>
     <string name="add_stack_widget">Adăugați widget listă</string>
     <string name="add_filter_widget">Adăugați un widget de filtrare</string>

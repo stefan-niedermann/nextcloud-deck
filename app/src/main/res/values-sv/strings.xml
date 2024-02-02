@@ -96,6 +96,7 @@
     <string name="about_server_app_version_text">Server appversion:</string>
     <string name="no_files_attached_to_this_card">Det finns inga filer kopplade till det här kortet.</string>
     <string name="attachments">Bilagor</string>
+    <string name="append_to_description">Lägg till beskrivning</string>
     <string name="no_cards">Inga kort än</string>
     <string name="account_already_added">Konto %1$s har redan lagts till</string>
     <string name="not_synced_yet">Inte synkroniserad än</string>
@@ -283,6 +284,7 @@
     <string name="project_type_room">Talk-rum</string>
     <string name="simple_move">Flytta</string>
     <string name="cannot_upload_files_without_permission">Kan inte ladda upp filer utan behörighet</string>
+    <string name="insufficient_permission">Otillräcklig behörighet</string>
     <string name="clone_cards">Klona kort</string>
     <string name="simple_clone">Klona</string>
     <string name="user_avatar">Användar-avatar</string>
@@ -294,10 +296,12 @@
     <string name="show_all_files">Visa alla filer</string>
     <string name="recent">Senaste</string>
     <string name="upload_a_new_attachment">Ladda upp ny bilaga</string>
+    <string name="camera">Kamera</string>
     <string name="contacts">Kontakter</string>
     <string name="downloads">Nedladdningar</string>
     <string name="files">Filer</string>
     <string name="gallery">Galleri</string>
+    <string name="videos">Videor</string>
     <string name="simple_attach">Bifoga</string>
     <string name="add_stack_widget">Lägg till listwidget</string>
     <string name="add_filter_widget">Lägg till filterwidget</string>

@@ -95,6 +95,7 @@
     <string name="about_server_app_version_text">Útgáfa forrits á þjóni:</string>
     <string name="no_files_attached_to_this_card">Það eru engar skrár á þessu spjaldi.</string>
     <string name="attachments">Viðhengi</string>
+    <string name="append_to_description">Skeyta við lýsingu</string>
     <string name="no_cards">Engin spjöld ennþá</string>
     <string name="account_already_added">Aðgangnum %1$s hefur þegar verið bætt við</string>
     <string name="not_synced_yet">Ekki ennþá samstillt</string>
@@ -296,6 +297,7 @@
     <string name="downloads">Sótt gögn</string>
     <string name="files">Skrár</string>
     <string name="gallery">Myndasafn</string>
+    <string name="videos">Myndskeið</string>
     <string name="simple_attach">Hengja við</string>
     <string name="add_stack_widget">Bæta við listahluta</string>
     <string name="add_filter_widget">Bæta við síuhluta</string>

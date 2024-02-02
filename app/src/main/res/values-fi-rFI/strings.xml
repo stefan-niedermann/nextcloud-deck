@@ -271,10 +271,12 @@
     <string name="show_all_files">Näytä kaikki tiedostot</string>
     <string name="recent">Viimeaikaiset</string>
     <string name="upload_a_new_attachment">Lähetä uusi liite</string>
+    <string name="camera">Kamera</string>
     <string name="contacts">Yhteystiedot</string>
     <string name="downloads">Lataukset</string>
     <string name="files">Tiedostot</string>
     <string name="gallery">Galleria</string>
+    <string name="videos">Videot</string>
     <string name="simple_order">Järjestys</string>
     <string name="edit_description">Muokkaa kuvausta</string>
     <string name="widget_upcoming_title">Tulevat kortit</string>

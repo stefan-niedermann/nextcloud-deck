@@ -95,6 +95,7 @@
     <string name="about_server_app_version_text">Tjenerversjon:</string>
     <string name="no_files_attached_to_this_card">Det er ingen filter vedlagt dette kortet.</string>
     <string name="attachments">Vedlegg</string>
+    <string name="append_to_description">Legg til beskrivelsen</string>
     <string name="no_cards">Ingen kort enda</string>
     <string name="account_already_added">Kontoen %1$s har allerede blitt lagt til</string>
     <string name="not_synced_yet">Ikke synkronisert enda</string>
@@ -282,6 +283,7 @@
     <string name="project_type_room">Talk rom</string>
     <string name="simple_move">Flytt</string>
     <string name="cannot_upload_files_without_permission">Kan ikke laste opp filer uten tillatelse</string>
+    <string name="insufficient_permission">Utilstrekkelige rettigheter</string>
     <string name="clone_cards">Klone kort</string>
     <string name="simple_clone">Klone</string>
     <string name="user_avatar">Bruker avatar</string>
@@ -293,10 +295,12 @@
     <string name="show_all_files">Vis alle filer</string>
     <string name="recent">Nylig</string>
     <string name="upload_a_new_attachment">Last opp nytt vedlegg</string>
+    <string name="camera">Kamera</string>
     <string name="contacts">Kontakter</string>
     <string name="downloads">Nedlastinger</string>
     <string name="files">Filer</string>
     <string name="gallery">Galleri</string>
+    <string name="videos">Filmer</string>
     <string name="simple_attach">Legg ved</string>
     <string name="add_stack_widget">Legg til liste widget</string>
     <string name="add_filter_widget">Legg til filter widget</string>

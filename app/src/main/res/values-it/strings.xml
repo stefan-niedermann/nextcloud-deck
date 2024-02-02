@@ -95,6 +95,7 @@
     <string name="about_server_app_version_text">Versione applicazione server:</string>
     <string name="no_files_attached_to_this_card">Non ci sono file allegati a questa scheda.</string>
     <string name="attachments">Allegati</string>
+    <string name="append_to_description">Aggiungi alla descrizione</string>
     <string name="no_cards">Ancora nessuna scheda</string>
     <string name="account_already_added">L\'account %1$s è già stato aggiunto</string>
     <string name="not_synced_yet">Non ancora sincronizzata</string>
@@ -286,6 +287,7 @@
     <string name="project_type_room">Stanza di Talk</string>
     <string name="simple_move">Sposta</string>
     <string name="cannot_upload_files_without_permission">Impossible caricare file senza permesso</string>
+    <string name="insufficient_permission">Autorizzazione insufficiente</string>
     <string name="clone_cards">Clona schede</string>
     <string name="simple_clone">Clona</string>
     <string name="user_avatar">Avatar dell\'utente</string>
@@ -297,10 +299,12 @@
     <string name="show_all_files">Mostra tutti i file</string>
     <string name="recent">Recenti</string>
     <string name="upload_a_new_attachment">Carica un nuovo allegato</string>
+    <string name="camera">Fotocamera</string>
     <string name="contacts">Contatti</string>
     <string name="downloads">Scaricamenti</string>
     <string name="files">File</string>
     <string name="gallery">Galleria</string>
+    <string name="videos">Video</string>
     <string name="simple_attach">Allega</string>
     <string name="add_stack_widget">Aggiungi widget elenco</string>
     <string name="add_filter_widget">Aggiungi widget di filtro</string>

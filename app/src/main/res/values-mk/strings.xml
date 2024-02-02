@@ -82,6 +82,7 @@
     <string name="about_server_app_version_text">Верзија на апликацијата на серверот:</string>
     <string name="no_files_attached_to_this_card">Нема датотеки закачени на оваа картица.</string>
     <string name="attachments">Прилози</string>
+    <string name="append_to_description">Додади во описот</string>
     <string name="no_cards">Сеуште нема картици</string>
     <string name="not_synced_yet">Сеуште не е синхронизирано</string>
     <string name="no_lists_yet">Сеуште нема листи</string>
@@ -223,10 +224,12 @@
     <string name="show_all_files">Прикажи ги сите датотеки</string>
     <string name="recent">Неодамнешни</string>
     <string name="upload_a_new_attachment">Прикачи нов прилог</string>
+    <string name="camera">Камера</string>
     <string name="contacts">Контакти</string>
     <string name="downloads">Преземања</string>
     <string name="files">Датотеки</string>
     <string name="gallery">Галерија</string>
+    <string name="videos">Видеа</string>
     <string name="edit_description">Измени опис</string>
     <string name="widget_upcoming_title">Престојни картици</string>
     <string name="simple_search">Барај</string>
