@@ -422,9 +422,9 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         if (editViewModel.canEdit()) {
             final var oldDescription = editViewModel.getFullCard().getCard().getDescription();
             if (TextUtils.isEmpty(oldDescription)) {
-                editViewModel.putDescription(markdown);
+                editViewModel.changeDescriptionFromExternal(markdown);
             } else {
-                editViewModel.putDescription(oldDescription + "\n\n" + markdown);
+                editViewModel.changeDescriptionFromExternal(oldDescription + "\n\n" + markdown);
             }
         } else {
             Toast.makeText(requireContext(), R.string.insufficient_permission, Toast.LENGTH_LONG).show();

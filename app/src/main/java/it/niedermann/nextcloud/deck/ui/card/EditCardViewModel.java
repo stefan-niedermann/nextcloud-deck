@@ -36,6 +36,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.repository.SyncRepository;
+import it.niedermann.nextcloud.deck.ui.card.details.CardDetailsFragment;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
 @SuppressWarnings("WeakerAccess")
@@ -50,7 +51,7 @@ public class EditCardViewModel extends BaseViewModel {
     private boolean hasCommentsAbility = false;
     private boolean pendingSaveOperation = false;
     private boolean canEdit = false;
-    private final MutableLiveData<String> descriptionChanged$ = new MutableLiveData<>();
+    private final MutableLiveData<String> descriptionChangedFromExternal$ = new MutableLiveData<>();
     private final MutableLiveData<Integer> boardColor$ = new MutableLiveData<>();
     private final SharedPreferences sharedPreferences;
     private final MutableLiveData<Boolean> descriptionIsPreview = new MutableLiveData<>(false);
@@ -84,13 +85,19 @@ public class EditCardViewModel extends BaseViewModel {
                 .distinctUntilChanged();
     }
 
-    public void putDescription(@Nullable String description) {
+    /**
+     * To be called when the description is mutated from <em>outside</em> of the {@link CardDetailsFragment}.
+     */
+    public void changeDescriptionFromExternal(@Nullable String description) {
         getFullCard().getCard().setDescription(description);
-        this.descriptionChanged$.postValue(description);
+        this.descriptionChangedFromExternal$.postValue(description);
     }
 
-    public LiveData<String> getDescription() {
-        return new ReactiveLiveData<>(this.descriptionChanged$)
+    /**
+     * @return a {@link LiveData} that gets triggered with the latest {@link Card#getDescription()} was changed from <em>outside</em> of the {@link CardDetailsFragment}.
+     */
+    public LiveData<String> descriptionChangedFromExternal() {
+        return new ReactiveLiveData<>(this.descriptionChangedFromExternal$)
                 .distinctUntilChanged();
     }
 
@@ -125,7 +132,6 @@ public class EditCardViewModel extends BaseViewModel {
         this.fullCard = fullCard;
         this.originalCard = new FullCardWithProjects(this.fullCard);
         this.isSupportedVersion = isSupportedVersion;
-        this.descriptionChanged$.postValue(fullCard.getCard().getDescription());
     }
 
     public void setAccount(@NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {
