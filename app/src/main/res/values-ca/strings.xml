@@ -95,6 +95,7 @@
     <string name="about_server_app_version_text">Versió de l\'aplicació del servidor:</string>
     <string name="no_files_attached_to_this_card">No hi ha fitxers adjunts a aquesta targeta.</string>
     <string name="attachments">Adjunts</string>
+    <string name="append_to_description">Apunteu a la descripció</string>
     <string name="no_cards">Encara no hi ha cap targeta.</string>
     <string name="not_synced_yet">No sincronitzat encara</string>
     <string name="no_lists_yet">Encara no hi ha llistes</string>
@@ -278,6 +279,7 @@
     <string name="project_type_room">Sala de xerrades</string>
     <string name="simple_move">Mou</string>
     <string name="cannot_upload_files_without_permission">No es poden pujar fitxers sense permisos</string>
+    <string name="insufficient_permission">Permís insuficient</string>
     <string name="clone_cards">Clonar targetes</string>
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Utilitzar avatar</string>
@@ -289,10 +291,12 @@
     <string name="show_all_files">Mostra tots els fitxers</string>
     <string name="recent">Recent</string>
     <string name="upload_a_new_attachment">Pujar un nou fitxer adjunt</string>
+    <string name="camera">Càmera</string>
     <string name="contacts">Contactes</string>
     <string name="downloads">Baixades</string>
     <string name="files">Fitxers</string>
     <string name="gallery">Galeria</string>
+    <string name="videos">Vídeos</string>
     <string name="add_stack_widget">Afegeix giny de llista</string>
     <string name="add_filter_widget">Afegir un giny per filtrar</string>
     <string name="simple_order">Ordre</string>

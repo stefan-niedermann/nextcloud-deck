@@ -96,6 +96,7 @@
     <string name="about_server_app_version_text">إصدار خادم التطبيق:</string>
     <string name="no_files_attached_to_this_card">لا يوجد ملفات مرفقة لهذه البطاقة.</string>
     <string name="attachments">المرفقات</string>
+    <string name="append_to_description">إلحاق بالوصف </string>
     <string name="no_cards">لا توجد بطاقات حتى الآن</string>
     <string name="account_already_added">الحساب %1$s سبقت إضافته</string>
     <string name="not_synced_yet">لم يتم التزامن حتى الآن</string>
@@ -219,6 +220,7 @@
     <string name="error_dialog_tip_offline_no_internet">يبدو أنك حاولت البدء بالمزامنة بدون اتصال بالإنترنت.</string>
     <string name="error_dialog_tip_offline_connection_refused">تم رفض الاتصال, يُرجى التأكد من إمكانية الوصول إلى الخادم عبر المستعرض</string>
     <string name="error_dialog_tip_offline_connection_timeout">إنتهت مهلة الاتصال، يُرجى التأكد من أنك متصل بالإنترنت. يمكن أن يكون انشغال الخادم سبباً في ذلك.</string>
+    <string name="error_dialog_tip_connection_rejected">تمّ رفض الاتصال. يرجى التحقُّق مما إذا كان خادومك محمياً بآلية مكافحة الإغراق anti-flooding. هذه على الأرجح مشكلة ناجمة عن خوادم \"كلاود فلير\" Cloudflare المحمية.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">إذا قمت بتعطيل إعدادات \"التزامن فقط على شبكة الإنترنت Wi-Fi \" سيمكنك التزامن فقط عندما تكون متصلًا بشبكة الإنترنت. </string>
     <string name="error_dialog_tip_files_force_stop">يبدو أن هناك خطأ ما في تطبيق نكست كلاود الخاص بك. يرجى محاولة فرض إيقاف كلا من تطبيق نكست كلاود وتطبيق Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">إذا لم يساعد إيقافهم بالقوة ، فيمكنك محاولة مسح تخزين كلا التطبيقين.</string>
@@ -300,6 +302,8 @@
     <string name="project_type_room">غرفة الدردشة</string>
     <string name="simple_move">نقل</string>
     <string name="cannot_upload_files_without_permission">لا يمكن رفع الملفات بدون صلاحيات</string>
+    <string name="insufficient_permission">الصلاحيّات غير كافية</string>
+    <string name="no_matching_app_installed">لا يوجد تطبيق مُثبّت مُطابق</string>
     <string name="clone_cards">استنسخ البطاقة </string>
     <string name="simple_clone">استنسخ</string>
     <string name="user_avatar">صورة المستخدم الشخصية </string>
@@ -311,10 +315,13 @@
     <string name="show_all_files">أظهر جميع الملفات</string>
     <string name="recent">الحديثة</string>
     <string name="upload_a_new_attachment">رفع مرفق جديد</string>
+    <string name="camera">الكاميرا</string>
     <string name="contacts">جهات الإتصال</string>
     <string name="downloads">التنزيلات</string>
     <string name="files">الملفات</string>
+    <string name="voice_recorder">مُسجّل الصوت</string>
     <string name="gallery">معرض الصور</string>
+    <string name="videos">فيديوهات</string>
     <string name="simple_attach">إرفاق</string>
     <string name="add_stack_widget">إضافة قائمة الودجات </string>
     <string name="add_filter_widget">إضافة تصفية الودجات</string>

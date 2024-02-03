@@ -96,6 +96,7 @@
     <string name="about_server_app_version_text">Serverversion der App:</string>
     <string name="no_files_attached_to_this_card">Dieser Karte sind keine Dateien angehängt.</string>
     <string name="attachments">Anhänge</string>
+    <string name="append_to_description">An Beschreibung anhängen</string>
     <string name="no_cards">Bislang keine Karten</string>
     <string name="account_already_added">Das Konto %1$s wurde bereits hinzugefügt</string>
     <string name="not_synced_yet">Noch nicht synchronisiert</string>
@@ -211,6 +212,7 @@
     <string name="error_dialog_tip_offline_no_internet">Es sieht so aus, als hätten Sie versucht, eine Synchronisation ohne Internetverbindung auszulösen.</string>
     <string name="error_dialog_tip_offline_connection_refused">Verbindung wurde verweigert, bitte überprüfen Sie, ob Ihr Server über den Webbrowser erreichbar ist.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Die Verbindung wurde unterbrochen, bitte prüfen Sie, ob Sie mit dem Internet verbunden sind. Dies kann auch passieren, wenn Ihr Server ausgelastet ist.</string>
+    <string name="error_dialog_tip_connection_rejected">Verbindung wurde abgelehnt, bitte überprüfen Sie, ob Ihr Server durch einen Anti-Flooding-Mechanismus geschützt ist. Dies ist höchstwahrscheinlich ein durch Cloudflare-geschützte Server verursachtes Problem.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Wenn Sie die Einstellung \"Nur über WLAN synchronisieren\" aktiviert haben, können Sie nur synchronisieren, wenn Sie mit einem WLAN verbunden sind.</string>
     <string name="error_dialog_tip_files_force_stop">Etwas scheint bei der Nextcloud App nicht zu funktionieren. Bitte versuchen Sie sowohl die Nextcloud App als auch die Nextcloud Deck App zu stoppen.</string>
     <string name="error_dialog_tip_files_delete_storage">Wenn das erzwungene Stoppen nicht hilft, können Sie versuchen, den Speicher beider Apps zu leeren .</string>
@@ -284,6 +286,7 @@
     <string name="simple_move">Verschieben</string>
     <string name="cannot_upload_files_without_permission">Dateien können ohne Berechtigung nicht hochgeladen werden</string>
     <string name="insufficient_permission">Nicht ausreichende Berechtigung</string>
+    <string name="no_matching_app_installed">Keine passende App installiert</string>
     <string name="clone_cards">Karten klonen</string>
     <string name="simple_clone">Klonen</string>
     <string name="user_avatar">Benutzer-Avatar</string>
@@ -295,10 +298,13 @@
     <string name="show_all_files">Alle Dateien anzeigen</string>
     <string name="recent">Neueste</string>
     <string name="upload_a_new_attachment">Neuen Anhang hochladen</string>
+    <string name="camera">Kamera</string>
     <string name="contacts">Kontakte</string>
     <string name="downloads">Downloads</string>
     <string name="files">Dateien</string>
+    <string name="voice_recorder">Stimmrekorder</string>
     <string name="gallery">Galerie</string>
+    <string name="videos">Videos</string>
     <string name="simple_attach">Anhängen</string>
     <string name="add_stack_widget">Ein Listen-Widget hinzufügen</string>
     <string name="add_filter_widget">Filter-Widget hinzufügen</string>

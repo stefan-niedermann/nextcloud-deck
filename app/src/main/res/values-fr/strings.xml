@@ -95,6 +95,7 @@
     <string name="about_server_app_version_text">Version de l\'application serveur :</string>
     <string name="no_files_attached_to_this_card">Il n\'y a aucun fichier joint à cette carte.</string>
     <string name="attachments">Pièces jointes</string>
+    <string name="append_to_description">Ajouter à la description</string>
     <string name="no_cards">Aucune carte pour l\'instant</string>
     <string name="account_already_added">Le compte %1$s a déjà été ajouté</string>
     <string name="not_synced_yet">Aucune synchronisation pour l\'instant</string>
@@ -301,6 +302,7 @@
     <string name="contacts">Contacts</string>
     <string name="downloads">Téléchargements</string>
     <string name="files">Fichiers</string>
+    <string name="voice_recorder">Enregistreur vocal</string>
     <string name="gallery">Galerie</string>
     <string name="videos">Vidéos</string>
     <string name="simple_attach">Joindre</string>

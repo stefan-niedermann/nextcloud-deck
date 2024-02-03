@@ -214,6 +214,7 @@
     <string name="error_dialog_tip_offline_no_internet">Изгледа да сте покушали да покренете синхронизацију без везе са интернетом.</string>
     <string name="error_dialog_tip_offline_connection_refused">Веза је одбијена, молимо вас проверите да ли ваш сервер доступан из интернет прегледача.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Повезивање је истекло, молимо вас проверите да ли сте повезани на интернет. Ово може да се догоди и када је ваш сервер заузет.</string>
+    <string name="error_dialog_tip_connection_rejected">Повезивање је одбијено, молимо вас да проверите да ли је ваш сервер заштиђен механизмом прозив затрпавања захтевима. Овај проблем највероватније изазивају сервери које штити Cloudflare.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Ако сте укључили подешавање „Сингронизуј само на Wi-Fi”, синхорнизацију можете да покренете само ако сте повезани на Wi-Fi мрежу.</string>
     <string name="error_dialog_tip_files_force_stop">Нешто није у реду да Вашом Некстклауд апликацијом. Пробајте да форсирано зауставите обе, и Некстклауд апликацију и апликацију Некстклауд Шпила.</string>
     <string name="error_dialog_tip_files_delete_storage">Ако ово заустављање не помогне, очистите податке за обе апликације.</string>
@@ -289,6 +290,7 @@
     <string name="simple_move">Помери</string>
     <string name="cannot_upload_files_without_permission">Фајлови не могу да се отпреме без дозвола</string>
     <string name="insufficient_permission">Дозволе нису довољне</string>
+    <string name="no_matching_app_installed">Није инсталирана апликација која задовољава захтев</string>
     <string name="clone_cards">Клонирај картице</string>
     <string name="simple_clone">Клонирај</string>
     <string name="user_avatar">Кориснички аватар</string>
@@ -304,6 +306,7 @@
     <string name="contacts">Контакти</string>
     <string name="downloads">Преузимања</string>
     <string name="files">Фајлови</string>
+    <string name="voice_recorder">Снимач гласа</string>
     <string name="gallery">Галерија</string>
     <string name="videos">Видео снимци</string>
     <string name="simple_attach">Приложи</string>

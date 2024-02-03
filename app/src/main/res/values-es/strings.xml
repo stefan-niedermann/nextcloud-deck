@@ -96,6 +96,7 @@
     <string name="about_server_app_version_text">Versión app servidor:</string>
     <string name="no_files_attached_to_this_card">No hay archivos adjuntos a esta tarjeta.</string>
     <string name="attachments">Adjuntos</string>
+    <string name="append_to_description">Añadir a la descripción</string>
     <string name="no_cards">Todavía no hay tarjetas</string>
     <string name="account_already_added">La cuenta %1$s ya había sido añadida</string>
     <string name="not_synced_yet">No sincronizado todavía</string>
@@ -299,10 +300,12 @@
     <string name="show_all_files">Mostrar todos los archivos</string>
     <string name="recent">Reciente</string>
     <string name="upload_a_new_attachment">Subir un nuevo adjunto</string>
+    <string name="camera">Camera</string>
     <string name="contacts">Contactos</string>
     <string name="downloads">Descargas</string>
     <string name="files">Archivos</string>
     <string name="gallery">Galería</string>
+    <string name="videos">Vídeos</string>
     <string name="simple_attach">Adjuntar</string>
     <string name="add_stack_widget">Agregar lista de widget</string>
     <string name="add_filter_widget">Añadir filtro de widget</string>

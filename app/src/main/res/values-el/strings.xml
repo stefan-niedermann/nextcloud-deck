@@ -94,6 +94,7 @@
     <string name="about_server_app_version_text">Έκδοση εφαρμογής διακομιστή</string>
     <string name="no_files_attached_to_this_card">Δεν υπάρχουν συνημμένα αρχεία στην κάρτα</string>
     <string name="attachments">Συνημμένα</string>
+    <string name="append_to_description">Προσάρτηση στην περιγραφή</string>
     <string name="no_cards">Καμία κάρτα ακόμη</string>
     <string name="account_already_added">Ο λογαριασμός %1$s έχει ήδη προστεθεί </string>
     <string name="not_synced_yet">Δεν είναι ακόμα συγχρονισμένα</string>
@@ -279,10 +280,12 @@
     <string name="show_all_files">Εμφάνιση όλων των αρχείων</string>
     <string name="recent">Πρόσφατο</string>
     <string name="upload_a_new_attachment">Ανεβάστε ένα νέο συνημμένο</string>
+    <string name="camera">Κάμερα</string>
     <string name="contacts">Επαφές</string>
     <string name="downloads">Λήψεις</string>
     <string name="files">Αρχεία</string>
     <string name="gallery">Εκθεσιακός χώρος</string>
+    <string name="videos">Βίντεο</string>
     <string name="simple_attach">Συνημμένο</string>
     <string name="add_stack_widget">Προσθήκη λίστας widget</string>
     <string name="add_filter_widget">Προσθήκη φίλτρου μικροεφαρμογής</string>

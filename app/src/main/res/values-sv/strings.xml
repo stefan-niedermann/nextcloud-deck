@@ -212,6 +212,7 @@
     <string name="error_dialog_tip_offline_no_internet">Det verkar som att du startade en synkronisering utan en internetanslutning.</string>
     <string name="error_dialog_tip_offline_connection_refused">Anslutningen nekades, kontrollera att din server är nåbar i en webbläsare.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Anslutningen tog för lång tid, kontrollera om du är ansluten till internet. Detta kan också hända när din server är upptagen.</string>
+    <string name="error_dialog_tip_connection_rejected">Anslutningen avvisades, kontrollera om din server är skyddad av anti-flooding. Detta är troligen ett problem som orsakas av Cloudflare-skyddade servrar.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Om du har aktiverat \"Synkronisera enbart med Wi-Fi\" kan du bara synkronisera när du är ansluten till Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Något verkar fel med din Nextcloud-app. Försök att tvångsavsluta både Nextcloud och Nextcloud Deck-appen.</string>
     <string name="error_dialog_tip_files_delete_storage">Om tvångsavslutning ej hjälper kan du försöka rensa datan på båda appar.</string>
@@ -285,6 +286,7 @@
     <string name="simple_move">Flytta</string>
     <string name="cannot_upload_files_without_permission">Kan inte ladda upp filer utan behörighet</string>
     <string name="insufficient_permission">Otillräcklig behörighet</string>
+    <string name="no_matching_app_installed">Ingen matchande app installerad</string>
     <string name="clone_cards">Klona kort</string>
     <string name="simple_clone">Klona</string>
     <string name="user_avatar">Användar-avatar</string>
@@ -300,6 +302,7 @@
     <string name="contacts">Kontakter</string>
     <string name="downloads">Nedladdningar</string>
     <string name="files">Filer</string>
+    <string name="voice_recorder">Röstinspelare</string>
     <string name="gallery">Galleri</string>
     <string name="videos">Videor</string>
     <string name="simple_attach">Bifoga</string>

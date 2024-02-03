@@ -95,6 +95,7 @@
     <string name="about_server_app_version_text">Версия на сървърното приложение:</string>
     <string name="no_files_attached_to_this_card">Няма прикачени файлове към тази карта.</string>
     <string name="attachments">Прикачени файлове</string>
+    <string name="append_to_description">Добавете към описанието</string>
     <string name="no_cards">Все още няма карти</string>
     <string name="account_already_added">Профилът %1$s, вече е добавен</string>
     <string name="not_synced_yet">Все още не е синхронизиран</string>
@@ -281,6 +282,7 @@
     <string name="project_type_room">Стая за разговор</string>
     <string name="simple_move">Преместване</string>
     <string name="cannot_upload_files_without_permission">Не може да се качват файлове без права</string>
+    <string name="insufficient_permission">Недостатъчно право</string>
     <string name="clone_cards"> Клониране на карти</string>
     <string name="simple_clone">Клониране</string>
     <string name="user_avatar">Потребителски аватар</string>
@@ -292,10 +294,12 @@
     <string name="show_all_files">Показване на всички файлове</string>
     <string name="recent">Скорошни</string>
     <string name="upload_a_new_attachment">Качеване на нов прикачен файл</string>
+    <string name="camera">Камера</string>
     <string name="contacts">Контакти</string>
     <string name="downloads">Изтегляния</string>
     <string name="files">Файлове</string>
     <string name="gallery">Галерия</string>
+    <string name="videos">Видеа</string>
     <string name="simple_attach">Прикачване</string>
     <string name="add_stack_widget">Добавяне на списък на изпълними модули</string>
     <string name="add_filter_widget">Добавяне на филтър на изпълними модули</string>
