@@ -45,7 +45,7 @@
     <string name="about_translators_transifex">%1$s에 위치한 Nextcloud 커뮤니티</string>
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_source_title">소스 코드</string>
-    <string name="about_source">이 프로젝트는 깃허브에서 호스팅 중입니다: %1$s</string>
+    <string name="about_source">이 프로젝트는 GitHub에서 호스팅 중입니다: %1$s</string>
     <string name="about_issues_title">문제점</string>
     <string name="about_issues">GitHub 이슈 트래커에서 이 앱의 버그를 보고하거나 기능을 제안할 수 있습니다: %1$s</string>
     <string name="about_translate_title">번역</string>
