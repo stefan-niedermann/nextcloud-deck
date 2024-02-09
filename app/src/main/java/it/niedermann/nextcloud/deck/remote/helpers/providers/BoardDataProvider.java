@@ -8,6 +8,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.nextcloud.android.sso.api.EmptyResponse;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -31,6 +33,7 @@ import okhttp3.Headers;
 
 public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
+    static Instant Y2K = LocalDate.parse("2000-01-01").atStartOfDay().toInstant(ZoneOffset.UTC);
     private int progressTotal = 0;
     private int progressDone = 0;
     private boolean isParallel = true;
@@ -64,7 +67,13 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
                     account.setBoardsEtag(etag);
                     dataBaseAdapter.updateAccount(account);
                 }
-                responder.onResponse(response, headers);
+                List<FullBoard> ret = response;
+                if (response != null) {
+                    ret = response.stream()
+                            .filter(b -> b.getBoard().getDeletedAt() == null || b.getBoard().getDeletedAt().isBefore(Y2K))
+                            .toList();
+                }
+                responder.onResponse(ret, headers);
             }
 
             @SuppressLint("MissingSuperCall")
