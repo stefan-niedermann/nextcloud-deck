@@ -87,6 +87,7 @@
 
     <string name="label_clear_due_date">Ezabatu epe-muga</string>
     <string name="label_clear_done">Osatu gabe</string>
+    <string name="label_due_at">Epemuga: %1$s</string>
     <string name="label_add">Gehitu %1$s</string>
 
     <string name="card_edit_details">Xehetasunak</string>
@@ -95,6 +96,7 @@
     <string name="about_server_app_version_text">Zerbitzariaren app bertsioa:</string>
     <string name="no_files_attached_to_this_card">Ez dago fitxategirik txartel honi erantsita.</string>
     <string name="attachments">Eranskinak</string>
+    <string name="append_to_description">Erantsi deskripzioari</string>
     <string name="no_cards">Ez dago txartelik oraindik</string>
     <string name="account_already_added">%1$s ontua dagoeneko gehitu da</string>
     <string name="not_synced_yet">Oraindik sinkronizatu gabe</string>
@@ -210,6 +212,7 @@
     <string name="error_dialog_tip_offline_no_internet">Badirudi internet konexiorik gabe saiatu zarela sinkronizatzen.</string>
     <string name="error_dialog_tip_offline_connection_refused">Konexioa ukatu egin da. Egiaztatu ea zerbitzaria eskuragarri dagoen nabigatzaile bidez, mesedez. </string>
     <string name="error_dialog_tip_offline_connection_timeout">Konexioaren denbora-muga gainditu egin da, egiaztatu ea internetera konektatuta zauden, mesedez. Zerbitzaria lanpetuegi dagoenean ere gertatzen da.</string>
+    <string name="error_dialog_tip_connection_rejected">Konexioa baztertu da. Mesedez, egiaztatu zure zerbitzaria uholdeen aurkako mekanismo batek babestuta dagoen. Hau ziurrenik Cloudflare babestutako zerbitzariek eragindako arazoa da.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">\"Sinkronizatu soilik Wi-Fi konexioarekin\" ezarpena gaituta baduzu, Wi-Fi batera konektatuta zaudenean soilik sinkronizatu ahal izango duzu.</string>
     <string name="error_dialog_tip_files_force_stop">Daukazun Nextcloud aplikazioan zerbait gaizki dabilela dirudi.  Saia zaitez Nextcloud aplikazioa eta Nextcloud Deck geldiarazten. </string>
     <string name="error_dialog_tip_files_delete_storage">Geldiarazteak ez badu arazoa konpontzen, bi biltegiak garbitzen saia zaitezke.</string>
@@ -250,6 +253,7 @@
     <string name="manage_list">Kudeatu zerrenda</string>
     <string name="simple_reply">Erantzun</string>
     <string name="append_text_to_description">Erantsi deskripzioari</string>
+    <string name="append_text_as_task">Erantsi deskribapena ataza gisa</string>
     <string name="add_text_as_comment">Gehitu iruzkin gisa</string>
     <string name="progress_count">%2$dtik%1$d</string>
     <plurals name="progress_error_count">
@@ -282,6 +286,7 @@
     <string name="simple_move">Mugitu</string>
     <string name="cannot_upload_files_without_permission">Ezin dira fitxategiak baimenik gabe igo</string>
     <string name="insufficient_permission">Ez duzu behar adina baimenik</string>
+    <string name="no_matching_app_installed">Ez dago bat datorren aplikaziorik instalatu</string>
     <string name="clone_cards">Klonatu txartelak</string>
     <string name="simple_clone">Klonatu</string>
     <string name="user_avatar">Erabltzaile-avatarra</string>
@@ -297,6 +302,7 @@
     <string name="contacts">Kontaktuak</string>
     <string name="downloads">Deskargak</string>
     <string name="files">Fitxategiak</string>
+    <string name="voice_recorder">Ahots grabagailua</string>
     <string name="gallery">Galeria</string>
     <string name="videos">Bideoak</string>
     <string name="simple_attach">Erantsi</string>
