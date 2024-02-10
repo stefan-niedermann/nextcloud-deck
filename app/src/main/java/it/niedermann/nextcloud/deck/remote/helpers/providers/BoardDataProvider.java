@@ -69,9 +69,12 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
                 }
                 List<FullBoard> ret = response;
                 if (response != null) {
-                    ret = response.stream()
-                            .filter(b -> b.getBoard().getDeletedAt() == null || b.getBoard().getDeletedAt().isBefore(Y2K))
-                            .toList();
+                    ret = new ArrayList<>(ret.size());
+                    for (FullBoard b : response) {
+                        if (b.getBoard().getDeletedAt() == null || b.getBoard().getDeletedAt().isBefore(Y2K)){
+                            ret.add(b);
+                        }
+                    }
                 }
                 responder.onResponse(ret, headers);
             }
