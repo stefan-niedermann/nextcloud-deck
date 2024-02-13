@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.model;
 
+import android.content.Context;
 import android.net.Uri;
 
 import androidx.annotation.ColorInt;
@@ -13,9 +14,13 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.bumptech.glide.Glide;
+import com.nextcloud.android.sso.AccountImporter;
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
+import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Optional;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
@@ -229,6 +234,15 @@ public class Account implements Serializable {
      */
     public SingleSignOnUrl getAvatarUrl(@Px int size, @NonNull String userName) {
         return new SingleSignOnUrl(getName(), getUrl() + "/index.php/avatar/" + Uri.encode(userName) + "/" + size);
+    }
+
+    @NonNull
+    public Optional<SingleSignOnAccount> getSingleSignOnAccount(@NonNull Context context) {
+        try {
+            return Optional.of(AccountImporter.getSingleSignOnAccount(context, getName()));
+        } catch (NextcloudFilesAppAccountNotFoundException e) {
+            return Optional.empty();
+        }
     }
 
     @Override

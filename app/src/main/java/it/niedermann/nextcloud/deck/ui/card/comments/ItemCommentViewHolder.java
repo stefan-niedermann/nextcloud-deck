@@ -17,7 +17,6 @@ import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.HashMap;
 import java.util.function.Consumer;
 
 import it.niedermann.android.util.ClipboardUtil;
@@ -48,12 +47,9 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
                 .error(R.drawable.ic_person_24dp)
                 .into(binding.avatar);
 
-        final var mentions = new HashMap<String, String>(comment.getComment().getMentions().size());
-        for (final var mention : comment.getComment().getMentions()) {
-            mentions.put(mention.getMentionId(), mention.getMentionDisplayName());
-        }
-        binding.message.setText(comment.getComment().getMessage());
-        binding.message.setMarkdownStringAndHighlightMentions(comment.getComment().getMessage(), mentions);
+        final var ssoAccount = account.getSingleSignOnAccount(itemView.getContext()).orElse(null);
+        binding.message.setCurrentSingleSignOnAccount(ssoAccount, account.getColor());
+        binding.message.setMarkdownString(comment.getComment().getMessage());
         binding.message.setMarkdownStringChangedListener(editListener);
         binding.actorDisplayName.setText(comment.getComment().getActorDisplayName());
         binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(binding.creationDateTime.getContext(), comment.getComment().getCreationDateTime().toEpochMilli()));
