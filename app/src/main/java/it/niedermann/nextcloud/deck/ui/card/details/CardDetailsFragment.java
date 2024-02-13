@@ -167,6 +167,9 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
             });
 
             binding.descriptionToggle.setOnClickListener((v) -> viewModel.toggleDescriptionPreviewMode());
+
+            registerEditorListener(binding.descriptionEditor);
+            registerEditorListener(binding.descriptionViewer);
         } else {
             binding.descriptionEditor.setEnabled(false);
             binding.descriptionEditorWrapper.setVisibility(GONE);
@@ -179,9 +182,9 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
         }
     }
 
-    private void toggleEditorView(@NonNull View viewToShow, @NonNull View viewToHide, @NonNull MarkdownEditor editorToShow) {
-        if (!editorToShow.getMarkdownString().hasActiveObservers()) {
-            editorToShow.getMarkdownString().observe(getViewLifecycleOwner(), (newDescription) -> {
+    private void registerEditorListener(@NonNull MarkdownEditor editor) {
+        if (!editor.getMarkdownString().hasActiveObservers()) {
+            editor.getMarkdownString().observe(getViewLifecycleOwner(), (newDescription) -> {
                 if (viewModel.getFullCard() != null) {
                     // TODO This is the preferred way, but we need to preserve scroll and selection state
                     viewModel.getFullCard().getCard().setDescription(newDescription == null ? "" : newDescription.toString());
@@ -191,6 +194,10 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
                 binding.descriptionToggle.setVisibility(TextUtils.isEmpty(newDescription) ? INVISIBLE : VISIBLE);
             });
         }
+    }
+
+    private void toggleEditorView(@NonNull View viewToShow, @NonNull View viewToHide, @NonNull MarkdownEditor editorToShow) {
+        editorToShow.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
         viewToHide.setVisibility(GONE);
         viewToShow.setVisibility(VISIBLE);
     }
