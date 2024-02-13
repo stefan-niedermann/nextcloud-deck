@@ -106,7 +106,13 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel.getBoardColor().observe(getViewLifecycleOwner(), this::applyTheme);
+        final var ssoAccount = viewModel.getAccount().getSingleSignOnAccount(requireContext()).orElse(null);
+
+        viewModel.getBoardColor().observe(getViewLifecycleOwner(), color -> {
+            applyTheme(color);
+            binding.descriptionEditor.setCurrentSingleSignOnAccount(ssoAccount, color);
+            binding.descriptionViewer.setCurrentSingleSignOnAccount(ssoAccount, color);
+        });
     }
 
 //    @Override
@@ -138,8 +144,6 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
         utils.platform.colorImageView(binding.descriptionToggle, ColorRole.SECONDARY);
 
         binding.cardDueDateView.applyTheme(color);
-        binding.descriptionEditor.setSearchColor(color);
-        binding.descriptionViewer.setSearchColor(color);
 
         // TODO apply correct branding on the BrandedDatePicker
     }
