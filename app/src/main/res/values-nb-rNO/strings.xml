@@ -87,6 +87,7 @@
 
     <string name="label_clear_due_date">Fjern forfallsdato</string>
     <string name="label_clear_done">Ikke ferdigstilt</string>
+    <string name="label_due_at">Forfaller den:%1$s</string>
     <string name="label_add">Legg til%1$s</string>
 
     <string name="card_edit_details">Detaljer</string>
@@ -211,6 +212,7 @@
     <string name="error_dialog_tip_offline_no_internet">Det ser ut til at du forsøkte å sette igang en synkronisering uten en internettilkobling.</string>
     <string name="error_dialog_tip_offline_connection_refused">Tilkobling ble nektet, sjekk at serveren din kan nås via nettleseren.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Tilkoblingen fikk tidsavbrudd, sjekk at internettilkoblingen fungerer. Dette kan også skjer hvis serveren din er opptatt.</string>
+    <string name="error_dialog_tip_connection_rejected">Tilkoblingen ble avvist, vennligst sjekk om serveren din er beskyttet av en anti-flommekanisme. Dette er mest sannsynlig et problem forårsaket av Cloudflare-beskyttede servere.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Hvis du har aktivert innstillingen \"Synkroniser på Wi-Fi\", kan du bare synkronisere når du er koblet til et trådløst nettverk.</string>
     <string name="error_dialog_tip_files_force_stop">Det virker som noe er galt med Nextcloud appen. Vennligst prøv å tvinge avslutning av Nextcloud appen og Nextcloud Deck appen.</string>
     <string name="error_dialog_tip_files_delete_storage">Hvis det ikke hjelper med tving avslutt, så kan du prøve å tømme lageret for begge appene.</string>
@@ -284,6 +286,7 @@
     <string name="simple_move">Flytt</string>
     <string name="cannot_upload_files_without_permission">Kan ikke laste opp filer uten tillatelse</string>
     <string name="insufficient_permission">Utilstrekkelige rettigheter</string>
+    <string name="no_matching_app_installed">Ingen samsvarende app installert</string>
     <string name="clone_cards">Klone kort</string>
     <string name="simple_clone">Klone</string>
     <string name="user_avatar">Bruker avatar</string>
@@ -299,6 +302,7 @@
     <string name="contacts">Kontakter</string>
     <string name="downloads">Nedlastinger</string>
     <string name="files">Filer</string>
+    <string name="voice_recorder">Taleopptaker</string>
     <string name="gallery">Galleri</string>
     <string name="videos">Filmer</string>
     <string name="simple_attach">Legg ved</string>
