@@ -215,6 +215,7 @@
     <string name="error_dialog_tip_offline_no_internet">Похоже, что вы пытались запустить синхронизацию без подключения к Интернету.</string>
     <string name="error_dialog_tip_offline_connection_refused">Соединение было прервано, пожалуйста, проверьте, доступен ли ваш сервер через веб-браузер.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Соединение прервано, пожалуйста, проверьте, подключены ли вы к Интернету. Это также может произойти, когда ваш сервер занят.</string>
+    <string name="error_dialog_tip_connection_rejected">Соединение сброшено, проверьте, есть ли на сервере анти-флуд защита. Скорее всего, это проблема связана с серверной защитой Cloudflare.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Если вы включили параметр «Синхронизация только по Wi-Fi», вы можете синхронизировать только при подключении к Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Похоже, что с приложением Nextcloud ведёт себя неожиданным образом. Попробуйте принудительно остановить приложения Nextcloud и Nextcloud Карточки. </string>
     <string name="error_dialog_tip_files_delete_storage">Если принудительная остановка не поможет, попробуйте очистить хранилище обоих приложений.</string>
@@ -291,6 +292,7 @@
     <string name="simple_move">Переместить</string>
     <string name="cannot_upload_files_without_permission">Отсутствуют права для загрузки файла</string>
     <string name="insufficient_permission">Недостаточно прав доступа</string>
+    <string name="no_matching_app_installed">Подходящее приложение не установлено</string>
     <string name="clone_cards">Скопировать карточку</string>
     <string name="simple_clone">Скопировать</string>
     <string name="user_avatar">Изображение профиля</string>
@@ -306,6 +308,7 @@
     <string name="contacts">Контакты</string>
     <string name="downloads">Загрузки</string>
     <string name="files">Файлы</string>
+    <string name="voice_recorder">Диктофон</string>
     <string name="gallery">Галерея</string>
     <string name="videos">Видео</string>
     <string name="simple_attach">Вложить</string>
