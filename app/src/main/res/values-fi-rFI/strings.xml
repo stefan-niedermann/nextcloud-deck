@@ -93,6 +93,7 @@
     <string name="about_server_app_version_text">Palvelimen sovelluksen versio:</string>
     <string name="no_files_attached_to_this_card">Tähän korttiin ei ole liitetty tiedostoja.</string>
     <string name="attachments">Liitteet</string>
+    <string name="append_to_description">Lisää selitteeseen</string>
     <string name="no_cards">Ei kortteja vielä</string>
     <string name="not_synced_yet">Ei vielä synkronoitu</string>
     <string name="no_lists_yet">Ei vielä listoja</string>

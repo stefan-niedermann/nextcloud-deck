@@ -95,6 +95,7 @@
     <string name="about_server_app_version_text">نسخه برنامه سرور:</string>
     <string name="no_files_attached_to_this_card">هیچ پرونده ای به این کارت وصل نشده است.</string>
     <string name="attachments">پیوست ها</string>
+    <string name="append_to_description">به شرح اضافه کنید</string>
     <string name="no_cards">هنوز کارت وجود ندارد</string>
     <string name="account_already_added">حساب کاربری %1$s قبلا اضافه شده است.</string>
     <string name="not_synced_yet">هنوز همگام سازی نشده است</string>

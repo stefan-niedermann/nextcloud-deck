@@ -95,6 +95,7 @@
     <string name="about_server_app_version_text">Versión de la aplicación del servidor:</string>
     <string name="no_files_attached_to_this_card">No hay archivos adjuntos a esta tarjeta.</string>
     <string name="attachments">Adjuntos</string>
+    <string name="append_to_description">Agregar al final de la descripción</string>
     <string name="no_cards">Aún no hay tarjetas</string>
     <string name="account_already_added">La cuenta %1$s ya ha sido agregada</string>
     <string name="not_synced_yet">Aún no sincronizado</string>
