@@ -99,13 +99,11 @@
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">פעולה זו תמחק כרטיס %1$d מהרשימה הזאת.</item>
         <item quantity="two">פעולה זו תמחק את כל %1$d הכרטיסים מהרשימה הזאת.</item>
-        <item quantity="many">פעולה זו תמחק את כל %1$d הכרטיסים מהרשימה הזאת.</item>
         <item quantity="other">פעולה זו תמחק את כל %1$d הכרטיסים מהרשימה הזאת.</item>
     </plurals>
     <plurals name="do_you_want_to_delete_the_label">
         <item quantity="one">פעולה זו תסיר את התווית מכרטיס %1$d.</item>
         <item quantity="two">פעולה זו תסיר את התווית מ־%1$d כרטיסים.</item>
-        <item quantity="many">פעולה זו תסיר את התווית מ־%1$d כרטיסים.</item>
         <item quantity="other">פעולה זו תסיר את התווית מ־%1$d כרטיסים.</item>
     </plurals>
     <string name="add_a_new_list_using_the_button">ניתן להוסיף רשימה חדשה עם הכפתור +</string>
