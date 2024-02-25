@@ -20,7 +20,7 @@
     <string name="simple_update">Agiorna</string>
     <string name="simple_delete">Cantzella</string>
     <string name="simple_rename">Torra a numenare</string>
-    <string name="simple_settings">Impostatziones</string>
+    <string name="simple_settings">Cunfiguratzione</string>
     <string name="simple_undo">Annulla</string>
     <string name="simple_manage">gesti</string>
     <string name="simple_share">cumpartzi</string>
@@ -115,7 +115,7 @@
     <string name="delete_board_message">Custu at a cantzellare de su totu custa lavagna cun totu is listas e ischedas incluidas.</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_compact_title">Modalidade cumpata</string>
-    <string name="settings_cover_images_title">Cua imàgines</string>
+    <string name="settings_cover_images_title">Cua immàgines</string>
     <string name="settings_debugging">Registros de debug</string>
     <string name="settings_etags">Imprea etichetas de identidade</string>
     <string name="settings_etags_summary">Faghet sa sincronizatzione prus lestra</string>
@@ -204,7 +204,7 @@
     <string name="error_dialog_tip_database_upgrade_failed">S\'agiornamentu de sa base de datos no est andadu bene. Sinnala su problema e lìmpia s\'archiviatzione pro impreare s\'aplicatzione comente a su sòlitu.</string>
     <string name="error_dialog_tip_clear_storage">Podes limpiare s\'archiviatzione aberende is informatziones de s\'aplicatzione e seberende Archiviatzione → Lìmpia archiviatzione. </string>
     <string name="error_dialog_tip_offline_no_internet">Paret chi as proadu a esecutare una sincronizatzione chene connessione internet.</string>
-    <string name="error_dialog_tip_sync_only_on_wifi">Si as ativadu s\'impostatzione \"Sincroniza cun Wi-Fi ebbia\", podes sincronizare isceti cando b\'at connessione a su Wi-Fi.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Si as ativadu s\'optzione \"Sincroniza cun Wi-Fi ebbia\", podes sincronizare isceti cando b\'at connessione a su Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Paret chi ddoe at unu problema cun s\'aplicatzione tua de Nextcloud. Proa a firmare ambas is aplicatzione Nextcloud e Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Si a ddas firmare no agiudat, podes proare a cantzellare s\'archiviatzione de ambas is aplicatziones.</string>
     <string name="error_dialog_timeout_toggle">Controlla·ti sa connessione a sa rete. Cando non cando a disativare is datos mòbiles o Wi-Fi e a ddos torrare a ativare podet agiudare.</string>
@@ -224,7 +224,7 @@
     <string name="error_dialog_unknown_error">S\'istàntzia tua Nextcloud paret chi non faghet a dda sighire. Controlla sa connessione internet e bide si ti podes connettere a s\'istàntzia tràmite su navigadore.</string>
     <string name="error_action_open_deck_info">Aberi informatziones de aplicatzione</string>
     <string name="error_action_open_nextcloud_app">Aberi s\'aplicatzione Nextcloud</string>
-    <string name="error_action_open_network">Impostatziones rete</string>
+    <string name="error_action_open_network">Cunfiguratzione de rete</string>
     <string name="error_action_server_logs">Log Serbidore</string>
     <string name="error_action_open_in_browser">Aberi in su navigadore</string>
     <string name="error_action_install">Installa</string>
@@ -249,7 +249,7 @@
         <item quantity="other">%1$d errores carrighende</item>
     </plurals>
     <string name="simple_report">Signala</string>
-    <string name="error_action_open_battery_settings">Impostatziones bateria</string>
+    <string name="error_action_open_battery_settings">Cunfiguratzione de bateria</string>
     <string name="move_warning">Non si podent tramudare nen is cummentos, nen is alligongiados cando si tràmudat s\'ischeda in un\'àtera lavagna.</string>
     <string name="clone_board">Clona tabella</string>
     <string name="cloning_board">Clonende%1$s…</string>
@@ -296,7 +296,7 @@
     <string name="edit_description">Modìfica descritzione</string>
     <string name="widget_upcoming_title">Ischedas imbenientes</string>
     <!-- Category header for a section in the settings which contain features for advanced users -->
-    <string name="simple_expert_settings">Impostatziones avatzadas</string>
+    <string name="simple_expert_settings">Cunfiguratzione avantzada</string>
     <string name="copy_logs">Còpia registros in sa punta de billete</string>
     <string name="app_logo">Logo de s\'aplicatzione</string>
     <string name="log_file">Archìviu registru</string>
