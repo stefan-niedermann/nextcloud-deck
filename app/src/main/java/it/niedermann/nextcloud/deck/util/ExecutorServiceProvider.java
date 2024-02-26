@@ -13,8 +13,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 
 public class ExecutorServiceProvider {
 
-//    private static final int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
-    private static final int NUMBER_OF_CORES = 2;
+    private static final int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
 
     private static final ExecutorService EXECUTOR = new ThreadPoolExecutor(NUMBER_OF_CORES >> 1, NUMBER_OF_CORES,
             10L, TimeUnit.MINUTES, new LinkedBlockingQueue<>()) {
