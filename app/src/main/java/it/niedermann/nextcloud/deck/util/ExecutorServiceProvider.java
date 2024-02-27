@@ -16,7 +16,7 @@ public class ExecutorServiceProvider {
     private static final int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
 
     private static final ExecutorService EXECUTOR = new ThreadPoolExecutor(NUMBER_OF_CORES >> 1, NUMBER_OF_CORES,
-            60L, TimeUnit.SECONDS, new LinkedBlockingQueue<>()) {
+            10L, TimeUnit.MINUTES, new LinkedBlockingQueue<>()) {
         @Override
         public Future<?> submit(Runnable task) {
             return super.submit(new RetryableRunnable(task));

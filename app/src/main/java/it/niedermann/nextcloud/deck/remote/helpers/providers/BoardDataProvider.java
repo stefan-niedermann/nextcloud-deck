@@ -31,6 +31,7 @@ import okhttp3.Headers;
 
 public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
+    private static final Instant ZERO_EPOCH_MILLIS = Instant.ofEpochMilli(0L);
     private int progressTotal = 0;
     private int progressDone = 0;
     private boolean isParallel = true;
@@ -64,7 +65,16 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
                     account.setBoardsEtag(etag);
                     dataBaseAdapter.updateAccount(account);
                 }
-                responder.onResponse(response, headers);
+                List<FullBoard> ret = response;
+                if (response != null) {
+                    ret = new ArrayList<>(ret.size());
+                    for (FullBoard b : response) {
+                        if (b.getBoard().getDeletedAt() == null || !b.getBoard().getDeletedAt().isAfter(ZERO_EPOCH_MILLIS)){
+                            ret.add(b);
+                        }
+                    }
+                }
+                responder.onResponse(ret, headers);
             }
 
             @SuppressLint("MissingSuperCall")
