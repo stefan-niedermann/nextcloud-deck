@@ -1,1 +1,1 @@
-- 🐞 Handle boards and cards which are marked as deleted but still are delivered (1560)
+- 🐞 Handle boards and cards which are marked as deleted but still are delivered (#1560)
