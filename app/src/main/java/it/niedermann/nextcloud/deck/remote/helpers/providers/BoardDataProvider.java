@@ -8,8 +8,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.nextcloud.android.sso.api.EmptyResponse;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -33,7 +31,7 @@ import okhttp3.Headers;
 
 public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
-    static Instant Y2K = LocalDate.parse("2000-01-01").atStartOfDay().toInstant(ZoneOffset.UTC);
+    static Instant ZERO_EPOCH_MILLIS = Instant.ofEpochMilli(0L);
     private int progressTotal = 0;
     private int progressDone = 0;
     private boolean isParallel = true;
@@ -71,7 +69,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
                 if (response != null) {
                     ret = new ArrayList<>(ret.size());
                     for (FullBoard b : response) {
-                        if (b.getBoard().getDeletedAt() == null || b.getBoard().getDeletedAt().isBefore(Y2K)){
+                        if (b.getBoard().getDeletedAt() == null || !b.getBoard().getDeletedAt().isAfter(ZERO_EPOCH_MILLIS)){
                             ret.add(b);
                         }
                     }
