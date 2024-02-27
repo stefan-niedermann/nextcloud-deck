@@ -31,7 +31,7 @@ import okhttp3.Headers;
 
 public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
-    static Instant ZERO_EPOCH_MILLIS = Instant.ofEpochMilli(0L);
+    private static final Instant ZERO_EPOCH_MILLIS = Instant.ofEpochMilli(0L);
     private int progressTotal = 0;
     private int progressDone = 0;
     private boolean isParallel = true;
