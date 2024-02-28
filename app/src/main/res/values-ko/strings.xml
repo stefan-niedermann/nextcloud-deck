@@ -97,6 +97,7 @@
     <string name="attachments">첨부파일</string>
     <string name="append_to_description">설명에 추가</string>
     <string name="no_cards">아직 카드가 없음</string>
+    <string name="account_already_added">계정 %1$s이(가) 이미 추가되었습니다</string>
     <string name="not_synced_yet">아직 동기화되지 않았음</string>
     <string name="no_lists_yet">리스트 없음</string>
     <string name="do_you_want_to_save_your_changes">변경된 사항을 저장하시겠습니까?</string>
@@ -147,6 +148,7 @@
     <string name="title_is_mandatory">제목을 비워 둘 수 없음</string>
     <string name="provide_at_least_a_title_or_description">적어도 제목이나 내용을 기술하시오.</string>
     <string name="welcome_text">%1$s에 오신 것을 환영합니다.</string>
+    <string name="welcome_text_further_accounts">다른 계정 추가</string>
     <string name="share_add_to_card">카드를 더하십시오.</string>
     <string name="share_success">%1$s가  %2$s에  성공적으로 더해졌습니다.</string>
     <string name="add_comment">덧글 달기</string>
