@@ -49,7 +49,7 @@
     <string name="about_issues_title">مسائل</string>
     <string name="about_issues">شما می توانید اشکالات ، پیشنهادات پیشرفت و درخواست ویژگی را در ردیاب شماره GitHub گزارش دهید: %1$s</string>
     <string name="about_translate_title">Translate</string>
-    <string name="about_translate">در Transifex به تیم Nextcloud بپیوندید و در ترجمه این برنامه به ما کمک کنید: %1$s</string>
+    <string name="about_translate">در Transifex به تیم communis بپیوندید و در ترجمه این برنامه به ما کمک کنید: %1$s</string>
     <string name="about_app_license_title">مجوز برنامه</string>
     <string name="about_app_license">این برنامه تحت مجوز GNU GENERAL PUBLIC LICENSE v3 + مجاز است.</string>
     <string name="about_app_license_button">مشاهده مجوز</string>
@@ -228,7 +228,7 @@
     <string name="error_dialog_capabilities_not_parsable">ما نمی توانیم قابلیت های سرور شما را واکشی کنیم. لطفاً اطمینان حاصل کنید که سرور شما به خوبی کار می کند و سایر برنامه های سرویس گیرنده قادر به دسترسی به ابرسانا هستند.</string>
     <string name="error_dialog_attachment_upload_failed">پیوست بارگذاری نمی شود. لطفا سعی کنید آن را به روش دیگری به اشتراک بگذارید و در مورد این اشکال به ما اطلاع دهید.</string>
     <string name="error_dialog_certificate">به نظر می‌رسد مشکلی در ارتباط با گواهینامهٔ کارسازتان وجود داشته باشد. لطفا همه حساب‌ها را در برنامه نکست‌کلود برای اطلاعات بیشتر وارسی کنید.</string>
-    <string name="error_dialog_tip_disable_battery_optimizations">لطفاً تمام بهینه سازی های باتری را برای Nextcloud و برنامه Deck غیرفعال کنید.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">لطفاً تمام بهینه سازی های باتری را برای communis و برنامه Deck غیرفعال کنید.</string>
     <string name="error_dialog_unknown_error">به نظر می‌رسد نمونه نکست‌کلود شما در دسترس نیست. لطفا وارسی کنید که به اینترنت متصل بوده و می‌توانید از طرف مرورگر به نمونه‌تان متصل شوید.</string>
     <string name="error_dialog_min_version">برنامه اندرویدی برگه‌دان نیاز دارد که برنامه اندرویدی ابر حداقل نسخه 3.18 باشد.</string>
     <string name="error_action_open_deck_info">اطلاعات برنامه را باز کنید</string>

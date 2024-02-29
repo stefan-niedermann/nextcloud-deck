@@ -231,12 +231,12 @@
     <string name="error_dialog_user_not_found_in_database">Тренутни корисник се не поклапа са корисником у нашој бази података. Ако користите LDAP у тренутној Некстклауд сесији, вероватно Вам је Некстклауд апликација сачувала стари кориснички ИД.</string>
     <string name="error_dialog_capabilities_not_parsable">Не можемо да дохватимо могућности Вашег сервера. Проверите да Вам сервер ради добро и да ли друге клијентске апликације могу да му приступе.</string>
     <string name="error_dialog_attachment_upload_failed">Прилог није могао бити отпремљен. Молимо пробајте да га поделите на други начин и пријавите нам ову грешку.</string>
-    <string name="error_dialog_certificate">Изгледа да нешто није у реду са сертификатом сервера. За више информација, молимо вас да проверите све налоге у Nextcloud апликацији.</string>
+    <string name="error_dialog_certificate">Изгледа да нешто није у реду са сертификатом сервера. За више информација, молимо вас да проверите све налоге у communis апликацији.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Искључите све оптимизације батерије за Некстаклауд и Шпил апликације.</string>
-    <string name="error_dialog_unknown_error">Изгледа да ваша Nextcloud инстанца није доступна. Молимо вас да проверите своју везу са интернетом и могућност повезивања на инстанцу из веб прегледача.</string>
-    <string name="error_dialog_min_version">Шпил Андроид апликација захтева да је верзија Nextcloud Андроид апликације барем 3.18.</string>
+    <string name="error_dialog_unknown_error">Изгледа да ваша communis инстанца није доступна. Молимо вас да проверите своју везу са интернетом и могућност повезивања на инстанцу из веб прегледача.</string>
+    <string name="error_dialog_min_version">Шпил Андроид апликација захтева да је верзија communis Андроид апликације барем 3.18.</string>
     <string name="error_action_open_deck_info">Отвори инфо о апликацији</string>
-    <string name="error_action_open_nextcloud_app">Отвори Nextcloud апликацију</string>
+    <string name="error_action_open_nextcloud_app">Отвори communis апликацију</string>
     <string name="error_action_open_network">Поставке мреже</string>
     <string name="error_action_server_logs">Дневник са сервера</string>
     <string name="error_action_open_in_browser">Отвори у прегледачу</string>

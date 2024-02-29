@@ -10,7 +10,7 @@ android {
         minSdk 24
         targetSdk 34
         versionCode 1024001
-        versionName "1.24.1"
+        versionName "1.24.1-communis.2"
         vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
@@ -55,6 +55,10 @@ android {
             dimension "version"
             applicationIdSuffix ".mdm"
         }
+        communis {
+            dimension "version"
+            applicationIdSuffix ".communis"
+        }
     }
     testOptions {
         unitTests {
@@ -72,7 +76,7 @@ dependencies {
     def lifecycleVersion = "2.7.0"
     def roomVersion = "2.6.1"
     def glideVersion = "4.16.0"
-    def nextcloudCommonsVersion = "2.1.0"
+    def nextcloudCommonsVersion = "2.1.0-communis.1"
     def androidCommonsVersion = "1.0.0"
 
     implementation project(path: ':cross-tab-drag-and-drop')
@@ -104,7 +108,7 @@ dependencies {
     implementation 'id.zelory:compressor:3.0.1'
 
     // Single-Sign-On
-    implementation 'com.github.nextcloud:Android-SingleSignOn:1.0.0'
+    implementation 'com.github.stefan-niedermann:communis-sso:1.0.0-communis.2'
     implementation 'com.github.nextcloud:android-common:0.16.0'
     implementation "com.github.stefan-niedermann.nextcloud-commons:sso-glide:$nextcloudCommonsVersion"
     implementation "com.github.stefan-niedermann.nextcloud-commons:exception:$nextcloudCommonsVersion"

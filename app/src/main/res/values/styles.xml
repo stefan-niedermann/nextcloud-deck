@@ -89,8 +89,8 @@
     </style>
 
     <style name="SplashTheme" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/defaultBrand</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="windowSplashScreenBackground">@color/ic_launcher_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
         <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
 

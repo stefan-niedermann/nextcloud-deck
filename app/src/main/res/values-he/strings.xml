@@ -47,7 +47,7 @@
     <string name="about_issues_title">תקלות</string>
     <string name="about_issues">ניתן לדווח על תקלות, להציע שיפורים ותכונות במערכת מעקב התקלות שלנו שב־GitHub: %1$s</string>
     <string name="about_translate_title">תרגום</string>
-    <string name="about_translate">ניתן להצטרף לצוות של Nextcloud ב־Transifex ולסייע לנו לתרגם את היישומון הזה: %1$s</string>
+    <string name="about_translate">ניתן להצטרף לצוות של communis ב־Transifex ולסייע לנו לתרגם את היישומון הזה: %1$s</string>
     <string name="about_app_license_title">רישיון היישום</string>
     <string name="about_app_license">היישומון מוגן ברישיון הציבורי הכללי של GNU גרסה 3 ומעלה.</string>
     <string name="about_app_license_button">הצגת הרישיון</string>
@@ -185,7 +185,7 @@
     <string name="error_create_label">שגיאה ביצירת התווית %1$s</string>
     <string name="error_dialog_title">שוד ושבר - מה עכשיו? 🙁</string>
     <string name="error_dialog_tip_files_delete_storage">אם כפיית עצירה לא עוזרת, ניתן לנסות לרוקן את האחסון של שני היישומונים.</string>
-    <string name="error_dialog_check_maintenance">נא לבדוק שעותק ה־Nextcloud שלך אינו במצב תחזוקה כרגע.</string>
+    <string name="error_dialog_check_maintenance">נא לבדוק שעותק ה־communis שלך אינו במצב תחזוקה כרגע.</string>
     <string name="error_dialog_we_need_info">אנו זקוקים לפירוט הטכני הבא כדי לסייע לך:</string>
     <string name="error_action_open_deck_info">פתיחת פרטי יישומון</string>
     <string name="error_action_open_network">הגדרות רשת</string>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Nextcloud Deck</string>
+    <string name="app_name" translatable="false">communis Deck</string>
     <string name="app_name_short" translatable="false">Deck</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -46,14 +46,14 @@
     <string name="about_developers_title">Developers</string>
     <string name="about_developers" translatable="false">Stefan Niedermann, Artur Dawtjan</string>
     <string name="about_translators_title">Translators</string>
-    <string name="about_translators_transifex">Nextcloud community on %1$s</string>
+    <string name="about_translators_transifex">communis community on %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_source_title">Source code</string>
     <string name="about_source">This project is hosted on GitHub: %1$s</string>
     <string name="about_issues_title">Issues</string>
     <string name="about_issues">You can report bugs, enhancement proposals and feature requests at the GitHub issue tracker: %1$s</string>
     <string name="about_translate_title">Translate</string>
-    <string name="about_translate">Join the Nextcloud team on Transifex and help us to translate this app: %1$s</string>
+    <string name="about_translate">Join the communis team on Transifex and help us to translate this app: %1$s</string>
     <string name="about_app_license_title">App license</string>
     <string name="about_app_license">This application is licensed under the GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">View license</string>
@@ -227,8 +227,8 @@
     <string name="error_edit_activity_killed_by_android">Android finished the edit mode because it needed more system resources for other apps.</string>
 
     <string name="error_dialog_title">Oh no - What now? 🙁</string>
-    <string name="error_dialog_tip_token_mismatch_retry">Please try to force close the app and restart it again. There might have been an incorrect connection to the Nextcloud app.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">If the issue persists, try to clear the storage of both apps: Nextcloud and Nextcloud Deck to solve this issue.</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Please try to force close the app and restart it again. There might have been an incorrect connection to the communis app.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">If the issue persists, try to clear the storage of both apps: communis and communis Deck to solve this issue.</string>
     <string name="error_dialog_tip_database_upgrade_failed">The upgrade of the database failed. Please report the issue and clear the storage to use the app normally.</string>
     <string name="error_dialog_tip_clear_storage">You can clear the storage by opening the app info and selecting Storage → Clear storage.</string>
     <string name="error_dialog_tip_offline_no_internet">It looks like you tried to trigger a synchronization without an internet connection.</string>
@@ -236,27 +236,27 @@
     <string name="error_dialog_tip_offline_connection_timeout">Connection timed out, please check if you\'re connected to the internet. This may also happen when your server is busy.</string>
     <string name="error_dialog_tip_connection_rejected">Connection was rejected, please check if your server is protected by an anti-flooding mechanism. This is most likely a problem caused by Cloudflare protected Servers.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">If you have enabled the "Sync only on Wi-Fi" setting, you can only synchronize when you are connected to a Wi-Fi.</string>
-    <string name="error_dialog_tip_files_force_stop">Something seems to be wrong with your Nextcloud app. Please try to force stop both, the Nextcloud app and the Nextcloud Deck app.</string>
+    <string name="error_dialog_tip_files_force_stop">Something seems to be wrong with your communis app. Please try to force stop both, the communis app and the communis Deck app.</string>
     <string name="error_dialog_tip_files_delete_storage">If force stopping them does not help, you can try to clear the storage of both apps.</string>
     <string name="error_dialog_timeout_instance">There was no response from your server in the given time. Please make sure your instance is running well.</string>
     <string name="error_dialog_timeout_toggle">Check your network connection. Sometimes toggling the mobile data or Wi-Fi off and on again can help.</string>
     <string name="error_dialog_check_server">The response of your server was not correct. Please check whether you can access the Deck app via web interface.</string>
-    <string name="error_dialog_check_server_logs">There is an issue with your Nextcloud setup. Please have a look into the server log files.</string>
-    <string name="error_dialog_check_maintenance">Please check whether your Nextcloud instance is not currently in maintenance mode.</string>
-    <string name="error_dialog_insufficient_storage">Your Nextcloud instance has no free storage left. Please delete some files to sync your local changes into your cloud.</string>
+    <string name="error_dialog_check_server_logs">There is an issue with your communis setup. Please have a look into the server log files.</string>
+    <string name="error_dialog_check_maintenance">Please check whether your communis instance is not currently in maintenance mode.</string>
+    <string name="error_dialog_insufficient_storage">Your communis instance has no free storage left. Please delete some files to sync your local changes into your cloud.</string>
     <string name="error_dialog_we_need_info">We need the following technical information to help you:</string>
-    <string name="error_dialog_redirect">Your server did respond with a HTTP 302 status code, which implies, that you do not have installed the Deck app on your server or something is misconfigured. This can be caused by custom overrides in a .htaccess-file or by Nextcloud apps like OID Client.</string>
+    <string name="error_dialog_redirect">Your server did respond with a HTTP 302 status code, which implies, that you do not have installed the Deck app on your server or something is misconfigured. This can be caused by custom overrides in a .htaccess-file or by communis apps like OID Client.</string>
     <string name="error_dialog_version_not_parsable">We could not determine the version of the server side Deck app. Please make sure it is installed and enabled.</string>
-    <string name="error_dialog_account_might_not_be_authorized">The account of your Nextcloud app might no longer be authorized.</string>
-    <string name="error_dialog_user_not_found_in_database">The current user does not match the user we have in our database. If you are using LDAP on your Nextcloud instance, your Nextcloud app might have stored an old user ID.</string>
-    <string name="error_dialog_capabilities_not_parsable">We could not fetch the capabilities of your server. Please make sure your server is running well and other client apps are able to access Nextcloud.</string>
+    <string name="error_dialog_account_might_not_be_authorized">The account of your communis app might no longer be authorized.</string>
+    <string name="error_dialog_user_not_found_in_database">The current user does not match the user we have in our database. If you are using LDAP on your communis instance, your communis app might have stored an old user ID.</string>
+    <string name="error_dialog_capabilities_not_parsable">We could not fetch the capabilities of your server. Please make sure your server is running well and other client apps are able to access communis.</string>
     <string name="error_dialog_attachment_upload_failed">An attachment could not be uploaded. Please try to share it on another way and let us know about this bug.</string>
-    <string name="error_dialog_certificate">Something seems to be wrong with the certificate of the server. Please check all the accounts in the Nextcloud app for further information.</string>
-    <string name="error_dialog_tip_disable_battery_optimizations">Please disable all battery optimizations for Nextcloud and the Deck app.</string>
-    <string name="error_dialog_unknown_error">Your Nextcloud instance seems to be not reachable. Please check your internet connection and whether you are able to connect to your instance via browser.</string>
-    <string name="error_dialog_min_version">The Deck Android app requires the Nextcloud Android app to be at least version 3.18.</string>
+    <string name="error_dialog_certificate">Something seems to be wrong with the certificate of the server. Please check all the accounts in the communis app for further information.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Please disable all battery optimizations for communis and the Deck app.</string>
+    <string name="error_dialog_unknown_error">Your communis instance seems to be not reachable. Please check your internet connection and whether you are able to connect to your instance via browser.</string>
+    <string name="error_dialog_min_version">The Deck Android app requires the communis Android app to be at least version 3.18.</string>
     <string name="error_action_open_deck_info">Open App info</string>
-    <string name="error_action_open_nextcloud_app">Open Nextcloud app</string>
+    <string name="error_action_open_nextcloud_app">Open communis app</string>
     <string name="error_action_open_network">Network settings</string>
     <string name="error_action_server_logs">Server logs</string>
     <string name="error_action_open_in_browser">Open in browser</string>

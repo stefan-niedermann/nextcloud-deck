@@ -2,7 +2,7 @@
 <resources>
 
     <!-- TODO Limit usage only to where it actually is needed (Import, About, …) -->
-    <color name="defaultBrand">#0082C9</color>
+    <color name="defaultBrand">#AA8F00</color>
 
     <!-- ======================================= -->
     <!-- Base Theme                              -->
