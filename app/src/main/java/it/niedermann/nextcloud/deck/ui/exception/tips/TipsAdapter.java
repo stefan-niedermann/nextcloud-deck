@@ -39,6 +39,7 @@ import it.niedermann.nextcloud.deck.exceptions.DeckException;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.ocs.Version;
 
 public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
 
@@ -85,9 +86,17 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
         } else if (throwable instanceof NextcloudFilesAppNotSupportedException) {
             add(R.string.error_dialog_min_version, new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.nextcloud.client"))
                     .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_update_files_app));
-        } else if (throwable instanceof OfflineException) {
-            add(((OfflineException) throwable).getReason().getMessage());
+        } else if (throwable instanceof OfflineException o) {
+            add(o.getReason().getMessage());
             add(R.string.error_dialog_tip_sync_only_on_wifi);
+            if (account == null) {
+                add(R.string.error_dialog_version_not_parsable);
+            } else if (OfflineException.Reason.CONNECTION_REJECTED.equals(o.getReason()) &&
+                    Version.minimumSupported().equals(account.getServerDeckVersionAsObject())) {
+                add(R.string.error_dialog_version_not_parsable, new Intent(Intent.ACTION_VIEW)
+                        .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_install)
+                        .setData(Uri.parse(account.getUrl() + context.getString(R.string.url_fragment_install_deck))));
+            }
         } else if (throwable instanceof NextcloudApiNotRespondingException) {
             add(R.string.error_dialog_tip_disable_battery_optimizations, new Intent().setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS).putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_battery_settings));
             add(R.string.error_dialog_tip_files_force_stop);
@@ -116,7 +125,7 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
         } else if (throwable instanceof UploadAttachmentFailedException) {
             add(R.string.error_dialog_attachment_upload_failed);
         } else if (throwable instanceof ClassNotFoundException) {
-            final Throwable cause = ((ClassNotFoundException) throwable).getCause();
+            final Throwable cause = throwable.getCause();
             if (cause != null) {
                 final String message = cause.getMessage();
                 if (message != null && message.toLowerCase().contains("certificate")) {
