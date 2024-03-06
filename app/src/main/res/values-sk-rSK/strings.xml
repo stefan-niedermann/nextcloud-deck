@@ -87,6 +87,7 @@
 
     <string name="label_clear_due_date">Odstrániť termín dokončenia</string>
     <string name="label_clear_done">Nedokončené</string>
+    <string name="label_due_at">K dátumu: %1$s</string>
     <string name="label_add">Pridať %1$s</string>
 
     <string name="card_edit_details">Podrobnosti</string>
@@ -97,6 +98,7 @@
     <string name="attachments">Prílohy</string>
     <string name="append_to_description">Pripojiť k popisu</string>
     <string name="no_cards">Zatiaľ žiadne karty</string>
+    <string name="account_already_added">Účet %1$s už bol pridaný.</string>
     <string name="not_synced_yet">Zatiaľ nie je synchronizovaný</string>
     <string name="no_lists_yet">Zatiaľ žiadne zoznamy</string>
     <string name="do_you_want_to_save_your_changes">Chcete uložiť zmeny?</string>
@@ -214,9 +216,11 @@
     <string name="error_dialog_tip_offline_no_internet">Vyzerá, že sa snažíte spustiť synchronizáciu bez pripojenia k internetu.</string>
     <string name="error_dialog_tip_offline_connection_refused">Pripojenie bolo odmietnuté, skontrolujte, či je váš server dostupný cez webový prehliadač.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Časový limit pripojenia vypršal, skontrolujte, či ste pripojení na internet. Môže sa to stať aj vtedy, keď je váš server zaneprázdnený.</string>
+    <string name="error_dialog_tip_connection_rejected">Pripojenie bolo odmietnuté, prosím skontrolujte, či je váš server chránený proti DOS útoku. Toto je pravdepodobne problém spôsobený servermi chránenými Cloudflare.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Ak máte aktivovanú \"Synchronizáciu iba na Wi-Fi\", môžete synchronizovať iba ak ste pripojený k Wi-Fi sieti.</string>
     <string name="error_dialog_tip_files_force_stop">Zdá sa, že s Nextcloudom niečo nie je v poriadku. Pokúste sa vynútiť zastavenie aplikácie Nextcloud aj aplikácie Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Ak ich ukončenie nepomôže, môžete skúsiť vyčistiť úložiská oboch aplikácií.</string>
+    <string name="error_dialog_timeout_instance">Server dlho neodpovedal. Uistite sa, vami využívaná inštancia funguje dobre.</string>
     <string name="error_dialog_timeout_toggle">Skontrolujte pripojenie k sieti. Niekedy pomôže vypnutie a znovu zapnutie mobilných dát alebo Wi-Fi.</string>
     <string name="error_dialog_check_server">Odpoveď vášho servera nebola správna. Skontrolujte, či máte prístup k aplikácii Deck prostredníctvom webového rozhrania.</string>
     <string name="error_dialog_check_server_logs">V nastavení vášho Nextcloudu je problém. Skontrolujte súbor so záznamom udalostí na serveri.</string>
@@ -253,6 +257,7 @@
     <string name="manage_list">Spravovať zoznam</string>
     <string name="simple_reply">Odpoveď</string>
     <string name="append_text_to_description">Pripojiť k popisu</string>
+    <string name="append_text_as_task">Pridať k popisu ako úlohu</string>
     <string name="add_text_as_comment">Pridať ako komentár</string>
     <string name="progress_count">%1$d z %2$d</string>
     <plurals name="progress_error_count">
@@ -289,6 +294,7 @@
     <string name="simple_move">Presunúť</string>
     <string name="cannot_upload_files_without_permission">Nie je možné nahrávať súbory bez povolenia</string>
     <string name="insufficient_permission">Nedostatočné oprávnenia</string>
+    <string name="no_matching_app_installed">Nenašla sa žiadna zhoda nainštalovanej aplikácie.</string>
     <string name="clone_cards">Duplikovať karty</string>
     <string name="simple_clone">Duplikovať</string>
     <string name="user_avatar">Avatar užívateľa</string>
@@ -304,6 +310,7 @@
     <string name="contacts">Kontakty</string>
     <string name="downloads">Sťahovania</string>
     <string name="files">Súbory</string>
+    <string name="voice_recorder">Hlasový záznamník</string>
     <string name="gallery">Galéria</string>
     <string name="videos">Videá</string>
     <string name="simple_attach"> Priložiť</string>
@@ -328,5 +335,8 @@
     <string name="card_outdated">Obsah tejto karty môže byť zastaraný.</string>
     <string name="show_error">Zobraziť chybu</string>
     <string name="push_notification_link_empty">Kvôli známemu problému vo webovej aplikácii Deck, žiaľ, nemôžeme túto kartu zobraziť. Viac informácií nájdete na: %1$s</string>
+    <string name="enter_search_term_title">Zadajte vyhľadávací výraz</string>
+    <string name="enter_search_term_description">Zadajte vyhľadávací výraz pre nájdenie kariet na tejto nástenke.</string>
     <string name="no_search_results_title">Žiadne výsledky vyhľadávania</string>
-    </resources>
+    <string name="no_search_results_description">Nenašli sme žiadne výsledky pre zadaný vyhľadávací výraz</string>
+</resources>
