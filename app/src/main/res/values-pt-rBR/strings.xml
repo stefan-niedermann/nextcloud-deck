@@ -87,6 +87,7 @@
 
     <string name="label_clear_due_date">Remover data de vencimento</string>
     <string name="label_clear_done">Não concluída</string>
+    <string name="label_due_at">Vencimento em:  %1$s</string>
     <string name="label_add">Adicionar %1$s</string>
 
     <string name="card_edit_details">Detalhes</string>
@@ -213,6 +214,7 @@
     <string name="error_dialog_tip_offline_no_internet">Parece que você tentou iniciar uma sincronização sem uma conexão com a internet.</string>
     <string name="error_dialog_tip_offline_connection_refused">Conexão recusada, por favor verifique se o servidor pode ser conectado via navegador de internet</string>
     <string name="error_dialog_tip_offline_connection_timeout">Conexão pausada, por favor verifique se você está conectado à internet. Isso também pode ocorrer quando seu servidor está muito ocupado</string>
+    <string name="error_dialog_tip_connection_rejected">A conexão foi rejeitada, verifique se o seu servidor está protegido por um mecanismo anti-flood. Provavelmente, este é um problema causado por servidores protegidos pela Cloudflare.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Se você habilitou a configuração \"Sincronizar apenas em Wi-Fi\", você só poderá sincronizar quando estiver conectado a um Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Parece que algo está errado com seu aplicativo Nextcloud. Tente forçar a parada de ambos, o aplicativo Nextcloud e o Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Se forçar a parada deles não resolver, tente limpar o armazenamento dos dois aplicativos.</string>
@@ -253,6 +255,7 @@
     <string name="manage_list">Gerenciar lista</string>
     <string name="simple_reply">Responder</string>
     <string name="append_text_to_description">Anexar à descrição</string>
+    <string name="append_text_as_task">Anexar à descrição como tarefa</string>
     <string name="add_text_as_comment">Adicionar como comentário</string>
     <string name="progress_count">%1$d de %2$d</string>
     <plurals name="progress_error_count">
@@ -287,6 +290,7 @@
     <string name="simple_move">Mover</string>
     <string name="cannot_upload_files_without_permission">Não é possível enviar arquivos sem permissão</string>
     <string name="insufficient_permission">Permissão insuficiente</string>
+    <string name="no_matching_app_installed">Nenhum aplicativo correspondente instalado</string>
     <string name="clone_cards">Clonar cartões</string>
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Avatar do usuário</string>
@@ -302,6 +306,7 @@
     <string name="contacts">Contatos</string>
     <string name="downloads">Downloads</string>
     <string name="files">Arquivos</string>
+    <string name="voice_recorder">Gravador de voz</string>
     <string name="gallery">Galeria</string>
     <string name="videos">Vídeos</string>
     <string name="simple_attach">Attach</string>
