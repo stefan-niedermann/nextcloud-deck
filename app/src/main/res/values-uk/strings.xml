@@ -204,7 +204,7 @@
     <string name="error_revoking_ac">Помилка під час відкликання доступу для %1$s</string>
     <string name="error_create_label">Помилка під час створення ярлика %1$s</string>
     <string name="maintenance_mode">Сервер у режимі обслуговування</string>
-    <string name="error_edit_activity_killed_by_android">Android вивантажив режим редагування через нестачу системних ресурсів.</string>
+    <string name="error_edit_activity_killed_by_android">Android вийшов з режиму редагування через нестачу системних ресурсів.</string>
 
     <string name="error_dialog_title">От халепа!</string>
     <string name="error_dialog_tip_token_mismatch_retry">Спробуйте примусово закрити застосунок та наново запустити. Можливо, встановлено неправильне з\'єднання із застосунком Nextcloud.</string>
