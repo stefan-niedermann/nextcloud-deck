@@ -64,3 +64,4 @@ app/fdroid
 app/dev
 app/mdm
 app/pfungstadt
+/gradle/verification-keyring.gpg
