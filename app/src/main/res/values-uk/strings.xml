@@ -116,7 +116,7 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Створюйте нові списки за допомогою кнопки (+)</string>
     <string name="add_a_new_card_using_the_button">Додавайте нові картки за допомогою кнопки (+)</string>
-    <string name="deck_outdated_please_update">Ваша версія веб-додатку Deck застаріла (%1$s). Будь ласка, оновіть її, щоб використовувати цей додаток для Android як клієнт.</string>
+    <string name="deck_outdated_please_update">Ваша версія вебзастосунку Deck застаріла (%1$s). Будь ласка, оновіть її, щоб продовжити використання цього застосунку для Android.</string>
     <string name="delete_board_message">Це безповоротно вилучіть дошку разом зі списками та картками</string>
     <string name="settings_theme_title">Тема</string>
     <string name="settings_compact_title">Компактний режим</string>
