@@ -128,7 +128,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
 
     // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.11.0'
 
     // Zoom Layout
     implementation("com.otaliastudios:zoomlayout:1.9.0")
