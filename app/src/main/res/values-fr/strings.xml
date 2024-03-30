@@ -245,7 +245,7 @@
     <string name="info_box_maintenance_mode">Le serveur est en mode maintenance</string>
     <string name="info_box_version_not_supported">Version du serveur %1$s non prise en charge, veuillez mettre à jour vers %2$s</string>
     <string name="share_link">Lien de partage</string>
-    <string name="share_content">Contenu partagé</string>
+    <string name="share_content">Partager le contenu</string>
     <string name="share_content_duedate">Date d\'échéance : %1$s</string>
     <string name="share_content_labels">Étiquettes : %1$s</string>
     <string name="archive_cards">Archiver les cartes</string>
