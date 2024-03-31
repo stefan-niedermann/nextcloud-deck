@@ -17,13 +17,13 @@
     <string name="simple_completed">Fuldført</string>
     <string name="simple_reset">Nulstil</string>
     <string name="simple_discard">Kassér</string>
-    <string name="simple_update">Opdatér</string>
+    <string name="simple_update">Opdater</string>
     <string name="simple_delete">Slet</string>
     <string name="simple_rename">Omdøb</string>
     <string name="simple_settings">Indstillinger</string>
     <string name="simple_undo">Fortryd</string>
     <string name="simple_manage">administrér</string>
-    <string name="simple_share">Del</string>
+    <string name="simple_share">del</string>
     <string name="simple_select">Vælg</string>
     <string name="simple_comment">Kommentér</string>
     <string name="simple_disabled">slået fra</string>

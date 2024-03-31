@@ -54,7 +54,7 @@
     <string name="about_app_license">Цей застосунок ліцензовано ліцензією GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Переглянути ліцензію</string>
     <string name="about_icons_disclaimer_title">Значки</string>
-    <string name="about_icons_disclaimer_app_icon">Для оригінального розміру піктограми див. %1$s.</string>
+    <string name="about_icons_disclaimer_app_icon">Для оригінального розміру значка див. %1$s.</string>
     <string name="about_icons_disclaimer_mdi_icons">Усі значки, які було використано у цьому застосунку, є %1$s, розроблені Google Inc. та мають ліцензію Apache 2.0 License. </string>
     <string name="about_icons_disclaimer_mdi">Material Design Icons</string>
     <string name="about_credits_tab_title">Подяки</string>
@@ -257,8 +257,8 @@
     <string name="card_does_not_yet_exist">Картка поки відсутня у застосунку</string>
 
     <string name="widget_stack_title">Список</string>
-    <string name="widget_stack_header_icon">Піктограма заголовку віджету</string>
-    <string name="widget_placeholder_icon">Піктограма поля віджету</string>
+    <string name="widget_stack_header_icon">Значок заголовку віджету</string>
+    <string name="widget_placeholder_icon">Значок поля віджету</string>
     <string name="project_type_deck_board">Дошка Deck</string>
     <string name="project_type_deck_card">Картка</string>
     <string name="project_type_file">Файл</string>

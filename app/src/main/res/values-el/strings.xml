@@ -86,6 +86,7 @@
     <string name="add_board">Προσθήκη πίνακα</string>
 
     <string name="label_clear_due_date">Καθαρισμός ημερομηνίας λήξης</string>
+    <string name="label_clear_done">Μη ολοκληρωμένο</string>
     <string name="label_add">Προσθήκη %1$s</string>
 
     <string name="card_edit_details">Λεπτομέρειες</string>
@@ -146,6 +147,7 @@
     <string name="title_is_mandatory">Απαιτείται τίτλος</string>
     <string name="provide_at_least_a_title_or_description">Προσθέστε τουλάχιστον τίτλο ή περιγραφή</string>
     <string name="welcome_text">Καλώς ήρθατε στο %1$s</string>
+    <string name="welcome_text_further_accounts">Προσθήκη άλλου λογαριασμού</string>
     <string name="share_add_to_card">Προσθήκη στην κάρτα</string>
     <string name="share_success">Επιτυχής προσθήκη %1$s από %2$s</string>
     <string name="add_comment">Προσθήκη σχολίου</string>
@@ -172,6 +174,8 @@
 
     <string name="filter_done_no_filter">\'Ολα</string>
     <string name="filter_done_done">Ολοκληρωμένες</string>
+    <string name="filter_done_undone">Μη ολοκληρωμένο</string>
+
     <string name="archived_cards">Αρχειοθετημένες κάρτες</string>
     <string name="attachment_already_exists">Το συνημμένο υπάρχει ήδη</string>
     <string name="pick_custom_color">Επιλέξτε προσαρμοσμένο χρώμα</string>
@@ -201,8 +205,11 @@
     <string name="error_dialog_tip_clear_storage_might_help">Εάν το πρόβλημα παραμένει, προσπαθήστε να εκκαθαρίσετε τον χώρο αποθήκευσης και των δύο εφαρμογών: του Nextcloud και του Nextcloud Deck για επίλυση.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Η αναβάθμιση της βάσης δεδομένων απέτυχε. Παρακαλούμε αναφέρετε το πρόβλημα και εκκαθαρίστε τον χώρο αποθήκευσης για να χρησιμοποιήσετε την εφαρμογή κανονικά.</string>
     <string name="error_dialog_tip_clear_storage">Μπορείτε να εκκαθαρίσετε τον χώρο αποθήκευσης από τις πληροφορίες εφαρμογής και επιλέγοντας Αποθηκευτικός χώρος → Εκκαθάριση χώρου αποθήκευσης.</string>
+    <string name="error_dialog_tip_offline_no_internet">Φαίνεται ότι προσπαθήσατε να ενεργοποιήσετε έναν συγχρονισμό χωρίς σύνδεση στο διαδίκτυο.</string>
     <string name="error_dialog_tip_offline_connection_refused">Η σύνδεση απορρίφθηκε, ελέγξτε εάν ο διακομιστής σας είναι προσβάσιμος μέσω του προγράμματος περιήγησης.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Το χρονικό όριο της σύνδεσης έληξε, ελέγξτε αν είστε συνδεδεμένοι στο διαδίκτυο. Αυτό μπορεί επίσης να συμβεί όταν ο διακομιστής σας είναι απασχολημένος.</string>
+    <string name="error_dialog_tip_connection_rejected">Η σύνδεση απορρίφθηκε, παρακαλούμε ελέγξτε αν ο διακομιστής σας προστατεύεται από μηχανισμό προστασίας. Αυτό είναι πιθανότατα ένα πρόβλημα που προκαλείται από διακομιστές που προστατεύονται από το Cloudflare.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Εάν έχετε ενεργοποιήσει τη ρύθμιση \"Συγχρονισμός μόνο σε Wi-Fi\", μπορείτε να συγχρονίσετε μόνο όταν είστε συνδεδεμένοι σε Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Κάτι φαίνεται να πάει στραβά με την εφαρμογή Nextcloud. Προσπαθήστε να τερματίσετε την εφαρμογή Nextcloud και την εφαρμογή Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Εάν ο τερματισμός δεν βοηθήσει, μπορείτε να εκκαθαρίσετε τον αποθηκευτικό χώρο και των δύο εφαρμογών.</string>
     <string name="error_dialog_timeout_instance">Δεν υπήρχε απάντηση από τον διακομιστή σας. Βεβαιωθείτε ότι η σύνδεσή σας λειτουργεί κανονικά.</string>
@@ -220,6 +227,7 @@
     <string name="error_dialog_attachment_upload_failed">Δεν ήταν δυνατή η μεταφόρτωση ενός συνημμένου. Προσπαθήστε να το διαμοιράσετε με άλλο τρόπο και ενημερώστε μας σχετικά με το σφάλμα.</string>
     <string name="error_dialog_certificate">Φαίνεται ότι κάτι δεν πάει καλά με το πιστοποιητικό του διακομιστή. Ελέγξτε όλους τους λογαριασμούς στην εφαρμογή Nextcloud για περισσότερες πληροφορίες.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Παρακαλούμε απενεργοποιήστε όλες τις βελτιστοποιήσεις μπαταρίας για το Nextcloud και την εφαρμογή Deck.</string>
+    <string name="error_dialog_min_version">Η εφαρμογή Deck Android απαιτεί η εφαρμογή Nextcloud Android να είναι τουλάχιστον στην έκδοση 3.18.</string>
     <string name="error_action_open_deck_info">Πληροφορίες εφαρμογής</string>
     <string name="error_action_open_nextcloud_app">Άνοιγμα εφαρμογής Nextcloud</string>
     <string name="error_action_open_network">Ρυθμίσεις δικτύου</string>
@@ -231,6 +239,7 @@
     <string name="info_box_maintenance_mode">Ο διακομιστής βρίσκεται σε λειτουργία συντήρησης</string>
     <string name="info_box_version_not_supported">Η έκδοση του διακομιστή %1$s δεν υποστηρίζεται, παρακαλούμε αναβαθμίστε στην %2$s</string>
     <string name="share_link">Διαμοιρασμός συνδέσμου</string>
+    <string name="share_content">Κοινή χρήση περιεχομένου</string>
     <string name="share_content_labels">Ετικέτες: %1$s</string>
     <string name="archive_cards">Αρχειοθετημένες κάρτες</string>
 
@@ -238,6 +247,7 @@
     <string name="manage_list">Διαχείριση λίστας</string>
     <string name="simple_reply">Απάντηση</string>
     <string name="append_text_to_description">Προσάρτηση στην περιγραφή</string>
+    <string name="append_text_as_task">Προσάρτηση στην περιγραφή ως εργασία</string>
     <string name="add_text_as_comment">Προσθήκη ως σχόλιο</string>
     <string name="progress_count">%1$d από %2$d</string>
     <plurals name="progress_error_count">
@@ -269,6 +279,8 @@
     <string name="project_type_room">Δωμάτιο του Talk </string>
     <string name="simple_move">Μετακίνηση</string>
     <string name="cannot_upload_files_without_permission">Δεν είναι δυνατή η μεταφόρτωση αρχείων χωρίς δικαιώματα</string>
+    <string name="insufficient_permission">Ανεπαρκής άδεια</string>
+    <string name="no_matching_app_installed">Δεν υπάρχει εγκατεστημένη αντίστοιχη εφαρμογή</string>
     <string name="clone_cards">Κάρτες κλώνου</string>
     <string name="simple_clone">Κλώνος</string>
     <string name="user_avatar">Άβαταρ χρήστη</string>
@@ -284,6 +296,7 @@
     <string name="contacts">Επαφές</string>
     <string name="downloads">Λήψεις</string>
     <string name="files">Αρχεία</string>
+    <string name="voice_recorder">Καταγραφέας φωνής</string>
     <string name="gallery">Εκθεσιακός χώρος</string>
     <string name="videos">Βίντεο</string>
     <string name="simple_attach">Συνημμένο</string>
@@ -297,6 +310,19 @@
     <string name="copy_logs">Αντιγραφή αρχείων καταγραφής στο πρόχειρο</string>
     <string name="app_logo">Λογότυπο εφαρμογής</string>
     <string name="log_file">Αρχείο καταγραφής</string>
+    <string name="copying_logs_to_file">Αντιγραφή αρχείων καταγραφής σε αρχείο...</string>
+    <string name="account_imported">Έγινε εισαγωγή του Λογαριασμού</string>
     <string name="simple_search">Αναζήτηση</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Τίτλος (απαιτείται)</string>
+    <string name="saving_new_card">Αποθήκευση νέας κάρτας...</string>
+    <string name="progress_import">Εισαγωγή πίνακα %1$d από %2$d…</string>
+    <string name="progress_import_indeterminate">Εισαγωγή πινάκων...</string>
+    <string name="card_outdated">Το περιεχόμενο αυτής της κάρτας ενδέχεται να είναι παρωχημένο.</string>
+    <string name="show_error">Εμφάνιση σφάλματος</string>
+    <string name="push_notification_link_empty">Λόγω ενός γνωστού προβλήματος στην εφαρμογή Deck web, δυστυχώς δεν είναι δυνατή η εμφάνιση αυτής της κάρτας. Για περισσότερες πληροφορίες δείτε: %1$s</string>
+    <string name="enter_search_term_title">Εισάγετε όρο αναζήτησης</string>
+    <string name="enter_search_term_description">Εισάγετε όρο αναζήτησης για να βρείτε κάρτες σε αυτόν τον πίνακα</string>
     <string name="no_search_results_title">Κανένα αποτέλεσμα</string>
-    </resources>
+    <string name="no_search_results_description">Δεν έχει βρεθεί κανένα αποτέλεσμα για τον συγκεκριμένο όρο αναζήτησης</string>
+</resources>
