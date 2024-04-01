@@ -214,6 +214,7 @@
     <string name="error_dialog_tip_offline_no_internet">Parece que has intentado lanzar una sincronización sin tener conexión a internet.</string>
     <string name="error_dialog_tip_offline_connection_refused">La conexión ha sido rechazada, por favor comprueba si tu servidor es alcanzable a través de un navegador web</string>
     <string name="error_dialog_tip_offline_connection_timeout">La conexión ha caducado, por favor comprueba si estás conectado a internet. Esto también puede ocurrir cuando tu servidor está ocupado.</string>
+    <string name="error_dialog_tip_connection_rejected">La conexión fue rechazada, por favor verifique si su servidor está protegido por algún mecanismo de rechazo de múltiples solicitudes concurrentes. Es muy probable que este problema sea causado por los servidores protegidos por Cloudflare.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Si has habilitado \"Sincronizar solo con Wi-Fi\", solo podrás sincronizar cuando estés conectado a un Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Algo parece ir mal en tu app de Nextcloud. Por favor, intenta forzar el cierre de ambas, Nextcloud y Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Si pararlas no ayuda, puede intentar borrar el almacenamiento de ambas aplicaciones.</string>
@@ -289,6 +290,7 @@
     <string name="simple_move">Mover</string>
     <string name="cannot_upload_files_without_permission">No se puede subir archivos sin permiso</string>
     <string name="insufficient_permission">Permisos insuficientes</string>
+    <string name="no_matching_app_installed">No hay un app coincidente instalada</string>
     <string name="clone_cards">Clonar tarjetas</string>
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Usar avatar</string>
@@ -304,6 +306,7 @@
     <string name="contacts">Contactos</string>
     <string name="downloads">Descargas</string>
     <string name="files">Archivos</string>
+    <string name="voice_recorder">Grabador de voz</string>
     <string name="gallery">Galería</string>
     <string name="videos">Vídeos</string>
     <string name="simple_attach">Adjuntar</string>
