@@ -218,7 +218,7 @@
     <string name="error_dialog_timeout_toggle">Перевірте доступ до мережі. Часом може допомогти послідовне вимикання та вмикання мобільних даних або Wi-Fi.</string>
     <string name="error_dialog_check_server_logs">Виникла проблема з налаштуванням Nextcloud. Будь ласка, подивіться файли журналу сервера.</string>
     <string name="error_dialog_check_maintenance">Будь ласка, перевірте, чи ваш сервер Nextcloud наразі не перебуває в режимі обслуговування.</string>
-    <string name="error_dialog_insufficient_storage">Ваш сервер Nextcloud не має вільного місця. Будь ласка видаліть деякі файлі, щоб синхронізувати ваші локальні зміни з вашим хмарним сховищем.</string>
+    <string name="error_dialog_insufficient_storage">Ваш сервер Nextcloud не має вільного місця. Вилучіть деякі файлі, щоб можна було синхронізувати ваші локальні зміни із вашим хмарним сховищем.</string>
     <string name="error_dialog_we_need_info">Нам потрібна наступна технічна інформація, щоб допомогти вам:</string>
     <string name="error_dialog_version_not_parsable">Не вдалося визначити версію застосунку Deck на сервері. Будь ласка, перевірте, чи  застосунок встановлено та увімкнено.</string>
     <string name="error_dialog_account_might_not_be_authorized">Ймовірно, що ваш обліковий запис у застосунку Nextcloud більше не авторизовано.</string>
