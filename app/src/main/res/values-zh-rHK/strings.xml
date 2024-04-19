@@ -71,8 +71,8 @@
     <string name="card_not_found">找不到 card</string>
     <string name="card_not_found_message">找不到 card。或許它已經被刪除了？</string>
 
-    <string name="add_account">新增賬戶</string>
-    <string name="choose_account">選擇賬戶</string>
+    <string name="add_account">新增帳戶</string>
+    <string name="choose_account">選擇帳戶</string>
     <string name="add_card">添加卡片</string>
     <string name="activity">活動</string>
     <string name="add_list">新增清單</string>
@@ -98,7 +98,7 @@
     <string name="attachments">附件</string>
     <string name="append_to_description">附加到描述</string>
     <string name="no_cards">尚無卡片</string>
-    <string name="account_already_added">賬戶 %1$s 已添加</string>
+    <string name="account_already_added">帳戶 %1$s 已添加</string>
     <string name="not_synced_yet">尚未同步完成</string>
     <string name="no_lists_yet">尚無清單</string>
     <string name="do_you_want_to_save_your_changes">您想要儲存您做出的變更嗎？</string>
@@ -135,7 +135,7 @@
     <string name="no_activities">此卡片沒有活動。您需要連線至網際網路，才能載入並顯示活動。</string>
     <string name="share_board">分享佈告欄</string>
     <string name="you_are_currently_offline">目前離線中</string>
-    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">您必須連線到互聯網才能新增賬戶。</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">您必須連線到互聯網才能新增帳戶。</string>
     <string name="owner">擁有者</string>
     <string name="attachment_delete_message">這會永久刪除此附件。</string>
     <string name="no_content">目前還沒有內容</string>
@@ -223,11 +223,11 @@
     <string name="error_dialog_we_need_info">我們需要以下的技術資訊來幫助您：</string>
     <string name="error_dialog_redirect">您的伺服器以 HTTP 302 狀態代碼回應，這表示您尚未在伺服器上安裝 Deck 應用程式或配置錯誤。這可能是由於 .htaccess 檔案中的自定義替換或 Nextcloud 應用程式（如OID客戶端）引起的。</string>
     <string name="error_dialog_version_not_parsable">我們無法確定伺服器端 Deck 應用程式的版本。請確保已安裝並啟用它。</string>
-    <string name="error_dialog_account_might_not_be_authorized">您的Nextcloud應用程序賬戶可能不再被授權。</string>
+    <string name="error_dialog_account_might_not_be_authorized">您的Nextcloud應用程序帳戶可能不再被授權。</string>
     <string name="error_dialog_user_not_found_in_database">當前用戶與我們數據庫中的用戶不匹配。如果您在 Nextcloud 實例上使用 LDAP，則 Nextcloud應用程式可能已存儲了舊的用戶ID。</string>
     <string name="error_dialog_capabilities_not_parsable">我們無法獲取您的伺服器功能。請確保您的伺服器運行良好，並且其他客戶端應用程式能夠訪問Nextcloud。</string>
     <string name="error_dialog_attachment_upload_failed">無法上傳附件。請嘗試以其他方式共享它，並讓我們知道此錯誤。</string>
-    <string name="error_dialog_certificate">伺服器的證書似乎有問題。請檢查 Nextcloud 應用程式中的所有賬戶，以獲取更多資訊。</string>
+    <string name="error_dialog_certificate">伺服器的證書似乎有問題。請檢查 Nextcloud 應用程式中的所有帳戶，以獲取更多資訊。</string>
     <string name="error_dialog_tip_disable_battery_optimizations">請禁用 Nextcloud 和 Deck 應用程式的所有電池優化。</string>
     <string name="error_dialog_unknown_error">您的 Nextcloud 實例似乎無法訪問。 請檢查您的互聯網連接以及您是否能夠通過瀏覽器連接到您的實例。</string>
     <string name="error_dialog_min_version">Deck Android 應用程式要求 Nextcloud Android 應用程式最低版本為 3.18。</string>
@@ -247,7 +247,7 @@
     <string name="share_content_labels">標籤：%1$s</string>
     <string name="archive_cards">封存卡片</string>
 
-    <string name="manage_accounts">賬戶管理</string>
+    <string name="manage_accounts">帳戶管理</string>
     <string name="manage_list">管理清單</string>
     <string name="simple_reply">回覆</string>
     <string name="append_text_to_description">附加到描述</string>
@@ -313,7 +313,7 @@
     <string name="app_logo">應用程式標識</string>
     <string name="log_file">記錄檔案</string>
     <string name="copying_logs_to_file">將記錄複製到檔案…</string>
-    <string name="account_imported">已導入賬戶</string>
+    <string name="account_imported">已導入帳戶</string>
     <string name="simple_search">搜尋</string>
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">標題（必填）</string>
