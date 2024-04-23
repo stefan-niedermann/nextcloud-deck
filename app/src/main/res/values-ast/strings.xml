@@ -134,6 +134,7 @@
     <string name="progress_count">%1$d de %2$d</string>
     <string name="simple_report">Informar</string>
     <string name="error_action_open_battery_settings">Configuración de la batería</string>
+    <string name="widget_stack_title">Llista</string>
     <string name="project_type_file">Ficheru</string>
     <string name="projects_title">Proyeutos</string>
     <string name="single_card">Tarxeta única</string>
