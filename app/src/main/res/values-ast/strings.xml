@@ -135,6 +135,7 @@
     <string name="simple_report">Informar</string>
     <string name="error_action_open_battery_settings">Configuración de la batería</string>
     <string name="widget_stack_title">Llista</string>
+    <string name="project_type_deck_board">Mesa de tarxetes</string>
     <string name="project_type_file">Ficheru</string>
     <string name="projects_title">Proyeutos</string>
     <string name="single_card">Tarxeta única</string>
