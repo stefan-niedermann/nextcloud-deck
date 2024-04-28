@@ -88,7 +88,7 @@
     <string name="label_clear_due_date">Hapus tanggal kedaluwarsa</string>
     <string name="label_add">Tambah %1$s</string>
 
-    <string name="card_edit_details">Detil</string>
+    <string name="card_edit_details">Detail</string>
     <string name="card_edit_attachments">Lampiran</string>
     <string name="card_edit_activity">Aktivitas</string>
     <string name="about_server_app_version_text">Versi aplikasi server:</string>
