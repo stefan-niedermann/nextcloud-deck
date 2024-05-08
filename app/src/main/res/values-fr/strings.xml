@@ -124,7 +124,7 @@
     <string name="settings_etags">Utiliser ETags</string>
     <string name="settings_etags_summary">Accélére la synchronisation</string>
     <string name="settings_background_sync">Synchronisation en tâche de fond</string>
-    <string name="settings_compress_image_attachments">Comprimer les images pendant téléchargement</string>
+    <string name="settings_compress_image_attachments">Compresser les images lors du téléversement</string>
     <string name="search_in">Rechercher dans %1$s</string>
     <string name="settings_compress_image_attachments_summary">Chargement plus rapide, qualité moindre</string>
     <string name="pref_value_wifi_and_mobile">Synchroniser en Wifi et données mobiles</string>
