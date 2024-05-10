@@ -129,7 +129,7 @@
     <string-array name="darkmode_entries">
         <item>系統預設</item>
         <item>淺色</item>
-        <item>暗色</item>
+        <item>深色</item>
     </string-array>
     <string name="unassigned_user">已取消指定 %1$s</string>
     <string name="no_activities">此卡片沒有活動。您需要連線至網際網路，才能載入並顯示活動。</string>
