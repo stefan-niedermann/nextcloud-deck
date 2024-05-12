@@ -87,6 +87,7 @@
 
     <string name="label_clear_due_date">Cancella la scadenza</string>
     <string name="label_clear_done">Non completato</string>
+    <string name="label_due_at">Scadenza: %1$s</string>
     <string name="label_add">Aggiungi %1$s</string>
 
     <string name="card_edit_details">Dettagli</string>
@@ -213,6 +214,7 @@
     <string name="error_dialog_tip_offline_no_internet">Sembra che tu abbia provato a eseguire una sincronizzazione senza connessione internet.</string>
     <string name="error_dialog_tip_offline_connection_refused">Connessione rifiutata, controlla se il tuo server è raggiungibile tramite browser web.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Connessione scaduta, verifica la connessione a Internet. Questo può accadere anche quando il tuo server è occupato.</string>
+    <string name="error_dialog_tip_connection_rejected">La connessione è stata rifiutata, per favore controlla che il tuo server sia protetto da un meccanismo di prevenzione da sovraccarichi. Questo problema può essere causato dai sistemi di protezione server di Cloudflare.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Se hai attivato l\'impostazione \"Sincronizza solo con Wi-Fi\", puoi sincronizzare solo quando sei connesso a una rete Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Sembra che ci sia un problema con la tua applicazione di Nextcloud. Prova a fermare entrambe le applicazioni Nextcloud e Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Se fermarle non aiuta, puoi provare a cancellare l\'archiviazione di entrambe le applicazioni.</string>
@@ -288,6 +290,7 @@
     <string name="simple_move">Sposta</string>
     <string name="cannot_upload_files_without_permission">Impossible caricare file senza permesso</string>
     <string name="insufficient_permission">Autorizzazione insufficiente</string>
+    <string name="no_matching_app_installed">Nessun\'app corrispondente installata</string>
     <string name="clone_cards">Clona schede</string>
     <string name="simple_clone">Clona</string>
     <string name="user_avatar">Avatar dell\'utente</string>
@@ -303,6 +306,7 @@
     <string name="contacts">Contatti</string>
     <string name="downloads">Scaricamenti</string>
     <string name="files">File</string>
+    <string name="voice_recorder">Registratore voce</string>
     <string name="gallery">Galleria</string>
     <string name="videos">Video</string>
     <string name="simple_attach">Allega</string>
