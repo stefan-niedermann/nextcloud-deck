@@ -12,7 +12,7 @@
     <string name="simple_exception">Poikkeus</string>
     <string name="simple_close">Sulje</string>
     <string name="simple_filter">Suodata</string>
-    <string name="simple_completed">Valmistui</string>
+    <string name="mark_as_done">Valmistui</string>
     <string name="simple_reset">Palauta</string>
     <string name="simple_discard">Hylkää</string>
     <string name="simple_update">Päivitä</string>

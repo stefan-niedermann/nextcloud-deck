@@ -14,7 +14,7 @@
     <string name="simple_exception">استثنا</string>
     <string name="simple_close">بسته</string>
     <string name="simple_filter">فیلتر</string>
-    <string name="simple_completed">نکمیل شده</string>
+    <string name="mark_as_done">نکمیل شده</string>
     <string name="simple_reset">بازنشاندن</string>
     <string name="simple_discard">لغو تغییرات</string>
     <string name="simple_update">به روز رسانی</string>

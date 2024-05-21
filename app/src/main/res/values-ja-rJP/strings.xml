@@ -14,7 +14,7 @@
     <string name="simple_exception">例外</string>
     <string name="simple_close">閉じる</string>
     <string name="simple_filter">フィルター</string>
-    <string name="simple_completed">完了</string>
+    <string name="mark_as_done">完了</string>
     <string name="simple_reset">リセット</string>
     <string name="simple_discard">破棄</string>
     <string name="simple_update">更新</string>

@@ -14,7 +14,7 @@
     <string name="simple_exception">例外</string>
     <string name="simple_close">關閉</string>
     <string name="simple_filter">過濾</string>
-    <string name="simple_completed">已完成</string>
+    <string name="mark_as_done">已完成</string>
     <string name="simple_reset">重設</string>
     <string name="simple_discard">放棄</string>
     <string name="simple_update">更新</string>

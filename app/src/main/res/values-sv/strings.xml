@@ -14,7 +14,7 @@
     <string name="simple_exception">Undantag</string>
     <string name="simple_close">Stäng</string>
     <string name="simple_filter">Filter</string>
-    <string name="simple_completed">Slutförd</string>
+    <string name="mark_as_done">Slutförd</string>
     <string name="simple_reset">Återställ</string>
     <string name="simple_discard">Ignorera</string>
     <string name="simple_update">Uppdatera</string>

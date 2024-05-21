@@ -14,7 +14,7 @@
     <string name="simple_exception">Исключение</string>
     <string name="simple_close">Закрыть</string>
     <string name="simple_filter">Фильтр</string>
-    <string name="simple_completed">Выполнено</string>
+    <string name="mark_as_done">Выполнено</string>
     <string name="simple_reset">Сброс</string>
     <string name="simple_discard">Отмена</string>
     <string name="simple_update">Обновить</string>

@@ -12,7 +12,7 @@
     <string name="simple_exception">Exceición</string>
     <string name="simple_close">Zarrar</string>
     <string name="simple_filter">Peñerar</string>
-    <string name="simple_completed">Completáu</string>
+    <string name="mark_as_done">Completáu</string>
     <string name="simple_reset">Reafitar</string>
     <string name="simple_discard">Escartar</string>
     <string name="simple_update">Anovar</string>

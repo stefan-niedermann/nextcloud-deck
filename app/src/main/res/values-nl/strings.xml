@@ -14,7 +14,7 @@
     <string name="simple_exception">Uitzondering</string>
     <string name="simple_close">Sluit</string>
     <string name="simple_filter">Filter</string>
-    <string name="simple_completed">Voltooid</string>
+    <string name="mark_as_done">Voltooid</string>
     <string name="simple_reset">Herstellen</string>
     <string name="simple_discard">Weggooien</string>
     <string name="simple_update">Bijwerken</string>

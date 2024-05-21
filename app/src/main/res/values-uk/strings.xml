@@ -14,7 +14,7 @@
     <string name="simple_exception">Виняток</string>
     <string name="simple_close">закрити</string>
     <string name="simple_filter">Фільтр</string>
-    <string name="simple_completed">Виконано</string>
+    <string name="mark_as_done">Виконано</string>
     <string name="simple_reset">Відхилити зміни</string>
     <string name="simple_discard">Відхилити</string>
     <string name="simple_update">Оновлення</string>

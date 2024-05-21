@@ -135,7 +135,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacer_2x"
         android:layout_marginBottom="@dimen/spacer_1hx"
-        android:text="@string/simple_completed"
+        android:text="@string/mark_as_done"
         app:backgroundTint="@color/defaultBrand"
         app:icon="@drawable/ic_check_white_24dp"
         app:layout_constraintEnd_toEndOf="parent"

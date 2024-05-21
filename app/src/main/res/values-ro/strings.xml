@@ -14,7 +14,7 @@
     <string name="simple_exception">Excepție </string>
     <string name="simple_close">Închide</string>
     <string name="simple_filter">Filtru</string>
-    <string name="simple_completed">Terminat</string>
+    <string name="mark_as_done">Terminat</string>
     <string name="simple_reset">Resetare</string>
     <string name="simple_discard">Anulează</string>
     <string name="simple_update">Actualizare</string>

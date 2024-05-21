@@ -14,7 +14,7 @@
     <string name="simple_exception">Pengecualian</string>
     <string name="simple_close">Tutup</string>
     <string name="simple_filter">Filter</string>
-    <string name="simple_completed">Selesai</string>
+    <string name="mark_as_done">Selesai</string>
     <string name="simple_reset">Setel ulang</string>
     <string name="simple_discard">Abaikan</string>
     <string name="simple_update">Perbarui</string>

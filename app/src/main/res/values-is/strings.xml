@@ -14,7 +14,7 @@
     <string name="simple_exception">Frávik</string>
     <string name="simple_close">Loka</string>
     <string name="simple_filter">Sía</string>
-    <string name="simple_completed">Lokið</string>
+    <string name="mark_as_done">Lokið</string>
     <string name="simple_reset">Endurstilla</string>
     <string name="simple_discard">Fleygja</string>
     <string name="simple_update">Uppfæra</string>

@@ -12,7 +12,7 @@
     <string name="simple_exception">Išimtis</string>
     <string name="simple_close">Užverti</string>
     <string name="simple_filter">Filtras</string>
-    <string name="simple_completed">Užbaigta</string>
+    <string name="mark_as_done">Užbaigta</string>
     <string name="simple_reset">Atstatyti</string>
     <string name="simple_discard">Atmesti</string>
     <string name="simple_update">Atnaujinti</string>

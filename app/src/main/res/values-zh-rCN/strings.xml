@@ -14,7 +14,7 @@
     <string name="simple_exception">异常</string>
     <string name="simple_close">关闭</string>
     <string name="simple_filter">筛选</string>
-    <string name="simple_completed">已完成</string>
+    <string name="mark_as_done">已完成</string>
     <string name="simple_reset">重置</string>
     <string name="simple_discard">丢弃</string>
     <string name="simple_update">更新</string>

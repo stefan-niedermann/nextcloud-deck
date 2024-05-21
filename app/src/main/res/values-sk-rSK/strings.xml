@@ -14,7 +14,7 @@
     <string name="simple_exception">Výnimka</string>
     <string name="simple_close">Zatvoriť</string>
     <string name="simple_filter">Filter</string>
-    <string name="simple_completed">Dokončené</string>
+    <string name="mark_as_done">Dokončené</string>
     <string name="simple_reset">Resetovať</string>
     <string name="simple_discard">Odstrániť</string>
     <string name="simple_update">Aktualizovať</string>

@@ -14,7 +14,7 @@
     <string name="simple_exception">Excepción</string>
     <string name="simple_close">Pechar</string>
     <string name="simple_filter">Filtro</string>
-    <string name="simple_completed">Completado</string>
+    <string name="mark_as_done">Completado</string>
     <string name="simple_reset">Restabelecer</string>
     <string name="simple_discard">Desbortar</string>
     <string name="simple_update">Actualizar</string>

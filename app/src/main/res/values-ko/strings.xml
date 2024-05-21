@@ -14,7 +14,7 @@
     <string name="simple_exception">예외</string>
     <string name="simple_close">닫기</string>
     <string name="simple_filter">필터</string>
-    <string name="simple_completed">완료됨</string>
+    <string name="mark_as_done">완료됨</string>
     <string name="simple_reset">초기화</string>
     <string name="simple_discard">무시</string>
     <string name="simple_update">업데이트</string>

@@ -14,7 +14,7 @@
     <string name="simple_exception">Excepció</string>
     <string name="simple_close">Tanca</string>
     <string name="simple_filter">Filtre</string>
-    <string name="simple_completed">S\'ha completat</string>
+    <string name="mark_as_done">S\'ha completat</string>
     <string name="simple_reset">Reinicialitza</string>
     <string name="simple_discard">Descarta\'l</string>
     <string name="simple_update">Actualitza</string>

@@ -14,7 +14,7 @@
     <string name="simple_exception">Avbrudd</string>
     <string name="simple_close">Lukk</string>
     <string name="simple_filter">Filter</string>
-    <string name="simple_completed">Ferdig</string>
+    <string name="mark_as_done">Ferdig</string>
     <string name="simple_reset">Tilbakestill</string>
     <string name="simple_discard">Slett</string>
     <string name="simple_update">Oppdater</string>

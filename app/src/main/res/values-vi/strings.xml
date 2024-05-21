@@ -14,7 +14,7 @@
     <string name="simple_exception">Ngoại lệ</string>
     <string name="simple_close">Đóng</string>
     <string name="simple_filter">Lọc</string>
-    <string name="simple_completed">Hoàn thành</string>
+    <string name="mark_as_done">Hoàn thành</string>
     <string name="simple_reset">Đặt lại</string>
     <string name="simple_discard">Bỏ qua thay đổi</string>
     <string name="simple_update">Cập nhật</string>

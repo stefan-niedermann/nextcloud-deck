@@ -14,7 +14,7 @@
     <string name="simple_exception">Изузетак</string>
     <string name="simple_close">Затвори</string>
     <string name="simple_filter">Филтер</string>
-    <string name="simple_completed">Завршено</string>
+    <string name="mark_as_done">Завршено</string>
     <string name="simple_reset">Ресетуј</string>
     <string name="simple_discard">Одбаци</string>
     <string name="simple_update">Ажурирај</string>

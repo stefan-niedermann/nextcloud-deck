@@ -12,7 +12,7 @@
     <string name="simple_exception">חריגה</string>
     <string name="simple_close">סגירה</string>
     <string name="simple_filter">מסנן</string>
-    <string name="simple_completed">הושלם</string>
+    <string name="mark_as_done">הושלם</string>
     <string name="simple_reset">איפוס</string>
     <string name="simple_discard">התעלמות</string>
     <string name="simple_update">עדכון</string>

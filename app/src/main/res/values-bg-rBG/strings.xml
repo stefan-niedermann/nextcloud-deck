@@ -14,7 +14,7 @@
     <string name="simple_exception">Изключение</string>
     <string name="simple_close">Затваряне</string>
     <string name="simple_filter">Филтър</string>
-    <string name="simple_completed">Завършен</string>
+    <string name="mark_as_done">Завършен</string>
     <string name="simple_reset">Възстановяване</string>
     <string name="simple_discard">Отхвърляне</string>
     <string name="simple_update">Обновяване</string>
