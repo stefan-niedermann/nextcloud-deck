@@ -14,7 +14,6 @@
     <string name="simple_exception">Exceção</string>
     <string name="simple_close">Fechar</string>
     <string name="simple_filter">Filtro</string>
-    <string name="mark_as_done">Finalizado</string>
     <string name="simple_reset">Redefinir</string>
     <string name="simple_discard">Descartar</string>
     <string name="simple_update">Atualizar</string>
@@ -86,7 +85,6 @@
     <string name="add_board">Adicionar painel</string>
 
     <string name="label_clear_due_date">Remover data de vencimento</string>
-    <string name="label_clear_done">Não concluída</string>
     <string name="label_due_at">Vencimento em:  %1$s</string>
     <string name="label_add">Adicionar %1$s</string>
 
@@ -179,9 +177,7 @@
     <string name="filter_later">Mais tarde</string>
 
     <string name="filter_done_no_filter">Tudos</string>
-    <string name="filter_done_done">Finalizado</string>
-    <string name="filter_done_undone">Não concluída</string>
-
+    <string name="filter_done_done">Pronto</string>
     <string name="archived_cards">Cartões arquivados</string>
     <string name="attachment_already_exists">O anexo já existe</string>
     <string name="pick_custom_color">Escolher cor personalizada</string>
@@ -190,10 +186,11 @@
     <string name="tag_already_exists">%1$s já existe</string>
     <string name="tag_successfully_added">%1$s adicionado com sucesso</string>
     <string name="edit_tag">Editar %1$s</string>
+    <string name="mark_as_done">Marcar como concluído</string>
     <string name="filter_tags_title">Etiquetas</string>
     <string name="filter_user_title">Usuários</string>
     <string name="filter_duedate_title">Data de vencimento</string>
-    <string name="filter_done_title">Finalizado</string>
+    <string name="filter_done_title">Pronto</string>
 
     <string name="action_board_dearchive">Desfazer arquivamento do painel</string>
     <string name="archived_boards">Painéis arquivados</string>

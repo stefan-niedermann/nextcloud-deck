@@ -14,7 +14,6 @@
     <string name="simple_exception">Ngoại lệ</string>
     <string name="simple_close">Đóng</string>
     <string name="simple_filter">Lọc</string>
-    <string name="mark_as_done">Hoàn thành</string>
     <string name="simple_reset">Đặt lại</string>
     <string name="simple_discard">Bỏ qua thay đổi</string>
     <string name="simple_update">Cập nhật</string>
@@ -86,7 +85,6 @@
     <string name="add_board">Thêm dự án</string>
 
     <string name="label_clear_due_date">Xoá thời hạn</string>
-    <string name="label_clear_done">Chưa hoàn thành</string>
     <string name="label_add">Thêm %1$s</string>
 
     <string name="card_edit_details">Thông tin</string>
@@ -173,8 +171,6 @@
 
     <string name="filter_done_no_filter">Tất cả</string>
     <string name="filter_done_done">Hoàn thành</string>
-    <string name="filter_done_undone">Chưa hoàn thành</string>
-
     <string name="archived_cards">Thẻ đã lưu trữ</string>
     <string name="attachment_already_exists">Tệp đính kèm đã tồn tại</string>
     <string name="pick_custom_color">Chọn màu tuỳ chỉnh</string>
@@ -183,6 +179,7 @@
     <string name="tag_already_exists">%1$s đã tồn tại</string>
     <string name="tag_successfully_added">Đã thêm %1$s thành công</string>
     <string name="edit_tag">Chỉnh sửa %1$s</string>
+    <string name="mark_as_done">Đánh dấu là đã hoàn thành</string>
     <string name="filter_tags_title">Nhãn</string>
     <string name="filter_user_title">Người dùng</string>
     <string name="filter_duedate_title">Thời hạn</string>

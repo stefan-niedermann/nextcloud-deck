@@ -14,7 +14,6 @@
     <string name="simple_exception">Uitzondering</string>
     <string name="simple_close">Sluit</string>
     <string name="simple_filter">Filter</string>
-    <string name="mark_as_done">Voltooid</string>
     <string name="simple_reset">Herstellen</string>
     <string name="simple_discard">Weggooien</string>
     <string name="simple_update">Bijwerken</string>
@@ -86,7 +85,6 @@
     <string name="add_board">Toevoegen bord</string>
 
     <string name="label_clear_due_date">Wis vervaldatum</string>
-    <string name="label_clear_done">Niet compleet</string>
     <string name="label_add">Toevoegen %1$s</string>
 
     <string name="card_edit_details">Details</string>
@@ -176,9 +174,7 @@
     <string name="filter_later">Later</string>
 
     <string name="filter_done_no_filter">Alle</string>
-    <string name="filter_done_done">Voltooid</string>
-    <string name="filter_done_undone">Niet compleet</string>
-
+    <string name="filter_done_done">Klaar</string>
     <string name="archived_cards">Gearchiveerde kaarten</string>
     <string name="attachment_already_exists">Bijlage bestaat al</string>
     <string name="pick_custom_color">Kies een maatwerkkleur</string>
@@ -187,10 +183,11 @@
     <string name="tag_already_exists">%1$s bestaat al</string>
     <string name="tag_successfully_added">%1$s succesvol toegevoegd</string>
     <string name="edit_tag">Bewerk%1$s</string>
+    <string name="mark_as_done">Markeer als voltooid</string>
     <string name="filter_tags_title">Labels</string>
     <string name="filter_user_title">Gebruikers</string>
     <string name="filter_duedate_title">Vervaldatum</string>
-    <string name="filter_done_title">Voltooid</string>
+    <string name="filter_done_title">Klaar</string>
 
     <string name="action_board_dearchive">Archiveren van bord ongedaan maken</string>
     <string name="archived_boards">Gearchiveerde borden</string>

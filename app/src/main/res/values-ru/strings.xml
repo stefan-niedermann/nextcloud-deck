@@ -14,7 +14,6 @@
     <string name="simple_exception">Исключение</string>
     <string name="simple_close">Закрыть</string>
     <string name="simple_filter">Фильтр</string>
-    <string name="mark_as_done">Выполнено</string>
     <string name="simple_reset">Сброс</string>
     <string name="simple_discard">Отмена</string>
     <string name="simple_update">Обновить</string>
@@ -86,7 +85,6 @@
     <string name="add_board">Добавить доску</string>
 
     <string name="label_clear_due_date">Удалить срок исполнения</string>
-    <string name="label_clear_done">Не завершено</string>
     <string name="label_add">Добавить %1$s </string>
 
     <string name="card_edit_details">Свойства</string>
@@ -180,9 +178,7 @@
     <string name="filter_later">Позже</string>
 
     <string name="filter_done_no_filter">Все</string>
-    <string name="filter_done_done">Выполнено</string>
-    <string name="filter_done_undone">Не завершено</string>
-
+    <string name="filter_done_done">Выполненные</string>
     <string name="archived_cards">Карточки в архиве</string>
     <string name="attachment_already_exists">Вложение уже существует</string>
     <string name="pick_custom_color">Выберите цвет</string>
@@ -191,10 +187,11 @@
     <string name="tag_already_exists">Метка %1$s уже существует</string>
     <string name="tag_successfully_added">Метка %1$s добавлена</string>
     <string name="edit_tag">Изменить %1$s</string>
+    <string name="mark_as_done">Отметить как выполненную</string>
     <string name="filter_tags_title">Метки</string>
     <string name="filter_user_title">Пользователи</string>
     <string name="filter_duedate_title">Дата исполнения</string>
-    <string name="filter_done_title">Выполнено</string>
+    <string name="filter_done_title">Выполненные</string>
 
     <string name="action_board_dearchive">Отменить архивацию доски</string>
     <string name="archived_boards">Архив досок</string>

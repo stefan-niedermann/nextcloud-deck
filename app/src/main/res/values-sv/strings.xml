@@ -14,7 +14,6 @@
     <string name="simple_exception">Undantag</string>
     <string name="simple_close">Stäng</string>
     <string name="simple_filter">Filter</string>
-    <string name="mark_as_done">Slutförd</string>
     <string name="simple_reset">Återställ</string>
     <string name="simple_discard">Ignorera</string>
     <string name="simple_update">Uppdatera</string>
@@ -86,7 +85,7 @@
     <string name="add_board">Lägg till tavla</string>
 
     <string name="label_clear_due_date">Rensa slutdatum</string>
-    <string name="label_clear_done">Ej slutförd</string>
+    <string name="label_clear_done">Inte klar</string>
     <string name="label_due_at">Förfaller: %1$s</string>
     <string name="label_add">Lägg till %1$s</string>
 
@@ -177,8 +176,8 @@
     <string name="filter_later">Senare</string>
 
     <string name="filter_done_no_filter">Alla</string>
-    <string name="filter_done_done">Slutförd</string>
-    <string name="filter_done_undone">Ej slutförd</string>
+    <string name="filter_done_done">Klar</string>
+    <string name="filter_done_undone">Inte klar</string>
 
     <string name="archived_cards">Arkiverade kort</string>
     <string name="attachment_already_exists">Bilagan finns redan</string>
@@ -188,10 +187,11 @@
     <string name="tag_already_exists">%1$s finns redan</string>
     <string name="tag_successfully_added">%1$s tillagd</string>
     <string name="edit_tag">Redigera %1$s</string>
+    <string name="mark_as_done">Markera som klar</string>
     <string name="filter_tags_title">Taggar</string>
     <string name="filter_user_title">Användare</string>
     <string name="filter_duedate_title">Slutdatum</string>
-    <string name="filter_done_title">Slutförd</string>
+    <string name="filter_done_title">Klar</string>
 
     <string name="action_board_dearchive">Ångra tavelarkivering</string>
     <string name="archived_boards">Arkiverade tavlor</string>

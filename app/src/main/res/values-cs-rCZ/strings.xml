@@ -14,7 +14,6 @@
     <string name="simple_exception">Výjimka</string>
     <string name="simple_close">Zavřít</string>
     <string name="simple_filter">Filtr</string>
-    <string name="mark_as_done">Dokončeno</string>
     <string name="simple_reset">Vrátit na výchozí</string>
     <string name="simple_discard">Zahodit</string>
     <string name="simple_update">Aktualizovat</string>
@@ -86,7 +85,6 @@
     <string name="add_board">Přidat tabuli</string>
 
     <string name="label_clear_due_date">Vymazat termín</string>
-    <string name="label_clear_done">Nedokončeno</string>
     <string name="label_add">Přidat %1$s</string>
 
     <string name="card_edit_details">Podrobnosti</string>
@@ -180,9 +178,6 @@
     <string name="filter_later">Později</string>
 
     <string name="filter_done_no_filter">Vše</string>
-    <string name="filter_done_done">Dokončeno</string>
-    <string name="filter_done_undone">Nedokončeno</string>
-
     <string name="archived_cards">Archivované karty</string>
     <string name="attachment_already_exists">Příloha už existuje</string>
     <string name="pick_custom_color">Zvolte uživatelsky určenou barvu</string>
@@ -194,8 +189,6 @@
     <string name="filter_tags_title">Štítky</string>
     <string name="filter_user_title">Uživatelé</string>
     <string name="filter_duedate_title">Datum termínu</string>
-    <string name="filter_done_title">Dokončeno</string>
-
     <string name="action_board_dearchive">Vzít zpět archivaci tabule</string>
     <string name="archived_boards">Archivované tabule</string>
 

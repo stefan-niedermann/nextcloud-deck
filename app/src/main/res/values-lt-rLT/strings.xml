@@ -12,7 +12,6 @@
     <string name="simple_exception">Išimtis</string>
     <string name="simple_close">Užverti</string>
     <string name="simple_filter">Filtras</string>
-    <string name="mark_as_done">Užbaigta</string>
     <string name="simple_reset">Atstatyti</string>
     <string name="simple_discard">Atmesti</string>
     <string name="simple_update">Atnaujinti</string>
@@ -134,7 +133,7 @@
     <string name="filter_later">Vėliau</string>
 
     <string name="filter_done_no_filter">Visos</string>
-    <string name="filter_done_done">Užbaigta</string>
+    <string name="filter_done_done">Atlikta</string>
     <string name="archived_cards">Archyvuotos kortelės</string>
     <string name="attachment_already_exists">Priedas jau yra</string>
     <string name="manage_tags">Tvarkyti žymes</string>
@@ -142,10 +141,11 @@
     <string name="tag_already_exists">%1$s jau yra</string>
     <string name="tag_successfully_added">%1$s sėkmingai pridėta</string>
     <string name="edit_tag">Taisyti %1$s</string>
+    <string name="mark_as_done">Žymėti kaip atliktą</string>
     <string name="filter_tags_title">Žymės</string>
     <string name="filter_user_title">Naudotojai</string>
     <string name="filter_duedate_title">Galutinis terminas</string>
-    <string name="filter_done_title">Užbaigta</string>
+    <string name="filter_done_title">Atlikta</string>
 
     <string name="action_board_dearchive">Atšaukti lentų archyvavimą</string>
     <string name="archived_boards">Archyvuotos lentos</string>

@@ -14,7 +14,6 @@
     <string name="simple_exception">Excepție </string>
     <string name="simple_close">Închide</string>
     <string name="simple_filter">Filtru</string>
-    <string name="mark_as_done">Terminat</string>
     <string name="simple_reset">Resetare</string>
     <string name="simple_discard">Anulează</string>
     <string name="simple_update">Actualizare</string>
@@ -86,7 +85,6 @@
     <string name="add_board">Adaugă panou</string>
 
     <string name="label_clear_due_date">Șterge data limită </string>
-    <string name="label_clear_done">Necompletat</string>
     <string name="label_add">Adaugă %1$s</string>
 
     <string name="card_edit_details">Detalii</string>
@@ -178,9 +176,7 @@
     <string name="filter_later">Mai târziu</string>
 
     <string name="filter_done_no_filter">Toate </string>
-    <string name="filter_done_done">Terminat</string>
-    <string name="filter_done_undone">Necompletat</string>
-
+    <string name="filter_done_done">Realizat</string>
     <string name="archived_cards">Carduri arhivate</string>
     <string name="attachment_already_exists">Atașamentul există deja</string>
     <string name="pick_custom_color">Alegeți culoarea personalizată</string>
@@ -189,10 +185,11 @@
     <string name="tag_already_exists">%1$sexistă deja </string>
     <string name="tag_successfully_added">%1$s adăugat cu succes</string>
     <string name="edit_tag">Editează %1$s</string>
+    <string name="mark_as_done">Marchează ca efectuat</string>
     <string name="filter_tags_title">Etichete</string>
     <string name="filter_user_title">Utilizatori</string>
     <string name="filter_duedate_title">Data scadenței</string>
-    <string name="filter_done_title">Terminat</string>
+    <string name="filter_done_title">Realizat</string>
 
     <string name="action_board_dearchive">Anulați arhivarea panoului</string>
     <string name="archived_boards">Panouri arhivate</string>

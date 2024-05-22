@@ -14,7 +14,6 @@
     <string name="simple_exception">Kivétel</string>
     <string name="simple_close">Bezárás</string>
     <string name="simple_filter">Szűrés</string>
-    <string name="mark_as_done">Teljesített</string>
     <string name="simple_reset">Alaphelyzetbe állítás</string>
     <string name="simple_discard">Elvetés</string>
     <string name="simple_update">Frissítés</string>
@@ -86,7 +85,6 @@
     <string name="add_board">Tábla hozzáadása</string>
 
     <string name="label_clear_due_date">Határidő eltávolítása</string>
-    <string name="label_clear_done">Nincs kész</string>
     <string name="label_add">%1$s hozzáadása</string>
 
     <string name="card_edit_details">Részletek</string>
@@ -176,9 +174,7 @@
     <string name="filter_later">Később</string>
 
     <string name="filter_done_no_filter">Összes</string>
-    <string name="filter_done_done">Teljesített</string>
-    <string name="filter_done_undone">Nincs kész</string>
-
+    <string name="filter_done_done">Kész</string>
     <string name="archived_cards">Archivált kártyák</string>
     <string name="attachment_already_exists">A melléklet már létezik</string>
     <string name="pick_custom_color">Válasszon egyéni színt</string>
@@ -187,10 +183,11 @@
     <string name="tag_already_exists">A(z) %1$s már létezik</string>
     <string name="tag_successfully_added">%1$s sikeresen hozzáadva</string>
     <string name="edit_tag">%1$s szerkesztése</string>
+    <string name="mark_as_done">Megjelölés készként</string>
     <string name="filter_tags_title">Címkék</string>
     <string name="filter_user_title">Felhasználók</string>
     <string name="filter_duedate_title">Határidő</string>
-    <string name="filter_done_title">Teljesített</string>
+    <string name="filter_done_title">Kész</string>
 
     <string name="action_board_dearchive">Tábla archiválásának visszavonása</string>
     <string name="archived_boards">Archivált táblák</string>

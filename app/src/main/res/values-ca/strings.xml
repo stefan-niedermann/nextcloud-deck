@@ -14,7 +14,6 @@
     <string name="simple_exception">Excepció</string>
     <string name="simple_close">Tanca</string>
     <string name="simple_filter">Filtre</string>
-    <string name="mark_as_done">S\'ha completat</string>
     <string name="simple_reset">Reinicialitza</string>
     <string name="simple_discard">Descarta\'l</string>
     <string name="simple_update">Actualitza</string>
@@ -86,7 +85,6 @@
     <string name="add_board">Afegeix un tauler</string>
 
     <string name="label_clear_due_date">Esborra la data de venciment</string>
-    <string name="label_clear_done">No completat</string>
     <string name="label_add">Afegeix %1$s</string>
 
     <string name="card_edit_details">Detalls</string>
@@ -174,9 +172,6 @@
     <string name="filter_later">Més tard</string>
 
     <string name="filter_done_no_filter">Totes</string>
-    <string name="filter_done_done">S\'ha completat</string>
-    <string name="filter_done_undone">No completat</string>
-
     <string name="archived_cards">Targetes arxivades</string>
     <string name="attachment_already_exists">L\'adjunció ja existeix</string>
     <string name="pick_custom_color">Escull un color personalitzat</string>
@@ -188,8 +183,6 @@
     <string name="filter_tags_title">Etiquetes</string>
     <string name="filter_user_title">Usuaris</string>
     <string name="filter_duedate_title">Data de venciment</string>
-    <string name="filter_done_title">S\'ha completat</string>
-
     <string name="action_board_dearchive">Desfés l\'arxivament del tauler</string>
     <string name="archived_boards">Taulers arxivats</string>
 

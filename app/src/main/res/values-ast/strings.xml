@@ -12,7 +12,6 @@
     <string name="simple_exception">Exceición</string>
     <string name="simple_close">Zarrar</string>
     <string name="simple_filter">Peñerar</string>
-    <string name="mark_as_done">Completáu</string>
     <string name="simple_reset">Reafitar</string>
     <string name="simple_discard">Escartar</string>
     <string name="simple_update">Anovar</string>
@@ -61,7 +60,6 @@
     <string name="label_menu">menú</string>
     <string name="action_card_archive">Archivar la tarxeta</string>
     <string name="action_card_delete">Desaniciar la tarxeta</string>
-    <string name="label_clear_done">Nun se completó</string>
     <string name="label_add">Amestar «%1$s»</string>
 
     <string name="card_edit_details">Detalles</string>
@@ -100,9 +98,6 @@
     <string name="filter_week">Los próximos 7 díes</string>
     <string name="filter_month">Los próximos 30 díes</string>
     <string name="filter_done_no_filter">Too</string>
-    <string name="filter_done_done">Completáu</string>
-    <string name="filter_done_undone">Nun se completó</string>
-
     <string name="archived_cards">Tarxetes archivaes</string>
     <string name="manage_tags">Xestionar les etiquetes</string>
     <string name="add_tag">Amestar una etiqueta</string>
@@ -111,8 +106,6 @@
     <string name="filter_tags_title">Etiquetes</string>
     <string name="filter_user_title">Usuarios</string>
     <string name="filter_duedate_title">Data de fin</string>
-    <string name="filter_done_title">Completáu</string>
-
     <string name="error">Prodúxose un error</string>
     <string name="synchronization_failed">La sincronización falló</string>
     <string name="operation_not_yet_supported">Entá nun ye compatible</string>

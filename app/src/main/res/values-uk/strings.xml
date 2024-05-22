@@ -14,7 +14,6 @@
     <string name="simple_exception">Виняток</string>
     <string name="simple_close">закрити</string>
     <string name="simple_filter">Фільтр</string>
-    <string name="mark_as_done">Виконано</string>
     <string name="simple_reset">Відхилити зміни</string>
     <string name="simple_discard">Відхилити</string>
     <string name="simple_update">Оновлення</string>
@@ -86,7 +85,6 @@
     <string name="add_board">Додати дошку</string>
 
     <string name="label_clear_due_date">Очистити до</string>
-    <string name="label_clear_done">Не завершено</string>
     <string name="label_add">Додати %1$s</string>
 
     <string name="card_edit_details">Деталі</string>
@@ -179,9 +177,7 @@
     <string name="filter_later">Пізніше</string>
 
     <string name="filter_done_no_filter">Всі</string>
-    <string name="filter_done_done">Виконано</string>
-    <string name="filter_done_undone">Не завершено</string>
-
+    <string name="filter_done_done">Готово</string>
     <string name="archived_cards">Заархівовані картки</string>
     <string name="attachment_already_exists">Вкладення уже наявне</string>
     <string name="pick_custom_color">Вибрати власний колір</string>
@@ -190,10 +186,11 @@
     <string name="tag_already_exists">%1$s уже наявне</string>
     <string name="tag_successfully_added">%1$s успіно додано</string>
     <string name="edit_tag">Редагувати %1$s</string>
+    <string name="mark_as_done">Позначити як виконане</string>
     <string name="filter_tags_title">Мітки</string>
     <string name="filter_user_title">Користувачі</string>
     <string name="filter_duedate_title">Дата завершення</string>
-    <string name="filter_done_title">Виконано</string>
+    <string name="filter_done_title">Готово</string>
 
     <string name="action_board_dearchive">Скасувати архівування дошки</string>
     <string name="archived_boards">Архівовані дошки</string>

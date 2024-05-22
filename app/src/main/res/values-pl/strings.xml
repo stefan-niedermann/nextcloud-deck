@@ -14,7 +14,6 @@
     <string name="simple_exception">Wyjątek</string>
     <string name="simple_close">Zamknij</string>
     <string name="simple_filter">Filtr</string>
-    <string name="mark_as_done">Zakończone</string>
     <string name="simple_reset">Resetuj</string>
     <string name="simple_discard">Odrzuć</string>
     <string name="simple_update">Aktualizuj</string>
@@ -86,7 +85,6 @@
     <string name="add_board">Dodaj tablicę</string>
 
     <string name="label_clear_due_date">Wyczyść termin</string>
-    <string name="label_clear_done">Nie zakończone</string>
     <string name="label_due_at">Termin: %1$s</string>
     <string name="label_add">Dodaj %1$s</string>
 
@@ -181,9 +179,7 @@
     <string name="filter_later">Później</string>
 
     <string name="filter_done_no_filter">Wszystkie</string>
-    <string name="filter_done_done">Zakończone</string>
-    <string name="filter_done_undone">Nie zakończone</string>
-
+    <string name="filter_done_done">Gotowe</string>
     <string name="archived_cards">Zarchiwizowane karty</string>
     <string name="attachment_already_exists">Załącznik już istnieje</string>
     <string name="pick_custom_color">Wybierz niestandardowy kolor</string>
@@ -192,10 +188,11 @@
     <string name="tag_already_exists">%1$s już istnieje</string>
     <string name="tag_successfully_added">%1$s pomyślnie dodano</string>
     <string name="edit_tag">Edytuj %1$s</string>
+    <string name="mark_as_done">Oznacz jako wykonane</string>
     <string name="filter_tags_title">Etykiety</string>
     <string name="filter_user_title">Użytkownicy</string>
     <string name="filter_duedate_title">Data realizacji</string>
-    <string name="filter_done_title">Zakończone</string>
+    <string name="filter_done_title">Gotowe</string>
 
     <string name="action_board_dearchive">Cofnij archiwizację tablicy</string>
     <string name="archived_boards">Zarchiwizowane tablice</string>

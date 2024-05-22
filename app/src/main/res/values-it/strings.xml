@@ -14,7 +14,6 @@
     <string name="simple_exception">Eccezione</string>
     <string name="simple_close">Chiudi</string>
     <string name="simple_filter">Filtro</string>
-    <string name="mark_as_done">Completato</string>
     <string name="simple_reset">Ripristina</string>
     <string name="simple_discard">Scarta</string>
     <string name="simple_update">Aggiorna</string>
@@ -86,7 +85,6 @@
     <string name="add_board">Aggiungi lavagna</string>
 
     <string name="label_clear_due_date">Cancella la scadenza</string>
-    <string name="label_clear_done">Non completato</string>
     <string name="label_due_at">Scadenza: %1$s</string>
     <string name="label_add">Aggiungi %1$s</string>
 
@@ -180,8 +178,6 @@
 
     <string name="filter_done_no_filter">Tutti</string>
     <string name="filter_done_done">Completato</string>
-    <string name="filter_done_undone">Non completato</string>
-
     <string name="archived_cards">Schede archiviate</string>
     <string name="attachment_already_exists">L\'allegato esiste già</string>
     <string name="pick_custom_color">Scegli colore personalizzato</string>
@@ -190,6 +186,7 @@
     <string name="tag_already_exists">%1$s non esiste già</string>
     <string name="tag_successfully_added">%1$s aggiunta correttamente</string>
     <string name="edit_tag">Modifica %1$s</string>
+    <string name="mark_as_done">Marca come completato</string>
     <string name="filter_tags_title">Etichette</string>
     <string name="filter_user_title">Utenti</string>
     <string name="filter_duedate_title">Data di scadenza</string>

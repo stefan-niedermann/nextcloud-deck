@@ -14,7 +14,6 @@
     <string name="simple_exception">Excepción</string>
     <string name="simple_close">Pechar</string>
     <string name="simple_filter">Filtro</string>
-    <string name="mark_as_done">Completado</string>
     <string name="simple_reset">Restabelecer</string>
     <string name="simple_discard">Desbortar</string>
     <string name="simple_update">Actualizar</string>
@@ -86,7 +85,6 @@
     <string name="add_board">Engadir taboleiro</string>
 
     <string name="label_clear_due_date">Limpar a data de caducidade</string>
-    <string name="label_clear_done">Sen completar</string>
     <string name="label_add">Engadir %1$s</string>
 
     <string name="card_edit_details">Detalles</string>
@@ -176,9 +174,7 @@
     <string name="filter_later">Após</string>
 
     <string name="filter_done_no_filter">Todo</string>
-    <string name="filter_done_done">Completado</string>
-    <string name="filter_done_undone">Sen completar</string>
-
+    <string name="filter_done_done">Feito</string>
     <string name="archived_cards">Tarxetas arquivadas</string>
     <string name="attachment_already_exists">O anexo xa existe</string>
     <string name="pick_custom_color">Escolla a cor personalizada</string>
@@ -187,10 +183,11 @@
     <string name="tag_already_exists">%1$s xa existe</string>
     <string name="tag_successfully_added">%1$s foi engadido satisfactoriamente</string>
     <string name="edit_tag">Editar %1$s</string>
+    <string name="mark_as_done">Marcar como feito</string>
     <string name="filter_tags_title">Etiquetas</string>
     <string name="filter_user_title">Usuarios</string>
     <string name="filter_duedate_title">Data de caducidade</string>
-    <string name="filter_done_title">Completado</string>
+    <string name="filter_done_title">Feito</string>
 
     <string name="action_board_dearchive">Desfacer o arquivo de taboleiros</string>
     <string name="archived_boards">Taboleiros arquivados</string>

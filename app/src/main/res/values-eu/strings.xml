@@ -14,7 +14,6 @@
     <string name="simple_exception">Salbuespena</string>
     <string name="simple_close">Itxi</string>
     <string name="simple_filter">Iragazkiak</string>
-    <string name="mark_as_done">Osatua</string>
     <string name="simple_reset">Berrezarri</string>
     <string name="simple_discard">Baztertu</string>
     <string name="simple_update">Eguneratu</string>
@@ -86,7 +85,6 @@
     <string name="add_board">Gehitu mahaia</string>
 
     <string name="label_clear_due_date">Ezabatu epe-muga</string>
-    <string name="label_clear_done">Osatu gabe</string>
     <string name="label_due_at">Epemuga: %1$s</string>
     <string name="label_add">Gehitu %1$s</string>
 
@@ -177,9 +175,7 @@
     <string name="filter_later">Beranduago</string>
 
     <string name="filter_done_no_filter">Denak</string>
-    <string name="filter_done_done">Osatua</string>
-    <string name="filter_done_undone">Osatu gabe</string>
-
+    <string name="filter_done_done">Egina</string>
     <string name="archived_cards">Artxibatutako txartelak</string>
     <string name="attachment_already_exists">Eranskina existitzen da dagoeneko</string>
     <string name="pick_custom_color">Aukeratu kolore pertsonalizatua</string>
@@ -188,11 +184,10 @@
     <string name="tag_already_exists">%1$s existitzen da dagoeneko</string>
     <string name="tag_successfully_added">%1$s ondo gehitu da</string>
     <string name="edit_tag">Editatu %1$s</string>
+    <string name="mark_as_done">Markatu egindako gisa</string>
     <string name="filter_tags_title">Etiketak</string>
     <string name="filter_user_title">Erabiltzaileak</string>
     <string name="filter_duedate_title">Epe-muga</string>
-    <string name="filter_done_title">Osatua</string>
-
     <string name="action_board_dearchive">Desegin mahaia artxibatzea</string>
     <string name="archived_boards">Artxibatutako mahaiak</string>
 
