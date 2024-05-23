@@ -85,6 +85,7 @@
     <string name="add_board">Board hinzufügen</string>
 
     <string name="label_clear_due_date">Fälligkeitsdatum entfernen</string>
+    <string name="label_clear_done">Nicht erledigt</string>
     <string name="label_due_at">Fällig am: %1$s</string>
     <string name="label_add">%1$s hinzufügen</string>
 
@@ -176,6 +177,8 @@
 
     <string name="filter_done_no_filter">Alle</string>
     <string name="filter_done_done">Erledigt</string>
+    <string name="filter_done_undone">Nicht erledigt</string>
+
     <string name="archived_cards">Archivierte Karten</string>
     <string name="attachment_already_exists">Anhang existiert bereits</string>
     <string name="pick_custom_color">Wählen Sie eine benutzerdefinierte Farbe aus</string>
@@ -188,6 +191,8 @@
     <string name="filter_tags_title">Schlagworte</string>
     <string name="filter_user_title">Benutzer</string>
     <string name="filter_duedate_title">Fälligkeitsdatum</string>
+    <string name="filter_done_title">Erledigt</string>
+
     <string name="action_board_dearchive">Board archivieren rückgängig machen</string>
     <string name="archived_boards">Archivierte Boards</string>
 

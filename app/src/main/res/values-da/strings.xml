@@ -154,6 +154,7 @@
     <string name="filter_later">Senere</string>
 
     <string name="filter_done_no_filter">Alle</string>
+    <string name="filter_done_done">Færdig</string>
     <string name="archived_cards">Arkiverede kort</string>
     <string name="pick_custom_color">Vælg brugerdefineret farve</string>
     <string name="add_tag">Tilføj Tag</string>
@@ -163,6 +164,8 @@
     <string name="filter_tags_title">Tags</string>
     <string name="filter_user_title">Brugere</string>
     <string name="filter_duedate_title">Forfaldsdato</string>
+    <string name="filter_done_title">Færdig</string>
+
     <string name="archived_boards">Arkiverede lister</string>
 
     <string name="error">Der skete en fejl</string>

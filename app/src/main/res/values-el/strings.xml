@@ -184,6 +184,8 @@
     <string name="filter_tags_title">Ετικέτες</string>
     <string name="filter_user_title">Χρήστες</string>
     <string name="filter_duedate_title">Προθεσμία</string>
+    <string name="filter_done_title">Ολοκληρώθηκε</string>
+
     <string name="action_board_dearchive">Αναίρεση αρχειοθέτησης πίνακα</string>
     <string name="archived_boards">Αρχειοθέτηση πινάκων </string>
 

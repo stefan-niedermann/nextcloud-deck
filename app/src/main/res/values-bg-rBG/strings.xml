@@ -174,6 +174,7 @@
     <string name="filter_later">По-късно</string>
 
     <string name="filter_done_no_filter">Всички</string>
+    <string name="filter_done_done">Завършено</string>
     <string name="archived_cards">Архивирани карти</string>
     <string name="attachment_already_exists"> Прикаченият файл вече съществува</string>
     <string name="pick_custom_color">Избор на персонализиран цвят</string>
@@ -182,9 +183,12 @@
     <string name="tag_already_exists">%1$sвече съществува</string>
     <string name="tag_successfully_added">%1$s успешно добавени</string>
     <string name="edit_tag">Редактиране на%1$s</string>
+    <string name="mark_as_done">Маркирай като готово</string>
     <string name="filter_tags_title">Етикети</string>
     <string name="filter_user_title">Потребители</string>
     <string name="filter_duedate_title">Крайна дата</string>
+    <string name="filter_done_title">Завършено</string>
+
     <string name="action_board_dearchive">Отмяна на архивирането на таблото</string>
     <string name="archived_boards">Архивирани табла</string>
 
