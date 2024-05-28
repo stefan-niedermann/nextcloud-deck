@@ -85,6 +85,7 @@
     <string name="add_board">Adicionar painel</string>
 
     <string name="label_clear_due_date">Remover data de vencimento</string>
+    <string name="label_clear_done">Não realizado</string>
     <string name="label_due_at">Vencimento em:  %1$s</string>
     <string name="label_add">Adicionar %1$s</string>
 
@@ -178,6 +179,8 @@
 
     <string name="filter_done_no_filter">Tudos</string>
     <string name="filter_done_done">Pronto</string>
+    <string name="filter_done_undone">Não realizado</string>
+
     <string name="archived_cards">Cartões arquivados</string>
     <string name="attachment_already_exists">O anexo já existe</string>
     <string name="pick_custom_color">Escolher cor personalizada</string>
