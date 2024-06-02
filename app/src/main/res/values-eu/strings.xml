@@ -85,6 +85,7 @@
     <string name="add_board">Gehitu mahaia</string>
 
     <string name="label_clear_due_date">Ezabatu epe-muga</string>
+    <string name="label_clear_done">Egin gabe</string>
     <string name="label_due_at">Epemuga: %1$s</string>
     <string name="label_add">Gehitu %1$s</string>
 
@@ -176,6 +177,8 @@
 
     <string name="filter_done_no_filter">Denak</string>
     <string name="filter_done_done">Egina</string>
+    <string name="filter_done_undone">Egin gabe</string>
+
     <string name="archived_cards">Artxibatutako txartelak</string>
     <string name="attachment_already_exists">Eranskina existitzen da dagoeneko</string>
     <string name="pick_custom_color">Aukeratu kolore pertsonalizatua</string>
@@ -188,6 +191,8 @@
     <string name="filter_tags_title">Etiketak</string>
     <string name="filter_user_title">Erabiltzaileak</string>
     <string name="filter_duedate_title">Epe-muga</string>
+    <string name="filter_done_title">Egina</string>
+
     <string name="action_board_dearchive">Desegin mahaia artxibatzea</string>
     <string name="archived_boards">Artxibatutako mahaiak</string>
 
