@@ -85,6 +85,7 @@
     <string name="add_board">ボードを追加</string>
 
     <string name="label_clear_due_date">期限を削除</string>
+    <string name="label_clear_done">まだ完成してない</string>
     <string name="label_add">%1$s を追加</string>
 
     <string name="card_edit_details">詳細</string>
@@ -173,6 +174,8 @@
 
     <string name="filter_done_no_filter">すべて</string>
     <string name="filter_done_done">完了</string>
+    <string name="filter_done_undone">まだ完成してない</string>
+
     <string name="archived_cards">カードをアーカイブ</string>
     <string name="attachment_already_exists">添付はすでに存在します</string>
     <string name="pick_custom_color">カスタムカラーを選択</string>
