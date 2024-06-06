@@ -176,7 +176,7 @@
     <string name="filter_later">Sonra</string>
 
     <string name="filter_done_no_filter">Tümü</string>
-    <string name="filter_done_done">Tamamlandı</string>
+    <string name="filter_done_done">Tamamlanmış</string>
     <string name="filter_done_undone">Tamamlanmamış</string>
 
     <string name="archived_cards">Arşivlenmiş kartlar</string>
@@ -191,7 +191,7 @@
     <string name="filter_tags_title">Etiketler</string>
     <string name="filter_user_title">Kullanıcılar</string>
     <string name="filter_duedate_title">Bitiş tarihi</string>
-    <string name="filter_done_title">Tamamlandı</string>
+    <string name="filter_done_title">Tamamlanmış</string>
 
     <string name="action_board_dearchive">Pano arşivlemeyi geri al</string>
     <string name="archived_boards">Arşivlenmiş panolar</string>
