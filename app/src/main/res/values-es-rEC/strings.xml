@@ -189,6 +189,8 @@
     <string name="filter_tags_title">Etiquetas</string>
     <string name="filter_user_title">Usuarios</string>
     <string name="filter_duedate_title">Fecha de vencimiento</string>
+    <string name="filter_done_title">Hecho</string>
+
     <string name="action_board_dearchive">Deshacer el archivado del tablero</string>
     <string name="archived_boards">Tableros archivados</string>
 

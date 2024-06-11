@@ -187,6 +187,8 @@
     <string name="filter_tags_title">برچسب ها</string>
     <string name="filter_user_title">کاربران</string>
     <string name="filter_duedate_title">تاریخ سررسید</string>
+    <string name="filter_done_title">Done</string>
+
     <string name="action_board_dearchive">واگرد بایگانی صفحه</string>
     <string name="archived_boards">تابلوهای بایگانی شده</string>
 

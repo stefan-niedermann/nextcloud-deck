@@ -193,6 +193,8 @@
     <string name="filter_tags_title">Etiquetas</string>
     <string name="filter_user_title">Usuarios</string>
     <string name="filter_duedate_title">Fecha de fin</string>
+    <string name="filter_done_title">Listo</string>
+
     <string name="action_board_dearchive">Deshacer archivado del tablero</string>
     <string name="archived_boards">Tableros archivados</string>
 

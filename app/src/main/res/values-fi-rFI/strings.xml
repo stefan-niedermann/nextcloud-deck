@@ -180,6 +180,8 @@
     <string name="filter_tags_title">Tunnisteet</string>
     <string name="filter_user_title">Käyttäjät</string>
     <string name="filter_duedate_title">Eräpäivä</string>
+    <string name="filter_done_title">Valmis</string>
+
     <string name="action_board_dearchive">Kumoa taulun arkistointi</string>
     <string name="archived_boards">Arkistoidut taulut</string>
 
