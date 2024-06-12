@@ -183,6 +183,8 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
             viewModel.descriptionChangedFromExternal().observe(getViewLifecycleOwner(), description -> {
                 binding.descriptionViewer.setMarkdownString(description);
             });
+
+            registerEditorListener(binding.descriptionViewer);
         }
     }
 
