@@ -192,8 +192,8 @@
     <string name="error">오류가 나타남</string>
     <string name="synchronization_failed">동기화에 실패했습니다.</string>
     <string name="operation_not_yet_supported">아직 지원되지 않습니다!</string>
-    <string name="error_revoking_ac">%1$s에 대한 접근 취소 중에 에러가 발생했습니다.</string>
-    <string name="error_create_label">%1$s라벨을 만드는 중에 에러가 발생했습니다.</string>
+    <string name="error_revoking_ac">%1$s의 접근을 취소하는 중에 오류가 발생했습니다.</string>
+    <string name="error_create_label">%1$s라벨을 만드는 중에 오류가 발생했습니다.</string>
     <string name="maintenance_mode">서버가 유지 보수 모드입니다.</string>
     <string name="error_edit_activity_killed_by_android">다른 앱에 시스템 자원이 더 필요하여 안드로이드가 편집모드를 종료했습니다.</string>
 

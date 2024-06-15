@@ -85,6 +85,7 @@
     <string name="add_board">Добавить доску</string>
 
     <string name="label_clear_due_date">Удалить срок исполнения</string>
+    <string name="label_clear_done">Незавершённые</string>
     <string name="label_add">Добавить %1$s </string>
 
     <string name="card_edit_details">Свойства</string>
@@ -179,6 +180,8 @@
 
     <string name="filter_done_no_filter">Все</string>
     <string name="filter_done_done">Выполненные</string>
+    <string name="filter_done_undone">Незавершённые</string>
+
     <string name="archived_cards">Карточки в архиве</string>
     <string name="attachment_already_exists">Вложение уже существует</string>
     <string name="pick_custom_color">Выберите цвет</string>
