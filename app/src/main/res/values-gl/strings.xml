@@ -85,6 +85,7 @@
     <string name="add_board">Engadir taboleiro</string>
 
     <string name="label_clear_due_date">Limpar a data de caducidade</string>
+    <string name="label_clear_done">Sen facer</string>
     <string name="label_add">Engadir %1$s</string>
 
     <string name="card_edit_details">Detalles</string>
@@ -175,6 +176,8 @@
 
     <string name="filter_done_no_filter">Todo</string>
     <string name="filter_done_done">Feito</string>
+    <string name="filter_done_undone">Sen facer</string>
+
     <string name="archived_cards">Tarxetas arquivadas</string>
     <string name="attachment_already_exists">O anexo xa existe</string>
     <string name="pick_custom_color">Escolla a cor personalizada</string>
