@@ -86,6 +86,7 @@
 
     <string name="label_clear_due_date">Limpar a data de caducidade</string>
     <string name="label_clear_done">Sen facer</string>
+    <string name="label_due_at">Caduca o: %1$s</string>
     <string name="label_add">Engadir %1$s</string>
 
     <string name="card_edit_details">Detalles</string>
@@ -211,6 +212,7 @@
     <string name="error_dialog_tip_offline_no_internet">Semella que tentou facer unha sincronización cando non ten conexión a Internet.</string>
     <string name="error_dialog_tip_offline_connection_refused">A conexión foi rexeitada. Comprobe que é posíbel acceder ao servidor cun navegador web.</string>
     <string name="error_dialog_tip_offline_connection_timeout">A conexión excedeu o tempo de agarda. Comprobe se ten conexión á Internet. Isto tamén pode deberse a que o servidor estea moi ocupado.</string>
+    <string name="error_dialog_tip_connection_rejected">A conexión foi rexeitada. Comprobe se o seu servidor está protexido por un mecanismo anti-inundación. O máis probábel é que se trate dun problema causado por servidores protexidos por Cloudflare.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Se activou o axuste «Sincronizar só con Wi-Fi», só poderá sincronizar cando estea conectado a unha rede Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Semella que algo foi mal na súa aplicación Nextcloud. Tente forzar a parar ámbalas dúas aplicacións,  Nextcloud e Gabeta de Nextcloud</string>
     <string name="error_dialog_tip_files_delete_storage">Se detelos pola forza non axuda, pode tentar limpar o almacenamento de ambas as aplicacións.</string>
@@ -251,6 +253,7 @@
     <string name="manage_list">Xestionar a lista</string>
     <string name="simple_reply">Responder</string>
     <string name="append_text_to_description">Anexo á descrición</string>
+    <string name="append_text_as_task">Anexo á descrición como tarefa</string>
     <string name="add_text_as_comment">Engadir como comentario</string>
     <string name="progress_count">%1$d de %2$d</string>
     <plurals name="progress_error_count">
@@ -283,6 +286,7 @@
     <string name="simple_move">Mover</string>
     <string name="cannot_upload_files_without_permission">Non é posíbel enviar ficheiros sen permisos</string>
     <string name="insufficient_permission">Non ten permisos abondo</string>
+    <string name="no_matching_app_installed">Non se instalou ningunha aplicación coincidente</string>
     <string name="clone_cards">Clonar tarxetas</string>
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Avatar do usuario</string>
@@ -298,6 +302,7 @@
     <string name="contacts">Contactos</string>
     <string name="downloads">Descargas</string>
     <string name="files">Ficheiros</string>
+    <string name="voice_recorder">Gravadora de voz</string>
     <string name="gallery">Galería</string>
     <string name="videos">Vídeos</string>
     <string name="simple_attach">Anexar</string>
