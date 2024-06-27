@@ -85,6 +85,7 @@
     <string name="add_board">Legg til tavle</string>
 
     <string name="label_clear_due_date">Fjern forfallsdato</string>
+    <string name="label_clear_done">Ikke fullført</string>
     <string name="label_due_at">Forfaller den:%1$s</string>
     <string name="label_add">Legg til%1$s</string>
 
@@ -176,6 +177,8 @@
 
     <string name="filter_done_no_filter">Alle</string>
     <string name="filter_done_done">Ferdig</string>
+    <string name="filter_done_undone">Ikke fullført</string>
+
     <string name="archived_cards">Arkiver tavle</string>
     <string name="attachment_already_exists">Vedlegget eksisterer allerede</string>
     <string name="pick_custom_color">Velg tilpasset farge</string>
