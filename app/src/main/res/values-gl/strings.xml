@@ -18,7 +18,7 @@
     <string name="simple_discard">Desbortar</string>
     <string name="simple_update">Actualizar</string>
     <string name="simple_delete">Eliminar</string>
-    <string name="simple_rename">Renomear</string>
+    <string name="simple_rename">Cambiar o nome</string>
     <string name="simple_settings">Axustes</string>
     <string name="simple_undo">Desfacer</string>
     <string name="simple_manage">xestionar</string>
@@ -75,7 +75,7 @@
     <string name="add_card">Engadir tarxeta</string>
     <string name="activity">Actividade</string>
     <string name="add_list">Engadir unha lista…</string>
-    <string name="rename_list">Renomear a lista</string>
+    <string name="rename_list">Cambiar o nome da lista</string>
     <string name="delete_list">Eliminar lista</string>
     <string name="label_menu">menú</string>
     <string name="action_card_assign">Asignarme a tarxeta</string>
