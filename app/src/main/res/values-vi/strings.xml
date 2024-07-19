@@ -85,6 +85,7 @@
     <string name="add_board">Thêm dự án</string>
 
     <string name="label_clear_due_date">Xoá thời hạn</string>
+    <string name="label_clear_done">Chưa xong</string>
     <string name="label_add">Thêm %1$s</string>
 
     <string name="card_edit_details">Thông tin</string>
@@ -171,6 +172,8 @@
 
     <string name="filter_done_no_filter">Tất cả</string>
     <string name="filter_done_done">Hoàn thành</string>
+    <string name="filter_done_undone">Chưa xong</string>
+
     <string name="archived_cards">Thẻ đã lưu trữ</string>
     <string name="attachment_already_exists">Tệp đính kèm đã tồn tại</string>
     <string name="pick_custom_color">Chọn màu tuỳ chỉnh</string>
