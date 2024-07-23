@@ -86,6 +86,7 @@
 
     <string name="label_clear_due_date">Удалить срок исполнения</string>
     <string name="label_clear_done">Незавершённые</string>
+    <string name="label_due_at">Принято к исполнению:%1$s</string>
     <string name="label_add">Добавить %1$s </string>
 
     <string name="card_edit_details">Свойства</string>
@@ -256,6 +257,7 @@
     <string name="manage_list">Управлять списком</string>
     <string name="simple_reply">Ответить</string>
     <string name="append_text_to_description">Добавить в описание</string>
+    <string name="append_text_as_task">Добавить в описание как задачу</string>
     <string name="add_text_as_comment">Добавить как комментарий</string>
     <string name="progress_count">%1$d из %2$d</string>
     <plurals name="progress_error_count">
