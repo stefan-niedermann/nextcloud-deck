@@ -85,6 +85,7 @@
     <string name="add_board">Προσθήκη πίνακα</string>
 
     <string name="label_clear_due_date">Καθαρισμός ημερομηνίας λήξης</string>
+    <string name="label_clear_done">Μη ολοκληρωμένο</string>
     <string name="label_add">Προσθήκη %1$s</string>
 
     <string name="card_edit_details">Λεπτομέρειες</string>
@@ -172,6 +173,8 @@
 
     <string name="filter_done_no_filter">\'Ολα</string>
     <string name="filter_done_done">Ολοκληρώθηκε</string>
+    <string name="filter_done_undone">Μη ολοκληρωμένο</string>
+
     <string name="archived_cards">Αρχειοθετημένες κάρτες</string>
     <string name="attachment_already_exists">Το συνημμένο υπάρχει ήδη</string>
     <string name="pick_custom_color">Επιλέξτε προσαρμοσμένο χρώμα</string>
