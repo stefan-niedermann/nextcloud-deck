@@ -85,6 +85,7 @@
     <string name="add_board">Přidat tabuli</string>
 
     <string name="label_clear_due_date">Vymazat termín</string>
+    <string name="label_clear_done">Nehotové</string>
     <string name="label_add">Přidat %1$s</string>
 
     <string name="card_edit_details">Podrobnosti</string>
@@ -179,6 +180,8 @@
 
     <string name="filter_done_no_filter">Vše</string>
     <string name="filter_done_done">Dokončeno</string>
+    <string name="filter_done_undone">Nehotové</string>
+
     <string name="archived_cards">Archivované karty</string>
     <string name="attachment_already_exists">Příloha už existuje</string>
     <string name="pick_custom_color">Zvolte uživatelsky určenou barvu</string>
