@@ -86,6 +86,7 @@
 
     <string name="label_clear_due_date">Vymazat termín</string>
     <string name="label_clear_done">Nehotové</string>
+    <string name="label_due_at">Termín: %1$s</string>
     <string name="label_add">Přidat %1$s</string>
 
     <string name="card_edit_details">Podrobnosti</string>
@@ -255,6 +256,7 @@
     <string name="manage_list">Spravovat sloupec</string>
     <string name="simple_reply">Odpovědět</string>
     <string name="append_text_to_description">Připojit k popisu</string>
+    <string name="append_text_as_task">Připojit k úkolu popis</string>
     <string name="add_text_as_comment">Přidat jako komentář</string>
     <string name="progress_count">%1$d z %2$d</string>
     <plurals name="progress_error_count">
@@ -307,6 +309,7 @@
     <string name="contacts">Kontakty</string>
     <string name="downloads">Stažené</string>
     <string name="files">Soubory</string>
+    <string name="voice_recorder">Diktafon</string>
     <string name="gallery">Galerie</string>
     <string name="videos">Videa</string>
     <string name="simple_attach">Přiložit</string>
