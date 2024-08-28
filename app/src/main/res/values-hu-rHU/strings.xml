@@ -85,6 +85,8 @@
     <string name="add_board">Tábla hozzáadása</string>
 
     <string name="label_clear_due_date">Határidő eltávolítása</string>
+    <string name="label_clear_done">Nincs kész</string>
+    <string name="label_due_at">Határidő: %1$s</string>
     <string name="label_add">%1$s hozzáadása</string>
 
     <string name="card_edit_details">Részletek</string>
@@ -175,6 +177,8 @@
 
     <string name="filter_done_no_filter">Összes</string>
     <string name="filter_done_done">Kész</string>
+    <string name="filter_done_undone">Nincs kész</string>
+
     <string name="archived_cards">Archivált kártyák</string>
     <string name="attachment_already_exists">A melléklet már létezik</string>
     <string name="pick_custom_color">Válasszon egyéni színt</string>
@@ -208,6 +212,7 @@
     <string name="error_dialog_tip_offline_no_internet">Úgy néz ki, hogy internetkapcsolat nélkül próbált meg szinkronizálást kezdeményezni.</string>
     <string name="error_dialog_tip_offline_connection_refused">A kapcsolat elutasítva, ellenőrizze, hogy a kiszolgáló webböngészővel elérhető-e.</string>
     <string name="error_dialog_tip_offline_connection_timeout">A kapcsolatban időtúllépés történt, ellenőrizze, hogy kapcsolódik-e az internethez. Ez akkor is előfordulhat, ha a kiszolgáló elfoglalt.</string>
+    <string name="error_dialog_tip_connection_rejected">A kapcsolódás elutasításra került, ellenőrizze, hogy a kiszolgálót védi-e elárasztás-elleni mechanizmus. Ez a Cloudflare által védett kiszolgálók esetén a leggyakoribb probléma.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Ha engedélyezte a „Szinkronizálás csak Wi-Fin” beállítást, akkor csak akkor szinkronizálhat, ha Wi-Fihez kapcsolódik.</string>
     <string name="error_dialog_tip_files_force_stop">Valami hibásnak tűnik a Nextcloud alkalmazásában. Próbálja mindkettőt leállítani, a Nextcloud és a Nextcloud Kártyák alkalmazást is.</string>
     <string name="error_dialog_tip_files_delete_storage">Ha a kényszerített leállítás nem segít, akkor megpróbálhatja mindkét alkalmazás tárolóját kiüríteni.</string>
@@ -248,6 +253,7 @@
     <string name="manage_list">Lista kezelése</string>
     <string name="simple_reply">Válasz</string>
     <string name="append_text_to_description">Hozzáfűzés a leíráshoz</string>
+    <string name="append_text_as_task">Hozzáfűzés a leíráshoz feladatként</string>
     <string name="add_text_as_comment">Hozzáadás megjegyzésként</string>
     <string name="progress_count">%1$d / %2$d</string>
     <plurals name="progress_error_count">
@@ -280,6 +286,7 @@
     <string name="simple_move">Áthelyezés</string>
     <string name="cannot_upload_files_without_permission">Engedély nélkül nem tölthetők fel fájlok</string>
     <string name="insufficient_permission">Elégtelen jogosultság</string>
+    <string name="no_matching_app_installed">Nincs megfelelő alkalmazás telepítve</string>
     <string name="clone_cards">Kártyák klónozása</string>
     <string name="simple_clone">Klónozás</string>
     <string name="user_avatar">Felhasználói profilkép</string>
@@ -295,6 +302,7 @@
     <string name="contacts">Névjegyek</string>
     <string name="downloads">Letöltések</string>
     <string name="files">Fájlok</string>
+    <string name="voice_recorder">Hangrögzítő</string>
     <string name="gallery">Galéria</string>
     <string name="videos">Videók</string>
     <string name="simple_attach">Hozzáadás</string>
