@@ -20,6 +20,8 @@ import retrofit2.Response;
 
 public class RequestHelper {
 
+    private static final int RETRY_TIMES = 2;
+
     @NonNull
     private final ApiProvider apiProvider;
 
@@ -45,9 +47,32 @@ public class RequestHelper {
             this.apiProvider.initSsoApi(callback::onError);
         }
 
-        final var cb = new ResponseConsumer<>(this.apiProvider.getContext(), callback);
-        ExecutorServiceProvider.getLinkedBlockingQueueExecutor().submit(() -> callProvider.get().enqueue(cb));
+        final var call = callProvider.get();
+        final var cb = retryable(call, new ResponseConsumer<>(this.apiProvider.getContext(), callback));
+        ExecutorServiceProvider.getLinkedBlockingQueueExecutor().submit(() -> call.enqueue(cb));
     }
+
+    private <T> Callback<T> retryable(final Call<T> originalCall, final ResponseConsumer<T> responseConsumer) {
+        return new Callback<T>() {
+            private int retries = RETRY_TIMES;
+
+            @Override
+            public void onResponse(@NonNull Call<T> call, @NonNull Response<T> response) {
+                responseConsumer.onResponse(call, response);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<T> call, @NonNull Throwable throwable) {
+                if (retries > 0) {
+                    ExecutorServiceProvider.getLinkedBlockingQueueExecutor().submit(() -> originalCall.enqueue(this));
+                } else {
+                    responseConsumer.onFailure(call, throwable);
+                }
+                retries--;
+            }
+        };
+    }
+
 
     private static class ResponseConsumer<T> implements Callback<T> {
         @NonNull
