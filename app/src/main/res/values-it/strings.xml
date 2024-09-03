@@ -85,6 +85,7 @@
     <string name="add_board">Aggiungi lavagna</string>
 
     <string name="label_clear_due_date">Cancella la scadenza</string>
+    <string name="label_clear_done">Non fatto</string>
     <string name="label_due_at">Scadenza: %1$s</string>
     <string name="label_add">Aggiungi %1$s</string>
 
@@ -178,6 +179,8 @@
 
     <string name="filter_done_no_filter">Tutti</string>
     <string name="filter_done_done">Completato</string>
+    <string name="filter_done_undone">Non fatto</string>
+
     <string name="archived_cards">Schede archiviate</string>
     <string name="attachment_already_exists">L\'allegato esiste già</string>
     <string name="pick_custom_color">Scegli colore personalizzato</string>
