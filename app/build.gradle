@@ -78,7 +78,7 @@ dependencies {
     implementation project(path: ':cross-tab-drag-and-drop')
     implementation project(path: ':tab-layout-helper')
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.1'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.2'
 
     // Android X
     implementation 'androidx.appcompat:appcompat:1.7.0'
