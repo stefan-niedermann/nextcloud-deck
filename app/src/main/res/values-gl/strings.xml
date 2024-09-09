@@ -243,7 +243,7 @@
     <string name="error_action_update_files_app">Actualizar</string>
     <string name="info_box_maintenance_mode">Servidor en modo mantemento</string>
     <string name="info_box_version_not_supported">A versión %1$s do servidor non é compatíbel, actualice a %2$s</string>
-    <string name="share_link">Compartir ligazón</string>
+    <string name="share_link">Ligazón para compartir</string>
     <string name="share_content">Compartir o contido</string>
     <string name="share_content_duedate">Data de caducidade: %1$s</string>
     <string name="share_content_labels">Etiquetas: %1$s</string>
