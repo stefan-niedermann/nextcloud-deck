@@ -1,7 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">Öppna navigeringspanelen</string>
     <string name="navigation_drawer_close">Stäng navigeringslådan</string>
-    <string name="hint_search_deck">Sökskärm</string>
+    <string name="hint_search_deck">Sök Deck</string>
 
     <string name="simple_add">Lägg till</string>
     <string name="simple_save">Spara</string>
@@ -272,7 +272,7 @@
     <string name="widget_stack_title">Lista</string>
     <string name="widget_stack_header_icon">Ikon för widgetens sidhuvud</string>
     <string name="widget_placeholder_icon">Ikon för widgetens platshållare</string>
-    <string name="project_type_deck_board">Deck-plank</string>
+    <string name="project_type_deck_board">Deck-tavla</string>
     <string name="project_type_deck_card">Deck-kort</string>
     <string name="project_type_file">Fil</string>
     <string name="projects_title">Projekt</string>
