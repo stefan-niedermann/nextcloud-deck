@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
@@ -289,7 +290,7 @@ public class EditActivity extends AppCompatActivity {
 
         utils.platform.themeStatusBar(this);
         utils.material.themeToolbar(binding.toolbar);
-        utils.platform.colorEditText(binding.title);
+        utils.platform.colorTextView(binding.title, ColorRole.ON_SURFACE);
         utils.material.themeTabLayoutOnSurface(binding.tabLayout);
     }
 
