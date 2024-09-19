@@ -69,7 +69,7 @@ android {
 
 dependencies {
     def cameraVersion = "1.3.4"
-    def lifecycleVersion = "2.8.5"
+    def lifecycleVersion = "2.8.6"
     def roomVersion = "2.6.1"
     def glideVersion = "4.16.0"
     def nextcloudCommonsVersion = "2.3.0"
