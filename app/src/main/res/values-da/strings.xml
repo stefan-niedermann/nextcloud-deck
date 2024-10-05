@@ -85,6 +85,8 @@
     <string name="add_board">Tilføj liste</string>
 
     <string name="label_clear_due_date">Ryd forfaldsdato</string>
+    <string name="label_clear_done">Ikke færdig</string>
+    <string name="label_due_at">Forfalden: %1$s</string>
     <string name="label_add">Tilføj %1$s</string>
 
     <string name="card_edit_details">Detaljer</string>
@@ -93,6 +95,7 @@
     <string name="about_server_app_version_text">Server version</string>
     <string name="no_files_attached_to_this_card">Der er ingen filer hæftet til dette kort.</string>
     <string name="attachments">Vedhæftede filer</string>
+    <string name="append_to_description">Tilføj til beskrivelse</string>
     <string name="no_cards">Endnu ingen kort</string>
     <string name="not_synced_yet">Ikke synkronsieret endnu</string>
     <string name="no_lists_yet">Endnu ingen lister</string>
@@ -155,6 +158,8 @@
 
     <string name="filter_done_no_filter">Alle</string>
     <string name="filter_done_done">Færdig</string>
+    <string name="filter_done_undone">Ikke færdig</string>
+
     <string name="archived_cards">Arkiverede kort</string>
     <string name="pick_custom_color">Vælg brugerdefineret farve</string>
     <string name="add_tag">Tilføj Tag</string>
@@ -194,6 +199,7 @@
     <string name="share_link">Del link</string>
     <string name="manage_accounts">Administrer konti</string>
     <string name="simple_reply">Besvar</string>
+    <string name="append_text_to_description">Tilføj til beskrivelse</string>
     <string name="simple_report">Rapporter</string>
     <string name="error_action_open_battery_settings">Batteriindstillinger</string>
     <string name="clone_board">Klon tavle</string>

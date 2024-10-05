@@ -288,6 +288,7 @@
     <string name="simple_move">Déplacer</string>
     <string name="cannot_upload_files_without_permission">Impossible de téléverser des fichiers sans autorisation</string>
     <string name="insufficient_permission">Permission insuffisante</string>
+    <string name="no_matching_app_installed">Aucune application correspondante installée</string>
     <string name="clone_cards">Dupliquer des cartes</string>
     <string name="simple_clone">Dupliquer</string>
     <string name="user_avatar">Avatar utilisateur</string>
