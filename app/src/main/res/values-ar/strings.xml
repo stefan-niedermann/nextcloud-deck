@@ -14,7 +14,7 @@
     <string name="simple_exception">استثناء</string>
     <string name="simple_close">إغلاق</string>
     <string name="simple_filter">فلتر</string>
-    <string name="simple_reset">إعادة التعيين</string>
+    <string name="simple_reset">إعادة تعيين</string>
     <string name="simple_discard">الغاء</string>
     <string name="simple_update">تحديث</string>
     <string name="simple_delete">حذف </string>
