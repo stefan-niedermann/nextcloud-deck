@@ -271,7 +271,7 @@
 
     <string name="widget_stack_title">Lista</string>
     <string name="widget_stack_header_icon">Icona de cabeceira do trebello</string>
-    <string name="widget_placeholder_icon">Icona de marcador de posición do trebello</string>
+    <string name="widget_placeholder_icon">Icona de marcador de substitución do trebello</string>
     <string name="project_type_deck_board">Taboleiro da Gabeta</string>
     <string name="project_type_deck_card">Tarxeta</string>
     <string name="project_type_file">Ficheiro</string>
