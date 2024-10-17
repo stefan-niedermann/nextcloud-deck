@@ -1,7 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">فتح التنقل </string>
     <string name="navigation_drawer_close">إقفال التنقل </string>
-    <string name="hint_search_deck">بحث الادراج</string>
+    <string name="hint_search_deck">بحث في البطاقات</string>
 
     <string name="simple_add">إضافة</string>
     <string name="simple_save">حفظ</string>
