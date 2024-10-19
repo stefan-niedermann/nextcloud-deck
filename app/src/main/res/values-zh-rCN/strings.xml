@@ -222,7 +222,7 @@
     <string name="error_dialog_user_not_found_in_database">当前用户与数据库中的用户不匹配。如果你在 Nextcloud 实例上使用 LDAP，那么 Nextcloud 应用程序可能存储了一个旧的用户ID。</string>
     <string name="error_dialog_capabilities_not_parsable">我们无法获取您服务器的容量。请确保您的服务器运行良好，其他客户端应用程序能够访问Nextcloud。</string>
     <string name="error_dialog_attachment_upload_failed">无法上传一个附件。请尝试用另一种方式分享它，并让我们知道这个bug。</string>
-    <string name="error_dialog_certificate">服务器的证书似乎有问题。请查看 Nextcloud 应用程序中的所有账户以获取更多信息。</string>
+    <string name="error_dialog_certificate">服务器的证书似乎有问题。请查看 Nextcloud 应用程序中的所有账号以获取更多信息。</string>
     <string name="error_dialog_tip_disable_battery_optimizations">请禁用针对Nextcloud和看板应用程序的所有电池优化。</string>
     <string name="error_dialog_unknown_error">您的 Nextcloud 实例似乎不可访问。请检查您的互联网连接，以及您是否能够通过浏览器连接到您的实例。</string>
     <string name="error_dialog_min_version">看板Android应用需要的Nextcloud Android应用的最低版本为3.18</string>
@@ -304,7 +304,7 @@
     <string name="app_logo">应用图标</string>
     <string name="log_file">日志文件</string>
     <string name="copying_logs_to_file">正将日志复制到文件</string>
-    <string name="account_imported">账户已导入</string>
+    <string name="account_imported">账号已导入</string>
     <string name="simple_search">搜索</string>
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">标题 (必填)</string>
