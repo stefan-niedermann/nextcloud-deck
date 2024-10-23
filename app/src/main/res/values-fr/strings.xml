@@ -86,6 +86,7 @@
 
     <string name="label_clear_due_date">Effacer la date d\'échéance</string>
     <string name="label_clear_done">Non fait</string>
+    <string name="label_due_at">À rendre à: %1$s</string>
     <string name="label_add">Ajouter %1$s</string>
 
     <string name="card_edit_details">Propriétés</string>
@@ -254,6 +255,7 @@
     <string name="manage_list">Gérer la liste</string>
     <string name="simple_reply">Répondre</string>
     <string name="append_text_to_description">Ajouter à la description</string>
+    <string name="append_text_as_task">Ajouter la description comme tâche</string>
     <string name="add_text_as_comment">Ajouter en commentaire</string>
     <string name="progress_count">%1$d sur %2$d</string>
     <plurals name="progress_error_count">

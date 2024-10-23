@@ -118,7 +118,7 @@
     <string name="settings_debugging">Registros de debug</string>
     <string name="settings_etags">Imprea etichetas de identidade</string>
     <string name="settings_etags_summary">Faghet sa sincronizatzione prus lestra</string>
-    <string name="settings_background_sync">Sincronizatzione isfundu</string>
+    <string name="settings_background_sync">Sincronizatzione in segundu pranu</string>
     <string name="settings_compress_image_attachments">Cumprimi is immàgines in carrigamentu</string>
     <string name="search_in">Chirca in %1$s</string>
     <string name="settings_compress_image_attachments_summary">Carrigamentu prus lestru, prus pagu calidade</string>
@@ -137,7 +137,7 @@
     <string name="owner">Mere</string>
     <string name="attachment_delete_message">Custu at a cantzellare de su totu cust\'alligongiadu</string>
     <string name="no_content">Perunu cuntenutu ancora</string>
-    <string name="last_background_sync">Ùrtima sincronizatzione in background:</string>
+    <string name="last_background_sync">Ùrtima sincronizatzione in segundu pranu:</string>
     <string name="simple_off">Istudadu</string>
     <string name="minutes_15">15 minutos</string>
     <string name="hour_1">1 ora</string>
