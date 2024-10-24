@@ -85,6 +85,7 @@
     <string name="add_board">Dodaj tablicę</string>
 
     <string name="label_clear_due_date">Wyczyść termin</string>
+    <string name="label_clear_done">Nie zrobione</string>
     <string name="label_due_at">Termin: %1$s</string>
     <string name="label_add">Dodaj %1$s</string>
 
@@ -180,6 +181,8 @@
 
     <string name="filter_done_no_filter">Wszystkie</string>
     <string name="filter_done_done">Gotowe</string>
+    <string name="filter_done_undone">Nie zrobione</string>
+
     <string name="archived_cards">Zarchiwizowane karty</string>
     <string name="attachment_already_exists">Załącznik już istnieje</string>
     <string name="pick_custom_color">Wybierz niestandardowy kolor</string>
