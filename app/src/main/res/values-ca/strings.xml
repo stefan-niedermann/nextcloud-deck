@@ -96,6 +96,7 @@
     <string name="attachments">Adjunts</string>
     <string name="append_to_description">Apunteu a la descripció</string>
     <string name="no_cards">Encara no hi ha cap targeta.</string>
+    <string name="account_already_added">Ja s\'ha afegit el compte %1$s </string>
     <string name="not_synced_yet">No sincronitzat encara</string>
     <string name="no_lists_yet">Encara no hi ha llistes</string>
     <string name="do_you_want_to_save_your_changes">Voleu desar els canvis?</string>
@@ -210,9 +211,11 @@
     <string name="error_dialog_tip_offline_no_internet">Sembla que heu intentat activar una sincronització sense connexió a Internet.</string>
     <string name="error_dialog_tip_offline_connection_refused">S\'ha denegat la connexió, comproveu si el vostre servidor és accessible a través del navegador web.</string>
     <string name="error_dialog_tip_offline_connection_timeout">La connexió ha excedit el temps, si us plau comproveu si esteu connectat a Internet. Això també pot passar quan el vostre servidor està ocupat.</string>
+    <string name="error_dialog_tip_connection_rejected">S\'ha rebutjat la connexió. Comproveu que el servidor estigui protegit per un mecanisme contra atacs flood. Probablement això és un problema causat pels servidors protegits de Cloudflare.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Si heu habilitat el paràmetre de \"Sync només en Wi-Fi\", només podeu sincronitzar quan esteu connectat a una Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Sembla que alguna cosa està malament a la vostra aplicació Nextcloud. Si us plau, intenteu forçar l\'aturada tant de l\'aplicació Nextcloud com de l\'aplicació Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Si l\'aturada forçada no ajuda, podeu provar de netejar l\'emmagatzematge d\'ambdues aplicacions.</string>
+    <string name="error_dialog_timeout_instance">No hi ha hagut resposta del vostre servidor en el període de temps indicat. Assegureu-vos que la vostra instància funcioni correctament.</string>
     <string name="error_dialog_timeout_toggle">Comproveu la vostra connexió a xarxa. De vegades, apagar i encendre les dades mòbils o el wifi pot ajudar.</string>
     <string name="error_dialog_check_server">La resposta del vostre servidor no ha estat correcta. Si us plau, comproveu que podeu accedir a l\'aplicació Deck des de la interfície web.</string>
     <string name="error_dialog_check_server_logs">Hi ha un problema amb el vostre arranjament del Nextcloud. Si us plau, mireu-vos els fitxers de bitàcola del servidor.</string>
@@ -249,6 +252,7 @@
     <string name="manage_list">Gestiona la llista</string>
     <string name="simple_reply">Respon</string>
     <string name="append_text_to_description">Apunteu a la descripció</string>
+    <string name="append_text_as_task">Afegeix a la descripció com a tasca</string>
     <string name="add_text_as_comment">Afegir com a comentari</string>
     <string name="progress_count">%1$d de %2$d</string>
     <plurals name="progress_error_count">
@@ -281,6 +285,7 @@
     <string name="simple_move">Mou</string>
     <string name="cannot_upload_files_without_permission">No es poden pujar fitxers sense permisos</string>
     <string name="insufficient_permission">Permís insuficient</string>
+    <string name="no_matching_app_installed">No s\'ha instal·lat cap aplicació coincident</string>
     <string name="clone_cards">Clonar targetes</string>
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Utilitzar avatar</string>
@@ -296,8 +301,10 @@
     <string name="contacts">Contactes</string>
     <string name="downloads">Baixades</string>
     <string name="files">Fitxers</string>
+    <string name="voice_recorder">Gravadora de veu</string>
     <string name="gallery">Galeria</string>
     <string name="videos">Vídeos</string>
+    <string name="simple_attach">Adjunta</string>
     <string name="add_stack_widget">Afegeix giny de llista</string>
     <string name="add_filter_widget">Afegir un giny per filtrar</string>
     <string name="simple_order">Ordre</string>
@@ -319,5 +326,8 @@
     <string name="card_outdated">El contingut d\'aquesta targeta pot estar obsolet.</string>
     <string name="show_error">Mostra l\'error</string>
     <string name="push_notification_link_empty">A causa d\'un error conegut en l\'aplicació web Tauler, lamentablement no podem mostrar aquesta targeta. Per a més informació vegeu: %1$s</string>
+    <string name="enter_search_term_title">Introduïu el terme de cerca</string>
+    <string name="enter_search_term_description">Introduïu el terme de cerca per a trobar les targetes en aquest tauler</string>
     <string name="no_search_results_title">No s\'han trobat resultats</string>
-    </resources>
+    <string name="no_search_results_description">No s\'ha trobat cap resultat per al terme de cerca indicat</string>
+</resources>
