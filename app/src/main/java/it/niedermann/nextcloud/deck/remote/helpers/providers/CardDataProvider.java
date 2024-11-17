@@ -41,6 +41,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     private static final String ALREADY_ARCHIVED_INDICATOR = "Operation not allowed. This card is archived.";
     // see https://github.com/stefan-niedermann/nextcloud-deck/issues/1073
     private static final Set<JoinCardWithLabel> LABEL_JOINS_IN_SYNC = Collections.synchronizedSet(new HashSet<>());
+    private static final Set<JoinCardWithUser> USER_JOINS_IN_SYNC = Collections.synchronizedSet(new HashSet<>());
     protected Board board;
     protected FullStack stack;
 
@@ -345,12 +346,22 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
                     }
                 });
             } else if (changedUser.getStatusEnum() == DBStatus.LOCAL_EDITED) {
-                serverAdapter.assignUserToCard(board.getId(), stack.getId(), changedUser.getCardId(), user.getUid(), new ResponseCallback<>(account) {
-                    @Override
-                    public void onResponse(EmptyResponse response, Headers headers) {
-                        dataBaseAdapter.setStatusForJoinCardWithUser(card.getLocalId(), user.getLocalId(), DBStatus.UP_TO_DATE.getId());
-                    }
-                });
+                if (!USER_JOINS_IN_SYNC.contains(changedUser)) {
+                    USER_JOINS_IN_SYNC.add(changedUser);
+                    serverAdapter.assignUserToCard(board.getId(), stack.getId(), changedUser.getCardId(), user.getUid(), new ResponseCallback<>(account) {
+                        @Override
+                        public void onResponse(EmptyResponse response, Headers headers) {
+                            dataBaseAdapter.setStatusForJoinCardWithUser(card.getLocalId(), user.getLocalId(), DBStatus.UP_TO_DATE.getId());
+                            USER_JOINS_IN_SYNC.remove(changedUser);
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            super.onError(throwable);
+                            USER_JOINS_IN_SYNC.remove(changedUser);
+                        }
+                    });
+                }
             }
         }
 
