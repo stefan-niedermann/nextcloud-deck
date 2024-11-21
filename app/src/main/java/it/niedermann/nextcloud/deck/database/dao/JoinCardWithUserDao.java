@@ -21,7 +21,7 @@ public interface JoinCardWithUserDao extends GenericDao<JoinCardWithUser> {
     @Query("DELETE FROM joincardwithuser " +
             "WHERE cardid in (select c.localId from Card c join Stack s on c.stackId = s.localId and s.boardId = :localBoardId) " +
             "and userId not in (select userId from UserInBoard where boardId = :localBoardId)")
-    void deleteJoinedUsersForCardsInBoardPhysically(long localBoardId);
+    void deleteJoinedUsersForCardsInBoardWithoutPermissionPhysically(long localBoardId);
 
     @Query("select * FROM joincardwithuser WHERE cardId = :localCardId and userId = :localUserId")
     JoinCardWithUser getJoin(Long localUserId, Long localCardId);

@@ -134,7 +134,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
                 dataBaseAdapter.addUserToBoard(existing.getLocalId(), entity.getLocalId());
             }
         }
-        dataBaseAdapter.deleteJoinedUsersForCardsInBoardPhysically(entity.getLocalId());
+        dataBaseAdapter.deleteJoinedUsersForCardsInBoardWithoutPermissionPhysically(entity.getLocalId());
     }
 
     private User createOrUpdateUser(DataBaseAdapter dataBaseAdapter, long accountId, User remoteUser) {

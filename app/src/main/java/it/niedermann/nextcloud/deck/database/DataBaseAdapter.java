@@ -484,8 +484,8 @@ public class DataBaseAdapter {
         db.getJoinCardWithUserDao().deleteByCardIdAndUserIdPhysically(localCardId, localUserId);
     }
 
-    public void deleteJoinedUsersForCardsInBoardPhysically(long localBoardId) {
-        db.getJoinCardWithUserDao().deleteJoinedUsersForCardsInBoardPhysically(localBoardId);
+    public void deleteJoinedUsersForCardsInBoardWithoutPermissionPhysically(long localBoardId) {
+        db.getJoinCardWithUserDao().deleteJoinedUsersForCardsInBoardWithoutPermissionPhysically(localBoardId);
     }
 
     public void createJoinCardWithUser(long localUserId, long localCardId) {
