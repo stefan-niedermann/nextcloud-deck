@@ -85,6 +85,7 @@
     <string name="add_board">Pridať nástenk</string>
 
     <string name="label_clear_due_date">Odstrániť termín dokončenia</string>
+    <string name="label_clear_done">Neurobené</string>
     <string name="label_due_at">K dátumu: %1$s</string>
     <string name="label_add">Pridať %1$s</string>
 
@@ -180,6 +181,8 @@
 
     <string name="filter_done_no_filter">Všetko</string>
     <string name="filter_done_done">Hotovo</string>
+    <string name="filter_done_undone">Neurobené</string>
+
     <string name="archived_cards">Archivované karty</string>
     <string name="attachment_already_exists">Príloha už existuje</string>
     <string name="pick_custom_color">Vyberte vlastnú farbu</string>
