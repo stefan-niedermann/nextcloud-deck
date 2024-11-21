@@ -94,7 +94,6 @@ import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
 import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
-import okhttp3.Headers;
 
 public class DataBaseAdapter {
     @NonNull
@@ -483,6 +482,10 @@ public class DataBaseAdapter {
 
     public void deleteJoinedUserForCardPhysically(long localCardId, long localUserId) {
         db.getJoinCardWithUserDao().deleteByCardIdAndUserIdPhysically(localCardId, localUserId);
+    }
+
+    public void deleteJoinedUsersForCardsInBoardPhysically(long localBoardId) {
+        db.getJoinCardWithUserDao().deleteJoinedUsersForCardsInBoardPhysically(localBoardId);
     }
 
     public void createJoinCardWithUser(long localUserId, long localCardId) {
