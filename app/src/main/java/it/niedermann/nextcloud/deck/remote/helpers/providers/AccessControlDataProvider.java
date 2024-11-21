@@ -6,7 +6,9 @@ import com.nextcloud.android.sso.api.EmptyResponse;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.database.DataBaseAdapter;
@@ -14,6 +16,7 @@ import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
+import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
@@ -103,6 +106,16 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
         } catch (InterruptedException e) {
             DeckLog.logError(e);
         }
+    }
+
+    @Override
+    public void handleDeletes(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, List<AccessControl> entitiesFromServer) {
+        Set<Long> localIds = entitiesFromServer.stream().map(AbstractRemoteEntity::getLocalId).collect(Collectors.toSet());
+        if (localIds.isEmpty()){
+            // just delete all
+            localIds = Set.of(-1L);
+        }
+        dataBaseAdapter.deleteAccessControlsForBoardWhereLocalIdsNotInDirectly(board.getLocalId(), localIds);
     }
 
     @Override

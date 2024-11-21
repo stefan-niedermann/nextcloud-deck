@@ -834,6 +834,11 @@ public class DataBaseAdapter {
         notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.ACCOUNT, entity.getAccountId());
     }
 
+    public void deleteAccessControlsForBoardWhereLocalIdsNotInDirectly(Long localBoardId, Set<Long> idsToKeep) {
+        db.getAccessControlDao().deleteAccessControlsForBoardWhereLocalIdsNotInDirectly(localBoardId, idsToKeep);
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.BOARD, localBoardId);
+    }
+
     public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {
         return new ReactiveLiveData<>(db.getBoardDao().getFullBoardById(accountId, localId))
                 .distinctUntilChanged();
