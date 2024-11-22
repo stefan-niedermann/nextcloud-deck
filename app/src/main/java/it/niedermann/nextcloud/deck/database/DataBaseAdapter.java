@@ -77,6 +77,7 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.projects.JoinCardWithProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
+import it.niedermann.nextcloud.deck.model.ocs.user.UserForAssignment;
 import it.niedermann.nextcloud.deck.model.relations.UserInBoard;
 import it.niedermann.nextcloud.deck.model.relations.UserInGroup;
 import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
@@ -420,6 +421,17 @@ public class DataBaseAdapter {
         user.setAccountId(accountId);
         db.getUserDao().update(user);
         notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.USER, user.getLocalId());
+    }
+
+    @WorkerThread
+    public UserForAssignment getUserForAssignmentDirectly(long localUserId) {
+        SimpleSQLiteQuery query = new SimpleSQLiteQuery(
+                "SELECT case when uig.memberId is null then 0 else 1 end as type, u.uid as userId " +
+                        "FROM User u " +
+                        "left join UserInGroup uig on uig.groupId = u.localId " +
+                        " WHERE u.localId = ? LIMIT 1",
+                new Object[]{localUserId});
+        return db.getUserInGroupDao().getUserForAssignment(query);
     }
 
     @UiThread

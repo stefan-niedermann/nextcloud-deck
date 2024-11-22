@@ -29,6 +29,7 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.ocs.user.UserForAssignment;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
@@ -339,7 +340,9 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             }
             User user = dataBaseAdapter.getUserByLocalIdDirectly(changedUser.getUserId());
             if (changedUser.getStatusEnum() == DBStatus.LOCAL_DELETED) {
-                serverAdapter.unassignUserFromCard(board.getId(), stack.getId(), changedUser.getCardId(), user.getUid(), new ResponseCallback<>(account) {
+                UserForAssignment userForAssignment = dataBaseAdapter.getUserForAssignmentDirectly(changedUser.getUserId());
+
+                serverAdapter.unassignUserFromCard(board.getId(), stack.getId(), changedUser.getCardId(), userForAssignment, new ResponseCallback<>(account) {
                     @Override
                     public void onResponse(EmptyResponse response, Headers headers) {
                         dataBaseAdapter.deleteJoinedUserForCardPhysicallyByRemoteIDs(account.getId(), changedUser.getCardId(), user.getUid());
@@ -348,7 +351,9 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             } else if (changedUser.getStatusEnum() == DBStatus.LOCAL_EDITED) {
                 if (!USER_JOINS_IN_SYNC.contains(changedUser)) {
                     USER_JOINS_IN_SYNC.add(changedUser);
-                    serverAdapter.assignUserToCard(board.getId(), stack.getId(), changedUser.getCardId(), user.getUid(), new ResponseCallback<>(account) {
+                    UserForAssignment userForAssignment = dataBaseAdapter.getUserForAssignmentDirectly(changedUser.getUserId());
+
+                    serverAdapter.assignUserToCard(board.getId(), stack.getId(), changedUser.getCardId(), userForAssignment, new ResponseCallback<>(account) {
                         @Override
                         public void onResponse(EmptyResponse response, Headers headers) {
                             dataBaseAdapter.setStatusForJoinCardWithUser(card.getLocalId(), user.getLocalId(), DBStatus.UP_TO_DATE.getId());
