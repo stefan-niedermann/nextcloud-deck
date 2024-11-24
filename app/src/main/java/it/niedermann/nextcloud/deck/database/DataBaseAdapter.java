@@ -426,7 +426,7 @@ public class DataBaseAdapter {
     @WorkerThread
     public UserForAssignment getUserForAssignmentDirectly(long localUserId) {
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(
-                "SELECT acl.type, u.uid as userId " +
+                "SELECT case when acl.type is null then 0 else 1 end as type, u.uid as userId " +
                         "FROM User u " +
                         "left join AccessControl acl on acl.userId = u.localId " +
                         " WHERE u.localId = ? LIMIT 1",
