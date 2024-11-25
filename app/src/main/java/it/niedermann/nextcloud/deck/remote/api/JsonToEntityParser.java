@@ -71,6 +71,8 @@ public class JsonToEntityParser {
             return (T) parseGroupMemberUIDs(obj);
         } else if (mType == OcsProjectList.class) {
             return (T) parseOcsProjectList(obj);
+        } else if (mType == AccessControl.class) {
+            return (T) parseAcl(obj);
         }
         throw new IllegalArgumentException("unregistered type: " + mType.getCanonicalName());
     }
