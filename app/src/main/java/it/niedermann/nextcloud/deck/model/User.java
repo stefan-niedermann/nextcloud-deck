@@ -6,7 +6,6 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
@@ -24,10 +23,13 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 )
 public class User extends AbstractRemoteEntity implements Serializable {
 
+    public static final long TYPE_USER = 0L;
+    public static final long TYPE_GROUP = 1L;
 
     private String primaryKey;
     private String uid;
     private String displayname;
+    private long type;
 
     public User() {
         super();
@@ -44,6 +46,7 @@ public class User extends AbstractRemoteEntity implements Serializable {
         super(user);
         this.primaryKey = user.getPrimaryKey();
         this.uid = user.getUid();
+        this.type = user.getType();
         this.displayname = user.getDisplayname();
     }
 
@@ -71,24 +74,32 @@ public class User extends AbstractRemoteEntity implements Serializable {
         this.displayname = displayname;
     }
 
+    public long getType() {
+        return type;
+    }
+
+    public void setType(long type) {
+        this.type = type;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         User user = (User) o;
-
-        if (!Objects.equals(primaryKey, user.primaryKey))
-            return false;
-        if (!Objects.equals(uid, user.uid)) return false;
-        return Objects.equals(displayname, user.displayname);
+        return type == user.type && primaryKey.equals(user.primaryKey) &&
+                uid.equals(user.uid) && displayname.equals(user.displayname);
     }
 
     @Override
     public int hashCode() {
-        int result = primaryKey != null ? primaryKey.hashCode() : 0;
-        result = 31 * result + (uid != null ? uid.hashCode() : 0);
-        result = 31 * result + (displayname != null ? displayname.hashCode() : 0);
+        int result = super.hashCode();
+        result = 31 * result + primaryKey.hashCode();
+        result = 31 * result + uid.hashCode();
+        result = 31 * result + displayname.hashCode();
+        result = 31 * result + Long.hashCode(type);
         return result;
     }
 
@@ -98,12 +109,14 @@ public class User extends AbstractRemoteEntity implements Serializable {
                 "primaryKey='" + primaryKey + '\'' +
                 ", uid='" + uid + '\'' +
                 ", displayname='" + displayname + '\'' +
+                ", type=" + type +
                 ", localId=" + localId +
                 ", accountId=" + accountId +
                 ", id=" + id +
                 ", status=" + status +
                 ", lastModified=" + lastModified +
                 ", lastModifiedLocal=" + lastModifiedLocal +
+                ", etag='" + etag + '\'' +
                 "} " + super.toString();
     }
 }

@@ -17,11 +17,15 @@ import java.util.Set;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.database.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.model.AccessControl;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
+import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
@@ -64,6 +68,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
                 if (etag != null && !etag.equals(account.getBoardsEtag())) {
                     account.setBoardsEtag(etag);
                     dataBaseAdapter.updateAccount(account);
+                    updateUsers(serverAdapter, dataBaseAdapter, responder.getAccount());
                 }
                 List<FullBoard> ret = response;
                 if (response != null) {
@@ -81,6 +86,29 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
             @Override
             public void onError(Throwable throwable) {
                 responder.onError(throwable);
+            }
+        });
+    }
+
+    private void updateUsers(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, Account account) {
+        serverAdapter.searchUser("", new ResponseCallback<>(account) {
+            @Override
+            public void onResponse(OcsUserList response, Headers headers) {
+                Long accountId = account.getId();
+                for (OcsUser u : response.getUsers()) {
+                    User user = new User(u.getId(), u.getId(), u.getDisplayName());
+                    user.setType(User.TYPE_USER);
+                    user.setAccountId(accountId);
+                    user.setStatus(DBStatus.UP_TO_DATE.getId());
+                    createOrUpdateUser(dataBaseAdapter, accountId, user);
+                }
+                for (OcsUser u : response.getGroups()) {
+                    User user = new User(u.getId(), u.getId(), u.getDisplayName());
+                    user.setType(User.TYPE_GROUP);
+                    user.setAccountId(accountId);
+                    user.setStatus(DBStatus.UP_TO_DATE.getId());
+                    createOrUpdateUser(dataBaseAdapter, accountId, user);
+                }
             }
         });
     }
@@ -142,6 +170,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
         if (owner == null) {
             dataBaseAdapter.createUser(accountId, remoteUser);
         } else {
+            remoteUser.setLocalId(owner.getLocalId());
             dataBaseAdapter.updateUser(accountId, remoteUser, false);
         }
         return dataBaseAdapter.getUserByUidDirectly(accountId, remoteUser.getUid());

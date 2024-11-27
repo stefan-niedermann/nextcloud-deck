@@ -114,6 +114,19 @@ public class JsonToEntityParser {
                         ocsUserList.addUser(user);
                     }
                 }
+                JsonElement groups = data.getAsJsonObject().get("groups");
+                if (!groups.isJsonNull() && groups.isJsonArray()) {
+                    for (JsonElement userElement : groups.getAsJsonArray()) {
+                        JsonObject singleGroupElement = userElement.getAsJsonObject();
+                        OcsUser group = new OcsUser();
+                        group.setDisplayName(singleGroupElement.get("label").getAsString());
+                        group.setId(
+                                singleGroupElement.get("value").getAsJsonObject()
+                                        .get("shareWith").getAsString()
+                        );
+                        ocsUserList.addGroup(group);
+                    }
+                }
             }
 
         }, obj);
@@ -523,6 +536,7 @@ public class JsonToEntityParser {
                 user.setDisplayname(getNullAsEmptyString(userJson.get("displayname")));
                 user.setPrimaryKey(getNullAsEmptyString(userJson.get("primaryKey")));
                 user.setUid(getNullAsEmptyString(userJson.get("uid")));
+                user.setType(getNullAsZero(userJson.get("type")));
             }
 
         }, userElement);

@@ -1335,8 +1335,21 @@ public class SyncRepository extends BaseRepository {
                         newUser.setStatus(DBStatus.UP_TO_DATE.getId());
                         newUser.setPrimaryKey(user.getId());
                         newUser.setUid(user.getId());
+                        newUser.setType(User.TYPE_USER);
                         newUser.setDisplayname(user.getDisplayName());
                         dataBaseAdapter.createUser(account.getId(), newUser);
+                    }
+                }
+                for (var group : response.getGroups()) {
+                    final var existingGroup = dataBaseAdapter.getUserByUidDirectly(account.getId(), group.getId());
+                    if (existingGroup == null) {
+                        User newGroup = new User();
+                        newGroup.setStatus(DBStatus.UP_TO_DATE.getId());
+                        newGroup.setPrimaryKey(group.getId());
+                        newGroup.setUid(group.getId());
+                        newGroup.setType(User.TYPE_GROUP);
+                        newGroup.setDisplayname(group.getDisplayName());
+                        dataBaseAdapter.createUser(account.getId(), newGroup);
                     }
                 }
             }

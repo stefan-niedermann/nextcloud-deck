@@ -168,7 +168,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
         final User user = userAutoCompleteAdapter.getItem(position);
         ac.setPermissionEdit(true);
         ac.setBoardId(boardId);
-        ac.setType(0L); // https://github.com/nextcloud/deck/blob/master/docs/API.md#post-boardsboardidacl---add-new-acl-rule
+        ac.setType(user.getType()); // https://github.com/nextcloud/deck/blob/master/docs/API.md#post-boardsboardidacl---add-new-acl-rule
         ac.setUserId(user.getLocalId());
         ac.setUser(user);
         accessControlViewModel.createAccessControl(account, ac, new IResponseCallback<>() {

@@ -19,6 +19,7 @@ public class UserDaoTest extends AbstractDaoTest {
         final var userToCreate = new User();
         userToCreate.setDisplayname("Test Tester");
         userToCreate.setUid("test");
+        userToCreate.setType(User.TYPE_USER);
         userToCreate.setAccountId(account.getId());
 
         db.getUserDao().insert(userToCreate);

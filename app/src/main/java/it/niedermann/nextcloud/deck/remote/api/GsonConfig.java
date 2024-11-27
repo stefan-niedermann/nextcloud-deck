@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.remote.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.Strictness;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -55,7 +56,7 @@ public class GsonConfig {
 
         INSTANCE = new GsonBuilder()
                 .setDateFormat(DATE_PATTERN)
-                .setLenient()
+                .setStrictness(Strictness.LENIENT)
                 .registerTypeAdapter(Instant.class,     new GsonUTCInstantAdapter())
                 .registerTypeAdapter(boardList,         new NextcloudArrayDeserializer<>("boards", FullBoard.class))
                 .registerTypeAdapter(board,             new NextcloudDeserializer<>("board", FullBoard.class))
