@@ -23,7 +23,7 @@ public class CardLabelRelationshipProvider implements IRelationshipProvider {
         if (labels== null){
             return;
         }
-        Card card = dataBaseAdapter.getCardByRemoteIdDirectly(accountId, this.card.getId());
+//        Card card = dataBaseAdapter.getCardByRemoteIdDirectly(accountId, this.card.getId());
         for (Label label : labels) {
             Label existingLabel = dataBaseAdapter.getLabelByRemoteIdDirectly(accountId, label.getId());
             if (existingLabel != null) { // maybe not synced yet, skipping this time. next sync will be able to push it up
@@ -37,7 +37,7 @@ public class CardLabelRelationshipProvider implements IRelationshipProvider {
 
     @Override
     public void deleteAllExisting(DataBaseAdapter dataBaseAdapter, long accountId) {
-        Card card = dataBaseAdapter.getCardByRemoteIdDirectly(accountId, this.card.getId());
+//        Card card = dataBaseAdapter.getCardByRemoteIdDirectly(accountId, this.card.getId());
         dataBaseAdapter.deleteJoinedLabelsForCard(card.getLocalId());
     }
 }

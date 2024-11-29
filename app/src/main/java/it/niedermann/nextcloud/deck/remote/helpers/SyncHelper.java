@@ -26,7 +26,6 @@ import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.remote.helpers.providers.AbstractSyncDataProvider;
 import it.niedermann.nextcloud.deck.remote.helpers.providers.IRelationshipProvider;
-import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
 import okhttp3.Headers;
 
 public class SyncHelper {
@@ -77,7 +76,7 @@ public class SyncHelper {
 
                         if (existingEntity == null) {
                             try {
-                                ExecutorServiceProvider.awaitExecution(() -> provider.createInDB(dataBaseAdapter, accountId, entityFromServer));
+                                provider.createInDB(dataBaseAdapter, accountId, entityFromServer);
                             } catch (SQLiteConstraintException e) {
                                 provider.onInsertFailed(dataBaseAdapter, e, account, accountId, response, entityFromServer);
                                 throw new RuntimeException("ConstraintViolation! Entity: " + provider.getClass().getSimpleName()+"\n"
