@@ -57,7 +57,8 @@ public class RequestHelper {
                 DeckLog.logError(e);
             }
         });
-        DeckLog.log(DeckLog.Severity.DEBUG, "#Executor: " + ExecutorServiceProvider.getLinkedBlockingQueueExecutor().toString());
+        // use this to track Executor load:
+        // DeckLog.log(DeckLog.Severity.DEBUG, "#Executor: " + ExecutorServiceProvider.getLinkedBlockingQueueExecutor().toString());
     }
 
     private static class ResponseConsumer<T> implements Callback<T> {
