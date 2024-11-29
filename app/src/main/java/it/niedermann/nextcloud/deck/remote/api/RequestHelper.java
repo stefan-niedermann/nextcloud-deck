@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -45,8 +47,17 @@ public class RequestHelper {
             this.apiProvider.initSsoApi(callback::onError);
         }
 
-        final var cb = new ResponseConsumer<>(this.apiProvider.getContext(), callback);
-        ExecutorServiceProvider.getLinkedBlockingQueueExecutor().submit(() -> callProvider.get().enqueue(cb));
+        final CountDownLatch latch = new CountDownLatch(1);
+        final var cb = new ResponseConsumer<>(this.apiProvider.getContext(), callback, latch);
+        ExecutorServiceProvider.getLinkedBlockingQueueExecutor().submit(() -> {
+            callProvider.get().enqueue(cb);
+            try {
+                latch.await(20, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                DeckLog.logError(e);
+            }
+        });
+        DeckLog.log(DeckLog.Severity.DEBUG, "#Executor: " + ExecutorServiceProvider.getLinkedBlockingQueueExecutor().toString());
     }
 
     private static class ResponseConsumer<T> implements Callback<T> {
@@ -54,16 +65,20 @@ public class RequestHelper {
         private final Context context;
         @NonNull
         private final ResponseCallback<T> callback;
+        @NonNull
+        private final CountDownLatch latch;
 
-        private ResponseConsumer(@NonNull Context context, @NonNull ResponseCallback<T> callback) {
+        private ResponseConsumer(@NonNull Context context, @NonNull ResponseCallback<T> callback, @NonNull CountDownLatch latch) {
             this.context = context;
             this.callback = callback;
+            this.latch = latch;
         }
 
         @Override
         public void onResponse(@NonNull Call<T> call, Response<T> response) {
             if (response.isSuccessful()) {
                 T responseObject = response.body();
+                latch.countDown();
                 callback.fillAccountIDs(responseObject);
                 callback.onResponse(responseObject, response.headers());
             } else {
@@ -92,6 +107,7 @@ public class RequestHelper {
         @Override
         public void onFailure(@NonNull Call<T> call, @NonNull Throwable t) {
             DeckLog.logError(t);
+            latch.countDown();
             callback.onError(ServerCommunicationErrorHandler.translateError(t));
         }
     }
