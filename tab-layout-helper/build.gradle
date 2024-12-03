@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdk 34
+    compileSdk 35
     namespace 'it.niedermann.android.tablayouthelper'
 
     defaultConfig {
         minSdk 22
-        targetSdk 34
+        targetSdk 35
     }
 }
 
