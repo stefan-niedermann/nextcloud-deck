@@ -23,6 +23,11 @@
             android:summary="@string/settings_compress_image_attachments_summary"
             android:title="@string/settings_compress_image_attachments"
             app:defaultValue="true" />
+
+        <ListPreference
+            android:key="@string/pref_key_push_notifications"
+            android:icon="@drawable/ic_notifications_24"
+            android:title="@string/settings_push_notifications" />
     </it.niedermann.nextcloud.deck.ui.theme.ThemedPreferenceCategory>
 
     <it.niedermann.nextcloud.deck.ui.theme.ThemedPreferenceCategory android:title="@string/simple_appearance">

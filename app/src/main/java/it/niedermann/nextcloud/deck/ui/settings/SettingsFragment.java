@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.deck.ui.settings;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
@@ -26,6 +28,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private Account account;
     private PreferencesViewModel preferencesViewModel;
     private ThemedSwitchPreference wifiOnlyPref;
+    private Preference pushNotificationPref;
     private ThemedSwitchPreference compactPref;
     private ThemedSwitchPreference coverImagesPref;
     private ThemedSwitchPreference compressImageAttachmentsPref;
@@ -51,6 +54,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         preferencesViewModel = new ViewModelProvider(requireActivity()).get(PreferencesViewModel.class);
 
         wifiOnlyPref = findPreference(getString(R.string.pref_key_wifi_only));
+        pushNotificationPref = findPreference(getString(R.string.pref_key_push_notifications));
         coverImagesPref = findPreference(getString(R.string.pref_key_cover_images));
         compactPref = findPreference(getString(R.string.pref_key_compact));
         compressImageAttachmentsPref = findPreference(getString(R.string.pref_key_compress_image_attachments));
@@ -75,6 +79,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             });
         } else {
             DeckLog.error("Could not find preference with key", getString(R.string.pref_key_background_sync));
+        }
+
+        final var pushNotificationPref = findPreference(getString(R.string.pref_key_push_notifications));
+        if (pushNotificationPref != null) {
+            pushNotificationPref.setOnPreferenceClickListener(preference -> {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_faq_push_notifications))));
+                return true;
+            });
+        } else {
+            DeckLog.error("Could not find preference with key", getString(R.string.pref_key_push_notifications));
         }
 
         final var themePref = findPreference(getString(R.string.pref_key_dark_theme));

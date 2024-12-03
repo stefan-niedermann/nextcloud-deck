@@ -110,6 +110,7 @@
     <string name="url_fragment_share_card_pre_1_0_0" translatable="false">/index.php/apps/deck/#!/board/%1$d/card/%2$d</string>
     <string name="url_fragment_share_card_since_1_0_0" translatable="false">/index.php/apps/deck/#/board/%1$d/card/%2$d</string>
     <string name="url_fragment_share_card_since_1_12_0" translatable="false">/index.php/apps/deck/board/%1$d/card/%2$d</string>
+    <string name="url_faq_push_notifications" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck/blob/master/FAQ.md#how-to-receive-notifications-when-a-due-date-is-reached</string>
 
     <string name="card_edit_details">Details</string>
     <string name="card_edit_attachments">Attachments</string>
@@ -144,6 +145,7 @@
     <string name="settings_etags">Use ETags</string>
     <string name="settings_etags_summary">Speeds up synchronization</string>
     <string name="settings_background_sync">Background synchronization</string>
+    <string name="settings_push_notifications">Push notifications</string>
     <string name="settings_compress_image_attachments">Compress images on upload</string>
     <string name="search_in">Search in %1$s</string>
     <string name="settings_compress_image_attachments_summary">Faster upload, less quality</string>
