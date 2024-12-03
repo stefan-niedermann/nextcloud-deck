@@ -1,2 +1,4 @@
 - 🔔 Add link to push notification section of the FAQ
-- 🐞 card's description of shared boards invisible with read only permission (#1635) by @Ornanovitch
+- 🐞 Fix card's description of shared boards being invisible with read only permission (#1635) by @Ornanovitch
+- 🐞 Prevent Duplicated cards after offline mode (#1503)
+- 🐞 Fix various crashes and NullPointerExceptions (#1657)
