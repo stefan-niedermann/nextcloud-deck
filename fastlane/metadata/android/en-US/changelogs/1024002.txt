@@ -1,1 +1,2 @@
 - 🔔 Add link to push notification section of the FAQ
+- 🐞 card's description of shared boards invisible with read only permission (#1635) by @Ornanovitch
