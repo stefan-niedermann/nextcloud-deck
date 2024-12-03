@@ -7,7 +7,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.7.2'
+        classpath 'com.android.tools.build:gradle:8.7.3'
         //noinspection DifferentKotlinGradleVersion
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.0"
 
@@ -25,11 +25,13 @@ allprojects {
 }
 
 subprojects {
-    tasks.withType(Test) {
-        maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+    tasks.withType(Test).tap {
+        configureEach {
+            maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+        }
     }
 }
 
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }

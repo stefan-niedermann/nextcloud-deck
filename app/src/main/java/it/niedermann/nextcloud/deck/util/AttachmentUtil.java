@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.Px;
 
+import com.nextcloud.android.sso.FilesAppTypeRegistry;
 import com.nextcloud.android.sso.helper.VersionCheckHelper;
-import com.nextcloud.android.sso.model.FilesAppType;
 
 import java.util.Optional;
 
@@ -115,7 +115,7 @@ public class AttachmentUtil {
 
         final var packageManager = context.getPackageManager();
 
-        for (final var type : FilesAppType.values()) {
+        for (final var type : FilesAppTypeRegistry.getInstance().getTypes()) {
             try {
                 if (VersionCheckHelper.getNextcloudFilesVersionCode(context, type) > 30110000) {
                     final var intent = new Intent(Intent.ACTION_VIEW)
