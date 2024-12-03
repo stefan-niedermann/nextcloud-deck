@@ -12,7 +12,9 @@ import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.net.HttpURLConnection;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.CountDownLatch;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -24,10 +26,12 @@ import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.remote.helpers.providers.AbstractSyncDataProvider;
 import it.niedermann.nextcloud.deck.remote.helpers.providers.IRelationshipProvider;
-import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
 import okhttp3.Headers;
 
 public class SyncHelper {
+    // entity-class -> id if entity
+    private static final HashMap<Class<? extends IRemoteEntity>, ConcurrentSkipListSet<Long>> CURRENTLY_IN_UPSYNC = new HashMap<>();
+
     @NonNull
     private final ServerAdapter serverAdapter;
     @NonNull
@@ -72,7 +76,7 @@ public class SyncHelper {
 
                         if (existingEntity == null) {
                             try {
-                                ExecutorServiceProvider.awaitExecution(() -> provider.createInDB(dataBaseAdapter, accountId, entityFromServer));
+                                provider.createInDB(dataBaseAdapter, accountId, entityFromServer);
                             } catch (SQLiteConstraintException e) {
                                 provider.onInsertFailed(dataBaseAdapter, e, account, accountId, response, entityFromServer);
                                 throw new RuntimeException("ConstraintViolation! Entity: " + provider.getClass().getSimpleName()+"\n"
@@ -156,13 +160,20 @@ public class SyncHelper {
     public <T extends IRemoteEntity> void doUpSyncFor(@NonNull AbstractSyncDataProvider<T> provider, @Nullable CountDownLatch countDownLatch) {
         final List<T> allFromDB = provider.getAllChangedFromDB(dataBaseAdapter, accountId, lastSync);
         if (allFromDB != null && !allFromDB.isEmpty()) {
+            Class<? extends IRemoteEntity> classOfEntity = allFromDB.get(0).getClass();
+            ConcurrentSkipListSet<Long> idsInSync = CURRENTLY_IN_UPSYNC.get(classOfEntity);
+            if (idsInSync == null) {
+                idsInSync = new ConcurrentSkipListSet<>();
+                CURRENTLY_IN_UPSYNC.put(classOfEntity, idsInSync);
+            }
             for (T entity : allFromDB) {
+                if (idsInSync.contains(entity.getLocalId())){
+                    continue;
+                }
+                idsInSync.add(entity.getLocalId());
                 if (entity.getId() != null) {
                     if (entity.getStatusEnum() == DBStatus.LOCAL_DELETED) {
-                        provider.deleteOnServer(serverAdapter, accountId, getDeleteCallback(provider, entity), entity, dataBaseAdapter);
-                        if (countDownLatch != null) {
-                            countDownLatch.countDown();
-                        }
+                        provider.deleteOnServer(serverAdapter, accountId, getDeleteCallback(provider, entity, countDownLatch), entity, dataBaseAdapter);
                     } else {
                         provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, getUpdateCallback(provider, entity, countDownLatch), entity);
                     }
@@ -178,18 +189,20 @@ public class SyncHelper {
         }
     }
 
-    private <T extends IRemoteEntity> ResponseCallback<EmptyResponse> getDeleteCallback(@NonNull AbstractSyncDataProvider<T> provider, T entity) {
+    private <T extends IRemoteEntity> ResponseCallback<EmptyResponse> getDeleteCallback(@NonNull AbstractSyncDataProvider<T> provider, T entity, @Nullable CountDownLatch countDownLatch) {
         return new ResponseCallback<>(account) {
             @Override
             public void onResponse(EmptyResponse response, Headers headers) {
                 provider.deletePhysicallyInDB(dataBaseAdapter, accountId, entity);
-                provider.goDeeperForUpSync(SyncHelper.this, serverAdapter, dataBaseAdapter, responseCallback);
+                provider.goDeeperForUpSync(SyncHelper.this, serverAdapter, dataBaseAdapter, responseCallback);;
+                doneWithUpsync(countDownLatch, entity);
             }
 
             @Override
             public void onError(Throwable throwable) {
                 super.onError(throwable);
-                responseCallback.onError(throwable);
+                responseCallback.onError(throwable);;
+                doneWithUpsync(countDownLatch, entity);
             }
         };
     }
@@ -204,20 +217,27 @@ public class SyncHelper {
                 update.setStatus(DBStatus.UP_TO_DATE.getId());
                 provider.updateInDB(dataBaseAdapter, accountId, update, false);
                 provider.goDeeperForUpSync(SyncHelper.this, serverAdapter, dataBaseAdapter, responseCallback);
-                if (countDownLatch != null) {
-                    countDownLatch.countDown();
-                }
+
+                doneWithUpsync(countDownLatch, entity);
             }
 
             @Override
             public void onError(Throwable throwable) {
                 super.onError(throwable);
                 responseCallback.onError(throwable);
-                if (countDownLatch != null) {
-                    countDownLatch.countDown();
-                }
+                doneWithUpsync(countDownLatch, entity);
             }
         };
+    }
+
+    private <T extends IRemoteEntity> void doneWithUpsync(CountDownLatch countDownLatch, T entity) {
+        if (countDownLatch != null) {
+            countDownLatch.countDown();
+        }
+        ConcurrentSkipListSet<Long> idsInSync = CURRENTLY_IN_UPSYNC.get(entity.getClass());
+        if (idsInSync != null) {
+            idsInSync.remove(entity.getLocalId());
+        }
     }
 
     public void fixRelations(@NonNull IRelationshipProvider relationshipProvider) {

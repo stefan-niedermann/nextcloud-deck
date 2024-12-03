@@ -22,7 +22,7 @@ public class CardUserRelationshipProvider implements IRelationshipProvider {
         if (users == null){
             return;
         }
-        Card card = dataBaseAdapter.getCardByRemoteIdDirectly(accountId, this.card.getId());
+//        Card card = dataBaseAdapter.getCardByRemoteIdDirectly(accountId, this.card.getId());
         for (User user : users){
             User existingUser = dataBaseAdapter.getUserByUidDirectly(accountId, user.getUid());
             JoinCardWithUser existingJoin = dataBaseAdapter.getJoinCardWithUser(existingUser.getLocalId(), card.getLocalId());
@@ -34,7 +34,7 @@ public class CardUserRelationshipProvider implements IRelationshipProvider {
 
     @Override
     public void deleteAllExisting(DataBaseAdapter dataBaseAdapter, long accountId) {
-        Card card = dataBaseAdapter.getCardByRemoteIdDirectly(accountId, this.card.getId());
+//        Card card = dataBaseAdapter.getCardByRemoteIdDirectly(accountId, this.card.getId());
         dataBaseAdapter.deleteJoinedUsersForCard(card.getLocalId());
     }
 }

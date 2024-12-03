@@ -8,6 +8,7 @@
 - [Why don't you make an option for…?](#why-dont-you-make-an-option-for)
 - [Why don't you make an iOS app?](#why-dont-you-make-an-ios-app)
 - [How to receive notifications when a due date is reached?](#how-to-receive-notifications-when-a-due-date-is-reached)
+- [Using the DEV App](#using-the-dev-app)
 
 ## I have experienced an error
 
@@ -115,3 +116,23 @@ In order to make this all work, you will need two things:
     - Choose "settings" and then "activities" in the left sidebar.
     - Enable the checkbox `Changes in the Deck app`
        ![Enable push notifications for Deck](https://user-images.githubusercontent.com/4741199/125485987-398f3ee8-f59c-4234-8453-1da679d4d7c5.png)
+
+## Using the DEV app
+
+Sometimes we provide a DEV app for testing purposes, mostly related to an issue. Here's some further information:
+
+- We provide a link to an Artifact built by GitHub 
+  - The link should look something like this: https://github.com/stefan-niedermann/nextcloud-deck/actions/runs/[NUMBER]/artifacts/[NUMBER] 
+  - Please make sure you download the APK from trusted sources only. 
+- Download the APK file and install it
+  - In most cases your phone will refuse to install the APK right away, unless you explicitly trust the source
+  - We recommend to allow APK installations by unknown sources **temporarily only**, it's best to remove the permission afterwards
+  - To do so, just follow the instructions of the dialog that came up
+- The app will install **beside** your actual app
+  - You end up with two Deck apps
+  - The DEV app will have a "DEV" label on its icon
+- Open the DEV app
+  - As it is a fresh installation, you will need to import your boards
+  - To do so, select the account you want to test on and let the app do the initial sync
+- Test whatever you want to test
+- And maybe provide some feedback ;)

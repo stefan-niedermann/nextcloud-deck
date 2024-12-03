@@ -29,6 +29,7 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.ocs.user.UserForAssignment;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
@@ -41,6 +42,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     private static final String ALREADY_ARCHIVED_INDICATOR = "Operation not allowed. This card is archived.";
     // see https://github.com/stefan-niedermann/nextcloud-deck/issues/1073
     private static final Set<JoinCardWithLabel> LABEL_JOINS_IN_SYNC = Collections.synchronizedSet(new HashSet<>());
+    private static final Set<JoinCardWithUser> USER_JOINS_IN_SYNC = Collections.synchronizedSet(new HashSet<>());
     protected Board board;
     protected FullStack stack;
 
@@ -338,19 +340,33 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             }
             User user = dataBaseAdapter.getUserByLocalIdDirectly(changedUser.getUserId());
             if (changedUser.getStatusEnum() == DBStatus.LOCAL_DELETED) {
-                serverAdapter.unassignUserFromCard(board.getId(), stack.getId(), changedUser.getCardId(), user.getUid(), new ResponseCallback<>(account) {
+                UserForAssignment userForAssignment = dataBaseAdapter.getUserForAssignmentDirectly(changedUser.getUserId());
+
+                serverAdapter.unassignUserFromCard(board.getId(), stack.getId(), changedUser.getCardId(), userForAssignment, new ResponseCallback<>(account) {
                     @Override
                     public void onResponse(EmptyResponse response, Headers headers) {
                         dataBaseAdapter.deleteJoinedUserForCardPhysicallyByRemoteIDs(account.getId(), changedUser.getCardId(), user.getUid());
                     }
                 });
             } else if (changedUser.getStatusEnum() == DBStatus.LOCAL_EDITED) {
-                serverAdapter.assignUserToCard(board.getId(), stack.getId(), changedUser.getCardId(), user.getUid(), new ResponseCallback<>(account) {
-                    @Override
-                    public void onResponse(EmptyResponse response, Headers headers) {
-                        dataBaseAdapter.setStatusForJoinCardWithUser(card.getLocalId(), user.getLocalId(), DBStatus.UP_TO_DATE.getId());
-                    }
-                });
+                if (!USER_JOINS_IN_SYNC.contains(changedUser)) {
+                    USER_JOINS_IN_SYNC.add(changedUser);
+                    UserForAssignment userForAssignment = dataBaseAdapter.getUserForAssignmentDirectly(changedUser.getUserId());
+
+                    serverAdapter.assignUserToCard(board.getId(), stack.getId(), changedUser.getCardId(), userForAssignment, new ResponseCallback<>(account) {
+                        @Override
+                        public void onResponse(EmptyResponse response, Headers headers) {
+                            dataBaseAdapter.setStatusForJoinCardWithUser(card.getLocalId(), user.getLocalId(), DBStatus.UP_TO_DATE.getId());
+                            USER_JOINS_IN_SYNC.remove(changedUser);
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            super.onError(throwable);
+                            USER_JOINS_IN_SYNC.remove(changedUser);
+                        }
+                    });
+                }
             }
         }
 

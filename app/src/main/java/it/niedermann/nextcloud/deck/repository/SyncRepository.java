@@ -58,6 +58,7 @@ import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
+import it.niedermann.nextcloud.deck.model.ocs.user.UserForAssignment;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.remote.api.GsonConfig;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
@@ -1240,7 +1241,9 @@ public class SyncRepository extends BaseRepository {
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
             if (connectivityUtil.hasInternetConnection()) {
-                serverAdapter.assignUserToCard(board.getId(), stack.getId(), card.getId(), user.getUid(), new ResponseCallback<>(account) {
+                UserForAssignment userForAssignment = dataBaseAdapter.getUserForAssignmentDirectly(user.getLocalId());
+
+                serverAdapter.assignUserToCard(board.getId(), stack.getId(), card.getId(), userForAssignment, new ResponseCallback<>(account) {
 
                     @Override
                     public void onResponse(EmptyResponse response, Headers headers) {
@@ -1306,7 +1309,9 @@ public class SyncRepository extends BaseRepository {
                 Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
                 Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
                 Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
-                serverAdapter.unassignUserFromCard(board.getId(), stack.getId(), card.getId(), user.getUid(), new ResponseCallback<>(account) {
+                UserForAssignment userForAssignment = dataBaseAdapter.getUserForAssignmentDirectly(user.getLocalId());
+
+                serverAdapter.assignUserToCard(board.getId(), stack.getId(), card.getId(), userForAssignment, new ResponseCallback<>(account) {
                     @Override
                     public void onResponse(EmptyResponse response, Headers headers) {
                         dataBaseAdapter.deleteJoinedUserForCardPhysically(card.getLocalId(), user.getLocalId());
@@ -1330,8 +1335,21 @@ public class SyncRepository extends BaseRepository {
                         newUser.setStatus(DBStatus.UP_TO_DATE.getId());
                         newUser.setPrimaryKey(user.getId());
                         newUser.setUid(user.getId());
+                        newUser.setType(User.TYPE_USER);
                         newUser.setDisplayname(user.getDisplayName());
                         dataBaseAdapter.createUser(account.getId(), newUser);
+                    }
+                }
+                for (var group : response.getGroups()) {
+                    final var existingGroup = dataBaseAdapter.getUserByUidDirectly(account.getId(), group.getId());
+                    if (existingGroup == null) {
+                        User newGroup = new User();
+                        newGroup.setStatus(DBStatus.UP_TO_DATE.getId());
+                        newGroup.setPrimaryKey(group.getId());
+                        newGroup.setUid(group.getId());
+                        newGroup.setType(User.TYPE_GROUP);
+                        newGroup.setDisplayname(group.getDisplayName());
+                        dataBaseAdapter.createUser(account.getId(), newGroup);
                     }
                 }
             }

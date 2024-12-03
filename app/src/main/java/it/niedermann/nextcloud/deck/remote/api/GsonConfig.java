@@ -2,12 +2,14 @@ package it.niedermann.nextcloud.deck.remote.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.Strictness;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
@@ -50,10 +52,11 @@ public class GsonConfig {
         Type comment = new TypeToken<OcsComment>() {}.getType();
         Type projectList = new TypeToken<OcsProjectList>() {}.getType();
         Type groupMembers = new TypeToken<GroupMemberUIDs>() {}.getType();
+        Type accessControl = new TypeToken<AccessControl>() {}.getType();
 
         INSTANCE = new GsonBuilder()
                 .setDateFormat(DATE_PATTERN)
-                .setLenient()
+                .setStrictness(Strictness.LENIENT)
                 .registerTypeAdapter(Instant.class,     new GsonUTCInstantAdapter())
                 .registerTypeAdapter(boardList,         new NextcloudArrayDeserializer<>("boards", FullBoard.class))
                 .registerTypeAdapter(board,             new NextcloudDeserializer<>("board", FullBoard.class))
@@ -73,6 +76,7 @@ public class GsonConfig {
                 .registerTypeAdapter(comment,           new NextcloudDeserializer<>("comment", OcsComment.class))
                 .registerTypeAdapter(projectList,       new NextcloudDeserializer<>("projectList", OcsProjectList.class))
                 .registerTypeAdapter(groupMembers,      new NextcloudDeserializer<>("groupMembers", GroupMemberUIDs.class))
+                .registerTypeAdapter(accessControl,      new NextcloudDeserializer<>("accessControl", AccessControl.class))
                 .create();
     }
 

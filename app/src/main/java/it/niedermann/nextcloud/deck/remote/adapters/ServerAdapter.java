@@ -36,6 +36,7 @@ import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectList;
 import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
+import it.niedermann.nextcloud.deck.model.ocs.user.UserForAssignment;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.model.propagation.Reorder;
 import it.niedermann.nextcloud.deck.remote.api.ApiProvider;
@@ -197,12 +198,12 @@ public class ServerAdapter {
         this.requestHelper.request(() -> provider.getDeckAPI().updateCard(boardId, stackId, card.getId(), card), responseCallback);
     }
 
-    public void assignUserToCard(long boardId, long stackId, long cardId, String userUID, @NonNull ResponseCallback<EmptyResponse> responseCallback) {
-        this.requestHelper.request(() -> provider.getDeckAPI().assignUserToCard(boardId, stackId, cardId, userUID), responseCallback);
+    public void assignUserToCard(long boardId, long stackId, long cardId, UserForAssignment userAssignment,  @NonNull ResponseCallback<EmptyResponse> responseCallback) {
+        this.requestHelper.request(() -> provider.getDeckAPI().assignUserToCard(boardId, stackId, cardId, userAssignment), responseCallback);
     }
 
-    public void unassignUserFromCard(long boardId, long stackId, long cardId, String userUID, @NonNull ResponseCallback<EmptyResponse> responseCallback) {
-        this.requestHelper.request(() -> provider.getDeckAPI().unassignUserFromCard(boardId, stackId, cardId, userUID), responseCallback);
+    public void unassignUserFromCard(long boardId, long stackId, long cardId, UserForAssignment userAssignment, @NonNull ResponseCallback<EmptyResponse> responseCallback) {
+        this.requestHelper.request(() -> provider.getDeckAPI().unassignUserFromCard(boardId, stackId, cardId, userAssignment), responseCallback);
     }
 
     public void assignLabelToCard(long boardId, long stackId, long cardId, long labelId, @NonNull ResponseCallback<EmptyResponse> responseCallback) {

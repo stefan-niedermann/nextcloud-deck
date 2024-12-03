@@ -77,6 +77,7 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.projects.JoinCardWithProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
+import it.niedermann.nextcloud.deck.model.ocs.user.UserForAssignment;
 import it.niedermann.nextcloud.deck.model.relations.UserInBoard;
 import it.niedermann.nextcloud.deck.model.relations.UserInGroup;
 import it.niedermann.nextcloud.deck.model.widget.filter.EWidgetType;
@@ -94,7 +95,6 @@ import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
 import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
-import okhttp3.Headers;
 
 public class DataBaseAdapter {
     @NonNull
@@ -423,6 +423,16 @@ public class DataBaseAdapter {
         notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.USER, user.getLocalId());
     }
 
+    @WorkerThread
+    public UserForAssignment getUserForAssignmentDirectly(long localUserId) {
+        SimpleSQLiteQuery query = new SimpleSQLiteQuery(
+                "SELECT u.type as type, u.uid as userId " +
+                        "FROM User u " +
+                        " WHERE u.localId = ? LIMIT 1",
+                new Object[]{localUserId});
+        return db.getUserInGroupDao().getUserForAssignment(query);
+    }
+
     @UiThread
     public LiveData<Label> getLabelByRemoteId(long accountId, long remoteId) {
         return new ReactiveLiveData<>(db.getLabelDao().getLabelByRemoteId(accountId, remoteId))
@@ -483,6 +493,10 @@ public class DataBaseAdapter {
 
     public void deleteJoinedUserForCardPhysically(long localCardId, long localUserId) {
         db.getJoinCardWithUserDao().deleteByCardIdAndUserIdPhysically(localCardId, localUserId);
+    }
+
+    public void deleteJoinedUsersForCardsInBoardWithoutPermissionPhysically(long localBoardId) {
+        db.getJoinCardWithUserDao().deleteJoinedUsersForCardsInBoardWithoutPermissionPhysically(localBoardId);
     }
 
     public void createJoinCardWithUser(long localUserId, long localCardId) {
@@ -829,6 +843,11 @@ public class DataBaseAdapter {
             db.getAccessControlDao().delete(entity);
         }
         notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.ACCOUNT, entity.getAccountId());
+    }
+
+    public void deleteAccessControlsForBoardWhereLocalIdsNotInDirectly(Long localBoardId, Set<Long> idsToKeep) {
+        db.getAccessControlDao().deleteAccessControlsForBoardWhereLocalIdsNotInDirectly(localBoardId, idsToKeep);
+        notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.BOARD, localBoardId);
     }
 
     public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {

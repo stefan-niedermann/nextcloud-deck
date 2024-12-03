@@ -15,6 +15,7 @@ import it.niedermann.nextcloud.deck.model.enums.EAttachmentType;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.ocs.user.UserForAssignment;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.model.propagation.Reorder;
 import okhttp3.MultipartBody;
@@ -105,11 +106,11 @@ public interface DeckAPI {
 
     @FormUrlEncoded
     @PUT("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/assignUser")
-    Call<EmptyResponse> assignUserToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("userId") String userUID);
+    Call<EmptyResponse> assignUserToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body() UserForAssignment assignment);
 
     @FormUrlEncoded
     @PUT("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/unassignUser")
-    Call<EmptyResponse> unassignUserFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("userId") String userUID);
+    Call<EmptyResponse> unassignUserFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body() UserForAssignment assignment);
 
     @PUT("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/reorder")
     Call<List<FullCard>> moveCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Reorder reorder);
