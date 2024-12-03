@@ -123,7 +123,7 @@
                 android:textIsSelectable="true"
                 android:textSize="@dimen/font_size_description"
                 android:translationY="1dp"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <ImageButton
                 android:id="@+id/descriptionToggle"
