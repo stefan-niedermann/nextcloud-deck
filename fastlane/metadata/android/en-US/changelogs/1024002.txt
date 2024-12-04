@@ -2,3 +2,4 @@
 - 🐞 Fix card's description of shared boards being invisible with read only permission (#1635) by @Ornanovitch
 - 🐞 Prevent Duplicated cards after offline mode (#1503)
 - 🐞 Fix various crashes and NullPointerExceptions (#1657)
+- 🐞 Starting activity from TileService using an Intent is not allowed (#1672)
