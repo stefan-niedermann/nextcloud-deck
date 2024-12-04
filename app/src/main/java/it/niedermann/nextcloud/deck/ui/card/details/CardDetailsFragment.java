@@ -149,11 +149,12 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
     }
 
     private void setupDescription() {
+        binding.descriptionViewer.setMovementMethod(LinkMovementMethod.getInstance());
+        binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
+
         if (viewModel.canEdit()) {
-            binding.descriptionViewer.setMovementMethod(LinkMovementMethod.getInstance());
 
             binding.descriptionEditor.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
-            binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
 
             viewModel.getDescriptionMode().observe(getViewLifecycleOwner(), (isPreviewMode) -> {
                 if (isPreviewMode) {
@@ -174,19 +175,16 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
 
             registerEditorListener(binding.descriptionEditor);
             registerEditorListener(binding.descriptionViewer);
+
         } else {
-            binding.descriptionViewer.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
 
             binding.descriptionEditor.setEnabled(false);
             binding.descriptionEditorWrapper.setVisibility(GONE);
+
             binding.descriptionViewer.setEnabled(true);
             binding.descriptionViewer.setVisibility(VISIBLE);
 
-            viewModel.descriptionChangedFromExternal().observe(getViewLifecycleOwner(), description -> {
-                binding.descriptionViewer.setMarkdownString(description);
-            });
-
-            registerEditorListener(binding.descriptionViewer);
+            viewModel.descriptionChangedFromExternal().observe(getViewLifecycleOwner(), description -> binding.descriptionViewer.setMarkdownString(description));
         }
     }
 
