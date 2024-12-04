@@ -126,6 +126,7 @@
     <string name="settings_etags">Użyj ETagów</string>
     <string name="settings_etags_summary">Przyspiesza synchronizację</string>
     <string name="settings_background_sync">Synchronizacja w tle</string>
+    <string name="settings_push_notifications">Powiadomienia Push</string>
     <string name="settings_compress_image_attachments">Kompresuj obrazy podczas wysyłania</string>
     <string name="search_in">Szukaj w %1$s</string>
     <string name="settings_compress_image_attachments_summary">Szybsze wysyłanie, niższa jakość</string>

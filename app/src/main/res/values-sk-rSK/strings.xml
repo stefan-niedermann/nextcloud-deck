@@ -126,6 +126,7 @@
     <string name="settings_etags">Použiť ETagy</string>
     <string name="settings_etags_summary">Urýchliť synchronizáciu</string>
     <string name="settings_background_sync">Synchronizácia na pozadí</string>
+    <string name="settings_push_notifications">Push notifikácie</string>
     <string name="settings_compress_image_attachments">Komprimovať obázky pri nahrávaní</string>
     <string name="search_in">Hľadať v %1$s</string>
     <string name="settings_compress_image_attachments_summary">Rýchlejšie nahrávanie, menšia kvalita</string>

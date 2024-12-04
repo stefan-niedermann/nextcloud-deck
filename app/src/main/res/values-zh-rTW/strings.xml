@@ -120,6 +120,7 @@
     <string name="settings_etags">使用 ETag</string>
     <string name="settings_etags_summary">加快同步</string>
     <string name="settings_background_sync">背景同步</string>
+    <string name="settings_push_notifications">推播通知</string>
     <string name="settings_compress_image_attachments">壓縮上傳圖片</string>
     <string name="search_in">在 %1$s 中搜尋</string>
     <string name="settings_compress_image_attachments_summary">上傳速度更快，畫質較差</string>

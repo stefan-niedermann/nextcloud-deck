@@ -118,6 +118,7 @@
     <string name="settings_etags">Gunakan ETag</string>
     <string name="settings_etags_summary">Meningkatkan kecepatan sinkronisasi</string>
     <string name="settings_background_sync">Sinkronisasi latar belakang</string>
+    <string name="settings_push_notifications">Notifikasi push</string>
     <string name="settings_compress_image_attachments">Kompresikan gambar saat diunggah</string>
     <string name="search_in">Cari di %1$s</string>
     <string name="settings_compress_image_attachments_summary">Unggahan lebih cepat, kualitas lebih rendah</string>

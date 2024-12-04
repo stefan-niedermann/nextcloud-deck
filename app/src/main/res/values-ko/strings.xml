@@ -119,6 +119,7 @@
     <string name="settings_etags">ETag 사용</string>
     <string name="settings_etags_summary">동기화 속도 향샹</string>
     <string name="settings_background_sync">백그라운드 동기화</string>
+    <string name="settings_push_notifications">푸쉬 알림</string>
     <string name="settings_compress_image_attachments">업로드 시 이미지 압축</string>
     <string name="search_in">%1$s 에서 검색</string>
     <string name="settings_compress_image_attachments_summary">더 빠른 업로드, 낮은 품질</string>

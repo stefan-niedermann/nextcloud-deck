@@ -106,6 +106,7 @@
     <string name="settings_theme_title">Tema</string>
     <string name="settings_compact_title">Kompakt tilstand</string>
     <string name="settings_background_sync">Synkronisering i baggrunden</string>
+    <string name="settings_push_notifications">Pushbeskeder</string>
     <string name="search_in">Søg i %1$s</string>
     <string name="pref_value_wifi_and_mobile">Synk på Wi-Fi og mobil data</string>
     <string name="pref_value_wifi_only">Synk kun på Wi-Fi</string>

@@ -113,6 +113,7 @@
     <string name="settings_etags">Käytä ETageja</string>
     <string name="settings_etags_summary">Nopeuttaa synkronointia</string>
     <string name="settings_background_sync">Taustasynkronointi</string>
+    <string name="settings_push_notifications">Push-ilmoitukset</string>
     <string name="settings_compress_image_attachments">Pakkaa kuvat lähettäessä</string>
     <string name="search_in">Etsi luokasta %1$s</string>
     <string name="settings_compress_image_attachments_summary">Nopeampi lähetys, heikompi laatu</string>

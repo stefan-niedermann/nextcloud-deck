@@ -122,6 +122,7 @@
     <string name="settings_etags">Använd ETags</string>
     <string name="settings_etags_summary">Snabba upp synkroniseringen</string>
     <string name="settings_background_sync">Bakgrundssynkronisering</string>
+    <string name="settings_push_notifications">Push-aviseringar</string>
     <string name="settings_compress_image_attachments">Komprimera bilder vid uppladdning</string>
     <string name="search_in">Sök i %1$s</string>
     <string name="settings_compress_image_attachments_summary">Snabbare uppladdning, lägre kvalitet</string>

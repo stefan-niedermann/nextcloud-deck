@@ -126,6 +126,7 @@
     <string name="settings_etags">Использовать ETag</string>
     <string name="settings_etags_summary">Ускоряет синхронизацию</string>
     <string name="settings_background_sync">Синхр. в фоновом режиме</string>
+    <string name="settings_push_notifications">Push-уведомления</string>
     <string name="settings_compress_image_attachments">Сжимать загружаемые изображения</string>
     <string name="search_in">Поиск в %1$s</string>
     <string name="settings_compress_image_attachments_summary">Быстрее загружается, хуже качество</string>

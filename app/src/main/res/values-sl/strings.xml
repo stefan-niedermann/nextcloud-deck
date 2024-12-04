@@ -125,6 +125,7 @@
     <string name="settings_etags">Uporabi oznake ETag</string>
     <string name="settings_etags_summary">Pospeši usklajevanje</string>
     <string name="settings_background_sync"> Usklajevanje v ozadju</string>
+    <string name="settings_push_notifications">Potisna obvestila</string>
     <string name="settings_compress_image_attachments">Stisni slike pri pošiljanju</string>
     <string name="search_in">Poišči v %1$s</string>
     <string name="settings_compress_image_attachments_summary">Hitrejše pošiljanje, a slabša kakovost</string>

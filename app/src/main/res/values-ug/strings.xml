@@ -122,6 +122,7 @@
     <string name="settings_etags">ETags نى ئىشلىتىڭ</string>
     <string name="settings_etags_summary">ماس قەدەمنى تېزلىتىدۇ</string>
     <string name="settings_background_sync">تەگلىك ماس قەدەمدە</string>
+    <string name="settings_push_notifications">ئىتتىرىش ئۇقتۇرۇشى</string>
     <string name="settings_compress_image_attachments">يۈكلەنگەن رەسىملەرنى پىرىسلاش</string>
     <string name="search_in">% 1 $ s دىن ئىزدەڭ</string>
     <string name="settings_compress_image_attachments_summary">تېز يوللاش ، سۈپەتسىز</string>

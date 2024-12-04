@@ -122,6 +122,7 @@
     <string name="settings_etags">Folosește Etag-uri</string>
     <string name="settings_etags_summary">Creste viteza de sincronizare</string>
     <string name="settings_background_sync">Sincronizare de fundal</string>
+    <string name="settings_push_notifications">Notificări push</string>
     <string name="settings_compress_image_attachments">Comprimă imaginile la urcare</string>
     <string name="search_in">Cauta in %1$s</string>
     <string name="settings_compress_image_attachments_summary">Incarcari rapide, calitate mai slaba</string>

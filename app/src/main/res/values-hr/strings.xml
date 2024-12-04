@@ -121,6 +121,7 @@
     <string name="settings_etags">Koristi E-oznake</string>
     <string name="settings_etags_summary">Ubrzava sinkronizaciju</string>
     <string name="settings_background_sync">Pozadinska sinkronizacija</string>
+    <string name="settings_push_notifications">Push obavijesti</string>
     <string name="settings_compress_image_attachments">Komprimiraj slike prije otpreme</string>
     <string name="search_in">Traži u %1$s</string>
     <string name="settings_compress_image_attachments_summary">Brži prijenos, lošija kvaliteta</string>

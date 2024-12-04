@@ -110,6 +110,7 @@
     <string name="delete_board_message">פעולה זו תמחק את הלוח הזה על כל רשימותיו וכרטיסיו.</string>
     <string name="settings_theme_title">ערכת עיצוב</string>
     <string name="settings_background_sync">סנכרון ברקע</string>
+    <string name="settings_push_notifications">התרעות בדחיפה</string>
     <string name="search_in">חיפוש תחת %1$s</string>
     <string name="pref_value_wifi_and_mobile">עדכון דרך רשת אלחוטית ונתונים סלולריים</string>
     <string name="pref_value_wifi_only">סנכרון רק דרך רשת אלחוטית</string>

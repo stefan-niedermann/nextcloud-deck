@@ -102,6 +102,7 @@
     <string name="settings_theme_title">Тема</string>
     <string name="settings_compact_title">Компактен мод</string>
     <string name="settings_background_sync">Синхронизација во позадина</string>
+    <string name="settings_push_notifications">Push известувања</string>
     <string name="pref_value_wifi_and_mobile">Синхронизирај на Wi-Fi и на мобилен интернет</string>
     <string name="pref_value_wifi_only">Синхронизирај само преку Wi-Fi</string>
     <string-array name="darkmode_entries">

@@ -118,6 +118,7 @@
     <string name="settings_etags">Sử dụng ETag</string>
     <string name="settings_etags_summary">Tăng tốc đồng bộ hoá</string>
     <string name="settings_background_sync">Đồng bộ hoá trong nền</string>
+    <string name="settings_push_notifications">Thông báo đẩy</string>
     <string name="settings_compress_image_attachments">Nén hình ảnh khi tải lên</string>
     <string name="search_in">Tìm kiếm trong %1$s</string>
     <string name="settings_compress_image_attachments_summary">Tải lên nhanh hơn, chất lượng thấp hơn</string>

@@ -119,6 +119,7 @@
     <string name="settings_etags">ETagを使用</string>
     <string name="settings_etags_summary">同期を高速化する</string>
     <string name="settings_background_sync">バックグラウンド同期</string>
+    <string name="settings_push_notifications">プッシュ通知</string>
     <string name="settings_compress_image_attachments">アップロード時に画像を圧縮する</string>
     <string name="search_in">%1$sを検索</string>
     <string name="settings_compress_image_attachments_summary">品質の低下を抑え、より高速アップロード</string>

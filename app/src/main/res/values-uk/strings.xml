@@ -123,6 +123,7 @@
     <string name="settings_etags">Використовувати ETags</string>
     <string name="settings_etags_summary">Прискорює синхронізацію</string>
     <string name="settings_background_sync">Фонова синхронізація</string>
+    <string name="settings_push_notifications">Сповіщення push</string>
     <string name="settings_compress_image_attachments">Архівувати зображення під час завантаження</string>
     <string name="search_in">Шукати в %1$s</string>
     <string name="settings_compress_image_attachments_summary">Швидше завантаження, менша якість</string>

@@ -124,6 +124,7 @@
     <string name="settings_etags">Користи ETags</string>
     <string name="settings_etags_summary">Убрзава синхронизацију</string>
     <string name="settings_background_sync">Позадинска синхронизација</string>
+    <string name="settings_push_notifications">Брза обавештења</string>
     <string name="settings_compress_image_attachments">Компресуј слике приликом отпремања</string>
     <string name="search_in">Претражи у %1$s</string>
     <string name="settings_compress_image_attachments_summary">Брже отпремање, мањи квалитет</string>

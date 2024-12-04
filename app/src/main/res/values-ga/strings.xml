@@ -128,6 +128,7 @@
     <string name="settings_etags">Logaí dífhabhtaithe</string>
     <string name="settings_etags_summary">Luasaíonn sé sioncrónú</string>
     <string name="settings_background_sync">Sioncronú cúlra</string>
+    <string name="settings_push_notifications">Fógraí a bhrú</string>
     <string name="settings_compress_image_attachments">Comhbhrúigh íomhánna ar uaslódáil</string>
     <string name="search_in">Cuardaigh i %1$s</string>
     <string name="settings_compress_image_attachments_summary">Uaslódáil níos tapúla, níos lú cáilíochta</string>

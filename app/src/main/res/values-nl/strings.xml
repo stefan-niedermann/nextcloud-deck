@@ -120,6 +120,7 @@
     <string name="settings_etags">Gebruik ETags</string>
     <string name="settings_etags_summary">Versnelt het synchroniseren</string>
     <string name="settings_background_sync">Achtergrond synchronisatie</string>
+    <string name="settings_push_notifications">Push meldingen</string>
     <string name="settings_compress_image_attachments">Afbeeldingen comprimeren bij uploaden</string>
     <string name="search_in">Zoeken in %1$s</string>
     <string name="settings_compress_image_attachments_summary">Snellere upload, lagere kwaliteit</string>

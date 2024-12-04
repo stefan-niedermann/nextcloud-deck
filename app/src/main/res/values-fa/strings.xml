@@ -120,6 +120,7 @@
     <string name="settings_etags">استفاده از ETags</string>
     <string name="settings_etags_summary">هم‌گام‌سازی را سرعت می‌بخشد</string>
     <string name="settings_background_sync">همگام سازی پس زمینه</string>
+    <string name="settings_push_notifications">ارسال اعلانات</string>
     <string name="settings_compress_image_attachments">فشرده‌سازی تصاویر در زمان بارگذاری</string>
     <string name="search_in">جستجو در %1$s</string>
     <string name="settings_compress_image_attachments_summary">بارگذاری سریع‌تر، کیفیت پایین‌تر</string>

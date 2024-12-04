@@ -118,6 +118,7 @@
     <string name="settings_compact_title">Συμπαγής λειτουργία</string>
     <string name="settings_etags_summary">Επιταχύνει τον συγχρονισμό</string>
     <string name="settings_background_sync">Συγχρονισμός στο παρασκήνιο</string>
+    <string name="settings_push_notifications">Ειδοποιήσεις push</string>
     <string name="settings_compress_image_attachments">Συμπίεση εικόνων κατά τη μεταφόρτωση</string>
     <string name="search_in">Αναζήτηση σε %1$s</string>
     <string name="settings_compress_image_attachments_summary">Ταχύτερη μεταφόρτωση, μικρότερη ποιότητα</string>

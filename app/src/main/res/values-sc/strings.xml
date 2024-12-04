@@ -119,6 +119,7 @@
     <string name="settings_etags">Imprea etichetas de identidade</string>
     <string name="settings_etags_summary">Faghet sa sincronizatzione prus lestra</string>
     <string name="settings_background_sync">Sincronizatzione in segundu pranu</string>
+    <string name="settings_push_notifications">Notìficas push</string>
     <string name="settings_compress_image_attachments">Cumprimi is immàgines in carrigamentu</string>
     <string name="search_in">Chirca in %1$s</string>
     <string name="settings_compress_image_attachments_summary">Carrigamentu prus lestru, prus pagu calidade</string>

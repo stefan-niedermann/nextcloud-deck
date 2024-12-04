@@ -122,6 +122,7 @@
     <string name="settings_etags">Bruk E-merker (ETags)</string>
     <string name="settings_etags_summary">Gjør synkronisering raskere</string>
     <string name="settings_background_sync">Synkronisering i bakgrunnen</string>
+    <string name="settings_push_notifications">Push-merknader</string>
     <string name="settings_compress_image_attachments">Komprimer bilder ved opplasting</string>
     <string name="search_in">Søk i %1$s</string>
     <string name="settings_compress_image_attachments_summary">Raskere opplasting, mindre kvalitet</string>

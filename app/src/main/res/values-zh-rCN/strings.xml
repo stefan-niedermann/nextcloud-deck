@@ -118,6 +118,7 @@
     <string name="settings_etags">使用 ETags</string>
     <string name="settings_etags_summary">加快同步</string>
     <string name="settings_background_sync">后台同步</string>
+    <string name="settings_push_notifications">推送通知</string>
     <string name="settings_compress_image_attachments">上传时压缩图片</string>
     <string name="search_in">在 %1$s 中搜索</string>
     <string name="settings_compress_image_attachments_summary">更快的上传但图片质量会降低</string>

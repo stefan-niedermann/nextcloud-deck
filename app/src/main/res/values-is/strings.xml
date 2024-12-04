@@ -120,6 +120,7 @@
     <string name="settings_etags">Nota ETags</string>
     <string name="settings_etags_summary">Hraðar samstillingu</string>
     <string name="settings_background_sync">Samstilling í bakgrunni</string>
+    <string name="settings_push_notifications">Ýti-tilkynningar</string>
     <string name="settings_compress_image_attachments">Þjappa myndum við innsendingu</string>
     <string name="search_in">Leita í %1$s</string>
     <string name="settings_compress_image_attachments_summary">Hraðari innsending, minni gæði</string>

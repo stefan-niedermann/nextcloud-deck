@@ -122,6 +122,7 @@
     <string name="settings_etags">ETag kullanılsın</string>
     <string name="settings_etags_summary">Eşitlemeyi hızlandırır</string>
     <string name="settings_background_sync">Arka planda eşitleme</string>
+    <string name="settings_push_notifications">Anında bildirimler</string>
     <string name="settings_compress_image_attachments">Görseller yüklenirken sıkıştırılsın</string>
     <string name="search_in">%1$s içinde arama</string>
     <string name="settings_compress_image_attachments_summary">Daha hızlı yükleme, daha düşük kalite</string>

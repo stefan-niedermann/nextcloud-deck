@@ -122,6 +122,7 @@
     <string name="settings_etags">Erabili ETags</string>
     <string name="settings_etags_summary">Sinkronizazioa bizkortzen du</string>
     <string name="settings_background_sync">Atzeko planoko sinkronizazioa</string>
+    <string name="settings_push_notifications">Push jakinarazpenak</string>
     <string name="settings_compress_image_attachments">Konprimatu irudiak igotzerakoan</string>
     <string name="search_in">Bilatu %1$s(e)n</string>
     <string name="settings_compress_image_attachments_summary">Igoera arinagoa, kalitate gutxiago</string>
