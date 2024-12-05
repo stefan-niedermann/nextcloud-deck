@@ -120,6 +120,7 @@
     <string name="settings_etags">Използване на ETags</string>
     <string name="settings_etags_summary">Ускоряване на синхронизацията</string>
     <string name="settings_background_sync">Фонова синхронизация</string>
+    <string name="settings_push_notifications">Push известия</string>
     <string name="settings_compress_image_attachments">Компресиране на изображения при качване</string>
     <string name="search_in">Търсене в %1$s</string>
     <string name="settings_compress_image_attachments_summary">По -бързо качване, по -ниско качество</string>
