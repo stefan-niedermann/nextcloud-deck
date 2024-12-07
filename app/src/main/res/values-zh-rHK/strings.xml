@@ -3,7 +3,7 @@
     <string name="navigation_drawer_close">關閉導覽列</string>
     <string name="hint_search_deck">搜尋看板</string>
 
-    <string name="simple_add">新增</string>
+    <string name="simple_add">添加</string>
     <string name="simple_save">儲存</string>
     <string name="simple_more">更多</string>
     <string name="simple_title">標題</string>
