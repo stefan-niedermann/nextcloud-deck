@@ -219,13 +219,13 @@
     <string name="error_dialog_timeout_toggle">檢查您的網絡連接。有時候，切換流動數據或Wi-Fi可能會有所幫助。</string>
     <string name="error_dialog_check_server">您伺服器的回應不正確。請檢查您是否可以通過 web 界面存取看板應用程式。</string>
     <string name="error_dialog_check_server_logs">您的Nextcloud設置存在問題。請查看伺服器記錄檔案。</string>
-    <string name="error_dialog_check_maintenance">請檢查您的 Nextcloud 當前是否在維護模式。</string>
+    <string name="error_dialog_check_maintenance">請檢查您的 Nextcloud 目前是否在維護模式。</string>
     <string name="error_dialog_insufficient_storage">您的 Nextcloud 沒有剩餘可用的存儲空間。請刪除一些檔案，以將近端更改同步到雲中。</string>
     <string name="error_dialog_we_need_info">我們需要以下的技術資訊來幫助您：</string>
     <string name="error_dialog_redirect">您的伺服器以 HTTP 302 狀態代碼回應，這表示您尚未在伺服器上安裝 Deck 應用程式或配置錯誤。這可能是由於 .htaccess 檔案中的自定義替換或 Nextcloud 應用程式（如OID客戶端）引起的。</string>
     <string name="error_dialog_version_not_parsable">我們無法確定伺服器端 Deck 應用程式的版本。請確保已安裝並啟用它。</string>
     <string name="error_dialog_account_might_not_be_authorized">您的Nextcloud應用程序帳戶可能不再被授權。</string>
-    <string name="error_dialog_user_not_found_in_database">當前用戶與我們數據庫中的用戶不匹配。如果您在 Nextcloud 實例上使用 LDAP，則 Nextcloud應用程式可能已存儲了舊的用戶ID。</string>
+    <string name="error_dialog_user_not_found_in_database">目前用戶與我們數據庫中的用戶不匹配。如果您在 Nextcloud 實例上使用 LDAP，則 Nextcloud應用程式可能已存儲了舊的用戶ID。</string>
     <string name="error_dialog_capabilities_not_parsable">我們無法獲取您的伺服器功能。請確保您的伺服器運行良好，並且其他客戶端應用程式能夠訪問Nextcloud。</string>
     <string name="error_dialog_attachment_upload_failed">無法上傳附件。請嘗試以其他方式共享它，並讓我們知道此錯誤。</string>
     <string name="error_dialog_certificate">伺服器的證書似乎有問題。請檢查 Nextcloud 應用程式中的所有帳戶，以獲取更多資訊。</string>
