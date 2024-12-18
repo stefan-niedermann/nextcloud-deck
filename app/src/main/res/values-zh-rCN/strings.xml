@@ -218,7 +218,7 @@
     <string name="error_dialog_insufficient_storage">您的 Nextcloud 实例已经没有可用的存储空间了。请删除一些文件来允许本地的变更同步到云。</string>
     <string name="error_dialog_we_need_info">我们需要以下技术信息来帮助您：</string>
     <string name="error_dialog_redirect">您的服务器确实响应了一个HTTP 302状态码，这意味着您没有在您的服务器上安装看板应用程序或有什么配置错误。这可能是由 .htaccess 文件中的自定义覆盖或由 Nextcloud应用程序 (如OID Client)引起的。</string>
-    <string name="error_dialog_version_not_parsable">我们无法确定服务器端看板应用程序的版本。请确保它已安装并启用。</string>
+    <string name="error_dialog_version_not_parsable">我们无法确定服务端看板应用程序的版本。请确保它已安装并启用。</string>
     <string name="error_dialog_account_might_not_be_authorized">您的Nextcloud应用账号可能不再被授权。</string>
     <string name="error_dialog_user_not_found_in_database">当前用户与数据库中的用户不匹配。如果你在 Nextcloud 实例上使用 LDAP，那么 Nextcloud 应用程序可能存储了一个旧的用户ID。</string>
     <string name="error_dialog_capabilities_not_parsable">我们无法获取您服务器的容量。请确保您的服务器运行良好，其他客户端应用程序能够访问Nextcloud。</string>
