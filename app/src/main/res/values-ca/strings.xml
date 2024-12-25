@@ -121,6 +121,7 @@
     <string name="settings_etags">Useu ETags</string>
     <string name="settings_etags_summary">Augmenta la velocitat de sincronització</string>
     <string name="settings_background_sync">Sincronització en segon pla</string>
+    <string name="settings_push_notifications">Notificacions forçades</string>
     <string name="settings_compress_image_attachments">Comprimeix les imatges en la pujada</string>
     <string name="search_in">Cerca a %1$s</string>
     <string name="settings_compress_image_attachments_summary">Pujada més ràpida, menor qualitat</string>

@@ -74,6 +74,7 @@
     <string name="settings_compact_title">Mou compautu</string>
     <string name="settings_cover_images_title">Carátules</string>
     <string name="settings_background_sync">Sincronización en segundu planu</string>
+    <string name="settings_push_notifications">Avisos push</string>
     <string-array name="darkmode_entries">
         <item>Claridá</item>
         <item>Escuridá</item>

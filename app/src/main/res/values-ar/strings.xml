@@ -130,6 +130,7 @@
     <string name="settings_etags">استخدم ETags</string>
     <string name="settings_etags_summary">تسريع التزامن  </string>
     <string name="settings_background_sync">مزامنة في خلفية النظام</string>
+    <string name="settings_push_notifications">دفع الإخطارات</string>
     <string name="settings_compress_image_attachments">ضغط الصور عند التحميل</string>
     <string name="search_in">البحث في %1$s</string>
     <string name="settings_compress_image_attachments_summary">تحميل أسرع، بجودة أقل </string>

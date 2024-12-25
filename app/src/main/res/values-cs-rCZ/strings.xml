@@ -126,6 +126,7 @@
     <string name="settings_etags">Použit identif. verze (ETag)</string>
     <string name="settings_etags_summary">Zrychluje synchronizaci</string>
     <string name="settings_background_sync">Synchronizace na pozadí</string>
+    <string name="settings_push_notifications">Push upozorňování</string>
     <string name="settings_compress_image_attachments">Při nahrání obrázky komprimovat</string>
     <string name="search_in">Hledat v %1$s</string>
     <string name="settings_compress_image_attachments_summary">Rychlejší nahrávání, na úkor snížení kvality</string>
