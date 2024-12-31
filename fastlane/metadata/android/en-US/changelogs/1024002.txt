@@ -3,3 +3,4 @@
 - 🐞 Prevent Duplicated cards after offline mode (#1503)
 - 🐞 Fix various crashes and NullPointerExceptions (#1657)
 - 🐞 Starting activity from TileService using an Intent is not allowed (#1672)
+- 🐞 Workaround for toggle edit/view glitch

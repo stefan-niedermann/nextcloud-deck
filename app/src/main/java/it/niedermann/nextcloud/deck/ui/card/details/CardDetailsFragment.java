@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui.card.details;
 import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
+import static java.util.Objects.requireNonNull;
 
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
@@ -31,9 +32,11 @@ import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import java.time.Instant;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import it.niedermann.android.markdown.MarkdownEditor;
+import it.niedermann.android.markdown.MarkdownViewerImpl;
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -95,7 +98,7 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
         avatarLayoutParams.setMargins(0, 0, getResources().getDimensionPixelSize(R.dimen.spacer_1x), 0);
 
         setupAssignees();
-        setupLabels((Account) args.getSerializable(KEY_ACCOUNT));
+        setupLabels((Account) requireNonNull(args.getSerializable(KEY_ACCOUNT)));
         setupDueDate();
         setupDescription();
         setupProjects();
@@ -156,7 +159,7 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
 
             binding.descriptionEditor.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
 
-            viewModel.getDescriptionMode().observe(getViewLifecycleOwner(), (isPreviewMode) -> {
+            viewModel.getDescriptionMode().observe(getViewLifecycleOwner(), isPreviewMode -> {
                 if (isPreviewMode) {
                     toggleEditorView(binding.descriptionViewer, binding.descriptionEditorWrapper, binding.descriptionViewer);
                     binding.descriptionToggle.setImageResource(R.drawable.ic_edit_24dp);
@@ -169,6 +172,11 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
             viewModel.descriptionChangedFromExternal().observe(getViewLifecycleOwner(), description -> {
                 binding.descriptionEditor.setMarkdownString(description);
                 binding.descriptionViewer.setMarkdownString(description);
+
+                // TODO Workaround when toggling first time from editor to viewer and content contains one or more @mention causing the viewer to be scrolled
+                if (Optional.ofNullable(description).map(d -> d.contains("@")).orElse(false)) {
+                    binding.descriptionViewer.post(() -> binding.descriptionViewer.scrollTo(0, 0));
+                }
             });
 
             binding.descriptionToggle.setOnClickListener((v) -> viewModel.toggleDescriptionPreviewMode());
@@ -189,21 +197,29 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
     }
 
     private void registerEditorListener(@NonNull MarkdownEditor editor) {
-        if (!editor.getMarkdownString().hasActiveObservers()) {
-            editor.getMarkdownString().observe(getViewLifecycleOwner(), (newDescription) -> {
-                if (viewModel.getFullCard() != null) {
-                    // TODO This is the preferred way, but we need to preserve scroll and selection state
-                    viewModel.getFullCard().getCard().setDescription(newDescription == null ? "" : newDescription.toString());
-                } else {
-                    ExceptionDialogFragment.newInstance(new IllegalStateException(FullCard.class.getSimpleName() + " was empty when trying to setup description"), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                }
-                binding.descriptionToggle.setVisibility(TextUtils.isEmpty(newDescription) ? INVISIBLE : VISIBLE);
-            });
-        }
+        editor.setMarkdownStringChangedListener(newDescription -> {
+            binding.descriptionToggle.setVisibility(TextUtils.isEmpty(newDescription) ? INVISIBLE : VISIBLE);
+
+            if (viewModel.getFullCard() == null) {
+                ExceptionDialogFragment.newInstance(new IllegalStateException(FullCard.class.getSimpleName() + " was empty when trying to setup description"), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+
+            // TODO This is the preferred way, but we need to preserve scroll and selection state
+            viewModel.getFullCard().getCard().setDescription(newDescription == null ? "" : newDescription.toString());
+        });
     }
 
-    private void toggleEditorView(@NonNull View viewToShow, @NonNull View viewToHide, @NonNull MarkdownEditor editorToShow) {
-        editorToShow.setMarkdownString(viewModel.getFullCard().getCard().getDescription());
+    private void toggleEditorView(@NonNull View viewToShow,
+                                  @NonNull View viewToHide,
+                                  @NonNull MarkdownEditor editorToShow) {
+        final var description = viewModel.getFullCard().getCard().getDescription();
+        editorToShow.setMarkdownString(description);
+
+        // TODO Workaround when toggling first time from editor to viewer and content contains one or more @mention causing the viewer to be scrolled
+        if (editorToShow instanceof MarkdownViewerImpl && Optional.ofNullable(description).map(d -> d.contains("@")).orElse(false)) {
+            binding.descriptionViewer.post(() -> binding.descriptionViewer.scrollTo(0, 0));
+        }
+
         viewToHide.setVisibility(GONE);
         viewToShow.setVisibility(VISIBLE);
     }
@@ -280,7 +296,7 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
         } else {
             binding.labels.setEnabled(false);
         }
-        if (viewModel.getFullCard().getLabels() != null && viewModel.getFullCard().getLabels().size() > 0) {
+        if (viewModel.getFullCard().getLabels() != null && !viewModel.getFullCard().getLabels().isEmpty()) {
             for (final var label : viewModel.getFullCard().getLabels()) {
                 binding.labelsGroup.addView(createChipFromLabel(label));
             }
@@ -354,7 +370,7 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
     }
 
     private void setupProjects() {
-        if (viewModel.getFullCard().getProjects().size() > 0) {
+        if (!viewModel.getFullCard().getProjects().isEmpty()) {
             binding.projectsTitle.setVisibility(VISIBLE);
             binding.projects.setNestedScrollingEnabled(false);
             final var adapter = new CardProjectsAdapter(viewModel.getFullCard().getProjects(), getChildFragmentManager());
