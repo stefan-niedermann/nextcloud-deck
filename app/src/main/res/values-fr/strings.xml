@@ -327,7 +327,7 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Titre (obligatoire)</string>
     <string name="saving_new_card">Enregistrement de la nouvelle carte…</string>
-    <string name="progress_import">Importation du tableau %1$dsur %2$d...</string>
+    <string name="progress_import">Importation du tableau %1$d sur %2$d...</string>
     <string name="progress_import_indeterminate">Importation des tableaux...</string>
     <string name="card_outdated">Le contenu de cette carte est peut-être obsolète.</string>
     <string name="show_error">Afficher les erreurs</string>
