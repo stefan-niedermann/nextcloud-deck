@@ -24,7 +24,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.widget.TextViewCompat;
 
-import com.google.android.material.bottomsheet.BottomSheetDragHandleView;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.search.SearchBar;
 import com.google.android.material.search.SearchView;
 import com.google.android.material.tabs.TabLayout;
@@ -215,22 +215,18 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
         imageView.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(context, colorRes)));
     }
 
-    /**
-     * @see <a href="https://github.com/nextcloud/android-common/pull/269">Upstream Pull Request</a>
-     */
-    @Deprecated(forRemoval = true)
-    public void themeDragHandleView(@NonNull BottomSheetDragHandleView dragHandleView) {
-        withScheme(dragHandleView.getContext(), scheme -> {
-            dragHandleView.setImageTintList(ColorStateList.valueOf(scheme.getOnSurfaceVariant()));
-            return dragHandleView;
-        });
-    }
-
     public void colorImageViewBackgroundAndIconSecondary(@NonNull ImageView imageView) {
         withScheme(imageView.getContext(), scheme -> {
             imageView.setImageTintList(ColorStateList.valueOf(scheme.getOnSecondaryContainer()));
             imageView.setBackgroundTintList(ColorStateList.valueOf(scheme.getSecondaryContainer()));
             return imageView;
+        });
+    }
+
+    public void themeStatusBar(@NonNull AppBarLayout appBarLayout) {
+        withScheme(appBarLayout.getContext(), scheme -> {
+            appBarLayout.setStatusBarForegroundColor(scheme.getSurface());
+            return appBarLayout;
         });
     }
 }
