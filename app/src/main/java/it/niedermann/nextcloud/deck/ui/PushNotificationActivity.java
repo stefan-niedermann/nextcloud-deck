@@ -123,9 +123,8 @@ public class PushNotificationActivity extends AppCompatActivity implements Theme
     @Override
     public void applyTheme(int color) {
         final var utils = ThemeUtils.of(color, this);
-
-        utils.platform.themeStatusBar(this);
         utils.material.themeToolbar(binding.toolbar);
+        utils.deck.themeStatusBar(this, binding.appBarLayout);
         utils.platform.themeHorizontalProgressBar(binding.progress);
         Stream.of(binding.submit, binding.showError)
                 .forEach(utils.material::colorMaterialButtonPrimaryFilled);
