@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
+import android.util.TypedValue;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -202,7 +204,7 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
         return Optional.empty();
     }
 
-    @Deprecated(forRemoval = true)
+    @Deprecated()
     public static Drawable getTintedImageView(@NonNull Context context, @DrawableRes int imageId, @ColorInt int color) {
         final var drawable = ContextCompat.getDrawable(context, imageId);
         assert drawable != null;
@@ -227,11 +229,35 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
     public void themeStatusBar(@NonNull Activity activity, @NonNull AppBarLayout appBarLayout) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
             withScheme(appBarLayout.getContext(), scheme -> {
-                appBarLayout.setStatusBarForegroundColor(scheme.getSurface());
+                themeStatusBar(appBarLayout, scheme.getSurface());
                 return appBarLayout;
             });
         } else {
             platform.themeStatusBar(activity);
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+    private void themeStatusBar(@NonNull AppBarLayout appBarLayout,
+                               @ColorInt int color) {
+        withScheme(appBarLayout.getContext(), scheme -> {
+            appBarLayout.setStatusBarForegroundColor(color);
+            return appBarLayout;
+        });
+    }
+
+    public void themeAppBarLayoutAndStatusBarWithBackground(@NonNull AppBarLayout appBar) {
+        withScheme(appBar.getContext(), scheme -> {
+            final var typedValue = new TypedValue();
+            final var theme = appBar.getContext().getTheme();
+
+            if (theme.resolveAttribute(android.R.attr.windowBackground, typedValue, true)) {
+                appBar.setBackgroundColor(typedValue.data);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                    themeStatusBar(appBar, typedValue.data);
+                }
+            }
+            return appBar;
+        });
     }
 }
