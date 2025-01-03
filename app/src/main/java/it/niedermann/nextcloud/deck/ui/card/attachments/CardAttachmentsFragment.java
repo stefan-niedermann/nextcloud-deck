@@ -437,7 +437,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         utils.deck.themeEmptyContentView(binding.emptyContentView);
         utils.material.themeFAB(binding.fab);
         utils.platform.colorViewBackground(binding.bottomSheetParent, ColorRole.SURFACE);
-        utils.deck.themeDragHandleView(binding.dragHandle);
+        utils.material.themeDragHandleView(binding.dragHandle);
 
         adapter.applyTheme(color);
         attachmentPickerAdapter.applyTheme(color);
