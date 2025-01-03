@@ -109,8 +109,8 @@ public abstract class PickStackActivity extends AppCompatActivity implements The
     public void applyTheme(int color) {
         final var utils = ThemeUtils.of(color, this);
 
-        utils.platform.themeStatusBar(this);
         utils.material.themeToolbar(binding.toolbar);
+        utils.deck.themeStatusBar(this, binding.appBarLayout);
         utils.material.colorMaterialButtonText(binding.cancel);
         utils.material.colorMaterialButtonPrimaryFilled(binding.submit);
         utils.material.colorTextInputLayout(binding.inputWrapper);
