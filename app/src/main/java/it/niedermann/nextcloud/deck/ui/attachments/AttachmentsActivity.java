@@ -27,6 +27,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.ui.card.attachments.AttachmentImageZoomListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
 public class AttachmentsActivity extends AppCompatActivity implements AttachmentImageZoomListener {
@@ -65,6 +66,8 @@ public class AttachmentsActivity extends AppCompatActivity implements Attachment
         if (account == null) {
             throw new IllegalArgumentException(BUNDLE_KEY_ACCOUNT + " must not be null.");
         }
+
+        applyBrand(account.getColor());
 
         long cardId = args.getLong(BUNDLE_KEY_CARD_ID);
 
@@ -122,6 +125,12 @@ public class AttachmentsActivity extends AppCompatActivity implements Attachment
                 }
             });
         });
+    }
+
+    private void applyBrand(int color) {
+        final var utils = ThemeUtils.of(color, this);
+
+        utils.deck.themeAppBarLayoutAndStatusBarWithBackground(binding.appBarLayout);
     }
 
     @Override

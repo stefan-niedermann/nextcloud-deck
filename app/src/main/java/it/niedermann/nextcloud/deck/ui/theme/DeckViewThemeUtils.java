@@ -3,12 +3,14 @@ package it.niedermann.nextcloud.deck.ui.theme;
 import static com.nextcloud.android.common.ui.util.ColorStateListUtilsKt.buildColorStateList;
 import static com.nextcloud.android.common.ui.util.PlatformThemeUtil.isDarkMode;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
+import android.util.TypedValue;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,12 +21,13 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.widget.TextViewCompat;
 
-import com.google.android.material.bottomsheet.BottomSheetDragHandleView;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.search.SearchBar;
 import com.google.android.material.search.SearchView;
 import com.google.android.material.tabs.TabLayout;
@@ -201,7 +204,7 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
         return Optional.empty();
     }
 
-    @Deprecated(forRemoval = true)
+    @Deprecated()
     public static Drawable getTintedImageView(@NonNull Context context, @DrawableRes int imageId, @ColorInt int color) {
         final var drawable = ContextCompat.getDrawable(context, imageId);
         assert drawable != null;
@@ -215,22 +218,46 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
         imageView.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(context, colorRes)));
     }
 
-    /**
-     * @see <a href="https://github.com/nextcloud/android-common/pull/269">Upstream Pull Request</a>
-     */
-    @Deprecated(forRemoval = true)
-    public void themeDragHandleView(@NonNull BottomSheetDragHandleView dragHandleView) {
-        withScheme(dragHandleView.getContext(), scheme -> {
-            dragHandleView.setImageTintList(ColorStateList.valueOf(scheme.getOnSurfaceVariant()));
-            return dragHandleView;
-        });
-    }
-
     public void colorImageViewBackgroundAndIconSecondary(@NonNull ImageView imageView) {
         withScheme(imageView.getContext(), scheme -> {
             imageView.setImageTintList(ColorStateList.valueOf(scheme.getOnSecondaryContainer()));
             imageView.setBackgroundTintList(ColorStateList.valueOf(scheme.getSecondaryContainer()));
             return imageView;
+        });
+    }
+
+    public void themeStatusBar(@NonNull Activity activity, @NonNull AppBarLayout appBarLayout) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            withScheme(appBarLayout.getContext(), scheme -> {
+                themeStatusBar(appBarLayout, scheme.getSurface());
+                return appBarLayout;
+            });
+        } else {
+            platform.themeStatusBar(activity);
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+    private void themeStatusBar(@NonNull AppBarLayout appBarLayout,
+                               @ColorInt int color) {
+        withScheme(appBarLayout.getContext(), scheme -> {
+            appBarLayout.setStatusBarForegroundColor(color);
+            return appBarLayout;
+        });
+    }
+
+    public void themeAppBarLayoutAndStatusBarWithBackground(@NonNull AppBarLayout appBar) {
+        withScheme(appBar.getContext(), scheme -> {
+            final var typedValue = new TypedValue();
+            final var theme = appBar.getContext().getTheme();
+
+            if (theme.resolveAttribute(android.R.attr.windowBackground, typedValue, true)) {
+                appBar.setBackgroundColor(typedValue.data);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                    themeStatusBar(appBar, typedValue.data);
+                }
+            }
+            return appBar;
         });
     }
 }

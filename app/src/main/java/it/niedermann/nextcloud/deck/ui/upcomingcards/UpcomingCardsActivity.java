@@ -149,7 +149,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements Themed, 
         final var utils = ThemeUtils.of(color, this);
 
         utils.platform.colorCircularProgressBar(binding.loadingSpinner, ColorRole.PRIMARY);
-        utils.platform.themeStatusBar(this);
         utils.material.themeToolbar(binding.toolbar);
+        utils.deck.themeStatusBar(this, binding.appBarLayout);
     }
 }
