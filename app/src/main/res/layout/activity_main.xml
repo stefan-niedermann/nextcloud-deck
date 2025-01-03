@@ -4,14 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.main.MainActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:windowBackground"
+            android:fitsSystemWindows="true">
+
+            <com.google.android.material.search.SearchBar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:menu="@menu/main_menu"
+                app:navigationIcon="@drawable/ic_arrow_back_24dp" />
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -49,7 +64,7 @@
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipe_refresh_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -116,25 +131,10 @@
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/viewPager"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         </LinearLayout>
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?android:windowBackground">
-
-            <com.google.android.material.search.SearchBar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:menu="@menu/main_menu"
-                app:navigationIcon="@drawable/ic_arrow_back_24dp" />
-
-        </com.google.android.material.appbar.AppBarLayout>
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/fab"
@@ -144,7 +144,8 @@
             android:layout_margin="@dimen/fab_margin"
             android:text="@string/add_card"
             android:visibility="gone"
-            app:icon="@drawable/ic_add_24dp" />
+            app:icon="@drawable/ic_add_24dp"
+            tools:visibility="visible" />
 
         <com.google.android.material.search.SearchView
             android:id="@+id/search_view"
@@ -188,7 +189,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="false"
+        android:fitsSystemWindows="true"
         android:theme="@style/NavigationView"
         app:headerLayout="@layout/nav_header_main"
         app:itemRippleColor="?attr/colorControlHighlight"

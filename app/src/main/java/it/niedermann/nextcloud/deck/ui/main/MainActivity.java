@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -30,10 +31,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.splashscreen.SplashScreen;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -242,6 +245,28 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
 
         drawerMenuInflater = new DrawerMenuInflater<>(this, binding.navigationView.getMenu());
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.navigationView, (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            final var mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            mlp.topMargin = insets.top;
+            mlp.leftMargin = insets.left;
+            mlp.bottomMargin = insets.bottom;
+            mlp.rightMargin = insets.right;
+            v.setLayoutParams(mlp);
+            return WindowInsetsCompat.CONSUMED;
+        });
+        ViewCompat.setOnApplyWindowInsetsListener(binding.fab, (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            final var mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            final var defaultMargin = getResources().getDimensionPixelSize(R.dimen.fab_margin);
+            mlp.topMargin = insets.top + defaultMargin;
+            mlp.leftMargin = insets.left + defaultMargin;
+            mlp.bottomMargin = insets.bottom + defaultMargin;
+            mlp.rightMargin = insets.right + defaultMargin;
+            v.setLayoutParams(mlp);
+            return WindowInsetsCompat.CONSUMED;
+        });
 
         preferencesViewModel.isDebugModeEnabled$().observe(this, enabled -> headerBinding.copyDebugLogs.setVisibility(enabled ? View.VISIBLE : View.GONE));
         filterViewModel.hasActiveFilter().observe(this, hasActiveFilter -> {
@@ -506,6 +531,8 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
         utils.deck.themeSearchBar(binding.toolbar);
         utils.deck.themeSearchView(binding.searchView);
+        utils.deck.themeAppBarLayoutAndStatusBarWithBackground(binding.appBarLayout);
+//        utils.deck.themeStatusBar(this, binding.appBarLayout);
         utils.deck.themeTabLayoutOnTransparent(binding.stackTitles);
         utils.deck.themeEmptyContentView(binding.emptyContentViewStacks);
         utils.deck.themeEmptyContentView(binding.emptyContentViewSearchNoTerm);
