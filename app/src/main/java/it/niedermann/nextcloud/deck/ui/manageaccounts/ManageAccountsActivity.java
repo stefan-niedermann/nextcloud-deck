@@ -76,8 +76,8 @@ public class ManageAccountsActivity extends AppCompatActivity implements Themed 
     public void applyTheme(int color) {
         final var utils = ThemeUtils.of(color, this);
 
-        utils.platform.themeStatusBar(this);
         utils.material.themeToolbar(binding.toolbar);
+        utils.deck.themeStatusBar(this, binding.appBarLayout);
     }
 
     public static Intent createIntent(@NonNull Context context) {
