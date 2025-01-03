@@ -1,0 +1,12 @@
+1.24.3
+
+- 🐞 Fix UI glitches like overlapping status bar icons (#1713)
+
+1.24.2
+
+- 🔔 Add link to push notification section of the FAQ
+- 🐞 Fix card's description of shared boards being invisible with read only permission (#1635) by @Ornanovitch
+- 🐞 Prevent Duplicated cards after offline mode (#1503)
+- 🐞 Fix various crashes and NullPointerExceptions (#1657)
+- 🐞 Starting activity from TileService using an Intent is not allowed (#1672)
+- 🐞 Workaround for toggle edit/view glitch
