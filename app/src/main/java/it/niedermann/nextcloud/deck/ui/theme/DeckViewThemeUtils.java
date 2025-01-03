@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui.theme;
 import static com.nextcloud.android.common.ui.util.ColorStateListUtilsKt.buildColorStateList;
 import static com.nextcloud.android.common.ui.util.PlatformThemeUtil.isDarkMode;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
@@ -223,10 +224,14 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
         });
     }
 
-    public void themeStatusBar(@NonNull AppBarLayout appBarLayout) {
-        withScheme(appBarLayout.getContext(), scheme -> {
-            appBarLayout.setStatusBarForegroundColor(scheme.getSurface());
-            return appBarLayout;
-        });
+    public void themeStatusBar(@NonNull Activity activity, @NonNull AppBarLayout appBarLayout) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            withScheme(appBarLayout.getContext(), scheme -> {
+                appBarLayout.setStatusBarForegroundColor(scheme.getSurface());
+                return appBarLayout;
+            });
+        } else {
+            platform.themeStatusBar(activity);
+        }
     }
 }

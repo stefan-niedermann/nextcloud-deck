@@ -65,7 +65,7 @@ public class AboutActivity extends AppCompatActivity implements Themed {
         final var utils = ThemeUtils.of(color, this);
 
         utils.material.themeToolbar(binding.toolbar);
-        utils.deck.themeStatusBar(binding.appBarLayout);
+        utils.deck.themeStatusBar(this, binding.appBarLayout);
         utils.material.themeTabLayoutOnSurface(binding.tabLayout);
     }
 
