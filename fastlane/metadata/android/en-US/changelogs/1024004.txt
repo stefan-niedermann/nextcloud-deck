@@ -1,0 +1,1 @@
+- 🔒 Remove `READ_MEDIA_IMAGES` and `READ_MEDIA_AUDIO` permissions
