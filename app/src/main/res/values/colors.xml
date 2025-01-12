@@ -58,9 +58,11 @@
     <color name="due_today">#f8f2e5</color>
     <color name="due_overdue">#fbe7e6</color>
     <color name="due_done">#e9f1eb</color>
+    <color name="due_future">@android:color/transparent</color>
     <color name="due_text_today">#855d00</color>
     <color name="due_text_overdue">#c61610</color>
     <color name="due_text_done">#286c39</color>
+    <color name="due_text_future">@color/onSurfaceVariant</color>
 
     <!-- Activity -->
     <color name="activity_create">#286c39</color>

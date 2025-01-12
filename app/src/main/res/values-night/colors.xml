@@ -55,7 +55,9 @@
     <color name="due_today">#19c28900</color>
     <color name="due_overdue">#19ee312b</color>
     <color name="due_done">#1936914e</color>
+    <color name="due_future">@android:color/transparent</color>
     <color name="due_text_today">#c28900</color>
     <color name="due_text_overdue">#f36864</color>
     <color name="due_text_done">#3ea75a</color>
+    <color name="due_text_future">@color/onSurfaceVariant</color>
 </resources>

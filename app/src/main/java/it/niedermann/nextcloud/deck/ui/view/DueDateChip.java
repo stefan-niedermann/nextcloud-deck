@@ -92,8 +92,8 @@ public class DueDateChip extends Chip {
 
         } else { // Future
             chipIconRes = R.drawable.ic_time_24;
-            backgroundColorRes = android.R.color.transparent;
-            textColorRes = null;
+            backgroundColorRes = R.color.due_future;
+            textColorRes = R.color.due_text_future;
         }
 
         setChipIcon(ContextCompat.getDrawable(getContext(), chipIconRes));
