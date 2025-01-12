@@ -40,14 +40,26 @@ public interface LabelDao extends GenericDao<Label> {
     @Query("SELECT * FROM label WHERE accountId = :accountId and (status<>1 or id is null or lastModified <> lastModifiedLocal)")
     List<Label> getLocallyChangedLabelsDirectly(long accountId);
 
+    // proposals by use count
+//    @Query("SELECT l.* " +
+//            "FROM label l LEFT JOIN joincardwithlabel j ON j.labelId = l.localId " +
+//            "WHERE l.accountId = :accountId AND l.boardId = :boardId " +
+//            "AND NOT EXISTS (" +
+//                "select 1 from joincardwithlabel jl where jl.labelId = l.localId " +
+//                "and jl.cardId = :notAssignedToLocalCardId AND status <> 3" + // not LOCAL_DELETED
+//            ") " +
+//            "GROUP BY l.localId ORDER BY count(*) DESC")
+//    LiveData<List<Label>> findProposalsForLabelsToAssign(long accountId, long boardId, long notAssignedToLocalCardId);
+
+    // proposal by alphabetical order
     @Query("SELECT l.* " +
-            "FROM label l LEFT JOIN joincardwithlabel j ON j.labelId = l.localId " +
+            "FROM label l " +
             "WHERE l.accountId = :accountId AND l.boardId = :boardId " +
             "AND NOT EXISTS (" +
                 "select 1 from joincardwithlabel jl where jl.labelId = l.localId " +
                 "and jl.cardId = :notAssignedToLocalCardId AND status <> 3" + // not LOCAL_DELETED
             ") " +
-            "GROUP BY l.localId ORDER BY count(*) DESC")
+            "order by l.title asc")
     LiveData<List<Label>> findProposalsForLabelsToAssign(long accountId, long boardId, long notAssignedToLocalCardId);
 
 
