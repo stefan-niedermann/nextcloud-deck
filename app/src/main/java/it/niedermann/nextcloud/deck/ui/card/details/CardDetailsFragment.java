@@ -215,8 +215,8 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
         final var description = viewModel.getFullCard().getCard().getDescription();
         editorToShow.setMarkdownString(description);
 
-        // TODO Workaround when toggling first time from editor to viewer and content contains one or more @mention causing the viewer to be scrolled
-        if (editorToShow instanceof MarkdownViewerImpl && Optional.ofNullable(description).map(d -> d.contains("@")).orElse(false)) {
+        // TODO Workaround when toggling first time from editor to viewer and content contains one or more checkboxes or @mentions causing the viewer to be scrolled
+        if (editorToShow instanceof MarkdownViewerImpl && Optional.ofNullable(description).map(d -> d.contains("@") || d.contains(" [")).orElse(false)) {
             binding.descriptionViewer.post(() -> binding.descriptionViewer.scrollTo(0, 0));
         }
 
