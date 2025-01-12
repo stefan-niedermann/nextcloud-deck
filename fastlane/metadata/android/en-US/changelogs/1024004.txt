@@ -1,1 +1,2 @@
 - 🔒 Remove `READ_MEDIA_IMAGES` and `READ_MEDIA_AUDIO` permissions
+- ⚙️ Update AGP build tools to 8.8.0
