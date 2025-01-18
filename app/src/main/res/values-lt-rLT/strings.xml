@@ -172,7 +172,7 @@
     <string name="error_action_update_files_app">Atnaujinti</string>
     <string name="info_box_maintenance_mode">Serveris yra techninės priežiūros veiksenoje</string>
     <string name="info_box_version_not_supported">Serverio versija %1$s yra nepalaikoma, atnaujinkite iki %2$s</string>
-    <string name="share_link">Bendrinimo nuoroda</string>
+    <string name="share_link">Viešinio nuoroda</string>
     <string name="manage_accounts">Tvarkyti paskyras</string>
     <string name="manage_list">Tvarkyti sąrašą</string>
     <string name="simple_reply">Atsakyti</string>
