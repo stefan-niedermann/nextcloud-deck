@@ -199,6 +199,10 @@
     <string name="error_dialog_tip_clear_storage_might_help">Jos ongelma jatkuu, tyhjennä Nextcloudin ja Nextcloud Deckin tallennustila laitteesta ratkaistaaksesi ongelman.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Tietokannan päivittäminen epäonnistui. Ole hyvä ja raportoi ongelmasta ja tyhjennä tallennustila käyttääksesi sovellusta normaalisti.</string>
     <string name="error_dialog_tip_clear_storage">Voit tyhjentää tallennustilan avaamalla sovelluksen tiedot ja valitsemalla Tallennustila → Tyhjennä tallennustila.</string>
+    <string name="error_dialog_tip_offline_no_internet">Näyttää siltä, että yritit käynnistää synkronoinnin ilman internet-yhteyttä.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Yhteys estettiin, varmista että palvelimesi on tavoitettavissa selaimella.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Yhteys on katkennut, varmista että olet yhteydessä internetiin. Tämä voi tapahtua myös silloin, kun palvelin on ruuhkautunut.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Jos olet ottanut käyttöön \"Synkronoi vain Wi-Fi-yhteydellä\" -asetuksen, voit synkronoida vain yhteydessä Wi-Fi-verkkoon yhdistäneenä.</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloud-sovelluksessasi on jotain vialla. Pakota Nextcloudin ja Nextcloud Deckin lopetus.</string>
     <string name="error_dialog_tip_files_delete_storage">Jos pakotettu lopettaminen ei auta, voit yrittää tyhjentää sovelluksien tallennustilan.</string>
     <string name="error_dialog_timeout_toggle">Tarkista verkkoyhteytesi. Joskus mobiilidatan tai Wi-Fin kytkeminen pois päältä ja päälle saattaa ratkaista ongelman.</string>
@@ -213,7 +217,9 @@
     <string name="error_dialog_user_not_found_in_database">Käyttäjää ei löydy tietokannastamme. Jos  LDAP on käytössä Nextcloudissa, Nextcloud-sovellksessa saattaa olla tallennettuna vanha käyttäjän tunnus.</string>
     <string name="error_dialog_capabilities_not_parsable">Palvelimesi ominaisuuksia ei voitu hakea. Varmista, että palvelin on käynnissä ja muut asiakasohjelmat saavat yhteyden Nextcloudiin.</string>
     <string name="error_dialog_attachment_upload_failed">Liitettä ei voitu lähettää. Yritä jakaa se toista kautta ja kerro meille tästä bugista.</string>
+    <string name="error_dialog_certificate">Palvelimen varmenteessa näyttää olevan jotain vikaa. Tarkista kaikki tilit Nextcloud-sovelluksessa saadaksesi lisätietoja.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Ota pois käytöstä akun optimointi Nextcloud- ja Deck-sovelluksilta.</string>
+    <string name="error_dialog_unknown_error">Nextcloud-palvelimesi ei ole tavoitettavissa. Tarkista internetyhteytesi ja pystytkö muodostamaan yhteyden palvelimeen selaimen kautta.</string>
     <string name="error_action_open_deck_info">Avaa sovelluksen tiedot</string>
     <string name="error_action_open_nextcloud_app">Avaa Nextcloud-sovellus</string>
     <string name="error_action_open_network">Verkkoasetukset</string>
