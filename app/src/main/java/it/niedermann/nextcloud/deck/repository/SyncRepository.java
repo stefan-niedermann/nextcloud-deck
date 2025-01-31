@@ -348,7 +348,8 @@ public class SyncRepository extends BaseRepository {
         executor.submit(() -> {
             final User owner = dataBaseAdapter.getUserByUidDirectly(account.getId(), account.getUserName());
             if (owner == null) {
-                callback.onError(new IllegalStateException("Owner is null. This can be the case if the Deck app has never before been opened in the webinterface"));
+                StringBuilder sb = buildOwnerNullMessage(account);
+                callback.onError(new IllegalStateException(sb.toString()));
             } else {
                 final FullBoard fullBoard = new FullBoard();
                 board.setOwnerId(owner.getLocalId());
@@ -359,6 +360,30 @@ public class SyncRepository extends BaseRepository {
                 new DataPropagationHelper(serverAdapter, dataBaseAdapter, executor).createEntity(new BoardDataProvider(), fullBoard, ResponseCallback.from(account, callback));
             }
         });
+    }
+
+    @NonNull
+    private StringBuilder buildOwnerNullMessage(@NonNull Account account) {
+        StringBuilder sb = new StringBuilder("Owner is null. This can be the case if the Deck app has never before been opened in the webinterface. More:");
+        sb.append("\naccount_id:");
+        sb.append(account.getId());
+        sb.append("\nusername:");
+        sb.append(account.getUserName());
+
+        sb.append("\nList of available Users:");
+        sb.append(account.getUserName());
+        List<User> allUsers = dataBaseAdapter.getAllUsersDirectly();
+        if (allUsers != null) {
+            for (User u : allUsers) {
+                sb.append("\nuid:");
+                sb.append(u.getUid());
+                sb.append(" | account_id:");
+                sb.append(u.getAccountId());
+            }
+        } else {
+            sb.append("[none]");
+        }
+        return sb;
     }
 
     /**

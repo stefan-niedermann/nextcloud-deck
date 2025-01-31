@@ -875,6 +875,10 @@ public class DataBaseAdapter {
                 .distinctUntilChanged();
     }
 
+    public List<User> getAllUsersDirectly() {
+        return db.getUserDao().getAllUsersDirectly();
+    }
+
     public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, final String searchTerm) {
         validateSearchTerm(searchTerm);
         return new ReactiveLiveData<>(db.getUserDao().searchUserByUidOrDisplayName(accountId, boardId, notYetAssignedToLocalCardId, "%" + searchTerm.trim() + "%"))
