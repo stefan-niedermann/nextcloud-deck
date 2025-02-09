@@ -221,6 +221,7 @@
     <string name="project_type_file">Fil</string>
     <string name="projects_title">Projekter</string>
     <string name="simple_move">Flyt</string>
+    <string name="clone_cards">Klon kort</string>
     <string name="take_photo">Tag et billede</string>
     <string name="take_photo_switch_camera">Skift kamera</string>
     <string name="show_all_contacts">Vis alle kontakter</string>
