@@ -283,7 +283,7 @@
     </plurals>
     <string name="no_assigned_label">Non hai etiqueta asignada</string>
     <string name="single_card">Terxeta única</string>
-    <string name="project_type_room">Sala de Parlar</string>
+    <string name="project_type_room">Sala de Parladoiro</string>
     <string name="simple_move">Mover</string>
     <string name="cannot_upload_files_without_permission">Non é posíbel enviar ficheiros sen permisos</string>
     <string name="insufficient_permission">Non ten permisos abondo</string>
