@@ -85,6 +85,8 @@
     <string name="add_board">Bæta við borði</string>
 
     <string name="label_clear_due_date">Fjarlægja skiladag</string>
+    <string name="label_clear_done">Ekki lokið</string>
+    <string name="label_due_at">Skilist: %1$s</string>
     <string name="label_add">Bæta við {0:s}</string>
 
     <string name="card_edit_details">Nánar</string>
@@ -176,6 +178,8 @@
 
     <string name="filter_done_no_filter">Allt</string>
     <string name="filter_done_done">Lokið</string>
+    <string name="filter_done_undone">Ekki lokið</string>
+
     <string name="archived_cards">Spjöld í geymslu</string>
     <string name="attachment_already_exists">Viðhengið er þegar til staðar</string>
     <string name="pick_custom_color">Veldu sérsniðinn lit</string>
@@ -249,6 +253,7 @@
     <string name="manage_list">Sýsla með lista</string>
     <string name="simple_reply">Svara</string>
     <string name="append_text_to_description">Skeyta við lýsingu</string>
+    <string name="append_text_as_task">Bæta sem verki við lýsingu</string>
     <string name="add_text_as_comment">Bæta við sem athugasemd</string>
     <string name="progress_count">%1$d af %2$d</string>
     <plurals name="progress_error_count">
@@ -280,6 +285,8 @@
     <string name="project_type_room">Spjallrás</string>
     <string name="simple_move">Færa</string>
     <string name="cannot_upload_files_without_permission">Get ekki sent inn skrár án heimilda</string>
+    <string name="insufficient_permission">Ónógar heimildir</string>
+    <string name="no_matching_app_installed">Ekkert samsvarandi forrit uppsett</string>
     <string name="clone_cards">Klóna spjöld</string>
     <string name="simple_clone">Klóna</string>
     <string name="user_avatar">Auðkennismynd notanda</string>
@@ -291,9 +298,11 @@
     <string name="show_all_files">Sýna allar skrár</string>
     <string name="recent">Nýlegt</string>
     <string name="upload_a_new_attachment">Senda inn nýtt viðhengi</string>
+    <string name="camera">Myndavél</string>
     <string name="contacts">Tengiliðir</string>
     <string name="downloads">Sótt gögn</string>
     <string name="files">Skrár</string>
+    <string name="voice_recorder">Upptökutæki raddar</string>
     <string name="gallery">Myndasafn</string>
     <string name="videos">Myndskeið</string>
     <string name="simple_attach">Hengja við</string>
