@@ -85,6 +85,7 @@
     <string name="add_board">添加面板</string>
 
     <string name="label_clear_due_date">清除截止日期</string>
+    <string name="label_clear_done">未完成</string>
     <string name="label_add">添加 %1$s</string>
 
     <string name="card_edit_details">详情</string>
@@ -174,6 +175,8 @@
 
     <string name="filter_done_no_filter">所有</string>
     <string name="filter_done_done">完成</string>
+    <string name="filter_done_undone">未完成</string>
+
     <string name="archived_cards">已归档卡片</string>
     <string name="attachment_already_exists">附件已存在</string>
     <string name="pick_custom_color">自定义颜色</string>
