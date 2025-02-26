@@ -220,7 +220,7 @@
     <string name="error_dialog_timeout_instance">Der Server reagierte nicht in der üblichen Zeit. Bitte stellen Sie sicher, dass Ihre Instanz einwandfrei läuft.</string>
     <string name="error_dialog_timeout_toggle">Überprüfen Sie Ihre Netzwerkverbindung. Manchmal kann es hilfreich sein, die mobilen Daten oder das WLAN aus- und wieder einzuschalten.</string>
     <string name="error_dialog_check_server">Die Antwort des Servers war fehlerhaft. Bitte überprüfen Sie ob die Deck App über die Weboberfläche erreichbar ist.</string>
-    <string name="error_dialog_check_server_logs">Es liegt ein Problem mit Ihrer Nextcloud-Konfiguration vor. Bitte schauen Sie in die Server-Protokolldateien.</string>
+    <string name="error_dialog_check_server_logs">Es liegt ein Problem mit Ihrer Nextcloud-Konfiguration vor. Bitte schauen Sie in die Serverprotokolldateien.</string>
     <string name="error_dialog_check_maintenance">Bitte prüfen Sie ob sich Ihr Nextcloud-Server derzeit  im Wartungsmodus befindet.</string>
     <string name="error_dialog_insufficient_storage">Ihre Nextcloud-Installation hat keinen freien Speicherplatz mehr. Bitte löschen Sie einige Dateien, um Ihre lokalen Änderungen mit Ihrer Cloud synchronisieren zu können.</string>
     <string name="error_dialog_we_need_info">Wir benötigen die folgenden technischen Informationen, um Ihnen helfen zu können:</string>
@@ -237,7 +237,7 @@
     <string name="error_action_open_deck_info">App-Informationen öffnen</string>
     <string name="error_action_open_nextcloud_app">Nextcloud-App öffnen</string>
     <string name="error_action_open_network">Netzwerkeinstellungen</string>
-    <string name="error_action_server_logs">Server-Protokolle</string>
+    <string name="error_action_server_logs">Serverprotokolle</string>
     <string name="error_action_open_in_browser">Im Browser öffnen</string>
     <string name="error_action_install">Installieren</string>
     <string name="error_action_report_issue">Melden</string>
