@@ -86,6 +86,7 @@
 
     <string name="label_clear_due_date">清除截止日期</string>
     <string name="label_clear_done">未完成</string>
+    <string name="label_due_at">截止于：%1$s</string>
     <string name="label_add">添加 %1$s</string>
 
     <string name="card_edit_details">详情</string>
@@ -210,6 +211,7 @@
     <string name="error_dialog_tip_offline_no_internet">看起来您试图在没有互联网连接的情况下触发同步。 </string>
     <string name="error_dialog_tip_offline_connection_refused">连接被拒绝，请检查您的服务器能否通过浏览器连接。</string>
     <string name="error_dialog_tip_offline_connection_timeout">连接超时，请检查您是否已连接到互联网。这也可能是您的服务器繁忙所致。</string>
+    <string name="error_dialog_tip_connection_rejected">连接被拒绝，请检查您的服务器是否受到流量防洪机制保护。这很可能是 Cloudflare 保护的服务器造成的问题。</string>
     <string name="error_dialog_tip_sync_only_on_wifi">如果您开启了“仅在Wi-Fi上同步”设置，则只有连接到Wi-Fi时才能进行同步。 </string>
     <string name="error_dialog_tip_files_force_stop">您的Nextcloud应用似乎出现了问题。请尝试强行停止Nextcloud和Nextcloud看板两个应用。</string>
     <string name="error_dialog_tip_files_delete_storage">如果强行停止没有效果，您可以尝试清除两个应用的存储空间。</string>
@@ -250,6 +252,7 @@
     <string name="manage_list">管理列表</string>
     <string name="simple_reply">回复</string>
     <string name="append_text_to_description">添加到描述</string>
+    <string name="append_text_as_task">作为任务附加到描述中</string>
     <string name="add_text_as_comment">添加为注释</string>
     <string name="progress_count">%2$d 中的 %1$d</string>
     <plurals name="progress_error_count">
@@ -279,6 +282,8 @@
     <string name="project_type_room">聊天室</string>
     <string name="simple_move">移动</string>
     <string name="cannot_upload_files_without_permission">没有权限无法上传文件</string>
+    <string name="insufficient_permission">权限不足</string>
+    <string name="no_matching_app_installed">未安装匹配的应用</string>
     <string name="clone_cards">克隆卡片</string>
     <string name="simple_clone">克隆</string>
     <string name="user_avatar">用户头像</string>
@@ -294,6 +299,7 @@
     <string name="contacts">联系人</string>
     <string name="downloads">下载项</string>
     <string name="files">文件</string>
+    <string name="voice_recorder">录音机</string>
     <string name="gallery">相册</string>
     <string name="videos">视频</string>
     <string name="simple_attach">附加</string>
