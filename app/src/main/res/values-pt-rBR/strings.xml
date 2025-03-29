@@ -1,7 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">Abra a gaveta de navegação</string>
     <string name="navigation_drawer_close">Fechar a gaveta de navegação</string>
-    <string name="hint_search_deck">Deck de pesquisa </string>
+    <string name="hint_search_deck">Pesquisar no Deck</string>
 
     <string name="simple_add">Adicionar</string>
     <string name="simple_save">Salvar</string>
