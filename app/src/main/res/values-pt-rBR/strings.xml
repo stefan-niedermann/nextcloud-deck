@@ -125,9 +125,9 @@
     <string name="settings_etags_summary">Acelera a sincronização </string>
     <string name="settings_background_sync">Sincronização em segundo plano</string>
     <string name="settings_push_notifications">Notificações push</string>
-    <string name="settings_compress_image_attachments">Compactar imagens no envio </string>
+    <string name="settings_compress_image_attachments">Compactar imagens durante o upload</string>
     <string name="search_in">Pesquisar em %1$s</string>
-    <string name="settings_compress_image_attachments_summary">Envio mais rápido, menos qualidade </string>
+    <string name="settings_compress_image_attachments_summary">Upload mais rápido, menos qualidade </string>
     <string name="pref_value_wifi_and_mobile">Sincronizar com Wi-Fi e dados móveis</string>
     <string name="pref_value_wifi_only">Sincronizar apenas com Wi-Fi</string>
     <string-array name="darkmode_entries">
@@ -225,7 +225,7 @@
     <string name="error_dialog_check_server_logs">Há um problema com sua configuração do Nextcloud. Por favor, dê uma olhada nos arquivos de log do servidor.</string>
     <string name="error_dialog_check_maintenance">Verifique se sua instância do Nextcloud não está no modo de manutenção.</string>
     <string name="error_dialog_insufficient_storage">Sua instância do Nextcloud não possui mais espaço livre. Exclua alguns arquivos para sincronizar suas alterações locais com a nuvem.</string>
-    <string name="error_dialog_we_need_info">Precisamos das seguintes informações técnicas para ajudá-lo:</string>
+    <string name="error_dialog_we_need_info">Precisamos das seguintes informações técnicas para ajudar você:</string>
     <string name="error_dialog_redirect">Seu servidor respondeu com um código de status HTTP 302, o que implica que você não instalou o aplicativo Deck no servidor ou que algo está configurado incorretamente. Isso pode ser causado por alterações no arquivo .htaccess ou por aplicativos Nextcloud como o Client OID.</string>
     <string name="error_dialog_version_not_parsable">Não conseguimos determinar a versão do servidor do aplicativo Deck. Confirme se ele está instalado e ativo.</string>
     <string name="error_dialog_account_might_not_be_authorized">A conta do seu aplicativo Nextcloud pode não estar mais autorizada.</string>
