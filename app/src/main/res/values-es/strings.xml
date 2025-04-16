@@ -275,7 +275,7 @@
 
     <string name="widget_stack_title">Lista</string>
     <string name="widget_stack_header_icon">Icono de la cabecera del widget</string>
-    <string name="widget_placeholder_icon">Espacio para el icono del widget</string>
+    <string name="widget_placeholder_icon">Ícono marcador de posición para el Widget</string>
     <string name="project_type_deck_board">Tablero Deck</string>
     <string name="project_type_deck_card">Tarjeta Deck</string>
     <string name="project_type_file">Archivo</string>
