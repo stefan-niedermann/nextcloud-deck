@@ -170,6 +170,7 @@
     <string name="simple_report">Teata</string>
     <string name="error_action_open_battery_settings">Akuseadistused</string>
     <string name="widget_stack_title">Loend</string>
+    <string name="project_type_deck_card">Kanbani kaart</string>
     <string name="project_type_file">Fail</string>
     <string name="projects_title">Projektid</string>
     <plurals name="resources_count">
