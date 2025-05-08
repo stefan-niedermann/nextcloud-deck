@@ -170,6 +170,7 @@
     <string name="simple_report">Teata</string>
     <string name="error_action_open_battery_settings">Akuseadistused</string>
     <string name="widget_stack_title">Loend</string>
+    <string name="project_type_deck_board">Kanbani tahvel</string>
     <string name="project_type_deck_card">Kanbani kaart</string>
     <string name="project_type_file">Fail</string>
     <string name="projects_title">Projektid</string>
@@ -193,6 +194,7 @@
     <string name="files">Failid</string>
     <string name="gallery">Galerii</string>
     <string name="videos">Videod</string>
+    <string name="simple_order">Järjestus</string>
     <!-- Category header for a section in the settings which contain features for advanced users -->
     <string name="simple_expert_settings">Eksperdi seadistused</string>
     <string name="app_logo">Rakenduse logo</string>
