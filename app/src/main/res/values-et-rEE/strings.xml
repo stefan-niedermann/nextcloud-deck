@@ -111,6 +111,7 @@
     <string name="filter_done_no_filter">Kõik</string>
     <string name="filter_done_done">Valmis</string>
     <string name="manage_tags">Halda silte</string>
+    <string name="add_tag">Lisa silt</string>
     <string name="edit_tag">Muuda „%1$s“</string>
     <string name="mark_as_done">Märgi tehtuks</string>
     <string name="filter_tags_title">Sildid</string>
