@@ -68,6 +68,7 @@
     <string name="rename_list">Muuda loendi nime</string>
     <string name="delete_list">Kustuta loend</string>
     <string name="action_card_delete">Kustuta kaart</string>
+    <string name="label_clear_done">Pole valmis</string>
     <string name="label_add">Lisa %1$s</string>
 
     <string name="card_edit_details">Üksikasjad</string>
@@ -94,24 +95,37 @@
     </string-array>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Kasutajakonto lisamiseks peab sinu nutiseadmes olema toimiv internetiühendus.</string>
     <string name="owner">Omanik</string>
+    <string name="attachment_delete_message">Sellega kustutad antud manuse jäädavalt.</string>
+    <string name="no_content">Sisu veel pole</string>
     <string name="last_background_sync">Viimane sünkroniseerimine taustal:</string>
     <string name="simple_off">Pole kasutusel</string>
     <string name="minutes_15">15 minutit</string>
     <string name="hour_1">1 tund</string>
     <string name="hours_6">6 tundi</string>
     <string name="welcome_text">Tere tulemast %1$s</string>
+    <string name="add_comment">Lisa kommentaar</string>
     <string name="card_edit_comments">Kommentaarid</string>
+    <string name="no_comments_yet">Kommentaare veel pole</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Ava veebilehitsejas</string>
+    <string name="move_list_right">Nihuta loendit paremale</string>
+    <string name="move_list_left">Nihuta loendit vasakule</string>
+
     <string name="filter_no_filter">Kõik</string>
+    <string name="filter_overdue">Üle tähtaja</string>
     <string name="filter_today">Täna</string>
     <string name="filter_tomorrow">Homme</string>
     <string name="filter_later">Hiljem</string>
 
     <string name="filter_done_no_filter">Kõik</string>
     <string name="filter_done_done">Valmis</string>
+    <string name="filter_done_undone">Pole valmis</string>
+
+    <string name="attachment_already_exists">Manus on juba olemas</string>
     <string name="manage_tags">Halda silte</string>
     <string name="add_tag">Lisa silt</string>
+    <string name="tag_already_exists">%1$s on  juba olemas</string>
+    <string name="tag_successfully_added">%1$s lisamine õnnestus</string>
     <string name="edit_tag">Muuda „%1$s“</string>
     <string name="mark_as_done">Märgi tehtuks</string>
     <string name="filter_tags_title">Sildid</string>
@@ -121,8 +135,11 @@
 
     <string name="error">Tekkis viga</string>
     <string name="synchronization_failed">Sünkroniseerimine ei õnnestunud</string>
+    <string name="operation_not_yet_supported">Pole veel toetatud</string>
+    <string name="error_revoking_ac">%1$s kasutaja ligipääsu eemaldamisel tekkis viga</string>
+    <string name="error_create_label">%1$s sildi loomisel tekkis viga</string>
     <string name="maintenance_mode">Server on hooldusrežiimis</string>
-    <string name="error_dialog_title">Appikine, mis nüüd saab? 🙁</string>
+    <string name="error_dialog_title">Appikene, mis nüüd saab? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Palun  proovi sundkorras rakendus kinni panna ja siis uuesti käivitada. Tegemist võis olla ühenduse veaga Nextcloudi serveri ja rakenduse vahel.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Ei õnnestunud uuendada andmebaasi. Palun teata sellest veast arendajatele ning rakenduse tavapäraseks kasutamiseks kustuta andmeruum.</string>
     <string name="error_dialog_tip_clear_storage">Andmeruumi saad tühjendada, kui avad rakenduse teabe ning valid „Andmeruum“ → „Tühjenda andmeruum“.</string>
@@ -171,6 +188,8 @@
     <string name="simple_report">Teata</string>
     <string name="error_action_open_battery_settings">Akuseadistused</string>
     <string name="widget_stack_title">Loend</string>
+    <string name="widget_stack_header_icon">Vidina päiseikoon</string>
+    <string name="widget_placeholder_icon">Vidina kohatäitja koon</string>
     <string name="project_type_deck_board">Kanbani tahvel</string>
     <string name="project_type_deck_card">Kanbani kaart</string>
     <string name="project_type_file">Fail</string>
@@ -182,6 +201,9 @@
     <string name="no_assigned_label">Määratud silti pole</string>
     <string name="project_type_room">Jututuba</string>
     <string name="simple_move">Liiguta</string>
+    <string name="cannot_upload_files_without_permission">Ilma õigusteta ei saa faile üles laadida</string>
+    <string name="insufficient_permission">Pole piisavalt õigusi</string>
+    <string name="no_matching_app_installed">Vastavat rakendust pole paigaldatud</string>
     <string name="user_avatar">Kasutaja tunnuspilt</string>
     <string name="take_photo">Pildista</string>
     <string name="take_photo_switch_camera">Vaheta kaamerat</string>
@@ -189,16 +211,27 @@
     <string name="show_all_contacts">Näita kõiki kontakte</string>
     <string name="show_all_files">Näita kõiki faile</string>
     <string name="recent">Hiljutised</string>
+    <string name="upload_a_new_attachment">Laadi üles uus manus</string>
     <string name="camera">Kaamera</string>
     <string name="contacts">Kontaktid</string>
     <string name="downloads">Allalaadimised</string>
     <string name="files">Failid</string>
+    <string name="voice_recorder">Diktofon</string>
     <string name="gallery">Galerii</string>
     <string name="videos">Videod</string>
     <string name="simple_order">Järjestus</string>
+    <string name="edit_description">Muuda kirjeldust</string>
     <!-- Category header for a section in the settings which contain features for advanced users -->
     <string name="simple_expert_settings">Eksperdi seadistused</string>
+    <string name="copy_logs">Kopeeri logid lõikelauale</string>
     <string name="app_logo">Rakenduse logo</string>
+    <string name="log_file">Logifail</string>
+    <string name="copying_logs_to_file">Kopeerin logisid lõikelauale…</string>
+    <string name="account_imported">Kasutajakonto on imporditud</string>
     <string name="simple_search">Otsi</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Pealkiri (nõutav)</string>
+    <string name="enter_search_term_title">Sisesta otsingusõna</string>
     <string name="no_search_results_title">Otsingul pole tulemusi</string>
-    </resources>
+    <string name="no_search_results_description">Selle otsingusõnaga ei õnnestu leida mitte midagi</string>
+</resources>
