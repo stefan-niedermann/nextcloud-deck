@@ -136,3 +136,20 @@ Sometimes we provide a DEV app for testing purposes, mostly related to an issue.
   - To do so, select the account you want to test on and let the app do the initial sync
 - Test whatever you want to test
 - And maybe provide some feedback ;)
+
+## Gathering Debug-Logs
+
+Sometimes it can be really helpful, if we can see whats going on inside the App in detail. For this, we can gather logs as follows:
+
+- Open the side-menu (burger-button top left corner)
+- Open Settings page (at the bottom)
+- Switch ON "Debug Logs"
+
+Then go back to the App and do what ever causes problems. Afterwards, to get the gathered logs, do the following:
+
+- Open the side-menu (burger-button top left corner)
+- Right beside the Deck-Logo you'll see a little bug-icon
+- tap on that icon
+- select how you want to share the logfile (e.g. via email)
+
+!! IMPORTANT !! After you got what you need, please remember to deactivate the "Debug Logs" option. Since the Logs are gathered in RAM, this could cause issues on the long run.
