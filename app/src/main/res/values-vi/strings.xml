@@ -217,7 +217,7 @@
     <string name="error_dialog_tip_files_delete_storage">Nếu việc buộc dừng chúng không giúp gì được, bạn có thể cố gắng xoá bộ nhớ của cả hai ứng dụng.</string>
     <string name="error_dialog_timeout_instance">Không có phản hồi từ máy chủ của bạn trong thời gian cho phép. Vui lòng đảm bảo rằng phiên bản của bạn đang chạy phù hợp.</string>
     <string name="error_dialog_timeout_toggle">Hãy kiểm tra kết nối mạng của bạn. Đôi khi việc tắt và bật lại dữ liệu di động hoặc Wi-Fi có thể giúp.</string>
-    <string name="error_dialog_check_server">Phản hồi của máy chủ của bạn không đúng. Vui lòng kiểm tra xem bạn có thể truy cập ứng dụng Deck qua giao diện web hay không.</string>
+    <string name="error_dialog_check_server">Phản hồi phía máy chủ của bạn không đúng. Vui lòng kiểm tra xem bạn có thể truy cập ứng dụng Deck qua giao diện web hay không.</string>
     <string name="error_dialog_check_server_logs">Có vấn đề với thiết lập Nextcloud của bạn. Vui lòng xem các tệp nhật ký của máy chủ.</string>
     <string name="error_dialog_check_maintenance">Vui lòng kiểm tra xem bản sao Nextcloud của bạn hiện tại có đang không ở trong chế độ bảo trì không.</string>
     <string name="error_dialog_insufficient_storage">Bản sao Nextcloud của bạn không còn bộ nhớ trống. Vui lòng xoá một số tệp để đồng bộ các thay đổi cục bộ của bạn vào đám mây của bạn.</string>
