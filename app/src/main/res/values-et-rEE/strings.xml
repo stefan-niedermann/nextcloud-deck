@@ -102,6 +102,7 @@
     <string name="minutes_15">15 minutit</string>
     <string name="hour_1">1 tund</string>
     <string name="hours_6">6 tundi</string>
+    <string name="title_is_mandatory">Pealkiri on nõutav</string>
     <string name="welcome_text">Tere tulemast %1$s</string>
     <string name="add_comment">Lisa kommentaar</string>
     <string name="card_edit_comments">Kommentaarid</string>
@@ -115,6 +116,7 @@
     <string name="filter_overdue">Üle tähtaja</string>
     <string name="filter_today">Täna</string>
     <string name="filter_tomorrow">Homme</string>
+    <string name="filter_no_due">Tähtaega pole</string>
     <string name="filter_later">Hiljem</string>
 
     <string name="filter_done_no_filter">Kõik</string>
@@ -219,6 +221,9 @@
     <string name="voice_recorder">Diktofon</string>
     <string name="gallery">Galerii</string>
     <string name="videos">Videod</string>
+    <string name="simple_attach">Manusta</string>
+    <string name="add_stack_widget">Lisa loendividin</string>
+    <string name="add_filter_widget">Lisa filtrividin</string>
     <string name="simple_order">Järjestus</string>
     <string name="edit_description">Muuda kirjeldust</string>
     <!-- Category header for a section in the settings which contain features for advanced users -->
@@ -231,6 +236,7 @@
     <string name="simple_search">Otsi</string>
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Pealkiri (nõutav)</string>
+    <string name="show_error">Näita viga</string>
     <string name="enter_search_term_title">Sisesta otsingusõna</string>
     <string name="no_search_results_title">Otsingul pole tulemusi</string>
     <string name="no_search_results_description">Selle otsingusõnaga ei õnnestu leida mitte midagi</string>
