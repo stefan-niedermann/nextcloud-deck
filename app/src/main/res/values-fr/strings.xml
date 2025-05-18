@@ -86,7 +86,7 @@
 
     <string name="label_clear_due_date">Effacer la date d\'échéance</string>
     <string name="label_clear_done">Non fait</string>
-    <string name="label_due_at">À rendre à: %1$s</string>
+    <string name="label_due_at">À rendre à : %1$s</string>
     <string name="label_add">Ajouter %1$s</string>
 
     <string name="card_edit_details">Propriétés</string>
