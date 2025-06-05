@@ -84,7 +84,7 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
 
     // Android X
-    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation "androidx.camera:camera-camera2:$cameraVersion"
     implementation "androidx.camera:camera-lifecycle:$cameraVersion"
     implementation "androidx.camera:camera-view:$cameraVersion"
