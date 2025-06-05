@@ -17,6 +17,10 @@ Sorry. There are so many different environments, that it is impossible for us to
 First of all make sure you have updated to and tried with the latest available versions of both, this app and the [Deck server app](https://apps.nextcloud.com/apps/deck).
 
 In case you receive a `NextcloudApiNotRespondingException`, try to disable the battery optimization for both apps.
+
+Using any backup and restore tool as well as migrating to new hardware is not yet supported by the Nextcloud Files app and will result in a `TokenMismatchException`. Given the Nextcloud Files app does not backup the tokens for 3rd party apps using Nextcloud Single Sign On, they are invalid when the Deck Android app is opened next time.
+Please either remove the account in the Deck Android app by clicking on the avatar or clear the storage of the Deck Android app as described below to solve this issue and reimport your account.
+
 In all other cases please try  to clear the storage of **both** apps, Nextcloud Android **and** Nextcloud Deck Android.
 
 You can achieve this by navigating to
