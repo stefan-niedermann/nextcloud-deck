@@ -86,6 +86,7 @@
 
     <string name="label_clear_due_date">Esborra la data de venciment</string>
     <string name="label_clear_done">No s\'ha fet</string>
+    <string name="label_due_at">Venciment el %1$s</string>
     <string name="label_add">Afegeix %1$s</string>
 
     <string name="card_edit_details">Detalls</string>

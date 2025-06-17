@@ -85,6 +85,8 @@
     <string name="add_board">Добавяне на табло</string>
 
     <string name="label_clear_due_date">Премахни крайната дата</string>
+    <string name="label_clear_done">Незавършен</string>
+    <string name="label_due_at">Краен срок: %1$s</string>
     <string name="label_add">Добавяне %1$s</string>
 
     <string name="card_edit_details">Подробности</string>
@@ -150,7 +152,7 @@
     <string name="provide_at_least_a_title_or_description">Посочете поне заглавие или описание</string>
     <string name="welcome_text">Добре дошли на%1$s</string>
     <string name="welcome_text_further_accounts">Добавяне на друг профил</string>
-    <string name="share_add_to_card">Добавяне към карта</string>
+    <string name="share_add_to_card">Добави към карта</string>
     <string name="share_success">Успешно добавен %1$sкъм%2$s</string>
     <string name="add_comment">Добавяне на коментар</string>
     <string name="card_edit_comments">Коментари</string>
@@ -176,6 +178,8 @@
 
     <string name="filter_done_no_filter">Всички</string>
     <string name="filter_done_done">Завършено</string>
+    <string name="filter_done_undone">Незавършен</string>
+
     <string name="archived_cards">Архивирани карти</string>
     <string name="attachment_already_exists"> Прикаченият файл вече съществува</string>
     <string name="pick_custom_color">Избор на персонализиран цвят</string>
@@ -209,6 +213,7 @@
     <string name="error_dialog_tip_offline_no_internet">Изглежда, че сте се опитали да задействате синхронизация без интернет връзка.</string>
     <string name="error_dialog_tip_offline_connection_refused">Връзката беше отказана, моля, проверете дали вашият сървър е достъпен чрез уеб браузър.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Времето за изчакване на връзката изтече. Моля, проверете дали сте свързани с интернет. Това би могло да се случи и когато сървърът ви е зает.</string>
+    <string name="error_dialog_tip_connection_rejected">Връзката е прекъсната, моля, проверете дали не е активна сървърна защита срещу претоварване. Най-често този проблем се наблюдава при сървъри използващи Cloudfare.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Ако сте активирали настройката „Синхронизиране само в Wi-Fi“, можете да синхронизирате само когато сте свързани с Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Изглежда, че нещо не е наред с вашето приложение Nextcloud. Моля, опитайте да спрете принудиттелно и двете приложения -и Nextcloud и приложението Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Ако принудителното им спиране не помогне, можете да опитате да изчистите хранилището на двете приложения.</string>
@@ -249,6 +254,7 @@
     <string name="manage_list">Управление на списъка</string>
     <string name="simple_reply">Отговори</string>
     <string name="append_text_to_description">Добавете към описанието</string>
+    <string name="append_text_as_task">Добави като задача към описанието</string>
     <string name="add_text_as_comment">Добавяне като коментар</string>
     <string name="progress_count">%1$d от %2$d</string>
     <plurals name="progress_error_count">
@@ -281,6 +287,7 @@
     <string name="simple_move">Преместване</string>
     <string name="cannot_upload_files_without_permission">Не може да се качват файлове без права</string>
     <string name="insufficient_permission">Недостатъчно право</string>
+    <string name="no_matching_app_installed">Подходящо приложение не е инсталирано</string>
     <string name="clone_cards"> Клониране на карти</string>
     <string name="simple_clone">Клониране</string>
     <string name="user_avatar">Потребителски аватар</string>
@@ -296,6 +303,7 @@
     <string name="contacts">Контакти</string>
     <string name="downloads">Изтегляния</string>
     <string name="files">Файлове</string>
+    <string name="voice_recorder">Запис на глас</string>
     <string name="gallery">Галерия</string>
     <string name="videos">Видеа</string>
     <string name="simple_attach">Прикачване</string>
