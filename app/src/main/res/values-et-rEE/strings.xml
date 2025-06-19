@@ -206,6 +206,8 @@
     <string name="cannot_upload_files_without_permission">Ilma õigusteta ei saa faile üles laadida</string>
     <string name="insufficient_permission">Pole piisavalt õigusi</string>
     <string name="no_matching_app_installed">Vastavat rakendust pole paigaldatud</string>
+    <string name="clone_cards">Tee kaartidest koopia</string>
+    <string name="simple_clone">Tee koopia</string>
     <string name="user_avatar">Kasutaja tunnuspilt</string>
     <string name="take_photo">Pildista</string>
     <string name="take_photo_switch_camera">Vaheta kaamerat</string>
