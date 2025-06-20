@@ -25,6 +25,7 @@
     <string name="simple_comment">Kommentaar</string>
     <string name="simple_disabled">välja lülitatud</string>
     <string name="simple_archive">Arhiiv</string>
+    <string name="simple_unassigned">Täitja on määramata</string>
     <string name="hint_error_appeared">Tekkis viga</string>
 
     <string name="delete_something">Kustuta %1$s</string>
