@@ -96,6 +96,7 @@ public class SyncHelper {
                                 provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(provider, existingEntity, entityFromServer, accountId), false);
                             }
                         }
+
                         existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
                         final T tmp = existingEntity;
                         if (parallel) {
