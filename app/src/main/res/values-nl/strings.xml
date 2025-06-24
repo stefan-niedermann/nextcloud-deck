@@ -85,6 +85,8 @@
     <string name="add_board">Toevoegen bord</string>
 
     <string name="label_clear_due_date">Wis vervaldatum</string>
+    <string name="label_clear_done">Niet gedaan</string>
+    <string name="label_due_at">Vervalt op: %1$s</string>
     <string name="label_add">Toevoegen %1$s</string>
 
     <string name="card_edit_details">Details</string>
@@ -176,6 +178,8 @@
 
     <string name="filter_done_no_filter">Alle</string>
     <string name="filter_done_done">Klaar</string>
+    <string name="filter_done_undone">Niet gedaan</string>
+
     <string name="archived_cards">Gearchiveerde kaarten</string>
     <string name="attachment_already_exists">Bijlage bestaat al</string>
     <string name="pick_custom_color">Kies een maatwerkkleur</string>
@@ -209,6 +213,7 @@
     <string name="error_dialog_tip_offline_no_internet">Het lijkt erop dat u een synchronisatie probeerde te starten zonder internetverbinding.</string>
     <string name="error_dialog_tip_offline_connection_refused">Verbinding werd geweigerd, controleer of uw server bereikbaar is via de webbrowser.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Verbinding verbroken, controleer of u verbonden bent met het internet. Dit kan ook gebeuren als uw server bezet is.</string>
+    <string name="error_dialog_tip_connection_rejected">De verbinding is geweigerd. Controleer of de server wordt beschermd door een anti-floodingmechanisme. Dit is waarschijnlijk een probleem dat wordt veroorzaakt door Cloudflare-beveiligde servers.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Als je de instelling \"Alleen synchroniseren via Wi-Fi\" hebt ingeschakeld, kun je alleen synchroniseren als je met Wi-Fi bent verbonden.</string>
     <string name="error_dialog_tip_files_force_stop">Er lijkt iets mis te zijn met je Nextcloud app. Probeer alstublieft beide apps geforceerd te sluiten, zowel de Nextcloud app als de Nextcloud Deck app.</string>
     <string name="error_dialog_tip_files_delete_storage">Als geforceerd afsluiten niet helpt, probeer dan van beide apps de gegevensopslag te wissen.</string>
@@ -250,6 +255,7 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="manage_list">Beheer lijst</string>
     <string name="simple_reply">Antwoord</string>
     <string name="append_text_to_description">Toevoegen aan beschrijving</string>
+    <string name="append_text_as_task">Toevoegen aan beschrijving als taak</string>
     <string name="add_text_as_comment">Toevoegen als opmerking</string>
     <string name="progress_count">%1$d op %2$d</string>
     <plurals name="progress_error_count">
@@ -282,6 +288,7 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="simple_move">Verplaatsen</string>
     <string name="cannot_upload_files_without_permission">Kan  bestanden niet uploaden zonder toestemming</string>
     <string name="insufficient_permission">Geen toestemming</string>
+    <string name="no_matching_app_installed">Geen overeenkomende app geïnstalleerd</string>
     <string name="clone_cards">Kaarten klonen</string>
     <string name="simple_clone">Klonen</string>
     <string name="user_avatar">Gebruik avatar</string>
@@ -297,6 +304,7 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="contacts">Contactpersonen</string>
     <string name="downloads">Downloads</string>
     <string name="files">Bestanden</string>
+    <string name="voice_recorder">Stemrecorder</string>
     <string name="gallery">Galerij</string>
     <string name="videos">Video\'s</string>
     <string name="simple_attach">Bijvoegen</string>
@@ -322,5 +330,7 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="show_error">Bekijk fout</string>
     <string name="push_notification_link_empty">Vanwege een bekend probleem met de Deck web app is het helaas niet mogelijk deze kaart te tonen. Voor meer info kijk: %1$s</string>
     <string name="enter_search_term_title">Voer een zoekwoord in</string>
+    <string name="enter_search_term_description">Voer een zoekterm in om kaarten in dit bord te vinden</string>
     <string name="no_search_results_title">Geen zoekresultaten</string>
-    </resources>
+    <string name="no_search_results_description">We hebben geen resultaten gevonden voor de opgegeven zoekterm</string>
+</resources>
