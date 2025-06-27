@@ -69,6 +69,8 @@
     <string name="rename_list">Muuda loendi nime</string>
     <string name="delete_list">Kustuta loend</string>
     <string name="action_card_delete">Kustuta kaart</string>
+    <string name="add_board">Lisa tahvel</string>
+
     <string name="label_clear_done">Pole valmis</string>
     <string name="label_add">Lisa %1$s</string>
 
@@ -103,6 +105,7 @@
     <string name="minutes_15">15 minutit</string>
     <string name="hour_1">1 tund</string>
     <string name="hours_6">6 tundi</string>
+    <string name="action_card_move">Teisalda kaart</string>
     <string name="title_is_mandatory">Pealkiri on nõutav</string>
     <string name="welcome_text">Tere tulemast %1$s</string>
     <string name="add_comment">Lisa kommentaar</string>
