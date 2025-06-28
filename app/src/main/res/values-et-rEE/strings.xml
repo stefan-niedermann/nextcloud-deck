@@ -1,6 +1,8 @@
 <resources>
     <string name="navigation_drawer_open">Ava menüü</string>
     <string name="navigation_drawer_close">Sulge menüü</string>
+    <string name="hint_search_deck">Otsi kanbanist</string>
+
     <string name="simple_add">Lisa</string>
     <string name="simple_save">Salvesta</string>
     <string name="simple_more">Rohkem</string>
@@ -25,9 +27,12 @@
     <string name="simple_comment">Kommentaar</string>
     <string name="simple_disabled">välja lülitatud</string>
     <string name="simple_archive">Arhiiv</string>
-    <string name="simple_unassigned">Täitja on määramata</string>
+    <string name="simple_unassigned">Vastutaja on määramata</string>
     <string name="hint_error_appeared">Tekkis viga</string>
 
+    <string name="edit_board">Muuda tahvlit</string>
+    <string name="archive_board">Arhiveeri tahvel</string>
+    <string name="delete_board">Kustuta tahvel</string>
     <string name="delete_something">Kustuta %1$s</string>
 
     <string name="about">Info</string>
@@ -62,27 +67,59 @@
     <string name="hint_due_date_date">Tähtaeg</string>
     <string name="hint_due_date_time">Aeg</string>
 
+    <string name="card_not_found">Kaarti ei leidu</string>
+    <string name="card_not_found_message">Kaarti ei õnnestu leida. Kas ta võib olla hiljuti kustutatud?</string>
+
     <string name="add_account">Lisa konto</string>
     <string name="choose_account">Vali konto</string>
+    <string name="add_card">Lisa kaart</string>
     <string name="activity">Tegevus</string>
     <string name="add_list">Lisa loend</string>
     <string name="rename_list">Muuda loendi nime</string>
     <string name="delete_list">Kustuta loend</string>
+    <string name="label_menu">menüü</string>
+    <string name="action_card_assign">Määra kaardi täitmine minule</string>
+    <string name="action_card_unassign">Eemalda kaardi täitmise määramine minult</string>
+    <string name="action_card_archive">Arhiveeri kaart</string>
     <string name="action_card_delete">Kustuta kaart</string>
     <string name="add_board">Lisa tahvel</string>
 
+    <string name="label_clear_due_date">Eemalda tähtaeg</string>
     <string name="label_clear_done">Pole valmis</string>
+    <string name="label_due_at">Tähtaeg: %1$s</string>
     <string name="label_add">Lisa %1$s</string>
 
     <string name="card_edit_details">Üksikasjad</string>
     <string name="card_edit_attachments">Manused</string>
     <string name="card_edit_activity">Tegevus</string>
     <string name="about_server_app_version_text">Serverirakenduse versioon:</string>
+    <string name="no_files_attached_to_this_card">Sellel kaardile pole lisatud ühtegi faili.</string>
     <string name="attachments">Manused</string>
     <string name="append_to_description">Lisa kirjeldusele</string>
-    <string name="settings_theme_title">Teema</string>
+    <string name="no_cards">Kaarte veel pole</string>
+    <string name="account_already_added">%1$s kasutajakonto on juba lisatud</string>
+    <string name="not_synced_yet">Pole veel sünkroonitud</string>
+    <string name="no_lists_yet">Loendeid veel pole</string>
+    <string name="do_you_want_to_save_your_changes">Kas sa soovid oma muudatused salvestada?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Kas sa soovid kõik %1$s tahvli kaardid arhiveerida?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Kas sa soovid kõik %1$s tahvli filtreeritud kaardid arhiveerida?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Sellega kustutad %1$d kaardi sellest loendist.</item>
+        <item quantity="other">Sellega kustutad kõik %1$d kaarti sellest loendist.</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Sellega eemaldad antud sildi %1$d-lt kaardilt.</item>
+        <item quantity="other">Sellega eemaldad antud sildi %1$d-lt kaardilt.</item>
+    </plurals>
+    <string name="add_a_new_list_using_the_button">+ nupuga saad lisada uue loendi</string>
+    <string name="add_a_new_card_using_the_button">+ nupuga saad lisada uue kaardi</string>
+    <string name="deck_outdated_please_update">Serveris töötav kanbani rakenduse versioon (Nextcloud Deck %1$s) on liiga vana. Kasutamaks seda Androidi rakendust  kliendina peab serveri tarkvara olema uuendtud.</string>
+    <string name="delete_board_message">Sellega kustutad antud tahvli koos kõikide tema loendite ja kaartidega.</string>
+    <string name="settings_theme_title">Kujundus</string>
+    <string name="settings_compact_title">Kompaktne vaade</string>
     <string name="settings_cover_images_title">Kaanepildid</string>
     <string name="settings_debugging">Veaotsingu logid</string>
+    <string name="settings_etags">Kasuta HTTP ETage</string>
     <string name="settings_etags_summary">Kiirendab sünkroonimist</string>
     <string name="settings_background_sync">Taustsünkroniseerimine</string>
     <string name="settings_push_notifications">Tõuketeavitused</string>
@@ -93,9 +130,12 @@
     <string name="pref_value_wifi_only">Sünkroonimine ainult Wi-Fi kaudu</string>
     <string-array name="darkmode_entries">
         <item>Süsteemi kujundus</item>
-        <item>Tume</item>
-        <item>Hele</item>
+        <item>Hele kujundus</item>
+        <item>Tume kujundus</item>
     </string-array>
+    <string name="unassigned_user">%1$s - vastutaja määramine on eemaldatud</string>
+    <string name="share_board">Jaga tahvlit</string>
+    <string name="you_are_currently_offline">Sa pole hetkel võrgus</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Kasutajakonto lisamiseks peab sinu nutiseadmes olema toimiv internetiühendus.</string>
     <string name="owner">Omanik</string>
     <string name="attachment_delete_message">Sellega kustutad antud manuse jäädavalt.</string>
@@ -106,13 +146,23 @@
     <string name="hour_1">1 tund</string>
     <string name="hours_6">6 tundi</string>
     <string name="action_card_move">Teisalda kaart</string>
+    <string name="action_card_move_title">Teisalda %1$s</string>
     <string name="title_is_mandatory">Pealkiri on nõutav</string>
-    <string name="welcome_text">Tere tulemast %1$s</string>
+    <string name="provide_at_least_a_title_or_description">Palun sisesta kas pealkiri või kirjeldus</string>
+    <string name="welcome_text">Tere tulemast, see on %1$s</string>
+    <string name="welcome_text_further_accounts">Lisa mõni muu kasutajakonto</string>
+    <string name="share_add_to_card">Lisa kaardile</string>
+    <string name="share_success">%1$s lisamine õnnestus: %2$s</string>
     <string name="add_comment">Lisa kommentaar</string>
     <string name="card_edit_comments">Kommentaarid</string>
     <string name="no_comments_yet">Kommentaare veel pole</string>
+    <string name="no_boards">Tahvleid veel pole</string>
+    <string name="add_a_new_board_using_the_button">+ nupuga saad uue tahvli lisada</string>
+    <string name="choose_board">Vali tahvel</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Ava veebilehitsejas</string>
+    <string name="updating_card">Uuendan kaarti…</string>
+
     <string name="move_list_right">Nihuta loendit paremale</string>
     <string name="move_list_left">Nihuta loendit vasakule</string>
 
@@ -120,6 +170,8 @@
     <string name="filter_overdue">Üle tähtaja</string>
     <string name="filter_today">Täna</string>
     <string name="filter_tomorrow">Homme</string>
+    <string name="filter_week">Järgmise 7 päeva jooksul</string>
+    <string name="filter_month">Järgmise 30 päeva jooksul</string>
     <string name="filter_no_due">Tähtaega pole</string>
     <string name="filter_later">Hiljem</string>
 
@@ -127,10 +179,12 @@
     <string name="filter_done_done">Valmis</string>
     <string name="filter_done_undone">Pole valmis</string>
 
+    <string name="archived_cards">Arhiveeritud kaardid</string>
     <string name="attachment_already_exists">Manus on juba olemas</string>
+    <string name="pick_custom_color">Vali sobilik värv</string>
     <string name="manage_tags">Halda silte</string>
     <string name="add_tag">Lisa silt</string>
-    <string name="tag_already_exists">%1$s on  juba olemas</string>
+    <string name="tag_already_exists">%1$s on juba olemas</string>
     <string name="tag_successfully_added">%1$s lisamine õnnestus</string>
     <string name="edit_tag">Muuda „%1$s“</string>
     <string name="mark_as_done">Märgi tehtuks</string>
@@ -139,14 +193,20 @@
     <string name="filter_duedate_title">Tähtaeg</string>
     <string name="filter_done_title">Valmis</string>
 
+    <string name="action_board_dearchive">Eemalda tahvel arhiivist</string>
+    <string name="archived_boards">Arhiveeritud tahvlid</string>
+
     <string name="error">Tekkis viga</string>
     <string name="synchronization_failed">Sünkroniseerimine ei õnnestunud</string>
     <string name="operation_not_yet_supported">Pole veel toetatud</string>
     <string name="error_revoking_ac">%1$s kasutaja ligipääsu eemaldamisel tekkis viga</string>
     <string name="error_create_label">%1$s sildi loomisel tekkis viga</string>
     <string name="maintenance_mode">Server on hooldusrežiimis</string>
+    <string name="error_edit_activity_killed_by_android">Kuna muud rakendused vajasid süsteemi ressursse, siis Android sulges muutmisvaate.</string>
+
     <string name="error_dialog_title">Appikene, mis nüüd saab? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Palun  proovi sundkorras rakendus kinni panna ja siis uuesti käivitada. Tegemist võis olla ühenduse veaga Nextcloudi serveri ja rakenduse vahel.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Kui probleem jätkub, siis proovi selle lahendamiseks tühjendada mõlema rakenduse andmeruumid: Nextcloud ja Nextcloudi Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Ei õnnestunud uuendada andmebaasi. Palun teata sellest veast arendajatele ning rakenduse tavapäraseks kasutamiseks kustuta andmeruum.</string>
     <string name="error_dialog_tip_clear_storage">Andmeruumi saad tühjendada, kui avad rakenduse teabe ning valid „Andmeruum“ → „Tühjenda andmeruum“.</string>
     <string name="error_dialog_tip_offline_no_internet">Tundub, et sa proovisid käivitada sünkroniseerimist nii, et nutiseadmes polnud toimivat internetiühendust.</string>
@@ -166,6 +226,7 @@
     <string name="error_dialog_certificate">Midagi on serveri sertifikaadi puhul valesti. Lisateavet leiad, kui kontrollid Nextcloudi rakenduse kõikide kasutajakontode olekuid.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Palun keela Nextcloudi kliendi ja selle rakenduste jaoks akukasutuse optimeerimine.</string>
     <string name="error_dialog_unknown_error">Sinu Nextcloudi server ei tundu olema kättesaadav. Please check your internet connection and whether you are able to connect to your instance via browser.</string>
+    <string name="error_dialog_min_version">Deck ehk kanbani rakendus Androidile eeldab, et Nextcloudi Androidi rakenduse versioon on vähemalt 3.18.</string>
     <string name="error_action_open_deck_info">Näita rakenduse teavet</string>
     <string name="error_action_open_nextcloud_app">Ava Nextcloudi rakendus</string>
     <string name="error_action_open_network">Võrgu seadistused</string>
@@ -180,6 +241,8 @@
     <string name="share_content">Jaga sisu</string>
     <string name="share_content_duedate">Tähtaeg: %1$s</string>
     <string name="share_content_labels">Sildid: %1$s</string>
+    <string name="archive_cards">Arhiveeri kaardid</string>
+
     <string name="manage_accounts">Halda kontosid</string>
     <string name="manage_list">Halda loendit</string>
     <string name="simple_reply">Vasta</string>
@@ -193,6 +256,13 @@
     </plurals>
     <string name="simple_report">Teata</string>
     <string name="error_action_open_battery_settings">Akuseadistused</string>
+    <string name="move_warning">Kaardi tõstmisel teisele tahvlile ei lähe kaasa ei kommentaarid ega manused.</string>
+    <string name="clone_board">Tee tahvlist koopia</string>
+    <string name="cloning_board">Teen koopiat tahvlist %1$s…</string>
+    <string name="successfully_cloned_board">%1$s tahvlist koopia tegemine õnnestud</string>
+    <string name="attachment_does_not_yet_exist">Manust pole veel kanbani rakenduses olemas</string>
+    <string name="card_does_not_yet_exist">Kaarti pole veel kanbani rakenduses olemas</string>
+
     <string name="widget_stack_title">Loend</string>
     <string name="widget_stack_header_icon">Vidina päiseikoon</string>
     <string name="widget_placeholder_icon">Vidina kohatäitja koon</string>
@@ -205,6 +275,7 @@
         <item quantity="other">%1$d ressurssi</item>
     </plurals>
     <string name="no_assigned_label">Määratud silti pole</string>
+    <string name="single_card">Üksik kaart</string>
     <string name="project_type_room">Jututuba</string>
     <string name="simple_move">Liiguta</string>
     <string name="cannot_upload_files_without_permission">Ilma õigusteta ei saa faile üles laadida</string>
@@ -213,6 +284,7 @@
     <string name="clone_cards">Tee kaartidest koopia</string>
     <string name="simple_clone">Tee koopia</string>
     <string name="user_avatar">Kasutaja tunnuspilt</string>
+    <string name="simple_unassign">Eemalda vastutaja määramine</string>
     <string name="take_photo">Pildista</string>
     <string name="take_photo_switch_camera">Vaheta kaamerat</string>
     <string name="take_photo_toggle_torch">Lülita taskulamp sisse/välja</string>
@@ -232,6 +304,7 @@
     <string name="add_filter_widget">Lisa filtrividin</string>
     <string name="simple_order">Järjestus</string>
     <string name="edit_description">Muuda kirjeldust</string>
+    <string name="widget_upcoming_title">Tulevased kaardid</string>
     <!-- Category header for a section in the settings which contain features for advanced users -->
     <string name="simple_expert_settings">Eksperdi seadistused</string>
     <string name="copy_logs">Kopeeri logid lõikelauale</string>
@@ -242,8 +315,13 @@
     <string name="simple_search">Otsi</string>
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Pealkiri (nõutav)</string>
+    <string name="saving_new_card">Salvestan uut kaarti…</string>
+    <string name="progress_import">Tahvlid on importimisel: %1$d/%2$d…</string>
+    <string name="progress_import_indeterminate">Impordin tahvleid...</string>
+    <string name="card_outdated">Selle kaardis isu võib olla aegunud.</string>
     <string name="show_error">Näita viga</string>
     <string name="enter_search_term_title">Sisesta otsingusõna</string>
+    <string name="enter_search_term_description">Selle tahvli kaartide otsimiseks sisesta soovitud otsingusõna</string>
     <string name="no_search_results_title">Otsingul pole tulemusi</string>
     <string name="no_search_results_description">Selle otsingusõnaga ei õnnestu leida mitte midagi</string>
 </resources>
