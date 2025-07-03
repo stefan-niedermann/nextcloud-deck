@@ -9,6 +9,7 @@
     <string name="simple_error">Hitilafu</string>
     <string name="simple_exception">Isipokuwa</string>
     <string name="simple_close">Funga</string>
+    <string name="simple_filter">Chujio</string>
     <string name="simple_reset">Pangilia upya</string>
     <string name="simple_discard">Tupa</string>
     <string name="simple_update">Sasisha</string>
@@ -16,6 +17,7 @@
     <string name="simple_rename">Ipe jina jipya</string>
     <string name="simple_settings">Mipangilio</string>
     <string name="simple_undo">Tendua</string>
+    <string name="simple_select">Chagua</string>
     <string name="simple_comment">Maoni</string>
     <string name="simple_disabled">Haikuwezeshwa</string>
     <string name="simple_unassigned">Hakukabidhiwa</string>
