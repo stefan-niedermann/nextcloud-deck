@@ -65,6 +65,7 @@
     <string name="activity">Shughuli</string>
     <string name="add_list">Ongeza orodha</string>
     <string name="delete_list">Futa orodha</string>
+    <string name="label_menu">Mwongozo</string>
     <string name="action_card_archive">Hifadhi kadi</string>
     <string name="action_card_delete">Futa kadi</string>
     <string name="add_board">Ongeza bodi</string>
