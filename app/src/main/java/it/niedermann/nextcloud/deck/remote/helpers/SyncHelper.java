@@ -31,6 +31,7 @@ import okhttp3.Headers;
 public class SyncHelper {
     // entity-class -> id if entity
     private static final HashMap<Class<? extends IRemoteEntity>, ConcurrentSkipListSet<Long>> CURRENTLY_IN_UPSYNC = new HashMap<>();
+    public static final HashMap<Class<? extends IRemoteEntity>, ConcurrentSkipListSet<String>> CURRENTLY_IN_DOWNSYNC = new HashMap<>();
 
     @NonNull
     private final ServerAdapter serverAdapter;
@@ -61,7 +62,14 @@ public class SyncHelper {
         provider.getAllFromServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<>(account) {
             @Override
             public void onResponse(List<T> response, Headers headers) {
-                if (response != null) {
+                if (response != null && !response.isEmpty()) {
+                    provider.setAllFromServer(response);
+                    Class<? extends IRemoteEntity> classOfEntity = response.get(0).getClass();
+                    ConcurrentSkipListSet<String> idsInSync = CURRENTLY_IN_DOWNSYNC.get(classOfEntity);
+                    if (idsInSync == null) {
+                        idsInSync = new ConcurrentSkipListSet<>();
+                        CURRENTLY_IN_DOWNSYNC.put(classOfEntity, idsInSync);
+                    }
                     provider.goingDeeper();
 
                     for (T entityFromServer : response) {
@@ -70,7 +78,11 @@ public class SyncHelper {
                             DeckLog.error("Skipped null value from server for DataProvider:", provider.getClass().getSimpleName());
                             continue;
                         }
+                        if (idsInSync.contains(accountId + "_" +entityFromServer.getId())){
+                            continue;
+                        }
                         entityFromServer.setAccountId(accountId);
+                        idsInSync.add(accountId + "_" +entityFromServer.getId());
 
                         T existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
 
@@ -98,16 +110,16 @@ public class SyncHelper {
                         }
 
                         existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
-                        final T tmp = existingEntity;
+                        T finalExistingEntity = existingEntity;
                         if (parallel) {
                             provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer, responseCallback);
                         } else {
-                            DeckLog.verbose("### SYNC Sequencial!"+tmp.getId());
+                            DeckLog.verbose("### SYNC Sequencial!"+finalExistingEntity.getId());
                             CountDownLatch latch = new CountDownLatch(1);
                             provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer, new ResponseCallback<>(responseCallback.getAccount()) {
                                 @Override
                                 public void onResponse(Boolean response, Headers headers) {
-                                    DeckLog.verbose("### SYNC board "+tmp.getId()+" done! Changes: "+response);
+                                    DeckLog.verbose("### SYNC board "+finalExistingEntity.getId()+" done! Changes: "+response);
                                     latch.countDown();
                                 }
 
@@ -129,9 +141,9 @@ public class SyncHelper {
 
                     provider.handleDeletes(serverAdapter, dataBaseAdapter, accountId, response);
 
-                    provider.doneGoingDeeper(responseCallback, true);
+                    provider.doneGoingDeeper(SyncHelper.this, responseCallback, true);
                 } else {
-                    provider.childDone(provider, responseCallback, false);
+                    provider.childDone(SyncHelper.this, provider, responseCallback, false);
                 }
             }
 
@@ -142,12 +154,12 @@ public class SyncHelper {
                     if (HttpURLConnection.HTTP_NOT_MODIFIED == requestFailedException.getStatusCode()) {
                         DeckLog.log("[" + provider.getClass().getSimpleName() + "] ETags do match! skipping this one.");
                         // well, etags say we're fine here. no need to go deeper.
-                        provider.childDone(provider, responseCallback, false);
+                        provider.childDone(SyncHelper.this, provider, responseCallback, false);
                         return;
                     }
                 }
                 super.onError(throwable);
-                provider.onError(responseCallback);
+                provider.onError(SyncHelper.this, responseCallback);
                 responseCallback.onError(throwable);
             }
         }, lastSync);
@@ -238,7 +250,22 @@ public class SyncHelper {
         ConcurrentSkipListSet<Long> idsInSync = CURRENTLY_IN_UPSYNC.get(entity.getClass());
         if (idsInSync != null) {
             idsInSync.remove(entity.getLocalId());
+            DeckLog.log(idsInSync.size()+" left for upsync of "+entity.getClass().getSimpleName()+" ### SYNC");
         }
+    }
+
+
+    public  <T extends IRemoteEntity> void doneWithDownsync(List<T> existingEntities) {
+        if (existingEntities == null || existingEntities.isEmpty()) {
+            return;
+        }
+        ConcurrentSkipListSet<String> idsInSync = CURRENTLY_IN_DOWNSYNC.get(existingEntities.get(0).getClass());
+        if (idsInSync != null) {
+            for (T existingEntity : existingEntities) {
+                idsInSync.remove(existingEntity.getAccountId() +"_"+ existingEntity.getId());
+            }
+        }
+//        DeckLog.warn(idsInSync.size()+" left for downsync of "+existingEntities.get(0).getClass().getSimpleName()+" ### SYNC");
     }
 
     public void fixRelations(@NonNull IRelationshipProvider relationshipProvider) {
