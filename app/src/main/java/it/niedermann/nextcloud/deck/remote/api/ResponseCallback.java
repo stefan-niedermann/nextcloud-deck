@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
@@ -50,7 +51,7 @@ public abstract class ResponseCallback<T> implements IResponseCallback<T> {
 
     private boolean isListOfRemoteEntity(T response) {
         if (response instanceof List<?> collection) {
-            return collection.size() > 0 && collection.get(0) instanceof AbstractRemoteEntity;
+            return !collection.isEmpty() && collection.get(0) instanceof AbstractRemoteEntity;
         }
         return false;
     }
@@ -76,5 +77,12 @@ public abstract class ResponseCallback<T> implements IResponseCallback<T> {
                 callback.onError(throwable);
             }
         };
+    }
+
+    /**
+     * Forwards responses and errors to the given {@param CompletableFuture}
+     */
+    public static <T> ResponseCallback<T> forwardTo(@NonNull Account account, @NonNull CompletableFuture<T> future) {
+        return from(account, IResponseCallback.forwardTo(future));
     }
 }

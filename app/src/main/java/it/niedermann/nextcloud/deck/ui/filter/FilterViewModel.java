@@ -18,10 +18,13 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.EDoneType;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
+import it.niedermann.nextcloud.deck.repository.LabelsRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
 @SuppressWarnings("WeakerAccess")
 public class FilterViewModel extends BaseViewModel {
+
+    private final LabelsRepository labelsRepository;
 
     @IntRange(from = 0, to = 2)
     private int currentFilterTab = 0;
@@ -33,6 +36,7 @@ public class FilterViewModel extends BaseViewModel {
 
     public FilterViewModel(@NonNull Application application) {
         super(application);
+        this.labelsRepository = new LabelsRepository(application);
     }
 
     public CompletableFuture<Account> getCurrentAccount() {
@@ -155,6 +159,6 @@ public class FilterViewModel extends BaseViewModel {
     public LiveData<List<Label>> findProposalsForLabelsToAssign() {
         return new ReactiveLiveData<>(baseRepository.getCurrentAccountId$())
                 .combineWith(baseRepository::getCurrentBoardId$)
-                .flatMap(ids -> baseRepository.findProposalsForLabelsToAssign(ids.first, ids.second, -1L));
+                .flatMap(ids -> labelsRepository.findProposalsForLabelsToAssign(ids.first, ids.second, -1L));
     }
 }

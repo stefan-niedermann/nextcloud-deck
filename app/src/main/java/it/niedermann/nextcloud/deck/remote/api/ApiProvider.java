@@ -41,6 +41,10 @@ public class ApiProvider {
         return this.context;
     }
 
+    public SingleSignOnAccount getSsoAccount() {
+        return this.ssoAccount;
+    }
+
     public DeckAPI getDeckAPI() {
         return deckAPI;
     }

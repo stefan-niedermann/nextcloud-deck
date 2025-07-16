@@ -7,7 +7,7 @@ import androidx.preference.PreferenceManager;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import it.niedermann.nextcloud.deck.remote.SyncWorker;
+import it.niedermann.nextcloud.deck.repository.sync.SyncWorker;
 
 /**
  * @see <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/570">Reinitializes the background synchronization</a> and

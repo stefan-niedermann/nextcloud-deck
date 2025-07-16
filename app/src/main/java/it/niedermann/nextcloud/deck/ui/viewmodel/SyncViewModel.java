@@ -64,12 +64,10 @@ public abstract class SyncViewModel extends BaseViewModel {
         }
     }
 
-    private static class Factory implements ViewModelProvider.Factory {
+    private record Factory(Application application,
+                           Account account) implements ViewModelProvider.Factory {
 
-        private final Application application;
-        private final Account account;
-
-        public Factory(@NonNull Application application, @NonNull Account account) {
+        private Factory(@NonNull Application application, @NonNull Account account) {
             this.application = application;
             this.account = account;
         }

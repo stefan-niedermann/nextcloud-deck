@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui.card.details;
 import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
+import static androidx.lifecycle.Lifecycle.State.CREATED;
 import static java.util.Objects.requireNonNull;
 
 import android.content.res.ColorStateList;
@@ -33,6 +34,7 @@ import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundExce
 
 import java.time.Instant;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import it.niedermann.android.markdown.MarkdownEditor;
@@ -45,7 +47,6 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.LabelAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
@@ -54,7 +55,6 @@ import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedSnackbar;
-import okhttp3.Headers;
 
 public class CardDetailsFragment extends Fragment implements CardDueDateView.DueDateChangedListener, CardAssigneeListener {
 
@@ -262,36 +262,39 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
                 // TODO Handle error
             }
             binding.labels.setOnItemClickListener((adapterView, view, position, id) -> {
-                final var label = (Label) adapterView.getItemAtPosition(position);
-                if (label.getLocalId() == null) {
-                    viewModel.createLabel(accountId, label, boardId, new IResponseCallback<>() {
-                        @Override
-                        public void onResponse(Label response, Headers headers) {
-                            requireActivity().runOnUiThread(() -> {
-                                label.setLocalId(response.getLocalId());
-                                ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(response);
-                                viewModel.getFullCard().getLabels().add(response);
-                                binding.labelsGroup.addView(createChipFromLabel(label));
-                                binding.labelsGroup.setVisibility(VISIBLE);
-                            });
-                        }
 
-                        @Override
-                        public void onError(Throwable throwable) {
-                            IResponseCallback.super.onError(throwable);
+                final var label = (Label) adapterView.getItemAtPosition(position);
+                binding.labels.setText("");
+
+                final Consumer<Label> addLabel = labelToAdd -> {
+                    ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(labelToAdd);
+                    viewModel.getFullCard().getLabels().add(labelToAdd);
+                    binding.labelsGroup.addView(createChipFromLabel(labelToAdd));
+                    binding.labelsGroup.setVisibility(VISIBLE);
+                    binding.labels.setEnabled(true);
+                };
+
+                if (label.getLocalId() == null) {
+
+                    binding.labels.setEnabled(false);
+                    viewModel.createLabel(accountId, label, boardId).whenCompleteAsync((response, exception) -> {
+
+                        if (exception == null && getLifecycle().getCurrentState().isAtLeast(CREATED)) {
+                            addLabel.accept(response);
+
+                        } else {
                             viewModel.getCurrentBoardColor(viewModel.getAccount().getId(), viewModel.getBoardId())
                                     .thenAcceptAsync(color -> ThemedSnackbar.make(requireView(), getString(R.string.error_create_label, label.getTitle()), Snackbar.LENGTH_LONG, color)
-                                            .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show(), ContextCompat.getMainExecutor(requireContext()));
+                                            .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(exception, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show(), ContextCompat.getMainExecutor(requireContext()));
+
                         }
-                    });
+
+                    }, ContextCompat.getMainExecutor(requireContext()));
+
                 } else {
-                    ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(label);
-                    viewModel.getFullCard().getLabels().add(label);
-                    binding.labelsGroup.addView(createChipFromLabel(label));
-                    binding.labelsGroup.setVisibility(VISIBLE);
+                    addLabel.accept(label);
                 }
 
-                binding.labels.setText("");
             });
         } else {
             binding.labels.setEnabled(false);

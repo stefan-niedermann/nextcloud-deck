@@ -15,16 +15,20 @@ import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.repository.BoardsRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
 
 public class AccessControlViewModel extends SyncViewModel {
 
+    private final BoardsRepository boardsRepository;
+
     public AccessControlViewModel(@NonNull Application application, @NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {
         super(application, account);
+        this.boardsRepository = new BoardsRepository(application);
     }
 
     public LiveData<FullBoard> getFullBoardById(long accountId, long localId) {
-        return baseRepository.getFullBoardById(accountId, localId);
+        return boardsRepository.getFullBoardById(accountId, localId);
     }
 
     public LiveData<List<AccessControl>> getAccessControlByLocalBoardId(long accountId, long id) {

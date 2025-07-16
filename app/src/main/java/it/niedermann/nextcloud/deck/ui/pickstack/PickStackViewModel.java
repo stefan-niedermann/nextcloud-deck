@@ -14,11 +14,13 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.repository.BoardsRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
 @SuppressWarnings("WeakerAccess")
 public class PickStackViewModel extends BaseViewModel {
 
+    private final BoardsRepository boardsRepository;
     private Account selectedAccount;
     @Nullable
     private Board selectedBoard;
@@ -31,6 +33,7 @@ public class PickStackViewModel extends BaseViewModel {
 
     public PickStackViewModel(@NonNull Application application) {
         super(application);
+        boardsRepository = new BoardsRepository(application);
     }
 
     public LiveData<Long> getCurrentAccountId$() {
@@ -97,11 +100,11 @@ public class PickStackViewModel extends BaseViewModel {
     }
 
     public LiveData<List<Board>> getNotArchivedBoards(long accountId) {
-        return baseRepository.getBoards(accountId, false);
+        return boardsRepository.getBoards(accountId, false);
     }
 
     public LiveData<List<Board>> getBoardsWithEditPermission(long accountId) {
-        return baseRepository.getBoardsWithEditPermission(accountId);
+        return boardsRepository.getBoardsWithEditPermission(accountId);
     }
 
     public LiveData<List<Stack>> getStacksForBoard(long accountId, long localBoardId) {

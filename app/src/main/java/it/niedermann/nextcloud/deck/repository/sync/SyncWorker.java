@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.remote;
+package it.niedermann.nextcloud.deck.repository.sync;
 
 import android.content.Context;
 import android.content.SharedPreferences;

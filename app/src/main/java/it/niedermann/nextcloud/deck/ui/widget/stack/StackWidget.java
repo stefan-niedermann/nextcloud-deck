@@ -22,6 +22,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.repository.BaseRepository;
+import it.niedermann.nextcloud.deck.repository.BoardsRepository;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.main.MainActivity;
 
@@ -67,6 +68,7 @@ public class StackWidget extends AppWidgetProvider {
 
     private static void updateAppWidget(@NonNull ExecutorService executor, @NonNull Context context, AppWidgetManager awm, int[] appWidgetIds) {
         final var baseRepository = new BaseRepository(context);
+        final var boardsRepository = new BoardsRepository(context);
         for (int appWidgetId : appWidgetIds) {
             executor.submit(() -> {
                 if (baseRepository.filterWidgetExists(appWidgetId)) {
@@ -90,7 +92,7 @@ public class StackWidget extends AppWidgetProvider {
 
                     baseRepository.getFilterWidget(appWidgetId, (response, headers) -> {
                         final Stack stack = baseRepository.getStackDirectly(response.getAccounts().get(0).getBoards().get(0).getStacks().get(0).getStackId());
-                        @ColorInt final Integer boardColor = baseRepository.getBoardColorDirectly(response.getAccounts().get(0).getAccountId(), response.getAccounts().get(0).getBoards().get(0).getBoardId());
+                        @ColorInt final Integer boardColor = boardsRepository.getBoardColorDirectly(response.getAccounts().get(0).getAccountId(), response.getAccounts().get(0).getBoards().get(0).getBoardId());
                         views.setTextViewText(R.id.widget_stack_title_tv, stack.getTitle());
                         views.setInt(R.id.widget_stack_header_icon, "setColorFilter", boardColor);
 

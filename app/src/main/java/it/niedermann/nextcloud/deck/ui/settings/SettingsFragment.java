@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.remote.SyncWorker;
+import it.niedermann.nextcloud.deck.repository.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedSwitchPreference;
 
 public class SettingsFragment extends PreferenceFragmentCompat {

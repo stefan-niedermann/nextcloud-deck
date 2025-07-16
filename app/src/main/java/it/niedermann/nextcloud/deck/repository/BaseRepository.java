@@ -24,29 +24,24 @@ import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.database.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
-import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.appwidgets.StackWidgetModel;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
-import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 import it.niedermann.nextcloud.deck.model.full.FullSingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
-import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.remote.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
-import it.niedermann.nextcloud.deck.remote.helpers.util.ConnectivityUtil;
+import it.niedermann.nextcloud.deck.shared.SharedExecutors;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
-import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
 
 /**
  * Allows basic local access to the {@link DataBaseAdapter} layer but also to some app states which are stored in {@link SharedPreferences}.
@@ -54,34 +49,21 @@ import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
  * This repository does not know anything about remote synchronization.
  */
 @SuppressWarnings("WeakerAccess")
-public class BaseRepository {
+public class BaseRepository extends AbstractRepository {
 
-    @NonNull
-    protected final Context context;
-    @NonNull
-    protected final DataBaseAdapter dataBaseAdapter;
     @NonNull
     protected final ExecutorService executor;
     @NonNull
-    protected final ConnectivityUtil connectivityUtil;
-    @NonNull
     protected final ReactiveLiveData<Long> currentAccountId$;
 
-    public BaseRepository(@NonNull Context context) {
-        this(context, new ConnectivityUtil(context));
-    }
 
-    protected BaseRepository(@NonNull Context context, @NonNull ConnectivityUtil connectivityUtil) {
-        this(context, connectivityUtil, new DataBaseAdapter(context.getApplicationContext()), ExecutorServiceProvider.getLinkedBlockingQueueExecutor());
+    protected BaseRepository(@NonNull Context context) {
+        this(context, SharedExecutors.getLinkedBlockingQueueExecutor());
     }
 
     protected BaseRepository(@NonNull Context context,
-                             @NonNull ConnectivityUtil connectivityUtil,
-                             @NonNull DataBaseAdapter databaseAdapter,
                              @NonNull ExecutorService executor) {
-        this.context = context.getApplicationContext();
-        this.connectivityUtil = connectivityUtil;
-        this.dataBaseAdapter = databaseAdapter;
+        super(context);
         this.executor = executor;
         this.currentAccountId$ = new ReactiveLiveData<>(dataBaseAdapter.getCurrentAccountId$()).distinctUntilChanged();
         LastSyncUtil.init(context.getApplicationContext());
@@ -203,59 +185,6 @@ public class BaseRepository {
         return dataBaseAdapter.getAllAccountsDirectly();
     }
 
-    /**
-     * @param localProjectId LocalId of the OcsProject
-     * @return all {@link OcsProjectResource}s of the Project
-     */
-    @AnyThread
-    public LiveData<List<OcsProjectResource>> getResourcesForProject(long localProjectId) {
-        return dataBaseAdapter.getResourcesByLocalProjectId(localProjectId);
-    }
-
-    /**
-     * @param accountId ID of the account
-     * @param archived  Decides whether only archived or not-archived boards for the specified account will be returned
-     * @return all archived or non-archived <code>Board</code>s depending on <code>archived</code> parameter
-     */
-    @AnyThread
-    public LiveData<List<Board>> getBoards(long accountId, boolean archived) {
-        return dataBaseAdapter.getBoards(accountId, archived);
-    }
-
-    /**
-     * @param accountId ID of the account
-     * @param archived  Decides whether only archived or not-archived boards for the specified account will be returned
-     * @return all archived or non-archived <code>FullBoard</code>s depending on <code>archived</code> parameter
-     */
-    @AnyThread
-    public LiveData<List<FullBoard>> getFullBoards(long accountId, boolean archived) {
-        return dataBaseAdapter.getFullBoards(accountId, archived);
-    }
-
-    /**
-     * Get all non-archived  <code>FullBoard</code>s with edit permissions for the specified account.
-     *
-     * @param accountId ID of the account
-     * @return all non-archived <code>Board</code>s with edit permission
-     */
-    @AnyThread
-    public LiveData<List<Board>> getBoardsWithEditPermission(long accountId) {
-        return dataBaseAdapter.getBoardsWithEditPermission(accountId);
-    }
-
-    @AnyThread
-    public LiveData<Boolean> hasArchivedBoards(long accountId) {
-        return dataBaseAdapter.hasArchivedBoards(accountId);
-    }
-
-    public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {
-        return dataBaseAdapter.getFullBoardById(accountId, localId);
-    }
-
-    public Board getBoardById(Long localId) {
-        return dataBaseAdapter.getBoardByLocalIdDirectly(localId);
-    }
-
     public LiveData<List<FullDeckComment>> getFullCommentsForLocalCardId(long localCardId) {
         return dataBaseAdapter.getFullCommentsForLocalCardId(localCardId);
     }
@@ -270,10 +199,6 @@ public class BaseRepository {
 
     public void countCardsInStackDirectly(long accountId, long localStackId, @NonNull IResponseCallback<Integer> callback) {
         executor.submit(() -> dataBaseAdapter.countCardsInStackDirectly(accountId, localStackId, callback));
-    }
-
-    public void countCardsWithLabel(long localLabelId, @NonNull IResponseCallback<Integer> callback) {
-        executor.submit(() -> dataBaseAdapter.countCardsWithLabel(localLabelId, callback));
     }
 
     public LiveData<FullCardWithProjects> getFullCardWithProjectsByLocalId(long accountId, long cardLocalId) {
@@ -322,44 +247,9 @@ public class BaseRepository {
         return dataBaseAdapter.searchUserByUidOrDisplayName(accountId, boardId, notYetAssignedToLocalCardId, searchTerm);
     }
 
-    // --- Label search ---
-
-    public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId) {
-        return findProposalsForLabelsToAssign(accountId, boardId, -1L);
-    }
-
-    public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId) {
-        return dataBaseAdapter.findProposalsForLabelsToAssign(accountId, boardId, notAssignedToLocalCardId);
-    }
-
-    public LiveData<List<Label>> searchNotYetAssignedLabelsByTitle(@NonNull Account account, final long boardId, final long notYetAssignedToLocalCardId, @NonNull String searchTerm) {
-        return dataBaseAdapter.searchNotYetAssignedLabelsByTitle(account.getId(), boardId, notYetAssignedToLocalCardId, searchTerm);
-    }
-
-    public LiveData<User> getUserByLocalId(long accountId, long localId) {
-        return dataBaseAdapter.getUserByLocalId(accountId, localId);
-    }
-
-    public LiveData<User> getUserByUid(long accountId, String uid) {
-        return dataBaseAdapter.getUserByUid(accountId, uid);
-    }
-
     @WorkerThread
     public User getUserByUidDirectly(long accountId, String uid) {
         return dataBaseAdapter.getUserByUidDirectly(accountId, uid);
-    }
-
-    public LiveData<Board> getBoardByRemoteId(long accountId, long remoteId) {
-        return dataBaseAdapter.getBoardByRemoteId(accountId, remoteId);
-    }
-
-    @WorkerThread
-    public Board getBoardByRemoteIdDirectly(long accountId, long remoteId) {
-        return dataBaseAdapter.getBoardByRemoteIdDirectly(accountId, remoteId);
-    }
-
-    public LiveData<Stack> getStackByRemoteId(long accountId, long localBoardId, long remoteId) {
-        return dataBaseAdapter.getStackByRemoteId(accountId, localBoardId, remoteId);
     }
 
     public LiveData<Card> getCardByRemoteID(long accountId, long remoteId) {
@@ -373,10 +263,6 @@ public class BaseRepository {
 
     public long createUser(long accountId, User user) {
         return dataBaseAdapter.createUser(accountId, user);
-    }
-
-    public void updateUser(long accountId, @NonNull User user) {
-        dataBaseAdapter.updateUser(accountId, user, true);
     }
 
     protected void reorderLocally(List<FullCard> cardsOfNewStack, @NonNull FullCard movedCard, long newStackId, int newOrder) {
@@ -572,11 +458,5 @@ public class BaseRepository {
     @WorkerThread
     public Stack getStackDirectly(long stackLocalId) {
         return dataBaseAdapter.getStackByLocalIdDirectly(stackLocalId);
-    }
-
-    @ColorInt
-    @WorkerThread
-    public Integer getBoardColorDirectly(long accountId, long localBoardId) {
-        return dataBaseAdapter.getBoardColorDirectly(accountId, localBoardId);
     }
 }

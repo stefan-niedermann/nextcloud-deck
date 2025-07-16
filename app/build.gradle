@@ -78,6 +78,7 @@ dependencies {
     def nextcloudCommonsVersion = "2.3.7"
     def androidCommonsVersion = "1.1.0"
 
+    implementation project(path: ':shared')
     implementation project(path: ':cross-tab-drag-and-drop')
     implementation project(path: ':tab-layout-helper')
 

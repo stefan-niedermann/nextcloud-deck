@@ -1,6 +1,9 @@
 package it.niedermann.nextcloud.deck.remote.api;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+
+import java.util.concurrent.CompletableFuture;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import okhttp3.Headers;
@@ -22,6 +25,22 @@ public interface IResponseCallback<T> {
     static <T> IResponseCallback<T> empty() {
         return (response, headers) -> {
             // Does nothing on default
+        };
+    }
+
+    static <T> IResponseCallback<T> forwardTo(@NonNull CompletableFuture<T> future) {
+        return new IResponseCallback<>() {
+
+            @Override
+            public void onResponse(T response, Headers headers) {
+                future.complete(response);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                IResponseCallback.super.onError(throwable);
+                future.completeExceptionally(throwable);
+            }
         };
     }
 }

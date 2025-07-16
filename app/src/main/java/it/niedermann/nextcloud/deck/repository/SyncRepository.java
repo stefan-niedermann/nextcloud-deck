@@ -5,7 +5,6 @@ import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.database.sqlite.SQLiteConstraintException;
 import android.util.Pair;
 
 import androidx.annotation.AnyThread;
@@ -37,7 +36,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import it.niedermann.nextcloud.deck.DeckLog;
-import it.niedermann.nextcloud.deck.database.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.exceptions.DeckException;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.AccessControl;
@@ -101,14 +99,13 @@ public class SyncRepository extends BaseRepository {
     private SyncRepository(@NonNull Context context,
                            @NonNull SingleSignOnAccount ssoAccount,
                            @NonNull ConnectivityUtil connectivityUtil) {
-        this(context, new ServerAdapter(context.getApplicationContext(), ssoAccount, connectivityUtil), connectivityUtil, SyncHelper::new);
+        this(context, new ServerAdapter(context.getApplicationContext(), ssoAccount, connectivityUtil), SyncHelper::new);
     }
 
     protected SyncRepository(@NonNull Context context,
                              @NonNull ServerAdapter serverAdapter,
-                             @NonNull ConnectivityUtil connectivityUtil,
                              @NonNull SyncHelper.Factory syncHelperFactory) {
-        super(context, connectivityUtil);
+        super(context);
         this.serverAdapter = serverAdapter;
         this.syncHelperFactory = syncHelperFactory;
         LastSyncUtil.init(context.getApplicationContext());
@@ -117,11 +114,9 @@ public class SyncRepository extends BaseRepository {
     @VisibleForTesting
     protected SyncRepository(@NonNull Context context,
                              @NonNull ServerAdapter serverAdapter,
-                             @NonNull ConnectivityUtil connectivityUtil,
                              @NonNull SyncHelper.Factory syncHelperFactory,
-                             @NonNull DataBaseAdapter databaseAdapter,
                              @NonNull ExecutorService executor) {
-        super(context, connectivityUtil, databaseAdapter, executor);
+        super(context, executor);
         this.serverAdapter = serverAdapter;
         this.syncHelperFactory = syncHelperFactory;
         LastSyncUtil.init(context.getApplicationContext());
@@ -1194,21 +1189,6 @@ public class SyncRepository extends BaseRepository {
     }
 
     @AnyThread
-    public void createLabel(long accountId, Label label, long localBoardId, @NonNull IResponseCallback<Label> callback) {
-        executor.submit(() -> {
-            Label existing = dataBaseAdapter.getLabelByBoardIdAndTitleDirectly(label.getBoardId(), label.getTitle());
-            if (existing != null) {
-                callback.onError(new SQLiteConstraintException("label \"" + label.getTitle() + "\" already exists for this board!"));
-                return;
-            }
-            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
-            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(localBoardId);
-            label.setAccountId(accountId);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter, executor).createEntity(new LabelDataProvider(null, board, null), label, ResponseCallback.from(account, callback), (entity, response) -> response.setBoardId(board.getLocalId()));
-        });
-    }
-
-    @AnyThread
     private MutableLiveData<Label> createAndAssignLabelToCard(long accountId, @NonNull Label label, long localCardId, ServerAdapter serverAdapterToUse) {
         MutableLiveData<Label> liveData = new MutableLiveData<>();
         executor.submit(() -> {
@@ -1230,26 +1210,6 @@ public class SyncRepository extends BaseRepository {
             }, (entity, response) -> response.setBoardId(board.getLocalId()));
         });
         return liveData;
-    }
-
-    @AnyThread
-    public void deleteLabel(@NonNull Label label, @NonNull IResponseCallback<EmptyResponse> callback) {
-        executor.submit(() -> {
-            Account account = dataBaseAdapter.getAccountByIdDirectly(label.getAccountId());
-            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter, executor)
-                    .deleteEntity(new LabelDataProvider(null, board, Collections.emptyList()), label, ResponseCallback.from(account, callback));
-        });
-    }
-
-    @AnyThread
-    public void updateLabel(@NonNull Label label, @NonNull IResponseCallback<Label> callback) {
-        executor.submit(() -> {
-            Account account = dataBaseAdapter.getAccountByIdDirectly(label.getAccountId());
-            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter, executor)
-                    .updateEntity(new LabelDataProvider(null, board, Collections.emptyList()), label, ResponseCallback.from(account, callback));
-        });
     }
 
     @AnyThread

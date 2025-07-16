@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.concurrent.ExecutorService;
 
 import it.niedermann.nextcloud.deck.repository.BaseRepository;
-import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
+import it.niedermann.nextcloud.deck.shared.SharedExecutors;
 
 /**
  * To be used for {@link ViewModel}s which need an {@link BaseRepository} instance
@@ -26,7 +26,7 @@ public abstract class BaseViewModel extends AndroidViewModel {
 
     public BaseViewModel(@NonNull Application application,
                          @NonNull BaseRepository baseRepository) {
-        this(application, baseRepository, ExecutorServiceProvider.getLinkedBlockingQueueExecutor());
+        this(application, baseRepository, SharedExecutors.getLinkedBlockingQueueExecutor());
     }
 
     public BaseViewModel(@NonNull Application application,

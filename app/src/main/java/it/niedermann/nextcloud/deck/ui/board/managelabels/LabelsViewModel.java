@@ -6,38 +6,49 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
 import com.nextcloud.android.sso.api.EmptyResponse;
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
-import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
+import it.niedermann.nextcloud.deck.repository.BoardsRepository;
+import it.niedermann.nextcloud.deck.repository.LabelsRepository;
+import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
-public class LabelsViewModel extends SyncViewModel {
+public class LabelsViewModel extends BaseViewModel {
 
-    public LabelsViewModel(@NonNull Application application, @NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {
-        super(application, account);
+    private final LabelsRepository labelsRepository;
+    private final BoardsRepository boardsRepository;
+
+    public LabelsViewModel(@NonNull Application application) {
+        super(application);
+        this.labelsRepository = new LabelsRepository(application);
+        this.boardsRepository = new BoardsRepository(application);
     }
 
-    public LiveData<FullBoard> getFullBoardById(Long boardLocalId) {
-        return new ReactiveLiveData<>(baseRepository.getFullBoardById(account.getId(), boardLocalId));
+    public LiveData<List<Label>> getLabelsByBoardId(@NonNull Account account, long boardLocalId) {
+        return new ReactiveLiveData<>(boardsRepository.getFullBoardById(account, boardLocalId))
+                .filter(Objects::nonNull)
+                .map(FullBoard::getLabels);
     }
 
-    public void updateLabel(@NonNull Label label, @NonNull IResponseCallback<Label> callback) {
-        syncRepository.updateLabel(label, callback);
+    public CompletableFuture<Label> updateLabel(@NonNull Label label) {
+        return labelsRepository.updateLabel(label);
     }
 
-    public void createLabel(@NonNull Label label, long localBoardId, @NonNull IResponseCallback<Label> callback) {
-        syncRepository.createLabel(account.getId(), label, localBoardId, callback);
+    public CompletableFuture<Label> createLabel(@NonNull Account account, @NonNull Label label, long localBoardId) {
+        return labelsRepository.createLabel(account.getId(), label, localBoardId);
     }
 
-    public void deleteLabel(@NonNull Label label, @NonNull IResponseCallback<EmptyResponse> callback) {
-        syncRepository.deleteLabel(label, callback);
+    public CompletableFuture<EmptyResponse> deleteLabel(@NonNull Label label) {
+        return labelsRepository.deleteLabel(label);
     }
 
-    public void countCardsWithLabel(long localLabelId, @NonNull IResponseCallback<Integer> callback) {
-        baseRepository.countCardsWithLabel(localLabelId, callback);
+    public CompletableFuture<Integer> countCardsWithLabel(long localLabelId) {
+        return labelsRepository.countCardsWithLabel(localLabelId);
     }
 }

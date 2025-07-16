@@ -64,14 +64,14 @@ public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extend
     }
 
     protected List<ItemType> filterExcluded(@NonNull List<ItemType> users) {
-        return users.stream().filter(this::userIsNotInExclusionList).collect(toList());
+        return users.stream().filter(this::itemIsNotInExclusionList).collect(toList());
     }
 
-    private boolean userIsNotInExclusionList(@NonNull ItemType user) {
+    private boolean itemIsNotInExclusionList(@NonNull ItemType item) {
         return itemsToExclude
                 .stream()
                 .map(IRemoteEntity::getLocalId)
-                .noneMatch(idToExclude -> Objects.equals(user.getLocalId(), idToExclude));
+                .noneMatch(idToExclude -> Objects.equals(item.getLocalId(), idToExclude));
     }
 
     protected static class ViewHolder<ViewBindingType extends ViewBinding> {

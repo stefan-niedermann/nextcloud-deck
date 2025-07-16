@@ -6,14 +6,12 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.annotation.AnyThread;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.UiThread;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.Lifecycle;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.nextcloud.android.sso.api.EmptyResponse;
 
 import java.util.Random;
 
@@ -22,13 +20,11 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogBoardManageLabelsBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Label;
-import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.theme.DeleteAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
-import okhttp3.Headers;
 
 public class ManageLabelsDialogFragment extends ThemedDialogFragment implements ManageLabelListener, EditLabelListener {
 
@@ -76,12 +72,7 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
         colors = getResources().getStringArray(R.array.board_default_colors);
         adapter = new ManageLabelsAdapter(this, requireContext());
         binding.labels.setAdapter(adapter);
-        labelsViewModel.getFullBoardById(boardId).observe(this, fullBoard -> {
-            if (fullBoard == null) {
-                throw new IllegalStateException("FullBoard should not be null");
-            }
-            this.adapter.update(fullBoard.getLabels());
-        });
+        labelsViewModel.getLabelsByBoardId(boardId).observe(this, this.adapter::update);
 
         binding.fab.setOnClickListener((v) -> {
             binding.fab.setEnabled(false);
@@ -90,27 +81,26 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
             label.setTitle(binding.addLabelTitle.getText().toString());
             label.setColor(colors[new Random().nextInt(colors.length)]);
 
-            labelsViewModel.createLabel(label, boardId, new IResponseCallback<>() {
-                @Override
-                public void onResponse(Label response, Headers headers) {
-                    requireActivity().runOnUiThread(() -> {
-                        binding.fab.setEnabled(true);
-                        binding.addLabelTitle.setText(null);
-                    });
-                    toastFromThread(getString(R.string.tag_successfully_added, label.getTitle()));
-                }
+            labelsViewModel.createLabel(label, boardId)
+                    .whenCompleteAsync((createdLabel, exception) -> {
+                        if (exception == null) {
+                            if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
+                                binding.fab.setEnabled(true);
+                                binding.addLabelTitle.setText(null);
+                            }
+                            Toast.makeText(requireContext(), getString(R.string.tag_successfully_added, label.getTitle()), Toast.LENGTH_LONG).show();
+                        } else {
+                            if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
+                                binding.fab.setEnabled(true);
+                            }
 
-                @Override
-                public void onError(Throwable throwable) {
-                    requireActivity().runOnUiThread(() -> binding.fab.setEnabled(true));
-                    if (throwable instanceof SQLiteConstraintException) {
-                        toastFromThread(getString(R.string.tag_already_exists, label.getTitle()));
-                    } else {
-                        toastFromThread(throwable.getLocalizedMessage());
-                        IResponseCallback.super.onError(throwable);
-                    }
-                }
-            });
+                            if (exception instanceof SQLiteConstraintException) {
+                                Toast.makeText(requireContext(), getString(R.string.tag_already_exists, label.getTitle()), Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(requireContext(), exception.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }, ContextCompat.getMainExecutor(requireContext()));
         });
         binding.addLabelTitle.setOnEditorActionListener((v, actionId, event) -> binding.fab.performClick());
         return dialogBuilder
@@ -147,34 +137,36 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
 
     @Override
     public void requestDelete(@NonNull Label label) {
-        labelsViewModel.countCardsWithLabel(label.getLocalId(), (count, headers) -> requireActivity().runOnUiThread(() -> {
-            if (count > 0) {
-                new DeleteAlertDialogBuilder(requireContext())
-                        .setTitle(getString(R.string.delete_something, label.getTitle()))
-                        .setMessage(getResources().getQuantityString(R.plurals.do_you_want_to_delete_the_label, count, count))
-                        .setPositiveButton(R.string.simple_delete, (dialog, which) -> deleteLabel(label))
-                        .setNeutralButton(android.R.string.cancel, null)
-                        .show();
-            } else {
-                deleteLabel(label);
-            }
-        }));
+        labelsViewModel.countCardsWithLabel(label.getLocalId())
+                .whenCompleteAsync((count, exception) -> {
+                    if (exception == null) {
+
+                        if (count > 0) {
+                            new DeleteAlertDialogBuilder(requireContext())
+                                    .setTitle(getString(R.string.delete_something, label.getTitle()))
+                                    .setMessage(getResources().getQuantityString(R.plurals.do_you_want_to_delete_the_label, count, count))
+                                    .setPositiveButton(R.string.simple_delete, (dialog, which) -> deleteLabel(label))
+                                    .setNeutralButton(android.R.string.cancel, null)
+                                    .show();
+                        } else {
+                            deleteLabel(label);
+                        }
+
+                    } else {
+                        Toast.makeText(requireContext(), exception.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }, ContextCompat.getMainExecutor(requireContext()));
     }
 
     private void deleteLabel(@NonNull Label label) {
-        labelsViewModel.deleteLabel(label, new IResponseCallback<>() {
-            @Override
-            public void onResponse(EmptyResponse response, Headers headers) {
-                DeckLog.info("Successfully deleted label", label.getTitle());
-            }
+        labelsViewModel.deleteLabel(label).whenCompleteAsync((v, exception) -> {
 
-            @Override
-            public void onError(Throwable throwable) {
-                if (SyncRepository.isNoOnVoidError(throwable)) {
-                    IResponseCallback.super.onError(throwable);
-                    toastFromThread(throwable.getLocalizedMessage());
-                }
-            }
+            if (exception == null)
+                DeckLog.info("Successfully deleted label", label.getTitle());
+
+            else if (SyncRepository.isNoOnVoidError(exception))
+                Toast.makeText(requireContext(), exception.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+
         });
     }
 
@@ -185,29 +177,17 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
 
     @Override
     public void onLabelUpdated(@NonNull Label label) {
-        labelsViewModel.updateLabel(label, new IResponseCallback<>() {
-            @Override
-            public void onResponse(Label label, Headers headers) {
-                DeckLog.info("Successfully update label", label.getTitle());
-            }
+        labelsViewModel.updateLabel(label).whenCompleteAsync((updatedLabel, exception) -> {
 
-            @Override
-            public void onError(Throwable error) {
-                if (error instanceof SQLiteConstraintException) {
-                    toastFromThread(getString(R.string.tag_already_exists, label.getTitle()));
-                } else {
-                    IResponseCallback.super.onError(error);
-                    toastFromThread(error.getLocalizedMessage());
-                }
-            }
+            if (exception == null)
+                DeckLog.info("Successfully update label", updatedLabel.getTitle());
+
+            else if (exception instanceof SQLiteConstraintException)
+                Toast.makeText(requireContext(), getString(R.string.tag_already_exists, updatedLabel.getTitle()), Toast.LENGTH_LONG).show();
+
+            else
+                Toast.makeText(requireContext(), exception.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+
         });
-    }
-
-    /**
-     * Ensures that the {@param message} gets toasted on the {@link UiThread} to avoid <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/917">crashes</a>.
-     */
-    @AnyThread
-    private void toastFromThread(@Nullable String message) {
-        requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show());
     }
 }

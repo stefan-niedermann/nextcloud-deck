@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 
 import com.nextcloud.android.sso.api.EmptyResponse;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.function.BiConsumer;
 
@@ -24,19 +25,28 @@ public class DataPropagationHelper {
     @NonNull
     private final DataBaseAdapter dataBaseAdapter;
     @NonNull
-    private final ExecutorService executor;
+    private final ExecutorService dbExecutor;
 
-    public DataPropagationHelper(@NonNull ServerAdapter serverAdapter, @NonNull DataBaseAdapter dataBaseAdapter, @NonNull ExecutorService executor) {
+    public DataPropagationHelper(@NonNull ServerAdapter serverAdapter,
+                                 @NonNull DataBaseAdapter dataBaseAdapter,
+                                 @NonNull ExecutorService dbExecutor) {
         this.serverAdapter = serverAdapter;
         this.dataBaseAdapter = dataBaseAdapter;
-        this.executor = executor;
+        this.dbExecutor = dbExecutor;
     }
 
-    public <T extends IRemoteEntity> void createEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, ResponseCallback<T> callback){
+    public <T extends IRemoteEntity> void createEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, ResponseCallback<T> callback) {
         createEntity(provider, entity, callback, null);
     }
 
-    public <T extends IRemoteEntity> void createEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, ResponseCallback<T> callback, @Nullable BiConsumer<T, T> actionOnResponse){
+    /// Convenience method for [#createEntity(AbstractSyncDataProvider, IRemoteEntity, ResponseCallback, BiConsumer)]
+    public <T extends IRemoteEntity> CompletableFuture<T> createEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, @NonNull Account account, @Nullable BiConsumer<T, T> actionOnResponse) {
+        final var result = new CompletableFuture<T>();
+        createEntity(provider, entity, ResponseCallback.forwardTo(account, result), actionOnResponse);
+        return result;
+    }
+
+    public <T extends IRemoteEntity> void createEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, ResponseCallback<T> callback, @Nullable BiConsumer<T, T> actionOnResponse) {
         final long accountId = callback.getAccount().getId();
         entity.setStatus(DBStatus.LOCAL_EDITED.getId());
         long newID;
@@ -52,7 +62,7 @@ public class DataPropagationHelper {
                 provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<>(callback.getAccount()) {
                     @Override
                     public void onResponse(T response, Headers headers) {
-                        executor.submit(() -> {
+                        dbExecutor.submit(() -> {
                             response.setAccountId(accountId);
                             response.setLocalId(newID);
                             if (actionOnResponse != null) {
@@ -67,7 +77,7 @@ public class DataPropagationHelper {
                     @Override
                     public void onError(Throwable throwable) {
                         super.onError(throwable);
-                        executor.submit(() -> callback.onError(throwable));
+                        dbExecutor.submit(() -> callback.onError(throwable));
                     }
                 }, entity);
             } catch (Throwable t) {
@@ -78,7 +88,14 @@ public class DataPropagationHelper {
         }
     }
 
-    public <T extends IRemoteEntity> void updateEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, @NonNull ResponseCallback<T> callback){
+    /// Convenience method for [#updateEntity(AbstractSyncDataProvider, IRemoteEntity, ResponseCallback)]
+    public <T extends IRemoteEntity> CompletableFuture<T> updateEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, @NonNull Account account) {
+        final var result = new CompletableFuture<T>();
+        updateEntity(provider, entity, ResponseCallback.forwardTo(account, result));
+        return result;
+    }
+
+    public <T extends IRemoteEntity> void updateEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, @NonNull ResponseCallback<T> callback) {
         final long accountId = callback.getAccount().getId();
         entity.setStatus(DBStatus.LOCAL_EDITED.getId());
         try {
@@ -92,7 +109,7 @@ public class DataPropagationHelper {
                 provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<>(new Account(accountId)) {
                     @Override
                     public void onResponse(T response, Headers headers) {
-                        executor.submit(() -> {
+                        dbExecutor.submit(() -> {
                             entity.setStatus(DBStatus.UP_TO_DATE.getId());
                             provider.updateInDB(dataBaseAdapter, accountId, entity, false);
                             callback.onResponse(entity, headers);
@@ -102,7 +119,7 @@ public class DataPropagationHelper {
                     @Override
                     public void onError(Throwable throwable) {
                         super.onError(throwable);
-                        executor.submit(() -> callback.onError(throwable));
+                        dbExecutor.submit(() -> callback.onError(throwable));
                     }
                 }, entity);
             } catch (Throwable t) {
@@ -113,7 +130,14 @@ public class DataPropagationHelper {
         }
     }
 
-    public <T extends IRemoteEntity> void deleteEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, @NonNull ResponseCallback<EmptyResponse> callback){
+    /// Convenience method for [#deleteEntity(AbstractSyncDataProvider, IRemoteEntity, ResponseCallback)]
+    public <T extends IRemoteEntity> CompletableFuture<EmptyResponse> deleteEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, @NonNull Account account) {
+        final var result = new CompletableFuture<EmptyResponse>();
+        deleteEntity(provider, entity, ResponseCallback.forwardTo(account, result));
+        return result;
+    }
+
+    public <T extends IRemoteEntity> void deleteEntity(@NonNull final AbstractSyncDataProvider<T> provider, @NonNull T entity, @NonNull ResponseCallback<EmptyResponse> callback) {
         final long accountId = callback.getAccount().getId();
         // known to server?
         if (entity.getId() != null) {
@@ -127,7 +151,7 @@ public class DataPropagationHelper {
                 provider.deleteOnServer(serverAdapter, accountId, new ResponseCallback<>(new Account(accountId)) {
                     @Override
                     public void onResponse(EmptyResponse response, Headers headers) {
-                        executor.submit(() -> {
+                        dbExecutor.submit(() -> {
                             provider.deletePhysicallyInDB(dataBaseAdapter, accountId, entity);
                             callback.onResponse(null, headers);
                         });
@@ -136,7 +160,7 @@ public class DataPropagationHelper {
                     @Override
                     public void onError(Throwable throwable) {
                         super.onError(throwable);
-                        executor.submit(() -> callback.onError(throwable));
+                        dbExecutor.submit(() -> callback.onError(throwable));
                     }
                 }, entity, dataBaseAdapter);
             } catch (Throwable t) {

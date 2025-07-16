@@ -35,6 +35,8 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.repository.BoardsRepository;
+import it.niedermann.nextcloud.deck.repository.LabelsRepository;
 import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.card.details.CardDetailsFragment;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
@@ -43,6 +45,8 @@ import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 public class EditCardViewModel extends BaseViewModel {
 
     private SyncRepository syncRepository;
+    private final LabelsRepository labelsRepository;
+    private final BoardsRepository boardsRepository;
     private Account account;
     private long boardId;
     private FullCardWithProjects originalCard;
@@ -59,6 +63,8 @@ public class EditCardViewModel extends BaseViewModel {
 
     public EditCardViewModel(@NonNull Application application) {
         super(application);
+        this.labelsRepository = new LabelsRepository(application);
+        this.boardsRepository = new BoardsRepository(application);
         this.boardColor$.setValue(ContextCompat.getColor(application, R.color.primary));
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(application);
     }
@@ -185,11 +191,11 @@ public class EditCardViewModel extends BaseViewModel {
     }
 
     public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {
-        return baseRepository.getFullBoardById(accountId, localId);
+        return boardsRepository.getFullBoardById(accountId, localId);
     }
 
-    public void createLabel(long accountId, Label label, long localBoardId, @NonNull IResponseCallback<Label> callback) {
-        syncRepository.createLabel(accountId, label, localBoardId, callback);
+    public CompletableFuture<Label> createLabel(long accountId, Label label, long localBoardId) {
+        return labelsRepository.createLabel(accountId, label, localBoardId);
     }
 
     public LiveData<FullCardWithProjects> getFullCardWithProjectsByLocalId(long accountId, long cardLocalId) {
@@ -220,7 +226,7 @@ public class EditCardViewModel extends BaseViewModel {
     }
 
     public LiveData<Board> getBoardByRemoteId(long accountId, long remoteId) {
-        return baseRepository.getBoardByRemoteId(accountId, remoteId);
+        return boardsRepository.getBoardByRemoteId(accountId, remoteId);
     }
 
     public void setAttachmentsBackPressedCallbackStatus(boolean enabled) {

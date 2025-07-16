@@ -92,9 +92,9 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.shared.SharedExecutors;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
-import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
 
 public class DataBaseAdapter {
     @NonNull
@@ -112,7 +112,7 @@ public class DataBaseAdapter {
     private final int defaultColor;
 
     public DataBaseAdapter(@NonNull Context appContext) {
-        this(appContext, DeckDatabase.getInstance(appContext),Executors.newCachedThreadPool(), ExecutorServiceProvider.getLinkedBlockingQueueExecutor());
+        this(appContext, DeckDatabase.getInstance(appContext),Executors.newCachedThreadPool(), SharedExecutors.getLinkedBlockingQueueExecutor());
     }
 
     @VisibleForTesting

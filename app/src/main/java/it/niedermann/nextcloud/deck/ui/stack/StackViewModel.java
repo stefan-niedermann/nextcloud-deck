@@ -22,12 +22,16 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.repository.BoardsRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
 
 public class StackViewModel extends SyncViewModel {
 
+    private final BoardsRepository boardsRepository;
+
     public StackViewModel(@NonNull Application application, @NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {
         super(application, account);
+        this.boardsRepository = new BoardsRepository(application);
     }
 
     public void moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId, @NonNull IResponseCallback<EmptyResponse> callback) {
@@ -44,7 +48,7 @@ public class StackViewModel extends SyncViewModel {
     }
 
     public LiveData<FullBoard> getFullBoard(long accountId, long boardId) {
-        return new ReactiveLiveData<>(baseRepository.getFullBoardById(accountId, boardId))
+        return new ReactiveLiveData<>(boardsRepository.getFullBoardById(accountId, boardId))
                 .distinctUntilChanged();
     }
 
@@ -60,7 +64,7 @@ public class StackViewModel extends SyncViewModel {
     public LiveData<Boolean> currentBoardHasEditPermission(long accountId, long boardId) {
         return new ReactiveLiveData<>(baseRepository.readAccount(accountId))
                 .flatMap(account -> account.getServerDeckVersionAsObject().isSupported()
-                        ? new ReactiveLiveData<>(baseRepository.getFullBoardById(accountId, boardId)).map(fullBoard -> fullBoard != null && fullBoard.getBoard().isPermissionEdit())
+                        ? new ReactiveLiveData<>(boardsRepository.getFullBoardById(accountId, boardId)).map(fullBoard -> fullBoard != null && fullBoard.getBoard().isPermissionEdit())
                         : new ReactiveLiveData<>(false))
                 .distinctUntilChanged();
     }

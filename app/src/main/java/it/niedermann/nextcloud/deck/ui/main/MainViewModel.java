@@ -36,6 +36,7 @@ import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.repository.BoardsRepository;
 import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
@@ -44,9 +45,11 @@ public class MainViewModel extends BaseViewModel {
 
     @Nullable
     private SyncRepository syncRepository;
+    private final BoardsRepository boardsRepository;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
+        this.boardsRepository = new BoardsRepository(application);
     }
 
     public void recreateSyncManager(@NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {
@@ -244,13 +247,13 @@ public class MainViewModel extends BaseViewModel {
     }
 
     public LiveData<Pair<List<FullBoard>, Boolean>> getBoards(long accountId) {
-        return new ReactiveLiveData<>(baseRepository.getFullBoards(accountId, false))
-                .combineWith(() -> baseRepository.hasArchivedBoards(accountId));
+        return new ReactiveLiveData<>(boardsRepository.getFullBoards(accountId, false))
+                .combineWith(() -> boardsRepository.hasArchivedBoards(accountId));
     }
 
     public LiveData<FullBoard> getCurrentFullBoard(long accountId) {
         return new ReactiveLiveData<>(baseRepository.getCurrentBoardId$(accountId))
-                .flatMap(boardId -> baseRepository.getFullBoardById(accountId, boardId));
+                .flatMap(boardId -> boardsRepository.getFullBoardById(accountId, boardId));
     }
 
     public LiveData<List<Stack>> getStacks(long accountId, long boardId) {

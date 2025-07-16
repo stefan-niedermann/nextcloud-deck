@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.remote.api;
 
 import android.content.Context;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
@@ -13,7 +14,7 @@ import java.util.function.Supplier;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.remote.helpers.util.ConnectivityUtil;
-import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
+import it.niedermann.nextcloud.deck.shared.SharedExecutors;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -49,7 +50,7 @@ public class RequestHelper {
 
         final CountDownLatch latch = new CountDownLatch(1);
         final var cb = new ResponseConsumer<>(this.apiProvider.getContext(), callback, latch);
-        ExecutorServiceProvider.getLinkedBlockingQueueExecutor().submit(() -> {
+        SharedExecutors.getIONetExecutor(Uri.parse(this.apiProvider.getSsoAccount().url)).submit(() -> {
             callProvider.get().enqueue(cb);
             try {
                 latch.await(20, TimeUnit.SECONDS);
