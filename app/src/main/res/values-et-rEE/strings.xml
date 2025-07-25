@@ -134,6 +134,7 @@
         <item>Tume kujundus</item>
     </string-array>
     <string name="unassigned_user">%1$s - vastutaja määramine on eemaldatud</string>
+    <string name="no_activities">Hetkel pole näha selle kaardiga tehtud tegevusi. Palun kasuta internetiühendust ja kaardi tegevuste laadimine ning näitamine hakkab tööle.</string>
     <string name="share_board">Jaga tahvlit</string>
     <string name="you_are_currently_offline">Sa pole hetkel võrgus</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Kasutajakonto lisamiseks peab sinu nutiseadmes olema toimiv internetiühendus.</string>
@@ -212,13 +213,19 @@
     <string name="error_dialog_tip_offline_no_internet">Tundub, et sa proovisid käivitada sünkroniseerimist nii, et nutiseadmes polnud toimivat internetiühendust.</string>
     <string name="error_dialog_tip_offline_connection_refused">Server keeldus ühenduse loomisest. Palun kontrolli, kas sa saad oma serverit kasutada veebibrauserist.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Ühenduse loomine aegus, palun kontrolli, kas nutiseadmes on toimiv internetiühendus. See viga võib ka tekkida olukorras, kus server on koormuse all või hõivatud.</string>
+    <string name="error_dialog_tip_connection_rejected">Server keeldus päringule vastamast. Palun kontrolli, kas seal on kasutusel mõni liigsete päringute tõkestamise lahendus. Olukord võib tekkida nii Nextcloudi serveris, kui siis, kui kasutusel on Cloudflare\'i teenused.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Kui sa oled eelistuseks valinud „Sünkroniseeri vaid WiFi võrgus“, siis sünkroniseerimine toimib vaid WiFi ühenduse olemasolul.</string>
+    <string name="error_dialog_tip_files_force_stop">Midagi on valesti sinu Nextcloudi rakendusega. Proovi jõuga peatada nii Nextcloudi kliendi kui Nextcloudi Kanbani rakenduse töö.</string>
     <string name="error_dialog_tip_files_delete_storage">Kui rakenduste jõuga peatamine ei eita, siis proovi tühjendada mõlema andmeruumid.</string>
+    <string name="error_dialog_timeout_instance">Sinu server ei vastanud päringule etteantud aja jooksul. Palun kontrolli, et server toimib korralikult.</string>
     <string name="error_dialog_timeout_toggle">Palun kontrolli, et sinu nutiseadme internetiühendus toimib. Mõnel juhul aitab ka mobiilse andmeside ja/või WiFi sisse- ja välja lülitamine.</string>
+    <string name="error_dialog_check_server">Serveri vastus päringule polnud korrektne. Palun kontrolli, kas sa saad Kanbani rakendust kasutada veebiliidesest.</string>
     <string name="error_dialog_check_server_logs">Sinu Nextcloud paigalduses on üks viga. Täpsem teave leidub serveri logides.</string>
     <string name="error_dialog_check_maintenance">Palun kontrolli, et Nextcloudi server ei oleks hetkel hooldusrežiimis!</string>
     <string name="error_dialog_insufficient_storage">Sinu Nextcloudi serveris pole enam vaba andmeruumi. Selleks, et kohalike failide sünkroniseerimine pilve toimiks, palun kustuta serverist mittevajalikke faile.</string>
     <string name="error_dialog_we_need_info">Me vajame sinult järgnevat tehnilist teavet:</string>
+    <string name="error_dialog_redirect">Sinu server vastas päringule http-protokolli olekukukoodiga 302, mis tähendab, et kas serverisse on paigaldamata Kanbani rakendus või mõni seadistus on vigane. Samuti võib seda põhjustada .htaccess faili eraldi tehtud muudatused  või Nextcloudi rakendused nagu OID Klient.</string>
+    <string name="error_dialog_version_not_parsable">Me ei suutnud serverpoolse Kanbani rakenduse versiooni tuvastada. Palun kontrolli, et ta oleks paigaldatud ja sisse lülitatud.</string>
     <string name="error_dialog_account_might_not_be_authorized">Sinu Nextcloudi rakenduse kasutajakonto autoriseerimine võib olla lõppenud.</string>
     <string name="error_dialog_user_not_found_in_database">Praegune kasutajanimi ei vasta sellele mis meil on andmebaasis kirjas. Kui kasutad oma Nextcloudi serveris LDAP-i teenust, siis võib sinu Nextcloudi rakenduses veel kirjas olla vana kasutajatunnus.</string>
     <string name="error_dialog_capabilities_not_parsable">Me ei suutnud laadida sinu serveri võimekuse teavet. Palun kontrolli, kas sinu server ikka toimib korralikult ja muud klientrakendused saavad ligi Nextcloudi teenustele.</string>
@@ -320,6 +327,7 @@
     <string name="progress_import_indeterminate">Impordin tahvleid...</string>
     <string name="card_outdated">Selle kaardis isu võib olla aegunud.</string>
     <string name="show_error">Näita viga</string>
+    <string name="push_notification_link_empty">Kanbani veebirakenduses tekkinud tundmatu vea tõttu me ei saa selle kaardi andmeid kuvada. Lisateavet leiad siit: %1$s</string>
     <string name="enter_search_term_title">Sisesta otsingusõna</string>
     <string name="enter_search_term_description">Selle tahvli kaartide otsimiseks sisesta soovitud otsingusõna</string>
     <string name="no_search_results_title">Otsingul pole tulemusi</string>
