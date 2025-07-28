@@ -85,6 +85,8 @@
     <string name="add_board">Додати дошку</string>
 
     <string name="label_clear_due_date">Очистити до</string>
+    <string name="label_clear_done">Ще не все.</string>
+    <string name="label_due_at">До сплати: %1$s</string>
     <string name="label_add">Додати %1$s</string>
 
     <string name="card_edit_details">Деталі</string>
@@ -100,6 +102,7 @@
     <string name="no_lists_yet">Поки що відсутні списки</string>
     <string name="do_you_want_to_save_your_changes">Зберегти зміни?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Дійсно заархівувати всі картки з %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Ви хочете архівувати всі відфільтровані картки %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Це вилучіть %1$d картку з цього списку.</item>
         <item quantity="few">Це вилучіть усі %1$d карток з цього списку.</item>
@@ -179,6 +182,8 @@
 
     <string name="filter_done_no_filter">Всі</string>
     <string name="filter_done_done">Готово</string>
+    <string name="filter_done_undone">Ще не все.</string>
+
     <string name="archived_cards">Заархівовані картки</string>
     <string name="attachment_already_exists">Вкладення уже наявне</string>
     <string name="pick_custom_color">Вибрати власний колір</string>
@@ -206,25 +211,33 @@
 
     <string name="error_dialog_title">От халепа!</string>
     <string name="error_dialog_tip_token_mismatch_retry">Спробуйте примусово закрити застосунок та наново запустити. Можливо, встановлено неправильне з\'єднання із застосунком Nextcloud.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Якщо проблема не зникла, спробуйте очистити пам\'ять обох додатків: Nextcloud і Nextcloud Deck, щоб вирішити цю проблему.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Не вдалося оновити базу даних. Будь ласка, повідомте про проблему, очистіть сховище даних для подальшого використання застосунку.</string>
     <string name="error_dialog_tip_clear_storage">Ви можете очистити сховище, для цього відкрийте інформацію про застосунок та виберіть \"Пам’ять\" → \"Очистити пам’ять\".</string>
     <string name="error_dialog_tip_offline_no_internet">Схоже, ви намагаєтеся виконати синхронізацію без доступу до мережі.</string>
     <string name="error_dialog_tip_offline_connection_refused">Відмовлено у з\'єднанні. Будь ласка, перевірте, чи доступний ваш сервер з бравзера.</string>
     <string name="error_dialog_tip_offline_connection_timeout">З\'єднання розірвано. Будь ласка, перевірте доступ до мережі. Також, це може бути наслідком того, що сервер зай</string>
+    <string name="error_dialog_tip_connection_rejected">З\'єднання було відхилено. Перевірте, чи ваш сервер захищений механізмом захисту від флуду. Найімовірніше, ця проблема пов\'язана із серверами, захищеними Cloudflare.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Якщо ви увімкнете параметр \"Синхронізація тільки з Wi-Fi\", то синхронізація буде виконуватися лише за умови наявности з\'єднання через Wi-Fi.</string>
+    <string name="error_dialog_tip_files_force_stop">Здається, щось не так з вашим додатком Nextcloud. Спробуйте примусово зупинити обидва додатки: Nextcloud і Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Якщо примусове їх завершення не допомагає, спробуйте очистити сховище даних обох застосунків.</string>
+    <string name="error_dialog_timeout_instance">Ваш сервер не відповів протягом заданого часу. Переконайтеся, що ваш екземпляр працює належним чином.</string>
     <string name="error_dialog_timeout_toggle">Перевірте доступ до мережі. Часом може допомогти послідовне вимикання та вмикання мобільних даних або Wi-Fi.</string>
+    <string name="error_dialog_check_server">Відповідь вашого сервера була некоректною. Перевірте, чи можете ви отримати доступ до програми Deck через веб-інтерфейс.</string>
     <string name="error_dialog_check_server_logs">Виникла проблема з налаштуванням Nextcloud. Будь ласка, подивіться файли журналу сервера.</string>
     <string name="error_dialog_check_maintenance">Будь ласка, перевірте, чи ваш сервер Nextcloud наразі не перебуває в режимі обслуговування.</string>
     <string name="error_dialog_insufficient_storage">Ваш сервер Nextcloud не має вільного місця. Вилучіть деякі файлі, щоб можна було синхронізувати ваші локальні зміни із вашим хмарним сховищем.</string>
     <string name="error_dialog_we_need_info">Нам потрібна наступна технічна інформація, щоб допомогти вам:</string>
+    <string name="error_dialog_redirect">Ваш сервер відповів кодом статусу HTTP 302, що означає, що на вашому сервері не встановлено додаток Deck або щось налаштовано неправильно. Це може бути спричинено користувацькими перезаписами у файлі .htaccess або додатками Nextcloud, такими як OID Client.</string>
     <string name="error_dialog_version_not_parsable">Не вдалося визначити версію застосунку Deck на сервері. Будь ласка, перевірте, чи  застосунок встановлено та увімкнено.</string>
     <string name="error_dialog_account_might_not_be_authorized">Ймовірно, що ваш обліковий запис у застосунку Nextcloud більше не авторизовано.</string>
     <string name="error_dialog_user_not_found_in_database">Дані поточного користувача не збігаються з даними користувача у нашій базі даних. Якщо ви використовуєте LDAP у вашому примірнику Nextcloud, ваш застосунок Nextcloud міг зберегти застарілий ідентифікатор користувача.</string>
     <string name="error_dialog_capabilities_not_parsable">Не вдалося отримати дані про ваш сервер. Будь ласка, пересвідчиться, що сервер коректно працює та інші клієнтські застосунки мають доступ до хмари Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Неможливо долучити вкладення. Спробуйте поділитися ним в інший спосіб, а також повідомте нам про цю ваду.</string>
     <string name="error_dialog_certificate">Ймовірно виникли проблеми з сертифікатом серверу. Перевірте всі записи у застосунку Nextcloud для отримання додаткової інформації.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Будь ласка, вимкніть усі оптимізації батареї для Nextcloud та програми Deck.</string>
     <string name="error_dialog_unknown_error">Схоже, що ваша хмара Nextcloud не доступна. Будь ласка, перевірте з\'єднання з мережею, а також можливість встановити з\'єднання через бравзер.</string>
+    <string name="error_dialog_min_version">Додаток Deck для Android вимагає, щоб додаток Nextcloud для Android був версії не нижче 3.18.</string>
     <string name="error_action_open_deck_info">Відкрити інформацію про застосунок</string>
     <string name="error_action_open_nextcloud_app">Відкрити застосунок Nextcloud</string>
     <string name="error_action_open_network">Налаштування мережі</string>
@@ -237,14 +250,23 @@
     <string name="info_box_version_not_supported">Версія сервера %1$s не підтримується, будь ласка, поновіться до %2$s</string>
     <string name="share_link">Поділитися посиланням</string>
     <string name="share_content">Поділіться вмістом</string>
+    <string name="share_content_duedate">Дві дати: %1$s</string>
+    <string name="share_content_labels">Мітки: %1$s</string>
     <string name="archive_cards">Архівувати картки</string>
 
     <string name="manage_accounts">Облікові записи</string>
     <string name="manage_list">Керувати списком</string>
     <string name="simple_reply">Відповісти</string>
     <string name="append_text_to_description">Додати до опису</string>
+    <string name="append_text_as_task">Додати до опису як завдання</string>
     <string name="add_text_as_comment">Додати коментар</string>
     <string name="progress_count">%1$d з %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">Помилка під час завантаження %1$d</item>
+        <item quantity="few">%1$d помилки під час завантаження</item>
+        <item quantity="many">%1$d помилки під час завантаження</item>
+        <item quantity="other">%1$d помилки під час завантаження</item>
+    </plurals>
     <string name="simple_report">Звіт</string>
     <string name="error_action_open_battery_settings">Налаштування батареї</string>
     <string name="move_warning">У разі переміщення картки до іншої дошки коментарі та вкладення не буде перенесено.</string>
@@ -261,20 +283,61 @@
     <string name="project_type_deck_card">Картка</string>
     <string name="project_type_file">Файл</string>
     <string name="projects_title">Проєкти</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d ресурс</item>
+        <item quantity="few">%1$d ресурсів</item>
+        <item quantity="many">%1$d ресурсів</item>
+        <item quantity="other">%1$d ресурсів</item>
+    </plurals>
+    <string name="no_assigned_label">Немає призначеного тегу</string>
+    <string name="single_card">Одноразова картка</string>
+    <string name="project_type_room">Кімната для переговорів</string>
     <string name="simple_move">Перемістити</string>
+    <string name="cannot_upload_files_without_permission">Неможливо завантажити файли без дозволів</string>
     <string name="insufficient_permission">Недостатній дозвіл</string>
+    <string name="no_matching_app_installed">Не встановлено відповідний додаток</string>
     <string name="clone_cards">Копіювати картки</string>
     <string name="simple_clone">Копіювати</string>
+    <string name="user_avatar">Аватар користувача</string>
+    <string name="simple_unassign">Відмінити.</string>
+    <string name="take_photo">Сфотографуйте</string>
+    <string name="take_photo_switch_camera">Переключити камеру.</string>
+    <string name="take_photo_toggle_torch">Тумблерний ліхтар</string>
     <string name="show_all_contacts">Показувати всі контакти</string>
+    <string name="show_all_files">Показати всі файли</string>
     <string name="recent">Нещодавні</string>
+    <string name="upload_a_new_attachment">Завантажити нове вкладення</string>
+    <string name="camera">Камера</string>
     <string name="contacts">Контакти</string>
     <string name="downloads">Звантаження</string>
     <string name="files">Робота з файлами</string>
+    <string name="voice_recorder">Диктофон</string>
     <string name="gallery">Галерея</string>
     <string name="videos">Відео</string>
+    <string name="simple_attach">Прикріпити</string>
+    <string name="add_stack_widget">Додати віджет списку</string>
+    <string name="add_filter_widget">Додати віджет фільтрації</string>
+    <string name="simple_order">Порядок</string>
     <string name="edit_description">Редагувати опис</string>
     <string name="widget_upcoming_title">Очікують на виконання</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Налаштування експерта</string>
+    <string name="copy_logs">Копіювання журналів до буфера обміну</string>
     <string name="app_logo">Лоґо застосунку</string>
+    <string name="log_file">Файл журналу</string>
+    <string name="copying_logs_to_file">Копіювання журналів у файл...</string>
+    <string name="account_imported">Обліковий запис імпортовано</string>
     <string name="simple_search">Пошук</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Назва (обов\'язково)</string>
+    <string name="saving_new_card">Збереження нової картки...</string>
+    <string name="progress_import">Імпорт дошки %1$d з %2$d...</string>
+    <string name="progress_import_indeterminate">Імпорт дощок...</string>
+    <string name="card_outdated">Вміст цієї картки може бути застарілим.</string>
+    <string name="show_error">Показати помилку</string>
+    <string name="push_notification_link_empty">Через відому проблему в веб-додатку Deck ми, на жаль, не можемо відобразити цю картку. Для отримання додаткової інформації див.: %1$s</string>
+    <string name="enter_search_term_title">Введіть пошуковий запит</string>
+    <string name="enter_search_term_description">Введіть пошуковий запит, щоб знайти картки на цій дошці</string>
     <string name="no_search_results_title">Нічого не знайдено</string>
-    </resources>
+    <string name="no_search_results_description">Ми не знайшли жодного результату за заданим пошуковим запитом</string>
+</resources>
