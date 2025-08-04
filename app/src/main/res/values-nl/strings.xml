@@ -118,7 +118,7 @@
     <string name="settings_theme_title">Thema</string>
     <string name="settings_compact_title">Compacte modus</string>
     <string name="settings_cover_images_title">Cover afbeeldingen</string>
-    <string name="settings_debugging">Debug logs</string>
+    <string name="settings_debugging">Foutopsporingslogboeken</string>
     <string name="settings_etags">Gebruik ETags</string>
     <string name="settings_etags_summary">Versnelt het synchroniseren</string>
     <string name="settings_background_sync">Achtergrond synchronisatie</string>
