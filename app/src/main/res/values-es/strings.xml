@@ -269,7 +269,7 @@
     <string name="move_warning">No se pueden transferir cio los comentarios ni los adjuntos al mover una tarjeta a otro tablero.</string>
     <string name="clone_board">Clonar tablero</string>
     <string name="cloning_board">Clonando %1$s…</string>
-    <string name="successfully_cloned_board">Clonados con éxito %1$s</string>
+    <string name="successfully_cloned_board">Se clonó exitosamente %1$s</string>
     <string name="attachment_does_not_yet_exist">El adjunto todavía no existe en Deck</string>
     <string name="card_does_not_yet_exist">La tarjeta todavía no existe en Deck</string>
 
