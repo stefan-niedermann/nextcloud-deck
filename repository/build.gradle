@@ -37,6 +37,7 @@ dependencies {
     implementation "org.mapstruct:mapstruct:$version_mapstruct"
     annotationProcessor "org.mapstruct:mapstruct-processor:$version_mapstruct"
     implementation "androidx.lifecycle:lifecycle-livedata:$version_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$version_lifecycle"
     implementation 'androidx.work:work-runtime:2.10.1'
     implementation "com.github.stefan-niedermann.android-commons:reactive-livedata:$version_android_commons"
     implementation "com.github.stefan-niedermann.android-commons:shared-preferences:$version_android_commons"

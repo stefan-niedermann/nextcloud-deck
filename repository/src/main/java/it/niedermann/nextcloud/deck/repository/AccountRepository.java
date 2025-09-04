@@ -7,6 +7,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.LiveDataReactiveStreams;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
@@ -51,7 +52,7 @@ public class AccountRepository extends AbstractRepository {
     }
 
     public LiveData<Boolean> hasAccounts() {
-        return dataBaseAdapter.hasAccounts();
+        return LiveDataReactiveStreams.fromPublisher(dataBaseAdapter.hasAnyAccounts());
     }
 
     public LiveData<Account> readAccount(long id) {

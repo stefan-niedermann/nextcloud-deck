@@ -6,10 +6,15 @@ import androidx.room.Query;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Flowable;
 import it.niedermann.nextcloud.deck.model.Account;
 
 @Dao
 public interface AccountDao extends GenericDao<Account> {
+
+    @Query("SELECT count(a.id) > 0 FROM Account a")
+    Flowable<Boolean> hasAccounts();
+
     @Query("SELECT count(*) FROM account")
     int countAccountsDirectly();
 

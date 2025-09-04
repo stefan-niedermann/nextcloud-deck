@@ -41,6 +41,7 @@ dependencies {
 
     implementation "androidx.room:room-runtime:$version_room"
     annotationProcessor "androidx.room:room-compiler:$version_room"
+    api("androidx.room:room-rxjava3:$version_room")
     implementation "androidx.lifecycle:lifecycle-livedata:$version_lifecycle"
 
     testImplementation 'junit:junit:4.13.2'

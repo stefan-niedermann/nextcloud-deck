@@ -43,6 +43,7 @@ import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import io.reactivex.rxjava3.core.Flowable;
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.android.sharedpreferences.SharedPreferenceLongLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -148,6 +149,10 @@ public class DataBaseAdapter {
         if (!setStatus) return;
         entity.setStatusEnum(DBStatus.LOCAL_DELETED);
         entity.setLastModifiedLocal(Instant.now());
+    }
+
+    public Flowable<Boolean> hasAnyAccounts() {
+        return db.getAccountDao().hasAccounts();
     }
 
     public LiveData<Boolean> hasAccounts() {
