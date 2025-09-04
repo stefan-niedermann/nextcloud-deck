@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.nextcloud.android.sso.api.EmptyResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
@@ -36,8 +35,13 @@ import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
-import it.niedermann.nextcloud.deck.repository.BoardsRepository;
+import it.niedermann.nextcloud.deck.repository.AccountRepository;
+import it.niedermann.nextcloud.deck.repository.BoardRepository;
+import it.niedermann.nextcloud.deck.repository.CardRepository;
+import it.niedermann.nextcloud.deck.repository.CommentRepository;
+import it.niedermann.nextcloud.deck.repository.StackRepository;
 import it.niedermann.nextcloud.deck.repository.SyncRepository;
+import it.niedermann.nextcloud.deck.repository.WidgetRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
 @SuppressWarnings("WeakerAccess")
@@ -45,11 +49,21 @@ public class MainViewModel extends BaseViewModel {
 
     @Nullable
     private SyncRepository syncRepository;
-    private final BoardsRepository boardsRepository;
+    private final AccountRepository accountRepository;
+    private final BoardRepository boardRepository;
+    private final StackRepository stackRepository;
+    private final CardRepository cardRepository;
+    private final CommentRepository commentRepository;
+    private final WidgetRepository widgetRepository;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
-        this.boardsRepository = new BoardsRepository(application);
+        this.accountRepository = new AccountRepository(application);
+        this.boardRepository = new BoardRepository(application);
+        this.stackRepository = new StackRepository(application);
+        this.cardRepository = new CardRepository(application);
+        this.commentRepository = new CommentRepository(application);
+        this.widgetRepository = new WidgetRepository(application);
     }
 
     public void recreateSyncManager(@NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {
@@ -66,7 +80,7 @@ public class MainViewModel extends BaseViewModel {
     }
 
     public LiveData<Map<Stack, List<FullCard>>> searchCards(long accountId, long boardId, @NonNull String term, int limit) {
-        return baseRepository.searchCards(accountId, boardId, term, limit);
+        return cardRepository.searchCards(accountId, boardId, term, limit);
     }
 
     public void synchronize(@NonNull Account account, @NonNull IResponseCallback<Boolean> callback) {
@@ -86,11 +100,11 @@ public class MainViewModel extends BaseViewModel {
     }
 
     public LiveData<Boolean> hasAccounts() {
-        return baseRepository.hasAccounts();
+        return accountRepository.hasAccounts();
     }
 
     public CompletableFuture<Account> getAccount(long accountId) {
-        return supplyAsync(() -> baseRepository.readAccountDirectly(accountId), executor);
+        return supplyAsync(() -> accountRepository.readAccountDirectly(accountId), executor);
     }
 
     public CompletableFuture<Integer> getCurrentBoardColor(long accountId, long boardId) {
@@ -102,19 +116,11 @@ public class MainViewModel extends BaseViewModel {
     }
 
     public void createBoard(@NonNull Account account, @NonNull Board board, @NonNull IResponseCallback<FullBoard> callback) {
-        if (syncRepository == null) {
-            callback.onError(getInvalidSyncManagerException());
-        } else {
-            syncRepository.createBoard(account, board, callback);
-        }
+        boardRepository.createBoard(account, board, callback);
     }
 
     public void updateBoard(@NonNull FullBoard board, @NonNull IResponseCallback<FullBoard> callback) {
-        if (syncRepository == null) {
-            callback.onError(getInvalidSyncManagerException());
-        } else {
-            syncRepository.updateBoard(board, callback);
-        }
+        boardRepository.updateBoard(board, callback);
     }
 
     public void archiveBoard(@NonNull Board board, @NonNull IResponseCallback<FullBoard> callback) {
@@ -134,11 +140,7 @@ public class MainViewModel extends BaseViewModel {
     }
 
     public void deleteBoard(@NonNull Board board, @NonNull IResponseCallback<EmptyResponse> callback) {
-        if (syncRepository == null) {
-            callback.onError(getInvalidSyncManagerException());
-        } else {
-            syncRepository.deleteBoard(board, callback);
-        }
+        boardRepository.deleteBoard(board, callback);
     }
 
     public void saveCurrentStackId(long accountId, long boardId, long stackId) {
@@ -146,42 +148,23 @@ public class MainViewModel extends BaseViewModel {
     }
 
     public void createStack(long accountId, long boardId, @NonNull String title, @NonNull IResponseCallback<FullStack> callback) {
-        if (syncRepository == null) {
-            callback.onError(getInvalidSyncManagerException());
-        } else {
-            syncRepository.createStack(accountId, boardId, title, callback);
-        }
+        stackRepository.createStack(accountId, boardId, title, callback);
     }
 
     public LiveData<FullStack> getStack(long accountId, long localStackId) {
-        if (syncRepository == null) {
-            return new MutableLiveData<>();
-        }
-        return syncRepository.getStack(accountId, localStackId);
+        return stackRepository.getStack(accountId, localStackId);
     }
 
     public void reorderStack(long accountId, long boardId, long stackLocalId, boolean moveToRight) {
-        if (syncRepository == null) {
-            DeckLog.logError(getInvalidSyncManagerException());
-        } else {
-            syncRepository.reorderStack(accountId, boardId, stackLocalId, moveToRight);
-        }
+        stackRepository.reorderStack(accountId, boardId, stackLocalId, moveToRight);
     }
 
     public void updateStackTitle(long localStackId, @NonNull String newTitle, @NonNull IResponseCallback<FullStack> callback) {
-        if (syncRepository == null) {
-            callback.onError(getInvalidSyncManagerException());
-        } else {
-            syncRepository.updateStackTitle(localStackId, newTitle, callback);
-        }
+        stackRepository.updateStackTitle(localStackId, newTitle, callback);
     }
 
     public void deleteStack(long accountId, long boardId, long stackLocalId, @NonNull IResponseCallback<EmptyResponse> callback) {
-        if (syncRepository == null) {
-            callback.onError(getInvalidSyncManagerException());
-        } else {
-            syncRepository.deleteStack(accountId, boardId, stackLocalId, callback);
-        }
+        stackRepository.deleteStack(accountId, boardId, stackLocalId, callback);
     }
 
     public void reorder(@NonNull FullCard movedCard, long newStackId, int newIndex) {
@@ -193,11 +176,7 @@ public class MainViewModel extends BaseViewModel {
     }
 
     public void countCardsInStack(long accountId, long stackId, @NonNull IResponseCallback<Integer> callback) {
-        if (syncRepository == null) {
-            callback.onError(getInvalidSyncManagerException());
-        } else {
-            syncRepository.countCardsInStackDirectly(accountId, stackId, callback);
-        }
+        stackRepository.countCardsInStackDirectly(accountId, stackId, callback);
     }
 
     public void archiveCardsInStack(long accountId, long stackId, @NonNull FilterInformation filterInformation, @NonNull IResponseCallback<EmptyResponse> callback) {
@@ -220,8 +199,8 @@ public class MainViewModel extends BaseViewModel {
         if (syncRepository == null) {
             DeckLog.logError(getInvalidSyncManagerException());
         } else {
-            supplyAsync(() -> syncRepository.readAccountDirectly(accountId))
-                    .thenAcceptAsync(account -> syncRepository.addCommentToCard(account.getId(), cardId, new DeckComment(message, account.getUserName(), Instant.now())));
+            supplyAsync(() -> accountRepository.readAccountDirectly(accountId))
+                    .thenAcceptAsync(account -> commentRepository.addCommentToCard(account.getId(), cardId, new DeckComment(message, account.getUserName(), Instant.now())));
         }
     }
 
@@ -234,30 +213,26 @@ public class MainViewModel extends BaseViewModel {
     }
 
     public void addOrUpdateSingleCardWidget(int widgetId, long accountId, long boardId, long localCardId) {
-        if (syncRepository == null) {
-            DeckLog.logError(getInvalidSyncManagerException());
-        } else {
-            syncRepository.addOrUpdateSingleCardWidget(widgetId, accountId, boardId, localCardId);
-        }
+        widgetRepository.addOrUpdateSingleCardWidget(widgetId, accountId, boardId, localCardId);
     }
 
     public LiveData<Account> getCurrentAccount$() {
         return new ReactiveLiveData<>(baseRepository.getCurrentAccountId$())
-                .flatMap(baseRepository::readAccount);
+                .flatMap(accountRepository::readAccount);
     }
 
     public LiveData<Pair<List<FullBoard>, Boolean>> getBoards(long accountId) {
-        return new ReactiveLiveData<>(boardsRepository.getFullBoards(accountId, false))
-                .combineWith(() -> boardsRepository.hasArchivedBoards(accountId));
+        return new ReactiveLiveData<>(boardRepository.getFullBoards(accountId, false))
+                .combineWith(() -> boardRepository.hasArchivedBoards(accountId));
     }
 
     public LiveData<FullBoard> getCurrentFullBoard(long accountId) {
         return new ReactiveLiveData<>(baseRepository.getCurrentBoardId$(accountId))
-                .flatMap(boardId -> boardsRepository.getFullBoardById(accountId, boardId));
+                .flatMap(boardId -> boardRepository.getFullBoardById(accountId, boardId));
     }
 
     public LiveData<List<Stack>> getStacks(long accountId, long boardId) {
-        return new ReactiveLiveData<>(baseRepository.getStacksForBoard(accountId, boardId))
+        return new ReactiveLiveData<>(stackRepository.getStacksForBoard(accountId, boardId))
                 .distinctUntilChanged();
     }
 
@@ -266,24 +241,16 @@ public class MainViewModel extends BaseViewModel {
     }
 
     public CompletableFuture<Account> getAccountFuture(long accountId) {
-        return supplyAsync(() -> baseRepository.readAccountDirectly(accountId));
+        return supplyAsync(() -> accountRepository.readAccountDirectly(accountId));
     }
 
 
     public void archiveCard(@NonNull FullCard card, @NonNull IResponseCallback<FullCard> callback) {
-        if (syncRepository == null) {
-            callback.onError(getInvalidSyncManagerException());
-        } else {
-            syncRepository.archiveCard(card, callback);
-        }
+        cardRepository.archiveCard(card, callback);
     }
 
     public void deleteCard(@NonNull Card card, @NonNull IResponseCallback<EmptyResponse> callback) {
-        if (syncRepository == null) {
-            callback.onError(getInvalidSyncManagerException());
-        } else {
-            syncRepository.deleteCard(card, callback);
-        }
+        cardRepository.deleteCard(card, callback);
     }
 
     public void assignUserToCard(@NonNull FullCard fullCard) {
@@ -305,7 +272,7 @@ public class MainViewModel extends BaseViewModel {
     }
 
     private User getUserByUidDirectly(long accountId, String uid) {
-        return baseRepository.getUserByUidDirectly(accountId, uid);
+        return userRepository.getUserByUidDirectly(accountId, uid);
     }
 
     public void moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId, @NonNull IResponseCallback<EmptyResponse> callback) {

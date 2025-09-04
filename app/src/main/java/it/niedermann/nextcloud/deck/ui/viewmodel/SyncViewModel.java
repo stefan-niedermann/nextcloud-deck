@@ -10,12 +10,11 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.repository.CommentRepository;
 import it.niedermann.nextcloud.deck.repository.SyncRepository;
+import it.niedermann.nextcloud.deck.repository.UserRepository;
 import it.niedermann.nextcloud.deck.ui.archivedboards.ArchivedBoardsViewModel;
-import it.niedermann.nextcloud.deck.ui.board.accesscontrol.AccessControlViewModel;
-import it.niedermann.nextcloud.deck.ui.board.managelabels.LabelsViewModel;
 import it.niedermann.nextcloud.deck.ui.card.NewCardViewModel;
-import it.niedermann.nextcloud.deck.ui.card.comments.CommentsViewModel;
 import it.niedermann.nextcloud.deck.ui.stack.StackViewModel;
 
 /**
@@ -30,18 +29,25 @@ public abstract class SyncViewModel extends BaseViewModel {
 
     protected final Account account;
     protected final SyncRepository syncRepository;
+    protected final CommentRepository commentRepository;
 
     public SyncViewModel(@NonNull Application application,
                          @NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {
-        this(application, account, new SyncRepository(application, account));
+        this(application, account,
+                new SyncRepository(application, account),
+                new UserRepository(application),
+                new CommentRepository(application));
     }
 
     public SyncViewModel(@NonNull Application application,
                          @NonNull Account account,
-                         @NonNull SyncRepository syncRepository) {
-        super(application, syncRepository);
+                         @NonNull SyncRepository syncRepository,
+                         @NonNull UserRepository userRepository,
+                         @NonNull CommentRepository commentRepository) {
+        super(application, syncRepository, userRepository);
         this.account = account;
         this.syncRepository = syncRepository;
+        this.commentRepository = commentRepository;
     }
 
     public static class Provider extends ViewModelProvider {
@@ -77,17 +83,8 @@ public abstract class SyncViewModel extends BaseViewModel {
         @Override
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
             try {
-                if (modelClass == AccessControlViewModel.class) {
-                    return (T) new AccessControlViewModel(application, account);
-                }
                 if (modelClass == ArchivedBoardsViewModel.class) {
                     return (T) new ArchivedBoardsViewModel(application, account);
-                }
-                if (modelClass == CommentsViewModel.class) {
-                    return (T) new CommentsViewModel(application, account);
-                }
-                if (modelClass == LabelsViewModel.class) {
-                    return (T) new LabelsViewModel(application, account);
                 }
                 if (modelClass == NewCardViewModel.class) {
                     return (T) new NewCardViewModel(application, account);

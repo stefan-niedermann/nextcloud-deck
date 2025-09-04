@@ -18,6 +18,7 @@ import java.util.concurrent.Executors;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.repository.BaseRepository;
+import it.niedermann.nextcloud.deck.repository.WidgetRepository;
 
 public class FilterWidget extends AppWidgetProvider {
     public static final String ACCOUNT_KEY = "filter_widget_account";
@@ -73,10 +74,10 @@ public class FilterWidget extends AppWidgetProvider {
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         super.onDeleted(context, appWidgetIds);
-        final var baseRepository = new BaseRepository(context);
+        final var widgetRepository = new WidgetRepository(context);
 
         for (int appWidgetId : appWidgetIds) {
-            baseRepository.deleteFilterWidget(appWidgetId, (response, headers) -> DeckLog.verbose("Successfully deleted " + FilterWidget.class.getSimpleName() + " with id " + appWidgetId));
+            widgetRepository.deleteFilterWidget(appWidgetId, (response, headers) -> DeckLog.verbose("Successfully deleted " + FilterWidget.class.getSimpleName() + " with id " + appWidgetId));
         }
     }
 }

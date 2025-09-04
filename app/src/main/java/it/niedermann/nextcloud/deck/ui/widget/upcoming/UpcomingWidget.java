@@ -30,7 +30,10 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetAccount;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetSort;
 import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.repository.BaseRepository;
+import it.niedermann.nextcloud.deck.repository.AccountRepository;
+import it.niedermann.nextcloud.deck.repository.CardRepository;
+import it.niedermann.nextcloud.deck.repository.UserRepository;
+import it.niedermann.nextcloud.deck.repository.WidgetRepository;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import okhttp3.Headers;
 
@@ -44,23 +47,25 @@ public class UpcomingWidget extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
-        final BaseRepository baseRepository = new BaseRepository(context);
+        final AccountRepository accountRepository = new AccountRepository(context);
+        final UserRepository userRepository = new UserRepository(context);
+        final WidgetRepository widgetRepository = new WidgetRepository(context);
 
         for (int appWidgetId : appWidgetIds) {
             executor.submit(() -> {
-                if (baseRepository.filterWidgetExists(appWidgetId)) {
+                if (widgetRepository.filterWidgetExists(appWidgetId)) {
                     DeckLog.warn(UpcomingWidget.class.getSimpleName(), "with id", appWidgetId, "already exists, perform update instead.");
                     updateAppWidget(executor, context, appWidgetManager, appWidgetIds);
                 } else {
-                    final List<Account> accountsList = baseRepository.readAccountsDirectly();
+                    final List<Account> accountsList = accountRepository.readAccountsDirectly();
                     final FilterWidget config = new FilterWidget(appWidgetId, EWidgetType.UPCOMING_WIDGET);
                     config.setSorts(new FilterWidgetSort(ESortCriteria.DUE_DATE, true));
                     config.setAccounts(accountsList.stream().map(account -> {
                         final FilterWidgetAccount fwa = new FilterWidgetAccount(account.getId(), false);
-                        fwa.setUsers(new FilterWidgetUser(baseRepository.getUserByUidDirectly(account.getId(), account.getUserName()).getLocalId()));
+                        fwa.setUsers(new FilterWidgetUser(userRepository.getUserByUidDirectly(account.getId(), account.getUserName()).getLocalId()));
                         return fwa;
                     }).collect(Collectors.toList()));
-                    baseRepository.createFilterWidget(config, new IResponseCallback<>() {
+                    widgetRepository.createFilterWidget(config, new IResponseCallback<>() {
                         @Override
                         public void onResponse(Integer response, Headers headers) {
                             DeckLog.verbose("Successfully created", UpcomingWidget.class.getSimpleName(), "with id", appWidgetId);
@@ -97,8 +102,9 @@ public class UpcomingWidget extends AppWidgetProvider {
         } else if (PENDING_INTENT_ACTION_EDIT.equals(intent.getAction())) {
             if (intent.hasExtra(PENDING_INTENT_PARAM_ACCOUNT_ID) && intent.hasExtra(PENDING_INTENT_PARAM_LOCAL_CARD_ID)) {
                 executor.submit(() -> {
-                    final var baseRepository = new BaseRepository(context);
-                    context.startActivity(EditActivity.createEditCardIntent(context, baseRepository.readAccountDirectly(intent.getLongExtra(PENDING_INTENT_PARAM_ACCOUNT_ID, -1)), baseRepository.getBoardLocalIdByLocalCardIdDirectly(intent.getLongExtra(PENDING_INTENT_PARAM_LOCAL_CARD_ID, -1)), intent.getLongExtra(PENDING_INTENT_PARAM_LOCAL_CARD_ID, -1)));
+                    final var accountRepository = new AccountRepository(context);
+                    final var cardsRepository = new CardRepository(context);
+                    context.startActivity(EditActivity.createEditCardIntent(context, accountRepository.readAccountDirectly(intent.getLongExtra(PENDING_INTENT_PARAM_ACCOUNT_ID, -1)), cardsRepository.getBoardLocalIdByLocalCardIdDirectly(intent.getLongExtra(PENDING_INTENT_PARAM_LOCAL_CARD_ID, -1)), intent.getLongExtra(PENDING_INTENT_PARAM_LOCAL_CARD_ID, -1)));
                 });
             } else {
                 DeckLog.error(PENDING_INTENT_PARAM_ACCOUNT_ID, "and", PENDING_INTENT_PARAM_LOCAL_CARD_ID, "must be provided for action", PENDING_INTENT_ACTION_EDIT);
@@ -111,11 +117,11 @@ public class UpcomingWidget extends AppWidgetProvider {
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         super.onDeleted(context, appWidgetIds);
-        final var baseRepository = new BaseRepository(context);
+        final var widgetRepository = new WidgetRepository(context);
 
         for (int appWidgetId : appWidgetIds) {
             DeckLog.info("Delete", UpcomingWidget.class.getSimpleName(), "with id", appWidgetId);
-            baseRepository.deleteFilterWidget(appWidgetId, (response, headers) -> DeckLog.verbose("Successfully deleted " + UpcomingWidget.class.getSimpleName() + " with id " + appWidgetId));
+            widgetRepository.deleteFilterWidget(appWidgetId, (response, headers) -> DeckLog.verbose("Successfully deleted " + UpcomingWidget.class.getSimpleName() + " with id " + appWidgetId));
         }
     }
 

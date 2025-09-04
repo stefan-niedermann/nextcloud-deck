@@ -16,29 +16,29 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.repository.BoardsRepository;
+import it.niedermann.nextcloud.deck.repository.BoardRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
 
 public class ArchivedBoardsViewModel extends SyncViewModel {
 
-    private final BoardsRepository boardsRepository;
+    private final BoardRepository boardRepository;
 
     public ArchivedBoardsViewModel(@NonNull Application application, @NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {
         super(application, account);
-        this.boardsRepository = new BoardsRepository(application);
+        this.boardRepository = new BoardRepository(application);
     }
 
     public LiveData<List<Board>> getArchivedBoards(long accountId) {
-        return new ReactiveLiveData<>(boardsRepository.getBoards(accountId, true))
+        return new ReactiveLiveData<>(boardRepository.getBoards(accountId, true))
                 .map(boards -> boards == null ? Collections.<Board>emptyList() : boards);
     }
 
     public void updateBoard(@NonNull FullBoard board, @NonNull IResponseCallback<FullBoard> callback) {
-        syncRepository.updateBoard(board, callback);
+        boardRepository.updateBoard(board, callback);
     }
 
     public void deleteBoard(@NonNull Board board, @NonNull IResponseCallback<EmptyResponse> callback) {
-        syncRepository.deleteBoard(board, callback);
+        boardRepository.deleteBoard(board, callback);
     }
 
     public void dearchiveBoard(@NonNull Board board, @NonNull IResponseCallback<FullBoard> callback) {

@@ -18,13 +18,13 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.EDoneType;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
-import it.niedermann.nextcloud.deck.repository.LabelsRepository;
+import it.niedermann.nextcloud.deck.repository.LabelRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
 @SuppressWarnings("WeakerAccess")
 public class FilterViewModel extends BaseViewModel {
 
-    private final LabelsRepository labelsRepository;
+    private final LabelRepository labelRepository;
 
     @IntRange(from = 0, to = 2)
     private int currentFilterTab = 0;
@@ -36,11 +36,11 @@ public class FilterViewModel extends BaseViewModel {
 
     public FilterViewModel(@NonNull Application application) {
         super(application);
-        this.labelsRepository = new LabelsRepository(application);
+        this.labelRepository = new LabelRepository(application);
     }
 
     public CompletableFuture<Account> getCurrentAccount() {
-        return baseRepository.getCurrentAccountId().thenApplyAsync(baseRepository::readAccountDirectly);
+        return baseRepository.getCurrentAccountId().thenApplyAsync(accountRepository::readAccountDirectly);
     }
 
     public void publishFilterInformationDraft() {
@@ -153,12 +153,12 @@ public class FilterViewModel extends BaseViewModel {
     public LiveData<List<User>> findProposalsForUsersToAssign() {
         return new ReactiveLiveData<>(baseRepository.getCurrentAccountId$())
                 .combineWith(baseRepository::getCurrentBoardId$)
-                .flatMap(ids -> baseRepository.findProposalsForUsersToAssignForCards(ids.first, ids.second, -1L, -1));
+                .flatMap(ids -> userRepository.findProposalsForUsersToAssignForCards(ids.first, ids.second, -1L, -1));
     }
 
     public LiveData<List<Label>> findProposalsForLabelsToAssign() {
         return new ReactiveLiveData<>(baseRepository.getCurrentAccountId$())
                 .combineWith(baseRepository::getCurrentBoardId$)
-                .flatMap(ids -> labelsRepository.findProposalsForLabelsToAssign(ids.first, ids.second, -1L));
+                .flatMap(ids -> userRepository.findProposalsForLabelsToAssign(ids.first, ids.second, -1L));
     }
 }

@@ -55,13 +55,13 @@ public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
         if (cardId == NO_CARD) {
             // No card means this adapter is used for searching users for Board ACL
             results$ = constraint$.flatMap(constraint -> TextUtils.isEmpty(constraint)
-                    ? syncRepository.findProposalsForUsersToAssignForACL(account.getId(), boardId, activity.getResources().getInteger(R.integer.max_users_suggested))
-                    : syncRepository.searchUserByUidOrDisplayNameForACL(account.getId(), boardId, constraint));
+                    ? userRepository.findProposalsForUsersToAssignForACL(account.getId(), boardId, activity.getResources().getInteger(R.integer.max_users_suggested))
+                    : userRepository.searchUserByUidOrDisplayNameForACL(account.getId(), boardId, constraint));
         } else {
             // Card is given, so we are searching for users to assign to a card (limited to users whom the board is shared with)
             results$ = constraint$.flatMap(constraint -> TextUtils.isEmpty(constraint)
-                    ? syncRepository.findProposalsForUsersToAssignForCards(account.getId(), boardId, cardId, activity.getResources().getInteger(R.integer.max_users_suggested))
-                    : syncRepository.searchUserByUidOrDisplayNameForCards(account.getId(), boardId, cardId, constraint));
+                    ? userRepository.findProposalsForUsersToAssignForCards(account.getId(), boardId, cardId, activity.getResources().getInteger(R.integer.max_users_suggested))
+                    : userRepository.searchUserByUidOrDisplayNameForCards(account.getId(), boardId, cardId, constraint));
         }
 
         results$

@@ -10,13 +10,17 @@ import java.util.concurrent.CompletableFuture;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
 @SuppressWarnings("WeakerAccess")
 public class ManageAccountsViewModel extends BaseViewModel {
 
+    private final AccountRepository accountRepository;
+
     public ManageAccountsViewModel(@NonNull Application application) {
         super(application);
+        this.accountRepository = new AccountRepository(application);
     }
 
     public LiveData<Integer> getCurrentAccountColor() {
@@ -25,11 +29,11 @@ public class ManageAccountsViewModel extends BaseViewModel {
     }
 
     public LiveData<Account> readAccount(long id) {
-        return baseRepository.readAccount(id);
+        return accountRepository.readAccount(id);
     }
 
     public LiveData<List<Account>> readAccounts() {
-        return baseRepository.readAccounts();
+        return accountRepository.readAccounts();
     }
 
     public CompletableFuture<Long> getCurrentAccountId() {
@@ -40,7 +44,7 @@ public class ManageAccountsViewModel extends BaseViewModel {
         baseRepository.saveCurrentAccount(account);
     }
 
-    public void deleteAccount(long id) {
-        baseRepository.deleteAccount(id);
+    public CompletableFuture<Void> deleteAccount(long id) {
+        return accountRepository.deleteAccount(id);
     }
 }

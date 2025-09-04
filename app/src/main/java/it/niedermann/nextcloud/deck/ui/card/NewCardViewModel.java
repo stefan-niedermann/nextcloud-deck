@@ -29,13 +29,13 @@ public class NewCardViewModel extends SyncViewModel {
     }
 
     public CompletableFuture<Account> getCurrentAccount() {
-        return baseRepository.getCurrentAccountId().thenApplyAsync(baseRepository::readAccountDirectly);
+        return baseRepository.getCurrentAccountId().thenApplyAsync(accountRepository::readAccountDirectly);
     }
 
     public CompletableFuture<FullCard> createFullCard(long accountId, long boardId, long stackId, String content) {
         final var result = new CompletableFuture<FullCard>();
 
-        supplyAsync(() -> baseRepository.readAccountDirectly(accountId))
+        supplyAsync(() -> accountRepository.readAccountDirectly(accountId))
                 .thenAcceptAsync(account -> syncRepository.createFullCard(accountId, boardId, stackId, createFullCard(account.getServerDeckVersionAsObject(), content),
                         new IResponseCallback<>() {
                             @Override
@@ -71,7 +71,7 @@ public class NewCardViewModel extends SyncViewModel {
     }
 
     public CompletionStage<Intent> createEditIntent(@NonNull Context context, long accountId, long boardId, long cardId) {
-        return supplyAsync(() -> baseRepository.readAccountDirectly(accountId))
+        return supplyAsync(() -> accountRepository.readAccountDirectly(accountId))
                 .thenApplyAsync(account -> EditActivity.createEditCardIntent(context, account, boardId, cardId));
     }
 }

@@ -1,13 +1,4 @@
 <resources>
-    <dimen name="spacer_1qx">2dp</dimen>
-    <dimen name="spacer_1hx">4dp</dimen>
-    <dimen name="spacer_1x">8dp</dimen>
-    <dimen name="spacer_11qx">10dp</dimen>
-    <dimen name="spacer_2x">16dp</dimen>
-    <dimen name="spacer_3x">24dp</dimen>
-    <dimen name="spacer_4x">32dp</dimen>
-    <dimen name="spacer_7x">56dp</dimen>
-
     <dimen name="stack_bottom_padding">80dp</dimen>
 
     <dimen name="compact_label_height">6dp</dimen>

@@ -21,6 +21,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.repository.SyncRepository;
+import it.niedermann.nextcloud.deck.repository.UserRepository;
 
 public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extends BaseAdapter implements Filterable {
     @NonNull
@@ -29,6 +30,7 @@ public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extend
     private final List<ItemType> itemsToExclude = new ArrayList<>();
     @NonNull
     protected SyncRepository syncRepository;
+    protected UserRepository userRepository;
     protected final Account account;
     protected final long boardId;
     protected final ReactiveLiveData<String> constraint$ = new ReactiveLiveData<>();
@@ -44,6 +46,7 @@ public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extend
         this.account = account;
         this.boardId = boardId;
         this.syncRepository = new SyncRepository(context, account);
+        this.userRepository = new UserRepository(context);
     }
 
     @Override

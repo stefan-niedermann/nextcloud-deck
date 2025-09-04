@@ -24,6 +24,8 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.repository.BoardRepository;
+import it.niedermann.nextcloud.deck.repository.CardRepository;
 import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 import it.niedermann.nextcloud.deck.util.ProjectUtil;
@@ -59,14 +61,16 @@ public class PushNotificationViewModel extends BaseViewModel {
             this.account.postValue(account);
 
             final var syncManager = new SyncRepository(getApplication(), account);
+            final var cardRepository = new CardRepository(getApplication());
+            final var boardRepository = new BoardRepository(getApplication());
 
-            final var card = syncManager.getCardByRemoteIDDirectly(account.getId(), cardRemoteId);
+            final var card = cardRepository.getCardByRemoteIDDirectly(account.getId(), cardRemoteId);
 
             if (card.isPresent()) {
                 syncManager.synchronizeCard(new ResponseCallback<>(account) {
                     @Override
                     public void onResponse(Boolean response, Headers headers) {
-                        final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId);
+                        final var boardLocalId = extractBoardLocalId(boardRepository, account.getId(), cardRemoteId);
                         if (boardLocalId.isPresent()) {
                             callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()), headers);
                         } else {
@@ -78,7 +82,7 @@ public class PushNotificationViewModel extends BaseViewModel {
                     @SuppressLint("MissingSuperCall")
                     @Override
                     public void onError(Throwable throwable) {
-                        final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId);
+                        final var boardLocalId = extractBoardLocalId(boardRepository, account.getId(), cardRemoteId);
                         if (boardLocalId.isPresent()) {
                             new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(getApplication(), R.string.card_outdated, Toast.LENGTH_LONG).show());
                             callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()), IResponseCallback.EMPTY_HEADERS);
@@ -92,9 +96,9 @@ public class PushNotificationViewModel extends BaseViewModel {
                 syncManager.synchronize(new ResponseCallback<>(account) {
                     @Override
                     public void onResponse(Boolean response, Headers headers) {
-                        final var card = syncManager.getCardByRemoteIDDirectly(account.getId(), cardRemoteId);
+                        final var card = cardRepository.getCardByRemoteIDDirectly(account.getId(), cardRemoteId);
                         if (card.isPresent()) {
-                            final var boardLocalId = extractBoardLocalId(syncManager, account.getId(), cardRemoteId);
+                            final var boardLocalId = extractBoardLocalId(boardRepository, account.getId(), cardRemoteId);
                             if (boardLocalId.isPresent()) {
                                 callback.onResponse(new CardInformation(account, boardLocalId.get(), card.get().getLocalId()), headers);
                             } else {
@@ -194,11 +198,11 @@ public class PushNotificationViewModel extends BaseViewModel {
     }
 
     private Optional<Account> extractAccount(@NonNull Bundle bundle) {
-        return Optional.ofNullable(baseRepository.readAccountDirectly(bundle.getString(KEY_ACCOUNT)));
+        return Optional.ofNullable(accountRepository.readAccountDirectly(bundle.getString(KEY_ACCOUNT)));
     }
 
-    private Optional<Long> extractBoardLocalId(@NonNull SyncRepository syncRepository, long accountId, long cardRemoteId) {
-        return Optional.ofNullable(syncRepository.getBoardLocalIdByAccountAndCardRemoteIdDirectly(accountId, cardRemoteId));
+    private Optional<Long> extractBoardLocalId(@NonNull BoardRepository boardRepository, long accountId, long cardRemoteId) {
+        return Optional.ofNullable(boardRepository.getBoardLocalIdByAccountAndCardRemoteIdDirectly(accountId, cardRemoteId));
     }
 
     public Optional<String> extractSubject(@Nullable Bundle bundle) {

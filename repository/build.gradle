@@ -1,0 +1,47 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'it.niedermann.nextcloud.deck.repository'
+    compileSdk 35
+
+    defaultConfig {
+        minSdk 24
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation project(path: ':repository-sync')
+    implementation project(path: ':remote')
+    implementation project(path: ':database')
+    implementation project(path: ':shared')
+
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$version_desugar"
+
+    implementation "org.mapstruct:mapstruct:$version_mapstruct"
+    annotationProcessor "org.mapstruct:mapstruct-processor:$version_mapstruct"
+    implementation "androidx.lifecycle:lifecycle-livedata:$version_lifecycle"
+    implementation 'androidx.work:work-runtime:2.10.1'
+    implementation "com.github.stefan-niedermann.android-commons:reactive-livedata:$version_android_commons"
+    implementation "com.github.stefan-niedermann.android-commons:shared-preferences:$version_android_commons"
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}

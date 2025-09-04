@@ -28,8 +28,8 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
-import it.niedermann.nextcloud.deck.repository.BoardsRepository;
-import it.niedermann.nextcloud.deck.repository.LabelsRepository;
+import it.niedermann.nextcloud.deck.repository.BoardRepository;
+import it.niedermann.nextcloud.deck.repository.LabelRepository;
 import it.niedermann.nextcloud.deck.util.AutoCompleteAdapter;
 
 public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
@@ -39,25 +39,25 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
     @ColorInt
     private final int createLabelColor;
     private final ReactiveLiveData<Boolean> canManage$;
-    private final BoardsRepository boardsRepository;
-    private final LabelsRepository labelsRepository;
+    private final BoardRepository boardRepository;
+    private final LabelRepository labelRepository;
 
     public LabelAutoCompleteAdapter(@NonNull ComponentActivity activity, @NonNull Account account, long boardId, long cardId) throws NextcloudFilesAppAccountNotFoundException {
         super(activity, account, boardId);
         this.context = activity;
-        this.boardsRepository = new BoardsRepository(context.getApplicationContext());
-        this.labelsRepository = new LabelsRepository(context.getApplicationContext());
+        this.boardRepository = new BoardRepository(context.getApplicationContext());
+        this.labelRepository = new LabelRepository(context.getApplicationContext());
         final String[] colors = activity.getResources().getStringArray(R.array.board_default_colors);
         createLabelColor = Color.parseColor(colors[new Random().nextInt(colors.length)]);
 
-        canManage$ = new ReactiveLiveData<>(boardsRepository.getFullBoardById(account.getId(), boardId))
+        canManage$ = new ReactiveLiveData<>(boardRepository.getFullBoardById(account.getId(), boardId))
                 .map(FullBoard::getBoard)
                 .map(Board::isPermissionManage);
 
         constraint$
                 .flatMap(constraint -> TextUtils.isEmpty(constraint)
-                        ? labelsRepository.findProposalsForLabelsToAssign(account.getId(), boardId, cardId)
-                        : labelsRepository.searchNotYetAssignedLabelsByTitle(account, boardId, cardId, constraint))
+                        ? labelRepository.findProposalsForLabelsToAssign(account.getId(), boardId, cardId)
+                        : labelRepository.searchNotYetAssignedLabelsByTitle(account, boardId, cardId, constraint))
                 .map(this::filterExcluded)
                 .flatMap(this::addCreateLabelIfNeeded)
                 .distinctUntilChanged()

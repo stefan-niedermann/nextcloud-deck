@@ -14,13 +14,17 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
-import it.niedermann.nextcloud.deck.repository.BoardsRepository;
+import it.niedermann.nextcloud.deck.repository.AccountRepository;
+import it.niedermann.nextcloud.deck.repository.BoardRepository;
+import it.niedermann.nextcloud.deck.repository.StackRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
 @SuppressWarnings("WeakerAccess")
 public class PickStackViewModel extends BaseViewModel {
 
-    private final BoardsRepository boardsRepository;
+    private final AccountRepository accountRepository;
+    private final BoardRepository boardRepository;
+    private final StackRepository stackRepository;
     private Account selectedAccount;
     @Nullable
     private Board selectedBoard;
@@ -33,7 +37,9 @@ public class PickStackViewModel extends BaseViewModel {
 
     public PickStackViewModel(@NonNull Application application) {
         super(application);
-        boardsRepository = new BoardsRepository(application);
+        accountRepository = new AccountRepository(application);
+        boardRepository = new BoardRepository(application);
+        stackRepository = new StackRepository(application);
     }
 
     public LiveData<Long> getCurrentAccountId$() {
@@ -92,22 +98,22 @@ public class PickStackViewModel extends BaseViewModel {
     }
 
     public LiveData<Boolean> hasAccounts() {
-        return baseRepository.hasAccounts();
+        return accountRepository.hasAccounts();
     }
 
     public LiveData<List<Account>> readAccounts() {
-        return baseRepository.readAccounts();
+        return accountRepository.readAccounts();
     }
 
     public LiveData<List<Board>> getNotArchivedBoards(long accountId) {
-        return boardsRepository.getBoards(accountId, false);
+        return boardRepository.getBoards(accountId, false);
     }
 
     public LiveData<List<Board>> getBoardsWithEditPermission(long accountId) {
-        return boardsRepository.getBoardsWithEditPermission(accountId);
+        return boardRepository.getBoardsWithEditPermission(accountId);
     }
 
     public LiveData<List<Stack>> getStacksForBoard(long accountId, long localBoardId) {
-        return baseRepository.getStacksForBoard(accountId, localBoardId);
+        return stackRepository.getStacksForBoard(accountId, localBoardId);
     }
 }

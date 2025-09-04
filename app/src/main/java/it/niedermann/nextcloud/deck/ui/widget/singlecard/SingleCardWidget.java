@@ -25,7 +25,7 @@ import java.util.concurrent.Executors;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullSingleCardWidgetModel;
-import it.niedermann.nextcloud.deck.repository.BaseRepository;
+import it.niedermann.nextcloud.deck.repository.WidgetRepository;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
@@ -34,12 +34,12 @@ public class SingleCardWidget extends AppWidgetProvider {
     private final ExecutorService executor = Executors.newCachedThreadPool();
 
     void updateAppWidget(Context context, AppWidgetManager awm, int[] appWidgetIds) {
-        final var baseRepository = new BaseRepository(context);
+        final var widgetRepository = new WidgetRepository(context);
 
         for (int appWidgetId : appWidgetIds) {
             executor.submit(() -> {
                 try {
-                    final FullSingleCardWidgetModel fullModel = baseRepository.getSingleCardWidgetModelDirectly(appWidgetId);
+                    final FullSingleCardWidgetModel fullModel = widgetRepository.getSingleCardWidgetModelDirectly(appWidgetId);
 
                     final Intent intent = EditActivity.createEditCardIntent(context, fullModel.getAccount(), fullModel.getModel().getBoardId(), fullModel.getFullCard().getLocalId());
                     final PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, pendingIntentFlagCompat(PendingIntent.FLAG_UPDATE_CURRENT));
@@ -156,10 +156,10 @@ public class SingleCardWidget extends AppWidgetProvider {
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
-        final var baseRepository = new BaseRepository(context);
+        final var widgetRepository = new WidgetRepository(context);
 
         for (int appWidgetId : appWidgetIds) {
-            baseRepository.deleteSingleCardWidgetModel(appWidgetId);
+            widgetRepository.deleteSingleCardWidgetModel(appWidgetId);
         }
 
         super.onDeleted(context, appWidgetIds);

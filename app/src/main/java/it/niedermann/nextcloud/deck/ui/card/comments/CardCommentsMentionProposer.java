@@ -23,6 +23,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.repository.BaseRepository;
+import it.niedermann.nextcloud.deck.repository.UserRepository;
 import it.niedermann.nextcloud.deck.ui.card.comments.util.CommentsUtil;
 
 public class CardCommentsMentionProposer implements TextWatcher {
@@ -30,6 +31,8 @@ public class CardCommentsMentionProposer implements TextWatcher {
     private final int avatarSize;
     @NonNull
     private final BaseRepository baseRepository;
+    @NonNull
+    private final UserRepository userRepository;
     @NonNull
     private final LinearLayout.LayoutParams layoutParams;
     @NonNull
@@ -55,6 +58,7 @@ public class CardCommentsMentionProposer implements TextWatcher {
         this.mentionProposerWrapper = mentionProposerWrapper;
         this.mentionProposer = avatarProposer;
         baseRepository = new BaseRepository(editText.getContext());
+        userRepository = new UserRepository(editText.getContext());
         avatarSize = mentionProposer.getResources().getDimensionPixelSize(R.dimen.avatar_size_small);
         layoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
         layoutParams.setMarginEnd(mentionProposer.getResources().getDimensionPixelSize(R.dimen.spacer_1x));
@@ -76,11 +80,11 @@ public class CardCommentsMentionProposer implements TextWatcher {
             this.users.clear();
         } else {
             if (mentionProposal.first != null && mentionProposal.second != null) {
-                new ReactiveLiveData<>(baseRepository.searchUserByUidOrDisplayNameForCards(account.getId(), boardLocalId, -1L, mentionProposal.first))
+                new ReactiveLiveData<>(userRepository.searchUserByUidOrDisplayNameForCards(account.getId(), boardLocalId, -1L, mentionProposal.first))
                         .observeOnce(owner, users -> {
                             if (!users.equals(this.users)) {
                                 mentionProposer.removeAllViews();
-                                if (users.size() > 0) {
+                                if (!users.isEmpty()) {
                                     mentionProposerWrapper.setVisibility(View.VISIBLE);
                                     for (final var user : users) {
                                         final var avatar = new ImageView(mentionProposer.getContext());

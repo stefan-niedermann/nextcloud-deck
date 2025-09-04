@@ -1,5 +1,28 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+}
+
 rootProject.name = "Nextcloud Deck"
 include ':app'
-include ':cross-tab-drag-and-drop'
+include ':feature:feature-import'
+include ':app-shared'
 include ':tab-layout-helper'
+include ':cross-tab-drag-and-drop'
+include ':repository'
+include ':repository-sync'
+include ':remote'
+include ':database'
 include ':shared'

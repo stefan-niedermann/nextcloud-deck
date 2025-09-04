@@ -22,16 +22,22 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.repository.BoardsRepository;
+import it.niedermann.nextcloud.deck.repository.AccountRepository;
+import it.niedermann.nextcloud.deck.repository.BoardRepository;
+import it.niedermann.nextcloud.deck.repository.CardRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
 
 public class StackViewModel extends SyncViewModel {
 
-    private final BoardsRepository boardsRepository;
+    private final AccountRepository accountRepository;
+    private final BoardRepository boardRepository;
+    private final CardRepository cardRepository;
 
     public StackViewModel(@NonNull Application application, @NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {
         super(application, account);
-        this.boardsRepository = new BoardsRepository(application);
+        this.accountRepository = new AccountRepository(application);
+        this.boardRepository = new BoardRepository(application);
+        this.cardRepository = new CardRepository(application);
     }
 
     public void moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId, @NonNull IResponseCallback<EmptyResponse> callback) {
@@ -39,16 +45,16 @@ public class StackViewModel extends SyncViewModel {
     }
 
     public LiveData<Account> getAccount(long accountId) {
-        return new ReactiveLiveData<>(baseRepository.readAccount(accountId))
+        return new ReactiveLiveData<>(accountRepository.readAccount(accountId))
                 .distinctUntilChanged();
     }
 
     public CompletableFuture<Account> getAccountFuture(long accountId) {
-        return supplyAsync(() -> baseRepository.readAccountDirectly(accountId));
+        return supplyAsync(() -> accountRepository.readAccountDirectly(accountId));
     }
 
     public LiveData<FullBoard> getFullBoard(long accountId, long boardId) {
-        return new ReactiveLiveData<>(boardsRepository.getFullBoardById(accountId, boardId))
+        return new ReactiveLiveData<>(boardRepository.getFullBoardById(accountId, boardId))
                 .distinctUntilChanged();
     }
 
@@ -57,25 +63,25 @@ public class StackViewModel extends SyncViewModel {
     }
 
     public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId, @Nullable FilterInformation filter) {
-        return new ReactiveLiveData<>(baseRepository.getFullCardsForStack(accountId, localStackId, filter))
+        return new ReactiveLiveData<>(cardRepository.getFullCardsForStack(accountId, localStackId, filter))
                 .distinctUntilChanged();
     }
 
     public LiveData<Boolean> currentBoardHasEditPermission(long accountId, long boardId) {
-        return new ReactiveLiveData<>(baseRepository.readAccount(accountId))
+        return new ReactiveLiveData<>(accountRepository.readAccount(accountId))
                 .flatMap(account -> account.getServerDeckVersionAsObject().isSupported()
-                        ? new ReactiveLiveData<>(boardsRepository.getFullBoardById(accountId, boardId)).map(fullBoard -> fullBoard != null && fullBoard.getBoard().isPermissionEdit())
+                        ? new ReactiveLiveData<>(boardRepository.getFullBoardById(accountId, boardId)).map(fullBoard -> fullBoard != null && fullBoard.getBoard().isPermissionEdit())
                         : new ReactiveLiveData<>(false))
                 .distinctUntilChanged();
     }
 
     public void archiveCard(@NonNull FullCard card, @NonNull IResponseCallback<FullCard> callback) {
-        syncRepository.archiveCard(card, callback);
+        cardRepository.archiveCard(card, callback);
     }
 
 
     public void deleteCard(@NonNull Card card, @NonNull IResponseCallback<EmptyResponse> callback) {
-        syncRepository.deleteCard(card, callback);
+        cardRepository.deleteCard(card, callback);
     }
 
     public void assignUserToCard(@NonNull FullCard fullCard) {
@@ -87,6 +93,6 @@ public class StackViewModel extends SyncViewModel {
     }
 
     private User getUserByUidDirectly(long accountId, String uid) {
-        return baseRepository.getUserByUidDirectly(accountId, uid);
+        return userRepository.getUserByUidDirectly(accountId, uid);
     }
 }

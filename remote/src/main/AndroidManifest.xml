@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Required by Android Single Sign On: https://github.com/nextcloud/Android-SingleSignOn/issues/771 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <queries>
+        <package android:name="com.nextcloud.client" />
+        <package android:name="com.nextcloud.android.qa" />
+        <package android:name="com.nextcloud.android.beta" />
+    </queries>
+</manifest>
+
