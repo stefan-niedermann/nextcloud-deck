@@ -120,7 +120,7 @@
     <string name="settings_theme_title">Thème</string>
     <string name="settings_compact_title">Mode compact</string>
     <string name="settings_cover_images_title">Images de couverture</string>
-    <string name="settings_debugging">Journaux de debug</string>
+    <string name="settings_debugging">Logs de debug</string>
     <string name="settings_etags">Utiliser ETags</string>
     <string name="settings_etags_summary">Accélére la synchronisation</string>
     <string name="settings_background_sync">Synchronisation en tâche de fond</string>
@@ -222,11 +222,11 @@
     <string name="error_dialog_timeout_instance">Votre serveur n\'a pas répondu dans le temps imparti. Veuillez vous assurer que votre instance fonctionne correctement.</string>
     <string name="error_dialog_timeout_toggle">Vérifiez votre connexion réseau. L\'activation et la désactivation des données mobiles ou du Wi-Fi peuvent aider.</string>
     <string name="error_dialog_check_server">Votre serveur a renvoyé une réponse incorrecte. Vérifiez si vous pouvez accéder à l\'application Deck via l\'interface Web.</string>
-    <string name="error_dialog_check_server_logs">Il y a un problème avec votre configuration Nextcloud. Veuillez consulter les fichiers journaux du serveur.</string>
+    <string name="error_dialog_check_server_logs">Il y a un problème avec votre configuration Nextcloud. Veuillez consulter les logs du serveur.</string>
     <string name="error_dialog_check_maintenance">Veuillez vérifier que votre instance Nextcloud n\'est pas en mode maintenance actuellement.</string>
     <string name="error_dialog_insufficient_storage">Votre instance Nextcloud n\'a plus d\'espace disponible. Veuillez supprimer certains fichiers pour pouvoir synchroniser vos modifications locales dans votre cloud.</string>
     <string name="error_dialog_we_need_info">Nous avons besoin des informations techniques suivantes afin de vous aider :</string>
-    <string name="error_dialog_redirect">Votre serveur a répondu avec le code d\'état HTTP 302, ce qui implique que vous n\'avez pas installé l\'application Deck sur votre serveur ou que quelque chose est mal configuré. Cela peut être dû à des modifications personnalisées du fichier .htaccess ou à des applications Nextcloud comme un client OID.</string>
+    <string name="error_dialog_redirect">Votre serveur a répondu avec le code de statut HTTP 302, ce qui implique que vous n\'avez pas installé l\'application Deck sur votre serveur ou que quelque chose est mal configuré. Cela peut être dû à des modifications personnalisées du fichier .htaccess ou à des applications Nextcloud comme un client OID.</string>
     <string name="error_dialog_version_not_parsable">Nous n\'avons pas pu déterminer la version de l\'application Deck sur votre serveur. Veuillez vérifier qu\'elle est bien installée et activée.</string>
     <string name="error_dialog_account_might_not_be_authorized">Il semble possible que le compte de votre application Nextcloud ne soit plus autorisé.</string>
     <string name="error_dialog_user_not_found_in_database">L\'utilisateur actuel est différent de l\'utilisateur que nous avons dans notre base de données. Si vous utilisez LDAP sur votre instance Nextcloud, il est possible que votre application Nextcloud ait stocké un identifiant utilisateur obsolète.</string>
@@ -239,7 +239,7 @@
     <string name="error_action_open_deck_info">Ouvrir les informations de l\'application</string>
     <string name="error_action_open_nextcloud_app">Ouvrir l\'application Nextcloud</string>
     <string name="error_action_open_network">Paramètres réseau</string>
-    <string name="error_action_server_logs">Journaux serveur</string>
+    <string name="error_action_server_logs">Logs du serveur</string>
     <string name="error_action_open_in_browser">Ouvrir dans le navigateur</string>
     <string name="error_action_install">Installer</string>
     <string name="error_action_report_issue">Signaler</string>
@@ -275,7 +275,7 @@
 
     <string name="widget_stack_title">Liste</string>
     <string name="widget_stack_header_icon">Icône d’en-tête du widget</string>
-    <string name="widget_placeholder_icon">Icône d\'espace réservé des composants</string>
+    <string name="widget_placeholder_icon">Icône de remplacement du widget</string>
     <string name="project_type_deck_board">Tableau de l\'application Deck</string>
     <string name="project_type_deck_card">Carte de l\'application Deck</string>
     <string name="project_type_file">Fichier</string>
@@ -311,8 +311,8 @@
     <string name="gallery">Galerie</string>
     <string name="videos">Vidéos</string>
     <string name="simple_attach">Joindre</string>
-    <string name="add_stack_widget">Ajouter un composant liste</string>
-    <string name="add_filter_widget">Ajouter un composant filtre</string>
+    <string name="add_stack_widget">Ajouter un widget de liste</string>
+    <string name="add_filter_widget">Ajouter un widget de filtre</string>
     <string name="simple_order">Trier</string>
     <string name="edit_description">Modifier la description</string>
     <string name="widget_upcoming_title">Prochaines cartes</string>
