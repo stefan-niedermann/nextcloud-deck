@@ -7,7 +7,7 @@
     <string name="simple_save">Guardar</string>
     <string name="simple_more">Más</string>
     <string name="simple_title">Título</string>
-    <string name="simple_copy">Copia</string>
+    <string name="simple_copy">Copiar</string>
     <string name="simple_synchronization">Sincronización</string>
     <string name="simple_appearance">Apariencia</string>
     <string name="simple_error">Error</string>
@@ -65,7 +65,7 @@
     <string name="label_description">Descripción</string>
     <string name="hint_assign_people">Asignar usuarios</string>
     <string name="hint_due_date_date">Fecha de fin</string>
-    <string name="hint_due_date_time">Fecha</string>
+    <string name="hint_due_date_time">Hora</string>
 
     <string name="card_not_found">Tarjeta no encontrada</string>
     <string name="card_not_found_message">No se ha podido encontrar la tarjeta. Quizás se ha eliminado recientemente.</string>
@@ -85,7 +85,7 @@
     <string name="add_board">Añadir tablero</string>
 
     <string name="label_clear_due_date">Borrar fecha de finalización</string>
-    <string name="label_clear_done">No está finalizado</string>
+    <string name="label_clear_done">No finalizado</string>
     <string name="label_due_at">Caduca en: %1$s</string>
     <string name="label_add">Añadir %1$s</string>
 
@@ -180,7 +180,7 @@
 
     <string name="filter_done_no_filter">Todo</string>
     <string name="filter_done_done">Listo</string>
-    <string name="filter_done_undone">No está finalizado</string>
+    <string name="filter_done_undone">No finalizado</string>
 
     <string name="archived_cards">Tarjetas archivadas</string>
     <string name="attachment_already_exists">El adjunto ya existe</string>
@@ -190,7 +190,7 @@
     <string name="tag_already_exists">%1$s ya existe</string>
     <string name="tag_successfully_added">%1$s añadida con éxito</string>
     <string name="edit_tag">Editar %1$s</string>
-    <string name="mark_as_done">Marcar como hecho</string>
+    <string name="mark_as_done">Marcar como listo</string>
     <string name="filter_tags_title">Etiquetas</string>
     <string name="filter_user_title">Usuarios</string>
     <string name="filter_duedate_title">Fecha de fin</string>
@@ -212,14 +212,14 @@
     <string name="error_dialog_tip_clear_storage_might_help">Si el problema persiste, intenta borrar el almacenamiento de ambas apps: Nextcloud y Nextcloud Deck para solucionar este problema.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Falló la actualización de la base de datos. Por favor, informe del problema y limpie el almacenamiento para usar la aplicación de manera normal.</string>
     <string name="error_dialog_tip_clear_storage">Puedes limpiar el almacenamiento abriendo la información de la app y seleccionando Almacenamiento → Eliminar datos.</string>
-    <string name="error_dialog_tip_offline_no_internet">Parece que has intentado lanzar una sincronización sin tener conexión a internet.</string>
-    <string name="error_dialog_tip_offline_connection_refused">La conexión ha sido rechazada, por favor comprueba si tu servidor es alcanzable a través de un navegador web</string>
-    <string name="error_dialog_tip_offline_connection_timeout">La conexión ha caducado, por favor comprueba si estás conectado a internet. Esto también puede ocurrir cuando tu servidor está ocupado.</string>
+    <string name="error_dialog_tip_offline_no_internet">Parece que ha intentado iniciar una sincronización sin tener conexión a internet.</string>
+    <string name="error_dialog_tip_offline_connection_refused">La conexión ha sido rechazada, por favor, compruebe si puede alcanzar su servidor a través de un navegador web.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">La conexión ha caducado, por favor, compruebe si está conectado a internet. Esto también puede ocurrir cuando su servidor está ocupado.</string>
     <string name="error_dialog_tip_connection_rejected">La conexión fue rechazada, por favor verifique si su servidor está protegido por algún mecanismo de rechazo de múltiples solicitudes concurrentes. Es muy probable que este problema sea causado por los servidores protegidos por Cloudflare.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Si has habilitado \"Sincronizar solo con Wi-Fi\", solo podrás sincronizar cuando estés conectado a un Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Algo parece ir mal en tu app de Nextcloud. Por favor, intenta forzar el cierre de ambas, Nextcloud y Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Si pararlas no ayuda, puede intentar borrar el almacenamiento de ambas aplicaciones.</string>
-    <string name="error_dialog_timeout_instance">No hubo respuesta de su servidor en el tiempo dato. Por favor asegúrese de que su instancia está corriendo adecuadamente.</string>
+    <string name="error_dialog_timeout_instance">No hubo respuesta de su servidor en el tiempo dado. Por favor, asegúrese de que su instancia está funcionando correctamente.</string>
     <string name="error_dialog_timeout_toggle">Comprueba tu conexión de red. A veces, desactivar y activar de nuevo los datos móviles o el Wi-Fi puede ayudar.</string>
     <string name="error_dialog_check_server">La respuesta de tu servidor no es correcta. Por favor, comprueba si puedes accede a la app de Deck mediante la interfaz web.</string>
     <string name="error_dialog_check_server_logs">Hay un problema con sus ajustes de Nextcloud. Por favor eche un vistazo a los archivos de registros del servidor.</string>
@@ -303,7 +303,7 @@
     <string name="show_all_files">Mostrar todos los archivos</string>
     <string name="recent">Reciente</string>
     <string name="upload_a_new_attachment">Subir un nuevo adjunto</string>
-    <string name="camera">Camera</string>
+    <string name="camera">Cámara</string>
     <string name="contacts">Contactos</string>
     <string name="downloads">Descargas</string>
     <string name="files">Archivos</string>
@@ -333,7 +333,7 @@
     <string name="show_error">Mostrar error</string>
     <string name="push_notification_link_empty">Debido a un error conocido en la aplicación web Deck lamentablemente no es posible mostrar esta tarjeta. Para más información ver: %1$s</string>
     <string name="enter_search_term_title">Ingrese término de búsqueda</string>
-    <string name="enter_search_term_description">Ingrese término de búsqueda para conseguir tarjetas en este tablero</string>
+    <string name="enter_search_term_description">Ingrese término de búsqueda para encontrar tarjetas en este tablero</string>
     <string name="no_search_results_title">No hay resultados de búsqueda</string>
     <string name="no_search_results_description">No hemos conseguido ningún resultado para el término de búsqueda ingresado</string>
 </resources>
