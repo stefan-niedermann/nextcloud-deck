@@ -3,17 +3,13 @@ package it.niedermann.nextcloud.deck;
 import android.app.Application;
 import android.os.StrictMode;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.deck.repository.PreferencesRepository;
-import it.niedermann.nextcloud.deck.util.CustomAppGlideModule;
 
 public class DeckApplication extends Application {
 
-    private final ExecutorService executor = new ThreadPoolExecutor(0, 2, 0L, TimeUnit.SECONDS, new SynchronousQueue<>());
+    private static final Logger logger = Logger.getLogger(DeckApplication.class.getName());
 
     @Override
     public void onCreate() {
@@ -23,8 +19,7 @@ public class DeckApplication extends Application {
             enableStrictModeLogging();
         }
 
-        repo.getAppThemeSetting().thenAcceptAsync(repo::setAppTheme, executor);
-        repo.isDebugModeEnabled().thenAcceptAsync(DeckLog::enablePersistentLogs, executor);
+        repo.getAppThemeSetting().thenAcceptAsync(repo::setAppTheme);
 
         super.onCreate();
     }
@@ -32,10 +27,9 @@ public class DeckApplication extends Application {
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        DeckLog.error("--- Low memory: Clear Glide cache ---");
+        logger.warning("--- Low memory: Clear Glide cache ---");
         CustomAppGlideModule.clearCache(this);
-        DeckLog.error("--- Low memory: Clear debug log ---");
-        DeckLog.clearDebugLog();
+        logger.warning("--- Low memory: Clear debug log ---");
     }
 
     private void enableStrictModeLogging() {

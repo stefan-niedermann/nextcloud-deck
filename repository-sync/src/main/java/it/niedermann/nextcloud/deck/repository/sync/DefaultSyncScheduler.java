@@ -17,9 +17,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 import java.util.logging.Logger;
 
-import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.repository.sync.report.SyncStatus;
 import it.niedermann.nextcloud.deck.repository.sync.report.SyncStatusReporter;
+import it.niedermann.nextcloud.deck.shared.model.Account;
 
 /// Synchronization is executed parallel in general but sequentially per [Account].
 public class DefaultSyncScheduler implements SyncScheduler {
@@ -159,7 +159,7 @@ public class DefaultSyncScheduler implements SyncScheduler {
                                              @Nullable Supplier<CompletableFuture<?>> singlePushTask,
                                              @Nullable SyncStatusReporter reporter) {
 
-        return runAsync(() -> logger.info("Start " + account.getName() + " [Scope: " + scope + "]"))
+        return runAsync(() -> logger.info("Start " + account.getAccountName() + " [Scope: " + scope + "]"))
                 .thenComposeAsync(v -> switch (scope) {
                     case SINGLE_PUSH_ONLY -> requireNonNull(singlePushTask).get();
                     case ALL_PUSH_ONLY -> {
@@ -176,7 +176,7 @@ public class DefaultSyncScheduler implements SyncScheduler {
                     }
                 })
                 .handleAsync((result, exception) -> {
-                    logger.info("End " + account.getName());
+                    logger.info("End " + account.getAccountName());
                     if (reporter != null)
                         reporter.report(SyncStatus::markAsFinished);
                     return result;

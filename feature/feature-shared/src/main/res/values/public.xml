@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <public name="isDayMode" type="bool" />
+
+    <public name="spacer_1qx" type="dimen" />
+    <public name="spacer_1hx" type="dimen" />
+    <public name="spacer_1x" type="dimen" />
+    <public name="spacer_2x" type="dimen" />
+    <public name="spacer_3x" type="dimen" />
+    <public name="spacer_4x" type="dimen" />
+    <public name="spacer_5x" type="dimen" />
+    <public name="spacer_6x" type="dimen" />
+    <public name="spacer_7x" type="dimen" />
+    <public name="spacer_8x" type="dimen" />
+</resources>

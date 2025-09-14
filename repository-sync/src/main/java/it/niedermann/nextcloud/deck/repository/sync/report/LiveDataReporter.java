@@ -3,7 +3,8 @@ package it.niedermann.nextcloud.deck.repository.sync.report;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
-import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.shared.model.Account;
+
 
 public class LiveDataReporter extends LiveData<SyncStatus> implements SyncStatusReporter {
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="spacer_1qx">2dp</dimen>
+    <dimen name="spacer_1hx">4dp</dimen>
+    <dimen name="spacer_1x">8dp</dimen>
+    <dimen name="spacer_2x">16dp</dimen>
+    <dimen name="spacer_3x">24dp</dimen>
+    <dimen name="spacer_4x">32dp</dimen>
+    <dimen name="spacer_5x">40dp</dimen>
+    <dimen name="spacer_6x">48dp</dimen>
+    <dimen name="spacer_7x">56dp</dimen>
+    <dimen name="spacer_8x">64dp</dimen>
+</resources>

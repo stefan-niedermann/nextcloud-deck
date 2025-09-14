@@ -1,9 +1,10 @@
 package it.niedermann.nextcloud.deck.util;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertThrows;
 
 import org.junit.Test;
+
+import it.niedermann.nextcloud.deck.deprecated.util.ProjectUtil;
 
 public class ProjectUtilTest {
     @Test

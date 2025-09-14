@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <size
-        android:width="@dimen/spacer_3x"
-        android:height="@dimen/spacer_3x" />
-</shape>

@@ -3,6 +3,8 @@ package it.niedermann.nextcloud.deck.ui.card.comments.util;
 import org.junit.Assert;
 import org.junit.Test;
 
+import it.niedermann.nextcloud.deck.deprecated.ui.card.comments.util.CommentsUtil;
+
 public class CommentsUtilTest {
 
     @SuppressWarnings("ConstantConditions")

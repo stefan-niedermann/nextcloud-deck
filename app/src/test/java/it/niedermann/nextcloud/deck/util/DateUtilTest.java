@@ -20,6 +20,8 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import it.niedermann.nextcloud.deck.deprecated.util.DateUtil;
+
 @RunWith(RobolectricTestRunner.class)
 public class DateUtilTest {
 

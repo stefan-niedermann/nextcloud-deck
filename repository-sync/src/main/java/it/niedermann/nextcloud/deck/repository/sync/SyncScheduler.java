@@ -10,8 +10,8 @@ import java.util.Comparator;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
-import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.repository.sync.report.SyncStatusReporter;
+import it.niedermann.nextcloud.deck.shared.model.Account;
 
 
 public interface SyncScheduler {

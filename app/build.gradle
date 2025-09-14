@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+//apply plugin: 'androidx.navigation.safeargs'
 
 android {
     compileSdk 35
@@ -19,7 +20,7 @@ android {
         }
     }
     buildFeatures {
-        viewBinding true
+        dataBinding true
         buildConfig true
     }
     buildTypes {
@@ -70,7 +71,7 @@ dependencies {
     def version_camera = "1.4.2"
 
     implementation project(path: '::feature:feature-import')
-    implementation project(path: ':app-shared')
+    implementation project(path: ':feature:feature-shared')
     implementation project(path: ':cross-tab-drag-and-drop')
     implementation project(path: ':tab-layout-helper')
     implementation project(path: ':repository')
@@ -86,6 +87,8 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.2.1'
     implementation 'androidx.core:core-splashscreen:1.0.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation "androidx.navigation:navigation-fragment:$version_nav"
+    implementation "androidx.navigation:navigation-ui:$version_nav"
     implementation "com.google.android.material:material:$version_material"
     implementation "com.github.bumptech.glide:glide:$version_glide"
     annotationProcessor "com.github.bumptech.glide:compiler:$version_glide"

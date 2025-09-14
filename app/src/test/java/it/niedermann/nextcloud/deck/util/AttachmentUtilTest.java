@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.util;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -10,6 +9,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
+import it.niedermann.nextcloud.deck.deprecated.util.AttachmentUtil;
+import it.niedermann.nextcloud.deck.deprecated.util.MimeTypeUtil;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.enums.EAttachmentType;

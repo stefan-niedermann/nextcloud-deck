@@ -19,6 +19,7 @@ import org.robolectric.RobolectricTestRunner;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.TestUtil;
+import it.niedermann.nextcloud.deck.deprecated.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 

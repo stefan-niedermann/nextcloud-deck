@@ -1,6 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.pickstack;
 
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.test.core.app.ApplicationProvider;
 
@@ -11,13 +15,10 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import it.niedermann.nextcloud.deck.TestUtil;
+import it.niedermann.nextcloud.deck.deprecated.ui.pickstack.PickStackViewModel;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 
 @RunWith(RobolectricTestRunner.class)
 public class PickStackViewModelTest {

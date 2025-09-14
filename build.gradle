@@ -13,6 +13,7 @@ buildscript {
     ext.version_retrofit = '2.11.0'
     ext.version_mapstruct = '1.6.3'
     ext.version_lifecycle = '2.9.1'
+    ext.version_nav = '2.9.4'
 }
 
 plugins {

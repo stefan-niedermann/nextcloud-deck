@@ -10,8 +10,9 @@ import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Optional;
 
-import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.shared.model.Account;
+import it.niedermann.nextcloud.deck.shared.model.Board;
+
 
 public class SyncStatus {
 
@@ -71,7 +72,7 @@ public class SyncStatus {
 
         final var tablesInProgress = new LinkedList<>(this.boardsInProgress);
 
-        tablesInProgress.removeIf(board -> Objects.equals(board.getId(), finished.getLocalId()) || Objects.equals(board.getId(), finished.getId()));
+        tablesInProgress.removeIf(board -> Objects.equals(board.getId(), finished.getId()) || Objects.equals(board.getId(), finished.getId()));
 
         return new SyncStatus(account, step, tablesInProgress, boardsTotalCount, increment(boardsFinishedCount), error);
 

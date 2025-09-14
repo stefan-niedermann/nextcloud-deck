@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import it.niedermann.nextcloud.deck.deprecated.util.MimeTypeUtil;
+
 /**
  * Local unit tests for MimeType detection
  */

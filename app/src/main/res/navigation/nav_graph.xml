@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_graph">
+
+    <fragment
+        android:id="@+id/feature_import"
+        android:name="it.niedermann.nextcloud.deck.feature.feature_import.ImportFragment"
+        android:label="Profile" />
+
+</navigation>

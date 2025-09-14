@@ -11,6 +11,7 @@ public abstract class Account implements Serializable {
 
     protected Long id;
     protected String accountName;
+    protected String token;
     protected String userName;
     protected String displayName;
     protected String url;
@@ -55,6 +56,14 @@ public abstract class Account implements Serializable {
 
     public void setAccountName(@NonNull String accountName) {
         this.accountName = accountName;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @NonNull
