@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/edit_board"
+        android:orderInCategory="10"
+        android:title="@string/edit_board"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/dearchive_board"
+        android:orderInCategory="20"
+        android:title="@string/action_board_dearchive"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/delete_board"
+        android:orderInCategory="30"
+        android:title="@string/delete_board"
+        app:showAsAction="never" />
+</menu>

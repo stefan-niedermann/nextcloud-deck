@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingVertical="@dimen/spacer_1x">
+
+    <TextView
+        android:id="@+id/tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/spacer_2x"
+        android:gravity="start|center"
+        android:textAppearance="?attr/textAppearanceListItem"
+        app:drawableStartCompat="@drawable/ic_lightbulb_outline_24dp"
+        tools:maxLength="200"
+        tools:text="@tools:sample/lorem/random" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/action_button"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="@dimen/spacer_1x"
+        android:textColor="@color/defaultBrand"
+        android:visibility="visible"
+        tools:text="@string/error_action_open_deck_info"
+        tools:visibility="visible" />
+</LinearLayout>

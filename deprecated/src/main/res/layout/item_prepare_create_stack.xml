@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:paddingStart="72dp"
+    android:paddingTop="20dp"
+    android:paddingEnd="@dimen/spacer_2x"
+    android:paddingBottom="20dp">
+
+    <TextView
+        android:id="@+id/stackTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:textAppearance="?attr/textAppearanceListItem"
+        tools:text="@tools:sample/full_names" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/selected_check"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="@dimen/spacer_1x"
+        app:srcCompat="@drawable/selected_check"
+        tools:src="@drawable/ic_check_24dp" />
+
+</LinearLayout>

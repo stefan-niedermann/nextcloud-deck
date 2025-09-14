@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/archive_cards"
+        android:title="@string/archive_cards"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/add_list"
+        android:title="@string/add_list"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/rename_list"
+        android:title="@string/rename_list"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/move_list_left"
+        android:title="@string/move_list_left"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/move_list_right"
+        android:title="@string/move_list_right"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/delete_list"
+        android:title="@string/delete_list"
+        android:visible="false"
+        app:showAsAction="never"
+        tools:visible="true" />
+</menu>

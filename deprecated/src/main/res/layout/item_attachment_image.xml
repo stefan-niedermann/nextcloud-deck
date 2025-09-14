@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<it.niedermann.nextcloud.deck.deprecated.ui.view.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/ic_image_24dp" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/not_synced_yet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:translationX="-8dp"
+        android:translationY="-8dp"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_sync_18dp"
+        app:tint="?attr/colorPrimary"
+        tools:visibility="visible" />
+</it.niedermann.nextcloud.deck.deprecated.ui.view.SquareRelativeLayout>

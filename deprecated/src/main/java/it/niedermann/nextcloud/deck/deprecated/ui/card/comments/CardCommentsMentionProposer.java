@@ -1,0 +1,141 @@
+package it.niedermann.nextcloud.deck.deprecated.ui.card.comments;
+
+import android.annotation.SuppressLint;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
+import androidx.lifecycle.LifecycleOwner;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
+import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.repository.BaseRepository;
+import it.niedermann.nextcloud.deck.repository.UserRepository;
+import it.niedermann.nextcloud.deck.deprecated.ui.card.comments.util.CommentsUtil;
+
+public class CardCommentsMentionProposer implements TextWatcher {
+
+    private final int avatarSize;
+    @NonNull
+    private final BaseRepository baseRepository;
+    @NonNull
+    private final UserRepository userRepository;
+    @NonNull
+    private final LinearLayout.LayoutParams layoutParams;
+    @NonNull
+    private final LifecycleOwner owner;
+    @NonNull
+    private final Account account;
+    private final long boardLocalId;
+    @NonNull
+    private final EditText editText;
+    @NonNull
+    private final LinearLayout mentionProposer;
+    @NonNull
+    private final LinearLayout mentionProposerWrapper;
+
+    @NonNull
+    private final List<User> users = new ArrayList<>();
+
+    public CardCommentsMentionProposer(@NonNull LifecycleOwner owner, @NonNull Account account, long boardLocalId, @NonNull EditText editText, LinearLayout mentionProposerWrapper, @NonNull LinearLayout avatarProposer) {
+        this.owner = owner;
+        this.account = account;
+        this.boardLocalId = boardLocalId;
+        this.editText = editText;
+        this.mentionProposerWrapper = mentionProposerWrapper;
+        this.mentionProposer = avatarProposer;
+        baseRepository = new BaseRepository(editText.getContext());
+        userRepository = new UserRepository(editText.getContext());
+        avatarSize = mentionProposer.getResources().getDimensionPixelSize(R.dimen.avatar_size_small);
+        layoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
+        layoutParams.setMarginEnd(mentionProposer.getResources().getDimensionPixelSize(R.dimen.spacer_1x));
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        final int selectionStart = editText.getSelectionStart();
+        final int selectionEnd = editText.getSelectionEnd();
+        final var mentionProposal = CommentsUtil.getUserNameForMentionProposal(s.toString(), selectionStart);
+        if (mentionProposal == null || (mentionProposal.first != null && mentionProposal.first.length() == 0) || selectionStart != selectionEnd) {
+            mentionProposer.removeAllViews();
+            mentionProposerWrapper.setVisibility(View.GONE);
+            this.users.clear();
+        } else {
+            if (mentionProposal.first != null && mentionProposal.second != null) {
+                new ReactiveLiveData<>(userRepository.searchUserByUidOrDisplayNameForCards(account.getId(), boardLocalId, -1L, mentionProposal.first))
+                        .observeOnce(owner, users -> {
+                            if (!users.equals(this.users)) {
+                                mentionProposer.removeAllViews();
+                                if (!users.isEmpty()) {
+                                    mentionProposerWrapper.setVisibility(View.VISIBLE);
+                                    for (final var user : users) {
+                                        final var avatar = new ImageView(mentionProposer.getContext());
+                                        avatar.setLayoutParams(layoutParams);
+                                        updateListenerOfView(avatar, s, mentionProposal, user);
+
+                                        mentionProposer.addView(avatar);
+
+                                        Glide.with(avatar.getContext())
+                                                .load(account.getAvatarUrl(avatarSize, user.getUid()))
+                                                .apply(RequestOptions.circleCropTransform())
+                                                .placeholder(R.drawable.ic_person_24dp)
+                                                .error(R.drawable.ic_person_24dp)
+                                                .into(avatar);
+                                    }
+                                } else {
+                                    mentionProposerWrapper.setVisibility(View.GONE);
+                                }
+                                this.users.clear();
+                                this.users.addAll(users);
+                            } else {
+                                int i = 0;
+                                for (User user : users) {
+                                    updateListenerOfView(mentionProposer.getChildAt(i), s, mentionProposal, user);
+                                    i++;
+                                }
+                            }
+                        });
+            } else {
+                this.users.clear();
+                mentionProposer.removeAllViews();
+                mentionProposerWrapper.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void updateListenerOfView(View avatar, CharSequence s, Pair<String, Integer> mentionProposal, User user) {
+        avatar.setOnClickListener((c) -> {
+            editText.setText(
+                    s.subSequence(0, mentionProposal.second) +
+                            user.getUid() +
+                            s.subSequence(mentionProposal.second + mentionProposal.first.length(), s.length())
+            );
+            editText.setSelection(mentionProposal.second + user.getUid().length());
+            mentionProposerWrapper.setVisibility(View.GONE);
+        });
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+}

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/comments"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/addCommentLayout"
+        android:scrollbars="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:reverseLayout="true"
+        tools:listitem="@layout/item_comment" />
+
+    <it.niedermann.nextcloud.deck.deprecated.ui.view.EmptyContentView
+        android:id="@+id/empty_content_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:description="@string/no_comments_yet"
+        app:image="@drawable/type_comment_36dp"
+        app:title="@string/card_edit_comments" />
+
+    <LinearLayout
+        android:id="@+id/addCommentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true">
+
+        <LinearLayout
+            android:id="@+id/replyComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_vertical"
+            android:padding="@dimen/spacer_2x"
+            android:visibility="gone"
+            app:tint="?attr/colorSecondary"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/replyCommentIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacer_1x"
+                android:contentDescription="@string/simple_reply"
+                android:padding="@dimen/spacer_1x"
+                app:srcCompat="@drawable/ic_reply_24dp"
+                app:tint="?attr/colorSecondary" />
+
+            <it.niedermann.android.markdown.MarkdownViewerImpl
+                android:id="@+id/replyCommentText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/spacer_1x"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textAppearance="?attr/textAppearanceBody1"
+                tools:text="@tools:sample/lorem/random" />
+
+            <ImageButton
+                android:id="@+id/replyCommentCancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@android:string/cancel"
+                android:padding="@dimen/spacer_1x"
+                app:srcCompat="@drawable/ic_close_circle" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/mentionProposerWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/spacer_2x"
+            android:paddingVertical="@dimen/spacer_1x"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/mentionProposerIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacer_1x"
+                android:contentDescription="@string/simple_reply"
+                android:padding="@dimen/spacer_1x"
+                app:srcCompat="@drawable/ic_mention_24"
+                app:tint="?attr/colorSecondary" />
+
+            <LinearLayout
+                android:id="@+id/mention_proposer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/avatar_size_small"
+                android:layout_marginHorizontal="@dimen/spacer_1x"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/spacer_2x"
+            android:paddingVertical="@dimen/spacer_1x">
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="@dimen/avatar_size"
+                android:layout_height="@dimen/avatar_size"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/spacer_1x"
+                android:contentDescription="@null"
+                android:translationY="@dimen/spacer_1qx"
+                app:srcCompat="@drawable/ic_person_24dp"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/messageWrapper"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/spacer_1x"
+                android:layout_marginEnd="@dimen/spacer_2x"
+                android:layout_weight="1"
+                android:hint="@string/add_comment"
+                android:labelFor="@id/message">
+
+                <EditText
+                    android:id="@+id/message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="@null"
+                    android:imeOptions="flagNoExtractUi|actionSend"
+                    android:inputType="textMultiLine"
+                    android:maxLength="@integer/comment_max_length">
+
+                    <requestFocus />
+                </EditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                style="?attr/floatingActionButtonSmallSecondaryStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@string/add_comment"
+                android:translationY="@dimen/spacer_1qx"
+                app:srcCompat="@drawable/ic_send_24dp" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

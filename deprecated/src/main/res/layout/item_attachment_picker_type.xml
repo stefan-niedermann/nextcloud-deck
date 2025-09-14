@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<it.niedermann.nextcloud.deck.deprecated.ui.view.SquareConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/selectableItemBackgroundBorderless">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="@dimen/spacer_7x"
+        android:layout_height="@dimen/spacer_7x"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_36dp"
+        android:backgroundTint="?attr/colorSecondaryContainer"
+        android:contentDescription="@null"
+        android:padding="@dimen/spacer_2x"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?attr/colorOnSecondaryContainer"
+        tools:src="@drawable/ic_image_24dp" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/spacer_1x"
+        android:textColor="?attr/colorOnSurface"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/icon"
+        tools:text="@tools:sample/lorem" />
+
+</it.niedermann.nextcloud.deck.deprecated.ui.view.SquareConstraintLayout>
