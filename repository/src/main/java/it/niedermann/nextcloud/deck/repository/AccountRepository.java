@@ -6,7 +6,11 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import io.reactivex.rxjava3.core.Flowable;
+import it.niedermann.nextcloud.deck.shared.model.Account;
 
 public class AccountRepository extends AbstractRepository {
 
@@ -146,6 +150,10 @@ public class AccountRepository extends AbstractRepository {
 
     public Flowable<Boolean> hasAccounts() {
         return dataBaseAdapter.hasAnyAccounts();
+    }
+
+    public Flowable<Collection<Account>> getAccounts() {
+        return just(Collections.emptySet());
     }
 
     public record ImportState(

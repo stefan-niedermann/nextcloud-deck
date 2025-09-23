@@ -19,19 +19,21 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         vm = new ViewModelProvider(this).get(MainViewModel.class);
+        binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_main, null, false);
 
         final var navHostFragment = binding.navHostFragment.getFragment();
         final var navController = NavHostFragment.findNavController(navHostFragment);
 
-
         vm.hasAccounts().observe(this, hasAccounts -> {
             if (hasAccounts) {
                 // TODO navigate to boards view
+                navController.getGraph().setStartDestination(R.id.feature_about);
             } else {
-                navController.navigate(R.id.feature_import);
+                navController.getGraph().setStartDestination(R.id.feature_import);
             }
+            navController.navigate(navController.getGraph().getStartDestinationId());
+            setContentView(binding.getRoot());
         });
     }
 

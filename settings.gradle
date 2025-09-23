@@ -18,6 +18,7 @@ dependencyResolutionManagement {
 rootProject.name = "Nextcloud Deck"
 include ':app'
 include ':feature:feature-import'
+include ':feature:feature-about'
 include ':feature:feature-shared'
 include ':tab-layout-helper'
 include ':cross-tab-drag-and-drop'

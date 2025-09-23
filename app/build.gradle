@@ -71,6 +71,7 @@ dependencies {
     def version_camera = "1.4.2"
 
     implementation project(path: ':feature:feature-import')
+    implementation project(path: ':feature:feature-about')
     implementation project(path: ':feature:feature-shared')
     implementation project(path: ':cross-tab-drag-and-drop')
     implementation project(path: ':tab-layout-helper')
