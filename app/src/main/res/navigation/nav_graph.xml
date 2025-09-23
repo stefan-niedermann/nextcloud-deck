@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/nav_graph">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/feature_import">
+
+    <fragment android:id="@+id/splashscreen">
+        <action
+            android:id="@+id/action_splashscreen_to_feature_import"
+            app:destination="@id/feature_import" />
+    </fragment>
 
     <fragment
         android:id="@+id/feature_import"
-        android:name="it.niedermann.nextcloud.deck.feature.feature_import.ImportFragment"
-        android:label="Profile" />
+        android:name="it.niedermann.nextcloud.deck.feature_import.ImportAccountFragment"
+        android:label="@string/nav_title_import_account">
+    </fragment>
 
 </navigation>

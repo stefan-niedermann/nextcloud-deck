@@ -37,7 +37,7 @@ public abstract class AbstractRepository {
                 new ThreadPoolExecutor(10, 10, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(), r -> PRIORITY_THREAD_FACTORY.newThread(r, Thread.MAX_PRIORITY)));
     }
 
-    protected AbstractRepository(@NonNull Context context,
+    private AbstractRepository(@NonNull Context context,
                                  @NonNull DataBaseAdapter databaseAdapter,
                                  @NonNull SyncScheduler syncScheduler,
                                  @NonNull ExecutorService dbReadHighPriorityExecutor,

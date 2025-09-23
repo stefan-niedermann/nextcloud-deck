@@ -70,7 +70,7 @@ android {
 dependencies {
     def version_camera = "1.4.2"
 
-    implementation project(path: '::feature:feature-import')
+    implementation project(path: ':feature:feature-import')
     implementation project(path: ':feature:feature-shared')
     implementation project(path: ':cross-tab-drag-and-drop')
     implementation project(path: ':tab-layout-helper')
@@ -90,12 +90,9 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment:$version_nav"
     implementation "androidx.navigation:navigation-ui:$version_nav"
     implementation "com.google.android.material:material:$version_material"
-    implementation "com.github.bumptech.glide:glide:$version_glide"
-    annotationProcessor "com.github.bumptech.glide:compiler:$version_glide"
     implementation 'id.zelory:compressor:3.0.1'
     implementation 'com.github.nextcloud:android-common:0.27.0'
     implementation "com.github.stefan-niedermann.nextcloud-commons:ocs:$version_nextcloud_commons"
-    implementation "com.github.stefan-niedermann.nextcloud-commons:sso-glide:$version_nextcloud_commons"
     implementation "com.github.stefan-niedermann.nextcloud-commons:exception:$version_nextcloud_commons"
     implementation("com.github.stefan-niedermann.nextcloud-commons:markdown:$version_nextcloud_commons") {
         exclude group: 'org.jetbrains', module: 'annotations-java5'
@@ -111,8 +108,8 @@ dependencies {
 
     // Tests
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.robolectric:robolectric:4.15.1'
-    testImplementation 'org.mockito:mockito-core:5.18.0'
-    testImplementation 'androidx.test:core:1.6.1'
+    testImplementation 'org.robolectric:robolectric:4.16'
+    testImplementation 'org.mockito:mockito-core:5.20.0'
+    testImplementation 'androidx.test:core:1.7.0'
     testImplementation 'androidx.arch.core:core-testing:2.2.0'
 }

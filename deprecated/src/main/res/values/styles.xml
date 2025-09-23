@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BaseTheme" parent="Theme.Material3Expressive.DynamicColors.DayNight.NoActionBar"></style>
+
+    <style name="AppTheme" parent="BaseTheme">
+    </style>
+
+</resources>

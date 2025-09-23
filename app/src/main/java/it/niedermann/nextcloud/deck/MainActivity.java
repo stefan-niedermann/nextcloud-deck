@@ -6,13 +6,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
-
-import it.niedermann.nextcloud.deck.repository.AccountRepository;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AccountRepository accountRepository;
+    private MainViewModel vm;
     private ViewDataBinding binding;
 
     @Override
@@ -21,12 +20,15 @@ public class MainActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_main, null, false);
         setContentView(binding.getRoot());
+
+        vm = new ViewModelProvider(this).get(MainViewModel.class);
+
         final var navHostFragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         assert navHostFragment != null;
         final var navController = NavHostFragment.findNavController(navHostFragment);
 
-        accountRepository = new AccountRepository(this);
-        accountRepository.hasAccounts().observe(this, hasAccounts -> {
+
+        vm.hasAccounts().observe(this, hasAccounts -> {
             if (hasAccounts) {
                 // TODO navigate to boards view
             } else {

@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck;
+package it.niedermann.nextcloud.deck.feature_shared.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
