@@ -12,10 +12,11 @@ import it.niedermann.nextcloud.deck.repository.AccountRepository;
 
 public class MainViewModel extends AndroidViewModel {
 
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
+        accountRepository = new AccountRepository(application);
     }
 
     public LiveData<Boolean> hasAccounts() {

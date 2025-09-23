@@ -5,26 +5,24 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
+
+import it.niedermann.nextcloud.deck.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
     private MainViewModel vm;
-    private ViewDataBinding binding;
+    private ActivityMainBinding binding;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_main, null, false);
-        setContentView(binding.getRoot());
-
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         vm = new ViewModelProvider(this).get(MainViewModel.class);
 
-        final var navHostFragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-        assert navHostFragment != null;
+        final var navHostFragment = binding.navHostFragment.getFragment();
         final var navController = NavHostFragment.findNavController(navHostFragment);
 
 
@@ -35,5 +33,12 @@ public class MainActivity extends AppCompatActivity {
                 navController.navigate(R.id.feature_import);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        binding = null;
+        vm = null;
+        super.onDestroy();
     }
 }

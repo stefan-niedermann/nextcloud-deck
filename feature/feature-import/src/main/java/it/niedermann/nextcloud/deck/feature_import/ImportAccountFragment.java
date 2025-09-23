@@ -51,13 +51,12 @@ public class ImportAccountFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        final var dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_import_account, container, false);
-        dataBinding.setVariable(BR.vm, vm);
-        dataBinding.setLifecycleOwner(getViewLifecycleOwner());
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_import_account, container, false);
+        binding.setVariable(BR.vm, vm);
+        binding.setVariable(BR.fragment, this);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
 
-        binding = FragmentImportAccountBinding.bind(dataBinding.getRoot());
-
-        return dataBinding.getRoot();
+        return binding.getRoot();
 
     }
 
@@ -78,9 +77,6 @@ public class ImportAccountFragment extends Fragment {
             logger.severe(e.getMessage());
             AccountImporter.requestAndroidAccountPermissionsAndPickAccount(requireActivity());
 
-        } finally {
-            logger.finest("Enable add button");
-            binding.addButton.setEnabled(true);
         }
 
     }
@@ -130,7 +126,8 @@ public class ImportAccountFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        this.binding = null;
+        binding = null;
+        vm = null;
         super.onDestroy();
     }
 
