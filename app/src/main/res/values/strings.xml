@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="nav_title_import_account">Import Account</string>
+    <string name="nav_title_import_account">Import account</string>
+    <string name="nav_title_upcoming_cards">Upcoming cards</string>
+    <string name="nav_title_boards">Boards</string>
+    <string name="nav_title_preferences">Preferences</string>
     <string name="nav_title_about">About</string>
 </resources>

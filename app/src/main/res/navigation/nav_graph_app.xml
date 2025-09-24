@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/feature_import">
+    app:startDestination="@id/main">
 
     <fragment
         android:id="@+id/feature_import"
@@ -10,8 +10,8 @@
         android:label="@string/nav_title_import_account" />
 
     <fragment
-        android:id="@+id/feature_about"
-        android:name="it.niedermann.nextcloud.deck.feature_about.AboutFragment"
-        android:label="@string/nav_title_import_account" />
+        android:id="@+id/main"
+        android:name="it.niedermann.nextcloud.deck.MainFragment"
+        android:label="@null" />
 
 </navigation>
