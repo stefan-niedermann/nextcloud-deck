@@ -107,7 +107,7 @@ dependencies {
     implementation 'id.zelory:compressor:3.0.1'
 
     // Single-Sign-On
-    implementation 'com.github.nextcloud:Android-SingleSignOn:1.3.2'
+    implementation 'com.github.nextcloud:Android-SingleSignOn:1.3.3'
     implementation 'com.github.nextcloud:android-common:0.28.0'
     implementation "com.github.stefan-niedermann.nextcloud-commons:sso-glide:$nextcloudCommonsVersion"
     implementation "com.github.stefan-niedermann.nextcloud-commons:exception:$nextcloudCommonsVersion"
