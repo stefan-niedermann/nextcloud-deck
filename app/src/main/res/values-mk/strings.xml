@@ -73,6 +73,7 @@
     <string name="add_board">Додади табла</string>
 
     <string name="label_clear_due_date">Отстрани краен рок</string>
+    <string name="label_clear_done">Не е завршено</string>
     <string name="label_add">Додади %1$s</string>
 
     <string name="card_edit_details">Детали</string>
@@ -153,6 +154,8 @@
 
     <string name="filter_done_no_filter">Сите</string>
     <string name="filter_done_done">Готово</string>
+    <string name="filter_done_undone">Не е завршено</string>
+
     <string name="archived_cards">Архивирани картици</string>
     <string name="attachment_already_exists">Прилогот веќе постои</string>
     <string name="pick_custom_color">Избери боја</string>
