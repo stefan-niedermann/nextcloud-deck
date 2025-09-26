@@ -210,6 +210,7 @@
     <string name="cloning_board">Клонирање %1$s…</string>
     <string name="successfully_cloned_board">Успешно клонирање на %1$s</string>
     <string name="widget_stack_title">Лист</string>
+    <string name="project_type_deck_board">Табла</string>
     <string name="project_type_file">Датотека</string>
     <string name="projects_title">Проекти</string>
     <plurals name="resources_count">
