@@ -1,0 +1,52 @@
+plugins {
+    id 'com.android.library'
+    id 'androidx.navigation.safeargs'
+}
+
+android {
+    namespace 'it.niedermann.nextcloud.deck.about'
+    compileSdk 35
+
+    defaultConfig {
+        minSdk 24
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+    buildFeatures {
+        dataBinding true
+        buildConfig true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$version_desugar"
+    implementation project(path: ':feature:shared')
+
+    implementation project(path: ':repository')
+    implementation project(path: ':shared')
+
+    implementation "androidx.appcompat:appcompat:$version_appcompat"
+    implementation "androidx.databinding:databinding-runtime:$version_databinding"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$version_lifecycle"
+    implementation "androidx.navigation:navigation-fragment:$version_nav"
+    implementation "androidx.navigation:navigation-ui:$version_nav"
+    implementation "com.github.bumptech.glide:glide:$version_glide"
+    implementation "com.github.nextcloud:Android-SingleSignOn:$version_sso"
+    implementation "com.google.android.material:material:$version_material"
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.7.0'
+}

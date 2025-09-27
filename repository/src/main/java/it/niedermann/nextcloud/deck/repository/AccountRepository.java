@@ -3,16 +3,25 @@ package it.niedermann.nextcloud.deck.repository;
 import static io.reactivex.rxjava3.core.Flowable.just;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.rxjava3.core.BackpressureStrategy;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.BehaviorSubject;
+import io.reactivex.rxjava3.subjects.Subject;
 import it.niedermann.nextcloud.deck.shared.model.Account;
 
 public class AccountRepository extends AbstractRepository {
+
+    private final Subject<Boolean> hasAccountsMock = BehaviorSubject.createDefault(false);
 
     public AccountRepository(@NonNull Context context) {
         super(context);
@@ -28,7 +37,24 @@ public class AccountRepository extends AbstractRepository {
         //  2. Use repository-sync to fetch everything related to this account
         //  3. In case of an error rollback by deleting the local account and cascading this deletion.
 
-        return just(new ImportState(accountName, url, userName, 0, 0, 0));
+        // Mock implementation
+        return Observable.just(
+                        new ImportState(accountName, url, userName, 0, 0, 0),
+                        new ImportState(accountName, url, userName, 3, 0, 1),
+                        new ImportState(accountName, url, userName, 3, 0, 2),
+                        new ImportState(accountName, url, userName, 3, 1, 1),
+                        new ImportState(accountName, url, userName, 3, 1, 2),
+                        new ImportState(accountName, url, userName, 3, 2, 1),
+                        new ImportState(accountName, url, userName, 3, 3, 0))
+                .zipWith(Observable.interval(1, TimeUnit.SECONDS), (state, timer) -> state)
+                .doOnNext(state -> {
+                    Log.v("TAG", "Next " + state.toString());
+
+                    if (state.getBoardsDone() == 3) {
+                        hasAccountsMock.onNext(true);
+                    }
+                })
+                .toFlowable(BackpressureStrategy.BUFFER);
 
 //        final var accountToCreate = new Account(account.name, account.userId, account.url);
 //        vm.createAccount(accountToCreate, new IResponseCallback<>() {
@@ -149,20 +175,64 @@ public class AccountRepository extends AbstractRepository {
     }
 
     public Flowable<Boolean> hasAccounts() {
-        return dataBaseAdapter.hasAnyAccounts();
+        return hasAccountsMock.toFlowable(BackpressureStrategy.LATEST);
+//        return dataBaseAdapter.hasAnyAccounts();
     }
 
     public Flowable<Collection<Account>> getAccounts() {
         return just(Collections.emptySet());
     }
 
-    public record ImportState(
-            @NonNull String accountName,
-            @NonNull String url,
-            @NonNull String userName,
-            int boardsTotal,
-            int boardsImported,
-            int boardsCurrentlyImporting
-    ) {
+    public static class ImportState implements Serializable {
+
+        protected @NonNull String accountName;
+        protected @NonNull String url;
+        protected @NonNull String userName;
+        protected int boardsTotal;
+        protected int boardsDone;
+        protected int boardsWip;
+
+        public ImportState(
+                @NonNull String accountName,
+                @NonNull String url,
+                @NonNull String userName,
+                int boardsTotal,
+                int boardsDone,
+                int boardsWip
+        ) {
+            this.accountName = accountName;
+            this.url = url;
+            this.userName = userName;
+            this.boardsTotal = boardsTotal;
+            this.boardsDone = boardsDone;
+            this.boardsWip = boardsWip;
+        }
+
+        @NonNull
+        public String getAccountName() {
+            return accountName;
+        }
+
+        @NonNull
+        public String getUrl() {
+            return url;
+        }
+
+        @NonNull
+        public String getUserName() {
+            return userName;
+        }
+
+        public int getBoardsTotal() {
+            return boardsTotal;
+        }
+
+        public int getBoardsDone() {
+            return boardsDone;
+        }
+
+        public int getBoardsWip() {
+            return boardsWip;
+        }
     }
 }

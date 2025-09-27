@@ -24,20 +24,20 @@ public class MainActivity extends AppCompatActivity {
         vm = new ViewModelProvider(this).get(MainViewModel.class);
         binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_main, null, false);
 
-        final var navHostFragment = binding.navHostFragmentApp.getFragment();
-        final var navController = NavHostFragment.findNavController(navHostFragment);
-
+        final var navController = NavHostFragment.findNavController(binding.navHostFragmentApp.getFragment());
         final var initial = new AtomicBoolean(true);
+
         vm.hasAccounts().observe(this, hasAccounts -> {
-            hasAccounts = true;
+
             if (hasAccounts) {
-                // TODO navigate to boards view
                 navController.getGraph().setStartDestination(R.id.main);
             } else {
-                navController.getGraph().setStartDestination(R.id.feature_import);
+                navController.getGraph().setStartDestination(it.niedermann.nextcloud.deck.setup.R.id.nav_graph_setup);
             }
+
             navController.navigate(navController.getGraph().getStartDestinationId());
 
+            // Defer the transition from splashscreen to content
             if (initial.getAndSet(false)) {
                 setContentView(binding.getRoot());
             }

@@ -11,10 +11,15 @@ buildscript {
     ext.version_glide = '5.0.5'
     ext.version_emoji = '1.5.0'
     ext.version_retrofit = '2.11.0'
-    ext.version_rx = '3.1.11'
+    ext.version_rx = '3.1.12'
     ext.version_mapstruct = '1.6.3'
     ext.version_lifecycle = '2.9.4'
-    ext.version_nav = '2.9.4'
+    ext.version_nav = '2.9.5'
+    ext.version_databinding = '8.13.0'
+
+    dependencies {
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$version_nav"
+    }
 }
 
 plugins {

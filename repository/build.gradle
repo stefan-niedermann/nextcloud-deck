@@ -36,7 +36,7 @@ dependencies {
 
     implementation "org.mapstruct:mapstruct:$version_mapstruct"
     annotationProcessor "org.mapstruct:mapstruct-processor:$version_mapstruct"
-    implementation 'androidx.work:work-runtime:2.10.4'
+    implementation 'androidx.work:work-runtime:2.10.5'
     api "io.reactivex.rxjava3:rxjava:$version_rx"
     implementation "com.github.stefan-niedermann.android-commons:shared-preferences:$version_android_commons"
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_edit_card"
+    app:startDestination="@id/edit_card">
+
+    <fragment
+        android:id="@+id/edit_card"
+        android:name="it.niedermann.nextcloud.deck.edit_card.EditCardFragment"
+        android:label="@string/nav_label_edit_card" />
+</navigation>

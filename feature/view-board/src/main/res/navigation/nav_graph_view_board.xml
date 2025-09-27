@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_view_board"
+    app:startDestination="@id/view_board">
+
+    <fragment
+        android:id="@+id/view_board"
+        android:name="it.niedermann.nextcloud.deck.view_board.ViewBoardFragment"
+        android:label="@string/nav_label_view_board">
+
+        <argument
+            android:name="boardId"
+            app:argType="long" />
+    </fragment>
+</navigation>

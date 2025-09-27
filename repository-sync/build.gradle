@@ -35,8 +35,8 @@ dependencies {
 
     implementation 'com.squareup.retrofit2:retrofit:3.0.0'
 
-    implementation 'androidx.appcompat:appcompat:1.7.1'
-    implementation 'com.google.android.material:material:1.13.0'
+    implementation "androidx.appcompat:appcompat:$version_appcompat"
+    implementation "com.google.android.material:material:$version_material"
     implementation "com.github.nextcloud:Android-SingleSignOn:$version_sso"
 
     testImplementation 'junit:junit:4.13.2'

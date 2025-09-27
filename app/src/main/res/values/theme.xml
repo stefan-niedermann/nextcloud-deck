@@ -1,0 +1,62 @@
+<resources>
+
+    <style name="BaseTheme" parent="Theme.Material3Expressive.DynamicColors.DayNight.NoActionBar">
+
+        <item name="background">@color/bg_default</item>
+
+        <item name="colorError">@color/error</item>
+        <item name="colorErrorContainer">@color/errorContainer</item>
+        <item name="colorOnBackground">@color/onBackground</item>
+        <item name="colorOnError">@color/onError</item>
+        <item name="colorOnErrorContainer">@color/onErrorContainer</item>
+        <item name="colorOnPrimary">@color/onPrimary</item>
+        <item name="colorOnPrimaryContainer">@color/onPrimaryContainer</item>
+        <item name="colorOnSecondary">@color/onSecondary</item>
+        <item name="colorOnSecondaryContainer">@color/onSecondaryContainer</item>
+        <item name="colorOnSurface">@color/onSurface</item>
+        <item name="colorOnSurfaceVariant">@color/onSurfaceVariant</item>
+        <item name="colorOnTertiary">@color/onTertiary</item>
+        <item name="colorOnTertiaryContainer">@color/onTertiaryContainer</item>
+        <item name="colorOutline">@color/outline</item>
+        <item name="colorOutlineVariant">@color/outlineVariant</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryContainer">@color/primaryContainer</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorSecondaryContainer">@color/secondaryContainer</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorSurfaceVariant">@color/surfaceVariant</item>
+        <item name="colorTertiary">@color/tertiary</item>
+        <item name="colorTertiaryContainer">@color/tertiaryContainer</item>
+
+        <!-- Used by PopupMenus -->
+        <item name="colorSurfaceContainer">@color/colorSurfaceContainer</item>
+
+        <!-- Used by Material Dialogs & Material SearchBar -->
+        <item name="colorSurfaceContainerHigh">@color/colorSurfaceContainer</item>
+
+        <item name="android:windowBackground">?attr/background</item>
+        <item name="android:statusBarColor">?attr/background</item>
+        <item name="android:navigationBarColor">?attr/background</item>
+        <item name="android:colorControlNormal">?attr/colorOnSurfaceVariant</item>
+        <item name="android:colorControlActivated">?attr/colorOnSurfaceVariant</item>
+        <item name="android:textColorHighlight">?attr/colorSurfaceVariant</item>
+
+        <!-- Workaround: Preferences Dialogs are using AlertDialogs instead of MaterialAlertDialogs. -->
+        <!-- https://stackoverflow.com/questions/70650073/adjust-androidx-preference-dialogs-to-follow-material-you -->
+        <item name="alertDialogTheme">@style/PreferencesAlertDialogTheme</item>
+    </style>
+
+    <style name="AppTheme" parent="BaseTheme" />
+
+    <style name="PreferencesAlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <!-- https://m3.material.io/components/dialogs/specs#6771d107-624e-47cc-b6d8-2b7b620ba2f1 -->
+        <item name="dialogCornerRadius">28dp</item>
+        <item name="android:background">?attr/colorSurface</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/defaultBrand</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
+    </style>
+</resources>

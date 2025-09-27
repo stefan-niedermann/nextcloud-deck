@@ -12,6 +12,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import it.niedermann.nextcloud.deck.database.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.repository.sync.DefaultSyncScheduler;
 import it.niedermann.nextcloud.deck.repository.sync.SyncScheduler;
 
 
@@ -30,7 +31,7 @@ public abstract class AbstractRepository {
     protected AbstractRepository(@NonNull Context context) {
         this(context,
                 DataBaseAdapter.getInstance(context.getApplicationContext()),
-                new SyncScheduler.Factory(context).create(),
+                DefaultSyncScheduler.getInstance(context),
                 new ThreadPoolExecutor(10, 10, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(), r -> PRIORITY_THREAD_FACTORY.newThread(r, Thread.MAX_PRIORITY)),
                 new ThreadPoolExecutor(10, 10, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(), r -> PRIORITY_THREAD_FACTORY.newThread(r, Thread.MAX_PRIORITY)),
                 new ThreadPoolExecutor(10, 10, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(), r -> PRIORITY_THREAD_FACTORY.newThread(r, Thread.MAX_PRIORITY)),
@@ -38,12 +39,12 @@ public abstract class AbstractRepository {
     }
 
     private AbstractRepository(@NonNull Context context,
-                                 @NonNull DataBaseAdapter databaseAdapter,
-                                 @NonNull SyncScheduler syncScheduler,
-                                 @NonNull ExecutorService dbReadHighPriorityExecutor,
-                                 @NonNull ExecutorService dbWriteHighPriorityExecutor,
-                                 @NonNull ExecutorService dbReadLowPriorityExecutor,
-                                 @NonNull ExecutorService dbWriteLowPriorityExecutor) {
+                               @NonNull DataBaseAdapter databaseAdapter,
+                               @NonNull SyncScheduler syncScheduler,
+                               @NonNull ExecutorService dbReadHighPriorityExecutor,
+                               @NonNull ExecutorService dbWriteHighPriorityExecutor,
+                               @NonNull ExecutorService dbReadLowPriorityExecutor,
+                               @NonNull ExecutorService dbWriteLowPriorityExecutor) {
         this.context = context.getApplicationContext();
         this.dataBaseAdapter = databaseAdapter;
         this.syncScheduler = syncScheduler;

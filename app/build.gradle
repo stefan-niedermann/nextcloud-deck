@@ -1,5 +1,7 @@
-apply plugin: 'com.android.application'
-//apply plugin: 'androidx.navigation.safeargs'
+plugins {
+    id 'com.android.application'
+    id 'androidx.navigation.safeargs'
+}
 
 android {
     compileSdk 35
@@ -68,44 +70,47 @@ android {
 }
 
 dependencies {
-    def version_camera = "1.4.2"
+    def version_camera = "1.5.0"
 
-    implementation project(path: ':feature:feature-import')
-    implementation project(path: ':feature:feature-about')
-    implementation project(path: ':feature:feature-shared')
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$version_desugar"
+    implementation project(path: ':feature:upcoming-cards')
+
+    implementation project(path: ':feature:edit-card')
+    implementation project(path: ':feature:edit-board')
+    implementation project(path: ':feature:view-board')
+    implementation project(path: ':feature:about')
+    implementation project(path: ':feature:setup')
+    implementation project(path: ':feature:shared')
     implementation project(path: ':cross-tab-drag-and-drop')
     implementation project(path: ':tab-layout-helper')
     implementation project(path: ':repository')
 
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$version_desugar"
-
-    // Android X
-    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation "androidx.appcompat:appcompat:$version_appcompat"
     implementation "androidx.camera:camera-camera2:$version_camera"
     implementation "androidx.camera:camera-lifecycle:$version_camera"
     implementation "androidx.camera:camera-view:$version_camera"
-    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
-    implementation 'androidx.preference:preference-ktx:1.2.1'
-    implementation 'androidx.core:core-splashscreen:1.0.1'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation "androidx.drawerlayout:drawerlayout:1.2.0"
     implementation "androidx.navigation:navigation-fragment:$version_nav"
     implementation "androidx.navigation:navigation-ui:$version_nav"
-    implementation "com.google.android.material:material:$version_material"
-    implementation 'id.zelory:compressor:3.0.1'
-    implementation 'com.github.nextcloud:android-common:0.27.0'
-    implementation "com.github.stefan-niedermann.nextcloud-commons:ocs:$version_nextcloud_commons"
+    implementation "com.github.stefan-niedermann.android-commons:reactive-livedata:$version_android_commons"
+    implementation "com.github.stefan-niedermann.android-commons:shared-preferences:$version_android_commons"
+    implementation "com.github.stefan-niedermann.android-commons:util:$version_android_commons"
     implementation "com.github.stefan-niedermann.nextcloud-commons:exception:$version_nextcloud_commons"
+    implementation "com.github.stefan-niedermann.nextcloud-commons:ocs:$version_nextcloud_commons"
     implementation("com.github.stefan-niedermann.nextcloud-commons:markdown:$version_nextcloud_commons") {
         exclude group: 'org.jetbrains', module: 'annotations-java5'
     }
-    implementation "com.github.stefan-niedermann.android-commons:util:$version_android_commons"
-    implementation "com.github.stefan-niedermann.android-commons:shared-preferences:$version_android_commons"
-    implementation "com.github.stefan-niedermann.android-commons:reactive-livedata:$version_android_commons"
-
-    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
-    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+    implementation "com.google.android.material:material:$version_material"
+    implementation "com.otaliastudios:zoomlayout:1.9.0"
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'com.github.nextcloud:android-common:0.27.0'
     implementation 'com.github.skydoves:colorpickerview:2.3.0'
-    implementation("com.otaliastudios:zoomlayout:1.9.0")
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
+    implementation 'id.zelory:compressor:3.0.1'
 
     // Tests
     testImplementation 'junit:junit:4.13.2'

@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.repository.sync;
 
 
 import static java.util.Objects.requireNonNull;
-import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.concurrent.CompletableFuture.runAsync;
 
 import android.content.Context;
@@ -14,44 +13,42 @@ import androidx.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
 import java.util.logging.Logger;
 
-import it.niedermann.nextcloud.deck.repository.sync.report.SyncStatus;
 import it.niedermann.nextcloud.deck.repository.sync.report.SyncStatusReporter;
 import it.niedermann.nextcloud.deck.shared.model.Account;
 
-/// Synchronization is executed parallel in general but sequentially per [Account].
 public class DefaultSyncScheduler implements SyncScheduler {
 
-    private static final Logger logger = Logger.getLogger(DefaultSyncScheduler.class.getSimpleName());
+    private static final Logger logger = Logger.getLogger(DefaultSyncScheduler.class.getName());
 
-    private static final Map<Long, SyncTask> currentSyncs = new HashMap<>(1);
-    private static final Map<Long, SyncTask> scheduledSyncs = new HashMap<>(1);
+    private static volatile SyncScheduler instance;
+
+    private static final Map<Long, CompletableFuture<Void>> currentSyncs = new HashMap<>(1);
+    private static final Map<Long, CompletableFuture<Void>> scheduledSyncs = new HashMap<>(1);
 
     private final Context context;
 
-    public DefaultSyncScheduler(@NonNull Context context) {
+    protected DefaultSyncScheduler(@NonNull Context context) {
         this.context = context.getApplicationContext();
     }
 
-    @AnyThread
-    public CompletableFuture<?> scheduleSynchronization(@NonNull Account account,
-                                                        @NonNull Scope scope,
-                                                        @Nullable Supplier<CompletableFuture<?>> singlePushTask,
-                                                        @Nullable SyncStatusReporter reporter) {
-        if (scope == Scope.SINGLE_PUSH_ONLY) {
-            final var result = new CompletableFuture<Void>();
-            final var exception = new IllegalArgumentException(Scope.SINGLE_PUSH_ONLY + " must not be used directly. Call scheduleSinglePush(…) instead.");
-
-            result.completeExceptionally(exception);
-
-            if (reporter != null) {
-                reporter.report(status -> status.withError(exception));
+    @NonNull
+    public static SyncScheduler getInstance(@NonNull Context context) {
+        if (instance == null) {
+            synchronized (SyncScheduler.class) {
+                if (instance == null) {
+                    instance = new DefaultSyncScheduler(context.getApplicationContext());
+                }
             }
-
-            return result;
         }
+
+        return instance;
+    }
+
+    @AnyThread
+    public CompletableFuture<Void> scheduleSynchronization(@NonNull Account account,
+                                                           @Nullable SyncStatusReporter reporter) {
 
         synchronized (DefaultSyncScheduler.this) {
 
@@ -64,11 +61,11 @@ public class DefaultSyncScheduler implements SyncScheduler {
 
             if (noSyncActive) {
 
-                // Currently no sync is active. Let's start one!
+                // Currently no sync is active. let's start one!
 
                 logger.info("Scheduled (currently none active)");
 
-                currentSyncs.put(accountId, new SyncTask(synchronize(this.context, account, scope, singlePushTask, reporter)
+                currentSyncs.put(accountId, synchronize(this.context, account, reporter)
                         .whenCompleteAsync((result, exception) -> {
 
                             synchronized (DefaultSyncScheduler.this) {
@@ -78,9 +75,9 @@ public class DefaultSyncScheduler implements SyncScheduler {
 
                             }
 
-                        }), scope));
+                        }));
 
-                return requireNonNull(currentSyncs.get(accountId)).future;
+                return currentSyncs.get(accountId);
 
             } else if (currentSyncActiveButNoSyncScheduled) {
 
@@ -90,7 +87,7 @@ public class DefaultSyncScheduler implements SyncScheduler {
 
                 logger.info("Scheduled to the end of the current one.");
 
-                scheduledSyncs.put(accountId, new SyncTask(requireNonNull(currentSyncs.get(accountId)).future
+                scheduledSyncs.put(accountId, requireNonNull(currentSyncs.get(accountId))
                         .whenCompleteAsync((result, exception) -> {
 
                             synchronized (DefaultSyncScheduler.this) {
@@ -102,7 +99,7 @@ public class DefaultSyncScheduler implements SyncScheduler {
                             }
 
                         })
-                        .thenComposeAsync(v -> synchronize(this.context, account, scope, singlePushTask, reporter))
+                        .thenComposeAsync(v -> synchronize(this.context, account, reporter))
                         .whenCompleteAsync((result, exception) -> {
 
                             synchronized (DefaultSyncScheduler.this) {
@@ -112,31 +109,17 @@ public class DefaultSyncScheduler implements SyncScheduler {
 
                             }
 
-                        }), scope));
+                        }));
 
-                return requireNonNull(scheduledSyncs.get(accountId)).future;
+                return scheduledSyncs.get(accountId);
 
             } else if (currentSyncActiveAndAnotherSyncIsScheduled) {
 
-                // We already have a scheduled sync, but we need to make sure that the scheduled sync covers the scope of the requested sync.
+                // There is a sync in progress and a scheduled one. It is safe to simply return the scheduled one.
 
-                if (!requireNonNull(scheduledSyncs.get(accountId)).scope.isCoveredBy(scope)) {
+                logger.info("Returned scheduled one");
 
-                    logger.info("Scheduled sync to the end of the currently scheduled push only sync.");
-
-                    // We can not simply replace the scheduled sync as some clients may rely on the execution and wait for it to get finished.
-                    // Therefore we attach a higher scope sync to the end of the scheduled sync and use this as new scheduled sync.
-                    // The scheduled sync cycle then includes the former scheduled sync and the new higher scope sync.
-                    // We replace the scheduled sync instead of attaching the next one to ensure the comparison works the next time a client schedules a sync as expected.
-
-                    scheduledSyncs.put(accountId, new SyncTask(requireNonNull(scheduledSyncs.get(accountId)).future
-                            .thenComposeAsync(v -> synchronize(this.context, account, scope, singlePushTask, reporter)), scope));
-
-                }
-
-                logger.info("Returned scheduled sync future");
-
-                return requireNonNull(scheduledSyncs.get(accountId)).future;
+                return scheduledSyncs.get(accountId);
 
             }
 
@@ -144,46 +127,20 @@ public class DefaultSyncScheduler implements SyncScheduler {
 
         // It should not be possible to have a scheduled sync but no actively running one
 
-        final var future = new CompletableFuture<>();
+        final var future = new CompletableFuture<Void>();
         future.completeExceptionally(new IllegalStateException("currentSync is null but scheduledSync is not null."));
         return future;
 
     }
 
-    /**
-     * @noinspection DuplicateBranchesInSwitch
-     */
-    private CompletableFuture<?> synchronize(@NonNull Context context,
-                                             @NonNull Account account,
-                                             @NonNull Scope scope,
-                                             @Nullable Supplier<CompletableFuture<?>> singlePushTask,
-                                             @Nullable SyncStatusReporter reporter) {
+    private CompletableFuture<Void> synchronize(@NonNull Context context,
+                                                @NonNull Account account,
+                                                @Nullable SyncStatusReporter reporter) {
+        return runAsync(() -> logger.info("Start " + account.getAccountName()))
 
-        return runAsync(() -> logger.info("Start " + account.getAccountName() + " [Scope: " + scope + "]"))
-                .thenComposeAsync(v -> switch (scope) {
-                    case SINGLE_PUSH_ONLY -> requireNonNull(singlePushTask).get();
-                    case ALL_PUSH_ONLY -> {
+//                        .thenComposeAsync(v -> pushLocalChanges( /* … */ )) // May be omitted in case account#deckVersion or account#nextcloudVersion is null for the first import
+//                        .thenComposeAsync(v -> pullRemoteChanges( /* … */ ))
 
-                        // TODO Implement
-                        yield completedFuture(null);
-
-                    }
-                    case ALL_PUSH_AND_PULL -> {
-
-                        // TODO Implement
-                        yield completedFuture(null);
-
-                    }
-                })
-                .handleAsync((result, exception) -> {
-                    logger.info("End " + account.getAccountName());
-                    if (reporter != null)
-                        reporter.report(SyncStatus::markAsFinished);
-                    return result;
-                });
-    }
-
-    private record SyncTask(@NonNull CompletableFuture<?> future,
-                            @NonNull Scope scope) {
+                .whenCompleteAsync((result, exception) -> logger.info("End " + account.getAccountName()));
     }
 }
