@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/view_board"
-        android:name="it.niedermann.nextcloud.deck.view_board.ViewBoardFragment"
+        android:name="it.niedermann.nextcloud.deck.feature.view_board.ViewBoardFragment"
         android:label="@string/nav_label_view_board">
 
         <argument
