@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'it.niedermann.nextcloud.deck.edit_board'
+    namespace 'it.niedermann.nextcloud.deck.feature.edit_board'
     compileSdk 35
 
     defaultConfig {

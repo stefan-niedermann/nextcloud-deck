@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'it.niedermann.nextcloud.deck.view_board'
+    namespace 'it.niedermann.nextcloud.deck.feature.view_board'
     compileSdk 35
 
     defaultConfig {

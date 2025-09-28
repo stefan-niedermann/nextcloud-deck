@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'it.niedermann.nextcloud.deck.upcoming_cards'
+    namespace 'it.niedermann.nextcloud.deck.feature.upcoming_cards'
     compileSdk 35
 
     defaultConfig {

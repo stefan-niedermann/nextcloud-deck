@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'it.niedermann.nextcloud.deck.edit_card'
+    namespace 'it.niedermann.nextcloud.deck.feature.edit_card'
     compileSdk 35
 
     defaultConfig {

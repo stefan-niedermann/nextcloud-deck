@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/about"
-        android:name="it.niedermann.nextcloud.deck.about.AboutFragment"
+        android:name="it.niedermann.nextcloud.deck.feature.about.AboutFragment"
         android:label="@string/nav_label_about"
         tools:layout="@layout/fragment_about" />
 </navigation>

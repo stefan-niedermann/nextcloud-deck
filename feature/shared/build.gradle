@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'it.niedermann.nextcloud.deck.feature_shared'
+    namespace 'it.niedermann.nextcloud.deck.feature.shared'
     compileSdk 35
 
     defaultConfig {

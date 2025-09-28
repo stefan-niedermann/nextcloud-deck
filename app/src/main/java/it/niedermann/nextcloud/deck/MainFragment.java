@@ -15,7 +15,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import it.niedermann.nextcloud.deck.databinding.FragmentMainBinding;
-import it.niedermann.nextcloud.deck.setup.BR;
+import it.niedermann.nextcloud.deck.feature.setup.BR;
 
 public class MainFragment extends Fragment {
 
@@ -44,9 +44,9 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.navigationRail.getMenu().add(0, it.niedermann.nextcloud.deck.upcoming_cards.R.id.nav_graph_upcoming_cards, 0, "Upcoming cards (i18n)");
-        binding.navigationRail.getMenu().add(0, it.niedermann.nextcloud.deck.view_board.R.id.nav_graph_view_board, 0, "View board (i18n)");
-        binding.navigationRail.getMenu().add(0, it.niedermann.nextcloud.deck.about.R.id.nav_graph_about, 0, "About (i18n)");
+        binding.navigationRail.getMenu().add(0, it.niedermann.nextcloud.deck.feature.upcoming_cards.R.id.nav_graph_upcoming_cards, 0, "Upcoming cards (i18n)");
+        binding.navigationRail.getMenu().add(0, it.niedermann.nextcloud.deck.feature.view_board.R.id.nav_graph_view_board, 0, "View board (i18n)");
+        binding.navigationRail.getMenu().add(0, it.niedermann.nextcloud.deck.feature.about.R.id.nav_graph_about, 0, "About (i18n)");
 
         final var navController = NavHostFragment.findNavController(binding.navHostFragmentMain.getFragment());
         NavigationUI.setupWithNavController(binding.navigationRail, navController);

@@ -5,7 +5,7 @@
 
         <variable
             name="vm"
-            type="it.niedermann.nextcloud.deck.about.AboutViewModel" />
+            type="it.niedermann.nextcloud.deck.feature.about.AboutViewModel" />
     </data>
 
     <TextView

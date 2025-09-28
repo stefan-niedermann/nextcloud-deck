@@ -6,6 +6,6 @@
 
     <fragment
         android:id="@+id/setup"
-        android:name="it.niedermann.nextcloud.deck.setup.ImportAccountFragment"
+        android:name="it.niedermann.nextcloud.deck.feature.setup.ImportAccountFragment"
         android:label="@string/nav_label_setup" />
 </navigation>

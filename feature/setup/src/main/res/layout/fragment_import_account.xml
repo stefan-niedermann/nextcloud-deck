@@ -7,11 +7,11 @@
 
         <variable
             name="fragment"
-            type="it.niedermann.nextcloud.deck.setup.ImportAccountFragment" />
+            type="it.niedermann.nextcloud.deck.feature.setup.ImportAccountFragment" />
 
         <variable
             name="vm"
-            type="it.niedermann.nextcloud.deck.setup.ImportAccountViewModel" />
+            type="it.niedermann.nextcloud.deck.feature.setup.ImportAccountViewModel" />
     </data>
 
     <ScrollView

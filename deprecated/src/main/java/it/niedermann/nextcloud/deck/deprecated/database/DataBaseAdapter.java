@@ -48,7 +48,7 @@ import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.android.sharedpreferences.SharedPreferenceLongLiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.feature_shared.SharedExecutors;
+import it.niedermann.nextcloud.deck.feature.shared.SharedExecutors;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;

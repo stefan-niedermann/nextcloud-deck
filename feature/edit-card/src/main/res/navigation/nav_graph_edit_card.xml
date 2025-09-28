@@ -6,6 +6,6 @@
 
     <fragment
         android:id="@+id/edit_card"
-        android:name="it.niedermann.nextcloud.deck.edit_card.EditCardFragment"
+        android:name="it.niedermann.nextcloud.deck.feature.edit_card.EditCardFragment"
         android:label="@string/nav_label_edit_card" />
 </navigation>

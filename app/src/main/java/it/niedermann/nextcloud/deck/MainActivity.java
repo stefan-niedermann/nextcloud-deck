@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import it.niedermann.nextcloud.deck.databinding.ActivityMainBinding;
-import it.niedermann.nextcloud.deck.setup.ImportAccountViewModel;
+import it.niedermann.nextcloud.deck.feature.setup.ImportAccountViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (!hasAccounts) {
 
-                navController.getGraph().setStartDestination(it.niedermann.nextcloud.deck.setup.R.id.nav_graph_setup);
+                navController.getGraph().setStartDestination(it.niedermann.nextcloud.deck.feature.setup.R.id.nav_graph_setup);
                 navController.navigate(navController.getGraph().getStartDestinationId());
 
                 final var vm = new ViewModelProvider(this).get(ImportAccountViewModel.class);

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'it.niedermann.nextcloud.deck.setup'
+    namespace 'it.niedermann.nextcloud.deck.feature.setup'
     compileSdk 35
 
     defaultConfig {

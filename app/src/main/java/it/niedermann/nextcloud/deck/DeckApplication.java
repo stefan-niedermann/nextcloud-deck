@@ -5,7 +5,7 @@ import android.os.StrictMode;
 
 import java.util.logging.Logger;
 
-import it.niedermann.nextcloud.deck.feature_shared.util.CustomAppGlideModule;
+import it.niedermann.nextcloud.deck.feature.shared.util.CustomAppGlideModule;
 
 
 public class DeckApplication extends Application {
