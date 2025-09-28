@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
@@ -51,8 +52,12 @@ public class MainFragment extends Fragment {
         NavigationUI.setupWithNavController(binding.navigationRail, navController);
 
         binding.navigationRail.setOnItemSelectedListener(v -> {
-//            final var action = MainFragmentDirections.actionMainToViewBoard(new Long(v.getItemId()));
-//            Navigation.findNavController(binding.navigationRail).navigate(action);
+            // Static navigation entries
+            if (v.getGroupId() == 0) {
+                Navigation.findNavController(binding.navHostFragmentMain).navigate(v.getItemId());
+            } else if (v.getGroupId() == 1) {
+                Navigation.findNavController(binding.navHostFragmentMain).navigate(v.getItemId());
+            }
             return true;
         });
     }

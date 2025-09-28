@@ -8,9 +8,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import it.niedermann.nextcloud.deck.databinding.ActivityMainBinding;
+import it.niedermann.nextcloud.deck.setup.ImportAccountViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,22 +23,28 @@ public class MainActivity extends AppCompatActivity {
         vm = new ViewModelProvider(this).get(MainViewModel.class);
         binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_main, null, false);
 
-        final var navController = NavHostFragment.findNavController(binding.navHostFragmentApp.getFragment());
-        final var initial = new AtomicBoolean(true);
+        // TODO Defer the transition from splashscreen to content
+        setContentView(binding.getRoot());
 
+        final var navController = NavHostFragment.findNavController(binding.navHostFragmentApp.getFragment());
         vm.hasAccounts().observe(this, hasAccounts -> {
 
-            if (hasAccounts) {
-                navController.getGraph().setStartDestination(R.id.main);
-            } else {
+            if (!hasAccounts) {
+
                 navController.getGraph().setStartDestination(it.niedermann.nextcloud.deck.setup.R.id.nav_graph_setup);
-            }
+                navController.navigate(navController.getGraph().getStartDestinationId());
 
-            navController.navigate(navController.getGraph().getStartDestinationId());
+                final var vm = new ViewModelProvider(this).get(ImportAccountViewModel.class);
+                final var isImportSuccessfulSubscription = vm.isImportSuccessful();
 
-            // Defer the transition from splashscreen to content
-            if (initial.getAndSet(false)) {
-                setContentView(binding.getRoot());
+                isImportSuccessfulSubscription.observe(this, importSuccessful -> {
+                    if (importSuccessful) {
+                        isImportSuccessfulSubscription.removeObservers(this);
+                        navController.getGraph().setStartDestination(R.id.main);
+                        navController.navigate(navController.getGraph().getStartDestinationId());
+                    }
+                });
+
             }
         });
     }

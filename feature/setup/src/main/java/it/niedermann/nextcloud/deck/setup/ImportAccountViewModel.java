@@ -1,22 +1,21 @@
 package it.niedermann.nextcloud.deck.setup;
 
 
+import static androidx.core.content.ContextCompat.getMainExecutor;
 import static androidx.lifecycle.LiveDataReactiveStreams.fromPublisher;
 import static androidx.lifecycle.Transformations.map;
+import static java.util.Objects.requireNonNull;
 import static it.niedermann.nextcloud.deck.feature_shared.R.string;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.SavedStateHandle;
+import androidx.lifecycle.Transformations;
 
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
-
-import java.util.ConcurrentModificationException;
-import java.util.Objects;
 
 import io.reactivex.rxjava3.disposables.Disposable;
 import it.niedermann.nextcloud.deck.feature_shared.util.LiveDataWrapper;
@@ -28,7 +27,8 @@ public class ImportAccountViewModel extends AndroidViewModel {
     private final SavedStateHandle savedStateHandle;
     private final AccountRepository accountRepository;
 
-    private final LiveData<ImportStateWrapper> importState;
+    private static final String key_importState = "importState";
+    private final LiveData<LiveDataWrapper<AccountRepository.ImportState>> importState;
 
     public ImportAccountViewModel(@NonNull Application application,
                                   @NonNull SavedStateHandle savedStateHandle) {
@@ -37,19 +37,21 @@ public class ImportAccountViewModel extends AndroidViewModel {
         this.savedStateHandle = savedStateHandle;
         this.accountRepository = new AccountRepository(application);
 
-        this.importState = savedStateHandle.getLiveData("importState", new ImportStateWrapper());
+        this.importState = Transformations.distinctUntilChanged(savedStateHandle.getLiveData(key_importState, LiveDataWrapper.create()));
     }
 
     public Disposable importAccount(@NonNull SingleSignOnAccount account) {
-        if (Objects.requireNonNull(importState.getValue()).getValue() != null) {
-            throw new ConcurrentModificationException("Can not import two accounts at the same time. Already in progress: " + importState.getValue().getValue().getAccountName());
+        final var importState = requireNonNull(this.importState.getValue());
+        if (!importState.isPristine()) {
+            assert importState.getValue() != null;
+            throw new IllegalStateException("Can not import two accounts at the same time. Already in progress: " + importState.getValue().accountName());
         }
 
         return this.accountRepository
                 .importAccount(account.name, account.url, account.userId, account.token)
-                .subscribe(s -> ContextCompat.getMainExecutor(getApplication()).execute(() -> savedStateHandle.set("importState", new ImportStateWrapper(s))),
-                        error -> ContextCompat.getMainExecutor(getApplication()).execute(() -> savedStateHandle.set("importState", new ImportStateWrapper(error))),
-                        () -> ContextCompat.getMainExecutor(getApplication()).execute(() -> savedStateHandle.set("importState", new ImportStateWrapper())));
+                .subscribe(state -> getMainExecutor(getApplication()).execute(() -> savedStateHandle.set(key_importState, LiveDataWrapper.next(state))),
+                        error -> getMainExecutor(getApplication()).execute(() -> savedStateHandle.set(key_importState, LiveDataWrapper.error(error))),
+                        () -> getMainExecutor(getApplication()).execute(() -> savedStateHandle.set(key_importState, LiveDataWrapper.completed())));
     }
 
     public LiveData<String> getWelcomeMessage() {
@@ -61,31 +63,41 @@ public class ImportAccountViewModel extends AndroidViewModel {
                 .map(getApplication()::getString));
     }
 
-    public LiveData<ImportStateWrapper> getImportState() {
+    public LiveData<LiveDataWrapper<AccountRepository.ImportState>> getImportState() {
         return importState;
     }
 
     public LiveData<String> getStatusMessage() {
         return map(importState, state -> {
 
-            if (state.hasNoValue()) {
-                return null;
-
-            } else if (state.hasError()) {
+            if (state.hasError()) {
                 assert state.getError() != null;
                 return state.getError().getLocalizedMessage();
 
-            } else {
+            } else if (state.hasValue()) {
                 assert state.getValue() != null;
                 return getApplication().getString(
                         string.progress_import,
-                        Math.min(state.getValue().getBoardsDone() + 1, state.getValue().getBoardsTotal()),
-                        state.getValue().getBoardsTotal());
+                        Math.min(state.getValue().boardsDone() + 1, state.getValue().boardsTotal()),
+                        state.getValue().boardsTotal());
+
+            } else {
+                return null;
             }
         });
     }
 
     public LiveData<Boolean> isImporting() {
-        return map(importState, LiveDataWrapper::hasValue);
+        return map(importState, state ->
+                !state.isPristine() &&
+                !state.isCompleted() &&
+                !state.hasError());
+    }
+
+    public LiveData<Boolean> isImportSuccessful() {
+        return map(importState, state ->
+                !state.isPristine() &&
+                state.isCompleted() &&
+                !state.hasError());
     }
 }

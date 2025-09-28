@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.setup;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.os.Build.VERSION;
 import static android.os.Build.VERSION_CODES;
+import static java.util.function.Predicate.not;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.deck.feature_shared.util.AvatarUtil;
 import it.niedermann.nextcloud.deck.feature_shared.util.LiveDataWrapper;
+import it.niedermann.nextcloud.deck.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.setup.databinding.FragmentImportAccountBinding;
 
 public class ImportAccountFragment extends Fragment {
@@ -133,19 +135,19 @@ public class ImportAccountFragment extends Fragment {
     }
 
     @BindingAdapter("avatar")
-    public static void avatar(ImageView view, @NonNull ImportStateWrapper importState) {
+    public static void avatar(ImageView view, @NonNull LiveDataWrapper<AccountRepository.ImportState> importState) {
         final var logo = it.niedermann.nextcloud.deck.feature_shared.R.drawable.logo;
-        if (importState.hasNoValue()) {
-            Glide.with(view)
-                    .load(logo)
-                    .into(view);
-        } else {
+        if (importState.hasValue()) {
             final var value = importState.getValue();
             assert value != null;
             Glide.with(view)
-                    .load(AvatarUtil.getInstance().getAvatarUrl(value.getAccountName(), value.getUrl(), value.getUserName(), view.getWidth()))
+                    .load(AvatarUtil.getInstance().getAvatarUrl(value.accountName(), value.url(), value.userName(), view.getWidth()))
                     .placeholder(logo)
                     .error(logo)
+                    .into(view);
+        } else {
+            Glide.with(view)
+                    .load(logo)
                     .into(view);
         }
     }
@@ -158,21 +160,22 @@ public class ImportAccountFragment extends Fragment {
     }
 
     @BindingAdapter("progress")
-    public static void progress(ProgressBar progressBar, @Nullable ImportStateWrapper importStateWrapper) {
+    public static void progress(ProgressBar progressBar, @Nullable LiveDataWrapper<AccountRepository.ImportState> importState) {
 
-        Optional.ofNullable(importStateWrapper)
-                .filter(LiveDataWrapper::hasNoError)
+        Optional.ofNullable(importState)
+                .filter(not(LiveDataWrapper::isPristine))
+                .filter(not(LiveDataWrapper::hasError))
                 .map(LiveDataWrapper::getValue)
                 .ifPresentOrElse(value -> {
 
-                    final var indeterminate = value.getBoardsDone() == 0 &&
-                                              value.getBoardsWip() == 0 &&
-                                              value.getBoardsTotal() == 0;
+                    final var indeterminate = value.boardsDone() == 0 &&
+                                              value.boardsWip() == 0 &&
+                                              value.boardsTotal() == 0;
 
                     progressBar.setIndeterminate(indeterminate);
-                    progressBar.setMax(value.getBoardsTotal());
-                    progressBar.setProgress(value.getBoardsDone());
-                    progressBar.setSecondaryProgress(value.getBoardsDone() + value.getBoardsWip());
+                    progressBar.setMax(value.boardsTotal());
+                    progressBar.setProgress(value.boardsDone());
+                    progressBar.setSecondaryProgress(value.boardsDone() + value.boardsWip());
                     progressBar.setVisibility(View.VISIBLE);
 
                 }, () -> progressBar.setVisibility(View.GONE));

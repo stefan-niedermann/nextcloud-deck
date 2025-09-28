@@ -5,32 +5,44 @@ import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 
-public abstract class LiveDataWrapper<T extends Serializable> implements Serializable {
+/// Wrapper for `error` and `completed` meta information usually provided by reactive libraries and not provided by [androidx.lifecycle.LiveData]
+public class LiveDataWrapper<T extends Serializable> implements Serializable {
 
     @Nullable
-    protected final T value;
+    private final T value;
     @Nullable
-    protected final Throwable error;
+    private final Throwable error;
+    private final boolean completed;
+    private final boolean pristine;
 
-    protected LiveDataWrapper(@Nullable T value, @Nullable Throwable error) {
+    private LiveDataWrapper(@Nullable T value,
+                            @Nullable Throwable error,
+                            boolean completed,
+                            boolean pristine) {
         this.value = value;
         this.error = error;
+        this.completed = completed;
+        this.pristine = pristine;
     }
 
-    protected LiveDataWrapper(@NonNull T value) {
-        this(value, null);
+    public static <T extends Serializable> LiveDataWrapper<T> create() {
+        return new LiveDataWrapper<>(null, null, false, true);
     }
 
-    protected LiveDataWrapper(@NonNull Throwable error) {
-        this(null, error);
+    public static <T extends Serializable> LiveDataWrapper<T> next(@NonNull T value) {
+        return new LiveDataWrapper<>(value, null, false, false);
+    }
+
+    public static <T extends Serializable> LiveDataWrapper<T> error(@NonNull Throwable error) {
+        return new LiveDataWrapper<>(null, error, true, false);
+    }
+
+    public static <T extends Serializable> LiveDataWrapper<T> completed() {
+        return new LiveDataWrapper<>(null, null, true, false);
     }
 
     public boolean hasValue() {
         return this.value != null;
-    }
-
-    public boolean hasNoValue() {
-        return this.value == null;
     }
 
     @Nullable
@@ -42,12 +54,17 @@ public abstract class LiveDataWrapper<T extends Serializable> implements Seriali
         return this.error != null;
     }
 
-    public boolean hasNoError() {
-        return this.error == null;
-    }
-
     @Nullable
     public Throwable getError() {
         return error;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    /// @return `true` if no value has been emitted yet, nor the source has been `completed` or thrown an `error`.
+    public boolean isPristine() {
+        return pristine;
     }
 }
