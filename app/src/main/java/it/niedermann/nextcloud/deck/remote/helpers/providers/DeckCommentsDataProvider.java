@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.remote.helpers.providers;
 
-import android.annotation.SuppressLint;
-
 import com.nextcloud.android.sso.api.EmptyResponse;
 
 import java.time.Instant;
@@ -9,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -140,29 +137,15 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
             comment.setParentId(dataBaseAdapter.getRemoteCommentIdForLocalIdDirectly(comment.getParentId()));
         }
         DeckLog.info("creating entity: "+entity.getComments().get(0).getMessage() + " with id " +entity.getComments().get(0).getLocalId());
-        CountDownLatch latch = new CountDownLatch(1);
-        serverAdapter.createCommentForCard(comment, new ResponseCallback<>(responder.getAccount()) {
-            @Override
-            public void onResponse(OcsComment response, Headers headers) {
-                latch.countDown();
-                responder.onResponse(response, headers);
-                DeckLog.info("CREATED entity: "+entity.getComments().get(0).getMessage() + " with id " +entity.getComments().get(0).getLocalId());
-            }
+//        CountDownLatch latch = new CountDownLatch(1);
+        serverAdapter.createCommentForCard(comment, responder);
 
-            @SuppressLint("MissingSuperCall")
-            @Override
-            public void onError(Throwable throwable) {
-                latch.countDown();
-                responder.onError(throwable);
-            }
-        });
-
-        try {
-            latch.await();
-            DeckLog.info("released latch for entity: "+entity.getComments().get(0).getMessage() + " with id " +entity.getComments().get(0).getLocalId());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            latch.await();
+//            DeckLog.info("released latch for entity: "+entity.getComments().get(0).getMessage() + " with id " +entity.getComments().get(0).getLocalId());
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
