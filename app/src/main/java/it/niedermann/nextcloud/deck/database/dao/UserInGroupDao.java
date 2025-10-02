@@ -11,7 +11,7 @@ import it.niedermann.nextcloud.deck.model.relations.UserInGroup;
 @Dao
 public interface UserInGroupDao extends GenericDao<UserInGroup> {
     @Query("DELETE FROM useringroup WHERE groupId = :localId")
-    void deleteByGroupId(long localId);
+    void deleteByGroupUserId(long localId);
 
     @RawQuery
     UserForAssignment getUserForAssignment(SupportSQLiteQuery query);

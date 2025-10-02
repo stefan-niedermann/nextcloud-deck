@@ -538,7 +538,8 @@ public class DataBaseAdapter {
     }
 
     public void deleteGroupMembershipsOfGroup(Long localGroupUserId) {
-        db.getUserInGroupDao().deleteByGroupId(localGroupUserId);
+        // HINT: a group is also listed as user. this is the groups user-id
+        db.getUserInGroupDao().deleteByGroupUserId(localGroupUserId);
     }
 
     public void deleteBoardMembershipsOfBoard(Long localBoardId) {

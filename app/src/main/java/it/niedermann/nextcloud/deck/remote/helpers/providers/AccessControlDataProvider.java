@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.remote.helpers.providers;
 
+import android.database.sqlite.SQLiteConstraintException;
+
 import androidx.annotation.Nullable;
 
 import com.nextcloud.android.sso.api.EmptyResponse;
@@ -143,7 +145,13 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
         for (String groupMemberUID : entity.getGroupMemberUIDs().getUids()) {
             User member = dataBaseAdapter.getUserByUidDirectly(entity.getAccountId(), groupMemberUID);
             if (member != null) {
-                dataBaseAdapter.addUserToGroup(entity.getUserId(), member.getLocalId());
+                try {
+                    dataBaseAdapter.addUserToGroup(entity.getUserId(), member.getLocalId());
+                } catch (SQLiteConstraintException e) {
+                    if (e.getMessage().contains("UNIQUE")){
+                        DeckLog.warn("ignoring SQLiteConstraintException due to duplicate entry");
+                    } else throw e;
+                }
             }
         }
     }
