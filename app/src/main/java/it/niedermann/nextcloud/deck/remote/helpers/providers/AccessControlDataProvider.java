@@ -136,7 +136,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
         if (!TYPE_GROUP.equals(entity.getType())) {
             return;
         }
-        dataBaseAdapter.deleteGroupMembershipsOfUser(entity.getUser().getLocalId());
+        dataBaseAdapter.deleteGroupMembershipsOfGroup(entity.getUser().getLocalId());
         if (entity.getGroupMemberUIDs() == null) {
             return;
         }
@@ -196,7 +196,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
 
     @Override
     public void deletePhysicallyInDB(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl accessControl) {
-        dataBaseAdapter.deleteGroupMembershipsOfUser(accessControl.getUser().getLocalId());
+        dataBaseAdapter.deleteGroupMembershipsOfGroup(accessControl.getUser().getLocalId());
         dataBaseAdapter.deleteAccessControl(accessControl, false);
     }
 

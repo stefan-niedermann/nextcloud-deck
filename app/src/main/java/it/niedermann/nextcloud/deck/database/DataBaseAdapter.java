@@ -537,8 +537,8 @@ public class DataBaseAdapter {
         db.getJoinBoardWithLabelDao().deleteByBoardId(localBoardId);
     }
 
-    public void deleteGroupMembershipsOfUser(Long localGroupUserId) {
-        db.getUserInGroupDao().deleteGroupMembershipByUserId(localGroupUserId);
+    public void deleteGroupMembershipsOfGroup(Long localGroupUserId) {
+        db.getUserInGroupDao().deleteByGroupId(localGroupUserId);
     }
 
     public void deleteBoardMembershipsOfBoard(Long localBoardId) {
