@@ -195,6 +195,7 @@
     <string name="show_all_contacts">Rodyti visus adresatus</string>
     <string name="show_all_files">Rodyti visus failus</string>
     <string name="recent">Paskiausi</string>
+    <string name="upload_a_new_attachment">Įkelti naują priedą</string>
     <string name="contacts">Adresatai</string>
     <string name="downloads">Atsiuntimai</string>
     <string name="files">Failai</string>
