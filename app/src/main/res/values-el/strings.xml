@@ -86,6 +86,7 @@
 
     <string name="label_clear_due_date">Καθαρισμός ημερομηνίας λήξης</string>
     <string name="label_clear_done">Μη ολοκληρωμένο</string>
+    <string name="label_due_at">Λήξη: %1$s</string>
     <string name="label_add">Προσθήκη %1$s</string>
 
     <string name="card_edit_details">Λεπτομέρειες</string>
@@ -116,6 +117,9 @@
     <string name="delete_board_message">Μόνιμη διαγραφή πίνακα με όλες τις λίστες και κάρτες.</string>
     <string name="settings_theme_title">Θέμα</string>
     <string name="settings_compact_title">Συμπαγής λειτουργία</string>
+    <string name="settings_cover_images_title">Εικόνες εξωφύλλου</string>
+    <string name="settings_debugging">Αρχεία καταγραφής σφαλμάτων</string>
+    <string name="settings_etags">Χρήση ETags</string>
     <string name="settings_etags_summary">Επιταχύνει τον συγχρονισμό</string>
     <string name="settings_background_sync">Συγχρονισμός στο παρασκήνιο</string>
     <string name="settings_push_notifications">Ειδοποιήσεις push</string>
@@ -228,6 +232,7 @@
     <string name="error_dialog_attachment_upload_failed">Δεν ήταν δυνατή η μεταφόρτωση ενός συνημμένου. Προσπαθήστε να το διαμοιράσετε με άλλο τρόπο και ενημερώστε μας σχετικά με το σφάλμα.</string>
     <string name="error_dialog_certificate">Φαίνεται ότι κάτι δεν πάει καλά με το πιστοποιητικό του διακομιστή. Ελέγξτε όλους τους λογαριασμούς στην εφαρμογή Nextcloud για περισσότερες πληροφορίες.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Παρακαλούμε απενεργοποιήστε όλες τις βελτιστοποιήσεις μπαταρίας για το Nextcloud και την εφαρμογή Deck.</string>
+    <string name="error_dialog_unknown_error">Η εφαρμογή Nextcloud δεν φαίνεται να είναι προσβάσιμη. Ελέγξτε τη σύνδεσή σας στο διαδίκτυο και αν μπορείτε να συνδεθείτε στην εφαρμογή μέσω του προγράμματος περιήγησης.</string>
     <string name="error_dialog_min_version">Η εφαρμογή Deck Android απαιτεί η εφαρμογή Nextcloud Android να είναι τουλάχιστον στην έκδοση 3.18.</string>
     <string name="error_action_open_deck_info">Πληροφορίες εφαρμογής</string>
     <string name="error_action_open_nextcloud_app">Άνοιγμα εφαρμογής Nextcloud</string>
@@ -241,6 +246,7 @@
     <string name="info_box_version_not_supported">Η έκδοση του διακομιστή %1$s δεν υποστηρίζεται, παρακαλούμε αναβαθμίστε στην %2$s</string>
     <string name="share_link">Διαμοιρασμός συνδέσμου</string>
     <string name="share_content">Κοινή χρήση περιεχομένου</string>
+    <string name="share_content_duedate">Ημερομηνία λήξης: %1$s</string>
     <string name="share_content_labels">Ετικέτες: %1$s</string>
     <string name="archive_cards">Αρχειοθετημένες κάρτες</string>
 
