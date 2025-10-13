@@ -76,7 +76,7 @@ dependencies {
     def roomVersion = "2.8.2"
     def glideVersion = "4.16.0"
     def nextcloudCommonsVersion = "2.3.7"
-    def androidCommonsVersion = "1.1.0"
+    def androidCommonsVersion = "1.1.1"
 
     implementation project(path: ':cross-tab-drag-and-drop')
     implementation project(path: ':tab-layout-helper')
