@@ -314,7 +314,7 @@
     <string name="widget_upcoming_title">Kommende kort</string>
     <!-- Category header for a section in the settings which contain features for advanced users -->
     <string name="simple_expert_settings">Eksportér indstillinger</string>
-    <string name="copy_logs">Kopier logs til udklipsholder</string>
+    <string name="copy_logs">Kopiér log til udklipsholder</string>
     <string name="app_logo">App logo</string>
     <string name="log_file">Logfil</string>
     <string name="copying_logs_to_file">Kopierer log til fil...</string>
