@@ -85,6 +85,8 @@
     <string name="add_board">Tambah papan</string>
 
     <string name="label_clear_due_date">Hapus tanggal kedaluwarsa</string>
+    <string name="label_clear_done">Belum selesai</string>
+    <string name="label_due_at">Tanggal jatuh tempo: %1$s</string>
     <string name="label_add">Tambah %1$s</string>
 
     <string name="card_edit_details">Detail</string>
@@ -174,6 +176,8 @@
 
     <string name="filter_done_no_filter">Semua</string>
     <string name="filter_done_done">Selesai</string>
+    <string name="filter_done_undone">Belum selesai</string>
+
     <string name="archived_cards">Arsip kartu</string>
     <string name="attachment_already_exists">Lampiran sudah ada</string>
     <string name="pick_custom_color">Pilih warna khusus</string>
@@ -207,6 +211,7 @@
     <string name="error_dialog_tip_offline_no_internet">Sepertinya Anda mencoba untuk sinkronisasi tanpa koneksi internet.</string>
     <string name="error_dialog_tip_offline_connection_refused">Koneksi ditolak, silakan periksa jika server Anda dapat diakses melalui peramban web.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Waktu koneksi habis, silakan periksa jika Anda terhubung ke internet. Ini mungkin juga terjadi ketika server Anda sedang sibuk.</string>
+    <string name="error_dialog_tip_connection_rejected">Koneksi ditolak, silakan periksa apakah server Anda dilindungi oleh mekanisme anti-flooding. Masalah ini kemungkinan besar disebabkan oleh server yang dilindungi oleh Cloudflare.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Jika Anda mengaktifkan pengaturan \"Sinkronisasi saja pada Wi-Fi\", Anda hanya bisa menyinkronkan ketika Anda terhubung ke Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Ada yang salah dengan aplikasi Nextcloud Anda. Silakan mencoba untuk menghentikan kedua-dua aplikasi, Nextcloud dan Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Jika menghentikan paksa mereka tidak membantu, Anda dapat mencoba untuk membersihkan penyimpanan kedua aplikasi.</string>
@@ -217,16 +222,20 @@
     <string name="error_dialog_check_maintenance">Tolong periksa apakah instansi Nextcloud Anda saat ini tidak dalam mode pemeliharaan.</string>
     <string name="error_dialog_insufficient_storage">Instansi Nextcloud Anda tidak memiliki penyimpanan gratis yang tersisa. Silakan hapus beberapa berkas untuk menyinkronkan perubahan lokal Anda ke awan Anda.</string>
     <string name="error_dialog_we_need_info">Kami membutuhkan informasi teknis berikut untuk membantu Anda.</string>
+    <string name="error_dialog_redirect">Server Anda merespons dengan kode status HTTP 302, yang berarti Anda belum menginstal aplikasi Deck di server Anda atau ada konfigurasi yang salah. Hal ini dapat disebabkan oleh pengaturan kustom di berkas .htaccess atau oleh aplikasi Nextcloud seperti OID Client.</string>
     <string name="error_dialog_version_not_parsable">Kami tidak dapat menentukan versi aplikasi Longgok sisi server. Pastikan aplikasi tersebut terinstal dan diaktifkan.</string>
     <string name="error_dialog_account_might_not_be_authorized">Akun aplikasi Nextcloud Anda mungkin tidak lagi diotorisasi.</string>
+    <string name="error_dialog_user_not_found_in_database">Pengguna saat ini tidak sesuai dengan pengguna yang terdaftar di database kami. Jika Anda menggunakan LDAP pada instance Nextcloud Anda, aplikasi Nextcloud Anda mungkin telah menyimpan ID pengguna yang lama.</string>
     <string name="error_dialog_capabilities_not_parsable">Kami tidak dapat memperoleh kemampuan server Anda. Pastikan server Anda berjalan dengan baik dan aplikasi klien lain dapat mengakses Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Lampiran tidak dapat diunggah. Silakan coba untuk membagikannya dengan cara lain dan beritahu kami tentang bug ini.</string>
     <string name="error_dialog_certificate">Sepertinya ada yang salah dengan sertifikat server. Silakan periksa semua akun di aplikasi Nextcloud untuk informasi lebih lanjut.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Harap nonaktifkan semua optimisasi baterai untuk Nextcloud dan aplikasi Longgok.</string>
+    <string name="error_dialog_unknown_error">Instance Nextcloud Anda tampaknya tidak dapat diakses. Silakan periksa koneksi internet Anda dan pastikan Anda dapat terhubung ke instance Anda melalui browser.</string>
     <string name="error_dialog_min_version">Aplikasi Android Longgok membutuhkan aplikasi Android Nextcloud setidaknya versi 3.18.</string>
     <string name="error_action_open_deck_info">Buka Info Aplikasi</string>
     <string name="error_action_open_nextcloud_app">Buka aplikasi Nextcloud</string>
     <string name="error_action_open_network">Pengaturan jaringan</string>
+    <string name="error_action_server_logs">Log server</string>
     <string name="error_action_open_in_browser">Buka di peramban</string>
     <string name="error_action_install">Pasang</string>
     <string name="error_action_report_issue">Laporan</string>
@@ -236,12 +245,14 @@
     <string name="share_link">Bagikan tautan</string>
     <string name="share_content">Bagikan konten</string>
     <string name="share_content_duedate">Tanggal tenggat: %1$s</string>
+    <string name="share_content_labels">Tag: %1$s</string>
     <string name="archive_cards">Kartu arsip</string>
 
     <string name="manage_accounts">Kelola akun</string>
     <string name="manage_list">Kelola daftar</string>
     <string name="simple_reply">Balas</string>
     <string name="append_text_to_description">Tambahkan ke deskripsi</string>
+    <string name="append_text_as_task">Tambahkan ke deskripsi sebagai tugas</string>
     <string name="add_text_as_comment">Tambahkan sebagai komentar</string>
     <string name="progress_count">%1$d dari %2$d</string>
     <plurals name="progress_error_count">
@@ -251,6 +262,8 @@
     <string name="error_action_open_battery_settings">Pengaturan baterai</string>
     <string name="move_warning">Komentar maupun lampiran tidak dapat dipindahkan saat memindahkan kartu ke papan lain.</string>
     <string name="clone_board">Pengklonaan papan</string>
+    <string name="cloning_board">Mengkloning %1$s…</string>
+    <string name="successfully_cloned_board">Sukses mengkloning %1$s</string>
     <string name="attachment_does_not_yet_exist">Lampiran belum ada di Longgok</string>
     <string name="card_does_not_yet_exist">Kartu belum ada di Longgok</string>
 
@@ -261,14 +274,20 @@
     <string name="project_type_deck_card">Kartu Longgok</string>
     <string name="project_type_file">Berkas</string>
     <string name="projects_title">Proyek</string>
+    <plurals name="resources_count">
+        <item quantity="other">%1$d sumber daya</item>
+    </plurals>
     <string name="no_assigned_label">Tidak ada tag yang ditetapkan</string>
     <string name="single_card">Kartu tunggal</string>
     <string name="project_type_room">Ruang Obrolan</string>
     <string name="simple_move">Pindah</string>
     <string name="cannot_upload_files_without_permission">Tidak dapat mengunggah berkas tanpa izin</string>
+    <string name="insufficient_permission">Izin tidak mencukupi</string>
+    <string name="no_matching_app_installed">Tidak ada aplikasi yang cocok terpasang</string>
     <string name="clone_cards">Klona kartu</string>
     <string name="simple_clone">Klona</string>
     <string name="user_avatar">Avatar pengguna</string>
+    <string name="simple_unassign">Batal penugasan</string>
     <string name="take_photo">Ambil foto</string>
     <string name="take_photo_switch_camera">Ganti kamera</string>
     <string name="take_photo_toggle_torch">Nyalakan senter</string>
@@ -280,6 +299,7 @@
     <string name="contacts">Kontak</string>
     <string name="downloads">Unduhan</string>
     <string name="files">Berkas</string>
+    <string name="voice_recorder">Perekam suara</string>
     <string name="gallery">Galeri</string>
     <string name="videos">Video</string>
     <string name="simple_attach">Lampirkan</string>
@@ -299,6 +319,7 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Judul (wajib)</string>
     <string name="saving_new_card">Menyimpan kartu baru...</string>
+    <string name="progress_import">Mengimpor papan %1$d dari %2$d…</string>
     <string name="progress_import_indeterminate">Mengimpor papan...</string>
     <string name="card_outdated">Konten dari kartu ini mungkin sudah usang.</string>
     <string name="show_error">Tampilkan kesalahan</string>
