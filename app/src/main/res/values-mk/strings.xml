@@ -221,7 +221,7 @@
     <string name="single_card">Единечна картица</string>
     <string name="project_type_room">Соба за разговор</string>
     <string name="simple_move">Премести</string>
-    <string name="clone_cards">Клинирај картици</string>
+    <string name="clone_cards">Клонирај картици</string>
     <string name="simple_clone">Клонирај</string>
     <string name="take_photo">Направи фотографија</string>
     <string name="take_photo_switch_camera">Префрли камера</string>
