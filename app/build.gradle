@@ -94,7 +94,7 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.2.1'
     implementation "androidx.room:room-runtime:$roomVersion"
     annotationProcessor "androidx.room:room-compiler:$roomVersion"
-    implementation 'androidx.core:core-splashscreen:1.0.1'
+    implementation 'androidx.core:core-splashscreen:1.2.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.work:work-runtime:2.11.0'
     implementation "com.google.android.material:material:$rootProject.materialVersion"
