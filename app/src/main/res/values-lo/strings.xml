@@ -11,7 +11,9 @@
     <string name="simple_error">ຜິດພາດ</string>
     <string name="simple_exception">Exception</string>
     <string name="simple_close">ປິດ</string>
+    <string name="simple_filter">ໂຕກອງ</string>
     <string name="simple_reset">ຕັ້ງຄ່າໃໝ່</string>
+    <string name="simple_discard">ຍົກເລີກ</string>
     <string name="simple_update">Update</string>
     <string name="simple_delete">ລຶບ</string>
     <string name="simple_rename">ປ່ຽນຊື່</string>
@@ -92,6 +94,7 @@
     <string name="hour_1">1 ຊົ່ວໂມງ</string>
     <string name="hours_6">6 hours</string>
     <string name="action_card_move">Move card</string>
+    <string name="title_is_mandatory">ກະລຸນາປ້ອນຫົວຂໍ້</string>
     <string name="welcome_text">Welcome to %1$s</string>
     <string name="card_edit_comments">ຄໍາເຫັນ</string>
     <string name="task_count">%1$s/%2$s</string>
