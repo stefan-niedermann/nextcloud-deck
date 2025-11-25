@@ -166,7 +166,7 @@
     <string name="choose_board">Zvolit tabuli</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Otevřít v prohlížeči</string>
-    <string name="updating_card">Aktualizace karty…</string>
+    <string name="updating_card">Aktualizace karty …</string>
 
     <string name="move_list_right">Přesunout seznam vpravo</string>
     <string name="move_list_left">Přesunout seznam vlevo</string>
@@ -271,7 +271,7 @@
     <string name="error_action_open_battery_settings">Nastavení správy napájení</string>
     <string name="move_warning">Při přesunutí karty na jinou tabuli není možné přenést také komentáře či přílohy.</string>
     <string name="clone_board">Klonovat tabuli</string>
-    <string name="cloning_board">Klonování %1$s…</string>
+    <string name="cloning_board">Klonování %1$s …</string>
     <string name="successfully_cloned_board">%1$s úspěšně naklonováno</string>
     <string name="attachment_does_not_yet_exist">Příloha ještě neexistuje v Deck</string>
     <string name="card_does_not_yet_exist">Karta ještě neexistuje v Deck</string>
@@ -325,14 +325,14 @@
     <string name="copy_logs">Zkopírovat záznamy událostí do schránky</string>
     <string name="app_logo">Logo aplikace</string>
     <string name="log_file">Soubor se záznamem událostí</string>
-    <string name="copying_logs_to_file">Kopírování záznamů událostí do souboru…</string>
+    <string name="copying_logs_to_file">Kopírování záznamů událostí do souboru …</string>
     <string name="account_imported">Účet naimportován</string>
     <string name="simple_search">Hledat</string>
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Nadpis (vyžadován)</string>
-    <string name="saving_new_card">Ukládání nové karty…</string>
-    <string name="progress_import">Importuje se tabule %1$d z %2$d…</string>
-    <string name="progress_import_indeterminate">Importování tabulí…</string>
+    <string name="saving_new_card">Ukládání nové karty …</string>
+    <string name="progress_import">Importuje se tabule %1$d z %2$d …</string>
+    <string name="progress_import_indeterminate">Importování tabulí …</string>
     <string name="card_outdated">Obsah této karty může být neaktuální.</string>
     <string name="show_error">Zobrazit chybu</string>
     <string name="push_notification_link_empty">Kvůli známému problému v aplikaci Deck na straně serveru žel není možné tuto kartu zobrazit. Podrobnosti viz: %1$s</string>
