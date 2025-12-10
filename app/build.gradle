@@ -108,7 +108,7 @@ dependencies {
 
     // Single-Sign-On
     implementation 'com.github.nextcloud:Android-SingleSignOn:1.3.2'
-    implementation 'com.github.nextcloud:android-common:0.28.0'
+    implementation 'com.github.nextcloud:android-common:0.30.0'
     implementation "com.github.stefan-niedermann.nextcloud-commons:sso-glide:$nextcloudCommonsVersion"
     implementation "com.github.stefan-niedermann.nextcloud-commons:exception:$nextcloudCommonsVersion"
     implementation("com.github.stefan-niedermann.nextcloud-commons:markdown:$nextcloudCommonsVersion") {
