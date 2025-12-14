@@ -1,7 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">Розгорнути скриньку з навігацією</string>
     <string name="navigation_drawer_close">Згорнути скриньку з навігацією</string>
-    <string name="hint_search_deck">Пошукова колода</string>
+    <string name="hint_search_deck">Шукати в колоді</string>
 
     <string name="simple_add">Додати</string>
     <string name="simple_save">Зберегти</string>
@@ -12,7 +12,7 @@
     <string name="simple_appearance">Вигляд</string>
     <string name="simple_error">Помилка</string>
     <string name="simple_exception">Виняток</string>
-    <string name="simple_close">закрити</string>
+    <string name="simple_close">Закрити</string>
     <string name="simple_filter">Фільтр</string>
     <string name="simple_reset">Відхилити зміни</string>
     <string name="simple_discard">Відхилити</string>
