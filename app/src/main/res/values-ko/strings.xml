@@ -293,6 +293,7 @@
     <string name="files">파일</string>
     <string name="gallery">갤러리</string>
     <string name="videos">동영상</string>
+    <string name="simple_attach">첨부</string>
     <string name="add_stack_widget">목록 위젯 추가</string>
     <string name="add_filter_widget">필터 위젯 추가</string>
     <string name="simple_order">순서</string>
