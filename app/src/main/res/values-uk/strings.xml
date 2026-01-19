@@ -138,7 +138,7 @@
         <item>Темна</item>
     </string-array>
     <string name="unassigned_user">Скасовано призначення %1$s</string>
-    <string name="no_activities">На цій картці відсутні активності. Вам потрібно мати з\'єднання з мережею для завантаження та показу активності.</string>
+    <string name="no_activities">Для цієї картки відсутні події. Вам потрібно мати з\'єднання з мережею для завантаження та показу змін, що відбулися.</string>
     <string name="share_board">Надати доступ до дошки</string>
     <string name="you_are_currently_offline">Ви зараз поза мережею</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Для додавання облікового запису потрібне з\'єднання з мережею.</string>
