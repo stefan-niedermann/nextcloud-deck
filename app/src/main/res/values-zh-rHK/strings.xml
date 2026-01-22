@@ -222,7 +222,7 @@
     <string name="error_dialog_check_maintenance">請檢查您的 Nextcloud 目前是否在維護模式。</string>
     <string name="error_dialog_insufficient_storage">您的 Nextcloud 沒有剩餘可用的存儲空間。請刪除一些檔案，以將近端更改同步到雲中。</string>
     <string name="error_dialog_we_need_info">我們需要以下的技術資訊來幫助您：</string>
-    <string name="error_dialog_redirect">您的伺服器以 HTTP 302 狀態代碼回應，這表示您尚未在伺服器上安裝 Deck 應用程式或配置錯誤。這可能是由於 .htaccess 檔案中的自定義替換或 Nextcloud 應用程式（如OID客戶端）引起的。</string>
+    <string name="error_dialog_redirect">您的伺服器以 HTTP 302 狀態代碼回應，這表示您尚未在伺服器上安裝 Deck 應用程式或配置錯誤。這可能是由於 .htaccess 檔案中的自訂替換或 Nextcloud 應用程式（如OID客戶端）引起的。</string>
     <string name="error_dialog_version_not_parsable">我們無法確定伺服器端 Deck 應用程式的版本。請確保已安裝並啟用它。</string>
     <string name="error_dialog_account_might_not_be_authorized">您的Nextcloud應用程序帳戶可能不再被授權。</string>
     <string name="error_dialog_user_not_found_in_database">目前用戶與我們數據庫中的用戶不匹配。如果您在 Nextcloud 實例上使用 LDAP，則 Nextcloud應用程式可能已存儲了舊的用戶ID。</string>
