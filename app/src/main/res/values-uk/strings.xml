@@ -92,7 +92,7 @@
     <string name="card_edit_details">Деталі</string>
     <string name="card_edit_attachments">Вкладення</string>
     <string name="card_edit_activity">Дії</string>
-    <string name="about_server_app_version_text">Версія застосунку серверу:</string>
+    <string name="about_server_app_version_text">Версія застосунку сервера:</string>
     <string name="no_files_attached_to_this_card">До цієї картки не прикріплено жодного файла.</string>
     <string name="attachments">Вкладення</string>
     <string name="append_to_description">Додати до опису</string>
@@ -234,7 +234,7 @@
     <string name="error_dialog_user_not_found_in_database">Дані поточного користувача не збігаються з даними користувача у нашій базі даних. Якщо ви використовуєте LDAP у вашому примірнику Nextcloud, ваш застосунок Nextcloud міг зберегти застарілий ідентифікатор користувача.</string>
     <string name="error_dialog_capabilities_not_parsable">Не вдалося отримати дані про ваш сервер. Будь ласка, пересвідчиться, що сервер коректно працює та інші клієнтські застосунки мають доступ до хмари Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Неможливо долучити вкладення. Спробуйте поділитися ним в інший спосіб, а також повідомте нам про цю ваду.</string>
-    <string name="error_dialog_certificate">Ймовірно виникли проблеми з сертифікатом серверу. Перевірте всі записи у застосунку Nextcloud для отримання додаткової інформації.</string>
+    <string name="error_dialog_certificate">Ймовірно виникли проблеми з сертифікатом сервера. Перевірте всі облікові записи у застосунку Nextcloud для отримання додаткової інформації.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Будь ласка, вимкніть усі оптимізації батареї для Nextcloud та програми Deck.</string>
     <string name="error_dialog_unknown_error">Схоже, що ваша хмара Nextcloud не доступна. Будь ласка, перевірте з\'єднання з мережею, а також можливість встановити з\'єднання через бравзер.</string>
     <string name="error_dialog_min_version">Додаток Deck для Android вимагає, щоб додаток Nextcloud для Android був версії не нижче 3.18.</string>
