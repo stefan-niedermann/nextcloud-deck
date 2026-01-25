@@ -249,7 +249,7 @@
     <string name="info_box_maintenance_mode">Сервер у режимі обслуговування</string>
     <string name="info_box_version_not_supported">Версія сервера %1$s не підтримується, будь ласка, поновіться до %2$s</string>
     <string name="share_link">Поділитися посиланням</string>
-    <string name="share_content">Поділіться вмістом</string>
+    <string name="share_content">Поділітися вмістом</string>
     <string name="share_content_duedate">Дві дати: %1$s</string>
     <string name="share_content_labels">Мітки: %1$s</string>
     <string name="archive_cards">Архівувати картки</string>
