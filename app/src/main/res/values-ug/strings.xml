@@ -33,28 +33,28 @@
     <string name="edit_board">تاختاينى تەھرىرلەش</string>
     <string name="archive_board">ئارخىپ تاختىسى</string>
     <string name="delete_board">تاختاينى ئۆچۈرۈڭ</string>
-    <string name="delete_something">% 1 $ s نى ئۆچۈرۈڭ</string>
+    <string name="delete_something">%1$s نى ئۆچۈرۈڭ</string>
 
     <string name="about">ھەققىدە</string>
     <string name="about_version_title">نەشرى</string>
-    <string name="about_version">ھازىر% 1 $ s ئىشلىتىۋاتىسىز</string>
+    <string name="about_version">ھازىر %1$s ئىشلىتىۋاتىسىز</string>
     <string name="about_maintainer_title">Maintainer</string>
     <string name="about_developers_title">Developers</string>
     <string name="about_translators_title">تەرجىمانلار</string>
-    <string name="about_translators_transifex">Nextcloud مەھەللىسى% 1 $ s</string>
+    <string name="about_translators_transifex">Nextcloud مەھەللىسى %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_source_title">مەنبە كودى</string>
-    <string name="about_source">بۇ تۈر GitHub دا:% 1 $ s</string>
+    <string name="about_source">بۇ تۈر GitHub دا: %1$s</string>
     <string name="about_issues_title">مەسىلىلەر</string>
-    <string name="about_issues">سىز كەمتۈك ، كۈچەيتىش تەكلىپلىرى ۋە ئىقتىدار تەلەپلىرىنى GitHub مەسىلە ئىز قوغلىغۇچتا دوكلات قىلالايسىز:% 1 $ s</string>
+    <string name="about_issues">سىز كەمتۈك ، كۈچەيتىش تەكلىپلىرى ۋە ئىقتىدار تەلەپلىرىنى GitHub مەسىلە ئىز قوغلىغۇچتا دوكلات قىلالايسىز: %1$s</string>
     <string name="about_translate_title">تەرجىمە</string>
-    <string name="about_translate">Transifex دىكى Nextcloud ئەترىتىگە قوشۇلۇڭ ۋە بىزنىڭ بۇ ئەپنى تەرجىمە قىلىشىمىزغا ياردەملىشىڭ:% 1 $ s</string>
+    <string name="about_translate">Transifex دىكى Nextcloud ئەترىتىگە قوشۇلۇڭ ۋە بىزنىڭ بۇ ئەپنى تەرجىمە قىلىشىمىزغا ياردەملىشىڭ: %1$s</string>
     <string name="about_app_license_title">ئەپ ئىجازەتنامىسى</string>
     <string name="about_app_license">بۇ پروگرامما GNU GENERAL PUBLIC LICENSE v3 + ئىجازەتنامىسىگە ئېرىشكەن.</string>
     <string name="about_app_license_button">ئىجازەتنامىنى كۆرۈش</string>
     <string name="about_icons_disclaimer_title">سىنبەلگە</string>
-    <string name="about_icons_disclaimer_app_icon">ئەسلى سىنبەلگە% 1 $ s نى كۆرۈڭ.</string>
-    <string name="about_icons_disclaimer_mdi_icons">بۇ دېتالدا ئىشلىتىلگەن بارلىق سىنبەلگىلەرنىڭ ھەممىسى گۇگۇل شىركىتى تەرىپىدىن ياسالغان ۋە Apache 2.0 ئىجازەتنامىسىدە ئىجازەت بېرىلگەن% 1 $ s.</string>
+    <string name="about_icons_disclaimer_app_icon">ئەسلى سىنبەلگە %1$s نى كۆرۈڭ.</string>
+    <string name="about_icons_disclaimer_mdi_icons">بۇ دېتالدا ئىشلىتىلگەن بارلىق سىنبەلگىلەرنىڭ ھەممىسى گۇگۇل شىركىتى تەرىپىدىن ياسالغان ۋە Apache 2.0 ئىجازەتنامىسىدە ئىجازەت بېرىلگەن %1$s.</string>
     <string name="about_icons_disclaimer_mdi">ماتېرىيال لايىھىلەش سىنبەلگىسى</string>
     <string name="about_credits_tab_title">Credits</string>
     <string name="about_contribution_tab_title">تۆھپە</string>
@@ -86,8 +86,8 @@
 
     <string name="label_clear_due_date">قەرەلى توشۇش</string>
     <string name="label_clear_done">تاماملانمىدى</string>
-    <string name="label_due_at">ۋاقتى:% 1 $ s</string>
-    <string name="label_add">% 1 $ s نى قوشۇڭ</string>
+    <string name="label_due_at">ۋاقتى: %1$s</string>
+    <string name="label_add">%1$s نى قوشۇڭ</string>
 
     <string name="card_edit_details">تەپسىلاتى</string>
     <string name="card_edit_attachments">قوشۇمچە ھۆججەتلەر</string>
@@ -97,12 +97,12 @@
     <string name="attachments">قوشۇمچە ھۆججەتلەر</string>
     <string name="append_to_description">چۈشەندۈرۈشكە قوشۇلۇڭ</string>
     <string name="no_cards">تېخى كارتا يوق</string>
-    <string name="account_already_added">ھېسابات% 1 $ s ئاللىقاچان قوشۇلدى</string>
+    <string name="account_already_added">ھېسابات %1$s ئاللىقاچان قوشۇلدى</string>
     <string name="not_synced_yet">تېخى ماسقەدەملەنمىدى</string>
     <string name="no_lists_yet">تېخى تىزىملىك يوق</string>
     <string name="do_you_want_to_save_your_changes">ئۆزگەرتىشلىرىڭىزنى ساقلىماقچىمۇ؟</string>
-    <string name="do_you_want_to_archive_all_cards_of_the_list">% 1 $ s نىڭ بارلىق كارتىلىرىنى ئارخىپلاشتۇرماقچىمۇ؟</string>
-    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">% 1 $ s نىڭ بارلىق سۈزۈلگەن كارتىلىرىنى ئارخىپلاشتۇرماقچىمۇ؟</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">%1$s نىڭ بارلىق كارتىلىرىنى ئارخىپلاشتۇرماقچىمۇ؟</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">%1$s نىڭ بارلىق سۈزۈلگەن كارتىلىرىنى ئارخىپلاشتۇرماقچىمۇ؟</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">This will permanently delete %1$d card of this list.</item>
         <item quantity="other">This will permanently delete all %1$d cards of this list.</item>
@@ -113,7 +113,7 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">+ كۇنۇپكىسى ئارقىلىق يېڭى تىزىملىك قوشۇڭ</string>
     <string name="add_a_new_card_using_the_button">+ كۇنۇپكىسى ئارقىلىق يېڭى كارتا قوشۇڭ</string>
-    <string name="deck_outdated_please_update">پالۋان تور ئەپ نەشرى بەك كونا (% 1 $ s). بۇ ئاندىرويىد ئەپلىرىنى خېرىدار سۈپىتىدە ئىشلىتىش ئۈچۈن يېڭىلاڭ.</string>
+    <string name="deck_outdated_please_update">پالۋان تور ئەپ نەشرى بەك كونا (%1$s). بۇ ئاندىرويىد ئەپلىرىنى خېرىدار سۈپىتىدە ئىشلىتىش ئۈچۈن يېڭىلاڭ.</string>
     <string name="delete_board_message">بۇ بارلىق تىزىملىك ۋە كارتىلارنى ئۆز ئىچىگە ئالغان بۇ تاختىنى مەڭگۈلۈك ئۆچۈرۈۋېتىدۇ.</string>
     <string name="settings_theme_title">باشتېما</string>
     <string name="settings_compact_title">ئىخچام ھالەت</string>
@@ -124,7 +124,7 @@
     <string name="settings_background_sync">تەگلىك ماس قەدەمدە</string>
     <string name="settings_push_notifications">ئىتتىرىش ئۇقتۇرۇشى</string>
     <string name="settings_compress_image_attachments">يۈكلەنگەن رەسىملەرنى پىرىسلاش</string>
-    <string name="search_in">% 1 $ s دىن ئىزدەڭ</string>
+    <string name="search_in">%1$s دىن ئىزدەڭ</string>
     <string name="settings_compress_image_attachments_summary">تېز يوللاش ، سۈپەتسىز</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fi ۋە كۆچمە سانلىق مەلۇماتلاردا ماسقەدەملەش</string>
     <string name="pref_value_wifi_only">پەقەت Wi-Fi دا ماسقەدەملەڭ</string>
@@ -133,7 +133,7 @@
         <item>Light</item>
         <item>Dark</item>
     </string-array>
-    <string name="unassigned_user">ئىمزا قويمىغان% 1 $ s</string>
+    <string name="unassigned_user">ئىمزا قويمىغان %1$s</string>
     <string name="no_activities">بۇ كارتىدا ھېچقانداق پائالىيەت يوق. پائالىيەتلەرنى يۈكلەش ۋە كۆرسىتىش ئۈچۈن تورغا ئۇلىنىشىڭىز كېرەك.</string>
     <string name="share_board">ئورتاقلىشىش تاختىسى</string>
     <string name="you_are_currently_offline">سىز ھازىر تورسىز</string>
@@ -147,20 +147,20 @@
     <string name="hour_1">1 سائەت</string>
     <string name="hours_6">6 سائەت</string>
     <string name="action_card_move">كارتا يۆتكەش</string>
-    <string name="action_card_move_title">% 1 $ s نى يۆتكەڭ</string>
+    <string name="action_card_move_title">%1$s نى يۆتكەڭ</string>
     <string name="title_is_mandatory">ماۋزۇ تەلەپ قىلىنىدۇ</string>
     <string name="provide_at_least_a_title_or_description">ھېچ بولمىغاندا ماۋزۇ ياكى چۈشەندۈرۈش بىلەن تەمىنلەڭ</string>
-    <string name="welcome_text">% 1 $ s نى قارشى ئالىمىز</string>
+    <string name="welcome_text">%1$s نى قارشى ئالىمىز</string>
     <string name="welcome_text_further_accounts">باشقا ھېسابات قوشۇڭ</string>
     <string name="share_add_to_card">كارتىغا قوشۇڭ</string>
-    <string name="share_success">% 2 $ s غا مۇۋەپپەقىيەتلىك ھالدا% 1 $ s قوشۇلدى</string>
+    <string name="share_success">%2$s غا مۇۋەپپەقىيەتلىك ھالدا %1$s قوشۇلدى</string>
     <string name="add_comment">باھا قوشۇڭ</string>
     <string name="card_edit_comments">باھا</string>
     <string name="no_comments_yet">ھازىرچە ھېچقانداق باھا يوق</string>
     <string name="no_boards">تاختاي يوق</string>
     <string name="add_a_new_board_using_the_button">+ كۇنۇپكىسى ئارقىلىق يېڭى تاختا قوشۇڭ</string>
     <string name="choose_board">تاختاينى تاللاڭ</string>
-    <string name="task_count">% 1 $ s /% 2 $ s</string>
+    <string name="task_count">%1$s / %2$s</string>
     <string name="open_in_browser">توركۆرگۈدە ئېچىڭ</string>
     <string name="updating_card">كارتا يېڭىلاش…</string>
 
@@ -185,9 +185,9 @@
     <string name="pick_custom_color">ئىختىيارى رەڭنى تاللاڭ</string>
     <string name="manage_tags">خەتكۈچلەرنى باشقۇرۇش</string>
     <string name="add_tag">خەتكۈچ قوشۇڭ</string>
-    <string name="tag_already_exists">% 1 $ s مەۋجۇت</string>
-    <string name="tag_successfully_added">% 1 $ s مۇۋەپپەقىيەتلىك قوشۇلدى</string>
-    <string name="edit_tag">% 1 $ s نى تەھرىرلەڭ</string>
+    <string name="tag_already_exists">%1$s مەۋجۇت</string>
+    <string name="tag_successfully_added">%1$s مۇۋەپپەقىيەتلىك قوشۇلدى</string>
+    <string name="edit_tag">%1$s نى تەھرىرلەڭ</string>
     <string name="mark_as_done">تاماملانغاندەك بەلگە</string>
     <string name="filter_tags_title">خەتكۈچ</string>
     <string name="filter_user_title">ئىشلەتكۈچى</string>
@@ -200,8 +200,8 @@
     <string name="error">خاتالىق كۆرۈلدى</string>
     <string name="synchronization_failed">ماس قەدەملەش مەغلۇب بولدى</string>
     <string name="operation_not_yet_supported">تېخى قوللىمىدى</string>
-    <string name="error_revoking_ac">% 1 $ s نىڭ زىيارەت ھوقۇقىنى بىكار قىلغاندا خاتالىق</string>
-    <string name="error_create_label">% 1 $ s بەلگىسىنى قۇرغاندا خاتالىق</string>
+    <string name="error_revoking_ac">%1$s نىڭ زىيارەت ھوقۇقىنى بىكار قىلغاندا خاتالىق</string>
+    <string name="error_create_label">%1$s بەلگىسىنى قۇرغاندا خاتالىق</string>
     <string name="maintenance_mode">مۇلازىمېتىر ئاسراش ھالىتىدە</string>
     <string name="error_edit_activity_killed_by_android">ئاندىرويىد تەھرىرلەش ھالىتىنى تاماملىدى ، چۈنكى ئۇ باشقا ئەپلەر ئۈچۈن تېخىمۇ كۆپ سىستېما مەنبەلىرىگە ئېھتىياجلىق ئىدى.</string>
 
@@ -243,11 +243,11 @@
     <string name="error_action_report_issue">دوكلات</string>
     <string name="error_action_update_files_app">يېڭىلاش</string>
     <string name="info_box_maintenance_mode">مۇلازىمېتىر ئاسراش ھالىتىدە</string>
-    <string name="info_box_version_not_supported">مۇلازىمېتىر نەشرى% 1 $ s قوللىمايدۇ ،% 2 $ s غا يېڭىلاڭ</string>
+    <string name="info_box_version_not_supported">مۇلازىمېتىر نەشرى %1$s قوللىمايدۇ ،%2$s غا يېڭىلاڭ</string>
     <string name="share_link">ئۇلىنىشنى ھەمبەھىرلەش</string>
     <string name="share_content">مەزمۇننى ئورتاقلىشىش</string>
-    <string name="share_content_duedate">ۋاقتى:% 1 $ s</string>
-    <string name="share_content_labels">خەتكۈچ:% 1 $ s</string>
+    <string name="share_content_duedate">ۋاقتى: %1$s</string>
+    <string name="share_content_labels">خەتكۈچ: %1$s</string>
     <string name="archive_cards">ئارخىپ كارتىلىرى</string>
 
     <string name="manage_accounts">ھېساباتنى باشقۇرۇش</string>
@@ -256,7 +256,7 @@
     <string name="append_text_to_description">چۈشەندۈرۈشكە قوشۇلۇڭ</string>
     <string name="append_text_as_task">تەسۋىر سۈپىتىدە ۋەزىپە سۈپىتىدە قوشۇمچە قىلىڭ</string>
     <string name="add_text_as_comment">باھا سۈپىتىدە قوشۇڭ</string>
-    <string name="progress_count">% 1 $ d نىڭ% 2 $ d</string>
+    <string name="progress_count">%1$d نىڭ %2$d</string>
     <plurals name="progress_error_count">
         <item quantity="one">%1$d error while uploading</item>
         <item quantity="other">%1$d errors while uploading</item>
@@ -265,8 +265,8 @@
     <string name="error_action_open_battery_settings">باتارېيە تەڭشىكى</string>
     <string name="move_warning">كارتىنى باشقا تاختىغا يۆتكىگەندە باھا ياكى قوشۇمچە ھۆججەتلەرنى يۆتكىگىلى بولمايدۇ.</string>
     <string name="clone_board">كلون تاختىسى</string>
-    <string name="cloning_board">كلون% 1 $ s…</string>
-    <string name="successfully_cloned_board">مۇۋەپپەقىيەتلىك ھالدا% 1 $ s نى كلونلىدى</string>
+    <string name="cloning_board">كلون %1$s…</string>
+    <string name="successfully_cloned_board">مۇۋەپپەقىيەتلىك ھالدا %1$s نى كلونلىدى</string>
     <string name="attachment_does_not_yet_exist">قوشۇمچە ھۆججەت پالۋاندا تېخى مەۋجۇت ئەمەس</string>
     <string name="card_does_not_yet_exist">پالۋاندا كارتا تېخى مەۋجۇت ئەمەس</string>
 
@@ -323,11 +323,11 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Title (required)</string>
     <string name="saving_new_card">يېڭى كارتا تېجەش…</string>
-    <string name="progress_import">ئىمپورت تاختىسىنىڭ% 1 $ d% 2 $ d…</string>
+    <string name="progress_import">%2$d دىن %1$d تاختا كىرگۈزىلۋاتىدۇ   …</string>
     <string name="progress_import_indeterminate">تاختا ئەكىرىش…</string>
     <string name="card_outdated">بۇ كارتىنىڭ مەزمۇنى ۋاقتى ئۆتكەن بولۇشى مۇمكىن.</string>
     <string name="show_error">خاتالىق كۆرسەت</string>
-    <string name="push_notification_link_empty">پالۋان تور دېتالىدىكى مەلۇم مەسىلە سەۋەبىدىن بىز بەختكە قارشى بۇ كارتىنى كۆرسىتەلمەيمىز. تېخىمۇ كۆپ ئۇچۇرغا ئېرىشمەكچى بولسىڭىز:% 1 $ s</string>
+    <string name="push_notification_link_empty">پالۋان تور دېتالىدىكى مەلۇم مەسىلە سەۋەبىدىن بىز بەختكە قارشى بۇ كارتىنى كۆرسىتەلمەيمىز. تېخىمۇ كۆپ ئۇچۇرغا ئېرىشمەكچى بولسىڭىز:%1$s</string>
     <string name="enter_search_term_title">ئىزدەش ئاتالغۇسىنى كىرگۈزۈڭ</string>
     <string name="enter_search_term_description">بۇ تاختىدىن كارتا تېپىش ئۈچۈن ئىزدەش ئاتالغۇسىنى كىرگۈزۈڭ</string>
     <string name="no_search_results_title">ئىزدەش نەتىجىسى يوق</string>

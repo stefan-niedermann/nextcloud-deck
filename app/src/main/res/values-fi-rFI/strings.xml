@@ -282,6 +282,7 @@
     <string name="files">Tiedostot</string>
     <string name="gallery">Galleria</string>
     <string name="videos">Videot</string>
+    <string name="simple_attach">Liitä</string>
     <string name="simple_order">Järjestys</string>
     <string name="edit_description">Muokkaa kuvausta</string>
     <string name="widget_upcoming_title">Tulevat kortit</string>
