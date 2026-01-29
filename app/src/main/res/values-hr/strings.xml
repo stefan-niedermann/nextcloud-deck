@@ -175,6 +175,7 @@
     <string name="filter_later">Kasnije</string>
 
     <string name="filter_done_no_filter">Sve</string>
+    <string name="filter_done_done">Gotovo</string>
     <string name="archived_cards">Arhivirane kartice</string>
     <string name="attachment_already_exists">Privitak već postoji</string>
     <string name="pick_custom_color">Odaberi prilagođenu boju</string>
@@ -187,6 +188,8 @@
     <string name="filter_tags_title">Oznake</string>
     <string name="filter_user_title">Korisnici</string>
     <string name="filter_duedate_title">Datum dospijeća</string>
+    <string name="filter_done_title">Gotovo</string>
+
     <string name="action_board_dearchive">Poništi arhiviranje ploče</string>
     <string name="archived_boards">Arhivirane ploče</string>
 
