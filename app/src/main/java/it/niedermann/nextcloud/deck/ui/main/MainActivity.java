@@ -89,6 +89,7 @@ import it.niedermann.nextcloud.deck.ui.StackChangeCallback;
 import it.niedermann.nextcloud.deck.ui.accountswitcher.AccountSwitcherDialog;
 import it.niedermann.nextcloud.deck.ui.board.ArchiveBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
+import it.niedermann.nextcloud.deck.ui.board.ShareBoardLinkListener;
 import it.niedermann.nextcloud.deck.ui.board.edit.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.edit.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.card.CardActionListener;
@@ -123,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         DeleteBoardListener,
         EditBoardListener,
         ArchiveBoardListener,
+        ShareBoardLinkListener,
         OnScrollListener,
         CreateCardListener,
         CardActionListener,
@@ -1102,5 +1104,19 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         runOnUiThread(() -> ExceptionDialogFragment
                 .newInstance(throwable, account)
                 .show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+    }
+
+    @Override
+    public void onShareBoardLink(Board board) {
+        mainViewModel.getAccountFuture(board.getAccountId()).thenAcceptAsync(account -> {
+            final int shareLinkRes = account.getServerDeckVersionAsObject().getShareBoardLinkResource();
+            final var shareIntent = new Intent()
+                    .setAction(Intent.ACTION_SEND)
+                    .setType(TEXT_PLAIN)
+                    .putExtra(Intent.EXTRA_SUBJECT, board.getTitle())
+                    .putExtra(Intent.EXTRA_TITLE, board.getTitle())
+                    .putExtra(Intent.EXTRA_TEXT, account.getUrl() + getString(shareLinkRes, board.getId()));
+            startActivity(Intent.createChooser(shareIntent, board.getTitle()));
+        }, ContextCompat.getMainExecutor(this));
     }
 }

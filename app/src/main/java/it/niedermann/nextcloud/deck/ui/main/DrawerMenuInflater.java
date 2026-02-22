@@ -18,12 +18,13 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.ui.board.ArchiveBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.DeleteBoardDialogFragment;
+import it.niedermann.nextcloud.deck.ui.board.ShareBoardLinkListener;
 import it.niedermann.nextcloud.deck.ui.board.accesscontrol.AccessControlDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.edit.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.managelabels.ManageLabelsDialogFragment;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 
-public class DrawerMenuInflater<T extends FragmentActivity & ArchiveBoardListener> {
+public class DrawerMenuInflater<T extends FragmentActivity & ArchiveBoardListener & ShareBoardLinkListener> {
     public static final int MENU_ID_ABOUT = -1;
     public static final int MENU_ID_ADD_BOARD = -2;
     public static final int MENU_ID_SETTINGS = -3;
@@ -74,6 +75,9 @@ public class DrawerMenuInflater<T extends FragmentActivity & ArchiveBoardListene
                             int itemId = item.getItemId();
                             if (itemId == SHARE_BOARD_ID) {
                                 AccessControlDialogFragment.newInstance(account, fullBoard.getLocalId()).show(activity.getSupportFragmentManager(), AccessControlDialogFragment.class.getSimpleName());
+                                return true;
+                            } else if (itemId == R.id.share_link) {
+                                activity.onShareBoardLink(fullBoard.getBoard());
                                 return true;
                             } else if (itemId == R.id.edit_board) {
                                 EditBoardDialogFragment.newInstance(account, fullBoard.getLocalId()).show(activity.getSupportFragmentManager(), editBoard);
