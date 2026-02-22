@@ -226,4 +226,15 @@ public class Version implements Comparable<Version> {
             return R.string.url_fragment_share_card_pre_1_0_0;
         }
     }
+
+    @StringRes
+    public int getShareBoardLinkResource() {
+        if (isGreaterOrEqualTo(VERSION_1_12_0)) {
+            return R.string.url_fragment_share_board_since_1_12_0;
+        } else if (isGreaterOrEqualTo(VERSION_1_0_0)) {
+            return R.string.url_fragment_share_board_since_1_0_0;
+        } else {
+            return R.string.url_fragment_share_board_pre_1_0_0;
+        }
+    }
 }

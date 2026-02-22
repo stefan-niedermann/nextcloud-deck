@@ -110,6 +110,9 @@
     <string name="url_fragment_share_card_pre_1_0_0" translatable="false">/index.php/apps/deck/#!/board/%1$d/card/%2$d</string>
     <string name="url_fragment_share_card_since_1_0_0" translatable="false">/index.php/apps/deck/#/board/%1$d/card/%2$d</string>
     <string name="url_fragment_share_card_since_1_12_0" translatable="false">/index.php/apps/deck/board/%1$d/card/%2$d</string>
+    <string name="url_fragment_share_board_pre_1_0_0" translatable="false">/index.php/apps/deck/#!/board/%1$d</string>
+    <string name="url_fragment_share_board_since_1_0_0" translatable="false">/index.php/apps/deck/#/board/%1$d</string>
+    <string name="url_fragment_share_board_since_1_12_0" translatable="false">/index.php/apps/deck/board/%1$d</string>
     <string name="url_faq_push_notifications" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck/blob/master/FAQ.md#how-to-receive-notifications-when-a-due-date-is-reached</string>
 
     <string name="card_edit_details">Details</string>
