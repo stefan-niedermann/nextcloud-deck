@@ -119,7 +119,7 @@ public class AttachmentUtil {
             try {
                 if (VersionCheckHelper.getNextcloudFilesVersionCode(context, type) > 30110000) {
                     final var intent = new Intent(Intent.ACTION_VIEW)
-                            .setClassName(type.packageId, "com.owncloud.android.ui.activity.FileDisplayActivity")
+                            .setClassName(type.packageId(), "com.owncloud.android.ui.activity.FileDisplayActivity")
                             .putExtra("KEY_FILE_ID", String.valueOf(fileId))
                             .putExtra("KEY_ACCOUNT", account.getName());
 

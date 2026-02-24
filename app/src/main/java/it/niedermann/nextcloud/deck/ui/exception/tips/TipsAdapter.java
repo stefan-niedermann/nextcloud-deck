@@ -198,8 +198,8 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
         final var pm = context.getPackageManager();
         for (final var filesAppType : FilesAppTypeRegistry.getInstance().getTypes()) {
             try {
-                pm.getPackageInfo(filesAppType.packageId, PackageManager.GET_ACTIVITIES);
-                final var intent = pm.getLaunchIntentForPackage(filesAppType.packageId);
+                pm.getPackageInfo(filesAppType.packageId(), PackageManager.GET_ACTIVITIES);
+                final var intent = pm.getLaunchIntentForPackage(filesAppType.packageId());
                 if (intent != null) {
                     return Optional.of(intent.putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_nextcloud_app));
                 }
