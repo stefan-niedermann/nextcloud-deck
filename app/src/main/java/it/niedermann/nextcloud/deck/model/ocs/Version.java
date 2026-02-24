@@ -184,6 +184,16 @@ public class Version implements Comparable<Version> {
         return isGreaterOrEqualTo(VERSION_1_17_0);
     }
 
+    /**
+     * Before {@link #VERSION_1_17_0}, to upload an {@link Attachment}, a simple multipart with `file` and `type` as form params was required
+     * Starting with {@link #VERSION_1_17_0} the server needs an extra `data` param, see: <a href="https://github.com/nextcloud/deck/issues/7681#issuecomment-3952120578">
+     *
+     * @return whether or not the server requires the dummy `data` param
+     */
+    public boolean requiresDummyDataStringForAttachments() {
+        return isGreaterOrEqualTo(VERSION_1_17_0);
+    }
+
     public boolean supportsDeletingFileAttachments() {
         return isGreaterOrEqualTo(VERSION_1_12_2);
     }
