@@ -38,6 +38,7 @@ import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 import it.niedermann.nextcloud.deck.model.ocs.user.UserForAssignment;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
+import it.niedermann.nextcloud.deck.model.propagation.CardUpdateOwnerString;
 import it.niedermann.nextcloud.deck.model.propagation.Reorder;
 import it.niedermann.nextcloud.deck.remote.api.ApiProvider;
 import it.niedermann.nextcloud.deck.remote.api.RequestHelper;
@@ -195,7 +196,11 @@ public class ServerAdapter {
     }
 
     public void updateCard(long boardId, long stackId, CardUpdate card, @NonNull ResponseCallback<FullCard> responseCallback) {
-        this.requestHelper.request(() -> provider.getDeckAPI().updateCard(boardId, stackId, card.getId(), card), responseCallback);
+        if (responseCallback.getAccount().getServerDeckVersionAsObject().supportsOwnerAsString()){
+            this.requestHelper.request(() -> provider.getDeckAPI().updateCardOwnerString(boardId, stackId, card.getId(), new CardUpdateOwnerString(card)), responseCallback);
+        } else {
+            this.requestHelper.request(() -> provider.getDeckAPI().updateCard(boardId, stackId, card.getId(), card), responseCallback);
+        }
     }
 
     public void assignUserToCard(long boardId, long stackId, long cardId, UserForAssignment userAssignment,  @NonNull ResponseCallback<EmptyResponse> responseCallback) {

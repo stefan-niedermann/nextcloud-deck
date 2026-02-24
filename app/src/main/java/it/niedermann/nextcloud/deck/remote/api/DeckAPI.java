@@ -17,6 +17,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.user.UserForAssignment;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
+import it.niedermann.nextcloud.deck.model.propagation.CardUpdateOwnerString;
 import it.niedermann.nextcloud.deck.model.propagation.Reorder;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -95,6 +96,9 @@ public interface DeckAPI {
 
     @PUT("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}")
     Call<FullCard> updateCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body CardUpdate card);
+
+    @PUT("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}")
+    Call<FullCard> updateCardOwnerString(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body CardUpdateOwnerString card);
 
     @FormUrlEncoded
     @PUT("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/assignLabel")

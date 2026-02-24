@@ -20,6 +20,7 @@ public class Version implements Comparable<Version> {
     private static final Version VERSION_1_3_0 = new Version("1.3.0", 1, 3, 0);
     private static final Version VERSION_1_12_0 = new Version("1.12.0", 1, 12, 0);
     private static final Version VERSION_1_12_2 = new Version("1.12.2", 1, 12, 2);
+    private static final Version VERSION_1_17_0 = new Version("1.17.0", 1, 17, 0);
 
     private String originalVersion = "?";
     private final int major;
@@ -171,6 +172,16 @@ public class Version implements Comparable<Version> {
      */
     public boolean supportsFileAttachments() {
         return isGreaterOrEqualTo(VERSION_1_3_0);
+    }
+
+    /**
+     * Before {@link #VERSION_1_17_0}, to create/update a card, the owner was the full user object.
+     * Starting with {@link #VERSION_1_17_0} the server wants a simple String value of the user.
+     *
+     * @return whether or not the server supports the owner as String
+     */
+    public boolean supportsOwnerAsString() {
+        return isGreaterOrEqualTo(VERSION_1_17_0);
     }
 
     public boolean supportsDeletingFileAttachments() {
