@@ -248,7 +248,13 @@ public class ServerAdapter {
                 : EAttachmentType.DECK_FILE.getValue();
         final MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", attachment.getName(), RequestBody.create(MediaType.parse(getMimeType(attachment)), attachment));
         final MultipartBody.Part typePart = MultipartBody.Part.createFormData("type", null, RequestBody.create(MediaType.parse(TEXT_PLAIN), type));
-        this.requestHelper.request(() -> provider.getDeckAPI().uploadAttachment(remoteBoardId, remoteStackId, remoteCardId, typePart, filePart), responseCallback);
+
+        if (responseCallback.getAccount().getServerDeckVersionAsObject().requiresDummyDataStringForAttachments()) {
+            final MultipartBody.Part dataPart = MultipartBody.Part.createFormData("data", null, RequestBody.create(MediaType.parse(TEXT_PLAIN), ""));
+            this.requestHelper.request(() -> provider.getDeckAPI().uploadAttachment(remoteBoardId, remoteStackId, remoteCardId, typePart, filePart, dataPart), responseCallback);
+        } else {
+            this.requestHelper.request(() -> provider.getDeckAPI().uploadAttachment(remoteBoardId, remoteStackId, remoteCardId, typePart, filePart), responseCallback);
+        }
     }
 
     @NonNull
@@ -272,7 +278,13 @@ public class ServerAdapter {
                 : EAttachmentType.DECK_FILE.getValue();
         final MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", attachment.getName(), RequestBody.create(MediaType.parse(contentType), attachment));
         final MultipartBody.Part typePart = MultipartBody.Part.createFormData("type", attachment.getName(), RequestBody.create(MediaType.parse(TEXT_PLAIN), type));
-        this.requestHelper.request(() -> provider.getDeckAPI().updateAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId, typePart, filePart), responseCallback);
+
+        if (responseCallback.getAccount().getServerDeckVersionAsObject().requiresDummyDataStringForAttachments()) {
+            final MultipartBody.Part dataPart = MultipartBody.Part.createFormData("data", null, RequestBody.create(MediaType.parse(TEXT_PLAIN), ""));
+            this.requestHelper.request(() -> provider.getDeckAPI().updateAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId, typePart, filePart, dataPart), responseCallback);
+        } else {
+            this.requestHelper.request(() -> provider.getDeckAPI().updateAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId, typePart, filePart), responseCallback);
+        }
     }
 
     public void downloadAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, long remoteAttachmentId, @NonNull ResponseCallback<ResponseBody> responseCallback) {

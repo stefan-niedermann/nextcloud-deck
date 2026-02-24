@@ -161,8 +161,16 @@ public interface DeckAPI {
     Call<Attachment> uploadAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Part MultipartBody.Part type, @Part MultipartBody.Part attachment);
 
     @Multipart
+    @POST("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
+    Call<Attachment> uploadAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Part MultipartBody.Part type, @Part MultipartBody.Part attachment, @Part MultipartBody.Part data);
+
+    @Multipart
     @PUT("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
     Call<Attachment> updateAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId, @Part MultipartBody.Part type, @Part MultipartBody.Part attachment);
+
+    @Multipart
+    @PUT("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
+    Call<Attachment> updateAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId, @Part MultipartBody.Part type, @Part MultipartBody.Part attachment, @Part MultipartBody.Part data);
 
     @DELETE("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}")
     Call<EmptyResponse> deleteAttachment(@Query("type") String type, @Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
