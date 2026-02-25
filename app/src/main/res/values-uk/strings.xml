@@ -99,7 +99,7 @@
     <string name="no_cards">Ще немає жодної картки</string>
     <string name="account_already_added">Обліковий запис %1$s вже додано</string>
     <string name="not_synced_yet">Поки не синхронізовано</string>
-    <string name="no_lists_yet">Поки що відсутні списки</string>
+    <string name="no_lists_yet">Списки відсутні</string>
     <string name="do_you_want_to_save_your_changes">Зберегти зміни?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Дійсно заархівувати всі картки з %1$s?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Ви хочете архівувати всі відфільтровані картки %1$s?</string>
