@@ -1,0 +1,9 @@
+1.2.7
+
+- 🐞 Fix missing message display on crashes
+
+1.2.6
+
+- 🐞 Fix issues with editing cards and uploading attachments (caused by breaking API changes in Deck server 1.17.0)
+- 🔗 support sharing link to a board from the drawer menu (#1846) by @ammaratef45
+- ⚙️ Update AGP build tools to 9.0.1
