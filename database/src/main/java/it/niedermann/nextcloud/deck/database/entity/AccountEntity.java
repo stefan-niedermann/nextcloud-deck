@@ -2,7 +2,7 @@ package it.niedermann.nextcloud.deck.database.entity;
 
 import androidx.room.Entity;
 
-import it.niedermann.nextcloud.deck.shared.model.Account;
+import it.niedermann.nextcloud.deck.domain.model.Account;
 
 
 @Entity(

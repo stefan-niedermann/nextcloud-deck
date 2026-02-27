@@ -29,7 +29,11 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':shared')
+    implementation fileTree(dir: 'domain', include: ['*.jar'])
+    implementation project(path: ':domain')
+    implementation project(path: ':database')
+    implementation project(path: ':remote')
+    implementation project(path: ':repository-sync')
 
     annotationProcessor "com.github.bumptech.glide:compiler:$version_glide"
 

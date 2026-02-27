@@ -8,7 +8,7 @@ import androidx.annotation.Px;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
 
-import it.niedermann.nextcloud.deck.shared.model.Account;
+import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.sso.glide.SingleSignOnUrl;
 
 public class AvatarUtil {

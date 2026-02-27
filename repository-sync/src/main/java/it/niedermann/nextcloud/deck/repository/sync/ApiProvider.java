@@ -13,8 +13,8 @@ import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundExce
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.remote.ocs.OcsAPI;
-import it.niedermann.nextcloud.deck.shared.model.Account;
 import retrofit2.NextcloudRetrofitApiBuilder;
 
 @WorkerThread

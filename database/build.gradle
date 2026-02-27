@@ -35,7 +35,7 @@ android {
 dependencies {
     def version_room = "2.7.2"
 
-    implementation project(path: ':shared')
+    implementation project(path: ':domain')
 
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$version_desugar"
 

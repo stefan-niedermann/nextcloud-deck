@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         final var navController = NavHostFragment.findNavController(binding.navHostFragmentApp.getFragment());
         vm.hasAccounts().observe(this, hasAccounts -> {
-
+            hasAccounts = true;
             if (!hasAccounts) {
 
                 navController.getGraph().setStartDestination(it.niedermann.nextcloud.deck.feature.setup.R.id.nav_graph_setup);

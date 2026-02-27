@@ -8,7 +8,7 @@ import androidx.annotation.WorkerThread;
 import com.google.gson.GsonBuilder;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
-import it.niedermann.nextcloud.deck.shared.model.Account;
+import it.niedermann.nextcloud.deck.domain.model.Account;
 
 @WorkerThread
 public class OcsApiProvider<T> extends ApiProvider<T> {

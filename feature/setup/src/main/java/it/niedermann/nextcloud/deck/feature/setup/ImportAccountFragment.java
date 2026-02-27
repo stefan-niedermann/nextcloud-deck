@@ -30,10 +30,10 @@ import com.nextcloud.android.sso.ui.UiExceptionManager;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.feature.setup.databinding.FragmentImportAccountBinding;
 import it.niedermann.nextcloud.deck.feature.shared.util.AvatarUtil;
 import it.niedermann.nextcloud.deck.feature.shared.util.LiveDataWrapper;
-import it.niedermann.nextcloud.deck.repository.AccountRepository;
 
 public class ImportAccountFragment extends Fragment {
 

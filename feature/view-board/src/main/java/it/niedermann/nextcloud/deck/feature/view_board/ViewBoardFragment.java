@@ -19,6 +19,7 @@ public class ViewBoardFragment extends Fragment {
 
     private static final Logger logger = Logger.getLogger(ViewBoardFragment.class.getName());
 
+    private ViewBoardFragmentArgs args;
     private ViewBoardViewModel vm;
     private FragmentViewBoardBinding binding;
 
@@ -28,6 +29,7 @@ public class ViewBoardFragment extends Fragment {
 
         // Thread.currentThread().setUncaughtExceptionHandler(new it.niedermann.nextcloud.deck.feature_shared.exception.ExceptionHandler(requireActivity()));
         vm = new ViewModelProvider(requireActivity()).get(ViewBoardViewModel.class);
+        args = ViewBoardFragmentArgs.fromBundle(getArguments());
     }
 
     @Nullable

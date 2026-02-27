@@ -15,14 +15,15 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
-import it.niedermann.nextcloud.deck.repository.sync.report.SyncStatusReporter;
-import it.niedermann.nextcloud.deck.shared.model.Account;
+import it.niedermann.nextcloud.deck.domain.adapter.sync.SyncAdapter;
+import it.niedermann.nextcloud.deck.domain.adapter.sync.SyncStatusReporter;
+import it.niedermann.nextcloud.deck.domain.model.Account;
 
-public class DefaultSyncScheduler implements SyncScheduler {
+public class DefaultSyncScheduler implements SyncAdapter {
 
     private static final Logger logger = Logger.getLogger(DefaultSyncScheduler.class.getName());
 
-    private static volatile SyncScheduler instance;
+    private static volatile SyncAdapter instance;
 
     private static final Map<Long, CompletableFuture<Void>> currentSyncs = new HashMap<>(1);
     private static final Map<Long, CompletableFuture<Void>> scheduledSyncs = new HashMap<>(1);
@@ -34,9 +35,9 @@ public class DefaultSyncScheduler implements SyncScheduler {
     }
 
     @NonNull
-    public static SyncScheduler getInstance(@NonNull Context context) {
+    public static SyncAdapter getInstance(@NonNull Context context) {
         if (instance == null) {
-            synchronized (SyncScheduler.class) {
+            synchronized (SyncAdapter.class) {
                 if (instance == null) {
                     instance = new DefaultSyncScheduler(context.getApplicationContext());
                 }

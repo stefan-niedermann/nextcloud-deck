@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 
-import it.niedermann.nextcloud.deck.shared.model.Board;
+import it.niedermann.nextcloud.deck.domain.model.Board;
 
 @Entity(
         tableName = "Board",

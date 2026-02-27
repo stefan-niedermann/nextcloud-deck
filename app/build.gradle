@@ -83,7 +83,9 @@ dependencies {
     implementation project(path: ':feature:shared')
     implementation project(path: ':cross-tab-drag-and-drop')
     implementation project(path: ':tab-layout-helper')
-    implementation project(path: ':repository')
+    implementation project(path: ':domain')
+    implementation project(path: ':database')
+    implementation project(path: ':remote')
 
     implementation "androidx.appcompat:appcompat:$version_appcompat"
     implementation "androidx.camera:camera-camera2:$version_camera"

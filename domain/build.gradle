@@ -1,0 +1,11 @@
+plugins {
+    id 'java-library'
+}
+java {
+    sourceCompatibility JavaVersion.VERSION_21
+    targetCompatibility JavaVersion.VERSION_21
+}
+dependencies {
+    // Source: https://mvnrepository.com/artifact/io.reactivex.rxjava3/rxjava
+    api("io.reactivex.rxjava3:rxjava:3.1.12")
+}

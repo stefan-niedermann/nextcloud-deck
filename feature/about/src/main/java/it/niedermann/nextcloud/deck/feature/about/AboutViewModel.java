@@ -12,8 +12,9 @@ import androidx.lifecycle.SavedStateHandle;
 
 import java.util.Collection;
 
-import it.niedermann.nextcloud.deck.repository.AccountRepository;
-import it.niedermann.nextcloud.deck.shared.model.Account;
+import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
+import it.niedermann.nextcloud.deck.feature.shared.util.Repositories;
 
 public class AboutViewModel extends AndroidViewModel {
 
@@ -25,7 +26,7 @@ public class AboutViewModel extends AndroidViewModel {
         super(application);
 
         this.savedStateHandle = savedStateHandle;
-        this.accountRepository = new AccountRepository(application);
+        this.accountRepository = Repositories.getAccountRepository();
     }
 
     public LiveData<Collection<Account>> getAccounts() {

@@ -8,4 +8,21 @@
     <include app:graph="@navigation/nav_graph_view_board" />
     <include app:graph="@navigation/nav_graph_about" />
 
+    <action
+        android:id="@id/nav_graph_upcoming_cards"
+        app:destination="@id/nav_graph_upcoming_cards" />
+
+    <action
+        android:id="@id/nav_graph_about"
+        app:destination="@id/nav_graph_about" />
+
+    <action
+        android:id="@id/nav_graph_view_board"
+        app:destination="@id/nav_graph_view_board">
+        <argument
+            android:name="id"
+            app:argType="long"
+            app:nullable="false" />
+    </action>
+
 </navigation>

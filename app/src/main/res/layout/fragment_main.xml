@@ -26,10 +26,12 @@
 
         <com.google.android.material.navigationrail.NavigationRailView
             android:id="@+id/navigation_rail"
+            mymenu="@{vm.boardsAndUpcomingCardsCount}"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            app:expanded="true" />
+            app:expanded="true"
+            app:menu="@menu/menu_main" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 

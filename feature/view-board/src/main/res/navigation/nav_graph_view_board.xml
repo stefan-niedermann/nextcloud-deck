@@ -13,4 +13,8 @@
             android:name="boardId"
             app:argType="long" />
     </fragment>
+    
+    <argument
+        android:name="boardId"
+        app:argType="long" />
 </navigation>

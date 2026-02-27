@@ -33,8 +33,7 @@ dependencies {
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$version_desugar"
     implementation project(path: ':feature:shared')
 
-    implementation project(path: ':repository')
-    implementation project(path: ':shared')
+    implementation project(path: ':domain')
 
     implementation "androidx.appcompat:appcompat:$version_appcompat"
     implementation "androidx.databinding:databinding-runtime:$version_databinding"

@@ -11,8 +11,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.logging.Logger;
 
-import it.niedermann.nextcloud.deck.database.dao.AccountDao;
+import it.niedermann.nextcloud.deck.database.dao.RoomAccountDao;
 import it.niedermann.nextcloud.deck.database.entity.AccountEntity;
+import it.niedermann.nextcloud.deck.domain.adapter.database.DatabaseAdapter;
 
 @Database(
         entities = {
@@ -22,7 +23,7 @@ import it.niedermann.nextcloud.deck.database.entity.AccountEntity;
         version = 34
 )
 @TypeConverters()
-public abstract class DeckDatabase extends RoomDatabase {
+public abstract class DeckDatabase extends RoomDatabase implements DatabaseAdapter {
 
     private static final Logger logger = Logger.getLogger(DeckDatabase.class.getName());
     private static final String DECK_DB_NAME = "NC_DECK_DB.db";
@@ -57,5 +58,5 @@ public abstract class DeckDatabase extends RoomDatabase {
                 .build();
     }
 
-    public abstract AccountDao getAccountDao();
+    public abstract RoomAccountDao getAccountDao();
 }

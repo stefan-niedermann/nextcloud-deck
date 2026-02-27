@@ -18,8 +18,9 @@ import androidx.lifecycle.Transformations;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
 import io.reactivex.rxjava3.disposables.Disposable;
+import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.feature.shared.util.LiveDataWrapper;
-import it.niedermann.nextcloud.deck.repository.AccountRepository;
+import it.niedermann.nextcloud.deck.feature.shared.util.Repositories;
 
 /// @noinspection UnusedReturnValue
 public class ImportAccountViewModel extends AndroidViewModel {
@@ -35,7 +36,7 @@ public class ImportAccountViewModel extends AndroidViewModel {
         super(application);
 
         this.savedStateHandle = savedStateHandle;
-        this.accountRepository = new AccountRepository(application);
+        this.accountRepository = Repositories.getAccountRepository();
 
         this.importState = Transformations.distinctUntilChanged(savedStateHandle.getLiveData(key_importState, LiveDataWrapper.create()));
     }

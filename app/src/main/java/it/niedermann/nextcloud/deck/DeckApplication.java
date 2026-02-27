@@ -6,6 +6,7 @@ import android.os.StrictMode;
 import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.deck.feature.shared.util.CustomAppGlideModule;
+import it.niedermann.nextcloud.deck.feature.shared.util.Repositories;
 
 
 public class DeckApplication extends Application {
@@ -18,6 +19,8 @@ public class DeckApplication extends Application {
         if (BuildConfig.DEBUG) {
             enableStrictModeLogging();
         }
+
+        Repositories.init(this);
 
         super.onCreate();
     }
