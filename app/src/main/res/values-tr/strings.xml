@@ -271,8 +271,8 @@
     <string name="card_does_not_yet_exist">Kart henüz panoda bulunmuyor</string>
 
     <string name="widget_stack_title">Listele</string>
-    <string name="widget_stack_header_icon">Pano bileşeni başlık simgesi</string>
-    <string name="widget_placeholder_icon">Pano bileşeni yer belirtici simgesi</string>
+    <string name="widget_stack_header_icon">Araç başlık simgesi</string>
+    <string name="widget_placeholder_icon">Araç yer belirtici simgesi</string>
     <string name="project_type_deck_board">Tahta panosu</string>
     <string name="project_type_deck_card">Tahta kartı</string>
     <string name="project_type_file">Dosya</string>
@@ -307,8 +307,8 @@
     <string name="gallery">Galeri</string>
     <string name="videos">Görüntüler</string>
     <string name="simple_attach">Dosya ekle</string>
-    <string name="add_stack_widget">Liste pano bileşeni ekle</string>
-    <string name="add_filter_widget">Süzgeç pano bileşeni ekle</string>
+    <string name="add_stack_widget">Liste aracı ekle</string>
+    <string name="add_filter_widget">Süzgeç aracı ekle</string>
     <string name="simple_order">Sıralama</string>
     <string name="edit_description">Açıklamayı düzenle</string>
     <string name="widget_upcoming_title">Yaklaşan kartlar</string>
