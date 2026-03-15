@@ -78,8 +78,8 @@
     <string name="rename_list">Liste umbenennen</string>
     <string name="delete_list">Liste löschen</string>
     <string name="label_menu">Menü</string>
-    <string name="action_card_assign">Karte mir zuordnen</string>
-    <string name="action_card_unassign">Zuordnung der Karte für mich aufheben</string>
+    <string name="action_card_assign">Karte mir zuweisen</string>
+    <string name="action_card_unassign">Karte mir nicht zuweisen</string>
     <string name="action_card_archive">Karte archivieren</string>
     <string name="action_card_delete">Karte löschen</string>
     <string name="add_board">Board hinzufügen</string>
@@ -162,7 +162,7 @@
     <string name="choose_board">Board auswählen</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Im Browser öffnen</string>
-    <string name="updating_card">Karte wird aktualisiert…</string>
+    <string name="updating_card">Karte wird aktualisiert …</string>
 
     <string name="move_list_right">Liste nach rechts schieben</string>
     <string name="move_list_left">Liste nach links schieben</string>
@@ -182,7 +182,7 @@
 
     <string name="archived_cards">Archivierte Karten</string>
     <string name="attachment_already_exists">Anhang existiert bereits</string>
-    <string name="pick_custom_color">Wählen Sie eine benutzerdefinierte Farbe aus</string>
+    <string name="pick_custom_color">Eine benutzerdefinierte Farbe auswählen</string>
     <string name="manage_tags">Schlagworte verwalten</string>
     <string name="add_tag">Schlagwort hinzufügen</string>
     <string name="tag_already_exists">%1$s existiert bereits</string>
@@ -265,7 +265,7 @@
     <string name="error_action_open_battery_settings">Batterie-Einstellungen</string>
     <string name="move_warning">Beim Verschieben einer Karte auf ein anderes Board werden weder Kommentare noch Anhänge transferriert.</string>
     <string name="clone_board">Board klonen</string>
-    <string name="cloning_board">Klone %1$s…</string>
+    <string name="cloning_board">Klone %1$s …</string>
     <string name="successfully_cloned_board">%1$s geklont</string>
     <string name="attachment_does_not_yet_exist">Anhang existiert bislang nicht in Deck</string>
     <string name="card_does_not_yet_exist">Karte existiert bislang nicht in Deck</string>
@@ -317,14 +317,14 @@
     <string name="copy_logs">Protokolldateien in die Zwischenablage kopieren</string>
     <string name="app_logo">App-Logo</string>
     <string name="log_file">Protokolldatei</string>
-    <string name="copying_logs_to_file">Protokolldateien in Datei kopieren…</string>
+    <string name="copying_logs_to_file">Protokolldateien in Datei kopieren …</string>
     <string name="account_imported">Konto importiert</string>
     <string name="simple_search">Suche</string>
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Titel (erforderlich)</string>
-    <string name="saving_new_card">Speichere neue Karte …</string>
-    <string name="progress_import">Importiere Board %1$d von %2$d…</string>
-    <string name="progress_import_indeterminate">Importiere Boards…</string>
+    <string name="saving_new_card">Speichere neue Karte …</string>
+    <string name="progress_import">Importiere Board %1$d von %2$d …</string>
+    <string name="progress_import_indeterminate">Importiere Boards …</string>
     <string name="card_outdated">Der Inhalt dieser Karte ist möglicherweise veraltet.</string>
     <string name="show_error">Fehler anzeigen</string>
     <string name="push_notification_link_empty">Aufgrund eines bekannten Problems in der Deck-Server-App können wir diese Karte leider nicht anzeigen. Weitere Informationen finden Sie unter: %1$s</string>
