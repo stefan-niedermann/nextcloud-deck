@@ -142,7 +142,7 @@
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Você precisa estar conectado à Internet para adicionar uma conta.</string>
     <string name="owner">Proprietário</string>
     <string name="attachment_delete_message">Isso excluirá permanentemente este anexo.</string>
-    <string name="no_content">Sem contexto ainda</string>
+    <string name="no_content">Sem conteúdo ainda</string>
     <string name="last_background_sync">Última sincronização em segundo plano:</string>
     <string name="simple_off">Desligar</string>
     <string name="minutes_15">15 minutos</string>
