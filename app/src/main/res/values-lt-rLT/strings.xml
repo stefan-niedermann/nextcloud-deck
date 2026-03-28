@@ -184,6 +184,7 @@
     <string name="cloning_board">Dubliuojama %1$s…</string>
     <string name="successfully_cloned_board">Sėkmingai dubliuota %1$s</string>
     <string name="widget_stack_title">Sąrašas</string>
+    <string name="project_type_deck_board">\"Deck\" lenta</string>
     <string name="project_type_file">Failas</string>
     <string name="projects_title">Projektai</string>
     <string name="simple_move">Perkelti</string>
