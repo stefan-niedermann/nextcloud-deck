@@ -12,7 +12,9 @@ public enum ESortCriteria {
     LAST_COMMENTED(3),
     DUE_DATE(4),
     ASSIGNEE(5),
-    LABEL(6);
+    LABEL(6),
+    START_DATE(7),
+    ;
 
     private final int id;
 

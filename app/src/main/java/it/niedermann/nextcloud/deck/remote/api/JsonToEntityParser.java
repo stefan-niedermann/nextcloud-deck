@@ -468,6 +468,7 @@ public class JsonToEntityParser {
 
             card.setOverdue(getNullAsZero(e.get("overdue")));
             card.setDueDate(getTimestampFromString(e.get("duedate")));
+            card.setStartDate(getTimestampFromString(e.get("startdate")));
             card.setCommentsUnread(e.get("commentsUnread").getAsInt());
             JsonElement owner = e.get("owner");
             if (owner != null) {

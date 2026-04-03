@@ -66,6 +66,8 @@ public class Card extends AbstractRemoteEntity {
     private boolean archived;
     @SerializedName("duedate")
     private Instant dueDate;
+    @SerializedName("startdate")
+    private Instant startDate;
     private boolean notified;
     private int overdue;
     private int commentsUnread;
@@ -93,6 +95,7 @@ public class Card extends AbstractRemoteEntity {
         this.order = card.getOrder();
         this.archived = card.isArchived();
         this.dueDate = card.getDueDate();
+        this.startDate = card.getStartDate();
         this.done = card.getDone();
         this.notified = card.isNotified();
         this.overdue = card.getOverdue();
@@ -218,6 +221,13 @@ public class Card extends AbstractRemoteEntity {
     public void setDueDate(Instant dateTime) {
         this.dueDate = dateTime;
     }
+    public Instant getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Instant dateTime) {
+        this.startDate = dateTime;
+    }
 
     public int getOverdue() {
         return overdue;
@@ -288,6 +298,7 @@ public class Card extends AbstractRemoteEntity {
         if (!Objects.equals(done, card.done))
             return false;
         if (!Objects.equals(userId, card.userId)) return false;
+        if (!Objects.equals(startDate, card.startDate)) return false;
         return Objects.equals(dueDate, card.dueDate);
     }
 
@@ -305,6 +316,7 @@ public class Card extends AbstractRemoteEntity {
         result = 31 * result + order;
         result = 31 * result + (archived ? 1 : 0);
         result = 31 * result + (dueDate != null ? dueDate.hashCode() : 0);
+        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
         result = 31 * result + (notified ? 1 : 0);
         result = 31 * result + overdue;
         result = 31 * result + commentsUnread;
@@ -326,6 +338,7 @@ public class Card extends AbstractRemoteEntity {
                 ", order=" + order +
                 ", archived=" + archived +
                 ", dueDate=" + dueDate +
+                ", startDate=" + startDate +
                 ", notified=" + notified +
                 ", overdue=" + overdue +
                 ", commentsUnread=" + commentsUnread +

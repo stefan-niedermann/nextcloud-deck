@@ -21,6 +21,7 @@ public class CardUpdate extends Card {
         setOrder(card.getCard().getOrder());
         setArchived(card.getCard().isArchived());
         setDueDate(card.getCard().getDueDate());
+        setStartDate(card.getCard().getStartDate());
         setNotified(card.getCard().isNotified());
         setOverdue(card.getCard().getOverdue());
         setCommentsUnread(card.getCard().getCommentsUnread());
