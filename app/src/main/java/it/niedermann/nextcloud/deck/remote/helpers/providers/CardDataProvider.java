@@ -407,7 +407,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             }
             if (cardToDelete.getStatus() == DBStatus.LOCAL_MOVED.getId()) {
                 //only delete, if the card isn't availible on server anymore.
-                serverAdapter.getCard(board.getId(), stack.getId(), cardToDelete.getId(), new ResponseCallback<>(new Account(accountId)) {
+                serverAdapter.getCard(board.getId(), stack.getId(), cardToDelete.getId(), new ResponseCallback<>(dataBaseAdapter.getAccountByIdDirectly(accountId)) {
                     @Override
                     public void onResponse(FullCard response, Headers headers) {
                         // do not delete, it's still there and was just moved!

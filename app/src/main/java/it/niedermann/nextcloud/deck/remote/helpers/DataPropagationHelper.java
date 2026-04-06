@@ -9,7 +9,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.function.BiConsumer;
 
 import it.niedermann.nextcloud.deck.database.DataBaseAdapter;
-import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
@@ -89,7 +88,7 @@ public class DataPropagationHelper {
         }
         if (entity.getId() != null && serverAdapter.hasInternetConnection()) {
             try {
-                provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<>(new Account(accountId)) {
+                provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, new ResponseCallback<>(dataBaseAdapter.getAccountByIdDirectly(accountId)) {
                     @Override
                     public void onResponse(T response, Headers headers) {
                         executor.submit(() -> {
@@ -124,7 +123,7 @@ public class DataPropagationHelper {
         }
         if (entity.getId() != null && serverAdapter.hasInternetConnection()) {
             try {
-                provider.deleteOnServer(serverAdapter, accountId, new ResponseCallback<>(new Account(accountId)) {
+                provider.deleteOnServer(serverAdapter, accountId, new ResponseCallback<>(dataBaseAdapter.getAccountByIdDirectly(accountId)) {
                     @Override
                     public void onResponse(EmptyResponse response, Headers headers) {
                         executor.submit(() -> {
