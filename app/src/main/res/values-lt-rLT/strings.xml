@@ -25,6 +25,7 @@
     <string name="simple_comment">Komentaras</string>
     <string name="simple_disabled">išjungta</string>
     <string name="simple_archive">Archyvuoti</string>
+    <string name="simple_unassigned">Nepriskirta</string>
     <string name="hint_error_appeared">Atsirado klaida</string>
 
     <string name="edit_board">Taisyti lentą</string>
@@ -73,6 +74,7 @@
     <string name="add_board">Pridėti lentą</string>
 
     <string name="label_clear_due_date">Išvalyti galutinį terminą</string>
+    <string name="label_clear_done">Nepadaryta</string>
     <string name="label_add">Pridėti %1$s</string>
 
     <string name="card_edit_details">Išsamiau</string>
@@ -135,6 +137,8 @@
 
     <string name="filter_done_no_filter">Visos</string>
     <string name="filter_done_done">Atlikta</string>
+    <string name="filter_done_undone">Nepadaryta</string>
+
     <string name="archived_cards">Archyvuotos kortelės</string>
     <string name="attachment_already_exists">Priedas jau yra</string>
     <string name="manage_tags">Tvarkyti žymas</string>
