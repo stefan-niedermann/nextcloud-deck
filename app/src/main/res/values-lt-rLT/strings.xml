@@ -1,6 +1,8 @@
 <resources>
-    <string name="navigation_drawer_open">Atidaryti naršymo stalčių</string>
-    <string name="navigation_drawer_close">Uždaryti naršymo stalčių</string>
+    <string name="navigation_drawer_open">Atidaryti naršymo meniu</string>
+    <string name="navigation_drawer_close">Uždaryti naršymo meniu</string>
+    <string name="hint_search_deck">Paieškos kortelė</string>
+
     <string name="simple_add">Pridėti</string>
     <string name="simple_save">Įrašyti</string>
     <string name="simple_more">Daugiau</string>
@@ -28,7 +30,7 @@
     <string name="simple_unassigned">Nepriskirta</string>
     <string name="hint_error_appeared">Atsirado klaida</string>
 
-    <string name="edit_board">Taisyti lentą</string>
+    <string name="edit_board">Taisyti lentelę</string>
     <string name="archive_board">Archyvuoti lentą</string>
     <string name="delete_board">Ištrinti lentą</string>
     <string name="delete_something">Ištrinti %1$s</string>
@@ -42,12 +44,18 @@
     <string name="about_translators_transifex">Nextcloud bendruomenė, esanti %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_source_title">Pradinis kodas</string>
+    <string name="about_source">Šis projektas talpinamas „GitHub“: %1$s</string>
     <string name="about_issues_title">Problemos</string>
+    <string name="about_issues">Apie klaidas, patobulinimų pasiūlymus ir funkcijų užklausas galite pranešti „GitHub“ problemų stebėjimo priemonėje: %1$s</string>
     <string name="about_translate_title">Versti</string>
+    <string name="about_translate">Prisijunkite prie „Nextcloud“ komandos „Transifex“ platformoje ir padėkite mums išversti šią programėlę: %1$s</string>
     <string name="about_app_license_title">Programėlės licencija</string>
     <string name="about_app_license">Ši programėlė yra licencijuota pagal GNU BENDRĄJĄ VIEŠĄJĄ LICENCIJĄ v3+.</string>
     <string name="about_app_license_button">Rodyti licenciją</string>
     <string name="about_icons_disclaimer_title">Piktogramos</string>
+    <string name="about_icons_disclaimer_app_icon">Originalią piktogramą žr. %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Visas kitas šioje programėlėje naudojamas piktogramas %1$s sukūrė „Google Inc.“ ir jos licencijuojamos pagal „Apache 2.0“ licenciją.</string>
+    <string name="about_icons_disclaimer_mdi">„Material Design“ piktogramos</string>
     <string name="about_credits_tab_title">Padėkos</string>
     <string name="about_contribution_tab_title">Prisidėjo</string>
     <string name="about_license_tab_title">Licencija</string>
@@ -60,6 +68,8 @@
     <string name="hint_due_date_time">Laikas</string>
 
     <string name="card_not_found">Kortelė nerasta</string>
+    <string name="card_not_found_message">Kortelės nerasta. Galbūt ji buvo neseniai ištrinta.</string>
+
     <string name="add_account">Pridėti paskyrą</string>
     <string name="choose_account">Parinkti paskyrą</string>
     <string name="add_card">Pridėti kortelę</string>
@@ -69,12 +79,14 @@
     <string name="delete_list">Ištrinti sąrašą</string>
     <string name="label_menu">meniu</string>
     <string name="action_card_assign">Priskirti kortelę sau</string>
+    <string name="action_card_unassign">Atšaukti kortelės priskyrimą man</string>
     <string name="action_card_archive">Archyvuoti kortelę</string>
     <string name="action_card_delete">Ištrinti kortelę</string>
-    <string name="add_board">Pridėti lentą</string>
+    <string name="add_board">Pridėti lentelę</string>
 
     <string name="label_clear_due_date">Išvalyti galutinį terminą</string>
     <string name="label_clear_done">Nepadaryta</string>
+    <string name="label_due_at">Laukiama: %1$s</string>
     <string name="label_add">Pridėti %1$s</string>
 
     <string name="card_edit_details">Išsamiau</string>
@@ -85,15 +97,39 @@
     <string name="attachments">Priedai</string>
     <string name="append_to_description">Pridėti į aprašą</string>
     <string name="no_cards">Kol kas kortelių nėra</string>
+    <string name="account_already_added">Paskyra %1$s jau pridėta</string>
     <string name="not_synced_yet">Kol kas nesinchronizuota</string>
     <string name="no_lists_yet">Kol kas sąrašų nėra</string>
     <string name="do_you_want_to_save_your_changes">Ar norite įrašyti savo pakeitimus?</string>
-    <string name="delete_board_message">Tai negrįžtamai ištrins šią lentą, įskaitant visus sąrašus bei korteles.</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Ar norite archyvuoti visas korteles iš %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Ar norite archyvuoti visas atrinktas %1$s korteles?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Tai visam laikui ištrins visas šio sąrašo %1$d kortelę.</item>
+        <item quantity="few">Tai visam laikui ištrins visas šio sąrašo %1$d korteles.</item>
+        <item quantity="many">Tai visam laikui ištrins visas šio sąrašo %1$d kortelių.</item>
+        <item quantity="other">Tai visam laikui ištrins visas šio sąrašo %1$d kortelių.</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Tai pašalins etiketę nuo %1$d kortelės.</item>
+        <item quantity="few">Tai pašalins etiketę nuo %1$d kortelių.</item>
+        <item quantity="many">Tai pašalins etiketę nuo %1$d kortelių.</item>
+        <item quantity="other">Tai pašalins etiketę nuo %1$d kortelių.</item>
+    </plurals>
+    <string name="add_a_new_list_using_the_button">Pridėti naują sąrašą naudojant mygtuką „+“</string>
+    <string name="add_a_new_card_using_the_button">Pridėti naują kortelę naudojant mygtuką „+“</string>
+    <string name="deck_outdated_please_update">Jūsų „Deck“ internetinės programėlės versija yra per sena (%1$s). Atnaujinkite ją, kad galėtumėte naudoti šią „Android“ programėlę kaip klientą.</string>
+    <string name="delete_board_message">Tai negrįžtamai ištrins šią lentelę, įskaitant visus sąrašus bei korteles.</string>
     <string name="settings_theme_title">Apipavidalinimas</string>
     <string name="settings_compact_title">Kompaktiška veiksena</string>
+    <string name="settings_cover_images_title">Viršelių nuotraukos</string>
+    <string name="settings_debugging">Derinimo žurnalai</string>
+    <string name="settings_etags">Naudoti ETags</string>
+    <string name="settings_etags_summary">Pagreitina sinchronizavimą</string>
     <string name="settings_background_sync">Foninis sinchronizavimas</string>
     <string name="settings_push_notifications">Tiesioginiai (angl. Push) pranešimai</string>
+    <string name="settings_compress_image_attachments">Suspausti vaizdus įkeliant</string>
     <string name="search_in">Ieškoti %1$s</string>
+    <string name="settings_compress_image_attachments_summary">Greitesnis įkėlimas, prastesnė kokybė</string>
     <string name="pref_value_wifi_and_mobile">Sinchronizuoti naudojant belaidį (Wi-Fi) ir mobiliuosius duomenis</string>
     <string name="pref_value_wifi_only">Sinchronizuoti tik naudojant belaidį (Wi-Fi)</string>
     <string-array name="darkmode_entries">
@@ -101,7 +137,9 @@
         <item>Šviesus</item>
         <item>Tamsus</item>
     </string-array>
-    <string name="share_board">Bendrinti lentą</string>
+    <string name="unassigned_user">Nepriskirta %1$s</string>
+    <string name="no_activities">Šioje kortelėje nėra jokių veiklų. Norint įkelti ir rodyti veiklas, reikia prisijungti prie interneto.</string>
+    <string name="share_board">Bendrinti lentelę</string>
     <string name="you_are_currently_offline">Šiuo metu esate atsijungę nuo interneto</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Norėdami pridėti paskyrą, turite būti prisijungę prie interneto.</string>
     <string name="owner">Savininkas</string>
@@ -114,11 +152,18 @@
     <string name="hours_6">6 valandos</string>
     <string name="action_card_move">Perkelti kortelę</string>
     <string name="action_card_move_title">Perkelti %1$s</string>
+    <string name="title_is_mandatory">Pavadinimas būtinas</string>
+    <string name="provide_at_least_a_title_or_description">Pateikite bent pavadinimą arba aprašymą</string>
+    <string name="welcome_text">Sveiki atvykę į %1$s</string>
+    <string name="welcome_text_further_accounts">Pridėti kitą paskyrą</string>
     <string name="share_add_to_card">Pridėti į kortelę</string>
+    <string name="share_success">Sėkmingai pridėta %1$s prie %2$s</string>
     <string name="add_comment">Pridėti komentarą</string>
     <string name="card_edit_comments">Komentarai</string>
     <string name="no_comments_yet">Kol kas nėra komentarų</string>
     <string name="no_boards">Kol kas nėra lentų</string>
+    <string name="add_a_new_board_using_the_button">Pridėti naują lentelę naudojant mygtuką +</string>
+    <string name="choose_board">Pasirinkite lentelę</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Atverti naršyklėje</string>
     <string name="updating_card">Atnaujinama kortelė…</string>
@@ -141,6 +186,7 @@
 
     <string name="archived_cards">Archyvuotos kortelės</string>
     <string name="attachment_already_exists">Priedas jau yra</string>
+    <string name="pick_custom_color">Pasirinkti norimą spalvą</string>
     <string name="manage_tags">Tvarkyti žymas</string>
     <string name="add_tag">Pridėti žymą</string>
     <string name="tag_already_exists">%1$s jau yra</string>
@@ -152,22 +198,48 @@
     <string name="filter_duedate_title">Galutinis terminas</string>
     <string name="filter_done_title">Atlikta</string>
 
-    <string name="action_board_dearchive">Atšaukti lentų archyvavimą</string>
-    <string name="archived_boards">Archyvuotos lentos</string>
+    <string name="action_board_dearchive">Atšaukti lentelių archyvavimą</string>
+    <string name="archived_boards">Archyvuotos lentelės</string>
 
     <string name="error">Atsirado klaida</string>
     <string name="synchronization_failed">Sinchronizacija nepavyko</string>
     <string name="operation_not_yet_supported">Kol kas nepalaikoma</string>
+    <string name="error_revoking_ac">Atšaukiant %1$s prieigą įvyko klaida</string>
+    <string name="error_create_label">Klaida kuriant etiketę %1$s</string>
     <string name="maintenance_mode">Serveris yra techninės priežiūros veiksenoje</string>
+    <string name="error_edit_activity_killed_by_android">„Android“ baigė redagavimo režimą, nes jai reikėjo daugiau sistemos išteklių kitoms programoms.</string>
+
     <string name="error_dialog_title">O, ne - Kas dabar? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Pabandykite priverstinai uždaryti programą ir vėl paleiskite ją iš naujo. Galbūt buvo nepavyko užmegžti ryšį su „Nextcloud“ programa.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Jei problema išlieka, pabandykite išvalyti abiejų programų – „Nextcloud“ ir „Nextcloud Deck“ – saugyklą, kad ją išspręstumėte.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Duomenų bazės atnaujinimas nepavyko. Praneškite apie problemą ir išvalykite saugyklą, kad galėtumėte įprastai naudoti programą.</string>
     <string name="error_dialog_tip_clear_storage">Saugyklą galite išvalyti atidarę programos nustatymus ir pasirinkdami Saugykla → Išvalyti saugyklą.</string>
+    <string name="error_dialog_tip_offline_no_internet">Panašu, kad bandėte paleisti sinchronizavimą be interneto ryšio.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Ryšys buvo atmestas, patikrinkite, ar jūsų serveris pasiekiamas per žiniatinklio naršyklę.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Ryšio laikas baigėsi, patikrinkite, ar esate prisijungę prie interneto. Tai taip pat gali nutikti, kai jūsų serveris yra užimtas.</string>
+    <string name="error_dialog_tip_connection_rejected">Ryšys buvo atmestas. Patikrinkite, ar jūsų serveris apsaugotas nuo per didelio srauto. Labiausiai tikėtina, kad šią problemą sukelia „Cloudflare“ apsaugoti serveriai.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Jei įjungėte nustatymą „Sinchronizuoti tik prisijungus prie „Wi-Fi““, sinchronizuoti galėsite tik tada, kai būsite prisijungę prie „Wi-Fi“ tinklo.</string>
+    <string name="error_dialog_tip_files_force_stop">Atrodo, kad su jūsų „Nextcloud“ programėle kažkas ne taip. Prašome pabandyti priverstinai uždaryti abi programėles – „Nextcloud“ ir „Nextcloud Deck“.</string>
     <string name="error_dialog_tip_files_delete_storage">Jei priverstinis programos sustabdymas nepadėjo, galite pabandyti išvalyti abiejų programų saugyklas.</string>
+    <string name="error_dialog_timeout_instance">Per nurodytą laiką iš jūsų serverio nebuvo gautas atsakymas. Prašome patikrinti, ar jūsų instancija veikia tinkamai.</string>
+    <string name="error_dialog_timeout_toggle">Patikrinkite savo interneto ryšį. Kartais gali padėti išjungti ir vėl įjungti mobilųjį duomenų perdavimą arba „Wi-Fi“.</string>
+    <string name="error_dialog_check_server">Jūsų serverio atsakymas buvo neteisingas. Patikrinkite, ar galite prisijungti prie „Deck“ programėlės per žiniatinklio sąsają.</string>
     <string name="error_dialog_check_server_logs">Kyla problemų dėl „Nextcloud“ programos nustatymų. Peržiūrėkite serverio sisteminio žurnalo įrašus.</string>
     <string name="error_dialog_check_maintenance">Patikrinkite, ar jūsų „Nextcloud“ programa šiuo metu aptarnavimo režime.</string>
     <string name="error_dialog_insufficient_storage">„Nextcloud“ programa nebeturi laisvos vietos saugykloje. Prašome, ištrinkite nereikalingus failus, kad lokalūs pakeitimai būtų sinchronizuoti su debesimi.</string>
     <string name="error_dialog_we_need_info">Norint jums padėti, mums reikia techninės informacijos:</string>
+    <string name="error_dialog_redirect">Jūsų serveris atsakė HTTP 302 būsenos kodu, o tai reiškia, kad jūsų serveryje nėra įdiegta „Deck“ programa arba kažkas yra netinkamai sukonfigūruota. Tai gali būti susiję su pasirinktiniais pakeitimais .htaccess faile arba su tokiomis „Nextcloud“ programomis kaip „OID Client“.</string>
+    <string name="error_dialog_version_not_parsable">Nepavyko nustatyti serverio pusėje veikiančios „Deck“ programėlės versijos. Patikrinkite, ar ji yra įdiegta ir įjungta.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Jūsų „Nextcloud“ programėlės paskyra gali būti nebeautorizuota.</string>
+    <string name="error_dialog_user_not_found_in_database">Dabartinis vartotojas neatitinka duomenų bazėje esančio vartotojo. Jei savo „Nextcloud“ elemente naudojate LDAP, jūsų „Nextcloud“ programėlė galėjo išsaugoti seną vartotojo ID.</string>
+    <string name="error_dialog_capabilities_not_parsable">Nepavyko gauti jūsų serverio parametrų. Patikrinkite, ar jūsų serveris veikia tinkamai ir ar kitos kliento programėlės gali prisijungti prie „Nextcloud“.</string>
+    <string name="error_dialog_attachment_upload_failed">Nepavyko įkelti priedo. Prašome pabandyti jį perduoti kitu būdu ir pranešti mums apie šią klaidą.</string>
+    <string name="error_dialog_certificate">Atrodo, kad su serverio sertifikatu kažkas ne taip. Daugiau informacijos rasite patikrinę visas paskyras „Nextcloud“ programėlėje.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Prašome išjungti visas „Nextcloud“ ir „Deck“ programėlės baterijos taupymo funkcijas.</string>
+    <string name="error_dialog_unknown_error">Atrodo, kad jūsų „Nextcloud“ elementas yra nepasiekiamas. Patikrinkite interneto ryšį ir ar galite prisijungti prie savo „Nextcloud“ elemento per naršyklę.</string>
+    <string name="error_dialog_min_version">„The Deck“ programėlei „Android“ sistemoje reikalinga „Nextcloud“ programėlė „Android“ sistemoje, kurios versija turi būti ne žemesnė kaip 3.18.</string>
     <string name="error_action_open_deck_info">Atidaryti programos informaciją</string>
+    <string name="error_action_open_nextcloud_app">Atidaryti „Nextcloud“ programėlę</string>
     <string name="error_action_open_network">Tinklo nustatymai</string>
     <string name="error_action_server_logs">Serverio žurnalai</string>
     <string name="error_action_open_in_browser">Atverti naršyklėje</string>
@@ -177,37 +249,95 @@
     <string name="info_box_maintenance_mode">Serveris yra techninės priežiūros veiksenoje</string>
     <string name="info_box_version_not_supported">Serverio versija %1$s yra nepalaikoma, atnaujinkite iki %2$s</string>
     <string name="share_link">Viešinio nuoroda</string>
+    <string name="share_content">Dalintis turiniu</string>
+    <string name="share_content_duedate">Laukiama: %1$s</string>
+    <string name="share_content_labels">Žymės: %1$s</string>
+    <string name="archive_cards">Archyvuoti korteles</string>
+
     <string name="manage_accounts">Tvarkyti paskyras</string>
     <string name="manage_list">Tvarkyti sąrašą</string>
     <string name="simple_reply">Atsakyti</string>
     <string name="append_text_to_description">Pridėti į aprašą</string>
+    <string name="append_text_as_task">Pridėti į aprašą  kaip užduotį</string>
     <string name="add_text_as_comment">Pridėti kaip komentarą</string>
+    <string name="progress_count">%1$d iš %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d klaida įkeliant</item>
+        <item quantity="few">%1$d klaidos įkeliant</item>
+        <item quantity="many">%1$d klaidų įkeliant</item>
+        <item quantity="other">%1$d klaidų įkeliant</item>
+    </plurals>
     <string name="simple_report">Ataskaita</string>
     <string name="error_action_open_battery_settings">Akumuliatoriaus nustatymai</string>
-    <string name="clone_board">Dubliuoti lentą</string>
+    <string name="move_warning">Perkelus kortelę į kitą lentelė, komentarai ir priedai neperkeliami.</string>
+    <string name="clone_board">Dubliuoti lentelę</string>
     <string name="cloning_board">Dubliuojama %1$s…</string>
     <string name="successfully_cloned_board">Sėkmingai dubliuota %1$s</string>
+    <string name="attachment_does_not_yet_exist">Priedo dar nėra „Deck“</string>
+    <string name="card_does_not_yet_exist">Kortelės dar nėra „Deck“</string>
+
     <string name="widget_stack_title">Sąrašas</string>
-    <string name="project_type_deck_board">\"Deck\" lenta</string>
+    <string name="widget_stack_header_icon">Valdiklio antraštės piktograma</string>
+    <string name="widget_placeholder_icon">Valdiklio rezervuotos vietos piktograma</string>
+    <string name="project_type_deck_board">„Deck“ lentelė</string>
+    <string name="project_type_deck_card">„Deck“ kortelė</string>
     <string name="project_type_file">Failas</string>
     <string name="projects_title">Projektai</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d išteklius</item>
+        <item quantity="few">%1$d ištekliai</item>
+        <item quantity="many">%1$d išteklių</item>
+        <item quantity="other">%1$d išteklių</item>
+    </plurals>
+    <string name="no_assigned_label">Nėra priskirtos žymos</string>
+    <string name="single_card">Viena kortelė</string>
+    <string name="project_type_room">Pokalbių kambarys</string>
     <string name="simple_move">Perkelti</string>
+    <string name="cannot_upload_files_without_permission">Negalima įkelti failų be leidimų</string>
     <string name="insufficient_permission">Nepakanka leidimų</string>
+    <string name="no_matching_app_installed">Nėra įdiegtos atitinkamos programos</string>
     <string name="clone_cards">Dubliuoti korteles</string>
     <string name="simple_clone">Dubliuoti</string>
+    <string name="user_avatar">Vartotojo avataras</string>
+    <string name="simple_unassign">Nepriskirti</string>
     <string name="take_photo">Fotografuoti</string>
     <string name="take_photo_switch_camera">Perjungti kamerą</string>
+    <string name="take_photo_toggle_torch">Perjungti žibintuvėlį</string>
     <string name="show_all_contacts">Rodyti visus adresatus</string>
     <string name="show_all_files">Rodyti visus failus</string>
     <string name="recent">Paskiausi</string>
     <string name="upload_a_new_attachment">Įkelti naują priedą</string>
+    <string name="camera">Kamera</string>
     <string name="contacts">Adresatai</string>
     <string name="downloads">Atsiuntimai</string>
     <string name="files">Failai</string>
+    <string name="voice_recorder">Diktofonas</string>
     <string name="gallery">Galerija</string>
     <string name="videos">Vaizdo įrašai</string>
+    <string name="simple_attach">Pridėti</string>
+    <string name="add_stack_widget">Pridėti sąrašo valdiklį</string>
+    <string name="add_filter_widget">Pridėti filtro valdiklį</string>
+    <string name="simple_order">Užsakymas</string>
     <string name="edit_description">Taisyti aprašą</string>
     <string name="widget_upcoming_title">Artėjančios kortelės</string>
+    <!-- Category header for a section in the settings which contain features for advanced users -->
+    <string name="simple_expert_settings">Ekspertų nustatymai</string>
+    <string name="copy_logs">Kopijuoti žurnalus į iškarpinę</string>
+    <string name="app_logo">Programėlės logotipas</string>
+    <string name="log_file">Žurnalo failas</string>
+    <string name="copying_logs_to_file">Kopijuojami žurnalai į failą…</string>
+    <string name="account_imported">Paskyra importuota</string>
     <string name="simple_search">Ieškoti</string>
+    <!-- Label for a title input field that is required to be filled out -->
+    <string name="title_mandatory">Pavadinimas (būtina)</string>
+    <string name="saving_new_card">Įrašoma nauja kortelė…</string>
+    <string name="progress_import">Importuojama %1$d lentelė %2$d...</string>
+    <string name="progress_import_indeterminate">Importuojamos lentelės...</string>
+    <string name="card_outdated">Šios kortelės turinys gali būti pasenęs.</string>
+    <string name="show_error">Rodyti klaidą</string>
+    <string name="push_notification_link_empty">Dėl žinomos „Deck“ žiniatinklio programėlės problemos, deja, negalime rodyti šios kortelės. Daugiau informacijos rasite: %1$s</string>
+    <string name="enter_search_term_title">Įveskite paieškos terminą</string>
+    <string name="enter_search_term_description">Įveskite paieškos terminą, kad rastumėte korteles šioje lentelėje</string>
     <string name="no_search_results_title">Nėra paieškos rezultatų</string>
-    </resources>
+    <string name="no_search_results_description">Neradome jokių rezultatų pagal pateiktą paieškos terminą</string>
+</resources>
