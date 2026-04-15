@@ -20,6 +20,7 @@ public class CardUpdateOwnerString extends Card {
         setArchived(card.isArchived());
         setDueDate(card.getDueDate());
         setStartDate(card.getStartDate());
+        setColor(card.getColor());
         setNotified(card.isNotified());
         setOverdue(card.getOverdue());
         setCommentsUnread(card.getCommentsUnread());

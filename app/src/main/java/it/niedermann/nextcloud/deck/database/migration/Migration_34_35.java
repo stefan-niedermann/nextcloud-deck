@@ -16,6 +16,7 @@ public class Migration_34_35 extends Migration {
     @Override
     public void migrate(@NonNull SupportSQLiteDatabase database) {
         database.execSQL("ALTER TABLE `Card` add column startDate INTEGER");
+        database.execSQL("ALTER TABLE `Card` add column color INTEGER");
         // Reset ETags to refetch Cards
         database.execSQL("UPDATE `Account` SET `boardsEtag` = NULL");
         database.execSQL("UPDATE `Board` SET `etag` = NULL");

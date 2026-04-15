@@ -6,6 +6,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.time.Instant;
@@ -15,6 +16,7 @@ import java.util.regex.Pattern;
 
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
+import it.niedermann.nextcloud.deck.remote.api.json.JsonColorSerializer;
 
 @Entity(inheritSuperIndices = true,
         indices = {
@@ -53,6 +55,8 @@ public class Card extends AbstractRemoteEntity {
 
     private String title;
     private String description;
+    @JsonAdapter(JsonColorSerializer.class)
+    private Integer color;
     @NonNull
     private Long stackId;
     private String type;
@@ -96,6 +100,7 @@ public class Card extends AbstractRemoteEntity {
         this.archived = card.isArchived();
         this.dueDate = card.getDueDate();
         this.startDate = card.getStartDate();
+        this.color = card.getColor();
         this.done = card.getDone();
         this.notified = card.isNotified();
         this.overdue = card.getOverdue();
@@ -227,6 +232,14 @@ public class Card extends AbstractRemoteEntity {
 
     public void setStartDate(Instant dateTime) {
         this.startDate = dateTime;
+    }
+
+    public Integer getColor() {
+        return color;
+    }
+
+    public void setColor(Integer color) {
+        this.color = color;
     }
 
     public int getOverdue() {
