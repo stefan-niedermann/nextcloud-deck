@@ -32,7 +32,7 @@
 
     <string name="edit_board">Taisyti lentelę</string>
     <string name="archive_board">Archyvuoti lentą</string>
-    <string name="delete_board">Ištrinti lentą</string>
+    <string name="delete_board">Ištrinti lentelę</string>
     <string name="delete_something">Ištrinti %1$s</string>
 
     <string name="about">Apie</string>
@@ -60,10 +60,10 @@
     <string name="about_contribution_tab_title">Prisidėjo</string>
     <string name="about_license_tab_title">Licencija</string>
     <string name="seconds_ago">prieš keletą sekundžių</string>
-    <string name="edit">Taisyti</string>
+    <string name="edit">Redaguoti</string>
     <string name="label_labels">Pasirinkti žymas</string>
     <string name="label_description">Aprašas</string>
-    <string name="hint_assign_people">Priskirti naudotojus</string>
+    <string name="hint_assign_people">Priskirti vartotojus</string>
     <string name="hint_due_date_date">Galutinis terminas</string>
     <string name="hint_due_date_time">Laikas</string>
 
@@ -71,7 +71,7 @@
     <string name="card_not_found_message">Kortelės nerasta. Galbūt ji buvo neseniai ištrinta.</string>
 
     <string name="add_account">Pridėti paskyrą</string>
-    <string name="choose_account">Parinkti paskyrą</string>
+    <string name="choose_account">Pasirinkti paskyrą</string>
     <string name="add_card">Pridėti kortelę</string>
     <string name="activity">Veikla</string>
     <string name="add_list">Pridėti sąrašą</string>
@@ -191,10 +191,10 @@
     <string name="add_tag">Pridėti žymą</string>
     <string name="tag_already_exists">%1$s jau yra</string>
     <string name="tag_successfully_added">%1$s sėkmingai pridėta</string>
-    <string name="edit_tag">Taisyti %1$s</string>
+    <string name="edit_tag">Redaguoti %1$s</string>
     <string name="mark_as_done">Žymėti kaip atliktą</string>
     <string name="filter_tags_title">Žymos</string>
-    <string name="filter_user_title">Naudotojai</string>
+    <string name="filter_user_title">Vartotojai</string>
     <string name="filter_duedate_title">Galutinis terminas</string>
     <string name="filter_done_title">Atlikta</string>
 
@@ -210,23 +210,23 @@
     <string name="error_edit_activity_killed_by_android">„Android“ baigė redagavimo režimą, nes jai reikėjo daugiau sistemos išteklių kitoms programoms.</string>
 
     <string name="error_dialog_title">O, ne - Kas dabar? 🙁</string>
-    <string name="error_dialog_tip_token_mismatch_retry">Pabandykite priverstinai uždaryti programą ir vėl paleiskite ją iš naujo. Galbūt buvo nepavyko užmegžti ryšį su „Nextcloud“ programa.</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Pabandykite priverstinai uždaryti programėlę ir vėl paleiskite ją iš naujo. Galbūt buvo nepavyko užmegžti ryšį su „Nextcloud“ programėle.</string>
     <string name="error_dialog_tip_clear_storage_might_help">Jei problema išlieka, pabandykite išvalyti abiejų programų – „Nextcloud“ ir „Nextcloud Deck“ – saugyklą, kad ją išspręstumėte.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Duomenų bazės atnaujinimas nepavyko. Praneškite apie problemą ir išvalykite saugyklą, kad galėtumėte įprastai naudoti programą.</string>
-    <string name="error_dialog_tip_clear_storage">Saugyklą galite išvalyti atidarę programos nustatymus ir pasirinkdami Saugykla → Išvalyti saugyklą.</string>
+    <string name="error_dialog_tip_clear_storage">Saugyklą galite išvalyti atidarę programėlės nustatymus ir pasirinkdami Saugykla → Išvalyti saugyklą.</string>
     <string name="error_dialog_tip_offline_no_internet">Panašu, kad bandėte paleisti sinchronizavimą be interneto ryšio.</string>
     <string name="error_dialog_tip_offline_connection_refused">Ryšys buvo atmestas, patikrinkite, ar jūsų serveris pasiekiamas per žiniatinklio naršyklę.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Ryšio laikas baigėsi, patikrinkite, ar esate prisijungę prie interneto. Tai taip pat gali nutikti, kai jūsų serveris yra užimtas.</string>
     <string name="error_dialog_tip_connection_rejected">Ryšys buvo atmestas. Patikrinkite, ar jūsų serveris apsaugotas nuo per didelio srauto. Labiausiai tikėtina, kad šią problemą sukelia „Cloudflare“ apsaugoti serveriai.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Jei įjungėte nustatymą „Sinchronizuoti tik prisijungus prie „Wi-Fi““, sinchronizuoti galėsite tik tada, kai būsite prisijungę prie „Wi-Fi“ tinklo.</string>
     <string name="error_dialog_tip_files_force_stop">Atrodo, kad su jūsų „Nextcloud“ programėle kažkas ne taip. Prašome pabandyti priverstinai uždaryti abi programėles – „Nextcloud“ ir „Nextcloud Deck“.</string>
-    <string name="error_dialog_tip_files_delete_storage">Jei priverstinis programos sustabdymas nepadėjo, galite pabandyti išvalyti abiejų programų saugyklas.</string>
+    <string name="error_dialog_tip_files_delete_storage">Jei priverstinis programėlės sustabdymas nepadėjo, galite pabandyti išvalyti abiejų programėlių saugyklas.</string>
     <string name="error_dialog_timeout_instance">Per nurodytą laiką iš jūsų serverio nebuvo gautas atsakymas. Prašome patikrinti, ar jūsų instancija veikia tinkamai.</string>
     <string name="error_dialog_timeout_toggle">Patikrinkite savo interneto ryšį. Kartais gali padėti išjungti ir vėl įjungti mobilųjį duomenų perdavimą arba „Wi-Fi“.</string>
     <string name="error_dialog_check_server">Jūsų serverio atsakymas buvo neteisingas. Patikrinkite, ar galite prisijungti prie „Deck“ programėlės per žiniatinklio sąsają.</string>
-    <string name="error_dialog_check_server_logs">Kyla problemų dėl „Nextcloud“ programos nustatymų. Peržiūrėkite serverio sisteminio žurnalo įrašus.</string>
-    <string name="error_dialog_check_maintenance">Patikrinkite, ar jūsų „Nextcloud“ programa šiuo metu aptarnavimo režime.</string>
-    <string name="error_dialog_insufficient_storage">„Nextcloud“ programa nebeturi laisvos vietos saugykloje. Prašome, ištrinkite nereikalingus failus, kad lokalūs pakeitimai būtų sinchronizuoti su debesimi.</string>
+    <string name="error_dialog_check_server_logs">Kyla problemų dėl „Nextcloud“ programėlės nustatymų. Peržiūrėkite serverio sisteminio žurnalo įrašus.</string>
+    <string name="error_dialog_check_maintenance">Patikrinkite, ar jūsų „Nextcloud“ programėlė šiuo metu aptarnavimo režime.</string>
+    <string name="error_dialog_insufficient_storage">„Nextcloud“ elementas nebeturi laisvos vietos saugykloje. Prašome, ištrinkite nereikalingus failus, kad lokalūs pakeitimai būtų sinchronizuoti su debesimi.</string>
     <string name="error_dialog_we_need_info">Norint jums padėti, mums reikia techninės informacijos:</string>
     <string name="error_dialog_redirect">Jūsų serveris atsakė HTTP 302 būsenos kodu, o tai reiškia, kad jūsų serveryje nėra įdiegta „Deck“ programa arba kažkas yra netinkamai sukonfigūruota. Tai gali būti susiję su pasirinktiniais pakeitimais .htaccess faile arba su tokiomis „Nextcloud“ programomis kaip „OID Client“.</string>
     <string name="error_dialog_version_not_parsable">Nepavyko nustatyti serverio pusėje veikiančios „Deck“ programėlės versijos. Patikrinkite, ar ji yra įdiegta ir įjungta.</string>
@@ -238,7 +238,7 @@
     <string name="error_dialog_tip_disable_battery_optimizations">Prašome išjungti visas „Nextcloud“ ir „Deck“ programėlės baterijos taupymo funkcijas.</string>
     <string name="error_dialog_unknown_error">Atrodo, kad jūsų „Nextcloud“ elementas yra nepasiekiamas. Patikrinkite interneto ryšį ir ar galite prisijungti prie savo „Nextcloud“ elemento per naršyklę.</string>
     <string name="error_dialog_min_version">„The Deck“ programėlei „Android“ sistemoje reikalinga „Nextcloud“ programėlė „Android“ sistemoje, kurios versija turi būti ne žemesnė kaip 3.18.</string>
-    <string name="error_action_open_deck_info">Atidaryti programos informaciją</string>
+    <string name="error_action_open_deck_info">Atidaryti programėlės informaciją</string>
     <string name="error_action_open_nextcloud_app">Atidaryti „Nextcloud“ programėlę</string>
     <string name="error_action_open_network">Tinklo nustatymai</string>
     <string name="error_action_server_logs">Serverio žurnalai</string>
@@ -248,7 +248,7 @@
     <string name="error_action_update_files_app">Atnaujinti</string>
     <string name="info_box_maintenance_mode">Serveris yra techninės priežiūros veiksenoje</string>
     <string name="info_box_version_not_supported">Serverio versija %1$s yra nepalaikoma, atnaujinkite iki %2$s</string>
-    <string name="share_link">Viešinio nuoroda</string>
+    <string name="share_link">Bendrinimo nuoroda</string>
     <string name="share_content">Dalintis turiniu</string>
     <string name="share_content_duedate">Laukiama: %1$s</string>
     <string name="share_content_labels">Žymės: %1$s</string>
@@ -271,8 +271,8 @@
     <string name="error_action_open_battery_settings">Akumuliatoriaus nustatymai</string>
     <string name="move_warning">Perkelus kortelę į kitą lentelė, komentarai ir priedai neperkeliami.</string>
     <string name="clone_board">Dubliuoti lentelę</string>
-    <string name="cloning_board">Dubliuojama %1$s…</string>
-    <string name="successfully_cloned_board">Sėkmingai dubliuota %1$s</string>
+    <string name="cloning_board">Klonuojama %1$s…</string>
+    <string name="successfully_cloned_board">Sėkmingai klonuota %1$s</string>
     <string name="attachment_does_not_yet_exist">Priedo dar nėra „Deck“</string>
     <string name="card_does_not_yet_exist">Kortelės dar nėra „Deck“</string>
 
@@ -296,8 +296,8 @@
     <string name="cannot_upload_files_without_permission">Negalima įkelti failų be leidimų</string>
     <string name="insufficient_permission">Nepakanka leidimų</string>
     <string name="no_matching_app_installed">Nėra įdiegtos atitinkamos programos</string>
-    <string name="clone_cards">Dubliuoti korteles</string>
-    <string name="simple_clone">Dubliuoti</string>
+    <string name="clone_cards">Klonuoti korteles</string>
+    <string name="simple_clone">Klonuoti</string>
     <string name="user_avatar">Vartotojo avataras</string>
     <string name="simple_unassign">Nepriskirti</string>
     <string name="take_photo">Fotografuoti</string>
