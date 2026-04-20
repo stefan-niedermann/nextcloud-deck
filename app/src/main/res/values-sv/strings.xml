@@ -1,6 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Öppna navigeringspanelen</string>
-    <string name="navigation_drawer_close">Stäng navigeringslådan</string>
+    <string name="navigation_drawer_close">Stäng navigeringspanelen</string>
     <string name="hint_search_deck">Sök Deck</string>
 
     <string name="simple_add">Lägg till</string>
@@ -46,10 +46,10 @@
     <string name="about_source_title">Källkod</string>
     <string name="about_source">Detta projekt finns på GitHub: %1$s</string>
     <string name="about_issues_title">Problem</string>
-    <string name="about_issues">Du kan rapportera fel, förbättringsförslag och funktionsönskningar på GitHub- problemhanteraren: %1$s</string>
+    <string name="about_issues">Du kan rapportera fel, förbättringsförslag och funktionsönskningar på problemhanteraren på GitHub: %1$s</string>
     <string name="about_translate_title">Översätt</string>
     <string name="about_translate">Gå med i Nextcloud-gruppen på Transifex och hjälp oss översätta denna app: %1$s</string>
-    <string name="about_app_license_title">Applicens</string>
+    <string name="about_app_license_title">Appens licens</string>
     <string name="about_app_license">Denna app är licensierad under GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Visa licens</string>
     <string name="about_icons_disclaimer_title">Ikoner</string>
@@ -92,7 +92,7 @@
     <string name="card_edit_details">Detaljer</string>
     <string name="card_edit_attachments">Bilagor</string>
     <string name="card_edit_activity">Aktivitet</string>
-    <string name="about_server_app_version_text">Server appversion:</string>
+    <string name="about_server_app_version_text">Serverns appversion:</string>
     <string name="no_files_attached_to_this_card">Det finns inga filer kopplade till det här kortet.</string>
     <string name="attachments">Bilagor</string>
     <string name="append_to_description">Lägg till beskrivning</string>
@@ -153,7 +153,7 @@
     <string name="welcome_text">Välkommen till %1$s</string>
     <string name="welcome_text_further_accounts">Lägg till ett annat konto</string>
     <string name="share_add_to_card">Lägg till i kort</string>
-    <string name="share_success">La till %1$s till %2$s</string>
+    <string name="share_success">Lade till %1$s till %2$s</string>
     <string name="add_comment">Lägg till kommentar</string>
     <string name="card_edit_comments">Kommentarer</string>
     <string name="no_comments_yet">Inga kommentarer än</string>
@@ -206,7 +206,7 @@
     <string name="error_edit_activity_killed_by_android">Android avslutade redigeringsläget eftersom det behövde mer systemresurser för andra appar.</string>
 
     <string name="error_dialog_title">Å nej - Vad händer nu?🙁</string>
-    <string name="error_dialog_tip_token_mismatch_retry">Försök med att Tvinga appen att stänga och återstarta. En felaktig anslutning till Nextcloud-appen kan ha förekommit.</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Försök att tvångsavsluta appen och starta om den. En felaktig anslutning till Nextcloud-appen kan ha förekommit.</string>
     <string name="error_dialog_tip_clear_storage_might_help">Om problemet kvarstår kan du försöka rensa lagringen av båda apparna: Nextcloud och Nextcloud Deck för att lösa problemet.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Uppgraderingen av databasen misslyckades. Var god anmäl problemet, rensa sedan appens data för att kunna återgå till normal användning.</string>
     <string name="error_dialog_tip_clear_storage">Du kan rensa diskutrymmet genom att öppna appens info, välj Lagring -> Rensa data</string>
@@ -219,17 +219,17 @@
     <string name="error_dialog_tip_files_delete_storage">Om tvångsavslutning ej hjälper kan du försöka rensa datan på båda appar.</string>
     <string name="error_dialog_timeout_instance">Din server svarade inte inom den angivna tiden. Kontrollera att den fungerar normalt.</string>
     <string name="error_dialog_timeout_toggle">Kontrollera din nätverksanslutning. Ibland kan det hjälpa att slå av och på mobildata eller Wi-Fi.</string>
-    <string name="error_dialog_check_server">Inkorrekt svar från din server. Kontrollera att du har tillgång till Deck-appen genom din webbläsare.</string>
+    <string name="error_dialog_check_server">Servern gav ett ogiltigt svar. Kontrollera att du har tillgång till Deck-appen genom din webbläsare.</string>
     <string name="error_dialog_check_server_logs">Det finns problem med din Nextcloud-installation. Ta gärna en titt i serverns loggfiler. </string>
-    <string name="error_dialog_check_maintenance">Kontrollera att underhållsläge inte är aktivt på Nextcloud-installation.</string>
+    <string name="error_dialog_check_maintenance">Kontrollera att underhållsläget inte är aktivt på din Nextcloud-installation.</string>
     <string name="error_dialog_insufficient_storage">Din Nextcloud-installation har slut på diskutrymme. Ta bort några filer för att kunna synkronisera ändringar till ditt moln.</string>
     <string name="error_dialog_we_need_info">Vi behöver följande teknisk information för att kunna hjälpa dig:</string>
-    <string name="error_dialog_redirect">Din server svarade med ett HTTP 302 statusmeddelande vilket innebär att du inte har installerat Deck appen på din server eller att något är felkonfigurerat. Detta kan orsakas av manuella ändringar i en .htaccess-fil eller av Nextcloud-appar som \"OID Client\".</string>
+    <string name="error_dialog_redirect">Din server svarade med ett HTTP 302 statusmeddelande vilket innebär att du inte har installerat Deck-appen på din server eller att något är felkonfigurerat. Detta kan orsakas av manuella ändringar i en .htaccess-fil eller av Nextcloud-appar som \"OID Client\".</string>
     <string name="error_dialog_version_not_parsable">Vi kunde inte avgöra vilken version av Deck-appen som är installerad på servern. Kontrollera att den är installerad och aktiverad.</string>
     <string name="error_dialog_account_might_not_be_authorized">Ditt Nextcloud-konto är eventuellt inte längre auktoriserat. </string>
     <string name="error_dialog_user_not_found_in_database">Den nuvarande användaren matchar inte användaren vi har i vår databas. Om ni använder LDAP i er Nextcloud-instans kan din Nextcloud-app ha lagrat ett gammalt användar-ID.</string>
-    <string name="error_dialog_capabilities_not_parsable">Vi kunde inte hämta er servers förmågor. Vänligen säkerställ att er server fungerar som den ska och att klient-appar kan komma åt Nextcloud.</string>
-    <string name="error_dialog_attachment_upload_failed">En bifogad fil kunde inte laddas upp. Försök dela den på ett annat och sätt och vänligen berätta för oss om det här felet.</string>
+    <string name="error_dialog_capabilities_not_parsable">Vi kunde inte hämta er servers förmågor. Säkerställ att er server fungerar som den ska och att klient-appar kan komma åt Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">En bifogad fil kunde inte laddas upp. Försök dela den på ett annat sätt och berätta för oss om det här felet.</string>
     <string name="error_dialog_certificate">Något är fel med certifikatet på servern. Kontrollera alla konton i Nextcloud-appen för mer information.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Stäng av alla batterioptimeringar för Nextcloud och Deck-appen</string>
     <string name="error_dialog_unknown_error">Det går inte att nå din Nextcloud-instans. Kontrollera din internetanslutning och om du kan nå din instans via en webbläsare.</string>
