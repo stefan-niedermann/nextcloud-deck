@@ -279,8 +279,8 @@
     <string name="widget_stack_title">Sąrašas</string>
     <string name="widget_stack_header_icon">Valdiklio antraštės piktograma</string>
     <string name="widget_placeholder_icon">Valdiklio rezervuotos vietos piktograma</string>
-    <string name="project_type_deck_board">„Deck“ lentelė</string>
-    <string name="project_type_deck_card">„Deck“ kortelė</string>
+    <string name="project_type_deck_board">Darbų lenta</string>
+    <string name="project_type_deck_card">Darbų kortelė</string>
     <string name="project_type_file">Failas</string>
     <string name="projects_title">Projektai</string>
     <plurals name="resources_count">
