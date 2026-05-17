@@ -1,7 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">Atidaryti naršymo meniu</string>
     <string name="navigation_drawer_close">Uždaryti naršymo meniu</string>
-    <string name="hint_search_deck">Paieškos kortelė</string>
+    <string name="hint_search_deck">Ieškoti darbo</string>
 
     <string name="simple_add">Pridėti</string>
     <string name="simple_save">Įrašyti</string>
@@ -117,7 +117,7 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Pridėti naują sąrašą naudojant mygtuką „+“</string>
     <string name="add_a_new_card_using_the_button">Pridėti naują kortelę naudojant mygtuką „+“</string>
-    <string name="deck_outdated_please_update">Jūsų „Deck“ internetinės programėlės versija yra per sena (%1$s). Atnaujinkite ją, kad galėtumėte naudoti šią „Android“ programėlę kaip klientą.</string>
+    <string name="deck_outdated_please_update">Jūsų „Darbų“ internetinės programėlės versija yra per sena (%1$s). Atnaujinkite ją, kad galėtumėte naudoti šią „Android“ programėlę kaip klientą.</string>
     <string name="delete_board_message">Tai negrįžtamai ištrins šią lentelę, įskaitant visus sąrašus bei korteles.</string>
     <string name="settings_theme_title">Apipavidalinimas</string>
     <string name="settings_compact_title">Kompaktiška veiksena</string>
@@ -211,7 +211,7 @@
 
     <string name="error_dialog_title">O, ne - Kas dabar? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Pabandykite priverstinai uždaryti programėlę ir vėl paleiskite ją iš naujo. Galbūt buvo nepavyko užmegžti ryšį su „Nextcloud“ programėle.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Jei problema išlieka, pabandykite išvalyti abiejų programų – „Nextcloud“ ir „Nextcloud Deck“ – saugyklą, kad ją išspręstumėte.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Jei problema išlieka, pabandykite išvalyti abiejų programų – „Nextcloud“ ir „Nextcloud Darbai“ – saugyklą, kad ją išspręstumėte.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Duomenų bazės atnaujinimas nepavyko. Praneškite apie problemą ir išvalykite saugyklą, kad galėtumėte įprastai naudoti programą.</string>
     <string name="error_dialog_tip_clear_storage">Saugyklą galite išvalyti atidarę programėlės nustatymus ir pasirinkdami Saugykla → Išvalyti saugyklą.</string>
     <string name="error_dialog_tip_offline_no_internet">Panašu, kad bandėte paleisti sinchronizavimą be interneto ryšio.</string>
@@ -219,25 +219,25 @@
     <string name="error_dialog_tip_offline_connection_timeout">Ryšio laikas baigėsi, patikrinkite, ar esate prisijungę prie interneto. Tai taip pat gali nutikti, kai jūsų serveris yra užimtas.</string>
     <string name="error_dialog_tip_connection_rejected">Ryšys buvo atmestas. Patikrinkite, ar jūsų serveris apsaugotas nuo per didelio srauto. Labiausiai tikėtina, kad šią problemą sukelia „Cloudflare“ apsaugoti serveriai.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Jei įjungėte nustatymą „Sinchronizuoti tik prisijungus prie „Wi-Fi““, sinchronizuoti galėsite tik tada, kai būsite prisijungę prie „Wi-Fi“ tinklo.</string>
-    <string name="error_dialog_tip_files_force_stop">Atrodo, kad su jūsų „Nextcloud“ programėle kažkas ne taip. Prašome pabandyti priverstinai uždaryti abi programėles – „Nextcloud“ ir „Nextcloud Deck“.</string>
+    <string name="error_dialog_tip_files_force_stop">Atrodo, kad su jūsų „Nextcloud“ programėle kažkas ne taip. Prašome pabandyti priverstinai uždaryti abi programėles – „Nextcloud“ ir „Nextcloud Darbai“.</string>
     <string name="error_dialog_tip_files_delete_storage">Jei priverstinis programėlės sustabdymas nepadėjo, galite pabandyti išvalyti abiejų programėlių saugyklas.</string>
     <string name="error_dialog_timeout_instance">Per nurodytą laiką iš jūsų serverio nebuvo gautas atsakymas. Prašome patikrinti, ar jūsų instancija veikia tinkamai.</string>
     <string name="error_dialog_timeout_toggle">Patikrinkite savo interneto ryšį. Kartais gali padėti išjungti ir vėl įjungti mobilųjį duomenų perdavimą arba „Wi-Fi“.</string>
-    <string name="error_dialog_check_server">Jūsų serverio atsakymas buvo neteisingas. Patikrinkite, ar galite prisijungti prie „Deck“ programėlės per žiniatinklio sąsają.</string>
+    <string name="error_dialog_check_server">Jūsų serverio atsakymas buvo neteisingas. Patikrinkite, ar galite prisijungti prie „Darbai“ programėlės per žiniatinklio sąsają.</string>
     <string name="error_dialog_check_server_logs">Kyla problemų dėl „Nextcloud“ programėlės nustatymų. Peržiūrėkite serverio sisteminio žurnalo įrašus.</string>
     <string name="error_dialog_check_maintenance">Patikrinkite, ar jūsų „Nextcloud“ programėlė šiuo metu aptarnavimo režime.</string>
     <string name="error_dialog_insufficient_storage">„Nextcloud“ elementas nebeturi laisvos vietos saugykloje. Prašome, ištrinkite nereikalingus failus, kad lokalūs pakeitimai būtų sinchronizuoti su debesimi.</string>
     <string name="error_dialog_we_need_info">Norint jums padėti, mums reikia techninės informacijos:</string>
-    <string name="error_dialog_redirect">Jūsų serveris atsakė HTTP 302 būsenos kodu, o tai reiškia, kad jūsų serveryje nėra įdiegta „Deck“ programa arba kažkas yra netinkamai sukonfigūruota. Tai gali būti susiję su pasirinktiniais pakeitimais .htaccess faile arba su tokiomis „Nextcloud“ programomis kaip „OID Client“.</string>
-    <string name="error_dialog_version_not_parsable">Nepavyko nustatyti serverio pusėje veikiančios „Deck“ programėlės versijos. Patikrinkite, ar ji yra įdiegta ir įjungta.</string>
+    <string name="error_dialog_redirect">Jūsų serveris atsakė HTTP 302 būsenos kodu, o tai reiškia, kad jūsų serveryje nėra įdiegta „Darbai“ programėlė arba kažkas yra netinkamai sukonfigūruota. Tai gali būti susiję su pasirinktiniais pakeitimais .htaccess faile arba su tokiomis „Nextcloud“ programomis kaip „OID Client“.</string>
+    <string name="error_dialog_version_not_parsable">Nepavyko nustatyti serverio pusėje veikiančios „Darbų“ programėlės versijos. Patikrinkite, ar ji yra įdiegta ir įjungta.</string>
     <string name="error_dialog_account_might_not_be_authorized">Jūsų „Nextcloud“ programėlės paskyra gali būti nebeautorizuota.</string>
     <string name="error_dialog_user_not_found_in_database">Dabartinis vartotojas neatitinka duomenų bazėje esančio vartotojo. Jei savo „Nextcloud“ elemente naudojate LDAP, jūsų „Nextcloud“ programėlė galėjo išsaugoti seną vartotojo ID.</string>
     <string name="error_dialog_capabilities_not_parsable">Nepavyko gauti jūsų serverio parametrų. Patikrinkite, ar jūsų serveris veikia tinkamai ir ar kitos kliento programėlės gali prisijungti prie „Nextcloud“.</string>
     <string name="error_dialog_attachment_upload_failed">Nepavyko įkelti priedo. Prašome pabandyti jį perduoti kitu būdu ir pranešti mums apie šią klaidą.</string>
     <string name="error_dialog_certificate">Atrodo, kad su serverio sertifikatu kažkas ne taip. Daugiau informacijos rasite patikrinę visas paskyras „Nextcloud“ programėlėje.</string>
-    <string name="error_dialog_tip_disable_battery_optimizations">Prašome išjungti visas „Nextcloud“ ir „Deck“ programėlės baterijos taupymo funkcijas.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Prašome išjungti visas „Nextcloud“ ir „Darbai“ programėlės baterijos taupymo funkcijas.</string>
     <string name="error_dialog_unknown_error">Atrodo, kad jūsų „Nextcloud“ elementas yra nepasiekiamas. Patikrinkite interneto ryšį ir ar galite prisijungti prie savo „Nextcloud“ elemento per naršyklę.</string>
-    <string name="error_dialog_min_version">„The Deck“ programėlei „Android“ sistemoje reikalinga „Nextcloud“ programėlė „Android“ sistemoje, kurios versija turi būti ne žemesnė kaip 3.18.</string>
+    <string name="error_dialog_min_version">„Darbai“ programėlei „Android“ sistemoje reikalinga „Nextcloud“ programėlė „Android“ sistemoje, kurios versija turi būti ne žemesnė kaip 3.18.</string>
     <string name="error_action_open_deck_info">Atidaryti programėlės informaciją</string>
     <string name="error_action_open_nextcloud_app">Atidaryti „Nextcloud“ programėlę</string>
     <string name="error_action_open_network">Tinklo nustatymai</string>
@@ -273,8 +273,8 @@
     <string name="clone_board">Dubliuoti lentelę</string>
     <string name="cloning_board">Klonuojama %1$s…</string>
     <string name="successfully_cloned_board">Sėkmingai klonuota %1$s</string>
-    <string name="attachment_does_not_yet_exist">Priedo dar nėra „Deck“</string>
-    <string name="card_does_not_yet_exist">Kortelės dar nėra „Deck“</string>
+    <string name="attachment_does_not_yet_exist">Priedo dar nėra „Darbuose“</string>
+    <string name="card_does_not_yet_exist">Kortelės dar nėra „Darbuose“</string>
 
     <string name="widget_stack_title">Sąrašas</string>
     <string name="widget_stack_header_icon">Valdiklio antraštės piktograma</string>
@@ -335,7 +335,7 @@
     <string name="progress_import_indeterminate">Importuojamos lentelės...</string>
     <string name="card_outdated">Šios kortelės turinys gali būti pasenęs.</string>
     <string name="show_error">Rodyti klaidą</string>
-    <string name="push_notification_link_empty">Dėl žinomos „Deck“ žiniatinklio programėlės problemos, deja, negalime rodyti šios kortelės. Daugiau informacijos rasite: %1$s</string>
+    <string name="push_notification_link_empty">Dėl žinomos „Darbų“ žiniatinklio programėlės problemos, deja, negalime rodyti šios kortelės. Daugiau informacijos rasite: %1$s</string>
     <string name="enter_search_term_title">Įveskite paieškos terminą</string>
     <string name="enter_search_term_description">Įveskite paieškos terminą, kad rastumėte korteles šioje lentelėje</string>
     <string name="no_search_results_title">Nėra paieškos rezultatų</string>
