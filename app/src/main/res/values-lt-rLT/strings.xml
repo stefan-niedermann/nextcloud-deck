@@ -30,7 +30,7 @@
     <string name="simple_unassigned">Nepriskirta</string>
     <string name="hint_error_appeared">Atsirado klaida</string>
 
-    <string name="edit_board">Taisyti lentelę</string>
+    <string name="edit_board">Redaguoti lentą</string>
     <string name="archive_board">Archyvuoti lentą</string>
     <string name="delete_board">Ištrinti lentelę</string>
     <string name="delete_something">Ištrinti %1$s</string>
@@ -82,7 +82,7 @@
     <string name="action_card_unassign">Atšaukti kortelės priskyrimą man</string>
     <string name="action_card_archive">Archyvuoti kortelę</string>
     <string name="action_card_delete">Ištrinti kortelę</string>
-    <string name="add_board">Pridėti lentelę</string>
+    <string name="add_board">Pridėti lentą</string>
 
     <string name="label_clear_due_date">Išvalyti galutinį terminą</string>
     <string name="label_clear_done">Nepadaryta</string>
