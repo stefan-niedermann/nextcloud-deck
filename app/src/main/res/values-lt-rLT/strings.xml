@@ -121,7 +121,7 @@
     <string name="delete_board_message">Tai negrįžtamai ištrins šią lentelę, įskaitant visus sąrašus bei korteles.</string>
     <string name="settings_theme_title">Apipavidalinimas</string>
     <string name="settings_compact_title">Kompaktiška veiksena</string>
-    <string name="settings_cover_images_title">Viršelių nuotraukos</string>
+    <string name="settings_cover_images_title">Viršelių paveikslėliai</string>
     <string name="settings_debugging">Derinimo žurnalai</string>
     <string name="settings_etags">Naudoti ETags</string>
     <string name="settings_etags_summary">Pagreitina sinchronizavimą</string>
