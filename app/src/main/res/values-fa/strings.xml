@@ -85,6 +85,7 @@
     <string name="add_board">تخته را اضافه کنید</string>
 
     <string name="label_clear_due_date">تاریخ مقرر را پاک کنید</string>
+    <string name="label_clear_done">انجام‌نشده</string>
     <string name="label_add">افزودن%1$s</string>
 
     <string name="card_edit_details">جزئیات</string>
@@ -176,6 +177,8 @@
 
     <string name="filter_done_no_filter">همه</string>
     <string name="filter_done_done">Done</string>
+    <string name="filter_done_undone">انجام‌نشده</string>
+
     <string name="archived_cards">کارتهای بایگانی شده</string>
     <string name="attachment_already_exists">پیوست از قبل وجود دارد</string>
     <string name="pick_custom_color">رنگ سفارشی را انتخاب کنید</string>
