@@ -1,7 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">کشو ناوبری را باز کنید</string>
     <string name="navigation_drawer_close">بستن کشو ناوبری</string>
-    <string name="hint_search_deck">جست‌وجوی برگه‌دان</string>
+    <string name="hint_search_deck">جست‌و‌جو بردها</string>
 
     <string name="simple_add">افزودن</string>
     <string name="simple_save">ذخیره</string>
@@ -70,9 +70,9 @@
     <string name="card_not_found">کارت پیدا نشد</string>
     <string name="card_not_found_message">کارت پیدا نشد شاید اخیراً حذف شده باشد.</string>
 
-    <string name="add_account">ایحاد حساب کاربری</string>
+    <string name="add_account">ایجاد حساب کاربری</string>
     <string name="choose_account">حساب کاربری را انتخاب کنید</string>
-    <string name="add_card">افزودن برگه</string>
+    <string name="add_card">افزودن برده</string>
     <string name="activity">فعالیت</string>
     <string name="add_list">افزودن لیست</string>
     <string name="rename_list">تغییر نام لیست</string>
@@ -86,6 +86,7 @@
 
     <string name="label_clear_due_date">تاریخ مقرر را پاک کنید</string>
     <string name="label_clear_done">انجام‌نشده</string>
+    <string name="label_due_at">موعد تحویل:%1$s</string>
     <string name="label_add">افزودن%1$s</string>
 
     <string name="card_edit_details">جزئیات</string>
@@ -112,7 +113,7 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">با استفاده از دکمه + لیست جدیدی اضافه کنید</string>
     <string name="add_a_new_card_using_the_button">با استفاده از دکمه + یک کارت جدید اضافه کنید</string>
-    <string name="deck_outdated_please_update">نسخه عرشه شما خیلی قدیمی است لطفاً برای استفاده از این برنامه اندرویدی به عنوان مشتری ، بروزرسانی کنید.</string>
+    <string name="deck_outdated_please_update">نسخه عرضه شما خیلی قدیمی است لطفا برای استفاده از این برنامه اندرویدی به عنوان مشتری ، بروزرسانی کنید.</string>
     <string name="delete_board_message">با این کار این صفحه شامل همه لیست ها و کارت ها برای همیشه حذف می شود.</string>
     <string name="settings_theme_title">تم تاریک</string>
     <string name="settings_compact_title">حالت جمع و جور</string>
@@ -128,9 +129,9 @@
     <string name="pref_value_wifi_and_mobile">همگام سازی داده های Wi-Fi و تلفن همراه</string>
     <string name="pref_value_wifi_only">همگام سازی فقط در Wi-Fi</string>
     <string-array name="darkmode_entries">
-        <item>پیش‌فرض سامانه</item>
-        <item>روشن</item>
-        <item>تاریک</item>
+        <item>ูพ�ุดโูุฑุถ ุณุงูุงูู</item>
+        <item>ุฑูุดู</item>
+        <item>ุชุงุฑ�ฺฉ</item>
     </string-array>
     <string name="unassigned_user">دست نخورده %1$s</string>
     <string name="no_activities">هیچ فعالیتی در این کارت انجام نشده است. برای بارگیری و نمایش فعالیتها باید به اینترنت متصل شوید.</string>
@@ -179,7 +180,7 @@
     <string name="filter_done_done">Done</string>
     <string name="filter_done_undone">انجام‌نشده</string>
 
-    <string name="archived_cards">کارتهای بایگانی شده</string>
+    <string name="archived_cards">کارت‌های بایگانی شده</string>
     <string name="attachment_already_exists">پیوست از قبل وجود دارد</string>
     <string name="pick_custom_color">رنگ سفارشی را انتخاب کنید</string>
     <string name="manage_tags">مدیریت برچسب ها</string>
@@ -204,14 +205,15 @@
     <string name="maintenance_mode">کارساز در حالت نگه‌داری است</string>
     <string name="error_edit_activity_killed_by_android">Android حالت ویرایش را به پایان رساند زیرا به منابع سیستم بیشتری برای برنامه های دیگر نیاز داشت.</string>
 
-    <string name="error_dialog_title">اوه نه - حالا چی؟ 🙁</string>
+    <string name="error_dialog_title">اوه نه - حالا نه! 🤦 </string>
     <string name="error_dialog_tip_token_mismatch_retry">لطفا سعی کنید برنامه را به زور ببندید و دوباره آن را مجدداً راه اندازی کنید. ممکن است اتصال نادرستی به برنامه ابر سانا وجود داشته باشد.</string>
     <string name="error_dialog_tip_clear_storage_might_help">اگر این مشکل همچنان ادامه دارد ، سعی کنید فضای ذخیره سازی هر دو برنامه را پاک کنید: ابر سانا و کارت های سانا برای حل این مشکل.</string>
     <string name="error_dialog_tip_database_upgrade_failed">ارتقا پایگاه داده انجام نشد. لطفاً موضوع را گزارش کرده و فضای ذخیره سازی را پاک کنید تا به طور معمول از برنامه استفاده کنید.</string>
-    <string name="error_dialog_tip_clear_storage">با باز کردن اطلاعات برنامه و انتخاب ذخیره سازی → پاک کردن فضای ذخیره سازی ، می توانید فضای ذخیره سازی را پاک کنید.</string>
+    <string name="error_dialog_tip_clear_storage">با باز کردن اطلاعات برنامه و انتخاب ذخیره سازی ← پاک کردن فضای ذخیره سازی ، می توانید فضای ذخیره سازی را پاک کنید.</string>
     <string name="error_dialog_tip_offline_no_internet">به نظر می رسد سعی کرده اید یک همگام سازی را بدون اتصال به اینترنت راه اندازی کنید.</string>
-    <string name="error_dialog_tip_offline_connection_refused">اتصال رد شد، لطفاً بررسی کنید که آیا میزبان شما از طریق مرورگر وب قابل دسترسی است یا خیر.</string>
-    <string name="error_dialog_tip_offline_connection_timeout">اتصال در زمان مقرر اتفاق نیوفتاد، لطفاً بررسی کنید که آیا به اینترنت متصل هستید یا خیر. این ممکن است زمانی هم اتفاق بیفتد که میزبان شما مشغول است.</string>
+    <string name="error_dialog_tip_offline_connection_refused">اتصال رد شد؛ لطفا بررسی کنید که آیا میزبان شما از طریق مرورگر وب قابل دسترس است یا خیر.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">اتصال در زمان مقرر اتفاق نیفتاد؛ لطفا بررسی کنید که آیا به اینترنت متصل هستید یا خیر. این ممکن است زمانی هم اتفاق بیفتد که میزبان شما مشغول است.</string>
+    <string name="error_dialog_tip_connection_rejected">اتصال رد شد، لطفاً بررسی کنید که آیا سرور شما توسط مکانیسم ضد سیل محافظت می‌شود یا خیر. این مشکل به احتمال زیاد ناشی از سرورهای محافظت شده Cloudflare است.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">اگر شما گزینه «هم‌گام‌سازی فقط روی وای‌فای» را در تنظیمات فعال کرده باشید، تنها زمانی که به وای‌فای متصل باشید می‌توانید هم‌گام‌سازی کنید.</string>
     <string name="error_dialog_tip_files_force_stop">به نظر می رسد مشکلی در برنامه ابرسانا شما وجود ندارد. لطفا سعی کنید هر دو برنامه ابرسانا و برنامه کارت‌های سانا را مجبور به توقف کنید.</string>
     <string name="error_dialog_tip_files_delete_storage">اگر متوقف کردن اجباری کمکی نکرد، می‌توانید فضای ذخیره‌سازی هر دو برنامه را پاک کنید.</string>
@@ -219,19 +221,19 @@
     <string name="error_dialog_timeout_toggle">اتصال شبکه خود را بررسی کنید. بعضی اوقات خاموش و روشن کردن مجدد داده تلفن همراه یا Wi-Fi می تواند کمک کند.</string>
     <string name="error_dialog_check_server">پاسخ سرور شما درست نبود. لطفا بررسی کنید که آیا می توانید از طریق رابط وب به برنامه کارت‌های سانا دسترسی پیدا کنید یا خیر.</string>
     <string name="error_dialog_check_server_logs">مشکلی در راه اندازی ابرسانا شما وجود دارد. لطفاً به پرونده های ثبت سرور نگاهی بیندازید.</string>
-    <string name="error_dialog_check_maintenance">لطفاً بررسی کنید که برنامک ابرسانا شما در حال حاضر در حالت تعمیر و نگهداری نیست.</string>
+    <string name="error_dialog_check_maintenance">لطفاً بررسی کنید که برنامه ابرسانا شما در حال حاضر در حالت تعمیر و نگهداری نیست.</string>
     <string name="error_dialog_insufficient_storage">نمونه نکست‌کلود شما دیگر فضای ذخیرهٔ خالی ندارد. لطفاً تعدادی پرونده را حذف کنید تا تغییرات محلی‌تان با فضای ابری همگام شود.</string>
     <string name="error_dialog_we_need_info">برای کمک به شما به اطلاعات فنی زیر نیاز داریم:</string>
-    <string name="error_dialog_redirect">سرور شما با کد وضعیت HTTP 302 پاسخ داده است ، که این بدان معناست که شما برنامه کارت‌های سانا را بر روی سرور خود نصب نکرده اید یا چیزی اشتباه پیکربندی شده است. این می تواند به دلیل لغو سفارشی در پرونده .htaccess یا برنامه های ابرسانا مانند OID Client باشد.</string>
+    <string name="error_dialog_redirect">سرور شما با کد وضعیت HTTP 302 پاسخ داده است ، که این بدان معناست که شما برنامه کارت‌های سانا را بر روی سرور خود نصب نکرده اید یا چیز اشتباه پیکربندی شده است. این می تواند به دلیل لغو سفارشی در پرونده .htaccess یا برنامه های ابرسانا مانند OID Client باشد.</string>
     <string name="error_dialog_version_not_parsable">ما نمی توانیم نسخه برنامه کارت‌های سانا سمت سرور را تعیین کنیم. لطفاً از نصب و فعال بودن آن اطمینان حاصل کنید.</string>
     <string name="error_dialog_account_might_not_be_authorized">حساب برنامه ابرسانا شما ممکن است دیگر مجاز نباشد.</string>
-    <string name="error_dialog_user_not_found_in_database">کاربر فعلی با کاربری که در پایگاه داده خود داریم مطابقت ندارد. اگر از LDAP در نمونه ابرسنا خود استفاده می کنید ، ممکن است برنامه ابرسانا شما شناسه کاربری قدیمی را ذخیره کرده باشد.</string>
+    <string name="error_dialog_user_not_found_in_database">کاربر فعلی با کاربرانی که در پایگاه داده خود داریم مطابقت ندارد. اگر از LDAP در نمونه ابرسنا خود استفاده می کنید ، ممکن است برنامه ابرسانا شما شناسه کاربری قدیمی را ذخیره کرده باشد.</string>
     <string name="error_dialog_capabilities_not_parsable">ما نمی توانیم قابلیت های سرور شما را واکشی کنیم. لطفاً اطمینان حاصل کنید که سرور شما به خوبی کار می کند و سایر برنامه های سرویس گیرنده قادر به دسترسی به ابرسانا هستند.</string>
     <string name="error_dialog_attachment_upload_failed">پیوست بارگذاری نمی شود. لطفا سعی کنید آن را به روش دیگری به اشتراک بگذارید و در مورد این اشکال به ما اطلاع دهید.</string>
-    <string name="error_dialog_certificate">به نظر می‌رسد مشکلی در ارتباط با گواهینامهٔ کارسازتان وجود داشته باشد. لطفا همه حساب‌ها را در برنامه نکست‌کلود برای اطلاعات بیشتر وارسی کنید.</string>
+    <string name="error_dialog_certificate">به نظر می‌رسد مشکلی در ارتباط با گواهینامهٔ کارسازتان وجود داشته باشد. لطفاً همه حساب‌ها را در برنامه نکست‌کلود برای اطلاعات بیشتر وارسی کنید.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">لطفاً تمام بهینه سازی های باتری را برای Nextcloud و برنامه Deck غیرفعال کنید.</string>
-    <string name="error_dialog_unknown_error">به نظر می‌رسد نمونه نکست‌کلود شما در دسترس نیست. لطفا وارسی کنید که به اینترنت متصل بوده و می‌توانید از طرف مرورگر به نمونه‌تان متصل شوید.</string>
-    <string name="error_dialog_min_version">برنامه اندرویدی برگه‌دان نیاز دارد که برنامه اندرویدی ابر حداقل نسخه 3.18 باشد.</string>
+    <string name="error_dialog_unknown_error">به نظر می‌رسد نمونه نکست‌کلود شما در دسترس نیست. لطفاً وارسی کنید که به اینترنت متصل بوده و می‌توانید از طرف مرورگر به نمونه‌تان متصل شوید.</string>
+    <string name="error_dialog_min_version">برنامه اندرویدی برده‌دان نیاز دارد که برنامه اندرویدی ابر حداقل نسخه 3.18 باشد.</string>
     <string name="error_action_open_deck_info">اطلاعات برنامه را باز کنید</string>
     <string name="error_action_open_nextcloud_app">باز کردن کارهٔ نکست‌کلود</string>
     <string name="error_action_open_network">تنظیمات شبکه</string>
@@ -240,7 +242,7 @@
     <string name="error_action_install">نصب</string>
     <string name="error_action_report_issue">گزارش</string>
     <string name="error_action_update_files_app">به‌روزرسانی</string>
-    <string name="info_box_maintenance_mode">کارساز در حال نگه‌داری است</string>
+    <string name="info_box_maintenance_mode">کارساز در حالت نگه‌داری است</string>
     <string name="info_box_version_not_supported">نسخه سرور %1$s پشتیبانی نمی شود ، لطفاً آن را به %2$s به روز کنید</string>
     <string name="share_link">لینک را به اشتراک بگذارید</string>
     <string name="share_content">هم‌رسانی محتوا</string>
@@ -252,6 +254,7 @@
     <string name="manage_list">مدیریت لیست</string>
     <string name="simple_reply">پاسخ</string>
     <string name="append_text_to_description">به شرح اضافه کنید</string>
+    <string name="append_text_as_task">به عنوان وظیفه به توضیحات اضافه کنید</string>
     <string name="add_text_as_comment">به نظرات اضافه کنید</string>
     <string name="progress_count">%1$d از %2$d</string>
     <plurals name="progress_error_count">
@@ -262,8 +265,8 @@
     <string name="error_action_open_battery_settings">تنظیمات باتری</string>
     <string name="move_warning">هنگام انتقال کارت به صفحه دیگری ، هیچکدام از نظرات و پیوستها قابل انتقال نیستند.</string>
     <string name="clone_board">تخته شبیه‌سازی</string>
-    <string name="cloning_board">شبیه سازی%1$s…</string>
-    <string name="successfully_cloned_board">با موفقیت شبیه‌سازی شد%1$s</string>
+    <string name="cloning_board">شبیه سازی %1$s…</string>
+    <string name="successfully_cloned_board">با موفقیت شبیه‌سازی شد %1$s</string>
     <string name="attachment_does_not_yet_exist">پیوست هنوز در Deck وجود ندارد</string>
     <string name="card_does_not_yet_exist">کارت هنوز در deck وجود ندارد</string>
 
@@ -276,14 +279,15 @@
     <string name="projects_title">پروژه ها</string>
     <plurals name="resources_count">
         <item quantity="one">%1$d منابع</item>
-        <item quantity="other">%1$dمنابع</item>
+        <item quantity="other">%1$d منابع</item>
     </plurals>
-    <string name="no_assigned_label">برچسب اختصاصی وجود ندارد</string>
+    <string name="no_assigned_label">برچسب اختصاصی‌ای وجود ندارد</string>
     <string name="single_card">کارت تک</string>
     <string name="project_type_room">اتاق گفتگو</string>
     <string name="simple_move">انتقال</string>
     <string name="cannot_upload_files_without_permission">بدون داشتن مجوز، امکان بارگذاری پرونده وجود ندارد</string>
     <string name="insufficient_permission">Insufficient permission</string>
+    <string name="no_matching_app_installed">هیچ برنامه‌ی مشابهی نصب نشده است</string>
     <string name="clone_cards">شبیه سازی کارت</string>
     <string name="simple_clone">شبیه سازی</string>
     <string name="user_avatar">آواتار کاربر</string>
@@ -299,6 +303,7 @@
     <string name="contacts">مخاطبین</string>
     <string name="downloads">بارگیری ها</string>
     <string name="files">فایل ها</string>
+    <string name="voice_recorder">ضبط کننده صدا</string>
     <string name="gallery">گالری</string>
     <string name="videos">فیلم ها </string>
     <string name="simple_attach">ضمیمه کردن</string>
@@ -322,7 +327,7 @@
     <string name="progress_import_indeterminate">وارد کردن تخته</string>
     <string name="card_outdated">ممکن است محتوای این کارت قدیمی باشد.</string>
     <string name="show_error">نشان دادن خطا</string>
-    <string name="push_notification_link_empty">به دلیل یک مشکل شناخته شده در برنامه وب برگه‌دان، متأسفانه قادر به نمایش این کارت نیستیم. برای اطلاعات بیشتر ببین: %1$s</string>
+    <string name="push_notification_link_empty">به دلیل یک مشکل شناخته شده در برنامه وب برده‌دان، متأسفانه قادر به نمایش این کارت نیستیم. برای اطلاعات بیشتر ببینید: %1$s</string>
     <string name="enter_search_term_title">کلمه مورد جستجو را وارد فرمایید</string>
     <string name="enter_search_term_description">برای یافتن کارت ها در این تابلو عبارت جستجو را وارد کنید.</string>
     <string name="no_search_results_title">جستجو نتیجه‌ای نداشت</string>
