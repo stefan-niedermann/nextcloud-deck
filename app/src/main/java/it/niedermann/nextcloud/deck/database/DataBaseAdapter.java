@@ -53,6 +53,7 @@ import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.JoinBoardWithLabel;
+import it.niedermann.nextcloud.deck.model.JoinCardWithDependentCard;
 import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
 import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
@@ -475,6 +476,14 @@ public class DataBaseAdapter {
 
     public void deleteJoinedLabelsForCard(long localCardId) {
         db.getJoinCardWithLabelDao().deleteByCardId(localCardId);
+    }
+
+    public void deleteDependentCardsForCard(long localCardId) {
+        db.getCardDependentDao().deleteDependentsOfCard(localCardId);
+    }
+
+    public JoinCardWithDependentCard getDependentCardsForCard(long localCardId, long remoteCardId) {
+        return db.getCardDependentDao().getDependentsOfCard(localCardId, remoteCardId);
     }
 
     public void deleteJoinedLabelForCard(long localCardId, long localLabelId) {
@@ -1822,5 +1831,13 @@ public class DataBaseAdapter {
     }
     public List<Long> getAllCardIDs() {
         return db.getCardDao().getAllIDs();
+    }
+
+    public void createJoinCardWithDependent(Long localCardId, Long remoteCardId, DBStatus dbStatus) {
+        JoinCardWithDependentCard dependent = new JoinCardWithDependentCard();
+        dependent.setLocalCardId(localCardId);
+        dependent.setDependentRemoteCardId(remoteCardId);
+        dependent.setStatus(dbStatus.getId());
+        db.getCardDependentDao().insert(dependent);
     }
 }

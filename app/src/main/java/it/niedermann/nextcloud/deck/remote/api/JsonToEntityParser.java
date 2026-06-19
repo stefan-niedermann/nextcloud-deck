@@ -424,6 +424,19 @@ public class JsonToEntityParser {
             card.setCreatedAt(getTimestampFromLong(e.get("createdAt")));
             card.setDeletedAt(getTimestampFromLong(e.get("deletedAt")));
             card.setDone(getTimestampFromString(e.get("done")));
+            JsonElement cardColor = e.get("color");
+            if (cardColor != null && !cardColor.isJsonNull()) {
+                card.setColor(getColorAsInt(e, "color"));
+            } else card.setColor(null);
+            card.setStartDate(getTimestampFromString(e.get("startdate")));
+            if (e.has("dependentCards") && !e.get("dependentCards").isJsonNull()) {
+                JsonArray labelsJson = e.getAsJsonArray("dependentCards");
+                List<Long> dependentCards = new ArrayList<>();
+                for (JsonElement labelJson : labelsJson) {
+                    dependentCards.add(labelJson.getAsLong());
+                }
+                fullCard.setDependentCardRemoteIDs(dependentCards);
+            }
             if (e.has("labels") && !e.get("labels").isJsonNull()) {
                 JsonArray labelsJson = e.getAsJsonArray("labels");
                 List<Label> labels = new ArrayList<>();

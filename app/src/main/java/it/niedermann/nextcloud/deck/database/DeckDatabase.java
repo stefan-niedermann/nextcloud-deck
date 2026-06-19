@@ -19,6 +19,7 @@ import it.niedermann.nextcloud.deck.database.dao.AttachmentDao;
 import it.niedermann.nextcloud.deck.database.dao.BoardDao;
 import it.niedermann.nextcloud.deck.database.dao.CardDao;
 import it.niedermann.nextcloud.deck.database.dao.CommentDao;
+import it.niedermann.nextcloud.deck.database.dao.JoinBoardWithDependentCardDao;
 import it.niedermann.nextcloud.deck.database.dao.JoinBoardWithLabelDao;
 import it.niedermann.nextcloud.deck.database.dao.JoinBoardWithPermissionDao;
 import it.niedermann.nextcloud.deck.database.dao.JoinBoardWithUserDao;
@@ -208,6 +209,7 @@ public abstract class DeckDatabase extends RoomDatabase {
     public abstract BoardDao getBoardDao();
 
     public abstract CardDao getCardDao();
+    public abstract JoinBoardWithDependentCardDao getCardDependentDao();
 
     public abstract JoinBoardWithLabelDao getJoinBoardWithLabelDao();
 

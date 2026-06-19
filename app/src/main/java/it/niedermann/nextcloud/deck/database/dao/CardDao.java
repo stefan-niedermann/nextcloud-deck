@@ -10,6 +10,7 @@ import androidx.sqlite.db.SupportSQLiteQuery;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.JoinCardWithDependentCard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 

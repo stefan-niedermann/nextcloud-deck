@@ -158,6 +158,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         List<Attachment> attachments = entityFromServer.getAttachments();
         existingEntity.setAttachments(attachments);
 
+        syncHelper.fixRelations(new CardDependantCardRelationshipProvider(existingEntity.getCard(), entityFromServer.getDependentCardRemoteIDs()));
         syncHelper.fixRelations(new CardLabelRelationshipProvider(existingEntity.getCard(), existingEntity.getLabels()));
         if (assignedUsers != null && !assignedUsers.isEmpty()) {
             syncHelper.doSyncFor(new UserDataProvider(this, board, stack, existingEntity, existingEntity.getAssignedUsers()));
