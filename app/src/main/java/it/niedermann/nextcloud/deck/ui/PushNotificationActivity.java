@@ -22,6 +22,7 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.Themed;
+import it.niedermann.nextcloud.deck.util.CallbackUtil;
 import okhttp3.Headers;
 
 /**
@@ -57,18 +58,18 @@ public class PushNotificationActivity extends AppCompatActivity implements Theme
         executor.submit(() -> viewModel.getCardInformation(intent.getExtras(), new PushNotificationViewModel.PushNotificationCallback() {
             @Override
             public void onResponse(@NonNull PushNotificationViewModel.CardInformation cardInformation, Headers headers) {
-                runOnUiThread(() -> openCardOnSubmit(cardInformation.account, cardInformation.localBoardId, cardInformation.localCardId));
+                CallbackUtil.runOnUiThread(PushNotificationActivity.this, () -> openCardOnSubmit(cardInformation.account, cardInformation.localBoardId, cardInformation.localCardId));
             }
 
             @Override
             public void fallbackToBrowser(@NonNull Uri uri) {
-                runOnUiThread(() -> PushNotificationActivity.this.fallbackToBrowser(uri));
+                CallbackUtil.runOnUiThread(PushNotificationActivity.this, () -> PushNotificationActivity.this.fallbackToBrowser(uri));
             }
 
             @Override
             @SuppressLint("MissingSuperCall")
             public void onError(Throwable throwable) {
-                runOnUiThread(() -> displayError(throwable));
+                CallbackUtil.runOnUiThread(PushNotificationActivity.this, () -> displayError(throwable));
             }
         }));
     }

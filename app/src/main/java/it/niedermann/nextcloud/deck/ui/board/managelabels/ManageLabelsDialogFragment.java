@@ -28,6 +28,7 @@ import it.niedermann.nextcloud.deck.ui.theme.DeleteAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
+import it.niedermann.nextcloud.deck.util.CallbackUtil;
 import okhttp3.Headers;
 
 public class ManageLabelsDialogFragment extends ThemedDialogFragment implements ManageLabelListener, EditLabelListener {
@@ -93,7 +94,7 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
             labelsViewModel.createLabel(label, boardId, new IResponseCallback<>() {
                 @Override
                 public void onResponse(Label response, Headers headers) {
-                    requireActivity().runOnUiThread(() -> {
+                    CallbackUtil.runOnUiThread(ManageLabelsDialogFragment.this, () -> {
                         binding.fab.setEnabled(true);
                         binding.addLabelTitle.setText(null);
                     });
@@ -102,7 +103,7 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
 
                 @Override
                 public void onError(Throwable throwable) {
-                    requireActivity().runOnUiThread(() -> binding.fab.setEnabled(true));
+                    CallbackUtil.runOnUiThread(ManageLabelsDialogFragment.this, () -> binding.fab.setEnabled(true));
                     if (throwable instanceof SQLiteConstraintException) {
                         toastFromThread(getString(R.string.tag_already_exists, label.getTitle()));
                     } else {
@@ -147,7 +148,7 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
 
     @Override
     public void requestDelete(@NonNull Label label) {
-        labelsViewModel.countCardsWithLabel(label.getLocalId(), (count, headers) -> requireActivity().runOnUiThread(() -> {
+        labelsViewModel.countCardsWithLabel(label.getLocalId(), (count, headers) -> CallbackUtil.runOnUiThread(ManageLabelsDialogFragment.this, () -> {
             if (count > 0) {
                 new DeleteAlertDialogBuilder(requireContext())
                         .setTitle(getString(R.string.delete_something, label.getTitle()))
@@ -208,6 +209,6 @@ public class ManageLabelsDialogFragment extends ThemedDialogFragment implements 
      */
     @AnyThread
     private void toastFromThread(@Nullable String message) {
-        requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show());
+        CallbackUtil.runOnUiThread(ManageLabelsDialogFragment.this, () -> Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show());
     }
 }

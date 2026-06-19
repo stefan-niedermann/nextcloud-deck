@@ -21,6 +21,7 @@ import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentAboutCreditsTabBinding;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.util.CallbackUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
 public class AboutFragmentCreditsTab extends Fragment {
@@ -40,7 +41,7 @@ public class AboutFragmentCreditsTab extends Fragment {
         final Bundle args = getArguments();
         if (args != null && args.containsKey(BUNDLE_KEY_ACCOUNT)) {
             final Account account = (Account) requireArguments().getSerializable(BUNDLE_KEY_ACCOUNT);
-            requireActivity().runOnUiThread(() -> binding.aboutServerAppVersion.setText(strong(account == null ? getString(R.string.simple_error) : account.getServerDeckVersion())));
+            CallbackUtil.runOnUiThread(AboutFragmentCreditsTab.this, () -> binding.aboutServerAppVersion.setText(strong(account == null ? getString(R.string.simple_error) : account.getServerDeckVersion())));
         } else {
             binding.aboutServerAppVersionContainer.setVisibility(View.GONE);
         }

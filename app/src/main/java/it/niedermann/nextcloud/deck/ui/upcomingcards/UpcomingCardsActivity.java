@@ -27,6 +27,7 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.movecard.MoveCardListener;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.Themed;
+import it.niedermann.nextcloud.deck.util.CallbackUtil;
 import okhttp3.Headers;
 
 public class UpcomingCardsActivity extends AppCompatActivity implements Themed, MoveCardListener {
@@ -81,7 +82,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements Themed, 
                     @Override
                     public void onError(Throwable throwable) {
                         IResponseCallback.super.onError(throwable);
-                        runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                        CallbackUtil.runOnUiThread(UpcomingCardsActivity.this, () -> ExceptionDialogFragment.newInstance(throwable, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                     }
                 }),
                 card -> viewModel.deleteCard(card, new IResponseCallback<>() {
@@ -94,7 +95,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements Themed, 
                     public void onError(Throwable throwable) {
                         if (SyncRepository.isNoOnVoidError(throwable)) {
                             IResponseCallback.super.onError(throwable);
-                            runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                            CallbackUtil.runOnUiThread(UpcomingCardsActivity.this, () -> ExceptionDialogFragment.newInstance(throwable, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                         }
                     }
                 })
