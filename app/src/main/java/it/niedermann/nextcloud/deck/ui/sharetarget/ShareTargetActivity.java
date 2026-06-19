@@ -33,6 +33,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
 import it.niedermann.nextcloud.deck.ui.main.MainActivity;
+import it.niedermann.nextcloud.deck.util.CallbackUtil;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 import okhttp3.Headers;
 
@@ -123,12 +124,12 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                     mainViewModel.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, tempFile, new IResponseCallback<>() {
                         @Override
                         public void onResponse(Attachment response, Headers headers) {
-                            runOnUiThread(shareProgressViewModel::increaseProgress);
+                            CallbackUtil.runOnUiThread(ShareTargetActivity.this, shareProgressViewModel::increaseProgress);
                         }
 
                         @Override
                         public void onError(Throwable throwable) {
-                            runOnUiThread(() -> {
+                            CallbackUtil.runOnUiThread(ShareTargetActivity.this, () -> {
                                 if (throwable instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) throwable).getStatusCode() == HTTP_CONFLICT) {
                                     IResponseCallback.super.onError(throwable);
                                     shareProgressViewModel.addDuplicateAttachment(tempFile.getName());
@@ -139,7 +140,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                         }
                     });
                 } catch (Throwable t) {
-                    runOnUiThread(() -> shareProgressViewModel.addException(new UploadAttachmentFailedException("Error while uploading attachment for uri [" + uri + "]", t)));
+                    CallbackUtil.runOnUiThread(ShareTargetActivity.this, () -> shareProgressViewModel.addException(new UploadAttachmentFailedException("Error while uploading attachment for uri [" + uri + "]", t)));
                 }
             }).start();
         }
@@ -170,7 +171,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                             mainViewModel.updateCard(fullCard, new IResponseCallback<>() {
                                 @Override
                                 public void onResponse(FullCard response, Headers headers) {
-                                    runOnUiThread(() -> {
+                                    CallbackUtil.runOnUiThread(ShareTargetActivity.this, () -> {
                                         Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
                                         finish();
                                     });
@@ -179,7 +180,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
                                 @Override
                                 public void onError(Throwable throwable) {
                                     IResponseCallback.super.onError(throwable);
-                                    runOnUiThread(() -> {
+                                    CallbackUtil.runOnUiThread(ShareTargetActivity.this, () -> {
                                         cardSelected = false;
                                         showExceptionDialog(throwable, fullCard.getAccountId());
                                     });

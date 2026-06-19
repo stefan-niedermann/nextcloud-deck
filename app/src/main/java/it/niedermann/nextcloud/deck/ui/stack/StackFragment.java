@@ -43,6 +43,7 @@ import it.niedermann.nextcloud.deck.ui.movecard.MoveCardListener;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.Themed;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
+import it.niedermann.nextcloud.deck.util.CallbackUtil;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 import okhttp3.Headers;
 
@@ -190,7 +191,7 @@ public class StackFragment extends Fragment implements Themed, DragAndDropTab<Ca
      * Scroll to the bottom of the fragment
      */
     public void scrollToBottom() {
-        activity.runOnUiThread(() -> {
+        CallbackUtil.runOnUiThread(StackFragment.this, () -> {
             if (adapter == null) {
                 DeckLog.warn("Adapter is null");
                 return;
