@@ -1,10 +1,10 @@
 package it.niedermann.nextcloud.deck.data.local
 
+import androidx.room3.ColumnTypeConverters
 import androidx.room3.DaoReturnTypeConverters
 import androidx.room3.Database
 import androidx.room3.Room
 import androidx.room3.RoomDatabase
-import androidx.room3.TypeConverters
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import it.niedermann.nextcloud.deck.data.local.dao.AccountDao
 import it.niedermann.nextcloud.deck.data.local.daoreturntypeconverter.rxjava.CfDaoReturnTypeConverters
@@ -26,7 +26,7 @@ import kotlin.io.path.absolutePathString
         CfDaoReturnTypeConverters::class
     ]
 )
-@TypeConverters(URLConverter::class)
+@ColumnTypeConverters(URLConverter::class)
 abstract class DeckDatabase : RoomDatabase() {
 
     abstract val accountDao: AccountDao
