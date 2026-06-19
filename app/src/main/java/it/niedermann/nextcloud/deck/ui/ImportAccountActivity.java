@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
@@ -131,7 +132,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                         public void accountAccessGranted(SingleSignOnAccount account) {
                             final var accountToCreate = new Account(account.name, account.userId, account.url);
 
-                            runOnUiThread(() -> {
+                            runOnUiThreadIfActivityStarted(() -> {
                                 binding.progressCircular.setVisibility(View.VISIBLE);
                                 binding.progressCircular.setIndeterminate(true);
                                 binding.progressText.setText(R.string.progress_import_indeterminate);
@@ -166,12 +167,12 @@ public class ImportAccountActivity extends AppCompatActivity {
                                                                     public void onError(Throwable throwable) {
                                                                         super.onError(throwable);
                                                                         setStatusText(throwable.getMessage());
-                                                                        runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                                                                        runOnUiThreadIfActivityStarted(() -> ExceptionDialogFragment.newInstance(throwable, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                                                                         rollbackAccountCreation(createdAccount.getId());
                                                                     }
                                                                 });
 
-                                                                runOnUiThread(() -> progress$.observe(ImportAccountActivity.this, (progress) -> {
+                                                                runOnUiThreadIfActivityStarted(() -> progress$.observe(ImportAccountActivity.this, (progress) -> {
                                                                     DeckLog.log("New progress value", progress.first, progress.second);
                                                                     if (progress.first > 0) {
                                                                         binding.progressCircular.setIndeterminate(false);
@@ -204,7 +205,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                                         }
                                                     } else {
                                                         setStatusText(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()));
-                                                        runOnUiThread(() -> {
+                                                        runOnUiThreadIfActivityStarted(() -> {
                                                             binding.updateDeckButton.setOnClickListener((v) -> startActivity(new Intent(Intent.ACTION_VIEW)
                                                                     .setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck))));
                                                             binding.updateDeckButton.setVisibility(View.VISIBLE);
@@ -224,14 +225,14 @@ public class ImportAccountActivity extends AppCompatActivity {
                                                     setStatusText(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account);
                                                 } else {
                                                     setStatusText(throwable.getMessage());
-                                                    runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                                                    runOnUiThreadIfActivityStarted(() -> ExceptionDialogFragment.newInstance(throwable, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                                                 }
                                                 rollbackAccountCreation(createdAccount.getId());
                                             }
                                         });
                                     } catch (NextcloudFilesAppAccountNotFoundException e) {
                                         setStatusText(e.getMessage());
-                                        runOnUiThread(() -> ExceptionDialogFragment.newInstance(e, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                                        runOnUiThreadIfActivityStarted(() -> ExceptionDialogFragment.newInstance(e, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                                         rollbackAccountCreation(createdAccount.getId());
                                     }
                                 }
@@ -241,14 +242,14 @@ public class ImportAccountActivity extends AppCompatActivity {
                                     IResponseCallback.super.onError(error);
                                     if (error instanceof SQLiteConstraintException) {
                                         DeckLog.warn("Account already added");
-                                        runOnUiThread(() -> setStatusText(getString(R.string.account_already_added, accountToCreate.getName())));
+                                        runOnUiThreadIfActivityStarted(() -> setStatusText(getString(R.string.account_already_added, accountToCreate.getName())));
                                     } else {
-                                        runOnUiThread(() -> {
+                                        runOnUiThreadIfActivityStarted(() -> {
                                             setStatusText(error.getMessage());
                                             ExceptionDialogFragment.newInstance(error, accountToCreate).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                                         });
                                     }
-                                    runOnUiThread(() -> binding.addButton.setEnabled(true));
+                                    runOnUiThreadIfActivityStarted(() -> binding.addButton.setEnabled(true));
                                     restoreWifiPref();
                                     resetAvatar();
                                 }
@@ -256,7 +257,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                         }
                     });
                 } catch (AccountImportCancelledException e) {
-                    runOnUiThread(() -> binding.addButton.setEnabled(true));
+                    runOnUiThreadIfActivityStarted(() -> binding.addButton.setEnabled(true));
                     restoreWifiPref();
                     DeckLog.info("Account import has been canceled.");
                 }
@@ -272,8 +273,8 @@ public class ImportAccountActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         this.binding = null;
+        super.onDestroy();
     }
 
     @Override
@@ -285,13 +286,13 @@ public class ImportAccountActivity extends AppCompatActivity {
     private void rollbackAccountCreation(final long accountId) {
         DeckLog.log("Rolling back account creation for " + accountId);
         importAccountViewModel.deleteAccount(accountId);
-        runOnUiThread(() -> binding.addButton.setEnabled(true));
+        runOnUiThreadIfActivityStarted(() -> binding.addButton.setEnabled(true));
         restoreWifiPref();
         resetAvatar();
     }
 
     private void resetAvatar() {
-        runOnUiThread(() ->
+        runOnUiThreadIfActivityStarted(() ->
                 Glide
                         .with(binding.image.getContext())
                         .load(R.mipmap.ic_launcher)
@@ -300,7 +301,7 @@ public class ImportAccountActivity extends AppCompatActivity {
     }
 
     private void setAvatar(@NonNull Account account) {
-        runOnUiThread(() ->
+        runOnUiThreadIfActivityStarted(() ->
                 Glide
                         .with(binding.image.getContext())
                         .load(account.getAvatarUrl(binding.image.getWidth()))
@@ -315,7 +316,7 @@ public class ImportAccountActivity extends AppCompatActivity {
     }
 
     private void setStatusText(String statusText) {
-        runOnUiThread(() -> {
+        runOnUiThreadIfActivityStarted(() -> {
             binding.updateDeckButton.setVisibility(View.GONE);
             binding.progressCircular.setVisibility(View.GONE);
             binding.progressText.setText(statusText);
@@ -340,5 +341,11 @@ public class ImportAccountActivity extends AppCompatActivity {
 
     public static Intent createIntent(@NonNull Context context) {
         return new Intent(context, ImportAccountActivity.class);
+    }
+
+    private void runOnUiThreadIfActivityStarted(Runnable runnable) {
+        if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+            runOnUiThread(runnable);
+        }
     }
 }

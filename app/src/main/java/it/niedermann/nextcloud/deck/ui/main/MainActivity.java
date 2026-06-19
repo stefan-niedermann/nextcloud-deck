@@ -37,6 +37,7 @@ import androidx.core.splashscreen.SplashScreen;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -114,6 +115,7 @@ import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedSnackbar;
+import it.niedermann.nextcloud.deck.util.CallbackUtil;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 import it.niedermann.nextcloud.deck.util.CustomAppGlideModule;
 import it.niedermann.nextcloud.deck.util.OnTextChangedWatcher;
@@ -389,7 +391,11 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                     @Override
                     public void onResponse(Boolean response, Headers headers) {
                         DeckLog.info("End of synchronization for " + account + " → Stop spinner.");
-                        runOnUiThread(() -> binding.swipeRefreshLayout.setRefreshing(false));
+                        CallbackUtil.runOnUiThread(MainActivity.this, () -> {
+                            if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+                                binding.swipeRefreshLayout.setRefreshing(false);
+                            }
+                        });
                     }
 
                     @Override
@@ -397,7 +403,13 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                         IResponseCallback.super.onError(throwable);
                         DeckLog.info("End of synchronization for " + account + " → Stop spinner.");
                         showSyncFailedSnackbar(account, throwable);
-                        runOnUiThread(() -> binding.swipeRefreshLayout.setRefreshing(false));
+                        CallbackUtil.runOnUiThread(MainActivity.this, () -> {
+                            if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+                                binding.swipeRefreshLayout.setRefreshing(false);
+                            } else {
+                                throwable.printStackTrace();
+                            }
+                        });
                     }
                 });
             });
@@ -619,7 +631,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         mainViewModel.createBoard(account, boardToCreate, new IResponseCallback<>() {
             @Override
             public void onResponse(FullBoard response, Headers headers) {
-                runOnUiThread(() -> {
+                CallbackUtil.runOnUiThread(MainActivity.this, () -> {
                     if (response != null) {
                         mainViewModel.saveCurrentBoardId(response.getAccountId(), response.getLocalId());
                         EditStackDialogFragment.newInstance(response.getAccountId(), response.getLocalId()).show(getSupportFragmentManager(), EditStackDialogFragment.class.getSimpleName());
@@ -682,7 +694,14 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                     DeckLog.info("Cannot refresh capabilities because device is offline.");
                 } else {
                     super.onError(throwable);
-                    ExceptionDialogFragment.newInstance(throwable, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+
+                    CallbackUtil.runOnUiThread(MainActivity.this, () -> {
+                        if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+                            ExceptionDialogFragment.newInstance(throwable, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                        } else {
+                            throwable.printStackTrace();
+                        }
+                    });
                 }
 
                 if (runAfter != null) {
@@ -727,7 +746,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
         } else if (itemId == R.id.archive_cards) {
             final var stack = stackAdapter.getItem(binding.viewPager.getCurrentItem());
             final var stackLocalId = stack.getLocalId();
-            mainViewModel.countCardsInStack(stack.getAccountId(), stackLocalId, (numberOfCards, headers) -> runOnUiThread(() ->
+            mainViewModel.countCardsInStack(stack.getAccountId(), stackLocalId, (numberOfCards, headers) -> CallbackUtil.runOnUiThread(MainActivity.this, () ->
                     new MaterialAlertDialogBuilder(this)
                             .setTitle(R.string.archive_cards)
                             .setMessage(getString(FilterInformation.hasActiveFilter(filterViewModel.getFilterInformation().getValue())
@@ -782,7 +801,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             return true;
         } else if (itemId == R.id.delete_list) {
             final var stack = stackAdapter.getItem(binding.viewPager.getCurrentItem());
-            mainViewModel.countCardsInStack(stack.getAccountId(), stack.getLocalId(), (numberOfCards, headers) -> runOnUiThread(() -> {
+            mainViewModel.countCardsInStack(stack.getAccountId(), stack.getLocalId(), (numberOfCards, headers) -> CallbackUtil.runOnUiThread(MainActivity.this, () -> {
                 if (numberOfCards != null && numberOfCards > 0) {
                     DeleteStackDialogFragment.newInstance(stack.getAccountId(), stack.getBoardId(), stack.getLocalId(), numberOfCards).show(getSupportFragmentManager(), DeleteStackDialogFragment.class.getCanonicalName());
                 } else {
@@ -956,7 +975,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                     mainViewModel.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColor(), checkedItems[0], new IResponseCallback<>() {
                         @Override
                         public void onResponse(FullBoard response, Headers headers) {
-                            runOnUiThread(() -> {
+                            CallbackUtil.runOnUiThread(MainActivity.this, () -> {
                                 snackbar.dismiss();
                                 mainViewModel.saveCurrentBoardId(response.getAccountId(), response.getLocalId());
                                 ThemedSnackbar.make(binding.coordinatorLayout, getString(R.string.successfully_cloned_board, response.getBoard().getTitle()), Snackbar.LENGTH_LONG, response.getBoard().getColor())
@@ -969,7 +988,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                         @Override
                         public void onError(Throwable throwable) {
                             IResponseCallback.super.onError(throwable);
-                            runOnUiThread(() -> {
+                            CallbackUtil.runOnUiThread(MainActivity.this, () -> {
                                 snackbar.dismiss();
                                 showExceptionDialog(throwable, board.getAccountId());
                             });
@@ -1083,7 +1102,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     @AnyThread
     private void showSyncFailedSnackbar(@NonNull Account account, @NonNull Throwable throwable) {
         if (!(throwable instanceof NextcloudHttpRequestFailedException) || ((NextcloudHttpRequestFailedException) throwable).getStatusCode() != HttpURLConnection.HTTP_UNAVAILABLE) {
-            runOnUiThread(() -> {
+            CallbackUtil.runOnUiThread(MainActivity.this, () -> {
                 if (binding != null) { // Can be null in case the activity has been destroyed before the synchronization process has been finished
                     ThemedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG, account.getColor())
                             .setAction(R.string.simple_more, v -> showExceptionDialog(throwable, account))
@@ -1101,7 +1120,7 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
     @AnyThread
     protected void showExceptionDialog(@NonNull Throwable throwable, @Nullable Account account) {
-        runOnUiThread(() -> ExceptionDialogFragment
+        CallbackUtil.runOnUiThread(MainActivity.this, () -> ExceptionDialogFragment
                 .newInstance(throwable, account)
                 .show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
     }

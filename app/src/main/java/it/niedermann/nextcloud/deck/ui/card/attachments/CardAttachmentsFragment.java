@@ -75,6 +75,7 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.takephoto.TakePhotoActivity;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedSnackbar;
+import it.niedermann.nextcloud.deck.util.CallbackUtil;
 import it.niedermann.nextcloud.deck.util.JavaCompressor;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 import it.niedermann.nextcloud.deck.util.VCardUtil;
@@ -321,7 +322,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                 executor.submit(() -> {
                     try {
                         final File originalFile = copyContentUriToTempFile(requireContext(), sourceUri, editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId());
-                        requireActivity().runOnUiThread(() -> {
+                        CallbackUtil.runOnUiThread(CardAttachmentsFragment.this, () -> {
                             if (compressImagesOnUpload && MimeTypeUtil.isImage(mimeType)) {
                                 try {
                                     JavaCompressor.compress((AppCompatActivity) requireActivity(), originalFile, (status, file) -> uploadNewAttachmentFromFile(status && file != null ? file : originalFile, mimeType), new ResolutionConstraint(1920, 1920), new SizeConstraint(1_000_000, 10, 10, 10), new FormatConstraint(Bitmap.CompressFormat.JPEG), new QualityConstraint(80));
@@ -334,7 +335,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                             }
                         });
                     } catch (IOException e) {
-                        requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(e, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                        CallbackUtil.runOnUiThread(CardAttachmentsFragment.this, () -> ExceptionDialogFragment.newInstance(e, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                     }
                 });
             }
@@ -368,7 +369,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         editViewModel.addAttachmentToCard(editViewModel.getAccount().getId(), editViewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload, new IResponseCallback<>() {
             @Override
             public void onResponse(Attachment response, Headers headers) {
-                requireActivity().runOnUiThread(() -> {
+                CallbackUtil.runOnUiThread(CardAttachmentsFragment.this, () -> {
                     editViewModel.getFullCard().getAttachments().remove(a);
                     editViewModel.getFullCard().getAttachments().add(0, response);
                     adapter.replaceAttachment(a, response);
@@ -405,7 +406,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                 public void onError(Throwable throwable) {
                     if (SyncRepository.isNoOnVoidError(throwable)) {
                         IResponseCallback.super.onError(throwable);
-                        requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                        CallbackUtil.runOnUiThread(CardAttachmentsFragment.this, () -> ExceptionDialogFragment.newInstance(throwable, editViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                     }
                 }
             });
