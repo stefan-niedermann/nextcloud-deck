@@ -59,6 +59,8 @@ public class Card extends AbstractRemoteEntity {
     private Instant createdAt;
     private Instant deletedAt;
     private Instant done;
+    @SerializedName("startdate")
+    private Instant startDate;
     private int attachmentCount;
 
     private Long userId;
@@ -97,6 +99,7 @@ public class Card extends AbstractRemoteEntity {
         this.notified = card.isNotified();
         this.overdue = card.getOverdue();
         this.commentsUnread = card.getCommentsUnread();
+        this.startDate = card.getStartDate();
     }
 
     @NonNull
@@ -263,6 +266,14 @@ public class Card extends AbstractRemoteEntity {
         this.done = done;
     }
 
+    public Instant getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Instant startDate) {
+        this.startDate = startDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -314,13 +325,15 @@ public class Card extends AbstractRemoteEntity {
     @Override
     public String toString() {
         return "Card{" +
-                "title='" + title + '\'' +
+                "taskStatus=" + taskStatus +
+                ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", stackId=" + stackId +
                 ", type='" + type + '\'' +
                 ", createdAt=" + createdAt +
                 ", deletedAt=" + deletedAt +
                 ", done=" + done +
+                ", startDate=" + startDate +
                 ", attachmentCount=" + attachmentCount +
                 ", userId=" + userId +
                 ", order=" + order +
@@ -329,12 +342,6 @@ public class Card extends AbstractRemoteEntity {
                 ", notified=" + notified +
                 ", overdue=" + overdue +
                 ", commentsUnread=" + commentsUnread +
-                ", localId=" + localId +
-                ", accountId=" + accountId +
-                ", id=" + id +
-                ", status=" + status +
-                ", lastModified=" + lastModified +
-                ", lastModifiedLocal=" + lastModifiedLocal +
                 '}';
     }
 }

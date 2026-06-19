@@ -67,6 +67,7 @@ import it.niedermann.nextcloud.deck.database.migration.Migration_30_31;
 import it.niedermann.nextcloud.deck.database.migration.Migration_31_32;
 import it.niedermann.nextcloud.deck.database.migration.Migration_32_33;
 import it.niedermann.nextcloud.deck.database.migration.Migration_33_34;
+import it.niedermann.nextcloud.deck.database.migration.Migration_34_35;
 import it.niedermann.nextcloud.deck.database.migration.Migration_8_9;
 import it.niedermann.nextcloud.deck.database.migration.Migration_9_10;
 import it.niedermann.nextcloud.deck.model.AccessControl;
@@ -77,6 +78,7 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.JoinBoardWithLabel;
 import it.niedermann.nextcloud.deck.model.JoinBoardWithPermission;
 import it.niedermann.nextcloud.deck.model.JoinBoardWithUser;
+import it.niedermann.nextcloud.deck.model.JoinCardWithDependentCard;
 import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
 import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
@@ -125,6 +127,7 @@ import it.niedermann.nextcloud.deck.remote.api.LastSyncUtil;
                 OcsProject.class,
                 OcsProjectResource.class,
                 JoinCardWithProject.class,
+                JoinCardWithDependentCard.class,
                 UserInGroup.class,
                 UserInBoard.class,
                 FilterWidget.class,
@@ -137,7 +140,7 @@ import it.niedermann.nextcloud.deck.remote.api.LastSyncUtil;
                 FilterWidgetSort.class,
         },
         exportSchema = false,
-        version = 34
+        version = 35
 )
 @TypeConverters({DateTypeConverter.class, EnumConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -192,6 +195,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 .addMigrations(new Migration_31_32(context))
                 .addMigrations(new Migration_32_33())
                 .addMigrations(new Migration_33_34())
+                .addMigrations(new Migration_34_35())
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();
