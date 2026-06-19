@@ -23,9 +23,10 @@ public class Migration_34_35 extends Migration {
         database.execSQL("UPDATE `Card` SET `etag` = NULL");
 
         database.execSQL("create table `DependentCards` (" +
-                "`localCardId` INTEGER, " +
-                "`dependentRemoteCardId` INTEGER, " +
+                "`localCardId` INTEGER NOT NULL, " +
+                "`dependentRemoteCardId` INTEGER NOT NULL, " +
                 "`status` INTEGER NOT NULL, " +
+                "PRIMARY KEY(`localCardId`, `dependentRemoteCardId`), " +
                 "FOREIGN KEY(`localCardId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE " +
             ")");
         database.execSQL("CREATE INDEX `index_localCardId` ON `DependentCards` (`localCardId`)");
