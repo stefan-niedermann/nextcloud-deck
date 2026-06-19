@@ -246,10 +246,10 @@ public class CardDetailsFragment extends Fragment implements
     }
 
     @Override
-    public void onStartDateChanged(@Nullable Instant dueDate) {
+    public void onStartDateChanged(@Nullable Instant startDate) {
         final var version = this.viewModel.getAccount().getServerDeckVersionAsObject();
         final var card = this.viewModel.getFullCard().getCard();
-//        card.setStartDate(dueDate);
+        card.setStartDate(startDate);
         binding.cardDueDateView.setDueDate(getChildFragmentManager(), version, card.getDueDate(), card.getDone());
     }
 
