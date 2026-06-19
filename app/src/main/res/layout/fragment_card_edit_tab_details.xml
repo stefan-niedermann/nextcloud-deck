@@ -69,7 +69,7 @@
             android:layout_marginTop="@dimen/spacer_1x"
             android:layout_marginBottom="@dimen/spacer_1hx"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toTopOf="@id/cardDueDateView"
+            app:layout_constraintBottom_toTopOf="@id/cardStartDateView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/peopleWrapper"
@@ -80,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacer_2x"
-            app:layout_constraintBottom_toTopOf="@id/descriptionWrapper"
+            app:layout_constraintBottom_toTopOf="@id/cardDueDateView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/assignees" />
@@ -93,8 +93,7 @@
             app:layout_constraintBottom_toTopOf="@id/descriptionWrapper"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/assignees" />
-
+            app:layout_constraintTop_toBottomOf="@id/cardStartDateView" />
 
         <RelativeLayout
             android:id="@+id/descriptionWrapper"

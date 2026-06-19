@@ -234,7 +234,7 @@ public class CardDetailsFragment extends Fragment implements
         final var card = this.viewModel.getFullCard().getCard();
         binding.cardStartDateView.setStartDateListener(this);
         binding.cardStartDateView.setEnabled(this.viewModel.canEdit());
-        binding.cardStartDateView.setDueDate(getChildFragmentManager(), version, card.getDueDate(), card.getDone());
+        binding.cardStartDateView.setStartDate(getChildFragmentManager(), version, card.getStartDate(), card.getDone());
     }
 
     private void setupDueDate() {
