@@ -54,9 +54,13 @@ import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedSnackbar;
+import it.niedermann.nextcloud.deck.util.CallbackUtil;
 import okhttp3.Headers;
 
-public class CardDetailsFragment extends Fragment implements CardDueDateView.DueDateChangedListener, CardAssigneeListener {
+public class CardDetailsFragment extends Fragment implements
+        CardStartDateView.StartDateChangedListener,
+        CardDueDateView.DueDateChangedListener,
+        CardAssigneeListener {
 
     private FragmentCardEditTabDetailsBinding binding;
     private EditCardViewModel viewModel;
@@ -99,6 +103,7 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
 
         setupAssignees();
         setupLabels((Account) requireNonNull(args.getSerializable(KEY_ACCOUNT)));
+        setupStartDate();
         setupDueDate();
         setupDescription();
         setupProjects();
@@ -224,11 +229,27 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
         viewToShow.setVisibility(VISIBLE);
     }
 
+    private void setupStartDate() {
+        final var version = this.viewModel.getAccount().getServerDeckVersionAsObject();
+        final var card = this.viewModel.getFullCard().getCard();
+        binding.cardStartDateView.setStartDateListener(this);
+        binding.cardStartDateView.setEnabled(this.viewModel.canEdit());
+        binding.cardStartDateView.setDueDate(getChildFragmentManager(), version, card.getDueDate(), card.getDone());
+    }
+
     private void setupDueDate() {
         final var version = this.viewModel.getAccount().getServerDeckVersionAsObject();
         final var card = this.viewModel.getFullCard().getCard();
         binding.cardDueDateView.setDueDateListener(this);
         binding.cardDueDateView.setEnabled(this.viewModel.canEdit());
+        binding.cardDueDateView.setDueDate(getChildFragmentManager(), version, card.getDueDate(), card.getDone());
+    }
+
+    @Override
+    public void onStartDateChanged(@Nullable Instant dueDate) {
+        final var version = this.viewModel.getAccount().getServerDeckVersionAsObject();
+        final var card = this.viewModel.getFullCard().getCard();
+//        card.setStartDate(dueDate);
         binding.cardDueDateView.setDueDate(getChildFragmentManager(), version, card.getDueDate(), card.getDone());
     }
 
@@ -267,7 +288,7 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
                     viewModel.createLabel(accountId, label, boardId, new IResponseCallback<>() {
                         @Override
                         public void onResponse(Label response, Headers headers) {
-                            requireActivity().runOnUiThread(() -> {
+                            CallbackUtil.runOnUiThread(CardDetailsFragment.this, () -> {
                                 label.setLocalId(response.getLocalId());
                                 ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(response);
                                 viewModel.getFullCard().getLabels().add(response);

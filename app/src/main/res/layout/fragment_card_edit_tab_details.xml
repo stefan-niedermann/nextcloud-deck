@@ -75,6 +75,17 @@
             app:layout_constraintTop_toBottomOf="@id/peopleWrapper"
             tools:listitem="@tools:sample/avatars" />
 
+        <it.niedermann.nextcloud.deck.ui.card.details.CardStartDateView
+            android:id="@+id/cardStartDateView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacer_2x"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/descriptionWrapper"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/assignees" />
+
         <it.niedermann.nextcloud.deck.ui.card.details.CardDueDateView
             android:id="@+id/cardDueDateView"
             android:layout_width="match_parent"
