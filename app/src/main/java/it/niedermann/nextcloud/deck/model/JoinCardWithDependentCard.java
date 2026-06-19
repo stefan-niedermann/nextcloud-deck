@@ -10,7 +10,7 @@ import java.util.Objects;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractJoinEntity;
 
 @Entity(
-
+        tableName = "DependentCards",
         primaryKeys = {"localCardId", "dependentRemoteCardId"},
         indices = {@Index("localCardId"), @Index("dependentRemoteCardId")},
         foreignKeys = {
