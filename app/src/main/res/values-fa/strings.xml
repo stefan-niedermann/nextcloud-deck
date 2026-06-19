@@ -231,7 +231,7 @@
     <string name="error_dialog_capabilities_not_parsable">ما نمی توانیم قابلیت های سرور شما را واکشی کنیم. لطفاً اطمینان حاصل کنید که سرور شما به خوبی کار می کند و سایر برنامه های سرویس گیرنده قادر به دسترسی به ابرسانا هستند.</string>
     <string name="error_dialog_attachment_upload_failed">پیوست بارگذاری نمی شود. لطفا سعی کنید آن را به روش دیگری به اشتراک بگذارید و در مورد این اشکال به ما اطلاع دهید.</string>
     <string name="error_dialog_certificate">به نظر می‌رسد مشکلی در ارتباط با گواهینامهٔ کارسازتان وجود داشته باشد. لطفاً همه حساب‌ها را در برنامه نکست‌کلود برای اطلاعات بیشتر وارسی کنید.</string>
-    <string name="error_dialog_tip_disable_battery_optimizations">لطفاً تمام بهینه سازی های باتری را برای Nextcloud و برنامه Deck غیرفعال کنید.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">لطفاً تمام بهینه سازی های باتری را برای Nextcloud و برنامه کارتابلغیرفعال کنید.</string>
     <string name="error_dialog_unknown_error">به نظر می‌رسد نمونه نکست‌کلود شما در دسترس نیست. لطفاً وارسی کنید که به اینترنت متصل بوده و می‌توانید از طرف مرورگر به نمونه‌تان متصل شوید.</string>
     <string name="error_dialog_min_version">برنامه اندرویدی برده‌دان نیاز دارد که برنامه اندرویدی ابر حداقل نسخه 3.18 باشد.</string>
     <string name="error_action_open_deck_info">اطلاعات برنامه را باز کنید</string>
@@ -267,14 +267,14 @@
     <string name="clone_board">تخته شبیه‌سازی</string>
     <string name="cloning_board">شبیه سازی %1$s…</string>
     <string name="successfully_cloned_board">با موفقیت شبیه‌سازی شد %1$s</string>
-    <string name="attachment_does_not_yet_exist">پیوست هنوز در Deck وجود ندارد</string>
-    <string name="card_does_not_yet_exist">کارت هنوز در deck وجود ندارد</string>
+    <string name="attachment_does_not_yet_exist">پیوست هنوز در کارتابلوجود ندارد</string>
+    <string name="card_does_not_yet_exist">کارت هنوز در کارتابل وجود ندارد</string>
 
     <string name="widget_stack_title">لیست</string>
     <string name="widget_stack_header_icon">نماد عنوان ویجت</string>
     <string name="widget_placeholder_icon">نماد مکان‌نمای ویجت</string>
-    <string name="project_type_deck_board">تخته deck</string>
-    <string name="project_type_deck_card">کارت deck</string>
+    <string name="project_type_deck_board">تخته کارتابل</string>
+    <string name="project_type_deck_card">کارت کارتابل</string>
     <string name="project_type_file">فایل</string>
     <string name="projects_title">پروژه ها</string>
     <plurals name="resources_count">
