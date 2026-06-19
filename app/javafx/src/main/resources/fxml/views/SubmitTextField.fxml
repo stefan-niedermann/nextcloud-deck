@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextArea?><?import javafx.scene.control.TextField?><?import javafx.scene.control.Button?><?import javafx.scene.layout.StackPane?><?import javafx.scene.control.Label?>
+
+
+<fx:root xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER_LEFT" type="StackPane" stylesheets="css/views/SubmitTextField.css">
+    <TextField fx:id="content" />
+
+    <Button fx:id="submitButton" StackPane.alignment="CENTER_RIGHT">
+        <graphic>
+            <Label accessibleText="Submit" text="→"
+                fx:id="submitLabel" />
+        </graphic>
+    </Button>
+</fx:root>

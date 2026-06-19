@@ -1,0 +1,9 @@
+#progress {
+    -fx-padding-top: 5;
+    -fx-padding-bottom: 5;
+}
+
+#form {
+    -fx-spacing: 10;
+    -fx-padding: 10;
+}

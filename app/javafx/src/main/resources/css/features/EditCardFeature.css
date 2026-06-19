@@ -1,0 +1,24 @@
+.title {
+    -fx-padding: 10;
+}
+
+VBox VBox {
+    -fx-spacing: 10;
+    -fx-padding: 10;
+}
+
+ButtonBar {
+    -fx-padding: 10;
+}
+
+.markdown-view {
+    -fx-padding: 6 9 6 9;
+}
+
+.text-area .text {
+    -fx-line-spacing: 4px;
+}
+
+.label-secondary {
+    -fx-text-fill: -fx-mid-text-color;
+}

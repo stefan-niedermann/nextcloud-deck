@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?><?import javafx.scene.control.Button?><?import javafx.scene.control.Label?><?import javafx.scene.control.PasswordField?><?import javafx.scene.control.ProgressBar?><?import javafx.scene.control.TextField?><?import javafx.scene.layout.BorderPane?><?import javafx.scene.layout.ColumnConstraints?><?import javafx.scene.layout.GridPane?><?import javafx.scene.layout.RowConstraints?><?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" stylesheets="css/scenes/LoginScene.css"
+    xmlns="http://javafx.com/javafx/25.0.1"
+    fx:controller="it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.LoginScene"
+    fx:id="root">
+
+    <center>
+        <VBox id="form">
+            <GridPane>
+                <columnConstraints>
+                    <ColumnConstraints minWidth="10.0" prefWidth="150.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    <RowConstraints />
+                </rowConstraints>
+                <children>
+                    <Label text="%login.label.server-address" />
+                    <TextField GridPane.columnIndex="1"
+                        promptText="%login.placeholder.server-address" fx:id="url" />
+
+                    <Label GridPane.rowIndex="1" text="%login.label.username" />
+                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="username" />
+
+                    <Label GridPane.rowIndex="2" text="%login.label.password" />
+                    <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="2"
+                        fx:id="password" />
+
+                    <Label GridPane.rowIndex="3" prefWidth="100.0" text="%login.label.progress" />
+                    <ProgressBar GridPane.columnIndex="1" GridPane.rowIndex="3" disable="true"
+                        maxWidth="Infinity" progress="0.0" fx:id="progress" />
+                </children>
+            </GridPane>
+        </VBox>
+    </center>
+    <bottom>
+        <Button BorderPane.alignment="CENTER_RIGHT" onAction="#submit" text="%login.btn.submit"
+            fx:id="submit">
+            <BorderPane.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </BorderPane.margin>
+        </Button>
+    </bottom>
+
+</BorderPane>

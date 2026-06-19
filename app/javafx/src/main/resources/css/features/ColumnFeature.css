@@ -1,0 +1,32 @@
+#root {
+    -fx-min-width: 250;
+    -fx-pref-width: 300;
+}
+
+.header {
+    -fx-alignment: center;
+    -fx-padding: 10 20 10 20;
+}
+
+.header .actions {
+    -fx-alignment: center;
+    -fx-spacing: 10;
+}
+
+.list-view {
+    -fx-background-color: transparent;
+}
+
+.list-cell,
+.list-cell:filled:selected {
+    -fx-background-color: transparent;
+}
+
+.list-cell > * {
+    -fx-border-color: transparent;
+    -fx-border-width: 1;
+}
+
+.list-view:focused .list-cell:focused > * {
+    -fx-border-color: -fx-accent;
+}

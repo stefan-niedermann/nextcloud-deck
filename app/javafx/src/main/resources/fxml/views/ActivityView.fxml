@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ContextMenu?><?import javafx.scene.control.MenuItem?><?import it.niedermann.nextcloud.deck.javafx.ui.controller.views.AvatarView?><?import javafx.scene.control.Label?><?import javafx.scene.layout.Region?><?import javafx.scene.layout.HBox?><?import javafx.scene.layout.VBox?>
+
+<fx:root xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER_LEFT" type="HBox">
+    <AvatarView fx:id="avatar" />
+    <VBox HBox.hgrow="ALWAYS">
+        <HBox>
+            <Label fx:id="author" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="creationDateTime" />
+        </HBox>
+        <Label fx:id="message" />
+    </VBox>
+</fx:root>

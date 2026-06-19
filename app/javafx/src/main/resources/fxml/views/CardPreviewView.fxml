@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ContextMenu?><?import javafx.scene.control.MenuItem?><?import javafx.scene.control.ButtonBar?><?import javafx.geometry.Insets?><?import javafx.scene.control.MenuButton?><?import javafx.scene.control.Label?><?import javafx.scene.control.MenuItem?><?import javafx.scene.layout.BorderPane?><?import javafx.scene.layout.HBox?><?import javafx.scene.text.Text?><?import it.niedermann.nextcloud.deck.javafx.ui.controller.views.IconCounterView?><?import javafx.scene.layout.Region?>
+
+
+<fx:root xmlns:fx="http://javafx.com/fxml/1" styleClass="card"
+    stylesheets="css/views/CardPreviewView.css" type="BorderPane"
+    xmlns="http://javafx.com/javafx/25.0.1">
+
+    <top>
+        <HBox BorderPane.alignment="CENTER">
+            <Label fx:id="title" />
+        </HBox>
+    </top>
+
+    <bottom>
+        <HBox alignment="CENTER_LEFT">
+
+            <IconCounterView fx:id="descriptionIconCounter" />
+            <IconCounterView fx:id="labelsIconCounter" />
+            <IconCounterView fx:id="commentsIconCounter" />
+            <IconCounterView fx:id="attachmentsIconCounter" />
+            <IconCounterView fx:id="assigneesIconCounter" />
+
+            <Region HBox.hgrow="SOMETIMES" />
+
+        </HBox>
+    </bottom>
+
+    <center>
+        <Label alignment="TOP_LEFT" wrapText="true" fx:id="description" />
+    </center>
+
+    <fx:define>
+        <ContextMenu fx:id="contextMenu">
+            <items>
+                <MenuItem mnemonicParsing="false" text="Assign to me" />
+                <MenuItem mnemonicParsing="false" text="Move" />
+                <MenuItem mnemonicParsing="false" text="Copy" />
+                <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+        </ContextMenu>
+    </fx:define>
+</fx:root>

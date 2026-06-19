@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+
+<fx:root xmlns:fx="http://javafx.com/fxml/1" type="HBox" alignment="CENTER_LEFT">
+    <ImageView fx:id="imageView" />
+    <Label fx:id="counter" />
+</fx:root>

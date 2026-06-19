@@ -1,0 +1,3 @@
+.list-cell {
+    -fx-background: derive(-fx-color, 100%);
+}

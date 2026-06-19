@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?><?import javafx.scene.image.ImageView?><?import javafx.scene.layout.Region?><?import javafx.scene.layout.HBox?><?import javafx.scene.layout.VBox?>
+
+<fx:root xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER_LEFT" type="HBox">
+    <ImageView fx:id="preview" />
+    <VBox HBox.hgrow="ALWAYS">
+        <HBox>
+            <Label fx:id="name" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="size" />
+        </HBox>
+        <Label fx:id="created" />
+    </VBox>
+</fx:root>

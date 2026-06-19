@@ -1,0 +1,12 @@
+TextField {
+    -fx-padding: 5 30 5 10;
+}
+
+Button {
+    -fx-background-color: transparent;
+}
+
+Label {
+    -fx-background-color: transparent;
+    -fx-padding: 0 5 0 0;
+}
