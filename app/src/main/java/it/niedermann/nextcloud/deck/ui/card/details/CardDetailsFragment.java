@@ -42,10 +42,12 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabDetailsBinding;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.ui.card.CardAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.LabelAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
@@ -64,7 +66,8 @@ public class CardDetailsFragment extends Fragment implements
 
     private FragmentCardEditTabDetailsBinding binding;
     private EditCardViewModel viewModel;
-    private AssigneeAdapter adapter;
+    private AssigneeAdapter assigneeAdapter;
+    private DependentsAdapter dependentsAdapter;
     private static final String KEY_ACCOUNT = "account";
 
     public static Fragment newInstance(@NonNull Account account) {
@@ -147,7 +150,8 @@ public class CardDetailsFragment extends Fragment implements
         Stream.of(
                 binding.labelsWrapper,
                 binding.peopleWrapper,
-                binding.descriptionEditorWrapper
+                binding.descriptionEditorWrapper,
+                binding.dependentsWrapper
         ).forEach(utils.material::colorTextInputLayout);
 
         utils.platform.colorImageView(binding.descriptionToggle, ColorRole.SECONDARY);
@@ -359,8 +363,8 @@ public class CardDetailsFragment extends Fragment implements
     }
 
     private void setupAssignees() {
-        adapter = new AssigneeAdapter((user) -> CardAssigneeDialog.newInstance(user).show(getChildFragmentManager(), CardAssigneeDialog.class.getSimpleName()), viewModel.getAccount());
-        binding.assignees.setAdapter(adapter);
+        assigneeAdapter = new AssigneeAdapter((user) -> CardAssigneeDialog.newInstance(user).show(getChildFragmentManager(), CardAssigneeDialog.class.getSimpleName()), viewModel.getAccount());
+        binding.assignees.setAdapter(assigneeAdapter);
         binding.assignees.post(() -> {
             @Px final int gutter = getResources().getDimensionPixelSize(R.dimen.spacer_1x);
             final int spanCount = (int) (float) binding.labelsWrapper.getWidth() / (getResources().getDimensionPixelSize(R.dimen.avatar_size) + gutter);
@@ -381,7 +385,7 @@ public class CardDetailsFragment extends Fragment implements
                 final var user = (User) adapterView.getItemAtPosition(position);
                 viewModel.getFullCard().getAssignedUsers().add(user);
                 ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
-                adapter.addUser(user);
+                assigneeAdapter.addUser(user);
                 binding.people.setText("");
             });
         } else {
@@ -389,34 +393,30 @@ public class CardDetailsFragment extends Fragment implements
         }
 
         if (this.viewModel.getFullCard().getAssignedUsers() != null) {
-            adapter.setUsers(this.viewModel.getFullCard().getAssignedUsers());
+            assigneeAdapter.setUsers(this.viewModel.getFullCard().getAssignedUsers());
         }
     }
 
     private void setupDependents() {
-//        adapter = new DependentsAdapter((user) -> CardAssigneeDialog.newInstance(user).show(getChildFragmentManager(), CardAssigneeDialog.class.getSimpleName()), viewModel.getAccount());
-//        binding.dependentsGroup.setAdapter(adapter);
-        binding.dependentsGroup.post(() -> {
-            @Px final int gutter = getResources().getDimensionPixelSize(R.dimen.spacer_1x);
-            final int spanCount = (int) (float) binding.dependentsWrapper.getWidth() / (getResources().getDimensionPixelSize(R.dimen.avatar_size) + gutter);
-//            binding.dependentsGroup.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
-//            binding.dependentsGroup.addItemDecoration(new AssigneeDecoration(spanCount, gutter));
-        });
+        dependentsAdapter = new DependentsAdapter((card) -> {
+            System.out.println("Open Card in new Intent: " + card);
+        }, viewModel.getAccount());
+        binding.dependentsGroup.setAdapter(dependentsAdapter);
 
         if (viewModel.canEdit()) {
             Long localCardId = viewModel.getFullCard().getCard().getLocalId();
             localCardId = localCardId == null ? -1 : localCardId;
             try {
-                binding.dependents.setAdapter(new UserAutoCompleteAdapter(requireActivity(), viewModel.getAccount(), viewModel.getBoardId(), localCardId));
+                binding.dependents.setAdapter(new CardAutoCompleteAdapter(requireActivity(), viewModel.getAccount(), viewModel.getBoardId(), localCardId));
             } catch (NextcloudFilesAppAccountNotFoundException e) {
                 ExceptionDialogFragment.newInstance(e, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 // TODO Handle error
             }
             binding.dependents.setOnItemClickListener((adapterView, view, position, id) -> {
-                final var user = (User) adapterView.getItemAtPosition(position);
-                viewModel.getFullCard().getAssignedUsers().add(user);
-                ((UserAutoCompleteAdapter) binding.dependents.getAdapter()).exclude(user);
-                adapter.addUser(user);
+                final var card = (Card) adapterView.getItemAtPosition(position);
+                viewModel.getFullCard().getDependentCardRemoteIDs().add(card.getId());
+                ((CardAutoCompleteAdapter) binding.dependents.getAdapter()).exclude(card);
+                dependentsAdapter.addCard(card);
                 binding.dependents.setText("");
             });
         } else {
@@ -424,7 +424,7 @@ public class CardDetailsFragment extends Fragment implements
         }
 
         if (this.viewModel.getFullCard().getAssignedUsers() != null) {
-            adapter.setUsers(this.viewModel.getFullCard().getAssignedUsers());
+            dependentsAdapter.setCards(this.viewModel.getFullCard().getDependents());
         }
     }
 
@@ -444,7 +444,7 @@ public class CardDetailsFragment extends Fragment implements
     @Override
     public void onUnassignUser(@NonNull User user) {
         viewModel.getFullCard().getAssignedUsers().remove(user);
-        adapter.removeUser(user);
+        assigneeAdapter.removeUser(user);
         ((UserAutoCompleteAdapter) binding.people.getAdapter()).doNotLongerExclude(user);
 
         viewModel.getCurrentBoardColor(viewModel.getAccount().getId(), viewModel.getBoardId())
@@ -452,7 +452,7 @@ public class CardDetailsFragment extends Fragment implements
                         .setAction(R.string.simple_undo, v1 -> {
                             viewModel.getFullCard().getAssignedUsers().add(user);
                             ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
-                            adapter.addUser(user);
+                            assigneeAdapter.addUser(user);
                         })
                         .show(), ContextCompat.getMainExecutor(requireContext()));
     }

@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_outline_start_24"
         app:tint="?attr/colorOnSurface"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
     <TextView
         android:id="@+id/done_start_date"
@@ -34,7 +34,7 @@
         app:layout_constraintStart_toEndOf="@id/doneIcon"
         app:layout_constraintTop_toTopOf="@id/doneIcon"
         tools:text="@tools:sample/date/ddmmyy"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/startDateDateWrapper"

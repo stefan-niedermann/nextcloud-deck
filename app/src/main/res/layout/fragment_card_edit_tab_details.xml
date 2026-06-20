@@ -104,7 +104,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardDueDateView"
-            app:startIconDrawable="@drawable/ic_insert_link_black_24dp">
+            app:startIconDrawable="@drawable/ic_outline_list_alt_24">
 
             <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
                 android:id="@+id/dependents"
@@ -115,15 +115,18 @@
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.chip.ChipGroup
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/dependentsGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
+            android:layout_marginTop="@dimen/spacer_1x"
+            android:layout_marginBottom="@dimen/spacer_1hx"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/descriptionWrapper"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dependentsWrapper" />
+            app:layout_constraintTop_toBottomOf="@id/dependentsWrapper"
+            tools:listitem="@tools:sample/avatars" />
 
         <RelativeLayout
             android:id="@+id/descriptionWrapper"

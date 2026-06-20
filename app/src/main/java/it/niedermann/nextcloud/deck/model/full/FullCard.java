@@ -51,7 +51,7 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
     public List<Card> dependents;
 
     @Ignore
-    public List<Long> dependentCardRemoteIDs;
+    public List<Long> dependentCardRemoteIDs = new ArrayList<>();
 
     @Relation(entity = DeckComment.class, parentColumn = "localId", entityColumn = "objectId", projection = "localId")
     public List<Long> commentIDs;
@@ -67,7 +67,7 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
         this.owner = copyList(fullCard.getOwner());
         this.attachments = copyList(fullCard.getAttachments());
         this.commentIDs = copyList(fullCard.getCommentIDs());
-        this.dependentCardRemoteIDs = copyList(fullCard.getDependentCardRemoteIDs());
+        this.dependentCardRemoteIDs.addAll(fullCard.getDependentCardRemoteIDs());
     }
 
     public Card getCard() {
@@ -153,7 +153,8 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
 
     @Ignore
     public void setDependentCardRemoteIDs(List<Long> dependentCardRemoteIDs) {
-        this.dependentCardRemoteIDs = dependentCardRemoteIDs;
+        this.dependentCardRemoteIDs.clear();
+        this.dependentCardRemoteIDs.addAll(dependentCardRemoteIDs);
     }
 
     @NonNull
