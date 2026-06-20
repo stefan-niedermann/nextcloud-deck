@@ -98,6 +98,7 @@
     <string name="label_clear_start_date">Clear start date</string>
     <string name="label_clear_done">Not done</string>
     <string name="label_due_at">Due at: %1$s</string>
+    <string name="label_start_at">Start at: %1$s</string>
     <string name="label_add">Add %1$s</string>
 
     <string name="url_maintainer" translatable="false">https://www.niedermann.it/</string>

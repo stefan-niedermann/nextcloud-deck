@@ -102,18 +102,16 @@ public class CardStartDateView extends FrameLayout implements DatePickerDialog.O
             ).forEach(v -> v.setVisibility(View.VISIBLE));
 
             Stream.of(
-                    binding.doneCheck,
-                    binding.doneStartDate,
-                    binding.doneDate,
-                    binding.clearStartDate
+                    binding.doneIcon,
+                    binding.doneStartDate
             ).forEach(v -> v.setVisibility(View.GONE));
 
             binding.clearStartDate.setVisibility(startDate == null || !isEnabled() ? View.GONE : View.VISIBLE);
         } else {
 
             Stream.of(
-                    binding.doneCheck,
-                    binding.doneDate
+                    binding.doneIcon,
+                    binding.doneStartDate
             ).forEach(v -> v.setVisibility(View.VISIBLE));
 
             Stream.of(
@@ -126,7 +124,6 @@ public class CardStartDateView extends FrameLayout implements DatePickerDialog.O
 
     private void setTextState() {
         if (done == null) {
-            binding.doneDate.setText(null);
             binding.doneStartDate.setText(null);
 
             if (this.startDate == null) {
@@ -134,23 +131,21 @@ public class CardStartDateView extends FrameLayout implements DatePickerDialog.O
                 binding.startDateTime.setText(null);
 
             } else {
-                final var dueDate = this.startDate.atZone(ZoneId.systemDefault());
-                binding.startDateDate.setText(dueDate.format(dateFormatter));
-                binding.startDateTime.setText(dueDate.format(timeFormatter));
+                final var startDate = this.startDate.atZone(ZoneId.systemDefault());
+                binding.startDateDate.setText(startDate.format(dateFormatter));
+                binding.startDateTime.setText(startDate.format(timeFormatter));
             }
 
         } else {
             binding.startDateDate.setText(null);
             binding.startDateTime.setText(null);
 
-            binding.doneDate.setText(done.atZone(ZoneId.systemDefault()).format(dateTimeFormatter));
-
             if (this.startDate == null) {
                 binding.doneStartDate.setText(null);
 
             } else {
-                final var dueDate = this.startDate.atZone(ZoneId.systemDefault());
-                binding.doneStartDate.setText(getContext().getString(R.string.label_due_at, dueDate.format(dateTimeFormatter)));
+                final var startDate = this.startDate.atZone(ZoneId.systemDefault());
+                binding.doneStartDate.setText(getContext().getString(R.string.label_start_at, startDate.format(dateTimeFormatter)));
             }
         }
     }
@@ -222,7 +217,7 @@ public class CardStartDateView extends FrameLayout implements DatePickerDialog.O
             hourOfDay = 0;
             minute = 0;
         } else {
-            assert this.startDate != null; // Since selectedTime is not empty and is derived from dueDate, dueDate itself shouldn't be null here.
+            assert this.startDate != null; // Since selectedTime is not empty and is derived from startDate, startDate itself shouldn't be null here.
             final var oldTime = LocalTime.from(this.startDate.atZone(ZoneId.systemDefault()));
             hourOfDay = oldTime.getHour();
             minute = oldTime.getMinute();
@@ -267,8 +262,7 @@ public class CardStartDateView extends FrameLayout implements DatePickerDialog.O
                 binding.clearStartDate
         ).forEach(v -> utils.platform.colorImageView(v, ColorRole.SECONDARY));
 
-        utils.platform.colorTextView(binding.doneDate, ColorRole.ON_SURFACE);
-        utils.platform.colorTextView(binding.doneStartDate, ColorRole.ON_SURFACE_VARIANT);
+        utils.platform.colorTextView(binding.doneStartDate, ColorRole.ON_SURFACE);
     }
 
     public void setStartDateListener(@Nullable StartDateChangedListener startDateChangedListener) {

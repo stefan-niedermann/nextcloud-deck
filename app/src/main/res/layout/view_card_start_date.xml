@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/doneCheck"
+        android:id="@+id/doneIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacer_1qx"
@@ -21,26 +21,14 @@
         tools:visibility="visible" />
 
     <TextView
-        android:id="@+id/doneDate"
-        style="?attr/textAppearanceBody1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/doneCheck"
-        app:layout_constraintEnd_toStartOf="@id/done_start_date"
-        app:layout_constraintStart_toEndOf="@id/doneCheck"
-        app:layout_constraintTop_toTopOf="@id/doneCheck"
-        tools:text="@tools:sample/date/ddmmyy"
-        tools:visibility="visible" />
-
-    <TextView
         android:id="@+id/done_start_date"
         style="?attr/textAppearanceBody1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacer_1x"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/doneCheck"
-        app:layout_constraintTop_toBottomOf="@id/doneDate"
+        app:layout_constraintEnd_toEnDuedOf="parent"
+        app:layout_constraintStart_toEndOf="@id/doneIcon"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="@tools:sample/date/ddmmyy"
         tools:visibility="visible" />
 
