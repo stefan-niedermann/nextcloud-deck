@@ -5,24 +5,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:paddingStart="@dimen/spacer_1x"
+    android:paddingEnd="@dimen/spacer_1qx"
+    android:orientation="horizontal"
+    android:gravity="center">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/markAsDone"
-        style="@style/Widget.Material3Expressive.Button.IconButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:backgroundTint="@color/defaultBrand"
-        android:contentDescription="@string/mark_as_done"
-        app:icon="@drawable/ic_check_white_24dp" />
-
-    <TextView
-        android:id="@+id/cardTitle"
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/done"
+        style="@style/Widget.Material3.Checkbox.ListItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:textAppearance="?attr/textAppearanceListItem"
         tools:text="@tools:sample/lorem" />
+
+    <ImageView
+        android:id="@+id/remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/simple_delete"
+        android:padding="@dimen/spacer_1x"
+        app:srcCompat="@drawable/ic_close_circle" />
 
 </LinearLayout>

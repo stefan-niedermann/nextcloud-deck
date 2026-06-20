@@ -158,6 +158,7 @@ public class CardDetailsFragment extends Fragment implements
 
         binding.cardStartDateView.applyTheme(color);
         binding.cardDueDateView.applyTheme(color);
+        dependentsAdapter.applyTheme(color);
 
         // TODO apply correct branding on the BrandedDatePicker
     }
@@ -409,10 +410,21 @@ public class CardDetailsFragment extends Fragment implements
             return;
         }
 
-        dependentsAdapter = new DependentsAdapter((card) -> {
-            System.out.println("Open Card in new Intent: " + card);
-        }, viewModel.getAccount());
+        dependentsAdapter = new DependentsAdapter(
+                requireContext(),
+                card -> viewModel.getFullCard().getCard().setDone(card.getDone()),
+                card -> {
+                    final var remoteIds = viewModel.getFullCard().getDependentCardRemoteIDs();
+                    if (remoteIds.contains(card.getId())) {
+                        remoteIds.remove(card.getId());
+                    } else {
+                        remoteIds.add(card.getId());
+                    }
+                }, viewModel.getAccount());
         binding.dependentsGroup.setAdapter(dependentsAdapter);
+
+        binding.dependents.setEnabled(viewModel.canEdit());
+        binding.dependentsGroup.setEnabled(viewModel.canEdit());
 
         if (viewModel.canEdit()) {
             Long localCardId = viewModel.getFullCard().getCard().getLocalId();
@@ -430,13 +442,9 @@ public class CardDetailsFragment extends Fragment implements
                 dependentsAdapter.addCard(card);
                 binding.dependents.setText("");
             });
-        } else {
-            binding.dependents.setEnabled(false);
         }
 
-        if (this.viewModel.getFullCard().getAssignedUsers() != null) {
-            dependentsAdapter.setCards(this.viewModel.getFullCard().getDependents());
-        }
+        dependentsAdapter.setCards(this.viewModel.getFullCard().getDependents());
     }
 
     private void setupProjects() {

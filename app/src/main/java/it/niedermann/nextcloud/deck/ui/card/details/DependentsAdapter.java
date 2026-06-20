@@ -2,40 +2,62 @@ package it.niedermann.nextcloud.deck.ui.card.details;
 
 import static androidx.recyclerview.widget.RecyclerView.NO_ID;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemDependentBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
+import it.niedermann.nextcloud.deck.ui.theme.Themed;
 
 @SuppressWarnings("WeakerAccess")
-public class DependentsAdapter extends RecyclerView.Adapter<DependentViewHolder> {
+public class DependentsAdapter extends RecyclerView.Adapter<DependentViewHolder> implements Themed {
+
+    @NonNull
+    private ThemeUtils utils;
 
     @Nullable
     private RecyclerView recyclerView;
+
     private final Account account;
+
+    @NonNull
+    private final Context context;
+
     @NonNull
     private final List<Card> cards = new ArrayList<>();
+
     @NonNull
-    private final Consumer<Card> cardClickedListener;
+    private final Consumer<Card> doneStatus;
+
+    @NonNull
+    private final Consumer<Card> removeDependent;
 
     DependentsAdapter(
-            @NonNull Consumer<Card> cardClickedListener,
+            @NonNull Context context,
+            @NonNull Consumer<Card> doneStatus,
+            @NonNull Consumer<Card> removeDependent,
             @NonNull Account account
     ) {
         super();
-        this.cardClickedListener = cardClickedListener;
+        this.doneStatus = doneStatus;
+        this.removeDependent = removeDependent;
         this.account = account;
+        this.context = context.getApplicationContext();
+        this.utils = ThemeUtils.of(ContextCompat.getColor(context, R.color.primary), context);
         setHasStableIds(true);
     }
 
@@ -67,7 +89,7 @@ public class DependentsAdapter extends RecyclerView.Adapter<DependentViewHolder>
     @Override
     public void onBindViewHolder(@NonNull DependentViewHolder holder, int position) {
         final var card = cards.get(position);
-        holder.bind(account, card, cardClickedListener);
+        holder.bind(account, card, doneStatus, removeDependent, utils);
     }
 
     @Override
@@ -99,5 +121,11 @@ public class DependentsAdapter extends RecyclerView.Adapter<DependentViewHolder>
         if (this.recyclerView != null) {
             this.recyclerView.setVisibility(this.getItemCount() > 0 ? View.VISIBLE : View.GONE);
         }
+    }
+
+    @Override
+    public void applyTheme(int color) {
+        this.utils = ThemeUtils.of(color, context);
+        notifyDataSetChanged();
     }
 }
