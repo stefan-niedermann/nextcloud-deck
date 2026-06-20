@@ -44,6 +44,14 @@ public class CardUpdate extends Card {
         this.owner = owner;
     }
 
+    public List<Long> getDependentCards() {
+        return dependentCards;
+    }
+
+    public void setDependentCards(List<Long> dependentCards) {
+        this.dependentCards = dependentCards;
+    }
+
     @Override
     public String toString() {
         return "CardUpdate{" +
