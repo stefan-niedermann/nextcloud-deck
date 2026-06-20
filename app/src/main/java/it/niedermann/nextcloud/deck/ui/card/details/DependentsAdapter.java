@@ -108,9 +108,11 @@ public class DependentsAdapter extends RecyclerView.Adapter<DependentViewHolder>
     }
 
     public void addCard(@NonNull Card card) {
-        this.cards.add(card);
-        updateRecyclerViewVisibility();
-        notifyItemInserted(this.cards.size());
+        if (!this.cards.contains(card)) {
+            this.cards.add(card);
+            updateRecyclerViewVisibility();
+            notifyItemInserted(this.cards.size());
+        }
     }
 
     public void removeCard(@NonNull Card card) {

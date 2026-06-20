@@ -435,8 +435,10 @@ public class CardDetailsFragment extends Fragment implements
             binding.dependentsAutoComplete.setOnItemClickListener((adapterView, view, position, id) -> {
                 final var card = (Card) adapterView.getItemAtPosition(position);
 
-                viewModel.getFullCard().getDependentCardRemoteIDs().add(card.getId());
-                viewModel.getFullCard().getDependents().add(card);
+                if (!viewModel.getFullCard().getDependentCardRemoteIDs().contains(card.getId()))
+                    viewModel.getFullCard().getDependentCardRemoteIDs().add(card.getId());
+                if (!viewModel.getFullCard().getDependents().contains(card))
+                    viewModel.getFullCard().getDependents().add(card);
 
                 ((DependentAutoCompleteAdapter) binding.dependentsAutoComplete.getAdapter()).exclude(card);
                 dependentsAdapter.addCard(card);
@@ -445,6 +447,7 @@ public class CardDetailsFragment extends Fragment implements
         }
 
         dependentsAdapter.setCards(this.viewModel.getFullCard().getDependents());
+        this.viewModel.getFullCard().getDependents().forEach(((DependentAutoCompleteAdapter) binding.dependentsAutoComplete.getAdapter())::exclude);
     }
 
     private void setupProjects() {
