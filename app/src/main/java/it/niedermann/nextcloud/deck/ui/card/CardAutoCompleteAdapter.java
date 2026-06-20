@@ -7,11 +7,13 @@ import android.view.ViewGroup;
 
 import androidx.activity.ComponentActivity;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.databinding.ItemAutocompleteCardBinding;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -41,20 +43,24 @@ public class CardAutoCompleteAdapter extends AutoCompleteAdapter<Card> {
 
         constraint$
                 .filter(constraint -> !TextUtils.isEmpty(constraint))
-                .flatMap(constraint -> syncRepository.searchCards(account.getId(), boardId, constraint, 5))
+                .flatMap(constraint -> {
+                    if (TextUtils.isEmpty(constraint)) {
+                        return new MutableLiveData<>(Collections.emptyMap());
+                    } else {
+                        return syncRepository.searchCards(account.getId(), boardId, constraint, 5);
+                    }
+                })
                 .map(map -> {
                     final var lists = map.values();
                     final var list = new ArrayList<FullCard>();
                     lists.forEach(list::addAll);
-                    return list.stream().map(FullCard::getCard).toList();
+                    return list.stream()
+                            .map(FullCard::getCard)
+                            .filter(card -> !Objects.equals(card.getLocalId(), cardId))
+                            .toList();
                 })
                 .map(this::filterExcluded)
                 .distinctUntilChanged()
-                .observe(activity, this::publishResults);
-
-        constraint$
-                .filter(TextUtils::isEmpty)
-                .map(unused -> Collections.<Card>emptyList())
                 .observe(activity, this::publishResults);
     }
 
