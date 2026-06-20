@@ -83,7 +83,7 @@ public class DependentsAdapter extends RecyclerView.Adapter<DependentViewHolder>
     @Override
     public DependentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final var context = parent.getContext();
-        return new DependentViewHolder(ItemDependentBinding.inflate(LayoutInflater.from(context)));
+        return new DependentViewHolder(ItemDependentBinding.inflate(LayoutInflater.from(context), parent, false));
     }
 
     @Override

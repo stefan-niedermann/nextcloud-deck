@@ -73,7 +73,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/peopleWrapper"
-            tools:listitem="@tools:sample/avatars" />
+            tools:itemCount="1"
+            tools:listitem="@layout/item_assignee" />
 
         <it.niedermann.nextcloud.deck.ui.card.details.CardStartDateView
             android:id="@+id/cardStartDateView"
@@ -121,12 +122,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacer_1x"
             android:layout_marginBottom="@dimen/spacer_1hx"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/descriptionWrapper"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/dependentsWrapper"
-            tools:listitem="@tools:sample/avatars" />
+            tools:itemCount="2"
+            tools:listitem="@layout/item_dependent" />
 
         <RelativeLayout
             android:id="@+id/descriptionWrapper"

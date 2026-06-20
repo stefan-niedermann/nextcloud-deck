@@ -26,6 +26,10 @@ public class DependentViewHolder extends RecyclerView.ViewHolder {
     public DependentViewHolder(ItemDependentBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
+        binding.done.setOnClickListener(v -> {
+//            binding.done.toggle();
+            binding.done.setChecked(binding.done.isChecked());
+        });
     }
 
     public void bind(@NonNull Account account,
