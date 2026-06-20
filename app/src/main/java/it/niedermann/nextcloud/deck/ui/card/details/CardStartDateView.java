@@ -141,7 +141,7 @@ public class CardStartDateView extends FrameLayout implements DatePickerDialog.O
             binding.startDateTime.setText(null);
 
             if (this.startDate == null) {
-                binding.doneStartDate.setText(null);
+                binding.doneStartDate.setText(getContext().getString(R.string.label_no_startdate));
 
             } else {
                 final var startDate = this.startDate.atZone(ZoneId.systemDefault());

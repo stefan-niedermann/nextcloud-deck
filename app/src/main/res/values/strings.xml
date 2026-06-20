@@ -364,4 +364,5 @@
     <string name="enter_search_term_description">Enter search term to find cards in this board</string>
     <string name="no_search_results_title">No search results</string>
     <string name="no_search_results_description">We have not found any result for the given search term</string>
+    <string name="label_no_startdate">No start date</string>
 </resources>
