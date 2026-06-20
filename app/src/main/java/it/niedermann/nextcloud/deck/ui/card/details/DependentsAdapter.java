@@ -100,24 +100,24 @@ public class DependentsAdapter extends RecyclerView.Adapter<DependentViewHolder>
     public void setCards(@NonNull List<Card> cards) {
         this.cards.clear();
         this.cards.addAll(cards);
-        updateRecylcerViewVisibility();
+        updateRecyclerViewVisibility();
         notifyDataSetChanged();
     }
 
     public void addCard(@NonNull Card card) {
         this.cards.add(card);
-        updateRecylcerViewVisibility();
+        updateRecyclerViewVisibility();
         notifyItemInserted(this.cards.size());
     }
 
     public void removeCard(@NonNull Card card) {
         final int index = this.cards.indexOf(card);
         this.cards.remove(card);
-        updateRecylcerViewVisibility();
+        updateRecyclerViewVisibility();
         notifyItemRemoved(index);
     }
 
-    private void updateRecylcerViewVisibility() {
+    private void updateRecyclerViewVisibility() {
         if (this.recyclerView != null) {
             this.recyclerView.setVisibility(this.getItemCount() > 0 ? View.VISIBLE : View.GONE);
         }
