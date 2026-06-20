@@ -121,8 +121,6 @@ public class CardStartDateView extends FrameLayout implements DatePickerDialog.O
                     binding.startDateTimeWrapper,
                     binding.clearStartDate
             ).forEach(v -> v.setVisibility(View.GONE));
-
-            binding.clearStartDate.setVisibility(View.VISIBLE);
         }
     }
 
@@ -278,6 +276,6 @@ public class CardStartDateView extends FrameLayout implements DatePickerDialog.O
     }
 
     public interface StartDateChangedListener {
-        void onStartDateChanged(@Nullable Instant dueDate);
+        void onStartDateChanged(@Nullable Instant startDate);
     }
 }

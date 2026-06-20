@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_outline_start_24"
         app:tint="?attr/colorOnSurface"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/doneDate"
@@ -26,11 +26,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/doneCheck"
-        app:layout_constraintEnd_toStartOf="@id/clear_start_date"
+        app:layout_constraintEnd_toStartOf="@id/done_start_date"
         app:layout_constraintStart_toEndOf="@id/doneCheck"
         app:layout_constraintTop_toTopOf="@id/doneCheck"
         tools:text="@tools:sample/date/ddmmyy"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/done_start_date"
@@ -38,26 +38,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacer_1x"
-        app:layout_constraintEnd_toStartOf="@id/clear_start_date"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/doneCheck"
         app:layout_constraintTop_toBottomOf="@id/doneDate"
         tools:text="@tools:sample/date/ddmmyy"
-        tools:visibility="gone" />
-
-    <ImageView
-        android:id="@+id/clear_start_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/spacer_1hx"
-        android:layout_marginStart="@dimen/spacer_1x"
-        android:layout_marginEnd="0dp"
-        android:contentDescription="@string/label_clear_done"
-        android:padding="@dimen/spacer_11qx"
-        app:layout_constraintBottom_toBottomOf="@id/doneDate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/doneDate"
-        app:srcCompat="@drawable/ic_close_circle"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/startDateDateWrapper"
@@ -120,7 +105,6 @@
         android:layout_marginEnd="0dp"
         android:contentDescription="@string/label_clear_start_date"
         android:padding="@dimen/spacer_11qx"
-        android:translationY="@dimen/spacer_1hx"
         app:layout_constraintBottom_toBottomOf="@id/startDateTimeWrapper"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/startDateTimeWrapper"

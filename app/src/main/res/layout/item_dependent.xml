@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/markAsDone"
+        style="@style/Widget.Material3Expressive.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@color/defaultBrand"
+        android:contentDescription="@string/mark_as_done"
+        app:icon="@drawable/ic_check_white_24dp" />
+
+    <TextView
+        android:id="@+id/cardTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:textAppearance="?attr/textAppearanceListItem"
+        tools:text="@tools:sample/lorem" />
+
+</LinearLayout>

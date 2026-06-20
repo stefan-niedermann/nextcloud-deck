@@ -105,6 +105,7 @@ public class CardDetailsFragment extends Fragment implements
         setupLabels((Account) requireNonNull(args.getSerializable(KEY_ACCOUNT)));
         setupStartDate();
         setupDueDate();
+        setupDependents();
         setupDescription();
         setupProjects();
 
@@ -151,6 +152,7 @@ public class CardDetailsFragment extends Fragment implements
 
         utils.platform.colorImageView(binding.descriptionToggle, ColorRole.SECONDARY);
 
+        binding.cardStartDateView.applyTheme(color);
         binding.cardDueDateView.applyTheme(color);
 
         // TODO apply correct branding on the BrandedDatePicker
@@ -250,7 +252,7 @@ public class CardDetailsFragment extends Fragment implements
         final var version = this.viewModel.getAccount().getServerDeckVersionAsObject();
         final var card = this.viewModel.getFullCard().getCard();
         card.setStartDate(startDate);
-        binding.cardDueDateView.setDueDate(getChildFragmentManager(), version, card.getDueDate(), card.getDone());
+        binding.cardStartDateView.setStartDate(getChildFragmentManager(), version, card.getStartDate(), card.getDone());
     }
 
     @Override
@@ -266,6 +268,7 @@ public class CardDetailsFragment extends Fragment implements
         final var version = this.viewModel.getAccount().getServerDeckVersionAsObject();
         final var card = this.viewModel.getFullCard().getCard();
         card.setDone(done);
+        binding.cardStartDateView.setStartDate(getChildFragmentManager(), version, card.getStartDate(), card.getDone());
         binding.cardDueDateView.setDueDate(getChildFragmentManager(), version, card.getDueDate(), card.getDone());
     }
 
@@ -383,6 +386,41 @@ public class CardDetailsFragment extends Fragment implements
             });
         } else {
             binding.people.setEnabled(false);
+        }
+
+        if (this.viewModel.getFullCard().getAssignedUsers() != null) {
+            adapter.setUsers(this.viewModel.getFullCard().getAssignedUsers());
+        }
+    }
+
+    private void setupDependents() {
+//        adapter = new DependentsAdapter((user) -> CardAssigneeDialog.newInstance(user).show(getChildFragmentManager(), CardAssigneeDialog.class.getSimpleName()), viewModel.getAccount());
+//        binding.dependentsGroup.setAdapter(adapter);
+        binding.dependentsGroup.post(() -> {
+            @Px final int gutter = getResources().getDimensionPixelSize(R.dimen.spacer_1x);
+            final int spanCount = (int) (float) binding.dependentsWrapper.getWidth() / (getResources().getDimensionPixelSize(R.dimen.avatar_size) + gutter);
+//            binding.dependentsGroup.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
+//            binding.dependentsGroup.addItemDecoration(new AssigneeDecoration(spanCount, gutter));
+        });
+
+        if (viewModel.canEdit()) {
+            Long localCardId = viewModel.getFullCard().getCard().getLocalId();
+            localCardId = localCardId == null ? -1 : localCardId;
+            try {
+                binding.dependents.setAdapter(new UserAutoCompleteAdapter(requireActivity(), viewModel.getAccount(), viewModel.getBoardId(), localCardId));
+            } catch (NextcloudFilesAppAccountNotFoundException e) {
+                ExceptionDialogFragment.newInstance(e, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                // TODO Handle error
+            }
+            binding.dependents.setOnItemClickListener((adapterView, view, position, id) -> {
+                final var user = (User) adapterView.getItemAtPosition(position);
+                viewModel.getFullCard().getAssignedUsers().add(user);
+                ((UserAutoCompleteAdapter) binding.dependents.getAdapter()).exclude(user);
+                adapter.addUser(user);
+                binding.dependents.setText("");
+            });
+        } else {
+            binding.dependents.setEnabled(false);
         }
 
         if (this.viewModel.getFullCard().getAssignedUsers() != null) {

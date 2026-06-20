@@ -90,10 +90,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacer_2x"
-            app:layout_constraintBottom_toTopOf="@id/descriptionWrapper"
+            app:layout_constraintBottom_toTopOf="@id/dependentsWrapper"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardStartDateView" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dependentsWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/label_dependents"
+            app:layout_constraintBottom_toTopOf="@id/dependentsGroup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardDueDateView"
+            app:startIconDrawable="@drawable/ic_insert_link_black_24dp">
+
+            <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
+                android:id="@+id/dependents"
+                style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:completionThreshold="1"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/dependentsGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            app:layout_constraintBottom_toTopOf="@id/descriptionWrapper"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dependentsWrapper" />
 
         <RelativeLayout
             android:id="@+id/descriptionWrapper"
@@ -103,7 +133,7 @@
             app:layout_constraintBottom_toTopOf="@id/projectsTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardDueDateView">
+            app:layout_constraintTop_toBottomOf="@id/dependentsGroup">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/descriptionEditorWrapper"
