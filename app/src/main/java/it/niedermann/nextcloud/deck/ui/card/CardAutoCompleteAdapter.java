@@ -15,9 +15,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAutocompleteCardBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.util.AutoCompleteAdapter;
 
@@ -57,11 +59,26 @@ public class CardAutoCompleteAdapter extends AutoCompleteAdapter<Card> {
                     return list.stream()
                             .map(FullCard::getCard)
                             .filter(card -> !Objects.equals(card.getLocalId(), cardId))
+                            .map(card -> {
+                                if (card.getTitle().startsWith("3.")) {
+                                    card.setStatusEnum(DBStatus.LOCAL_EDITED);
+                                }
+                                return card;
+                            })
                             .toList();
                 })
                 .map(this::filterExcluded)
                 .distinctUntilChanged()
                 .observe(activity, this::publishResults);
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        final var card = getItem(position);
+        return switch (card.getStatusEnum()) {
+            case UP_TO_DATE, LOCAL_MOVED -> true;
+            default -> false;
+        };
     }
 
     @Override
@@ -74,6 +91,13 @@ public class CardAutoCompleteAdapter extends AutoCompleteAdapter<Card> {
             binding = ItemAutocompleteCardBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         }
 
+        if (isEnabled(position)) {
+            binding.title.setCompoundDrawables(null, null, null, null);
+            binding.title.setEnabled(true);
+        } else {
+            binding.title.setEnabled(false);
+            binding.title.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_sync_24dp, 0);
+        }
 
         binding.title.setText(getItem(position).getTitle());
 

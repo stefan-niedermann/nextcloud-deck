@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:ignore="UseCompoundDrawables">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/title"
@@ -16,6 +15,7 @@
         android:paddingStart="@dimen/spacer_1x"
         android:paddingEnd="@dimen/spacer_2x"
         android:textAppearance="?attr/textAppearanceListItem"
+        tools:drawableEnd="@drawable/ic_sync_24dp"
         tools:text="@tools:sample/lorem" />
 
 </LinearLayout>

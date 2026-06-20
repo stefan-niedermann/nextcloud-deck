@@ -89,7 +89,10 @@ public class DependentsAdapter extends RecyclerView.Adapter<DependentViewHolder>
     @Override
     public void onBindViewHolder(@NonNull DependentViewHolder holder, int position) {
         final var card = cards.get(position);
-        holder.bind(account, card, doneStatus, removeDependent, utils);
+        holder.bind(account, card, doneStatus, removedCard -> {
+            removeCard(removedCard);
+            removeDependent.accept(removedCard);
+        }, utils);
     }
 
     @Override
