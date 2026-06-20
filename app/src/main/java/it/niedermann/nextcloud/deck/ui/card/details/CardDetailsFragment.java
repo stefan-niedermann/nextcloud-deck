@@ -47,7 +47,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.ui.card.CardAutoCompleteAdapter;
+import it.niedermann.nextcloud.deck.ui.card.DependentAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.LabelAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
@@ -414,33 +414,33 @@ public class CardDetailsFragment extends Fragment implements
                 requireContext(),
                 card -> viewModel.getFullCard().getCard().setDone(card.getDone()),
                 card -> {
-                    final var remoteIds = viewModel.getFullCard().getDependentCardRemoteIDs();
-                    if (remoteIds.contains(card.getId())) {
-                        remoteIds.remove(card.getId());
-                    } else {
-                        remoteIds.add(card.getId());
-                    }
+                    viewModel.getFullCard().getDependentCardRemoteIDs().remove(card.getId());
+                    viewModel.getFullCard().getDependents().remove(card);
+                    ((DependentAutoCompleteAdapter) binding.dependentsAutoComplete.getAdapter()).doNotLongerExclude(card);
                 }, viewModel.getAccount());
         binding.dependentsGroup.setAdapter(dependentsAdapter);
 
-        binding.dependents.setEnabled(viewModel.canEdit());
+        binding.dependentsAutoComplete.setEnabled(viewModel.canEdit());
         binding.dependentsGroup.setEnabled(viewModel.canEdit());
 
         if (viewModel.canEdit()) {
             Long localCardId = viewModel.getFullCard().getCard().getLocalId();
             localCardId = localCardId == null ? -1 : localCardId;
             try {
-                binding.dependents.setAdapter(new CardAutoCompleteAdapter(requireActivity(), viewModel.getAccount(), viewModel.getBoardId(), localCardId));
+                binding.dependentsAutoComplete.setAdapter(new DependentAutoCompleteAdapter(requireActivity(), viewModel.getAccount(), viewModel.getBoardId(), localCardId));
             } catch (NextcloudFilesAppAccountNotFoundException e) {
                 ExceptionDialogFragment.newInstance(e, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 // TODO Handle error
             }
-            binding.dependents.setOnItemClickListener((adapterView, view, position, id) -> {
+            binding.dependentsAutoComplete.setOnItemClickListener((adapterView, view, position, id) -> {
                 final var card = (Card) adapterView.getItemAtPosition(position);
+
                 viewModel.getFullCard().getDependentCardRemoteIDs().add(card.getId());
-                ((CardAutoCompleteAdapter) binding.dependents.getAdapter()).exclude(card);
+                viewModel.getFullCard().getDependents().add(card);
+
+                ((DependentAutoCompleteAdapter) binding.dependentsAutoComplete.getAdapter()).exclude(card);
                 dependentsAdapter.addCard(card);
-                binding.dependents.setText("");
+                binding.dependentsAutoComplete.setText("");
             });
         }
 

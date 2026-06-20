@@ -108,7 +108,7 @@
             app:startIconDrawable="@drawable/ic_outline_list_alt_24">
 
             <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
-                android:id="@+id/dependents"
+                android:id="@+id/dependents_auto_complete"
                 style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -19,11 +19,10 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAutocompleteCardBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
-import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.util.AutoCompleteAdapter;
 
-public class CardAutoCompleteAdapter extends AutoCompleteAdapter<Card> {
+public class DependentAutoCompleteAdapter extends AutoCompleteAdapter<Card> {
 
     private static final long NO_CARD = Long.MIN_VALUE;
     @NonNull
@@ -32,21 +31,21 @@ public class CardAutoCompleteAdapter extends AutoCompleteAdapter<Card> {
     /**
      * Use this constructor to find users to be added to the ACL of a board
      */
-    public CardAutoCompleteAdapter(@NonNull ComponentActivity activity, @NonNull Account account, long boardId) throws NextcloudFilesAppAccountNotFoundException {
+    public DependentAutoCompleteAdapter(@NonNull ComponentActivity activity, @NonNull Account account, long boardId) throws NextcloudFilesAppAccountNotFoundException {
         this(activity, account, boardId, NO_CARD);
     }
 
     /**
      * Use this constructor to find users to be added to a specific card which are already in the ACL of the board
      */
-    public CardAutoCompleteAdapter(@NonNull ComponentActivity activity, @NonNull Account account, long boardId, long cardId) throws NextcloudFilesAppAccountNotFoundException {
+    public DependentAutoCompleteAdapter(@NonNull ComponentActivity activity, @NonNull Account account, long boardId, long cardId) throws NextcloudFilesAppAccountNotFoundException {
         super(activity, account, boardId);
         this.account = account;
 
         constraint$
                 .filter(constraint -> !TextUtils.isEmpty(constraint))
                 .flatMap(constraint -> {
-                    if (TextUtils.isEmpty(constraint)) {
+                    if (constraint == null || constraint.trim().isEmpty()) {
                         return new MutableLiveData<>(Collections.emptyMap());
                     } else {
                         return syncRepository.searchCards(account.getId(), boardId, constraint, 5);
@@ -59,12 +58,6 @@ public class CardAutoCompleteAdapter extends AutoCompleteAdapter<Card> {
                     return list.stream()
                             .map(FullCard::getCard)
                             .filter(card -> !Objects.equals(card.getLocalId(), cardId))
-                            .map(card -> {
-                                if (card.getTitle().startsWith("3.")) {
-                                    card.setStatusEnum(DBStatus.LOCAL_EDITED);
-                                }
-                                return card;
-                            })
                             .toList();
                 })
                 .map(this::filterExcluded)
