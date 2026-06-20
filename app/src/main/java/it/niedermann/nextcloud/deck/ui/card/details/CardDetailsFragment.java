@@ -236,6 +236,11 @@ public class CardDetailsFragment extends Fragment implements
     }
 
     private void setupStartDate() {
+        if (!viewModel.getAccount().getServerDeckVersionAsObject().supportsStartDate()) {
+            binding.cardStartDateView.setVisibility(GONE);
+            return;
+        }
+
         final var version = this.viewModel.getAccount().getServerDeckVersionAsObject();
         final var card = this.viewModel.getFullCard().getCard();
         binding.cardStartDateView.setStartDateListener(this);
@@ -398,6 +403,12 @@ public class CardDetailsFragment extends Fragment implements
     }
 
     private void setupDependents() {
+        if (!viewModel.getAccount().getServerDeckVersionAsObject().supportsDependents()) {
+            binding.dependentsWrapper.setVisibility(GONE);
+            binding.dependentsGroup.setVisibility(GONE);
+            return;
+        }
+
         dependentsAdapter = new DependentsAdapter((card) -> {
             System.out.println("Open Card in new Intent: " + card);
         }, viewModel.getAccount());

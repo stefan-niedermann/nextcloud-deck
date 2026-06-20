@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import it.niedermann.nextcloud.deck.databinding.ItemAutocompleteCardBinding;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -49,6 +50,11 @@ public class CardAutoCompleteAdapter extends AutoCompleteAdapter<Card> {
                 })
                 .map(this::filterExcluded)
                 .distinctUntilChanged()
+                .observe(activity, this::publishResults);
+
+        constraint$
+                .filter(TextUtils::isEmpty)
+                .map(unused -> Collections.<Card>emptyList())
                 .observe(activity, this::publishResults);
     }
 

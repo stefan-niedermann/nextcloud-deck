@@ -227,6 +227,11 @@ public class Version implements Comparable<Version> {
         return isGreaterOrEqualTo(VERSION_1_18_0);
     }
 
+    /// @see <a href="https://github.com/nextcloud/deck/releases/tag/v1.18.0">Deck sever 1.18.0 release notes</a>
+    public boolean supportsDependents() {
+        return isGreaterOrEqualTo(VERSION_1_18_0);
+    }
+
     /**
      * The first response structure of the very first call to at least the <code>/boards</code> endpoint of the Deck API can be different compared to all following calls.
      * This behavior is tracked in an upstream issue and might be resolved in the future with a specific version.
