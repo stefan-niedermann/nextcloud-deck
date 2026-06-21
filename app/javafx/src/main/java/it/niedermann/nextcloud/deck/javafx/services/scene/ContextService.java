@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.javafx.services;
+package it.niedermann.nextcloud.deck.javafx.services.scene;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -15,16 +15,16 @@ import it.niedermann.nextcloud.deck.javafx.store.Store;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
 import jakarta.inject.Inject;
 
-public class MainService extends Store<MainService.State> {
+public class ContextService extends Store<ContextService.State> {
 
-    private static final Logger logger = Logger.getLogger(MainService.class.getName());
+    private static final Logger logger = Logger.getLogger(ContextService.class.getName());
 
     private final SetCurrentAccountUseCase setCurrentAccountUseCase;
     private final GetCurrentBoardUseCase getCurrentBoardUseCase;
     private final SetCurrentBoardUseCase setCurrentBoardUseCase;
 
     @Inject
-    public MainService(
+    public ContextService(
             StoreLogger storeLogger,
             SetCurrentAccountUseCase setCurrentAccountUseCase,
             GetCurrentBoardUseCase getCurrentBoardUseCase,

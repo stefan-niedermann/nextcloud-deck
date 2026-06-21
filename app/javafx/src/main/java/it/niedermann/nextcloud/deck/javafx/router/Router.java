@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
 
-import it.niedermann.nextcloud.deck.javafx.services.ThemeService;
+import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.FeatureFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.SceneController;
 import jakarta.inject.Inject;

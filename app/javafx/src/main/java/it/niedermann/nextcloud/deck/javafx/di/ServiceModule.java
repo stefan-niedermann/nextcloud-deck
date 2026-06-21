@@ -8,8 +8,8 @@ import dagger.Provides;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
-import it.niedermann.nextcloud.deck.javafx.services.MainService;
-import it.niedermann.nextcloud.deck.javafx.services.ThemeService;
+import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
+import it.niedermann.nextcloud.deck.javafx.services.scene.ContextService;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
 import jakarta.inject.Singleton;
 
@@ -26,11 +26,11 @@ public class ServiceModule {
     /// TODO This service must be scoped (Max one instance per Scene)
     @Provides
     @Singleton
-    MainService provideMainService(StoreLogger storeLogger,
-                                   SetCurrentAccountUseCase setCurrentAccountUseCase,
-                                   GetCurrentBoardUseCase getCurrentBoardUseCase,
-                                   SetCurrentBoardUseCase setCurrentBoardUseCase) {
-        return new MainService(storeLogger,
+    ContextService provideMainService(StoreLogger storeLogger,
+                                      SetCurrentAccountUseCase setCurrentAccountUseCase,
+                                      GetCurrentBoardUseCase getCurrentBoardUseCase,
+                                      SetCurrentBoardUseCase setCurrentBoardUseCase) {
+        return new ContextService(storeLogger,
                 setCurrentAccountUseCase,
                 getCurrentBoardUseCase,
                 setCurrentBoardUseCase);

@@ -11,7 +11,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
 import it.niedermann.nextcloud.deck.javafx.RouteProvider;
 import it.niedermann.nextcloud.deck.javafx.router.Router;
-import it.niedermann.nextcloud.deck.javafx.services.MainService;
+import it.niedermann.nextcloud.deck.javafx.services.scene.ContextService;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.FeatureFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.SceneController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.AccountSwitcherFeature;
@@ -38,7 +38,7 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
     private ScrollPane editCardScrollpane;
     private EditCardFeature editCardFeature;
 
-    private final MainService mainService;
+    private final ContextService contextService;
     private final FeatureFactory featureFactory;
     private final Router router;
     private final RouteProvider routeProvider;
@@ -49,14 +49,14 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
 
     @Inject
     public MainScene(
-            MainService mainService,
+            ContextService contextService,
             FeatureFactory featureFactory,
             Router router,
             RouteProvider routeProvider,
             ScheduleSyncUseCase scheduleSyncUseCase,
             GetBoardUseCase getBoardUseCase
     ) {
-        this.mainService = mainService;
+        this.contextService = contextService;
         this.featureFactory = featureFactory;
         this.router = router;
         this.routeProvider = routeProvider;
@@ -68,20 +68,20 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
-        final var accentColorDisposable = Flowable.fromPublisher(this.mainService.getState())
-                .map(MainService.State::boardId)
+        final var accentColorDisposable = Flowable.fromPublisher(this.contextService.getState())
+                .map(ContextService.State::boardId)
                 .map(this.getBoardUseCase::execute)
                 .switchMap(Flowable::fromPublisher)
                 .map(Board::color)
                 .map(FxUtils::createAccentColorCss)
                 .subscribe(root.styleProperty()::setValue);
 
-        final var switchBoardDisposable = Flowable.fromPublisher(this.mainService.getState())
-                .map(MainService.State::boardId)
+        final var switchBoardDisposable = Flowable.fromPublisher(this.contextService.getState())
+                .map(ContextService.State::boardId)
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(_ -> this.closeCardSidebar());
 
-        final var cardSidebarDisposable = Flowable.fromPublisher(mainService.getState())
+        final var cardSidebarDisposable = Flowable.fromPublisher(contextService.getState())
                 .subscribe(state -> {
                     if (state.cardId() == null) {
                         closeCardSidebar();
@@ -94,7 +94,7 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
 
         root.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
-                mainService.dispatch(new MainService.CloseCardAction());
+                contextService.dispatch(new ContextService.CloseCardAction());
 
             } else if (event.getCode() == KeyCode.F5) {
                 accountSwitcherController.scheduleSync();

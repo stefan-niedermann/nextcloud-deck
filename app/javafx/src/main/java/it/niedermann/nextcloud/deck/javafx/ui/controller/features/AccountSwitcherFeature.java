@@ -11,7 +11,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.RemoveAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
-import it.niedermann.nextcloud.deck.javafx.services.MainService;
+import it.niedermann.nextcloud.deck.javafx.services.scene.ContextService;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.AccountListItemCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.AccountListItemView;
@@ -39,7 +39,7 @@ public class AccountSwitcherFeature extends DisposableController {
     @FXML
     Button removeAccountBtn;
 
-    private final MainService mainService;
+    private final ContextService contextService;
     private final GetAccountUseCase getAccountUseCase;
     private final GetAccountsUseCase getAccountsUseCase;
     private final ScheduleSyncUseCase scheduleSyncUseCase;
@@ -51,13 +51,13 @@ public class AccountSwitcherFeature extends DisposableController {
 
     @Inject
     public AccountSwitcherFeature(
-            MainService mainService,
+            ContextService contextService,
             GetAccountUseCase getAccountUseCase,
             GetAccountsUseCase getAccountsUseCase,
             ScheduleSyncUseCase scheduleSyncUseCase,
             RemoveAccountUseCase removeAccountUseCase
     ) {
-        this.mainService = mainService;
+        this.contextService = contextService;
         this.getAccountUseCase = getAccountUseCase;
         this.getAccountsUseCase = getAccountsUseCase;
         this.scheduleSyncUseCase = scheduleSyncUseCase;
@@ -94,8 +94,8 @@ public class AccountSwitcherFeature extends DisposableController {
 
         final var listAccounts = Flowable.fromPublisher(getAccountsUseCase.execute());
 
-        final var currentAccount = Flowable.fromPublisher(this.mainService.getState())
-                .map(MainService.State::accountId)
+        final var currentAccount = Flowable.fromPublisher(this.contextService.getState())
+                .map(ContextService.State::accountId)
                 .switchMap(getAccountUseCase::execute);
 
         final var disposable = Flowable.combineLatest(listAccounts, currentAccount, Pair::new)
@@ -107,7 +107,7 @@ public class AccountSwitcherFeature extends DisposableController {
         addDisposable(disposable);
 
         accountList.getSelectionModel().selectedItemProperty().addListener((_, _, newValue) ->
-                mainService.dispatch(new MainService.SwitchAccountAction(newValue.id())));
+                contextService.dispatch(new ContextService.SwitchAccountAction(newValue.id())));
 
         scheduleSyncBtn.setOnAction(_ -> this.scheduleSync());
         removeAccountBtn.setOnAction(_ -> this.removeAccount());
@@ -120,9 +120,9 @@ public class AccountSwitcherFeature extends DisposableController {
             this.progress.setVisible(true);
             this.progress.setDisable(false);
 
-            var disposable = Flowable.fromPublisher(mainService.getState())
+            var disposable = Flowable.fromPublisher(contextService.getState())
                     .firstElement()
-                    .map(MainService.State::accountId)
+                    .map(ContextService.State::accountId)
                     .flatMapPublisher(this.scheduleSyncUseCase::execute)
                     .observeOn(JavaFxScheduler.platform())
                     .doOnNext(syncStatus -> {
@@ -144,9 +144,9 @@ public class AccountSwitcherFeature extends DisposableController {
     }
 
     public void removeAccount() {
-        var disposable = Flowable.fromPublisher(mainService.getState())
+        var disposable = Flowable.fromPublisher(contextService.getState())
                 .firstElement()
-                .map(MainService.State::accountId)
+                .map(ContextService.State::accountId)
                 .subscribe(this.removeAccountUseCase::execute);
 
         addDisposable(disposable);

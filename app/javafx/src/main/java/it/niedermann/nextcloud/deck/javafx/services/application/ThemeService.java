@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.javafx.services;
+package it.niedermann.nextcloud.deck.javafx.services.application;
 
 import com.jthemedetecor.OsThemeDetector;
 

@@ -7,7 +7,7 @@ import dagger.Provides;
 import it.niedermann.nextcloud.auth.apptoken.AppTokenAuthProvider;
 import it.niedermann.nextcloud.auth.webloginflowv2.WebLoginFlowV2AuthProvider;
 import it.niedermann.nextcloud.deck.javafx.router.Router;
-import it.niedermann.nextcloud.deck.javafx.services.ThemeService;
+import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.ControllerFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.FeatureFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
