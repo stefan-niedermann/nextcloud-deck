@@ -220,6 +220,14 @@ public class ServerAdapter {
     }
 
 
+    public void assignDependentToCard(long boardId, long stackId, long cardId, long dependentCardRemoteID, @NonNull ResponseCallback<EmptyResponse> responseCallback) {
+        this.requestHelper.request(() -> provider.getDeckAPI().assignDependentToCard(boardId, stackId, cardId, dependentCardRemoteID), responseCallback);
+    }
+
+    public void unassignDependentToCard(long boardId, long stackId, long cardId, long dependentCardRemoteID, @NonNull ResponseCallback<EmptyResponse> responseCallback) {
+        this.requestHelper.request(() -> provider.getDeckAPI().unassignDependentToCard(boardId, stackId, cardId, dependentCardRemoteID), responseCallback);
+    }
+
     // Labels
 
     public void createLabel(long boardId, Label label, @NonNull ResponseCallback<Label> responseCallback) {

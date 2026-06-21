@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.model.propagation;
 
-import java.util.List;
-
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -9,7 +7,6 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 public class CardUpdate extends Card {
 
     private User owner;
-    private List<Long> dependentCards;
 
     public CardUpdate(FullCard card) {
         super();
@@ -33,7 +30,6 @@ public class CardUpdate extends Card {
         setDone(card.getCard().getDone());
         setStartDate(card.getCard().getStartDate());
         setColor(card.getCard().getColor());
-        dependentCards = card.getDependentCardRemoteIDs();
     }
 
     public User getOwner() {
@@ -42,14 +38,6 @@ public class CardUpdate extends Card {
 
     public void setOwner(User owner) {
         this.owner = owner;
-    }
-
-    public List<Long> getDependentCards() {
-        return dependentCards;
-    }
-
-    public void setDependentCards(List<Long> dependentCards) {
-        this.dependentCards = dependentCards;
     }
 
     @Override

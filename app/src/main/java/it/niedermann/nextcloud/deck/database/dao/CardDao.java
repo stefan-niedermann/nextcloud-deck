@@ -7,10 +7,10 @@ import androidx.room.RawQuery;
 import androidx.room.Transaction;
 import androidx.sqlite.db.SupportSQLiteQuery;
 
+import java.time.Instant;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Card;
-import it.niedermann.nextcloud.deck.model.JoinCardWithDependentCard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 
@@ -143,4 +143,15 @@ public interface CardDao extends GenericDao<Card> {
     LiveData<List<FullCard>> searchCard(long accountId, long localBoardId, String term);
     @Query("SELECT s.localId FROM card s")
     List<Long>  getAllIDs();
+
+    @Query("SELECT c.done FROM card c WHERE localId = :localCardId")
+    Instant getDoneStateOfCard(Long localCardId);
+
+    @Query("UPDATE card set done = :done, status = :status WHERE localId = :localCardId")
+    void setDoneStateOfCard(Long localCardId, Instant done, int status);
+    @Query("SELECT b.id FROM card c join stack s on s.localId = c.stackId join board b on b.localId = s.boardId where c.localId = :localId")
+    Long getBoardRemoteIdByLocalId(Long localId);
+
+    @Query("SELECT s.id FROM card c join stack s on s.localId = c.stackId where c.localId = :localId")
+    Long getStackRemoteIdByLocalId(Long localId);
 }

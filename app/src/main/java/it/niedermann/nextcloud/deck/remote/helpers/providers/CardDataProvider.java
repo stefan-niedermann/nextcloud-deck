@@ -21,6 +21,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.JoinCardWithDependentCard;
 import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
 import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
@@ -203,7 +204,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             }
 
             @SuppressLint("MissingSuperCall")
-            @Override
+        @Override
             public void onError(Throwable throwable) {
                 if (throwable.getClass() == NextcloudHttpRequestFailedException.class &&
                         throwable.getCause() != null &&
@@ -309,6 +310,8 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             }
         }
 
+        fixDependantsStatically(serverAdapter, dataBaseAdapter, account);
+
         List<JoinCardWithUser> changedUsers;
         if (this.stack == null) {
             changedUsers = dataBaseAdapter.getAllChangedUserJoinsWithRemoteIDs();
@@ -395,6 +398,47 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         }
 
         callback.onResponse(Boolean.TRUE, IResponseCallback.EMPTY_HEADERS);
+    }
+
+    private static synchronized void fixDependantsStatically(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, Account account) {
+        List<JoinCardWithDependentCard> changedDependents = dataBaseAdapter.getAllChangedDependentJoinsForAccount(account.getId());
+
+        for (JoinCardWithDependentCard changedDependentLocal : changedDependents) {
+            Card card = dataBaseAdapter.getCardByLocalIdDirectly(account.getId(), changedDependentLocal.getLocalCardId());
+            if (card == null) {
+                // https://github.com/stefan-niedermann/nextcloud-deck/issues/683#issuecomment-759116820
+                continue;
+            }
+
+            Long boardId = dataBaseAdapter.getBoardRemoteIdByCardLocalIdDirectly(card.getLocalId());
+            Long stackId = dataBaseAdapter.getStackRemoteIdByCardLocalIdDirectly(card.getLocalId());
+
+            if (changedDependentLocal.getStatusEnum() == DBStatus.LOCAL_DELETED) {
+                serverAdapter.unassignDependentToCard(boardId, stackId, card.getId(), changedDependentLocal.getDependentRemoteCardId(), new ResponseCallback<>(account) {
+                    @Override
+                    public void onResponse(EmptyResponse response, Headers headers) {
+                        dataBaseAdapter.deleteJoinedDependentForCardPhysically(changedDependentLocal.getLocalCardId(), changedDependentLocal.getDependentRemoteCardId());
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        super.onError(throwable);
+                    }
+                });
+            } else if (changedDependentLocal.getStatusEnum() == DBStatus.LOCAL_EDITED) {
+                serverAdapter.assignDependentToCard(boardId, stackId, card.getId(), changedDependentLocal.getDependentRemoteCardId(), new ResponseCallback<>(account) {
+                    @Override
+                    public void onResponse(EmptyResponse response, Headers headers) {
+                        dataBaseAdapter.setStatusForJoinCardWithDependent(changedDependentLocal.getLocalCardId(), changedDependentLocal.getDependentRemoteCardId(), DBStatus.UP_TO_DATE.getId());
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        super.onError(throwable);
+                    }
+                });
+            }
+        }
     }
 
     @Override

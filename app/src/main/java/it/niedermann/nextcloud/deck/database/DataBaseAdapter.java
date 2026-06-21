@@ -481,6 +481,14 @@ public class DataBaseAdapter {
     public void deleteDependentCardsForCard(long localCardId) {
         db.getCardDependentDao().deleteDependentsOfCard(localCardId);
     }
+    public void deleteDependentCardForCard(long localCardId, long dependantRemoteId) {
+        db.getCardDependentDao().deleteDependentsOfCard(localCardId);
+        db.getCardDependentDao().setDbStatus(localCardId, dependantRemoteId, DBStatus.LOCAL_DELETED.getId());
+    }
+
+    public void setStatusForJoinCardWithDependent(long localCardId, long dependantRemoteId, int statusToSet) {
+        db.getCardDependentDao().setDbStatus(localCardId, dependantRemoteId, statusToSet);
+    }
 
     public JoinCardWithDependentCard getDependentCardsForCard(long localCardId, long remoteCardId) {
         return db.getCardDependentDao().getDependentsOfCard(localCardId, remoteCardId);
@@ -1099,6 +1107,9 @@ public class DataBaseAdapter {
     public List<JoinCardWithLabel> getAllChangedLabelJoins() {
         return db.getJoinCardWithLabelDao().getAllChangedJoins();
     }
+    public List<JoinCardWithDependentCard> getAllChangedDependentJoinsForAccount(long accountId) {
+        return db.getCardDependentDao().getAllChangedDependentJoinsForAccount(accountId);
+    }
 
     public List<JoinCardWithLabel> getAllChangedLabelJoinsForStack(Long localStackId) {
         return db.getJoinCardWithLabelDao().getAllChangedJoinsForStack(localStackId);
@@ -1118,6 +1129,10 @@ public class DataBaseAdapter {
 
     public void deleteJoinedLabelForCardPhysicallyByRemoteIDs(Long accountId, Long remoteCardId, Long remoteLabelId) {
         db.getJoinCardWithLabelDao().deleteJoinedLabelForCardPhysicallyByRemoteIDs(accountId, remoteCardId, remoteLabelId);
+    }
+
+    public void deleteJoinedDependentForCardPhysically(Long localCardId, Long dependentRemoteCardId) {
+        db.getCardDependentDao().deleteJoinedDependentForCardPhysically(localCardId, dependentRemoteCardId);
     }
 
     public void deleteJoinedUserForCardPhysicallyByRemoteIDs(Long accountId, Long remoteCardId, String userUid) {
@@ -1839,5 +1854,22 @@ public class DataBaseAdapter {
         dependent.setDependentRemoteCardId(remoteCardId);
         dependent.setStatus(dbStatus.getId());
         db.getCardDependentDao().insert(dependent);
+    }
+
+    public boolean updateDoneStateOfCardIfNeeded(Long localCardId, Instant done) {
+        Instant oldState = db.getCardDao().getDoneStateOfCard(localCardId);
+        if (!Objects.equals(done, oldState)) {
+            db.getCardDao().setDoneStateOfCard(localCardId, done, DBStatus.LOCAL_EDITED.getId());
+            return true;
+        }
+        return false;
+    }
+
+    public Long getBoardRemoteIdByCardLocalIdDirectly(Long localId) {
+        return db.getCardDao().getBoardRemoteIdByLocalId(localId);
+    }
+
+    public Long getStackRemoteIdByCardLocalIdDirectly(Long localId) {
+        return db.getCardDao().getStackRemoteIdByLocalId(localId);
     }
 }

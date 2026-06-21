@@ -53,6 +53,7 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
@@ -1011,13 +1012,34 @@ public class SyncRepository extends BaseRepository {
                 dataBaseAdapter.deleteJoinedLabelForCard(card.getLocalId(), deletedLabel.getLocalId());
             }
 
+            // keep track of changes. if so, we have to update all stacks
+            boolean dependantsChanged = false;
+            List<Card> deletedDependants = AbstractSyncDataProvider.findDelta(card.getDependents(), fullCardFromDB.getDependents());
+            List<Card> addedDependants = AbstractSyncDataProvider.findDelta(fullCardFromDB.getDependents(), card.getDependents());
+            for (Card addedDependant : addedDependants) {
+                dependantsChanged = true;
+                dataBaseAdapter.createJoinCardWithDependent(card.getLocalId(), addedDependant.getId(),  DBStatus.LOCAL_EDITED);
+            }
+            for (Card deletedDependant : deletedDependants) {
+                dependantsChanged = true;
+                dataBaseAdapter.deleteDependentCardForCard(card.getLocalId(), deletedDependant.getId());
+            }
+
+            // update done-state of dependants
+            for (Card dependent : card.getDependents()) {
+                dependantsChanged = dataBaseAdapter.updateDoneStateOfCardIfNeeded(dependent.getLocalId(), dependent.getDone()) || dependantsChanged;
+            }
+
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getCard().getStackId());
-            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+            FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(stack.getAccountId(), stack.getStack().getBoardId());
             fullCardFromDB.setCard(card.getCard());
             card.getCard().setStatus(DBStatus.LOCAL_EDITED.getId());
             dataBaseAdapter.updateCard(card.getCard(), false);
             if (connectivityUtil.hasInternetConnection()) {
                 Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
+                AbstractSyncDataProvider<? extends IRemoteEntity> syncProvider = dependantsChanged ?
+                                                new StackDataProvider(null, board) :
+                                                new CardPropagationDataProvider(null, board.getBoard(), stack);
                 syncHelperFactory.create(serverAdapter, dataBaseAdapter, null)
                         .setResponseCallback(new ResponseCallback<>(account) {
                             @Override
@@ -1030,7 +1052,7 @@ public class SyncRepository extends BaseRepository {
                             public void onError(Throwable throwable) {
                                 callback.onError(throwable);
                             }
-                        }).doUpSyncFor(new CardPropagationDataProvider(null, board, stack));
+                        }).doUpSyncFor(syncProvider);
             } else {
                 callback.onResponse(card, IResponseCallback.EMPTY_HEADERS);
             }
