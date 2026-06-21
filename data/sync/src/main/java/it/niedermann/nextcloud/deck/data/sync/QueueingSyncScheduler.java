@@ -53,9 +53,7 @@ public class QueueingSyncScheduler implements SyncScheduler {
                 // Currently no sync is active. Let's start one!
 
                 logger.info("Scheduled (currently none active)");
-                final var sync = synchronize(accountId);
-
-                currentSyncs.put(accountId, sync.doOnTerminate(() -> {
+                final var sync = synchronize(accountId).doOnTerminate(() -> {
 
                     synchronized (QueueingSyncScheduler.this) {
 
@@ -64,7 +62,9 @@ public class QueueingSyncScheduler implements SyncScheduler {
 
                     }
 
-                }));
+                });
+
+                currentSyncs.put(accountId, sync);
 
                 return FlowAdapters.toFlowPublisher(sync);
 
@@ -76,6 +76,7 @@ public class QueueingSyncScheduler implements SyncScheduler {
 
                 logger.info("Scheduled to the end of the current one.");
                 final var sync = currentSyncs.get(accountId)
+                        .ignoreElements()
                         .doOnTerminate(() -> {
 
                             synchronized (QueueingSyncScheduler.this) {
@@ -87,7 +88,8 @@ public class QueueingSyncScheduler implements SyncScheduler {
                             }
 
                         })
-                        .switchMap((oldSyncStatus) -> synchronize(accountId));
+                        .andThen(Flowable.defer(() -> synchronize(accountId)))
+                        .share();
 
                 scheduledSyncs.put(accountId, sync.doOnTerminate(() -> {
 
@@ -130,28 +132,28 @@ public class QueueingSyncScheduler implements SyncScheduler {
 
         final var reporter = ReplayProcessor.<SyncStatus>createWithSize(1);
 
-        return reporter.doOnSubscribe(subscription -> {
-            Schedulers.single().createWorker().schedule(() -> {
+        final var disposable = Schedulers.single().createWorker().schedule(() -> {
 
-                try {
+            try {
 
-                    logger.info("Start " + account.accountName() + ": " + Instant.now());
-                    syncManager.synchronize(account, reporter::onNext);
-                    reporter.onComplete();
+                logger.info("Start " + account.accountName() + ": " + Instant.now());
+                syncManager.synchronize(account, reporter::onNext);
+                reporter.onComplete();
 
-                } catch (Throwable t) {
+            } catch (Throwable t) {
 
-                    logger.log(Level.SEVERE, "[ERROR] " + account.accountName() + ": " + Instant.now(), t);
-                    reporter.onError(t);
+                logger.log(Level.SEVERE, "[ERROR] " + account.accountName() + ": " + Instant.now(), t);
+                reporter.onError(t);
 
-                } finally {
+            } finally {
 
-                    logger.info("End " + account.accountName() + ": " + Instant.now());
+                logger.info("End " + account.accountName() + ": " + Instant.now());
 
-                }
+            }
 
-            });
         });
+
+        return reporter.doOnCancel(disposable::dispose);
     }
 
     @Override
