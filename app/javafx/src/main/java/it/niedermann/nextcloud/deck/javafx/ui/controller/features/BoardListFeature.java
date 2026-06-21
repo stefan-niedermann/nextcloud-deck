@@ -5,22 +5,19 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
-import io.reactivex.rxjava4.processors.FlowableProcessor;
-import io.reactivex.rxjava4.processors.ReplayProcessor;
-import it.niedermann.nextcloud.deck.domain.model.Account;
+import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.ListBoardsUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
+import it.niedermann.nextcloud.deck.javafx.services.MainService;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.BoardListItemCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
-import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import jakarta.inject.Inject;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
+import javafx.util.Pair;
 
 public class BoardListFeature extends DisposableController implements ChangeListener<Board> {
 
@@ -29,21 +26,18 @@ public class BoardListFeature extends DisposableController implements ChangeList
     @FXML
     ListView<Board> boardList;
 
-    private final GetCurrentAccountUseCase getCurrentAccountUseCase;
-    private final GetCurrentBoardUseCase getCurrentBoardUseCase;
-    private final SetCurrentBoardUseCase setCurrentBoardUseCase;
+    private final MainService mainService;
+    private final GetBoardUseCase getBoardUseCase;
     private final ListBoardsUseCase listBoardsUseCase;
 
     @Inject
     public BoardListFeature(
-            GetCurrentAccountUseCase getCurrentAccountUseCase,
-            GetCurrentBoardUseCase getCurrentBoardUseCase,
-            SetCurrentBoardUseCase setCurrentBoardUseCase,
+            MainService mainService,
+            GetBoardUseCase getBoardUseCase,
             ListBoardsUseCase listBoardsUseCase
     ) {
-        this.getCurrentAccountUseCase = getCurrentAccountUseCase;
-        this.getCurrentBoardUseCase = getCurrentBoardUseCase;
-        this.setCurrentBoardUseCase = setCurrentBoardUseCase;
+        this.mainService = mainService;
+        this.getBoardUseCase = getBoardUseCase;
         this.listBoardsUseCase = listBoardsUseCase;
     }
 
@@ -54,34 +48,24 @@ public class BoardListFeature extends DisposableController implements ChangeList
 
         boardList.setCellFactory(new BoardListItemCellFactory());
 
-        final var accountPublisher = getCurrentAccountUseCase.execute("BoardListController");
+        final var listBoards = Flowable.fromPublisher(this.mainService.getState())
+                .map(MainService.State::accountId)
+                .switchMap(listBoardsUseCase::execute);
 
-        final var currentAccountFLowable = ReplayProcessor.fromPublisher(accountPublisher)
-                .map(Account::id);
+        final var currentBoard = Flowable.fromPublisher(this.mainService.getState())
+                .map(MainService.State::boardId)
+                .switchMap(getBoardUseCase::execute);
 
-        final var listBoardsDisposable = currentAccountFLowable
-                .switchMap(listBoardsUseCase::execute)
-                .observeOn(JavaFxScheduler.platform())
-                .subscribe(boards -> {
-
+        final var d = Flowable.combineLatest(listBoards, currentBoard, Pair::new)
+                .subscribe(args -> {
+                    boardList.getItems().setAll(args.getKey());
                     boardList.getSelectionModel()
-                            .selectedItemProperty()
-                            .removeListener(BoardListFeature.this);
-
-                    boardList.getItems().setAll(boards);
-
-                    boardList.getSelectionModel()
-                            .selectedItemProperty()
-                            .addListener(BoardListFeature.this);
+                            .select(args.getValue());
                 });
 
-        addDisposable(listBoardsDisposable);
+        addDisposable(d);
 
-        final var currentBoardsDisposable = currentAccountFLowable
-                .switchMap(getCurrentBoardUseCase::execute)
-                .subscribe(board -> boardList.getSelectionModel().select(board));
-
-        addDisposable(currentBoardsDisposable);
+        boardList.getSelectionModel().selectedItemProperty().addListener(BoardListFeature.this);
     }
 
     @Override
@@ -102,19 +86,8 @@ public class BoardListFeature extends DisposableController implements ChangeList
         if (boardIdChanged) {
 
             logger.finer("Selected board changed from " + oldValue.id() + " to " + newValue.id());
+            mainService.dispatch(new MainService.OpenBoardAction(newValue.id()));
 
-            final var disposable = FlowableProcessor.fromPublisher(getCurrentAccountUseCase.execute("BoardListController for setting board"))
-                    .firstElement()
-                    .map(Account::id)
-                    .observeOn(JavaFxScheduler.platform())
-                    .subscribe(accountId -> {
-
-                        logger.finer("Set current board to: " + accountId + " / " + newValue.id());
-                        this.setCurrentBoardUseCase.execute(accountId, newValue.id());
-
-                    });
-
-            addDisposable(disposable);
         }
     }
 }

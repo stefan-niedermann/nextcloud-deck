@@ -4,13 +4,12 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.ResourceBundle;
 
-import io.reactivex.rxjava4.processors.FlowableProcessor;
-import io.reactivex.rxjava4.processors.ReplayProcessor;
+import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
+import it.niedermann.nextcloud.deck.javafx.services.MainService;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.FeatureFactory;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.views.CardPreviewView;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.EmptyContentView;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import jakarta.inject.Inject;
@@ -30,18 +29,17 @@ public class BoardFeature extends DisposableController {
     @FXML
     HBox columns;
 
+    private final MainService mainService;
     private final FeatureFactory featureFactory;
     private final GetBoardUseCase getBoardUseCase;
 
-    private final FlowableProcessor<Long> boardId = ReplayProcessor.create();
-
-    private CardPreviewView.CardPreviewActionListener cardPreviewActionListener;
-
     @Inject
     public BoardFeature(
+            MainService mainService,
             FeatureFactory featureFactory,
             GetBoardUseCase getBoardUseCase
     ) {
+        this.mainService = mainService;
         this.featureFactory = featureFactory;
         this.getBoardUseCase = getBoardUseCase;
     }
@@ -50,7 +48,8 @@ public class BoardFeature extends DisposableController {
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
-        final var disposable = this.boardId
+        final var disposable = Flowable.fromPublisher(this.mainService.getState())
+                .map(MainService.State::boardId)
                 .distinctUntilChanged()
                 .doOnNext(_ -> {
                     this.progress.setVisible(true);
@@ -64,18 +63,13 @@ public class BoardFeature extends DisposableController {
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(board -> {
                     this.boardTitle.setText(board.title());
-                    this.setColumns(board.columns(), this.cardPreviewActionListener);
+                    this.setColumns(board.columns());
                 });
 
         addDisposable(disposable);
     }
 
-    public void setBoard(long boardId) {
-        this.boardId.onNext(boardId);
-    }
-
-    private void setColumns(Collection<Column> columns,
-                            CardPreviewView.CardPreviewActionListener listener) {
+    private void setColumns(Collection<Column> columns) {
 
         this.columns.getChildren().clear();
 
@@ -83,7 +77,7 @@ public class BoardFeature extends DisposableController {
         for (final var column : columns) {
             final var fxBundle = this.featureFactory.inflateFeature(ColumnFeature.class);
             addDisposable(fxBundle.controller());
-            fxBundle.controller().render(new ColumnFeature.Args(column, listener));
+            fxBundle.controller().render(column);
             this.columns.getChildren().add(fxBundle.view());
         }
 
@@ -107,7 +101,4 @@ public class BoardFeature extends DisposableController {
         this.progress.setManaged(false);
     }
 
-    public void setCardPreviewActionListener(CardPreviewView.CardPreviewActionListener cardPreviewActionListener) {
-        this.cardPreviewActionListener = cardPreviewActionListener;
-    }
 }

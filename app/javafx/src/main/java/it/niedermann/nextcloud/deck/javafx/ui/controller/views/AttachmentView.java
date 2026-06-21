@@ -9,7 +9,9 @@ import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.util.FileUtil;
 import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -24,9 +26,18 @@ public class AttachmentView extends HBox {
     Label size;
     @FXML
     Label created;
+    @FXML
+    ContextMenu contextMenu;
+    @FXML
+    MenuItem delete;
 
     public AttachmentView() {
         Inflater.getInstance().inflateAndBind(this);
+
+        setOnContextMenuRequested(event -> {
+            contextMenu.show(this, event.getScreenX(), event.getScreenY());
+            event.consume();
+        });
     }
 
     public void bind(Attachment attachment) {
@@ -48,6 +59,12 @@ public class AttachmentView extends HBox {
         preview.setImage(new Image(previewImageUrl, true));
         name.setText(attachment.filename());
         size.setText(FileUtil.humanReadableSize(attachment.filesize()));
+
+        delete.setOnAction(event -> {
+            // TODO Prompt user for "Delete local" vs. "Delete remote"?
+//            attachmentActionListener.onDeleteAttachment(attachment);
+            event.consume();
+        });
 
 //        final var created = attachment.createdAt().atZone(ZoneId.systemDefault());
 //        final var duration = created.toInstant().until(Instant.now());

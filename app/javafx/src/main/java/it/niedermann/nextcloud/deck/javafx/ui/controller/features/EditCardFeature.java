@@ -1,8 +1,12 @@
 package it.niedermann.nextcloud.deck.javafx.ui.controller.features;
 
+import java.io.File;
 import java.net.URL;
+import java.nio.file.Path;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
@@ -15,6 +19,7 @@ import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Comment;
 import it.niedermann.nextcloud.deck.domain.usecases.activities.ListActivityUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.attachments.AddAttachmentUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.attachments.ListAttachmentsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.GetCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.AddCommentUseCase;
@@ -34,6 +39,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.TransferMode;
 import one.jpro.platform.mdfx.MarkdownView;
 
 public class EditCardFeature extends DisposableController {
@@ -41,6 +49,7 @@ public class EditCardFeature extends DisposableController {
     private static final Logger logger = Logger.getLogger(EditCardFeature.class.getName());
 
     private final GetCardUseCase getCardUseCase;
+    private final AddAttachmentUseCase addAttachmentUseCase;
     private final ListAttachmentsUseCase listAttachmentsUseCase;
     private final AddCommentUseCase addCommentUseCase;
     private final ListCommentsUseCase listCommentsUseCase;
@@ -83,12 +92,14 @@ public class EditCardFeature extends DisposableController {
     public EditCardFeature(
             GetCardUseCase getCardUseCase,
             ListAttachmentsUseCase listAttachmentsUseCase,
+            AddAttachmentUseCase addAttachmentUseCase,
             ListCommentsUseCase listCommentsUseCase,
             AddCommentUseCase addCommentUseCase,
             ListActivityUseCase listActivityUseCase
     ) {
         this.getCardUseCase = getCardUseCase;
         this.listAttachmentsUseCase = listAttachmentsUseCase;
+        this.addAttachmentUseCase = addAttachmentUseCase;
         this.listCommentsUseCase = listCommentsUseCase;
         this.addCommentUseCase = addCommentUseCase;
         this.listActivityUseCase = listActivityUseCase;
@@ -173,6 +184,11 @@ public class EditCardFeature extends DisposableController {
 
                     }, Platform::runLater);
         });
+
+//        attachments.setOnDragEntered(this::onDragCardEntered);
+//        attachments.setOnDragExited(this::onDragCardExited);
+        attachments.setOnDragOver(this::onDragCardOver);
+        attachments.setOnDragDropped(this::onCardDropped);
     }
 
     public void setCardId(long id) {
@@ -181,6 +197,44 @@ public class EditCardFeature extends DisposableController {
 
     public void setEditCardListener(EditCardListener editCardListener) {
         this.editCardListener = editCardListener;
+    }
+
+    private void onDragCardOver(DragEvent event) {
+        final var dragboard = event.getDragboard();
+        if (!dragboard.getContentTypes().contains(DataFormat.FILES)) {
+            return;
+        }
+
+        event.acceptTransferModes(TransferMode.COPY);
+        event.consume();
+    }
+
+    public void onCardDropped(DragEvent event) {
+        if (!TransferMode.COPY.equals(event.getTransferMode())) {
+            return;
+        }
+
+        final var dragboard = event.getDragboard();
+        if (!dragboard.getContentTypes().contains(DataFormat.FILES)) {
+            return;
+        }
+
+        final var content = dragboard.getContent(DataFormat.FILES);
+
+        if (content instanceof List<?> list) {
+            final var paths = new ArrayList<Path>(list.size());
+            for (final var item : list) {
+                if (item instanceof File file) {
+                    paths.add(file.toPath());
+                } else {
+                    throw new IllegalArgumentException("Expected all items to be of type " + File.class.getName() + " but got " + item.getClass().getName());
+                }
+            }
+
+            addAttachmentUseCase.execute(cardId.blockingFirst(), paths);
+        }
+
+        throw new IllegalArgumentException("Expected List<File> but got: " + content.getClass().getName());
     }
 
     public interface EditCardListener {

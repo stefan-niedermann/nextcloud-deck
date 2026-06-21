@@ -1,37 +1,36 @@
 package it.niedermann.nextcloud.deck.javafx.ui.controller.scenes;
 
-import java.awt.Color;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 
 import io.reactivex.rxjava4.core.Flowable;
-import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
-import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
 import it.niedermann.nextcloud.deck.javafx.RouteProvider;
 import it.niedermann.nextcloud.deck.javafx.router.Router;
+import it.niedermann.nextcloud.deck.javafx.services.MainService;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.FeatureFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.SceneController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.AccountSwitcherFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.BoardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditCardFeature;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.views.CardPreviewView;
+import it.niedermann.nextcloud.deck.javafx.util.FxUtils;
+import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import jakarta.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.KeyCode;
 
-public class MainScene extends SceneController implements CardPreviewView.CardPreviewActionListener, EditCardFeature.EditCardListener {
+public class MainScene extends SceneController implements EditCardFeature.EditCardListener {
 
     @FXML
     BoardFeature boardController;
     @FXML
-    AccountSwitcherFeature accountSwitcherFeature;
+    AccountSwitcherFeature accountSwitcherController;
 
     @FXML
     SplitPane splitPane;
@@ -39,73 +38,66 @@ public class MainScene extends SceneController implements CardPreviewView.CardPr
     private ScrollPane editCardScrollpane;
     private EditCardFeature editCardFeature;
 
+    private final MainService mainService;
     private final FeatureFactory featureFactory;
     private final Router router;
     private final RouteProvider routeProvider;
     private final ScheduleSyncUseCase scheduleSyncUseCase;
-    private final GetCurrentAccountUseCase getCurrentAccountUseCase;
-    private final GetCurrentBoardUseCase getCurrentBoardUseCase;
+    private final GetBoardUseCase getBoardUseCase;
 
     private double[] dividerPositions;
 
     @Inject
     public MainScene(
+            MainService mainService,
             FeatureFactory featureFactory,
             Router router,
             RouteProvider routeProvider,
             ScheduleSyncUseCase scheduleSyncUseCase,
-            GetCurrentAccountUseCase getCurrentAccountUseCase,
-            GetCurrentBoardUseCase getCurrentBoardUseCase
+            GetBoardUseCase getBoardUseCase
     ) {
+        this.mainService = mainService;
         this.featureFactory = featureFactory;
         this.router = router;
         this.routeProvider = routeProvider;
         this.scheduleSyncUseCase = scheduleSyncUseCase;
-        this.getCurrentAccountUseCase = getCurrentAccountUseCase;
-        this.getCurrentBoardUseCase = getCurrentBoardUseCase;
+        this.getBoardUseCase = getBoardUseCase;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
-        final var currentBoard = Flowable.fromPublisher(this.getCurrentAccountUseCase.execute("Main"))
-                .map(Account::id)
-                .map(this.getCurrentBoardUseCase::execute)
-                .switchMap(Flowable::fromPublisher);
-
-        final var disposable = currentBoard
-                .map(Board::id)
-                .subscribe(boardId -> {
-                    onCloseCard();
-                    this.boardController.setBoard(boardId);
-                });
-
-        final var d2 = currentBoard
+        final var accentColorDisposable = Flowable.fromPublisher(this.mainService.getState())
+                .map(MainService.State::boardId)
+                .map(this.getBoardUseCase::execute)
+                .switchMap(Flowable::fromPublisher)
                 .map(Board::color)
-                .map(Color::getRGB)
-                .map(Integer::toHexString)
-                .map(str -> str.substring(2))
-                .map(hexColor -> "#" + hexColor)
-                .map(hexColor -> String.format("""
-                        -fx-accent: %1$s;
-                        -fx-default-button: derive(-fx-accent, 90%%);
-                        -fx-focus-color: derive(-fx-accent, 60%%);
-                        -fx-faint-focus-color: derive(-fx-accent, 65%%);
-                        """, hexColor))
-//                .subscribe(System.out::println);
+                .map(FxUtils::createAccentColorCss)
                 .subscribe(root.styleProperty()::setValue);
 
-        addDisposable(disposable, d2);
+        final var switchBoardDisposable = Flowable.fromPublisher(this.mainService.getState())
+                .map(MainService.State::boardId)
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(_ -> this.closeCardSidebar());
 
-        boardController.setCardPreviewActionListener(this);
+        final var cardSidebarDisposable = Flowable.fromPublisher(mainService.getState())
+                .subscribe(state -> {
+                    if (state.cardId() == null) {
+                        closeCardSidebar();
+                    } else {
+                        onOpenCard(state.cardId());
+                    }
+                });
+
+        addDisposable(accentColorDisposable, switchBoardDisposable, cardSidebarDisposable);
 
         root.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
-                onCloseCard();
+                mainService.dispatch(new MainService.CloseCardAction());
 
             } else if (event.getCode() == KeyCode.F5) {
-                accountSwitcherFeature.scheduleSync();
+                accountSwitcherController.scheduleSync();
 
             }
 //            else if (event.getCode() == KeyCode.S && event.isControlDown()) {
@@ -116,8 +108,7 @@ public class MainScene extends SceneController implements CardPreviewView.CardPr
         });
     }
 
-    @Override
-    public void onOpenCard(Card card) {
+    public void onOpenCard(long cardId) {
 
         if (editCardScrollpane == null) {
             final var fxBundle = this.featureFactory.inflateFeature(EditCardFeature.class);
@@ -137,11 +128,11 @@ public class MainScene extends SceneController implements CardPreviewView.CardPr
             splitPane.setDividerPositions(splitPane.getDividerPositions()[0], .8);
         }
 
-        editCardFeature.setCardId(card.id());
+        editCardFeature.setCardId(cardId);
         editCardFeature.setEditCardListener(this);
     }
 
-    private void onCloseCard() {
+    private void closeCardSidebar() {
         splitPane.getItems().remove(editCardScrollpane);
     }
 

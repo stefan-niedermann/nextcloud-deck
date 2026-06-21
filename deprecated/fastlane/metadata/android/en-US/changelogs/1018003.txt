@@ -1,4 +1,4 @@
-- 🔌 Fix offline and maintenance state (#960)
+- 🔌 Fix offline and maintenance mainState (#960)
 - 🎨 Fix theming issue when theming app is disabled on the server (#969)
 - 🐞 Fix moving lists by handling server app bug gracefully (#977)
 - 🌎 Updated translations

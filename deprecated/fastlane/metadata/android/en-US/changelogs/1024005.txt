@@ -5,5 +5,5 @@
 1.24.4
 
 - 🔒 Remove `READ_MEDIA_IMAGES` and `READ_MEDIA_AUDIO` permissions
-- 🐞 Fix Checkbox state is not persisted after Update (#1720)
+- 🐞 Fix Checkbox mainState is not persisted after Update (#1720)
 - ⚙️ Update AGP build tools to 8.8.0

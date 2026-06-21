@@ -1,4 +1,4 @@
-- ☑️ Support Completed / Uncompleted state (#1556) - Requires deck server ≥ 1.12.2
+- ☑️ Support Completed / Uncompleted mainState (#1556) - Requires deck server ≥ 1.12.2
 - 📎 Open file attachments in Nextcloud Files app (#1561)
 - 🔗 Append link to attachment to description (#1562)
 - 🗑️ Allow to delete "file" attachments (#871)

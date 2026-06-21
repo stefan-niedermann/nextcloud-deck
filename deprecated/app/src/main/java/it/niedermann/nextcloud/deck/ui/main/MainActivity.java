@@ -119,7 +119,8 @@ import it.niedermann.nextcloud.deck.util.CustomAppGlideModule;
 import it.niedermann.nextcloud.deck.util.OnTextChangedWatcher;
 import okhttp3.Headers;
 
-public class MainActivity extends AppCompatActivity implements DeleteStackListener,
+public class MainActivity extends AppCompatActivity implements
+        DeleteStackListener,
         EditStackListener,
         DeleteBoardListener,
         EditBoardListener,

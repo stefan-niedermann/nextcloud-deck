@@ -37,7 +37,7 @@ Nextcloud / Deck
  Clear storage
 ```
 
-Often there is an issue with the state of the server app. Try to create a new test account at your Nextcloud instance and connect to it.
+Often there is an issue with the mainState of the server app. Try to create a new test account at your Nextcloud instance and connect to it.
 If there are no errors, share the boards of your actual account one by one with your test account to find the defect one.
 
 If the issue persists, [open a bug report in our issue tracker](https://github.com/stefan-niedermann/nextcloud-deck/issues/new?assignees=&labels=bug&template=bug_report.md&title=).
@@ -80,7 +80,7 @@ The Deck server app supports two different type of attachments:
 
 The latter are stored as usual files in your Nextcloud, usually in the `/Deck` folder of your account.  
 Only `file` attachments are able show preview images and to get opened directly, while `deck_file` attachments are effectively only available via the Web UI.  
-We opened a [feature request](https://github.com/nextcloud/deck/issues/3101) to implement an `occ` migration command, but the current state of implementation is unclear.
+We opened a [feature request](https://github.com/nextcloud/deck/issues/3101) to implement an `occ` migration command, but the current mainState of implementation is unclear.
 
 ## Known issues
 

@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.domain.model;
 
+import java.awt.Color;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,8 +19,11 @@ public record Card(
         Set<Label> labels,
         Set<User> assignees,
         List<Attachment> attachments,
+        LocalDateTime startDate,
         LocalDateTime dueDate,
         LocalDateTime done,
+        Color color,
+        Set<Card> dependents,
         boolean archived,
         boolean notified,
         int overdue,

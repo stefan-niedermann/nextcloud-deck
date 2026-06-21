@@ -15,9 +15,9 @@ import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase;
+import it.niedermann.nextcloud.deck.javafx.services.MainService;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.CardPreviewCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.views.CardPreviewView;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.SubmitTextField;
 import it.niedermann.nextcloud.deck.javafx.util.DeckDataFormat;
 import it.niedermann.nextcloud.deck.javafx.util.FxUtils;
@@ -36,6 +36,7 @@ public class ColumnFeature extends DisposableController {
 
     private static final Logger logger = Logger.getLogger(ColumnFeature.class.getName());
 
+    private final MainService mainService;
     private final ListCardsUseCase listCardsUseCase;
     private final MoveCardUseCase moveCardUseCase;
     private final AddCardUseCase addCardUseCase;
@@ -58,11 +59,13 @@ public class ColumnFeature extends DisposableController {
 
     @Inject
     public ColumnFeature(
+            MainService mainService,
             ListCardsUseCase listCardsUseCase,
             MoveCardUseCase moveCardUseCase,
             CardPreviewCellFactory cardPreviewCellFactory,
             AddCardUseCase addCardUseCase
     ) {
+        this.mainService = mainService;
         this.listCardsUseCase = listCardsUseCase;
         this.moveCardUseCase = moveCardUseCase;
         this.cardPreviewCellFactory = cardPreviewCellFactory;
@@ -109,14 +112,14 @@ public class ColumnFeature extends DisposableController {
 
             addCard(cardTitle)
                     .whenCompleteAsync((_, exception) -> {
-                if (exception == null) {
-                    addCardSubmitTextField.setContent(null);
-                } else {
-                    throw new RuntimeException(exception);
-                }
+                        if (exception == null) {
+                            addCardSubmitTextField.setContent(null);
+                        } else {
+                            throw new RuntimeException(exception);
+                        }
 
-                addCardSubmitTextField.setDisable(false);
-            }, Platform::runLater);
+                        addCardSubmitTextField.setDisable(false);
+                    }, Platform::runLater);
         });
     }
 
@@ -195,14 +198,10 @@ public class ColumnFeature extends DisposableController {
         return FxUtils.identifyClosestListViewIndex(intersectedListCellOrListView, event.getSceneY());
     }
 
-    public void render(Args args) {
-        this.title.setText(args.column().title());
+    public void render(Column column) {
+        this.title.setText(column.title());
         // Order of setting listener and columnId matters because columnId Flowable triggers rebinding the listener to the cards
-        this.cardPreviewCellFactory.setCardPreviewActionListener(args.cardPreviewActionListener());
-        this.columnId.onNext(args.column().id());
-    }
-
-    public record Args(Column column,
-                       CardPreviewView.CardPreviewActionListener cardPreviewActionListener) {
+        this.cardPreviewCellFactory.setCardPreviewActionListener(card -> mainService.dispatch(new MainService.OpenCardAction(card.id())));
+        this.columnId.onNext(column.id());
     }
 }

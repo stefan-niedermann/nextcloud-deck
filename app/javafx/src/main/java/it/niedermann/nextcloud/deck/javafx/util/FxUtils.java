@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.javafx.util;
 
+import org.intellij.lang.annotations.Language;
+
+import java.awt.Color;
 import java.util.Optional;
 
 import javafx.scene.Node;
@@ -7,6 +10,20 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 
 public class FxUtils {
+
+    public static String createAccentColorCss(Color accentColor) {
+        final var rgb = accentColor.getRGB();
+        final var hexString = '#' + Integer.toHexString(rgb).substring(2);
+
+        @Language("CSS") final var css = """
+                -fx-accent: %1$s;
+                -fx-default-button: derive(-fx-accent, 90%%);
+                -fx-focus-color: derive(-fx-accent, 60%%);
+                -fx-faint-focus-color: derive(-fx-accent, 65%%);
+                """.formatted(hexString);
+
+        return css;
+    }
 
     /// @return Traverses the [Node] hierarchy to returns the closest parent element that is a [ListCell] or [ListView]
     public static Optional<Node> findListCellOrListViewParent(Node node) {
