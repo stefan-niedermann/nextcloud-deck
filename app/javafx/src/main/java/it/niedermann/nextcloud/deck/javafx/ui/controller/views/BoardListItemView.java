@@ -25,7 +25,7 @@ public class BoardListItemView extends HBox {
         Inflater.getInstance().inflateAndBind(this);
     }
 
-    public void bind(Board board, BoardListItemActionListener boardListItemActionListener) {
+    public void bind(Board board) {
 
         circle.fillProperty().setValue(Color.rgb(board.color().getRed(), board.color().getGreen(), board.color().getBlue()));
         title.textProperty().setValue(board.title());
@@ -35,9 +35,5 @@ public class BoardListItemView extends HBox {
             event.consume();
         });
 
-    }
-
-    public interface BoardListItemActionListener {
-        void onEditBoard(Board board);
     }
 }

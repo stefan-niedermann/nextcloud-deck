@@ -5,6 +5,10 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
+import io.reactivex.rxjava4.core.Flowable;
+import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.javafx.store.Action;
 import it.niedermann.nextcloud.deck.javafx.store.Store;
@@ -15,16 +19,23 @@ public class MainService extends Store<MainService.State> {
 
     private static final Logger logger = Logger.getLogger(MainService.class.getName());
 
+    private final SetCurrentAccountUseCase setCurrentAccountUseCase;
+    private final GetCurrentBoardUseCase getCurrentBoardUseCase;
     private final SetCurrentBoardUseCase setCurrentBoardUseCase;
 
     @Inject
     public MainService(
             StoreLogger storeLogger,
+            SetCurrentAccountUseCase setCurrentAccountUseCase,
+            GetCurrentBoardUseCase getCurrentBoardUseCase,
             SetCurrentBoardUseCase setCurrentBoardUseCase
     ) {
+        this.setCurrentAccountUseCase = setCurrentAccountUseCase;
+        this.getCurrentBoardUseCase = getCurrentBoardUseCase;
+        this.setCurrentBoardUseCase = setCurrentBoardUseCase;
+
         // TODO Write Factory for MainService and pass initialState
         super(storeLogger, new State(1L, 1L, null));
-        this.setCurrentBoardUseCase = setCurrentBoardUseCase;
     }
 
     public record State(
@@ -33,8 +44,20 @@ public class MainService extends Store<MainService.State> {
             Long cardId
     ) {
 
+        public State withAccountId(Long accountId) {
+            if (Objects.equals(accountId(), accountId)) {
+                return this;
+            }
+
+            return new State(accountId, null, null);
+        }
+
         public State withBoardId(Long boardId) {
-            return new State(accountId(), boardId, Objects.equals(boardId(), boardId) ? cardId() : null);
+            if (Objects.equals(boardId(), boardId)) {
+                return this;
+            }
+
+            return new State(accountId(), boardId, null);
         }
 
         public State withCardId(Long cardId) {
@@ -43,9 +66,13 @@ public class MainService extends Store<MainService.State> {
     }
 
     public sealed interface MainAction extends Action permits
+            SwitchAccountAction,
             OpenBoardAction,
             OpenCardAction,
             CloseCardAction {
+    }
+
+    public record SwitchAccountAction(long accountId) implements MainAction {
     }
 
     public record OpenBoardAction(long boardId) implements MainAction {
@@ -61,6 +88,8 @@ public class MainService extends Store<MainService.State> {
     protected State reduce(State state, Action action) {
         return switch (action) {
 
+            case SwitchAccountAction switchAccountAction ->
+                    state.withAccountId(switchAccountAction.accountId());
             case OpenBoardAction openBoardAction -> state.withBoardId(openBoardAction.boardId);
             case OpenCardAction openCardAction -> state.withCardId(openCardAction.cardId());
             case CloseCardAction _ -> state.withCardId(null);
@@ -73,8 +102,24 @@ public class MainService extends Store<MainService.State> {
     protected CompletableFuture<Optional<Action>> handleEffects(State state, Action action) {
         return switch (action) {
 
+            case SwitchAccountAction switchAccountAction -> {
+                final var persistCurrentAccountCf = this.setCurrentAccountUseCase.execute(state.accountId());
+                yield Flowable.fromPublisher(this.getCurrentBoardUseCase.execute(state.accountId()))
+                        .firstElement()
+                        .toCompletionStage()
+                        .toCompletableFuture()
+                        .handleAsync((board, exception) -> {
+                            if (exception == null) {
+                                return Optional.<Action>empty();
+
+                            } else {
+                                return Optional.ofNullable(board)
+                                        .map(Board::id)
+                                        .map(OpenBoardAction::new);
+                            }
+                        });
+            }
             case OpenBoardAction _ -> {
-                logger.finer("Set current board to: " + state.accountId() + " / " + state.boardId());
                 this.setCurrentBoardUseCase.execute(state.accountId(), state.boardId());
                 yield CompletableFuture.completedFuture(Optional.empty());
             }

@@ -56,16 +56,16 @@ public class BoardListFeature extends DisposableController implements ChangeList
                 .map(MainService.State::boardId)
                 .switchMap(getBoardUseCase::execute);
 
-        final var d = Flowable.combineLatest(listBoards, currentBoard, Pair::new)
+        final var disposable = Flowable.combineLatest(listBoards, currentBoard, Pair::new)
                 .subscribe(args -> {
                     boardList.getItems().setAll(args.getKey());
-                    boardList.getSelectionModel()
-                            .select(args.getValue());
+                    boardList.getSelectionModel().select(args.getValue());
                 });
 
-        addDisposable(d);
+        addDisposable(disposable);
 
-        boardList.getSelectionModel().selectedItemProperty().addListener(BoardListFeature.this);
+        boardList.getSelectionModel().selectedItemProperty().addListener((_, _, newValue) ->
+                mainService.dispatch(new MainService.OpenBoardAction(newValue.id())));
     }
 
     @Override

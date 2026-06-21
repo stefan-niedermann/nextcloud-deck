@@ -5,6 +5,8 @@ import com.jthemedetecor.OsThemeDetector;
 
 import dagger.Module;
 import dagger.Provides;
+import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.javafx.services.MainService;
 import it.niedermann.nextcloud.deck.javafx.services.ThemeService;
@@ -24,8 +26,14 @@ public class ServiceModule {
     /// TODO This service must be scoped (Max one instance per Scene)
     @Provides
     @Singleton
-    MainService provideMainService(StoreLogger storeLogger, SetCurrentBoardUseCase setCurrentBoardUseCase) {
-        return new MainService(storeLogger, setCurrentBoardUseCase);
+    MainService provideMainService(StoreLogger storeLogger,
+                                   SetCurrentAccountUseCase setCurrentAccountUseCase,
+                                   GetCurrentBoardUseCase getCurrentBoardUseCase,
+                                   SetCurrentBoardUseCase setCurrentBoardUseCase) {
+        return new MainService(storeLogger,
+                setCurrentAccountUseCase,
+                getCurrentBoardUseCase,
+                setCurrentBoardUseCase);
     }
 
     @Provides

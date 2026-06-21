@@ -8,6 +8,6 @@
     fx:controller="it.niedermann.nextcloud.deck.javafx.ui.controller.features.AccountSwitcherFeature">
     <ProgressIndicator progress="0.0" visible="false" fx:id="progress" />
     <Button accessibleText="Schedule synchronization" text="🗘" fx:id="scheduleSyncBtn" />
-    <ComboBox fx:id="comboBox" />
+    <ComboBox fx:id="accountList" />
     <Button accessibleText="Remove account" text="🗑️" fx:id="removeAccountBtn" />
 </HBox>

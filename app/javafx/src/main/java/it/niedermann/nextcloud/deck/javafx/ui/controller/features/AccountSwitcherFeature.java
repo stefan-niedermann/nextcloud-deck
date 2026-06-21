@@ -1,20 +1,20 @@
 package it.niedermann.nextcloud.deck.javafx.ui.controller.features;
 
 import java.net.URL;
-import java.util.Collection;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Logger;
 
 import io.reactivex.rxjava4.core.Flowable;
-import io.reactivex.rxjava4.core.Single;
 import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.RemoveAccountUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
+import it.niedermann.nextcloud.deck.javafx.services.MainService;
+import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.AccountListItemCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.views.AccountListItemView;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import jakarta.inject.Inject;
 import javafx.fxml.FXML;
@@ -24,11 +24,14 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
 import javafx.util.Callback;
+import javafx.util.Pair;
 
 public class AccountSwitcherFeature extends DisposableController {
 
+    private static final Logger logger = Logger.getLogger(AccountSwitcherFeature.class.getName());
+
     @FXML
-    ComboBox<AccountItem> comboBox;
+    ComboBox<Account> accountList;
     @FXML
     Button scheduleSyncBtn;
     @FXML
@@ -36,39 +39,27 @@ public class AccountSwitcherFeature extends DisposableController {
     @FXML
     Button removeAccountBtn;
 
+    private final MainService mainService;
+    private final GetAccountUseCase getAccountUseCase;
     private final GetAccountsUseCase getAccountsUseCase;
-    private final SetCurrentAccountUseCase setCurrentAccountUseCase;
-    private final GetCurrentAccountUseCase getCurrentAccountUseCase;
     private final ScheduleSyncUseCase scheduleSyncUseCase;
     private final RemoveAccountUseCase removeAccountUseCase;
 
     private final AtomicBoolean syncInProgress = new AtomicBoolean(false);
 
-    private final Callback<ListView<AccountItem>, ListCell<AccountItem>> factory = _ -> new ListCell<>() {
-        @Override
-        protected void updateItem(AccountItem item, boolean empty) {
-            super.updateItem(item, empty);
-
-            if (empty) {
-                setText(null);
-                return;
-            }
-
-            setText((item.isCurrentAccount() ? "☒ " : "☐ ") + item.account().username());
-        }
-    };
+    private final Callback<ListView<Account>, ListCell<Account>> factory = new AccountListItemCellFactory();
 
     @Inject
     public AccountSwitcherFeature(
+            MainService mainService,
+            GetAccountUseCase getAccountUseCase,
             GetAccountsUseCase getAccountsUseCase,
-            SetCurrentAccountUseCase setCurrentAccountUseCase,
-            GetCurrentAccountUseCase getCurrentAccountUseCase,
             ScheduleSyncUseCase scheduleSyncUseCase,
             RemoveAccountUseCase removeAccountUseCase
     ) {
+        this.mainService = mainService;
+        this.getAccountUseCase = getAccountUseCase;
         this.getAccountsUseCase = getAccountsUseCase;
-        this.setCurrentAccountUseCase = setCurrentAccountUseCase;
-        this.getCurrentAccountUseCase = getCurrentAccountUseCase;
         this.scheduleSyncUseCase = scheduleSyncUseCase;
         this.removeAccountUseCase = removeAccountUseCase;
     }
@@ -77,28 +68,46 @@ public class AccountSwitcherFeature extends DisposableController {
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
-        final var accountsPublisher = getAccountsUseCase.execute();
-        final var currentAccountPublisher = getCurrentAccountUseCase.execute("AccountSwitcherController#initialize");
+        final var buttonCell = new ListCell<Account>() {
 
-        final var disposableAccountList = Flowable.combineLatest(
-                        Flowable.fromPublisher(accountsPublisher),
-                        Flowable.fromPublisher(currentAccountPublisher),
-                        AccountsAndCurrentAccount::new)
-                .map(accountsAndCurrentAccount -> accountsAndCurrentAccount.accounts().stream().map(account -> new AccountItem(account, Objects.equals(account.id(), accountsAndCurrentAccount.currentAccount().id()))).toList())
-                .subscribe(comboBox.getItems()::setAll);
+            final AccountListItemView view = new AccountListItemView();
 
-        addDisposable(disposableAccountList);
+            @Override
+            protected void updateItem(Account account, boolean empty) {
+                super.updateItem(account, empty);
+                setText(null);
 
-        final var disposableCurrentAccount = Flowable.fromPublisher(currentAccountPublisher)
-                .map(currentAccount -> new AccountItem(currentAccount, true))
-                .subscribe(comboBox::setValue);
+                if (empty || account == null) {
+                    setGraphic(null);
+                    return;
+                }
 
-        addDisposable(disposableCurrentAccount);
+                final boolean isCurrent = account.equals(accountList.getValue());
 
-        comboBox.setButtonCell(factory.call(null));
-        comboBox.setCellFactory(factory);
-        comboBox.getSelectionModel().selectedItemProperty().addListener((_, _, newValue) ->
-                setCurrentAccountUseCase.execute(newValue.account().id()));
+                view.bind(account, isCurrent);
+                setGraphic(view);
+            }
+        };
+
+        accountList.setCellFactory(factory);
+        accountList.setButtonCell(buttonCell);
+
+        final var listAccounts = Flowable.fromPublisher(getAccountsUseCase.execute());
+
+        final var currentAccount = Flowable.fromPublisher(this.mainService.getState())
+                .map(MainService.State::accountId)
+                .switchMap(getAccountUseCase::execute);
+
+        final var disposable = Flowable.combineLatest(listAccounts, currentAccount, Pair::new)
+                .subscribe(args -> {
+                    accountList.getItems().setAll(args.getKey());
+                    accountList.getSelectionModel().select(args.getValue());
+                });
+
+        addDisposable(disposable);
+
+        accountList.getSelectionModel().selectedItemProperty().addListener((_, _, newValue) ->
+                mainService.dispatch(new MainService.SwitchAccountAction(newValue.id())));
 
         scheduleSyncBtn.setOnAction(_ -> this.scheduleSync());
         removeAccountBtn.setOnAction(_ -> this.removeAccount());
@@ -111,9 +120,9 @@ public class AccountSwitcherFeature extends DisposableController {
             this.progress.setVisible(true);
             this.progress.setDisable(false);
 
-            var disposable = Flowable.fromPublisher(this.getCurrentAccountUseCase.execute("AccountSwitcherController#scheduleSync"))
+            var disposable = Flowable.fromPublisher(mainService.getState())
                     .firstElement()
-                    .map(Account::id)
+                    .map(MainService.State::accountId)
                     .flatMapPublisher(this.scheduleSyncUseCase::execute)
                     .observeOn(JavaFxScheduler.platform())
                     .doOnNext(syncStatus -> {
@@ -135,17 +144,11 @@ public class AccountSwitcherFeature extends DisposableController {
     }
 
     public void removeAccount() {
-        var disposable = Single.fromPublisher(this.getCurrentAccountUseCase.execute("AccountSwitcherController#removeAccount"))
-                .map(Account::id)
+        var disposable = Flowable.fromPublisher(mainService.getState())
+                .firstElement()
+                .map(MainService.State::accountId)
                 .subscribe(this.removeAccountUseCase::execute);
 
         addDisposable(disposable);
-    }
-
-    record AccountItem(Account account, boolean isCurrentAccount) {
-    }
-
-    record AccountsAndCurrentAccount(Collection<Account> accounts,
-                                     Account currentAccount) {
     }
 }
