@@ -46,6 +46,18 @@ public class CardRepositoryImpl implements CardRepository {
         return CompletableFuture.completedFuture(null);
     }
 
+    @Override
+    public CompletableFuture<Void> assignUser(long cardId, String userId) {
+        System.out.println("[Mock][" + CardRepositoryImpl.class.getSimpleName() + "/assign]: " + cardId + " / " + userId);
+        return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
+    public CompletableFuture<Void> unassignUser(long cardId, String userId) {
+        System.out.println("[Mock][" + CardRepositoryImpl.class.getSimpleName() + "/unassign]: " + cardId + " / " + userId);
+        return CompletableFuture.completedFuture(null);
+    }
+
     // TODO Mock Implementation
     @SuppressWarnings("NewApi")
     @Override

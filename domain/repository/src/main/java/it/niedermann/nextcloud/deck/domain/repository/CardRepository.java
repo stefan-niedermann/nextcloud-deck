@@ -12,6 +12,10 @@ public interface CardRepository {
 
     CompletableFuture<Void> updateCard(Card card);
 
+    CompletableFuture<Void> assignUser(long cardId, String userId);
+
+    CompletableFuture<Void> unassignUser(long cardId, String userId);
+
     Flow.Publisher<List<Card>> getNotDeletedCards(long columnId);
 
     Flow.Publisher<Card> getCard(long cardId);

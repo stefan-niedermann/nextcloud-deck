@@ -125,6 +125,7 @@ public class EditCardFeature extends DisposableController {
         attachments.setCellFactory(new AttachmentCellFactory());
 
         final var cardDisposable = cardId.switchMap(getCardUseCase::execute)
+                .subscribeOn(Schedulers.virtual())
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(card -> {
                     title.setText(card.title());
@@ -147,21 +148,21 @@ public class EditCardFeature extends DisposableController {
         addDisposable(cardDisposable);
 
         final var attachmentsDisposable = cardId.switchMap(listAttachmentsUseCase::execute)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.virtual())
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(attachments -> this.attachments.getItems().setAll(attachments));
 
         addDisposable(attachmentsDisposable);
 
         final var commentsDisposable = cardId.switchMap(listCommentsUseCase::execute)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.virtual())
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(comments -> this.comments.getItems().setAll(comments));
 
         addDisposable(commentsDisposable);
 
         final var activitiesDisposable = cardId.switchMap(listActivityUseCase::execute)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.virtual())
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(activities -> this.activities.getItems().setAll(activities));
 

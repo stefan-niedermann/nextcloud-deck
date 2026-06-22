@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 
 import io.reactivex.rxjava4.core.Flowable;
+import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
@@ -74,6 +75,8 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
                 .switchMap(Flowable::fromPublisher)
                 .map(Board::color)
                 .map(FxUtils::createAccentColorCss)
+                .subscribeOn(Schedulers.virtual())
+                .observeOn(JavaFxScheduler.platform())
                 .subscribe(root.styleProperty()::setValue);
 
         final var switchBoardDisposable = Flowable.fromPublisher(this.contextService.getState())

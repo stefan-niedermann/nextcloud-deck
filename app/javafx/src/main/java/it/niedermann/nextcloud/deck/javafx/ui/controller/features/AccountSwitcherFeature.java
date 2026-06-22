@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
 
 import io.reactivex.rxjava4.core.Flowable;
+import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
@@ -17,6 +18,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.AccountListItemView;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import jakarta.inject.Inject;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -92,6 +94,8 @@ public class AccountSwitcherFeature extends DisposableController {
         accountList.setCellFactory(factory);
         accountList.setButtonCell(buttonCell);
 
+        final ChangeListener<Account> accountChangeListener = (_, _, newValue) -> contextService.dispatch(new ContextService.SwitchAccountAction(newValue.id()));
+
         final var listAccounts = Flowable.fromPublisher(getAccountsUseCase.execute());
 
         final var currentAccount = Flowable.fromPublisher(this.contextService.getState())
@@ -99,15 +103,16 @@ public class AccountSwitcherFeature extends DisposableController {
                 .switchMap(getAccountUseCase::execute);
 
         final var disposable = Flowable.combineLatest(listAccounts, currentAccount, Pair::new)
+                .subscribeOn(Schedulers.virtual())
+                .observeOn(JavaFxScheduler.platform())
                 .subscribe(args -> {
+                    accountList.getSelectionModel().selectedItemProperty().removeListener(accountChangeListener);
                     accountList.getItems().setAll(args.getKey());
                     accountList.getSelectionModel().select(args.getValue());
+                    accountList.getSelectionModel().selectedItemProperty().addListener(accountChangeListener);
                 });
 
         addDisposable(disposable);
-
-        accountList.getSelectionModel().selectedItemProperty().addListener((_, _, newValue) ->
-                contextService.dispatch(new ContextService.SwitchAccountAction(newValue.id())));
 
         scheduleSyncBtn.setOnAction(_ -> this.scheduleSync());
         removeAccountBtn.setOnAction(_ -> this.removeAccount());
@@ -147,6 +152,8 @@ public class AccountSwitcherFeature extends DisposableController {
         var disposable = Flowable.fromPublisher(contextService.getState())
                 .firstElement()
                 .map(ContextService.State::accountId)
+                .subscribeOn(Schedulers.virtual())
+                .observeOn(JavaFxScheduler.platform())
                 .subscribe(this.removeAccountUseCase::execute);
 
         addDisposable(disposable);
