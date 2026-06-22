@@ -1,19 +1,21 @@
 package it.niedermann.nextcloud.deck.javafx.ui.controller.views;
 
+import org.kordamp.ikonli.Ikon;
+import org.kordamp.ikonli.javafx.FontIcon;
+
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 public class IconCounterView extends HBox {
 
     @FXML
-    ImageView imageView;
+    FontIcon fontIcon;
     @FXML
     Label counter;
 
@@ -21,14 +23,16 @@ public class IconCounterView extends HBox {
 
     public IconCounterView() {
         Inflater.getInstance().inflateAndBind(this);
+    }
 
+    public void initialize() {
         Bindings.bindBidirectional(
                 counter.textProperty(),
                 counterProperty,
                 new javafx.util.converter.NumberStringConverter()
         );
 
-        counter.visibleProperty().bind(counter.textProperty().isNotNull());
+        counter.visibleProperty().bind(counter.textProperty().map(text -> text != null && text.length() > 1));
         counter.managedProperty().bind(counter.visibleProperty());
     }
 
@@ -40,15 +44,23 @@ public class IconCounterView extends HBox {
         counterProperty.set(value);
     }
 
-    public IntegerProperty counterProperty() {
-        return counterProperty;
+    public ObjectProperty<Ikon> iconCodeProperty() {
+        return fontIcon.iconCodeProperty();
     }
 
-    public String getImage() {
-        return imageView.getImage().getUrl();
+    public Ikon getIconCode() {
+        return fontIcon.getIconCode();
     }
 
-    public void setImage(String value) {
-        imageView.setImage(new Image(value));
+    public void setIconCode(Ikon iconCode) {
+        fontIcon.setIconCode(iconCode);
+    }
+
+    public String getIconLiteral() {
+        return fontIcon.getIconLiteral();
+    }
+
+    public void setIconLiteral(String iconCode) {
+        fontIcon.setIconLiteral(iconCode);
     }
 }

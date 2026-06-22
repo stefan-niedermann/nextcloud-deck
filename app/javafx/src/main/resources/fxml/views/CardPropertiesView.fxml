@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import it.niedermann.nextcloud.deck.javafx.ui.controller.views.IconCounterView?><?import org.kordamp.ikonli.javafx.FontIcon?><?import javafx.scene.image.ImageView?><?import javafx.scene.control.Label?><?import javafx.scene.layout.HBox?>
+
+<fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="css/views/CardPropertiesView.css"
+    type="HBox" fx:id="root">
+    <IconCounterView iconLiteral="fltrmz-text-description-20" fx:id="descriptionIconCounter" />
+    <IconCounterView iconLiteral="fltrmz-tag-16" fx:id="labelsIconCounter" />
+    <IconCounterView iconLiteral="fltral-comment-16" fx:id="commentsIconCounter" />
+    <IconCounterView iconLiteral="fltfal-attach-16" fx:id="attachmentsIconCounter" />
+    <IconCounterView iconLiteral="fltrmz-person-16" fx:id="assigneesIconCounter" />
+</fx:root>

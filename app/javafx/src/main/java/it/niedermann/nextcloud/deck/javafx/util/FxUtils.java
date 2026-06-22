@@ -3,8 +3,12 @@ package it.niedermann.nextcloud.deck.javafx.util;
 import org.intellij.lang.annotations.Language;
 
 import java.awt.Color;
+import java.util.Arrays;
 import java.util.Optional;
 
+import javafx.beans.Observable;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -60,4 +64,8 @@ public class FxUtils {
                 : intersectedIndex + 1;
     }
 
+    public static BooleanBinding anyVisible(Node... nodes) {
+        return Bindings.createBooleanBinding(() -> Arrays.stream(nodes).anyMatch(Node::isVisible),
+                Arrays.stream(nodes).map(Node::visibleProperty).toArray(Observable[]::new));
+    }
 }

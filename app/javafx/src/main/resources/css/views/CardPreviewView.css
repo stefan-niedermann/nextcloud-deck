@@ -5,3 +5,11 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 2);
     -fx-padding: 10;
 }
+
+.top {
+    -fx-padding: 0 0 10 0;
+}
+
+.bottom {
+    -fx-padding: 10 0 0 0;
+}

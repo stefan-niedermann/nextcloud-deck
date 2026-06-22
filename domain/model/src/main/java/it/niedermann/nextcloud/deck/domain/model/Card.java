@@ -18,6 +18,7 @@ public record Card(
         String description,
         Set<Label> labels,
         Set<User> assignees,
+        List<Comment> comments,
         List<Attachment> attachments,
         LocalDateTime startDate,
         LocalDateTime dueDate,

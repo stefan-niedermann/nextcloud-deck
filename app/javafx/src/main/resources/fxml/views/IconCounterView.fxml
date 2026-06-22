@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 
-<fx:root xmlns:fx="http://javafx.com/fxml/1" type="HBox" alignment="CENTER_LEFT">
-    <ImageView fx:id="imageView" />
+<fx:root xmlns:fx="http://javafx.com/fxml/1" type="HBox" spacing="3" alignment="CENTER_LEFT">
+    <FontIcon fx:id="fontIcon" iconSize="16" />
     <Label fx:id="counter" />
 </fx:root>

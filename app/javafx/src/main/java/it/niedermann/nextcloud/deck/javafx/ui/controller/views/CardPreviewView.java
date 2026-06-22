@@ -16,6 +16,8 @@ public class CardPreviewView extends BorderPane {
     @FXML
     Label description;
     @FXML
+    CardPropertiesView cardProperties;
+    @FXML
     ContextMenu contextMenu;
     @FXML
     MenuItem assign;
@@ -38,6 +40,14 @@ public class CardPreviewView extends BorderPane {
         description.setText(card.description());
         assign.setVisible(!isAssignedToCurrentUser);
         unassign.setVisible(isAssignedToCurrentUser);
+        cardProperties.setArgs(new CardPropertiesView.Args(
+                card.description(),
+                card.labels().size(),
+                card.commentsUnread(),
+                card.comments().size(),
+                card.attachments().size(),
+                card.assignees().size()
+        ));
 
         setOnMouseClicked(event -> {
             cardPreviewActionListener.onOpenCard(card);
@@ -52,22 +62,22 @@ public class CardPreviewView extends BorderPane {
         });
 
         assign.setOnAction(event -> {
-            cardPreviewActionListener.onDeleteCard(card);
+            cardPreviewActionListener.onAssignCard(card);
             event.consume();
         });
 
         unassign.setOnAction(event -> {
-            cardPreviewActionListener.onDeleteCard(card);
+            cardPreviewActionListener.onUnassignCard(card);
             event.consume();
         });
 
         move.setOnAction(event -> {
-            cardPreviewActionListener.onDeleteCard(card);
+            cardPreviewActionListener.onMoveCard(card);
             event.consume();
         });
 
         copy.setOnAction(event -> {
-            cardPreviewActionListener.onDeleteCard(card);
+            cardPreviewActionListener.onCopyCard(card);
             event.consume();
         });
 

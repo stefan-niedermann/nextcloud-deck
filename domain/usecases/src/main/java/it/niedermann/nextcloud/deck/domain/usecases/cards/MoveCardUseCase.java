@@ -31,6 +31,7 @@ public class MoveCardUseCase {
                 card.description(),
                 card.labels(),
                 card.assignees(),
+                card.comments(),
                 card.attachments(),
                 card.startDate(),
                 card.dueDate(),

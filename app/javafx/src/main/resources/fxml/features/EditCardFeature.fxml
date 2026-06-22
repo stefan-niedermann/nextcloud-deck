@@ -13,6 +13,9 @@
     <TabPane VBox.vgrow="ALWAYS">
         <tabs>
             <Tab closable="false" text="Details">
+                <graphic>
+                    <FontIcon iconLiteral="fltral-home-16"/>
+                </graphic>
                 <content>
                     <VBox>
 
@@ -44,6 +47,9 @@
                 </content>
             </Tab>
             <Tab closable="false" text="Attachments">
+                <graphic>
+                    <FontIcon iconLiteral="fltfal-attach-16"/>
+                </graphic>
                 <content>
                     <VBox>
                         <ListView VBox.vgrow="ALWAYS" fx:id="attachments" />
@@ -51,6 +57,9 @@
                 </content>
             </Tab>
             <Tab closable="false" text="Comments">
+                <graphic>
+                    <FontIcon iconLiteral="fltral-comment-16"/>
+                </graphic>
                 <content>
                     <VBox>
                         <ListView VBox.vgrow="ALWAYS" fx:id="comments" />
@@ -60,6 +69,9 @@
                 </content>
             </Tab>
             <Tab closable="false" text="Activity">
+                <graphic>
+                    <FontIcon iconLiteral="fltral-flash-on-20"/>
+                </graphic>
                 <content>
                     <VBox>
                         <ListView VBox.vgrow="ALWAYS" fx:id="activities" />
