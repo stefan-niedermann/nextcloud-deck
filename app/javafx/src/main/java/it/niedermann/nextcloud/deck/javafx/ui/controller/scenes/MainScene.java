@@ -16,28 +16,28 @@ import it.niedermann.nextcloud.deck.javafx.services.scene.ContextService;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.FeatureFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.SceneController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.AccountSwitcherFeature;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.features.BoardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditCardFeature;
 import it.niedermann.nextcloud.deck.javafx.util.FxUtils;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import jakarta.inject.Inject;
 import javafx.fxml.FXML;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.KeyCode;
 
 public class MainScene extends SceneController implements EditCardFeature.EditCardListener {
 
     @FXML
-    BoardFeature boardController;
-    @FXML
     AccountSwitcherFeature accountSwitcherController;
 
     @FXML
     SplitPane splitPane;
 
-    private ScrollPane editCardScrollpane;
-    private EditCardFeature editCardFeature;
+    @FXML
+    Node editCard;
+
+    @FXML
+    EditCardFeature editCardController;
 
     private final ContextService contextService;
     private final FeatureFactory featureFactory;
@@ -112,31 +112,17 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
     }
 
     public void onOpenCard(long cardId) {
-
-        if (editCardScrollpane == null) {
-            final var fxBundle = this.featureFactory.inflateFeature(EditCardFeature.class);
-            addDisposable(fxBundle.controller());
-
-            editCardScrollpane = new ScrollPane();
-            editCardScrollpane.setFitToWidth(true);
-            editCardScrollpane.setFitToHeight(true);
-            editCardScrollpane.setContent(fxBundle.view());
-            editCardScrollpane.setMinWidth(300);
-
-            editCardFeature = fxBundle.controller();
-        }
-
-        if (!splitPane.getItems().contains(editCardScrollpane)) {
-            splitPane.getItems().add(editCardScrollpane);
+        if (!splitPane.getItems().contains(editCard)) {
+            splitPane.getItems().add(editCard);
             splitPane.setDividerPositions(splitPane.getDividerPositions()[0], .8);
         }
 
-        editCardFeature.setCardId(cardId);
-        editCardFeature.setEditCardListener(this);
+        editCardController.setCardId(cardId);
+        editCardController.setEditCardListener(this);
     }
 
     private void closeCardSidebar() {
-        splitPane.getItems().remove(editCardScrollpane);
+        splitPane.getItems().remove(editCard);
     }
 
     @Override
