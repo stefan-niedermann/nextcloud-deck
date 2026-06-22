@@ -9,6 +9,7 @@ datastore = "1.2.1"
 espressoCore = "3.7.0"
 google-ksp = "2.3.5"
 gson = "2.14.0"
+graalvm = "0.11.0"
 hilt = "2.59.2"
 ikonliJavafx = "12.4.0"
 jakarta-inject = "2.0.1"
@@ -96,3 +97,4 @@ javafx = { id = "org.openjfx.javafxplugin", version.ref = "javafx-plugin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 jlink = { id = "org.beryx.jlink", version.ref = "jlink" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+graalvm = { id = "org.graalvm.buildtools.native", version.ref = "graalvm" }

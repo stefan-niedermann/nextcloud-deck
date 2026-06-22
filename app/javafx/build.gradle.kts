@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.gradleup.shadow)
     alias(libs.plugins.javafx)
     alias(libs.plugins.jlink)
+    alias(libs.plugins.graalvm)
 }
 
 java {
@@ -24,8 +25,23 @@ javafx {
 jlink {
     options = listOf("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages")
     launcher {
-        name = "Deck Desktop"
+        name = "Deck PC"
         jvmArgs = listOf("--add-modules javafx.controls,javafx.fxml")
+    }
+}
+
+graalvmNative {
+    binaries {
+        named("main") {
+            imageName.set("deck-pc")
+
+            buildArgs.addAll(
+                listOf(
+                    "--no-fallback",
+                    "-H:+ReportExceptionStackTraces"
+                )
+            )
+        }
     }
 }
 

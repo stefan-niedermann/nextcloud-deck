@@ -5,10 +5,6 @@ updates:
   schedule:
     interval: daily
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: com.squareup.retrofit2:retrofit
-    versions:
-    - ">= 2.9.a, < 2.10"
 - package-ecosystem: github-actions
   directory: "/"
   schedule:

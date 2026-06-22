@@ -1,4 +1,4 @@
-name: Android CI
+name: Java FX
 
 on: [push, pull_request]
 
@@ -6,15 +6,6 @@ permissions:
   contents: read
 
 jobs:
-  validation:
-    name: Validate Gradle Wrapper
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-      - name: Validate Gradle Wrapper
-        uses: gradle/actions/wrapper-validation@v5
-
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -24,7 +15,7 @@ jobs:
       - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '26'
           check-latest: true
           cache: 'gradle'
       - name: Lint
@@ -39,7 +30,7 @@ jobs:
       - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '26'
           check-latest: true
           cache: 'gradle'
       - name: Unit tests
@@ -49,18 +40,21 @@ jobs:
     name: Generate APK
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-      - uses: actions/setup-java@v5
+      - name: Set up GraalVM
+        uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: graalvm
+          java-version: '26'
           check-latest: true
-          cache: 'gradle'
+          cache: gradle
+      - name: Verify GraalVM
+        run: |
+          java --version
+          native-image --version
       - name: Build debug APK
-        run: bash ./gradlew assembleDev --no-configuration-cache
+        run: bash ./gradlew nativeCompile --no-configuration-cache
       - name: Upload APK
         uses: actions/upload-artifact@v7
         with:
           name: app-dev-debug
-          path: app/build/outputs/apk/dev/debug/app-dev-debug.apk
+          path: app/javafx/build/native/nativeCompile/deck-pc
