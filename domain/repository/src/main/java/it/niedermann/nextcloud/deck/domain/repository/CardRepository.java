@@ -12,6 +12,8 @@ public interface CardRepository {
 
     CompletableFuture<Void> updateCard(Card card);
 
+    CompletableFuture<Void> deleteCard(long cardId);
+
     CompletableFuture<Void> assignUser(long cardId, String userId);
 
     CompletableFuture<Void> unassignUser(long cardId, String userId);

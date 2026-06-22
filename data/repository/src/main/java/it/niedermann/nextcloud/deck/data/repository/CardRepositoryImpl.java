@@ -47,6 +47,12 @@ public class CardRepositoryImpl implements CardRepository {
     }
 
     @Override
+    public CompletableFuture<Void> deleteCard(long cardId) {
+        System.out.println("[Mock][" + CardRepositoryImpl.class.getSimpleName() + "/deleteCard]: " + cardId);
+        return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
     public CompletableFuture<Void> assignUser(long cardId, String userId) {
         System.out.println("[Mock][" + CardRepositoryImpl.class.getSimpleName() + "/assign]: " + cardId + " / " + userId);
         return CompletableFuture.completedFuture(null);

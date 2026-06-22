@@ -55,7 +55,8 @@ public class CardPreviewCellFactory implements Callback<ListView<Card>, ListCell
 
                 } else {
 
-                    view.bind(card, cardPreviewActionListener);
+                    // TODO evaluate whether card assignees contains the user belonging to the current account
+                    view.bind(card, !card.assignees().isEmpty(), cardPreviewActionListener);
                     setGraphic(view);
 
                 }

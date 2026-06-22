@@ -18,6 +18,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase;
 import it.niedermann.nextcloud.deck.javafx.services.scene.ContextService;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.CardPreviewCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.views.CardPreviewView;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.SubmitTextField;
 import it.niedermann.nextcloud.deck.javafx.util.DeckDataFormat;
 import it.niedermann.nextcloud.deck.javafx.util.FxUtils;
@@ -25,14 +26,17 @@ import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import jakarta.inject.Inject;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.stage.Popup;
 
-public class ColumnFeature extends DisposableController {
+public class ColumnFeature extends DisposableController implements CardPreviewView.CardPreviewActionListener {
 
     private static final Logger logger = Logger.getLogger(ColumnFeature.class.getName());
 
@@ -201,7 +205,43 @@ public class ColumnFeature extends DisposableController {
     public void render(Column column) {
         this.title.setText(column.title());
         // Order of setting listener and columnId matters because columnId Flowable triggers rebinding the listener to the cards
-        this.cardPreviewCellFactory.setCardPreviewActionListener(card -> contextService.dispatch(new ContextService.OpenCardAction(card.id())));
+        this.cardPreviewCellFactory.setCardPreviewActionListener(this);
         this.columnId.onNext(column.id());
+    }
+
+    @Override
+    public void onOpenCard(Card card) {
+        contextService.dispatch(new ContextService.EditCardAction(card.id()));
+    }
+
+    @Override
+    public void onAssignCard(Card card) {
+        System.out.println("[Mock] onAssignCard " + card);
+    }
+
+    @Override
+    public void onUnassignCard(Card card) {
+        System.out.println("[Mock] onUnassignCard " + card);
+    }
+
+    @Override
+    public void onMoveCard(Card card) {
+        System.out.println("[Mock] onMoveCard " + card);
+    }
+
+    @Override
+    public void onCopyCard(Card card) {
+        System.out.println("[Mock] onCopyCard " + card);
+    }
+
+    @Override
+    public void onDeleteCard(Card card) {
+        final var alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to delete the card \"" + card.title() + "\" permanently? This operation can not be undone.", ButtonType.CANCEL, ButtonType.YES);
+        alert.setTitle("Delete");
+        alert.setHeaderText("Delete \"" + card.title() + "\"?");
+        alert.showAndWait()
+                .map(ButtonType::getButtonData)
+                .map(ButtonBar.ButtonData::isDefaultButton)
+                .filter(Boolean.TRUE::equals).ifPresent(_ -> contextService.dispatch(new ContextService.DeleteCardAction(card.id())));
     }
 }

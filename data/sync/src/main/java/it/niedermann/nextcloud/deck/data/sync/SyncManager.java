@@ -33,7 +33,7 @@ public class SyncManager {
 
         // The following content of this method is a NoOp dummy implementation and can be replaced entirely.
 
-        final int MOCK_DURATION_PER_BOARD = 20;
+        final int MOCK_DURATION_PER_BOARD = 500;
         final int MOCK_BOARD_COUNT = 10;
 
         Thread.sleep(MOCK_DURATION_PER_BOARD);

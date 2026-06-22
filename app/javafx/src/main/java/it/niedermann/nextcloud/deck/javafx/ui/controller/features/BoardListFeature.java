@@ -57,7 +57,7 @@ public class BoardListFeature extends DisposableController {
                 .switchMap(getBoardUseCase::execute);
 
         final ChangeListener<Board> changeListener = (_, _, newValue) ->
-                contextService.dispatch(new ContextService.OpenBoardAction(newValue.id()));
+                contextService.dispatch(new ContextService.DisplayBoardAction(newValue.id()));
 
         final var disposable = Flowable.combineLatest(listBoards, currentBoard, Pair::new)
                 .subscribeOn(Schedulers.virtual())

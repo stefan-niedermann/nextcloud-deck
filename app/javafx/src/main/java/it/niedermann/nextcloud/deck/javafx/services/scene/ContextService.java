@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.DeleteCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
@@ -22,17 +23,20 @@ public class ContextService extends Store<ContextService.State> {
     private final SetCurrentAccountUseCase setCurrentAccountUseCase;
     private final GetCurrentBoardUseCase getCurrentBoardUseCase;
     private final SetCurrentBoardUseCase setCurrentBoardUseCase;
+    private final DeleteCardUseCase deleteCardUseCase;
 
     @Inject
     public ContextService(
             StoreLogger storeLogger,
             SetCurrentAccountUseCase setCurrentAccountUseCase,
             GetCurrentBoardUseCase getCurrentBoardUseCase,
-            SetCurrentBoardUseCase setCurrentBoardUseCase
+            SetCurrentBoardUseCase setCurrentBoardUseCase,
+            DeleteCardUseCase deleteCardUseCase
     ) {
         this.setCurrentAccountUseCase = setCurrentAccountUseCase;
         this.getCurrentBoardUseCase = getCurrentBoardUseCase;
         this.setCurrentBoardUseCase = setCurrentBoardUseCase;
+        this.deleteCardUseCase = deleteCardUseCase;
 
         // TODO Write Factory for MainService and pass initialState
         super(storeLogger, new State(1L, 1L, null));
@@ -67,21 +71,25 @@ public class ContextService extends Store<ContextService.State> {
 
     public sealed interface MainAction extends Action permits
             SwitchAccountAction,
-            OpenBoardAction,
-            OpenCardAction,
-            CloseCardAction {
+            DisplayBoardAction,
+            EditCardAction,
+            CloseCardAction,
+            DeleteCardAction {
     }
 
     public record SwitchAccountAction(long accountId) implements MainAction {
     }
 
-    public record OpenBoardAction(long boardId) implements MainAction {
+    public record DisplayBoardAction(long boardId) implements MainAction {
     }
 
-    public record OpenCardAction(long cardId) implements MainAction {
+    public record EditCardAction(long cardId) implements MainAction {
     }
 
     public record CloseCardAction() implements MainAction {
+    }
+
+    public record DeleteCardAction(long cardId) implements MainAction {
     }
 
     @Override
@@ -90,8 +98,8 @@ public class ContextService extends Store<ContextService.State> {
 
             case SwitchAccountAction switchAccountAction ->
                     state.withAccountId(switchAccountAction.accountId());
-            case OpenBoardAction openBoardAction -> state.withBoardId(openBoardAction.boardId);
-            case OpenCardAction openCardAction -> state.withCardId(openCardAction.cardId());
+            case DisplayBoardAction displayBoardAction -> state.withBoardId(displayBoardAction.boardId);
+            case EditCardAction editCardAction -> state.withCardId(editCardAction.cardId());
             case CloseCardAction _ -> state.withCardId(null);
 
             default -> state;
@@ -103,7 +111,7 @@ public class ContextService extends Store<ContextService.State> {
         return switch (action) {
 
             case SwitchAccountAction switchAccountAction -> {
-                final var persistCurrentAccountCf = this.setCurrentAccountUseCase.execute(state.accountId());
+                setCurrentAccountUseCase.execute(state.accountId());
                 yield Flowable.fromPublisher(this.getCurrentBoardUseCase.execute(state.accountId()))
                         .firstElement()
                         .toCompletionStage()
@@ -115,13 +123,21 @@ public class ContextService extends Store<ContextService.State> {
                             } else {
                                 return Optional.ofNullable(board)
                                         .map(Board::id)
-                                        .map(OpenBoardAction::new);
+                                        .map(DisplayBoardAction::new);
                             }
                         });
             }
-            case OpenBoardAction _ -> {
-                this.setCurrentBoardUseCase.execute(state.accountId(), state.boardId());
+            case DisplayBoardAction _ -> {
+                setCurrentBoardUseCase.execute(state.accountId(), state.boardId());
                 yield CompletableFuture.completedFuture(Optional.empty());
+            }
+            case DeleteCardAction deleteCardAction -> {
+                deleteCardUseCase.execute(deleteCardAction.cardId());
+                if (Objects.equals(deleteCardAction.cardId(), state.cardId())) {
+                    yield CompletableFuture.completedFuture(Optional.of(new CloseCardAction()));
+                } else {
+                    yield CompletableFuture.completedFuture(Optional.empty());
+                }
             }
 
             default -> super.handleEffects(state, action);

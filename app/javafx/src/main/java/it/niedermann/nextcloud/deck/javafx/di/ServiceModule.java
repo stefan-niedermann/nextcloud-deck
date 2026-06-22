@@ -5,6 +5,7 @@ import com.jthemedetecor.OsThemeDetector;
 
 import dagger.Module;
 import dagger.Provides;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.DeleteCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
@@ -29,11 +30,13 @@ public class ServiceModule {
     ContextService provideMainService(StoreLogger storeLogger,
                                       SetCurrentAccountUseCase setCurrentAccountUseCase,
                                       GetCurrentBoardUseCase getCurrentBoardUseCase,
-                                      SetCurrentBoardUseCase setCurrentBoardUseCase) {
+                                      SetCurrentBoardUseCase setCurrentBoardUseCase,
+                                      DeleteCardUseCase deleteCardUseCase) {
         return new ContextService(storeLogger,
                 setCurrentAccountUseCase,
                 getCurrentBoardUseCase,
-                setCurrentBoardUseCase);
+                setCurrentBoardUseCase,
+                deleteCardUseCase);
     }
 
     @Provides
