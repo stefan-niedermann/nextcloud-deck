@@ -4,7 +4,6 @@ import org.kordamp.ikonli.Ikon;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -26,13 +25,8 @@ public class IconCounterView extends HBox {
     }
 
     public void initialize() {
-        Bindings.bindBidirectional(
-                counter.textProperty(),
-                counterProperty,
-                new javafx.util.converter.NumberStringConverter()
-        );
-
-        counter.visibleProperty().bind(counter.textProperty().map(text -> text != null && text.length() > 1));
+        counter.textProperty().bind(counterProperty.asString());
+        counter.visibleProperty().bind(counterProperty.map(counter -> counter != null && counter.intValue() > 1));
         counter.managedProperty().bind(counter.visibleProperty());
     }
 

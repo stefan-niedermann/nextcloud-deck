@@ -25,7 +25,12 @@ public class CardRepositoryImpl implements CardRepository {
             new Card(2, 0, 0, 1, LocalDateTime.now(), LocalDateTime.now(), 0, "Card-Title #2", "- [ ] Check 1\n- [x] Check 2\n- [ ] Check 3", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), Collections.emptyList(), null, LocalDateTime.now(), null, null, Collections.emptySet(), false, false, 0, 4),
             new Card(3, 0, 0, 1, LocalDateTime.now(), LocalDateTime.now(), 0, "Card-Title #3", "Card-Description 3 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), List.of(new Comment(
                     3,
-                    new User("sample", "Sampson Sample"),
+                    new User("sample", "Sampson Sample 1"),
+                    LocalDateTime.now(),
+                    "This is a creative comment.",
+                    Optional.empty()), new Comment(
+                    4,
+                    new User("sample", "Sampson Sample 2"),
                     LocalDateTime.now(),
                     "This is a creative comment.",
                     Optional.empty())), Collections.emptyList(), null, LocalDateTime.now(), null, null, Collections.emptySet(), false, false, 0, 6),

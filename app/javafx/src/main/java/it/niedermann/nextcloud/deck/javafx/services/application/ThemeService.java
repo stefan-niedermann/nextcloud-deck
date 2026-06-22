@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Objects;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Dialog;
 
 public class ThemeService {
 
@@ -32,6 +33,10 @@ public class ThemeService {
     public void bind(Scene scene) {
         scenes.add(new WeakReference<>(scene));
         setDarkMode(scene, detector.isDark());
+    }
+
+    public void bind(Dialog<?> dialog) {
+        bind(dialog.getDialogPane().getScene());
     }
 
     public void setDarkMode(Scene scene, boolean darkModeEnabled) {

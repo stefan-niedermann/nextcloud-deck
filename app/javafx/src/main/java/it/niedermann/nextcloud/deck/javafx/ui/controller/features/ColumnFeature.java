@@ -15,6 +15,7 @@ import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase;
+import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.services.scene.ContextService;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.CardPreviewCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
@@ -44,6 +45,7 @@ public class ColumnFeature extends DisposableController implements CardPreviewVi
     private final ListCardsUseCase listCardsUseCase;
     private final MoveCardUseCase moveCardUseCase;
     private final AddCardUseCase addCardUseCase;
+    private final ThemeService themeService;
 
     private final FlowableProcessor<Long> columnId = ReplayProcessor.create();
     private FlowableProcessor<Integer> draggingCardIndex;
@@ -67,13 +69,15 @@ public class ColumnFeature extends DisposableController implements CardPreviewVi
             ListCardsUseCase listCardsUseCase,
             MoveCardUseCase moveCardUseCase,
             CardPreviewCellFactory cardPreviewCellFactory,
-            AddCardUseCase addCardUseCase
+            AddCardUseCase addCardUseCase,
+            ThemeService themeService
     ) {
         this.contextService = contextService;
         this.listCardsUseCase = listCardsUseCase;
         this.moveCardUseCase = moveCardUseCase;
         this.cardPreviewCellFactory = cardPreviewCellFactory;
         this.addCardUseCase = addCardUseCase;
+        this.themeService = themeService;
     }
 
     @Override
@@ -239,6 +243,7 @@ public class ColumnFeature extends DisposableController implements CardPreviewVi
         final var alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to delete the card \"" + card.title() + "\" permanently? This operation can not be undone.", ButtonType.CANCEL, ButtonType.YES);
         alert.setTitle("Delete");
         alert.setHeaderText("Delete \"" + card.title() + "\"?");
+        themeService.bind(alert);
         alert.showAndWait()
                 .map(ButtonType::getButtonData)
                 .map(ButtonBar.ButtonData::isDefaultButton)
