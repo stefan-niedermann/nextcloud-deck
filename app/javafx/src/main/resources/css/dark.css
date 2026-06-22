@@ -10,6 +10,10 @@
     -fx-text-fill: white;
 }
 
+FontIcon {
+    -fx-icon-color: white;
+}
+
 .list-cell {
     -fx-background-color: derive(-fx-base, 13.2%);
 }

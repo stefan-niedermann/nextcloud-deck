@@ -10,6 +10,7 @@ espressoCore = "3.7.0"
 google-ksp = "2.3.5"
 gson = "2.14.0"
 hilt = "2.59.2"
+ikonliJavafx = "12.4.0"
 jakarta-inject = "2.0.1"
 javafx = "26.0.1"
 javafx-plugin = "0.1.0"
@@ -62,6 +63,8 @@ dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", versi
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+ikonli-javafx = { module = "org.kordamp.ikonli:ikonli-javafx", version.ref = "ikonliJavafx" }
+ikonli-fluentui = { module = "org.kordamp.ikonli:ikonli-fluentui-pack", version.ref = "ikonliJavafx" }
 info-picocli = { group = "info.picocli", name = "picocli", version.ref = "picocli" }
 info-picocli-codegen = { group = "info.picocli", name = "picocli-codegen", version.ref = "picocli" }
 jakarta-inject = { group = "jakarta.inject", name = "jakarta.inject-api", version.ref = "jakarta-inject" }

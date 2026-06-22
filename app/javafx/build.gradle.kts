@@ -45,7 +45,8 @@ dependencies {
 
     implementation(libs.openjfx.controls)
     implementation(libs.openjfx.fxml)
-
+    implementation(libs.ikonli.javafx)
+    implementation(libs.ikonli.fluentui)
     implementation(libs.jsystemthemedetector)
 
     implementation(libs.jpro.mdfx)
