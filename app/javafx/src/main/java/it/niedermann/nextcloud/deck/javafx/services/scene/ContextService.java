@@ -11,12 +11,11 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.DeleteCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
-import it.niedermann.nextcloud.deck.javafx.store.Action;
 import it.niedermann.nextcloud.deck.javafx.store.Store;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
 import jakarta.inject.Inject;
 
-public class ContextService extends Store<ContextService.State> {
+public class ContextService extends Store<ContextService.State, ContextService.Action> {
 
     private static final Logger logger = Logger.getLogger(ContextService.class.getName());
 
@@ -40,6 +39,41 @@ public class ContextService extends Store<ContextService.State> {
 
         // TODO Write Factory for MainService and pass initialState
         super(storeLogger, new State(1L, 1L, null));
+
+        on(SwitchAccountAction.class, (state, action) -> state.withAccountId(action.accountId()));
+        on(DisplayBoardAction.class, (state, action) -> state.withBoardId(action.boardId()));
+        on(EditCardAction.class, (state, action) -> state.withCardId(action.cardId()));
+        on(CloseCardAction.class, (state, _) -> state.withCardId(null));
+
+        effect(SwitchAccountAction.class, (_, action) -> {
+            setCurrentAccountUseCase.execute(action.accountId());
+            return CompletableFuture.completedFuture(Optional.empty());
+        });
+
+        effect(SwitchAccountAction.class, (state, action) -> {
+            setCurrentAccountUseCase.execute(state.accountId());
+            return Flowable.fromPublisher(this.getCurrentBoardUseCase.execute(state.accountId()))
+                    .firstElement()
+                    .toCompletionStage()
+                    .toCompletableFuture()
+                    .thenApplyAsync(board -> Optional.ofNullable(board)
+                            .map(Board::id)
+                            .map(DisplayBoardAction::new));
+        });
+
+        effect(DisplayBoardAction.class, (state, action) -> {
+            setCurrentBoardUseCase.execute(state.accountId(), state.boardId());
+            return CompletableFuture.completedFuture(Optional.empty());
+        });
+
+        effect(DeleteCardAction.class, (state, action) -> deleteCardUseCase.execute(action.cardId())
+                .thenComposeAsync(_ -> {
+                    if (Objects.equals(action.cardId(), state.cardId())) {
+                        return CompletableFuture.completedFuture(Optional.of(new CloseCardAction()));
+                    } else {
+                        return CompletableFuture.completedFuture(Optional.empty());
+                    }
+                }));
     }
 
     public record State(
@@ -69,7 +103,7 @@ public class ContextService extends Store<ContextService.State> {
         }
     }
 
-    public sealed interface MainAction extends Action permits
+    public sealed interface Action permits
             SwitchAccountAction,
             DisplayBoardAction,
             EditCardAction,
@@ -77,70 +111,18 @@ public class ContextService extends Store<ContextService.State> {
             DeleteCardAction {
     }
 
-    public record SwitchAccountAction(long accountId) implements MainAction {
+    public record SwitchAccountAction(long accountId) implements Action {
     }
 
-    public record DisplayBoardAction(long boardId) implements MainAction {
+    public record DisplayBoardAction(long boardId) implements Action {
     }
 
-    public record EditCardAction(long cardId) implements MainAction {
+    public record EditCardAction(long cardId) implements Action {
     }
 
-    public record CloseCardAction() implements MainAction {
+    public record CloseCardAction() implements Action {
     }
 
-    public record DeleteCardAction(long cardId) implements MainAction {
-    }
-
-    @Override
-    protected State reduce(State state, Action action) {
-        return switch (action) {
-
-            case SwitchAccountAction switchAccountAction ->
-                    state.withAccountId(switchAccountAction.accountId());
-            case DisplayBoardAction displayBoardAction -> state.withBoardId(displayBoardAction.boardId);
-            case EditCardAction editCardAction -> state.withCardId(editCardAction.cardId());
-            case CloseCardAction _ -> state.withCardId(null);
-
-            default -> state;
-        };
-    }
-
-    @Override
-    protected CompletableFuture<Optional<Action>> handleEffects(State state, Action action) {
-        return switch (action) {
-
-            case SwitchAccountAction switchAccountAction -> {
-                setCurrentAccountUseCase.execute(state.accountId());
-                yield Flowable.fromPublisher(this.getCurrentBoardUseCase.execute(state.accountId()))
-                        .firstElement()
-                        .toCompletionStage()
-                        .toCompletableFuture()
-                        .handleAsync((board, exception) -> {
-                            if (exception == null) {
-                                return Optional.<Action>empty();
-
-                            } else {
-                                return Optional.ofNullable(board)
-                                        .map(Board::id)
-                                        .map(DisplayBoardAction::new);
-                            }
-                        });
-            }
-            case DisplayBoardAction _ -> {
-                setCurrentBoardUseCase.execute(state.accountId(), state.boardId());
-                yield CompletableFuture.completedFuture(Optional.empty());
-            }
-            case DeleteCardAction deleteCardAction -> {
-                deleteCardUseCase.execute(deleteCardAction.cardId());
-                if (Objects.equals(deleteCardAction.cardId(), state.cardId())) {
-                    yield CompletableFuture.completedFuture(Optional.of(new CloseCardAction()));
-                } else {
-                    yield CompletableFuture.completedFuture(Optional.empty());
-                }
-            }
-
-            default -> super.handleEffects(state, action);
-        };
+    public record DeleteCardAction(long cardId) implements Action {
     }
 }

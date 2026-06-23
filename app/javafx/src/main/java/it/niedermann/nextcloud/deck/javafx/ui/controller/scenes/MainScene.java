@@ -13,7 +13,6 @@ import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
 import it.niedermann.nextcloud.deck.javafx.RouteProvider;
 import it.niedermann.nextcloud.deck.javafx.router.Router;
 import it.niedermann.nextcloud.deck.javafx.services.scene.ContextService;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.FeatureFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.SceneController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.AccountSwitcherFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditCardFeature;
@@ -40,7 +39,6 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
     EditCardFeature editCardController;
 
     private final ContextService contextService;
-    private final FeatureFactory featureFactory;
     private final Router router;
     private final RouteProvider routeProvider;
     private final ScheduleSyncUseCase scheduleSyncUseCase;
@@ -51,14 +49,12 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
     @Inject
     public MainScene(
             ContextService contextService,
-            FeatureFactory featureFactory,
             Router router,
             RouteProvider routeProvider,
             ScheduleSyncUseCase scheduleSyncUseCase,
             GetBoardUseCase getBoardUseCase
     ) {
         this.contextService = contextService;
-        this.featureFactory = featureFactory;
         this.router = router;
         this.routeProvider = routeProvider;
         this.scheduleSyncUseCase = scheduleSyncUseCase;
@@ -79,21 +75,23 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(root.styleProperty()::setValue);
 
-        final var switchBoardDisposable = Flowable.fromPublisher(this.contextService.getState())
-                .map(ContextService.State::boardId)
-                .observeOn(JavaFxScheduler.platform())
-                .subscribe(_ -> this.closeCardSidebar());
-
         final var cardSidebarDisposable = Flowable.fromPublisher(contextService.getState())
                 .subscribe(state -> {
                     if (state.cardId() == null) {
-                        closeCardSidebar();
+                        splitPane.getItems().remove(editCard);
+
                     } else {
-                        onOpenCard(state.cardId());
+                        if (!splitPane.getItems().contains(editCard)) {
+                            splitPane.getItems().add(editCard);
+                            splitPane.setDividerPositions(splitPane.getDividerPositions()[0], .8);
+                        }
+
+                        editCardController.setCardId(state.cardId());
+                        editCardController.setEditCardListener(this);
                     }
                 });
 
-        addDisposable(accentColorDisposable, switchBoardDisposable, cardSidebarDisposable);
+        addDisposable(accentColorDisposable, cardSidebarDisposable);
 
         root.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
@@ -109,20 +107,6 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
 //                }
 //            }
         });
-    }
-
-    public void onOpenCard(long cardId) {
-        if (!splitPane.getItems().contains(editCard)) {
-            splitPane.getItems().add(editCard);
-            splitPane.setDividerPositions(splitPane.getDividerPositions()[0], .8);
-        }
-
-        editCardController.setCardId(cardId);
-        editCardController.setEditCardListener(this);
-    }
-
-    private void closeCardSidebar() {
-        splitPane.getItems().remove(editCard);
     }
 
     @Override

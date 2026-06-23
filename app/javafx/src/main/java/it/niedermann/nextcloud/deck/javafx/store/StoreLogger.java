@@ -18,12 +18,26 @@ public class StoreLogger {
         this.gson = gson;
     }
 
-    public void log(Action action, Object oldState, Object newState) {
+    public void log(Object action, Object oldState, Object newState) {
 
         logger.info("\uD83D\uDCE2 " + action.toString());
 
         if (!Objects.equals(oldState, newState)) {
-            logger.info("\uD83D\uDD04 " + gson.toJson(newState));
+
+            if (newState == null) {
+
+                logger.info("\uD83D\uDD04 - null -");
+
+            } else {
+
+                try {
+                    logger.info("\uD83D\uDD04 " + gson.toJson(newState));
+                } catch (Exception e) {
+                    logger.info("\uD83D\uDD04 " + newState);
+                    logger.warning(e::getMessage);
+                }
+
+            }
 
         } else {
             logger.info("\uD83D\uDD04 - no changes -");
