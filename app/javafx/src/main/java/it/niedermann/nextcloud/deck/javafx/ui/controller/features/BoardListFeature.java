@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.javafx.ui.controller.features;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
@@ -50,10 +51,14 @@ public class BoardListFeature extends DisposableController {
 
         final var listBoards = Flowable.fromPublisher(this.contextService.getState())
                 .map(ContextService.State::accountId)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .switchMap(listBoardsUseCase::execute);
 
         final var currentBoard = Flowable.fromPublisher(this.contextService.getState())
                 .map(ContextService.State::boardId)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .switchMap(getBoardUseCase::execute);
 
         final ChangeListener<Board> changeListener = (_, _, newValue) ->

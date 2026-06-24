@@ -38,7 +38,7 @@ public class ContextService extends Store<ContextService.State, ContextService.A
         this.deleteCardUseCase = deleteCardUseCase;
 
         // TODO Write Factory for MainService and pass initialState
-        super(storeLogger, new State(1L, 1L, null));
+        super(storeLogger, new State(Optional.of(1L), Optional.of(1L), Optional.empty()));
 
         on(SwitchAccountAction.class, (state, action) -> state.withAccountId(action.accountId()));
         on(DisplayBoardAction.class, (state, action) -> state.withBoardId(action.boardId()));
@@ -51,8 +51,12 @@ public class ContextService extends Store<ContextService.State, ContextService.A
         });
 
         effect(SwitchAccountAction.class, (state, action) -> {
-            setCurrentAccountUseCase.execute(state.accountId());
-            return Flowable.fromPublisher(this.getCurrentBoardUseCase.execute(state.accountId()))
+            final var accountId = state.accountId();
+            if (accountId.isEmpty()) {
+                return CompletableFuture.failedFuture(new IllegalStateException());
+            }
+            setCurrentAccountUseCase.execute(accountId.get());
+            return Flowable.fromPublisher(this.getCurrentBoardUseCase.execute(accountId.get()))
                     .firstElement()
                     .toCompletionStage()
                     .toCompletableFuture()
@@ -62,13 +66,18 @@ public class ContextService extends Store<ContextService.State, ContextService.A
         });
 
         effect(DisplayBoardAction.class, (state, action) -> {
-            setCurrentBoardUseCase.execute(state.accountId(), state.boardId());
+            final var accountId = state.accountId();
+            final var boardId = state.boardId();
+            if (accountId.isEmpty() || boardId.isEmpty()) {
+                return CompletableFuture.failedFuture(new IllegalStateException());
+            }
+            setCurrentBoardUseCase.execute(accountId.get(), boardId.get());
             return CompletableFuture.completedFuture(Optional.empty());
         });
 
         effect(DeleteCardAction.class, (state, action) -> deleteCardUseCase.execute(action.cardId())
                 .thenComposeAsync(_ -> {
-                    if (Objects.equals(action.cardId(), state.cardId())) {
+                    if (Objects.equals(action.cardId(), state.cardId().orElse(null))) {
                         return CompletableFuture.completedFuture(Optional.of(new CloseCardAction()));
                     } else {
                         return CompletableFuture.completedFuture(Optional.empty());
@@ -77,29 +86,29 @@ public class ContextService extends Store<ContextService.State, ContextService.A
     }
 
     public record State(
-            long accountId,
-            Long boardId,
-            Long cardId
+            Optional<Long> accountId,
+            Optional<Long> boardId,
+            Optional<Long> cardId
     ) {
 
         public State withAccountId(Long accountId) {
-            if (Objects.equals(accountId(), accountId)) {
+            if (Objects.equals(accountId().orElse(null), accountId)) {
                 return this;
             }
 
-            return new State(accountId, null, null);
+            return new State(Optional.ofNullable(accountId), Optional.empty(), Optional.empty());
         }
 
         public State withBoardId(Long boardId) {
-            if (Objects.equals(boardId(), boardId)) {
+            if (Objects.equals(boardId().orElse(null), boardId)) {
                 return this;
             }
 
-            return new State(accountId(), boardId, null);
+            return new State(accountId(), Optional.ofNullable(boardId), Optional.empty());
         }
 
         public State withCardId(Long cardId) {
-            return new State(accountId(), boardId(), cardId);
+            return new State(accountId(), boardId(), Optional.ofNullable(cardId));
         }
     }
 

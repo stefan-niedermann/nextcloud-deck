@@ -30,8 +30,7 @@ public abstract class Store<TState, TAction> {
     private final Map<Class<?>, List<BiFunction<TState, TAction, TState>>> reducers = new HashMap<>();
     private final Map<Class<?>, List<BiFunction<TState, TAction, CompletableFuture<Optional<? extends TAction>>>>> effects = new HashMap<>();
 
-    protected Store(StoreLogger storeLogger,
-                    TState initialState) {
+    protected Store(StoreLogger storeLogger, TState initialState) {
         this.storeLogger = storeLogger;
         this.initialState = initialState;
         this.state.onNext(initialState);
@@ -55,15 +54,9 @@ public abstract class Store<TState, TAction> {
 
     public final void dispatch(TAction action) {
         final var oldState = this.state.getValue();
-        final var newState = reduce(oldState, action);
 
-        handleEffects(newState, action)
-                .whenCompleteAsync((resultingAction, exception) -> {
-                    if (exception != null) {
-                        throw new RuntimeException(exception);
-                    }
-                    resultingAction.ifPresent(this::dispatch);
-                });
+        final var newState = reduce(oldState, action);
+        handleEffects(newState, action);
 
         this.state.onNext(newState);
         storeLogger.log(action, oldState, newState);
@@ -79,7 +72,22 @@ public abstract class Store<TState, TAction> {
         return state;
     }
 
-    private CompletableFuture<Optional<? extends TAction>> handleEffects(TState state, TAction action) {
-        return CompletableFuture.completedFuture(Optional.empty());
+    private CompletableFuture<Void> handleEffects(TState state, TAction action) {
+        final var effects = this.effects.getOrDefault(action.getClass(), Collections.emptyList());
+        final var futures = new ArrayList<>(effects.size());
+
+        for (final var effect : effects) {
+            final var future = effect.apply(state, action)
+                    .whenCompleteAsync((resultingAction, exception) -> {
+                        if (exception != null) {
+                            throw new RuntimeException(exception);
+                        }
+                        resultingAction.ifPresent(this::dispatch);
+                    });
+            futures.add(future);
+        }
+
+        //noinspection SuspiciousToArrayCall
+        return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
     }
 }

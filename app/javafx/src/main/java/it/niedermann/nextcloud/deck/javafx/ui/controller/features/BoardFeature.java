@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.javafx.ui.controller.features;
 
 import java.net.URL;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import io.reactivex.rxjava4.core.Flowable;
@@ -48,17 +49,20 @@ public class BoardFeature extends DisposableController {
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
+        this.progress.managedProperty().bind(this.progress.visibleProperty());
+        this.emptyContentView.managedProperty().bind(this.emptyContentView.visibleProperty());
+        this.columns.managedProperty().bind(this.columns.visibleProperty());
+
         final var disposable = Flowable.fromPublisher(this.contextService.getState())
                 .map(ContextService.State::boardId)
                 .distinctUntilChanged()
                 .doOnNext(_ -> {
                     this.progress.setVisible(true);
-                    this.progress.setManaged(true);
                     this.emptyContentView.setVisible(false);
-                    this.emptyContentView.setManaged(false);
                     this.columns.setVisible(false);
-                    this.columns.setManaged(false);
                 })
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .switchMap(this.getBoardUseCase::execute)
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(board -> {
@@ -73,7 +77,6 @@ public class BoardFeature extends DisposableController {
 
         this.columns.getChildren().clear();
 
-
         for (final var column : columns) {
             final var fxBundle = this.featureFactory.inflateFeature(ColumnFeature.class);
             addDisposable(fxBundle.controller());
@@ -82,23 +85,14 @@ public class BoardFeature extends DisposableController {
         }
 
         if (columns.isEmpty()) {
-
             this.emptyContentView.setVisible(true);
-            this.emptyContentView.setManaged(true);
             this.columns.setVisible(false);
-            this.columns.setManaged(false);
-
         } else {
-
             this.emptyContentView.setVisible(false);
-            this.emptyContentView.setManaged(false);
             this.columns.setVisible(true);
-            this.columns.setManaged(true);
-
         }
 
         this.progress.setVisible(false);
-        this.progress.setManaged(false);
     }
 
 }

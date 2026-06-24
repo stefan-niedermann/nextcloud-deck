@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.javafx.ui.controller.scenes;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 
@@ -67,6 +68,8 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
 
         final var accentColorDisposable = Flowable.fromPublisher(this.contextService.getState())
                 .map(ContextService.State::boardId)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .map(this.getBoardUseCase::execute)
                 .switchMap(Flowable::fromPublisher)
                 .map(Board::color)
@@ -77,7 +80,7 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
 
         final var cardSidebarDisposable = Flowable.fromPublisher(contextService.getState())
                 .subscribe(state -> {
-                    if (state.cardId() == null) {
+                    if (state.cardId().isEmpty()) {
                         splitPane.getItems().remove(editCard);
 
                     } else {
@@ -86,7 +89,7 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
                             splitPane.setDividerPositions(splitPane.getDividerPositions()[0], .8);
                         }
 
-                        editCardController.setCardId(state.cardId());
+                        editCardController.setCardId(state.cardId().get());
                         editCardController.setEditCardListener(this);
                     }
                 });

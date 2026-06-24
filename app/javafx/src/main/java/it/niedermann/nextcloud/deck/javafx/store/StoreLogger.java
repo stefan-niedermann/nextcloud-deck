@@ -31,10 +31,11 @@ public class StoreLogger {
             } else {
 
                 try {
+                    // TODO This does not play well with Optional<?> types and causes lots of warnings (see catch block)
                     logger.info("\uD83D\uDD04 " + gson.toJson(newState));
                 } catch (Exception e) {
                     logger.info("\uD83D\uDD04 " + newState);
-                    logger.warning(e::getMessage);
+                    // logger.warning(e::getMessage);
                 }
 
             }

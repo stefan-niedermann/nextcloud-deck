@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.javafx.ui.controller.features;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
@@ -100,6 +101,8 @@ public class AccountSwitcherFeature extends DisposableController {
 
         final var currentAccount = Flowable.fromPublisher(this.contextService.getState())
                 .map(ContextService.State::accountId)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .switchMap(getAccountUseCase::execute);
 
         final var disposable = Flowable.combineLatest(listAccounts, currentAccount, Pair::new)
@@ -128,6 +131,8 @@ public class AccountSwitcherFeature extends DisposableController {
             var disposable = Flowable.fromPublisher(contextService.getState())
                     .firstElement()
                     .map(ContextService.State::accountId)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
                     .flatMapPublisher(this.scheduleSyncUseCase::execute)
                     .observeOn(JavaFxScheduler.platform())
                     .doOnNext(syncStatus -> {
@@ -152,6 +157,8 @@ public class AccountSwitcherFeature extends DisposableController {
         var disposable = Flowable.fromPublisher(contextService.getState())
                 .firstElement()
                 .map(ContextService.State::accountId)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .subscribeOn(Schedulers.virtual())
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(this.removeAccountUseCase::execute);
