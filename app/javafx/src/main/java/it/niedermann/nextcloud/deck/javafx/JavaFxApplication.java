@@ -10,8 +10,8 @@ import it.niedermann.nextcloud.deck.app.shared.Util;
 import it.niedermann.nextcloud.deck.app.shared.data.PreferencesKeyValueStore;
 import it.niedermann.nextcloud.deck.data.local.DeckDatabase;
 import it.niedermann.nextcloud.deck.data.local.KeyValueStore;
-import it.niedermann.nextcloud.deck.javafx.di.AppComponent;
-import it.niedermann.nextcloud.deck.javafx.di.DaggerAppComponent;
+import it.niedermann.nextcloud.deck.javafx.di.application.AppComponent;
+import it.niedermann.nextcloud.deck.javafx.di.application.DaggerAppComponent;
 import it.niedermann.nextcloud.deck.javafx.exception.FxUncaughtExceptionHandler;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -37,10 +37,10 @@ public class JavaFxApplication extends Application {
 
 //        purge();
         final var appComponent = createAppComponent(stage);
-        final var router = appComponent.getRouter();
-        final var routeProvider = appComponent.getRouteProvider();
+        final var applicationRouter = appComponent.getApplicationRouter();
 
-        router.navigateTo(routeProvider.getSplashScreenRoute())
+        applicationRouter
+                .initializePrimaryStage()
                 .whenCompleteAsync((_, exception) -> {
                     if (exception != null) {
                         logger.log(Level.SEVERE, exception.getMessage(), exception);

@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.javafx.services.scene;
+package it.niedermann.nextcloud.deck.javafx.services.stage;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -11,13 +11,15 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.DeleteCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
+import it.niedermann.nextcloud.deck.javafx.di.stage.StageScope;
 import it.niedermann.nextcloud.deck.javafx.store.Store;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
 import jakarta.inject.Inject;
 
-public class ContextService extends Store<ContextService.State, ContextService.Action> {
+@StageScope
+public class StageContext extends Store<StageContext.State, StageContext.Action> {
 
-    private static final Logger logger = Logger.getLogger(ContextService.class.getName());
+    private static final Logger logger = Logger.getLogger(StageContext.class.getName());
 
     private final SetCurrentAccountUseCase setCurrentAccountUseCase;
     private final GetCurrentBoardUseCase getCurrentBoardUseCase;
@@ -25,12 +27,13 @@ public class ContextService extends Store<ContextService.State, ContextService.A
     private final DeleteCardUseCase deleteCardUseCase;
 
     @Inject
-    public ContextService(
+    public StageContext(
             StoreLogger storeLogger,
             SetCurrentAccountUseCase setCurrentAccountUseCase,
             GetCurrentBoardUseCase getCurrentBoardUseCase,
             SetCurrentBoardUseCase setCurrentBoardUseCase,
-            DeleteCardUseCase deleteCardUseCase
+            DeleteCardUseCase deleteCardUseCase,
+            State initialState
     ) {
         this.setCurrentAccountUseCase = setCurrentAccountUseCase;
         this.getCurrentBoardUseCase = getCurrentBoardUseCase;
@@ -38,7 +41,7 @@ public class ContextService extends Store<ContextService.State, ContextService.A
         this.deleteCardUseCase = deleteCardUseCase;
 
         // TODO Write Factory for MainService and pass initialState
-        super(storeLogger, new State(Optional.of(1L), Optional.of(1L), Optional.empty()));
+        super(storeLogger, initialState);
 
         on(SwitchAccountAction.class, (state, action) -> state.withAccountId(action.accountId()));
         on(DisplayBoardAction.class, (state, action) -> state.withBoardId(action.boardId()));

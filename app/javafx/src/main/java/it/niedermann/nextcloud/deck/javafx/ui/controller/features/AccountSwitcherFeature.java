@@ -13,7 +13,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.RemoveAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
-import it.niedermann.nextcloud.deck.javafx.services.scene.ContextService;
+import it.niedermann.nextcloud.deck.javafx.services.stage.StageContext;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.AccountListItemCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.AccountListItemView;
@@ -42,7 +42,7 @@ public class AccountSwitcherFeature extends DisposableController {
     @FXML
     Button removeAccountBtn;
 
-    private final ContextService contextService;
+    private final StageContext stageContext;
     private final GetAccountUseCase getAccountUseCase;
     private final GetAccountsUseCase getAccountsUseCase;
     private final ScheduleSyncUseCase scheduleSyncUseCase;
@@ -54,13 +54,13 @@ public class AccountSwitcherFeature extends DisposableController {
 
     @Inject
     public AccountSwitcherFeature(
-            ContextService contextService,
+            StageContext stageContext,
             GetAccountUseCase getAccountUseCase,
             GetAccountsUseCase getAccountsUseCase,
             ScheduleSyncUseCase scheduleSyncUseCase,
             RemoveAccountUseCase removeAccountUseCase
     ) {
-        this.contextService = contextService;
+        this.stageContext = stageContext;
         this.getAccountUseCase = getAccountUseCase;
         this.getAccountsUseCase = getAccountsUseCase;
         this.scheduleSyncUseCase = scheduleSyncUseCase;
@@ -95,12 +95,12 @@ public class AccountSwitcherFeature extends DisposableController {
         accountList.setCellFactory(factory);
         accountList.setButtonCell(buttonCell);
 
-        final ChangeListener<Account> accountChangeListener = (_, _, newValue) -> contextService.dispatch(new ContextService.SwitchAccountAction(newValue.id()));
+        final ChangeListener<Account> accountChangeListener = (_, _, newValue) -> stageContext.dispatch(new StageContext.SwitchAccountAction(newValue.id()));
 
         final var listAccounts = Flowable.fromPublisher(getAccountsUseCase.execute());
 
-        final var currentAccount = Flowable.fromPublisher(this.contextService.getState())
-                .map(ContextService.State::accountId)
+        final var currentAccount = Flowable.fromPublisher(this.stageContext.getState())
+                .map(StageContext.State::accountId)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .switchMap(getAccountUseCase::execute);
@@ -128,9 +128,9 @@ public class AccountSwitcherFeature extends DisposableController {
             this.progress.setVisible(true);
             this.progress.setDisable(false);
 
-            var disposable = Flowable.fromPublisher(contextService.getState())
+            var disposable = Flowable.fromPublisher(stageContext.getState())
                     .firstElement()
-                    .map(ContextService.State::accountId)
+                    .map(StageContext.State::accountId)
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .flatMapPublisher(this.scheduleSyncUseCase::execute)
@@ -154,9 +154,9 @@ public class AccountSwitcherFeature extends DisposableController {
     }
 
     public void removeAccount() {
-        var disposable = Flowable.fromPublisher(contextService.getState())
+        var disposable = Flowable.fromPublisher(stageContext.getState())
                 .firstElement()
-                .map(ContextService.State::accountId)
+                .map(StageContext.State::accountId)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .subscribeOn(Schedulers.virtual())

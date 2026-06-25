@@ -5,11 +5,9 @@ import java.util.ResourceBundle;
 
 import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.core.Maybe;
-import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.HasAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase;
-import it.niedermann.nextcloud.deck.javafx.RouteProvider;
-import it.niedermann.nextcloud.deck.javafx.router.Router;
+import it.niedermann.nextcloud.deck.javafx.services.stage.StageRouter;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.SceneController;
 import jakarta.inject.Inject;
 import javafx.fxml.FXML;
@@ -21,20 +19,17 @@ public class SplashScreenScene extends SceneController {
     @FXML
     ProgressIndicator progressIndicator;
 
-    private final Router router;
-    private final RouteProvider routeProvider;
+    private final StageRouter stageRouter;
     private final HasAccountsUseCase hasAccountsUseCase;
     private final GetCurrentAccountUseCase getCurrentAccountUseCase;
 
     @Inject
     public SplashScreenScene(
-            Router router,
-            RouteProvider routeProvider,
+            StageRouter stageRouter,
             HasAccountsUseCase hasAccountsUseCase,
             GetCurrentAccountUseCase getCurrentAccountUseCase
     ) {
-        this.router = router;
-        this.routeProvider = routeProvider;
+        this.stageRouter = stageRouter;
         this.hasAccountsUseCase = hasAccountsUseCase;
         this.getCurrentAccountUseCase = getCurrentAccountUseCase;
     }
@@ -49,14 +44,13 @@ public class SplashScreenScene extends SceneController {
                 .switchMap(hasAccounts -> {
                     if (hasAccounts) {
                         return Flowable.fromPublisher(getCurrentAccountUseCase.execute("SplashScreen"))
-                                .map(Account::id)
-                                .map(routeProvider::getMainRoute);
+                                .map(_ -> MainScene.class);
                     } else {
-                        return Flowable.just(routeProvider.getLoginRoute());
+                        return Flowable.just(LoginScene.class);
                     }
                 })
                 .firstElement()
-                .map(router::navigateTo)
+                .map(stageRouter::navigateTo)
                 .flatMap(Maybe::fromCompletionStage)
                 .ignoreElement()
                 .subscribe();

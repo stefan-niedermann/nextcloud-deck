@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
-import it.niedermann.nextcloud.deck.javafx.services.scene.ContextService;
+import it.niedermann.nextcloud.deck.javafx.services.stage.StageContext;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.FeatureFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.EmptyContentView;
@@ -30,17 +30,17 @@ public class BoardFeature extends DisposableController {
     @FXML
     HBox columns;
 
-    private final ContextService contextService;
+    private final StageContext stageContext;
     private final FeatureFactory featureFactory;
     private final GetBoardUseCase getBoardUseCase;
 
     @Inject
     public BoardFeature(
-            ContextService contextService,
+            StageContext stageContext,
             FeatureFactory featureFactory,
             GetBoardUseCase getBoardUseCase
     ) {
-        this.contextService = contextService;
+        this.stageContext = stageContext;
         this.featureFactory = featureFactory;
         this.getBoardUseCase = getBoardUseCase;
     }
@@ -53,8 +53,8 @@ public class BoardFeature extends DisposableController {
         this.emptyContentView.managedProperty().bind(this.emptyContentView.visibleProperty());
         this.columns.managedProperty().bind(this.columns.visibleProperty());
 
-        final var disposable = Flowable.fromPublisher(this.contextService.getState())
-                .map(ContextService.State::boardId)
+        final var disposable = Flowable.fromPublisher(this.stageContext.getState())
+                .map(StageContext.State::boardId)
                 .distinctUntilChanged()
                 .doOnNext(_ -> {
                     this.progress.setVisible(true);

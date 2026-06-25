@@ -10,7 +10,7 @@ import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.ListBoardsUseCase;
-import it.niedermann.nextcloud.deck.javafx.services.scene.ContextService;
+import it.niedermann.nextcloud.deck.javafx.services.stage.StageContext;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.BoardListItemCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
@@ -27,17 +27,17 @@ public class BoardListFeature extends DisposableController {
     @FXML
     ListView<Board> boardList;
 
-    private final ContextService contextService;
+    private final StageContext stageContext;
     private final GetBoardUseCase getBoardUseCase;
     private final ListBoardsUseCase listBoardsUseCase;
 
     @Inject
     public BoardListFeature(
-            ContextService contextService,
+            StageContext stageContext,
             GetBoardUseCase getBoardUseCase,
             ListBoardsUseCase listBoardsUseCase
     ) {
-        this.contextService = contextService;
+        this.stageContext = stageContext;
         this.getBoardUseCase = getBoardUseCase;
         this.listBoardsUseCase = listBoardsUseCase;
     }
@@ -49,20 +49,20 @@ public class BoardListFeature extends DisposableController {
 
         boardList.setCellFactory(new BoardListItemCellFactory());
 
-        final var listBoards = Flowable.fromPublisher(this.contextService.getState())
-                .map(ContextService.State::accountId)
+        final var listBoards = Flowable.fromPublisher(this.stageContext.getState())
+                .map(StageContext.State::accountId)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .switchMap(listBoardsUseCase::execute);
 
-        final var currentBoard = Flowable.fromPublisher(this.contextService.getState())
-                .map(ContextService.State::boardId)
+        final var currentBoard = Flowable.fromPublisher(this.stageContext.getState())
+                .map(StageContext.State::boardId)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .switchMap(getBoardUseCase::execute);
 
         final ChangeListener<Board> changeListener = (_, _, newValue) ->
-                contextService.dispatch(new ContextService.DisplayBoardAction(newValue.id()));
+                stageContext.dispatch(new StageContext.DisplayBoardAction(newValue.id()));
 
         final var disposable = Flowable.combineLatest(listBoards, currentBoard, Pair::new)
                 .subscribeOn(Schedulers.virtual())

@@ -11,9 +11,8 @@ import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
-import it.niedermann.nextcloud.deck.javafx.RouteProvider;
-import it.niedermann.nextcloud.deck.javafx.router.Router;
-import it.niedermann.nextcloud.deck.javafx.services.scene.ContextService;
+import it.niedermann.nextcloud.deck.javafx.services.stage.StageContext;
+import it.niedermann.nextcloud.deck.javafx.services.stage.StageRouter;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.SceneController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.AccountSwitcherFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditCardFeature;
@@ -39,9 +38,8 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
     @FXML
     EditCardFeature editCardController;
 
-    private final ContextService contextService;
-    private final Router router;
-    private final RouteProvider routeProvider;
+    private final StageContext stageContext;
+    private final StageRouter stageRouter;
     private final ScheduleSyncUseCase scheduleSyncUseCase;
     private final GetBoardUseCase getBoardUseCase;
 
@@ -49,15 +47,13 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
 
     @Inject
     public MainScene(
-            ContextService contextService,
-            Router router,
-            RouteProvider routeProvider,
+            StageContext stageContext,
+            StageRouter stageRouter,
             ScheduleSyncUseCase scheduleSyncUseCase,
             GetBoardUseCase getBoardUseCase
     ) {
-        this.contextService = contextService;
-        this.router = router;
-        this.routeProvider = routeProvider;
+        this.stageContext = stageContext;
+        this.stageRouter = stageRouter;
         this.scheduleSyncUseCase = scheduleSyncUseCase;
         this.getBoardUseCase = getBoardUseCase;
     }
@@ -66,8 +62,8 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
-        final var accentColorDisposable = Flowable.fromPublisher(this.contextService.getState())
-                .map(ContextService.State::boardId)
+        final var accentColorDisposable = Flowable.fromPublisher(this.stageContext.getState())
+                .map(StageContext.State::boardId)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(this.getBoardUseCase::execute)
@@ -78,7 +74,7 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(root.styleProperty()::setValue);
 
-        final var cardSidebarDisposable = Flowable.fromPublisher(contextService.getState())
+        final var cardSidebarDisposable = Flowable.fromPublisher(stageContext.getState())
                 .subscribe(state -> {
                     if (state.cardId().isEmpty()) {
                         splitPane.getItems().remove(editCard);
@@ -98,7 +94,7 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
 
         root.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
-                contextService.dispatch(new ContextService.CloseCardAction());
+                stageContext.dispatch(new StageContext.CloseCardAction());
 
             } else if (event.getCode() == KeyCode.F5) {
                 accountSwitcherController.scheduleSync();

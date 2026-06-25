@@ -16,7 +16,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
-import it.niedermann.nextcloud.deck.javafx.services.scene.ContextService;
+import it.niedermann.nextcloud.deck.javafx.services.stage.StageContext;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.CardPreviewCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.CardPreviewView;
@@ -41,7 +41,7 @@ public class ColumnFeature extends DisposableController implements CardPreviewVi
 
     private static final Logger logger = Logger.getLogger(ColumnFeature.class.getName());
 
-    private final ContextService contextService;
+    private final StageContext stageContext;
     private final ListCardsUseCase listCardsUseCase;
     private final MoveCardUseCase moveCardUseCase;
     private final AddCardUseCase addCardUseCase;
@@ -65,14 +65,14 @@ public class ColumnFeature extends DisposableController implements CardPreviewVi
 
     @Inject
     public ColumnFeature(
-            ContextService contextService,
+            StageContext stageContext,
             ListCardsUseCase listCardsUseCase,
             MoveCardUseCase moveCardUseCase,
             CardPreviewCellFactory cardPreviewCellFactory,
             AddCardUseCase addCardUseCase,
             ThemeService themeService
     ) {
-        this.contextService = contextService;
+        this.stageContext = stageContext;
         this.listCardsUseCase = listCardsUseCase;
         this.moveCardUseCase = moveCardUseCase;
         this.cardPreviewCellFactory = cardPreviewCellFactory;
@@ -215,7 +215,7 @@ public class ColumnFeature extends DisposableController implements CardPreviewVi
 
     @Override
     public void onOpenCard(Card card) {
-        contextService.dispatch(new ContextService.EditCardAction(card.id()));
+        stageContext.dispatch(new StageContext.EditCardAction(card.id()));
     }
 
     @Override
@@ -247,6 +247,6 @@ public class ColumnFeature extends DisposableController implements CardPreviewVi
         alert.showAndWait()
                 .map(ButtonType::getButtonData)
                 .map(ButtonBar.ButtonData::isDefaultButton)
-                .filter(Boolean.TRUE::equals).ifPresent(_ -> contextService.dispatch(new ContextService.DeleteCardAction(card.id())));
+                .filter(Boolean.TRUE::equals).ifPresent(_ -> stageContext.dispatch(new StageContext.DeleteCardAction(card.id())));
     }
 }

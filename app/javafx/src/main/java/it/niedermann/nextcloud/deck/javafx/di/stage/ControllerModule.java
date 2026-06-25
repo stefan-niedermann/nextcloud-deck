@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.javafx.di;
+package it.niedermann.nextcloud.deck.javafx.di.stage;
 
 import dagger.Module;
 import dagger.Provides;

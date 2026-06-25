@@ -23,8 +23,7 @@ import it.niedermann.nextcloud.auth.webloginflowv2.WebLoginFlowV2AuthProvider;
 import it.niedermann.nextcloud.deck.domain.model.SyncStatus;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
-import it.niedermann.nextcloud.deck.javafx.RouteProvider;
-import it.niedermann.nextcloud.deck.javafx.router.Router;
+import it.niedermann.nextcloud.deck.javafx.services.stage.StageRouter;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.SceneController;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import jakarta.inject.Inject;
@@ -49,8 +48,7 @@ public class LoginScene extends SceneController {
     @FXML
     private Button submit;
 
-    private final Router router;
-    private final RouteProvider routeProvider;
+    private final StageRouter router;
     private final ImportAccountUseCase importAccountUseCase;
     private final SetCurrentAccountUseCase setCurrentAccountUseCase;
     private final WebLoginFlowV2AuthProvider webLoginV2AuthProvider;
@@ -61,15 +59,13 @@ public class LoginScene extends SceneController {
 
     @Inject
     public LoginScene(
-            Router router,
-            RouteProvider routeProvider,
+            StageRouter router,
             ImportAccountUseCase importAccountUseCase,
             SetCurrentAccountUseCase setCurrentAccountUseCase,
             WebLoginFlowV2AuthProvider webLoginV2AuthProvider,
             AppTokenAuthProvider appTokenAuthProvider
     ) {
         this.router = router;
-        this.routeProvider = routeProvider;
         this.importAccountUseCase = importAccountUseCase;
         this.setCurrentAccountUseCase = setCurrentAccountUseCase;
         this.webLoginV2AuthProvider = webLoginV2AuthProvider;
@@ -168,7 +164,7 @@ public class LoginScene extends SceneController {
                 })
                 .ignoreElements()
                 .subscribe(() -> setCurrentAccountUseCase.execute(currentlyImportingAccountId.get())
-                        .thenApplyAsync(routeProvider::getMainRoute)
+                        .thenApplyAsync(_ -> MainScene.class)
                         .whenCompleteAsync((route, exception) -> {
 
                             importInProgress.onNext(false);

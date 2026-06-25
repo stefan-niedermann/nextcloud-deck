@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.javafx.di;
+package it.niedermann.nextcloud.deck.javafx.di.application;
 
 
 import dagger.BindsInstance;
@@ -6,8 +6,9 @@ import dagger.Component;
 import it.niedermann.nextcloud.deck.app.shared.di.SharedModule;
 import it.niedermann.nextcloud.deck.data.local.DeckDatabase;
 import it.niedermann.nextcloud.deck.data.local.KeyValueStore;
-import it.niedermann.nextcloud.deck.javafx.RouteProvider;
-import it.niedermann.nextcloud.deck.javafx.router.Router;
+import it.niedermann.nextcloud.deck.javafx.di.stage.StageComponent;
+import it.niedermann.nextcloud.deck.javafx.services.application.ApplicationRouter;
+import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import javafx.stage.Stage;
 
@@ -20,13 +21,12 @@ public interface AppComponent {
 
     @Component.Factory
     interface Factory {
-        AppComponent create(@BindsInstance Stage stage,
+        AppComponent create(@BindsInstance @Named("primary") Stage primaryStage,
                             @BindsInstance DeckDatabase database,
                             @BindsInstance KeyValueStore keyValueStore);
     }
 
-    Router getRouter();
+    StageComponent.Factory getStageComponentFactory();
 
-    RouteProvider getRouteProvider();
-
+    ApplicationRouter getApplicationRouter();
 }
