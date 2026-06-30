@@ -49,6 +49,7 @@
     <string name="about_app_license_button">Ver licença</string>
     <string name="about_icons_disclaimer_title">Ícones</string>
     <string name="about_icons_disclaimer_app_icon">Para o ícone original, veja %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Todos os outros ícones usados por este aplicativo são %1$s feitos pela Google Inc. e licenciados sob a Licença Apache 2.0.</string>
     <string name="about_icons_disclaimer_mdi">Ícones de Desenho de Material</string>
     <string name="about_credits_tab_title">Créditos</string>
     <string name="about_contribution_tab_title">Contribuição</string>
@@ -77,6 +78,8 @@
 
     <string name="label_clear_due_date">Limpar data limite</string>
     <string name="label_due_at">Vencimento em: %1$s</string>
+    <string name="label_add">Adicionar %1$s</string>
+
     <string name="card_edit_details">Detalhes</string>
     <string name="card_edit_attachments">Anexos</string>
     <string name="card_edit_activity">Atividade</string>
@@ -96,12 +99,14 @@
     <string name="search_in">Procurar em %1$s</string>
     <string name="pref_value_wifi_and_mobile">Sincronizar com Wi-Fi e dados móveis</string>
     <string-array name="darkmode_entries">
+        <item>Padrão do Sistema</item>
         <item>Claro</item>
         <item>Escuro</item>
     </string-array>
     <string name="unassigned_user"> %1$s desatribuído</string>
     <string name="share_board">Compartilhar painel</string>
     <string name="owner">Proprietário</string>
+    <string name="attachment_delete_message">Isso excluirá permanentemente este anexo.</string>
     <string name="no_content">Sem conteúdo ainda</string>
     <string name="last_background_sync">Última sincronização em segundo plano:</string>
     <string name="simple_off">Desativadas</string>
@@ -111,12 +116,15 @@
     <string name="provide_at_least_a_title_or_description">Forneça ao menos um título ou descrição</string>
     <string name="welcome_text">Bem-vindo a %1$s</string>
     <string name="welcome_text_further_accounts">Adicionar outra conta</string>
+    <string name="share_success">%1$s adicionado com sucesso à %2$s</string>
     <string name="card_edit_comments">Comentários</string>
     <string name="no_comments_yet">Nenhum comentário ainda</string>
     <string name="add_a_new_board_using_the_button">Adicionar um novo painel usando o botão +</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Abrir no navegador</string>
     <string name="move_list_right">Mover lista para a direita</string>
+    <string name="move_list_left">Mover lista para a esquerda</string>
+
     <string name="filter_no_filter">Todos</string>
     <string name="filter_today">Hoje</string>
     <string name="filter_tomorrow">Amanhã</string>
@@ -129,6 +137,7 @@
     <string name="pick_custom_color">Escolher cor personalizada</string>
     <string name="manage_tags">Gerir etiquetas</string>
     <string name="add_tag">Adicionar etiqueta</string>
+    <string name="tag_already_exists">%1$s já existe</string>
     <string name="tag_successfully_added">%1$s adicionado com sucesso</string>
     <string name="filter_tags_title">Marcações</string>
     <string name="filter_user_title">Utilizadores</string>
@@ -144,19 +153,24 @@
     <string name="error_dialog_tip_token_mismatch_retry">Tente forçar o fechamento do aplicativo e reinicie-o novamente. Pode ter havido uma conexão incorreta com o aplicativo Nextcloud.</string>
     <string name="error_dialog_tip_database_upgrade_failed">A atualização do banco de dados falhou. Relate o problema e limpe o armazenamento para usar o aplicativo normalmente.</string>
     <string name="error_dialog_tip_clear_storage">Você pode limpar o armazenamento abrindo as informações do aplicativo e selecionando Armazenamento → Limpar armazenamento</string>
+    <string name="error_dialog_tip_offline_no_internet">Parece que você tentou iniciar uma sincronização sem uma conexão com a internet.</string>
     <string name="error_dialog_tip_offline_connection_timeout">O tempo limite de conexão foi atingido, verifique se você está conectado à Internet. Isso também pode ocorrer quando o servidor estiver ocupado.</string>
     <string name="error_dialog_tip_connection_rejected">A conexão foi rejeitada, verifique se o seu servidor está protegido por um mecanismo anti-flood. Provavelmente, este é um problema causado por servidores protegidos pela Cloudflare.</string>
+    <string name="error_dialog_tip_files_delete_storage">Se a interrupção forçada não ajudar, você pode tentar limpar o armazenamento de ambos os aplicativos.</string>
     <string name="error_dialog_timeout_instance">Não houve resposta do seu servidor no tempo determinado. Verifique se sua instância está funcionando bem.</string>
     <string name="error_dialog_timeout_toggle">Verifique sua conexão de rede. Às vezes, ativar e desativar os dados móveis ou o Wi-Fi novamente pode ajudar.</string>
+    <string name="error_dialog_check_server">A resposta do seu servidor não estava correta. Verifique se você pode acessar o aplicativo Deck pela interface web.</string>
     <string name="error_dialog_check_server_logs">Há um problema com sua configuração do Nextcloud. Por favor, dê uma olhada nos arquivos de log do servidor.</string>
     <string name="error_dialog_insufficient_storage">Sua instância do Nextcloud não tem mais espaço livre. Exclua alguns arquivos para sincronizar suas alterações locais com a nuvem.</string>
     <string name="error_dialog_we_need_info">Precisamos das seguintes informações técnicas para ajudar você:</string>
     <string name="error_dialog_version_not_parsable">Não conseguimos determinar a versão do servidor do aplicativo Deck. Confirme se ele está instalado e ativo.</string>
     <string name="error_dialog_account_might_not_be_authorized">A conta do seu aplicativo Nextcloud pode não estar mais autorizada.</string>
+    <string name="error_dialog_user_not_found_in_database">O usuário atual não corresponde ao usuário que temos em nosso banco de dados. Se você estiver usando LDAP na sua instância do Nextcloud, seu aplicativo Nextcloud pode ter armazenado um ID do usuário antigo.</string>
     <string name="error_dialog_capabilities_not_parsable">Não foi possível buscar as capacidades do seu servidor. Verifique se o servidor está funcionando bem e se outros aplicativos clientes podem acessar o Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Não foi possível carregar um anexo. Tente compartilhá-lo de outra maneira e informe-nos sobre este bug.</string>
     <string name="error_dialog_certificate">Algo parece estar errado com o certificado do servidor. Por favor, verifique todas as contas no aplicativo Nextcloud para obter mais informações.</string>
     <string name="error_dialog_unknown_error">Sua instância Nextcloud parece estar inacessível. Verifique sua conexão com a Internet e se você consegue se conectar à sua instância pelo navegador.</string>
+    <string name="error_dialog_min_version">O aplicativo Deck para Android requer que o aplicativo Nextcloud para Android tenha, no mínimo, a versão 3.18.</string>
     <string name="error_action_open_deck_info">Abra as informações do Aplicativo</string>
     <string name="error_action_open_network">Configurações da rede</string>
     <string name="error_action_open_in_browser">Abrir no navegador</string>
@@ -173,7 +187,9 @@
     <string name="append_text_to_description">Anexar à descrição</string>
     <string name="append_text_as_task">Anexar à descrição como tarefa</string>
     <string name="simple_report">Relatório</string>
+    <string name="error_action_open_battery_settings">Configurações da bateria</string>
     <string name="move_warning">Comentários ou anexos não podem ser transferidos ao mover o cartão para outro painel.</string>
+    <string name="cloning_board">Clonando %1$s…</string>
     <string name="attachment_does_not_yet_exist">O anexo ainda não existe no Deck</string>
     <string name="card_does_not_yet_exist">O cartão ainda não existe no Deck</string>
 
@@ -202,9 +218,13 @@
     <string name="simple_attach">Anexar</string>
     <string name="simple_order">Ordenar</string>
     <string name="widget_upcoming_title">Próximos cartões</string>
+    <string name="app_logo">Logo do aplicativo</string>
+    <string name="log_file">Arquivo de log</string>
     <string name="account_imported">Conta importada</string>
     <string name="simple_search">Pesquisa sobre</string>
     <string name="card_outdated">O conteúdo deste cartão pode estar desatualizado.</string>
     <string name="show_error">Mostrar erro</string>
+    <string name="enter_search_term_title">Insira o termo de pesquisa</string>
+    <string name="no_search_results_title">Nenhum resultado de pesquisa</string>
     <string name="no_search_results_description">Não encontramos nenhum resultado para o termo de pesquisa fornecido</string>
 </resources>
