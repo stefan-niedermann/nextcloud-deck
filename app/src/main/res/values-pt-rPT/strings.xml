@@ -1,6 +1,8 @@
 <resources>
     <string name="navigation_drawer_open">Abrir menu de navegação</string>
     <string name="navigation_drawer_close">Fechar menu de navegação</string>
+    <string name="hint_search_deck">Pesquisar no Deck</string>
+
     <string name="simple_add">Adicionar</string>
     <string name="simple_save">Guardar</string>
     <string name="simple_more">Mais</string>
@@ -25,6 +27,7 @@
     <string name="simple_comment">Comentário</string>
     <string name="simple_disabled">desativado</string>
     <string name="simple_archive">Arquivar</string>
+    <string name="simple_unassigned">Não atribuído</string>
     <string name="hint_error_appeared">Apareceu um erro</string>
 
     <string name="edit_board">Editar quadro</string>
@@ -72,6 +75,7 @@
     <string name="add_card">Adicionar um cartão</string>
     <string name="activity">Atividade</string>
     <string name="add_list">Adicionar lista</string>
+    <string name="delete_list">Excluir lista</string>
     <string name="label_menu">menu</string>
     <string name="action_card_assign">Atribuir o cartão a mim</string>
     <string name="action_card_unassign">Desvincular o cartão de mim</string>
@@ -92,6 +96,7 @@
     <string name="append_to_description">Anexar à descrição</string>
     <string name="no_cards">Ainda sem cartões</string>
     <string name="account_already_added">A conta %1$s já foi adicionada</string>
+    <string name="no_lists_yet">Ainda sem listas</string>
     <string name="do_you_want_to_save_your_changes">Deseja salvar suas alterações?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Deseja arquivar todos os cartões filtrados de %1$s?</string>
     <string name="add_a_new_list_using_the_button">Adicione uma nova lista usando o botão +</string>
@@ -104,6 +109,7 @@
     <string name="settings_etags_summary">Acelera a sincronização </string>
     <string name="settings_background_sync">Sincronização em segundo plano</string>
     <string name="settings_push_notifications">Notificações \"push\"</string>
+    <string name="settings_compress_image_attachments">Compactar imagens durante o upload</string>
     <string name="search_in">Procurar em %1$s</string>
     <string name="pref_value_wifi_and_mobile">Sincronizar com Wi-Fi e dados móveis</string>
     <string-array name="darkmode_entries">
@@ -114,6 +120,7 @@
     <string name="unassigned_user"> %1$s desatribuído</string>
     <string name="no_activities">Não há atividades neste cartão. Você precisa estar conectado com a internet para carregar e exibir atividades.</string>
     <string name="share_board">Compartilhar painel</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Você deve estar conectado à Internet para adicionar uma conta. </string>
     <string name="owner">Proprietário</string>
     <string name="attachment_delete_message">Isso excluirá permanentemente este anexo.</string>
     <string name="no_content">Sem conteúdo ainda</string>
@@ -129,8 +136,10 @@
     <string name="welcome_text_further_accounts">Adicionar outra conta</string>
     <string name="share_add_to_card">Adicionar ao cartão</string>
     <string name="share_success">%1$s adicionado com sucesso à %2$s</string>
+    <string name="add_comment">Adicionar comentário</string>
     <string name="card_edit_comments">Comentários</string>
     <string name="no_comments_yet">Nenhum comentário ainda</string>
+    <string name="no_boards">Sem painéis ainda</string>
     <string name="add_a_new_board_using_the_button">Adicionar um novo painel usando o botão +</string>
     <string name="choose_board">Escolher painel</string>
     <string name="task_count">%1$s/%2$s</string>
@@ -142,6 +151,7 @@
     <string name="filter_today">Hoje</string>
     <string name="filter_tomorrow">Amanhã</string>
     <string name="filter_week">Próximos 7 dias</string>
+    <string name="filter_month">Próximos 30 dias</string>
     <string name="filter_no_due">Sem data de vencimento</string>
     <string name="filter_later">Mais tarde</string>
 
@@ -149,6 +159,7 @@
     <string name="filter_done_done">Concluído</string>
     <string name="filter_done_undone">Não concluído</string>
 
+    <string name="archived_cards">Cartões arquivados</string>
     <string name="pick_custom_color">Escolher cor personalizada</string>
     <string name="manage_tags">Gerir etiquetas</string>
     <string name="add_tag">Adicionar etiqueta</string>
@@ -166,6 +177,7 @@
     <string name="error">Apareceu um erro</string>
     <string name="synchronization_failed">A sincronização falhou</string>
     <string name="error_revoking_ac">Ocorreu um erro ao revogar o acesso para %1$s</string>
+    <string name="error_create_label">Erro ao criar o rótulo %1$s</string>
     <string name="maintenance_mode">Servidor em modo de manutenção</string>
     <string name="error_dialog_title">Oh não - E agora? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Tente forçar o fechamento do aplicativo e reinicie-o novamente. Pode ter havido uma conexão incorreta com o aplicativo Nextcloud.</string>
@@ -182,6 +194,7 @@
     <string name="error_dialog_timeout_toggle">Verifique sua conexão de rede. Às vezes, ativar e desativar os dados móveis ou o Wi-Fi novamente pode ajudar.</string>
     <string name="error_dialog_check_server">A resposta do seu servidor não estava correta. Verifique se você pode acessar o aplicativo Deck pela interface web.</string>
     <string name="error_dialog_check_server_logs">Há um problema com sua configuração do Nextcloud. Por favor, dê uma olhada nos arquivos de log do servidor.</string>
+    <string name="error_dialog_check_maintenance">Verifique se sua instância do Nextcloud não está no modo de manutenção.</string>
     <string name="error_dialog_insufficient_storage">Sua instância do Nextcloud não tem mais espaço livre. Exclua alguns arquivos para sincronizar suas alterações locais com a nuvem.</string>
     <string name="error_dialog_we_need_info">Precisamos das seguintes informações técnicas para ajudar você:</string>
     <string name="error_dialog_redirect">Seu servidor respondeu com um código de status HTTP 302, o que implica que você não instalou o aplicativo Deck no servidor ou que algo está configurado incorretamente. Isso pode ser causado por alterações no arquivo .htaccess ou por aplicativos Nextcloud como o Client OID.</string>
@@ -191,6 +204,7 @@
     <string name="error_dialog_capabilities_not_parsable">Não foi possível buscar as capacidades do seu servidor. Verifique se o servidor está funcionando bem e se outros aplicativos clientes podem acessar o Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Não foi possível carregar um anexo. Tente compartilhá-lo de outra maneira e informe-nos sobre este bug.</string>
     <string name="error_dialog_certificate">Algo parece estar errado com o certificado do servidor. Por favor, verifique todas as contas no aplicativo Nextcloud para obter mais informações.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Desative todas as otimizações de bateria para o Nextcloud e o aplicativo Deck.</string>
     <string name="error_dialog_unknown_error">Sua instância Nextcloud parece estar inacessível. Verifique sua conexão com a Internet e se você consegue se conectar à sua instância pelo navegador.</string>
     <string name="error_dialog_min_version">O aplicativo Deck para Android requer que o aplicativo Nextcloud para Android tenha, no mínimo, a versão 3.18.</string>
     <string name="error_action_open_deck_info">Abra as informações do Aplicativo</string>
@@ -205,6 +219,8 @@
     <string name="share_link">Share link</string>
     <string name="share_content">Compartilhar conteúdo</string>
     <string name="share_content_labels">Etiquetas: %1$s</string>
+    <string name="archive_cards">Cartões arquivados</string>
+
     <string name="manage_accounts">Gerir contas</string>
     <string name="manage_list">Gerenciar lista</string>
     <string name="simple_reply">Resposta</string>
@@ -218,8 +234,10 @@
     <string name="card_does_not_yet_exist">O cartão ainda não existe no Deck</string>
 
     <string name="widget_stack_title">Lista</string>
+    <string name="widget_stack_header_icon">Ícone do cabeçalho do widget</string>
     <string name="widget_placeholder_icon">Ícone do marcador de posição do widget</string>
     <string name="project_type_deck_board">Painel de Deck</string>
+    <string name="project_type_deck_card">Cartão de Deck</string>
     <string name="project_type_file">Ficheiro</string>
     <string name="projects_title">Projectos</string>
     <string name="no_assigned_label">Nenhuma etiqueta atribuída</string>
@@ -230,7 +248,9 @@
     <string name="clone_cards">Clonar cartões</string>
     <string name="simple_clone">Clonar</string>
     <string name="user_avatar">Avatar do usuário</string>
+    <string name="simple_unassign">Desatribuir</string>
     <string name="take_photo">Tirar uma foto</string>
+    <string name="take_photo_switch_camera">Trocar câmera</string>
     <string name="take_photo_toggle_torch">Alternar a lanterna</string>
     <string name="show_all_contacts">Mostrar todos os contactos</string>
     <string name="show_all_files">Mostrar todos os arquivos</string>
@@ -245,6 +265,7 @@
     <string name="simple_attach">Anexar</string>
     <string name="add_stack_widget">Adicionar widget de lista</string>
     <string name="simple_order">Ordenar</string>
+    <string name="edit_description">Editar descrição</string>
     <string name="widget_upcoming_title">Próximos cartões</string>
     <!-- Category header for a section in the settings which contain features for advanced users -->
     <string name="simple_expert_settings">Configurações para especialistas</string>
@@ -254,8 +275,10 @@
     <string name="simple_search">Pesquisa sobre</string>
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Título (obrigatório)</string>
+    <string name="saving_new_card">Salvando novo cartão…</string>
     <string name="card_outdated">O conteúdo deste cartão pode estar desatualizado.</string>
     <string name="show_error">Mostrar erro</string>
+    <string name="push_notification_link_empty">Devido a um problema conhecido no aplicativo web Deck, infelizmente não podemos exibir este cartão. Para mais informações, veja: %1$s</string>
     <string name="enter_search_term_title">Insira o termo de pesquisa</string>
     <string name="enter_search_term_description">Digite o termo de pesquisa para encontrar cartões neste painel</string>
     <string name="no_search_results_title">Nenhum resultado de pesquisa</string>
