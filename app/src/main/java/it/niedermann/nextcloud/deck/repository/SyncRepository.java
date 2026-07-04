@@ -1034,7 +1034,7 @@ public class SyncRepository extends BaseRepository {
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(stack.getAccountId(), stack.getStack().getBoardId());
             fullCardFromDB.setCard(card.getCard());
             card.getCard().setStatus(DBStatus.LOCAL_EDITED.getId());
-            dataBaseAdapter.updateCard(card.getCard(), false);
+            dataBaseAdapter.updateCard(card.getCard(), dependantsChanged);
             if (connectivityUtil.hasInternetConnection()) {
                 Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
                 AbstractSyncDataProvider<? extends IRemoteEntity> syncProvider = dependantsChanged ?

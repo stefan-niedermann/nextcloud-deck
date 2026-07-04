@@ -482,7 +482,6 @@ public class DataBaseAdapter {
         db.getCardDependentDao().deleteDependentsOfCard(localCardId);
     }
     public void deleteDependentCardForCard(long localCardId, long dependantRemoteId) {
-        db.getCardDependentDao().deleteDependentsOfCard(localCardId);
         db.getCardDependentDao().setDbStatus(localCardId, dependantRemoteId, DBStatus.LOCAL_DELETED.getId());
     }
 
