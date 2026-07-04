@@ -114,6 +114,7 @@
     <string name="settings_push_notifications">Notificações \"push\"</string>
     <string name="settings_compress_image_attachments">Compactar imagens durante o upload</string>
     <string name="search_in">Procurar em %1$s</string>
+    <string name="settings_compress_image_attachments_summary">Upload mais rápido, menos qualidade </string>
     <string name="pref_value_wifi_and_mobile">Sincronizar com Wi-Fi e dados móveis</string>
     <string name="pref_value_wifi_only">Sincronizar apenas por Wi-Fi</string>
     <string-array name="darkmode_entries">
@@ -155,6 +156,7 @@
     <string name="move_list_left">Mover lista para a esquerda</string>
 
     <string name="filter_no_filter">Todos</string>
+    <string name="filter_overdue">Vencidos</string>
     <string name="filter_today">Hoje</string>
     <string name="filter_tomorrow">Amanhã</string>
     <string name="filter_week">Próximos 7 dias</string>
@@ -180,6 +182,7 @@
     <string name="filter_duedate_title">Data limite</string>
     <string name="filter_done_title">Concluído</string>
 
+    <string name="action_board_dearchive">Desfazer arquivamento do painel</string>
     <string name="archived_boards">Quadros arquivados</string>
 
     <string name="error">Apareceu um erro</string>
@@ -196,6 +199,7 @@
     <string name="error_dialog_tip_database_upgrade_failed">A atualização do banco de dados falhou. Relate o problema e limpe o armazenamento para usar o aplicativo normalmente.</string>
     <string name="error_dialog_tip_clear_storage">Você pode limpar o armazenamento abrindo as informações do aplicativo e selecionando Armazenamento → Limpar armazenamento</string>
     <string name="error_dialog_tip_offline_no_internet">Parece que você tentou iniciar uma sincronização sem uma conexão com a internet.</string>
+    <string name="error_dialog_tip_offline_connection_refused">A conexão foi recusada, verifique se o servidor pode ser acessado pelo navegador web.</string>
     <string name="error_dialog_tip_offline_connection_timeout">O tempo limite de conexão foi atingido, verifique se você está conectado à Internet. Isso também pode ocorrer quando o servidor estiver ocupado.</string>
     <string name="error_dialog_tip_connection_rejected">A conexão foi rejeitada, verifique se o seu servidor está protegido por um mecanismo anti-flood. Provavelmente, este é um problema causado por servidores protegidos pela Cloudflare.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Se você habilitou a configuração \"Sincronizar apenas por Wi-Fi\", você só poderá sincronizar quando estiver conectado a um Wi-Fi.</string>
@@ -287,6 +291,7 @@
     <string name="widget_upcoming_title">Próximos cartões</string>
     <!-- Category header for a section in the settings which contain features for advanced users -->
     <string name="simple_expert_settings">Configurações para especialistas</string>
+    <string name="copy_logs">Copiar logs para área de transferência</string>
     <string name="app_logo">Logo do aplicativo</string>
     <string name="log_file">Arquivo de log</string>
     <string name="copying_logs_to_file">Copiando registros para o arquivo…</string>
@@ -295,6 +300,7 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Título (obrigatório)</string>
     <string name="saving_new_card">Salvando novo cartão…</string>
+    <string name="progress_import">Importando painel %1$d de %2$d…</string>
     <string name="progress_import_indeterminate">Importando painéis…</string>
     <string name="card_outdated">O conteúdo deste cartão pode estar desatualizado.</string>
     <string name="show_error">Mostrar erro</string>
