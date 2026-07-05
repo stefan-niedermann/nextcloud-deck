@@ -70,8 +70,8 @@ public class OverlappingAvatars extends RelativeLayout {
             avatar.requestLayout();
             Glide.with(context)
                     .load(account.getAvatarUrl(avatarSize, assignedUsers.get(avatarCount).getUid()))
-                    .placeholder(R.drawable.ic_person_24dp)
-                    .error(R.drawable.ic_person_24dp)
+                    .placeholder(R.drawable.ic_outline_person_24)
+                    .error(R.drawable.ic_outline_person_24)
                     .apply(RequestOptions.circleCropTransform())
                     .into(avatar);
         }

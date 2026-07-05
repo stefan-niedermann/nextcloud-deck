@@ -69,9 +69,9 @@ public class ImageAttachmentViewHolder extends AttachmentViewHolder {
             AttachmentUtil.getThumbnailUrl(account, cardRemoteId, attachment, getPreview().getWidth())
                     .map(Uri::toString)
                     .map(uri -> requestManager.load(new SingleSignOnUrl(account.getName(), uri)))
-                    .orElseGet(() -> requestManager.load(R.drawable.ic_image_24dp))
-                    .placeholder(R.drawable.ic_image_24dp)
-                    .error(R.drawable.ic_image_24dp)
+                    .orElseGet(() -> requestManager.load(R.drawable.ic_outline_image_24))
+                    .placeholder(R.drawable.ic_outline_image_24)
+                    .error(R.drawable.ic_outline_image_24)
                     .into(getPreview());
         });
 

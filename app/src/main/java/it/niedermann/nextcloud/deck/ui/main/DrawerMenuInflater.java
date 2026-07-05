@@ -118,8 +118,8 @@ public class DrawerMenuInflater<T extends FragmentActivity & ArchiveBoardListene
             menu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, R.string.add_board).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_add_24dp));
         }
 
-        menu.add(Menu.NONE, MENU_ID_SETTINGS, Menu.NONE, R.string.simple_settings).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_settings_24dp));
-        menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, R.string.about).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_info_outline_24dp));
+        menu.add(Menu.NONE, MENU_ID_SETTINGS, Menu.NONE, R.string.simple_settings).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_outline_settings_24));
+        menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, R.string.about).setIcon(utils.deck.themeNavigationViewIcon(activity, R.drawable.ic_outline_info_24));
 
         return navigationMap;
     }

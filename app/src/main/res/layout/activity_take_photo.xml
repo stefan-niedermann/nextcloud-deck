@@ -35,7 +35,7 @@
                 app:layout_constraintEnd_toStartOf="@id/takePhoto"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/takePhoto"
-                tools:srcCompat="@drawable/ic_camera_front_24" />
+                tools:srcCompat="@drawable/ic_outline_mobile_camera_front_24" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/takePhoto"
@@ -59,7 +59,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/takePhoto"
                 app:layout_constraintTop_toTopOf="@id/takePhoto"
-                tools:srcCompat="@drawable/ic_flash_on_24" />
+                tools:srcCompat="@drawable/ic_outline_flash_on_24" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

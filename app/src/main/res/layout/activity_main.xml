@@ -90,7 +90,7 @@
                             android:paddingHorizontal="@dimen/spacer_1hx"
                             android:text="@string/info_box_maintenance_mode"
                             android:textColor="?attr/colorOnSurfaceVariant"
-                            app:drawableStartCompat="@drawable/ic_info_outline_24dp" />
+                            app:drawableStartCompat="@drawable/ic_outline_info_24" />
 
                     </LinearLayout>
 

@@ -55,7 +55,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/spacer_1x"
                 android:contentDescription="@null"
-                app:srcCompat="@drawable/ic_person_24dp"
+                app:srcCompat="@drawable/ic_outline_person_24"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <androidx.appcompat.widget.AppCompatImageView

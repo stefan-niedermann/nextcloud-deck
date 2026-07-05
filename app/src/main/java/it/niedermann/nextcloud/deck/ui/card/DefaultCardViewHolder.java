@@ -82,7 +82,7 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
         final var taskStatus = fullCard.getCard().getTaskStatus();
         if (taskStatus.taskCount > 0) {
             binding.cardCountTasks.setText(context.getResources().getString(R.string.task_count, String.valueOf(taskStatus.doneCount), String.valueOf(taskStatus.taskCount)));
-            binding.cardCountTasks.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_check_box_24), null, null, null);
+            binding.cardCountTasks.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_outline_check_box_24), null, null, null);
             binding.cardCountTasks.setVisibility(View.VISIBLE);
         } else {
             final String description = fullCard.getCard().getDescription();

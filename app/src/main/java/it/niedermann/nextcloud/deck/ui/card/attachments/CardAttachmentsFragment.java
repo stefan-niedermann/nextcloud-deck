@@ -123,7 +123,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                         .setPermissions(Manifest.permission.CAMERA)
                         .build(),
 
-                new AttachmentPicker.MultiBuilder<>(registry, R.string.gallery, R.drawable.ic_image_24dp,
+                new AttachmentPicker.MultiBuilder<>(registry, R.string.gallery, R.drawable.ic_outline_image_24,
                         new ActivityResultContracts.PickMultipleVisualMedia())
                         .setResultMapper((Consumer<List<Uri>>) uris -> uris.forEach(uri -> cr.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)))
                         .setInput(new PickVisualMediaRequest.Builder()
@@ -146,14 +146,14 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 //                        .build(),
 
 
-                new AttachmentPicker.MultiBuilder<>(registry, R.string.videos, R.drawable.ic_local_movies_24dp,
+                new AttachmentPicker.MultiBuilder<>(registry, R.string.videos, R.drawable.ic_outline_movie_24,
                         new ActivityResultContracts.PickMultipleVisualMedia())
                         .setInput(new PickVisualMediaRequest.Builder()
                                 .setMediaType(ActivityResultContracts.PickVisualMedia.VideoOnly.INSTANCE)
                                 .build())
                         .build(),
 
-                new AttachmentPicker.SingleBuilder<>(registry, R.string.contacts, R.drawable.ic_person_24dp,
+                new AttachmentPicker.SingleBuilder<>(registry, R.string.contacts, R.drawable.ic_outline_person_24,
                         new ActivityResultContracts.PickContact())
                         .setPermissions(Manifest.permission.READ_CONTACTS)
                         .setResultMapper(uri -> uri == null ? null : VCardUtil.getVCardContentUri(requireContext(), uri))

@@ -39,14 +39,14 @@ public class AttachmentViewHolder extends RecyclerView.ViewHolder {
     public void bind(@NonNull Account account, @NonNull Attachment attachment, long cardRemoteId) {
         if (MimeTypeUtil.isImage(attachment.getMimetype())) {
             binding.preview.setTransitionName(parentContext.getString(R.string.transition_attachment_preview, String.valueOf(attachment.getLocalId())));
-            binding.preview.setImageResource(R.drawable.ic_image_24dp);
+            binding.preview.setImageResource(R.drawable.ic_outline_image_24);
             binding.preview.post(() -> {
                 final var requestManager = Glide.with(parentContext);
 
                 AttachmentUtil.getThumbnailUrl(account, cardRemoteId, attachment, binding.preview.getWidth(), binding.preview.getHeight())
                         .map(Uri::toString)
                         .map(uri -> requestManager.load(new SingleSignOnUrl(account.getName(), uri)))
-                        .orElseGet(() -> requestManager.load(R.drawable.ic_image_24dp))
+                        .orElseGet(() -> requestManager.load(R.drawable.ic_outline_image_24))
                         .listener(new RequestListener<>() {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, @NonNull Target<Drawable> target, boolean isFirstResource) {
@@ -64,7 +64,7 @@ public class AttachmentViewHolder extends RecyclerView.ViewHolder {
                                 return false;
                             }
                         })
-                        .error(R.drawable.ic_image_24dp)
+                        .error(R.drawable.ic_outline_image_24)
                         .into(binding.preview);
             });
         }

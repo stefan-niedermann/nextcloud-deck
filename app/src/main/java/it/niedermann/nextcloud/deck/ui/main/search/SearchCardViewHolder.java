@@ -65,13 +65,13 @@ public class SearchCardViewHolder extends SearchViewHolder {
                 AttachmentUtil.getThumbnailUrl(account, fullCard.getId(), coverImages.get(), binding.coverImages.getWidth())
                         .map(Uri::toString)
                         .map(uri -> requestManager.load(new SingleSignOnUrl(account.getName(), uri)))
-                        .orElseGet(() -> requestManager.load(R.drawable.ic_image_24dp))
+                        .orElseGet(() -> requestManager.load(R.drawable.ic_outline_image_24))
                         .apply(new RequestOptions().transform(
                                 new CenterCrop(),
                                 new RoundedCorners(context.getResources().getDimensionPixelSize(R.dimen.spacer_1x))
                         ))
-                        .placeholder(R.drawable.ic_image_24dp)
-                        .error(R.drawable.ic_image_24dp)
+                        .placeholder(R.drawable.ic_outline_image_24)
+                        .error(R.drawable.ic_outline_image_24)
                         .into(binding.coverImages);
 
             });

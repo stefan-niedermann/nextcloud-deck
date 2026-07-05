@@ -76,7 +76,7 @@ public class DueDateChip extends Chip {
         @ColorRes final int backgroundColorRes;
 
         if (isDone) { // Done
-            chipIconRes = R.drawable.ic_check_circle_24;
+            chipIconRes = R.drawable.ic_outline_check_circle_24;
             backgroundColorRes = R.color.due_done;
             textColorRes = R.color.due_text_done;
 

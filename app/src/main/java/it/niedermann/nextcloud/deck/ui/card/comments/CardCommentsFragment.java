@@ -100,8 +100,8 @@ public class CardCommentsFragment extends Fragment implements Themed, CommentEdi
         Glide.with(binding.avatar.getContext())
                 .load(editCardViewModel.getAccount().getAvatarUrl(binding.avatar.getResources().getDimensionPixelSize(R.dimen.icon_size_details)))
                 .apply(RequestOptions.circleCropTransform())
-                .placeholder(R.drawable.ic_person_24dp)
-                .error(R.drawable.ic_person_24dp)
+                .placeholder(R.drawable.ic_outline_person_24)
+                .error(R.drawable.ic_outline_person_24)
                 .into(binding.avatar);
 
         commentsViewModel.getReplyToComment().observe(getViewLifecycleOwner(), (comment) -> {

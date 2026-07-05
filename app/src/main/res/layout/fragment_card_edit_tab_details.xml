@@ -20,7 +20,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:startIconDrawable="@drawable/ic_label_24dp">
+            app:startIconDrawable="@drawable/ic_outline_label_24">
 
             <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
                 android:id="@+id/labels"
@@ -51,7 +51,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelsGroup"
-            app:startIconDrawable="@drawable/ic_person_24dp">
+            app:startIconDrawable="@drawable/ic_outline_person_24">
 
             <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
                 android:id="@+id/people"

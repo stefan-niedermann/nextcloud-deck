@@ -69,7 +69,7 @@ public class SingleCardWidget extends AppWidgetProvider {
                         views.setTextViewText(R.id.card_due_date, DateUtil.getRelativeDateTimeString(context, card.getDone().toEpochMilli()));
                         views.setViewVisibility(R.id.card_due_date, View.VISIBLE);
                         views.setViewVisibility(R.id.card_due_date_image, View.VISIBLE);
-                        views.setImageViewResource(R.id.card_due_date_image, R.drawable.ic_check_circle_24);
+                        views.setImageViewResource(R.id.card_due_date_image, R.drawable.ic_outline_check_circle_24);
                     } else if (card.getDueDate() != null) {
                         views.setTextViewText(R.id.card_due_date, DateUtil.getRelativeDateTimeString(context, card.getDueDate().toEpochMilli()));
                         views.setViewVisibility(R.id.card_due_date, View.VISIBLE);
@@ -95,7 +95,7 @@ public class SingleCardWidget extends AppWidgetProvider {
                     } else {
                         views.setViewVisibility(R.id.card_count_attachments, View.VISIBLE);
                         views.setViewVisibility(R.id.card_count_attachments_image, View.VISIBLE);
-                        views.setImageViewResource(R.id.card_count_attachments_image, R.drawable.ic_attach_file_24dp);
+                        views.setImageViewResource(R.id.card_count_attachments_image, R.drawable.ic_outline_attach_file_24);
                         setupCounter(views, R.id.card_count_attachments, attachmentsCount, counterMaxValue);
                     }
 
@@ -106,7 +106,7 @@ public class SingleCardWidget extends AppWidgetProvider {
                     } else {
                         views.setViewVisibility(R.id.card_count_comments, View.VISIBLE);
                         views.setViewVisibility(R.id.card_count_comments_image, View.VISIBLE);
-                        views.setImageViewResource(R.id.card_count_comments_image, R.drawable.ic_comment_24dp);
+                        views.setImageViewResource(R.id.card_count_comments_image, R.drawable.ic_outline_comment_24);
                         setupCounter(views, R.id.card_count_comments, commentsCount, counterMaxValue);
                     }
 

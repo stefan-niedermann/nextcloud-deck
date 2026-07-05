@@ -90,8 +90,8 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
             Glide.with(binding.avatar.getContext())
                     .load(account.getAvatarUrl(binding.avatar.getResources().getDimensionPixelSize(R.dimen.avatar_size), user.getUid()))
                     .apply(RequestOptions.circleCropTransform())
-                    .placeholder(R.drawable.ic_person_24dp)
-                    .error(R.drawable.ic_person_24dp)
+                    .placeholder(R.drawable.ic_outline_person_24)
+                    .error(R.drawable.ic_outline_person_24)
                     .into(binding.avatar);
             itemView.setSelected(selectedUsers.contains(user));
             applyTheme(color);

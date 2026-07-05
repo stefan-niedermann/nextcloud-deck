@@ -63,16 +63,16 @@ public class EditActivity extends AppCompatActivity {
      */
     @Deprecated
     private static final int[] tabIcons = new int[]{
-            R.drawable.ic_home_24dp,
-            R.drawable.ic_attach_file_24dp,
-            R.drawable.ic_activity_72dp
+            R.drawable.ic_outline_home_24,
+            R.drawable.ic_outline_attach_file_24,
+            R.drawable.ic_outline_flash_72
     };
 
     private static final int[] tabIconsWithComments = new int[]{
-            R.drawable.ic_home_24dp,
-            R.drawable.ic_attach_file_24dp,
+            R.drawable.ic_outline_home_24,
+            R.drawable.ic_outline_attach_file_24,
             R.drawable.type_comment_36dp,
-            R.drawable.ic_activity_72dp
+            R.drawable.ic_outline_flash_72
     };
 
     @Override

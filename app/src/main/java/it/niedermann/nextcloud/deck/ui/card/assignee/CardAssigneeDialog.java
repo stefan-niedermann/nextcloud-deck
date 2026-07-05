@@ -91,7 +91,7 @@ public class CardAssigneeDialog extends DialogFragment {
         binding.avatar.post(() -> Glide.with(binding.avatar.getContext())
                 .load(viewModel.getAccount().getAvatarUrl(binding.avatar.getWidth(), user.getUid()))
                 .placeholder(circularProgressDrawable)
-                .error(R.drawable.ic_person_24dp)
+                .error(R.drawable.ic_outline_person_24)
                 .into(binding.avatar));
         binding.title.setText(user.getDisplayname());
     }
