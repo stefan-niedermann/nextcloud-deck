@@ -280,6 +280,9 @@ public class CardDetailsFragment extends Fragment implements
         card.setDone(done);
         binding.cardStartDateView.setStartDate(getChildFragmentManager(), version, card.getStartDate(), card.getDone());
         binding.cardDueDateView.setDueDate(getChildFragmentManager(), version, card.getDueDate(), card.getDone());
+
+        binding.dependentsAutoComplete.setEnabled(viewModel.canEdit() && done == null);
+        dependentsAdapter.setEnabled(viewModel.canEdit() && done == null);
     }
 
     private void setupLabels(@NonNull Account account) {
@@ -417,11 +420,11 @@ public class CardDetailsFragment extends Fragment implements
                     viewModel.getFullCard().getDependentCardRemoteIDs().remove(card.getId());
                     viewModel.getFullCard().getDependents().remove(card);
                     ((DependentAutoCompleteAdapter) binding.dependentsAutoComplete.getAdapter()).doNotLongerExclude(card);
-                }, viewModel.getAccount());
+                }, viewModel.getAccount(), viewModel.canEdit() && viewModel.getFullCard().getCard().getDone() == null);
         binding.dependentsGroup.setAdapter(dependentsAdapter);
 
-        binding.dependentsAutoComplete.setEnabled(viewModel.canEdit());
-        binding.dependentsGroup.setEnabled(viewModel.canEdit());
+        binding.dependentsAutoComplete.setEnabled(viewModel.canEdit() && viewModel.getFullCard().getCard().getDone() == null);
+        binding.dependentsGroup.setEnabled(viewModel.canEdit() && viewModel.getFullCard().getCard().getDone() == null);
 
         if (viewModel.canEdit()) {
             Long localCardId = viewModel.getFullCard().getCard().getLocalId();

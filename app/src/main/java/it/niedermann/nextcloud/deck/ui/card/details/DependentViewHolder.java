@@ -80,4 +80,15 @@ public class DependentViewHolder extends RecyclerView.ViewHolder {
             checkBox.setPaintFlags(checkBox.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
     }
+
+    public void setEnabled(boolean enabled) {
+        binding.done.setEnabled(enabled);
+
+        if (enabled) {
+            binding.remove.setVisibility(View.VISIBLE);
+        } else {
+            binding.remove.setVisibility(View.GONE);
+        }
+
+    }
 }
