@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:contentDescription="@string/add_comment"
-            app:srcCompat="@drawable/ic_send_24dp" />
+            app:srcCompat="@drawable/ic_outline_send_24" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

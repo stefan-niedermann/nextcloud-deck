@@ -83,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@null"
-            tools:src="@drawable/ic_comment_24dp" />
+            tools:src="@drawable/ic_outline_comment_24" />
 
         <TextView
             android:id="@+id/card_count_comments"
@@ -116,7 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@null"
-            tools:src="@drawable/ic_attach_file_24dp" />
+            tools:src="@drawable/ic_outline_attach_file_24" />
 
         <TextView
             android:id="@+id/card_count_attachments"

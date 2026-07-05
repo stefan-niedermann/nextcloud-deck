@@ -23,7 +23,7 @@
             android:contentDescription="@null"
             android:focusable="false"
             android:scaleType="center"
-            app:srcCompat="@drawable/ic_person_24dp" />
+            app:srcCompat="@drawable/ic_outline_person_24" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -97,7 +97,7 @@
             android:contentDescription="@null"
             android:focusable="false"
             android:scaleType="center"
-            app:srcCompat="@drawable/ic_person_add_24dp" />
+            app:srcCompat="@drawable/ic_outline_person_add_24" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/add_account_label"
@@ -132,7 +132,7 @@
             android:contentDescription="@null"
             android:focusable="false"
             android:scaleType="center"
-            app:srcCompat="@drawable/ic_settings_24dp" />
+            app:srcCompat="@drawable/ic_outline_settings_24" />
 
         <TextView
             android:id="@+id/manage_accounts_label"

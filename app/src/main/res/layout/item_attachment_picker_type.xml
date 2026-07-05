@@ -20,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="?attr/colorOnSecondaryContainer"
-        tools:src="@drawable/ic_image_24dp" />
+        tools:src="@drawable/ic_outline_image_24" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/label"

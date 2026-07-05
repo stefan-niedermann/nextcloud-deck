@@ -47,7 +47,7 @@
             app:defaultValue="false" />
 
         <it.niedermann.nextcloud.deck.ui.theme.ThemedSwitchPreference
-            android:icon="@drawable/ic_image_24dp"
+            android:icon="@drawable/ic_outline_image_24"
             android:key="@string/pref_key_cover_images"
             android:title="@string/settings_cover_images_title"
             app:defaultValue="true" />

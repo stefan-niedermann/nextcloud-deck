@@ -122,7 +122,7 @@
                 android:layout_margin="@dimen/spacer_1x"
                 android:contentDescription="@null"
                 android:translationY="@dimen/spacer_1qx"
-                app:srcCompat="@drawable/ic_person_24dp"
+                app:srcCompat="@drawable/ic_outline_person_24"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -157,7 +157,7 @@
                 android:layout_gravity="center"
                 android:contentDescription="@string/add_comment"
                 android:translationY="@dimen/spacer_1qx"
-                app:srcCompat="@drawable/ic_send_24dp" />
+                app:srcCompat="@drawable/ic_outline_send_24" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
