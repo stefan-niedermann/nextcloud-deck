@@ -1,0 +1,4 @@
+- 🖇️ Implement dependents
+- 📅 Implement start date
+- 🐞 Fix "IllegalStateException: Can not perform this action after onSaveInstanceState" (#1507)
+- 🐞 Fix Editing a colored card clears its color with Deck server (#1887)
