@@ -29,6 +29,8 @@ public class DependentsAdapter extends RecyclerView.Adapter<DependentViewHolder>
     @NonNull
     private ThemeUtils utils;
 
+    private boolean enabled = false;
+
     @Nullable
     private RecyclerView recyclerView;
 
@@ -50,13 +52,15 @@ public class DependentsAdapter extends RecyclerView.Adapter<DependentViewHolder>
             @NonNull Context context,
             @NonNull Consumer<Card> doneStatus,
             @NonNull Consumer<Card> removeDependent,
-            @NonNull Account account
+            @NonNull Account account,
+            boolean enabled
     ) {
         super();
         this.doneStatus = doneStatus;
         this.removeDependent = removeDependent;
         this.account = account;
         this.context = context.getApplicationContext();
+        this.enabled = enabled;
         this.utils = ThemeUtils.of(ContextCompat.getColor(context, R.color.primary), context);
         setHasStableIds(true);
     }
@@ -93,6 +97,7 @@ public class DependentsAdapter extends RecyclerView.Adapter<DependentViewHolder>
             removeCard(removedCard);
             removeDependent.accept(removedCard);
         }, utils);
+        holder.setEnabled(enabled);
     }
 
     @Override
@@ -126,6 +131,11 @@ public class DependentsAdapter extends RecyclerView.Adapter<DependentViewHolder>
         if (this.recyclerView != null) {
             this.recyclerView.setVisibility(this.getItemCount() > 0 ? View.VISIBLE : View.GONE);
         }
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        notifyDataSetChanged();
     }
 
     @Override
