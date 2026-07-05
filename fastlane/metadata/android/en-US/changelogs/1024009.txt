@@ -1,2 +1,0 @@
-- 📅 Implement start date
-- 🐞 Fix "IllegalStateException: Can not perform this action after onSaveInstanceState" (#1507)
