@@ -78,24 +78,24 @@ public class AssigneeAdapter extends RecyclerView.Adapter<AssigneeViewHolder> {
     public void setUsers(@NonNull List<User> users) {
         this.users.clear();
         this.users.addAll(users);
-        updateRecylcerViewVisibility();
+        updateRecyclerViewVisibility();
         notifyDataSetChanged();
     }
 
     public void addUser(@NonNull User user) {
         this.users.add(user);
-        updateRecylcerViewVisibility();
+        updateRecyclerViewVisibility();
         notifyItemInserted(this.users.size());
     }
 
     public void removeUser(@NonNull User user) {
         final int index = this.users.indexOf(user);
         this.users.remove(user);
-        updateRecylcerViewVisibility();
+        updateRecyclerViewVisibility();
         notifyItemRemoved(index);
     }
 
-    private void updateRecylcerViewVisibility() {
+    private void updateRecyclerViewVisibility() {
         if (this.recyclerView != null) {
             this.recyclerView.setVisibility(this.getItemCount() > 0 ? View.VISIBLE : View.GONE);
         }

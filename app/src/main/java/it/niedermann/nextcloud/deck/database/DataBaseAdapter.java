@@ -53,6 +53,7 @@ import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.JoinBoardWithLabel;
+import it.niedermann.nextcloud.deck.model.JoinCardWithDependentCard;
 import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
 import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
@@ -475,6 +476,21 @@ public class DataBaseAdapter {
 
     public void deleteJoinedLabelsForCard(long localCardId) {
         db.getJoinCardWithLabelDao().deleteByCardId(localCardId);
+    }
+
+    public void deleteDependentCardsForCard(long localCardId) {
+        db.getCardDependentDao().deleteDependentsOfCard(localCardId);
+    }
+    public void deleteDependentCardForCard(long localCardId, long dependantRemoteId) {
+        db.getCardDependentDao().setDbStatus(localCardId, dependantRemoteId, DBStatus.LOCAL_DELETED.getId());
+    }
+
+    public void setStatusForJoinCardWithDependent(long localCardId, long dependantRemoteId, int statusToSet) {
+        db.getCardDependentDao().setDbStatus(localCardId, dependantRemoteId, statusToSet);
+    }
+
+    public JoinCardWithDependentCard getDependentCardsForCard(long localCardId, long remoteCardId) {
+        return db.getCardDependentDao().getDependentsOfCard(localCardId, remoteCardId);
     }
 
     public void deleteJoinedLabelForCard(long localCardId, long localLabelId) {
@@ -1090,6 +1106,9 @@ public class DataBaseAdapter {
     public List<JoinCardWithLabel> getAllChangedLabelJoins() {
         return db.getJoinCardWithLabelDao().getAllChangedJoins();
     }
+    public List<JoinCardWithDependentCard> getAllChangedDependentJoinsForAccount(long accountId) {
+        return db.getCardDependentDao().getAllChangedDependentJoinsForAccount(accountId);
+    }
 
     public List<JoinCardWithLabel> getAllChangedLabelJoinsForStack(Long localStackId) {
         return db.getJoinCardWithLabelDao().getAllChangedJoinsForStack(localStackId);
@@ -1109,6 +1128,10 @@ public class DataBaseAdapter {
 
     public void deleteJoinedLabelForCardPhysicallyByRemoteIDs(Long accountId, Long remoteCardId, Long remoteLabelId) {
         db.getJoinCardWithLabelDao().deleteJoinedLabelForCardPhysicallyByRemoteIDs(accountId, remoteCardId, remoteLabelId);
+    }
+
+    public void deleteJoinedDependentForCardPhysically(Long localCardId, Long dependentRemoteCardId) {
+        db.getCardDependentDao().deleteJoinedDependentForCardPhysically(localCardId, dependentRemoteCardId);
     }
 
     public void deleteJoinedUserForCardPhysicallyByRemoteIDs(Long accountId, Long remoteCardId, String userUid) {
@@ -1822,5 +1845,30 @@ public class DataBaseAdapter {
     }
     public List<Long> getAllCardIDs() {
         return db.getCardDao().getAllIDs();
+    }
+
+    public void createJoinCardWithDependent(Long localCardId, Long remoteCardId, DBStatus dbStatus) {
+        JoinCardWithDependentCard dependent = new JoinCardWithDependentCard();
+        dependent.setLocalCardId(localCardId);
+        dependent.setDependentRemoteCardId(remoteCardId);
+        dependent.setStatus(dbStatus.getId());
+        db.getCardDependentDao().insert(dependent);
+    }
+
+    public boolean updateDoneStateOfCardIfNeeded(Long localCardId, Instant done) {
+        Instant oldState = db.getCardDao().getDoneStateOfCard(localCardId);
+        if (!Objects.equals(done, oldState)) {
+            db.getCardDao().setDoneStateOfCard(localCardId, done, DBStatus.LOCAL_EDITED.getId());
+            return true;
+        }
+        return false;
+    }
+
+    public Long getBoardRemoteIdByCardLocalIdDirectly(Long localId) {
+        return db.getCardDao().getBoardRemoteIdByLocalId(localId);
+    }
+
+    public Long getStackRemoteIdByCardLocalIdDirectly(Long localId) {
+        return db.getCardDao().getStackRemoteIdByLocalId(localId);
     }
 }

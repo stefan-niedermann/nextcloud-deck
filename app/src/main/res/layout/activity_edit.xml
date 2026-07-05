@@ -23,8 +23,7 @@
                 android:id="@+id/titleWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/simple_title"
-                app:startIconDrawable="@drawable/ic_label_24dp">
+                android:hint="@string/simple_title">
 
                 <EditText
                     android:id="@+id/title"
@@ -52,7 +51,6 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

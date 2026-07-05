@@ -14,6 +14,7 @@ import java.util.Objects;
 import it.niedermann.android.crosstabdnd.DragAndDropModel;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.JoinCardWithDependentCard;
 import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
 import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
@@ -42,7 +43,15 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
     public List<User> owner;
 
     @Relation(parentColumn = "localId", entityColumn = "cardId")
+
     public List<Attachment> attachments;
+
+    @Relation(entity = Card.class, parentColumn = "localId", entityColumn = "id",
+            associateBy = @Junction(value = JoinCardWithDependentCard.class, parentColumn = "localCardId", entityColumn = "dependentRemoteCardId"))
+    public List<Card> dependents;
+
+    @Ignore
+    public List<Long> dependentCardRemoteIDs = new ArrayList<>();
 
     @Relation(entity = DeckComment.class, parentColumn = "localId", entityColumn = "objectId", projection = "localId")
     public List<Long> commentIDs;
@@ -58,6 +67,7 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
         this.owner = copyList(fullCard.getOwner());
         this.attachments = copyList(fullCard.getAttachments());
         this.commentIDs = copyList(fullCard.getCommentIDs());
+        this.dependentCardRemoteIDs.addAll(fullCard.getDependentCardRemoteIDs());
     }
 
     public Card getCard() {
@@ -126,6 +136,25 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
     @Override
     public Card getEntity() {
         return card;
+    }
+
+    public List<Card> getDependents() {
+        return dependents;
+    }
+
+    public void setDependents(List<Card> dependents) {
+        this.dependents = dependents;
+    }
+
+    @Ignore
+    public List<Long> getDependentCardRemoteIDs() {
+        return dependentCardRemoteIDs;
+    }
+
+    @Ignore
+    public void setDependentCardRemoteIDs(List<Long> dependentCardRemoteIDs) {
+        this.dependentCardRemoteIDs.clear();
+        this.dependentCardRemoteIDs.addAll(dependentCardRemoteIDs);
     }
 
     @NonNull

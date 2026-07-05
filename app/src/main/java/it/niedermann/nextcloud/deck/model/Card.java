@@ -6,6 +6,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.time.Instant;
@@ -15,6 +16,7 @@ import java.util.regex.Pattern;
 
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
+import it.niedermann.nextcloud.deck.remote.api.json.JsonColorSerializer;
 
 @Entity(inheritSuperIndices = true,
         indices = {
@@ -59,6 +61,8 @@ public class Card extends AbstractRemoteEntity {
     private Instant createdAt;
     private Instant deletedAt;
     private Instant done;
+    @SerializedName("startdate")
+    private Instant startDate;
     private int attachmentCount;
 
     private Long userId;
@@ -69,6 +73,8 @@ public class Card extends AbstractRemoteEntity {
     private boolean notified;
     private int overdue;
     private int commentsUnread;
+    @JsonAdapter(JsonColorSerializer.class)
+    private Integer color;
 
     public Card() {
     }
@@ -97,6 +103,7 @@ public class Card extends AbstractRemoteEntity {
         this.notified = card.isNotified();
         this.overdue = card.getOverdue();
         this.commentsUnread = card.getCommentsUnread();
+        this.startDate = card.getStartDate();
     }
 
     @NonNull
@@ -263,6 +270,22 @@ public class Card extends AbstractRemoteEntity {
         this.done = done;
     }
 
+    public Integer getColor() {
+        return color;
+    }
+
+    public void setColor(Integer color) {
+        this.color = color;
+    }
+
+    public Instant getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Instant startDate) {
+        this.startDate = startDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -314,13 +337,15 @@ public class Card extends AbstractRemoteEntity {
     @Override
     public String toString() {
         return "Card{" +
-                "title='" + title + '\'' +
+                "taskStatus=" + taskStatus +
+                ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", stackId=" + stackId +
                 ", type='" + type + '\'' +
                 ", createdAt=" + createdAt +
                 ", deletedAt=" + deletedAt +
                 ", done=" + done +
+                ", startDate=" + startDate +
                 ", attachmentCount=" + attachmentCount +
                 ", userId=" + userId +
                 ", order=" + order +
@@ -329,12 +354,6 @@ public class Card extends AbstractRemoteEntity {
                 ", notified=" + notified +
                 ", overdue=" + overdue +
                 ", commentsUnread=" + commentsUnread +
-                ", localId=" + localId +
-                ", accountId=" + accountId +
-                ", id=" + id +
-                ", status=" + status +
-                ", lastModified=" + lastModified +
-                ", lastModifiedLocal=" + lastModifiedLocal +
                 '}';
     }
 }

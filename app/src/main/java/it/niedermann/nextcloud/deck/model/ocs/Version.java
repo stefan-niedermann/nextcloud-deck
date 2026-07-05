@@ -21,6 +21,7 @@ public class Version implements Comparable<Version> {
     private static final Version VERSION_1_12_0 = new Version("1.12.0", 1, 12, 0);
     private static final Version VERSION_1_12_2 = new Version("1.12.2", 1, 12, 2);
     private static final Version VERSION_1_17_0 = new Version("1.17.0", 1, 17, 0);
+    private static final Version VERSION_1_18_0 = new Version("1.18.0", 1, 18, 0);
 
     private String originalVersion = "?";
     private final int major;
@@ -218,6 +219,17 @@ public class Version implements Comparable<Version> {
      */
     public int getCardTitleMaxLength() {
         return isGreaterOrEqualTo(VERSION_1_0_0) ? 255 : 100;
+    }
+
+    ///
+    /// @see <a href="https://github.com/nextcloud/deck/releases/tag/v1.18.0">Deck sever 1.18.0 release notes</a>
+    public boolean supportsStartDate() {
+        return isGreaterOrEqualTo(VERSION_1_18_0);
+    }
+
+    /// @see <a href="https://github.com/nextcloud/deck/releases/tag/v1.18.0">Deck sever 1.18.0 release notes</a>
+    public boolean supportsDependents() {
+        return isGreaterOrEqualTo(VERSION_1_18_0);
     }
 
     /**
