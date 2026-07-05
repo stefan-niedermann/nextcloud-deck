@@ -452,9 +452,11 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroyView() {
+        super.onDestroyView();
         this.binding = null;
-        super.onDestroy();
+        this.adapter = null;
+        this.attachmentPickerAdapter = null;
     }
 
     public static Fragment newInstance() {
