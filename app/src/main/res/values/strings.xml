@@ -67,10 +67,13 @@
     <string name="seconds_ago">seconds ago</string>
     <string name="edit">Edit</string>
     <string name="label_labels">Select Tags</string>
+    <string name="label_dependents">Dependents</string>
     <string name="label_description">Description</string>
     <string name="hint_assign_people">Assign users</string>
     <string name="hint_due_date_date">Due date</string>
     <string name="hint_due_date_time">Time</string>
+    <string name="hint_start_date_date">Start date</string>
+    <string name="hint_start_date_time">Time</string>
 
     <string name="card_not_found">Card not found</string>
     <string name="card_not_found_message">The card could not be found. Maybe it has been deleted recently.</string>
@@ -92,8 +95,10 @@
     <string name="add_board">Add board</string>
 
     <string name="label_clear_due_date">Clear due date</string>
+    <string name="label_clear_start_date">Clear start date</string>
     <string name="label_clear_done">Not done</string>
     <string name="label_due_at">Due at: %1$s</string>
+    <string name="label_start_at">Start at: %1$s</string>
     <string name="label_add">Add %1$s</string>
 
     <string name="url_maintainer" translatable="false">https://www.niedermann.it/</string>
@@ -359,4 +364,5 @@
     <string name="enter_search_term_description">Enter search term to find cards in this board</string>
     <string name="no_search_results_title">No search results</string>
     <string name="no_search_results_description">We have not found any result for the given search term</string>
+    <string name="label_no_startdate">No start date</string>
 </resources>

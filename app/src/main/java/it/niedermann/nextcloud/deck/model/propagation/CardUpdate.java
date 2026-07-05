@@ -28,6 +28,8 @@ public class CardUpdate extends Card {
         setId(card.getId());
         setLocalId(card.getLocalId());
         setDone(card.getCard().getDone());
+        setStartDate(card.getCard().getStartDate());
+        setColor(card.getCard().getColor());
     }
 
     public User getOwner() {

@@ -6,75 +6,51 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/doneCheck"
+        android:id="@+id/doneIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacer_1qx"
+        android:layout_marginTop="@dimen/spacer_1x"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="@dimen/spacer_1hx"
         android:contentDescription="@null"
         android:padding="@dimen/spacer_11qx"
+        android:translationY="@dimen/spacer_1hx"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_check_white_24dp"
+        app:srcCompat="@drawable/ic_outline_start_24"
         app:tint="?attr/colorOnSurface"
         tools:visibility="gone" />
 
     <TextView
-        android:id="@+id/doneDate"
-        style="?attr/textAppearanceBody1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/doneCheck"
-        app:layout_constraintEnd_toStartOf="@id/clear_start_date"
-        app:layout_constraintStart_toEndOf="@id/doneCheck"
-        app:layout_constraintTop_toTopOf="@id/doneCheck"
-        tools:text="@tools:sample/date/ddmmyy"
-        tools:visibility="gone" />
-
-    <TextView
-        android:id="@+id/done_due_date"
+        android:id="@+id/done_start_date"
         style="?attr/textAppearanceBody1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacer_1x"
-        app:layout_constraintEnd_toStartOf="@id/clear_start_date"
-        app:layout_constraintStart_toEndOf="@id/doneCheck"
-        app:layout_constraintTop_toBottomOf="@id/doneDate"
+        android:paddingVertical="@dimen/spacer_11qx"
+        app:layout_constraintBottom_toBottomOf="@id/doneIcon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/doneIcon"
+        app:layout_constraintTop_toTopOf="@id/doneIcon"
         tools:text="@tools:sample/date/ddmmyy"
         tools:visibility="gone" />
 
-    <ImageView
-        android:id="@+id/clear_start_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/spacer_1hx"
-        android:layout_marginStart="@dimen/spacer_1x"
-        android:layout_marginEnd="0dp"
-        android:contentDescription="@string/label_clear_done"
-        android:padding="@dimen/spacer_11qx"
-        app:layout_constraintBottom_toBottomOf="@id/doneDate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/doneDate"
-        app:srcCompat="@drawable/ic_close_circle"
-        tools:visibility="gone" />
-
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/dueDateDateWrapper"
+        android:id="@+id/startDateDateWrapper"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/spacer_2x"
-        android:hint="@string/hint_due_date_date"
-        android:labelFor="@id/dueDateDate"
-        app:layout_constraintBottom_toTopOf="@id/markAsDone"
-        app:layout_constraintEnd_toStartOf="@id/dueDateTimeWrapper"
+        android:hint="@string/hint_start_date_date"
+        android:labelFor="@id/startDateDate"
+        app:layout_constraintEnd_toStartOf="@id/startDateTimeWrapper"
         app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/done_due_date"
-        app:startIconDrawable="@drawable/calendar_blank_24dp">
+        app:layout_constraintTop_toBottomOf="@id/done_start_date"
+        app:startIconDrawable="@drawable/ic_outline_start_24">
 
         <EditText
-            android:id="@+id/dueDateDate"
+            android:id="@+id/startDateDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="true"
@@ -86,20 +62,20 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/dueDateTimeWrapper"
+        android:id="@+id/startDateTimeWrapper"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacer_1hx"
-        android:hint="@string/hint_due_date_time"
-        android:labelFor="@id/dueDateTime"
-        app:layout_constraintBottom_toBottomOf="@id/dueDateDateWrapper"
-        app:layout_constraintEnd_toStartOf="@id/clearDueDate"
+        android:hint="@string/hint_start_date_time"
+        android:labelFor="@id/startDateTime"
+        app:layout_constraintBottom_toBottomOf="@id/startDateDateWrapper"
+        app:layout_constraintEnd_toStartOf="@id/clearStartDate"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/dueDateDateWrapper"
-        app:layout_constraintTop_toTopOf="@id/dueDateDateWrapper">
+        app:layout_constraintStart_toEndOf="@id/startDateDateWrapper"
+        app:layout_constraintTop_toTopOf="@id/startDateDateWrapper">
 
         <EditText
-            android:id="@+id/dueDateTime"
+            android:id="@+id/startDateTime"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:enabled="true"
@@ -113,19 +89,18 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
-        android:id="@+id/clearDueDate"
+        android:id="@+id/clearStartDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/spacer_1hx"
         android:layout_marginStart="@dimen/spacer_1x"
         android:layout_marginEnd="0dp"
-        android:contentDescription="@string/label_clear_due_date"
+        android:contentDescription="@string/label_clear_start_date"
         android:padding="@dimen/spacer_11qx"
-        android:translationY="@dimen/spacer_1hx"
-        app:layout_constraintBottom_toBottomOf="@id/dueDateTimeWrapper"
+        app:layout_constraintBottom_toBottomOf="@id/startDateTimeWrapper"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/dueDateTimeWrapper"
-        app:layout_constraintTop_toTopOf="@id/dueDateTimeWrapper"
+        app:layout_constraintStart_toEndOf="@id/startDateTimeWrapper"
+        app:layout_constraintTop_toTopOf="@id/startDateTimeWrapper"
         app:srcCompat="@drawable/ic_close_circle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

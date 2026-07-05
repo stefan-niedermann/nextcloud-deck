@@ -27,6 +27,8 @@ public class CardUpdateOwnerString extends Card {
         setLocalId(card.getLocalId());
         setDone(card.getDone());
         setOwner(card.getOwner().getUid());
+        setStartDate(card.getStartDate());
+        setColor(card.getColor());
     }
 
     public String getOwner() {

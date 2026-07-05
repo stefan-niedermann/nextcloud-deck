@@ -8,7 +8,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
-import androidx.viewbinding.ViewBinding;
 
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
@@ -63,23 +62,15 @@ public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extend
         return localId == null ? Long.MIN_VALUE : localId;
     }
 
-    protected List<ItemType> filterExcluded(@NonNull List<ItemType> users) {
-        return users.stream().filter(this::userIsNotInExclusionList).collect(toList());
+    protected List<ItemType> filterExcluded(@NonNull List<ItemType> items) {
+        return items.stream().filter(this::itemIsNotInExclusionList).collect(toList());
     }
 
-    private boolean userIsNotInExclusionList(@NonNull ItemType user) {
+    private boolean itemIsNotInExclusionList(@NonNull ItemType user) {
         return itemsToExclude
                 .stream()
                 .map(IRemoteEntity::getLocalId)
                 .noneMatch(idToExclude -> Objects.equals(user.getLocalId(), idToExclude));
-    }
-
-    protected static class ViewHolder<ViewBindingType extends ViewBinding> {
-        public final ViewBindingType binding;
-
-        public ViewHolder(ViewBindingType binding) {
-            this.binding = binding;
-        }
     }
 
     public abstract class AutoCompleteFilter extends Filter {
