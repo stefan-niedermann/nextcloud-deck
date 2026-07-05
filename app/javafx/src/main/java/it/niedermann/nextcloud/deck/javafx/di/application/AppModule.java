@@ -1,53 +1,38 @@
 package it.niedermann.nextcloud.deck.javafx.di.application;
 
-import com.google.gson.Gson;
-import com.jthemedetecor.OsThemeDetector;
+import java.nio.file.Path;
+import java.util.prefs.Preferences;
 
 import dagger.Module;
 import dagger.Provides;
 import it.niedermann.nextcloud.auth.apptoken.AppTokenAuthProvider;
-import it.niedermann.nextcloud.auth.webloginflowv2.WebLoginFlowV2AuthProvider;
-import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
-import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
-import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
+import it.niedermann.nextcloud.deck.app.shared.data.PreferencesKeyValueStore;
+import it.niedermann.nextcloud.deck.data.local.DeckDatabase;
+import it.niedermann.nextcloud.deck.data.local.KeyValueStore;
+import it.niedermann.nextcloud.deck.javafx.di.fx.FxComponent;
+import it.niedermann.nextcloud.deck.javafx.di.named.NamedDbPath;
+import it.niedermann.nextcloud.deck.javafx.di.named.NamedPreferencesVersion;
 import jakarta.inject.Singleton;
 
-@Module()
+@Module(subcomponents = FxComponent.class)
 public class AppModule {
 
     @Provides
     @Singleton
-    Inflater inflater() {
-        return Inflater.getInstance();
+    KeyValueStore provideKeyValueStore(@NamedPreferencesVersion int preferencesVersion) {
+        final var prefs = Preferences.userRoot().node(String.valueOf(preferencesVersion));
+        return new PreferencesKeyValueStore(prefs);
     }
 
     @Provides
     @Singleton
-    WebLoginFlowV2AuthProvider providerAuthProvider() {
-        return new WebLoginFlowV2AuthProvider();
+    DeckDatabase provideDeckDatabase(@NamedDbPath Path dbPath) {
+        return DeckDatabase.Companion.getDatabaseBuilder(dbPath).build();
     }
 
     @Provides
     @Singleton
-    AppTokenAuthProvider provideAuthProvider() {
+    AppTokenAuthProvider provideAppTokenAuthProvider() {
         return new AppTokenAuthProvider();
-    }
-
-    @Provides
-    @Singleton
-    StoreLogger provideStoreLogger(Gson gson) {
-        return new StoreLogger(gson);
-    }
-
-    @Provides
-    @Singleton
-    OsThemeDetector provideOsThemeDetector() {
-        return OsThemeDetector.getDetector();
-    }
-
-    @Provides
-    @Singleton
-    ThemeService provideThemeService(OsThemeDetector detector) {
-        return new ThemeService(detector);
     }
 }

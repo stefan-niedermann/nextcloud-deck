@@ -95,7 +95,7 @@ public class AccountSwitcherFeature extends DisposableController {
         accountList.setCellFactory(factory);
         accountList.setButtonCell(buttonCell);
 
-        final ChangeListener<Account> accountChangeListener = (_, _, newValue) -> stageContext.dispatch(new StageContext.SwitchAccountAction(newValue.id()));
+        final ChangeListener<Account> accountChangeListener = (_, _, newValue) -> stageContext.dispatch(new StageContext.Action.SwitchAccountAction(newValue.id()));
 
         final var listAccounts = Flowable.fromPublisher(getAccountsUseCase.execute());
 

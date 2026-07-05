@@ -1,65 +1,63 @@
 package it.niedermann.nextcloud.deck.javafx.services.application;
 
 import java.net.URL;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicReference;
 
-import io.reactivex.rxjava4.disposables.Disposable;
+import it.niedermann.nextcloud.deck.javafx.di.fx.FxScope;
+import it.niedermann.nextcloud.deck.javafx.di.named.NamedPrimaryStage;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageComponent;
-import it.niedermann.nextcloud.deck.javafx.services.stage.StageContext;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.stages.MainStageController;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.stages.SplashScreenStageController;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
-import jakarta.inject.Singleton;
 import javafx.stage.Stage;
 
-@Singleton
+@FxScope
 public class ApplicationRouter {
 
     private final Stage primaryStage;
     private final StageComponent.Factory stageComponentFactory;
     private final ThemeService themeService;
-
-    private final AtomicReference<Disposable> controller = new AtomicReference<>();
+    private final SplashScreenStageController.Factory managerFactory;
 
     @Inject
-    public ApplicationRouter(@Named("primary") Stage primaryStage,
+    public ApplicationRouter(@NamedPrimaryStage Stage primaryStage,
                              StageComponent.Factory stageComponentFactory,
-                             ThemeService themeService) {
+                             ThemeService themeService,
+                             SplashScreenStageController.Factory managerFactory) {
         this.primaryStage = primaryStage;
         this.stageComponentFactory = stageComponentFactory;
         this.themeService = themeService;
-
-        this.primaryStage.setOnCloseRequest(_ -> {
-            final var ctrl = controller.get();
-            if (ctrl != null) {
-                ctrl.dispose();
-            }
-        });
+        this.managerFactory = managerFactory;
     }
 
-    public CompletableFuture<Void> initializePrimaryStage() {
-        final var initialState = new StageContext.State(Optional.of(1L), Optional.of(1L), Optional.empty());
-        return launchMainStage(primaryStage, initialState);
+    // region Public API
+
+    public CompletableFuture<Void> initialize() {
+        return launchMainStage(primaryStage, new MainStageController.Args.CurrentBoardOfCurrentAccount());
     }
 
-    private CompletableFuture<Void> launchMainStage(Stage stage, StageContext.State initialState) {
-        final var stageComponent = stageComponentFactory.create(stage, initialState);
-        return stageComponent.getMainStage().initialize();
+    public CompletableFuture<Void> launchMainStage(Stage stage, URL url, long cardRemoteId) {
+        return launchMainStage(stage, new MainStageController.Args.RemoteServer(url, cardRemoteId));
     }
 
-    private CompletableFuture<Void> launchEditCardStage(long cardId) {
-        // TODO find accountId and boardId
-        return CompletableFuture.failedFuture(new UnsupportedOperationException("Not yet implemented"));
+    public CompletableFuture<Void> launchMainStage(Stage stage, String accountName, long cardRemoteId) {
+        return launchMainStage(stage, new MainStageController.Args.RemoteAccount(accountName, cardRemoteId));
     }
 
-    private CompletableFuture<Void> launchEditCardStage(URL url, long cardRemoteId) {
-        // TODO find accountId and boardId
-        return CompletableFuture.failedFuture(new UnsupportedOperationException("Not yet implemented"));
+    // endregion
+
+    // region Internal API
+
+    private CompletableFuture<Void> launchMainStage(Stage stage, MainStageController.Args args) {
+        final var stageComponent = stageComponentFactory.create(stage);
+        return stageComponent.getMainStageController().initialize(args);
     }
 
-    private CompletableFuture<Void> launchEditCardStage(String accountName, long cardRemoteId) {
-        // TODO find accountId and boardId
-        return CompletableFuture.failedFuture(new UnsupportedOperationException("Not yet implemented"));
+    private CompletableFuture<Void> launchEditCardStage(Stage stage) {
+        final var stageComponent = stageComponentFactory.create(stage);
+        return stageComponent.getEditCardStageController().initialize();
     }
+
+    // endregion
+
 }

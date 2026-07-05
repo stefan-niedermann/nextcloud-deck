@@ -7,7 +7,7 @@
     fx:controller="it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScene"
     fx:id="root">
     <VBox>
-        <ProgressIndicator progress="0.0" fx:id="progressIndicator" />
+        <ProgressIndicator progress="-1.0" fx:id="progressIndicator" />
         <Label text="%splashscreen.label.loading" />
     </VBox>
 </BorderPane>

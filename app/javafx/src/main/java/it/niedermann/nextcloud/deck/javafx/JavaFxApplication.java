@@ -1,15 +1,8 @@
 package it.niedermann.nextcloud.deck.javafx;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.prefs.Preferences;
 
-import it.niedermann.nextcloud.deck.app.shared.Util;
-import it.niedermann.nextcloud.deck.app.shared.data.PreferencesKeyValueStore;
-import it.niedermann.nextcloud.deck.data.local.DeckDatabase;
-import it.niedermann.nextcloud.deck.data.local.KeyValueStore;
 import it.niedermann.nextcloud.deck.javafx.di.application.AppComponent;
 import it.niedermann.nextcloud.deck.javafx.di.application.DaggerAppComponent;
 import it.niedermann.nextcloud.deck.javafx.exception.FxUncaughtExceptionHandler;
@@ -20,14 +13,17 @@ public class JavaFxApplication extends Application {
 
     private static final Logger logger = Logger.getLogger(JavaFxApplication.class.getName());
 
-    private static final int preferencesVersion = 0;
+    private final AppComponent appComponent;
 
     static void main(String[] args) {
-        if (args.length >= 1 && "--purge".equals(args[0])) {
-            purge(args);
-        } else {
-            launch(args);
-        }
+        launch(args);
+    }
+
+    public JavaFxApplication() {
+        super();
+
+        appComponent = DaggerAppComponent.factory().create();
+        // appComponent.getPurgeService().purge();
     }
 
     @Override
@@ -35,48 +31,15 @@ public class JavaFxApplication extends Application {
 
         Thread.setDefaultUncaughtExceptionHandler(new FxUncaughtExceptionHandler());
 
-//        purge();
-        final var appComponent = createAppComponent(stage);
-        final var applicationRouter = appComponent.getApplicationRouter();
+        final var fxComponent = appComponent.getFxComponentFactory().create(stage);
+        final var applicationRouter = fxComponent.getApplicationRouter();
 
         applicationRouter
-                .initializePrimaryStage()
+                .initialize()
                 .whenCompleteAsync((_, exception) -> {
                     if (exception != null) {
                         logger.log(Level.SEVERE, exception.getMessage(), exception);
                     }
                 });
-    }
-
-    private static AppComponent createAppComponent(Stage stage) {
-
-        final var pathDatabase = Util.getDatabasePath();
-        final var database = DeckDatabase.Companion.getDatabaseBuilder(pathDatabase).build();
-
-        return DaggerAppComponent.factory().create(stage, database, createKeyValueStore());
-    }
-
-    private static void purge(String... args) {
-        final var prefs = createKeyValueStore();
-        final var dbPath = Util.getDatabasePath();
-
-        try {
-            prefs.clear();
-            logger.info("✓ Cleared " + prefs.getClass().getSimpleName());
-        } catch (RuntimeException e) {
-            logger.log(Level.SEVERE, "× " + prefs.getClass().getSimpleName() + " could not be cleared.", e);
-        }
-
-        try {
-            Files.delete(dbPath);
-            logger.info("✓ Deleted " + dbPath);
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "× Database file " + dbPath + " could not be deleted.", e);
-        }
-    }
-
-    private static KeyValueStore createKeyValueStore() {
-        final var prefs = Preferences.userRoot().node(String.valueOf(preferencesVersion));
-        return new PreferencesKeyValueStore(prefs);
     }
 }

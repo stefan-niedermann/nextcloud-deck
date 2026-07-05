@@ -94,7 +94,7 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
 
         root.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
-                stageContext.dispatch(new StageContext.CloseCardAction());
+                stageContext.dispatch(new StageContext.Action.CloseCardAction());
 
             } else if (event.getCode() == KeyCode.F5) {
                 accountSwitcherController.scheduleSync();
@@ -110,7 +110,7 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
 
     @Override
     public CompletableFuture<Void> onCardSaved(Card card) {
-        System.out.println(card);
+        System.out.println("[MOCK] onCardSaved " + card);
         return CompletableFuture.completedFuture(null);
     }
 }

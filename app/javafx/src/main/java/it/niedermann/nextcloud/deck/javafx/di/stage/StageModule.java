@@ -4,10 +4,12 @@ import java.util.Map;
 
 import dagger.Module;
 import dagger.Provides;
+import it.niedermann.nextcloud.deck.javafx.services.stage.StageContext;
 import it.niedermann.nextcloud.deck.javafx.services.stage.StageRouter;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.ControllerFactory;
-import it.niedermann.nextcloud.deck.javafx.ui.stages.MainStage;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.stages.MainStageController;
 import jakarta.inject.Provider;
+import javafx.stage.Stage;
 
 @Module(includes = {
         ControllerModule.class,
@@ -16,6 +18,11 @@ public class StageModule {
 
     @Provides
     @StageScope
+    Stage providerStage() {
+        return new Stage();
+    }
+
+    @Provides
     ControllerFactory provideControllerFactory(Map<Class<?>, Provider<Object>> controllerProviderMap) {
         return new ControllerFactory(controllerProviderMap);
     }
@@ -24,8 +31,8 @@ public class StageModule {
 
     @Provides
     @StageScope
-    MainStage provideMainStage(StageRouter stageRouter) {
-        return new MainStage(stageRouter);
+    MainStageController provideMainStage(StageContext context, StageRouter stageRouter) {
+        return new MainStageController(context, stageRouter);
     }
 
     // endregion

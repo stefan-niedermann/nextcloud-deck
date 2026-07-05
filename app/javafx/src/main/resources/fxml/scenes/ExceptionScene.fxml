@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import it.niedermann.nextcloud.deck.javafx.ui.controller.views.EmptyContentView?><?import javafx.scene.layout.Pane?><?import javafx.geometry.Insets?><?import javafx.scene.control.ScrollPane?><?import javafx.scene.layout.AnchorPane?><?import javafx.scene.control.SplitPane?><?import javafx.scene.control.Button?><?import javafx.scene.control.ListView?><?import javafx.scene.layout.BorderPane?><?import javafx.scene.layout.FlowPane?><?import javafx.scene.layout.GridPane?><?import javafx.scene.layout.HBox?><?import javafx.scene.layout.VBox?>
+
+<Pane xmlns:fx="http://javafx.com/fxml/1" prefHeight="768.0" prefWidth="980.0"
+    xmlns="http://javafx.com/javafx/24.0.1"
+    fx:controller="it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.ExceptionScene"
+    fx:id="root">
+    <children>
+        <EmptyContentView VBox.vgrow="ALWAYS" actionLabel="Show details"
+            title="Oops - Something went wrong!" fx:id="emptyContentView" />
+    </children>
+</Pane>

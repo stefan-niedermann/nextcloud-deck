@@ -21,7 +21,7 @@ public abstract class Store<TState, TAction> {
 
     private final StoreLogger storeLogger;
 
-    protected final TState initialState;
+    protected TState initialState;
     private final BehaviorProcessor<TState> state = BehaviorProcessor.create();
     private final Flowable<TState> state$ = state
             .observeOn(JavaFxScheduler.platform())
@@ -30,10 +30,17 @@ public abstract class Store<TState, TAction> {
     private final Map<Class<?>, List<BiFunction<TState, TAction, TState>>> reducers = new HashMap<>();
     private final Map<Class<?>, List<BiFunction<TState, TAction, CompletableFuture<Optional<? extends TAction>>>>> effects = new HashMap<>();
 
+    protected Store(StoreLogger storeLogger) {
+        this(storeLogger, null);
+    }
+
     protected Store(StoreLogger storeLogger, TState initialState) {
         this.storeLogger = storeLogger;
-        this.initialState = initialState;
-        this.state.onNext(initialState);
+
+        if (initialState != null) {
+            this.initialState = initialState;
+            this.state.onNext(initialState);
+        }
     }
 
     public final Flow.Publisher<TState> getState() {

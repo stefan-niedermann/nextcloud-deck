@@ -4,6 +4,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.rxjava4.disposables.Disposable;
+import it.niedermann.nextcloud.deck.javafx.di.named.NamedPrimaryStage;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageScope;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.FeatureFactory;
@@ -24,7 +25,7 @@ public class StageRouter {
 
     @Inject
     public StageRouter(FeatureFactory featureFactory,
-                       Stage stage,
+                       @NamedPrimaryStage Stage stage, // FIXME This should be the generic current stage, not (necessarily) the primary stage
                        ThemeService themeService) {
         this.featureFactory = featureFactory;
         this.stage = stage;

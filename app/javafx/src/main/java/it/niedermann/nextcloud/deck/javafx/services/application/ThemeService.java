@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
+import jakarta.inject.Inject;
 import javafx.scene.Scene;
 import javafx.scene.control.Dialog;
 
@@ -16,6 +17,7 @@ public class ThemeService {
 
     private final Collection<WeakReference<Scene>> scenes = new HashSet<>();
 
+    @Inject
     public ThemeService(OsThemeDetector detector) {
         this.detector = detector;
         detector.registerListener(isDark -> {

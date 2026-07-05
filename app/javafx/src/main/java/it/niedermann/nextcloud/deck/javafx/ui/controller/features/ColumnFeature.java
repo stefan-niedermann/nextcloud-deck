@@ -215,7 +215,7 @@ public class ColumnFeature extends DisposableController implements CardPreviewVi
 
     @Override
     public void onOpenCard(Card card) {
-        stageContext.dispatch(new StageContext.EditCardAction(card.id()));
+        stageContext.dispatch(new StageContext.Action.EditCardAction(card.id()));
     }
 
     @Override
@@ -247,6 +247,6 @@ public class ColumnFeature extends DisposableController implements CardPreviewVi
         alert.showAndWait()
                 .map(ButtonType::getButtonData)
                 .map(ButtonBar.ButtonData::isDefaultButton)
-                .filter(Boolean.TRUE::equals).ifPresent(_ -> stageContext.dispatch(new StageContext.DeleteCardAction(card.id())));
+                .filter(Boolean.TRUE::equals).ifPresent(_ -> stageContext.dispatch(new StageContext.Action.DeleteCardAction(card.id())));
     }
 }

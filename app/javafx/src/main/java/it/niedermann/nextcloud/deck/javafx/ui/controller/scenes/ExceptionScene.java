@@ -4,12 +4,17 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import it.niedermann.nextcloud.deck.javafx.ui.controller.SceneController;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.views.EmptyContentView;
 import jakarta.inject.Inject;
+import javafx.fxml.FXML;
 
-public class SplashScreenScene extends SceneController {
+public class ExceptionScene extends SceneController {
+
+    @FXML
+    EmptyContentView emptyContentView;
 
     @Inject
-    public SplashScreenScene() {
+    public ExceptionScene() {
     }
 
     @Override
@@ -17,3 +22,4 @@ public class SplashScreenScene extends SceneController {
         super.initialize(location, resources);
     }
 }
+
