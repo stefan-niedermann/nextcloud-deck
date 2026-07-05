@@ -281,8 +281,11 @@ public class CardDetailsFragment extends Fragment implements
         binding.cardStartDateView.setStartDate(getChildFragmentManager(), version, card.getStartDate(), card.getDone());
         binding.cardDueDateView.setDueDate(getChildFragmentManager(), version, card.getDueDate(), card.getDone());
 
-        binding.dependentsAutoComplete.setEnabled(viewModel.canEdit() && done == null);
-        dependentsAdapter.setEnabled(viewModel.canEdit() && done == null);
+
+        if (viewModel.getAccount().getServerDeckVersionAsObject().supportsDependents()) {
+            binding.dependentsAutoComplete.setEnabled(viewModel.canEdit() && done == null);
+            dependentsAdapter.setEnabled(viewModel.canEdit() && done == null);
+        }
     }
 
     private void setupLabels(@NonNull Account account) {
