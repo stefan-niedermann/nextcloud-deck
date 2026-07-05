@@ -163,9 +163,10 @@ public class CardCommentsFragment extends Fragment implements Themed, CommentEdi
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         this.binding = null;
+        this.adapter = null;
     }
 
     @Override

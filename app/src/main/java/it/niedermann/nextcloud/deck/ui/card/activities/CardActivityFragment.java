@@ -59,8 +59,8 @@ public class CardActivityFragment extends Fragment implements Themed {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         this.binding = null;
     }
 

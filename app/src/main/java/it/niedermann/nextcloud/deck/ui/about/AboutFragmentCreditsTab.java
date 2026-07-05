@@ -65,8 +65,8 @@ public class AboutFragmentCreditsTab extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         this.binding = null;
     }
 

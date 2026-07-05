@@ -45,8 +45,8 @@ public class FilterUserFragment extends Fragment implements SelectionListener<Us
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         this.binding = null;
     }
 

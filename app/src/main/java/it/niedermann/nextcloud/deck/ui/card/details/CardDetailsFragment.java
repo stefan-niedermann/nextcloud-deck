@@ -138,10 +138,13 @@ public class CardDetailsFragment extends Fragment implements
 //        if (dpd != null) dpd.setOnDateSetListener(this);
 //    }
 
+
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         this.binding = null;
+        this.assigneeAdapter = null;
+        this.dependentsAdapter = null;
     }
 
     private void applyTheme(@ColorInt int color) {

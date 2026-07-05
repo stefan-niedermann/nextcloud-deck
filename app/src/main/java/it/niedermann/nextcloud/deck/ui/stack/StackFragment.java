@@ -153,8 +153,8 @@ public class StackFragment extends Fragment implements Themed, DragAndDropTab<Ca
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         this.binding = null;
     }
 

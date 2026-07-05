@@ -265,9 +265,12 @@ public class PickStackFragment extends Fragment implements Themed, PickStackList
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         this.binding = null;
+        this.pickAccountAdapter = null;
+        this.pickBoardAdapter = null;
+        this.pickStackAdapter = null;
     }
 
     @Override
