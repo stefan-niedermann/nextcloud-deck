@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Määra kasutajaid</string>
     <string name="hint_due_date_date">Tähtaeg</string>
     <string name="hint_due_date_time">Aeg</string>
+    <string name="hint_start_date_date">Alguskuupäev</string>
+    <string name="hint_start_date_time">Aeg</string>
 
     <string name="card_not_found">Kaarti ei leidu</string>
     <string name="card_not_found_message">Kaarti ei õnnestu leida. Kas ta võib olla hiljuti kustutatud?</string>
@@ -332,4 +334,4 @@
     <string name="enter_search_term_description">Selle tahvli kaartide otsimiseks sisesta soovitud otsingusõna</string>
     <string name="no_search_results_title">Otsingul pole tulemusi</string>
     <string name="no_search_results_description">Selle otsingusõnaga ei õnnestu leida mitte midagi</string>
-</resources>
+    </resources>

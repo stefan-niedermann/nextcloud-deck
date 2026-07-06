@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Přiřadit uživatele</string>
     <string name="hint_due_date_date">Datum termínu</string>
     <string name="hint_due_date_time">Čas</string>
+    <string name="hint_start_date_date">Datum počátku</string>
+    <string name="hint_start_date_time">Time</string>
 
     <string name="card_not_found">Karta nenalezena</string>
     <string name="card_not_found_message">Karta nebyla nalezena. Možná byla před okamžikem smazána.</string>
@@ -340,4 +342,4 @@
     <string name="enter_search_term_description">Pokud chcete hledat karty na této tabuli, zadejte hledaný pojem</string>
     <string name="no_search_results_title">Nic nenalezeno</string>
     <string name="no_search_results_description">Pro daný hledaný pojem nebylo nic nalezeno</string>
-</resources>
+    </resources>

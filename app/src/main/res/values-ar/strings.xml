@@ -66,6 +66,8 @@
     <string name="hint_assign_people">المستخدمين المعنيين</string>
     <string name="hint_due_date_date">تاريخ الإنجاز</string>
     <string name="hint_due_date_time">إلى وقت</string>
+    <string name="hint_start_date_date">تاريخ البدء</string>
+    <string name="hint_start_date_time">الوقت</string>
 
     <string name="card_not_found">لم يتم العثور على البطاقة </string>
     <string name="card_not_found_message">لا يمكن العثور على البطاقة. ربما تم حذفها موخرًا. </string>
@@ -349,4 +351,4 @@
     <string name="enter_search_term_description">أدخل عبارة البحث لإيجاد البطاقات على الرقعة</string>
     <string name="no_search_results_title">لا توجد نتائج</string>
     <string name="no_search_results_description">لم يُمكن إيجاد أي نتيجة للعبارة المبحوث عنها</string>
-</resources>
+    </resources>

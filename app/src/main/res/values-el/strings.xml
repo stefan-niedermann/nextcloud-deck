@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Ορισμός χρηστών</string>
     <string name="hint_due_date_date">Προθεσμία</string>
     <string name="hint_due_date_time">Ώρα</string>
+    <string name="hint_start_date_date">Ημερομηνία έναρξης</string>
+    <string name="hint_start_date_time">Ώρα</string>
 
     <string name="card_not_found">Δεν βρέθηκε η καρτέλα</string>
     <string name="card_not_found_message">Η καρτέλα δεν βρέθηκε. Ίσως διαγράφηκε πρόσφατα.</string>
@@ -332,4 +334,4 @@
     <string name="enter_search_term_description">Εισάγετε όρο αναζήτησης για να βρείτε κάρτες σε αυτόν τον πίνακα</string>
     <string name="no_search_results_title">Κανένα αποτέλεσμα</string>
     <string name="no_search_results_description">Δεν έχει βρεθεί κανένα αποτέλεσμα για τον συγκεκριμένο όρο αναζήτησης</string>
-</resources>
+    </resources>

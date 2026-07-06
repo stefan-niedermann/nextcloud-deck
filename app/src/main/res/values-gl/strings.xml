@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Asignar usuarios</string>
     <string name="hint_due_date_date">Data de caducidade</string>
     <string name="hint_due_date_time">Momento</string>
+    <string name="hint_start_date_date">Data de comezo</string>
+    <string name="hint_start_date_time">Momento</string>
 
     <string name="card_not_found">Non se atopou a tarxeta</string>
     <string name="card_not_found_message">Non foi posíbel atopar a tarxeta. Quizais fose eliminada recentemente.</string>
@@ -332,4 +334,4 @@
     <string name="enter_search_term_description">Introduza o termo de busca para atopar tarxetas neste taboleiro</string>
     <string name="no_search_results_title">Sen resultados de busca</string>
     <string name="no_search_results_description">Non foi atopado ningún resultado para o termo de busca dado</string>
-</resources>
+    </resources>

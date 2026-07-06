@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Benutzer zuweisen</string>
     <string name="hint_due_date_date">Fälligkeitsdatum</string>
     <string name="hint_due_date_time">Zeit</string>
+    <string name="hint_start_date_date">Startdatum</string>
+    <string name="hint_start_date_time">Zeit</string>
 
     <string name="card_not_found">Karte nicht gefunden</string>
     <string name="card_not_found_message">Die Karte konnte nicht gefunden werden. Möglicherweise wurde sie zwischenzeitlich gelöscht.</string>
@@ -332,4 +334,4 @@
     <string name="enter_search_term_description">Einen Suchbegriff eingeben, um Karten in diesem Board zu finden</string>
     <string name="no_search_results_title">Keine Suchergebnisse</string>
     <string name="no_search_results_description">Keine Ergebnisse für diesen Suchbegriff gefunden</string>
-</resources>
+    </resources>

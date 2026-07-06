@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Assign users</string>
     <string name="hint_due_date_date">Due date</string>
     <string name="hint_due_date_time">Time</string>
+    <string name="hint_start_date_date">Start date</string>
+    <string name="hint_start_date_time">Time</string>
 
     <string name="card_not_found">Card not found</string>
     <string name="card_not_found_message">The card could not be found. Maybe it has been deleted recently.</string>
@@ -332,4 +334,4 @@
     <string name="enter_search_term_description">Enter search term to find cards in this board</string>
     <string name="no_search_results_title">No search results</string>
     <string name="no_search_results_description">We have not found any result for the given search term</string>
-</resources>
+    </resources>

@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Assigna usuaris</string>
     <string name="hint_due_date_date">Data de venciment</string>
     <string name="hint_due_date_time">Hora</string>
+    <string name="hint_start_date_date">Data d\'inici</string>
+    <string name="hint_start_date_time">Hora</string>
 
     <string name="card_not_found">Targeta no trobada</string>
     <string name="card_not_found_message">No s\'ha pogut trobar la targeta. Potser s\'ha esborrat recentment.</string>
@@ -332,4 +334,4 @@
     <string name="enter_search_term_description">Introduïu el terme de cerca per a trobar les targetes en aquest tauler</string>
     <string name="no_search_results_title">No s\'han trobat resultats</string>
     <string name="no_search_results_description">No s\'ha trobat cap resultat per al terme de cerca indicat</string>
-</resources>
+    </resources>

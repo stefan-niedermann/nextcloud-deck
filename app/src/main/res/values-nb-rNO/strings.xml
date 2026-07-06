@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Tildel brukere</string>
     <string name="hint_due_date_date">Forfallsdato</string>
     <string name="hint_due_date_time">Tid</string>
+    <string name="hint_start_date_date">Startdato</string>
+    <string name="hint_start_date_time">Tid</string>
 
     <string name="card_not_found">Kort ikke funnet</string>
     <string name="card_not_found_message">Kortet kunne ikke bli funnet. Mulig det har blitt slettet nylig.</string>
@@ -332,4 +334,4 @@
     <string name="enter_search_term_description">Skriv inn søkeord for å finne kort på dette brettet</string>
     <string name="no_search_results_title">Ingen søkeresultater</string>
     <string name="no_search_results_description">Vi fant ingen resultater for dine oppgitte søkeord</string>
-</resources>
+    </resources>

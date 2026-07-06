@@ -64,6 +64,8 @@
     <string name="hint_assign_people">הקצאת משתמשים</string>
     <string name="hint_due_date_date">תאריך יעד</string>
     <string name="hint_due_date_time">זמן</string>
+    <string name="hint_start_date_date">תאריך התחלה</string>
+    <string name="hint_start_date_time">זמן</string>
 
     <string name="card_not_found">כרטיס לא נמצא</string>
     <string name="card_not_found_message">לר ניתן למצוא את הכרטיס. אולי הוא נמחק לאחרונה.</string>

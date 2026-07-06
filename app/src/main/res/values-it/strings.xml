@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Assegna utenti</string>
     <string name="hint_due_date_date">Data di scadenza</string>
     <string name="hint_due_date_time">Ora</string>
+    <string name="hint_start_date_date">Data iniziale</string>
+    <string name="hint_start_date_time">Ora</string>
 
     <string name="card_not_found">Scheda non trovata</string>
     <string name="card_not_found_message">Impossibile trovare la scheda. Forse è stata eliminata di recente.</string>
@@ -336,4 +338,4 @@
     <string name="enter_search_term_description">Inserisci il termine di ricerca per trovare schede in questa lavagna</string>
     <string name="no_search_results_title">Nessun risultato di ricerca</string>
     <string name="no_search_results_description">Non abbiamo trovato alcun risultato per il termine di ricerca scelto</string>
-</resources>
+    </resources>

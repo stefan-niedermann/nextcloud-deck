@@ -66,6 +66,8 @@
     <string name="hint_assign_people">分派使用者</string>
     <string name="hint_due_date_date">截止日</string>
     <string name="hint_due_date_time">時間</string>
+    <string name="hint_start_date_date">開始日期</string>
+    <string name="hint_start_date_time">時間</string>
 
     <string name="card_not_found">找不到卡片</string>
     <string name="card_not_found_message">找不到卡片。或許它已經被刪除。</string>
@@ -328,4 +330,4 @@
     <string name="enter_search_term_description">輸入要在此看板中尋找卡片的字詞</string>
     <string name="no_search_results_title">無搜尋結果</string>
     <string name="no_search_results_description">對於指定的搜尋詞，我們沒有找到任何結果</string>
-</resources>
+    </resources>

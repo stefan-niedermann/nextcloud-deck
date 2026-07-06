@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Priskirti vartotojus</string>
     <string name="hint_due_date_date">Galutinis terminas</string>
     <string name="hint_due_date_time">Laikas</string>
+    <string name="hint_start_date_date">Pradžios data</string>
+    <string name="hint_start_date_time">Laikas</string>
 
     <string name="card_not_found">Kortelė nerasta</string>
     <string name="card_not_found_message">Kortelės nerasta. Galbūt ji buvo neseniai ištrinta.</string>
@@ -340,4 +342,4 @@
     <string name="enter_search_term_description">Įveskite paieškos terminą, kad rastumėte korteles šioje lentelėje</string>
     <string name="no_search_results_title">Nėra paieškos rezultatų</string>
     <string name="no_search_results_description">Neradome jokių rezultatų pagal pateiktą paieškos terminą</string>
-</resources>
+    </resources>

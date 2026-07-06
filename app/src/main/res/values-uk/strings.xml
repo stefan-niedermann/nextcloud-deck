@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Додавання користувача</string>
     <string name="hint_due_date_date">Дата завершення</string>
     <string name="hint_due_date_time">Час</string>
+    <string name="hint_start_date_date">Дата початку</string>
+    <string name="hint_start_date_time">Коли надано доступ</string>
 
     <string name="card_not_found">Картку не знайдено</string>
     <string name="card_not_found_message">Неможливо знайти картку. Можливо її було нещодавно вилучено.</string>
@@ -340,4 +342,4 @@
     <string name="enter_search_term_description">Введіть пошуковий запит, щоб знайти картки на цій дошці</string>
     <string name="no_search_results_title">Нічого не знайдено</string>
     <string name="no_search_results_description">Ми не знайшли жодного результату за заданим пошуковим запитом</string>
-</resources>
+    </resources>

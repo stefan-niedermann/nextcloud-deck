@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Esleitu erabiltzaileak</string>
     <string name="hint_due_date_date">Epe-muga</string>
     <string name="hint_due_date_time">Noiz</string>
+    <string name="hint_start_date_date">Hasiera-data</string>
+    <string name="hint_start_date_time">Noiz</string>
 
     <string name="card_not_found">Txartela ez da aurkitu</string>
     <string name="card_not_found_message">Ezin izan da txartela aurkitu. Agian duela gutxi ezabatu da.</string>
@@ -332,4 +334,4 @@
     <string name="enter_search_term_description">Sartu bilaketa-terminoa taula honetan txartelak aurkitzeko</string>
     <string name="no_search_results_title">Ez dago bilaketaren emaitzarik</string>
     <string name="no_search_results_description">Ez dugu emaitzarik aurkitu emandako bilaketa-terminoarentzat</string>
-</resources>
+    </resources>

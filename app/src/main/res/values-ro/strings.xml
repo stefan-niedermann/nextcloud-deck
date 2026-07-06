@@ -66,6 +66,7 @@
     <string name="hint_assign_people">Desemnează utilizatori</string>
     <string name="hint_due_date_date">Data limită </string>
     <string name="hint_due_date_time">Timp</string>
+    <string name="hint_start_date_time">Interval orar</string>
 
     <string name="card_not_found">Card negăsit </string>
     <string name="card_not_found_message">Cardul nu a putut fi găsit. Poate a fost șters recent. </string>
@@ -325,4 +326,4 @@
     <string name="enter_search_term_title">Introdu termenul de căutare</string>
     <string name="no_search_results_title">Căutarea nu are rezultate</string>
     <string name="no_search_results_description">Nu am găsit nici un rezultat pentru termenul de căutare introdus</string>
-</resources>
+    </resources>

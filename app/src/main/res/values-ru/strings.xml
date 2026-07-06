@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Назначить карточку пользователю</string>
     <string name="hint_due_date_date">Срок исполнения</string>
     <string name="hint_due_date_time">Время</string>
+    <string name="hint_start_date_date">Дата начала</string>
+    <string name="hint_start_date_time">Время</string>
 
     <string name="card_not_found">Карточка не найдена</string>
     <string name="card_not_found_message">Не удалось найти карточку. Возможно, она была недавно удалена.</string>
@@ -340,4 +342,4 @@
     <string name="enter_search_term_description">Введите поисковый запрос, чтобы найти карточки на этой доске</string>
     <string name="no_search_results_title">Ничего не найдено</string>
     <string name="no_search_results_description">Мы не нашли ни одного результата по данному поисковому запросу</string>
-</resources>
+    </resources>

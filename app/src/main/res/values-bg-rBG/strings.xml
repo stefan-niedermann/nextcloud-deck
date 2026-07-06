@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Зачисляване на потребител</string>
     <string name="hint_due_date_date">Крайна дата</string>
     <string name="hint_due_date_time">Час</string>
+    <string name="hint_start_date_date">Начална дата</string>
+    <string name="hint_start_date_time">Час</string>
 
     <string name="card_not_found">Картата не е намерена</string>
     <string name="card_not_found_message">Картата не можа да бъде намерена. Може би е изтрита наскоро.</string>
@@ -332,4 +334,4 @@
     <string name="enter_search_term_description">Въвеждане на термин за търсене, за да намерите карти в този панел</string>
     <string name="no_search_results_title">Няма резултати от търсенето</string>
     <string name="no_search_results_description">Не са намерени резултати за зададения термин за търсене</string>
-</resources>
+    </resources>
