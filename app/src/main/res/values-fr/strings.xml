@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Assigner des utilisateurs</string>
     <string name="hint_due_date_date">Date d\'échéance</string>
     <string name="hint_due_date_time">Heure</string>
+    <string name="hint_start_date_date">Date de début</string>
+    <string name="hint_start_date_time">Date et heure</string>
 
     <string name="card_not_found">Carte non trouvée</string>
     <string name="card_not_found_message">La carte est introuvable. Elle a peut-être été supprimée récemment.</string>
@@ -336,4 +338,4 @@
     <string name="enter_search_term_description">Entrez le mot recherché pour trouver des cartes dans ce tableau</string>
     <string name="no_search_results_title">Aucun résultat de recherche</string>
     <string name="no_search_results_description">Aucun résultat trouvé pour le mot recherché</string>
-</resources>
+    </resources>

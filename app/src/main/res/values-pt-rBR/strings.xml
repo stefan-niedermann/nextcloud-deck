@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Atribuir usuários</string>
     <string name="hint_due_date_date">Data de vencimento</string>
     <string name="hint_due_date_time">Horário</string>
+    <string name="hint_start_date_date">Data de início</string>
+    <string name="hint_start_date_time">Hora</string>
 
     <string name="card_not_found">Cartão não encontrado</string>
     <string name="card_not_found_message">O cartão não foi encontrado. Talvez tenha sido recentemente excluído.</string>
@@ -336,4 +338,4 @@
     <string name="enter_search_term_description">Digite o termo de pesquisa para encontrar cartões neste painel</string>
     <string name="no_search_results_title">Nenhum resultado de pesquisa</string>
     <string name="no_search_results_description">Não encontramos nenhum resultado para o termo de pesquisa fornecido</string>
-</resources>
+    </resources>

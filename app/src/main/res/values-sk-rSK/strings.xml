@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Priradiť užívateľov</string>
     <string name="hint_due_date_date">Termín dokončenia</string>
     <string name="hint_due_date_time">Čas</string>
+    <string name="hint_start_date_date">Dátum začatia</string>
+    <string name="hint_start_date_time">Čas</string>
 
     <string name="card_not_found">Karta sa nenašla</string>
     <string name="card_not_found_message">Kartu sa nepodarilo nájsť. Možno bola nedávno odstránená.</string>
@@ -340,4 +342,4 @@
     <string name="enter_search_term_description">Zadajte vyhľadávací výraz pre nájdenie kariet na tejto nástenke.</string>
     <string name="no_search_results_title">Žiadne výsledky vyhľadávania</string>
     <string name="no_search_results_description">Nenašli sme žiadne výsledky pre zadaný vyhľadávací výraz</string>
-</resources>
+    </resources>

@@ -66,6 +66,7 @@
     <string name="hint_assign_people">Foydalanuvchilarni tayinlash</string>
     <string name="hint_due_date_date">Muddati</string>
     <string name="hint_due_date_time">Vaqt</string>
+    <string name="hint_start_date_time">Vaqt</string>
 
     <string name="card_not_found">Karta topilmadi</string>
     <string name="card_not_found_message">Karta topilmadi. Ehtimol, u yaqinda o\'chirilgan.</string>
@@ -328,4 +329,4 @@
     <string name="enter_search_term_description">Ushbu panelda kartalarni topish uchun qidiruv so\'zini kiriting</string>
     <string name="no_search_results_title">Qidiruv natijalari yo‘q</string>
     <string name="no_search_results_description">Berilgan qidiruv soʻzi boʻyicha hech qanday natija topilmadi</string>
-</resources>
+    </resources>

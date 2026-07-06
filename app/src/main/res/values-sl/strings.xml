@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Dodeli uporabnike</string>
     <string name="hint_due_date_date">Datum preteka</string>
     <string name="hint_due_date_time">Čas</string>
+    <string name="hint_start_date_date">Datum začetka</string>
+    <string name="hint_start_date_time">Čas</string>
 
     <string name="card_not_found">Naloge ni mogoče najti</string>
     <string name="card_not_found_message">Naloge ni mogoče najti. Morda je bila pred kratkim izbrisana.</string>
@@ -335,4 +337,4 @@
     <string name="enter_search_term_description">Vpišite iskalni niz za kartice in zbirke</string>
     <string name="no_search_results_title">Ni zadetkov iskanja</string>
     <string name="no_search_results_description">Za vpisan iskalni niz ni najdenih zadetkov</string>
-</resources>
+    </resources>

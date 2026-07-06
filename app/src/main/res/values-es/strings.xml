@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Asignar usuarios</string>
     <string name="hint_due_date_date">Fecha de fin</string>
     <string name="hint_due_date_time">Hora</string>
+    <string name="hint_start_date_date">Fecha de inicio</string>
+    <string name="hint_start_date_time">Hora</string>
 
     <string name="card_not_found">Tarjeta no encontrada</string>
     <string name="card_not_found_message">No se ha podido encontrar la tarjeta. Quizás se ha eliminado recientemente.</string>
@@ -336,4 +338,4 @@
     <string name="enter_search_term_description">Ingrese término de búsqueda para encontrar tarjetas en este tablero</string>
     <string name="no_search_results_title">No hay resultados de búsqueda</string>
     <string name="no_search_results_description">No hemos conseguido ningún resultado para el término de búsqueda ingresado</string>
-</resources>
+    </resources>

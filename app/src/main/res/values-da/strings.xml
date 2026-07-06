@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Tildel brugere</string>
     <string name="hint_due_date_date">Forfaldsdato</string>
     <string name="hint_due_date_time">Tid</string>
+    <string name="hint_start_date_date">Startdato</string>
+    <string name="hint_start_date_time">Tid</string>
 
     <string name="card_not_found">Kort ikke fundet</string>
     <string name="card_not_found_message">Kortet kunne ikke findes. Måske er det blevet slettet for nyligt?</string>
@@ -332,4 +334,4 @@
     <string name="enter_search_term_description">Angiv søgeterm for at finde kort til denne tavle</string>
     <string name="no_search_results_title">Ingen søgeresultater</string>
     <string name="no_search_results_description">Vi har ikke fundet nogle resultater for den givne søgeterm</string>
-</resources>
+    </resources>

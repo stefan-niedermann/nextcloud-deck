@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Wape kazi watumiaji</string>
     <string name="hint_due_date_date">Tarehe ya ukomo</string>
     <string name="hint_due_date_time">Muda</string>
+    <string name="hint_start_date_date">Tarehe ya kuanza</string>
+    <string name="hint_start_date_time">Muda</string>
 
     <string name="card_not_found">Kadi haipatikani</string>
     <string name="card_not_found_message">Kadi haikuweza kupatikana. Labda imefutwa hivi karibuni.</string>
@@ -332,4 +334,4 @@
     <string name="enter_search_term_description">Weka neno la utafutaji ili kupata kadi katika ubao huu</string>
     <string name="no_search_results_title">Hakuna matokeo ya utafutaji</string>
     <string name="no_search_results_description">Hatujapata matokeo yoyote ya neno hili la utafutaji</string>
-</resources>
+    </resources>

@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Przydziel użytkowników</string>
     <string name="hint_due_date_date">Data realizacji</string>
     <string name="hint_due_date_time">Czas</string>
+    <string name="hint_start_date_date">Data od</string>
+    <string name="hint_start_date_time">Czas</string>
 
     <string name="card_not_found">Nie znaleziono karty</string>
     <string name="card_not_found_message">Nie można znaleźć karty. Być może została niedawno usunięta.</string>
@@ -340,4 +342,4 @@
     <string name="enter_search_term_description">Wpisz szukane hasło, aby znaleźć karty w tej tablicy</string>
     <string name="no_search_results_title">Brak wyników wyszukiwania</string>
     <string name="no_search_results_description">Nie znaleźliśmy żadnych wyników dla podanego terminu wyszukiwania</string>
-</resources>
+    </resources>

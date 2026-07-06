@@ -66,6 +66,8 @@
     <string name="hint_assign_people">اختصاص کاربران</string>
     <string name="hint_due_date_date">موعد مقرر</string>
     <string name="hint_due_date_time">زمان</string>
+    <string name="hint_start_date_date">تاریخ شروع</string>
+    <string name="hint_start_date_time">زمان</string>
 
     <string name="card_not_found">کارت پیدا نشد</string>
     <string name="card_not_found_message">کارت پیدا نشد شاید اخیراً حذف شده باشد.</string>
@@ -332,4 +334,4 @@
     <string name="enter_search_term_description">برای یافتن کارت ها در این تابلو عبارت جستجو را وارد کنید.</string>
     <string name="no_search_results_title">جستجو نتیجه‌ای نداشت</string>
     <string name="no_search_results_description">برای جستجوی شما نتیجه‌ای پیدا نکردیم.</string>
-</resources>
+    </resources>

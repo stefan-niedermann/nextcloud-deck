@@ -66,6 +66,8 @@
     <string name="hint_assign_people">ມອບໝາຍໃຫ້ຄົນ</string>
     <string name="hint_due_date_date">ກຳນົດສົ່ງ</string>
     <string name="hint_due_date_time">ເວລາ</string>
+    <string name="hint_start_date_date">ວັນທີເລີ່ມຕົ້ນ</string>
+    <string name="hint_start_date_time">ເວລາ</string>
 
     <string name="card_not_found">ບໍ່ພົບກາດ</string>
     <string name="card_not_found_message">ກາດທີ່ທ່ານກຳລັງຊອກຫາອາດຈະຖືກລຶບ ຫຼື ຍ້າຍໄປບ່ອນອື່ນແລ້ວ.</string>
@@ -328,4 +330,4 @@
     <string name="enter_search_term_description">ປ້ອນຄຳທີ່ທ່ານຕ້ອງການຄົ້ນຫາເພື່ອເລີ່ມ.</string>
     <string name="no_search_results_title">ບໍ່ພົບຜົນການຄົ້ນຫາ</string>
     <string name="no_search_results_description">ລອງໃຊ້ຄຳຄົ້ນຫາອື່ນເບິ່ງ.</string>
-</resources>
+    </resources>

@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Tilldela användare</string>
     <string name="hint_due_date_date">Slutdatum</string>
     <string name="hint_due_date_time">Tid</string>
+    <string name="hint_start_date_date">Startdatum</string>
+    <string name="hint_start_date_time">Tid</string>
 
     <string name="card_not_found">Kortet hittades inte</string>
     <string name="card_not_found_message">Kortet kunde inte hittas. Kanske har det tagits bort nyligen.</string>
@@ -332,4 +334,4 @@
     <string name="enter_search_term_description">Ange sökterm för att hitta kort i denna tavla</string>
     <string name="no_search_results_title">Inga sökresultat</string>
     <string name="no_search_results_description">Vi har inte hittat något resultat för den givna söktermen</string>
-</resources>
+    </resources>

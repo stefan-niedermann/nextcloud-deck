@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Tilnefna notendur</string>
     <string name="hint_due_date_date">Skiladagur</string>
     <string name="hint_due_date_time">Tími</string>
+    <string name="hint_start_date_date">Upphafsdagur</string>
+    <string name="hint_start_date_time">Tími</string>
 
     <string name="card_not_found">Spjald fannst ekki</string>
     <string name="card_not_found_message">Spjaldið fannst ekki. Kannski var því eytt nýlega.</string>
@@ -331,4 +333,4 @@
     <string name="enter_search_term_description">Settu inn leitarorð til að finna spjöld á þessu borði</string>
     <string name="no_search_results_title">Engar leitarniðurstöður</string>
     <string name="no_search_results_description">Ekki hafa fundist neinar niðurstöður fyrir þetta leitarorð</string>
-</resources>
+    </resources>

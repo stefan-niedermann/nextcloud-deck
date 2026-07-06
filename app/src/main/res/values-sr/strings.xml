@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Задужите кориснике</string>
     <string name="hint_due_date_date">Рок</string>
     <string name="hint_due_date_time">Време</string>
+    <string name="hint_start_date_date">Датум почетка</string>
+    <string name="hint_start_date_time">Време</string>
 
     <string name="card_not_found">Картица није нађена</string>
     <string name="card_not_found_message">Картица није нађена. Можда је недавно обрисана.</string>
@@ -336,4 +338,4 @@
     <string name="enter_search_term_description">Унесите појам за претрагу да пронађете картице у овој табли</string>
     <string name="no_search_results_title">Нема резултата претраге</string>
     <string name="no_search_results_description">Нисмо пронашли ниједан резултат који задовољава наведени термин за претрагу</string>
-</resources>
+    </resources>

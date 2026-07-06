@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Úsáideoirí a shannadh</string>
     <string name="hint_due_date_date">Dáta dlite</string>
     <string name="hint_due_date_time">Am</string>
+    <string name="hint_start_date_date">Dáta tosaigh</string>
+    <string name="hint_start_date_time">Am</string>
 
     <string name="card_not_found">Cárta gan aimsiú</string>
     <string name="card_not_found_message">Níorbh fhéidir an cárta a aimsiú. B’fhéidir gur scriosadh le déanaí é.</string>
@@ -344,4 +346,4 @@
     <string name="enter_search_term_description">Cuir isteach an téarma cuardaigh chun cártaí a aimsiú sa chlár seo</string>
     <string name="no_search_results_title">Gan torthaí cuardaigh</string>
     <string name="no_search_results_description">Ní bhfuaireamar aon toradh ar an téarma cuardaigh a tugadh</string>
-</resources>
+    </resources>

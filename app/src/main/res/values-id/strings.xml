@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Tugaskan pengguna</string>
     <string name="hint_due_date_date">Tenggat</string>
     <string name="hint_due_date_time">Waktu</string>
+    <string name="hint_start_date_date">Tanggal mulai</string>
+    <string name="hint_start_date_time">Waktu</string>
 
     <string name="card_not_found">Kartu tidak ditemukan</string>
     <string name="card_not_found_message">Kartu tidak dapat ditemukan. Mungkin telah dihapus baru-baru ini.</string>
@@ -328,4 +330,4 @@
     <string name="enter_search_term_description">Masukkan istilah pencarian untuk menemukan kartu di papan ini</string>
     <string name="no_search_results_title">Tidak ada hasil pencarian</string>
     <string name="no_search_results_description">Kami tidak menemukan hasil untuk istilah pencarian yang diberikan</string>
-</resources>
+    </resources>

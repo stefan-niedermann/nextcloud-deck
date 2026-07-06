@@ -50,6 +50,8 @@
     <string name="label_description">Descripción</string>
     <string name="hint_due_date_date">Data de fin</string>
     <string name="hint_due_date_time">Data</string>
+    <string name="hint_start_date_date">Data de comienzu</string>
+    <string name="hint_start_date_time">Data</string>
 
     <string name="add_account">Amestar una cuenta</string>
     <string name="add_card">Amestar una tarxeta</string>

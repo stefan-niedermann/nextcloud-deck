@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Toewijzen gebruikers</string>
     <string name="hint_due_date_date">Vervaldatum</string>
     <string name="hint_due_date_time">Tijd</string>
+    <string name="hint_start_date_date">Startdatum</string>
+    <string name="hint_start_date_time">Tijd</string>
 
     <string name="card_not_found">Kaart niet gevonden</string>
     <string name="card_not_found_message">De kaart kon niet worden gevonden. Misschien is die recent verwijderd.</string>
@@ -333,4 +335,4 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="enter_search_term_description">Voer een zoekterm in om kaarten in dit bord te vinden</string>
     <string name="no_search_results_title">Geen zoekresultaten</string>
     <string name="no_search_results_description">We hebben geen resultaten gevonden voor de opgegeven zoekterm</string>
-</resources>
+    </resources>

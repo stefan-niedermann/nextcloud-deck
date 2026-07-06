@@ -56,6 +56,8 @@
     <string name="hint_assign_people">Додели на корисник</string>
     <string name="hint_due_date_date">До датум</string>
     <string name="hint_due_date_time">Време</string>
+    <string name="hint_start_date_date">Датум на започнување</string>
+    <string name="hint_start_date_time">Време</string>
 
     <string name="card_not_found">Картицата не е пронајдена</string>
     <string name="card_not_found_message">Картицата не е пронајдена. Можеби е неодамна избришана.</string>
