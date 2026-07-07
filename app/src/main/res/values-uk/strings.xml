@@ -291,7 +291,7 @@
         <item quantity="many">%1$d ресурсів</item>
         <item quantity="other">%1$d ресурсів</item>
     </plurals>
-    <string name="no_assigned_label">Немає призначеного тегу</string>
+    <string name="no_assigned_label">Відсутня призначена мітка</string>
     <string name="single_card">Одноразова картка</string>
     <string name="project_type_room">Кімната для переговорів</string>
     <string name="simple_move">Перемістити</string>
