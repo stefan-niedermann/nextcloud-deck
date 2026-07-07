@@ -62,6 +62,7 @@
     <string name="seconds_ago">pred niekoľkými sekundami</string>
     <string name="edit">Upraviť</string>
     <string name="label_labels">Vybrať štítky</string>
+    <string name="label_dependents">Odkázaní</string>
     <string name="label_description">Popis</string>
     <string name="hint_assign_people">Priradiť užívateľov</string>
     <string name="hint_due_date_date">Termín dokončenia</string>
@@ -87,8 +88,10 @@
     <string name="add_board">Pridať nástenk</string>
 
     <string name="label_clear_due_date">Odstrániť termín dokončenia</string>
+    <string name="label_clear_start_date">Vymazať dátum začiatku</string>
     <string name="label_clear_done">Neurobené</string>
     <string name="label_due_at">K dátumu: %1$s</string>
+    <string name="label_start_at">Začať o: %1$s</string>
     <string name="label_add">Pridať %1$s</string>
 
     <string name="card_edit_details">Podrobnosti</string>
@@ -342,4 +345,5 @@
     <string name="enter_search_term_description">Zadajte vyhľadávací výraz pre nájdenie kariet na tejto nástenke.</string>
     <string name="no_search_results_title">Žiadne výsledky vyhľadávania</string>
     <string name="no_search_results_description">Nenašli sme žiadne výsledky pre zadaný vyhľadávací výraz</string>
-    </resources>
+    <string name="label_no_startdate">Žiadny dátum začiatku</string>
+</resources>

@@ -62,6 +62,7 @@
     <string name="seconds_ago">sekundit tagasi</string>
     <string name="edit">Redigeeri</string>
     <string name="label_labels">Vali sildid</string>
+    <string name="label_dependents">Sõltuvad</string>
     <string name="label_description">Kirjeldus</string>
     <string name="hint_assign_people">Määra kasutajaid</string>
     <string name="hint_due_date_date">Tähtaeg</string>
@@ -87,8 +88,10 @@
     <string name="add_board">Lisa tahvel</string>
 
     <string name="label_clear_due_date">Eemalda tähtaeg</string>
+    <string name="label_clear_start_date">Eemalda alguskuupäev</string>
     <string name="label_clear_done">Pole valmis</string>
     <string name="label_due_at">Tähtaeg: %1$s</string>
+    <string name="label_start_at">Algus: %1$s</string>
     <string name="label_add">Lisa %1$s</string>
 
     <string name="card_edit_details">Üksikasjad</string>
@@ -334,4 +337,5 @@
     <string name="enter_search_term_description">Selle tahvli kaartide otsimiseks sisesta soovitud otsingusõna</string>
     <string name="no_search_results_title">Otsingul pole tulemusi</string>
     <string name="no_search_results_description">Selle otsingusõnaga ei õnnestu leida mitte midagi</string>
-    </resources>
+    <string name="label_no_startdate">Alguskuupäeva pole</string>
+</resources>

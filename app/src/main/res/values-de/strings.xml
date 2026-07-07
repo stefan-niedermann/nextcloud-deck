@@ -87,8 +87,10 @@
     <string name="add_board">Board hinzufügen</string>
 
     <string name="label_clear_due_date">Fälligkeitsdatum entfernen</string>
+    <string name="label_clear_start_date">Startdatum löschen</string>
     <string name="label_clear_done">Nicht erledigt</string>
     <string name="label_due_at">Fällig am: %1$s</string>
+    <string name="label_start_at">Beginn um: %1$s</string>
     <string name="label_add">%1$s hinzufügen</string>
 
     <string name="card_edit_details">Details</string>
@@ -334,4 +336,5 @@
     <string name="enter_search_term_description">Einen Suchbegriff eingeben, um Karten in diesem Board zu finden</string>
     <string name="no_search_results_title">Keine Suchergebnisse</string>
     <string name="no_search_results_description">Keine Ergebnisse für diesen Suchbegriff gefunden</string>
-    </resources>
+    <string name="label_no_startdate">Kein Startdatum</string>
+</resources>
