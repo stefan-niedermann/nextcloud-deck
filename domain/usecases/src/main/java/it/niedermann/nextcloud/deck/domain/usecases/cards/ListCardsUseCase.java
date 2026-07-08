@@ -1,9 +1,11 @@
 package it.niedermann.nextcloud.deck.domain.usecases.cards;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Flow;
 
 import it.niedermann.nextcloud.deck.domain.model.Card;
+import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
 import jakarta.inject.Inject;
 
@@ -20,5 +22,9 @@ public class ListCardsUseCase {
 
     public Flow.Publisher<List<Card>> execute(long columnId) {
         return cardRepository.getNotDeletedCards(columnId);
+    }
+
+    public Flow.Publisher<Map<Column, List<Card>>> executeForBoard(long boardId) {
+        return cardRepository.getNotDeletedCardsByColumn(boardId);
     }
 }
