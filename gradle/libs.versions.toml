@@ -7,6 +7,7 @@ coreKtx = "1.19.0"
 dagger = "2.59.2"
 datastore = "1.2.1"
 espressoCore = "3.7.0"
+gemsfx = "4.2.0"
 google-ksp = "2.3.5"
 gson = "2.14.0"
 graalvm = "0.11.0"
@@ -61,6 +62,7 @@ androidx-room3-runtime = { group = "androidx.room3", name = "room3-runtime", ver
 androidx-sqlite = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "sqlite" }
 dagger = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
 dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
+gemsfx = { module = "com.dlsc.gemsfx:gemsfx", version.ref = "gemsfx" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
