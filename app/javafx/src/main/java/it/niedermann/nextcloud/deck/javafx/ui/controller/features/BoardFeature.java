@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import io.reactivex.rxjava4.core.Flowable;
+import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.javafx.services.stage.StageContext;
@@ -56,11 +57,13 @@ public class BoardFeature extends DisposableController {
         final var disposable = Flowable.fromPublisher(this.stageContext.getState())
                 .map(StageContext.State::boardId)
                 .distinctUntilChanged()
+                .observeOn(JavaFxScheduler.platform())
                 .doOnNext(_ -> {
                     this.progress.setVisible(true);
                     this.emptyContentView.setVisible(false);
                     this.columns.setVisible(false);
                 })
+                .observeOn(Schedulers.virtual())
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .switchMap(this.getBoardUseCase::execute)

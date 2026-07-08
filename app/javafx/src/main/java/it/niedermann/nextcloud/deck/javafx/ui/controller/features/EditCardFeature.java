@@ -1,5 +1,10 @@
 package it.niedermann.nextcloud.deck.javafx.ui.controller.features;
 
+import com.dlsc.gemsfx.CalendarPicker;
+import com.dlsc.gemsfx.SearchField;
+import com.dlsc.gemsfx.TagsField;
+import com.dlsc.gemsfx.TimePicker;
+
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Path;
@@ -18,6 +23,7 @@ import it.niedermann.nextcloud.deck.domain.model.Activity;
 import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Comment;
+import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.usecases.activities.ListActivityUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.attachments.AddAttachmentUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.attachments.ListAttachmentsUseCase;
@@ -29,6 +35,8 @@ import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.AttachmentCellFactor
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.CommentCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.SubmitTextField;
+import it.niedermann.nextcloud.deck.javafx.ui.suggestionproviders.LabelSuggestionProvider;
+import it.niedermann.nextcloud.deck.javafx.ui.suggestionproviders.UserSuggestionProvider;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import jakarta.inject.Inject;
 import javafx.application.Platform;
@@ -42,6 +50,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
+import javafx.util.StringConverter;
 import one.jpro.platform.mdfx.MarkdownView;
 
 public class EditCardFeature extends DisposableController {
@@ -54,6 +63,8 @@ public class EditCardFeature extends DisposableController {
     private final AddCommentUseCase addCommentUseCase;
     private final ListCommentsUseCase listCommentsUseCase;
     private final ListActivityUseCase listActivityUseCase;
+    private final LabelSuggestionProvider labelSuggestionProvider;
+    private final UserSuggestionProvider userSuggestionProvider;
 
     @FXML
     TextField title;
@@ -62,9 +73,19 @@ public class EditCardFeature extends DisposableController {
     @FXML
     Label editedAt;
     @FXML
-    TextField labels;
+    TagsField<it.niedermann.nextcloud.deck.domain.model.Label> labels;
     @FXML
-    TextField assignees;
+    TagsField<User> assignees;
+    @FXML
+    CalendarPicker startDateDate;
+    @FXML
+    TimePicker startDateTime;
+    @FXML
+    CalendarPicker dueDateDate;
+    @FXML
+    TimePicker dueDateTime;
+    @FXML
+    SearchField dependentCards;
     @FXML
     TextArea descriptionEditor;
     @FXML
@@ -95,7 +116,9 @@ public class EditCardFeature extends DisposableController {
             AddAttachmentUseCase addAttachmentUseCase,
             ListCommentsUseCase listCommentsUseCase,
             AddCommentUseCase addCommentUseCase,
-            ListActivityUseCase listActivityUseCase
+            ListActivityUseCase listActivityUseCase,
+            LabelSuggestionProvider labelSuggestionProvider,
+            UserSuggestionProvider userSuggestionProvider
     ) {
         this.getCardUseCase = getCardUseCase;
         this.listAttachmentsUseCase = listAttachmentsUseCase;
@@ -103,6 +126,8 @@ public class EditCardFeature extends DisposableController {
         this.listCommentsUseCase = listCommentsUseCase;
         this.addCommentUseCase = addCommentUseCase;
         this.listActivityUseCase = listActivityUseCase;
+        this.labelSuggestionProvider = labelSuggestionProvider;
+        this.userSuggestionProvider = userSuggestionProvider;
     }
 
     @FXML
@@ -123,6 +148,32 @@ public class EditCardFeature extends DisposableController {
         comments.setCellFactory(new CommentCellFactory());
         activities.setCellFactory(new ActivityCellFactory());
         attachments.setCellFactory(new AttachmentCellFactory());
+
+        labels.setSuggestionProvider(labelSuggestionProvider);
+        labels.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(it.niedermann.nextcloud.deck.domain.model.Label object) {
+                return object.title();
+            }
+
+            @Override
+            public it.niedermann.nextcloud.deck.domain.model.Label fromString(String string) {
+                throw new UnsupportedOperationException();
+            }
+        });
+
+        assignees.setSuggestionProvider(userSuggestionProvider);
+        assignees.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(User user) {
+                return user.displayName();
+            }
+
+            @Override
+            public User fromString(String string) {
+                throw new UnsupportedOperationException();
+            }
+        });
 
         final var cardDisposable = cardId.switchMap(getCardUseCase::execute)
                 .subscribeOn(Schedulers.virtual())

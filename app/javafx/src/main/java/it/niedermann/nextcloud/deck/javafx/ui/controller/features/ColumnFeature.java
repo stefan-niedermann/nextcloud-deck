@@ -10,6 +10,7 @@ import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.processors.BehaviorProcessor;
 import io.reactivex.rxjava4.processors.FlowableProcessor;
 import io.reactivex.rxjava4.processors.ReplayProcessor;
+import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase;
@@ -91,6 +92,7 @@ public class ColumnFeature extends DisposableController implements CardPreviewVi
         cards.setOnDragDropped(this::onCardDropped);
 
         final var disposable = this.columnId
+                .observeOn(Schedulers.virtual())
                 .distinctUntilChanged()
                 .map(listCardsUseCase::execute)
                 .switchMap(Flowable::fromPublisher)

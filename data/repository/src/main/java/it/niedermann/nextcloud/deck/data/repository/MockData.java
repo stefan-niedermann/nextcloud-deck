@@ -7,10 +7,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.Comment;
+import it.niedermann.nextcloud.deck.domain.model.Label;
 import it.niedermann.nextcloud.deck.domain.model.User;
 
 public interface MockData {
@@ -75,5 +77,51 @@ public interface MockData {
             new Board(8, "Board #8", MOCK_COLORS[8], Collections.emptyList()),
             new Board(9, "Board #9", MOCK_COLORS[9], Collections.emptyList()),
             new Board(10, "Board #10", MOCK_COLORS[10], Collections.emptyList())
+    };
+
+    Attachment[] MOCK_ATTACHMENTS = new Attachment[]{
+            new Attachment(1, "Sample File", LocalDateTime.now(), new User("sample", "Sampson Sample"), Optional.empty(), 310_340, "image/png", Optional.empty(), Optional.empty()),
+            new Attachment(1, "Sample Image", LocalDateTime.now().minusDays(1).minusHours(8).minusMinutes(38), new User("sample", "Sampson Sample"), Optional.empty(), 140_000_000, "image/png", Optional.empty(), Optional.empty()),
+            new Attachment(1, "Another image", LocalDateTime.now().minusDays(10).minusHours(2).minusMinutes(17), new User("sample", "Sampson Sample"), Optional.empty(), 340_509_000, "image/jpg", Optional.empty(), Optional.empty()),
+            new Attachment(2, "Sample File", LocalDateTime.now(), new User("sample", "Sampson Sample"), Optional.empty(), 310_340, "image/png", Optional.empty(), Optional.empty()),
+            new Attachment(2, "Sample Image", LocalDateTime.now().minusDays(1).minusHours(8).minusMinutes(38), new User("sample", "Sampson Sample"), Optional.empty(), 140_000_000, "image/png", Optional.empty(), Optional.empty()),
+            new Attachment(2, "Another image", LocalDateTime.now().minusDays(10).minusHours(2).minusMinutes(17), new User("sample", "Sampson Sample"), Optional.empty(), 340_509_000, "image/jpg", Optional.empty(), Optional.empty()),
+            new Attachment(3, "Sample File", LocalDateTime.now(), new User("sample", "Sampson Sample"), Optional.empty(), 310_340, "image/png", Optional.empty(), Optional.empty()),
+            new Attachment(3, "Sample Image", LocalDateTime.now().minusDays(1).minusHours(8).minusMinutes(38), new User("sample", "Sampson Sample"), Optional.empty(), 140_000_000, "image/png", Optional.empty(), Optional.empty()),
+            new Attachment(3, "Another image", LocalDateTime.now().minusDays(10).minusHours(2).minusMinutes(17), new User("sample", "Sampson Sample"), Optional.empty(), 340_509_000, "image/jpg", Optional.empty(), Optional.empty()),
+            new Attachment(4, "Sample File", LocalDateTime.now(), new User("sample", "Sampson Sample"), Optional.empty(), 310_340, "image/png", Optional.empty(), Optional.empty()),
+            new Attachment(4, "Sample Image", LocalDateTime.now().minusDays(1).minusHours(8).minusMinutes(38), new User("sample", "Sampson Sample"), Optional.empty(), 140_000_000, "image/png", Optional.empty(), Optional.empty()),
+            new Attachment(4, "Another image", LocalDateTime.now().minusDays(10).minusHours(2).minusMinutes(17), new User("sample", "Sampson Sample"), Optional.empty(), 340_509_000, "image/jpg", Optional.empty(), Optional.empty()),
+            new Attachment(5, "Sample File", LocalDateTime.now(), new User("sample", "Sampson Sample"), Optional.empty(), 310_340, "image/png", Optional.empty(), Optional.empty()),
+            new Attachment(5, "Sample Image", LocalDateTime.now().minusDays(1).minusHours(8).minusMinutes(38), new User("sample", "Sampson Sample"), Optional.empty(), 140_000_000, "image/png", Optional.empty(), Optional.empty()),
+            new Attachment(5, "Another image", LocalDateTime.now().minusDays(10).minusHours(2).minusMinutes(17), new User("sample", "Sampson Sample"), Optional.empty(), 340_509_000, "image/jpg", Optional.empty(), Optional.empty()),
+            new Attachment(6, "Sample File", LocalDateTime.now(), new User("sample", "Sampson Sample"), Optional.empty(), 310_340, "image/png", Optional.empty(), Optional.empty()),
+            new Attachment(6, "Sample Image", LocalDateTime.now().minusDays(1).minusHours(8).minusMinutes(38), new User("sample", "Sampson Sample"), Optional.empty(), 140_000_000, "image/png", Optional.empty(), Optional.empty()),
+            new Attachment(6, "Another image", LocalDateTime.now().minusDays(10).minusHours(2).minusMinutes(17), new User("sample", "Sampson Sample"), Optional.empty(), 340_509_000, "image/jpg", Optional.empty(), Optional.empty()),
+            new Attachment(7, "Sample File", LocalDateTime.now(), new User("sample", "Sampson Sample"), Optional.empty(), 310_340, "image/png", Optional.empty(), Optional.empty()),
+            new Attachment(7, "Sample Image", LocalDateTime.now().minusDays(1).minusHours(8).minusMinutes(38), new User("sample", "Sampson Sample"), Optional.empty(), 140_000_000, "image/png", Optional.empty(), Optional.empty()),
+            new Attachment(7, "Another image", LocalDateTime.now().minusDays(10).minusHours(2).minusMinutes(17), new User("sample", "Sampson Sample"), Optional.empty(), 340_509_000, "image/jpg", Optional.empty(), Optional.empty()),
+    };
+
+    Label[] MOCK_LABELS = new Label[]{
+            new Label(1, "Sample Label", Color.GREEN),
+            new Label(2, "Work in Progress", Color.PINK),
+            new Label(3, "Done", Color.CYAN),
+            new Label(4, "Important", Color.MAGENTA),
+            new Label(5, "Staffing", Color.DARK_GRAY),
+            new Label(6, "Prio 1", Color.RED),
+            new Label(7, "Prio 2", Color.ORANGE),
+            new Label(8, "Prio 3", Color.YELLOW),
+            new Label(9, "System: A", Color.GRAY),
+            new Label(10, "System: B", Color.GRAY),
+            new Label(11, "System: C", Color.GRAY),
+            new Label(12, "System: D", Color.GRAY),
+            new Label(13, "System: E", Color.GRAY),
+            new Label(14, "System: F", Color.GRAY),
+    };
+
+    User[] MOCK_USERS = new User[]{
+            new User("user1", "John Doe"),
+            new User("user2", "MR. Smith")
     };
 }

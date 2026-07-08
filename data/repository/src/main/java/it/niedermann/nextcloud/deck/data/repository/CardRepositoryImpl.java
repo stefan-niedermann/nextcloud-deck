@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.data.repository;
 
 import org.reactivestreams.FlowAdapters;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -81,5 +82,14 @@ public class CardRepositoryImpl implements CardRepository {
         }
 
         return FlowAdapters.toFlowPublisher(Flowable.error(new NoSuchElementException("No card with id " + cardId)));
+    }
+
+    @Override
+    public Flow.Publisher<Collection<Card>> find(String userText) {
+        // TODO Mock Implementation
+        return FlowAdapters.toFlowPublisher(Flowable.just(
+                MockData.MOCK_CARDS.stream()
+                        .filter(card -> card.title().toLowerCase().startsWith(userText.toLowerCase()))
+                        .collect(Collectors.toList())));
     }
 }

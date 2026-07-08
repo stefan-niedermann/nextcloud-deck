@@ -12,7 +12,9 @@ import it.niedermann.nextcloud.deck.data.repository.BoardRepositoryImpl;
 import it.niedermann.nextcloud.deck.data.repository.CardRepositoryImpl;
 import it.niedermann.nextcloud.deck.data.repository.ColumnRepositoryImpl;
 import it.niedermann.nextcloud.deck.data.repository.CommentRepositoryImpl;
+import it.niedermann.nextcloud.deck.data.repository.LabelRepositoryImpl;
 import it.niedermann.nextcloud.deck.data.repository.StateRepositoryImpl;
+import it.niedermann.nextcloud.deck.data.repository.UserRepositoryImpl;
 import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.domain.repository.ActivityRepository;
 import it.niedermann.nextcloud.deck.domain.repository.AttachmentRepository;
@@ -20,7 +22,9 @@ import it.niedermann.nextcloud.deck.domain.repository.BoardRepository;
 import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
 import it.niedermann.nextcloud.deck.domain.repository.ColumnRepository;
 import it.niedermann.nextcloud.deck.domain.repository.CommentRepository;
+import it.niedermann.nextcloud.deck.domain.repository.LabelRepository;
 import it.niedermann.nextcloud.deck.domain.repository.StateRepository;
+import it.niedermann.nextcloud.deck.domain.repository.UserRepository;
 import jakarta.inject.Singleton;
 
 @Module
@@ -59,8 +63,20 @@ public class RepositoryModule {
 
     @Provides
     @Singleton
-    AttachmentRepository provideAttachmentsRepository() {
+    UserRepository provideUserRepository() {
+        return new UserRepositoryImpl();
+    }
+
+    @Provides
+    @Singleton
+    AttachmentRepository provideAttachmentRepository() {
         return new AttachmentRepositoryImpl();
+    }
+
+    @Provides
+    @Singleton
+    LabelRepository provideLabelRepository() {
+        return new LabelRepositoryImpl();
     }
 
     @Provides

@@ -12,4 +12,6 @@ public interface UserRepository {
     Flow.Publisher<Collection<User>> getUser(String userId);
 
     Flow.Publisher<User> getUserByAccountId(long accountId);
+
+    Flow.Publisher<Collection<User>> find(String userText);
 }

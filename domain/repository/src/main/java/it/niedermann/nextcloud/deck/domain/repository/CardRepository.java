@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.domain.repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -25,4 +26,6 @@ public interface CardRepository {
     Flow.Publisher<Map<Column, List<Card>>> getNotDeletedCardsByColumn(long boardId);
 
     Flow.Publisher<Card> getCard(long cardId);
+
+    Flow.Publisher<Collection<Card>> find(String userText);
 }
