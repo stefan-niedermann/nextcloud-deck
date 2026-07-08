@@ -62,6 +62,7 @@
     <string name="seconds_ago">segundos atrás</string>
     <string name="edit">Editar</string>
     <string name="label_labels">Selecionar etiquetas</string>
+    <string name="label_dependents">Dependentes</string>
     <string name="label_description">Descrição</string>
     <string name="hint_assign_people">Atribuir usuários</string>
     <string name="hint_due_date_date">Data de vencimento</string>
@@ -87,8 +88,10 @@
     <string name="add_board">Adicionar painel</string>
 
     <string name="label_clear_due_date">Remover data de vencimento</string>
+    <string name="label_clear_start_date">Limpar data de início</string>
     <string name="label_clear_done">Não concluído</string>
     <string name="label_due_at">Vencimento em: %1$s</string>
+    <string name="label_start_at">Início em: %1$s</string>
     <string name="label_add">Adicionar %1$s</string>
 
     <string name="card_edit_details">Detalhes</string>
@@ -338,4 +341,5 @@
     <string name="enter_search_term_description">Digite o termo de pesquisa para encontrar cartões neste painel</string>
     <string name="no_search_results_title">Nenhum resultado de pesquisa</string>
     <string name="no_search_results_description">Não encontramos nenhum resultado para o termo de pesquisa fornecido</string>
-    </resources>
+    <string name="label_no_startdate">Sem data de início</string>
+</resources>
