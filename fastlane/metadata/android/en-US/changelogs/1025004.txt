@@ -1,0 +1,22 @@
+1.25.0
+
+- 🖇️ Implement dependents
+- 📅 Implement start date
+- 🐞 fix "IllegalStateException: Can not perform this action after onSaveInstanceState" (#1507)
+- 🐞 fix Editing a colored card clears its color with Deck server (#1887)
+
+1.25.1
+
+- 🐞 fix: NPE when toggling DONE state on Deck server < 1.18.0
+
+1.25.2
+
+- 🐞 fix: FragmentViewFieldRetentionLeak (#1877)
+
+1.25.3
+
+- 🌎 Updated translations
+
+1.25.4
+
+- 🐞 fix: Crash on Deck server < 1.18.0 (#1889)
