@@ -58,7 +58,7 @@ public class AttachmentView extends HBox {
 
         preview.setImage(new Image(previewImageUrl, true));
         name.setText(attachment.filename());
-        size.setText(FileUtil.humanReadableSize(attachment.filesize()));
+        size.setText(FileUtil.humanReadableSize(attachment.fileSize()));
 
         delete.setOnAction(event -> {
             // TODO Prompt user for "Delete local" vs. "Delete remote"?

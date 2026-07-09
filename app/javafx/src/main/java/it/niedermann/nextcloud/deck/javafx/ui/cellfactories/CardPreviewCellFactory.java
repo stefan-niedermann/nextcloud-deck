@@ -77,7 +77,7 @@ public class CardPreviewCellFactory implements Callback<ListView<Card>, ListCell
             content.put(DataFormat.PLAIN_TEXT, card.title());
             // TODO Add card URL as DragContent
             // content.put(DataFormat.URL, card.title());
-            content.put(DeckDataFormat.CARD_DATA_FORMAT, card);
+            content.put(DeckDataFormat.CARD_ID_PRIMITIVE, card.id().value());
             dragboard.setContent(content);
 
             final var image = listCell.snapshot(null, null);

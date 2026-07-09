@@ -1,11 +1,10 @@
 package it.niedermann.nextcloud.deck.domain.model;
 
-import java.io.Serializable;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class Version implements Serializable, Comparable<Version> {
+public class Version implements Comparable<Version> {
 
     private static final Pattern NUMBER_EXTRACTION_PATTERN = Pattern.compile("\\d+");
     private final String version;

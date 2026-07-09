@@ -31,7 +31,7 @@ public class ActivityView extends HBox {
         author.setText(activity.author().displayName());
         message.setText(activity.subject());
 
-        final var created = activity.datetime().atZone(ZoneId.systemDefault());
+        final var created = activity.createdAt().atZone(ZoneId.systemDefault());
         final var duration = created.toInstant().until(Instant.now());
 
         if (duration.toDays() < 1) {

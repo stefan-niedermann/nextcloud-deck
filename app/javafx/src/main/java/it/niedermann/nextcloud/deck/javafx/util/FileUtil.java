@@ -2,7 +2,13 @@ package it.niedermann.nextcloud.deck.javafx.util;
 
 import java.util.Locale;
 
+import it.niedermann.nextcloud.deck.domain.model.Attachment;
+
 public class FileUtil {
+
+    public static String humanReadableSize(Attachment.FileSize fileSize) {
+        return humanReadableSize(fileSize.bytes());
+    }
 
     public static String humanReadableSize(long bytes) {
         if (bytes < 1024) {

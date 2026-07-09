@@ -40,7 +40,7 @@ public class MainStageController extends StageController<MainStageController.Arg
         record CurrentBoardOfCurrentAccount() implements Args {
         }
 
-        record CurrentBoardOfAccount(long accountId) implements Args {
+        record CurrentBoardOfAccount(Account.ID accountId) implements Args {
         }
 
         record RemoteAccount(String accountName, long cardRemoteId) implements Args {

@@ -1,8 +1,8 @@
 package it.niedermann.nextcloud.deck.domain.model;
 
-import java.io.Serializable;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 
 public record Attachment(
@@ -12,12 +12,28 @@ public record Attachment(
         LocalDateTime createdAt,
         User createdBy,
         Optional<LocalDateTime> deletedAt,
-        long filesize,
+        FileSize fileSize,
         String mimetype,
         Optional<Path> localCachePath,
         Optional<Path> localFullPath
-) implements Serializable {
+) {
+
+    public Attachment {
+        for (final var o : new Object[]{
+                id,
+                cardId,
+                filename,
+                createdAt,
+                createdBy,
+                fileSize,
+        }) {
+            Objects.requireNonNull(o);
+        }
+    }
 
     public record ID(long value) {
+    }
+
+    public record FileSize(long bytes) {
     }
 }

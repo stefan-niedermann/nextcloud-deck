@@ -1,7 +1,10 @@
 package it.niedermann.nextcloud.deck.domain.usecases.cards;
 
+import org.reactivestreams.FlowAdapters;
+
 import java.util.concurrent.CompletableFuture;
 
+import io.reactivex.rxjava3.core.Maybe;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
@@ -18,11 +21,13 @@ public class MoveCardUseCase {
         this.cardRepository = cardRepository;
     }
 
-    public CompletableFuture<Void> execute(Card card, Column.ID targetColumnId, int targetOrder) {
-        final var movedCard = card
-                .withColumnId(targetColumnId)
-                .withOrder(targetOrder);
-
-        return cardRepository.updateCard(movedCard);
+    public CompletableFuture<Void> execute(Card.ID cardId, Column.ID targetColumnId, int targetOrder) {
+        return Maybe.fromPublisher(FlowAdapters.toPublisher(cardRepository.getCard(cardId)))
+                .toCompletionStage()
+                .toCompletableFuture()
+                .thenApplyAsync(card -> card
+                        .withColumnId(targetColumnId)
+                        .withOrder(targetOrder))
+                .thenComposeAsync(cardRepository::updateCard);
     }
 }

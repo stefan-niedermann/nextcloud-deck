@@ -1,11 +1,20 @@
 package it.niedermann.nextcloud.deck.domain.model;
 
-import java.io.Serializable;
+import java.util.Objects;
 
 public record CreateCard(
         Column.ID columnId,
         String title
-) implements Serializable {
+) {
+
+    public CreateCard {
+        for (final var o : new Object[]{
+                columnId,
+                title,
+        }) {
+            Objects.requireNonNull(o);
+        }
+    }
 
     public record ID(long value) {
     }

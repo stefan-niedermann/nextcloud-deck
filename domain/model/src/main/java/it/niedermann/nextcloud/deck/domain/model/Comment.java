@@ -1,17 +1,29 @@
 package it.niedermann.nextcloud.deck.domain.model;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.Objects;
 
 public record Comment(
         Comment.ID id,
+        Card.ID cardId,
         User author,
         LocalDateTime created,
         String message,
-        Optional<Long> parentId
+        Comment.ID parentId
         // List<Mention>mentions = new ArrayList<>();
-) implements Serializable {
+) {
+
+    public Comment {
+        for (final var o : new Object[]{
+                id,
+                cardId,
+                author,
+                created,
+                message,
+        }) {
+            Objects.requireNonNull(o);
+        }
+    }
 
     public record ID(long value) {
     }

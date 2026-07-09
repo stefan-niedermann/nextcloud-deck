@@ -160,7 +160,7 @@ public class ColumnFeature extends DisposableController implements CardPreviewVi
         }
 
         final var dragboard = event.getDragboard();
-        if (!dragboard.getContentTypes().contains(DeckDataFormat.CARD_DATA_FORMAT)) {
+        if (!dragboard.getContentTypes().contains(DeckDataFormat.CARD_ID_PRIMITIVE)) {
             return;
         }
 
@@ -179,19 +179,19 @@ public class ColumnFeature extends DisposableController implements CardPreviewVi
         }
 
         final var dragboard = event.getDragboard();
-        if (!dragboard.getContentTypes().contains(DeckDataFormat.CARD_DATA_FORMAT)) {
+        if (!dragboard.getContentTypes().contains(DeckDataFormat.CARD_ID_PRIMITIVE)) {
             return;
         }
 
         final var targetOrder = getDropTargetOrderOfListView(event);
-        final var card = (Card) dragboard.getContent(DeckDataFormat.CARD_DATA_FORMAT);
+        final var cardId = new Card.ID((long) dragboard.getContent(DeckDataFormat.CARD_ID_PRIMITIVE));
 
-        logger.info("Dropped: " + card);
+        logger.info("Dropped: " + cardId);
 
         columnId.firstElement()
                 .toCompletionStage()
                 .toCompletableFuture()
-                .thenComposeAsync(targetColumnId -> moveCardUseCase.execute(card, targetColumnId, targetOrder))
+                .thenComposeAsync(targetColumnId -> moveCardUseCase.execute(cardId, targetColumnId, targetOrder))
                 .whenCompleteAsync((_, exception) -> {
                     if (exception != null) {
                         logger.log(Level.SEVERE, exception.getMessage(), exception);

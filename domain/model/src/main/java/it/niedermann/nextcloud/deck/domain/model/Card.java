@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import io.soabase.recordbuilder.core.RecordBuilder;
@@ -32,6 +33,25 @@ public record Card(
         int overdue,
         int commentsUnread
 ) implements Serializable, CardBuilder.With {
+
+    public Card {
+        for (final var o : new Object[]{
+                id,
+                accountId,
+                boardId,
+                columnId,
+                createdAt,
+                title,
+                description,
+                labels,
+                assignees,
+                comments,
+                attachments,
+                dependents,
+        }) {
+            Objects.requireNonNull(o);
+        }
+    }
 
     public record ID(long value) {
     }
