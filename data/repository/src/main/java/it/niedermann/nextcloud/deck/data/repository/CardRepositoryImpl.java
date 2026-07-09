@@ -6,13 +6,17 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.core.Flowable;
+import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
+import it.niedermann.nextcloud.deck.domain.model.CreateCard;
+import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
 import jakarta.inject.Inject;
 
@@ -24,7 +28,7 @@ public class CardRepositoryImpl implements CardRepository {
     }
 
     @Override
-    public CompletableFuture<Void> createCard(Card card) {
+    public CompletableFuture<Void> createCard(CreateCard card) {
         // TODO Mock Implementation
         System.out.println("[Mock][" + CardRepositoryImpl.class.getSimpleName() + "/createCard]: " + card);
         return CompletableFuture.completedFuture(null);
@@ -38,21 +42,21 @@ public class CardRepositoryImpl implements CardRepository {
     }
 
     @Override
-    public CompletableFuture<Void> deleteCard(long cardId) {
+    public CompletableFuture<Void> deleteCard(Card.ID cardId) {
         // TODO Mock Implementation
         System.out.println("[Mock][" + CardRepositoryImpl.class.getSimpleName() + "/deleteCard]: " + cardId);
         return CompletableFuture.completedFuture(null);
     }
 
     @Override
-    public CompletableFuture<Void> assignUser(long cardId, String userId) {
+    public CompletableFuture<Void> assignUser(Card.ID cardId, User.ID userId) {
         // TODO Mock Implementation
         System.out.println("[Mock][" + CardRepositoryImpl.class.getSimpleName() + "/assign]: " + cardId + " / " + userId);
         return CompletableFuture.completedFuture(null);
     }
 
     @Override
-    public CompletableFuture<Void> unassignUser(long cardId, String userId) {
+    public CompletableFuture<Void> unassignUser(Card.ID cardId, User.ID userId) {
         // TODO Mock Implementation
         System.out.println("[Mock][" + CardRepositoryImpl.class.getSimpleName() + "/unassign]: " + cardId + " / " + userId);
         return CompletableFuture.completedFuture(null);
@@ -60,25 +64,25 @@ public class CardRepositoryImpl implements CardRepository {
 
     @SuppressWarnings("NewApi")
     @Override
-    public Flow.Publisher<List<Card>> getNotDeletedCards(long columnId) {
+    public Flow.Publisher<List<Card>> getNotDeletedCards(Column.ID columnId) {
         // TODO Mock Implementation
-        return FlowAdapters.toFlowPublisher(Flowable.just(MockData.MOCK_CARDS.stream().filter(card -> card.columnId() == columnId).toList()));
+        return FlowAdapters.toFlowPublisher(Flowable.just(MockData.MOCK_CARDS.stream().filter(card -> Objects.equals(card.columnId(), columnId)).toList()));
     }
 
     @Override
-    public Flow.Publisher<Map<Column, List<Card>>> getNotDeletedCardsByColumn(long boardId) {
+    public Flow.Publisher<Map<Column, List<Card>>> getNotDeletedCardsByColumn(Board.ID boardId) {
         // TODO Mock Implementation
         return FlowAdapters.toFlowPublisher(Flowable.just(
-                MockData.MOCK_CARDS.stream().filter(card -> card.boardId() == boardId)
-                        .collect(Collectors.groupingBy(card -> MockData.MOCK_COLUMNS[(int) card.columnId()]))
+                MockData.MOCK_CARDS.stream().filter(card -> Objects.equals(card.boardId(), boardId))
+                        .collect(Collectors.groupingBy(card -> MockData.MOCK_COLUMNS[(int) card.columnId().value()]))
         ));
     }
 
     @Override
-    public Flow.Publisher<Card> getCard(long cardId) {
+    public Flow.Publisher<Card> getCard(Card.ID cardId) {
         // TODO Mock Implementation
-        if (cardId < MockData.MOCK_CARDS.size()) {
-            return FlowAdapters.toFlowPublisher(Flowable.just(MockData.MOCK_CARDS.get((int) cardId)));
+        if (cardId.value() < MockData.MOCK_CARDS.size()) {
+            return FlowAdapters.toFlowPublisher(Flowable.just(MockData.MOCK_CARDS.get((int) cardId.value())));
         }
 
         return FlowAdapters.toFlowPublisher(Flowable.error(new NoSuchElementException("No card with id " + cardId)));

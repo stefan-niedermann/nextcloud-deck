@@ -4,6 +4,7 @@ import org.reactivestreams.FlowAdapters;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Flow;
 import java.util.stream.Collectors;
 
@@ -11,6 +12,7 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.processors.BehaviorProcessor;
 import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.AttachmentDownloadProgress;
+import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.repository.AttachmentRepository;
 import jakarta.inject.Inject;
 
@@ -22,15 +24,15 @@ public class AttachmentRepositoryImpl implements AttachmentRepository {
     }
 
     @Override
-    public Flow.Publisher<List<Attachment>> getNotDeletedAttachments(long cardId) {
+    public Flow.Publisher<List<Attachment>> getNotDeletedAttachments(Card.ID cardId) {
         return FlowAdapters.toFlowPublisher(Flowable.just(Arrays.stream(
                         MockData.MOCK_ATTACHMENTS)
-                .filter(attachment -> attachment.cardId() == cardId)
+                .filter(attachment -> Objects.equals(attachment.cardId(), cardId))
                 .collect(Collectors.toList())));
     }
 
     @Override
-    public Flow.Publisher<AttachmentDownloadProgress> download(long attachmentId) {
+    public Flow.Publisher<AttachmentDownloadProgress> download(Attachment.ID attachmentId) {
         final var result = BehaviorProcessor.<AttachmentDownloadProgress>create();
         System.out.println("[Mock][" + AttachmentRepositoryImpl.class.getSimpleName() + "/download]: " + attachmentId);
 

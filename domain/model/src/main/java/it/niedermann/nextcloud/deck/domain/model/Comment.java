@@ -5,11 +5,14 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 public record Comment(
-        long id,
+        Comment.ID id,
         User author,
         LocalDateTime created,
         String message,
         Optional<Long> parentId
-//                List<Mention>mentions = new ArrayList<>();
+        // List<Mention>mentions = new ArrayList<>();
 ) implements Serializable {
+
+    public record ID(long value) {
+    }
 }

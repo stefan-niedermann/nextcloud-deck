@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.Flow;
 
 import it.niedermann.nextcloud.deck.domain.model.Attachment;
+import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.repository.AttachmentRepository;
 import jakarta.inject.Inject;
 
@@ -16,7 +17,7 @@ public class ListAttachmentsUseCase {
         this.attachmentsRepository = attachmentsRepository;
     }
 
-    public Flow.Publisher<List<Attachment>> execute(long cardId) {
+    public Flow.Publisher<List<Attachment>> execute(Card.ID cardId) {
         return this.attachmentsRepository.getNotDeletedAttachments(cardId);
     }
 }

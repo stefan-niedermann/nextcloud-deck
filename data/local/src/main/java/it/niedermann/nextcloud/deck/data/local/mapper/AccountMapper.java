@@ -16,4 +16,12 @@ public interface AccountMapper extends GenericMapper<AccountEntity, Account> {
 
     @Override
     Account toTO(AccountEntity accountEntity);
+
+    default Account.ID toAccountId(long value) {
+        return new Account.ID(value);
+    }
+
+    default Long toValue(Account.ID accountId) {
+        return accountId.value();
+    }
 }

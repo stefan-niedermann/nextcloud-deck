@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.domain.model;
 
-public record AttachmentDownloadProgress(long attachmentId,
+public record AttachmentDownloadProgress(Attachment.ID attachmentId,
                                          long bytesDownloaded,
                                          long bytesTotal) {
 

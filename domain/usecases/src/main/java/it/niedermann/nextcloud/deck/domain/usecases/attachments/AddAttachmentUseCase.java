@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 
+import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.repository.AttachmentRepository;
 import jakarta.inject.Inject;
 
@@ -16,13 +17,13 @@ public class AddAttachmentUseCase {
         this.attachmentsRepository = attachmentsRepository;
     }
 
-    public CompletableFuture<Void> execute(long cardId, Collection<Path> localPaths) {
+    public CompletableFuture<Void> execute(Card.ID cardId, Collection<Path> localPaths) {
         return CompletableFuture.allOf(localPaths.stream()
                 .map(localPath -> execute(cardId, localPath))
                 .toArray(CompletableFuture[]::new));
     }
 
-    public CompletableFuture<Void> execute(long cardId, Path localPath) {
+    public CompletableFuture<Void> execute(Card.ID cardId, Path localPath) {
         return CompletableFuture.completedFuture(null);
     }
 }

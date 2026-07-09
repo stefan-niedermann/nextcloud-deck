@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.javafx.ui.cellfactories;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import it.niedermann.nextcloud.deck.domain.model.Account;
@@ -28,7 +29,7 @@ public class AccountListItemCellFactory implements Callback<ListView<Account>, L
 
                 final boolean isCurrent = Optional.ofNullable(listView.getSelectionModel().getSelectedItem())
                         .map(Account::id)
-                        .map(accountId -> accountId.equals(account.id()))
+                        .map(accountId -> Objects.equals(accountId, account.id()))
                         .orElse(false);
 
                 view.bind(account, isCurrent);

@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.domain.usecases.boards;
 import java.util.List;
 import java.util.concurrent.Flow;
 
+import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.repository.BoardRepository;
 import jakarta.inject.Inject;
@@ -18,7 +19,7 @@ public class ListBoardsUseCase {
         this.boardRepository = boardRepository;
     }
 
-    public Flow.Publisher<List<Board>> execute(long accountId) {
+    public Flow.Publisher<List<Board>> execute(Account.ID accountId) {
         return boardRepository.getNotDeletedBoards(accountId);
     }
 }

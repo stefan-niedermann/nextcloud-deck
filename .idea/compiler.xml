@@ -73,6 +73,15 @@
         <module name="Nextcloud_Deck.data.local.main" />
         <module name="Nextcloud_Deck.data.remote.main" />
       </profile>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.soabase.record-builder/record-builder-processor/53/8e631ca060393c225d69aa42a8a29e15c2f24e5b/record-builder-processor-53.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.palantir.javapoet/javapoet/0.7.0/d16c2720349a1108a6f835b3f2e049d21f80bb59/javapoet-0.7.0.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.soabase.record-builder/record-builder-core/53/c10a9b26230ae1738250cfdde785ccecfed16690/record-builder-core-53.jar" />
+        </processorPath>
+        <module name="Nextcloud_Deck.domain.model.main" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17" />
   </component>

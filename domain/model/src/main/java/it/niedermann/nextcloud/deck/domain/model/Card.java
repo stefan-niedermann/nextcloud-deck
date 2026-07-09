@@ -6,28 +6,33 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
+import io.soabase.recordbuilder.core.RecordBuilder;
+
+@RecordBuilder
 public record Card(
-        long id,
-        long accountId,
-        long boardId,
-        long columnId,
+        Card.ID id,
+        Account.ID accountId,
+        Board.ID boardId,
+        Column.ID columnId,
         LocalDateTime createdAt,
-        LocalDateTime deletedAt,
         int order,
         String title,
         String description,
-        Set<Label> labels,
-        Set<User> assignees,
-        List<Comment> comments,
-        List<Attachment> attachments,
+        Set<Label.ID> labels,
+        Set<User.ID> assignees,
+        List<Comment.ID> comments,
+        List<Attachment.ID> attachments,
+        List<Card.ID> dependents,
         LocalDateTime startDate,
         LocalDateTime dueDate,
         LocalDateTime done,
         Color color,
-        Set<Card> dependents,
         boolean archived,
         boolean notified,
         int overdue,
         int commentsUnread
-) implements Serializable {
+) implements Serializable, CardBuilder.With {
+
+    public record ID(long value) {
+    }
 }

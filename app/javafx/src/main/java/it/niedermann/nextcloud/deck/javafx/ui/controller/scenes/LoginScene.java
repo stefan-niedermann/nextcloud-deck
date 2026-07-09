@@ -10,7 +10,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,6 +20,7 @@ import io.reactivex.rxjava4.processors.FlowableProcessor;
 import it.niedermann.nextcloud.auth.apptoken.AppTokenAuthProvider;
 import it.niedermann.nextcloud.auth.webloginflowv2.AuthenticatedAccount;
 import it.niedermann.nextcloud.auth.webloginflowv2.WebLoginFlowV2AuthProvider;
+import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.SyncStatus;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
@@ -129,7 +130,7 @@ public class LoginScene extends SceneController {
 
         importInProgress.onNext(true);
 
-        final var currentlyImportingAccountId = new AtomicLong();
+        final var currentlyImportingAccountId = new AtomicReference<Account.ID>();
 
         final var syncStatusDisposable = Single.fromCompletionStage(
                         authenticateAccount(

@@ -13,6 +13,7 @@ import io.reactivex.rxjava4.processors.ReplayProcessor;
 import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
+import it.niedermann.nextcloud.deck.domain.model.CreateCard;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase;
@@ -48,7 +49,7 @@ public class ColumnFeature extends DisposableController implements CardPreviewVi
     private final AddCardUseCase addCardUseCase;
     private final ThemeService themeService;
 
-    private final FlowableProcessor<Long> columnId = ReplayProcessor.create();
+    private final FlowableProcessor<Column.ID> columnId = ReplayProcessor.create();
     private FlowableProcessor<Integer> draggingCardIndex;
 
     private final CardPreviewCellFactory cardPreviewCellFactory;
@@ -134,7 +135,7 @@ public class ColumnFeature extends DisposableController implements CardPreviewVi
     }
 
     private CompletableFuture<Void> addCard(String cardTitle) {
-        return addCardUseCase.execute(columnId.blockingFirst(), cardTitle);
+        return addCardUseCase.execute(new CreateCard(columnId.blockingFirst(), cardTitle));
     }
 
     private void onDragCardEntered(DragEvent event) {

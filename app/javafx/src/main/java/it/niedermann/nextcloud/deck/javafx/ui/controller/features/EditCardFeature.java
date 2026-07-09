@@ -105,7 +105,7 @@ public class EditCardFeature extends DisposableController {
     @FXML
     ListView<Attachment> attachments;
 
-    private final FlowableProcessor<Long> cardId = BehaviorProcessor.create();
+    private final FlowableProcessor<Card.ID> cardId = BehaviorProcessor.create();
 
     private EditCardListener editCardListener;
 
@@ -243,7 +243,7 @@ public class EditCardFeature extends DisposableController {
         attachments.setOnDragDropped(this::onCardDropped);
     }
 
-    public void setCardId(long id) {
+    public void setCardId(Card.ID id) {
         cardId.onNext(id);
     }
 

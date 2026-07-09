@@ -1,7 +1,10 @@
 package it.niedermann.nextcloud.deck.domain.model;
 
 public record User(
-        String id,
+        User.ID id,
         String displayName
 ) {
+
+    public record ID(String value) {
+    }
 }

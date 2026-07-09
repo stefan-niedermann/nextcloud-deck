@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
+import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Label;
 
 public interface LabelRepository {
@@ -13,9 +14,9 @@ public interface LabelRepository {
 
     CompletableFuture<Void> updateLabel(Label label);
 
-    Flow.Publisher<Set<Label>> getNotDeletedLabels(long boardId);
+    Flow.Publisher<Set<Label>> getNotDeletedLabels(Board.ID boardId);
 
-    Flow.Publisher<Set<Label>> getLabel(long labelId);
+    Flow.Publisher<Set<Label>> getLabel(Label.ID labelId);
 
     Flow.Publisher<Collection<Label>> find(String userText);
 }

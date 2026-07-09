@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.domain.usecases.cards;
 
 import java.util.concurrent.CompletableFuture;
 
+import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
 import jakarta.inject.Inject;
 
@@ -16,7 +17,7 @@ public class DeleteCardUseCase {
         this.cardRepository = cardRepository;
     }
 
-    public CompletableFuture<Void> execute(long cardId) {
+    public CompletableFuture<Void> execute(Card.ID cardId) {
         return cardRepository.deleteCard(cardId);
     }
 }

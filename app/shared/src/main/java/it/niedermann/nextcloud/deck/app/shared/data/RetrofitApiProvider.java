@@ -60,7 +60,7 @@ public class RetrofitApiProvider implements ApiProvider {
         }
 
         @Override
-        public CompletableFuture<ApiProvider> create(long accountId) {
+        public CompletableFuture<ApiProvider> create(Account.ID accountId) {
 
             return Flowable.fromPublisher(toPublisher(accountRepository.getAccount(accountId)))
                     .firstElement()

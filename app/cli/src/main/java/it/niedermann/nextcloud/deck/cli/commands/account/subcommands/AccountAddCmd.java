@@ -60,7 +60,7 @@ public class AccountAddCmd implements Callable<Integer> {
             }
 
             final var token = appTokenAuthProvider.generateToken(url, username, password);
-            final long accountId = fromPublisher(toPublisher(importAccountUseCase.execute(url, username, token)))
+            final var accountId = fromPublisher(toPublisher(importAccountUseCase.execute(url, username, token)))
                     .lastElement()
                     .blockingGet()
                     .account()

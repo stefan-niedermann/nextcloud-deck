@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Flow;
 
+import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
@@ -20,11 +21,11 @@ public class ListCardsUseCase {
         this.cardRepository = cardRepository;
     }
 
-    public Flow.Publisher<List<Card>> execute(long columnId) {
+    public Flow.Publisher<List<Card>> execute(Column.ID columnId) {
         return cardRepository.getNotDeletedCards(columnId);
     }
 
-    public Flow.Publisher<Map<Column, List<Card>>> executeForBoard(long boardId) {
+    public Flow.Publisher<Map<Column, List<Card>>> executeForBoard(Board.ID boardId) {
         return cardRepository.getNotDeletedCardsByColumn(boardId);
     }
 }

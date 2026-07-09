@@ -43,7 +43,7 @@ public class GetCurrentAccountUseCase {
         final var currentAccountId = Flowable.fromPublisher(FlowAdapters.toPublisher(stateRepository.getCurrentAccountId()))
                 .distinctUntilChanged()
                 .filter(Objects::nonNull)
-                .filter(accountId -> accountId >= 0);
+                .filter(accountId -> accountId.value() >= 0);
 
         final var accountExists = currentAccountId
                 .map(accountRepository::accountExists)
@@ -56,7 +56,7 @@ public class GetCurrentAccountUseCase {
                 .map(args -> {
 
                     if (!args.accountExists()) {
-                        throw new IllegalStateException("Subscriber: " + subscriber + "Account with ID " + args.accountId() + " does not exist.");
+                        throw new IllegalStateException("Subscriber: " + subscriber + "Account with cardId " + args.accountId() + " does not exist.");
                     }
 
                     return args.accountId();
@@ -70,6 +70,6 @@ public class GetCurrentAccountUseCase {
         return toFlowPublisher(account);
     }
 
-    record AccountIdAndExists(long accountId, boolean accountExists) {
+    record AccountIdAndExists(Account.ID accountId, boolean accountExists) {
     }
 }

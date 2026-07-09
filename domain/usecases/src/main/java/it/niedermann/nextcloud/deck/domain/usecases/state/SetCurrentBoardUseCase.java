@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.domain.usecases.state;
 
+import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.repository.StateRepository;
 import jakarta.inject.Inject;
 
@@ -14,7 +16,7 @@ public class SetCurrentBoardUseCase {
         this.stateRepository = stateRepository;
     }
 
-    public void execute(long accountId, long boardId) {
+    public void execute(Account.ID accountId, Board.ID boardId) {
         this.stateRepository.setCurrentBoardId(accountId, boardId);
     }
 

@@ -17,7 +17,7 @@ public class AccountRemoveCmd implements Callable<Integer> {
     private static final Logger logger = Logger.getLogger(AccountRemoveCmd.class.getName());
 
     @Option(names = "-i",
-            description = "Local ID of the account to delete")
+            description = "Local cardId of the account to delete")
     Long id;
 
     @Option(names = "-n",

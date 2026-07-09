@@ -4,12 +4,14 @@ import org.reactivestreams.FlowAdapters;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.core.Flowable;
+import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Label;
 import it.niedermann.nextcloud.deck.domain.repository.LabelRepository;
 import jakarta.inject.Inject;
@@ -34,16 +36,16 @@ public class LabelRepositoryImpl implements LabelRepository {
     }
 
     @Override
-    public Flow.Publisher<Set<Label>> getNotDeletedLabels(long boardId) {
+    public Flow.Publisher<Set<Label>> getNotDeletedLabels(Board.ID boardId) {
         System.out.println("[Mock][" + LabelRepositoryImpl.class.getSimpleName() + "/getNotDeletedLabels]: " + boardId);
         return FlowAdapters.toFlowPublisher(Flowable.just(Set.of(MockData.MOCK_LABELS)));
     }
 
     @Override
-    public Flow.Publisher<Set<Label>> getLabel(long labelId) {
+    public Flow.Publisher<Set<Label>> getLabel(Label.ID labelId) {
         System.out.println("[Mock][" + LabelRepositoryImpl.class.getSimpleName() + "/getLabel]: " + labelId);
         //noinspection OptionalGetWithoutIsPresent
-        return FlowAdapters.toFlowPublisher(Flowable.just(Set.of(Arrays.stream(MockData.MOCK_LABELS).filter(label -> label.id() == labelId).findAny().get())));
+        return FlowAdapters.toFlowPublisher(Flowable.just(Set.of(Arrays.stream(MockData.MOCK_LABELS).filter(label -> Objects.equals(label.id(), labelId)).findAny().get())));
     }
 
     @Override

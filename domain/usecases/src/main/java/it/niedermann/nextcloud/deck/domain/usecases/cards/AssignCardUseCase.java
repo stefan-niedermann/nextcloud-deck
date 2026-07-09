@@ -1,11 +1,8 @@
 package it.niedermann.nextcloud.deck.domain.usecases.cards;
 
-import org.reactivestreams.FlowAdapters;
-
 import java.util.concurrent.CompletableFuture;
 
-import io.reactivex.rxjava3.core.Flowable;
-import io.reactivex.rxjava3.core.Single;
+import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
 import it.niedermann.nextcloud.deck.domain.repository.UserRepository;
@@ -25,20 +22,7 @@ public class AssignCardUseCase {
         this.cardRepository = cardRepository;
     }
 
-    public CompletableFuture<Void> execute(long cardId) {
-        return Flowable.fromPublisher(FlowAdapters.toPublisher(cardRepository.getCard(cardId)))
-                .firstElement()
-                .map(account -> userRepository.getUserByAccountId(account.id()))
-                .map(FlowAdapters::toPublisher)
-                .flatMapPublisher(Flowable::fromPublisher)
-                .firstElement()
-                .map(User::id)
-                .flatMapSingle(userId -> Single.fromFuture(execute(cardId, userId)))
-                .toCompletionStage()
-                .toCompletableFuture();
-    }
-
-    public CompletableFuture<Void> execute(long cardId, String userId) {
+    public CompletableFuture<Void> execute(Card.ID cardId, User.ID userId) {
         return cardRepository.assignUser(cardId, userId);
     }
 }

@@ -17,7 +17,7 @@ public class GetAccountUseCase {
         this.accountRepository = accountRepository;
     }
 
-    public Flow.Publisher<Account> execute(long id) {
+    public Flow.Publisher<Account> execute(Account.ID id) {
         return accountRepository.getAccount(id);
     }
 }

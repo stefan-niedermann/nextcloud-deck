@@ -17,7 +17,7 @@ public class GetBoardUseCase {
         this.boardRepository = boardRepository;
     }
 
-    public Flow.Publisher<Board> execute(long boardId) {
+    public Flow.Publisher<Board> execute(Board.ID boardId) {
         return boardRepository.getBoard(boardId);
     }
 }

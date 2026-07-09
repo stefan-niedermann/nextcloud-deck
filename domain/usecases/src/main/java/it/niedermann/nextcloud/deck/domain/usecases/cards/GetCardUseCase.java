@@ -17,7 +17,7 @@ public class GetCardUseCase {
         this.cardRepository = cardRepository;
     }
 
-    public Flow.Publisher<Card> execute(long cardId) {
+    public Flow.Publisher<Card> execute(Card.ID cardId) {
         return cardRepository.getCard(cardId);
     }
 

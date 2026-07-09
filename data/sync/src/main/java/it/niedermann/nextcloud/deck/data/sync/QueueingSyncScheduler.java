@@ -24,8 +24,8 @@ public class QueueingSyncScheduler implements SyncScheduler {
 
     private static final Logger logger = Logger.getLogger(QueueingSyncScheduler.class.getName());
 
-    private final Map<Long, Flowable<SyncStatus>> currentSyncs = new HashMap<>(1);
-    private final Map<Long, Flowable<SyncStatus>> scheduledSyncs = new HashMap<>(1);
+    private final Map<Account.ID, Flowable<SyncStatus>> currentSyncs = new HashMap<>(1);
+    private final Map<Account.ID, Flowable<SyncStatus>> scheduledSyncs = new HashMap<>(1);
 
     private final SyncManager syncManager;
     private final AccountRepository accountRepository;
@@ -39,7 +39,7 @@ public class QueueingSyncScheduler implements SyncScheduler {
     }
 
     @Override
-    public Flow.Publisher<SyncStatus> scheduleSynchronization(long accountId) {
+    public Flow.Publisher<SyncStatus> scheduleSynchronization(Account.ID accountId) {
         synchronized (QueueingSyncScheduler.this) {
 
             final boolean currentSyncActive = currentSyncs.containsKey(accountId);
@@ -119,7 +119,7 @@ public class QueueingSyncScheduler implements SyncScheduler {
 
     }
 
-    private Flowable<SyncStatus> synchronize(long accountId) {
+    private Flowable<SyncStatus> synchronize(Account.ID accountId) {
         final var accountFlowPublisher = accountRepository.getAccount(accountId);
         final var accountPublisher = FlowAdapters.toPublisher(accountFlowPublisher);
 
@@ -157,7 +157,7 @@ public class QueueingSyncScheduler implements SyncScheduler {
     }
 
     @Override
-    public Flow.Publisher<Instant> getLastSuccessfulSynchronizationDate(long accountId) {
+    public Flow.Publisher<Instant> getLastSuccessfulSynchronizationDate(Account.ID accountId) {
         // TODO Implement
         return FlowAdapters.toFlowPublisher(Flowable.just(Instant.now()));
     }

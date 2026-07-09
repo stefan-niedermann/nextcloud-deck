@@ -6,6 +6,7 @@ import org.reactivestreams.FlowAdapters;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 import java.util.logging.Logger;
@@ -16,6 +17,8 @@ import io.reactivex.rxjava3.processors.BehaviorProcessor;
 import io.reactivex.rxjava3.processors.FlowableProcessor;
 import io.reactivex.rxjava3.processors.ReplayProcessor;
 import it.niedermann.nextcloud.deck.data.local.KeyValueStore;
+import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.repository.StateRepository;
 import jakarta.inject.Inject;
 
@@ -25,10 +28,10 @@ public class StateRepositoryImpl implements StateRepository {
 
     private final KeyValueStore keyValueStore;
 
-    private final Map<Long, ReplayProcessor<Long>> currentBoardMockStore = new HashMap<>();
+    private final Map<Account.ID, ReplayProcessor<Board.ID>> currentBoardMockStore = new HashMap<>();
 
-    private final FlowableProcessor<Long> currentAccountIdProcessor = BehaviorProcessor.create();
-    private final Flowable<Long> currentAccountIdFlowable = currentAccountIdProcessor.distinctUntilChanged();
+    private final FlowableProcessor<Account.ID> currentAccountIdProcessor = BehaviorProcessor.create();
+    private final Flowable<Account.ID> currentAccountIdFlowable = currentAccountIdProcessor.distinctUntilChanged();
 
     @Inject
     public StateRepositoryImpl(KeyValueStore keyValueStore) {
@@ -37,38 +40,40 @@ public class StateRepositoryImpl implements StateRepository {
     }
 
     private void init() {
-        this.keyValueStore.registerLongChangeListener("current.account", currentAccountId -> logger.info("Current account ID: " + currentAccountId));
-        this.keyValueStore.registerLongChangeListener("current.account", currentAccountIdProcessor::onNext);
+        this.keyValueStore.registerLongChangeListener("current.account", currentAccountId -> logger.info("Current account cardId: " + currentAccountId));
+        this.keyValueStore.registerLongChangeListener("current.account", currentAccountId -> currentAccountIdProcessor.onNext(new Account.ID(currentAccountId)));
     }
 
     @Override
-    public CompletableFuture<Long> setCurrentAccountId(long accountId) {
-        keyValueStore.putLong("current.account", accountId);
+    public CompletableFuture<Account.ID> setCurrentAccountId(Account.ID accountId) {
+        keyValueStore.putLong("current.account", accountId.value());
         return currentAccountIdFlowable
-                .filter(Long.valueOf(accountId)::equals)
+                .filter(currentAccountId -> Objects.equals(currentAccountId, accountId))
                 .firstOrErrorStage()
                 .toCompletableFuture();
     }
 
     @Override
-    public Flow.Publisher<Long> getCurrentAccountId() {
+    public Flow.Publisher<Account.ID> getCurrentAccountId() {
         return toFlowPublisher(currentAccountIdFlowable);
     }
 
     @Override
-    public CompletableFuture<Long> setCurrentBoardId(long accountId, long boardId) {
+    public CompletableFuture<Board.ID> setCurrentBoardId(Account.ID accountId, Board.ID boardId) {
         // TODO Implement
         this.currentBoardMockStore.putIfAbsent(accountId, ReplayProcessor.create());
         final var processor = this.currentBoardMockStore.get(accountId);
         processor.onNext(boardId);
-        return Single.fromPublisher(processor).toCompletionStage().toCompletableFuture();
+        return Single.fromPublisher(processor)
+                .toCompletionStage()
+                .toCompletableFuture();
     }
 
     @Override
-    public Flow.Publisher<Long> getCurrentBoardId(long accountId) {
+    public Flow.Publisher<Board.ID> getCurrentBoardId(Account.ID accountId) {
         // TODO Implement
-        final ReplayProcessor<Long> foo = ReplayProcessor.create();
-        foo.onNext(1L);
+        final ReplayProcessor<Board.ID> foo = ReplayProcessor.create();
+        foo.onNext(new Board.ID(1L));
         this.currentBoardMockStore.putIfAbsent(accountId, foo);
         return FlowAdapters.toFlowPublisher(this.currentBoardMockStore.get(accountId));
     }

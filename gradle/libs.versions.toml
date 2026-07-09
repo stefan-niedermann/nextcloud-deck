@@ -29,6 +29,7 @@ mapstruct = "1.6.3"
 material = "1.14.0"
 picocli = "4.7.7"
 preference = "1.2.1"
+recordBuilder = "53"
 retrofit = "3.0.0"
 room = "3.0.0-rc01"
 rxjava3 = "3.1.12"
@@ -81,6 +82,8 @@ mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", v
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 openjfx-controls = { group = "org.openjfx", name = "javafx-controls", version.ref = "javafx" }
 openjfx-fxml = { group = "org.openjfx", name = "javafx-fxml", version.ref = "javafx" }
+record-builder-core = { module = "io.soabase.record-builder:record-builder-core", version.ref = "recordBuilder" }
+record-builder-processor = { module = "io.soabase.record-builder:record-builder-processor", version.ref = "recordBuilder" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 retrofit-rxjava = { group = "com.squareup.retrofit2", name = "adapter-rxjava3", version.ref = "retrofit" }

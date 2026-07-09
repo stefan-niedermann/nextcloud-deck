@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.cli.commands.account.subcommands;
 
 import static hu.akarnokd.rxjava3.jdk9interop.FlowInterop.fromFlowPublisher;
 
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +34,7 @@ public class AccountListCmd implements Callable<Integer> {
             final var sb = new StringBuilder();
 
             for (final var account : accounts) {
-                final char state = account.id() == currentAccount.id() ? '*' : ' ';
+                final char state = Objects.equals(account.id(), currentAccount.id()) ? '*' : ' ';
                 final var line = String.format(" %1$s %2$s@%3$s", state, account.username(), account.url().getHost());
                 sb.append(line);
             }

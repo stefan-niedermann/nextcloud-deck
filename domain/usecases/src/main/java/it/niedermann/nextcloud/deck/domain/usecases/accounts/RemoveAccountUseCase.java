@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.domain.usecases.accounts;
 
 import java.util.concurrent.CompletableFuture;
 
+import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import jakarta.inject.Inject;
 
@@ -16,8 +17,8 @@ public class RemoveAccountUseCase {
         this.accountRepository = accountRepository;
     }
 
-    public CompletableFuture<Void> execute(long id) {
-        return accountRepository.removeAccount(id);
+    public CompletableFuture<Void> execute(Account.ID accountId) {
+        return accountRepository.removeAccount(accountId);
     }
 
     public CompletableFuture<Void> execute(String accountName) {

@@ -33,40 +33,42 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public Flow.Publisher<Boolean> accountExists(long id) {
-        final var result = accountDao.accountExists(id);
+    public Flow.Publisher<Boolean> accountExists(Account.ID id) {
+        final var result = accountDao.accountExists(id.value());
 
         return FlowAdapters.toFlowPublisher(result);
     }
 
     @Override
-    public Flow.Publisher<Account> getAccount(long id) {
+    public Flow.Publisher<Account> getAccount(Account.ID id) {
         final var result = accountDao
-                .getAccount(id)
+                .getAccount(id.value())
                 .map(accountMapper::toTO);
 
         return FlowAdapters.toFlowPublisher(result);
     }
 
     @Override
-    public CompletableFuture<Long> findAccountId(String accountName) {
+    public CompletableFuture<Account.ID> findAccountId(String accountName) {
         return accountDao.findAccountId(accountName)
                 .toCompletionStage()
-                .toCompletableFuture();
+                .toCompletableFuture()
+                .thenApplyAsync(Account.ID::new);
     }
 
     @Override
-    public CompletableFuture<Long> addAccount(URL url, String username, String token) {
+    public CompletableFuture<Account.ID> addAccount(URL url, String username, String token) {
         final var accountEntity = new AccountEntity(0L, url, username, token, "");
 
         return accountDao.insert(accountEntity)
                 .toCompletionStage()
-                .toCompletableFuture();
+                .toCompletableFuture()
+                .thenApplyAsync(Account.ID::new);
     }
 
     @Override
-    public CompletableFuture<Void> removeAccount(Long id) {
-        return accountDao.deleteAccount(id)
+    public CompletableFuture<Void> removeAccount(Account.ID id) {
+        return accountDao.deleteAccount(id.value())
                 .toCompletionStage()
                 .toCompletableFuture();
     }

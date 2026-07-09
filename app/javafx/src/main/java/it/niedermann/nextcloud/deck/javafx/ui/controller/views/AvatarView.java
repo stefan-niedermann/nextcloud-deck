@@ -9,7 +9,7 @@ public class AvatarView extends ImageView {
 
     public void setUser(User user) {
         setImage(new Image("https://placehold.co/320x480", true));
-//        setImage(new Image(user.id(), true));
+//        setImage(new Image(user.accountId(), true));
     }
 
     public void setAccount(Account account) {

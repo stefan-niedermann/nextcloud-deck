@@ -4,6 +4,8 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
+import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageScope;
 import it.niedermann.nextcloud.deck.javafx.services.stage.StageContext;
 import it.niedermann.nextcloud.deck.javafx.services.stage.StageRouter;
@@ -53,8 +55,8 @@ public class MainStageController extends StageController<MainStageController.Arg
         // TODO Mock implementation
         return CompletableFuture.completedFuture(
                 new StageContext.State(
-                        Optional.of(1L),
-                        Optional.of(1L),
+                        Optional.of(new Account.ID(1L)),
+                        Optional.of(new Board.ID(1L)),
                         Optional.empty()));
     }
 }

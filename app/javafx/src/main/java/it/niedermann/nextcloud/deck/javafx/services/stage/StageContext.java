@@ -6,7 +6,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
 import io.reactivex.rxjava4.core.Flowable;
+import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.DeleteCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
@@ -89,20 +91,20 @@ public class StageContext extends Store<StageContext.State, StageContext.Action>
     }
 
     public record State(
-            Optional<Long> accountId,
-            Optional<Long> boardId,
-            Optional<Long> cardId
+            Optional<Account.ID> accountId,
+            Optional<Board.ID> boardId,
+            Optional<Card.ID> cardId
     ) {
 
-        public State withAccountId(Long accountId) {
-            if (Objects.equals(accountId().orElse(null), accountId)) {
+        public State withAccountId(Account.ID id) {
+            if (Objects.equals(accountId().orElse(null), id)) {
                 return this;
             }
 
-            return new State(Optional.ofNullable(accountId), Optional.empty(), Optional.empty());
+            return new State(Optional.ofNullable(id), Optional.empty(), Optional.empty());
         }
 
-        public State withBoardId(Long boardId) {
+        public State withBoardId(Board.ID boardId) {
             if (Objects.equals(boardId().orElse(null), boardId)) {
                 return this;
             }
@@ -110,7 +112,7 @@ public class StageContext extends Store<StageContext.State, StageContext.Action>
             return new State(accountId(), Optional.ofNullable(boardId), Optional.empty());
         }
 
-        public State withCardId(Long cardId) {
+        public State withCardId(Card.ID cardId) {
             return new State(accountId(), boardId(), Optional.ofNullable(cardId));
         }
     }
@@ -120,19 +122,19 @@ public class StageContext extends Store<StageContext.State, StageContext.Action>
         record Initialize(State initialState) implements Action {
         }
 
-        record SwitchAccountAction(long accountId) implements Action {
+        record SwitchAccountAction(Account.ID accountId) implements Action {
         }
 
-        record DisplayBoardAction(long boardId) implements Action {
+        record DisplayBoardAction(Board.ID boardId) implements Action {
         }
 
-        record EditCardAction(long cardId) implements Action {
+        record EditCardAction(Card.ID cardId) implements Action {
         }
 
         record CloseCardAction() implements Action {
         }
 
-        record DeleteCardAction(long cardId) implements Action {
+        record DeleteCardAction(Card.ID cardId) implements Action {
         }
     }
 }
