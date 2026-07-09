@@ -221,7 +221,7 @@
     <string name="error_dialog_tip_offline_connection_timeout">З\'єднання розірвано. Будь ласка, перевірте доступ до мережі. Також, це може бути наслідком того, що сервер зай</string>
     <string name="error_dialog_tip_connection_rejected">З\'єднання було відхилено. Перевірте, чи ваш сервер захищений механізмом захисту від флуду. Найімовірніше, ця проблема пов\'язана із серверами, захищеними Cloudflare.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Якщо ви увімкнете параметр \"Синхронізація тільки з Wi-Fi\", то синхронізація буде виконуватися лише за умови наявности з\'єднання через Wi-Fi.</string>
-    <string name="error_dialog_tip_files_force_stop">Здається, щось не так з вашим додатком Nextcloud. Спробуйте примусово зупинити обидва додатки: Nextcloud і Nextcloud Deck.</string>
+    <string name="error_dialog_tip_files_force_stop">Здається, щось не так з вашим застосунком Nextcloud. Спробуйте примусово зупинити обидва застосунки: Nextcloud та Колода для Nextcloud.</string>
     <string name="error_dialog_tip_files_delete_storage">Якщо примусове їх завершення не допомагає, спробуйте очистити сховище даних обох застосунків.</string>
     <string name="error_dialog_timeout_instance">Ваш сервер не відповів протягом заданого часу. Переконайтеся, що ваш екземпляр працює належним чином.</string>
     <string name="error_dialog_timeout_toggle">Перевірте доступ до мережі. Часом може допомогти послідовне вимикання та вмикання мобільних даних або Wi-Fi.</string>
@@ -337,7 +337,7 @@
     <string name="progress_import_indeterminate">Імпорт дощок...</string>
     <string name="card_outdated">Вміст цієї картки може бути застарілим.</string>
     <string name="show_error">Показати помилку</string>
-    <string name="push_notification_link_empty">Через відому проблему в веб-додатку Deck ми, на жаль, не можемо відобразити цю картку. Для отримання додаткової інформації див.: %1$s</string>
+    <string name="push_notification_link_empty">Через відому проблему у застсунку Колода неможливо цю картку. Для отримання додаткової інформації дивіться: %1$s</string>
     <string name="enter_search_term_title">Введіть пошуковий запит</string>
     <string name="enter_search_term_description">Введіть пошуковий запит, щоб знайти картки на цій дошці</string>
     <string name="no_search_results_title">Нічого не знайдено</string>
