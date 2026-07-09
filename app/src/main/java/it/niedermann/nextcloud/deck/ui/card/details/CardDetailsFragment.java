@@ -159,9 +159,15 @@ public class CardDetailsFragment extends Fragment implements
 
         utils.platform.colorImageView(binding.descriptionToggle, ColorRole.SECONDARY);
 
-        binding.cardStartDateView.applyTheme(color);
+        if (viewModel.getAccount().getServerDeckVersionAsObject().supportsStartDate()) {
+            binding.cardStartDateView.applyTheme(color);
+        }
+
         binding.cardDueDateView.applyTheme(color);
-        dependentsAdapter.applyTheme(color);
+
+        if (viewModel.getAccount().getServerDeckVersionAsObject().supportsDependents()) {
+            dependentsAdapter.applyTheme(color);
+        }
 
         // TODO apply correct branding on the BrandedDatePicker
     }
@@ -281,9 +287,12 @@ public class CardDetailsFragment extends Fragment implements
         final var version = this.viewModel.getAccount().getServerDeckVersionAsObject();
         final var card = this.viewModel.getFullCard().getCard();
         card.setDone(done);
-        binding.cardStartDateView.setStartDate(getChildFragmentManager(), version, card.getStartDate(), card.getDone());
-        binding.cardDueDateView.setDueDate(getChildFragmentManager(), version, card.getDueDate(), card.getDone());
 
+        if (viewModel.getAccount().getServerDeckVersionAsObject().supportsStartDate()) {
+            binding.cardStartDateView.setStartDate(getChildFragmentManager(), version, card.getStartDate(), card.getDone());
+        }
+
+        binding.cardDueDateView.setDueDate(getChildFragmentManager(), version, card.getDueDate(), card.getDone());
 
         if (viewModel.getAccount().getServerDeckVersionAsObject().supportsDependents()) {
             binding.dependentsAutoComplete.setEnabled(viewModel.canEdit() && done == null);
