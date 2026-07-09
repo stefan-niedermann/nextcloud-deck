@@ -30,6 +30,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.attachments.ListAttachmentsU
 import it.niedermann.nextcloud.deck.domain.usecases.cards.GetCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.AddCommentUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.ListCommentsUseCase;
+import it.niedermann.nextcloud.deck.javafx.services.stage.StageContext;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.ActivityCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.AttachmentCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.CommentCellFactory;
@@ -57,6 +58,7 @@ public class EditCardFeature extends DisposableController {
 
     private static final Logger logger = Logger.getLogger(EditCardFeature.class.getName());
 
+    private final StageContext context;
     private final GetCardUseCase getCardUseCase;
     private final AddAttachmentUseCase addAttachmentUseCase;
     private final ListAttachmentsUseCase listAttachmentsUseCase;
@@ -97,6 +99,8 @@ public class EditCardFeature extends DisposableController {
     @FXML
     Button saveBtn;
     @FXML
+    Button closeSidebar;
+    @FXML
     ListView<Comment> comments;
     @FXML
     SubmitTextField addComment;
@@ -111,6 +115,7 @@ public class EditCardFeature extends DisposableController {
 
     @Inject
     public EditCardFeature(
+            StageContext context,
             GetCardUseCase getCardUseCase,
             ListAttachmentsUseCase listAttachmentsUseCase,
             AddAttachmentUseCase addAttachmentUseCase,
@@ -120,6 +125,7 @@ public class EditCardFeature extends DisposableController {
             LabelSuggestionProvider labelSuggestionProvider,
             UserSuggestionProvider userSuggestionProvider
     ) {
+        this.context = context;
         this.getCardUseCase = getCardUseCase;
         this.listAttachmentsUseCase = listAttachmentsUseCase;
         this.addAttachmentUseCase = addAttachmentUseCase;
@@ -218,6 +224,11 @@ public class EditCardFeature extends DisposableController {
                 .subscribe(activities -> this.activities.getItems().setAll(activities));
 
         addDisposable(activitiesDisposable);
+
+        closeSidebar.setOnMouseClicked(event -> {
+            context.dispatch(new StageContext.Action.CloseCardAction());
+            event.consume();
+        });
 
         addComment.setOnSubmit(content -> {
 

@@ -8,9 +8,14 @@
     fx:id="editCardScrollpane">
     <VBox>
 
-        <VBox styleClass="title">
-            <TextField promptText="Title" fx:id="title" />
-        </VBox>
+        <HBox styleClass="title">
+            <TextField HBox.hgrow="ALWAYS" promptText="Title" fx:id="title" />
+            <Button accessibleText="Close sidebar" fx:id="closeSidebar">
+                <graphic>
+                    <FontIcon iconLiteral="fltfmz-pane-close-16" iconSize="16" />
+                </graphic>
+            </Button>
+        </HBox>
 
         <TabPane VBox.vgrow="ALWAYS">
             <tabs>
