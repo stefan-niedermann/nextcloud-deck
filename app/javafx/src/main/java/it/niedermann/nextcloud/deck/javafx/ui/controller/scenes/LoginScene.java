@@ -25,7 +25,7 @@ import it.niedermann.nextcloud.deck.domain.model.SyncStatus;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.services.stage.StageRouter;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.SceneController;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import jakarta.inject.Inject;
 import javafx.application.Platform;
@@ -34,7 +34,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextInputControl;
 
-public class LoginScene extends SceneController {
+public class LoginScene extends DisposableController {
 
     private static final Logger logger = Logger.getLogger(LoginScene.class.getName());
 

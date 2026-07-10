@@ -7,8 +7,8 @@ import io.reactivex.rxjava4.disposables.Disposable;
 import it.niedermann.nextcloud.deck.javafx.di.named.NamedPrimaryStage;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageScope;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.FeatureFactory;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.SceneController;
 import jakarta.inject.Inject;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -39,7 +39,7 @@ public class StageRouter {
         });
     }
 
-    public <T extends SceneController, U> CompletableFuture<U> navigateTo(Class<T> sceneClass) {
+    public <T extends DisposableController, U> CompletableFuture<U> navigateTo(Class<T> sceneClass) {
         final var cf = new CompletableFuture<U>();
 
         Platform.runLater(() -> {

@@ -10,10 +10,8 @@ import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
 import it.niedermann.nextcloud.deck.javafx.services.stage.StageContext;
-import it.niedermann.nextcloud.deck.javafx.services.stage.StageRouter;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.SceneController;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.AccountSwitcherFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditCardFeature;
 import it.niedermann.nextcloud.deck.javafx.util.FxUtils;
@@ -21,10 +19,14 @@ import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import jakarta.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.KeyCode;
 
-public class MainScene extends SceneController implements EditCardFeature.EditCardListener {
+public class MainScene extends DisposableController implements EditCardFeature.EditCardListener {
+
+    @FXML
+    Parent root;
 
     @FXML
     AccountSwitcherFeature accountSwitcherController;
@@ -39,8 +41,6 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
     EditCardFeature editCardController;
 
     private final StageContext stageContext;
-    private final StageRouter stageRouter;
-    private final ScheduleSyncUseCase scheduleSyncUseCase;
     private final GetBoardUseCase getBoardUseCase;
 
     private double[] dividerPositions;
@@ -48,13 +48,9 @@ public class MainScene extends SceneController implements EditCardFeature.EditCa
     @Inject
     public MainScene(
             StageContext stageContext,
-            StageRouter stageRouter,
-            ScheduleSyncUseCase scheduleSyncUseCase,
             GetBoardUseCase getBoardUseCase
     ) {
         this.stageContext = stageContext;
-        this.stageRouter = stageRouter;
-        this.scheduleSyncUseCase = scheduleSyncUseCase;
         this.getBoardUseCase = getBoardUseCase;
     }
 
