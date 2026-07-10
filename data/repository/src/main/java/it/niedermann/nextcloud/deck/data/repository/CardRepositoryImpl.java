@@ -16,7 +16,6 @@ import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateCard;
-import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
 import jakarta.inject.Inject;
 
@@ -45,20 +44,6 @@ public class CardRepositoryImpl implements CardRepository {
     public CompletableFuture<Void> deleteCard(Card.ID cardId) {
         // TODO Mock Implementation
         System.out.println("[Mock][" + CardRepositoryImpl.class.getSimpleName() + "/deleteCard]: " + cardId);
-        return CompletableFuture.completedFuture(null);
-    }
-
-    @Override
-    public CompletableFuture<Void> assignUser(Card.ID cardId, User.ID userId) {
-        // TODO Mock Implementation
-        System.out.println("[Mock][" + CardRepositoryImpl.class.getSimpleName() + "/assign]: " + cardId + " / " + userId);
-        return CompletableFuture.completedFuture(null);
-    }
-
-    @Override
-    public CompletableFuture<Void> unassignUser(Card.ID cardId, User.ID userId) {
-        // TODO Mock Implementation
-        System.out.println("[Mock][" + CardRepositoryImpl.class.getSimpleName() + "/unassign]: " + cardId + " / " + userId);
         return CompletableFuture.completedFuture(null);
     }
 
@@ -93,7 +78,10 @@ public class CardRepositoryImpl implements CardRepository {
         // TODO Mock Implementation
         return FlowAdapters.toFlowPublisher(Flowable.just(
                 MockData.MOCK_CARDS.stream()
-                        .filter(card -> card.title().toLowerCase().startsWith(userText.toLowerCase()))
+                        .filter(card ->
+                                card.title().toLowerCase().contains(userText.toLowerCase()) ||
+                                card.description().toLowerCase().contains(userText.toLowerCase())
+                        )
                         .collect(Collectors.toList())));
     }
 }

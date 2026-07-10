@@ -2,7 +2,7 @@ package it.niedermann.nextcloud.deck.domain.usecases.boards;
 
 import java.util.concurrent.CompletableFuture;
 
-import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.model.CreateBoard;
 import it.niedermann.nextcloud.deck.domain.repository.BoardRepository;
 import jakarta.inject.Inject;
 
@@ -17,7 +17,7 @@ public class AddBoardUseCase {
         this.boardRepository = boardRepository;
     }
 
-    public CompletableFuture<Void> addBoard(Board board) {
+    public CompletableFuture<Void> addBoard(CreateBoard board) {
         return boardRepository.createBoard(board);
     }
 }

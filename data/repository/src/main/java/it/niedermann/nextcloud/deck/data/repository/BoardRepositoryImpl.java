@@ -11,6 +11,7 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Single;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.model.CreateBoard;
 import it.niedermann.nextcloud.deck.domain.repository.BoardRepository;
 import jakarta.inject.Inject;
 
@@ -22,7 +23,13 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
-    public CompletableFuture<Void> createBoard(Board board) {
+    public CompletableFuture<Void> createBoard(CreateBoard board) {
+        // TODO Implement
+        return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
+    public CompletableFuture<Void> updateBoard(Board board) {
         // TODO Implement
         return CompletableFuture.completedFuture(null);
     }

@@ -6,10 +6,11 @@ import java.util.concurrent.Flow;
 
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Comment;
+import it.niedermann.nextcloud.deck.domain.model.CreateComment;
 
 public interface CommentRepository {
 
     Flow.Publisher<List<Comment>> getNotDeletedComments(Card.ID cardId);
 
-    CompletableFuture<Void> createComment(Card.ID cardId, String message, Comment.ID parentCommentId);
+    CompletableFuture<Void> createComment(CreateComment comment);
 }

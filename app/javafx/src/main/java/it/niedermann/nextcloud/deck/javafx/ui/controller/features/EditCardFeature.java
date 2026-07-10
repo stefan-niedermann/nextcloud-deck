@@ -23,6 +23,7 @@ import it.niedermann.nextcloud.deck.domain.model.Activity;
 import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Comment;
+import it.niedermann.nextcloud.deck.domain.model.CreateComment;
 import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.usecases.activities.ListActivityUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.attachments.AddAttachmentUseCase;
@@ -234,7 +235,7 @@ public class EditCardFeature extends DisposableController {
 
             addComment.setDisable(true);
 
-            addCommentUseCase.execute(cardId.blockingFirst(), content)
+            addCommentUseCase.execute(new CreateComment(cardId.blockingFirst(), content))
                     .whenCompleteAsync((_, exception) -> {
 
                         if (exception == null) {

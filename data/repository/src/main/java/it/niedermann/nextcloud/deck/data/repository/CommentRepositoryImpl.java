@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import io.reactivex.rxjava3.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Comment;
+import it.niedermann.nextcloud.deck.domain.model.CreateComment;
 import it.niedermann.nextcloud.deck.domain.repository.CommentRepository;
 
 public class CommentRepositoryImpl implements CommentRepository {
@@ -25,8 +26,8 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public CompletableFuture<Void> createComment(Card.ID cardId, String message, Comment.ID parentCommentId) {
-        System.out.println("[Mock][" + CommentRepositoryImpl.class.getSimpleName() + "/createComment]: " + message);
+    public CompletableFuture<Void> createComment(CreateComment comment) {
+        System.out.println("[Mock][" + CommentRepositoryImpl.class.getSimpleName() + "/createComment]: " + comment.message());
         return CompletableFuture.completedFuture(null);
     }
 }
