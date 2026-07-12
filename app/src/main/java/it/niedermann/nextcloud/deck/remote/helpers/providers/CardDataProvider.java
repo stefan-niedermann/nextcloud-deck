@@ -119,11 +119,11 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             User u = dataBaseAdapter.getUserByUidDirectly(accountId, user.getUid());
             if (u == null) {
                 dataBaseAdapter.createUser(accountId, user);
+                u = user;
             } else {
                 user.setLocalId(u.getLocalId());
                 dataBaseAdapter.updateUser(accountId, user, false);
             }
-            u = dataBaseAdapter.getUserByUidDirectly(accountId, user.getUid());
 
             user.setLocalId(u.getLocalId());
             entity.getCard().setUserId(u.getLocalId());

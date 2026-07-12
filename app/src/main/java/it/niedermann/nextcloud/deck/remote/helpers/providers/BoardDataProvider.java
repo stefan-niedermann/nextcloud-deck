@@ -169,6 +169,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
         User owner = dataBaseAdapter.getUserByUidDirectly(accountId, remoteUser.getUid());
         if (owner == null) {
             dataBaseAdapter.createUser(accountId, remoteUser);
+            return remoteUser;
         } else {
             remoteUser.setLocalId(owner.getLocalId());
             dataBaseAdapter.updateUser(accountId, remoteUser, false);
