@@ -398,6 +398,7 @@ public class DataBaseAdapter {
     public long createUser(long accountId, User user) {
         user.setAccountId(accountId);
         final long newId = db.getUserDao().insert(user);
+        user.setLocalId(newId);
         final Account account = db.getAccountDao().getAccountByIdDirectly(accountId);
         if (account.getUserName().equals(user.getUid())) {
             for (FilterWidget widget : getFilterWidgetsByType(EWidgetType.UPCOMING_WIDGET)) {
