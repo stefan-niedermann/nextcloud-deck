@@ -1094,7 +1094,53 @@ public class SyncRepository extends BaseRepository {
             }
             // ### get rid of original card where it is now.
             final Card originalInnerCard = originalCard.getCard();
+            final Account targetAccount = dataBaseAdapter.getAccountByIdDirectly(targetAccountId);
+            final FullBoard targetBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, targetBoardLocalId);
+            final User userOfTargetAccount = dataBaseAdapter.getUserByUidDirectly(targetAccountId, targetAccount.getUserName());
+
+            // has user of targetaccount manage permissions?
+            boolean hasManagePermission = targetBoard.getBoard().getOwnerId() == userOfTargetAccount.getLocalId();
+            List<AccessControl> aclOfTargetBoard = dataBaseAdapter.getAccessControlByLocalBoardIdDirectly(targetAccountId, targetBoard.getLocalId());
+            if (!hasManagePermission) {
+                for (AccessControl accessControl : aclOfTargetBoard) {
+                    if (accessControl.getUserId().equals(userOfTargetAccount.getLocalId()) && accessControl.isPermissionManage()) {
+                        hasManagePermission = true;
+                        break;
+                    }
+                }
+            }
+
+            // shortcut: if its the same account, we can just update the board- and stack-IDs
+            if (originalCard.getAccountId() == targetAccountId && targetBoardLocalId != originalBoard.getLocalId()) {
+                originalInnerCard.setStackId(targetStackLocalId);
+                // since the dependents aren't on the new board
+                dataBaseAdapter.deleteDependentCardsForCard(originCardLocalId);
+                originalCard.setDependentCardRemoteIDs(Collections.emptyList());
+                originalCard.setDependents(Collections.emptyList());
+
+                // no rights to create labels?
+                if (!hasManagePermission) {
+                    //remove them
+                    dataBaseAdapter.deleteJoinedLabelsForCard(originCardLocalId);
+                    originalCard.setLabels(Collections.emptyList());
+                }
+
+                updateCard(originalCard, new ResponseCallback<>(targetAccount) {
+                    @Override
+                    public void onResponse(FullCard response, Headers headers) {
+                        callback.onResponse(null, IResponseCallback.EMPTY_HEADERS);
+                    }
+
+                    @Override
+                    @SuppressLint("MissingSuperCall")
+                    public void onError(Throwable throwable) {
+                        callback.onError(new RuntimeException("unable to move card to target", throwable));
+                    }
+                });
+                return;
+            }
             deleteCard(new Card(originalInnerCard), IResponseCallback.empty());
+
             // ### clone card itself
             // TODO Why not use copy constructor? Attention, something might missing, e. g. accountId
             originalInnerCard.setAccountId(targetAccountId);
@@ -1109,10 +1155,7 @@ public class SyncRepository extends BaseRepository {
             final FullCard fullCardForServerPropagation = new FullCard();
             fullCardForServerPropagation.setCard(originalInnerCard);
 
-            final Account targetAccount = dataBaseAdapter.getAccountByIdDirectly(targetAccountId);
-            final FullBoard targetBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, targetBoardLocalId);
             final FullStack targetFullStack = dataBaseAdapter.getFullStackByLocalIdDirectly(targetStackLocalId);
-            final User userOfTargetAccount = dataBaseAdapter.getUserByUidDirectly(targetAccountId, targetAccount.getUserName());
             final CountDownLatch latch = new CountDownLatch(1);
 
             ServerAdapter serverToUse = serverAdapter;
@@ -1153,20 +1196,6 @@ public class SyncRepository extends BaseRepository {
             final long newCardId = originalInnerCard.getLocalId();
 
             // ### clone labels, assign them
-            // prepare
-            // has user of targetaccount manage permissions?
-            boolean hasManagePermission = targetBoard.getBoard().getOwnerId() == userOfTargetAccount.getLocalId();
-            List<AccessControl> aclOfTargetBoard = dataBaseAdapter.getAccessControlByLocalBoardIdDirectly(targetAccountId, targetBoard.getLocalId());
-            if (!hasManagePermission) {
-                for (AccessControl accessControl : aclOfTargetBoard) {
-                    if (accessControl.getUserId().equals(userOfTargetAccount.getLocalId()) && accessControl.isPermissionManage()) {
-                        hasManagePermission = true;
-                        break;
-                    }
-                }
-            }
-
-            // actual doing
             for (Label originalLabel : originalCard.getLabels()) {
                 // already exists?
                 Label existingMatch = null;
