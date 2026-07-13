@@ -8,8 +8,9 @@ import io.reactivex.rxjava4.core.Maybe;
 import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.repository.UserRepository;
 import jakarta.inject.Inject;
+import javafx.util.Callback;
 
-public class UserSuggestionProvider implements javafx.util.Callback<SearchField.SearchFieldSuggestionRequest, Collection<User>> {
+public class UserSuggestionProvider implements Callback<SearchField.SearchFieldSuggestionRequest, Collection<User>> {
 
     private final UserRepository userRepository;
 

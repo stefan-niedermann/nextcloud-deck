@@ -8,8 +8,9 @@ import io.reactivex.rxjava4.core.Maybe;
 import it.niedermann.nextcloud.deck.domain.model.Label;
 import it.niedermann.nextcloud.deck.domain.repository.LabelRepository;
 import jakarta.inject.Inject;
+import javafx.util.Callback;
 
-public class LabelSuggestionProvider implements javafx.util.Callback<SearchField.SearchFieldSuggestionRequest, Collection<Label>> {
+public class LabelSuggestionProvider implements Callback<SearchField.SearchFieldSuggestionRequest, Collection<Label>> {
 
     private final LabelRepository labelRepository;
 

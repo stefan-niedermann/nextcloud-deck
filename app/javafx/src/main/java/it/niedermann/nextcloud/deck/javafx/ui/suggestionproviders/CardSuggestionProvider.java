@@ -8,8 +8,9 @@ import io.reactivex.rxjava4.core.Maybe;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
 import jakarta.inject.Inject;
+import javafx.util.Callback;
 
-public class CardSuggestionProvider implements javafx.util.Callback<SearchField.SearchFieldSuggestionRequest, Collection<Card>> {
+public class CardSuggestionProvider implements Callback<SearchField.SearchFieldSuggestionRequest, Collection<Card>> {
 
     private final CardRepository cardRepository;
 
