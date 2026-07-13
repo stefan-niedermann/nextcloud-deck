@@ -8,10 +8,10 @@
     <string name="simple_more">Rohkem</string>
     <string name="simple_title">Pealkiri</string>
     <string name="simple_copy">Kopeeri</string>
-    <string name="simple_synchronization">Sünkroniseerimine</string>
+    <string name="simple_synchronization">Sünkroonimine</string>
     <string name="simple_appearance">Välimus</string>
     <string name="simple_error">Viga</string>
-    <string name="simple_exception">Erand</string>
+    <string name="simple_exception">Viga</string>
     <string name="simple_close">Sulge</string>
     <string name="simple_filter">Filter</string>
     <string name="simple_reset">Lähtesta</string>
@@ -20,7 +20,7 @@
     <string name="simple_delete">Kustuta</string>
     <string name="simple_rename">Muuda nime</string>
     <string name="simple_settings">Seadistused</string>
-    <string name="simple_undo">Tühista</string>
+    <string name="simple_undo">Võta tegevus tagasi</string>
     <string name="simple_manage">halda</string>
     <string name="simple_share">jaga</string>
     <string name="simple_select">Vali</string>
@@ -35,7 +35,7 @@
     <string name="delete_board">Kustuta tahvel</string>
     <string name="delete_something">Kustuta %1$s</string>
 
-    <string name="about">Info</string>
+    <string name="about">Teave</string>
     <string name="about_version_title">Versioon</string>
     <string name="about_version">Sul on hetkel kasutusel: %1$s</string>
     <string name="about_maintainer_title">Haldaja</string>
