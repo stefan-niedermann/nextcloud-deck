@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?><?import javafx.scene.control.ProgressIndicator?><?import javafx.scene.layout.StackPane?><?import javafx.scene.layout.GridPane?><?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?><?import com.dlsc.gemsfx.CircleProgressIndicator?><?import javafx.scene.layout.StackPane?><?import javafx.scene.layout.GridPane?><?import javafx.scene.layout.VBox?>
 
 <StackPane xmlns:fx="http://javafx.com/fxml/1" stylesheets="css/scenes/SplashScreenScene.css"
     xmlns="http://javafx.com/javafx/24.0.1" fx:id="root">
     <VBox>
-        <ProgressIndicator progress="-1.0" fx:id="progressIndicator" />
+        <CircleProgressIndicator progress="-1.0" fx:id="progressIndicator" prefWidth="70" prefHeight="70" />
         <Label text="%splashscreen.label.loading" />
     </VBox>
 </StackPane>

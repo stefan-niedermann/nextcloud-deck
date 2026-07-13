@@ -20,6 +20,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Provider;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 @StageScope
@@ -108,22 +109,23 @@ public class StageManager {
             try {
 
                 final var scene = new Scene(controllerBundle.view());
-
                 themeService.bind(scene);
-
-                // TODO Maximize stage or limit to Screen.getPrimary().getBounds();
-                // TODO Perform only for first call
-                stage.setWidth(1280);
-                stage.setHeight(768);
-
                 stage.setScene(scene);
 
                 if (stage.isShowing()) {
+
                     cf.complete(null);
+
                 } else {
+
+                    final double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+                    final double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+                    stage.setWidth(Math.min(1280, screenWidth));
+                    stage.setHeight(Math.min(768, screenHeight));
                     stage.setOnShown(_ -> cf.complete(null));
                     stage.centerOnScreen();
                     stage.show();
+
                 }
 
             } catch (UnsupportedOperationException | ClassCastException e) {
