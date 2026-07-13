@@ -23,7 +23,7 @@ public class ActivityView extends HBox {
     Label creationDateTime;
 
     public ActivityView() {
-        Inflater.getInstance().inflateAndBind(this);
+        Inflater.getInstance().inflate(this);
     }
 
     public void bind(Activity activity) {

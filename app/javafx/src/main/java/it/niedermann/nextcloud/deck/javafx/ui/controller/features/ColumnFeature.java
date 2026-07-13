@@ -6,6 +6,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.processors.BehaviorProcessor;
 import io.reactivex.rxjava4.processors.FlowableProcessor;
@@ -18,7 +21,6 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
-import it.niedermann.nextcloud.deck.javafx.services.stage.StageContext;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.CardPreviewCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.CardPreviewView;
@@ -26,28 +28,25 @@ import it.niedermann.nextcloud.deck.javafx.ui.controller.views.SubmitTextField;
 import it.niedermann.nextcloud.deck.javafx.util.DeckDataFormat;
 import it.niedermann.nextcloud.deck.javafx.util.FxUtils;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
-import jakarta.inject.Inject;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.stage.Popup;
 
-public class ColumnFeature extends DisposableController implements CardPreviewView.CardPreviewActionListener {
+public class ColumnFeature extends DisposableController {
 
     private static final Logger logger = Logger.getLogger(ColumnFeature.class.getName());
 
-    private final StageContext stageContext;
     private final ListCardsUseCase listCardsUseCase;
     private final MoveCardUseCase moveCardUseCase;
     private final AddCardUseCase addCardUseCase;
     private final ThemeService themeService;
+    private final Column column;
+    private final ViewModel viewModel;
 
     private final FlowableProcessor<Column.ID> columnId = ReplayProcessor.create();
     private FlowableProcessor<Integer> draggingCardIndex;
@@ -65,21 +64,28 @@ public class ColumnFeature extends DisposableController implements CardPreviewVi
     @FXML
     SubmitTextField addCardSubmitTextField;
 
-    @Inject
+    @AssistedInject
     public ColumnFeature(
-            StageContext stageContext,
             ListCardsUseCase listCardsUseCase,
             MoveCardUseCase moveCardUseCase,
             CardPreviewCellFactory cardPreviewCellFactory,
             AddCardUseCase addCardUseCase,
-            ThemeService themeService
+            ThemeService themeService,
+            @Assisted Column column,
+            @Assisted ViewModel viewModel
     ) {
-        this.stageContext = stageContext;
         this.listCardsUseCase = listCardsUseCase;
         this.moveCardUseCase = moveCardUseCase;
         this.cardPreviewCellFactory = cardPreviewCellFactory;
         this.addCardUseCase = addCardUseCase;
         this.themeService = themeService;
+        this.column = column;
+        this.viewModel = viewModel;
+    }
+
+    @AssistedFactory
+    public interface Factory {
+        ColumnFeature create(Column column, ViewModel viewModel);
     }
 
     @Override
@@ -94,7 +100,7 @@ public class ColumnFeature extends DisposableController implements CardPreviewVi
 
         final var disposable = this.columnId
                 .observeOn(Schedulers.virtual())
-                .distinctUntilChanged()
+                .distinctUntilChanged(Column.ID::equals)
                 .map(listCardsUseCase::execute)
                 .switchMap(Flowable::fromPublisher)
                 .observeOn(JavaFxScheduler.platform())
@@ -132,6 +138,8 @@ public class ColumnFeature extends DisposableController implements CardPreviewVi
                         addCardSubmitTextField.setDisable(false);
                     }, Platform::runLater);
         });
+
+        render(column);
     }
 
     private CompletableFuture<Void> addCard(String cardTitle) {
@@ -209,47 +217,13 @@ public class ColumnFeature extends DisposableController implements CardPreviewVi
         return FxUtils.identifyClosestListViewIndex(intersectedListCellOrListView, event.getSceneY());
     }
 
-    public void render(Column column) {
+    private void render(Column column) {
         this.title.setText(column.title());
         // Order of setting listener and columnId matters because columnId Flowable triggers rebinding the listener to the cards
-        this.cardPreviewCellFactory.setCardPreviewActionListener(this);
+        this.cardPreviewCellFactory.setCardPreviewActionListener(viewModel);
         this.columnId.onNext(column.id());
     }
 
-    @Override
-    public void onOpenCard(Card card) {
-        stageContext.dispatch(new StageContext.Action.EditCardAction(card.id()));
-    }
-
-    @Override
-    public void onAssignCard(Card card) {
-        System.out.println("[Mock] onAssignCard " + card);
-    }
-
-    @Override
-    public void onUnassignCard(Card card) {
-        System.out.println("[Mock] onUnassignCard " + card);
-    }
-
-    @Override
-    public void onMoveCard(Card card) {
-        System.out.println("[Mock] onMoveCard " + card);
-    }
-
-    @Override
-    public void onCopyCard(Card card) {
-        System.out.println("[Mock] onCopyCard " + card);
-    }
-
-    @Override
-    public void onDeleteCard(Card card) {
-        final var alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to delete the card \"" + card.title() + "\" permanently? This operation can not be undone.", ButtonType.CANCEL, ButtonType.YES);
-        alert.setTitle("Delete");
-        alert.setHeaderText("Delete \"" + card.title() + "\"?");
-        themeService.bind(alert);
-        alert.showAndWait()
-                .map(ButtonType::getButtonData)
-                .map(ButtonBar.ButtonData::isDefaultButton)
-                .filter(Boolean.TRUE::equals).ifPresent(_ -> stageContext.dispatch(new StageContext.Action.DeleteCardAction(card.id())));
+    public interface ViewModel extends CardPreviewView.CardPreviewActionListener {
     }
 }

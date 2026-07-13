@@ -21,7 +21,7 @@ public class IconCounterView extends HBox {
     IntegerProperty counterProperty = new SimpleIntegerProperty();
 
     public IconCounterView() {
-        Inflater.getInstance().inflateAndBind(this);
+        Inflater.getInstance().inflate(this);
     }
 
     public void initialize() {

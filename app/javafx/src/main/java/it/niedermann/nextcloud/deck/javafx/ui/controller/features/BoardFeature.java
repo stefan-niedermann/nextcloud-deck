@@ -2,19 +2,21 @@ package it.niedermann.nextcloud.deck.javafx.ui.controller.features;
 
 import java.net.URL;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
+import io.reactivex.rxjava4.disposables.Disposable;
 import io.reactivex.rxjava4.schedulers.Schedulers;
+import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
-import it.niedermann.nextcloud.deck.javafx.services.stage.StageContext;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.FeatureFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.EmptyContentView;
+import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
-import jakarta.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
@@ -31,19 +33,27 @@ public class BoardFeature extends DisposableController {
     @FXML
     HBox columns;
 
-    private final StageContext stageContext;
-    private final FeatureFactory featureFactory;
+    private final Inflater inflater;
     private final GetBoardUseCase getBoardUseCase;
+    private final ColumnFeature.Factory columnFactory;
+    private final ViewModel viewModel;
 
-    @Inject
+    @AssistedInject
     public BoardFeature(
-            StageContext stageContext,
-            FeatureFactory featureFactory,
-            GetBoardUseCase getBoardUseCase
+            Inflater inflater,
+            GetBoardUseCase getBoardUseCase,
+            ColumnFeature.Factory columnFactory,
+            @Assisted ViewModel viewModel
     ) {
-        this.stageContext = stageContext;
-        this.featureFactory = featureFactory;
+        this.viewModel = viewModel;
+        this.inflater = inflater;
         this.getBoardUseCase = getBoardUseCase;
+        this.columnFactory = columnFactory;
+    }
+
+    @AssistedFactory
+    public interface Factory {
+        BoardFeature create(ViewModel viewModel);
     }
 
     @Override
@@ -54,9 +64,7 @@ public class BoardFeature extends DisposableController {
         this.emptyContentView.managedProperty().bind(this.emptyContentView.visibleProperty());
         this.columns.managedProperty().bind(this.columns.visibleProperty());
 
-        final var disposable = Flowable.fromPublisher(this.stageContext.getState())
-                .map(StageContext.State::boardId)
-                .distinctUntilChanged()
+        final var disposable = viewModel.getBoardId()
                 .observeOn(JavaFxScheduler.platform())
                 .doOnNext(_ -> {
                     this.progress.setVisible(true);
@@ -64,8 +72,6 @@ public class BoardFeature extends DisposableController {
                     this.columns.setVisible(false);
                 })
                 .observeOn(Schedulers.virtual())
-                .filter(Optional::isPresent)
-                .map(Optional::get)
                 .switchMap(this.getBoardUseCase::execute)
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(board -> {
@@ -81,9 +87,10 @@ public class BoardFeature extends DisposableController {
         this.columns.getChildren().clear();
 
         for (final var column : columns) {
-            final var fxBundle = this.featureFactory.inflateFeature(ColumnFeature.class);
-            addDisposable(fxBundle.controller());
-            fxBundle.controller().render(column);
+            final var fxBundle = this.inflater.inflate(columnFactory.create(column, viewModel));
+            if (fxBundle.controller() instanceof Disposable d) {
+                addDisposable(d);
+            }
             this.columns.getChildren().add(fxBundle.view());
         }
 
@@ -98,4 +105,7 @@ public class BoardFeature extends DisposableController {
         this.progress.setVisible(false);
     }
 
+    public interface ViewModel extends ColumnFeature.ViewModel {
+        Flowable<Board.ID> getBoardId();
+    }
 }

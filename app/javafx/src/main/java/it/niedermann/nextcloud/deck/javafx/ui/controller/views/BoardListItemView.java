@@ -22,7 +22,7 @@ public class BoardListItemView extends HBox {
     MenuItem share;
 
     public BoardListItemView() {
-        Inflater.getInstance().inflateAndBind(this);
+        Inflater.getInstance().inflate(this);
     }
 
     public void bind(Board board) {

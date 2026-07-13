@@ -4,7 +4,6 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" stylesheets="css/scenes/LoginScene.css"
     xmlns="http://javafx.com/javafx/25.0.1"
-    fx:controller="it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.LoginScene"
     fx:id="root">
 
     <center>

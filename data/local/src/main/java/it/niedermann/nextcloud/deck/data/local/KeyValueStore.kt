@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.data.local
 
-import java.util.function.Consumer
+import java.util.concurrent.Flow
 
 interface KeyValueStore {
 
@@ -8,19 +8,12 @@ interface KeyValueStore {
     fun putLong(key: String, value: Long)
     fun putBoolean(key: String, value: Boolean)
 
-    fun getString(key: String): String?
-    fun getLong(key: String): Long?
-    fun getBoolean(key: String): Boolean?
+    fun getString(key: String): Flow.Publisher<String>
+    fun getLong(key: String): Flow.Publisher<Long>
+    fun getBoolean(key: String): Flow.Publisher<Boolean>
 
-    fun registerStringChangeListener(key: String, consumer: Consumer<String>)
-    fun registerLongChangeListener(key: String, consumer: Consumer<Long>)
-    fun registerBooleanChangeListener(key: String, consumer: Consumer<Boolean>)
-
-    fun unregisterStringChangeListener(consumer: Consumer<String>)
-    fun unregisterLongChangeListener(consumer: Consumer<Long>)
-    fun unregisterBooleanChangeListener(consumer: Consumer<Boolean>)
-
-    fun clear();
+    fun containsKey(key: String): Boolean
+    fun clear()
     fun remove(key: String)
 
 }

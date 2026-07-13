@@ -32,7 +32,7 @@ public class AttachmentView extends HBox {
     MenuItem delete;
 
     public AttachmentView() {
-        Inflater.getInstance().inflateAndBind(this);
+        Inflater.getInstance().inflate(this);
 
         setOnContextMenuRequested(event -> {
             contextMenu.show(this, event.getScreenX(), event.getScreenY());

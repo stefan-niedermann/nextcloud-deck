@@ -35,7 +35,7 @@ public class CommentView extends HBox {
     MenuItem delete;
 
     public CommentView() {
-        Inflater.getInstance().inflateAndBind(this);
+        Inflater.getInstance().inflate(this);
 
         setOnContextMenuRequested(event -> {
             contextMenu.show(this, event.getScreenX(), event.getScreenY());

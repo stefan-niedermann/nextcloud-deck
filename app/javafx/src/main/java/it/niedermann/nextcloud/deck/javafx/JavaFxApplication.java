@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.javafx;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.deck.javafx.di.application.AppComponent;
@@ -23,7 +22,7 @@ public class JavaFxApplication extends Application {
         super();
 
         appComponent = DaggerAppComponent.factory().create();
-        // appComponent.getPurgeService().purge();
+//        appComponent.getPurgeService().purge();
     }
 
     @Override
@@ -34,12 +33,6 @@ public class JavaFxApplication extends Application {
         final var fxComponent = appComponent.getFxComponentFactory().create(stage);
         final var applicationRouter = fxComponent.getApplicationRouter();
 
-        applicationRouter
-                .initialize()
-                .whenCompleteAsync((_, exception) -> {
-                    if (exception != null) {
-                        logger.log(Level.SEVERE, exception.getMessage(), exception);
-                    }
-                });
+        applicationRouter.initialize();
     }
 }

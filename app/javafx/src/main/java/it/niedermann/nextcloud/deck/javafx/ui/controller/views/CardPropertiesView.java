@@ -23,7 +23,7 @@ public class CardPropertiesView extends HBox {
     private final ObjectProperty<Args> args = new SimpleObjectProperty<>(this, "args");
 
     public CardPropertiesView() {
-        Inflater.getInstance().inflateAndBind(this);
+        Inflater.getInstance().inflate(this);
 
         final var views = new IconCounterView[]{
                 descriptionIconCounter,

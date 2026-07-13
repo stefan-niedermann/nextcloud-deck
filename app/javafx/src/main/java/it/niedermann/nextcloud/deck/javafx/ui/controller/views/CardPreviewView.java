@@ -31,7 +31,7 @@ public class CardPreviewView extends BorderPane {
     MenuItem delete;
 
     public CardPreviewView() {
-        Inflater.getInstance().inflateAndBind(this);
+        Inflater.getInstance().inflate(this);
     }
 
     public void bind(Card card, boolean isAssignedToCurrentUser, CardPreviewActionListener cardPreviewActionListener) {

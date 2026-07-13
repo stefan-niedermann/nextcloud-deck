@@ -4,7 +4,6 @@
 
 <ScrollPane xmlns:fx="http://javafx.com/fxml/1" fitToHeight="true" fitToWidth="true" minWidth="300"
     stylesheets="css/features/EditCardFeature.css" xmlns="http://javafx.com/javafx/24.0.1"
-    fx:controller="it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditCardFeature"
     fx:id="editCardScrollpane">
     <VBox>
 

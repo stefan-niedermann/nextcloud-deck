@@ -4,7 +4,6 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" stylesheets="css/scenes/SplashScreenScene.css"
     xmlns="http://javafx.com/javafx/24.0.1"
-    fx:controller="it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScene"
     fx:id="root">
     <VBox>
         <ProgressIndicator progress="-1.0" fx:id="progressIndicator" />

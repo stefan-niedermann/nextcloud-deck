@@ -4,11 +4,10 @@ import java.io.IOException;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.util.Callback;
 
 public class Inflater {
 
-    private static volatile Inflater INSTANCE;
+    private static final Inflater INSTANCE = new Inflater();
 
     private final AssetResolver resolver;
 
@@ -18,38 +17,21 @@ public class Inflater {
 
     /// Static access to Inflater is necessary for Views that must have a No-Args constructor to work well with FXML
     public static Inflater getInstance() {
-        if (INSTANCE == null) {
-            synchronized (Inflater.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new Inflater();
-                }
-            }
-        }
         return INSTANCE;
     }
 
-    /// The controller will be instantiated by the given factory and returned together with the view
-    public <T> FxBundle<T> inflateFxBundle(Class<T> controllerClass,
-                                           Callback<Class<?>, Object> factory) {
-        final var loader = createLoader(controllerClass);
-        loader.setControllerFactory(factory);
+    /// Inflates the corresponding view and attaches the passed controller instance
+    public <T> FxBundle<T> inflate(Object controller) {
+        final var loader = createLoader(controller.getClass());
+        loader.setController(controller);
+
+        if (controller instanceof Parent) {
+            loader.setRoot(controller);
+        }
 
         try {
             final Parent parent = loader.load();
             return new FxBundle<>(loader.getController(), parent);
-        } catch (IOException e) {
-            throw new InflateException(e);
-        }
-    }
-
-    /// The controller must be the root node of the corresponding view
-    public Parent inflateAndBind(Parent controller) {
-        final var loader = createLoader(controller.getClass());
-        loader.setRoot(controller);
-        loader.setController(controller);
-
-        try {
-            return loader.load();
         } catch (IOException e) {
             throw new InflateException(e);
         }
@@ -66,6 +48,7 @@ public class Inflater {
         }
     }
 
+    /// Record of a view with its corresponding controller
     public record FxBundle<TController>(TController controller,
                                         Parent view) {
     }

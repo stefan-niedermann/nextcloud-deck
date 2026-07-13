@@ -1,20 +1,21 @@
 package it.niedermann.nextcloud.deck.javafx.ui.controller.features;
 
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.schedulers.Schedulers;
+import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.ListBoardsUseCase;
-import it.niedermann.nextcloud.deck.javafx.services.stage.StageContext;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.BoardListItemCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
-import jakarta.inject.Inject;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -27,19 +28,24 @@ public class BoardListFeature extends DisposableController {
     @FXML
     ListView<Board> boardList;
 
-    private final StageContext stageContext;
     private final GetBoardUseCase getBoardUseCase;
     private final ListBoardsUseCase listBoardsUseCase;
+    private final ViewModel viewModel;
 
-    @Inject
+    @AssistedInject
     public BoardListFeature(
-            StageContext stageContext,
             GetBoardUseCase getBoardUseCase,
-            ListBoardsUseCase listBoardsUseCase
+            ListBoardsUseCase listBoardsUseCase,
+            @Assisted ViewModel viewModel
     ) {
-        this.stageContext = stageContext;
         this.getBoardUseCase = getBoardUseCase;
         this.listBoardsUseCase = listBoardsUseCase;
+        this.viewModel = viewModel;
+    }
+
+    @AssistedFactory
+    public interface Factory {
+        BoardListFeature create(ViewModel viewModel);
     }
 
     @FXML
@@ -49,20 +55,14 @@ public class BoardListFeature extends DisposableController {
 
         boardList.setCellFactory(new BoardListItemCellFactory());
 
-        final var listBoards = Flowable.fromPublisher(this.stageContext.getState())
-                .map(StageContext.State::accountId)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+        final var listBoards = viewModel.getAccountId()
                 .switchMap(listBoardsUseCase::execute);
 
-        final var currentBoard = Flowable.fromPublisher(this.stageContext.getState())
-                .map(StageContext.State::boardId)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+        final var currentBoard = viewModel.getBoardId()
                 .switchMap(getBoardUseCase::execute);
 
         final ChangeListener<Board> changeListener = (_, _, newValue) ->
-                stageContext.dispatch(new StageContext.Action.DisplayBoardAction(newValue.id()));
+                viewModel.onBoardSelected(newValue.id());
 
         final var disposable = Flowable.combineLatest(listBoards, currentBoard, Pair::new)
                 .subscribeOn(Schedulers.virtual())
@@ -76,5 +76,13 @@ public class BoardListFeature extends DisposableController {
 
         addDisposable(disposable);
 
+    }
+
+    public interface ViewModel {
+        void onBoardSelected(Board.ID boardId);
+
+        Flowable<Account.ID> getAccountId();
+
+        Flowable<Board.ID> getBoardId();
     }
 }

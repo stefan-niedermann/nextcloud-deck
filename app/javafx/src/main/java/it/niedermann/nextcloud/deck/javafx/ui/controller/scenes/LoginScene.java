@@ -14,6 +14,9 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Single;
 import io.reactivex.rxjava4.processors.BehaviorProcessor;
 import io.reactivex.rxjava4.processors.FlowableProcessor;
@@ -27,8 +30,6 @@ import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCa
 import it.niedermann.nextcloud.deck.javafx.services.stage.StageRouter;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
-import jakarta.inject.Inject;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
@@ -49,6 +50,7 @@ public class LoginScene extends DisposableController {
     @FXML
     private Button submit;
 
+    private final ViewModel viewModel;
     private final StageRouter router;
     private final ImportAccountUseCase importAccountUseCase;
     private final SetCurrentAccountUseCase setCurrentAccountUseCase;
@@ -58,19 +60,26 @@ public class LoginScene extends DisposableController {
     private final FlowableProcessor<SyncStatus> syncStatus = BehaviorProcessor.create();
     private final FlowableProcessor<Boolean> importInProgress = BehaviorProcessor.create();
 
-    @Inject
+    @AssistedInject
     public LoginScene(
+            @Assisted ViewModel viewModel,
             StageRouter router,
             ImportAccountUseCase importAccountUseCase,
             SetCurrentAccountUseCase setCurrentAccountUseCase,
             WebLoginFlowV2AuthProvider webLoginV2AuthProvider,
             AppTokenAuthProvider appTokenAuthProvider
     ) {
+        this.viewModel = viewModel;
         this.router = router;
         this.importAccountUseCase = importAccountUseCase;
         this.setCurrentAccountUseCase = setCurrentAccountUseCase;
         this.webLoginV2AuthProvider = webLoginV2AuthProvider;
         this.appTokenAuthProvider = appTokenAuthProvider;
+    }
+
+    @AssistedFactory
+    public interface Factory {
+        LoginScene create(ViewModel viewModel);
     }
 
     @Override
@@ -164,18 +173,9 @@ public class LoginScene extends DisposableController {
                     throw throwable;
                 })
                 .ignoreElements()
-                .subscribe(() -> setCurrentAccountUseCase.execute(currentlyImportingAccountId.get())
-                        .thenApplyAsync(_ -> MainScene.class)
-                        .whenCompleteAsync((route, exception) -> {
-
-                            importInProgress.onNext(false);
-
-                            if (exception == null) {
-                                router.navigateTo(route);
-                            }
-
-                        }, Platform::runLater)
-                );
+                .observeOn(JavaFxScheduler.platform())
+                .doFinally(() -> importInProgress.onNext(false))
+                .subscribe(() -> viewModel.onAccountImported(currentlyImportingAccountId.get()));
 
         addDisposable(syncStatusDisposable);
     }
@@ -210,5 +210,9 @@ public class LoginScene extends DisposableController {
                 return new AuthenticatedAccount(parsedUrl, username, token);
             }
         });
+    }
+
+    public interface ViewModel {
+        void onAccountImported(Account.ID accountId);
     }
 }

@@ -24,7 +24,7 @@ public class SubmitTextField extends StackPane {
     FontIcon submitIcon;
 
     public SubmitTextField() {
-        Inflater.getInstance().inflateAndBind(this);
+        Inflater.getInstance().inflate(this);
     }
 
     public void setOnSubmit(Consumer<String> eventHandler) {

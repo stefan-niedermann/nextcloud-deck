@@ -24,7 +24,7 @@ public class EmptyContentView extends VBox {
     Button actionButton;
 
     public EmptyContentView() {
-        Inflater.getInstance().inflateAndBind(this);
+        Inflater.getInstance().inflate(this);
 
         title.visibleProperty().bind(title.textProperty().isNotNull());
         title.managedProperty().bind(title.visibleProperty());

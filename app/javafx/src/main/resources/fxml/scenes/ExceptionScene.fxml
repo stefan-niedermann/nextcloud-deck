@@ -4,7 +4,6 @@
 
 <Pane xmlns:fx="http://javafx.com/fxml/1" prefHeight="768.0" prefWidth="980.0"
     xmlns="http://javafx.com/javafx/24.0.1"
-    fx:controller="it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.ExceptionScene"
     fx:id="root">
     <children>
         <EmptyContentView VBox.vgrow="ALWAYS" actionLabel="Show details"

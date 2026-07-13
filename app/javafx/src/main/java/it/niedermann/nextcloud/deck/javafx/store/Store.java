@@ -25,7 +25,7 @@ public abstract class Store<TState, TAction> {
     private final BehaviorProcessor<TState> state = BehaviorProcessor.create();
     private final Flowable<TState> state$ = state
             .observeOn(JavaFxScheduler.platform())
-            .distinctUntilChanged();
+            .distinctUntilChanged(TState::equals);
 
     private final Map<Class<?>, List<BiFunction<TState, TAction, TState>>> reducers = new HashMap<>();
     private final Map<Class<?>, List<BiFunction<TState, TAction, CompletableFuture<Optional<? extends TAction>>>>> effects = new HashMap<>();

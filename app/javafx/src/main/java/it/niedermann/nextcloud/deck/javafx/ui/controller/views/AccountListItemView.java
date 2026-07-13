@@ -14,7 +14,7 @@ public class AccountListItemView extends HBox {
     Label title;
 
     public AccountListItemView() {
-        Inflater.getInstance().inflateAndBind(this);
+        Inflater.getInstance().inflate(this);
     }
 
     public void bind(Account account, boolean isCurrent) {

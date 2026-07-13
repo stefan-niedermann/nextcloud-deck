@@ -4,7 +4,6 @@
 
 <VBox xmlns:fx="https://javafx.com/fxml/1" stylesheets="css/features/ColumnFeature.css"
     xmlns="http://javafx.com/javafx/24.0.1"
-    fx:controller="it.niedermann.nextcloud.deck.javafx.ui.controller.features.ColumnFeature"
     fx:id="root">
     <HBox styleClass="header">
         <Label fx:id="title" />

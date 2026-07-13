@@ -1,14 +1,12 @@
 package it.niedermann.nextcloud.deck.domain.usecases.state;
 
-import static org.reactivestreams.FlowAdapters.toFlowPublisher;
-
 import org.reactivestreams.FlowAdapters;
 
-import java.util.Objects;
-import java.util.concurrent.Flow;
+import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.domain.repository.StateRepository;
@@ -30,44 +28,20 @@ public class GetCurrentAccountUseCase {
         this.accountRepository = accountRepository;
     }
 
-    public Flow.Publisher<Account> execute() {
-        return execute("other");
-    }
+    public CompletableFuture<Account.ID> execute() {
+        final var currentAccountId = Single.fromCompletionStage(stateRepository.getCurrentAccountId());
+        final Flowable<Boolean> accountExists = currentAccountId.flatMapPublisher(accountId -> FlowAdapters.toPublisher(accountRepository.accountExists(accountId)));
 
-    public Flow.Publisher<Account> execute(String subscriber) {
-        return execute(subscriber, false);
-    }
-
-    public Flow.Publisher<Account> execute(String subscriber, boolean ignore) {
-
-        final var currentAccountId = Flowable.fromPublisher(FlowAdapters.toPublisher(stateRepository.getCurrentAccountId()))
-                .distinctUntilChanged()
-                .filter(Objects::nonNull)
-                .filter(accountId -> accountId.value() >= 0);
-
-        final var accountExists = currentAccountId
-                .map(accountRepository::accountExists)
-                .distinctUntilChanged()
-                .map(FlowAdapters::toPublisher)
-                .switchMap(Flowable::fromPublisher);
-
-        final var account = Flowable.combineLatest(currentAccountId, accountExists, AccountIdAndExists::new)
-                .distinctUntilChanged(Objects::equals)
-                .map(args -> {
-
-                    if (!args.accountExists()) {
-                        throw new IllegalStateException("Subscriber: " + subscriber + "Account with cardId " + args.accountId() + " does not exist.");
+        return Single.zip(currentAccountId, accountExists.firstOrError(), AccountIdAndExists::new)
+                .map(pair -> {
+                    if (pair.accountExists()) {
+                        return pair.accountId();
                     }
 
-                    return args.accountId();
+                    throw new IllegalStateException("Account with ID " + pair.accountId() + " does not exist.");
                 })
-
-                .map(accountRepository::getAccount)
-
-                .map(FlowAdapters::toPublisher)
-                .switchMap(Flowable::fromPublisher);
-
-        return toFlowPublisher(account);
+                .toCompletionStage()
+                .toCompletableFuture();
     }
 
     record AccountIdAndExists(Account.ID accountId, boolean accountExists) {

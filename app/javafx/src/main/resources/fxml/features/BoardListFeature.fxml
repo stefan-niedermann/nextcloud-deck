@@ -5,7 +5,6 @@
 
 <ScrollPane xmlns:fx="http://javafx.com/fxml/1" fitToHeight="true" fitToWidth="true" maxWidth="400"
     minWidth="150" prefWidth="150" stylesheets="css/features/BoardListFeature.css"
-    xmlns="http://javafx.com/javafx/24.0.1"
-    fx:controller="it.niedermann.nextcloud.deck.javafx.ui.controller.features.BoardListFeature">
+    xmlns="http://javafx.com/javafx/24.0.1">
     <ListView fx:id="boardList" />
 </ScrollPane>

@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.javafx.exception;
 
-import java.util.Objects;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletionException;
 import java.util.stream.Stream;
@@ -18,7 +17,9 @@ public class ExceptionUnwrapper {
 
     public Throwable unwrap(Throwable throwable) {
 
-        Objects.requireNonNull(throwable);
+        if (throwable == null) {
+            return null;
+        }
 
         final var unwrappable = Stream.of(
 

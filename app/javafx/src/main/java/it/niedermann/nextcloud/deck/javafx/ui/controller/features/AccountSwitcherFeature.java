@@ -1,11 +1,13 @@
 package it.niedermann.nextcloud.deck.javafx.ui.controller.features;
 
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
 
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Account;
@@ -13,12 +15,10 @@ import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.RemoveAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
-import it.niedermann.nextcloud.deck.javafx.services.stage.StageContext;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.AccountListItemCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.AccountListItemView;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
-import jakarta.inject.Inject;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -42,29 +42,34 @@ public class AccountSwitcherFeature extends DisposableController {
     @FXML
     Button removeAccountBtn;
 
-    private final StageContext stageContext;
     private final GetAccountUseCase getAccountUseCase;
     private final GetAccountsUseCase getAccountsUseCase;
     private final ScheduleSyncUseCase scheduleSyncUseCase;
     private final RemoveAccountUseCase removeAccountUseCase;
+    private final ViewModel viewModel;
 
     private final AtomicBoolean syncInProgress = new AtomicBoolean(false);
 
     private final Callback<ListView<Account>, ListCell<Account>> factory = new AccountListItemCellFactory();
 
-    @Inject
+    @AssistedInject
     public AccountSwitcherFeature(
-            StageContext stageContext,
             GetAccountUseCase getAccountUseCase,
             GetAccountsUseCase getAccountsUseCase,
             ScheduleSyncUseCase scheduleSyncUseCase,
-            RemoveAccountUseCase removeAccountUseCase
+            RemoveAccountUseCase removeAccountUseCase,
+            @Assisted ViewModel viewModel
     ) {
-        this.stageContext = stageContext;
         this.getAccountUseCase = getAccountUseCase;
         this.getAccountsUseCase = getAccountsUseCase;
         this.scheduleSyncUseCase = scheduleSyncUseCase;
         this.removeAccountUseCase = removeAccountUseCase;
+        this.viewModel = viewModel;
+    }
+
+    @AssistedFactory
+    public interface Factory {
+        AccountSwitcherFeature create(ViewModel viewModel);
     }
 
     @Override
@@ -95,15 +100,11 @@ public class AccountSwitcherFeature extends DisposableController {
         accountList.setCellFactory(factory);
         accountList.setButtonCell(buttonCell);
 
-        final ChangeListener<Account> accountChangeListener = (_, _, newValue) -> stageContext.dispatch(new StageContext.Action.SwitchAccountAction(newValue.id()));
+        final ChangeListener<Account> accountChangeListener = (_, _, newValue) -> viewModel.onAccountSelected(newValue.id());
 
         final var listAccounts = Flowable.fromPublisher(getAccountsUseCase.execute());
 
-        final var currentAccount = Flowable.fromPublisher(this.stageContext.getState())
-                .map(StageContext.State::accountId)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .switchMap(getAccountUseCase::execute);
+        final var currentAccount = viewModel.getAccountId().switchMap(getAccountUseCase::execute);
 
         final var disposable = Flowable.combineLatest(listAccounts, currentAccount, Pair::new)
                 .subscribeOn(Schedulers.virtual())
@@ -128,11 +129,8 @@ public class AccountSwitcherFeature extends DisposableController {
             this.progress.setVisible(true);
             this.progress.setDisable(false);
 
-            var disposable = Flowable.fromPublisher(stageContext.getState())
+            var disposable = viewModel.getAccountId()
                     .firstElement()
-                    .map(StageContext.State::accountId)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
                     .flatMapPublisher(this.scheduleSyncUseCase::execute)
                     .observeOn(JavaFxScheduler.platform())
                     .doOnNext(syncStatus -> {
@@ -154,15 +152,23 @@ public class AccountSwitcherFeature extends DisposableController {
     }
 
     public void removeAccount() {
-        var disposable = Flowable.fromPublisher(stageContext.getState())
-                .firstElement()
-                .map(StageContext.State::accountId)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+        var disposable = viewModel.getAccountId()
                 .subscribeOn(Schedulers.virtual())
                 .observeOn(JavaFxScheduler.platform())
-                .subscribe(this.removeAccountUseCase::execute);
+                .subscribe(accountId -> {
+                    // FIXME fix pipe
+                    this.removeAccountUseCase.execute(accountId);
+                    viewModel.onAccountRemoved();
+                });
 
         addDisposable(disposable);
+    }
+
+    public interface ViewModel {
+        void onAccountSelected(Account.ID accountId);
+
+        Flowable<Account.ID> getAccountId();
+
+        void onAccountRemoved();
     }
 }

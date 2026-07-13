@@ -5,17 +5,16 @@ import com.dlsc.gemsfx.SearchField;
 import com.dlsc.gemsfx.TagsField;
 import com.dlsc.gemsfx.TimePicker;
 
-import java.io.File;
 import java.net.URL;
-import java.nio.file.Path;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.processors.BehaviorProcessor;
 import io.reactivex.rxjava4.processors.FlowableProcessor;
 import io.reactivex.rxjava4.schedulers.Schedulers;
@@ -31,7 +30,6 @@ import it.niedermann.nextcloud.deck.domain.usecases.attachments.ListAttachmentsU
 import it.niedermann.nextcloud.deck.domain.usecases.cards.GetCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.AddCommentUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.ListCommentsUseCase;
-import it.niedermann.nextcloud.deck.javafx.services.stage.StageContext;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.ActivityCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.AttachmentCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.CommentCellFactory;
@@ -40,7 +38,6 @@ import it.niedermann.nextcloud.deck.javafx.ui.controller.views.SubmitTextField;
 import it.niedermann.nextcloud.deck.javafx.ui.suggestionproviders.LabelSuggestionProvider;
 import it.niedermann.nextcloud.deck.javafx.ui.suggestionproviders.UserSuggestionProvider;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
-import jakarta.inject.Inject;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -59,7 +56,6 @@ public class EditCardFeature extends DisposableController {
 
     private static final Logger logger = Logger.getLogger(EditCardFeature.class.getName());
 
-    private final StageContext context;
     private final GetCardUseCase getCardUseCase;
     private final AddAttachmentUseCase addAttachmentUseCase;
     private final ListAttachmentsUseCase listAttachmentsUseCase;
@@ -68,6 +64,7 @@ public class EditCardFeature extends DisposableController {
     private final ListActivityUseCase listActivityUseCase;
     private final LabelSuggestionProvider labelSuggestionProvider;
     private final UserSuggestionProvider userSuggestionProvider;
+    private final ViewModel viewModel;
 
     @FXML
     TextField title;
@@ -88,7 +85,7 @@ public class EditCardFeature extends DisposableController {
     @FXML
     TimePicker dueDateTime;
     @FXML
-    SearchField dependentCards;
+    SearchField<Card> dependentCards;
     @FXML
     TextArea descriptionEditor;
     @FXML
@@ -112,11 +109,8 @@ public class EditCardFeature extends DisposableController {
 
     private final FlowableProcessor<Card.ID> cardId = BehaviorProcessor.create();
 
-    private EditCardListener editCardListener;
-
-    @Inject
+    @AssistedInject
     public EditCardFeature(
-            StageContext context,
             GetCardUseCase getCardUseCase,
             ListAttachmentsUseCase listAttachmentsUseCase,
             AddAttachmentUseCase addAttachmentUseCase,
@@ -124,9 +118,9 @@ public class EditCardFeature extends DisposableController {
             AddCommentUseCase addCommentUseCase,
             ListActivityUseCase listActivityUseCase,
             LabelSuggestionProvider labelSuggestionProvider,
-            UserSuggestionProvider userSuggestionProvider
-    ) {
-        this.context = context;
+            UserSuggestionProvider userSuggestionProvider,
+            @Assisted ViewModel viewModel
+            ) {
         this.getCardUseCase = getCardUseCase;
         this.listAttachmentsUseCase = listAttachmentsUseCase;
         this.addAttachmentUseCase = addAttachmentUseCase;
@@ -135,6 +129,12 @@ public class EditCardFeature extends DisposableController {
         this.listActivityUseCase = listActivityUseCase;
         this.labelSuggestionProvider = labelSuggestionProvider;
         this.userSuggestionProvider = userSuggestionProvider;
+        this.viewModel = viewModel;
+    }
+
+    @AssistedFactory
+    public interface Factory {
+        EditCardFeature create(ViewModel viewModel);
     }
 
     @FXML
@@ -198,7 +198,7 @@ public class EditCardFeature extends DisposableController {
                     descriptionEditor.setText(card.description());
 
                     saveBtn.setOnMouseClicked(event -> {
-                        editCardListener.onCardSaved(card);
+                        viewModel.onCardSaved(card);
                         event.consume();
                     });
                 });
@@ -227,7 +227,7 @@ public class EditCardFeature extends DisposableController {
         addDisposable(activitiesDisposable);
 
         closeSidebar.setOnMouseClicked(event -> {
-            context.dispatch(new StageContext.Action.CloseCardAction());
+            viewModel.onCloseSidebar();
             event.consume();
         });
 
@@ -259,10 +259,6 @@ public class EditCardFeature extends DisposableController {
         cardId.onNext(id);
     }
 
-    public void setEditCardListener(EditCardListener editCardListener) {
-        this.editCardListener = editCardListener;
-    }
-
     private void onDragCardOver(DragEvent event) {
         final var dragboard = event.getDragboard();
         if (!dragboard.getContentTypes().contains(DataFormat.FILES)) {
@@ -274,34 +270,12 @@ public class EditCardFeature extends DisposableController {
     }
 
     public void onCardDropped(DragEvent event) {
-        if (!TransferMode.COPY.equals(event.getTransferMode())) {
-            return;
-        }
 
-        final var dragboard = event.getDragboard();
-        if (!dragboard.getContentTypes().contains(DataFormat.FILES)) {
-            return;
-        }
-
-        final var content = dragboard.getContent(DataFormat.FILES);
-
-        if (content instanceof List<?> list) {
-            final var paths = new ArrayList<Path>(list.size());
-            for (final var item : list) {
-                if (item instanceof File file) {
-                    paths.add(file.toPath());
-                } else {
-                    throw new IllegalArgumentException("Expected all items to be of type " + File.class.getName() + " but got " + item.getClass().getName());
-                }
-            }
-
-            addAttachmentUseCase.execute(cardId.blockingFirst(), paths);
-        }
-
-        throw new IllegalArgumentException("Expected List<File> but got: " + content.getClass().getName());
     }
 
-    public interface EditCardListener {
+    public interface ViewModel {
         CompletableFuture<Void> onCardSaved(Card card);
+
+        void onCloseSidebar();
     }
 }

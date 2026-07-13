@@ -1,27 +1,32 @@
 package it.niedermann.nextcloud.deck.app.shared.data;
 
+import androidx.annotation.NonNull;
+
 import org.jetbrains.annotations.NotNull;
+import org.reactivestreams.FlowAdapters;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
+import java.util.Objects;
+import java.util.concurrent.Flow;
+import java.util.function.Supplier;
 import java.util.prefs.BackingStoreException;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 import java.util.prefs.Preferences;
 
+import io.reactivex.rxjava3.core.BackpressureStrategy;
+import io.reactivex.rxjava3.core.Flowable;
 import it.niedermann.nextcloud.deck.data.local.KeyValueStore;
 
 public class PreferencesKeyValueStore implements KeyValueStore {
 
-    final Preferences prefs;
-    final Map<Consumer<String>, String> stringChangelisteners = new HashMap<>();
-    final Map<Consumer<Long>, String> longChangelisteners = new HashMap<>();
-    final Map<Consumer<Boolean>, String> booleanChangelisteners = new HashMap<>();
+    private final Preferences prefs;
+
+    private final Map<String, Flow.Publisher<?>> flowableValuesByKey = new HashMap<>();
 
     public PreferencesKeyValueStore(Preferences prefs) {
         this.prefs = prefs;
-        this.prefs.addPreferenceChangeListener(new DefaultPreferenceChangeListener<>(stringChangelisteners, this::getString));
-        this.prefs.addPreferenceChangeListener(new DefaultPreferenceChangeListener<>(longChangelisteners, this::getLong));
-        this.prefs.addPreferenceChangeListener(new DefaultPreferenceChangeListener<>(booleanChangelisteners, this::getBoolean));
     }
 
     @Override
@@ -32,12 +37,6 @@ public class PreferencesKeyValueStore implements KeyValueStore {
     @Override
     public void putLong(@NotNull String key, long value) {
         prefs.putLong(key, value);
-        try {
-            prefs.flush();
-            prefs.sync();
-        } catch (BackingStoreException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override
@@ -45,53 +44,41 @@ public class PreferencesKeyValueStore implements KeyValueStore {
         prefs.putBoolean(key, value);
     }
 
+    @NonNull
     @Override
-    public String getString(@NotNull String key) {
-        return prefs.get(key, null);
+    public Flow.Publisher<String> getString(@NotNull String key) {
+        //noinspection unchecked
+        return (Flow.Publisher<String>) flowableValuesByKey.computeIfAbsent(key, k -> get(key, () -> prefs.get(key, null)));
+    }
+
+    @NonNull
+    @Override
+    public Flow.Publisher<Long> getLong(@NotNull String key) {
+        //noinspection unchecked
+        return (Flow.Publisher<Long>) flowableValuesByKey.computeIfAbsent(key, k -> get(key, () -> prefs.getLong(key, -1L)));
+    }
+
+    @NonNull
+    @Override
+    public Flow.Publisher<Boolean> getBoolean(@NotNull String key) {
+        //noinspection unchecked
+        return (Flow.Publisher<Boolean>) flowableValuesByKey.computeIfAbsent(key, k -> get(key, () -> prefs.getBoolean(key, false)));
     }
 
     @Override
-    public Long getLong(@NotNull String key) {
-        return prefs.getLong(key, -1L);
-    }
+    public boolean containsKey(@NotNull String key) {
+        try {
+            for (var k : prefs.keys()) {
+                if (Objects.equals(k, key)) {
+                    return true;
+                }
+            }
 
-    @Override
-    public Boolean getBoolean(@NotNull String key) {
-        return prefs.getBoolean(key, false);
-    }
+            return false;
 
-    @Override
-    public void registerStringChangeListener(@NotNull String key, @NotNull Consumer<String> consumer) {
-        stringChangelisteners.put(consumer, key);
-        consumer.accept(getString(key));
-    }
-
-    @Override
-    public void registerLongChangeListener(@NotNull String key, @NotNull Consumer<Long> consumer) {
-        longChangelisteners.put(consumer, key);
-        consumer.accept(getLong(key));
-
-    }
-
-    @Override
-    public void registerBooleanChangeListener(@NotNull String key, @NotNull Consumer<Boolean> consumer) {
-        booleanChangelisteners.put(consumer, key);
-        consumer.accept(getBoolean(key));
-    }
-
-    @Override
-    public void unregisterStringChangeListener(@NotNull Consumer<String> consumer) {
-        stringChangelisteners.remove(consumer);
-    }
-
-    @Override
-    public void unregisterLongChangeListener(@NotNull Consumer<Long> consumer) {
-        longChangelisteners.remove(consumer);
-    }
-
-    @Override
-    public void unregisterBooleanChangeListener(@NotNull Consumer<Boolean> consumer) {
-        booleanChangelisteners.remove(consumer);
+        } catch (BackingStoreException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -106,5 +93,39 @@ public class PreferencesKeyValueStore implements KeyValueStore {
     @Override
     public void remove(@NotNull String key) {
         prefs.remove(key);
+    }
+
+    private <T> Flow.Publisher<T> get(String key, Supplier<T> supplier) {
+        final var result = Flowable.<T>create(emitter -> {
+
+                    emitter.onNext(supplier.get());
+
+                    final var listener = new PreferenceChangeListener() {
+                        @Override
+                        public void preferenceChange(PreferenceChangeEvent event) {
+
+                            if (emitter.isCancelled() || !Objects.equals(event.getKey(), key)) {
+                                return;
+                            }
+
+                            final var newValue = event.getNewValue();
+                            if (newValue != null) {
+                                try {
+                                    //noinspection unchecked
+                                    emitter.onNext((T) newValue);
+                                } catch (ClassCastException e) {
+                                    emitter.onError(e);
+                                }
+                            }
+                        }
+                    };
+
+                    prefs.addPreferenceChangeListener(listener);
+                    emitter.setCancellable(() -> prefs.removePreferenceChangeListener(listener));
+
+                }, BackpressureStrategy.LATEST)
+                .distinctUntilChanged();
+
+        return FlowAdapters.toFlowPublisher(result);
     }
 }

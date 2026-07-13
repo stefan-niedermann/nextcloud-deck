@@ -5,8 +5,7 @@
 
 
 <HBox xmlns:fx="http://javafx.com/fxml/1" id="root"
-    stylesheets="css/features/AccountSwitcherFeature.css" xmlns="http://javafx.com/javafx/24.0.1"
-    fx:controller="it.niedermann.nextcloud.deck.javafx.ui.controller.features.AccountSwitcherFeature">
+    stylesheets="css/features/AccountSwitcherFeature.css" xmlns="http://javafx.com/javafx/24.0.1">
     <ProgressIndicator progress="0.0" visible="false" fx:id="progress" />
     <Button accessibleText="Schedule synchronization" fx:id="scheduleSyncBtn">
         <graphic>

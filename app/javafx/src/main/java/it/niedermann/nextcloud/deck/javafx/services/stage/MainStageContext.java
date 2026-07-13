@@ -5,7 +5,11 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
+import io.reactivex.rxjava4.core.Single;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
@@ -13,36 +17,50 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.DeleteCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
-import it.niedermann.nextcloud.deck.javafx.di.stage.StageScope;
+import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.store.Store;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
-import jakarta.inject.Inject;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.features.AccountSwitcherFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.features.BoardFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.features.BoardListFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.features.ColumnFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditCardFeature;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 
-@StageScope
-public class StageContext extends Store<StageContext.State, StageContext.Action> {
+public class MainStageContext extends Store<MainStageContext.State, MainStageContext.Action> implements
+        AccountSwitcherFeature.ViewModel,
+        BoardFeature.ViewModel,
+        BoardListFeature.ViewModel,
+        ColumnFeature.ViewModel,
+        EditCardFeature.ViewModel {
 
-    private static final Logger logger = Logger.getLogger(StageContext.class.getName());
+    private static final Logger logger = Logger.getLogger(MainStageContext.class.getName());
 
+    private final ThemeService themeService;
     private final SetCurrentAccountUseCase setCurrentAccountUseCase;
     private final GetCurrentBoardUseCase getCurrentBoardUseCase;
     private final SetCurrentBoardUseCase setCurrentBoardUseCase;
     private final DeleteCardUseCase deleteCardUseCase;
 
-    @Inject
-    public StageContext(
+    @AssistedInject
+    public MainStageContext(
             StoreLogger storeLogger,
+            ThemeService themeService,
             SetCurrentAccountUseCase setCurrentAccountUseCase,
             GetCurrentBoardUseCase getCurrentBoardUseCase,
             SetCurrentBoardUseCase setCurrentBoardUseCase,
-            DeleteCardUseCase deleteCardUseCase
+            DeleteCardUseCase deleteCardUseCase,
+            @Assisted State initialState
     ) {
+        this.themeService = themeService;
         this.setCurrentAccountUseCase = setCurrentAccountUseCase;
         this.getCurrentBoardUseCase = getCurrentBoardUseCase;
         this.setCurrentBoardUseCase = setCurrentBoardUseCase;
         this.deleteCardUseCase = deleteCardUseCase;
 
-        // TODO Write Factory for MainService and pass initialState
-        super(storeLogger);
+        super(storeLogger, initialState);
 
         on(Action.Initialize.class, (_, action) -> action.initialState());
         on(Action.SwitchAccountAction.class, (state, action) -> state.withAccountId(action.accountId()));
@@ -61,13 +79,12 @@ public class StageContext extends Store<StageContext.State, StageContext.Action>
                 return CompletableFuture.failedFuture(new IllegalStateException());
             }
             setCurrentAccountUseCase.execute(accountId.get());
-            return Flowable.fromPublisher(this.getCurrentBoardUseCase.execute(accountId.get()))
-                    .firstElement()
+            return Single.fromCompletionStage(this.getCurrentBoardUseCase.execute(accountId.get()))
                     .toCompletionStage()
                     .toCompletableFuture()
-                    .thenApplyAsync(board -> Optional.ofNullable(board)
-                            .map(Board::id)
-                            .map(Action.DisplayBoardAction::new));
+                    .thenApplyAsync(Optional::ofNullable)
+                    .exceptionallyAsync(_ -> Optional.empty())
+                    .thenApplyAsync(boardId -> boardId.map(Action.DisplayBoardAction::new));
         });
 
         effect(Action.DisplayBoardAction.class, (state, action) -> {
@@ -88,6 +105,93 @@ public class StageContext extends Store<StageContext.State, StageContext.Action>
                         return CompletableFuture.completedFuture(Optional.empty());
                     }
                 }));
+    }
+
+    @AssistedFactory
+    public interface Factory {
+        MainStageContext createStageContext(State initialState);
+    }
+
+    @Override
+    public void onAccountSelected(Account.ID accountId) {
+        dispatch(new MainStageContext.Action.SwitchAccountAction(accountId));
+    }
+
+    @Override
+    public Flowable<Account.ID> getAccountId() {
+        return Flowable.fromPublisher(getState())
+                .map(State::accountId)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .distinctUntilChanged(Account.ID::equals);
+    }
+
+    @Override
+    public void onAccountRemoved() {
+        // TODO Select any account and set as current OR fallback to login scene
+    }
+
+    @Override
+    public Flowable<Board.ID> getBoardId() {
+        return Flowable.fromPublisher(getState())
+                .map(State::boardId)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .distinctUntilChanged(Board.ID::equals);
+    }
+
+    @Override
+    public void onBoardSelected(Board.ID boardId) {
+        System.out.println("onBoardSelected: " + boardId);
+        dispatch(new MainStageContext.Action.DisplayBoardAction(boardId));
+    }
+
+    @Override
+    public void onOpenCard(Card card) {
+        dispatch(new MainStageContext.Action.EditCardAction(card.id()));
+    }
+
+    @Override
+    public void onAssignCard(Card card) {
+        System.out.println("[Mock] onAssignCard " + card);
+    }
+
+    @Override
+    public void onUnassignCard(Card card) {
+        System.out.println("[Mock] onUnassignCard " + card);
+    }
+
+    @Override
+    public void onMoveCard(Card card) {
+        System.out.println("[Mock] onMoveCard " + card);
+    }
+
+    @Override
+    public void onCopyCard(Card card) {
+        System.out.println("[Mock] onCopyCard " + card);
+    }
+
+    @Override
+    public void onDeleteCard(Card card) {
+        final var alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to delete the card \"" + card.title() + "\" permanently? This operation can not be undone.", ButtonType.CANCEL, ButtonType.YES);
+        alert.setTitle("Delete");
+        alert.setHeaderText("Delete \"" + card.title() + "\"?");
+        themeService.bind(alert);
+        alert.showAndWait()
+                .map(ButtonType::getButtonData)
+                .map(ButtonBar.ButtonData::isDefaultButton)
+                .filter(Boolean.TRUE::equals).ifPresent(_ -> dispatch(new MainStageContext.Action.DeleteCardAction(card.id())));
+    }
+
+    @Override
+    public CompletableFuture<Void> onCardSaved(Card card) {
+        System.out.println("[MOCK] onCardSaved " + card);
+        return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
+    public void onCloseSidebar() {
+        dispatch(new MainStageContext.Action.CloseCardAction());
     }
 
     public record State(
