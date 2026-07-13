@@ -1,9 +1,4 @@
-#root {
-    -fx-pref-width: 1280;
-    -fx-pref-height: 768;
-}
-
-vbox {
+VBox {
     -fx-alignment: center;
     -fx-pref-width: 100;
     -fx-pref-height: 200;

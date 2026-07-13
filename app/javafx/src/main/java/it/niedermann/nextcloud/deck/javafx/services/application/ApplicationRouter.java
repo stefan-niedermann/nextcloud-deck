@@ -20,7 +20,6 @@ public class ApplicationRouter {
 
     private final Stage primaryStage;
     private final StageComponent.Factory stageComponentFactory;
-    private final ThemeService themeService;
     private final Provider<MainStageFactory> mainStageControllerProvider;
     private final Provider<EditCardStageFactory> editCardStageControllerProvider;
     private final Provider<BoardArgResolver> boardArgsResolverProvider;
@@ -29,14 +28,12 @@ public class ApplicationRouter {
     @Inject
     public ApplicationRouter(@NamedPrimaryStage Stage primaryStage,
                              StageComponent.Factory stageComponentFactory,
-                             ThemeService themeService,
                              Provider<MainStageFactory> mainStageControllerProvider,
                              Provider<EditCardStageFactory> editCardStageControllerProvider,
                              Provider<BoardArgResolver> boardArgsResolverProvider,
                              Provider<CardArgResolver> cardArgsResolverProvider) {
         this.primaryStage = primaryStage;
         this.stageComponentFactory = stageComponentFactory;
-        this.themeService = themeService;
         this.mainStageControllerProvider = mainStageControllerProvider;
         this.editCardStageControllerProvider = editCardStageControllerProvider;
         this.boardArgsResolverProvider = boardArgsResolverProvider;
@@ -65,14 +62,14 @@ public class ApplicationRouter {
         final var stageComponent = stageComponentFactory.create(stage);
         final var mainStageController = mainStageControllerProvider.get();
         final var boardArgsResolver = boardArgsResolverProvider.get();
-        stageComponent.getStageController().initialize(args, boardArgsResolver, mainStageController);
+        stageComponent.getStageManager().initialize(args, boardArgsResolver, mainStageController);
     }
 
     private void launchEditCardStage(Stage stage, CardRawArgs args) {
         final var stageComponent = stageComponentFactory.create(stage);
         final var editCardStageController = editCardStageControllerProvider.get();
         final var cardArgsResolver = cardArgsResolverProvider.get();
-        stageComponent.getStageController().initialize(args, cardArgsResolver, editCardStageController);
+        stageComponent.getStageManager().initialize(args, cardArgsResolver, editCardStageController);
     }
 
     // endregion

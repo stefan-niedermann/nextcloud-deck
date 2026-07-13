@@ -1,3 +1,8 @@
+BorderPane {
+    -fx-max-width: 500;
+    -fx-max-height: 200;
+}
+
 #progress {
     -fx-padding-top: 5;
     -fx-padding-bottom: 5;

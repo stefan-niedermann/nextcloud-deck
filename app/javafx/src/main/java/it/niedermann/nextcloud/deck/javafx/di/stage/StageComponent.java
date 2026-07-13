@@ -17,5 +17,5 @@ public interface StageComponent {
         StageComponent create(@BindsInstance Stage stage);
     }
 
-    StageManager getStageController();
+    StageManager getStageManager();
 }

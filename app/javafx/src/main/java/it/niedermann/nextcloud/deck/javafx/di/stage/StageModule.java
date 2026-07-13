@@ -15,8 +15,4 @@ public class StageModule {
         return new Stage();
     }
 
-//    @Provides
-//    ControllerFactory provideControllerFactory(Map<Class<?>, Provider<Object>> controllerProviderMap) {
-//        return new ControllerFactory(controllerProviderMap);
-//    }
 }

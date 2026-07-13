@@ -98,29 +98,32 @@ public class StageManager {
 
     private <T, U> CompletableFuture<U> setStageContent(Inflater.FxBundle<T> controllerBundle) {
         final var cf = new CompletableFuture<U>();
+        final var controller = controllerBundle.controller();
+        final var oldCtrl = this.controller.getAndSet(controller);
+
+        if (oldCtrl instanceof Disposable oldDisposableCtrl && !oldDisposableCtrl.isDisposed()) {
+            oldDisposableCtrl.dispose();
+        }
 
         Platform.runLater(() -> {
             try {
-                final var controller = controllerBundle.controller();
-                final var oldCtrl = this.controller.getAndSet(controller);
-
-                if (oldCtrl instanceof Disposable oldDisposableCtrl && !oldDisposableCtrl.isDisposed()) {
-                    oldDisposableCtrl.dispose();
-                }
 
                 final var scene = new Scene(controllerBundle.view());
 
                 themeService.bind(scene);
-                stage.setScene(scene);
 
-                if (!stage.isShowing()) {
-                    stage.centerOnScreen();
-                }
+                // TODO Maximize stage or limit to Screen.getPrimary().getBounds();
+                // TODO Perform only for first call
+                stage.setWidth(1280);
+                stage.setHeight(768);
+
+                stage.setScene(scene);
 
                 if (stage.isShowing()) {
                     cf.complete(null);
                 } else {
                     stage.setOnShown(_ -> cf.complete(null));
+                    stage.centerOnScreen();
                     stage.show();
                 }
 
