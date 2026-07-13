@@ -4,6 +4,7 @@ package it.niedermann.nextcloud.deck.javafx.di.fx;
 import dagger.BindsInstance;
 import dagger.Subcomponent;
 import it.niedermann.nextcloud.deck.javafx.di.named.NamedPrimaryStage;
+import it.niedermann.nextcloud.deck.javafx.exception.FxUncaughtExceptionHandler;
 import it.niedermann.nextcloud.deck.javafx.services.application.ApplicationRouter;
 import javafx.stage.Stage;
 
@@ -19,4 +20,6 @@ public interface FxComponent {
     }
 
     ApplicationRouter getApplicationRouter();
+
+    FxUncaughtExceptionHandler getFxUncaughtExceptionHandler();
 }

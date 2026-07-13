@@ -186,6 +186,7 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
     @Override
     public CompletableFuture<Void> onCardSaved(Card card) {
         System.out.println("[MOCK] onCardSaved " + card);
+        Integer.parseInt("foo");
         return CompletableFuture.completedFuture(null);
     }
 
