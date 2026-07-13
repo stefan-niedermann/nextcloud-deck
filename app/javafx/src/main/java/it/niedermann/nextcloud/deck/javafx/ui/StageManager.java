@@ -9,16 +9,15 @@ import io.reactivex.rxjava4.disposables.Disposable;
 import it.niedermann.nextcloud.deck.app.shared.args.ArgsResolver;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
-import it.niedermann.nextcloud.deck.javafx.di.named.NamedPrimaryStage;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageScope;
 import it.niedermann.nextcloud.deck.javafx.exception.ExceptionUnwrapper;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.ControllerFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.ExceptionScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.LoginScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScene;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import jakarta.inject.Inject;
+import jakarta.inject.Provider;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -29,29 +28,29 @@ public class StageManager {
     private static final Logger logger = Logger.getLogger(StageManager.class.getName());
 
     protected final Inflater inflater;
-    protected final ControllerFactory controllerFactory;
     private final Stage stage;
     private final ThemeService themeService;
-    private final LoginScene.Factory loginFactory;
-    private final ExceptionScene.Factory exceptionFactory;
+    private final SplashScreenScene.Factory splashScreenFactory;
+    private final Provider<LoginScene.Factory> loginFactoryProvider;
+    private final Provider<ExceptionScene.Factory> exceptionFactoryProvider;
     private final SetCurrentAccountUseCase setCurrentAccountUseCase;
 
     private final AtomicReference<Object> controller = new AtomicReference<>();
 
     @Inject
-    public StageManager(@NamedPrimaryStage Stage stage, // FIXME This should be the generic current stage, not (necessarily) the primary stage
+    public StageManager(Stage stage,
                         ThemeService themeService,
                         Inflater inflater,
-                        ControllerFactory controllerFactory,
-                        LoginScene.Factory loginFactory,
-                        ExceptionScene.Factory exceptionFactory,
+                        SplashScreenScene.Factory splashScreenFactory,
+                        Provider<LoginScene.Factory> loginFactoryProvider,
+                        Provider<ExceptionScene.Factory> exceptionFactoryProvider,
                         SetCurrentAccountUseCase setCurrentAccountUseCase) {
         this.stage = stage;
         this.themeService = themeService;
         this.inflater = inflater;
-        this.controllerFactory = controllerFactory;
-        this.loginFactory = loginFactory;
-        this.exceptionFactory = exceptionFactory;
+        this.splashScreenFactory = splashScreenFactory;
+        this.loginFactoryProvider = loginFactoryProvider;
+        this.exceptionFactoryProvider = exceptionFactoryProvider;
         this.setCurrentAccountUseCase = setCurrentAccountUseCase;
     }
 
@@ -84,13 +83,13 @@ public class StageManager {
     }
 
     private CompletableFuture<Void> showSplashScreenScene() {
-        final var bundle = inflater.inflate(controllerFactory.call(SplashScreenScene.class));
+        final var bundle = inflater.inflate(splashScreenFactory.create());
         return this.setStageContent(bundle);
     }
 
     private CompletableFuture<Account.ID> showLogin() {
         final var accountImported = new CompletableFuture<Account.ID>();
-        final var bundle = inflater.inflate(loginFactory.create(accountImported::complete));
+        final var bundle = inflater.inflate(loginFactoryProvider.get().create(accountImported::complete));
         return this.setStageContent(bundle)
                 .thenComposeAsync(_ -> accountImported)
                 .thenComposeAsync(setCurrentAccountUseCase::execute);
@@ -143,7 +142,7 @@ public class StageManager {
     public <TArgs, TParsedArgs> CompletableFuture<Void> showErrorScene(Throwable throwable, TArgs args, TParsedArgs state) {
         // TODO Pass throwable via @AssistedFactory
         logger.log(Level.SEVERE, "Initialization error", throwable);
-        final var bundle = inflater.inflate(exceptionFactory.create(new ExceptionScene.ViewModel() {
+        final var bundle = inflater.inflate(exceptionFactoryProvider.get().create(new ExceptionScene.ViewModel() {
 
         }));
         return this.setStageContent(bundle);
