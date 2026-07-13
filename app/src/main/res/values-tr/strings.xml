@@ -62,6 +62,7 @@
     <string name="seconds_ago">saniye önce</string>
     <string name="edit">Düzenle</string>
     <string name="label_labels">Etiketleri seçin</string>
+    <string name="label_dependents">Bağımlılar</string>
     <string name="label_description">Açıklama</string>
     <string name="hint_assign_people">Kullanıcı ata</string>
     <string name="hint_due_date_date">Bitiş tarihi</string>
@@ -87,6 +88,7 @@
     <string name="add_board">Pano ekle</string>
 
     <string name="label_clear_due_date">Bitiş tarihini temizle</string>
+    <string name="label_clear_start_date">Başlangıç tarihini temizle</string>
     <string name="label_clear_done">Tamamlanmamış</string>
     <string name="label_due_at">Bitiş tarihi: %1$s</string>
     <string name="label_add">%1$s ekle</string>
@@ -334,4 +336,5 @@
     <string name="enter_search_term_description">Bu panodaki kartları bulmak için bir arama ifadesi yazın</string>
     <string name="no_search_results_title">Aramadan bir sonuç alınamadı</string>
     <string name="no_search_results_description">Yazdığınız arama ifadesine uygum bir sonuç bulunamadı</string>
-    </resources>
+    <string name="label_no_startdate">Başlangıç tarihi yok</string>
+</resources>
