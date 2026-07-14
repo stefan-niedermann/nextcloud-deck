@@ -62,6 +62,7 @@
     <string name="seconds_ago">à l\'instant</string>
     <string name="edit">Modifier</string>
     <string name="label_labels">Sélectionner les étiquettes</string>
+    <string name="label_dependents">Dépendances</string>
     <string name="label_description">Description</string>
     <string name="hint_assign_people">Assigner des utilisateurs</string>
     <string name="hint_due_date_date">Date d\'échéance</string>
@@ -87,8 +88,10 @@
     <string name="add_board">Ajouter un tableau</string>
 
     <string name="label_clear_due_date">Effacer la date d\'échéance</string>
+    <string name="label_clear_start_date">Supprimer la date de début</string>
     <string name="label_clear_done">Non fait</string>
     <string name="label_due_at">À rendre à : %1$s</string>
+    <string name="label_start_at">Début : %1$s</string>
     <string name="label_add">Ajouter %1$s</string>
 
     <string name="card_edit_details">Propriétés</string>
@@ -338,4 +341,5 @@
     <string name="enter_search_term_description">Entrez le mot recherché pour trouver des cartes dans ce tableau</string>
     <string name="no_search_results_title">Aucun résultat de recherche</string>
     <string name="no_search_results_description">Aucun résultat trouvé pour le mot recherché</string>
-    </resources>
+    <string name="label_no_startdate">Aucune date de début</string>
+</resources>
