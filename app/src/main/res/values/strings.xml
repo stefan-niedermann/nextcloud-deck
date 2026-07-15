@@ -294,7 +294,7 @@
     </plurals>
     <string name="simple_report">Report</string>
     <string name="error_action_open_battery_settings">Battery settings</string>
-    <string name="move_warning">Neither comments nor attachments can be transferred when moving the card to another board.</string>
+    <string name="move_warning">Neither comments nor attachments can be transferred when moving the card to another account.</string>
     <string name="clone_board">Clone board</string>
     <string name="cloning_board">Cloning %1$s…</string>
     <string name="successfully_cloned_board">Successfully cloned %1$s</string>

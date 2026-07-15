@@ -136,7 +136,7 @@ public class MoveCardDialogFragment extends DialogFragment implements Themed, Pi
             binding.moveWarning.setVisibility(GONE);
         } else {
             binding.submit.setEnabled(true);
-            binding.moveWarning.setVisibility(originCardHasAttachmentsOrComments && !board.getLocalId().equals(originBoardLocalId) ? VISIBLE : GONE);
+            binding.moveWarning.setVisibility(originCardHasAttachmentsOrComments && board.getAccountId() != originAccountId ? VISIBLE : GONE);
         }
     }
 
