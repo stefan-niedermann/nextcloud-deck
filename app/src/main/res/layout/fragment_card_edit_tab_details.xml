@@ -101,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacer_2x"
-            android:hint="@string/label_dependents"
+            android:hint="@string/label_dependent_cards"
             app:layout_constraintBottom_toTopOf="@id/dependentsGroup"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -67,7 +67,6 @@
     <string name="seconds_ago">seconds ago</string>
     <string name="edit">Edit</string>
     <string name="label_labels">Select Tags</string>
-    <string name="label_dependents">Dependents</string>
     <string name="label_description">Description</string>
     <string name="hint_assign_people">Assign users</string>
     <string name="hint_due_date_date">Due date</string>
@@ -365,4 +364,5 @@
     <string name="no_search_results_title">No search results</string>
     <string name="no_search_results_description">We have not found any result for the given search term</string>
     <string name="label_no_startdate">No start date</string>
+    <string name="label_dependent_cards">Dependent cards</string>
 </resources>
