@@ -62,7 +62,6 @@
     <string name="seconds_ago">segundos atrás</string>
     <string name="edit">Editar</string>
     <string name="label_labels">Selecionar etiquetas</string>
-    <string name="label_dependents">Dependentes</string>
     <string name="label_description">Descrição</string>
     <string name="hint_assign_people">Atribuir usuários</string>
     <string name="hint_due_date_date">Data de vencimento</string>
@@ -342,4 +341,4 @@
     <string name="no_search_results_title">Nenhum resultado de pesquisa</string>
     <string name="no_search_results_description">Não encontramos nenhum resultado para o termo de pesquisa fornecido</string>
     <string name="label_no_startdate">Sem data de início</string>
-</resources>
+    </resources>

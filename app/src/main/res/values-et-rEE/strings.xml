@@ -62,7 +62,6 @@
     <string name="seconds_ago">sekundit tagasi</string>
     <string name="edit">Redigeeri</string>
     <string name="label_labels">Vali sildid</string>
-    <string name="label_dependents">Sõltuvad</string>
     <string name="label_description">Kirjeldus</string>
     <string name="hint_assign_people">Määra kasutajaid</string>
     <string name="hint_due_date_date">Tähtaeg</string>
@@ -338,4 +337,4 @@
     <string name="no_search_results_title">Otsingul pole tulemusi</string>
     <string name="no_search_results_description">Selle otsingusõnaga ei õnnestu leida mitte midagi</string>
     <string name="label_no_startdate">Alguskuupäeva pole</string>
-</resources>
+    </resources>

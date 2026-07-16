@@ -62,7 +62,6 @@
     <string name="seconds_ago">prieš keletą sekundžių</string>
     <string name="edit">Redaguoti</string>
     <string name="label_labels">Pasirinkti žymas</string>
-    <string name="label_dependents">Priklausiniai</string>
     <string name="label_description">Aprašas</string>
     <string name="hint_assign_people">Priskirti vartotojus</string>
     <string name="hint_due_date_date">Galutinis terminas</string>
@@ -346,4 +345,4 @@
     <string name="no_search_results_title">Nėra paieškos rezultatų</string>
     <string name="no_search_results_description">Neradome jokių rezultatų pagal pateiktą paieškos terminą</string>
     <string name="label_no_startdate">Nėra pradžios datos</string>
-</resources>
+    </resources>
