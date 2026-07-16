@@ -15,5 +15,8 @@ public interface StateRepository {
 
     CompletableFuture<Board.ID> getCurrentBoardId(Account.ID id);
 
+    CompletableFuture<Void> removeCurrentAccountId();
+
+    /// @implSpec Resets the complete state as if the app never run.
     CompletableFuture<Void> reset();
 }

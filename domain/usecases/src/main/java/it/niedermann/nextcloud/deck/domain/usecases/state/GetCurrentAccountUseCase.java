@@ -33,12 +33,14 @@ public class GetCurrentAccountUseCase {
         final Flowable<Boolean> accountExists = currentAccountId.flatMapPublisher(accountId -> FlowAdapters.toPublisher(accountRepository.accountExists(accountId)));
 
         return Single.zip(currentAccountId, accountExists.firstOrError(), AccountIdAndExists::new)
-                .map(pair -> {
+                .flatMap(pair -> {
                     if (pair.accountExists()) {
-                        return pair.accountId();
+                        return Single.just(pair.accountId());
+                    } else {
+                        return Single.fromCompletionStage(accountRepository.getAnyAccount())
+                                .doOnSuccess(this.stateRepository::setCurrentAccountId)
+                                .doOnError(exception -> this.stateRepository.removeCurrentAccountId());
                     }
-
-                    throw new IllegalStateException("Account with ID " + pair.accountId() + " does not exist.");
                 })
                 .toCompletionStage()
                 .toCompletableFuture();

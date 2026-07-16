@@ -7,10 +7,12 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
+import it.niedermann.nextcloud.deck.javafx.di.fx.FxScope;
 import jakarta.inject.Inject;
 import javafx.scene.Scene;
 import javafx.scene.control.Dialog;
 
+@FxScope
 public class ThemeService {
 
     private final OsThemeDetector detector;

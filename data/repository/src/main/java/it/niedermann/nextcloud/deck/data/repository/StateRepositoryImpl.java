@@ -67,6 +67,12 @@ public class StateRepositoryImpl implements StateRepository {
     }
 
     @Override
+    public CompletableFuture<Void> removeCurrentAccountId() {
+        keyValueStore.remove("current.account");
+        return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
     public CompletableFuture<Void> reset() {
         keyValueStore.remove("current.account");
         return CompletableFuture.completedFuture(null);

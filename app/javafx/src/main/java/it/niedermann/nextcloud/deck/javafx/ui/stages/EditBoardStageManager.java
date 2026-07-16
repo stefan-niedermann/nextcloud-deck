@@ -4,10 +4,10 @@ import java.util.concurrent.CompletableFuture;
 
 import jakarta.inject.Inject;
 
-public class EditBoardStageFactory {
+public class EditBoardStageManager {
 
     @Inject
-    public EditBoardStageFactory() {
+    public EditBoardStageManager() {
 
     }
 

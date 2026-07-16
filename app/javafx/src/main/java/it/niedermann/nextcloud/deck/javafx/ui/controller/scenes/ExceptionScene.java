@@ -33,6 +33,6 @@ public class ExceptionScene extends DisposableController {
     }
 
     public interface ViewModel {
-
+        void onRecovered();
     }
 }

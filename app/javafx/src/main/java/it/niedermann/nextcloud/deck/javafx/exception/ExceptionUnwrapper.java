@@ -7,7 +7,9 @@ import java.util.stream.Stream;
 import io.reactivex.rxjava4.exceptions.CompositeException;
 import io.reactivex.rxjava4.exceptions.OnErrorNotImplementedException;
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class ExceptionUnwrapper {
 
     @Inject

@@ -13,6 +13,8 @@ public interface AccountRepository {
 
     Flow.Publisher<Account> getAccount(Account.ID id);
 
+    CompletableFuture<Account.ID> getAnyAccount();
+
     CompletableFuture<Account.ID> findAccountId(String accountName);
 
     CompletableFuture<Account.ID> addAccount(URL url, String username, String token);

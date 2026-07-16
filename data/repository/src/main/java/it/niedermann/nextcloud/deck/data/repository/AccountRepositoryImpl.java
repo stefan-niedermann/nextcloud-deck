@@ -49,6 +49,16 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
+    public CompletableFuture<Account.ID> getAnyAccount() {
+        final var result = accountDao.getAnyAccount()
+                .map(Account.ID::new);
+
+        return result
+                .toCompletionStage()
+                .toCompletableFuture();
+    }
+
+    @Override
     public CompletableFuture<Account.ID> findAccountId(String accountName) {
         return accountDao.findAccountId(accountName)
                 .toCompletionStage()

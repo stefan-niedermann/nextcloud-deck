@@ -26,7 +26,6 @@ import it.niedermann.nextcloud.auth.webloginflowv2.WebLoginFlowV2AuthProvider;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.SyncStatus;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.fxml.FXML;
@@ -51,7 +50,6 @@ public class LoginScene extends DisposableController {
 
     private final ViewModel viewModel;
     private final ImportAccountUseCase importAccountUseCase;
-    private final SetCurrentAccountUseCase setCurrentAccountUseCase;
     private final WebLoginFlowV2AuthProvider webLoginV2AuthProvider;
     private final AppTokenAuthProvider appTokenAuthProvider;
 
@@ -62,13 +60,11 @@ public class LoginScene extends DisposableController {
     public LoginScene(
             @Assisted ViewModel viewModel,
             ImportAccountUseCase importAccountUseCase,
-            SetCurrentAccountUseCase setCurrentAccountUseCase,
             WebLoginFlowV2AuthProvider webLoginV2AuthProvider,
             AppTokenAuthProvider appTokenAuthProvider
     ) {
         this.viewModel = viewModel;
         this.importAccountUseCase = importAccountUseCase;
-        this.setCurrentAccountUseCase = setCurrentAccountUseCase;
         this.webLoginV2AuthProvider = webLoginV2AuthProvider;
         this.appTokenAuthProvider = appTokenAuthProvider;
     }

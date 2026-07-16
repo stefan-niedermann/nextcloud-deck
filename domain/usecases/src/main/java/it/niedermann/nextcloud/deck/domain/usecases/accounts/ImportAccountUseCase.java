@@ -37,7 +37,7 @@ public class ImportAccountUseCase {
 
                 .doOnNext(accountId::set)
                 .doOnNext(v -> {
-                    logger.info("ImportAccountUserCase :: Workaround for first Board is different. Call endpoint, expect HTTP 200.");
+                    logger.info("Workaround for first Board is different. Call endpoint, expect HTTP 200. See https://github.com/nextcloud/deck/issues/3229");
                     // TODO Workaround for first Board is different. Call endpoint, expect HTTP 200
                 })
                 .map(syncScheduler::scheduleSynchronization)

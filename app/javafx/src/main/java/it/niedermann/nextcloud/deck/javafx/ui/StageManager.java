@@ -5,59 +5,64 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.disposables.Disposable;
+import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.app.shared.args.ArgsResolver;
 import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.usecases.accounts.HasAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
-import it.niedermann.nextcloud.deck.javafx.di.stage.StageScope;
 import it.niedermann.nextcloud.deck.javafx.exception.ExceptionUnwrapper;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.ExceptionScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.LoginScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScene;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
-import jakarta.inject.Inject;
 import jakarta.inject.Provider;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-@StageScope
-public class StageManager {
+/// Takes care about having at least one account present and redirects to login scene if not.
+/// Also catches error while argument parsing and redirects to error scene
+public abstract class StageManager<TRawArgs, TParsedArgs> {
 
     private static final Logger logger = Logger.getLogger(StageManager.class.getName());
 
     protected final Inflater inflater;
     private final Stage stage;
     private final ThemeService themeService;
+    private final HasAccountsUseCase hasAccountsUseCase;
     private final SplashScreenScene.Factory splashScreenFactory;
     private final Provider<LoginScene.Factory> loginFactoryProvider;
     private final Provider<ExceptionScene.Factory> exceptionFactoryProvider;
     private final SetCurrentAccountUseCase setCurrentAccountUseCase;
+    private final TRawArgs args;
+    private final ArgsResolver<TRawArgs, TParsedArgs> argsResolver;
 
     private final AtomicReference<Object> controller = new AtomicReference<>();
 
-    @Inject
     public StageManager(Stage stage,
                         ThemeService themeService,
                         Inflater inflater,
                         SplashScreenScene.Factory splashScreenFactory,
+                        HasAccountsUseCase hasAccountsUseCase,
                         Provider<LoginScene.Factory> loginFactoryProvider,
                         Provider<ExceptionScene.Factory> exceptionFactoryProvider,
-                        SetCurrentAccountUseCase setCurrentAccountUseCase) {
+                        SetCurrentAccountUseCase setCurrentAccountUseCase,
+                        TRawArgs args,
+                        ArgsResolver<TRawArgs, TParsedArgs> argsResolver) {
         this.stage = stage;
         this.themeService = themeService;
         this.inflater = inflater;
+        this.hasAccountsUseCase = hasAccountsUseCase;
         this.splashScreenFactory = splashScreenFactory;
         this.loginFactoryProvider = loginFactoryProvider;
         this.exceptionFactoryProvider = exceptionFactoryProvider;
         this.setCurrentAccountUseCase = setCurrentAccountUseCase;
-    }
-
-    public <TArgs, TParsedArgs> CompletableFuture<Void> initialize(TArgs args,
-                                                                   ArgsResolver<TArgs, TParsedArgs> argsResolver,
-                                                                   StageFactory<TParsedArgs> stageFactory) {
+        this.args = args;
+        this.argsResolver = argsResolver;
 
         this.stage.setOnCloseRequest(_ -> {
             final var ctrl = controller.get();
@@ -66,28 +71,40 @@ public class StageManager {
             }
         });
 
+        final var disposable = Flowable.fromPublisher(this.hasAccountsUseCase.execute())
+                .subscribeOn(Schedulers.virtual())
+                .subscribe(hasAccounts -> {
+                    if (hasAccounts) {
+                        initialize();
+                    } else {
+                        showLogin();
+                    }
+                });
+    }
+
+    protected CompletableFuture<Void> initialize() {
         return this.showSplashScreenScene()
                 .thenApplyAsync(_ -> args)
                 .thenComposeAsync(argsResolver::resolve)
 
                 .handleAsync((state, exception) -> switch (new ExceptionUnwrapper().unwrap(exception)) {
 
-                    case null -> this.showContent(stageFactory, state);
+                    case null -> this.showContent(state);
 
-                    case ArgsResolver.NoAccountConfiguredException _ -> this.showLogin()
-                            .thenComposeAsync(_ -> initialize(args, argsResolver, stageFactory));
-
-                    default -> this.showErrorScene(exception, args, state);
+                    default -> this.showErrorScene(exception, args, state)
+                            .thenComposeAsync(_ -> initialize());
 
                 })
                 .thenComposeAsync(a -> a);
     }
 
+    /// @return [CompletableFuture] - completed when the splashscreen is shown
     private CompletableFuture<Void> showSplashScreenScene() {
         final var bundle = inflater.inflate(splashScreenFactory.create());
         return this.setStageContent(bundle);
     }
 
+    /// @return [CompletableFuture] - completed when an account has successfully been imported
     private CompletableFuture<Account.ID> showLogin() {
         final var accountImported = new CompletableFuture<Account.ID>();
         final var bundle = inflater.inflate(loginFactoryProvider.get().create(accountImported::complete));
@@ -96,6 +113,25 @@ public class StageManager {
                 .thenComposeAsync(setCurrentAccountUseCase::execute);
     }
 
+    /// @return [CompletableFuture] - completed when the content is visible
+    private CompletableFuture<Void> showContent(TParsedArgs initialState) {
+        final var fxBundle = inflateContent(initialState);
+        return this.setStageContent(fxBundle);
+    }
+
+    protected abstract Inflater.FxBundle<?> inflateContent(TParsedArgs initialState);
+
+    /// @return [CompletableFuture] - completed when the user recovered from the passed throwable
+    protected CompletableFuture<Void> showErrorScene(Throwable throwable, TRawArgs args, TParsedArgs state) {
+        // TODO Pass throwable via @AssistedFactory
+        logger.log(Level.SEVERE, "Initialization error", throwable);
+        final var onRecovered = new CompletableFuture<Void>();
+        final var bundle = inflater.inflate(exceptionFactoryProvider.get().create(() -> onRecovered.complete(null)));
+        return this.setStageContent(bundle)
+                .thenComposeAsync(_ -> onRecovered);
+    }
+
+    /// @return [CompletableFuture] - completed when the content is visible
     private <T, U> CompletableFuture<U> setStageContent(Inflater.FxBundle<T> controllerBundle) {
         final var cf = new CompletableFuture<U>();
         final var controller = controllerBundle.controller();
@@ -135,23 +171,4 @@ public class StageManager {
 
         return cf;
     }
-
-    private <TParsedArgs> CompletableFuture<Void> showContent(StageFactory<TParsedArgs> stageFactory, TParsedArgs initialState) {
-        final var fxBundle = stageFactory.inflateContent(initialState);
-        return this.setStageContent(fxBundle);
-    }
-
-    public <TArgs, TParsedArgs> CompletableFuture<Void> showErrorScene(Throwable throwable, TArgs args, TParsedArgs state) {
-        // TODO Pass throwable via @AssistedFactory
-        logger.log(Level.SEVERE, "Initialization error", throwable);
-        final var bundle = inflater.inflate(exceptionFactoryProvider.get().create(new ExceptionScene.ViewModel() {
-
-        }));
-        return this.setStageContent(bundle);
-    }
-
-    public interface StageFactory<TParsedArgs> {
-        Inflater.FxBundle<?> inflateContent(TParsedArgs initialState);
-    }
-
 }

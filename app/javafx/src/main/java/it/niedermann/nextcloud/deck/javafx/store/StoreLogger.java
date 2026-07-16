@@ -5,8 +5,10 @@ import com.google.gson.Gson;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import it.niedermann.nextcloud.deck.javafx.di.fx.FxScope;
 import jakarta.inject.Inject;
 
+@FxScope
 public class StoreLogger {
 
     private static final Logger logger = Logger.getLogger(StoreLogger.class.getName());

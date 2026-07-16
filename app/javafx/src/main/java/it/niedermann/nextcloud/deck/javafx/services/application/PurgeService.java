@@ -10,8 +10,10 @@ import it.niedermann.nextcloud.deck.data.local.DeckDatabase;
 import it.niedermann.nextcloud.deck.data.local.KeyValueStore;
 import it.niedermann.nextcloud.deck.javafx.di.named.NamedDbPath;
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import javafx.application.Platform;
 
+@Singleton
 public class PurgeService {
 
     private static final Logger logger = Logger.getLogger(PurgeService.class.getName());

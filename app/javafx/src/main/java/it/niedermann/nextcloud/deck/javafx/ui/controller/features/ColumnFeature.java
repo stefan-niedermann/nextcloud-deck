@@ -20,7 +20,6 @@ import it.niedermann.nextcloud.deck.domain.model.CreateCard;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase;
-import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.CardPreviewCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.CardPreviewView;
@@ -44,7 +43,6 @@ public class ColumnFeature extends DisposableController {
     private final ListCardsUseCase listCardsUseCase;
     private final MoveCardUseCase moveCardUseCase;
     private final AddCardUseCase addCardUseCase;
-    private final ThemeService themeService;
     private final Column column;
     private final ViewModel viewModel;
 
@@ -70,7 +68,6 @@ public class ColumnFeature extends DisposableController {
             MoveCardUseCase moveCardUseCase,
             CardPreviewCellFactory cardPreviewCellFactory,
             AddCardUseCase addCardUseCase,
-            ThemeService themeService,
             @Assisted Column column,
             @Assisted ViewModel viewModel
     ) {
@@ -78,7 +75,6 @@ public class ColumnFeature extends DisposableController {
         this.moveCardUseCase = moveCardUseCase;
         this.cardPreviewCellFactory = cardPreviewCellFactory;
         this.addCardUseCase = addCardUseCase;
-        this.themeService = themeService;
         this.column = column;
         this.viewModel = viewModel;
     }
