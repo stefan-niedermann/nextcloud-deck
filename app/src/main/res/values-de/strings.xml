@@ -62,7 +62,6 @@
     <string name="seconds_ago">Gerade eben</string>
     <string name="edit">Bearbeiten</string>
     <string name="label_labels">Schlagworte auswählen</string>
-    <string name="label_dependents">Abhängige</string>
     <string name="label_description">Beschreibung</string>
     <string name="hint_assign_people">Benutzer zuweisen</string>
     <string name="hint_due_date_date">Fälligkeitsdatum</string>
@@ -338,4 +337,4 @@
     <string name="no_search_results_title">Keine Suchergebnisse</string>
     <string name="no_search_results_description">Keine Ergebnisse für diesen Suchbegriff gefunden</string>
     <string name="label_no_startdate">Kein Startdatum</string>
-</resources>
+    </resources>

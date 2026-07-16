@@ -62,7 +62,6 @@
     <string name="seconds_ago">saniye önce</string>
     <string name="edit">Düzenle</string>
     <string name="label_labels">Etiketleri seçin</string>
-    <string name="label_dependents">Bağımlılar</string>
     <string name="label_description">Açıklama</string>
     <string name="hint_assign_people">Kullanıcı ata</string>
     <string name="hint_due_date_date">Bitiş tarihi</string>
@@ -337,4 +336,4 @@
     <string name="no_search_results_title">Aramadan bir sonuç alınamadı</string>
     <string name="no_search_results_description">Yazdığınız arama ifadesine uygum bir sonuç bulunamadı</string>
     <string name="label_no_startdate">Başlangıç tarihi yok</string>
-</resources>
+    </resources>

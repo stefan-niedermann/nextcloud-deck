@@ -62,7 +62,6 @@
     <string name="seconds_ago">à l\'instant</string>
     <string name="edit">Modifier</string>
     <string name="label_labels">Sélectionner les étiquettes</string>
-    <string name="label_dependents">Dépendances</string>
     <string name="label_description">Description</string>
     <string name="hint_assign_people">Assigner des utilisateurs</string>
     <string name="hint_due_date_date">Date d\'échéance</string>
@@ -342,4 +341,4 @@
     <string name="no_search_results_title">Aucun résultat de recherche</string>
     <string name="no_search_results_description">Aucun résultat trouvé pour le mot recherché</string>
     <string name="label_no_startdate">Aucune date de début</string>
-</resources>
+    </resources>

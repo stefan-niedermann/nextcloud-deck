@@ -62,7 +62,6 @@
     <string name="seconds_ago">soicind ó shin</string>
     <string name="edit">Cuir in eagar</string>
     <string name="label_labels">Roghnaigh Clibeanna</string>
-    <string name="label_dependents">Cleithiúnaithe</string>
     <string name="label_description">Cur síos</string>
     <string name="hint_assign_people">Úsáideoirí a shannadh</string>
     <string name="hint_due_date_date">Dáta dlite</string>
@@ -350,4 +349,4 @@
     <string name="no_search_results_title">Gan torthaí cuardaigh</string>
     <string name="no_search_results_description">Ní bhfuaireamar aon toradh ar an téarma cuardaigh a tugadh</string>
     <string name="label_no_startdate">Gan dáta tosaithe</string>
-</resources>
+    </resources>

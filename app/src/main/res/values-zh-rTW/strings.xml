@@ -62,7 +62,6 @@
     <string name="seconds_ago">幾秒前</string>
     <string name="edit">編輯</string>
     <string name="label_labels">選取標籤</string>
-    <string name="label_dependents">被依賴項</string>
     <string name="label_description">描述</string>
     <string name="hint_assign_people">分派使用者</string>
     <string name="hint_due_date_date">截止日</string>
@@ -334,4 +333,4 @@
     <string name="no_search_results_title">無搜尋結果</string>
     <string name="no_search_results_description">對於指定的搜尋詞，我們沒有找到任何結果</string>
     <string name="label_no_startdate">沒有開始日期</string>
-</resources>
+    </resources>

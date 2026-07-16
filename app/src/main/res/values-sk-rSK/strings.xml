@@ -62,7 +62,6 @@
     <string name="seconds_ago">pred niekoľkými sekundami</string>
     <string name="edit">Upraviť</string>
     <string name="label_labels">Vybrať štítky</string>
-    <string name="label_dependents">Odkázaní</string>
     <string name="label_description">Popis</string>
     <string name="hint_assign_people">Priradiť užívateľov</string>
     <string name="hint_due_date_date">Termín dokončenia</string>
@@ -346,4 +345,4 @@
     <string name="no_search_results_title">Žiadne výsledky vyhľadávania</string>
     <string name="no_search_results_description">Nenašli sme žiadne výsledky pre zadaný vyhľadávací výraz</string>
     <string name="label_no_startdate">Žiadny dátum začiatku</string>
-</resources>
+    </resources>
