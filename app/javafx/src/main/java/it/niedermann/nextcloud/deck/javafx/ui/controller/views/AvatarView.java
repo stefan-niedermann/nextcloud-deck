@@ -12,6 +12,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
 
 public class AvatarView extends ImageView {
@@ -23,8 +24,13 @@ public class AvatarView extends ImageView {
     private final ObjectProperty<User.ID> userId = new SimpleObjectProperty<>(this, "userId");
 
     public AvatarView() {
-        Bindings.createObjectBinding(() -> new Pair<>(accountId.get(), userId.get()), accountId, userId)
-                .addListener((_, _, newValue) -> loadImage(newValue.getKey(), newValue.getValue()));
+        setFitWidth(24);
+        setFitHeight(24);
+        setPreserveRatio(true);
+
+        final var ids = Bindings.createObjectBinding(() -> new Pair<>(accountId.get(), userId.get()), accountId, userId);
+        Bindings.createObjectBinding(() -> new Pair<>(ids.get(), fitWidthProperty().get()), ids, fitWidthProperty())
+                .addListener((_, _, newValue) -> loadImage(newValue.getKey().getKey(), newValue.getKey().getValue(), newValue.getValue()));
     }
 
     public static synchronized void initialize(GetAvatarUseCase getAvatarUseCase) {
@@ -35,7 +41,7 @@ public class AvatarView extends ImageView {
         AvatarView.getAvatarUseCase = getAvatarUseCase;
     }
 
-    private void loadImage(Account.ID accountId, User.ID userId) {
+    private void loadImage(Account.ID accountId, User.ID userId, double sizeInPx) {
         if (getAvatarUseCase == null) {
             throw new IllegalStateException("Not yet initialized.");
         }
@@ -45,9 +51,19 @@ public class AvatarView extends ImageView {
             return;
         }
 
+        setFitWidth(sizeInPx);
+        setFitHeight(sizeInPx);
+
+        final var clip = new Rectangle();
+        clip.setWidth(sizeInPx);
+        clip.setHeight(sizeInPx);
+        clip.setArcWidth(sizeInPx);
+        clip.setArcHeight(sizeInPx);
+        setClip(clip);
+
         final var cf = accountId == null
-                ? getAvatarUseCase.execute(userId)
-                : getAvatarUseCase.execute(accountId, userId);
+                ? getAvatarUseCase.execute(userId, (int) sizeInPx)
+                : getAvatarUseCase.execute(accountId, userId, (int) sizeInPx);
 
         cf.whenCompleteAsync((inputStream, exception) -> {
             if (exception == null) {

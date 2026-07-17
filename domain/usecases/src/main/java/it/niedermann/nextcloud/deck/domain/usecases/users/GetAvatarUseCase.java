@@ -32,17 +32,17 @@ public class GetAvatarUseCase {
         this.userRepository = userRepository;
     }
 
-    public CompletableFuture<InputStream> execute(User.ID userId) {
+    public CompletableFuture<InputStream> execute(User.ID userId, int sizeInPx) {
         return userRepository.getAccountIdByUserId(userId)
-                .thenComposeAsync(accountId -> execute(accountId, userId));
+                .thenComposeAsync(accountId -> execute(accountId, userId, sizeInPx));
     }
 
-    public CompletableFuture<InputStream> execute(Account.ID accountId, User.ID userId) {
+    public CompletableFuture<InputStream> execute(Account.ID accountId, User.ID userId, int sizeInPx) {
         return apiProviderFactory.create(accountId)
                 .thenApplyAsync(ApiProvider::getOcsApi)
                 .thenComposeAsync(ocsApi -> {
                     final var result = new CompletableFuture<InputStream>();
-                    final var call = ocsApi.getAvatar(userId.value(), 64);
+                    final var call = ocsApi.getAvatar(userId.value(), sizeInPx);
                     call.enqueue(new Callback<>() {
                         @Override
                         public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
