@@ -333,4 +333,5 @@
     <string name="no_search_results_title">無搜尋結果</string>
     <string name="no_search_results_description">對於指定的搜尋詞，我們沒有找到任何結果</string>
     <string name="label_no_startdate">沒有開始日期</string>
-    </resources>
+    <string name="label_dependent_cards">被依賴的卡片</string>
+</resources>
