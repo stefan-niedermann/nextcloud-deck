@@ -202,7 +202,7 @@
     <string name="archived_boards">Arhiveeritud tahvlid</string>
 
     <string name="error">Tekkis viga</string>
-    <string name="synchronization_failed">Sünkroniseerimine ei õnnestunud</string>
+    <string name="synchronization_failed">Sünkroonimine ei õnnestunud</string>
     <string name="operation_not_yet_supported">Pole veel toetatud</string>
     <string name="error_revoking_ac">%1$s kasutaja ligipääsu eemaldamisel tekkis viga</string>
     <string name="error_create_label">%1$s sildi loomisel tekkis viga</string>
@@ -226,7 +226,7 @@
     <string name="error_dialog_check_server">Serveri vastus päringule polnud korrektne. Palun kontrolli, kas sa saad Kanbani rakendust kasutada veebiliidesest.</string>
     <string name="error_dialog_check_server_logs">Sinu Nextcloud paigalduses on üks viga. Täpsem teave leidub serveri logides.</string>
     <string name="error_dialog_check_maintenance">Palun kontrolli, et Nextcloudi server ei oleks hetkel hooldusrežiimis!</string>
-    <string name="error_dialog_insufficient_storage">Sinu Nextcloudi serveris pole enam vaba andmeruumi. Selleks, et kohalike failide sünkroniseerimine pilve toimiks, palun kustuta serverist mittevajalikke faile.</string>
+    <string name="error_dialog_insufficient_storage">Sinu Nextcloudi serveris pole enam vaba andmeruumi. Selleks, et kohalike failide sünkroonimine pilve toimiks, palun kustuta serverist mittevajalikke faile.</string>
     <string name="error_dialog_we_need_info">Me vajame sinult järgnevat tehnilist teavet:</string>
     <string name="error_dialog_redirect">Sinu server vastas päringule http-protokolli olekukukoodiga 302, mis tähendab, et kas serverisse on paigaldamata Kanbani rakendus või mõni seadistus on vigane. Samuti võib seda põhjustada .htaccess faili eraldi tehtud muudatused  või Nextcloudi rakendused nagu OID Klient.</string>
     <string name="error_dialog_version_not_parsable">Me ei suutnud serverpoolse Kanbani rakenduse versiooni tuvastada. Palun kontrolli, et ta oleks paigaldatud ja sisse lülitatud.</string>
@@ -337,4 +337,5 @@
     <string name="no_search_results_title">Otsingul pole tulemusi</string>
     <string name="no_search_results_description">Selle otsingusõnaga ei õnnestu leida mitte midagi</string>
     <string name="label_no_startdate">Alguskuupäeva pole</string>
-    </resources>
+    <string name="label_dependent_cards">Sõltuvad kaardid</string>
+</resources>

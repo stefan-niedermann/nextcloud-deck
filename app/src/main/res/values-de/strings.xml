@@ -337,4 +337,5 @@
     <string name="no_search_results_title">Keine Suchergebnisse</string>
     <string name="no_search_results_description">Keine Ergebnisse für diesen Suchbegriff gefunden</string>
     <string name="label_no_startdate">Kein Startdatum</string>
-    </resources>
+    <string name="label_dependent_cards">Abhängige Karten</string>
+</resources>
