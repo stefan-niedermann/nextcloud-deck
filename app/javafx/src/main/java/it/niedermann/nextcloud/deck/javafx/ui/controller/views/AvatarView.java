@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.javafx.ui.controller.views;
 
+import org.kordamp.ikonli.javafx.FontIcon;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -69,7 +71,9 @@ public class AvatarView extends ImageView {
                 setImage(new Image(inputStream, true));
             } else {
                 logger.log(Level.SEVERE, "Failed to load avatar for accountId=" + accountId + " and userId=" + userId, exception);
-                setImage(null);
+                final var icon = new FontIcon("fltral-image-off-24");
+                icon.setIconSize((int) sizeInPx);
+                setImage(icon.snapshot(null, null));
             }
         }, JavaFxScheduler.platform().toExecutorService());
     }

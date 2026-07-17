@@ -40,6 +40,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.searchviewconverter.UserSearchView
 import it.niedermann.nextcloud.deck.javafx.ui.suggestionproviders.LabelSuggestionProvider;
 import it.niedermann.nextcloud.deck.javafx.ui.suggestionproviders.UserSuggestionProvider;
 import it.niedermann.nextcloud.deck.javafx.ui.tagviewfactories.LabelTagViewFactory;
+import it.niedermann.nextcloud.deck.javafx.ui.tagviewfactories.UserTagViewFactory;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -71,6 +72,7 @@ public class EditCardFeature extends DisposableController {
 
     private final UserSuggestionProvider userSuggestionProvider;
     private final UserSearchViewConverter userSearchViewConverter;
+    private final UserTagViewFactory userTagViewFactory;
 
     private final LabelSuggestionProvider labelSuggestionProvider;
     private final LabelSearchViewConverter labelSearchViewConverter;
@@ -135,6 +137,7 @@ public class EditCardFeature extends DisposableController {
             LabelSearchViewConverter labelSearchViewConverter,
             LabelTagViewFactory labelTagViewFactory,
             UserSearchViewConverter userSearchViewConverter,
+            UserTagViewFactory userTagViewFactory,
             @Assisted ViewModel viewModel
     ) {
         this.getCardUseCase = getCardUseCase;
@@ -149,6 +152,7 @@ public class EditCardFeature extends DisposableController {
         this.labelSearchViewConverter = labelSearchViewConverter;
         this.labelTagViewFactory = labelTagViewFactory;
         this.userSearchViewConverter = userSearchViewConverter;
+        this.userTagViewFactory = userTagViewFactory;
         this.viewModel = viewModel;
     }
 
@@ -182,6 +186,7 @@ public class EditCardFeature extends DisposableController {
         labels.setConverter(labelSearchViewConverter);
 
         assignees.setSuggestionProvider(userSuggestionProvider);
+        assignees.setTagViewFactory(userTagViewFactory);
         assignees.setConverter(userSearchViewConverter);
 
         final var cardDisposable = cardId.switchMap(getCardUseCase::execute)
