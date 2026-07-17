@@ -11,7 +11,7 @@ dependencies {
 
     api(libs.jakarta.inject)
 
-    implementation(libs.retrofit)
+    api(libs.retrofit)
     implementation(libs.retrofit.gson)
     implementation(libs.retrofit.rxjava)
     implementation(libs.gson);

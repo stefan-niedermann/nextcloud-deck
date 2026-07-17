@@ -44,7 +44,7 @@ public class CommentView extends HBox {
     }
 
     public void bind(Comment comment, CommentActionListener commentActionListener) {
-        avatar.setUser(comment.author());
+        avatar.setAvatar(comment.author());
         author.setText(comment.author().displayName());
         message.setText(comment.message());
 

@@ -17,5 +17,7 @@ public interface ApiProvider {
 
         CompletableFuture<ApiProvider> create(Account.ID accountId);
 
+        ApiProvider create(Account account);
+
     }
 }

@@ -35,8 +35,11 @@ import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.AttachmentCellFactor
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.CommentCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.SubmitTextField;
+import it.niedermann.nextcloud.deck.javafx.ui.searchviewconverter.LabelSearchViewConverter;
+import it.niedermann.nextcloud.deck.javafx.ui.searchviewconverter.UserSearchViewConverter;
 import it.niedermann.nextcloud.deck.javafx.ui.suggestionproviders.LabelSuggestionProvider;
 import it.niedermann.nextcloud.deck.javafx.ui.suggestionproviders.UserSuggestionProvider;
+import it.niedermann.nextcloud.deck.javafx.ui.tagviewfactories.LabelTagViewFactory;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -49,7 +52,6 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
-import javafx.util.StringConverter;
 import one.jpro.platform.mdfx.MarkdownView;
 
 public class EditCardFeature extends DisposableController {
@@ -57,13 +59,23 @@ public class EditCardFeature extends DisposableController {
     private static final Logger logger = Logger.getLogger(EditCardFeature.class.getName());
 
     private final GetCardUseCase getCardUseCase;
+
     private final AddAttachmentUseCase addAttachmentUseCase;
     private final ListAttachmentsUseCase listAttachmentsUseCase;
+
     private final AddCommentUseCase addCommentUseCase;
     private final ListCommentsUseCase listCommentsUseCase;
+    private final CommentCellFactory commentCellFactory;
+
     private final ListActivityUseCase listActivityUseCase;
-    private final LabelSuggestionProvider labelSuggestionProvider;
+
     private final UserSuggestionProvider userSuggestionProvider;
+    private final UserSearchViewConverter userSearchViewConverter;
+
+    private final LabelSuggestionProvider labelSuggestionProvider;
+    private final LabelSearchViewConverter labelSearchViewConverter;
+    private final LabelTagViewFactory labelTagViewFactory;
+
     private final ViewModel viewModel;
 
     @FXML
@@ -116,19 +128,27 @@ public class EditCardFeature extends DisposableController {
             AddAttachmentUseCase addAttachmentUseCase,
             ListCommentsUseCase listCommentsUseCase,
             AddCommentUseCase addCommentUseCase,
+            CommentCellFactory commentCellFactory,
             ListActivityUseCase listActivityUseCase,
             LabelSuggestionProvider labelSuggestionProvider,
             UserSuggestionProvider userSuggestionProvider,
+            LabelSearchViewConverter labelSearchViewConverter,
+            LabelTagViewFactory labelTagViewFactory,
+            UserSearchViewConverter userSearchViewConverter,
             @Assisted ViewModel viewModel
-            ) {
+    ) {
         this.getCardUseCase = getCardUseCase;
         this.listAttachmentsUseCase = listAttachmentsUseCase;
         this.addAttachmentUseCase = addAttachmentUseCase;
         this.listCommentsUseCase = listCommentsUseCase;
         this.addCommentUseCase = addCommentUseCase;
+        this.commentCellFactory = commentCellFactory;
         this.listActivityUseCase = listActivityUseCase;
         this.labelSuggestionProvider = labelSuggestionProvider;
         this.userSuggestionProvider = userSuggestionProvider;
+        this.labelSearchViewConverter = labelSearchViewConverter;
+        this.labelTagViewFactory = labelTagViewFactory;
+        this.userSearchViewConverter = userSearchViewConverter;
         this.viewModel = viewModel;
     }
 
@@ -152,35 +172,17 @@ public class EditCardFeature extends DisposableController {
 
         descriptionPreview.mdStringProperty().bind(descriptionEditor.textProperty());
 
-        comments.setCellFactory(new CommentCellFactory());
+
+        comments.setCellFactory(commentCellFactory);
         activities.setCellFactory(new ActivityCellFactory());
         attachments.setCellFactory(new AttachmentCellFactory());
 
         labels.setSuggestionProvider(labelSuggestionProvider);
-        labels.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(it.niedermann.nextcloud.deck.domain.model.Label object) {
-                return object.title();
-            }
-
-            @Override
-            public it.niedermann.nextcloud.deck.domain.model.Label fromString(String string) {
-                throw new UnsupportedOperationException();
-            }
-        });
+        labels.setTagViewFactory(labelTagViewFactory);
+        labels.setConverter(labelSearchViewConverter);
 
         assignees.setSuggestionProvider(userSuggestionProvider);
-        assignees.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(User user) {
-                return user.displayName();
-            }
-
-            @Override
-            public User fromString(String string) {
-                throw new UnsupportedOperationException();
-            }
-        });
+        assignees.setConverter(userSearchViewConverter);
 
         final var cardDisposable = cardId.switchMap(getCardUseCase::execute)
                 .subscribeOn(Schedulers.virtual())

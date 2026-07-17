@@ -66,11 +66,12 @@ public class RetrofitApiProvider implements ApiProvider {
                     .firstElement()
                     .toCompletionStage()
                     .toCompletableFuture()
-                    .thenApply(account -> cache.computeIfAbsent(account, this::create));
+                    .thenApplyAsync(this::create);
         }
 
-        private ApiProvider create(Account account) {
-            return new RetrofitApiProvider(account, gson);
+        @Override
+        public synchronized ApiProvider create(Account account) {
+            return cache.computeIfAbsent(account, a -> new RetrofitApiProvider(account, gson));
         }
     }
 }

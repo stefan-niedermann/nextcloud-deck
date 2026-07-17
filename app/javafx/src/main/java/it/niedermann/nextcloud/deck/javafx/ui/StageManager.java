@@ -20,6 +20,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScen
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import jakarta.inject.Provider;
 import javafx.application.Platform;
+import javafx.fxml.LoadException;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -89,7 +90,8 @@ public abstract class StageManager<TRawArgs, TParsedArgs> {
 
                 .handleAsync((state, exception) -> switch (new ExceptionUnwrapper().unwrap(exception)) {
 
-                    case null -> this.showContent(state);
+                    case null -> this.showContent(state)
+                            .exceptionallyComposeAsync(e -> this.showErrorScene(e, args, state));
 
                     default -> this.showErrorScene(exception, args, state)
                             .thenComposeAsync(_ -> initialize());
@@ -115,11 +117,15 @@ public abstract class StageManager<TRawArgs, TParsedArgs> {
 
     /// @return [CompletableFuture] - completed when the content is visible
     private CompletableFuture<Void> showContent(TParsedArgs initialState) {
-        final var fxBundle = inflateContent(initialState);
-        return this.setStageContent(fxBundle);
+        try {
+            final var fxBundle = inflateContent(initialState);
+            return this.setStageContent(fxBundle);
+        } catch (Throwable t) {
+            return CompletableFuture.failedFuture(t);
+        }
     }
 
-    protected abstract Inflater.FxBundle<?> inflateContent(TParsedArgs initialState);
+    protected abstract Inflater.FxBundle<?> inflateContent(TParsedArgs initialState) throws LoadException;
 
     /// @return [CompletableFuture] - completed when the user recovered from the passed throwable
     protected CompletableFuture<Void> showErrorScene(Throwable throwable, TRawArgs args, TParsedArgs state) {

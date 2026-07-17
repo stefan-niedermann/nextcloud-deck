@@ -9,9 +9,13 @@ import java.util.Optional;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 
 public class FxUtils {
 
@@ -27,6 +31,17 @@ public class FxUtils {
                 """.formatted(hexString);
 
         return css;
+    }
+
+    public static Background colorToBackground(Color color) {
+        javafx.scene.paint.Color fxColor = javafx.scene.paint.Color.rgb(
+                color.getRed(),
+                color.getGreen(),
+                color.getBlue(),
+                color.getAlpha() / 255.0
+        );
+
+        return new Background(new BackgroundFill(fxColor, CornerRadii.EMPTY, Insets.EMPTY));
     }
 
     /// @return Traverses the [Node] hierarchy to returns the closest parent element that is a [ListCell] or [ListView]

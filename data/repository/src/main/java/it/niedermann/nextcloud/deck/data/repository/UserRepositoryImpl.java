@@ -4,6 +4,7 @@ import org.reactivestreams.FlowAdapters;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 import java.util.stream.Collectors;
 
@@ -36,6 +37,12 @@ public class UserRepositoryImpl implements UserRepository {
     public Flow.Publisher<User> getUserByAccountId(Account.ID accountId) {
         System.out.println("[Mock][" + UserRepositoryImpl.class.getSimpleName() + "/getUserByAccountId]: " + accountId);
         return null;
+    }
+
+    @Override
+    public CompletableFuture<Account.ID> getAccountIdByUserId(User.ID userId) {
+        System.out.println("[Mock][" + UserRepositoryImpl.class.getSimpleName() + "/getUserByAccountId]: " + userId);
+        return CompletableFuture.completedFuture(new Account.ID(1L));
     }
 
     @Override

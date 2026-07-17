@@ -18,7 +18,7 @@ public class AccountListItemView extends HBox {
     }
 
     public void bind(Account account, boolean isCurrent) {
-        avatar.setAccount(account);
+        avatar.setAvatar(account);
         title.setText((isCurrent ? "☒ " : "☐ ") + account.username());
     }
 }

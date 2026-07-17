@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.deck.javafx.di.application.AppComponent;
 import it.niedermann.nextcloud.deck.javafx.di.application.DaggerAppComponent;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.views.AvatarView;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -32,6 +33,8 @@ public class JavaFxApplication extends Application {
         try {
 
             Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
+            AvatarView.initialize(fxComponent.getGetAvatarUseCase());
+
             final var applicationRouter = fxComponent.getApplicationRouter();
             applicationRouter.initialize();
 

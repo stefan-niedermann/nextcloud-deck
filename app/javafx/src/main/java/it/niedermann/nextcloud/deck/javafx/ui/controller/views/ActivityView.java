@@ -27,7 +27,7 @@ public class ActivityView extends HBox {
     }
 
     public void bind(Activity activity) {
-        avatar.setUser(activity.author());
+        avatar.setAvatar(activity.author());
         author.setText(activity.author().displayName());
         message.setText(activity.subject());
 

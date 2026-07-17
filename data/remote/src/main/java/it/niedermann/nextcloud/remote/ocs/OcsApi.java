@@ -13,6 +13,7 @@ import it.niedermann.nextcloud.remote.ocs.dto.OcsResponse;
 import it.niedermann.nextcloud.remote.ocs.dto.OcsSearchProvider;
 import it.niedermann.nextcloud.remote.ocs.dto.OcsSearchResult;
 import it.niedermann.nextcloud.remote.ocs.dto.OcsUser;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -40,6 +41,9 @@ public interface OcsApi {
     Call<OcsResponse<OcsUser>> getUser(@Header("If-None-Match") @Nullable String eTag,
                                        @Path("userId") String userId);
 
+    @Headers({HEADER_OCS_API_REQUEST})
+    @GET("index.php/avatar/{userId}/{size}")
+    Call<ResponseBody> getAvatar(@Path("userId") String userId, @Path("size") int size);
 
     @Headers({HEADER_OCS_API_REQUEST})
     @GET("ocs/v1.php/core/autocomplete/get?format=json")
