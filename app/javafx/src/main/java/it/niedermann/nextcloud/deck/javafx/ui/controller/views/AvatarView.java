@@ -13,11 +13,11 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Pair;
 
 public class AvatarView extends ImageView {
 
     private final Logger logger = Logger.getLogger(AvatarView.class.getName());
+
     private static GetAvatarUseCase getAvatarUseCase;
 
     private final ObjectProperty<Account.ID> accountId = new SimpleObjectProperty<>(this, "accountId");
@@ -28,9 +28,18 @@ public class AvatarView extends ImageView {
         setFitHeight(24);
         setPreserveRatio(true);
 
-        final var ids = Bindings.createObjectBinding(() -> new Pair<>(accountId.get(), userId.get()), accountId, userId);
-        Bindings.createObjectBinding(() -> new Pair<>(ids.get(), fitWidthProperty().get()), ids, fitWidthProperty())
-                .addListener((_, _, newValue) -> loadImage(newValue.getKey().getKey(), newValue.getKey().getValue(), newValue.getValue()));
+        final var clip = new Rectangle();
+        clip.widthProperty().bind(fitWidthProperty());
+        clip.heightProperty().bind(fitHeightProperty());
+        clip.arcWidthProperty().bind(fitWidthProperty());
+        clip.arcHeightProperty().bind(fitHeightProperty());
+        setClip(clip);
+
+        Bindings.createObjectBinding(() -> new AccountIdUserIdSize(accountId.get(), userId.get(), fitWidthProperty().get()), accountId, userId, fitWidthProperty())
+                .addListener((_, _, newValue) -> loadImage(newValue.accountId(), newValue.userId(), newValue.size()));
+    }
+
+    private record AccountIdUserIdSize(Account.ID accountId, User.ID userId, double size) {
     }
 
     public static synchronized void initialize(GetAvatarUseCase getAvatarUseCase) {
@@ -50,16 +59,6 @@ public class AvatarView extends ImageView {
             setImage(null);
             return;
         }
-
-        setFitWidth(sizeInPx);
-        setFitHeight(sizeInPx);
-
-        final var clip = new Rectangle();
-        clip.setWidth(sizeInPx);
-        clip.setHeight(sizeInPx);
-        clip.setArcWidth(sizeInPx);
-        clip.setArcHeight(sizeInPx);
-        setClip(clip);
 
         final var cf = accountId == null
                 ? getAvatarUseCase.execute(userId, (int) sizeInPx)
