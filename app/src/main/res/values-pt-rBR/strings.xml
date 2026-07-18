@@ -341,4 +341,5 @@
     <string name="no_search_results_title">Nenhum resultado de pesquisa</string>
     <string name="no_search_results_description">Não encontramos nenhum resultado para o termo de pesquisa fornecido</string>
     <string name="label_no_startdate">Sem data de início</string>
-    </resources>
+    <string name="label_dependent_cards">Cartões dependentes</string>
+</resources>

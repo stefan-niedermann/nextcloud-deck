@@ -345,4 +345,5 @@
     <string name="no_search_results_title">Nėra paieškos rezultatų</string>
     <string name="no_search_results_description">Neradome jokių rezultatų pagal pateiktą paieškos terminą</string>
     <string name="label_no_startdate">Nėra pradžios datos</string>
-    </resources>
+    <string name="label_dependent_cards">Susijusios kortelės</string>
+</resources>
