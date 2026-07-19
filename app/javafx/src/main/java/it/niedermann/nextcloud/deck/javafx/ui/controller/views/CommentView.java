@@ -44,8 +44,9 @@ public class CommentView extends HBox {
     }
 
     public void bind(Comment comment, CommentActionListener commentActionListener) {
-        avatar.setAvatar(comment.author());
-        author.setText(comment.author().displayName());
+        avatar.setUserId(comment.author());
+        // TODO We need a proper query item here
+        author.setText(comment.author().value());
         message.setText(comment.message());
 
         final var created = comment.created().atZone(ZoneId.systemDefault());

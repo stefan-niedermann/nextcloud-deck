@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.javafx.ui.controller.features;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,14 +11,13 @@ import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.processors.BehaviorProcessor;
 import io.reactivex.rxjava4.processors.FlowableProcessor;
-import io.reactivex.rxjava4.processors.ReplayProcessor;
-import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateCard;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.CardPreviewCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.CardPreviewView;
@@ -43,10 +41,10 @@ public class ColumnFeature extends DisposableController {
     private final ListCardsUseCase listCardsUseCase;
     private final MoveCardUseCase moveCardUseCase;
     private final AddCardUseCase addCardUseCase;
-    private final Column column;
+    private final GetColumnUseCase getColumnUseCase;
+    private final Column.ID columnId;
     private final ViewModel viewModel;
 
-    private final FlowableProcessor<Column.ID> columnId = ReplayProcessor.create();
     private FlowableProcessor<Integer> draggingCardIndex;
 
     private final CardPreviewCellFactory cardPreviewCellFactory;
@@ -68,20 +66,22 @@ public class ColumnFeature extends DisposableController {
             MoveCardUseCase moveCardUseCase,
             CardPreviewCellFactory cardPreviewCellFactory,
             AddCardUseCase addCardUseCase,
-            @Assisted Column column,
+            GetColumnUseCase getColumnUseCase,
+            @Assisted Column.ID columnId,
             @Assisted ViewModel viewModel
     ) {
         this.listCardsUseCase = listCardsUseCase;
         this.moveCardUseCase = moveCardUseCase;
         this.cardPreviewCellFactory = cardPreviewCellFactory;
         this.addCardUseCase = addCardUseCase;
-        this.column = column;
+        this.getColumnUseCase = getColumnUseCase;
+        this.columnId = columnId;
         this.viewModel = viewModel;
     }
 
     @AssistedFactory
     public interface Factory {
-        ColumnFeature create(Column column, ViewModel viewModel);
+        ColumnFeature create(Column.ID columnId, ViewModel viewModel);
     }
 
     @Override
@@ -94,15 +94,18 @@ public class ColumnFeature extends DisposableController {
         cards.setOnDragOver(this::onDragCardOver);
         cards.setOnDragDropped(this::onCardDropped);
 
-        final var disposable = this.columnId
-                .observeOn(Schedulers.virtual())
-                .distinctUntilChanged(Column.ID::equals)
-                .map(listCardsUseCase::execute)
-                .switchMap(Flowable::fromPublisher)
+        final var disposable = Flowable.fromPublisher(listCardsUseCase.execute(columnId))
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(cards -> this.cards.getItems().setAll(cards));
 
         addDisposable(disposable);
+
+        final var d2 = Flowable.fromPublisher(getColumnUseCase.execute(columnId))
+                .subscribe(column -> {
+                    this.title.setText(column.title());
+                    // Order of setting listener and columnId matters because columnId Flowable triggers rebinding the listener to the cards
+                    this.cardPreviewCellFactory.setCardPreviewActionListener(viewModel);
+                });
 
         addCard.setOnAction(event -> {
 
@@ -123,7 +126,7 @@ public class ColumnFeature extends DisposableController {
             addCardPopup.hide();
             addCardSubmitTextField.setDisable(true);
 
-            addCard(cardTitle)
+            addCardUseCase.execute(new CreateCard(columnId, cardTitle))
                     .whenCompleteAsync((_, exception) -> {
                         if (exception == null) {
                             addCardSubmitTextField.setContent(null);
@@ -134,12 +137,6 @@ public class ColumnFeature extends DisposableController {
                         addCardSubmitTextField.setDisable(false);
                     }, Platform::runLater);
         });
-
-        render(column);
-    }
-
-    private CompletableFuture<Void> addCard(String cardTitle) {
-        return addCardUseCase.execute(new CreateCard(columnId.blockingFirst(), cardTitle));
     }
 
     private void onDragCardEntered(DragEvent event) {
@@ -192,10 +189,7 @@ public class ColumnFeature extends DisposableController {
 
         logger.info("Dropped: " + cardId);
 
-        columnId.firstElement()
-                .toCompletionStage()
-                .toCompletableFuture()
-                .thenComposeAsync(targetColumnId -> moveCardUseCase.execute(cardId, targetColumnId, targetOrder))
+        moveCardUseCase.execute(cardId, columnId, targetOrder)
                 .whenCompleteAsync((_, exception) -> {
                     if (exception != null) {
                         logger.log(Level.SEVERE, exception.getMessage(), exception);
@@ -211,13 +205,6 @@ public class ColumnFeature extends DisposableController {
                 .orElseThrow(() -> new IllegalStateException("intersectedNode " + intersectedNode + " is not a child of the ListView"));
 
         return FxUtils.identifyClosestListViewIndex(intersectedListCellOrListView, event.getSceneY());
-    }
-
-    private void render(Column column) {
-        this.title.setText(column.title());
-        // Order of setting listener and columnId matters because columnId Flowable triggers rebinding the listener to the cards
-        this.cardPreviewCellFactory.setCardPreviewActionListener(viewModel);
-        this.columnId.onNext(column.id());
     }
 
     public interface ViewModel extends CardPreviewView.CardPreviewActionListener {

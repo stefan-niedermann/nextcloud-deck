@@ -87,6 +87,10 @@ public class AvatarView extends ImageView {
         setUserId(user.id());
     }
 
+    public void setAvatar(User.ID userId) {
+        setUserId(userId);
+    }
+
     public User.ID getUserId() {
         return userId.get();
     }

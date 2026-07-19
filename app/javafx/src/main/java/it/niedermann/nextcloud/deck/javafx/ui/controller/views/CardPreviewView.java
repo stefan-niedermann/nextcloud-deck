@@ -44,8 +44,9 @@ public class CardPreviewView extends BorderPane {
                 card.description(),
                 card.labels().size(),
                 card.commentsUnread(),
-                card.comments().size(),
-                card.attachments().size(),
+                // TODO We need a custom query model here
+                0,
+                0,
                 card.assignees().size()
         ));
 

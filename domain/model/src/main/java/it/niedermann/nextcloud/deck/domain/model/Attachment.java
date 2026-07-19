@@ -10,7 +10,7 @@ public record Attachment(
         Card.ID cardId,
         String filename,
         LocalDateTime createdAt,
-        User createdBy,
+        User.ID createdBy,
         Optional<LocalDateTime> deletedAt,
         FileSize fileSize,
         String mimetype,

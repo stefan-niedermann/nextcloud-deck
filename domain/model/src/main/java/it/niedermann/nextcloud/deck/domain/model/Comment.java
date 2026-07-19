@@ -6,7 +6,7 @@ import java.util.Objects;
 public record Comment(
         Comment.ID id,
         Card.ID cardId,
-        User author,
+        User.ID author,
         LocalDateTime created,
         String message,
         Comment.ID parentId

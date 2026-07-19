@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.data.repository;
 
 import org.reactivestreams.FlowAdapters;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -57,8 +58,15 @@ public class CardRepositoryImpl implements CardRepository {
     @Override
     public Flow.Publisher<Map<Column, List<Card>>> getNotDeletedCardsByColumn(Board.ID boardId) {
         // TODO Mock Implementation
+
+        final var columns = Arrays.stream(MockData.MOCK_COLUMNS)
+                .filter(column -> Objects.equals(column.boardId(), boardId))
+                .map(Column::id)
+                .toList();
+
+
         return FlowAdapters.toFlowPublisher(Flowable.just(
-                MockData.MOCK_CARDS.stream().filter(card -> Objects.equals(card.boardId(), boardId))
+                MockData.MOCK_CARDS.stream().filter(card -> columns.contains(card.columnId()))
                         .collect(Collectors.groupingBy(card -> MockData.MOCK_COLUMNS[(int) card.columnId().value()]))
         ));
     }
@@ -80,8 +88,7 @@ public class CardRepositoryImpl implements CardRepository {
                 MockData.MOCK_CARDS.stream()
                         .filter(card ->
                                 card.title().toLowerCase().contains(userText.toLowerCase()) ||
-                                card.description().toLowerCase().contains(userText.toLowerCase())
-                        )
+                                card.description().toLowerCase().contains(userText.toLowerCase()))
                         .collect(Collectors.toList())));
     }
 }

@@ -13,6 +13,7 @@ import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.EmptyContentView;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
@@ -36,6 +37,7 @@ public class BoardFeature extends DisposableController {
     private final Inflater inflater;
     private final GetBoardUseCase getBoardUseCase;
     private final ColumnFeature.Factory columnFactory;
+    private final ListColumnsUseCase listColumnsUseCase;
     private final ViewModel viewModel;
 
     @AssistedInject
@@ -43,12 +45,14 @@ public class BoardFeature extends DisposableController {
             Inflater inflater,
             GetBoardUseCase getBoardUseCase,
             ColumnFeature.Factory columnFactory,
+            ListColumnsUseCase listColumnsUseCase,
             @Assisted ViewModel viewModel
     ) {
         this.viewModel = viewModel;
         this.inflater = inflater;
         this.getBoardUseCase = getBoardUseCase;
         this.columnFactory = columnFactory;
+        this.listColumnsUseCase = listColumnsUseCase;
     }
 
     @AssistedFactory
@@ -74,27 +78,28 @@ public class BoardFeature extends DisposableController {
                 .observeOn(Schedulers.virtual())
                 .switchMap(this.getBoardUseCase::execute)
                 .observeOn(JavaFxScheduler.platform())
-                .subscribe(board -> {
-                    this.boardTitle.setText(board.title());
-                    this.setColumns(board.columns());
-                });
+                .doOnNext(board -> this.boardTitle.setText(board.title()))
+                .observeOn(Schedulers.virtual())
+                .switchMap(board -> listColumnsUseCase.execute(board.id()))
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(this::setColumns);
 
         addDisposable(disposable);
     }
 
-    private void setColumns(Collection<Column> columns) {
+    private void setColumns(Collection<Column.ID> columnIds) {
 
         this.columns.getChildren().clear();
 
-        for (final var column : columns) {
-            final var fxBundle = this.inflater.inflate(columnFactory.create(column, viewModel));
+        for (final var columnId : columnIds) {
+            final var fxBundle = this.inflater.inflate(columnFactory.create(columnId, viewModel));
             if (fxBundle.controller() instanceof Disposable d) {
                 addDisposable(d);
             }
             this.columns.getChildren().add(fxBundle.view());
         }
 
-        if (columns.isEmpty()) {
+        if (columnIds.isEmpty()) {
             this.emptyContentView.setVisible(true);
             this.columns.setVisible(false);
         } else {

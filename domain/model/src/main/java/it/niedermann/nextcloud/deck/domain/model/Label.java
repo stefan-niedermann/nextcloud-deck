@@ -5,6 +5,7 @@ import java.util.Objects;
 
 public record Label(
         Label.ID id,
+        Board.ID boardId,
         String title,
         Color color
 ) {
@@ -12,6 +13,7 @@ public record Label(
     public Label {
         for (final var o : new Object[]{
                 id,
+                boardId,
                 title,
                 color,
         }) {
