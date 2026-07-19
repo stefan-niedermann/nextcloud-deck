@@ -9,7 +9,8 @@ public record Board(Board.ID id,
                     String title,
                     Color color,
                     List<Column> columns,
-                    Set<Label> labels) {
+                    Set<Label> labels,
+                    Permissions permissions) {
 
     public Board {
         for (final var o : new Object[]{
@@ -18,11 +19,18 @@ public record Board(Board.ID id,
                 color,
                 columns,
                 labels,
+                permissions,
         }) {
             Objects.requireNonNull(o);
         }
     }
 
     public record ID(long value) {
+    }
+
+    public record Permissions(boolean permissionRead,
+                              boolean permissionEdit,
+                              boolean permissionManage,
+                              boolean permissionShare) {
     }
 }

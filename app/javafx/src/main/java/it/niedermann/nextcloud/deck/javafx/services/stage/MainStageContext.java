@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.javafx.services.stage;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Flow;
 import java.util.logging.Logger;
 
 import dagger.assisted.Assisted;
@@ -13,6 +14,7 @@ import io.reactivex.rxjava4.core.Single;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
+import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.DeleteCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
@@ -44,6 +46,8 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
     private final SetCurrentBoardUseCase setCurrentBoardUseCase;
     private final DeleteCardUseCase deleteCardUseCase;
 
+    private final GetBoardUseCase getBoardUseCase;
+
     @AssistedInject
     public MainStageContext(
             StoreLogger storeLogger,
@@ -52,12 +56,14 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
             GetCurrentBoardUseCase getCurrentBoardUseCase,
             SetCurrentBoardUseCase setCurrentBoardUseCase,
             DeleteCardUseCase deleteCardUseCase,
+            GetBoardUseCase getBoardUseCase,
             @Assisted State initialState
     ) {
         this.themeService = themeService;
         this.setCurrentAccountUseCase = setCurrentAccountUseCase;
         this.getCurrentBoardUseCase = getCurrentBoardUseCase;
         this.setCurrentBoardUseCase = setCurrentBoardUseCase;
+        this.getBoardUseCase = getBoardUseCase;
         this.deleteCardUseCase = deleteCardUseCase;
 
         super(storeLogger, initialState);
@@ -126,18 +132,38 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
                 .distinctUntilChanged(Account.ID::equals);
     }
 
-    @Override
-    public void onAccountRemoved() {
-        // TODO Select any account and set as current OR fallback to login scene
-    }
-
-    @Override
     public Flowable<Board.ID> getBoardId() {
         return Flowable.fromPublisher(getState())
                 .map(State::boardId)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .distinctUntilChanged(Board.ID::equals);
+    }
+
+    public Flowable<Board> getBoard() {
+        return Flowable.fromPublisher(getBoardId())
+                .switchMap(getBoardUseCase::execute)
+                .distinctUntilChanged(Board::equals);
+    }
+
+    @Override
+    public Flowable<Card.ID> getCardId() {
+        return Flowable.fromPublisher(getState())
+                .map(State::cardId)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .distinctUntilChanged(Card.ID::equals);
+    }
+
+    @Override
+    public Flow.Publisher<Board.Permissions> getPermissions() {
+        return Flowable.fromPublisher(getBoard())
+                .map(Board::permissions);
+    }
+
+    @Override
+    public void onAccountRemoved() {
+        // TODO Select any account and set as current OR fallback to login scene
     }
 
     @Override

@@ -98,8 +98,6 @@ public class MainScene extends DisposableController {
                             splitPane.getItems().add(editCardBundle.view());
                             splitPane.setDividerPositions(splitPane.getDividerPositions()[0], .8);
                         }
-
-                        editCardBundle.controller().setCardId(state.cardId().get());
                     }
                 });
 

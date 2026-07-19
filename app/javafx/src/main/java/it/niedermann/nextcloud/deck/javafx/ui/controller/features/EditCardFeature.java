@@ -10,16 +10,18 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Flow;
 import java.util.logging.Logger;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import io.reactivex.rxjava4.processors.BehaviorProcessor;
-import io.reactivex.rxjava4.processors.FlowableProcessor;
+import io.reactivex.rxjava4.core.Flowable;
+import io.reactivex.rxjava4.core.Maybe;
 import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Activity;
 import it.niedermann.nextcloud.deck.domain.model.Attachment;
+import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Comment;
 import it.niedermann.nextcloud.deck.domain.model.CreateComment;
@@ -44,6 +46,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.tagviewfactories.UserTagViewFactor
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -121,7 +124,7 @@ public class EditCardFeature extends DisposableController {
     @FXML
     ListView<Attachment> attachments;
 
-    private final FlowableProcessor<Card.ID> cardId = BehaviorProcessor.create();
+    private final Flow.Publisher<Board.Permissions> permissions;
 
     @AssistedInject
     public EditCardFeature(
@@ -154,6 +157,8 @@ public class EditCardFeature extends DisposableController {
         this.userSearchViewConverter = userSearchViewConverter;
         this.userTagViewFactory = userTagViewFactory;
         this.viewModel = viewModel;
+
+        this.permissions = Flowable.fromPublisher(viewModel.getPermissions());
     }
 
     @AssistedFactory
@@ -188,6 +193,21 @@ public class EditCardFeature extends DisposableController {
         assignees.setSuggestionProvider(userSuggestionProvider);
         assignees.setTagViewFactory(userTagViewFactory);
         assignees.setConverter(userSearchViewConverter);
+
+        final var permissionsDisposable = Flowable.fromPublisher(permissions).subscribe(p -> {
+            final var editableFields = new Node[]{
+                    title, labels, assignees, startDateDate, startDateTime, dueDateDate, dueDateTime,
+                    dependentCards, descriptionEditor, descriptionPreview, saveBtn, addComment,
+            };
+
+            for (final var node : editableFields) {
+                node.setDisable(!p.permissionEdit());
+            }
+        });
+
+        addDisposable(permissionsDisposable);
+
+        final var cardId = Flowable.fromPublisher(viewModel.getCardId());
 
         final var cardDisposable = cardId.switchMap(getCardUseCase::execute)
                 .subscribeOn(Schedulers.virtual())
@@ -242,7 +262,10 @@ public class EditCardFeature extends DisposableController {
 
             addComment.setDisable(true);
 
-            addCommentUseCase.execute(new CreateComment(cardId.blockingFirst(), content))
+            Maybe.fromPublisher(cardId)
+                    .toCompletionStage()
+                    .toCompletableFuture()
+                    .thenComposeAsync(id -> addCommentUseCase.execute(new CreateComment(id, content)))
                     .whenCompleteAsync((_, exception) -> {
 
                         if (exception == null) {
@@ -250,20 +273,17 @@ public class EditCardFeature extends DisposableController {
                         } else {
                             throw new RuntimeException(exception);
                         }
+
                         addComment.setDisable(false);
                         addComment.requestFocus();
 
                     }, Platform::runLater);
         });
 
-//        attachments.setOnDragEntered(this::onDragCardEntered);
-//        attachments.setOnDragExited(this::onDragCardExited);
         attachments.setOnDragOver(this::onDragCardOver);
         attachments.setOnDragDropped(this::onCardDropped);
-    }
 
-    public void setCardId(Card.ID id) {
-        cardId.onNext(id);
+        // FIXME Disable drag and drop
     }
 
     private void onDragCardOver(DragEvent event) {
@@ -284,5 +304,9 @@ public class EditCardFeature extends DisposableController {
         CompletableFuture<Void> onCardSaved(Card card);
 
         void onCloseSidebar();
+
+        Flow.Publisher<Card.ID> getCardId();
+
+        Flow.Publisher<Board.Permissions> getPermissions();
     }
 }
