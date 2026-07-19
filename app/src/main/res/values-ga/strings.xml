@@ -349,4 +349,5 @@
     <string name="no_search_results_title">Gan torthaí cuardaigh</string>
     <string name="no_search_results_description">Ní bhfuaireamar aon toradh ar an téarma cuardaigh a tugadh</string>
     <string name="label_no_startdate">Gan dáta tosaithe</string>
-    </resources>
+    <string name="label_dependent_cards">Cártaí cleithiúnacha</string>
+</resources>
