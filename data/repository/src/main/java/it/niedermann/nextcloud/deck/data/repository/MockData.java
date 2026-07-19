@@ -36,16 +36,16 @@ public interface MockData {
     };
 
     Board[] MOCK_BOARDS = new Board[]{
-            new Board(new Board.ID(1), "Board #1", MOCK_COLORS[1], new Board.Permissions(true, true, false, false)),
-            new Board(new Board.ID(2), "Board #2", MOCK_COLORS[2], new Board.Permissions(true, false, false, false)),
-            new Board(new Board.ID(3), "Board #3", MOCK_COLORS[3], new Board.Permissions(true, false, false, false)),
-            new Board(new Board.ID(4), "Board #4", MOCK_COLORS[4], new Board.Permissions(true, false, false, false)),
-            new Board(new Board.ID(5), "Board #5", MOCK_COLORS[5], new Board.Permissions(true, true, true, false)),
-            new Board(new Board.ID(6), "Board #6", MOCK_COLORS[6], new Board.Permissions(true, true, true, false)),
-            new Board(new Board.ID(7), "Board #7", MOCK_COLORS[7], new Board.Permissions(true, true, true, true)),
-            new Board(new Board.ID(8), "Board #8", MOCK_COLORS[8], new Board.Permissions(true, true, true, true)),
-            new Board(new Board.ID(9), "Board #9", MOCK_COLORS[9], new Board.Permissions(true, true, true, true)),
-            new Board(new Board.ID(10), "Board #10", MOCK_COLORS[10], new Board.Permissions(true, true, true, true))
+            new Board(new Board.ID(1), "Board #1", MOCK_COLORS[1], LocalDateTime.now(), new Board.Permissions(true, true, false, false)),
+            new Board(new Board.ID(2), "Board #2", MOCK_COLORS[2], LocalDateTime.now(), new Board.Permissions(true, false, false, false)),
+            new Board(new Board.ID(3), "Board #3", MOCK_COLORS[3], LocalDateTime.now(), new Board.Permissions(true, false, false, false)),
+            new Board(new Board.ID(4), "Board #4", MOCK_COLORS[4], LocalDateTime.now(), new Board.Permissions(true, false, false, false)),
+            new Board(new Board.ID(5), "Board #5", MOCK_COLORS[5], LocalDateTime.now(), new Board.Permissions(true, true, true, false)),
+            new Board(new Board.ID(6), "Board #6", MOCK_COLORS[6], LocalDateTime.now(), new Board.Permissions(true, true, true, false)),
+            new Board(new Board.ID(7), "Board #7", MOCK_COLORS[7], LocalDateTime.now(), new Board.Permissions(true, true, true, true)),
+            new Board(new Board.ID(8), "Board #8", MOCK_COLORS[8], LocalDateTime.now(), new Board.Permissions(true, true, true, true)),
+            new Board(new Board.ID(9), "Board #9", MOCK_COLORS[9], LocalDateTime.now(), new Board.Permissions(true, true, true, true)),
+            new Board(new Board.ID(10), "Board #10", MOCK_COLORS[10],LocalDateTime.now(),  new Board.Permissions(true, true, true, true))
     };
 
     Label[] MOCK_LABELS = new Label[]{

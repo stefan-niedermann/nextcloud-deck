@@ -31,7 +31,7 @@ public class MainScene extends DisposableController {
     @FXML
     Parent root;
     @FXML
-    Pane accountSwitcherHost;
+    Pane headerHost;
     @FXML
     SplitPane splitPane;
 
@@ -39,7 +39,7 @@ public class MainScene extends DisposableController {
     private final GetBoardUseCase getBoardUseCase;
 
     private final Inflater.FxBundle<?> boardListBundle;
-    private final Inflater.FxBundle<?> accountSwitcherBundle;
+    private final Inflater.FxBundle<?> headerBundle;
     private final Inflater.FxBundle<?> boardBundle;
     private final Inflater.FxBundle<EditCardFeature> editCardBundle;
 
@@ -50,7 +50,7 @@ public class MainScene extends DisposableController {
             GetBoardUseCase getBoardUseCase,
             Inflater inflater,
             BoardListFeature.Factory boardListFactory,
-            HeaderFeature.Factory accountSwitcherFactory,
+            HeaderFeature.Factory headerFactory,
             BoardFeature.Factory boardFactory,
             EditCardFeature.Factory editCardFactory,
             @Assisted MainStageContext mainStageContext
@@ -59,7 +59,7 @@ public class MainScene extends DisposableController {
         this.getBoardUseCase = getBoardUseCase;
 
         this.boardListBundle = inflater.inflate(boardListFactory.create(mainStageContext));
-        this.accountSwitcherBundle = inflater.inflate(accountSwitcherFactory.create(mainStageContext));
+        this.headerBundle = inflater.inflate(headerFactory.create(mainStageContext));
         this.boardBundle = inflater.inflate(boardFactory.create(mainStageContext));
         this.editCardBundle = inflater.inflate(editCardFactory.create(mainStageContext));
     }
@@ -73,7 +73,7 @@ public class MainScene extends DisposableController {
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
-        accountSwitcherHost.getChildren().add(accountSwitcherBundle.view());
+        headerHost.getChildren().add(headerBundle.view());
         splitPane.getItems().addAll(boardListBundle.view(), boardBundle.view());
 
         final var accentColorDisposable = Flowable.fromPublisher(this.mainStageContext.getState())

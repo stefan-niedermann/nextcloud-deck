@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.deck.javafx.ui.controller.features;
 
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
@@ -28,6 +30,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.Tooltip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Callback;
@@ -129,6 +132,9 @@ public class HeaderFeature extends DisposableController {
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(board -> {
                     boardTitle.setText(board.title());
+                    boardTitle.setTooltip(new Tooltip(String.format("Last edited at %1$s by %2$s",
+                            board.editedAt().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)),
+                            "John Doe")));
                     circle.setFill(Color.rgb(board.color().getRed(), board.color().getGreen(), board.color().getBlue()));
                 });
 
@@ -174,7 +180,7 @@ public class HeaderFeature extends DisposableController {
                 .subscribe(accountId -> {
                     // FIXME fix pipe
                     this.removeAccountUseCase.execute(accountId);
-                    viewModel.onAccountRemoved();
+                    this.viewModel.onAccountRemoved();
                 });
 
         addDisposable(disposable);

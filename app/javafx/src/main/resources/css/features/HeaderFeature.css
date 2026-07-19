@@ -1,5 +1,5 @@
 #root {
-    -fx-alignment: center;
+    -fx-alignment: center-left;
     -fx-spacing: 10;
-    -fx-padding: 10;
+    -fx-padding: 10 10 10 20;
 }

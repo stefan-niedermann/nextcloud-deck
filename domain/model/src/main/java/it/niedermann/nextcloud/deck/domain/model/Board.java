@@ -1,11 +1,13 @@
 package it.niedermann.nextcloud.deck.domain.model;
 
 import java.awt.Color;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public record Board(Board.ID id,
                     String title,
                     Color color,
+                    LocalDateTime editedAt,
                     Permissions permissions) {
 
     public Board {

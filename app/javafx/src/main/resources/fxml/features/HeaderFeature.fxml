@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.shape.Circle?><?import org.kordamp.ikonli.javafx.FontIcon?><?import javafx.geometry.Insets?><?import com.dlsc.gemsfx.CircleProgressIndicator?><?import javafx.scene.layout.HBox?><?import javafx.scene.control.Button?><?import javafx.scene.control.ComboBox?><?import javafx.scene.control.Label?><?import javafx.scene.control.TextField?><?import javafx.scene.layout.BorderPane?><?import javafx.scene.image.Image?><?import javafx.scene.layout.GridPane?><?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Region?><?import javafx.scene.shape.Circle?><?import org.kordamp.ikonli.javafx.FontIcon?><?import javafx.geometry.Insets?><?import com.dlsc.gemsfx.CircleProgressIndicator?><?import javafx.scene.layout.HBox?><?import javafx.scene.control.Button?><?import javafx.scene.control.ComboBox?><?import javafx.scene.control.Label?><?import javafx.scene.control.TextField?><?import javafx.scene.layout.BorderPane?><?import javafx.scene.image.Image?><?import javafx.scene.layout.GridPane?><?import javafx.scene.layout.VBox?>
 
-<HBox xmlns:fx="http://javafx.com/fxml/1" id="root"
-    stylesheets="css/features/HeaderFeature.css" xmlns="http://javafx.com/javafx/24.0.1">
+<HBox xmlns:fx="http://javafx.com/fxml/1" id="root" stylesheets="css/features/HeaderFeature.css"
+    xmlns="http://javafx.com/javafx/24.0.1">
+
     <Circle radius="10" fx:id="circle" />
     <Label fx:id="boardTitle" />
+
+    <Region HBox.hgrow="SOMETIMES" />
+
     <CircleProgressIndicator progress="-1.0" styleType="THIN" visible="false" fx:id="progress" />
+
     <Button accessibleText="Schedule synchronization" fx:id="scheduleSyncBtn">
         <graphic>
             <FontIcon iconLiteral="fltfal-arrow-sync-20" iconSize="16" />
         </graphic>
     </Button>
+
     <ComboBox fx:id="accountList" />
+
     <Button accessibleText="Remove account" fx:id="removeAccountBtn">
         <graphic>
             <FontIcon iconLiteral="fltral-delete-16" iconSize="16" />
