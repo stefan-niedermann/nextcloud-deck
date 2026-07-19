@@ -73,8 +73,8 @@ public interface MockData {
             new Column(new Column.ID(5), new Board.ID(2), "Zweite Spalte", 5),
             new Column(new Column.ID(6), new Board.ID(3), "Dritte Spalt", 6),
             new Column(new Column.ID(7), new Board.ID(3), "One", 7),
-            new Column(new Column.ID(8), new Board.ID(4), "Two", 8),
-            new Column(new Column.ID(9), new Board.ID(4), "Three", 9),
+            new Column(new Column.ID(8), new Board.ID(5), "Two", 8),
+            new Column(new Column.ID(9), new Board.ID(6), "Three", 9),
     };
 
     Comment[] MOCK_COMMENTS = new Comment[]{
@@ -101,7 +101,7 @@ public interface MockData {
             new Card(new Card.ID(6), new Column.ID(3), LocalDateTime.now(), 6, "Card-Title #6", "Card-Description 6 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 0),
             new Card(new Card.ID(7), new Column.ID(3), LocalDateTime.now(), 7, "Card-Title #7", "Card-Description 7 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 0),
             new Card(new Card.ID(8), new Column.ID(4), LocalDateTime.now(), 8, "Card-Title #8", "Card-Description 8 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 6),
-            new Card(new Card.ID(9), new Column.ID(4), LocalDateTime.now(), 9, "Card-Title #9", "Card-Description 9 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 0)
+            new Card(new Card.ID(9), new Column.ID(9), LocalDateTime.now(), 9, "Card-Title #9", "Card-Description 9 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 0)
     );
 
     Attachment[] MOCK_ATTACHMENTS = new Attachment[]{

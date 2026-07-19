@@ -7,7 +7,7 @@
     <VBox>
         <Label fx:id="boardTitle" />
         <StackPane VBox.vgrow="ALWAYS" alignment="CENTER">
-            <CircleProgressIndicator prefHeight="70" prefWidth="70" progress="-1.0"
+            <CircleProgressIndicator maxHeight="70" maxWidth="70" progress="-1.0"
                 fx:id="progress" />
             <EmptyContentView VBox.vgrow="ALWAYS" actionLabel="Add column +"
                 description="Create at least one column to add cards." managed="false"
