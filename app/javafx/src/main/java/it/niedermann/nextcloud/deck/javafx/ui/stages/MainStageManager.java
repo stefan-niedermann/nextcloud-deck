@@ -23,6 +23,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.LoginScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.MainScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScene;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import jakarta.inject.Provider;
 import javafx.stage.Stage;
 
@@ -72,7 +73,7 @@ public class MainStageManager extends StageManager<BoardRawArgs> {
     @Override
     protected CompletableFuture<Void> showContent(BoardRawArgs rawArgs) {
         return boardArgResolver.resolve(rawArgs)
-                .thenApplyAsync(this::inflateContent)
+                .thenApplyAsync(this::inflateContent, JavaFxScheduler.platform().toExecutorService())
                 .thenComposeAsync(this::setStageContent)
                 .exceptionallyComposeAsync(this::recoverError);
     }

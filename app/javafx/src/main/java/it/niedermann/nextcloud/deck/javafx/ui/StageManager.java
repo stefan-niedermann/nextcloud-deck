@@ -15,6 +15,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.ExceptionScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.LoginScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScene;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import jakarta.inject.Provider;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -67,6 +68,7 @@ public abstract class StageManager<TRawArgs> {
 
         final var disposable = Flowable.fromPublisher(this.hasAccountsUseCase.execute())
                 .subscribeOn(Schedulers.virtual())
+                .observeOn(JavaFxScheduler.platform())
                 .subscribe(hasAccounts -> {
                     if (hasAccounts) {
                         initialize();
