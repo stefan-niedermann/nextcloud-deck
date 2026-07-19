@@ -87,8 +87,10 @@
     <string name="add_board">Add board</string>
 
     <string name="label_clear_due_date">Clear due date</string>
+    <string name="label_clear_start_date">Clear start date</string>
     <string name="label_clear_done">Not done</string>
     <string name="label_due_at">Due at: %1$s</string>
+    <string name="label_start_at">Start at: %1$s</string>
     <string name="label_add">Add %1$s</string>
 
     <string name="card_edit_details">Details</string>
@@ -334,4 +336,6 @@
     <string name="enter_search_term_description">Enter search term to find cards in this board</string>
     <string name="no_search_results_title">No search results</string>
     <string name="no_search_results_description">We have not found any result for the given search term</string>
-    </resources>
+    <string name="label_no_startdate">No start date</string>
+    <string name="label_dependent_cards">Dependent cards</string>
+</resources>
