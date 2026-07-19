@@ -13,10 +13,10 @@ import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.javafx.services.stage.MainStageContext;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.features.AccountSwitcherFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.BoardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.BoardListFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditCardFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.features.HeaderFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.util.FxUtils;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
@@ -50,7 +50,7 @@ public class MainScene extends DisposableController {
             GetBoardUseCase getBoardUseCase,
             Inflater inflater,
             BoardListFeature.Factory boardListFactory,
-            AccountSwitcherFeature.Factory accountSwitcherFactory,
+            HeaderFeature.Factory accountSwitcherFactory,
             BoardFeature.Factory boardFactory,
             EditCardFeature.Factory editCardFactory,
             @Assisted MainStageContext mainStageContext

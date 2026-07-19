@@ -27,8 +27,8 @@ public class BoardListItemView extends HBox {
 
     public void bind(Board board) {
 
-        circle.fillProperty().setValue(Color.rgb(board.color().getRed(), board.color().getGreen(), board.color().getBlue()));
-        title.textProperty().setValue(board.title());
+        circle.setFill(Color.rgb(board.color().getRed(), board.color().getGreen(), board.color().getBlue()));
+        title.setText(board.title());
 
         setOnContextMenuRequested(event -> {
             contextMenu.show(this, event.getScreenX(), event.getScreenY());

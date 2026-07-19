@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Flow;
 import java.util.logging.Logger;
 
 import dagger.assisted.Assisted;
@@ -124,7 +123,7 @@ public class EditCardFeature extends DisposableController {
     @FXML
     ListView<Attachment> attachments;
 
-    private final Flow.Publisher<Board.Permissions> permissions;
+    private final Flowable<Board.Permissions> permissions;
 
     @AssistedInject
     public EditCardFeature(
@@ -158,7 +157,7 @@ public class EditCardFeature extends DisposableController {
         this.userTagViewFactory = userTagViewFactory;
         this.viewModel = viewModel;
 
-        this.permissions = Flowable.fromPublisher(viewModel.getPermissions());
+        this.permissions = viewModel.getPermissions();
     }
 
     @AssistedFactory
@@ -305,8 +304,8 @@ public class EditCardFeature extends DisposableController {
 
         void onCloseSidebar();
 
-        Flow.Publisher<Card.ID> getCardId();
+        Flowable<Card.ID> getCardId();
 
-        Flow.Publisher<Board.Permissions> getPermissions();
+        Flowable<Board.Permissions> getPermissions();
     }
 }

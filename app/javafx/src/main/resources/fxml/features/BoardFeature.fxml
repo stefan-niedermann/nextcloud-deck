@@ -5,7 +5,6 @@
 <ScrollPane xmlns:fx="http://javafx.com/fxml/1" fitToHeight="true" fitToWidth="true" minWidth="300"
     stylesheets="css/features/BoardFeature.css" xmlns="http://javafx.com/javafx/24.0.1">
     <VBox>
-        <Label fx:id="boardTitle" />
         <StackPane VBox.vgrow="ALWAYS" alignment="CENTER">
             <CircleProgressIndicator maxHeight="70" maxWidth="70" progress="-1.0"
                 fx:id="progress" />

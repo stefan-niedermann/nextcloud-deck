@@ -19,14 +19,11 @@ import it.niedermann.nextcloud.deck.javafx.ui.controller.views.EmptyContentView;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.HBox;
 
 public class BoardFeature extends DisposableController {
 
-    @FXML
-    Label boardTitle;
     @FXML
     ProgressIndicator progress;
     @FXML
@@ -77,9 +74,6 @@ public class BoardFeature extends DisposableController {
                 })
                 .observeOn(Schedulers.virtual())
                 .switchMap(this.getBoardUseCase::execute)
-                .observeOn(JavaFxScheduler.platform())
-                .doOnNext(board -> this.boardTitle.setText(board.title()))
-                .observeOn(Schedulers.virtual())
                 .switchMap(board -> listColumnsUseCase.execute(board.id()))
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(this::setColumns);

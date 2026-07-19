@@ -11,6 +11,7 @@ import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.RemoveAccountUseCase;
@@ -23,16 +24,23 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.util.Callback;
 import javafx.util.Pair;
 
-public class AccountSwitcherFeature extends DisposableController {
+public class HeaderFeature extends DisposableController {
 
-    private static final Logger logger = Logger.getLogger(AccountSwitcherFeature.class.getName());
+    private static final Logger logger = Logger.getLogger(HeaderFeature.class.getName());
 
+    @FXML
+    Circle circle;
+    @FXML
+    Label boardTitle;
     @FXML
     ComboBox<Account> accountList;
     @FXML
@@ -53,7 +61,7 @@ public class AccountSwitcherFeature extends DisposableController {
     private final Callback<ListView<Account>, ListCell<Account>> factory = new AccountListItemCellFactory();
 
     @AssistedInject
-    public AccountSwitcherFeature(
+    public HeaderFeature(
             GetAccountUseCase getAccountUseCase,
             GetAccountsUseCase getAccountsUseCase,
             ScheduleSyncUseCase scheduleSyncUseCase,
@@ -69,7 +77,7 @@ public class AccountSwitcherFeature extends DisposableController {
 
     @AssistedFactory
     public interface Factory {
-        AccountSwitcherFeature create(ViewModel viewModel);
+        HeaderFeature create(ViewModel viewModel);
     }
 
     @Override
@@ -103,7 +111,6 @@ public class AccountSwitcherFeature extends DisposableController {
         final ChangeListener<Account> accountChangeListener = (_, _, newValue) -> viewModel.onAccountSelected(newValue.id());
 
         final var listAccounts = Flowable.fromPublisher(getAccountsUseCase.execute());
-
         final var currentAccount = viewModel.getAccountId().switchMap(getAccountUseCase::execute);
 
         final var disposable = Flowable.combineLatest(listAccounts, currentAccount, Pair::new)
@@ -117,6 +124,15 @@ public class AccountSwitcherFeature extends DisposableController {
                 });
 
         addDisposable(disposable);
+
+        final var currentBoardDisposable = viewModel.getBoard()
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(board -> {
+                    boardTitle.setText(board.title());
+                    circle.setFill(Color.rgb(board.color().getRed(), board.color().getGreen(), board.color().getBlue()));
+                });
+
+        addDisposable(currentBoardDisposable);
 
         scheduleSyncBtn.setOnAction(_ -> this.scheduleSync());
         removeAccountBtn.setOnAction(_ -> this.removeAccount());
@@ -168,6 +184,8 @@ public class AccountSwitcherFeature extends DisposableController {
         void onAccountSelected(Account.ID accountId);
 
         Flowable<Account.ID> getAccountId();
+
+        Flowable<Board> getBoard();
 
         void onAccountRemoved();
     }

@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.javafx.services.stage;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Flow;
 import java.util.logging.Logger;
 
 import dagger.assisted.Assisted;
@@ -22,17 +21,17 @@ import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.store.Store;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.features.AccountSwitcherFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.BoardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.BoardListFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.ColumnFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditCardFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.features.HeaderFeature;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 
 public class MainStageContext extends Store<MainStageContext.State, MainStageContext.Action> implements
-        AccountSwitcherFeature.ViewModel,
+        HeaderFeature.ViewModel,
         BoardFeature.ViewModel,
         BoardListFeature.ViewModel,
         ColumnFeature.ViewModel,
@@ -156,7 +155,7 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
     }
 
     @Override
-    public Flow.Publisher<Board.Permissions> getPermissions() {
+    public Flowable<Board.Permissions> getPermissions() {
         return Flowable.fromPublisher(getBoard())
                 .map(Board::permissions);
     }
