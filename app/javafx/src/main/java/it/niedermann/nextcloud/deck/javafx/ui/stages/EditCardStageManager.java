@@ -1,11 +1,12 @@
 package it.niedermann.nextcloud.deck.javafx.ui.stages;
 
+import java.util.concurrent.CompletableFuture;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import it.niedermann.nextcloud.deck.app.shared.args.card.CardArgResolver;
 import it.niedermann.nextcloud.deck.app.shared.args.card.CardRawArgs;
-import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.HasAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageScope;
@@ -18,7 +19,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import jakarta.inject.Provider;
 import javafx.stage.Stage;
 
-public class EditCardStageManager extends StageManager<CardRawArgs, Card.ID> {
+public class EditCardStageManager extends StageManager<CardRawArgs> {
 
     @AssistedInject
     public EditCardStageManager(Inflater inflater,
@@ -39,8 +40,7 @@ public class EditCardStageManager extends StageManager<CardRawArgs, Card.ID> {
                 loginFactoryProvider,
                 exceptionFactoryProvider,
                 setCurrentAccountUseCase,
-                args,
-                cardArgResolver);
+                args);
     }
 
     @StageScope
@@ -50,8 +50,7 @@ public class EditCardStageManager extends StageManager<CardRawArgs, Card.ID> {
     }
 
     @Override
-    public Inflater.FxBundle<?> inflateContent(Card.ID initialState) {
-        // TODO Mock implementation
-        throw new UnsupportedOperationException();
+    protected CompletableFuture<Void> showContent(CardRawArgs cardRawArgs) {
+        return CompletableFuture.failedFuture(new UnsupportedOperationException("Not yet implemented."));
     }
 }

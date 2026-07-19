@@ -38,8 +38,8 @@ public class JavaFxApplication extends Application {
             final var applicationRouter = fxComponent.getApplicationRouter();
             applicationRouter.initialize();
 
-        } catch (Throwable t) {
-            exceptionHandler.uncaughtException(Thread.currentThread(), t);
+        } catch (Exception e) {
+            exceptionHandler.uncaughtException(Thread.currentThread(), e);
         }
     }
 }

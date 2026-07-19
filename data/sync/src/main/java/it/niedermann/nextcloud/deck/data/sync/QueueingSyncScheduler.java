@@ -140,10 +140,10 @@ public class QueueingSyncScheduler implements SyncScheduler {
                 syncManager.synchronize(account, reporter::onNext);
                 reporter.onComplete();
 
-            } catch (Throwable t) {
+            } catch (Exception e) {
 
-                logger.log(Level.SEVERE, "[ERROR] " + account.accountName() + ": " + Instant.now(), t);
-                reporter.onError(t);
+                logger.log(Level.SEVERE, "[ERROR] " + account.accountName() + ": " + Instant.now(), e);
+                reporter.onError(e);
 
             } finally {
 

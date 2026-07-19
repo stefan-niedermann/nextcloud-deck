@@ -2,17 +2,14 @@ package it.niedermann.nextcloud.deck.javafx.ui;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.disposables.Disposable;
 import io.reactivex.rxjava4.schedulers.Schedulers;
-import it.niedermann.nextcloud.deck.app.shared.args.ArgsResolver;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.HasAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
-import it.niedermann.nextcloud.deck.javafx.exception.ExceptionUnwrapper;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.ExceptionScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.LoginScene;
@@ -20,14 +17,13 @@ import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScen
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import jakarta.inject.Provider;
 import javafx.application.Platform;
-import javafx.fxml.LoadException;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /// Takes care about having at least one account present and redirects to login scene if not.
 /// Also catches error while argument parsing and redirects to error scene
-public abstract class StageManager<TRawArgs, TParsedArgs> {
+public abstract class StageManager<TRawArgs> {
 
     private static final Logger logger = Logger.getLogger(StageManager.class.getName());
 
@@ -40,7 +36,6 @@ public abstract class StageManager<TRawArgs, TParsedArgs> {
     private final Provider<ExceptionScene.Factory> exceptionFactoryProvider;
     private final SetCurrentAccountUseCase setCurrentAccountUseCase;
     private final TRawArgs args;
-    private final ArgsResolver<TRawArgs, TParsedArgs> argsResolver;
 
     private final AtomicReference<Object> controller = new AtomicReference<>();
 
@@ -52,8 +47,7 @@ public abstract class StageManager<TRawArgs, TParsedArgs> {
                         Provider<LoginScene.Factory> loginFactoryProvider,
                         Provider<ExceptionScene.Factory> exceptionFactoryProvider,
                         SetCurrentAccountUseCase setCurrentAccountUseCase,
-                        TRawArgs args,
-                        ArgsResolver<TRawArgs, TParsedArgs> argsResolver) {
+                        TRawArgs args) {
         this.stage = stage;
         this.themeService = themeService;
         this.inflater = inflater;
@@ -63,7 +57,6 @@ public abstract class StageManager<TRawArgs, TParsedArgs> {
         this.exceptionFactoryProvider = exceptionFactoryProvider;
         this.setCurrentAccountUseCase = setCurrentAccountUseCase;
         this.args = args;
-        this.argsResolver = argsResolver;
 
         this.stage.setOnCloseRequest(_ -> {
             final var ctrl = controller.get();
@@ -86,18 +79,8 @@ public abstract class StageManager<TRawArgs, TParsedArgs> {
     protected CompletableFuture<Void> initialize() {
         return this.showSplashScreenScene()
                 .thenApplyAsync(_ -> args)
-                .thenComposeAsync(argsResolver::resolve)
-
-                .handleAsync((state, exception) -> switch (new ExceptionUnwrapper().unwrap(exception)) {
-
-                    case null -> this.showContent(state)
-                            .exceptionallyComposeAsync(e -> this.showErrorScene(e, args, state));
-
-                    default -> this.showErrorScene(exception, args, state)
-                            .thenComposeAsync(_ -> initialize());
-
-                })
-                .thenComposeAsync(a -> a);
+                .thenComposeAsync(this::showContent)
+                .exceptionallyComposeAsync(this::showErrorScene);
     }
 
     /// @return [CompletableFuture] - completed when the splashscreen is shown
@@ -107,7 +90,7 @@ public abstract class StageManager<TRawArgs, TParsedArgs> {
     }
 
     /// @return [CompletableFuture] - completed when an account has successfully been imported
-    private CompletableFuture<Account.ID> showLogin() {
+    protected CompletableFuture<Account.ID> showLogin() {
         final var accountImported = new CompletableFuture<Account.ID>();
         final var bundle = inflater.inflate(loginFactoryProvider.get().create(accountImported::complete));
         return this.setStageContent(bundle)
@@ -116,30 +99,19 @@ public abstract class StageManager<TRawArgs, TParsedArgs> {
     }
 
     /// @return [CompletableFuture] - completed when the content is visible
-    private CompletableFuture<Void> showContent(TParsedArgs initialState) {
-        try {
-            final var fxBundle = inflateContent(initialState);
-            return this.setStageContent(fxBundle);
-        } catch (Throwable t) {
-            return CompletableFuture.failedFuture(t);
-        }
-    }
+    abstract protected CompletableFuture<Void> showContent(TRawArgs args);
 
-    protected abstract Inflater.FxBundle<?> inflateContent(TParsedArgs initialState) throws LoadException;
-
-    /// @return [CompletableFuture] - completed when the user recovered from the passed throwable
-    protected CompletableFuture<Void> showErrorScene(Throwable throwable, TRawArgs args, TParsedArgs state) {
-        // TODO Pass throwable via @AssistedFactory
-        logger.log(Level.SEVERE, "Initialization error", throwable);
-        final var onRecovered = new CompletableFuture<Void>();
-        final var bundle = inflater.inflate(exceptionFactoryProvider.get().create(() -> onRecovered.complete(null)));
+    private CompletableFuture<Void> showErrorScene(Throwable throwable) {
+        final var exceptionScene = exceptionFactoryProvider.get().create(throwable);
+        final var bundle = inflater.inflate(exceptionScene);
         return this.setStageContent(bundle)
-                .thenComposeAsync(_ -> onRecovered);
+                // We will never recover from this exception
+                .thenComposeAsync(_ -> new CompletableFuture<>());
     }
 
     /// @return [CompletableFuture] - completed when the content is visible
-    private <T, U> CompletableFuture<U> setStageContent(Inflater.FxBundle<T> controllerBundle) {
-        final var cf = new CompletableFuture<U>();
+    protected <T> CompletableFuture<Void> setStageContent(Inflater.FxBundle<T> controllerBundle) {
+        final var cf = new CompletableFuture<Void>();
         final var controller = controllerBundle.controller();
         final var oldCtrl = this.controller.getAndSet(controller);
 
@@ -170,7 +142,7 @@ public abstract class StageManager<TRawArgs, TParsedArgs> {
 
                 }
 
-            } catch (UnsupportedOperationException | ClassCastException e) {
+            } catch (Exception e) {
                 cf.completeExceptionally(e);
             }
         });
