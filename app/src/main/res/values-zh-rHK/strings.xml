@@ -87,8 +87,10 @@
     <string name="add_board">新增佈告欄</string>
 
     <string name="label_clear_due_date">清除到期日期</string>
+    <string name="label_clear_start_date">清除開始日期</string>
     <string name="label_clear_done">未完成</string>
     <string name="label_due_at">到期日：%1$s</string>
+    <string name="label_start_at">開始於：%1$s</string>
     <string name="label_add">新增%1$s</string>
 
     <string name="card_edit_details">詳細資料</string>
@@ -330,4 +332,6 @@
     <string name="enter_search_term_description">輸入要在此面板中尋找卡片的字詞</string>
     <string name="no_search_results_title">無搜尋結果</string>
     <string name="no_search_results_description">我們無法根據您指定的搜尋字詞找到任何結果</string>
-    </resources>
+    <string name="label_no_startdate">沒有開始日期</string>
+    <string name="label_dependent_cards">相依卡片</string>
+</resources>

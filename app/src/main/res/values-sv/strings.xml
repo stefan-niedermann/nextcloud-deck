@@ -87,8 +87,10 @@
     <string name="add_board">Lägg till tavla</string>
 
     <string name="label_clear_due_date">Rensa slutdatum</string>
+    <string name="label_clear_start_date">Rensa startdatum</string>
     <string name="label_clear_done">Inte klar</string>
     <string name="label_due_at">Förfaller: %1$s</string>
+    <string name="label_start_at">Startar: %1$s</string>
     <string name="label_add">Lägg till %1$s</string>
 
     <string name="card_edit_details">Detaljer</string>
@@ -334,4 +336,6 @@
     <string name="enter_search_term_description">Ange sökterm för att hitta kort i denna tavla</string>
     <string name="no_search_results_title">Inga sökresultat</string>
     <string name="no_search_results_description">Vi har inte hittat något resultat för den givna söktermen</string>
-    </resources>
+    <string name="label_no_startdate">Inget startdatum</string>
+    <string name="label_dependent_cards">Beroende kort</string>
+</resources>
