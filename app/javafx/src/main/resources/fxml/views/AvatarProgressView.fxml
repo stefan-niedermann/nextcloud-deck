@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.dlsc.gemsfx.CircleProgressIndicator?><?import it.niedermann.nextcloud.deck.javafx.ui.controller.views.AvatarView?><?import javafx.scene.layout.StackPane?><?import javafx.geometry.Insets?><?import javafx.scene.control.Label?><?import javafx.scene.control.Button?><?import javafx.scene.image.ImageView?><?import javafx.scene.layout.VBox?>
+
+<fx:root xmlns:fx="http://javafx.com/fxml/1" id="root"
+    stylesheets="css/views/AvatarProgressView.css" type="StackPane">
+    <CircleProgressIndicator progress="-1.0" visible="false" styleType="thin" fx:id="progress" />
+    <AvatarView fx:id="avatar" />
+</fx:root>

@@ -1,5 +1,5 @@
-#root {
-    -fx-alignment: center-left;
+#header-feature {
+    -fx-alignment: center;
     -fx-spacing: 10;
     -fx-padding: 10 10 10 20;
 }

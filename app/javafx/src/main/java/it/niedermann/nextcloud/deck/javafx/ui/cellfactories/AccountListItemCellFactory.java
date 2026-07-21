@@ -5,11 +5,17 @@ import java.util.Optional;
 
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.AccountListItemView;
+import jakarta.inject.Inject;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
 
 public class AccountListItemCellFactory implements Callback<ListView<Account>, ListCell<Account>> {
+
+    @Inject
+    AccountListItemCellFactory() {
+
+    }
 
     @Override
     public ListCell<Account> call(ListView<Account> listView) {

@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.javafx.ui.controller.features;
 
+import com.dlsc.gemsfx.PopOver;
+
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -15,26 +17,19 @@ import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.RemoveAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
-import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.AccountListItemCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.views.AccountListItemView;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.views.AvatarProgressView;
+import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
-import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Tooltip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.util.Callback;
-import javafx.util.Pair;
+import javafx.stage.PopupWindow;
 
 public class HeaderFeature extends DisposableController {
 
@@ -45,36 +40,35 @@ public class HeaderFeature extends DisposableController {
     @FXML
     Label boardTitle;
     @FXML
-    ComboBox<Account> accountList;
-    @FXML
     Button scheduleSyncBtn;
     @FXML
-    ProgressIndicator progress;
+    AvatarProgressView avatar;
     @FXML
     Button removeAccountBtn;
 
+    private final Inflater inflater;
     private final GetAccountUseCase getAccountUseCase;
-    private final GetAccountsUseCase getAccountsUseCase;
     private final ScheduleSyncUseCase scheduleSyncUseCase;
     private final RemoveAccountUseCase removeAccountUseCase;
+    private final AccountSwitcherFeature.Factory accountSwitcherFactory;
     private final ViewModel viewModel;
 
     private final AtomicBoolean syncInProgress = new AtomicBoolean(false);
 
-    private final Callback<ListView<Account>, ListCell<Account>> factory = new AccountListItemCellFactory();
-
     @AssistedInject
     public HeaderFeature(
+            Inflater inflater,
             GetAccountUseCase getAccountUseCase,
-            GetAccountsUseCase getAccountsUseCase,
             ScheduleSyncUseCase scheduleSyncUseCase,
             RemoveAccountUseCase removeAccountUseCase,
+            AccountSwitcherFeature.Factory accountSwitcherFactory,
             @Assisted ViewModel viewModel
     ) {
+        this.inflater = inflater;
         this.getAccountUseCase = getAccountUseCase;
-        this.getAccountsUseCase = getAccountsUseCase;
         this.scheduleSyncUseCase = scheduleSyncUseCase;
         this.removeAccountUseCase = removeAccountUseCase;
+        this.accountSwitcherFactory = accountSwitcherFactory;
         this.viewModel = viewModel;
     }
 
@@ -87,46 +81,13 @@ public class HeaderFeature extends DisposableController {
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
-        final var buttonCell = new ListCell<Account>() {
-
-            final AccountListItemView view = new AccountListItemView();
-
-            @Override
-            protected void updateItem(Account account, boolean empty) {
-                super.updateItem(account, empty);
-                setText(null);
-
-                if (empty || account == null) {
-                    setGraphic(null);
-                    return;
-                }
-
-                final boolean isCurrent = account.equals(accountList.getValue());
-
-                view.bind(account, isCurrent);
-                setGraphic(view);
-            }
-        };
-
-        accountList.setCellFactory(factory);
-        accountList.setButtonCell(buttonCell);
-
-        final ChangeListener<Account> accountChangeListener = (_, _, newValue) -> viewModel.onAccountSelected(newValue.id());
-
-        final var listAccounts = Flowable.fromPublisher(getAccountsUseCase.execute());
-        final var currentAccount = viewModel.getAccountId().switchMap(getAccountUseCase::execute);
-
-        final var disposable = Flowable.combineLatest(listAccounts, currentAccount, Pair::new)
-                .subscribeOn(Schedulers.virtual())
+        final var currentAccount = viewModel.getAccountId()
+                .observeOn(Schedulers.virtual())
+                .switchMap(getAccountUseCase::execute)
                 .observeOn(JavaFxScheduler.platform())
-                .subscribe(args -> {
-                    accountList.getSelectionModel().selectedItemProperty().removeListener(accountChangeListener);
-                    accountList.getItems().setAll(args.getKey());
-                    accountList.getSelectionModel().select(args.getValue());
-                    accountList.getSelectionModel().selectedItemProperty().addListener(accountChangeListener);
-                });
+                .subscribe(avatar::setAvatar);
 
-        addDisposable(disposable);
+        addDisposable(currentAccount);
 
         final var currentBoardDisposable = viewModel.getBoard()
                 .observeOn(JavaFxScheduler.platform())
@@ -142,32 +103,28 @@ public class HeaderFeature extends DisposableController {
 
         scheduleSyncBtn.setOnAction(_ -> this.scheduleSync());
         removeAccountBtn.setOnAction(_ -> this.removeAccount());
+
+        avatar.setOnMouseClicked(event -> {
+            final var accountSwitcher = inflater.inflate(accountSwitcherFactory.create());
+            final var popover = new PopOver(accountSwitcher.view());
+            popover.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
+            popover.setAnchorLocation(PopupWindow.AnchorLocation.CONTENT_TOP_RIGHT);
+            popover.show(avatar);
+            event.consume();
+        });
     }
 
     public void scheduleSync() {
         if (!this.syncInProgress.getAndSet(true)) {
 
-            this.progress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
-            this.progress.setVisible(true);
-            this.progress.setDisable(false);
-
             var disposable = viewModel.getAccountId()
                     .firstElement()
                     .flatMapPublisher(this.scheduleSyncUseCase::execute)
                     .observeOn(JavaFxScheduler.platform())
-                    .doOnNext(syncStatus -> {
-                        if (syncStatus.boardsFinishedCount() > 0) {
-                            this.progress.setProgress(Math.min(1, (double) syncStatus.boardsFinishedCount() / syncStatus.boardsTotalCount()));
-                        }
-                    })
+                    .doOnNext(avatar::setSyncStatus)
                     .onErrorComplete()
                     .ignoreElements()
-                    .subscribe(() -> {
-                        this.progress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
-                        this.progress.setVisible(false);
-                        this.progress.setDisable(true);
-                        this.syncInProgress.set(false);
-                    });
+                    .subscribe(() -> this.syncInProgress.set(false));
 
             addDisposable(disposable);
         }
@@ -178,7 +135,6 @@ public class HeaderFeature extends DisposableController {
                 .subscribeOn(Schedulers.virtual())
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(accountId -> {
-                    // FIXME fix pipe
                     this.removeAccountUseCase.execute(accountId);
                     this.viewModel.onAccountRemoved();
                 });

@@ -12,6 +12,7 @@ import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
@@ -29,6 +30,11 @@ public class AvatarView extends ImageView {
         setFitWidth(24);
         setFitHeight(24);
         setPreserveRatio(true);
+
+        final var placeholderIcon = new FontIcon("fltfal-arrow-sync-20");
+        placeholderIcon.setIconSize(24);
+        final var image = placeholderIcon.snapshot(new SnapshotParameters(), null);
+        setImage(image);
 
         final var clip = new Rectangle();
         clip.widthProperty().bind(fitWidthProperty());
