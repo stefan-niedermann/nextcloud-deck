@@ -1,12 +1,12 @@
 /**
  * Copyright 2017 Netflix, Inc.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,8 +15,13 @@
  */
 package it.niedermann.nextcloud.deck.javafx.util;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -59,13 +64,14 @@ public final class JavaFxSchedulerTest {
         }
     }
 
-	@BeforeClass
-	public static void initJFX() {
-		try {
-			javafx.application.Platform.startup(() ->{});
-		}catch(final IllegalStateException ignore) {
-		}
-	}
+    @BeforeClass
+    public static void initJFX() {
+        try {
+            javafx.application.Platform.startup(() -> {
+            });
+        } catch (final IllegalStateException ignore) {
+        }
+    }
 
     @Test
     public void testPeriodicScheduling() throws Exception {
@@ -96,93 +102,95 @@ public final class JavaFxSchedulerTest {
         verify(innerAction, times(4)).run();
     }
 
-	@Test
-	public void testNestedActions() throws Exception {
-		final JavaFxScheduler scheduler = new JavaFxScheduler();
-		final Scheduler.Worker inner = scheduler.createWorker();
+    @Test
+    public void testNestedActions() throws Exception {
+        final JavaFxScheduler scheduler = new JavaFxScheduler();
+        final Scheduler.Worker inner = scheduler.createWorker();
 
-		final CountDownLatch startAsync = new CountDownLatch(1);
-		final CountDownLatch asyncStarted = new CountDownLatch(1);
-		final AtomicBoolean directInvocation = new AtomicBoolean(false);
+        final CountDownLatch startAsync = new CountDownLatch(1);
+        final CountDownLatch asyncStarted = new CountDownLatch(1);
+        final AtomicBoolean directInvocation = new AtomicBoolean(false);
 
-		TestAction a1n1 = TestAction.of("A1N1", () -> assertTrue(directInvocation.get()));
-		TestAction a1n2 = TestAction.of("A1N2", () -> assertTrue(directInvocation.get()));
-		TestAction a1n = TestAction.of("A1N", () -> {
-			assertTrue(directInvocation.get());
-			inner.schedule(a1n1);
-			inner.schedule(a1n2);
-		});
-		TestAction a2n1 = TestAction.of("A2N1", () -> assertTrue(directInvocation.get()));
-		TestAction a2n2 = TestAction.of("A2N2", () -> assertTrue(directInvocation.get()));
-		TestAction a2n = TestAction.of("A2N", () -> {
-			assertTrue(directInvocation.get());
-			inner.schedule(a2n1);
-			inner.schedule(a2n2);
-		});
-		TestAction a = TestAction.of("A", () -> {
-			directInvocation.set(true);
-			Platform.runLater(() -> directInvocation.set(false));
+        TestAction a1n1 = TestAction.of("A1N1", () -> assertTrue(directInvocation.get()));
+        TestAction a1n2 = TestAction.of("A1N2", () -> assertTrue(directInvocation.get()));
+        TestAction a1n = TestAction.of("A1N", () -> {
+            assertTrue(directInvocation.get());
+            inner.schedule(a1n1);
+            inner.schedule(a1n2);
+        });
+        TestAction a2n1 = TestAction.of("A2N1", () -> assertTrue(directInvocation.get()));
+        TestAction a2n2 = TestAction.of("A2N2", () -> assertTrue(directInvocation.get()));
+        TestAction a2n = TestAction.of("A2N", () -> {
+            assertTrue(directInvocation.get());
+            inner.schedule(a2n1);
+            inner.schedule(a2n2);
+        });
+        TestAction a = TestAction.of("A", () -> {
+            directInvocation.set(true);
+            Platform.runLater(() -> directInvocation.set(false));
 
-			inner.schedule(a1n);
-			startAsync.countDown();
-			try {
-				asyncStarted.await(1, TimeUnit.SECONDS);
-			} catch (Exception e) {
-				fail();
-			}
-			inner.schedule(a2n);
-		});
-		TestAction b = TestAction.of("B", () -> {});
-		TestAction async = TestAction.of("ASYNC", () -> {});
+            inner.schedule(a1n);
+            startAsync.countDown();
+            try {
+                asyncStarted.await(1, TimeUnit.SECONDS);
+            } catch (Exception e) {
+                fail();
+            }
+            inner.schedule(a2n);
+        });
+        TestAction b = TestAction.of("B", () -> {
+        });
+        TestAction async = TestAction.of("ASYNC", () -> {
+        });
 
-		inner.schedule(a);
-		inner.schedule(b);
+        inner.schedule(a);
+        inner.schedule(b);
 
-		startAsync.await();
-		inner.schedule(async);
-		asyncStarted.countDown();
+        startAsync.await();
+        inner.schedule(async);
+        asyncStarted.countDown();
 
-		waitForEmptyEventQueue();
+        waitForEmptyEventQueue();
 
-		TestAction.verifyOrder(a, b, a1n, async, a2n, a1n1, a1n2, a2n1, a2n2);
-	}
+        TestAction.verifyOrder(a, b, a1n, async, a2n, a1n1, a1n2, a2n1, a2n2);
+    }
 
-	static class TestAction implements Runnable {
-		private final Runnable userRunnable;
-		private final Runnable start;
-		private final Runnable end;
+    static class TestAction implements Runnable {
+        private final Runnable userRunnable;
+        private final Runnable start;
+        private final Runnable end;
 
-		public static TestAction of(String name, Runnable runnable) {
-			return new TestAction(name, runnable);
-		}
+        public static TestAction of(String name, Runnable runnable) {
+            return new TestAction(name, runnable);
+        }
 
-		private TestAction(String name, Runnable userRunnable) {
-			this.userRunnable = userRunnable;
-			this.start = mock(Runnable.class, name + "-Start");
-			this.end = mock(Runnable.class, name + "-End");
-		}
+        private TestAction(String name, Runnable userRunnable) {
+            this.userRunnable = userRunnable;
+            this.start = mock(Runnable.class, name + "-Start");
+            this.end = mock(Runnable.class, name + "-End");
+        }
 
-		@Override
-		public void run() {
-			assertTrue(Platform.isFxApplicationThread());
-			start.run();
-			userRunnable.run();
-			end.run();
-		}
+        @Override
+        public void run() {
+            assertTrue(Platform.isFxApplicationThread());
+            start.run();
+            userRunnable.run();
+            end.run();
+        }
 
-		public static void verifyOrder(TestAction... actions) {
-			Runnable[] runnables = new Runnable[actions.length * 2];
-			for (int i = 0; i < actions.length; i++) {
-				TestAction action = actions[i];
-				runnables[2 * i] = action.start;
-				runnables[2 * i + 1] = action.end;
-			}
-			InOrder inOrder = inOrder((Object[]) runnables);
-			for (Runnable runnable : runnables) {
-				inOrder.verify(runnable).run();
-			}
-		}
-	}
+        public static void verifyOrder(TestAction... actions) {
+            Runnable[] runnables = new Runnable[actions.length * 2];
+            for (int i = 0; i < actions.length; i++) {
+                TestAction action = actions[i];
+                runnables[2 * i] = action.start;
+                runnables[2 * i + 1] = action.end;
+            }
+            InOrder inOrder = inOrder((Object[]) runnables);
+            for (Runnable runnable : runnables) {
+                inOrder.verify(runnable).run();
+            }
+        }
+    }
 
 
     @Test
@@ -190,7 +198,7 @@ public final class JavaFxSchedulerTest {
         Scheduler.Worker w = JavaFxScheduler.platform().createWorker();
 
         CountDownLatch cdl = new CountDownLatch(2);
-        int[] counter = { 0, 0 };
+        int[] counter = {0, 0};
 
         new Thread(() -> {
             for (int i = 0; i < 1_000_000; i++) {
@@ -239,7 +247,7 @@ public final class JavaFxSchedulerTest {
          * @throws InterruptedException f the execution is interrupted.
          * @throws ExecutionException   If a exception is occurred in the run method of the Runnable
          */
-        public static void runAndWait( final Runnable run) throws InterruptedException, ExecutionException {
+        public static void runAndWait(final Runnable run) throws InterruptedException, ExecutionException {
             if (Platform.isFxApplicationThread()) {
                 try {
                     run.run();

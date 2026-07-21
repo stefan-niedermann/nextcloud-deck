@@ -67,6 +67,9 @@ dependencies {
     implementation(libs.jsystemthemedetector)
 
     implementation(libs.jpro.mdfx)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
 }
 
 tasks.named<Tar>("distTar") {

@@ -27,6 +27,7 @@ kotlinxCoroutinesRx3 = "1.11.0"
 lifecycleRuntimeKtx = "2.10.0"
 mapstruct = "1.6.3"
 material = "1.14.0"
+mockitoCore = "5.23.0"
 picocli = "4.7.7"
 preference = "1.2.1"
 recordBuilder = "53"
@@ -80,6 +81,7 @@ kotlinx-coroutines-rx3 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-rx
 mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
 openjfx-controls = { group = "org.openjfx", name = "javafx-controls", version.ref = "javafx" }
 openjfx-fxml = { group = "org.openjfx", name = "javafx-fxml", version.ref = "javafx" }
 record-builder-core = { module = "io.soabase.record-builder:record-builder-core", version.ref = "recordBuilder" }
