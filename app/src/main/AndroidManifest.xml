@@ -155,6 +155,15 @@
         </activity>
 
         <activity
+            android:name=".reminders.DueReminderActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:showWhenLocked="true"
+            android:theme="@style/DueReminderTheme"
+            android:turnScreenOn="true" />
+
+        <activity
             android:name=".ui.exception.ExceptionActivity"
             android:process=":error_activity" />
 

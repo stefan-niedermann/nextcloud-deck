@@ -34,13 +34,14 @@ import it.niedermann.nextcloud.deck.database.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 
 public final class DueReminderScheduler {
 
-    private static final String CHANNEL_ID = "due_reminders";
+    static final String CHANNEL_ID = "due_reminders";
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
 
     private DueReminderScheduler() {
@@ -132,26 +133,23 @@ public final class DueReminderScheduler {
 
         final Account account = dataBaseAdapter.getAccountByIdDirectly(fullCard.getAccountId());
         final Board board = dataBaseAdapter.getBoardByLocalCardIdDirectly(cardLocalId);
-        if (account == null || board == null) {
-            DeckLog.warn("Skipping due reminder because account or board could not be found for card", cardLocalId);
+        final Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(fullCard.getCard().getStackId());
+        if (account == null || board == null || stack == null) {
+            DeckLog.warn("Skipping due reminder because account, board or stack could not be found for card", cardLocalId);
             return;
         }
 
         createNotificationChannel(context);
 
-        final Intent openCardIntent = EditActivity.createEditCardIntent(context, account, board.getLocalId(), cardLocalId);
-        final PendingIntent openCardPendingIntent = PendingIntent.getActivity(
-                context,
-                notificationId(cardLocalId),
-                openCardIntent,
-                FLAG_IMMUTABLE | FLAG_CANCEL_CURRENT
-        );
+        final PendingIntent openCardPendingIntent = createOpenCardPendingIntent(context, account, board, cardLocalId);
+        final PendingIntent fullScreenPendingIntent = createFullScreenPendingIntent(context, cardLocalId);
+        final PendingIntent completePendingIntent = createCompletePendingIntent(context, cardLocalId);
 
         final String title = context.getString(R.string.local_due_reminder_notification_title, safeTitle(fullCard.getCard()));
         final String dueAt = fullCard.getCard().getDueDate()
                 .atZone(ZoneId.systemDefault())
                 .format(DATE_TIME_FORMATTER);
-        final String text = context.getString(R.string.local_due_reminder_notification_text, board.getTitle(), dueAt);
+        final String text = context.getString(R.string.local_due_reminder_notification_text, board.getTitle(), stack.getTitle(), dueAt);
 
         final var notification = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notifications_24)
@@ -162,7 +160,8 @@ public final class DueReminderScheduler {
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentIntent(openCardPendingIntent)
-                .setFullScreenIntent(openCardPendingIntent, true)
+                .setFullScreenIntent(fullScreenPendingIntent, true)
+                .addAction(R.drawable.ic_outline_check_circle_24, context.getString(R.string.local_due_reminder_mark_complete), completePendingIntent)
                 .setAutoCancel(true)
                 .build();
 
@@ -172,6 +171,17 @@ public final class DueReminderScheduler {
             DeckLog.info("Displayed due reminder for card", cardLocalId);
         } else {
             DeckLog.warn("Skipping due reminder notification because POST_NOTIFICATIONS is not granted.");
+        }
+    }
+
+    public static void markComplete(@NonNull Context context, long cardLocalId) {
+        final var dataBaseAdapter = new DataBaseAdapter(context.getApplicationContext());
+        if (dataBaseAdapter.markCardDoneDirectly(cardLocalId, Instant.now())) {
+            cancelCard(context, cardLocalId);
+            NotificationManagerCompat.from(context).cancel(notificationId(cardLocalId));
+            DeckLog.info("Marked due reminder card complete", cardLocalId);
+        } else {
+            DeckLog.info("Skipping complete action for stale or already completed card", cardLocalId);
         }
     }
 
@@ -230,7 +240,35 @@ public final class DueReminderScheduler {
         );
     }
 
-    private static int notificationId(long cardLocalId) {
+    private static PendingIntent createCompletePendingIntent(@NonNull Context context, long cardLocalId) {
+        return PendingIntent.getBroadcast(
+                context,
+                notificationId(cardLocalId) + 100_000,
+                DueReminderReceiver.createIntent(context, DueReminderReceiver.ACTION_MARK_COMPLETE, cardLocalId),
+                FLAG_IMMUTABLE | FLAG_CANCEL_CURRENT
+        );
+    }
+
+    private static PendingIntent createFullScreenPendingIntent(@NonNull Context context, long cardLocalId) {
+        return PendingIntent.getActivity(
+                context,
+                notificationId(cardLocalId),
+                DueReminderActivity.createIntent(context, cardLocalId),
+                FLAG_IMMUTABLE | FLAG_CANCEL_CURRENT
+        );
+    }
+
+    static PendingIntent createOpenCardPendingIntent(@NonNull Context context, @NonNull Account account, @NonNull Board board, long cardLocalId) {
+        final Intent openCardIntent = EditActivity.createEditCardIntent(context, account, board.getLocalId(), cardLocalId);
+        return PendingIntent.getActivity(
+                context,
+                notificationId(cardLocalId) + 200_000,
+                openCardIntent,
+                FLAG_IMMUTABLE | FLAG_CANCEL_CURRENT
+        );
+    }
+
+    static int notificationId(long cardLocalId) {
         return (int) (20_000L + cardLocalId);
     }
 

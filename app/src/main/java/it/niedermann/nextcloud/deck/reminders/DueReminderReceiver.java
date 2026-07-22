@@ -11,6 +11,8 @@ import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
 
 public class DueReminderReceiver extends BroadcastReceiver {
 
+    static final String ACTION_SHOW_REMINDER = "it.niedermann.nextcloud.deck.reminders.SHOW_REMINDER";
+    static final String ACTION_MARK_COMPLETE = "it.niedermann.nextcloud.deck.reminders.MARK_COMPLETE";
     static final String EXTRA_CARD_LOCAL_ID = "cardLocalId";
 
     @Override
@@ -29,9 +31,14 @@ public class DueReminderReceiver extends BroadcastReceiver {
         }
 
         final var appContext = context.getApplicationContext();
+        final String action = intent.getAction();
         ExecutorServiceProvider.getLinkedBlockingQueueExecutor().submit(() -> {
             try {
-                DueReminderScheduler.showReminder(appContext, cardLocalId);
+                if (ACTION_MARK_COMPLETE.equals(action)) {
+                    DueReminderScheduler.markComplete(appContext, cardLocalId);
+                } else {
+                    DueReminderScheduler.showReminder(appContext, cardLocalId);
+                }
             } finally {
                 pendingResult.finish();
             }
@@ -40,7 +47,13 @@ public class DueReminderReceiver extends BroadcastReceiver {
 
     @NonNull
     static Intent createIntent(@NonNull Context context, long cardLocalId) {
+        return createIntent(context, ACTION_SHOW_REMINDER, cardLocalId);
+    }
+
+    @NonNull
+    static Intent createIntent(@NonNull Context context, @NonNull String action, long cardLocalId) {
         return new Intent(context, DueReminderReceiver.class)
+                .setAction(action)
                 .putExtra(EXTRA_CARD_LOCAL_ID, cardLocalId);
     }
 }

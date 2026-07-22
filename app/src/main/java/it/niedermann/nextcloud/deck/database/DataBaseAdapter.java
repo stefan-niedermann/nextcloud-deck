@@ -752,6 +752,11 @@ public class DataBaseAdapter {
         return db.getCardDao().getCardByLocalIdDirectly(accountId, localCardId);
     }
 
+    @WorkerThread
+    public Card getCardByLocalIdDirectly(long localCardId) {
+        return db.getCardDao().getCardByLocalIdDirectly(localCardId);
+    }
+
     @AnyThread
     public LiveData<FullCard> getCardByLocalId(long accountId, long localCardId) {
         return new ReactiveLiveData<>(db.getCardDao().getFullCardByLocalId(accountId, localCardId))
@@ -1879,6 +1884,18 @@ public class DataBaseAdapter {
             return true;
         }
         return false;
+    }
+
+    @WorkerThread
+    public boolean markCardDoneDirectly(Long localCardId, Instant done) {
+        final Card card = db.getCardDao().getCardByLocalIdDirectly(localCardId);
+        if (card == null || Objects.equals(done, card.getDone())) {
+            return false;
+        }
+
+        card.setDone(done);
+        updateCard(card, true);
+        return true;
     }
 
     public Long getBoardRemoteIdByCardLocalIdDirectly(Long localId) {
