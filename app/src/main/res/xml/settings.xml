@@ -28,6 +28,13 @@
             android:key="@string/pref_key_push_notifications"
             android:icon="@drawable/ic_notifications_24"
             android:title="@string/settings_push_notifications" />
+
+        <it.niedermann.nextcloud.deck.ui.theme.ThemedSwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_notifications_24"
+            android:key="@string/pref_key_local_due_reminders"
+            android:summary="@string/settings_local_due_reminders_summary"
+            android:title="@string/settings_local_due_reminders" />
     </it.niedermann.nextcloud.deck.ui.theme.ThemedPreferenceCategory>
 
     <it.niedermann.nextcloud.deck.ui.theme.ThemedPreferenceCategory android:title="@string/simple_appearance">

@@ -153,6 +153,8 @@
     <string name="settings_etags_summary">Speeds up synchronization</string>
     <string name="settings_background_sync">Background synchronization</string>
     <string name="settings_push_notifications">Push notifications</string>
+    <string name="settings_local_due_reminders">Local due reminders</string>
+    <string name="settings_local_due_reminders_summary">Show reminders from synced card due dates, even without Google Play push.</string>
     <string name="settings_compress_image_attachments">Compress images on upload</string>
     <string name="search_in">Search in %1$s</string>
     <string name="settings_compress_image_attachments_summary">Faster upload, less quality</string>
@@ -193,6 +195,21 @@
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Open in browser</string>
     <string name="updating_card">Updating card…</string>
+    <string name="local_due_reminders_channel_name">Due reminders</string>
+    <string name="local_due_reminders_channel_description">Card due-date reminders from Deck</string>
+    <string name="local_due_reminder_notification_title">%1$s is due</string>
+    <string name="local_due_reminder_notification_text">%1$s · %2$s · %3$s</string>
+    <string name="local_due_reminder_fullscreen_title">Due reminder</string>
+    <string name="local_due_reminder_mark_complete">Mark complete</string>
+    <string name="local_due_reminder_snooze">Snooze 5 min</string>
+    <string name="local_due_reminder_snooze_short">Snooze</string>
+    <string name="local_due_reminder_open_card">Open card</string>
+    <string name="local_due_reminder_dismiss">Dismiss</string>
+    <string name="local_due_reminder_account">%1$s on %2$s</string>
+    <string name="local_due_reminder_completed">Card marked complete</string>
+    <string name="local_due_reminder_snoozed">Snoozed for 5 minutes</string>
+    <string name="local_due_reminder_unavailable">This reminder is no longer available</string>
+    <string name="local_due_reminder_untitled_card">Untitled card</string>
 
     <string name="move_list_right">Move list right</string>
     <string name="move_list_left">Move list left</string>

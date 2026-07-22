@@ -7,6 +7,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
     <uses-feature android:name="android.hardware.camera.any" android:required="false" />
 
@@ -151,6 +155,15 @@
         </activity>
 
         <activity
+            android:name=".reminders.DueReminderActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:showWhenLocked="true"
+            android:theme="@style/DueReminderTheme"
+            android:turnScreenOn="true" />
+
+        <activity
             android:name=".ui.exception.ExceptionActivity"
             android:process=":error_activity" />
 
@@ -170,6 +183,21 @@
         <service
             android:name=".ui.widget.upcoming.UpcomingWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <receiver
+            android:name=".reminders.DueReminderReceiver"
+            android:exported="false" />
+
+        <receiver
+            android:name=".reminders.DueReminderRescheduleReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+            </intent-filter>
+        </receiver>
 
         <receiver
             android:name="it.niedermann.nextcloud.deck.ui.widget.upcoming.UpcomingWidget"

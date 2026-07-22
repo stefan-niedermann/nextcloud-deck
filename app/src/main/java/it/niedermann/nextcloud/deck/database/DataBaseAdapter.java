@@ -93,6 +93,7 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.reminders.DueReminderScheduler;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
 import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
@@ -751,6 +752,11 @@ public class DataBaseAdapter {
         return db.getCardDao().getCardByLocalIdDirectly(accountId, localCardId);
     }
 
+    @WorkerThread
+    public Card getCardByLocalIdDirectly(long localCardId) {
+        return db.getCardDao().getCardByLocalIdDirectly(localCardId);
+    }
+
     @AnyThread
     public LiveData<FullCard> getCardByLocalId(long accountId, long localCardId) {
         return new ReactiveLiveData<>(db.getCardDao().getFullCardByLocalId(accountId, localCardId))
@@ -779,6 +785,8 @@ public class DataBaseAdapter {
     public long createCardDirectly(long accountId, Card card) {
         card.setAccountId(accountId);
         final long newCardId = db.getCardDao().insert(card);
+        card.setLocalId(newCardId);
+        DueReminderScheduler.scheduleCard(context, card);
         notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.STACK, card.getStackId());
         return newCardId;
     }
@@ -802,12 +810,14 @@ public class DataBaseAdapter {
             deleteCardPhysically(card);
         }
 
+        DueReminderScheduler.cancelCard(context, card.getLocalId());
         notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.STACK, card.getStackId());
     }
 
     @WorkerThread
     public void deleteCardPhysically(Card card) {
         db.getCardDao().delete(card);
+        DueReminderScheduler.cancelCard(context, card.getLocalId());
     }
 
     @WorkerThread
@@ -815,6 +825,7 @@ public class DataBaseAdapter {
         markAsEditedIfNeeded(card, setStatus);
         final Long originalStackLocalId = db.getCardDao().getLocalStackIdByLocalCardId(card.getLocalId());
         db.getCardDao().update(card);
+        DueReminderScheduler.scheduleCard(context, card);
         widgetNotifierExecutor.submit(() -> {
             if (db.getSingleCardWidgetModelDao().containsCardLocalId(card.getLocalId())) {
                 DeckLog.info("Notifying", SingleCardWidget.class.getSimpleName(), "about card changes for", card.getTitle());
@@ -1421,6 +1432,16 @@ public class DataBaseAdapter {
         return cardResultsToUpcomingCardsAdapterItems(db.getCardDao().getUpcomingCardsDirectly());
     }
 
+    @WorkerThread
+    public List<FullCard> getUpcomingFullCardsDirectly() {
+        return db.getCardDao().getUpcomingCardsDirectly();
+    }
+
+    @WorkerThread
+    public FullCard getFullCardByLocalIdDirectly(long localCardId) {
+        return db.getCardDao().getFullCardByLocalIdDirectly(localCardId);
+    }
+
     @NonNull
     private List<UpcomingCardsAdapterItem> cardResultsToUpcomingCardsAdapterItems(List<FullCard> cardsResult) {
         filterRelationsForCard(cardsResult);
@@ -1863,6 +1884,18 @@ public class DataBaseAdapter {
             return true;
         }
         return false;
+    }
+
+    @WorkerThread
+    public boolean markCardDoneDirectly(Long localCardId, Instant done) {
+        final Card card = db.getCardDao().getCardByLocalIdDirectly(localCardId);
+        if (card == null || Objects.equals(done, card.getDone())) {
+            return false;
+        }
+
+        card.setDone(done);
+        updateCard(card, true);
+        return true;
     }
 
     public Long getBoardRemoteIdByCardLocalIdDirectly(Long localId) {
