@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdk 36
+    compileSdk 37
     namespace 'it.niedermann.nextcloud.deck'
 
     defaultConfig {
         applicationId "it.niedermann.nextcloud.deck"
         minSdk 24
-        targetSdk 35
+        targetSdk 37
         versionCode 1025005
         versionName "1.25.5"
         vectorDrawables.useSupportLibrary true
