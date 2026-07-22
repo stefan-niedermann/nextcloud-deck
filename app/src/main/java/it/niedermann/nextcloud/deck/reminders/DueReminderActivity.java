@@ -55,6 +55,7 @@ public class DueReminderActivity extends AppCompatActivity {
         }
 
         binding.dismiss.setOnClickListener((v) -> finish());
+        binding.snooze.setOnClickListener((v) -> snooze());
         binding.openCard.setOnClickListener((v) -> openCard());
         binding.markComplete.setOnClickListener((v) -> markComplete());
 
@@ -142,6 +143,18 @@ public class DueReminderActivity extends AppCompatActivity {
         });
     }
 
+    private void snooze() {
+        setLoading(true);
+        final var appContext = getApplicationContext();
+        ExecutorServiceProvider.getLinkedBlockingQueueExecutor().submit(() -> {
+            DueReminderScheduler.snooze(appContext, cardLocalId);
+            runOnUiThread(() -> {
+                Toast.makeText(this, R.string.local_due_reminder_snoozed, Toast.LENGTH_SHORT).show();
+                finish();
+            });
+        });
+    }
+
     private void openCard() {
         if (account == null || board == null) {
             return;
@@ -155,6 +168,7 @@ public class DueReminderActivity extends AppCompatActivity {
         binding.progress.setVisibility(loading ? View.VISIBLE : View.GONE);
         binding.markComplete.setEnabled(!loading);
         binding.openCard.setEnabled(!loading && account != null && board != null);
+        binding.snooze.setEnabled(!loading);
         binding.dismiss.setEnabled(!loading);
     }
 }

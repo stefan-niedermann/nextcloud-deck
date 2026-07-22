@@ -201,10 +201,13 @@
     <string name="local_due_reminder_notification_text">%1$s · %2$s · %3$s</string>
     <string name="local_due_reminder_fullscreen_title">Due reminder</string>
     <string name="local_due_reminder_mark_complete">Mark complete</string>
+    <string name="local_due_reminder_snooze">Snooze 5 min</string>
+    <string name="local_due_reminder_snooze_short">Snooze</string>
     <string name="local_due_reminder_open_card">Open card</string>
     <string name="local_due_reminder_dismiss">Dismiss</string>
     <string name="local_due_reminder_account">%1$s on %2$s</string>
     <string name="local_due_reminder_completed">Card marked complete</string>
+    <string name="local_due_reminder_snoozed">Snoozed for 5 minutes</string>
     <string name="local_due_reminder_unavailable">This reminder is no longer available</string>
     <string name="local_due_reminder_untitled_card">Untitled card</string>
 

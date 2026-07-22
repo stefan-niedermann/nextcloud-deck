@@ -13,6 +13,7 @@ public class DueReminderReceiver extends BroadcastReceiver {
 
     static final String ACTION_SHOW_REMINDER = "it.niedermann.nextcloud.deck.reminders.SHOW_REMINDER";
     static final String ACTION_MARK_COMPLETE = "it.niedermann.nextcloud.deck.reminders.MARK_COMPLETE";
+    static final String ACTION_SNOOZE = "it.niedermann.nextcloud.deck.reminders.SNOOZE";
     static final String EXTRA_CARD_LOCAL_ID = "cardLocalId";
 
     @Override
@@ -36,6 +37,8 @@ public class DueReminderReceiver extends BroadcastReceiver {
             try {
                 if (ACTION_MARK_COMPLETE.equals(action)) {
                     DueReminderScheduler.markComplete(appContext, cardLocalId);
+                } else if (ACTION_SNOOZE.equals(action)) {
+                    DueReminderScheduler.snooze(appContext, cardLocalId);
                 } else {
                     DueReminderScheduler.showReminder(appContext, cardLocalId);
                 }

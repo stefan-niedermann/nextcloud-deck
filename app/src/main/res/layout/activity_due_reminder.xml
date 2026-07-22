@@ -147,16 +147,27 @@
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="52dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="4dp"
                 android:layout_weight="1"
                 android:text="@string/local_due_reminder_open_card" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/snooze"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:text="@string/local_due_reminder_snooze_short"
+                app:icon="@drawable/ic_time_24" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/dismiss"
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="0dp"
                 android:layout_height="52dp"
-                android:layout_marginStart="6dp"
+                android:layout_marginStart="4dp"
                 android:layout_weight="1"
                 android:text="@string/local_due_reminder_dismiss" />
         </LinearLayout>

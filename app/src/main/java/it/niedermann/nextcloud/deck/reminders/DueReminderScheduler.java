@@ -41,6 +41,7 @@ import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 
 public final class DueReminderScheduler {
 
+    private static final int SNOOZE_MINUTES = 5;
     static final String CHANNEL_ID = "due_reminders";
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
 
@@ -84,27 +85,7 @@ public final class DueReminderScheduler {
             return;
         }
 
-        final var alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        if (alarmManager == null) {
-            DeckLog.warn("Could not schedule due reminder because AlarmManager is unavailable.");
-            return;
-        }
-
-        final long dueAtMillis = card.getDueDate().toEpochMilli();
-        final PendingIntent pendingIntent = createReminderPendingIntent(context, card.getLocalId());
-
-        if (canScheduleExactAlarms(alarmManager)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, dueAtMillis, pendingIntent);
-            } else {
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, dueAtMillis, pendingIntent);
-            }
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, dueAtMillis, pendingIntent);
-        } else {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, dueAtMillis, pendingIntent);
-        }
-
+        scheduleAt(context, card.getLocalId(), card.getDueDate().toEpochMilli());
         DeckLog.info("Scheduled due reminder for card", card.getLocalId(), "at", card.getDueDate());
     }
 
@@ -144,6 +125,7 @@ public final class DueReminderScheduler {
         final PendingIntent openCardPendingIntent = createOpenCardPendingIntent(context, account, board, cardLocalId);
         final PendingIntent fullScreenPendingIntent = createFullScreenPendingIntent(context, cardLocalId);
         final PendingIntent completePendingIntent = createCompletePendingIntent(context, cardLocalId);
+        final PendingIntent snoozePendingIntent = createSnoozePendingIntent(context, cardLocalId);
 
         final String title = context.getString(R.string.local_due_reminder_notification_title, safeTitle(fullCard.getCard()));
         final String dueAt = fullCard.getCard().getDueDate()
@@ -162,6 +144,7 @@ public final class DueReminderScheduler {
                 .setContentIntent(openCardPendingIntent)
                 .setFullScreenIntent(fullScreenPendingIntent, true)
                 .addAction(R.drawable.ic_outline_check_circle_24, context.getString(R.string.local_due_reminder_mark_complete), completePendingIntent)
+                .addAction(R.drawable.ic_time_24, context.getString(R.string.local_due_reminder_snooze), snoozePendingIntent)
                 .setAutoCancel(true)
                 .build();
 
@@ -172,6 +155,24 @@ public final class DueReminderScheduler {
         } else {
             DeckLog.warn("Skipping due reminder notification because POST_NOTIFICATIONS is not granted.");
         }
+    }
+
+    public static void snooze(@NonNull Context context, long cardLocalId) {
+        if (!isEnabled(context)) {
+            return;
+        }
+
+        final var dataBaseAdapter = new DataBaseAdapter(context.getApplicationContext());
+        final FullCard fullCard = dataBaseAdapter.getFullCardByLocalIdDirectly(cardLocalId);
+        if (fullCard == null || !shouldNotify(fullCard.getCard())) {
+            DeckLog.info("Skipping snooze for stale card", cardLocalId);
+            return;
+        }
+
+        final long snoozedUntilMillis = Instant.now().plusSeconds(SNOOZE_MINUTES * 60L).toEpochMilli();
+        scheduleAt(context, cardLocalId, snoozedUntilMillis);
+        NotificationManagerCompat.from(context).cancel(notificationId(cardLocalId));
+        DeckLog.info("Snoozed due reminder for card", cardLocalId, "until", Instant.ofEpochMilli(snoozedUntilMillis));
     }
 
     public static void markComplete(@NonNull Context context, long cardLocalId) {
@@ -198,6 +199,28 @@ public final class DueReminderScheduler {
 
     private static boolean canScheduleExactAlarms(@NonNull AlarmManager alarmManager) {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.S || alarmManager.canScheduleExactAlarms();
+    }
+
+    private static void scheduleAt(@NonNull Context context, long cardLocalId, long triggerAtMillis) {
+        final var alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager == null) {
+            DeckLog.warn("Could not schedule due reminder because AlarmManager is unavailable.");
+            return;
+        }
+
+        final PendingIntent pendingIntent = createReminderPendingIntent(context, cardLocalId);
+
+        if (canScheduleExactAlarms(alarmManager)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
+            } else {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
+        }
     }
 
     private static boolean shouldSchedule(@NonNull Card card) {
@@ -245,6 +268,15 @@ public final class DueReminderScheduler {
                 context,
                 notificationId(cardLocalId) + 100_000,
                 DueReminderReceiver.createIntent(context, DueReminderReceiver.ACTION_MARK_COMPLETE, cardLocalId),
+                FLAG_IMMUTABLE | FLAG_CANCEL_CURRENT
+        );
+    }
+
+    private static PendingIntent createSnoozePendingIntent(@NonNull Context context, long cardLocalId) {
+        return PendingIntent.getBroadcast(
+                context,
+                notificationId(cardLocalId) + 300_000,
+                DueReminderReceiver.createIntent(context, DueReminderReceiver.ACTION_SNOOZE, cardLocalId),
                 FLAG_IMMUTABLE | FLAG_CANCEL_CURRENT
         );
     }
