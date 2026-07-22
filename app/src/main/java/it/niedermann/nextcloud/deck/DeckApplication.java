@@ -9,6 +9,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import it.niedermann.nextcloud.deck.repository.PreferencesRepository;
+import it.niedermann.nextcloud.deck.reminders.DueReminderScheduler;
 import it.niedermann.nextcloud.deck.util.CustomAppGlideModule;
 
 public class DeckApplication extends Application {
@@ -25,6 +26,7 @@ public class DeckApplication extends Application {
 
         repo.getAppThemeSetting().thenAcceptAsync(repo::setAppTheme, executor);
         repo.isDebugModeEnabled().thenAcceptAsync(DeckLog::enablePersistentLogs, executor);
+        executor.submit(() -> DueReminderScheduler.rescheduleAll(this));
 
         super.onCreate();
     }
