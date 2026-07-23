@@ -2,8 +2,7 @@ package it.niedermann.nextcloud.deck.javafx;
 
 import java.util.logging.Logger;
 
-import it.niedermann.nextcloud.deck.javafx.di.application.AppComponent;
-import it.niedermann.nextcloud.deck.javafx.di.application.DaggerAppComponent;
+import it.niedermann.nextcloud.deck.javafx.di.fx.FxComponent;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.AvatarView;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -12,22 +11,23 @@ public class JavaFxApplication extends Application {
 
     private static final Logger logger = Logger.getLogger(JavaFxApplication.class.getName());
 
-    private final AppComponent appComponent;
+    protected static FxComponent.Factory fxComponentFactory = null;
 
-    static void main(String[] args) {
-        launch(args);
+    public static void inject(FxComponent.Factory fxComponentFactory) {
+        JavaFxApplication.fxComponentFactory = fxComponentFactory;
     }
 
     public JavaFxApplication() {
         super();
-        appComponent = DaggerAppComponent.factory().create();
-        // TODO Provide Purge-Button in ExceptionDialog
-        // appComponent.getPurgeService().purge();
+
+        if (JavaFxApplication.fxComponentFactory == null) {
+            throw new IllegalStateException("inject() not called");
+        }
     }
 
     @Override
     public void start(Stage stage) {
-        final var fxComponent = appComponent.getFxComponentFactory().create(stage);
+        final var fxComponent = fxComponentFactory.create(stage);
         final var exceptionHandler = fxComponent.getFxUncaughtExceptionHandler();
 
         try {

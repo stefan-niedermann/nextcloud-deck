@@ -3,8 +3,6 @@ plugins {
     application
     alias(libs.plugins.gradleup.shadow)
     alias(libs.plugins.javafx)
-    alias(libs.plugins.jlink)
-    alias(libs.plugins.graalvm)
 }
 
 java {
@@ -23,41 +21,12 @@ sourceSets {
 }
 
 application {
-    mainClass.set("it.niedermann.nextcloud.deck.javafx.JavaFxApplication")
+    mainClass.set("it.niedermann.nextcloud.deck.javafx.Launcher")
 }
 
 javafx {
     version = "26"
     modules = listOf("javafx.controls", "javafx.fxml")
-}
-
-jlink {
-    moduleName.set("it.niedermann.nextcloud.deck.javafx")
-    mergedModuleName.set("it.niedermann.nextcloud.deck.javafx")
-    options.set(listOf("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages"))
-    launcher {
-        name = "Deck PC"
-    }
-    mergedModule {
-        additive = true
-        forceMerge("jna")
-        forceMerge("javafx")
-    }
-}
-
-graalvmNative {
-    binaries {
-        named("main") {
-            imageName.set("deck-pc")
-
-            buildArgs.addAll(
-                listOf(
-                    "--no-fallback",
-                    "-H:+ReportExceptionStackTraces"
-                )
-            )
-        }
-    }
 }
 
 dependencies {

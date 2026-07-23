@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="CLI" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="it.niedermann.nextcloud.deck.cli.CliApplication" />
+    <option name="MAIN_CLASS_NAME" value="it.niedermann.nextcloud.deck.cli.Launcher" />
     <module name="Nextcloud_Deck.app.cli.main" />
     <method v="2">
       <option name="Make" enabled="true" />

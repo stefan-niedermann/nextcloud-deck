@@ -113,15 +113,13 @@ jobs:
           cache-read-only: false
 
       - name: Build App
-        run: xvfb-run ./gradlew :app:javafx:jlink
+        run: ./gradlew :app:javafx:shadowJar
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
         with:
           name: jar
-          path: |
-            app/javafx/build/distributions/javafx-shadow.zip
-            app/javafx/build/image/bin/**
+          path: app/javafx/build/libs/*all.jar
 
   android:
     name: App (Android)
