@@ -5,7 +5,7 @@ import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava4.core.Single;
 import it.niedermann.nextcloud.deck.cli.commands.account.subcommands.AccountAddCmd;
 import it.niedermann.nextcloud.deck.cli.commands.account.subcommands.AccountListCmd;
 import it.niedermann.nextcloud.deck.cli.commands.account.subcommands.AccountRemoveCmd;

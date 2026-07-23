@@ -5,7 +5,7 @@ plugins {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(26)
     }
 }
 
@@ -29,6 +29,5 @@ dependencies {
     implementation(libs.info.picocli)
     annotationProcessor(libs.info.picocli.codegen)
 
-    implementation(libs.rxjava3)
-    implementation(libs.rxjava3.jdk9.interop)
+    implementation(libs.rxjava4)
 }

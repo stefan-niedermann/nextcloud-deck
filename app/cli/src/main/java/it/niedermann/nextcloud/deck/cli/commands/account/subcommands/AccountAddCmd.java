@@ -1,15 +1,13 @@
 package it.niedermann.nextcloud.deck.cli.commands.account.subcommands;
 
 
-import static org.reactivestreams.FlowAdapters.toPublisher;
-import static io.reactivex.rxjava3.core.Flowable.fromPublisher;
-
 import java.net.URL;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import io.reactivex.rxjava4.core.Maybe;
 import it.niedermann.nextcloud.auth.apptoken.AppTokenAuthProvider;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
@@ -60,9 +58,7 @@ public class AccountAddCmd implements Callable<Integer> {
             }
 
             final var token = appTokenAuthProvider.generateToken(url, username, password);
-            final var accountId = fromPublisher(toPublisher(importAccountUseCase.execute(url, username, token)))
-                    .lastElement()
-                    .blockingGet()
+            final var accountId = Maybe.fromPublisher(importAccountUseCase.execute(url, username, token)).blockingGet()
                     .account()
                     .id();
 

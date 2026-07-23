@@ -1,13 +1,11 @@
 package it.niedermann.nextcloud.deck.cli.commands.account.subcommands;
 
-import static hu.akarnokd.rxjava3.jdk9interop.FlowInterop.fromFlowPublisher;
-
 import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava4.core.Maybe;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase;
 import jakarta.inject.Inject;
@@ -29,8 +27,8 @@ public class AccountListCmd implements Callable<Integer> {
     public Integer call() {
         try {
 
-            final var currentAccountId = Single.fromCompletionStage(getCurrentAccountUseCase.execute()).blockingGet();
-            final var accounts = fromFlowPublisher(getAccountsUseCase.execute()).firstElement().blockingGet();
+            final var currentAccountId = getCurrentAccountUseCase.execute().join();
+            final var accounts = Maybe.fromPublisher(getAccountsUseCase.execute()).blockingGet();
 
             final var sb = new StringBuilder();
 
