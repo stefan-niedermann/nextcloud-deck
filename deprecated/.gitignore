@@ -53,11 +53,11 @@ freeline/
 freeline_project_description.json
 
 # fastlane
-fastlane/report.xml
-fastlane/Preview.html
-fastlane/screenshots
-fastlane/test_output
-fastlane/readme.md
+../app/android/fastlane/report.xml
+../app/android/fastlane/Preview.html
+../app/android/fastlane/screenshots
+../app/android/fastlane/test_output
+../app/android/fastlane/readme.md
 
 app/build
 app/play
