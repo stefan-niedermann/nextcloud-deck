@@ -18,6 +18,7 @@ package it.niedermann.nextcloud.deck.javafx.util;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeNoException;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -70,6 +71,9 @@ public final class JavaFxSchedulerTest {
             javafx.application.Platform.startup(() -> {
             });
         } catch (final IllegalStateException ignore) {
+            // Already started
+        } catch (final UnsupportedOperationException e) {
+            assumeNoException("JavaFX platform is not supported in this environment", e);
         }
     }
 

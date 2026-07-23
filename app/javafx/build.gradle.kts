@@ -47,12 +47,7 @@ graalvmNative {
 
 dependencies {
     implementation(project(":app:shared"))
-    implementation(project(":domain:usecases"))
-    implementation(project(":domain:model"))
-    implementation(project(":data:local"))
-    implementation(project(":data:remote"))
     implementation(project(":auth:webloginflowv2"))
-    implementation(project(":auth:apptoken"))
 
     implementation(libs.dagger)
     annotationProcessor(libs.dagger.compiler)

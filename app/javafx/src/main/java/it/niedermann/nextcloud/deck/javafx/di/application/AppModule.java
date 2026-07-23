@@ -5,7 +5,6 @@ import java.util.prefs.Preferences;
 
 import dagger.Module;
 import dagger.Provides;
-import it.niedermann.nextcloud.auth.apptoken.AppTokenAuthProvider;
 import it.niedermann.nextcloud.deck.app.shared.data.PreferencesKeyValueStore;
 import it.niedermann.nextcloud.deck.data.local.DeckDatabase;
 import it.niedermann.nextcloud.deck.data.local.KeyValueStore;
@@ -28,11 +27,5 @@ public class AppModule {
     @Singleton
     DeckDatabase provideDeckDatabase(@NamedDbPath Path dbPath) {
         return DeckDatabase.Companion.getDatabaseBuilder(dbPath).build();
-    }
-
-    @Provides
-    @Singleton
-    AppTokenAuthProvider provideAppTokenAuthProvider() {
-        return new AppTokenAuthProvider();
     }
 }

@@ -22,10 +22,6 @@ tasks.withType<AbstractArchiveTask>().configureEach {
 
 dependencies {
     implementation(project(":app:shared"))
-    implementation(project(":domain:usecases"))
-    implementation(project(":domain:model"))
-    implementation(project(":data:local"))
-    implementation(project(":auth:apptoken"))
 
     implementation(libs.dagger)
     annotationProcessor(libs.dagger.compiler)

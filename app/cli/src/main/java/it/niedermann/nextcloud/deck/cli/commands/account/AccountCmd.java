@@ -1,12 +1,11 @@
 package it.niedermann.nextcloud.deck.cli.commands.account;
 
 
-import static hu.akarnokd.rxjava3.jdk9interop.FlowInterop.fromFlowPublisher;
-
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import io.reactivex.rxjava3.core.Single;
 import it.niedermann.nextcloud.deck.cli.commands.account.subcommands.AccountAddCmd;
 import it.niedermann.nextcloud.deck.cli.commands.account.subcommands.AccountListCmd;
 import it.niedermann.nextcloud.deck.cli.commands.account.subcommands.AccountRemoveCmd;
@@ -31,7 +30,7 @@ public class AccountCmd implements Callable<Integer> {
     @Override
     public Integer call() {
         try {
-            final var account = fromFlowPublisher(getCurrentAccountUseCase.execute()).blockingFirst();
+            final var account = Single.fromCompletionStage(getCurrentAccountUseCase.execute()).blockingGet();
             System.out.println(account);
             return 0;
 

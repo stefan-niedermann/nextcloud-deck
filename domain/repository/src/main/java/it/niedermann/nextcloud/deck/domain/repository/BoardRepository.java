@@ -10,7 +10,7 @@ import it.niedermann.nextcloud.deck.domain.model.CreateBoard;
 
 public interface BoardRepository {
 
-    CompletableFuture<Void> createBoard(CreateBoard board);
+    CompletableFuture<Board.ID> createBoard(CreateBoard board);
 
     CompletableFuture<Void> updateBoard(Board board);
 

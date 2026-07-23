@@ -23,9 +23,9 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
-    public CompletableFuture<Void> createBoard(CreateBoard board) {
+    public CompletableFuture<Board.ID> createBoard(CreateBoard board) {
         // TODO Implement
-        return CompletableFuture.completedFuture(null);
+        return CompletableFuture.completedFuture(new Board.ID(1));
     }
 
     @Override

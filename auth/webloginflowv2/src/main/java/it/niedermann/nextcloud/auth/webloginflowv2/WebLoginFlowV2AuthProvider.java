@@ -11,12 +11,27 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import jakarta.inject.Inject;
+
+import jakarta.inject.Singleton;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+@Singleton
 public class WebLoginFlowV2AuthProvider {
 
     private static final Logger logger = Logger.getLogger(WebLoginFlowV2AuthProvider.class.getName());
+
+    private final OkHttpClient client;
+    private final GsonConverterFactory gsonConverterFactory;
+
+    @Inject
+    public WebLoginFlowV2AuthProvider(OkHttpClient client,
+                                      GsonConverterFactory gsonConverterFactory) {
+        this.client = client;
+        this.gsonConverterFactory = gsonConverterFactory;
+    }
 
     private final Duration pollLimit = Duration.ofMinutes(20);
 
@@ -59,8 +74,9 @@ public class WebLoginFlowV2AuthProvider {
 
     private OcsV2CoreApi createApi(URL url) {
         return new Retrofit.Builder()
+                .client(client)
                 .baseUrl(url.toString())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(gsonConverterFactory)
                 .build()
                 .create(OcsV2CoreApi.class);
     }

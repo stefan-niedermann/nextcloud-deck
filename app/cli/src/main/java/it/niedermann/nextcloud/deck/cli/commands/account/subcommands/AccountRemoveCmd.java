@@ -5,6 +5,7 @@ import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.RemoveAccountUseCase;
 import jakarta.inject.Inject;
 import picocli.CommandLine.Command;
@@ -31,7 +32,7 @@ public class AccountRemoveCmd implements Callable<Integer> {
     public Integer call() {
         try {
             if (id != null) {
-                removeAccountUseCase.execute(id);
+                removeAccountUseCase.execute(new Account.ID(id));
             } else {
                 removeAccountUseCase.execute(accountName);
             }

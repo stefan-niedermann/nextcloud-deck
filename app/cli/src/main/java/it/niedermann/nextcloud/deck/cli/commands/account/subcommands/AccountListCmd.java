@@ -7,6 +7,7 @@ import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import io.reactivex.rxjava3.core.Single;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase;
 import jakarta.inject.Inject;
@@ -28,13 +29,13 @@ public class AccountListCmd implements Callable<Integer> {
     public Integer call() {
         try {
 
-            final var currentAccount = fromFlowPublisher(getCurrentAccountUseCase.execute()).firstOrError().blockingGet();
+            final var currentAccountId = Single.fromCompletionStage(getCurrentAccountUseCase.execute()).blockingGet();
             final var accounts = fromFlowPublisher(getAccountsUseCase.execute()).firstElement().blockingGet();
 
             final var sb = new StringBuilder();
 
             for (final var account : accounts) {
-                final char state = Objects.equals(account.id(), currentAccount.id()) ? '*' : ' ';
+                final char state = Objects.equals(account.id(), currentAccountId) ? '*' : ' ';
                 final var line = String.format(" %1$s %2$s@%3$s", state, account.username(), account.url().getHost());
                 sb.append(line);
             }

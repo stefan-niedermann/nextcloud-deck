@@ -14,8 +14,8 @@ import jakarta.inject.Singleton;
 @Module(includes = {
         RepositoryModule.class,
         MapperModule.class,
-        RemoteModule.class,
         SyncModule.class,
+        RemoteModule.class,
 })
 public class SharedModule {
 

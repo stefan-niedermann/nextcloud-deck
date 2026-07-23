@@ -13,7 +13,13 @@ import it.niedermann.nextcloud.deck.cli.commands.reset.ResetCmd;
 import it.niedermann.nextcloud.deck.data.local.DeckDatabase;
 import it.niedermann.nextcloud.deck.data.local.KeyValueStore;
 
-@Component(modules = SharedModule.class)
+import jakarta.inject.Singleton;
+
+@Singleton
+@Component(modules = {
+        SharedModule.class,
+        AppModule.class,
+})
 public interface AppComponent {
 
     @Component.Factory

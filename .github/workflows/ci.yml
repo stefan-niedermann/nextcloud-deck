@@ -5,6 +5,7 @@ on:
 
 jobs:
   domain:
+    name: Lib
     runs-on: ubuntu-latest
 
     steps:
@@ -20,9 +21,71 @@ jobs:
           cache-read-only: false
 
       - name: Build domain
-        run: ./gradlew :domain:assemble
+        run: ./gradlew :domain:usecases:assemble
+
+  integration:
+    runs-on: ubuntu-latest
+    name: Lib e2e
+    needs: domain
+    strategy:
+      fail-fast: false
+      matrix:
+        nextcloud-version: [ 'nextcloud:latest', 'nextcloud:stable', 'nextcloud:production' ]
+    env:
+      NEXTCLOUD_ADMIN_USER: Test
+      NEXTCLOUD_ADMIN_PASSWORD: Test
+      NEXTCLOUD_TRUSTED_DOMAINS: localhost
+    services:
+      nextcloud:
+        image: ${{ matrix.nextcloud-version }}
+        env:
+          SQLITE_DATABASE: db.sqlite
+          NEXTCLOUD_ADMIN_USER: ${{ env.NEXTCLOUD_ADMIN_USER }}
+          NEXTCLOUD_ADMIN_PASSWORD: ${{ env.NEXTCLOUD_ADMIN_PASSWORD }}
+          NEXTCLOUD_TRUSTED_DOMAINS: ${{ env.NEXTCLOUD_TRUSTED_DOMAINS }}
+        ports:
+          - 80:80
+        options: >-
+          --health-cmd "curl GET 'http://Test:Test@localhost/ocs/v2.php/apps/serverinfo/api/v1/info' -f -H 'OCS-APIRequest: true' || exit 1"
+          --health-interval 1s
+          --health-timeout 2s
+          --health-retries 10
+          --health-start-period 3s
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Verify Nextcloud being present
+        run: |
+          curl -v -X GET "http://$NEXTCLOUD_ADMIN_USER:$NEXTCLOUD_ADMIN_PASSWORD@$NEXTCLOUD_TRUSTED_DOMAINS:$NEXTCLOUD_PORT/ocs/v2.php/cloud/capabilities?format=json" -H 'OCS-APIRequest: true' | jq
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 26
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: false
+
+      - name: Enable Deck app
+        run: |
+          docker exec $(docker ps -f "name=nextcloud" -q) bash -c 'runuser -u www-data -- php occ app:install deck'
+
+      - name: Execute e2e tests
+        run: ./gradlew :domain:usecases:test --stacktrace
+
+      - name: Upload Test Reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            **/build/reports/tests/test/**
+            ${{ runner.temp }}/.gradle-actions/build-results/*.json
 
   javafx:
+    name: App (PC)
     runs-on: ubuntu-latest
     needs: domain
 
@@ -39,4 +102,4 @@ jobs:
           cache-read-only: false
 
       - name: Build app
-        run: ./gradlew :app:javafx:assemble
+        run: xvfb-run ./gradlew :app:javafx:build

@@ -92,6 +92,7 @@ retrofit-rxjava = { group = "com.squareup.retrofit2", name = "adapter-rxjava3", 
 rxjava3 = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava3" }
 rxjava3-jdk9-interop = { group = "com.github.akarnokd", name = "rxjava3-jdk9-interop", version.ref = "rxjava3-jdk9-interop" }
 rxjava4 = { group = "io.reactivex.rxjava4", name = "rxjava", version.ref = "rxjava4" }
+junit-junit = { group = "junit", name = "junit", version.ref = "junit" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

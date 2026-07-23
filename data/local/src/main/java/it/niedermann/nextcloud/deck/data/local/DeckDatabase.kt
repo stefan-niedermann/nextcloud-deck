@@ -43,5 +43,12 @@ abstract class DeckDatabase : RoomDatabase() {
                 .setQueryCoroutineContext(Dispatchers.IO)
         }
 
+        fun getInMemoryDatabaseBuilder(): Builder<DeckDatabase> {
+            return Room.inMemoryDatabaseBuilder<DeckDatabase>()
+                .setDriver(BundledSQLiteDriver())
+                .fallbackToDestructiveMigration(true)
+                .setQueryCoroutineContext(Dispatchers.IO)
+        }
+
     }
 }

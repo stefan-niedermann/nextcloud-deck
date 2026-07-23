@@ -16,7 +16,6 @@ import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.SyncStatus;
 import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler;
-import it.niedermann.nextcloud.remote.ApiProvider;
 import jakarta.inject.Inject;
 
 /// Synchronization is executed parallelly in general but sequentially per [Account].
@@ -31,10 +30,9 @@ public class QueueingSyncScheduler implements SyncScheduler {
     private final AccountRepository accountRepository;
 
     @Inject
-    public QueueingSyncScheduler(ApiProvider.Factory apiProviderFactory,
+    public QueueingSyncScheduler(SyncManager syncManager,
                                  AccountRepository accountRepository) {
-        // TODO SyncManager should be injected directly in favor of instantiating it in the constructor
-        this.syncManager = new SyncManager(apiProviderFactory);
+        this.syncManager = syncManager;
         this.accountRepository = accountRepository;
     }
 

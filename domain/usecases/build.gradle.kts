@@ -15,4 +15,8 @@ dependencies {
     implementation(project(":data:remote"))
     implementation(libs.rxjava3)
     implementation(libs.rxjava3.jdk9.interop)
+
+    testImplementation(libs.junit.junit)
+    testAnnotationProcessor(libs.dagger.compiler)
+    testImplementation(project(":app:shared"))
 }
