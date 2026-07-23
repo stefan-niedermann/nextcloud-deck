@@ -63,8 +63,14 @@ dependencies {
 
     implementation(libs.jpro.mdfx)
 
-    testImplementation(libs.junit)
+    testImplementation(platform(libs.junitBom))
+    testImplementation(libs.junitJupiter)
+    testRuntimeOnly(libs.junitPlatformLauncher)
     testImplementation(libs.mockito.core)
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 tasks.named<Tar>("distTar") {

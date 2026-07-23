@@ -6,9 +6,7 @@ import androidx.annotation.NonNull;
 
 import java.net.URI;
 
-import it.niedermann.nextcloud.auth.AuthProvider;
-
-public class SsoAuthProvider implements AuthProvider {
+public class SsoAuthProvider {
 
     private final Context context;
     private final AuthViewModel viewModel;
@@ -18,13 +16,11 @@ public class SsoAuthProvider implements AuthProvider {
         this.viewModel = viewModel;
     }
 
-    @Override
     public String generateToken(URI uri, String username, String password) throws Exception {
         return null;
     }
 
-    @Override
     public void invalidateToken(URI uri, String username, String token) throws Exception {
-        AuthProvider.super.invalidateToken(uri, username, token);
+
     }
 }

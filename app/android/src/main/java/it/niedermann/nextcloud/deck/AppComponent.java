@@ -1,9 +1,9 @@
 package it.niedermann.nextcloud.deck;
 
-import androidx.room3.Database;
-
 import dagger.BindsInstance;
 import dagger.Component;
+import it.niedermann.nextcloud.deck.data.local.DeckDatabase;
+import it.niedermann.nextcloud.deck.data.local.KeyValueStore;
 
 @Component
 public interface AppComponent {
@@ -12,7 +12,10 @@ public interface AppComponent {
     interface Builder {
 
         @BindsInstance
-        Builder database(Database database);
+        Builder database(DeckDatabase database);
+
+        @BindsInstance
+        Builder keyValueStore(KeyValueStore keyValueStore);
 
         AppComponent build();
     }

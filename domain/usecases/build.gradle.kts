@@ -16,7 +16,17 @@ dependencies {
     implementation(libs.rxjava3)
     implementation(libs.rxjava3.jdk9.interop)
 
-    testImplementation(libs.junit.junit)
+    testImplementation(platform(libs.junitBom))
+    testImplementation(libs.junitJupiter)
+    testRuntimeOnly(libs.junitPlatformLauncher)
     testAnnotationProcessor(libs.dagger.compiler)
     testImplementation(project(":app:shared"))
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+    failOnNoDiscoveredTests = false
+    if (!project.hasProperty("includeE2E")) {
+        exclude("**/it/niedermann/nextcloud/deck/domain/e2e/**")
+    }
 }

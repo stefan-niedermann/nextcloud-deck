@@ -20,7 +20,7 @@ jetbrainsKotlinJvm = "2.3.21"
 jlink = "4.0.2"
 jpro = "0.6.2"
 jsystemthemedetector = "3.9.1"
-junit = "4.13.2"
+junit-bom = "6.1.2"
 junitVersion = "1.3.0"
 kotlin = "2.3.21"
 kotlinxCoroutinesRx3 = "1.11.0"
@@ -54,6 +54,7 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore = { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
+androidx-datastore-preferences-rxjava3 = { group = "androidx.datastore", name = "datastore-preferences-rxjava3", version.ref = "datastore" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
@@ -75,7 +76,9 @@ info-picocli-codegen = { group = "info.picocli", name = "picocli-codegen", versi
 jakarta-inject = { group = "jakarta.inject", name = "jakarta.inject-api", version.ref = "jakarta-inject" }
 jpro-mdfx = { module = "one.jpro.platform:jpro-mdfx", version.ref = "jpro" }
 jsystemthemedetector = { module = "com.github.Dansoftowner:jSystemThemeDetector", version.ref = "jsystemthemedetector" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
+junitBom = { group = "org.junit", name = "junit-bom", version.ref = "junit-bom" }
+junitJupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
+junitPlatformLauncher = { group = "org.junit.platform", name = "junit-platform-launcher" }
 kotlinx-coroutines-core-jvm = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm", version.ref = "kotlinxCoroutinesRx3" }
 kotlinx-coroutines-rx3 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-rx3", version.ref = "kotlinxCoroutinesRx3" }
 mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
@@ -92,7 +95,6 @@ retrofit-rxjava = { group = "com.squareup.retrofit2", name = "adapter-rxjava3", 
 rxjava3 = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava3" }
 rxjava3-jdk9-interop = { group = "com.github.akarnokd", name = "rxjava3-jdk9-interop", version.ref = "rxjava3-jdk9-interop" }
 rxjava4 = { group = "io.reactivex.rxjava4", name = "rxjava", version.ref = "rxjava4" }
-junit-junit = { group = "junit", name = "junit", version.ref = "junit" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

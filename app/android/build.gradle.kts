@@ -7,11 +7,7 @@ plugins {
 
 android {
     namespace = "it.niedermann.nextcloud.deck"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "it.niedermann.nextcloud.deck"
@@ -39,6 +35,11 @@ android {
     buildFeatures {
         compose = true
     }
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -61,6 +62,7 @@ dependencies {
     implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.datastore.preferences.rxjava3)
     implementation(libs.androidx.preference)
     implementation(libs.androidx.preference.ktx)
 
@@ -68,7 +70,9 @@ dependencies {
     ksp(libs.hilt.compiler)
 
 
-    testImplementation(libs.junit)
+    testImplementation(platform(libs.junitBom))
+    testImplementation(libs.junitJupiter)
+    testRuntimeOnly(libs.junitPlatformLauncher)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

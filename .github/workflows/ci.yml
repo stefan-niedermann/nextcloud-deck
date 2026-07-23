@@ -23,7 +23,7 @@ jobs:
       - name: Build domain
         run: ./gradlew :domain:usecases:assemble
 
-  integration:
+  e2e:
     runs-on: ubuntu-latest
     name: Lib e2e
     needs: domain
@@ -55,25 +55,27 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Verify Nextcloud being present
-        run: |
-          curl -v -X GET "http://$NEXTCLOUD_ADMIN_USER:$NEXTCLOUD_ADMIN_PASSWORD@$NEXTCLOUD_TRUSTED_DOMAINS:$NEXTCLOUD_PORT/ocs/v2.php/cloud/capabilities?format=json" -H 'OCS-APIRequest: true' | jq
-
-      - uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: 26
-
-      - uses: gradle/actions/setup-gradle@v4
-        with:
-          cache-read-only: false
-
       - name: Enable Deck app
         run: |
           docker exec $(docker ps -f "name=nextcloud" -q) bash -c 'runuser -u www-data -- php occ app:install deck'
 
+      - name: Verify Nextcloud setup
+        run: |
+          curl -v -X GET "http://$NEXTCLOUD_ADMIN_USER:$NEXTCLOUD_ADMIN_PASSWORD@$NEXTCLOUD_TRUSTED_DOMAINS:$NEXTCLOUD_PORT/ocs/v2.php/cloud/capabilities?format=json" -H 'OCS-APIRequest: true' | jq
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 26
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: false
+
       - name: Execute e2e tests
-        run: ./gradlew :domain:usecases:test --stacktrace
+        run: ./gradlew :domain:usecases:test -PincludeE2E=true --stacktrace
 
       - name: Upload Test Reports
         if: failure()

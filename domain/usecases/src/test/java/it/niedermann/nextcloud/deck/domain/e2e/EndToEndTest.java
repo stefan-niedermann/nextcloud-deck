@@ -1,11 +1,9 @@
 package it.niedermann.nextcloud.deck.domain.e2e;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.reactivestreams.FlowAdapters;
 
 import java.io.IOException;
@@ -28,7 +26,6 @@ import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCa
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import jakarta.inject.Inject;
 
-@RunWith(JUnit4.class)
 public class EndToEndTest {
 
     private static final Logger logger = Logger.getLogger(EndToEndTest.class.getName());
@@ -61,12 +58,12 @@ public class EndToEndTest {
     @Inject
     ListBoardsUseCase listBoardsUseCase;
 
-    @Before
+    @BeforeEach
     public void setup() {
         DaggerTestComponent.create().inject(this);
     }
 
-    @After
+    @AfterEach
     public void close() {
         db.close();
         prefs.clear();
@@ -84,7 +81,7 @@ public class EndToEndTest {
 
         final var createdBoardId = addBoardUseCase.addBoard(createBoard).join();
         final var boards = Maybe.fromPublisher(FlowAdapters.toPublisher(listBoardsUseCase.execute(account.id()))).blockingGet();
-        Assert.assertTrue("Should ", boards.stream().anyMatch(board -> Objects.equals(board.id(), createdBoardId)));
+        Assertions.assertTrue(boards.stream().anyMatch(board -> Objects.equals(board.id(), createdBoardId)), "Should contain the created board");
 //        syncScheduler.scheduleSynchronization(account.id());
 
     }
