@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.javafx.ui.controller.features;
 
+import com.dlsc.gemsfx.PopOver;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -32,7 +34,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
-import javafx.stage.Popup;
+import javafx.stage.PopupWindow;
 
 public class ColumnFeature extends DisposableController {
 
@@ -48,6 +50,7 @@ public class ColumnFeature extends DisposableController {
     private FlowableProcessor<Integer> draggingCardIndex;
 
     private final CardPreviewCellFactory cardPreviewCellFactory;
+    private PopOver popOver;
 
     @FXML
     Label title;
@@ -55,8 +58,6 @@ public class ColumnFeature extends DisposableController {
     ListView<Card> cards;
     @FXML
     Button addCard;
-    @FXML
-    Popup addCardPopup;
     @FXML
     SubmitTextField addCardSubmitTextField;
 
@@ -109,21 +110,19 @@ public class ColumnFeature extends DisposableController {
 
         addCard.setOnAction(event -> {
 
-            if (addCardPopup.isShowing()) {
-                addCardPopup.hide();
+            popOver = new PopOver(addCardSubmitTextField);
+            popOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
+            popOver.setAnchorLocation(PopupWindow.AnchorLocation.CONTENT_TOP_RIGHT);
+            popOver.show(addCard);
 
-            } else {
-                final var bounds = addCard.localToScreen(addCard.getBoundsInLocal());
-                addCardPopup.show(addCard, bounds.getMinX(), bounds.getMaxY() + 5);
-                addCardSubmitTextField.requestFocus();
-            }
+            addCardSubmitTextField.requestFocus();
 
             event.consume();
         });
 
         addCardSubmitTextField.setOnSubmit(cardTitle -> {
 
-            addCardPopup.hide();
+            popOver.hide();
             addCardSubmitTextField.setDisable(true);
 
             addCardUseCase.execute(new CreateCard(columnId, cardTitle))
