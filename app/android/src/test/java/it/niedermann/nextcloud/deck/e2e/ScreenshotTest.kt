@@ -1,5 +1,6 @@
-package it.niedermann.nextcloud.deck
+package it.niedermann.nextcloud.deck.e2e
 
+import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
@@ -8,20 +9,20 @@ import com.github.takahirom.roborazzi.captureRoboImage
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
+import it.niedermann.nextcloud.deck.MainActivity
 import it.niedermann.nextcloud.deck.domain.model.Account
 import it.niedermann.nextcloud.remote.ApiProvider
+import jakarta.inject.Inject
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito
 import org.mockito.kotlin.any
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import java.io.File
-import javax.inject.Inject
 
 @HiltAndroidTest
 @RunWith(RobolectricTestRunner::class)
@@ -33,9 +34,10 @@ class ScreenshotTest {
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule
-    val composeTestRule = androidx.compose.ui.test.junit4.v2.createAndroidComposeRule<MainActivity>()
+    val composeTestRule = createAndroidComposeRule<MainActivity>()
 
-    @Inject lateinit var apiProviderFactory: ApiProvider.Factory
+    @Inject
+    lateinit var apiProviderFactory: ApiProvider.Factory
 
     private fun getScreenshotPath(fileName: String): String {
         val base = if (File("app/android").exists()) "app/android" else "."
@@ -46,10 +48,10 @@ class ScreenshotTest {
     fun init() {
         hiltRule.inject()
         File(getScreenshotPath("")).mkdirs()
-        
+
         // Mock ApiProvider to avoid real network calls
-        val apiProvider = mock(ApiProvider::class.java)
-        `when`(apiProviderFactory.create(any<Account>())).thenReturn(apiProvider)
+        val apiProvider = Mockito.mock(ApiProvider::class.java)
+        Mockito.`when`(apiProviderFactory.create(any<Account>())).thenReturn(apiProvider)
     }
 
     @Test

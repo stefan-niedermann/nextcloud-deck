@@ -58,32 +58,30 @@ dependencies {
     implementation(project(":auth:sso"))
 
 
-    implementation(libs.androidx.sqlite)
-    implementation(libs.androidx.room3.runtime)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.material.icons.core)
+    implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.androidx.compose.material.icons.core)
-    implementation(libs.androidx.compose.material.icons.extended)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlinx.coroutines.reactive)
+    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.datastore.preferences.rxjava3)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.preference)
     implementation(libs.androidx.preference.ktx)
-
+    implementation(libs.androidx.room3.runtime)
+    implementation(libs.androidx.sqlite)
+    implementation(libs.kotlinx.coroutines.reactive)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-
 
     testImplementation(platform(libs.junitBom))
     testImplementation(libs.junitJupiter)
@@ -93,16 +91,19 @@ dependencies {
     testImplementation(libs.roborazzi.compose)
     testImplementation(libs.roborazzi.rule)
     testImplementation(libs.hilttesting)
-    kspTest(libs.hilt.compiler)
     testImplementation(libs.androidx.compose.ui.test.junit4)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockitokotlin)
-
-
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+    failOnNoDiscoveredTests = false
+    if (!project.hasProperty("includeE2E")) {
+        exclude("**/it/niedermann/nextcloud/deck/e2e/**")
+    }
 }
