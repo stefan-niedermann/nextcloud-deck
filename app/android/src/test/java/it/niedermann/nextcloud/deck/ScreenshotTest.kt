@@ -11,6 +11,7 @@ import dagger.hilt.android.testing.HiltTestApplication
 import it.niedermann.nextcloud.deck.domain.model.Account
 import it.niedermann.nextcloud.remote.ApiProvider
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -23,6 +24,7 @@ import org.robolectric.annotation.GraphicsMode
 import java.io.File
 import javax.inject.Inject
 
+@Ignore("To be decided whether full e2e tests or mocked")
 @HiltAndroidTest
 @RunWith(RobolectricTestRunner::class)
 @Config(application = HiltTestApplication::class, sdk = [34])

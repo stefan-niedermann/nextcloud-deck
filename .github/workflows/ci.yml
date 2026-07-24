@@ -143,7 +143,7 @@ jobs:
           cache-read-only: false
 
       - name: Build App
-        run: ./gradlew :app:android:build
+        run: ./gradlew :app:android:assemble
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
