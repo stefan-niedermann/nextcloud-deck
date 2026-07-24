@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.google.ksp)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.roborazzi)
 }
 
 android {
@@ -38,8 +40,14 @@ android {
     testOptions {
         unitTests.all {
             it.useJUnitPlatform()
+            it.systemProperty("roborazzi.test.record", "true")
         }
+        unitTests.isIncludeAndroidResources = true
     }
+}
+
+roborazzi {
+    outputDir.set(file("fastlane/metadata/android/en-US/images/phoneScreenshots"))
 }
 
 dependencies {
@@ -50,6 +58,7 @@ dependencies {
     implementation(project(":auth:sso"))
 
 
+    implementation(libs.androidx.sqlite)
     implementation(libs.androidx.room3.runtime)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -60,6 +69,12 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.compose.material.icons.core)
+    implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.coroutines.reactive)
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.datastore.preferences.rxjava3)
@@ -73,6 +88,17 @@ dependencies {
     testImplementation(platform(libs.junitBom))
     testImplementation(libs.junitJupiter)
     testRuntimeOnly(libs.junitPlatformLauncher)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(libs.roborazzi.rule)
+    testImplementation(libs.hilttesting)
+    kspTest(libs.hilt.compiler)
+    testImplementation(libs.androidx.compose.ui.test.junit4)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockitokotlin)
+
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
