@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
@@ -25,6 +27,7 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Attachment
 import androidx.compose.material.icons.outlined.Bolt
 import androidx.compose.material.icons.outlined.CalendarMonth
+import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Info
@@ -58,9 +61,9 @@ import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -74,6 +77,7 @@ import it.niedermann.nextcloud.deck.domain.model.Label
 import it.niedermann.nextcloud.deck.domain.model.User
 import it.niedermann.nextcloud.deck.ui.components.UserAvatar
 import it.niedermann.nextcloud.deck.ui.util.toComposeColor
+import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -87,9 +91,10 @@ fun CardDetailsScreen(
     viewModel: CardDetailsViewModel = hiltViewModel()
 ) {
     val card by viewModel.card.collectAsStateWithLifecycle()
-    var selectedTab by remember { mutableIntStateOf(0) }
     val tabs = listOf("Details", "Attachments", "Comments", "Activity")
     val icons = listOf(Icons.Outlined.Info, Icons.Outlined.Attachment, Icons.Outlined.ModeComment, Icons.Outlined.Bolt)
+    val pagerState = rememberPagerState(pageCount = { tabs.size })
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(cardId) {
         viewModel.loadCard(cardId)
@@ -109,11 +114,15 @@ fun CardDetailsScreen(
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
         Column(modifier = Modifier.padding(padding).fillMaxSize()) {
-            SecondaryTabRow(selectedTabIndex = selectedTab) {
+            SecondaryTabRow(selectedTabIndex = pagerState.currentPage) {
                 tabs.forEachIndexed { index, title ->
                     Tab(
-                        selected = selectedTab == index,
-                        onClick = { selectedTab = index },
+                        selected = pagerState.currentPage == index,
+                        onClick = { 
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(index)
+                            }
+                        },
                         text = { Text(title) },
                         icon = { Icon(icons[index], contentDescription = title) }
                     )
@@ -124,11 +133,17 @@ fun CardDetailsScreen(
                 if (viewModel.isLoading && card == null) {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 } else {
-                    when (selectedTab) {
-                        0 -> CardDetailsTab(card, viewModel)
-                        1 -> AttachmentsTab(viewModel)
-                        2 -> CommentsTab(viewModel)
-                        3 -> ActivityTab(viewModel)
+                    HorizontalPager(
+                        state = pagerState,
+                        modifier = Modifier.fillMaxSize(),
+                        verticalAlignment = Alignment.Top
+                    ) { page ->
+                        when (page) {
+                            0 -> CardDetailsTab(card, viewModel)
+                            1 -> AttachmentsTab(viewModel)
+                            2 -> CommentsTab(viewModel)
+                            3 -> ActivityTab(viewModel)
+                        }
                     }
                 }
             }
@@ -388,7 +403,7 @@ fun AssigneeSelector(
 fun DateTimeInput(
     label: String,
     dateTime: LocalDateTime?,
-    onDateTimeChange: (LocalDateTime) -> Unit,
+    onDateTimeChange: (LocalDateTime?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
@@ -409,7 +424,15 @@ fun DateTimeInput(
                 onValueChange = {},
                 readOnly = true,
                 modifier = Modifier.fillMaxWidth(),
-                trailingIcon = { Icon(Icons.Outlined.CalendarMonth, contentDescription = null) },
+                trailingIcon = { 
+                    if (dateTime != null) {
+                        IconButton(onClick = { onDateTimeChange(null) }) {
+                            Icon(Icons.Outlined.Clear, contentDescription = "Clear")
+                        }
+                    } else {
+                        Icon(Icons.Outlined.CalendarMonth, contentDescription = null)
+                    }
+                },
                 colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
                     focusedTextColor = MaterialTheme.colorScheme.onSurface,
                     unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
