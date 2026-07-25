@@ -21,12 +21,14 @@ import androidx.navigation.toRoute
 import dagger.hilt.android.AndroidEntryPoint
 import it.niedermann.nextcloud.deck.ui.board.BoardScreen
 import it.niedermann.nextcloud.deck.ui.boards.BoardListScreen
+import it.niedermann.nextcloud.deck.ui.boards.edit.EditBoardScreen
 import it.niedermann.nextcloud.deck.ui.card.CardDetailsScreen
 import it.niedermann.nextcloud.deck.ui.components.AppTopBar
 import it.niedermann.nextcloud.deck.ui.login.LoginScreen
 import it.niedermann.nextcloud.deck.ui.navigation.BoardListRoute
 import it.niedermann.nextcloud.deck.ui.navigation.BoardViewRoute
 import it.niedermann.nextcloud.deck.ui.navigation.CardDetailsRoute
+import it.niedermann.nextcloud.deck.ui.navigation.EditBoardRoute
 import it.niedermann.nextcloud.deck.ui.navigation.LoginRoute
 import it.niedermann.nextcloud.deck.ui.theme.NextcloudDeckTheme
 
@@ -63,7 +65,8 @@ fun AppNavigation(
     val currentRoute = navBackStackEntry?.destination?.route
     val showTopBar = currentRoute != null && 
                      currentRoute != LoginRoute::class.qualifiedName && 
-                     !currentRoute.contains("CardDetailsRoute")
+                     !currentRoute.contains("CardDetailsRoute") &&
+                     !currentRoute.contains("EditBoardRoute")
 
     // Redirect to login if all accounts are deleted
     val hasAccounts by mainViewModel.hasAccounts.collectAsStateWithLifecycle()
@@ -111,15 +114,27 @@ fun AppNavigation(
                 })
             }
             composable<BoardListRoute> {
-                BoardListScreen(onBoardClick = { boardId ->
-                    navController.navigate(BoardViewRoute(boardId))
-                })
+                BoardListScreen(
+                    onBoardClick = { boardId ->
+                        navController.navigate(BoardViewRoute(boardId))
+                    },
+                    onEditBoardClick = { boardId ->
+                        navController.navigate(EditBoardRoute(boardId))
+                    }
+                )
             }
             composable<BoardViewRoute> { backStackEntry ->
                 val route: BoardViewRoute = backStackEntry.toRoute()
                 BoardScreen(boardId = route.boardId, onCardClick = { cardId ->
                     navController.navigate(CardDetailsRoute(cardId))
                 })
+            }
+            composable<EditBoardRoute> { backStackEntry ->
+                val route: EditBoardRoute = backStackEntry.toRoute()
+                EditBoardScreen(
+                    boardId = route.boardId,
+                    onBack = { navController.popBackStack() }
+                )
             }
             composable<CardDetailsRoute> { backStackEntry ->
                 val route: CardDetailsRoute = backStackEntry.toRoute()

@@ -12,4 +12,7 @@ object BoardListRoute
 data class BoardViewRoute(val boardId: Long)
 
 @Serializable
+data class EditBoardRoute(val boardId: Long)
+
+@Serializable
 data class CardDetailsRoute(val cardId: Long)
