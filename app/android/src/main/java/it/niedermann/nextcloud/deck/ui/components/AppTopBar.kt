@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.components
 
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,7 +40,7 @@ import it.niedermann.nextcloud.deck.ui.accounts.AccountViewModel
 fun AppTopBar(
     onAddAccount: () -> Unit,
     onCardClick: (Long) -> Unit,
-    searchViewModel: SearchViewModel = hiltViewModel(),
+    searchViewModel: SearchViewModel = hiltViewModel(LocalActivity.current as ComponentActivity),
     accountViewModel: AccountViewModel = hiltViewModel()
 ) {
     var query by remember { mutableStateOf("") }

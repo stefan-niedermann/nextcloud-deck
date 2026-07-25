@@ -75,6 +75,7 @@ import it.niedermann.nextcloud.deck.domain.model.Account
 import it.niedermann.nextcloud.deck.domain.model.Card
 import it.niedermann.nextcloud.deck.domain.model.Column
 import it.niedermann.nextcloud.deck.domain.model.Label
+import it.niedermann.nextcloud.deck.ui.components.AppTopBar
 import it.niedermann.nextcloud.deck.ui.components.UserAvatar
 import it.niedermann.nextcloud.deck.ui.util.toComposeColor
 import java.time.format.DateTimeFormatter
@@ -84,6 +85,7 @@ import java.time.format.DateTimeFormatter
 fun BoardScreen(
     boardId: Long,
     onCardClick: (Long) -> Unit,
+    onAddAccount: () -> Unit,
     viewModel: BoardViewModel = hiltViewModel()
 ) {
     val columns by viewModel.columns.collectAsStateWithLifecycle()
@@ -103,6 +105,12 @@ fun BoardScreen(
     }
 
     Scaffold(
+        topBar = {
+            AppTopBar(
+                onAddAccount = onAddAccount,
+                onCardClick = onCardClick
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(onClick = { showAddColumnDialog = true }) {
                 Icon(Icons.Outlined.Add, contentDescription = "Add Column")

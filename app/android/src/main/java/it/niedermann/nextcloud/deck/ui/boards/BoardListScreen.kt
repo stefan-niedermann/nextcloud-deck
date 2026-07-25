@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import it.niedermann.nextcloud.deck.domain.model.Board
+import it.niedermann.nextcloud.deck.ui.components.AppTopBar
 import it.niedermann.nextcloud.deck.ui.util.toComposeColor
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -51,12 +52,20 @@ import java.time.format.FormatStyle
 fun BoardListScreen(
     onBoardClick: (Long) -> Unit,
     onEditBoardClick: (Long) -> Unit,
+    onAddAccount: () -> Unit,
+    onCardClick: (Long) -> Unit,
     viewModel: BoardListViewModel = hiltViewModel()
 ) {
     val boards by viewModel.boards.collectAsStateWithLifecycle()
     var showAddDialog by remember { mutableStateOf(false) }
 
     Scaffold(
+        topBar = {
+            AppTopBar(
+                onAddAccount = onAddAccount,
+                onCardClick = onCardClick
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(onClick = { showAddDialog = true }) {
                 Icon(Icons.Outlined.Add, contentDescription = "Add Board")

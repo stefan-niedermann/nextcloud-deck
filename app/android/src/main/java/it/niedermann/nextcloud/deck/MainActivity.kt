@@ -23,7 +23,6 @@ import it.niedermann.nextcloud.deck.ui.board.BoardScreen
 import it.niedermann.nextcloud.deck.ui.boards.BoardListScreen
 import it.niedermann.nextcloud.deck.ui.boards.edit.EditBoardScreen
 import it.niedermann.nextcloud.deck.ui.card.CardDetailsScreen
-import it.niedermann.nextcloud.deck.ui.components.AppTopBar
 import it.niedermann.nextcloud.deck.ui.login.LoginScreen
 import it.niedermann.nextcloud.deck.ui.navigation.BoardListRoute
 import it.niedermann.nextcloud.deck.ui.navigation.BoardViewRoute
@@ -62,15 +61,11 @@ fun AppNavigation(
 ) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
-    val showTopBar = currentRoute != null && 
-                     currentRoute != LoginRoute::class.qualifiedName && 
-                     !currentRoute.contains("CardDetailsRoute") &&
-                     !currentRoute.contains("EditBoardRoute")
 
     // Redirect to login if all accounts are deleted
     val hasAccounts by mainViewModel.hasAccounts.collectAsStateWithLifecycle()
     LaunchedEffect(hasAccounts) {
+        val currentRoute = navController.currentBackStackEntry?.destination?.route
         if (!hasAccounts && currentRoute != LoginRoute::class.qualifiedName) {
             navController.navigate(LoginRoute) {
                 popUpTo(0) { inclusive = true }
@@ -81,6 +76,7 @@ fun AppNavigation(
     // Refresh current account if it changes in the background
     val currentAccountId by mainViewModel.currentAccountId.collectAsStateWithLifecycle()
     LaunchedEffect(currentAccountId) {
+        val currentRoute = navController.currentBackStackEntry?.destination?.route
         if (currentAccountId != null && currentRoute == LoginRoute::class.qualifiedName) {
              navController.navigate(BoardListRoute) {
                 popUpTo(LoginRoute) { inclusive = true }
@@ -89,18 +85,6 @@ fun AppNavigation(
     }
 
     Scaffold(
-        topBar = {
-            if (showTopBar) {
-                AppTopBar(
-                    onAddAccount = {
-                        navController.navigate(LoginRoute)
-                    },
-                    onCardClick = { cardId ->
-                        navController.navigate(CardDetailsRoute(cardId))
-                    }
-                )
-            }
-        },
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPadding ->
         NavHost(
@@ -120,14 +104,26 @@ fun AppNavigation(
                     },
                     onEditBoardClick = { boardId ->
                         navController.navigate(EditBoardRoute(boardId))
+                    },
+                    onAddAccount = {
+                        navController.navigate(LoginRoute)
+                    },
+                    onCardClick = { cardId ->
+                        navController.navigate(CardDetailsRoute(cardId))
                     }
                 )
             }
             composable<BoardViewRoute> { backStackEntry ->
                 val route: BoardViewRoute = backStackEntry.toRoute()
-                BoardScreen(boardId = route.boardId, onCardClick = { cardId ->
-                    navController.navigate(CardDetailsRoute(cardId))
-                })
+                BoardScreen(
+                    boardId = route.boardId,
+                    onCardClick = { cardId ->
+                        navController.navigate(CardDetailsRoute(cardId))
+                    },
+                    onAddAccount = {
+                        navController.navigate(LoginRoute)
+                    }
+                )
             }
             composable<EditBoardRoute> { backStackEntry ->
                 val route: EditBoardRoute = backStackEntry.toRoute()
