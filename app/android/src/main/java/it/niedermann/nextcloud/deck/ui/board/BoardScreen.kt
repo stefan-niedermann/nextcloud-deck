@@ -7,6 +7,8 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.draganddrop.dragAndDropSource
 import androidx.compose.foundation.draganddrop.dragAndDropTarget
+import androidx.compose.foundation.gestures.ScrollableDefaults
+import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +27,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -87,6 +90,12 @@ fun BoardScreen(
     var showAddCardDialog by remember { mutableStateOf<Long?>(null) }
     var showAddColumnDialog by remember { mutableStateOf(false) }
 
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp
+    val isSmallScreen = screenWidth < 600
+    val lazyListState = rememberLazyListState()
+    val snapFlingBehavior = rememberSnapFlingBehavior(lazyListState = lazyListState)
+
     LaunchedEffect(boardId) {
         viewModel.loadBoard(boardId)
     }
@@ -109,8 +118,10 @@ fun BoardScreen(
             } else {
                 LazyRow(
                     modifier = Modifier.fillMaxSize(),
+                    state = lazyListState,
                     contentPadding = PaddingValues(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    flingBehavior = if (isSmallScreen) snapFlingBehavior else ScrollableDefaults.flingBehavior()
                 ) {
                     itemsIndexed(columns) { _, column ->
                         BoardColumn(
