@@ -1,17 +1,16 @@
 package it.niedermann.nextcloud.deck.ui.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -26,7 +25,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -50,27 +48,52 @@ fun AppTopBar(
     val currentAccountId by accountViewModel.currentAccountId.collectAsState()
     val currentAccount = accounts.find { it.id() == currentAccountId }
 
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
             .statusBarsPadding()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
     ) {
         SearchBar(
             query = query,
-            onQueryChange = { 
+            onQueryChange = {
                 query = it
                 searchViewModel.search(it)
             },
-            onSearch = { 
+            onSearch = {
                 searchViewModel.search(it)
             },
             active = active,
             onActiveChange = { active = it },
             placeholder = { Text("Search cards...") },
-            leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-            modifier = Modifier.weight(1f)
+            leadingIcon = {
+                if (active) {
+                    IconButton(onClick = { active = false }) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                } else {
+                    Icon(Icons.Default.Search, contentDescription = null)
+                }
+            },
+            trailingIcon = {
+                IconButton(onClick = { showAccountDialog = true }) {
+                    if (currentAccount != null) {
+                        UserAvatar(
+                            accountId = currentAccount.id(),
+                            userId = User.ID(currentAccount.username()),
+                            size = 30.dp
+                        )
+                    } else {
+                        Icon(
+                            Icons.Default.AccountCircle,
+                            contentDescription = "Accounts",
+                            modifier = Modifier.size(30.dp)
+                        )
+                    }
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = if (active) 0.dp else 16.dp, vertical = if (active) 0.dp else 8.dp)
         ) {
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 items(results) { card ->
@@ -83,24 +106,6 @@ fun AppTopBar(
                         }
                     )
                 }
-            }
-        }
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        IconButton(onClick = { showAccountDialog = true }) {
-            if (currentAccount != null) {
-                UserAvatar(
-                    accountId = currentAccount.id(),
-                    userId = User.ID(currentAccount.username()),
-                    size = 40.dp
-                )
-            } else {
-                Icon(
-                    Icons.Default.AccountCircle,
-                    contentDescription = "Accounts",
-                    modifier = Modifier.size(40.dp)
-                )
             }
         }
     }
