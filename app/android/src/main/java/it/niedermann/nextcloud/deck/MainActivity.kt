@@ -60,7 +60,9 @@ fun AppNavigation(
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    val showTopBar = currentRoute != LoginRoute::class.qualifiedName
+    val showTopBar = currentRoute != null && 
+                     currentRoute != LoginRoute::class.qualifiedName && 
+                     !currentRoute.contains("CardDetailsRoute")
 
     // Redirect to login if all accounts are deleted
     val hasAccounts by mainViewModel.hasAccounts.collectAsState()
