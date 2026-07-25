@@ -6,18 +6,24 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import it.niedermann.nextcloud.deck.domain.model.Account
 import it.niedermann.nextcloud.deck.domain.model.Board
 import it.niedermann.nextcloud.deck.domain.model.Card
 import it.niedermann.nextcloud.deck.domain.model.Column
 import it.niedermann.nextcloud.deck.domain.model.CreateCard
 import it.niedermann.nextcloud.deck.domain.model.CreateColumn
+import it.niedermann.nextcloud.deck.domain.model.Label
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardsUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.columns.AddColumnUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.future.await
 import kotlinx.coroutines.launch
@@ -31,7 +37,10 @@ class BoardViewModel @Inject constructor(
     private val getColumnUseCase: GetColumnUseCase,
     private val listCardsUseCase: ListCardsUseCase,
     private val addCardUseCase: AddCardUseCase,
-    private val addColumnUseCase: AddColumnUseCase
+    private val addColumnUseCase: AddColumnUseCase,
+    private val moveCardUseCase: MoveCardUseCase,
+    private val listLabelsUseCase: ListLabelsUseCase,
+    private val getCurrentAccountUseCase: GetCurrentAccountUseCase
 ) : ViewModel() {
 
     private val _columns = MutableStateFlow<List<Column>>(emptyList())
@@ -39,6 +48,16 @@ class BoardViewModel @Inject constructor(
 
     private val _cardsByColumn = MutableStateFlow<Map<Long, List<Card>>>(emptyMap())
     val cardsByColumn = _cardsByColumn.asStateFlow()
+
+    private val _labels = MutableStateFlow<Map<Long, Label>>(emptyMap())
+    val labels = _labels.asStateFlow()
+
+    private val _currentAccountId = MutableStateFlow<Account.ID?>(null)
+    val currentAccountId = _currentAccountId.asStateFlow()
+
+    var draggingCardId by mutableStateOf<Card.ID?>(null)
+    var dropTargetColumnId by mutableStateOf<Column.ID?>(null)
+    var dropTargetIndex by mutableStateOf(-1)
 
     var isLoading by mutableStateOf(false)
     var error by mutableStateOf<String?>(null)
@@ -48,6 +67,14 @@ class BoardViewModel @Inject constructor(
         error = null
         viewModelScope.launch {
             try {
+                _currentAccountId.value = getCurrentAccountUseCase.execute().await()
+
+                FlowAdapters.toPublisher(listLabelsUseCase.execute(Board.ID(boardId)))
+                    .asFlow()
+                    .collectLatest { labels ->
+                        _labels.value = labels.associateBy { it.id().value() }
+                    }
+
                 FlowAdapters.toPublisher(listColumnsUseCase.execute(Board.ID(boardId)))
                     .asFlow()
                     .collect { colIds ->
@@ -95,6 +122,16 @@ class BoardViewModel @Inject constructor(
                 addColumnUseCase.execute(CreateColumn(Board.ID(boardId), title, 0)).await()
             } catch (e: Exception) {
                 error = e.message ?: "Failed to add column"
+            }
+        }
+    }
+
+    fun moveCard(cardId: Card.ID, targetColumnId: Column.ID, targetOrder: Int) {
+        viewModelScope.launch {
+            try {
+                moveCardUseCase.execute(cardId, targetColumnId, targetOrder).await()
+            } catch (e: Exception) {
+                error = e.message ?: "Failed to move card"
             }
         }
     }
