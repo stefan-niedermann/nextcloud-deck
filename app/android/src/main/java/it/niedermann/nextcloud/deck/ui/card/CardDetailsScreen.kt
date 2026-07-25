@@ -46,9 +46,9 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
@@ -57,7 +57,6 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -68,7 +67,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import it.niedermann.nextcloud.deck.domain.model.Card
 import it.niedermann.nextcloud.deck.domain.model.Label
 import it.niedermann.nextcloud.deck.domain.model.User
@@ -86,7 +86,7 @@ fun CardDetailsScreen(
     onBack: () -> Unit,
     viewModel: CardDetailsViewModel = hiltViewModel()
 ) {
-    val card by viewModel.card.collectAsState()
+    val card by viewModel.card.collectAsStateWithLifecycle()
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabs = listOf("Details", "Attachments", "Comments", "Activity")
     val icons = listOf(Icons.Outlined.Info, Icons.Outlined.Attachment, Icons.Outlined.ModeComment, Icons.Outlined.Bolt)
@@ -109,7 +109,7 @@ fun CardDetailsScreen(
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
         Column(modifier = Modifier.padding(padding).fillMaxSize()) {
-            TabRow(selectedTabIndex = selectedTab) {
+            SecondaryTabRow(selectedTabIndex = selectedTab) {
                 tabs.forEachIndexed { index, title ->
                     Tab(
                         selected = selectedTab == index,
@@ -142,8 +142,8 @@ fun CardDetailsTab(card: Card?, viewModel: CardDetailsViewModel) {
     if (card == null) return
     var isEditingDescription by remember { mutableStateOf(false) }
     var descriptionText by remember(card.description()) { mutableStateOf(card.description()) }
-    val boardLabels by viewModel.boardLabels.collectAsState()
-    val userSearchResults by viewModel.userSearchResults.collectAsState()
+    val boardLabels by viewModel.boardLabels.collectAsStateWithLifecycle()
+    val userSearchResults by viewModel.userSearchResults.collectAsStateWithLifecycle()
 
     LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         // Labels
@@ -340,7 +340,7 @@ fun AssigneeSelector(
                         onSearchQueryChange(it)
                         expanded = it.isNotBlank()
                     },
-                    modifier = Modifier.fillMaxWidth().menuAnchor().focusRequester(focusRequester),
+                    modifier = Modifier.fillMaxWidth().menuAnchor(androidx.compose.material3.ExposedDropdownMenuAnchorType.PrimaryEditable).focusRequester(focusRequester),
                     label = { Text("Search users...") },
                     trailingIcon = { 
                         IconButton(onClick = { 
@@ -463,7 +463,7 @@ fun DateTimeInput(
 
 @Composable
 fun AttachmentsTab(viewModel: CardDetailsViewModel) {
-    val attachments by viewModel.attachments.collectAsState()
+    val attachments by viewModel.attachments.collectAsStateWithLifecycle()
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(attachments) { attachment ->
             ListItem(headlineContent = { Text(attachment.filename()) })
@@ -473,8 +473,7 @@ fun AttachmentsTab(viewModel: CardDetailsViewModel) {
 
 @Composable
 fun CommentsTab(viewModel: CardDetailsViewModel) {
-    val comments by viewModel.comments.collectAsState()
-    val card by viewModel.card.collectAsState()
+    val comments by viewModel.comments.collectAsStateWithLifecycle()
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(comments) { comment ->
             ListItem(
@@ -482,7 +481,7 @@ fun CommentsTab(viewModel: CardDetailsViewModel) {
                 supportingContent = { Text(comment.author().value()) },
                 leadingContent = {
                     UserAvatar(
-                        accountId = card?.id()?.let { null }, // We don't have boardId here easily, but accountId is null for "current account" context if needed
+                        accountId = null,
                         userId = comment.author(),
                         size = 32.dp
                     )
@@ -494,7 +493,7 @@ fun CommentsTab(viewModel: CardDetailsViewModel) {
 
 @Composable
 fun ActivityTab(viewModel: CardDetailsViewModel) {
-    val activities by viewModel.activities.collectAsState()
+    val activities by viewModel.activities.collectAsStateWithLifecycle()
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(activities) { activity ->
             ListItem(headlineContent = { Text(activity.subject()) })

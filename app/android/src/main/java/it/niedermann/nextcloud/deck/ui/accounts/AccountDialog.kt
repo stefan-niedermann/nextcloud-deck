@@ -17,11 +17,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import it.niedermann.nextcloud.deck.domain.model.Account
 import it.niedermann.nextcloud.deck.domain.model.User
 import it.niedermann.nextcloud.deck.ui.components.UserAvatar
@@ -32,8 +32,8 @@ fun AccountDialog(
     onAddAccount: () -> Unit,
     viewModel: AccountViewModel = hiltViewModel()
 ) {
-    val accounts by viewModel.accounts.collectAsState()
-    val currentAccountId by viewModel.currentAccountId.collectAsState()
+    val accounts by viewModel.accounts.collectAsStateWithLifecycle()
+    val currentAccountId by viewModel.currentAccountId.collectAsStateWithLifecycle()
 
     AlertDialog(
         onDismissRequest = onDismiss,

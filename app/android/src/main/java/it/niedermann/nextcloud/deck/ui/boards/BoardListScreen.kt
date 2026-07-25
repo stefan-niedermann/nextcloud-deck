@@ -25,7 +25,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,7 +32,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import it.niedermann.nextcloud.deck.domain.model.Board
 import it.niedermann.nextcloud.deck.ui.util.toComposeColor
 import java.time.format.DateTimeFormatter
@@ -45,7 +45,7 @@ fun BoardListScreen(
     onBoardClick: (Long) -> Unit,
     viewModel: BoardListViewModel = hiltViewModel()
 ) {
-    val boards by viewModel.boards.collectAsState()
+    val boards by viewModel.boards.collectAsStateWithLifecycle()
     var showAddDialog by remember { mutableStateOf(false) }
 
     Scaffold(

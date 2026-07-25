@@ -51,7 +51,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,9 +65,12 @@ import androidx.compose.ui.draganddrop.toAndroidDragEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import it.niedermann.nextcloud.deck.domain.model.Account
 import it.niedermann.nextcloud.deck.domain.model.Card
 import it.niedermann.nextcloud.deck.domain.model.Column
@@ -84,15 +86,14 @@ fun BoardScreen(
     onCardClick: (Long) -> Unit,
     viewModel: BoardViewModel = hiltViewModel()
 ) {
-    val columns by viewModel.columns.collectAsState()
-    val cardsByColumn by viewModel.cardsByColumn.collectAsState()
-    val labels by viewModel.labels.collectAsState()
-    val currentAccountId by viewModel.currentAccountId.collectAsState()
+    val columns by viewModel.columns.collectAsStateWithLifecycle()
+    val cardsByColumn by viewModel.cardsByColumn.collectAsStateWithLifecycle()
+    val labels by viewModel.labels.collectAsStateWithLifecycle()
+    val currentAccountId by viewModel.currentAccountId.collectAsStateWithLifecycle()
     var showAddCardDialog by remember { mutableStateOf<Long?>(null) }
     var showAddColumnDialog by remember { mutableStateOf(false) }
 
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp
+    val screenWidth = with(LocalDensity.current) { LocalWindowInfo.current.containerSize.width.toDp() }.value
     val isSmallScreen = screenWidth < 600
     val lazyListState = rememberLazyListState()
     val snapFlingBehavior = rememberSnapFlingBehavior(lazyListState = lazyListState)

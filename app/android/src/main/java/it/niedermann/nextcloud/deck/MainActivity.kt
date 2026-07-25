@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -39,9 +39,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val isInitialized by viewModel.isInitialized.collectAsState()
-            val currentAccountId by viewModel.currentAccountId.collectAsState()
-            val hasAccounts by viewModel.hasAccounts.collectAsState()
+            val isInitialized by viewModel.isInitialized.collectAsStateWithLifecycle()
+            val currentAccountId by viewModel.currentAccountId.collectAsStateWithLifecycle()
+            val hasAccounts by viewModel.hasAccounts.collectAsStateWithLifecycle()
 
             NextcloudDeckTheme {
                 if (isInitialized) {
@@ -66,7 +66,7 @@ fun AppNavigation(
                      !currentRoute.contains("CardDetailsRoute")
 
     // Redirect to login if all accounts are deleted
-    val hasAccounts by mainViewModel.hasAccounts.collectAsState()
+    val hasAccounts by mainViewModel.hasAccounts.collectAsStateWithLifecycle()
     LaunchedEffect(hasAccounts) {
         if (!hasAccounts && currentRoute != LoginRoute::class.qualifiedName) {
             navController.navigate(LoginRoute) {
@@ -76,7 +76,7 @@ fun AppNavigation(
     }
 
     // Refresh current account if it changes in the background
-    val currentAccountId by mainViewModel.currentAccountId.collectAsState()
+    val currentAccountId by mainViewModel.currentAccountId.collectAsStateWithLifecycle()
     LaunchedEffect(currentAccountId) {
         if (currentAccountId != null && currentRoute == LoginRoute::class.qualifiedName) {
              navController.navigate(BoardListRoute) {

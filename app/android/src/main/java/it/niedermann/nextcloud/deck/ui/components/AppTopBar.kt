@@ -18,16 +18,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import it.niedermann.nextcloud.deck.domain.model.User
 import it.niedermann.nextcloud.deck.ui.accounts.AccountDialog
 import it.niedermann.nextcloud.deck.ui.accounts.AccountViewModel
@@ -43,9 +44,9 @@ fun AppTopBar(
     var query by remember { mutableStateOf("") }
     var active by remember { mutableStateOf(false) }
     var showAccountDialog by remember { mutableStateOf(false) }
-    val results by searchViewModel.results.collectAsState()
-    val accounts by accountViewModel.accounts.collectAsState()
-    val currentAccountId by accountViewModel.currentAccountId.collectAsState()
+    val results by searchViewModel.results.collectAsStateWithLifecycle()
+    val accounts by accountViewModel.accounts.collectAsStateWithLifecycle()
+    val currentAccountId by accountViewModel.currentAccountId.collectAsStateWithLifecycle()
     val currentAccount = accounts.find { it.id() == currentAccountId }
 
     Box(
@@ -54,43 +55,49 @@ fun AppTopBar(
             .statusBarsPadding()
     ) {
         SearchBar(
-            query = query,
-            onQueryChange = {
-                query = it
-                searchViewModel.search(it)
-            },
-            onSearch = {
-                searchViewModel.search(it)
-            },
-            active = active,
-            onActiveChange = { active = it },
-            placeholder = { Text("Search cards...") },
-            leadingIcon = {
-                if (active) {
-                    IconButton(onClick = { active = false }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+            inputField = {
+                SearchBarDefaults.InputField(
+                    query = query,
+                    onQueryChange = {
+                        query = it
+                        searchViewModel.search(it)
+                    },
+                    onSearch = {
+                        searchViewModel.search(it)
+                    },
+                    expanded = active,
+                    onExpandedChange = { active = it },
+                    placeholder = { Text("Search cards...") },
+                    leadingIcon = {
+                        if (active) {
+                            IconButton(onClick = { active = false }) {
+                                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                            }
+                        } else {
+                            Icon(Icons.Default.Search, contentDescription = null)
+                        }
+                    },
+                    trailingIcon = {
+                        IconButton(onClick = { showAccountDialog = true }) {
+                            if (currentAccount != null) {
+                                UserAvatar(
+                                    accountId = currentAccount.id(),
+                                    userId = User.ID(currentAccount.username()),
+                                    size = 30.dp
+                                )
+                            } else {
+                                Icon(
+                                    Icons.Default.AccountCircle,
+                                    contentDescription = "Accounts",
+                                    modifier = Modifier.size(30.dp)
+                                )
+                            }
+                        }
                     }
-                } else {
-                    Icon(Icons.Default.Search, contentDescription = null)
-                }
+                )
             },
-            trailingIcon = {
-                IconButton(onClick = { showAccountDialog = true }) {
-                    if (currentAccount != null) {
-                        UserAvatar(
-                            accountId = currentAccount.id(),
-                            userId = User.ID(currentAccount.username()),
-                            size = 30.dp
-                        )
-                    } else {
-                        Icon(
-                            Icons.Default.AccountCircle,
-                            contentDescription = "Accounts",
-                            modifier = Modifier.size(30.dp)
-                        )
-                    }
-                }
-            },
+            expanded = active,
+            onExpandedChange = { active = it },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = if (active) 0.dp else 16.dp, vertical = if (active) 0.dp else 8.dp)
