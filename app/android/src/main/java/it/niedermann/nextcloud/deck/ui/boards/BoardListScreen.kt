@@ -3,18 +3,20 @@ package it.niedermann.nextcloud.deck.ui.boards
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import it.niedermann.nextcloud.deck.domain.model.Board
 import it.niedermann.nextcloud.deck.ui.util.toComposeColor
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,9 +51,10 @@ fun BoardListScreen(
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = { showAddDialog = true }) {
-                Icon(Icons.Default.Add, contentDescription = "Add Board")
+                Icon(Icons.Outlined.Add, contentDescription = "Add Board")
             }
-        }
+        },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
         Box(modifier = Modifier.padding(padding).fillMaxSize()) {
             if (viewModel.isLoading && boards.isEmpty()) {
@@ -61,8 +66,15 @@ fun BoardListScreen(
                 )
             } else {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    items(boards) { board ->
+                    itemsIndexed(boards) { index, board ->
                         BoardItem(board = board, onClick = { onBoardClick(board.id.value()) })
+                        if (index < boards.size - 1) {
+                            HorizontalDivider(
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                thickness = 0.5.dp,
+                                color = MaterialTheme.colorScheme.outlineVariant
+                            )
+                        }
                     }
                 }
             }
@@ -88,16 +100,20 @@ fun BoardListScreen(
 
 @Composable
 fun BoardItem(board: Board, onClick: () -> Unit) {
+    val formatter = remember { DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM) }
     ListItem(
         headlineContent = { Text(board.title) },
+        supportingContent = {
+            Text(
+                text = "Last edited: ${board.editedAt().format(formatter)}",
+                style = MaterialTheme.typography.bodySmall
+            )
+        },
         leadingContent = {
             Box(
                 modifier = Modifier
                     .size(24.dp)
-                    .padding(4.dp)
-                    .fillMaxSize()
-                    .aspectRatio(1f)
-                    .background(board.color().toComposeColor(), shape = MaterialTheme.shapes.small)
+                    .background(board.color().toComposeColor(), shape = CircleShape)
             )
         },
         modifier = Modifier.clickable(onClick = onClick)

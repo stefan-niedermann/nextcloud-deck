@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,7 +31,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Attachment
 import androidx.compose.material.icons.outlined.CheckBox
 import androidx.compose.material.icons.outlined.ModeComment
@@ -103,9 +104,10 @@ fun BoardScreen(
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = { showAddColumnDialog = true }) {
-                Icon(Icons.Default.Add, contentDescription = "Add Column")
+                Icon(Icons.Outlined.Add, contentDescription = "Add Column")
             }
-        }
+        },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
         Box(modifier = Modifier.padding(padding).fillMaxSize()) {
             if (viewModel.isLoading && columns.isEmpty()) {
@@ -241,7 +243,7 @@ fun BoardColumn(
                     modifier = Modifier.padding(8.dp)
                 )
                 IconButton(onClick = onAddCardClick) {
-                    Icon(Icons.Default.Add, contentDescription = "Add Card")
+                    Icon(Icons.Outlined.Add, contentDescription = "Add Card")
                 }
             }
             LazyColumn(

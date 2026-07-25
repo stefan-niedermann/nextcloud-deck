@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,16 +20,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Attachment
-import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Comment
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Attachment
+import androidx.compose.material.icons.outlined.Bolt
+import androidx.compose.material.icons.outlined.CalendarMonth
+import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.ModeComment
+import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.CircularProgressIndicator
@@ -88,7 +89,7 @@ fun CardDetailsScreen(
     val card by viewModel.card.collectAsState()
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabs = listOf("Details", "Attachments", "Comments", "Activity")
-    val icons = listOf(Icons.Default.Info, Icons.Default.Attachment, Icons.Default.Comment, Icons.Default.History)
+    val icons = listOf(Icons.Outlined.Info, Icons.Outlined.Attachment, Icons.Outlined.ModeComment, Icons.Outlined.Bolt)
 
     LaunchedEffect(cardId) {
         viewModel.loadCard(cardId)
@@ -100,11 +101,12 @@ fun CardDetailsScreen(
                 title = { Text(card?.title() ?: "Card Details") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back")
                     }
                 }
             )
-        }
+        },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
         Column(modifier = Modifier.padding(padding).fillMaxSize()) {
             TabRow(selectedTabIndex = selectedTab) {
@@ -144,41 +146,6 @@ fun CardDetailsTab(card: Card?, viewModel: CardDetailsViewModel) {
     val userSearchResults by viewModel.userSearchResults.collectAsState()
 
     LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        // Description
-        item {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Description", style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
-                IconButton(onClick = { isEditingDescription = !isEditingDescription }) {
-                    Icon(
-                        if (isEditingDescription) Icons.Default.Visibility else Icons.Default.Edit,
-                        contentDescription = "Toggle View/Edit"
-                    )
-                }
-            }
-            if (isEditingDescription) {
-                OutlinedTextField(
-                    value = descriptionText,
-                    onValueChange = { 
-                        descriptionText = it
-                        viewModel.updateCardDescription(it)
-                    },
-                    modifier = Modifier.fillMaxWidth().height(200.dp),
-                    placeholder = { Text("Add a description...") }
-                )
-            } else {
-                Surface(
-                    modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)),
-                    shape = MaterialTheme.shapes.small
-                ) {
-                    Text(
-                        card.description().ifBlank { "No description" },
-                        modifier = Modifier.padding(8.dp),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-            }
-        }
-
         // Labels
         item {
             Text("Labels", style = MaterialTheme.typography.titleMedium)
@@ -217,6 +184,41 @@ fun CardDetailsTab(card: Card?, viewModel: CardDetailsViewModel) {
                 )
             }
         }
+
+        // Description
+        item {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text("Description", style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+                IconButton(onClick = { isEditingDescription = !isEditingDescription }) {
+                    Icon(
+                        if (isEditingDescription) Icons.Outlined.Visibility else Icons.Outlined.Edit,
+                        contentDescription = "Toggle View/Edit"
+                    )
+                }
+            }
+            if (isEditingDescription) {
+                OutlinedTextField(
+                    value = descriptionText,
+                    onValueChange = { 
+                        descriptionText = it
+                        viewModel.updateCardDescription(it)
+                    },
+                    modifier = Modifier.fillMaxWidth().height(200.dp),
+                    placeholder = { Text("Add a description...") }
+                )
+            } else {
+                Surface(
+                    modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)),
+                    shape = MaterialTheme.shapes.small
+                ) {
+                    Text(
+                        card.description().ifBlank { "No description" },
+                        modifier = Modifier.padding(8.dp),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -239,7 +241,7 @@ fun LabelSelector(
                     Box(Modifier.size(12.dp).background(label.color().toComposeColor(), CircleShape))
                 },
                 trailingIcon = {
-                    Icon(Icons.Default.Close, contentDescription = "Remove", Modifier.size(16.dp))
+                    Icon(Icons.Outlined.Close, contentDescription = "Remove", Modifier.size(16.dp))
                 }
             )
         }
@@ -247,7 +249,7 @@ fun LabelSelector(
             AssistChip(
                 onClick = { expanded = true },
                 label = { Text("Add label") },
-                leadingIcon = { Icon(Icons.Default.Add, contentDescription = null, Modifier.size(16.dp)) }
+                leadingIcon = { Icon(Icons.Outlined.Add, contentDescription = null, Modifier.size(16.dp)) }
             )
             DropdownMenu(
                 expanded = expanded,
@@ -268,7 +270,7 @@ fun LabelSelector(
                             expanded = false
                         },
                         trailingIcon = if (isSelected) {
-                            { Icon(Icons.Default.Close, contentDescription = null) }
+                            { Icon(Icons.Outlined.Close, contentDescription = null) }
                         } else null
                     )
                 }
@@ -305,7 +307,7 @@ fun AssigneeSelector(
                         Spacer(Modifier.width(8.dp))
                         Text(userId.value(), style = MaterialTheme.typography.labelMedium)
                         Spacer(Modifier.width(4.dp))
-                        Icon(Icons.Default.Close, contentDescription = "Remove", Modifier.size(14.dp))
+                        Icon(Icons.Outlined.Close, contentDescription = "Remove", Modifier.size(14.dp))
                     }
                 }
             }
@@ -314,7 +316,7 @@ fun AssigneeSelector(
                     isSearching = !isSearching
                 },
                 label = { Text("Assign user") },
-                leadingIcon = { Icon(Icons.Default.Add, contentDescription = null, Modifier.size(16.dp)) }
+                leadingIcon = { Icon(Icons.Outlined.Add, contentDescription = null, Modifier.size(16.dp)) }
             )
         }
 
@@ -346,7 +348,7 @@ fun AssigneeSelector(
                             query = ""
                             onSearchQueryChange("")
                         }) {
-                            Icon(Icons.Default.Close, contentDescription = "Close search")
+                            Icon(Icons.Outlined.Close, contentDescription = "Close search")
                         }
                     },
                     colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors()
@@ -407,7 +409,7 @@ fun DateTimeInput(
                 onValueChange = {},
                 readOnly = true,
                 modifier = Modifier.fillMaxWidth(),
-                trailingIcon = { Icon(Icons.Default.CalendarMonth, contentDescription = null) },
+                trailingIcon = { Icon(Icons.Outlined.CalendarMonth, contentDescription = null) },
                 colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
                     focusedTextColor = MaterialTheme.colorScheme.onSurface,
                     unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
