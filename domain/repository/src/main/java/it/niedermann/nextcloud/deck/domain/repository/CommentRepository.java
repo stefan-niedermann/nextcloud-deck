@@ -13,4 +13,8 @@ public interface CommentRepository {
     Flow.Publisher<List<Comment>> getNotDeletedComments(Card.ID cardId);
 
     CompletableFuture<Void> createComment(CreateComment comment);
+
+    CompletableFuture<Void> updateComment(Comment.ID id, String message);
+
+    CompletableFuture<Void> deleteComment(Comment.ID id);
 }

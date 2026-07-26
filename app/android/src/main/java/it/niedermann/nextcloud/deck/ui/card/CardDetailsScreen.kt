@@ -27,7 +27,13 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Reply
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Attachment
 import androidx.compose.material.icons.outlined.Bolt
@@ -76,12 +82,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import it.niedermann.nextcloud.deck.domain.model.Card
+import it.niedermann.nextcloud.deck.domain.model.Comment
 import it.niedermann.nextcloud.deck.domain.model.Label
 import it.niedermann.nextcloud.deck.domain.model.User
 import it.niedermann.nextcloud.deck.ui.components.UserAvatar
@@ -575,19 +587,286 @@ fun AttachmentsTab(viewModel: CardDetailsViewModel) {
 @Composable
 fun CommentsTab(viewModel: CardDetailsViewModel) {
     val comments by viewModel.comments.collectAsStateWithLifecycle()
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(comments) { comment ->
-            ListItem(
-                headlineContent = { Text(comment.message()) },
-                supportingContent = { Text(comment.author().value()) },
-                leadingContent = {
-                    UserAvatar(
-                        accountId = null,
-                        userId = comment.author(),
-                        size = 32.dp
+    val commentMessage by viewModel.commentMessage.collectAsStateWithLifecycle()
+    val respondingTo by viewModel.respondingToComment.collectAsStateWithLifecycle()
+    val editing by viewModel.editingComment.collectAsStateWithLifecycle()
+    val clipboardManager = LocalClipboard.current
+    val scope = rememberCoroutineScope()
+    var commentToDelete by remember { mutableStateOf<Comment?>(null) }
+
+    Scaffold(
+        bottomBar = {
+            CommentInput(
+                message = commentMessage,
+                onMessageChange = viewModel::onCommentMessageChange,
+                respondingTo = respondingTo,
+                editing = editing,
+                onCancelAction = viewModel::cancelCommentAction,
+                onSubmit = viewModel::submitComment
+            )
+        }
+    ) { padding ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding),
+            reverseLayout = false
+        ) {
+            items(comments, key = { it.id().value() }) { comment ->
+                val parentComment = if (comment.parentId() != null) {
+                    comments.find { it.id() == comment.parentId() }
+                } else null
+
+                CommentItem(
+                    comment = comment,
+                    parentComment = parentComment,
+                    onReply = { viewModel.respondToComment(comment) },
+                    onEdit = { viewModel.editComment(comment) },
+                    onDelete = { commentToDelete = comment },
+                    onCopy = {
+                        scope.launch {
+                            clipboardManager.setClipEntry(
+                                androidx.compose.ui.platform.ClipEntry(
+                                    android.content.ClipData.newPlainText(
+                                        "Comment",
+                                        comment.message()
+                                    )
+                                )
+                            )
+                        }
+                    }
+                )
+            }
+        }
+    }
+
+    if (commentToDelete != null) {
+        AlertDialog(
+            onDismissRequest = { commentToDelete = null },
+            title = { Text("Delete Comment") },
+            text = { Text("Are you sure you want to delete this comment?") },
+            confirmButton = {
+                TextButton(onClick = {
+                    commentToDelete?.let { viewModel.deleteComment(it.id()) }
+                    commentToDelete = null
+                }) {
+                    Text("Delete")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { commentToDelete = null }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun CommentItem(
+    comment: Comment,
+    parentComment: Comment?,
+    onReply: () -> Unit,
+    onEdit: () -> Unit,
+    onDelete: () -> Unit,
+    onCopy: () -> Unit
+) {
+    var showMenu by remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+    ) {
+        if (parentComment != null) {
+            Row(
+                modifier = Modifier
+                    .padding(start = 56.dp, end = 16.dp)
+                    .clip(MaterialTheme.shapes.small)
+                    .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .width(2.dp)
+                        .height(24.dp)
+                        .background(MaterialTheme.colorScheme.primary)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = parentComment.message(),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    fontStyle = FontStyle.Italic
+                )
+            }
+        }
+
+        ListItem(
+            headlineContent = {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = comment.author().value(),
+                        style = MaterialTheme.typography.labelLarge,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Text(
+                        text = comment.created().toString(),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Box {
+                        IconButton(onClick = { showMenu = true }) {
+                            Icon(Icons.Default.MoreVert, contentDescription = "More")
+                        }
+                        DropdownMenu(
+                            expanded = showMenu,
+                            onDismissRequest = { showMenu = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text("Respond") },
+                                onClick = {
+                                    onReply()
+                                    showMenu = false
+                                },
+                                leadingIcon = { Icon(Icons.AutoMirrored.Filled.Reply, null) }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Edit") },
+                                onClick = {
+                                    onEdit()
+                                    showMenu = false
+                                },
+                                leadingIcon = { Icon(Icons.Default.Edit, null) }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Copy") },
+                                onClick = {
+                                    onCopy()
+                                    showMenu = false
+                                },
+                                leadingIcon = { Icon(Icons.Default.ContentCopy, null) }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Delete") },
+                                onClick = {
+                                    onDelete()
+                                    showMenu = false
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        Icons.Default.Delete,
+                                        null,
+                                        tint = MaterialTheme.colorScheme.error
+                                    )
+                                }
+                            )
+                        }
+                    }
+                }
+            },
+            supportingContent = {
+                Text(
+                    text = comment.message(),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            },
+            leadingContent = {
+                UserAvatar(
+                    accountId = null,
+                    userId = comment.author(),
+                    size = 32.dp
+                )
+            }
+        )
+    }
+}
+
+@Composable
+fun CommentInput(
+    message: String,
+    onMessageChange: (String) -> Unit,
+    respondingTo: Comment?,
+    editing: Comment?,
+    onCancelAction: () -> Unit,
+    onSubmit: () -> Unit
+) {
+    Surface(
+        tonalElevation = 2.dp,
+        shadowElevation = 4.dp
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
+            if (respondingTo != null || editing != null) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp)
+                        .clip(MaterialTheme.shapes.small)
+                        .background(MaterialTheme.colorScheme.secondaryContainer)
+                        .padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = if (respondingTo != null) Icons.AutoMirrored.Filled.Reply else Icons.Default.Edit,
+                        contentDescription = null,
+                        modifier = Modifier.size(16.dp),
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = when {
+                            respondingTo != null -> "Replying to ${respondingTo.author().value()}"
+                            else -> "Editing comment"
+                        },
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        modifier = Modifier.weight(1f)
+                    )
+                    IconButton(
+                        onClick = onCancelAction,
+                        modifier = Modifier.size(24.dp)
+                    ) {
+                        Icon(
+                            Icons.Outlined.Close,
+                            contentDescription = "Cancel",
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
+            }
+
+            Row(
+                verticalAlignment = Alignment.Bottom,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                OutlinedTextField(
+                    value = message,
+                    onValueChange = onMessageChange,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 8.dp),
+                    placeholder = { Text("Add a comment...") },
+                    maxLines = 5
+                )
+                IconButton(
+                    onClick = onSubmit,
+                    enabled = message.isNotBlank(),
+                    modifier = Modifier.padding(bottom = 4.dp)
+                ) {
+                    Icon(
+                        imageVector = if (editing != null) Icons.Default.Edit else Icons.AutoMirrored.Filled.Send,
+                        contentDescription = if (editing != null) "Update" else "Send",
+                        tint = if (message.isNotBlank()) MaterialTheme.colorScheme.primary else Color.Gray
                     )
                 }
-            )
+            }
         }
     }
 }

@@ -30,4 +30,16 @@ public class CommentRepositoryImpl implements CommentRepository {
         System.out.println("[Mock][" + CommentRepositoryImpl.class.getSimpleName() + "/createComment]: " + comment.message());
         return CompletableFuture.completedFuture(null);
     }
+
+    @Override
+    public CompletableFuture<Void> updateComment(Comment.ID id, String message) {
+        System.out.println("[Mock][" + CommentRepositoryImpl.class.getSimpleName() + "/updateComment]: " + id + " -> " + message);
+        return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
+    public CompletableFuture<Void> deleteComment(Comment.ID id) {
+        System.out.println("[Mock][" + CommentRepositoryImpl.class.getSimpleName() + "/deleteComment]: " + id);
+        return CompletableFuture.completedFuture(null);
+    }
 }

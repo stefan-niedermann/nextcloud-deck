@@ -79,16 +79,16 @@ public interface MockData {
 
     Comment[] MOCK_COMMENTS = new Comment[]{
             new Comment(new Comment.ID(1), new Card.ID(1), new User.ID("jdoe"), LocalDateTime.now(), "This is a creative comment #1.", null),
-            new Comment(new Comment.ID(1), new Card.ID(1), new User.ID("jdoe"), LocalDateTime.now(), "This is a creative comment #2.", null),
-            new Comment(new Comment.ID(1), new Card.ID(1), new User.ID("jdoe"), LocalDateTime.now(), "This is a creative comment #3.", null),
-            new Comment(new Comment.ID(2), new Card.ID(2), new User.ID("smith"), LocalDateTime.now(), "This is a creative comment #1.", null),
-            new Comment(new Comment.ID(2), new Card.ID(2), new User.ID("smith"), LocalDateTime.now(), "This is a creative comment #2.", null),
-            new Comment(new Comment.ID(2), new Card.ID(2), new User.ID("jdoe"), LocalDateTime.now(), "This is a creative comment #3.", null),
-            new Comment(new Comment.ID(2), new Card.ID(3), new User.ID("smith"), LocalDateTime.now(), "This is a creative comment.", null),
-            new Comment(new Comment.ID(2), new Card.ID(3), new User.ID("jdoe"), LocalDateTime.now(), "This is a creative comment.", null),
-            new Comment(new Comment.ID(2), new Card.ID(4), new User.ID("smith"), LocalDateTime.now(), "This is a creative comment.", null),
-            new Comment(new Comment.ID(2), new Card.ID(5), new User.ID("smith"), LocalDateTime.now(), "This is a creative comment.", null),
-            new Comment(new Comment.ID(2), new Card.ID(6), new User.ID("jdoe"), LocalDateTime.now(), "This is a creative comment.", null),
+            new Comment(new Comment.ID(2), new Card.ID(1), new User.ID("jdoe"), LocalDateTime.now(), "This is a creative comment #2.", null),
+            new Comment(new Comment.ID(3), new Card.ID(1), new User.ID("jdoe"), LocalDateTime.now(), "This is a creative comment #3.", null),
+            new Comment(new Comment.ID(4), new Card.ID(2), new User.ID("smith"), LocalDateTime.now(), "This is a creative comment #1.", null),
+            new Comment(new Comment.ID(5), new Card.ID(2), new User.ID("smith"), LocalDateTime.now(), "This is a creative comment #2.", null),
+            new Comment(new Comment.ID(6), new Card.ID(2), new User.ID("jdoe"), LocalDateTime.now(), "This is a creative comment #3.", null),
+            new Comment(new Comment.ID(7), new Card.ID(3), new User.ID("smith"), LocalDateTime.now(), "This is a creative comment.", null),
+            new Comment(new Comment.ID(8), new Card.ID(3), new User.ID("jdoe"), LocalDateTime.now(), "This is a creative comment.", null),
+            new Comment(new Comment.ID(9), new Card.ID(4), new User.ID("smith"), LocalDateTime.now(), "This is a creative comment.", null),
+            new Comment(new Comment.ID(10), new Card.ID(5), new User.ID("smith"), LocalDateTime.now(), "This is a creative comment.", null),
+            new Comment(new Comment.ID(11), new Card.ID(6), new User.ID("jdoe"), LocalDateTime.now(), "This is a creative comment.", null),
     };
 
     List<Card> MOCK_CARDS = List.of(

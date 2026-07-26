@@ -10,6 +10,7 @@ import it.niedermann.nextcloud.deck.domain.model.Activity
 import it.niedermann.nextcloud.deck.domain.model.Attachment
 import it.niedermann.nextcloud.deck.domain.model.Card
 import it.niedermann.nextcloud.deck.domain.model.Comment
+import it.niedermann.nextcloud.deck.domain.model.CreateComment
 import it.niedermann.nextcloud.deck.domain.model.Label
 import it.niedermann.nextcloud.deck.domain.model.User
 import it.niedermann.nextcloud.deck.domain.usecases.activities.ListActivityUseCase
@@ -18,7 +19,10 @@ import it.niedermann.nextcloud.deck.domain.usecases.attachments.ListAttachmentsU
 import it.niedermann.nextcloud.deck.domain.usecases.cards.GetCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.UpdateCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.comments.AddCommentUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.comments.DeleteCommentUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.comments.ListCommentsUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.comments.UpdateCommentUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.users.SearchUserUseCase
 import kotlinx.coroutines.Dispatchers
@@ -49,7 +53,10 @@ class CardDetailsViewModel @Inject constructor(
     private val updateCardUseCase: UpdateCardUseCase,
     private val listLabelsUseCase: ListLabelsUseCase,
     private val getColumnUseCase: GetColumnUseCase,
-    private val searchUserUseCase: SearchUserUseCase
+    private val searchUserUseCase: SearchUserUseCase,
+    private val addCommentUseCase: AddCommentUseCase,
+    private val updateCommentUseCase: UpdateCommentUseCase,
+    private val deleteCommentUseCase: DeleteCommentUseCase
 ) : ViewModel() {
 
     private val _card = MutableStateFlow<Card?>(null)
@@ -67,6 +74,15 @@ class CardDetailsViewModel @Inject constructor(
     private val _boardLabels = MutableStateFlow<List<Label>>(emptyList())
     val boardLabels = _boardLabels.asStateFlow()
 
+    private val _commentMessage = MutableStateFlow("")
+    val commentMessage = _commentMessage.asStateFlow()
+
+    private val _respondingToComment = MutableStateFlow<Comment?>(null)
+    val respondingToComment = _respondingToComment.asStateFlow()
+
+    private val _editingComment = MutableStateFlow<Comment?>(null)
+    val editingComment = _editingComment.asStateFlow()
+
     private val _userSearchQuery = MutableStateFlow("")
     val userSearchResults = _userSearchQuery
         .debounce(300L)
@@ -81,6 +97,76 @@ class CardDetailsViewModel @Inject constructor(
 
     fun onUserSearchQueryChange(query: String) {
         _userSearchQuery.value = query
+    }
+
+    fun onCommentMessageChange(message: String) {
+        _commentMessage.value = message
+    }
+
+    fun respondToComment(comment: Comment?) {
+        _respondingToComment.value = comment
+        _editingComment.value = null
+    }
+
+    fun editComment(comment: Comment?) {
+        _editingComment.value = comment
+        _respondingToComment.value = null
+        _commentMessage.value = comment?.message() ?: ""
+    }
+
+    fun cancelCommentAction() {
+        _editingComment.value = null
+        _respondingToComment.value = null
+        _commentMessage.value = ""
+    }
+
+    fun submitComment() {
+        val currentCard = _card.value ?: return
+        val message = _commentMessage.value
+        if (message.isBlank()) return
+
+        viewModelScope.launch {
+            try {
+                val editing = _editingComment.value
+                if (editing != null) {
+                    withContext(Dispatchers.IO) {
+                        updateCommentUseCase.execute(editing.id(), message).get()
+                    }
+                } else {
+                    val parentId = _respondingToComment.value?.id()
+                    val createComment = CreateComment(currentCard.id(), message, parentId)
+                    withContext(Dispatchers.IO) {
+                        addCommentUseCase.execute(createComment).get()
+                    }
+                }
+                cancelCommentAction()
+                refreshComments(currentCard.id())
+            } catch (e: Exception) {
+                error = "Failed to submit comment: ${e.message}"
+            }
+        }
+    }
+
+    fun deleteComment(commentId: Comment.ID) {
+        val currentCard = _card.value ?: return
+        viewModelScope.launch {
+            try {
+                withContext(Dispatchers.IO) {
+                    deleteCommentUseCase.execute(commentId).get()
+                }
+                refreshComments(currentCard.id())
+            } catch (e: Exception) {
+                error = "Failed to delete comment: ${e.message}"
+            }
+        }
+    }
+
+    private fun refreshComments(cardId: Card.ID) {
+        viewModelScope.launch {
+            FlowAdapters.toPublisher(listCommentsUseCase.execute(cardId))
+                .asFlow()
+                .collect { _comments.value = it }
+        }
     }
 
     fun loadCard(cardId: Long) {
