@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import it.niedermann.nextcloud.deck.domain.model.Board
 import it.niedermann.nextcloud.deck.domain.model.CreateBoard
+import it.niedermann.nextcloud.deck.domain.model.SyncStatus
+import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler
 import it.niedermann.nextcloud.deck.domain.usecases.boards.AddBoardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.boards.ListBoardsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase
@@ -23,11 +25,18 @@ import javax.inject.Inject
 class BoardListViewModel @Inject constructor(
     private val getCurrentAccountUseCase: GetCurrentAccountUseCase,
     private val listBoardsUseCase: ListBoardsUseCase,
-    private val addBoardUseCase: AddBoardUseCase
+    private val addBoardUseCase: AddBoardUseCase,
+    private val syncScheduler: SyncScheduler
 ) : ViewModel() {
 
     private val _boards = MutableStateFlow<List<Board>>(emptyList())
     val boards = _boards.asStateFlow()
+
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing = _isRefreshing.asStateFlow()
+
+    private val _syncStatus = MutableStateFlow<SyncStatus?>(null)
+    val syncStatus = _syncStatus.asStateFlow()
 
     var isLoading by mutableStateOf(false)
     var error by mutableStateOf<String?>(null)
@@ -61,6 +70,28 @@ class BoardListViewModel @Inject constructor(
             } catch (e: Exception) {
                 error = e.message ?: "Failed to load boards"
                 isLoading = false
+            }
+        }
+    }
+
+    fun refresh() {
+        viewModelScope.launch {
+            _isRefreshing.value = true
+            try {
+                val accountId = getCurrentAccountUseCase.execute().await()
+                if (accountId != null) {
+                    FlowAdapters.toPublisher(syncScheduler.scheduleSynchronization(accountId))
+                        .asFlow()
+                        .collect { status ->
+                            _syncStatus.value = status
+                        }
+                }
+            } catch (e: Exception) {
+                error = e.message ?: "Sync failed"
+            } finally {
+                _isRefreshing.value = false
+                _syncStatus.value = null
+                loadBoards()
             }
         }
     }

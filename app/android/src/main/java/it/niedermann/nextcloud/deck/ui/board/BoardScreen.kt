@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.board
 
 import android.content.ClipData
 import android.view.View
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
@@ -49,6 +50,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -94,6 +98,9 @@ fun BoardScreen(
     val cardsByColumn by viewModel.cardsByColumn.collectAsStateWithLifecycle()
     val labels by viewModel.labels.collectAsStateWithLifecycle()
     val currentAccountId by viewModel.currentAccountId.collectAsStateWithLifecycle()
+    val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
+    val syncStatus by viewModel.syncStatus.collectAsStateWithLifecycle()
+    val state = rememberPullToRefreshState()
     var showAddCardDialog by remember { mutableStateOf<Long?>(null) }
     var showAddColumnDialog by remember { mutableStateOf(false) }
 
@@ -121,56 +128,101 @@ fun BoardScreen(
         },
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
-        Box(modifier = Modifier.padding(padding).fillMaxSize()) {
-            if (viewModel.isLoading && columns.isEmpty()) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-            } else if (columns.isEmpty()) {
-                Text(
-                    text = "No columns. Create one!",
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            } else {
-                LazyRow(
-                    modifier = Modifier.fillMaxSize(),
-                    state = lazyListState,
-                    contentPadding = PaddingValues(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    flingBehavior = if (isSmallScreen) snapFlingBehavior else ScrollableDefaults.flingBehavior()
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            onRefresh = { viewModel.refresh() },
+            state = state,
+            indicator = {
+                PullToRefreshDefaults.IndicatorBox(
+                    state = state,
+                    isRefreshing = isRefreshing,
+                    modifier = Modifier.align(Alignment.TopCenter),
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                 ) {
-                    itemsIndexed(columns) { _, column ->
-                        BoardColumn(
-                            column = column,
-                            cards = cardsByColumn[column.id.value()] ?: emptyList(),
-                            labels = labels,
-                            currentAccountId = currentAccountId,
-                            draggingCardId = viewModel.draggingCardId,
-                            dropTargetColumnId = viewModel.dropTargetColumnId,
-                            dropTargetIndex = viewModel.dropTargetIndex,
-                            onCardClick = onCardClick,
-                            onAddCardClick = { showAddCardDialog = column.id.value() },
-                            onDragStart = { viewModel.draggingCardId = it },
-                            onDragOver = { colId, index ->
-                                viewModel.dropTargetColumnId = colId
-                                viewModel.dropTargetIndex = index
-                            },
-                            onDrop = { cardId, colId, index ->
-                                viewModel.moveCard(cardId, colId, index)
-                                viewModel.draggingCardId = null
-                                viewModel.dropTargetColumnId = null
-                                viewModel.dropTargetIndex = -1
+                    Crossfade(targetState = isRefreshing, label = "SyncProgress") { refreshing ->
+                        if (refreshing) {
+                            val currentStatus = syncStatus
+                            val total = currentStatus?.boardsTotalCount() ?: 0
+                            if (currentStatus != null && total > 0) {
+                                CircularProgressIndicator(
+                                    progress = { currentStatus.boardsFinishedCount().toFloat() / total },
+                                    modifier = Modifier.size(24.dp),
+                                    color = MaterialTheme.colorScheme.primary,
+                                    strokeWidth = 3.dp,
+                                )
+                            } else {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(24.dp),
+                                    color = MaterialTheme.colorScheme.primary,
+                                    strokeWidth = 3.dp,
+                                )
                             }
+                        } else {
+                            CircularProgressIndicator(
+                                progress = { state.distanceFraction.coerceIn(0f, 1f) },
+                                modifier = Modifier.size(24.dp),
+                                color = MaterialTheme.colorScheme.primary,
+                                strokeWidth = 3.dp,
+                            )
+                        }
+                    }
+                }
+            },
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxSize()
+        ) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                if (viewModel.isLoading && columns.isEmpty()) {
+                        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    } else if (columns.isEmpty()) {
+                        Text(
+                            text = "No columns. Create one!",
+                            modifier = Modifier.align(Alignment.Center)
                         )
+                    } else {
+                        LazyRow(
+                            modifier = Modifier.fillMaxSize(),
+                            state = lazyListState,
+                            contentPadding = PaddingValues(16.dp),
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            flingBehavior = if (isSmallScreen) snapFlingBehavior else ScrollableDefaults.flingBehavior()
+                        ) {
+                            itemsIndexed(columns) { _, column ->
+                                BoardColumn(
+                                    column = column,
+                                    cards = cardsByColumn[column.id.value()] ?: emptyList(),
+                                    labels = labels,
+                                    currentAccountId = currentAccountId,
+                                    draggingCardId = viewModel.draggingCardId,
+                                    dropTargetColumnId = viewModel.dropTargetColumnId,
+                                    dropTargetIndex = viewModel.dropTargetIndex,
+                                    onCardClick = onCardClick,
+                                    onAddCardClick = { showAddCardDialog = column.id.value() },
+                                    onDragStart = { viewModel.draggingCardId = it },
+                                    onDragOver = { colId, index ->
+                                        viewModel.dropTargetColumnId = colId
+                                        viewModel.dropTargetIndex = index
+                                    },
+                                    onDrop = { cardId, colId, index ->
+                                        viewModel.moveCard(cardId, colId, index)
+                                        viewModel.draggingCardId = null
+                                        viewModel.dropTargetColumnId = null
+                                        viewModel.dropTargetIndex = -1
+                                    }
+                                )
+                            }
+                        }
+                    }
+
+                    if (viewModel.error != null) {
+                        Box(modifier = Modifier.align(Alignment.BottomCenter).padding(16.dp)) {
+                            Text(viewModel.error!!, color = MaterialTheme.colorScheme.error)
+                        }
                     }
                 }
             }
-
-            if (viewModel.error != null) {
-                Box(modifier = Modifier.align(Alignment.BottomCenter).padding(16.dp)) {
-                    Text(viewModel.error!!, color = MaterialTheme.colorScheme.error)
-                }
-            }
         }
-    }
 
     if (showAddColumnDialog) {
         AddColumnDialog(

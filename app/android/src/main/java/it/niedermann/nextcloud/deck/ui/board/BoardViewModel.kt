@@ -13,6 +13,8 @@ import it.niedermann.nextcloud.deck.domain.model.Column
 import it.niedermann.nextcloud.deck.domain.model.CreateCard
 import it.niedermann.nextcloud.deck.domain.model.CreateColumn
 import it.niedermann.nextcloud.deck.domain.model.Label
+import it.niedermann.nextcloud.deck.domain.model.SyncStatus
+import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase
@@ -42,7 +44,8 @@ class BoardViewModel @Inject constructor(
     private val moveCardUseCase: MoveCardUseCase,
     private val listLabelsUseCase: ListLabelsUseCase,
     private val getCurrentAccountUseCase: GetCurrentAccountUseCase,
-    private val setCurrentBoardUseCase: SetCurrentBoardUseCase
+    private val setCurrentBoardUseCase: SetCurrentBoardUseCase,
+    private val syncScheduler: SyncScheduler
 ) : ViewModel() {
 
     private val _columns = MutableStateFlow<List<Column>>(emptyList())
@@ -57,6 +60,12 @@ class BoardViewModel @Inject constructor(
     private val _currentAccountId = MutableStateFlow<Account.ID?>(null)
     val currentAccountId = _currentAccountId.asStateFlow()
 
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing = _isRefreshing.asStateFlow()
+
+    private val _syncStatus = MutableStateFlow<SyncStatus?>(null)
+    val syncStatus = _syncStatus.asStateFlow()
+
     var draggingCardId by mutableStateOf<Card.ID?>(null)
     var dropTargetColumnId by mutableStateOf<Column.ID?>(null)
     var dropTargetIndex by mutableStateOf(-1)
@@ -64,7 +73,10 @@ class BoardViewModel @Inject constructor(
     var isLoading by mutableStateOf(false)
     var error by mutableStateOf<String?>(null)
 
+    private var currentBoardId: Long? = null
+
     fun loadBoard(boardId: Long) {
+        currentBoardId = boardId
         isLoading = true
         error = null
         viewModelScope.launch {
@@ -94,6 +106,28 @@ class BoardViewModel @Inject constructor(
             } catch (e: Exception) {
                 error = e.message ?: "Failed to load board"
                 isLoading = false
+            }
+        }
+    }
+
+    fun refresh() {
+        viewModelScope.launch {
+            _isRefreshing.value = true
+            try {
+                val accountId = getCurrentAccountUseCase.execute().await()
+                if (accountId != null) {
+                    FlowAdapters.toPublisher(syncScheduler.scheduleSynchronization(accountId))
+                        .asFlow()
+                        .collect { status ->
+                            _syncStatus.value = status
+                        }
+                }
+            } catch (e: Exception) {
+                error = e.message ?: "Sync failed"
+            } finally {
+                _isRefreshing.value = false
+                _syncStatus.value = null
+                currentBoardId?.let { loadBoard(it) }
             }
         }
     }
