@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.card
 
 import android.content.Intent
 import android.provider.ContactsContract
+import android.text.format.DateUtils
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -604,12 +605,13 @@ fun CommentsTab(viewModel: CardDetailsViewModel) {
                 onCancelAction = viewModel::cancelCommentAction,
                 onSubmit = viewModel::submitComment
             )
-        }
+        },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding),
+                .padding(bottom = padding.calculateBottomPadding()),
             reverseLayout = false
         ) {
             items(comments, key = { it.id().value() }) { comment ->
@@ -714,7 +716,12 @@ fun CommentItem(
                         modifier = Modifier.weight(1f)
                     )
                     Text(
-                        text = comment.created().toString(),
+                        text = DateUtils.getRelativeTimeSpanString(
+                            comment.created().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+                            System.currentTimeMillis(),
+                            DateUtils.SECOND_IN_MILLIS,
+                            DateUtils.FORMAT_ABBREV_RELATIVE
+                        ).toString(),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
