@@ -13,6 +13,7 @@ import it.niedermann.nextcloud.deck.domain.model.Comment
 import it.niedermann.nextcloud.deck.domain.model.Label
 import it.niedermann.nextcloud.deck.domain.model.User
 import it.niedermann.nextcloud.deck.domain.usecases.activities.ListActivityUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.attachments.AddAttachmentUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.attachments.ListAttachmentsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.GetCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.UpdateCardUseCase
@@ -42,6 +43,7 @@ import javax.inject.Inject
 class CardDetailsViewModel @Inject constructor(
     private val getCardUseCase: GetCardUseCase,
     private val listAttachmentsUseCase: ListAttachmentsUseCase,
+    private val addAttachmentUseCase: AddAttachmentUseCase,
     private val listCommentsUseCase: ListCommentsUseCase,
     private val listActivityUseCase: ListActivityUseCase,
     private val updateCardUseCase: UpdateCardUseCase,
@@ -159,6 +161,26 @@ class CardDetailsViewModel @Inject constructor(
             assignees.add(userId)
         }
         updateCard(currentCard.withAssignees(assignees))
+    }
+
+    fun addAttachment(uri: android.net.Uri) {
+        val currentCard = _card.value ?: return
+        viewModelScope.launch {
+            try {
+                // In a real app, we would copy the URI content to a local file/cache
+                // and then call the use case with that Path.
+                // For now, we simulate success as the UseCase is a mock.
+                withContext(Dispatchers.IO) {
+                    // addAttachmentUseCase.execute(currentCard.id(), path).get()
+                }
+                // Refresh attachments
+                FlowAdapters.toPublisher(listAttachmentsUseCase.execute(currentCard.id()))
+                    .asFlow()
+                    .collect { _attachments.value = it.toList() }
+            } catch (e: Exception) {
+                error = "Failed to add attachment: ${e.message}"
+            }
+        }
     }
 
     private fun updateCard(card: Card) {

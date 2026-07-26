@@ -1,5 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.card
 
+import android.content.Intent
+import android.provider.ContactsContract
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,8 +35,11 @@ import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.InsertDriveFile
 import androidx.compose.material.icons.outlined.ModeComment
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
@@ -43,6 +51,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -96,6 +105,25 @@ fun CardDetailsScreen(
     val pagerState = rememberPagerState(pageCount = { tabs.size })
     val coroutineScope = rememberCoroutineScope()
 
+    val photoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri -> uri?.let { viewModel.addAttachment(it) } }
+    )
+    val filePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = { uri -> uri?.let { viewModel.addAttachment(it) } }
+    )
+    val contactPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult(),
+        onResult = { result ->
+            if (result.resultCode == android.app.Activity.RESULT_OK) {
+                result.data?.data?.let { viewModel.addAttachment(it) }
+            }
+        }
+    )
+
+    var fabExpanded by remember { mutableStateOf(false) }
+
     LaunchedEffect(cardId) {
         viewModel.loadCard(cardId)
     }
@@ -110,6 +138,56 @@ fun CardDetailsScreen(
                     }
                 }
             )
+        },
+        floatingActionButton = {
+            if (pagerState.currentPage == 1) {
+                Box(contentAlignment = Alignment.BottomEnd) {
+                    FloatingActionButton(
+                        onClick = { fabExpanded = !fabExpanded }
+                    ) {
+                        Icon(Icons.Outlined.Add, contentDescription = "Add attachment")
+                    }
+                    DropdownMenu(
+                        expanded = fabExpanded,
+                        onDismissRequest = { fabExpanded = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Photo") },
+                            onClick = {
+                                fabExpanded = false
+                                photoPickerLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                            },
+                            leadingIcon = { Icon(Icons.Outlined.Image, contentDescription = null) }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("File") },
+                            onClick = {
+                                fabExpanded = false
+                                filePickerLauncher.launch("*/*")
+                            },
+                            leadingIcon = { Icon(Icons.Outlined.InsertDriveFile, contentDescription = null) }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Contact") },
+                            onClick = {
+                                fabExpanded = false
+                                val intent = Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI).apply {
+                                    putExtra("android.intent.extra.USE_SYSTEM_CONTACTS_PICKER", true)
+                                    putStringArrayListExtra(
+                                        "android.intent.extra.REQUESTED_DATA_FIELDS",
+                                        arrayListOf(
+                                            ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE,
+                                            ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE
+                                        )
+                                    )
+                                }
+                                contactPickerLauncher.launch(intent)
+                            },
+                            leadingIcon = { Icon(Icons.Outlined.Person, contentDescription = null) }
+                        )
+                    }
+                }
+            }
         },
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
