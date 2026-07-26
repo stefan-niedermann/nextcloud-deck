@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.androidx.sqlite)
     implementation(libs.androidx.room3.runtime)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.activity.compose)

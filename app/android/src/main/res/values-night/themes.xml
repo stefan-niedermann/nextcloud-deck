@@ -3,7 +3,7 @@
     <style name="Theme.NextcloudDeck" parent="Theme.Material3.DayNight.NoActionBar" />
 
     <style name="Theme.NextcloudDeck.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">#0082C9</item>
+        <item name="windowSplashScreenBackground">#1A1C1E</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
         <item name="postSplashScreenTheme">@style/Theme.NextcloudDeck</item>
     </style>

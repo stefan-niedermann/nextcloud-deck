@@ -43,6 +43,7 @@ rxjava3 = "3.1.12"
 rxjava3-jdk9-interop = "3.0.1"
 rxjava4 = "4.0.0-alpha-20"
 shadow = "9.6.0"
+splashscreen = "1.0.1"
 sqlite = "2.7.0"
 
 [libraries]
@@ -100,6 +101,7 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
 mockitokotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
