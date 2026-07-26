@@ -25,6 +25,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.exception.ExceptionActivity"
+            android:exported="false"
+            android:process=":error_activity"
+            android:theme="@style/Theme.NextcloudDeck" />
     </application>
 
 </manifest>
