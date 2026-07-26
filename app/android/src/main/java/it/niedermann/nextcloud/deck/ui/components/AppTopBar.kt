@@ -14,8 +14,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ViewList
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -95,7 +95,7 @@ fun AppTopBar(
                                 )
                             } else {
                                 Icon(
-                                    Icons.Default.AccountCircle,
+                                    Icons.Outlined.AccountCircle,
                                     contentDescription = "Accounts",
                                     modifier = Modifier.size(30.dp)
                                 )

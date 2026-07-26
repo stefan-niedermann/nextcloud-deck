@@ -33,7 +33,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.Attachment
+import androidx.compose.material.icons.outlined.AttachFile
 import androidx.compose.material.icons.outlined.CheckBox
 import androidx.compose.material.icons.outlined.ModeComment
 import androidx.compose.material3.AlertDialog
@@ -475,7 +475,7 @@ fun CardItem(
                         if (attachmentsCount > 0) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
-                                    Icons.Outlined.Attachment,
+                                    Icons.Outlined.AttachFile,
                                     contentDescription = null,
                                     modifier = Modifier.size(16.dp),
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant

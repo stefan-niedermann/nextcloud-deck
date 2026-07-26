@@ -5,7 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -65,7 +65,7 @@ fun UserAvatar(
         )
     } else {
         Icon(
-            Icons.Default.AccountCircle,
+            Icons.Outlined.AccountCircle,
             contentDescription = null,
             modifier = modifier.size(size),
             tint = androidx.compose.material3.MaterialTheme.colorScheme.primary

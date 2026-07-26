@@ -36,7 +36,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.Attachment
+import androidx.compose.material.icons.outlined.AttachFile
 import androidx.compose.material.icons.outlined.Bolt
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Clear
@@ -114,7 +114,7 @@ fun CardDetailsScreen(
 ) {
     val card by viewModel.card.collectAsStateWithLifecycle()
     val tabs = listOf("Details", "Attachments", "Comments", "Activity")
-    val icons = listOf(Icons.Outlined.Info, Icons.Outlined.Attachment, Icons.Outlined.ModeComment, Icons.Outlined.Bolt)
+    val icons = listOf(Icons.Outlined.Info, Icons.Outlined.AttachFile, Icons.Outlined.ModeComment, Icons.Outlined.Bolt)
     val pagerState = rememberPagerState(pageCount = { tabs.size })
     val coroutineScope = rememberCoroutineScope()
 
