@@ -42,11 +42,21 @@ class MainActivity : ComponentActivity() {
         setContent {
             val isInitialized by viewModel.isInitialized.collectAsStateWithLifecycle()
             val currentAccountId by viewModel.currentAccountId.collectAsStateWithLifecycle()
+            val currentBoardId by viewModel.currentBoardId.collectAsStateWithLifecycle()
             val hasAccounts by viewModel.hasAccounts.collectAsStateWithLifecycle()
 
             NextcloudDeckTheme {
                 if (isInitialized) {
-                    val startDestination = if (currentAccountId != null && hasAccounts) BoardListRoute else LoginRoute
+                    val startDestination = if (currentAccountId != null && hasAccounts) {
+                        val boardId = currentBoardId
+                        if (boardId != null) {
+                            BoardViewRoute(boardId.value)
+                        } else {
+                            BoardListRoute
+                        }
+                    } else {
+                        LoginRoute
+                    }
                     AppNavigation(startDestination, viewModel)
                 }
             }
@@ -122,6 +132,11 @@ fun AppNavigation(
                     },
                     onAddAccount = {
                         navController.navigate(LoginRoute)
+                    },
+                    onGoToBoardList = {
+                        navController.navigate(BoardListRoute) {
+                            popUpTo(BoardListRoute) { inclusive = true }
+                        }
                     }
                 )
             }

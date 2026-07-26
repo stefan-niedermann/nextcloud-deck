@@ -51,8 +51,7 @@ public class StateRepositoryImpl implements StateRepository {
 
     @Override
     public CompletableFuture<Board.ID> setCurrentBoardId(Account.ID accountId, Board.ID boardId) {
-        // TODO Implement
-        this.currentBoardMockStore.putIfAbsent(accountId, boardId);
+        this.currentBoardMockStore.put(accountId, boardId);
         return getCurrentBoardId(accountId);
     }
 

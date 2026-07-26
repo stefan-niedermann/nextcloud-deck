@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import it.niedermann.nextcloud.deck.domain.model.Account
+import it.niedermann.nextcloud.deck.domain.model.Board
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -21,11 +23,15 @@ import javax.inject.Inject
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     private val getCurrentAccountUseCase: GetCurrentAccountUseCase,
+    private val getCurrentBoardUseCase: GetCurrentBoardUseCase,
     getAccountsUseCase: GetAccountsUseCase
 ) : ViewModel() {
 
     private val _currentAccountId = MutableStateFlow<Account.ID?>(null)
     val currentAccountId: StateFlow<Account.ID?> = _currentAccountId.asStateFlow()
+
+    private val _currentBoardId = MutableStateFlow<Board.ID?>(null)
+    val currentBoardId: StateFlow<Board.ID?> = _currentBoardId.asStateFlow()
 
     private val _isInitialized = MutableStateFlow(false)
     val isInitialized = _isInitialized.asStateFlow()
@@ -46,11 +52,18 @@ class MainActivityViewModel @Inject constructor(
     fun refreshCurrentAccount() {
         viewModelScope.launch {
             try {
-                _currentAccountId.value = getCurrentAccountUseCase.execute().await()
+                val accountId = getCurrentAccountUseCase.execute().await()
+                _currentAccountId.value = accountId
+                _currentBoardId.value = try {
+                    getCurrentBoardUseCase.execute(accountId).await()
+                } catch (e: Exception) {
+                    null
+                }
             } catch (e: Exception) {
                 // If no accounts are found, GetCurrentAccountUseCase might throw EmptyResultSetException
                 // or if the CompletableFuture fails.
                 _currentAccountId.value = null
+                _currentBoardId.value = null
             } finally {
                 _isInitialized.value = true
             }

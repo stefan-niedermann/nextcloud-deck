@@ -21,6 +21,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -40,7 +41,8 @@ class BoardViewModel @Inject constructor(
     private val addColumnUseCase: AddColumnUseCase,
     private val moveCardUseCase: MoveCardUseCase,
     private val listLabelsUseCase: ListLabelsUseCase,
-    private val getCurrentAccountUseCase: GetCurrentAccountUseCase
+    private val getCurrentAccountUseCase: GetCurrentAccountUseCase,
+    private val setCurrentBoardUseCase: SetCurrentBoardUseCase
 ) : ViewModel() {
 
     private val _columns = MutableStateFlow<List<Column>>(emptyList())
@@ -67,7 +69,9 @@ class BoardViewModel @Inject constructor(
         error = null
         viewModelScope.launch {
             try {
-                _currentAccountId.value = getCurrentAccountUseCase.execute().await()
+                val accountId = getCurrentAccountUseCase.execute().await()
+                _currentAccountId.value = accountId
+                setCurrentBoardUseCase.execute(accountId, Board.ID(boardId))
 
                 FlowAdapters.toPublisher(listLabelsUseCase.execute(Board.ID(boardId)))
                     .asFlow()

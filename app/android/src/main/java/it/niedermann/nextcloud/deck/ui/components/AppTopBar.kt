@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ViewList
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,6 +41,7 @@ import it.niedermann.nextcloud.deck.ui.accounts.AccountViewModel
 fun AppTopBar(
     onAddAccount: () -> Unit,
     onCardClick: (Long) -> Unit,
+    onGoToBoardList: (() -> Unit)? = null,
     searchViewModel: SearchViewModel = hiltViewModel(LocalActivity.current as ComponentActivity),
     accountViewModel: AccountViewModel = hiltViewModel()
 ) {
@@ -74,6 +76,10 @@ fun AppTopBar(
                         if (active) {
                             IconButton(onClick = { active = false }) {
                                 Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                            }
+                        } else if (onGoToBoardList != null) {
+                            IconButton(onClick = onGoToBoardList) {
+                                Icon(Icons.AutoMirrored.Filled.ViewList, contentDescription = "Boards")
                             }
                         } else {
                             Icon(Icons.Default.Search, contentDescription = null)

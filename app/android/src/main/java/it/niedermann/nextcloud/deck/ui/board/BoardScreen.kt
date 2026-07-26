@@ -87,6 +87,7 @@ fun BoardScreen(
     boardId: Long,
     onCardClick: (Long) -> Unit,
     onAddAccount: () -> Unit,
+    onGoToBoardList: () -> Unit,
     viewModel: BoardViewModel = hiltViewModel()
 ) {
     val columns by viewModel.columns.collectAsStateWithLifecycle()
@@ -109,7 +110,8 @@ fun BoardScreen(
         topBar = {
             AppTopBar(
                 onAddAccount = onAddAccount,
-                onCardClick = onCardClick
+                onCardClick = onCardClick,
+                onGoToBoardList = onGoToBoardList
             )
         },
         floatingActionButton = {
