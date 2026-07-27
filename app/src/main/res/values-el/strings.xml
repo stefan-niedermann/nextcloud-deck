@@ -87,8 +87,10 @@
     <string name="add_board">Προσθήκη πίνακα</string>
 
     <string name="label_clear_due_date">Καθαρισμός ημερομηνίας λήξης</string>
+    <string name="label_clear_start_date">Εκκαθάριση ημερομηνίας έναρξης</string>
     <string name="label_clear_done">Μη ολοκληρωμένο</string>
     <string name="label_due_at">Λήξη: %1$s</string>
+    <string name="label_start_at">Έναρξη στις: %1$s</string>
     <string name="label_add">Προσθήκη %1$s</string>
 
     <string name="card_edit_details">Λεπτομέρειες</string>
@@ -334,4 +336,6 @@
     <string name="enter_search_term_description">Εισάγετε όρο αναζήτησης για να βρείτε κάρτες σε αυτόν τον πίνακα</string>
     <string name="no_search_results_title">Κανένα αποτέλεσμα</string>
     <string name="no_search_results_description">Δεν έχει βρεθεί κανένα αποτέλεσμα για τον συγκεκριμένο όρο αναζήτησης</string>
-    </resources>
+    <string name="label_no_startdate">Καμία ημερομηνία έναρξης</string>
+    <string name="label_dependent_cards">Εξαρτημένες κάρτες</string>
+</resources>
