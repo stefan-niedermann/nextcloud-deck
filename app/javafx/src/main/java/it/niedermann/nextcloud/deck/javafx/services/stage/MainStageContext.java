@@ -14,7 +14,10 @@ import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.AssignCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.DeleteCardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.UnassignCardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.UpdateCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
@@ -44,6 +47,9 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
     private final GetCurrentBoardUseCase getCurrentBoardUseCase;
     private final SetCurrentBoardUseCase setCurrentBoardUseCase;
     private final DeleteCardUseCase deleteCardUseCase;
+    private final UpdateCardUseCase updateCardUseCase;
+    private final AssignCardUseCase assignCardUseCase;
+    private final UnassignCardUseCase unassignCardUseCase;
 
     private final GetBoardUseCase getBoardUseCase;
 
@@ -55,6 +61,9 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
             GetCurrentBoardUseCase getCurrentBoardUseCase,
             SetCurrentBoardUseCase setCurrentBoardUseCase,
             DeleteCardUseCase deleteCardUseCase,
+            UpdateCardUseCase updateCardUseCase,
+            AssignCardUseCase assignCardUseCase,
+            UnassignCardUseCase unassignCardUseCase,
             GetBoardUseCase getBoardUseCase,
             @Assisted State initialState
     ) {
@@ -64,6 +73,9 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
         this.setCurrentBoardUseCase = setCurrentBoardUseCase;
         this.getBoardUseCase = getBoardUseCase;
         this.deleteCardUseCase = deleteCardUseCase;
+        this.updateCardUseCase = updateCardUseCase;
+        this.assignCardUseCase = assignCardUseCase;
+        this.unassignCardUseCase = unassignCardUseCase;
 
         super(storeLogger, initialState);
 
@@ -178,11 +190,13 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
 
     @Override
     public void onAssignCard(Card card) {
+        // FIXME We need the User.ID here, but the interface only provides the Card
         System.out.println("[Mock] onAssignCard " + card);
     }
 
     @Override
     public void onUnassignCard(Card card) {
+        // FIXME We need the User.ID here, but the interface only provides the Card
         System.out.println("[Mock] onUnassignCard " + card);
     }
 
@@ -210,9 +224,7 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
 
     @Override
     public CompletableFuture<Void> onCardSaved(Card card) {
-        System.out.println("[MOCK] onCardSaved " + card);
-        Integer.parseInt("foo");
-        return CompletableFuture.completedFuture(null);
+        return updateCardUseCase.execute(card);
     }
 
     @Override

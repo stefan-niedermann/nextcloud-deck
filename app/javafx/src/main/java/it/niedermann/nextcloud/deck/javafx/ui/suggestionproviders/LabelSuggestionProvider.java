@@ -6,23 +6,23 @@ import java.util.Collection;
 
 import io.reactivex.rxjava4.core.Maybe;
 import it.niedermann.nextcloud.deck.domain.model.Label;
-import it.niedermann.nextcloud.deck.domain.repository.LabelRepository;
+import it.niedermann.nextcloud.deck.domain.usecases.labels.SearchLabelsUseCase;
 import jakarta.inject.Inject;
 import javafx.util.Callback;
 
 public class LabelSuggestionProvider implements Callback<SearchField.SearchFieldSuggestionRequest, Collection<Label>> {
 
-    private final LabelRepository labelRepository;
+    private final SearchLabelsUseCase searchLabelsUseCase;
 
     @Inject
     public LabelSuggestionProvider(
-            LabelRepository labelRepository
+            SearchLabelsUseCase searchLabelsUseCase
     ) {
-        this.labelRepository = labelRepository;
+        this.searchLabelsUseCase = searchLabelsUseCase;
     }
 
     @Override
     public Collection<Label> call(SearchField.SearchFieldSuggestionRequest param) {
-        return Maybe.fromPublisher(labelRepository.find(param.getUserText())).blockingGet();
+        return Maybe.fromPublisher(searchLabelsUseCase.execute(param.getUserText())).blockingGet();
     }
 }

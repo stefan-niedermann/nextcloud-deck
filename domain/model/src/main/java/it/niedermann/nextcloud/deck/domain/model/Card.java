@@ -55,7 +55,7 @@ public record Card(
 
     public Card unassign(User.ID userId) {
         return withAssignees(assignees().stream()
-                .filter(id -> Objects.equals(id, userId))
+                .filter(id -> !Objects.equals(id, userId))
                 .collect(Collectors.toSet()));
     }
 
